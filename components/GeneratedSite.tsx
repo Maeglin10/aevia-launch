@@ -190,12 +190,12 @@ function MagneticButton({
 // Theme layout config
 // ---------------------------------------------------------------------------
 
-type HeroStyle = "centered" | "left-aligned" | "fullbleed" | "luxury" | "brutalist" | "magazine" | "aurora" | "3d-tech" | "minimal-pro";
+type HeroStyle = "centered" | "left-aligned" | "fullbleed" | "luxury" | "brutalist" | "magazine" | "aurora" | "3d-tech" | "minimal-pro" | "marketplace" | "livestream";
 
 type ThemeLayout = {
   dark: boolean;
   heroStyle: HeroStyle;
-  accentStyle: "neon" | "warm" | "minimal" | "bold" | "luxury" | "brutalist" | "aurora" | "3dtech" | "minpro";
+  accentStyle: "neon" | "warm" | "minimal" | "bold" | "luxury" | "brutalist" | "aurora" | "3dtech" | "minpro" | "marketplace" | "livestream";
   servicesLabel: string;
   ctaStyle: "conversion" | "trust" | "urgency" | "impact";
 };
@@ -239,6 +239,10 @@ function getThemeLayout(template: string): ThemeLayout {
       return { dark: true, heroStyle: "3d-tech", accentStyle: "3dtech", servicesLabel: "What we build", ctaStyle: "conversion" };
     case "minimal-pro":
       return { dark: false, heroStyle: "minimal-pro", accentStyle: "minpro", servicesLabel: "Services", ctaStyle: "trust" };
+    case "marketplace":
+      return { dark: true, heroStyle: "marketplace", accentStyle: "marketplace", servicesLabel: "Top Categories", ctaStyle: "conversion" };
+    case "livestream":
+      return { dark: true, heroStyle: "livestream", accentStyle: "livestream", servicesLabel: "Upcoming Shows", ctaStyle: "urgency" };
     default:
       return { dark: false, heroStyle: "left-aligned", accentStyle: "minimal", servicesLabel: "What we offer", ctaStyle: "trust" };
   }
@@ -269,6 +273,8 @@ const HERO_IMAGES: Record<string, string> = {
   aurora: "https://images.unsplash.com/photo-1560707303-4e980ce876ad?w=1600&q=80",
   "3d-tech": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1600&q=80",
   "minimal-pro": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=1600&q=80",
+  marketplace: "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=1600&q=80",
+  livestream: "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?w=1600&q=80",
 };
 
 // ---------------------------------------------------------------------------
@@ -395,6 +401,18 @@ export function GeneratedSite({ session }: { session: SessionData }) {
     .brutalist-flip:hover {
       background: #000 !important;
       color: #fff !important;
+    }
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239,68,68,0.7); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 8px rgba(239,68,68,0); }
+    }
+    @keyframes marketplaceFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+    @keyframes scanLine {
+      0% { top: -2px; }
+      100% { top: 100%; }
     }
   `;
 
@@ -1383,6 +1401,345 @@ export function GeneratedSite({ session }: { session: SessionData }) {
       )}
 
       {/* ----------------------------------------------------------------- */}
+      {/* HERO — MARKETPLACE                                                  */}
+      {/* ----------------------------------------------------------------- */}
+      {layout.heroStyle === "marketplace" && (
+        <section style={{
+          position: "relative",
+          minHeight: 620,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          overflow: "hidden",
+          background: "#0a0a0f",
+          padding: "80px 40px",
+        }}>
+          {/* Subtle warm grid */}
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: `
+              repeating-linear-gradient(0deg, rgba(245,158,11,0.04) 0px, transparent 1px, transparent 80px, rgba(245,158,11,0.04) 80px),
+              repeating-linear-gradient(90deg, rgba(245,158,11,0.04) 0px, transparent 1px, transparent 80px, rgba(245,158,11,0.04) 80px)
+            `,
+            pointerEvents: "none",
+          }} />
+          {/* Radial glow */}
+          <div style={{
+            position: "absolute",
+            top: "30%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: 700,
+            height: 350,
+            background: `radial-gradient(ellipse, rgba(245,158,11,0.1) 0%, transparent 70%)`,
+            pointerEvents: "none",
+          }} />
+
+          <div style={{ position: "relative", textAlign: "center", maxWidth: 800, width: "100%" }}>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: "rgba(245,158,11,0.1)",
+                border: "1px solid rgba(245,158,11,0.3)",
+                borderRadius: 999,
+                padding: "5px 16px",
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                color: "#f59e0b",
+                marginBottom: 32,
+              }}
+            >
+              <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#f59e0b" }} />
+              {formData.businessType}
+            </motion.div>
+            <h1 style={{
+              fontSize: "clamp(2.5rem, 5.5vw, 4rem)",
+              fontWeight: 800,
+              lineHeight: 1.1,
+              marginBottom: 24,
+              color: "#fff",
+              letterSpacing: "-0.02em",
+            }}>
+              <RevealText text={c.heroHeadline} delay={0.15} />
+            </h1>
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              style={{ fontSize: 17, color: "rgba(255,255,255,0.55)", maxWidth: 500, margin: "0 auto 40px", lineHeight: 1.7 }}
+            >
+              {c.heroSubline}
+            </motion.p>
+
+            {/* Search bar */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.65 }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                background: "rgba(255,255,255,0.06)",
+                border: "1px solid rgba(255,255,255,0.12)",
+                borderRadius: 12,
+                padding: "6px 6px 6px 20px",
+                maxWidth: 560,
+                margin: "0 auto 32px",
+                gap: 12,
+              }}
+            >
+              <span style={{ fontSize: 15, color: "rgba(255,255,255,0.3)", flex: 1, textAlign: "left" }}>
+                Search products, sellers…
+              </span>
+              <div style={{
+                background: brand,
+                color: "#000",
+                borderRadius: 8,
+                padding: "10px 24px",
+                fontSize: 13,
+                fontWeight: 700,
+                flexShrink: 0,
+              }}>
+                Search
+              </div>
+            </motion.div>
+
+            {/* Category chips */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+              style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap", marginBottom: 48 }}
+            >
+              {["Electronics", "Fashion", "Home & Garden", "Sports", "Books", "Art"].map((cat, i) => (
+                <div key={cat} style={{
+                  padding: "6px 14px",
+                  borderRadius: 999,
+                  border: `1px solid ${i === 0 ? "rgba(245,158,11,0.4)" : "rgba(255,255,255,0.08)"}`,
+                  fontSize: 12,
+                  color: i === 0 ? "#f59e0b" : "rgba(255,255,255,0.45)",
+                  background: i === 0 ? "rgba(245,158,11,0.15)" : "transparent",
+                }}>
+                  {cat}
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Trust stats */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 1 }}
+              style={{ display: "flex", gap: 32, justifyContent: "center", flexWrap: "wrap" }}
+            >
+              {[
+                { value: "2M+", label: "Products" },
+                { value: "50K", label: "Sellers" },
+                { value: "4.8★", label: "Avg rating" },
+                { value: "Free", label: "Returns" },
+              ].map((s) => (
+                <div key={s.label} style={{ textAlign: "center" }}>
+                  <div style={{ fontSize: 20, fontWeight: 800, color: "#f59e0b" }}>{s.value}</div>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", marginTop: 2, letterSpacing: "0.08em" }}>{s.label}</div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* ----------------------------------------------------------------- */}
+      {/* HERO — LIVESTREAM                                                   */}
+      {/* ----------------------------------------------------------------- */}
+      {layout.heroStyle === "livestream" && (
+        <section style={{
+          position: "relative",
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          overflow: "hidden",
+          background: "#050508",
+          padding: "80px 40px",
+        }}>
+          {/* Scan line effect */}
+          <div style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            height: 2,
+            background: "linear-gradient(to right, transparent, rgba(239,68,68,0.4), transparent)",
+            animation: "scanLine 6s linear infinite",
+            pointerEvents: "none",
+          }} />
+          {/* Background image with dark overlay */}
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: `url(${heroImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            opacity: 0.08,
+          }} />
+          {/* Gradient overlay */}
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            background: "radial-gradient(ellipse at center, rgba(239,68,68,0.08) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }} />
+
+          <div style={{ position: "relative", textAlign: "center", maxWidth: 820 }}>
+            {/* LIVE badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                marginBottom: 36,
+              }}
+            >
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 7,
+                background: "rgba(239,68,68,0.15)",
+                border: "1px solid rgba(239,68,68,0.4)",
+                borderRadius: 999,
+                padding: "6px 16px",
+              }}>
+                <div style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  background: "#ef4444",
+                  animation: "livePulse 1.5s ease-in-out infinite",
+                }} />
+                <span style={{
+                  fontSize: 11,
+                  fontWeight: 800,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: "#ef4444",
+                }}>Live</span>
+              </div>
+              <span style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", letterSpacing: "0.1em" }}>
+                · {formData.city}
+              </span>
+            </motion.div>
+
+            <h1 style={{
+              fontSize: "clamp(2.5rem, 6vw, 5rem)",
+              fontWeight: 900,
+              lineHeight: 1.05,
+              marginBottom: 24,
+              color: "#fff",
+              letterSpacing: "-0.02em",
+            }}>
+              <RevealText text={c.heroHeadline} delay={0.2} />
+            </h1>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              style={{ fontSize: 17, color: "rgba(255,255,255,0.55)", maxWidth: 520, margin: "0 auto 48px", lineHeight: 1.75 }}
+            >
+              {c.heroSubline}
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+              style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}
+            >
+              <MagneticButton
+                href="#contact"
+                style={{
+                  background: "#ef4444",
+                  color: "#fff",
+                  padding: "14px 36px",
+                  borderRadius: 8,
+                  fontSize: 14,
+                  fontWeight: 700,
+                  boxShadow: "0 0 32px rgba(239,68,68,0.4)",
+                  letterSpacing: "0.03em",
+                }}
+              >
+                {c.ctaText}
+              </MagneticButton>
+              <MagneticButton
+                href="#services"
+                style={{
+                  background: "transparent",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  color: "rgba(255,255,255,0.7)",
+                  padding: "14px 32px",
+                  borderRadius: 8,
+                  fontSize: 14,
+                  fontWeight: 600,
+                }}
+              >
+                See schedule
+              </MagneticButton>
+            </motion.div>
+
+            {/* Next broadcast info */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 1.1 }}
+              style={{
+                marginTop: 56,
+                padding: "20px 32px",
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderRadius: 12,
+                background: "rgba(255,255,255,0.03)",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 20,
+                backdropFilter: "blur(12px)",
+              }}
+            >
+              <div style={{ textAlign: "left" }}>
+                <div style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 4 }}>
+                  Next broadcast
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 600, color: "#fff" }}>{formData.businessName} Live</div>
+              </div>
+              <div style={{ width: 1, height: 32, background: "rgba(255,255,255,0.1)" }} />
+              <div style={{ textAlign: "left" }}>
+                <div style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 4 }}>
+                  Starts in
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: "#ef4444", fontVariantNumeric: "tabular-nums" }}>
+                  2h 34m
+                </div>
+              </div>
+              <div style={{ width: 1, height: 32, background: "rgba(255,255,255,0.1)" }} />
+              <div style={{ textAlign: "left" }}>
+                <div style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 4 }}>
+                  Viewers
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>12.4K</div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* ----------------------------------------------------------------- */}
       {/* Tech/SaaS: Feature strip                                            */}
       {/* ----------------------------------------------------------------- */}
       {(template === "saas" || template === "startup") && (
@@ -1541,6 +1898,142 @@ export function GeneratedSite({ session }: { session: SessionData }) {
       )}
 
       {/* ----------------------------------------------------------------- */}
+      {/* ----------------------------------------------------------------- */}
+      {/* Marketplace: Featured sellers                                        */}
+      {/* ----------------------------------------------------------------- */}
+      {template === "marketplace" && (
+        <FadeUp>
+          <section style={{ background: "#0d0d14", padding: "60px 40px", borderTop: "1px solid rgba(245,158,11,0.1)" }}>
+            <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+              <h2 style={{ fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 6 }}>Top Sellers This Week</h2>
+              <p style={{ color: "rgba(255,255,255,0.35)", marginBottom: 32, fontSize: 14 }}>
+                Trusted vendors with verified reviews
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
+                {[
+                  { name: "TechZone Store", items: "1,240 items", rating: "4.9", badge: "Top Rated" },
+                  { name: "Maison Décor", items: "820 items", rating: "4.8", badge: "Fast Ship" },
+                  { name: "SportsPro Shop", items: "530 items", rating: "4.7", badge: "New" },
+                  { name: "BookNest", items: "2,100 items", rating: "5.0", badge: "Top Rated" },
+                ].map((seller, i) => (
+                  <motion.div
+                    key={i}
+                    whileHover={{ y: -4, borderColor: "rgba(245,158,11,0.4)" }}
+                    style={{
+                      border: "1px solid rgba(255,255,255,0.07)",
+                      borderRadius: 12,
+                      padding: 20,
+                      background: "rgba(255,255,255,0.03)",
+                      transition: "border-color 0.2s",
+                    }}
+                  >
+                    <div style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 12,
+                      background: `linear-gradient(135deg, rgba(245,158,11,0.3), rgba(245,158,11,0.05))`,
+                      border: "1px solid rgba(245,158,11,0.2)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 20,
+                      marginBottom: 12,
+                    }}>
+                      🏪
+                    </div>
+                    <div style={{ fontWeight: 700, fontSize: 14, color: "#fff", marginBottom: 4 }}>{seller.name}</div>
+                    <div style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", marginBottom: 8 }}>{seller.items}</div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <span style={{ fontSize: 12, color: "#f59e0b", fontWeight: 600 }}>★ {seller.rating}</span>
+                      <span style={{
+                        fontSize: 9,
+                        fontWeight: 700,
+                        letterSpacing: "0.1em",
+                        textTransform: "uppercase",
+                        color: seller.badge === "Top Rated" ? "#f59e0b" : seller.badge === "Fast Ship" ? "#10b981" : "#a855f7",
+                        background: seller.badge === "Top Rated" ? "rgba(245,158,11,0.1)" : seller.badge === "Fast Ship" ? "rgba(16,185,129,0.1)" : "rgba(168,85,247,0.1)",
+                        padding: "3px 8px",
+                        borderRadius: 999,
+                      }}>
+                        {seller.badge}
+                      </span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </FadeUp>
+      )}
+
+      {/* ----------------------------------------------------------------- */}
+      {/* Livestream: Broadcast schedule                                       */}
+      {/* ----------------------------------------------------------------- */}
+      {template === "livestream" && (
+        <FadeUp>
+          <section style={{ background: "#08080d", padding: "60px 40px", borderTop: "1px solid rgba(239,68,68,0.1)" }}>
+            <div style={{ maxWidth: 860, margin: "0 auto" }}>
+              <h2 style={{ fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 6 }}>Broadcast Schedule</h2>
+              <p style={{ color: "rgba(255,255,255,0.35)", marginBottom: 32, fontSize: 14 }}>Upcoming live events</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+                {[
+                  { time: "20:00", title: "Opening Night — Live Premiere", status: "LIVE", viewers: "12.4K" },
+                  { time: "21:30", title: "Artist Q&A Session", status: "NEXT", viewers: "—" },
+                  { time: "22:00", title: "Behind The Scenes", status: "", viewers: "—" },
+                  { time: "23:00", title: "Fan Requests & Encores", status: "", viewers: "—" },
+                  { time: "00:00", title: "Replay & Archive Access", status: "REPLAY", viewers: "—" },
+                ].map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.07 }}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 24,
+                      padding: "16px 0",
+                      borderBottom: "1px solid rgba(255,255,255,0.06)",
+                    }}
+                  >
+                    <div style={{ width: 56, fontSize: 13, fontWeight: 700, color: "#ef4444", fontVariantNumeric: "tabular-nums" }}>
+                      {item.time}
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 600, color: "#fff", fontSize: 15 }}>{item.title}</div>
+                      {item.viewers !== "—" && (
+                        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.3)", marginTop: 2 }}>
+                          {item.viewers} watching
+                        </div>
+                      )}
+                    </div>
+                    {item.status && (
+                      <div style={{
+                        fontSize: 9,
+                        fontWeight: 800,
+                        letterSpacing: "0.15em",
+                        padding: "4px 10px",
+                        borderRadius: 999,
+                        color: item.status === "LIVE" ? "#ef4444" : item.status === "NEXT" ? "#f59e0b" : "rgba(255,255,255,0.4)",
+                        background: item.status === "LIVE" ? "rgba(239,68,68,0.15)" : item.status === "NEXT" ? "rgba(245,158,11,0.12)" : "rgba(255,255,255,0.05)",
+                        border: `1px solid ${item.status === "LIVE" ? "rgba(239,68,68,0.4)" : item.status === "NEXT" ? "rgba(245,158,11,0.3)" : "rgba(255,255,255,0.1)"}`,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 5,
+                      }}>
+                        {item.status === "LIVE" && <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#ef4444", animation: "livePulse 1.5s ease-in-out infinite" }} />}
+                        {item.status}
+                      </div>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </FadeUp>
+      )}
+
       {/* Standard services section (all non-realestate templates)            */}
       {/* ----------------------------------------------------------------- */}
       {template !== "realestate" && (
@@ -1550,7 +2043,7 @@ export function GeneratedSite({ session }: { session: SessionData }) {
             padding: template === "luxury" ? "100px 40px" : template === "minimal-pro" ? "100px 60px" : "80px 40px",
             maxWidth: template === "minimal-pro" ? "none" : 960,
             margin: "0 auto",
-            background: template === "luxury" ? "#0a0806" : template === "3d-tech" ? "#030712" : bgMain,
+            background: template === "luxury" ? "#0a0806" : template === "3d-tech" ? "#030712" : template === "marketplace" ? "#0d0d14" : template === "livestream" ? "#08080d" : bgMain,
           }}
         >
           {/* Section heading */}
@@ -1746,6 +2239,93 @@ export function GeneratedSite({ session }: { session: SessionData }) {
                 </FadeUp>
               ))}
             </div>
+          ) : template === "marketplace" ? (
+            // Marketplace: category cards with icons
+            <StaggerContainer style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+              {c.services.map((s, i) => (
+                <StaggerItem
+                  key={i}
+                  whileHover={{ y: -4, borderColor: `rgba(245,158,11,0.4)` }}
+                  style={{
+                    border: "1px solid rgba(255,255,255,0.07)",
+                    borderRadius: 14,
+                    padding: 24,
+                    background: "rgba(255,255,255,0.03)",
+                    transition: "border-color 0.2s",
+                    position: "relative",
+                    overflow: "hidden",
+                  }}
+                >
+                  <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(to right, ${brand}, transparent)`, opacity: 0.6 }} />
+                  <div style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 10,
+                    background: `rgba(245,158,11,0.12)`,
+                    border: "1px solid rgba(245,158,11,0.2)",
+                    marginBottom: 14,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 20,
+                  }}>
+                    🏷️
+                  </div>
+                  <h3 style={{ fontWeight: 700, fontSize: 16, marginBottom: 6, color: "#fff" }}>{s.title}</h3>
+                  <p style={{ color: "rgba(255,255,255,0.4)", lineHeight: 1.6, fontSize: 13 }}>{s.description}</p>
+                  <div style={{ marginTop: 16, fontSize: 11, color: "#f59e0b", fontWeight: 600, letterSpacing: "0.06em" }}>
+                    Browse →
+                  </div>
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
+          ) : template === "livestream" ? (
+            // Livestream: show/episode cards
+            <StaggerContainer style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
+              {c.services.map((s, i) => (
+                <StaggerItem
+                  key={i}
+                  whileHover={{ y: -4, borderColor: "rgba(239,68,68,0.3)" }}
+                  style={{
+                    border: "1px solid rgba(255,255,255,0.06)",
+                    borderRadius: 12,
+                    overflow: "hidden",
+                    background: "rgba(255,255,255,0.02)",
+                    transition: "border-color 0.2s",
+                  }}
+                >
+                  {/* Thumbnail */}
+                  <div style={{
+                    height: 120,
+                    background: `linear-gradient(135deg, rgba(239,68,68,0.15), rgba(239,68,68,0.03))`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    position: "relative",
+                    borderBottom: "1px solid rgba(255,255,255,0.05)",
+                  }}>
+                    <div style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: "50%",
+                      border: "2px solid rgba(239,68,68,0.6)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}>
+                      <div style={{ width: 0, height: 0, borderTop: "7px solid transparent", borderBottom: "7px solid transparent", borderLeft: "12px solid rgba(239,68,68,0.9)", marginLeft: 2 }} />
+                    </div>
+                    <div style={{ position: "absolute", bottom: 8, right: 10, fontSize: 10, color: "rgba(255,255,255,0.4)", fontVariantNumeric: "tabular-nums" }}>
+                      {["32:14", "18:45", "52:08", "24:37"][i % 4]}
+                    </div>
+                  </div>
+                  <div style={{ padding: 16 }}>
+                    <h3 style={{ fontWeight: 600, fontSize: 14, marginBottom: 6, color: "#fff", lineHeight: 1.4 }}>{s.title}</h3>
+                    <p style={{ color: "rgba(255,255,255,0.38)", lineHeight: 1.55, fontSize: 12 }}>{s.description}</p>
+                  </div>
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
           ) : (
             // Standard card grid
             <StaggerContainer style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 24 }}>
@@ -1798,6 +2378,10 @@ export function GeneratedSite({ session }: { session: SessionData }) {
           ? "#050c14"
           : template === "aurora"
           ? "#0a0a17"
+          : template === "marketplace"
+          ? "#0a0a0f"
+          : template === "livestream"
+          ? "#06060a"
           : template === "brutalist"
           ? "#f5f5f5"
           : template === "minimal-pro"
@@ -1810,6 +2394,10 @@ export function GeneratedSite({ session }: { session: SessionData }) {
           ? "4px solid #000"
           : template === "3d-tech"
           ? "1px solid rgba(0,255,136,0.1)"
+          : template === "marketplace"
+          ? "1px solid rgba(245,158,11,0.1)"
+          : template === "livestream"
+          ? "1px solid rgba(239,68,68,0.1)"
           : `1px solid ${borderColor}`,
       }}>
         <FadeUp>
@@ -1826,7 +2414,7 @@ export function GeneratedSite({ session }: { session: SessionData }) {
                 fontSize: template === "luxury" ? 28 : template === "brutalist" ? 48 : template === "minimal-pro" ? 42 : 32,
                 fontWeight: template === "luxury" ? 400 : template === "brutalist" ? 900 : template === "minimal-pro" ? 300 : 700,
                 marginBottom: 24,
-                color: template === "luxury" ? "#c9a84c" : template === "3d-tech" ? "#00ff88" : template === "aurora" ? "#c4b5fd" : textPrimary,
+                color: template === "luxury" ? "#c9a84c" : template === "3d-tech" ? "#00ff88" : template === "aurora" ? "#c4b5fd" : template === "marketplace" ? "#f59e0b" : template === "livestream" ? "#ef4444" : textPrimary,
                 fontFamily: template === "luxury" ? "Georgia, serif" : template === "brutalist" ? "'Arial Black', Impact, sans-serif" : "inherit",
                 letterSpacing: template === "luxury" ? "0.1em" : template === "brutalist" ? "-0.02em" : template === "minimal-pro" ? "-0.02em" : "normal",
                 textTransform: template === "luxury" ? "uppercase" : template === "brutalist" ? "uppercase" : "none",
@@ -1897,7 +2485,7 @@ export function GeneratedSite({ session }: { session: SessionData }) {
         padding: template === "minimal-pro" ? "100px 120px" : "80px 40px",
         maxWidth: template === "minimal-pro" ? "none" : 960,
         margin: "0 auto",
-        background: template === "luxury" ? "#0a0806" : template === "3d-tech" ? "#030712" : template === "aurora" ? "#0d0d1a" : "inherit",
+        background: template === "luxury" ? "#0a0806" : template === "3d-tech" ? "#030712" : template === "aurora" ? "#0d0d1a" : template === "marketplace" ? "#0d0d14" : template === "livestream" ? "#08080d" : "inherit",
       }}>
         <FadeUp>
           <h2 style={{
@@ -1993,7 +2581,7 @@ export function GeneratedSite({ session }: { session: SessionData }) {
               <div style={{
                 fontWeight: 600,
                 fontSize: 14,
-                color: template === "luxury" ? "#c9a84c" : template === "3d-tech" ? "#00ff88" : template === "aurora" ? "#c4b5fd" : textPrimary,
+                color: template === "luxury" ? "#c9a84c" : template === "3d-tech" ? "#00ff88" : template === "aurora" ? "#c4b5fd" : template === "marketplace" ? "#f59e0b" : template === "livestream" ? "#ef4444" : textPrimary,
                 fontFamily: template === "luxury" ? "Georgia, serif" : "inherit",
               }}>
                 {t.name}
@@ -2023,6 +2611,10 @@ export function GeneratedSite({ session }: { session: SessionData }) {
             ? "#050c14"
             : template === "aurora"
             ? "transparent"
+            : template === "marketplace"
+            ? "#0a0a0f"
+            : template === "livestream"
+            ? "#06060a"
             : template === "minimal-pro"
             ? "#111"
             : layout.ctaStyle === "impact"
@@ -2038,6 +2630,10 @@ export function GeneratedSite({ session }: { session: SessionData }) {
             ? "4px solid #000"
             : template === "3d-tech"
             ? "1px solid rgba(0,255,136,0.15)"
+            : template === "marketplace"
+            ? "1px solid rgba(245,158,11,0.1)"
+            : template === "livestream"
+            ? "1px solid rgba(239,68,68,0.12)"
             : layout.dark
             ? `1px solid ${borderColor}`
             : "none",

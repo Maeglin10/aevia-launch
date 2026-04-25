@@ -47,13 +47,15 @@ const THEMES_META: Record<string, { label: string; icon: string; category: strin
   aurora:       { label: "Aurora & Wellness",    icon: "✦", category: "Premium",     premium: true },
   "3d-tech":    { label: "3D Tech & Web3",       icon: "⬡", category: "Premium",     premium: true },
   "minimal-pro":{ label: "Minimal Pro",          icon: "—", category: "Premium",     premium: true },
+  marketplace:  { label: "Marketplace",          icon: "🏪", category: "Commerce",    premium: true },
+  livestream:   { label: "Live & Streaming",     icon: "📡", category: "Events",      premium: true },
 };
 
 const ORDERED_THEME_IDS = [
   "landing", "saas", "agency", "vitrine", "consultant", "portfolio",
   "ecommerce", "restaurant", "hotel", "healthcare", "realestate", "fitness",
   "event", "nonprofit", "startup", "luxury", "brutalist", "magazine",
-  "aurora", "3d-tech", "minimal-pro",
+  "aurora", "3d-tech", "minimal-pro", "marketplace", "livestream",
 ];
 
 // Mock form data tailored per template for most realistic previews
@@ -79,6 +81,8 @@ const MOCK_FORM_DATA: Record<string, { businessName: string; businessType: strin
   aurora:       { businessName: "Lumière",            businessType: "Aurora",       tagline: "Radiate from within",        city: "Copenhagen",     brandColor: "#a855f7" },
   "3d-tech":    { businessName: "NexusAI",            businessType: "TechAI",       tagline: "Intelligence at the edge",   city: "San Francisco",  brandColor: "#06b6d4" },
   "minimal-pro":{ businessName: "Studio Blanc",       businessType: "MinimalPro",   tagline: "Space. Light. Purpose.",     city: "Zurich",         brandColor: "#18181b" },
+  marketplace:  { businessName: "TradeVault",          businessType: "Marketplace",  tagline: "Everything, from everyone",  city: "London",         brandColor: "#f59e0b" },
+  livestream:   { businessName: "StreamHub",            businessType: "Streaming",    tagline: "Live, everywhere, anytime",  city: "Los Angeles",    brandColor: "#ef4444" },
 };
 
 function buildMockSession(id: string): SessionData {
