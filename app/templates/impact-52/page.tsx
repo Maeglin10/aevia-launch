@@ -1,83 +1,475 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { 
+  ArrowUpRight, 
+  Menu, 
+  X, 
+  Layers, 
+  ShieldCheck,
+  Plus,
+  Play,
+  ArrowRight,
+  ChevronDown,
+  Monitor,
+  LayoutGrid,
+  Zap,
+  Activity,
+  Ruler,
+  Wind,
+  Command,
+  Sparkles,
+  Box,
+  Eye,
+  Maximize2,
+  Minimize2,
+  Cpu,
+  Database,
+  Terminal,
+  Unplug,
+  Infinity as InfinityIcon,
+  HardDrive,
+  Sun,
+  Aperture,
+  Scissors,
+  FileText,
+  Droplets,
+  Film,
+  Zap as ParticleIcon
+} from "lucide-react";
 import "../premium.css";
 
-const RAIN_COUNT = 50;
+// ─── DATA ──────────────────────────────────────────────────────────────────
 
-export default function DynamicWeatherNode() {
-  const [drops, setDrops] = useState<any[]>([]);
+const PARTICLE_MANIFESTS = [
+  { 
+    id: "PAR_01",
+    title: "KINETIC_CLOUD", 
+    category: "Dynamic Particle",
+    density: "v9.4_DEN",
+    img: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80",
+    desc: "A high-fidelity study of absolute particle volume within the spatial environment. Zero-latency kinetic synthesis."
+  },
+  { 
+    id: "PAR_02",
+    title: "ATTRACTOR_CORE", 
+    category: "Nodal Particle",
+    density: "v3.1_PEAK",
+    img: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&q=80",
+    desc: "Planetary-scale distributed particles orchestrated through neural weight synthesis. High-fidelity nodal routing."
+  },
+  { 
+    id: "PAR_03",
+    title: "VOID_SWARM", 
+    category: "Spectral Swarm",
+    density: "v9.0_STARK",
+    img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&q=80",
+    desc: "A zero-latency swarm engine built for the real-time synthesis of non-standard visual artifacts through radical particle injection."
+  }
+];
 
-  useEffect(() => {
-    const pts = Array.from({ length: RAIN_COUNT }).map((_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      duration: Math.random() * 0.5 + 0.3,
-      delay: Math.random() * 2,
-    }));
-    setDrops(pts);
-  }, []);
+const METRICS = [
+  { label: "Collision", val: "99.9%", desc: "Absolute architectural synchronization across all distributed particle edge nodes." },
+  { label: "Throughput", val: "12 EB/s", desc: "Sustainable visual delivery through our dedicated high-fidelity spectral backbone." },
+  { label: "Reliability", val: "IMMUNE", desc: "Zero-leak particle logic verified through continuous adversarial stress-testing." }
+];
+
+const CAPABILITIES = [
+  { icon: ParticleIcon, title: "Particle Forge", desc: "Engineering spectral volumes through a lens of mathematical and structural purity." },
+  { icon: Wind, title: "Velocity Logic", desc: "Scaling viewer interactions through distributed focal orchestration and visual synthesis." },
+  { icon: Activity, title: "Pulse Sync", desc: "Synchronizing system spikes with real-time biological demand cycles for absolute sync." },
+  { icon: Box, title: "Particle Shell", desc: "Leveraging heavy archival data fabrication for ultra-high fidelity spectral protection." }
+];
+
+// ─── COMPONENTS ──────────────────────────────────────────────────────────────
+
+function Reveal({ children, className = "", delay = 0, y = 30 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.23, 1, 0.32, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// ─── MAIN SPA ────────────────────────────────────────────────────────────────
+
+export default function ParticleFieldSPA() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activePar, setActivePar] = useState(0);
+  const { scrollY } = useScroll();
+  
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const heroScale = useTransform(scrollY, [0, 800], [1, 1.05]);
 
   return (
-    <div className="premium-theme bg-[#05050a] text-cyan-500 h-screen w-full overflow-hidden relative selection:bg-white selection:text-black">
+    <div className="min-h-screen bg-[#050508] text-[#eee] font-mono selection:bg-[#eee] selection:text-black">
       
-      {/* Background Cinematic Scene */}
-      <div className="absolute inset-0 z-0 opacity-40">
-         <Image src="/templates/brutalist_staircase.png" alt="Weather BG" fill className="object-cover contrast-125 brightness-50 grayscale" />
-         <div className="absolute inset-0 bg-gradient-to-b from-[#05050a]/20 to-[#05050a]" />
+      {/* ── PARTICLE OVERLAY ── */}
+      <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.08] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div className="fixed inset-0 z-[0] opacity-10 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
       </div>
 
-      {/* Dynamic Rain Layer */}
-      <div className="absolute inset-0 z-10 pointer-events-none">
-         {drops.map((d) => (
-            <motion.div 
-               key={d.id}
-               initial={{ y: -100, opacity: 0 }}
-               animate={{ y: 1200, opacity: [0, 1, 0] }}
-               transition={{ duration: d.duration, repeat: Infinity, delay: d.delay, ease: "linear" }}
-               className="absolute w-[1px] h-24 bg-cyan-400/20"
-               style={{ left: `${d.x}%` }}
-            />
-         ))}
-      </div>
-
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 w-full z-50 p-12 flex justify-between items-center mix-blend-difference bg-black/20 backdrop-blur-xl border-b border-white/5">
-        <Link href="/" className="text-xl font-black tracking-[0.5em] uppercase text-cyan-600">Weather.Node</Link>
-        <div className="flex gap-12 font-mono text-[10px] items-center">
-            <div className="flex gap-2 items-center">
-               <span className="opacity-40">Temp:</span>
-               <span className="text-white">12.4&deg;C</span>
-            </div>
-            <div className="flex gap-2 items-center">
-               <span className="opacity-40">Wind:</span>
-               <span className="text-white">SE 14KM/H</span>
-            </div>
+      {/* ── NAVIGATION ── */}
+      <motion.nav 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-16 py-10 mix-blend-difference"
+      >
+        <div className="flex items-center gap-4">
+          <ParticleIcon className="w-10 h-10 text-white" />
+          <span className="text-2xl font-black tracking-tighter uppercase italic text-white">PARTICLE<span className="text-white/30">//</span>FIELD</span>
         </div>
-      </nav>
+        
+        <div className="hidden lg:flex items-center gap-16 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
+          {["Manifest", "Reserve", "Atelier", "Portal"].map(item => (
+            <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors">/{item}</a>
+          ))}
+        </div>
 
-      {/* Hero Content */}
-      <main className="relative z-20 h-full flex flex-col items-center justify-center p-12 text-center">
-         <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+        <button 
+          onClick={() => setMenuOpen(true)}
+          className="px-6 py-2 border border-white/20 bg-white/5 backdrop-blur-md text-[10px] font-black uppercase tracking-widest hover:bg-white/20 transition-all text-white"
+        >
+          [INIT_PARTICLE]
+        </button>
+      </motion.nav>
+
+      {/* ── MOBILE MENU ── */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 1.1 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 2 }}
-         >
-            <span className="text-xs uppercase tracking-[0.8em] font-black italic mb-8 block opacity-40">Real-time Environmental Processing</span>
-            <h1 className="text-8xl md:text-[15vw] font-black uppercase italic tracking-tighter leading-none mb-12 text-white">
-               Storm <br /> <span className="text-transparent" style={{ WebkitTextStroke: '2px #22d3ee' }}>Front.</span>
-            </h1>
-            <p className="max-w-md mx-auto text-xs uppercase tracking-[0.4em] leading-relaxed italic opacity-40 font-black mb-12">
-               Synchronizing digital infrastructure with local meteorological variables.
-            </p>
-            <button className="px-12 py-6 border border-cyan-400/40 text-cyan-400 font-black uppercase text-xs tracking-[1em] italic hover:bg-cyan-500 hover:text-black transition-all">Enter Shelter</button>
-         </motion.div>
-      </main>
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+            className="fixed inset-0 z-[60] bg-[#050508] text-[#eee] p-12 flex flex-col justify-between"
+          >
+            <div className="flex justify-between items-center border-b border-white/10 pb-12">
+              <span className="text-xl font-black uppercase tracking-tighter italic">PARTICLE//FIELD</span>
+              <button onClick={() => setMenuOpen(false)} className="w-12 h-12 flex items-center justify-center border border-white/20 rounded-full">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="flex flex-col gap-12 text-center md:text-left">
+              {["PARTICLE_MANIFEST", "SYSTEM_ARCHIVE", "PARTICLE_FORGE", "ASSET_ENCLAVE", "SECURE_AUTH"].map((item, i) => (
+                <motion.a 
+                  key={item}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 + 0.3 }}
+                  href="#"
+                  className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter hover:text-white/40 transition-all leading-none"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item}
+                </motion.a>
+              ))}
+            </div>
+            <div className="flex justify-between text-[10px] font-bold uppercase tracking-[0.5em] border-t border-white/10 pt-12 text-white/30">
+              <span>PARTICLE_PRACTICE</span>
+              <span>EST. 2018 // BERLIN</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
+      {/* ── HERO SECTION ── */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
+        <motion.div 
+          style={{ opacity: heroOpacity, scale: heroScale }}
+          className="absolute inset-0 z-0"
+        >
+          <Image 
+            src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600&q=80" 
+            alt="Hero Particle" 
+            fill 
+            className="object-cover grayscale brightness-50 contrast-125 opacity-20" 
+            unoptimized 
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050508]" />
+        </motion.div>
+
+        <div className="relative z-10 text-center px-6">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[2.5em] text-white/40 mb-12 block italic">Particle Endurance</span>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <h1 className="text-8xl md:text-[18rem] font-black tracking-tighter leading-[0.75] uppercase italic text-white mb-20">
+              RAW <br/> <span className="not-italic text-white/10">FIELD.</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.4}>
+            <div className="max-w-2xl mx-auto flex flex-col items-center gap-16 border-t border-white/10 pt-20">
+              <p className="text-white/40 text-xl leading-relaxed font-light uppercase tracking-[0.3em] italic leading-loose text-center">
+                Engineering the ultimate spectral archives through distributed particle orchestration. High-fidelity systems built for absolute structural precision and narrative clarity.
+              </p>
+              <div className="flex gap-8">
+                <button className="px-16 py-6 bg-white text-black font-black uppercase text-xs tracking-[0.4em] hover:bg-black hover:text-white transition-all">
+                  Manifest_Access
+                </button>
+                <button className="px-16 py-6 border border-white/20 text-white font-black uppercase text-xs tracking-[0.4em] hover:bg-white/5 transition-colors">
+                  Atelier_Dossier
+                </button>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+
+        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">
+          <div className="flex flex-col gap-2">
+            <span>BERLIN // ATELIER</span>
+            <div className="w-48 h-[1px] bg-white/10" />
+          </div>
+          <div className="flex items-center gap-4 italic uppercase tracking-widest">
+             <span className="animate-pulse">●</span> PARTICLE_STATUS: NOMINAL
+          </div>
+        </div>
+      </section>
+
+      {/* ── METRICS GRID ── */}
+      <section className="py-40 bg-[#0a0a0d]">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-white/5 border border-white/5">
+            {METRICS.map((s, i) => (
+              <Reveal key={s.label} delay={i * 0.1} className="bg-[#050508] p-24 group hover:bg-white/5 transition-all duration-700">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 mb-12 block group-hover:text-white/60">{s.label}</span>
+                <h3 className="text-7xl font-black italic text-white mb-8 group-hover:text-white transition-colors">{s.val}</h3>
+                <p className="text-xs text-white/30 font-light tracking-widest uppercase italic leading-loose group-hover:text-white/60">
+                  {s.desc}
+                </p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PARTICLE SHOWCASE ── */}
+      <section className="py-40 bg-black relative overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32">
+             <div className="flex flex-col lg:flex-row justify-between items-end gap-12 border-b border-white/10 pb-12">
+               <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-white">
+                 Particle <br/> <span className="text-white/20 not-italic">Archive.</span>
+               </h2>
+               <div className="text-right">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/20 mb-4 block italic">Manifest_Sequence_2024</span>
+                  <div className="flex gap-4">
+                    {PARTICLE_MANIFESTS.map((_, i) => (
+                      <button 
+                        key={i} 
+                        onClick={() => setActivePar(i)}
+                        className={`w-16 h-1 transition-all ${activePar === i ? "bg-white w-32" : "bg-white/10"}`}
+                      />
+                    ))}
+                  </div>
+               </div>
+             </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
+            <div className="lg:col-span-8 relative aspect-video rounded-sm overflow-hidden border border-white/5 group bg-[#111]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activePar}
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.1 }}
+                  transition={{ duration: 1, ease: [0.19, 1, 0.22, 1] }}
+                  className="absolute inset-0"
+                >
+                  <Image src={PARTICLE_MANIFESTS[activePar].img} alt={PARTICLE_MANIFESTS[activePar].title} fill className="object-cover grayscale contrast-125 opacity-40 group-hover:opacity-60 transition-opacity duration-1000" unoptimized />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
+                </motion.div>
+              </AnimatePresence>
+              <div className="absolute bottom-12 left-12 flex flex-col gap-4">
+                 <span className="text-[10px] font-black uppercase tracking-widest bg-white/10 backdrop-blur-md text-white px-6 py-2 border border-white/5">{PARTICLE_MANIFESTS[activePar].density} // ADVISORY</span>
+              </div>
+            </div>
+
+            <div className="lg:col-span-4 space-y-12">
+               <motion.div
+                  key={activePar}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="space-y-12"
+               >
+                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40">{PARTICLE_MANIFESTS[activePar].id} // ASSET</span>
+                 <h3 className="text-6xl md:text-8xl font-black italic uppercase text-white tracking-tighter">{PARTICLE_MANIFESTS[activePar].title}</h3>
+                 <div className="space-y-6 border-y border-white/10 py-12">
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Category</span>
+                       <span className="text-sm font-black text-white uppercase tracking-widest">{PARTICLE_MANIFESTS[activePar].category}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Particle_Status</span>
+                       <span className="text-sm font-black text-white uppercase tracking-widest italic">STABLE_DYNAMIC</span>
+                    </div>
+                 </div>
+                 <p className="text-white/30 text-lg font-light italic leading-loose uppercase tracking-wide">
+                   {PARTICLE_MANIFESTS[activePar].desc}
+                 </p>
+                 <button className="flex items-center gap-6 group">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.8em] text-white">Request_Manifest</span>
+                    <div className="w-16 h-16 border border-white/10 rounded-full flex items-center justify-center group-hover:bg-white transition-all">
+                       <ArrowUpRight className="w-6 h-6 text-white group-hover:text-black transition-colors" />
+                    </div>
+                 </button>
+               </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CAPABILITIES ── */}
+      <section className="py-40 bg-[#050508] border-y border-white/10">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32 text-center">
+             <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/40 mb-8 block italic">Operational Scope</span>
+             <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-white">
+                Technical <br/> <span className="text-white/20 not-italic">Expertise.</span>
+             </h2>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10">
+            {CAPABILITIES.map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.1} className="bg-[#0a0a0d] p-12 group hover:bg-white/5 transition-all duration-700">
+                 <item.icon className="w-12 h-12 text-white/20 group-hover:text-white transition-colors mb-8" />
+                 <h3 className="text-2xl font-black italic uppercase text-white mb-6">{item.title}</h3>
+                 <p className="text-xs text-white/40 group-hover:text-white font-light tracking-widest uppercase italic leading-loose transition-colors">
+                   {item.desc}
+                 </p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ATELIER / LABORATORY ── */}
+      <section className="py-40 bg-black overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+          <Reveal>
+             <div className="relative aspect-square bg-[#050508] border border-white/5 p-20 flex flex-col justify-center group overflow-hidden">
+                <div className="absolute top-0 right-0 p-12">
+                   <Box className="w-16 h-16 text-white/5 group-hover:text-white/10 transition-colors" />
+                </div>
+                <Sparkles className="w-16 h-16 text-white mb-12" />
+                <h3 className="text-5xl font-black italic uppercase text-white mb-8">Particle <br/> <span className="text-white/20 not-italic">Atelier.</span></h3>
+                <p className="text-white/40 text-lg leading-relaxed mb-12 font-light uppercase tracking-wide italic leading-loose">
+                  Our Berlin atelier leverages heavy archival design fabrication and distributed spatial orchestration for the production of non-standard spectral artifacts. We push the tectonic limits of spatial particle.
+                </p>
+                <div className="flex gap-12 text-[10px] font-bold uppercase tracking-[0.5em] text-white/30">
+                   <span>[01] PARTICLE_BOND</span>
+                   <span>[02] SPATIAL_SYNTHESIS</span>
+                </div>
+             </div>
+          </Reveal>
+          <div className="space-y-24">
+             <Reveal delay={0.2}>
+                <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/40 mb-8 block italic">Curation_Sequence</span>
+                <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-none uppercase text-white">Spectral <br/> <span className="text-white/20 not-italic">Manifesto.</span></h2>
+             </Reveal>
+             <div className="space-y-12">
+                {[
+                  { n: "01", t: "Sectional Audit", d: "Rigorous cutting of complex particle volumes to reveal interior structural potential." },
+                  { n: "02", t: "Particle Stress", d: "Simulation of high-fidelity visual performance under extreme archival loads." },
+                  { n: "03", t: "Archive Aging", d: "Analyzing the interaction of archival spectral models with digital weathering." }
+                ].map((step, i) => (
+                  <Reveal key={step.n} delay={i * 0.1 + 0.3} className="flex gap-12 group border-l border-white/10 pl-8 hover:border-white transition-colors">
+                    <span className="text-4xl font-black italic text-white/10 group-hover:text-white transition-colors">{step.n}</span>
+                    <div>
+                      <h4 className="text-xl font-black uppercase italic text-white mb-2">{step.t}</h4>
+                      <p className="text-xs text-white/40 font-light tracking-widest uppercase italic leading-loose">{step.d}</p>
+                    </div>
+                  </Reveal>
+                ))}
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA / INQUIRY ── */}
+      <section className="py-40 bg-[#050508] relative">
+         <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+            <div className="bg-white text-black p-24 lg:p-40 relative overflow-hidden flex flex-col items-center text-center group">
+               <div className="absolute inset-0 opacity-10 grayscale brightness-110 group-hover:opacity-20 transition-opacity">
+                  <Image src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600&q=80" alt="CTA Particle" fill className="object-cover" />
+               </div>
+               <Reveal>
+                  <span className="text-[10px] font-bold uppercase tracking-[1em] text-black/50 mb-12 block italic">Allocation Initiation</span>
+                  <h2 className="text-7xl md:text-[12rem] font-black italic tracking-tighter leading-[0.8] uppercase mb-16">
+                     Own <br/> <span className="text-black/30 not-italic">The Particle.</span>
+                  </h2>
+                  <div className="flex flex-wrap justify-center gap-12 relative z-10">
+                     <button className="px-20 py-8 bg-black text-white font-black uppercase text-sm tracking-[0.5em] hover:italic transition-all">
+                        Request_Access
+                     </button>
+                     <button className="px-20 py-8 border border-black/20 text-black font-black uppercase text-sm tracking-[0.5em] hover:bg-black/5 transition-all">
+                        Atelier_Dossier
+                     </button>
+                  </div>
+               </Reveal>
+            </div>
+         </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-black pt-40 pb-20 px-8 md:px-16 border-t border-white/10">
+         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-32 mb-40">
+            <div className="lg:col-span-6">
+               <div className="flex items-center gap-4 mb-12">
+                 <ParticleIcon className="w-10 h-10 text-white" />
+                 <span className="text-3xl font-black tracking-tighter uppercase italic text-white">PARTICLE<span className="text-white/30">//</span>FIELD</span>
+               </div>
+               <p className="text-white/40 text-sm font-light leading-relaxed uppercase tracking-[0.3em] mb-12 italic max-w-md">
+                 Securing the future of spectral objects through high-fidelity orchestration and radical visual clarity.
+               </p>
+               <div className="flex gap-12">
+                 {["TERMINAL", "PARTICLE", "FORGE", "ALPHA"].map(s => (
+                   <a key={s} href="#" className="text-[10px] font-bold hover:text-white text-white/30 transition-colors tracking-[0.5em]">[{s}]</a>
+                 ))}
+               </div>
+            </div>
+            
+            <div className="lg:col-span-2">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40 mb-12">Systems</h4>
+               <ul className="space-y-6 text-xs font-bold uppercase tracking-[0.4em]">
+                 {["Archives", "Telemetry", "Shell", "Journal"].map(item => (
+                   <li key={item}><a href="#" className="hover:text-white transition-colors">{item}</a></li>
+                 ))}
+               </ul>
+            </div>
+
+            <div className="lg:col-span-4">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40 mb-12">Partner Inquiry</h4>
+               <p className="text-sm text-white/40 font-light mb-12 italic uppercase tracking-[0.2em] leading-loose">
+                 For new commissions, spectral studies, or distribution enclaves, contact our primary command center in Berlin.
+               </p>
+               <a href="mailto:ops@particle-field.de" className="text-3xl font-black italic hover:text-white transition-colors block border-b border-white/10 pb-8 uppercase tracking-tighter">
+                  ops@particle-field.de
+               </a>
+            </div>
+         </div>
+
+         <div className="max-w-[1600px] mx-auto flex flex-col md:row items-center justify-between gap-12 text-[9px] font-bold uppercase tracking-[0.8em] text-white/20 border-t border-white/5 pt-20">
+            <p>© 2024 PARTICLE FIELD ATELIER AG. ALL RIGHTS RESERVED. BERLIN // GLOBAL.</p>
+            <div className="flex gap-16">
+               <a href="#" className="hover:text-white transition-colors">[Particle_Vault]</a>
+               <a href="#" className="hover:text-white transition-colors">[Terms_of_Service]</a>
+            </div>
+         </div>
+      </footer>
     </div>
   );
 }

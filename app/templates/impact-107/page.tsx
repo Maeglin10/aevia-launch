@@ -1,333 +1,592 @@
-"use client"
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Progress } from "@/components/ui/progress"
+"use client";
 
-function Reveal({ children, delay=0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
-  return <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay }}>{children}</motion.div>
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  Dna,
+  Microscope,
+  FlaskConical,
+  Activity,
+  Zap,
+  Shield,
+  Layers,
+  Search,
+  Menu,
+  X,
+  ArrowRight,
+  ChevronRight,
+  Cpu,
+  Binary,
+  Database,
+  Lock,
+  Box,
+  Fingerprint,
+  Waves,
+  Crosshair,
+  Beaker,
+  TestTube,
+  Thermometer,
+  Wind,
+  Droplets,
+  Container,
+} from "lucide-react";
+
+import "../premium.css";
+
+/* ==========================================================================
+   DATA MANIFESTS
+   ========================================================================== */
+
+const SYNTH_MANIFESTS = {
+  hero: {
+    growth_rate: "4.2mm/hr",
+    purity: "99.98%",
+    batch_id: "SC-982-ALPHA",
+    status: "BIOREACTOR_OPTIMAL",
+  },
+  platforms: [
+    {
+      id: "mycelium",
+      name: "MYCEL // UNIT",
+      desc: "Industrial-scale fungal architecture for sustainable structural material growth.",
+      icon: <Layers className="w-5 h-5" />,
+      specs: ["High-Density Growth", "Carbon-Negative", "Self-Healing Core"],
+    },
+    {
+      id: "protein",
+      name: "PROT // FORGE",
+      desc: "Precision protein synthesis for advanced pharmaceutical and metabolic engineering.",
+      icon: <TestTube className="w-5 h-5" />,
+      specs: ["Sub-Angstrom Res", "Enzymatic Catalysis", "Rapid Folding"],
+    },
+    {
+      id: "tissue",
+      name: "TISSUE // MESH",
+      desc: "Scaffolded cellular growth for organoid development and regenerative bio-logistics.",
+      icon: <Dna className="w-5 h-5" />,
+      specs: ["3D-Bioprinting", "Vascularization", "Immune-Compatibility"],
+    },
+  ],
+  growth_telemetry: [
+    { label: "CELLULAR_DENSITY", val: 92, color: "#00ff88" },
+    { label: "NUTRIENT_SATURATION", val: 88, color: "#00ff88" },
+    { label: "THERMAL_STABILITY", val: 100, color: "#00ff88" },
+    { label: "PH_EQUILIBRIUM", val: 74, color: "#ffaa00" },
+  ],
+  batches: [
+    { id: "B-24", material: "Silk-Polymer", yield: "94%", status: "Harvesting" },
+    { id: "B-25", material: "Bone-Scaffold", yield: "62%", status: "Incubating" },
+    { id: "B-26", material: "Neural-Mesh", yield: "Nominal", status: "Seeding" },
+  ],
+};
+
+/* ==========================================================================
+   UTILITY COMPONENTS
+   ========================================================================== */
+
+function Reveal({
+  children,
+  delay = 0,
+  y = 20,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  y?: number;
+}) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
 }
 
-function Counter({ target, suffix="" }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0)
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
-  useEffect(() => {
-    if (!inView) return
-    const step = Math.ceil(target / 60)
-    const t = setInterval(() => setCount(c => Math.min(c + step, target)), 16)
-    return () => clearInterval(t)
-  }, [inView, target])
-  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>
-}
+function MagneticBtn({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 300, damping: 20 });
+  const sy = useSpring(y, { stiffness: 300, damping: 20 });
+  const ref = useRef<HTMLButtonElement>(null);
 
-function MagneticBtn({ children, className="" }: { children: React.ReactNode; className?: string }) {
-  const x = useMotionValue(0); const y = useMotionValue(0)
-  const sx = useSpring(x, { stiffness: 500, damping: 25 })
-  const sy = useSpring(y, { stiffness: 500, damping: 25 })
-  const ref = useRef<HTMLButtonElement>(null)
   const handleMouse = (e: React.MouseEvent) => {
-    const r = ref.current!.getBoundingClientRect()
-    x.set((e.clientX - r.left - r.width/2) * 0.35)
-    y.set((e.clientY - r.top - r.height/2) * 0.35)
-  }
-  return <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={handleMouse} onMouseLeave={() => { x.set(0); y.set(0) }} className={className}>{children}</motion.button>
-}
-
-export default function FluxStreeetwear() {
-  const { scrollYProgress } = useScroll()
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0])
-  const scale = useTransform(scrollYProgress, [0, 0.3], [1, 0.95])
-
-  const [dropTimer, setDropTimer] = useState({ days: 3, hours: 12, minutes: 45, seconds: 30 })
-  const [selectedSize, setSelectedSize] = useState("M")
-  const [selectedColor, setSelectedColor] = useState("black")
-  const [showEarlyAccess, setShowEarlyAccess] = useState(false)
-  const [collectionTab, setCollectionTab] = useState("hoodies")
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDropTimer(t => {
-        let { days, hours, minutes, seconds } = t
-        if (seconds > 0) seconds--
-        else if (minutes > 0) { minutes--; seconds = 59 }
-        else if (hours > 0) { hours--; minutes = 59; seconds = 59 }
-        else if (days > 0) { days--; hours = 23; minutes = 59; seconds = 59 }
-        return { days, hours, minutes, seconds }
-      })
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [])
-
-  const products = [
-    { id: 1, name: "VOLT HOODIE", price: "$120", colors: ["black", "yellow"], image: "https://images.unsplash.com/photo-1556821552-7f41c5d440db?w=500&h=600&fit=crop" },
-    { id: 2, name: "SHOCK TEE", price: "$45", colors: ["black", "yellow"], image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=600&fit=crop" },
-    { id: 3, name: "CIRCUIT PANTS", price: "$95", colors: ["black"], image: "https://images.unsplash.com/photo-1542272604-787c62d465d1?w=500&h=600&fit=crop" },
-  ]
-
-  const lookbook = [
-    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1490578474895-699cd4e2cf6f?w=800&h=600&fit=crop",
-  ]
-
-  const collabs = [
-    { artist: "NEON KING", avatar: "NK", date: "DEC 15" },
-    { artist: "VOLT LAB", avatar: "VL", date: "JAN 10" },
-    { artist: "CIRCUIT CO", avatar: "CC", date: "FEB 20" },
-    { artist: "SPARK STUDIO", avatar: "SS", date: "MAR 05" },
-  ]
-
-  const testimonials = [
-    { text: "Best streetwear in the game. Pure heat.", author: "MAYA_", avatar: "M" },
-    { text: "Every drop sells out in minutes. Worth it.", author: "ALEX_FLUX", avatar: "A" },
-    { text: "The quality is insane for the price.", author: "JORDAN_HYPE", avatar: "J" },
-  ]
+    const rect = ref.current?.getBoundingClientRect();
+    if (rect) {
+      x.set((e.clientX - rect.left - rect.width / 2) * 0.4);
+      y.set((e.clientY - rect.top - rect.height / 2) * 0.4);
+    }
+  };
 
   return (
-    <div className="bg-[#0a0a0a] text-white min-h-screen overflow-x-hidden">
-      {/* PARALLAX HERO */}
-      <motion.section style={{ opacity, scale }} className="relative h-screen flex items-center justify-center overflow-hidden">
-        <Image src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1600&h=900&fit=crop" alt="Streetwear" fill className="object-cover brightness-50" />
-        <div className="relative z-10 text-center space-y-8">
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-7xl md:text-8xl font-black uppercase tracking-tighter">
-            <span className="text-[#ffd700]">FLUX</span>
-          </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="text-xl text-gray-300">
-            ELECTRIC STREETWEAR. LIMITED DROPS. INFINITE STYLE.
-          </motion.p>
-        </div>
-      </motion.section>
+    <motion.button
+      ref={ref}
+      style={{ x: sx, y: sy }}
+      onMouseMove={handleMouse}
+      onMouseLeave={() => {
+        x.set(0);
+        y.set(0);
+      }}
+      className={className}
+    >
+      {children}
+    </motion.button>
+  );
+}
 
-      {/* DROP COUNTDOWN */}
-      <Reveal>
-        <section className="py-20 px-6 bg-[#1a1a1a] border-y border-[#ffd700]">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-5xl font-black mb-12 text-center">NEXT DROP IN</h2>
-            <div className="grid grid-cols-4 gap-6 text-center">
-              {[
-                { label: "DAYS", value: dropTimer.days },
-                { label: "HOURS", value: dropTimer.hours },
-                { label: "MINS", value: dropTimer.minutes },
-                { label: "SECS", value: dropTimer.seconds },
-              ].map((item, i) => (
-                <motion.div key={i} initial={{ scale: 0.9 }} whileHover={{ scale: 1.05 }} className="p-6 bg-black border-2 border-[#ffd700] rounded">
-                  <div className="text-4xl font-black text-[#ffd700]">{String(item.value).padStart(2, '0')}</div>
-                  <div className="text-sm uppercase text-gray-400 mt-2">{item.label}</div>
-                </motion.div>
+/* ==========================================================================
+   SYNTH // CELL COMPONENT
+   ========================================================================== */
+
+export default function SynthCellPage() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <div className="premium-theme min-h-screen bg-[#050806] text-white font-mono selection:bg-[#00ff88] selection:text-black overflow-x-hidden">
+      {/* ── BACKGROUND ARCHITECTURE ── */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,#0a180f_0%,transparent_50%)]" />
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `radial-gradient(#00ff88 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <div className="absolute top-0 left-0 w-full h-[60vh] bg-gradient-to-b from-[#00ff88]/5 to-transparent" />
+      </div>
+
+      {/* ── NAVIGATION ── */}
+      <nav
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#050806]/90 backdrop-blur-xl py-4 border-b border-white/5 shadow-[0_0_50px_rgba(0,0,0,0.5)]" : "bg-transparent py-10"}`}
+      >
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link
+            href="/"
+            className="group flex items-center gap-3 text-xl font-black tracking-tighter"
+          >
+            <div className="w-8 h-8 bg-[#00ff88] rounded-full flex items-center justify-center text-black">
+              <FlaskConical className="w-5 h-5" />
+            </div>
+            <span className="group-hover:text-[#00ff88] transition-colors">
+              SYNTH // <span className="text-white/40">CELL</span>
+            </span>
+          </Link>
+
+          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
+            {["Synthesis", "Platforms", "Biometrics", "Incubation"].map((l) => (
+              <Link
+                key={l}
+                href="#"
+                className="hover:text-[#00ff88] transition-colors"
+              >
+                {l}
+              </Link>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-6">
+            <button className="hidden md:block text-white/30 hover:text-white transition-colors">
+              <Search className="w-4 h-4" />
+            </button>
+            <MagneticBtn className="px-6 py-2.5 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[#00ff88] transition-all">
+              Initialize_Seeding
+            </MagneticBtn>
+            <button
+              onClick={() => setMenuOpen(true)}
+              className="lg:hidden text-white/60 hover:text-white transition-colors"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* MOBILE MENU */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            className="fixed inset-0 z-[100] bg-[#050806] p-8 flex flex-col pt-32"
+          >
+            <button
+              onClick={() => setMenuOpen(false)}
+              className="absolute top-10 right-8 text-white/40"
+            >
+              <X className="w-10 h-10" />
+            </button>
+            <div className="flex flex-col gap-10 text-5xl font-black tracking-tighter uppercase">
+              {["Synthesis", "Platforms", "Biometrics", "Incubation"].map((l) => (
+                <Link key={l} href="#" onClick={() => setMenuOpen(false)}>
+                  {l}
+                </Link>
               ))}
             </div>
-          </div>
-        </section>
-      </Reveal>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* COLLECTION GRID WITH TABS */}
-      <Reveal>
-        <section className="py-20 px-6">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-5xl font-black mb-12">COLLECTIONS</h2>
-            <Tabs defaultValue="hoodies" className="w-full">
-              <TabsList className="grid w-full grid-cols-4 bg-black border border-[#ffd700]">
-                {["hoodies", "tees", "pants", "accessories"].map(tab => (
-                  <TabsTrigger key={tab} value={tab} className="uppercase text-sm font-bold">{tab}</TabsTrigger>
-                ))}
-              </TabsList>
-              {["hoodies", "tees", "pants", "accessories"].map(tab => (
-                <TabsContent key={tab} value={tab} className="mt-12">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {products.map((prod, i) => (
-                      <motion.div key={prod.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} className="group relative">
-                        <Dialog>
-                          <motion.button className="w-full aspect-square relative overflow-hidden bg-[#1a1a1a] border border-gray-700 hover:border-[#ffd700] transition">
-                            <Image src={prod.image} alt={prod.name} fill className="object-cover group-hover:scale-110 transition duration-500" />
-                            <Badge className="absolute top-4 right-4 bg-[#ffd700] text-black">LIMITED</Badge>
-                          </motion.button>
-                          <DialogContent className="bg-black border border-[#ffd700]">
-                            <DialogHeader>
-                              <DialogTitle className="text-[#ffd700] text-2xl">{prod.name}</DialogTitle>
-                            </DialogHeader>
-                            <div className="space-y-6">
-                              <div className="aspect-square relative">
-                                <Image src={prod.image} alt={prod.name} fill className="object-cover" />
-                              </div>
-                              <div>
-                                <label className="block text-sm font-bold mb-3">SIZE</label>
-                                <div className="grid grid-cols-5 gap-2">
-                                  {["XS", "S", "M", "L", "XL", "XXL"].map(size => (
-                                    <button key={size} onClick={() => setSelectedSize(size)} className={`p-3 border font-bold ${selectedSize === size ? "bg-[#ffd700] text-black border-[#ffd700]" : "border-gray-600 hover:border-[#ffd700]"}`}>
-                                      {size}
-                                    </button>
-                                  ))}
-                                </div>
-                              </div>
-                              <div>
-                                <label className="block text-sm font-bold mb-3">COLOR</label>
-                                <div className="flex gap-3">
-                                  {prod.colors.map(color => (
-                                    <button key={color} onClick={() => setSelectedColor(color)} className={`w-12 h-12 rounded border-2 ${selectedColor === color ? "border-[#ffd700]" : "border-gray-600"}`} style={{ backgroundColor: color === "yellow" ? "#ffd700" : "#000" }} />
-                                  ))}
-                                </div>
-                              </div>
-                              <button className="w-full py-3 bg-[#ffd700] text-black font-black text-lg hover:bg-white transition">
-                                ADD TO CART {prod.price}
-                              </button>
-                            </div>
-                          </DialogContent>
-                        </Dialog>
-                        <div className="mt-4">
-                          <h3 className="font-black text-lg group-hover:text-[#ffd700] transition">{prod.name}</h3>
-                          <p className="text-gray-400">{prod.price}</p>
+      {/* ── HERO SECTION ── */}
+      <section className="relative h-screen flex flex-col justify-center pt-20 overflow-hidden">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            <div className="lg:col-span-8">
+              <Reveal>
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="px-3 py-1 bg-[#00ff88]/10 border border-[#00ff88]/30 text-[#00ff88] text-[9px] font-bold uppercase tracking-widest">
+                    {SYNTH_MANIFESTS.hero.status}
+                  </div>
+                  <div className="text-[9px] text-white/30 tracking-widest uppercase">
+                    RATE: {SYNTH_MANIFESTS.hero.growth_rate} // BATCH:{" "}
+                    {SYNTH_MANIFESTS.hero.batch_id}
+                  </div>
+                </div>
+                <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
+                  Biological <br />{" "}
+                  <span className="text-[#00ff88]">Synthesis.</span> <br />{" "}
+                  Lab-Grown <br />{" "}
+                  <span className="text-white/20">Future.</span>
+                </h1>
+                <p className="max-w-2xl text-xl text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">
+                  Challenging the extraction model. High-fidelity synthetic 
+                  biology for sustainable material growth, protein engineering, 
+                  and regenerative medicine.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-6">
+                  <button className="px-12 py-5 bg-[#00ff88] text-black text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-[0_0_50px_rgba(0,255,136,0.15)]">
+                    Explore_Synthesis
+                  </button>
+                  <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">
+                    View_Growth_Logs
+                  </button>
+                </div>
+              </Reveal>
+            </div>
+
+            <div className="lg:col-span-4 relative hidden lg:block">
+              <Reveal delay={0.2}>
+                <div className="relative aspect-square bg-[#0a0f0a] border border-white/5 p-12 rounded-3xl overflow-hidden group shadow-2xl">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00ff88]/5 to-transparent" />
+
+                  {/* Growth HUD */}
+                  <div className="relative h-full flex flex-col justify-between">
+                    <div className="flex justify-between items-start">
+                      <div className="space-y-1">
+                        <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest">
+                          BATCH_PURITY
                         </div>
-                      </motion.div>
+                        <div className="text-xl font-black text-[#00ff88]">
+                          {SYNTH_MANIFESTS.hero.purity}
+                        </div>
+                      </div>
+                      <div className="w-10 h-10 border border-white/5 rounded-full flex items-center justify-center">
+                        <Activity className="w-5 h-5 text-white/20 animate-pulse" />
+                      </div>
+                    </div>
+
+                    {/* Progress Metrics */}
+                    <div className="space-y-10 my-10">
+                      {SYNTH_MANIFESTS.growth_telemetry.map((stat, i) => (
+                        <div key={i}>
+                          <div className="flex justify-between text-[8px] font-bold uppercase tracking-widest mb-3">
+                            <span className="text-white/40">{stat.label}</span>
+                            <span style={{ color: stat.color }}>{stat.val}%</span>
+                          </div>
+                          <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${stat.val}%` }}
+                              transition={{ duration: 2, delay: 0.5 + i * 0.1 }}
+                              className="h-full"
+                              style={{ backgroundColor: stat.color }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="pt-6 border-t border-white/5 flex justify-between items-center text-[8px] font-bold text-white/20 uppercase tracking-widest">
+                      <span>BIO_SAFETY_LEVEL_4</span>
+                      <div className="flex items-center gap-2 text-[#00ff88]">
+                        <div className="w-1.5 h-1.5 bg-[#00ff88] rounded-full animate-ping" />
+                        <span>GROWTH_ACTIVE</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── PLATFORMS SECTION ── */}
+      <section className="py-40 bg-[#080a08] border-y border-white/5">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
+            <Reveal>
+              <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85]">
+                Growth <br />{" "}
+                <span className="text-[#00ff88]">Platforms.</span>
+              </h2>
+            </Reveal>
+            <p className="max-w-md text-sm text-white/30 leading-relaxed uppercase tracking-widest font-light italic">
+              Modular bio-manufacturing. Select the specific synthesis platform required for your material or therapeutic objective.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {SYNTH_MANIFESTS.platforms.map((p, i) => (
+              <Reveal key={p.id} delay={i * 0.1}>
+                <div className="group p-12 bg-[#0a0f0a] border border-white/5 hover:border-[#00ff88]/30 transition-all flex flex-col h-full rounded-3xl relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#00ff88]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                  <div className="w-16 h-16 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-center text-[#00ff88] mb-12 group-hover:bg-[#00ff88] group-hover:text-black transition-all">
+                    {p.icon}
+                  </div>
+                  <h3 className="text-3xl font-black uppercase mb-6 tracking-tighter group-hover:text-[#00ff88] transition-colors">
+                    {p.name}
+                  </h3>
+                  <p className="text-sm text-white/40 leading-relaxed mb-12 flex-1 italic">
+                    "{p.desc}"
+                  </p>
+
+                  <div className="space-y-5 pt-10 border-t border-white/5">
+                    {p.specs.map((s, j) => (
+                      <div
+                        key={j}
+                        className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest"
+                      >
+                        <div className="w-1.5 h-1.5 bg-[#00ff88] rotate-45" />
+                        {s}
+                      </div>
                     ))}
                   </div>
-                </TabsContent>
-              ))}
-            </Tabs>
+                </div>
+              </Reveal>
+            ))}
           </div>
-        </section>
-      </Reveal>
-
-      {/* LOOKBOOK CAROUSEL */}
-      <Reveal>
-        <section className="py-20 px-6 bg-[#1a1a1a]">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-5xl font-black mb-12">STYLE LOOKBOOK</h2>
-            <Carousel className="w-full">
-              <CarouselContent>
-                {lookbook.map((img, i) => (
-                  <CarouselItem key={i}>
-                    <div className="aspect-video relative">
-                      <Image src={img} alt={`Look ${i}`} fill className="object-cover" />
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* COLLAB TIMELINE */}
-      <Reveal>
-        <section className="py-20 px-6">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-5xl font-black mb-12">COLLAB TIMELINE</h2>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {collabs.map((collab, i) => (
-                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} className="p-6 bg-black border border-[#ffd700] text-center">
-                  <Avatar className="mx-auto mb-4 w-16 h-16 border-2 border-[#ffd700]">
-                    <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${collab.avatar}`} />
-                    <AvatarFallback>{collab.avatar}</AvatarFallback>
-                  </Avatar>
-                  <h3 className="font-black text-lg text-[#ffd700]">{collab.artist}</h3>
-                  <p className="text-sm text-gray-400 mt-2">{collab.date}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* STATS COUNTER */}
-      <Reveal>
-        <section className="py-20 px-6 bg-[#1a1a1a]">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              {[
-                { label: "COMMUNITY", value: 250000 },
-                { label: "DROPS", value: 12 },
-                { label: "COUNTRIES", value: 40 },
-                { label: "RATING", value: 4.9, suffix: "★" },
-              ].map((stat, i) => (
-                <Reveal key={i} delay={i * 0.1}>
-                  <div>
-                    <div className="text-4xl font-black text-[#ffd700]"><Counter target={stat.value} suffix={stat.suffix} /></div>
-                    <p className="text-gray-400 text-sm mt-2">{stat.label}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* TESTIMONIALS */}
-      <Reveal>
-        <section className="py-20 px-6">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-5xl font-black mb-12">COMMUNITY LOVE</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {testimonials.map((testi, i) => (
-                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} className="p-8 bg-black border border-[#ffd700]">
-                  <p className="text-lg mb-6 italic">"{testi.text}"</p>
-                  <div className="flex items-center gap-3">
-                    <Avatar>
-                      <AvatarFallback className="bg-[#ffd700] text-black font-black">{testi.avatar}</AvatarFallback>
-                    </Avatar>
-                    <span className="font-black">{testi.author}</span>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* FAQ */}
-      <Reveal>
-        <section className="py-20 px-6 bg-[#1a1a1a]">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-5xl font-black mb-12">FAQS</h2>
-            <Accordion type="single" collapsible className="w-full">
-              {[
-                { q: "What sizes do you carry?", a: "We offer XS to XXL in most items. Check product details for specific sizes." },
-                { q: "How fast is shipping?", a: "Standard shipping is 5-7 days. Express shipping available at checkout." },
-                { q: "What's your return policy?", a: "30-day returns on all unworn items with original tags." },
-              ].map((faq, i) => (
-                <AccordionItem key={i} value={`item-${i}`} className="border-[#ffd700]">
-                  <AccordionTrigger className="text-lg font-black hover:text-[#ffd700]">{faq.q}</AccordionTrigger>
-                  <AccordionContent className="text-gray-400">{faq.a}</AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* EARLY ACCESS CTA */}
-      <section className="py-20 px-6 text-center bg-gradient-to-b from-black to-[#1a1a1a]">
-        <h2 className="text-5xl font-black mb-6">GET EARLY ACCESS</h2>
-        <p className="text-gray-400 mb-8">Join our VIP list for drops before they go public.</p>
-        <MagneticBtn onClick={() => setShowEarlyAccess(true)} className="px-8 py-4 bg-[#ffd700] text-black font-black text-lg hover:bg-white transition rounded">
-          SIGN UP NOW
-        </MagneticBtn>
-        <Dialog open={showEarlyAccess} onOpenChange={setShowEarlyAccess}>
-          <DialogContent className="bg-black border-2 border-[#ffd700]">
-            <DialogHeader>
-              <DialogTitle className="text-[#ffd700] text-2xl">EARLY ACCESS</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <input type="email" placeholder="your@email.com" className="w-full p-3 bg-[#1a1a1a] border border-[#ffd700] text-white placeholder-gray-600" />
-              <button className="w-full py-3 bg-[#ffd700] text-black font-black hover:bg-white transition">SUBSCRIBE</button>
-            </div>
-          </DialogContent>
-        </Dialog>
+        </div>
       </section>
+
+      {/* ── BATCH MONITOR (Data Visualization) ── */}
+      <section className="py-40 bg-[#050806]">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-center">
+            <div className="lg:col-span-6">
+              <Reveal>
+                <div className="relative aspect-video bg-[#0a0f0a] border border-white/5 rounded-2xl overflow-hidden p-8 group">
+                  <div className="absolute top-6 left-6 text-[8px] font-bold text-white/20 tracking-widest uppercase">
+                    BIOREACTOR_ALPHA_STREAM
+                  </div>
+                  {/* Cellular Growth Visualization */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-30">
+                    <div className="relative w-full h-full">
+                      {[...Array(30)].map((_, i) => (
+                        <motion.div
+                          key={i}
+                          animate={{
+                            x: [Math.random() * 400, Math.random() * 400],
+                            y: [Math.random() * 200, Math.random() * 200],
+                            scale: [1, 1.2, 1],
+                            opacity: [0.1, 0.4, 0.1],
+                          }}
+                          transition={{
+                            duration: 10 + Math.random() * 10,
+                            repeat: Infinity,
+                            repeatType: "reverse",
+                          }}
+                          className="absolute w-4 h-4 bg-[#00ff88]/20 rounded-full blur-sm"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center text-[8px] font-bold text-white/20 tracking-widest uppercase">
+                    <div className="flex gap-10">
+                      <span>PH: 7.24</span>
+                      <span>TEMP: 37.0°C</span>
+                    </div>
+                    <div className="text-[#00ff88]">METABOLIC_LOCK</div>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+
+            <div className="lg:col-span-6">
+              <Reveal>
+                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#00ff88] mb-6 block">
+                  Active_Incubation
+                </span>
+                <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-12 uppercase">
+                  Batch <br />{" "}
+                  <span className="text-white/20">Logistics.</span>
+                </h2>
+                <div className="space-y-8">
+                  {SYNTH_MANIFESTS.batches.map((batch, i) => (
+                    <div
+                      key={i}
+                      className="group flex flex-col md:flex-row justify-between items-center p-8 bg-white/2 border border-white/5 hover:border-[#00ff88]/30 transition-all"
+                    >
+                      <div className="flex items-center gap-10 mb-6 md:mb-0">
+                        <div className="text-2xl font-black uppercase tracking-tighter">
+                          {batch.id}
+                        </div>
+                        <div className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
+                          {batch.material}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-12 text-[10px] font-bold uppercase tracking-widest">
+                        <div className="flex items-center gap-3">
+                          <Droplets className="w-4 h-4 text-[#00ff88]" />
+                          <span className="text-white/40">YIELD:</span>
+                          <span>{batch.yield}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div
+                            className={`w-1.5 h-1.5 rounded-full ${batch.status === "Harvesting" ? "bg-green-500 animate-pulse" : "bg-yellow-500"}`}
+                          />
+                          <span className="text-white/40">STATUS:</span>
+                          <span className={batch.status === "Harvesting" ? "text-green-500" : ""}>{batch.status}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SUSTAINABILITY METRICS ── */}
+      <section className="py-40 bg-[#0a0f0a] border-y border-white/5 text-center overflow-hidden">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 relative">
+          <Reveal>
+            <h2 className="text-7xl md:text-[12rem] font-black tracking-tighter uppercase leading-[0.85] mb-12 text-white/5">
+              Net <br /> Zero.
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-16 mt-24">
+              {[
+                { label: "CARBON_SEQ", val: "100%" },
+                { label: "WASTE_REDUCTION", val: "94.2%" },
+                { label: "WATER_SAVINGS", val: "820kL" },
+                { label: "BIO_HAZARD_LVL", val: "ZERO" },
+              ].map((s, i) => (
+                <div key={i} className="group">
+                  <div className="text-5xl font-black text-white mb-4 group-hover:text-[#00ff88] transition-colors">
+                    {s.val}
+                  </div>
+                  <div className="text-[10px] font-black text-white/20 uppercase tracking-widest">
+                    {s.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── CTA / INITIALIZE ── */}
+      <section className="py-40 bg-[#050806]">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 text-center">
+          <Reveal>
+            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">
+              Unlock <br />{" "}
+              <span className="text-[#00ff88]">Growth.</span>
+            </h2>
+            <p className="max-w-2xl mx-auto text-sm text-white/40 leading-relaxed font-light mb-16 uppercase tracking-widest italic">
+              The future is grown, not extracted. Initialize your synthetic biology and bio-manufacturing strategy today with Synth Cell Systems.
+            </p>
+            <MagneticBtn className="px-16 py-6 bg-white text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[#00ff88] transition-all shadow-[0_0_60px_rgba(0,255,136,0.15)]">
+              Initialize_Batch_Alpha
+            </MagneticBtn>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-[#050806] border-t border-white/5 py-32 px-6 md:px-12">
+        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
+          <div className="col-span-1 md:col-span-2">
+            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10">
+              <div className="w-8 h-8 bg-white text-black rounded-full flex items-center justify-center">
+                <FlaskConical className="w-5 h-5" />
+              </div>
+              <span>SYNTH // CELL</span>
+            </Link>
+            <p className="text-[11px] text-white/20 uppercase tracking-[0.2em] max-w-sm leading-relaxed mb-16 italic">
+              Engineering the biological foundation for the next century of sustainable manufacturing and health.
+            </p>
+            <div className="flex gap-8">
+              {[Dna, Microscope, TestTube].map((Icon, i) => (
+                <button key={i} className="text-white/20 hover:text-[#00ff88] transition-colors">
+                  <Icon className="w-5 h-5" />
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#00ff88]">Platforms</h4>
+            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+              <li className="hover:text-white transition-colors"><Link href="#">Mycelium_Units</Link></li>
+              <li className="hover:text-white transition-colors"><Link href="#">Protein_Forge</Link></li>
+              <li className="hover:text-white transition-colors"><Link href="#">Tissue_Mesh</Link></li>
+              <li className="hover:text-white transition-colors"><Link href="#">Incubation_SLA</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#00ff88]">Telemetry</h4>
+            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+              <li className="hover:text-white transition-colors"><Link href="#">Live_Biometrics</Link></li>
+              <li className="hover:text-white transition-colors"><Link href="#">Batch_Tracking</Link></li>
+              <li className="hover:text-white transition-colors"><Link href="#">API_Access</Link></li>
+              <li className="hover:text-white transition-colors"><Link href="#">Security_Logs</Link></li>
+            </ul>
+          </div>
+        </div>
+        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[9px] font-bold text-white/10 uppercase tracking-widest">
+          <div className="flex items-center gap-10">
+            <span>&copy; 2026 SYNTH CELL BIOSYSTEMS. ALL RIGHTS RESERVED.</span>
+            <div className="flex gap-10 hidden lg:flex">
+              <span>FDA_COMPLIANT</span>
+              <span>ISO_9001_CERTIFIED</span>
+            </div>
+          </div>
+          <div className="flex gap-10 font-mono">
+            <span>METABOLIC_STABLE</span>
+            <span>CELL_SYNC_COMPLETE</span>
+          </div>
+        </div>
+      </footer>
     </div>
-  )
+  );
 }

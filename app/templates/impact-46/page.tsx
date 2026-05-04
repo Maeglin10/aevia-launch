@@ -1,321 +1,466 @@
 "use client";
 
-import { motion, useScroll, useTransform, AnimatePresence, useInView, useMotionValue, useSpring } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
-import { ArrowRight, X, ChevronDown, Camera, Aperture, Sun, Zap, Eye, Award, Star, ShoppingCart } from "lucide-react";
+import { 
+  ArrowUpRight, 
+  Menu, 
+  X, 
+  Layers, 
+  ShieldCheck,
+  Plus,
+  Play,
+  ArrowRight,
+  ChevronDown,
+  Monitor,
+  LayoutGrid,
+  Zap,
+  Activity,
+  Ruler,
+  Wind,
+  Command,
+  Sparkles,
+  Box,
+  Eye,
+  Maximize2,
+  Minimize2,
+  Cpu,
+  Database,
+  Terminal,
+  Unplug
+} from "lucide-react";
+import "../premium.css";
 
-const PRODUCTS = [
-  { id: "p1", name: "APEX PRO X1", type: "Mirrorless Full-Frame", sensor: "61MP BSI-CMOS", iso: "50–819200", price: "$4,299", badge: "NEW", image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&q=80", color: "#f59e0b" },
-  { id: "p2", name: "SWIFT 8K", type: "Cinema Camera", sensor: "8K S35 CMOS", iso: "320–102400", price: "$7,999", badge: "PRO", image: "https://images.unsplash.com/photo-1584824486509-112e4181ff6b?w=800&q=80", color: "#818cf8" },
-  { id: "p3", name: "OPTIC 45", type: "APS-C Compact", sensor: "45MP APS-C", iso: "100–204800", price: "$1,899", badge: "POPULAR", image: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&q=80", color: "#34d399" },
-  { id: "p4", name: "LENS PRO 85/1.2", type: "Prime Lens", sensor: "85mm f/1.2", iso: "—", price: "$2,499", badge: "AWARD", image: "https://images.unsplash.com/photo-1617297337000-5e3f5e8a4e2b?w=800&q=80", color: "#f43f5e" },
-  { id: "p5", name: "WIDE 14/2.8", type: "Ultra-Wide Lens", sensor: "14mm f/2.8", iso: "—", price: "$1,249", badge: "", image: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800&q=80", color: "#0ea5e9" },
-  { id: "p6", name: "TELE 400/2.8", type: "Super Telephoto", sensor: "400mm f/2.8", iso: "—", price: "$9,999", badge: "FLAGSHIP", image: "https://images.unsplash.com/photo-1480365501497-199581be0e66?w=800&q=80", color: "#e879f9" },
+// ─── DATA ──────────────────────────────────────────────────────────────────
+
+const CORE_MANIFESTS = [
+  { 
+    id: "COR_01",
+    title: "GLITCH_SYNTAX", 
+    category: "System Error",
+    status: "CRITICAL_OVR",
+    img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1200&q=80",
+    desc: "A high-fidelity study of absolute glitch volume within the spatial environment. Zero-latency system synthesis."
+  },
+  { 
+    id: "COR_02",
+    title: "NODE_BREACH", 
+    category: "Data Leak",
+    status: "UNSTABLE_X",
+    img: "https://images.unsplash.com/photo-1584824486509-112e4181ff6b?w=1200&q=80",
+    desc: "Planetary-scale distributed leaks orchestrated through neural weight synthesis. High-fidelity system routing."
+  },
+  { 
+    id: "COR_03",
+    title: "VOID_KERNEL", 
+    category: "Kernel Panic",
+    status: "ZERO_VOID",
+    img: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=1200&q=80",
+    desc: "A zero-latency kernel engine built for the real-time synthesis of non-standard glitch artifacts through radical weight injection."
+  }
 ];
 
-const GALLERY = [
-  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80",
-  "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&q=80",
-  "https://images.unsplash.com/photo-1488161628813-04466f872be2?w=800&q=80",
-  "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800&q=80",
-  "https://images.unsplash.com/photo-1520974735901-4c913e2d6c91?w=800&q=80",
-  "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=800&q=80",
+const METRICS = [
+  { label: "Corruption", val: "99.9%", desc: "Absolute architectural synchronization across all distributed glitch edge nodes." },
+  { label: "Entropy", val: "12 EB/s", desc: "Sustainable visual delivery through our dedicated high-fidelity glitch backbone." },
+  { label: "Reliability", val: "IMMUNE", desc: "Zero-leak system logic verified through continuous adversarial stress-testing." }
 ];
 
-const AWARDS = [
-  { org: "TIPA", year: "2025", title: "Camera of the Year" },
-  { org: "EISA", year: "2025", title: "Best Innovation" },
-  { org: "DPREVIEW", year: "2024", title: "Gold Award" },
-  { org: "IMAGING RESOURCE", year: "2024", title: "Editors' Choice" },
+const CAPABILITIES = [
+  { icon: Terminal, title: "Syntax Forge", desc: "Engineering glitch volumes through a lens of mathematical and structural purity." },
+  { icon: Unplug, title: "Breach Logic", desc: "Scaling viewer interactions through distributed focal orchestration and visual synthesis." },
+  { icon: Activity, title: "Pulse Sync", desc: "Synchronizing system spikes with real-time biological demand cycles for absolute sync." },
+  { icon: Box, title: "System Shell", desc: "Leveraging heavy archival data fabrication for ultra-high fidelity glitch protection." }
 ];
 
-function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+// ─── COMPONENTS ──────────────────────────────────────────────────────────────
+
+function Reveal({ children, className = "", delay = 0, y = 30 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-100px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 36 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }} className={className}>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.23, 1, 0.32, 1] }}
+      className={className}
+    >
       {children}
     </motion.div>
   );
 }
 
-function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
-  useEffect(() => {
-    if (!inView) return;
-    let n = 0; const step = Math.max(1, Math.ceil(target / 55));
-    const t = setInterval(() => { n += step; if (n >= target) { setCount(target); clearInterval(t); } else setCount(n); }, 24);
-    return () => clearInterval(t);
-  }, [inView, target]);
-  return <span ref={ref}>{count}{suffix}</span>;
-}
+// ─── MAIN SPA ────────────────────────────────────────────────────────────────
 
-function MagneticBtn({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const x = useMotionValue(0); const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 200, damping: 20 });
-  const sy = useSpring(y, { stiffness: 200, damping: 20 });
-  return (
-    <motion.a ref={ref} style={{ x: sx, y: sy }} onMouseMove={e => { const r = ref.current!.getBoundingClientRect(); x.set((e.clientX - r.left - r.width / 2) * 0.35); y.set((e.clientY - r.top - r.height / 2) * 0.35); }} onMouseLeave={() => { x.set(0); y.set(0); }} href="#" className={className}>{children}</motion.a>
-  );
-}
-
-export default function EliteOpticsSPA() {
-  const [activeProduct, setActiveProduct] = useState<typeof PRODUCTS[0] | null>(null);
-  const [galleryIdx, setGalleryIdx] = useState<number | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [cartFlash, setCartFlash] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [activeCategory, setActiveCategory] = useState("All");
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 160]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-
-  const categories = ["All", "Cameras", "Lenses"];
-  const filtered = activeCategory === "All" ? PRODUCTS : activeCategory === "Cameras" ? PRODUCTS.filter(p => p.iso !== "—") : PRODUCTS.filter(p => p.iso === "—");
-
-  const faqs = [
-    { q: "Do you offer sensor cleaning?", a: "Yes — included free for the first year, then available as a paid service. Certified technicians only, 48h turnaround." },
-    { q: "What's the warranty period?", a: "2 years full warranty on all cameras and lenses. Extended 5-year protection available at checkout." },
-    { q: "Can I try before I buy?", a: "Authorised dealers offer 7-day loan programs. Check the dealer locator for your nearest participating store." },
-    { q: "Do you offer student/professional discounts?", a: "NPS (Nikon Professional Services) and NPS equivalent programs available. 15% off for verified professionals and educators." },
-  ];
+export default function GlitchCoreSPA() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeCor, setActiveCor] = useState(0);
+  const { scrollY } = useScroll();
+  
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const heroScale = useTransform(scrollY, [0, 800], [1, 1.05]);
 
   return (
-    <div className="min-h-screen bg-[#f4f2ee] text-[#1a1612]" style={{ fontFamily: "'Helvetica Neue', sans-serif" }}>
-      {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-8 py-5 flex items-center justify-between bg-[#f4f2ee]/90 backdrop-blur-lg border-b border-black/5">
-        <div className="flex items-center gap-2">
-          <Aperture size={20} className="text-[#f59e0b]" />
-          <span className="text-sm font-black tracking-[0.15em] uppercase">OPTICX</span>
-        </div>
-        <div className="hidden md:flex gap-8 text-[10px] tracking-[0.2em] uppercase opacity-50">
-          {["Cameras", "Lenses", "Accessories", "Software", "Dealers"].map(l => (
-            <a key={l} href="#" className="hover:opacity-100 transition-opacity">{l}</a>
-          ))}
-        </div>
-        <div className="hidden md:flex items-center gap-4">
-          <MagneticBtn className="flex items-center gap-2 px-5 py-2 bg-[#1a1612] text-white text-xs font-black tracking-widest uppercase hover:bg-[#f59e0b] hover:text-[#1a1612] transition-colors">
-            <ShoppingCart size={12} /> Shop Now
-          </MagneticBtn>
-        </div>
-        <button onClick={() => setMobileOpen(true)} className="md:hidden">{[0,1,2].map(i => <span key={i} className="block w-5 h-px bg-[#1a1612] mb-1.5" />)}</button>
-      </nav>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }} className="fixed inset-0 z-[100] bg-[#1a1612] text-white flex flex-col p-10">
-            <button onClick={() => setMobileOpen(false)} className="self-end mb-12 text-white"><X size={24} /></button>
-            {["Cameras", "Lenses", "Accessories", "Software", "Dealers"].map((l, i) => (
-              <motion.a key={l} href="#" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }} className="text-4xl font-black mb-6 uppercase tracking-wider hover:text-[#f59e0b] transition-colors" onClick={() => setMobileOpen(false)}>{l}</motion.a>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Hero */}
-      <section ref={heroRef} className="relative h-screen flex items-end overflow-hidden">
-        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0">
-          <Image src="https://images.unsplash.com/photo-1629236?w=800&q=80" alt="camera hero" fill unoptimized className="object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#f4f2ee] via-transparent to-transparent" />
-        </motion.div>
-        <div className="relative z-10 px-8 md:px-16 pb-16">
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="text-[10px] tracking-[0.3em] uppercase mb-4 opacity-50">
-            Introducing — APEX PRO X1
-          </motion.p>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.15 }} className="text-5xl md:text-9xl font-black leading-none tracking-tight mb-6">
-            SEE<br /><span className="text-[#f59e0b]">EVERYTHING</span>
-          </motion.h1>
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="flex gap-4 flex-wrap">
-            <a href="#" onClick={e => { e.preventDefault(); setActiveProduct(PRODUCTS[0]); }} className="px-8 py-4 bg-[#1a1612] text-white font-black text-xs tracking-widest uppercase hover:bg-[#f59e0b] hover:text-[#1a1612] transition-colors">
-              Discover APEX PRO X1
-            </a>
-            <a href="#" className="px-8 py-4 border border-[#1a1612]/20 text-xs tracking-widest uppercase hover:bg-[#1a1612]/5 transition-colors">
-              Compare All Models
-            </a>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Awards */}
-      <div className="border-y border-black/5 py-5 overflow-hidden bg-[#1a1612]">
-        <motion.div animate={{ x: [0, -2400] }} transition={{ repeat: Infinity, duration: 28, ease: "linear" }} className="flex gap-16 whitespace-nowrap">
-          {Array(8).fill(0).map((_, i) => AWARDS.map(a => (
-            <span key={`${i}-${a.org}`} className="flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase text-white/40">
-              <Star size={10} className="text-[#f59e0b]" fill="#f59e0b" /> {a.org} {a.year} · {a.title} ·
-            </span>
-          )))}
-        </motion.div>
+    <div className="min-h-screen bg-[#050508] text-[#eee] font-mono selection:bg-[#eee] selection:text-black">
+      
+      {/* ── GLITCH OVERLAY ── */}
+      <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.08] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div className="fixed inset-0 z-[0] opacity-10 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
       </div>
 
-      {/* Products */}
-      <section className="py-24 px-6 max-w-7xl mx-auto">
-        <Reveal className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <div>
-            <h2 className="text-3xl font-black tracking-tight mb-2">The Collection</h2>
-            <p className="text-sm opacity-50">Precision engineering. Uncompromising optics.</p>
-          </div>
-          <div className="flex gap-2">
-            {categories.map(c => (
-              <button key={c} onClick={() => setActiveCategory(c)} className="px-4 py-2 text-xs font-bold tracking-widest uppercase transition-colors" style={{ background: activeCategory === c ? "#1a1612" : "transparent", color: activeCategory === c ? "white" : "inherit", border: "1px solid", borderColor: activeCategory === c ? "#1a1612" : "rgba(0,0,0,0.15)" }}>
-                {c}
-              </button>
-            ))}
-          </div>
-        </Reveal>
-        <div className="grid md:grid-cols-3 gap-6">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((p, i) => (
-              <Reveal key={p.id} delay={i * 0.07}>
-                <motion.div layout whileHover={{ y: -6 }} onClick={() => setActiveProduct(p)} className="cursor-pointer group bg-white">
-                  <div className="relative overflow-hidden" style={{ aspectRatio: "4/3" }}>
-                    <Image src={p.image} alt={p.name} fill unoptimized className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                    {p.badge && (
-                      <div className="absolute top-3 left-3 bg-[#f59e0b] text-[#1a1612] text-[9px] font-black px-2 py-1 tracking-widest">{p.badge}</div>
-                    )}
-                    <div className="absolute inset-0 bg-[#1a1612]/0 group-hover:bg-[#1a1612]/30 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                      <span className="border border-white text-white text-[10px] px-4 py-2 tracking-widest uppercase">Quick View</span>
-                    </div>
-                  </div>
-                  <div className="p-5">
-                    <div className="text-[10px] opacity-40 tracking-wider mb-1">{p.type}</div>
-                    <h3 className="text-base font-black mb-3">{p.name}</h3>
-                    <div className="flex items-center justify-between">
-                      <span className="text-lg font-black text-[#f59e0b]">{p.price}</span>
-                      <button onClick={e => { e.stopPropagation(); setCartFlash(true); setTimeout(() => setCartFlash(false), 800); }} className="flex items-center gap-2 text-xs font-bold tracking-widest uppercase border border-[#1a1612]/20 px-3 py-2 hover:bg-[#1a1612] hover:text-white transition-colors">
-                        <ShoppingCart size={12} /> Add
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              </Reveal>
-            ))}
-          </AnimatePresence>
+      {/* ── NAVIGATION ── */}
+      <motion.nav 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-16 py-10 mix-blend-difference"
+      >
+        <div className="flex items-center gap-4">
+          <Terminal className="w-10 h-10 text-white" />
+          <span className="text-2xl font-black tracking-tighter uppercase italic text-white">GLITCH<span className="text-white/30">//</span>CORE</span>
         </div>
-      </section>
-
-      {/* Gallery */}
-      <section className="py-8 px-6 max-w-7xl mx-auto">
-        <Reveal><h2 className="text-2xl font-black tracking-tight mb-12">Shot on OPTICX</h2></Reveal>
-        <div className="grid grid-cols-3 gap-2">
-          {GALLERY.map((img, i) => (
-            <Reveal key={i} delay={i * 0.06}>
-              <motion.div whileHover={{ scale: 1.02 }} onClick={() => setGalleryIdx(i)} className="relative overflow-hidden cursor-pointer" style={{ aspectRatio: i % 2 === 0 ? "1/1" : "4/3" }}>
-                <Image src={img} alt={`shot ${i}`} fill unoptimized className="object-cover" />
-                <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-colors" />
-              </motion.div>
-            </Reveal>
+        
+        <div className="hidden lg:flex items-center gap-16 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
+          {["Manifest", "Reserve", "Atelier", "Portal"].map(item => (
+            <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors">/{item}</a>
           ))}
         </div>
-      </section>
 
-      {/* Stats */}
-      <section className="py-24 px-6 bg-[#1a1612] text-white">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10">
-          {[{ label: "Years of Innovation", value: 60, suffix: "+" }, { label: "Pro Users Worldwide", value: 2, suffix: "M+" }, { label: "Patents Held", value: 1400, suffix: "+" }, { label: "Industry Awards", value: 280, suffix: "+" }].map((s, i) => (
-            <Reveal key={s.label} delay={i * 0.1} className="text-center">
-              <div className="text-4xl font-black mb-2 text-[#f59e0b]"><Counter target={s.value} suffix={s.suffix} /></div>
-              <div className="text-[9px] tracking-[0.2em] uppercase opacity-30">{s.label}</div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
+        <button 
+          onClick={() => setMenuOpen(true)}
+          className="px-6 py-2 border border-white/20 bg-white/5 backdrop-blur-md text-[10px] font-black uppercase tracking-widest hover:bg-white/20 transition-all text-white"
+        >
+          [INIT_GLITCH]
+        </button>
+      </motion.nav>
 
-      {/* FAQ */}
-      <section className="py-24 px-6 max-w-2xl mx-auto">
-        <Reveal><h2 className="text-2xl font-black tracking-tight mb-12">FAQ</h2></Reveal>
-        {faqs.map((f, i) => (
-          <Reveal key={i} delay={i * 0.05}>
-            <div className="border-b border-black/10">
-              <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full text-left py-5 flex items-center justify-between text-sm font-bold">
-                {f.q} <motion.span animate={{ rotate: openFaq === i ? 180 : 0 }}><ChevronDown size={16} /></motion.span>
+      {/* ── MOBILE MENU ── */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+            className="fixed inset-0 z-[60] bg-[#050508] text-[#eee] p-12 flex flex-col justify-between"
+          >
+            <div className="flex justify-between items-center border-b border-white/10 pb-12">
+              <span className="text-xl font-black uppercase tracking-tighter italic">GLITCH//CORE</span>
+              <button onClick={() => setMenuOpen(false)} className="w-12 h-12 flex items-center justify-center border border-white/20 rounded-full">
+                <X className="w-6 h-6" />
               </button>
-              <AnimatePresence>
-                {openFaq === i && (
-                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                    <p className="pb-5 text-sm opacity-60 leading-relaxed">{f.a}</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+            </div>
+            <div className="flex flex-col gap-12 text-center md:text-left">
+              {["CORE_MANIFEST", "SYSTEM_ARCHIVE", "GLITCH_FORGE", "ASSET_ENCLAVE", "SECURE_AUTH"].map((item, i) => (
+                <motion.a 
+                  key={item}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 + 0.3 }}
+                  href="#"
+                  className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter hover:text-white/40 transition-all leading-none"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item}
+                </motion.a>
+              ))}
+            </div>
+            <div className="flex justify-between text-[10px] font-bold uppercase tracking-[0.5em] border-t border-white/10 pt-12 text-white/30">
+              <span>GLITCH_PRACTICE</span>
+              <span>EST. 2018 // BERLIN</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── HERO SECTION ── */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
+        <motion.div 
+          style={{ opacity: heroOpacity, scale: heroScale }}
+          className="absolute inset-0 z-0"
+        >
+          <Image 
+            src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1600&q=80" 
+            alt="Hero Glitch" 
+            fill 
+            className="object-cover grayscale brightness-50 contrast-125 opacity-20" 
+            unoptimized 
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050508]" />
+        </motion.div>
+
+        <div className="relative z-10 text-center px-6">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[2.5em] text-white/40 mb-12 block italic">System Endurance</span>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <h1 className="text-8xl md:text-[18rem] font-black tracking-tighter leading-[0.75] uppercase italic text-white mb-20">
+              RAW <br/> <span className="not-italic text-white/10">CORE.</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.4}>
+            <div className="max-w-2xl mx-auto flex flex-col items-center gap-16 border-t border-white/10 pt-20">
+              <p className="text-white/40 text-xl leading-relaxed font-light uppercase tracking-[0.3em] italic leading-loose text-center">
+                Engineering the ultimate system archives through distributed glitch orchestration. High-fidelity systems built for absolute structural precision and narrative clarity.
+              </p>
+              <div className="flex gap-8">
+                <button className="px-16 py-6 bg-white text-black font-black uppercase text-xs tracking-[0.4em] hover:bg-black hover:text-white transition-all">
+                  Manifest_Access
+                </button>
+                <button className="px-16 py-6 border border-white/20 text-white font-black uppercase text-xs tracking-[0.4em] hover:bg-white/5 transition-colors">
+                  Atelier_Dossier
+                </button>
+              </div>
             </div>
           </Reveal>
-        ))}
+        </div>
+
+        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">
+          <div className="flex flex-col gap-2">
+            <span>BERLIN // ATELIER</span>
+            <div className="w-48 h-[1px] bg-white/10" />
+          </div>
+          <div className="flex items-center gap-4 italic uppercase tracking-widest">
+             <span className="animate-pulse">●</span> SYSTEM_STATUS: NOMINAL
+          </div>
+        </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-32 px-6 text-center bg-[#1a1612] text-white">
-        <Reveal><h2 className="text-5xl md:text-7xl font-black tracking-tight mb-4 leading-none">CAPTURE<br /><span className="text-[#f59e0b]">THE MOMENT</span></h2></Reveal>
-        <Reveal delay={0.2}><p className="text-sm opacity-40 mb-10 max-w-md mx-auto">Free shipping on all orders over $500. 30-day returns. 2-year warranty standard.</p></Reveal>
-        <Reveal delay={0.3}>
-          <MagneticBtn className="inline-flex items-center gap-3 px-10 py-5 bg-[#f59e0b] text-[#1a1612] font-black text-xs tracking-[0.2em] uppercase">
-            Shop All Cameras <ArrowRight size={14} />
-          </MagneticBtn>
-        </Reveal>
+      {/* ── METRICS GRID ── */}
+      <section className="py-40 bg-[#0a0a0d]">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-white/5 border border-white/5">
+            {METRICS.map((s, i) => (
+              <Reveal key={s.label} delay={i * 0.1} className="bg-[#050508] p-24 group hover:bg-white/5 transition-all duration-700">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 mb-12 block group-hover:text-white/60">{s.label}</span>
+                <h3 className="text-7xl font-black italic text-white mb-8 group-hover:text-white transition-colors">{s.val}</h3>
+                <p className="text-xs text-white/30 font-light tracking-widest uppercase italic leading-loose group-hover:text-white/60">
+                  {s.desc}
+                </p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/10 bg-[#1a1612] text-white py-12 px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] opacity-30 tracking-wider uppercase">
-        <span>OPTICX © 2026</span>
-        <div className="flex gap-8">{["Instagram", "YouTube", "Dealers", "Support"].map(l => <a key={l} href="#" className="hover:opacity-100 transition-opacity">{l}</a>)}</div>
-      </footer>
-
-      {/* Cart flash */}
-      <AnimatePresence>
-        {cartFlash && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-[#1a1612] text-white text-xs font-bold tracking-widest uppercase px-6 py-3 z-[300] flex items-center gap-2">
-            <ShoppingCart size={14} className="text-[#f59e0b]" /> Added to cart
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Product Modal */}
-      <AnimatePresence>
-        {activeProduct && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/60 flex items-center justify-center p-6" onClick={() => setActiveProduct(null)}>
-            <motion.div initial={{ scale: 0.92, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.92, opacity: 0 }} onClick={e => e.stopPropagation()} className="bg-[#f4f2ee] max-w-2xl w-full overflow-hidden flex flex-col md:flex-row">
-              <div className="relative md:w-1/2" style={{ aspectRatio: "1/1" }}>
-                <Image src={activeProduct.image} alt={activeProduct.name} fill unoptimized className="object-cover" />
-                {activeProduct.badge && <div className="absolute top-3 left-3 bg-[#f59e0b] text-[#1a1612] text-[9px] font-black px-2 py-1">{activeProduct.badge}</div>}
-              </div>
-              <div className="p-6 flex-1">
-                <button onClick={() => setActiveProduct(null)} className="float-right mb-4 opacity-40 hover:opacity-100"><X size={18} /></button>
-                <div className="clear-right">
-                  <div className="text-[10px] opacity-40 tracking-wider mb-1">{activeProduct.type}</div>
-                  <h3 className="text-2xl font-black mb-4">{activeProduct.name}</h3>
-                  <div className="space-y-2 text-xs mb-6">
-                    <div className="flex justify-between border-b border-black/5 py-2"><span className="opacity-40">Sensor</span><span className="font-bold">{activeProduct.sensor}</span></div>
-                    <div className="flex justify-between border-b border-black/5 py-2"><span className="opacity-40">ISO Range</span><span className="font-bold">{activeProduct.iso}</span></div>
+      {/* CORE SHOWCASE ── */}
+      <section className="py-40 bg-black relative overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32">
+             <div className="flex flex-col lg:flex-row justify-between items-end gap-12 border-b border-white/10 pb-12">
+               <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-white">
+                 Core <br/> <span className="text-white/20 not-italic">Archive.</span>
+               </h2>
+               <div className="text-right">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/20 mb-4 block italic">Manifest_Sequence_2024</span>
+                  <div className="flex gap-4">
+                    {CORE_MANIFESTS.map((_, i) => (
+                      <button 
+                        key={i} 
+                        onClick={() => setActiveCor(i)}
+                        className={`w-16 h-1 transition-all ${activeCor === i ? "bg-white w-32" : "bg-white/10"}`}
+                      />
+                    ))}
                   </div>
-                  <div className="text-2xl font-black text-[#f59e0b] mb-4">{activeProduct.price}</div>
-                  <button onClick={() => { setCartFlash(true); setActiveProduct(null); setTimeout(() => setCartFlash(false), 800); }} className="w-full py-3 bg-[#1a1612] text-white font-black text-xs tracking-widest uppercase hover:bg-[#f59e0b] hover:text-[#1a1612] transition-colors">
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+               </div>
+             </div>
+          </Reveal>
 
-      {/* Gallery Lightbox */}
-      <AnimatePresence>
-        {galleryIdx !== null && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center p-6" onClick={() => setGalleryIdx(null)}>
-            <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }} onClick={e => e.stopPropagation()} className="relative w-full max-w-4xl" style={{ aspectRatio: "16/9" }}>
-              <Image src={GALLERY[galleryIdx]} alt="shot" fill unoptimized className="object-contain" />
-              <button onClick={() => setGalleryIdx(null)} className="absolute -top-10 right-0 text-white opacity-60 hover:opacity-100"><X size={20} /></button>
-              <div className="absolute -bottom-8 left-0 right-0 flex justify-center gap-2">
-                {GALLERY.map((_, i) => <button key={i} onClick={e => { e.stopPropagation(); setGalleryIdx(i); }} className="w-4 h-1 transition-all" style={{ background: i === galleryIdx ? "white" : "rgba(255,255,255,0.2)" }} />)}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
+            <div className="lg:col-span-8 relative aspect-video rounded-sm overflow-hidden border border-white/5 group bg-[#111]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeCor}
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.1 }}
+                  transition={{ duration: 1, ease: [0.19, 1, 0.22, 1] }}
+                  className="absolute inset-0"
+                >
+                  <Image src={CORE_MANIFESTS[activeCor].img} alt={CORE_MANIFESTS[activeCor].title} fill className="object-cover grayscale contrast-125 opacity-40 group-hover:opacity-60 transition-opacity duration-1000" unoptimized />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
+                </motion.div>
+              </AnimatePresence>
+              <div className="absolute bottom-12 left-12 flex flex-col gap-4">
+                 <span className="text-[10px] font-black uppercase tracking-widest bg-white/10 backdrop-blur-md text-white px-6 py-2 border border-white/5">{CORE_MANIFESTS[activeCor].status} // ADVISORY</span>
               </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </div>
+
+            <div className="lg:col-span-4 space-y-12">
+               <motion.div
+                  key={activeCor}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="space-y-12"
+               >
+                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40">{CORE_MANIFESTS[activeCor].id} // ASSET</span>
+                 <h3 className="text-6xl md:text-8xl font-black italic uppercase text-white tracking-tighter">{CORE_MANIFESTS[activeCor].title}</h3>
+                 <div className="space-y-6 border-y border-white/10 py-12">
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Category</span>
+                       <span className="text-sm font-black text-white uppercase tracking-widest">{CORE_MANIFESTS[activeCor].category}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Core_Status</span>
+                       <span className="text-sm font-black text-white uppercase tracking-widest italic">STABLE_OPTIC</span>
+                    </div>
+                 </div>
+                 <p className="text-white/30 text-lg font-light italic leading-loose uppercase tracking-wide">
+                   {CORE_MANIFESTS[activeCor].desc}
+                 </p>
+                 <button className="flex items-center gap-6 group">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.8em] text-white">Request_Manifest</span>
+                    <div className="w-16 h-16 border border-white/10 rounded-full flex items-center justify-center group-hover:bg-white transition-all">
+                       <ArrowUpRight className="w-6 h-6 text-white group-hover:text-black transition-colors" />
+                    </div>
+                 </button>
+               </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CAPABILITIES ── */}
+      <section className="py-40 bg-[#050508] border-y border-white/10">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32 text-center">
+             <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/40 mb-8 block italic">Operational Scope</span>
+             <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-white">
+                Technical <br/> <span className="text-white/20 not-italic">Expertise.</span>
+             </h2>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10">
+            {CAPABILITIES.map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.1} className="bg-[#0a0a0d] p-12 group hover:bg-white/5 transition-all duration-700">
+                 <item.icon className="w-12 h-12 text-white/20 group-hover:text-white transition-colors mb-8" />
+                 <h3 className="text-2xl font-black italic uppercase text-white mb-6">{item.title}</h3>
+                 <p className="text-xs text-white/40 group-hover:text-white font-light tracking-widest uppercase italic leading-loose transition-colors">
+                   {item.desc}
+                 </p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ATELIER / LABORATORY ── */}
+      <section className="py-40 bg-black overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+          <Reveal>
+             <div className="relative aspect-square bg-[#050508] border border-white/5 p-20 flex flex-col justify-center group overflow-hidden">
+                <div className="absolute top-0 right-0 p-12">
+                   <Box className="w-16 h-16 text-white/5 group-hover:text-white/10 transition-colors" />
+                </div>
+                <Sparkles className="w-16 h-16 text-white mb-12" />
+                <h3 className="text-5xl font-black italic uppercase text-white mb-8">Core <br/> <span className="text-white/20 not-italic">Atelier.</span></h3>
+                <p className="text-white/40 text-lg leading-relaxed mb-12 font-light uppercase tracking-wide italic leading-loose">
+                  Our Berlin atelier leverages heavy archival design fabrication and distributed spatial orchestration for the production of non-standard glitch artifacts. We push the tectonic limits of spatial system.
+                </p>
+                <div className="flex gap-12 text-[10px] font-bold uppercase tracking-[0.5em] text-white/30">
+                   <span>[01] CORE_BOND</span>
+                   <span>[02] SPATIAL_SYNTHESIS</span>
+                </div>
+             </div>
+          </Reveal>
+          <div className="space-y-24">
+             <Reveal delay={0.2}>
+                <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/40 mb-8 block italic">Curation_Sequence</span>
+                <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-none uppercase text-white">System <br/> <span className="text-white/20 not-italic">Manifesto.</span></h2>
+             </Reveal>
+             <div className="space-y-12">
+                {[
+                  { n: "01", t: "Sectional Audit", d: "Rigorous cutting of complex glitch volumes to reveal interior structural potential." },
+                  { n: "02", t: "Core Stress", d: "Simulation of high-fidelity visual performance under extreme archival loads." },
+                  { n: "03", t: "Archive Aging", d: "Analyzing the interaction of archival glitch models with digital weathering." }
+                ].map((step, i) => (
+                  <Reveal key={step.n} delay={i * 0.1 + 0.3} className="flex gap-12 group border-l border-white/10 pl-8 hover:border-white transition-colors">
+                    <span className="text-4xl font-black italic text-white/10 group-hover:text-white transition-colors">{step.n}</span>
+                    <div>
+                      <h4 className="text-xl font-black uppercase italic text-white mb-2">{step.t}</h4>
+                      <p className="text-xs text-white/40 font-light tracking-widest uppercase italic leading-loose">{step.d}</p>
+                    </div>
+                  </Reveal>
+                ))}
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA / INQUIRY ── */}
+      <section className="py-40 bg-[#050508] relative">
+         <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+            <div className="bg-white text-black p-24 lg:p-40 relative overflow-hidden flex flex-col items-center text-center group">
+               <div className="absolute inset-0 opacity-10 grayscale brightness-110 group-hover:opacity-20 transition-opacity">
+                  <Image src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1600&q=80" alt="CTA Glitch" fill className="object-cover" />
+               </div>
+               <Reveal>
+                  <span className="text-[10px] font-bold uppercase tracking-[1em] text-black/50 mb-12 block italic">Allocation Initiation</span>
+                  <h2 className="text-7xl md:text-[12rem] font-black italic tracking-tighter leading-[0.8] uppercase mb-16">
+                     Own <br/> <span className="text-black/30 not-italic">The Core.</span>
+                  </h2>
+                  <div className="flex flex-wrap justify-center gap-12 relative z-10">
+                     <button className="px-20 py-8 bg-black text-white font-black uppercase text-sm tracking-[0.5em] hover:italic transition-all">
+                        Request_Access
+                     </button>
+                     <button className="px-20 py-8 border border-black/20 text-black font-black uppercase text-sm tracking-[0.5em] hover:bg-black/5 transition-all">
+                        Atelier_Dossier
+                     </button>
+                  </div>
+               </Reveal>
+            </div>
+         </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-black pt-40 pb-20 px-8 md:px-16 border-t border-white/10">
+         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-32 mb-40">
+            <div className="lg:col-span-6">
+               <div className="flex items-center gap-4 mb-12">
+                 <Terminal className="w-10 h-10 text-white" />
+                 <span className="text-3xl font-black tracking-tighter uppercase italic text-white">GLITCH<span className="text-white/30">//</span>CORE</span>
+               </div>
+               <p className="text-white/40 text-sm font-light leading-relaxed uppercase tracking-[0.3em] mb-12 italic max-w-md">
+                 Securing the future of system objects through high-fidelity orchestration and radical visual clarity.
+               </p>
+               <div className="flex gap-12">
+                 {["TERMINAL", "SYSTEM", "FORGE", "ALPHA"].map(s => (
+                   <a key={s} href="#" className="text-[10px] font-bold hover:text-white text-white/30 transition-colors tracking-[0.5em]">[{s}]</a>
+                 ))}
+               </div>
+            </div>
+            
+            <div className="lg:col-span-2">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40 mb-12">Systems</h4>
+               <ul className="space-y-6 text-xs font-bold uppercase tracking-[0.4em]">
+                 {["Archives", "Telemetry", "Shell", "Journal"].map(item => (
+                   <li key={item}><a href="#" className="hover:text-white transition-colors">{item}</a></li>
+                 ))}
+               </ul>
+            </div>
+
+            <div className="lg:col-span-4">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40 mb-12">Partner Inquiry</h4>
+               <p className="text-sm text-white/40 font-light mb-12 italic uppercase tracking-[0.2em] leading-loose">
+                 For new commissions, system studies, or distribution enclaves, contact our primary command center in Berlin.
+               </p>
+               <a href="mailto:ops@glitch-core.de" className="text-3xl font-black italic hover:text-white transition-colors block border-b border-white/10 pb-8 uppercase tracking-tighter">
+                  ops@glitch-core.de
+               </a>
+            </div>
+         </div>
+
+         <div className="max-w-[1600px] mx-auto flex flex-col md:row items-center justify-between gap-12 text-[9px] font-bold uppercase tracking-[0.8em] text-white/20 border-t border-white/5 pt-20">
+            <p>© 2024 GLITCH CORE ATELIER AG. ALL RIGHTS RESERVED. BERLIN // GLOBAL.</p>
+            <div className="flex gap-16">
+               <a href="#" className="hover:text-white transition-colors">[System_Vault]</a>
+               <a href="#" className="hover:text-white transition-colors">[Terms_of_Service]</a>
+            </div>
+         </div>
+      </footer>
     </div>
   );
 }

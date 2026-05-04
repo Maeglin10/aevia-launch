@@ -1,284 +1,477 @@
 "use client";
 
-import { motion, useScroll, useTransform, AnimatePresence, useInView, useMotionValue, useSpring } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
-import { ArrowRight, X, ChevronDown, Leaf, Sun, Droplets, Wind, TreePine, Recycle, Globe, Award } from "lucide-react";
+import { 
+  ArrowUpRight, 
+  Menu, 
+  X, 
+  Layers, 
+  ShieldCheck,
+  Plus,
+  Play,
+  ArrowRight,
+  ChevronDown,
+  Monitor,
+  LayoutGrid,
+  Zap,
+  Activity,
+  Ruler,
+  Wind,
+  Command,
+  Sparkles,
+  Box,
+  Eye,
+  Maximize2,
+  Minimize2,
+  Cpu,
+  Database,
+  Terminal,
+  Unplug,
+  Infinity as InfinityIcon,
+  HardDrive,
+  Sun,
+  Aperture,
+  Scissors,
+  FileText,
+  Droplets,
+  Film,
+  Zap as ParticleIcon,
+  Scaling,
+  Volume2
+} from "lucide-react";
+import "../premium.css";
 
-const EXPERIENCES = [
-  { id: 1, name: "Forest Bathing", location: "Black Forest, Germany", duration: "3 nights", price: "€1,480", guests: 8, image: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80", color: "#34d399", tags: ["Forest", "Wellness"] },
-  { id: 2, name: "Desert Silence Retreat", location: "Sahara, Morocco", duration: "5 nights", price: "€2,200", guests: 6, image: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800&q=80", color: "#f59e0b", tags: ["Desert", "Meditation"] },
-  { id: 3, name: "Arctic Aurora Lodge", location: "Tromsø, Norway", duration: "4 nights", price: "€3,600", guests: 4, image: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=800&q=80", color: "#818cf8", tags: ["Arctic", "Aurora"] },
-  { id: 4, name: "Rainforest Canopy Stay", location: "Costa Rica", duration: "7 nights", price: "€2,900", guests: 6, image: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=800&q=80", color: "#10b981", tags: ["Rainforest", "Wildlife"] },
-  { id: 5, name: "Coastal Dune Eco-Camp", location: "Namibia", duration: "6 nights", price: "€3,100", guests: 8, image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80", color: "#f43f5e", tags: ["Coastal", "Safari"] },
-  { id: 6, name: "Mountain Silence", location: "Kyoto, Japan", duration: "4 nights", price: "€2,600", guests: 4, image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80", color: "#0ea5e9", tags: ["Mountain", "Culture"] },
+// ─── DATA ──────────────────────────────────────────────────────────────────
+
+const ECHO_MANIFESTS = [
+  { 
+    id: "ECH_01",
+    title: "KINETIC_ECHO", 
+    category: "Typography Echo",
+    decay: "v9.4_DEC",
+    img: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=1200&q=80",
+    desc: "A high-fidelity study of absolute echo volume within the spatial environment. Zero-latency kinetic synthesis."
+  },
+  { 
+    id: "ECH_02",
+    title: "PLANAR_BREACH", 
+    category: "Kinetic Echo",
+    decay: "v3.1_PEAK",
+    img: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=1200&q=80",
+    desc: "Planetary-scale distributed echoes orchestrated through neural weight synthesis. High-fidelity kinetic routing."
+  },
+  { 
+    id: "ECH_03",
+    title: "VOID_SCROLL", 
+    category: "Spectral Scroll",
+    decay: "v9.0_STARK",
+    img: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=1200&q=80",
+    desc: "A zero-latency scroll engine built for the real-time synthesis of non-standard visual artifacts through radical echo injection."
+  }
 ];
 
-const VALUES = [
-  { icon: Leaf, title: "Carbon Neutral", desc: "Every stay is carbon-offset through verified reforestation projects in the destination region." },
-  { icon: Droplets, title: "Zero-Waste Camps", desc: "All accommodation uses compostable materials, rainwater collection, and zero single-use plastic." },
-  { icon: TreePine, title: "Forest Pledges", desc: "10% of every booking funds local tree-planting. Over 240,000 trees planted since 2019." },
-  { icon: Globe, title: "Community-First", desc: "Local guides, local food, local ownership. At least 80% of every booking stays in the community." },
+const METRICS = [
+  { label: "Decay", val: "99.9%", desc: "Absolute architectural synchronization across all distributed echo edge nodes." },
+  { label: "Throughput", val: "12 EB/s", desc: "Sustainable visual delivery through our dedicated high-fidelity spectral backbone." },
+  { label: "Reliability", val: "IMMUNE", desc: "Zero-leak echo logic verified through continuous adversarial stress-testing." }
 ];
 
-function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+const CAPABILITIES = [
+  { icon: Volume2, title: "Echo Forge", desc: "Engineering spectral volumes through a lens of mathematical and structural purity." },
+  { icon: Wind, title: "Kinetic Logic", desc: "Scaling viewer interactions through distributed focal orchestration and visual synthesis." },
+  { icon: Activity, title: "Pulse Sync", desc: "Synchronizing system spikes with real-time biological demand cycles for absolute sync." },
+  { icon: Box, title: "Echo Shell", desc: "Leveraging heavy archival data fabrication for ultra-high fidelity spectral protection." }
+];
+
+// ─── COMPONENTS ──────────────────────────────────────────────────────────────
+
+function Reveal({ children, className = "", delay = 0, y = 30 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-100px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }} className={className}>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.23, 1, 0.32, 1] }}
+      className={className}
+    >
       {children}
     </motion.div>
   );
 }
 
-function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
-  useEffect(() => {
-    if (!inView) return;
-    let n = 0; const step = Math.max(1, Math.ceil(target / 55));
-    const t = setInterval(() => { n += step; if (n >= target) { setCount(target); clearInterval(t); } else setCount(n); }, 24);
-    return () => clearInterval(t);
-  }, [inView, target]);
-  return <span ref={ref}>{count}{suffix}</span>;
-}
+// ─── MAIN SPA ────────────────────────────────────────────────────────────────
 
-function MagneticBtn({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const x = useMotionValue(0); const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 200, damping: 20 });
-  const sy = useSpring(y, { stiffness: 200, damping: 20 });
-  return (
-    <motion.a ref={ref} style={{ x: sx, y: sy }} onMouseMove={e => { const r = ref.current!.getBoundingClientRect(); x.set((e.clientX - r.left - r.width / 2) * 0.35); y.set((e.clientY - r.top - r.height / 2) * 0.35); }} onMouseLeave={() => { x.set(0); y.set(0); }} href="#" className={className}>{children}</motion.a>
-  );
-}
-
-export default function ParticleFireflies() {
-  const [activeExp, setActiveExp] = useState<typeof EXPERIENCES[0] | null>(null);
-  const [activeTag, setActiveTag] = useState("All");
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 180]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
-  const allTags = ["All", "Forest", "Desert", "Arctic", "Rainforest", "Mountain"];
-  const filtered = activeTag === "All" ? EXPERIENCES : EXPERIENCES.filter(e => e.tags.includes(activeTag));
-
-  const faqs = [
-    { q: "How are camps sustainably built?", a: "All structures use local natural materials, raised foundations to protect root systems, and are fully dismantlable. No permanent footprint." },
-    { q: "What's included in the price?", a: "All accommodation, meals prepared from local ingredients, guided excursions, transfers from the nearest airport, and carbon offset credits." },
-    { q: "What if I need to cancel?", a: "Full refund up to 60 days before. 50% refund 30–60 days. Within 30 days we offer a full credit valid for 2 years." },
-    { q: "How small are the group sizes?", a: "4–8 guests maximum per experience. We believe small groups protect ecosystems and deepen connection." },
-  ];
+export default function EchoScrollSPA() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeEch, setActiveEch] = useState(0);
+  const { scrollY } = useScroll();
+  
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const heroScale = useTransform(scrollY, [0, 800], [1, 1.05]);
 
   return (
-    <div className="min-h-screen bg-[#0b1209] text-white" style={{ fontFamily: "'Helvetica Neue', sans-serif" }}>
-      {/* Floating particles */}
-      {[...Array(16)].map((_, i) => (
-        <motion.div key={i} animate={{ y: [0, -30, 0], x: [0, Math.sin(i) * 15, 0], opacity: [0.1, 0.4, 0.1] }} transition={{ duration: 4 + i * 0.5, repeat: Infinity, delay: i * 0.3 }} className="fixed rounded-full pointer-events-none z-[1]" style={{ width: 2 + (i % 3), height: 2 + (i % 3), background: "#34d399", left: `${5 + (i * 6) % 90}%`, top: `${10 + (i * 7) % 80}%` }} />
-      ))}
-
-      {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-8 py-5 flex items-center justify-between">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0b1209]/80 to-transparent pointer-events-none" />
-        <div className="relative flex items-center gap-2">
-          <Leaf size={16} className="text-[#34d399]" />
-          <span className="text-sm font-black tracking-[0.15em] uppercase text-[#34d399]">TERRA</span>
-        </div>
-        <div className="relative hidden md:flex gap-8 text-[10px] tracking-[0.2em] uppercase opacity-50">
-          {["Experiences", "Destinations", "Values", "Community", "Book"].map(l => (
-            <a key={l} href="#" className="hover:text-[#34d399] hover:opacity-100 transition-all">{l}</a>
-          ))}
-        </div>
-        <MagneticBtn className="relative hidden md:flex items-center gap-2 px-5 py-2 bg-[#34d399] text-[#0b1209] text-xs font-black tracking-widest uppercase">
-          Book Now <ArrowRight size={12} />
-        </MagneticBtn>
-        <button onClick={() => setMobileOpen(true)} className="relative md:hidden">{[0,1,2].map(i => <span key={i} className="block w-5 h-px bg-[#34d399] mb-1.5" />)}</button>
-      </nav>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }} className="fixed inset-0 z-[100] bg-[#0b1209] flex flex-col p-10">
-            <button onClick={() => setMobileOpen(false)} className="self-end mb-12 text-[#34d399]"><X size={24} /></button>
-            {["Experiences", "Destinations", "Values", "Community", "Book"].map((l, i) => (
-              <motion.a key={l} href="#" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }} className="text-4xl font-black mb-6 uppercase tracking-wider text-[#34d399] hover:opacity-60 transition-opacity" onClick={() => setMobileOpen(false)}>{l}</motion.a>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Hero */}
-      <section ref={heroRef} className="relative h-screen flex items-end overflow-hidden">
-        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0">
-          <Image src="https://images.unsplash.com/photo-209977?w=800&q=80" alt="forest" fill unoptimized className="object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0b1209] via-[#0b1209]/40 to-transparent" />
-        </motion.div>
-        <div className="relative z-10 px-8 md:px-16 pb-16">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-2 mb-4 text-[#34d399]/60 text-[10px] tracking-[0.25em] uppercase">
-            <Leaf size={10} /> Carbon Neutral · Zero-Waste · Community-First
-          </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.15 }} className="text-5xl md:text-9xl font-black leading-none mb-8">
-            Sleep inside<br /><span className="text-[#34d399]">nature.</span>
-          </motion.h1>
-          <MagneticBtn className="inline-flex items-center gap-3 px-8 py-4 bg-[#34d399] text-[#0b1209] font-black text-xs tracking-widest uppercase">
-            Explore Experiences <ArrowRight size={14} />
-          </MagneticBtn>
-        </div>
-      </section>
-
-      {/* Marquee */}
-      <div className="border-y border-[#34d399]/10 py-3 overflow-hidden">
-        <motion.div animate={{ x: [0, -2400] }} transition={{ repeat: Infinity, duration: 30, ease: "linear" }} className="flex gap-12 whitespace-nowrap">
-          {Array(8).fill(0).map((_, i) => EXPERIENCES.map(e => (
-            <span key={`${i}-${e.id}`} className="text-[9px] tracking-[0.25em] uppercase text-[#34d399]/25">{e.name} · {e.location} ·</span>
-          )))}
-        </motion.div>
+    <div className="min-h-screen bg-[#050508] text-[#eee] font-mono selection:bg-[#eee] selection:text-black">
+      
+      {/* ── ECHO OVERLAY ── */}
+      <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.08] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div className="fixed inset-0 z-[0] opacity-10 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
       </div>
 
-      {/* Experiences */}
-      <section className="py-24 px-6 max-w-7xl mx-auto">
-        <Reveal className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <div>
-            <h2 className="text-3xl font-black tracking-tight mb-2">Experiences</h2>
-            <p className="text-sm opacity-40">Immersive eco-stays in ecosystems that need protecting.</p>
-          </div>
-          <div className="flex gap-2 flex-wrap">
-            {allTags.map(t => (
-              <button key={t} onClick={() => setActiveTag(t)} className="px-4 py-2 text-xs font-bold tracking-widest uppercase transition-colors" style={{ background: activeTag === t ? "#34d399" : "transparent", color: activeTag === t ? "#0b1209" : "rgba(255,255,255,0.5)", border: "1px solid", borderColor: activeTag === t ? "#34d399" : "rgba(255,255,255,0.1)" }}>
-                {t}
-              </button>
-            ))}
-          </div>
-        </Reveal>
-        <div className="grid md:grid-cols-3 gap-6">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((e, i) => (
-              <Reveal key={e.id} delay={i * 0.07}>
-                <motion.div layout whileHover={{ y: -8 }} onClick={() => setActiveExp(e)} className="cursor-pointer group">
-                  <div className="relative overflow-hidden mb-4" style={{ aspectRatio: "4/3" }}>
-                    <Image src={e.image} alt={e.name} fill unoptimized className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b1209]/70 to-transparent" />
-                    <div className="absolute top-3 left-3 flex gap-1">
-                      {e.tags.map(t => <span key={t} className="text-[9px] font-bold px-2 py-1 tracking-wider uppercase" style={{ background: e.color + "33", color: e.color, border: `1px solid ${e.color}40` }}>{t}</span>)}
-                    </div>
-                    <div className="absolute bottom-3 right-3 text-right">
-                      <div className="text-xs font-black" style={{ color: e.color }}>{e.price}</div>
-                      <div className="text-[9px] opacity-40">{e.duration}</div>
-                    </div>
-                  </div>
-                  <h3 className="text-base font-black mb-1">{e.name}</h3>
-                  <div className="flex items-center gap-2 text-xs opacity-40">
-                    <Globe size={11} /> {e.location} · Max {e.guests} guests
-                  </div>
-                </motion.div>
-              </Reveal>
-            ))}
-          </AnimatePresence>
+      {/* ── NAVIGATION ── */}
+      <motion.nav 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-16 py-10 mix-blend-difference"
+      >
+        <div className="flex items-center gap-4">
+          <Volume2 className="w-10 h-10 text-white" />
+          <span className="text-2xl font-black tracking-tighter uppercase italic text-white">ECHO<span className="text-white/30">//</span>SCROLL</span>
         </div>
-      </section>
-
-      {/* Values */}
-      <section className="py-24 bg-[#0f1a0d] px-6">
-        <div className="max-w-6xl mx-auto">
-          <Reveal><h2 className="text-2xl font-black tracking-tight mb-16 text-[#34d399]">How We Protect</h2></Reveal>
-          <div className="grid md:grid-cols-4 gap-6">
-            {VALUES.map((v, i) => (
-              <Reveal key={v.title} delay={i * 0.1}>
-                <motion.div whileHover={{ y: -6 }} className="p-6 border border-[#34d399]/10 hover:border-[#34d399]/20 transition-colors">
-                  <v.icon size={20} className="text-[#34d399] mb-4" />
-                  <h3 className="text-sm font-black mb-2">{v.title}</h3>
-                  <p className="text-xs opacity-40 leading-relaxed">{v.desc}</p>
-                </motion.div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="py-24 px-6 border-y border-white/5">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10">
-          {[{ label: "Trees Planted", value: 240, suffix: "k+" }, { label: "Ecosystems Protected", value: 14, suffix: "" }, { label: "Travellers", value: 8400, suffix: "+" }, { label: "CO₂ Offset Tonnes", value: 3200, suffix: "+" }].map((s, i) => (
-            <Reveal key={s.label} delay={i * 0.1} className="text-center">
-              <div className="text-4xl font-black mb-2 text-[#34d399]"><Counter target={s.value} suffix={s.suffix} /></div>
-              <div className="text-[9px] tracking-[0.2em] uppercase opacity-30">{s.label}</div>
-            </Reveal>
+        
+        <div className="hidden lg:flex items-center gap-16 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
+          {["Manifest", "Reserve", "Atelier", "Portal"].map(item => (
+            <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors">/{item}</a>
           ))}
         </div>
-      </section>
 
-      {/* FAQ */}
-      <section className="py-24 px-6 max-w-2xl mx-auto">
-        <Reveal><h2 className="text-xl font-black tracking-tight mb-12 text-[#34d399]">Questions</h2></Reveal>
-        {faqs.map((f, i) => (
-          <Reveal key={i} delay={i * 0.05}>
-            <div className="border-b border-white/10">
-              <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full text-left py-5 flex items-center justify-between text-sm font-bold">
-                {f.q} <motion.span animate={{ rotate: openFaq === i ? 180 : 0 }}><ChevronDown size={16} /></motion.span>
-              </button>
-              <AnimatePresence>
-                {openFaq === i && (
-                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                    <p className="pb-5 text-sm opacity-50 leading-relaxed">{f.a}</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </Reveal>
-        ))}
-      </section>
+        <button 
+          onClick={() => setMenuOpen(true)}
+          className="px-6 py-2 border border-white/20 bg-white/5 backdrop-blur-md text-[10px] font-black uppercase tracking-widest hover:bg-white/20 transition-all text-white"
+        >
+          [INIT_ECHO]
+        </button>
+      </motion.nav>
 
-      {/* CTA */}
-      <section className="py-32 px-6 text-center relative overflow-hidden">
-        <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.04, 0.1, 0.04] }} transition={{ duration: 8, repeat: Infinity }} className="absolute inset-0 rounded-full m-auto w-[700px] h-[700px] bg-[#34d399] blur-3xl pointer-events-none" />
-        <div className="relative z-10">
-          <Reveal><h2 className="text-5xl md:text-8xl font-black mb-4 leading-none">LEAVE NO<br /><span className="text-[#34d399]">TRACE.</span></h2></Reveal>
-          <Reveal delay={0.2}><p className="text-sm opacity-40 mb-10 max-w-md mx-auto">Every TERRA experience is designed to give back more than it takes. Come experience the wild — and help protect it.</p></Reveal>
-          <Reveal delay={0.3}>
-            <MagneticBtn className="inline-flex items-center gap-3 px-10 py-5 bg-[#34d399] text-[#0b1209] font-black text-xs tracking-[0.2em] uppercase">
-              Find Your Experience <ArrowRight size={14} />
-            </MagneticBtn>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-white/10 py-12 px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] opacity-20 tracking-wider uppercase">
-        <span className="flex items-center gap-2"><Leaf size={12} className="text-[#34d399]" /> TERRA ECO-EXPERIENCES © 2026</span>
-        <div className="flex gap-8">{["Instagram", "Newsletter", "Press", "B-Corp"].map(l => <a key={l} href="#" className="hover:opacity-100 transition-opacity">{l}</a>)}</div>
-      </footer>
-
-      {/* Experience Modal */}
+      {/* ── MOBILE MENU ── */}
       <AnimatePresence>
-        {activeExp && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/80 flex items-center justify-center p-6" onClick={() => setActiveExp(null)}>
-            <motion.div initial={{ scale: 0.92 }} animate={{ scale: 1 }} exit={{ scale: 0.92 }} onClick={e => e.stopPropagation()} className="bg-[#0f1a0d] border max-w-2xl w-full overflow-hidden flex flex-col md:flex-row" style={{ borderColor: activeExp.color + "40" }}>
-              <div className="relative md:w-1/2" style={{ aspectRatio: "4/3" }}>
-                <Image src={activeExp.image} alt={activeExp.name} fill unoptimized className="object-cover" />
-              </div>
-              <div className="p-6 flex-1">
-                <button onClick={() => setActiveExp(null)} className="float-right opacity-40 hover:opacity-100"><X size={18} /></button>
-                <div className="clear-right pt-2">
-                  <h3 className="text-xl font-black mb-1" style={{ color: activeExp.color }}>{activeExp.name}</h3>
-                  <p className="text-xs opacity-40 mb-4 flex items-center gap-1"><Globe size={11} /> {activeExp.location}</p>
-                  <div className="space-y-1.5 text-xs mb-6">
-                    <div className="flex justify-between border-b border-white/5 py-2"><span className="opacity-30">Duration</span><span>{activeExp.duration}</span></div>
-                    <div className="flex justify-between border-b border-white/5 py-2"><span className="opacity-30">Max Group</span><span>{activeExp.guests} guests</span></div>
-                    <div className="flex justify-between py-2"><span className="opacity-30">From</span><span className="font-black text-lg" style={{ color: activeExp.color }}>{activeExp.price}</span></div>
-                  </div>
-                  <a href="#" className="block w-full py-3 font-black text-xs tracking-widest uppercase text-center text-[#0b1209]" style={{ background: activeExp.color }}>
-                    Request to Book
-                  </a>
-                </div>
-              </div>
-            </motion.div>
+        {menuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+            className="fixed inset-0 z-[60] bg-[#050508] text-[#eee] p-12 flex flex-col justify-between"
+          >
+            <div className="flex justify-between items-center border-b border-white/10 pb-12">
+              <span className="text-xl font-black uppercase tracking-tighter italic">ECHO//SCROLL</span>
+              <button onClick={() => setMenuOpen(false)} className="w-12 h-12 flex items-center justify-center border border-white/20 rounded-full">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="flex flex-col gap-12 text-center md:text-left">
+              {["ECHO_MANIFEST", "SYSTEM_ARCHIVE", "ECHO_FORGE", "ASSET_ENCLAVE", "SECURE_AUTH"].map((item, i) => (
+                <motion.a 
+                  key={item}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 + 0.3 }}
+                  href="#"
+                  className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter hover:text-white/40 transition-all leading-none"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item}
+                </motion.a>
+              ))}
+            </div>
+            <div className="flex justify-between text-[10px] font-bold uppercase tracking-[0.5em] border-t border-white/10 pt-12 text-white/30">
+              <span>ECHO_PRACTICE</span>
+              <span>EST. 2018 // OSLO</span>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* ── HERO SECTION ── */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
+        <motion.div 
+          style={{ opacity: heroOpacity, scale: heroScale }}
+          className="absolute inset-0 z-0"
+        >
+          <Image 
+            src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=1600&q=80" 
+            alt="Hero Echo" 
+            fill 
+            className="object-cover grayscale brightness-50 contrast-125 opacity-20" 
+            unoptimized 
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050508]" />
+        </motion.div>
+
+        <div className="relative z-10 text-center px-6">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[2.5em] text-white/40 mb-12 block italic">Echo Endurance</span>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <h1 className="text-8xl md:text-[18rem] font-black tracking-tighter leading-[0.75] uppercase italic text-white mb-20">
+              RAW <br/> <span className="not-italic text-white/10">ECHO.</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.4}>
+            <div className="max-w-2xl mx-auto flex flex-col items-center gap-16 border-t border-white/10 pt-20">
+              <p className="text-white/40 text-xl leading-relaxed font-light uppercase tracking-[0.3em] italic leading-loose text-center">
+                Engineering the ultimate spectral archives through distributed kinetic orchestration. High-fidelity systems built for absolute structural precision and narrative clarity.
+              </p>
+              <div className="flex gap-8">
+                <button className="px-16 py-6 bg-white text-black font-black uppercase text-xs tracking-[0.4em] hover:bg-black hover:text-white transition-all">
+                  Manifest_Access
+                </button>
+                <button className="px-16 py-6 border border-white/20 text-white font-black uppercase text-xs tracking-[0.4em] hover:bg-white/5 transition-colors">
+                  Atelier_Dossier
+                </button>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+
+        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">
+          <div className="flex flex-col gap-2">
+            <span>OSLO // ATELIER</span>
+            <div className="w-48 h-[1px] bg-white/10" />
+          </div>
+          <div className="flex items-center gap-4 italic uppercase tracking-widest">
+             <span className="animate-pulse">●</span> ECHO_STATUS: NOMINAL
+          </div>
+        </div>
+      </section>
+
+      {/* ── METRICS GRID ── */}
+      <section className="py-40 bg-[#0a0a0d]">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-white/5 border border-white/5">
+            {METRICS.map((s, i) => (
+              <Reveal key={s.label} delay={i * 0.1} className="bg-[#050508] p-24 group hover:bg-white/5 transition-all duration-700">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 mb-12 block group-hover:text-white/60">{s.label}</span>
+                <h3 className="text-7xl font-black italic text-white mb-8 group-hover:text-white transition-colors">{s.val}</h3>
+                <p className="text-xs text-white/30 font-light tracking-widest uppercase italic leading-loose group-hover:text-white/60">
+                  {s.desc}
+                </p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ECHO SHOWCASE ── */}
+      <section className="py-40 bg-black relative overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32">
+             <div className="flex flex-col lg:flex-row justify-between items-end gap-12 border-b border-white/10 pb-12">
+               <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-white">
+                 Echo <br/> <span className="text-white/20 not-italic">Archive.</span>
+               </h2>
+               <div className="text-right">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/20 mb-4 block italic">Manifest_Sequence_2024</span>
+                  <div className="flex gap-4">
+                    {ECHO_MANIFESTS.map((_, i) => (
+                      <button 
+                        key={i} 
+                        onClick={() => setActiveEch(i)}
+                        className={`w-16 h-1 transition-all ${activeEch === i ? "bg-white w-32" : "bg-white/10"}`}
+                      />
+                    ))}
+                  </div>
+               </div>
+             </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
+            <div className="lg:col-span-8 relative aspect-video rounded-sm overflow-hidden border border-white/5 group bg-[#111]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeEch}
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.1 }}
+                  transition={{ duration: 1, ease: [0.19, 1, 0.22, 1] }}
+                  className="absolute inset-0"
+                >
+                  <Image src={ECHO_MANIFESTS[activeEch].img} alt={ECHO_MANIFESTS[activeEch].title} fill className="object-cover grayscale contrast-125 opacity-40 group-hover:opacity-60 transition-opacity duration-1000" unoptimized />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
+                </motion.div>
+              </AnimatePresence>
+              <div className="absolute bottom-12 left-12 flex flex-col gap-4">
+                 <span className="text-[10px] font-black uppercase tracking-widest bg-white/10 backdrop-blur-md text-white px-6 py-2 border border-white/5">{ECHO_MANIFESTS[activeEch].decay} // ADVISORY</span>
+              </div>
+            </div>
+
+            <div className="lg:col-span-4 space-y-12">
+               <motion.div
+                  key={activeEch}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="space-y-12"
+               >
+                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40">{ECHO_MANIFESTS[activeEch].id} // ASSET</span>
+                 <h3 className="text-6xl md:text-8xl font-black italic uppercase text-white tracking-tighter">{ECHO_MANIFESTS[activeEch].title}</h3>
+                 <div className="space-y-6 border-y border-white/10 py-12">
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Category</span>
+                       <span className="text-sm font-black text-white uppercase tracking-widest">{ECHO_MANIFESTS[activeEch].category}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Echo_Status</span>
+                       <span className="text-sm font-black text-white uppercase tracking-widest italic">STABLE_KINETIC</span>
+                    </div>
+                 </div>
+                 <p className="text-white/30 text-lg font-light italic leading-loose uppercase tracking-wide">
+                   {ECHO_MANIFESTS[activeEch].desc}
+                 </p>
+                 <button className="flex items-center gap-6 group">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.8em] text-white">Request_Manifest</span>
+                    <div className="w-16 h-16 border border-white/10 rounded-full flex items-center justify-center group-hover:bg-white transition-all">
+                       <ArrowUpRight className="w-6 h-6 text-white group-hover:text-black transition-colors" />
+                    </div>
+                 </button>
+               </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CAPABILITIES ── */}
+      <section className="py-40 bg-[#050508] border-y border-white/10">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32 text-center">
+             <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/40 mb-8 block italic">Operational Scope</span>
+             <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-white">
+                Technical <br/> <span className="text-white/20 not-italic">Expertise.</span>
+             </h2>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10">
+            {CAPABILITIES.map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.1} className="bg-[#0a0a0d] p-12 group hover:bg-white/5 transition-all duration-700">
+                 <item.icon className="w-12 h-12 text-white/20 group-hover:text-white transition-colors mb-8" />
+                 <h3 className="text-2xl font-black italic uppercase text-white mb-6">{item.title}</h3>
+                 <p className="text-xs text-white/40 group-hover:text-white font-light tracking-widest uppercase italic leading-loose transition-colors">
+                   {item.desc}
+                 </p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ATELIER / LABORATORY ── */}
+      <section className="py-40 bg-black overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+          <Reveal>
+             <div className="relative aspect-square bg-[#050508] border border-white/5 p-20 flex flex-col justify-center group overflow-hidden">
+                <div className="absolute top-0 right-0 p-12">
+                   <Box className="w-16 h-16 text-white/5 group-hover:text-white/10 transition-colors" />
+                </div>
+                <Sparkles className="w-16 h-16 text-white mb-12" />
+                <h3 className="text-5xl font-black italic uppercase text-white mb-8">Echo <br/> <span className="text-white/20 not-italic">Atelier.</span></h3>
+                <p className="text-white/40 text-lg leading-relaxed mb-12 font-light uppercase tracking-wide italic leading-loose">
+                  Our Oslo atelier leverages heavy archival design fabrication and distributed spatial orchestration for the production of non-standard spectral artifacts. We push the tectonic limits of spatial echo.
+                </p>
+                <div className="flex gap-12 text-[10px] font-bold uppercase tracking-[0.5em] text-white/30">
+                   <span>[01] ECHO_BOND</span>
+                   <span>[02] SPATIAL_SYNTHESIS</span>
+                </div>
+             </div>
+          </Reveal>
+          <div className="space-y-24">
+             <Reveal delay={0.2}>
+                <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/40 mb-8 block italic">Curation_Sequence</span>
+                <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-none uppercase text-white">Spectral <br/> <span className="text-white/20 not-italic">Manifesto.</span></h2>
+             </Reveal>
+             <div className="space-y-12">
+                {[
+                  { n: "01", t: "Sectional Audit", d: "Rigorous cutting of complex echo volumes to reveal interior structural potential." },
+                  { n: "02", t: "Echo Stress", d: "Simulation of high-fidelity visual performance under extreme archival loads." },
+                  { n: "03", t: "Archive Aging", d: "Analyzing the interaction of archival spectral models with digital weathering." }
+                ].map((step, i) => (
+                  <Reveal key={step.n} delay={i * 0.1 + 0.3} className="flex gap-12 group border-l border-white/10 pl-8 hover:border-white transition-colors">
+                    <span className="text-4xl font-black italic text-white/10 group-hover:text-white transition-colors">{step.n}</span>
+                    <div>
+                      <h4 className="text-xl font-black uppercase italic text-white mb-2">{step.t}</h4>
+                      <p className="text-xs text-white/40 font-light tracking-widest uppercase italic leading-loose">{step.d}</p>
+                    </div>
+                  </Reveal>
+                ))}
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA / INQUIRY ── */}
+      <section className="py-40 bg-[#050508] relative">
+         <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+            <div className="bg-white text-black p-24 lg:p-40 relative overflow-hidden flex flex-col items-center text-center group">
+               <div className="absolute inset-0 opacity-10 grayscale brightness-110 group-hover:opacity-20 transition-opacity">
+                  <Image src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=1600&q=80" alt="CTA Echo" fill className="object-cover" />
+               </div>
+               <Reveal>
+                  <span className="text-[10px] font-bold uppercase tracking-[1em] text-black/50 mb-12 block italic">Allocation Initiation</span>
+                  <h2 className="text-7xl md:text-[12rem] font-black italic tracking-tighter leading-[0.8] uppercase mb-16">
+                     Own <br/> <span className="text-black/30 not-italic">The Echo.</span>
+                  </h2>
+                  <div className="flex flex-wrap justify-center gap-12 relative z-10">
+                     <button className="px-20 py-8 bg-black text-white font-black uppercase text-sm tracking-[0.5em] hover:italic transition-all">
+                        Request_Access
+                     </button>
+                     <button className="px-20 py-8 border border-black/20 text-black font-black uppercase text-sm tracking-[0.5em] hover:bg-black/5 transition-all">
+                        Atelier_Dossier
+                     </button>
+                  </div>
+               </Reveal>
+            </div>
+         </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-black pt-40 pb-20 px-8 md:px-16 border-t border-white/10">
+         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-32 mb-40">
+            <div className="lg:col-span-6">
+               <div className="flex items-center gap-4 mb-12">
+                 <Volume2 className="w-10 h-10 text-white" />
+                 <span className="text-3xl font-black tracking-tighter uppercase italic text-white">ECHO<span className="text-white/30">//</span>SCROLL</span>
+               </div>
+               <p className="text-white/40 text-sm font-light leading-relaxed uppercase tracking-[0.3em] mb-12 italic max-w-md">
+                 Securing the future of spectral objects through high-fidelity orchestration and radical visual clarity.
+               </p>
+               <div className="flex gap-12">
+                 {["TERMINAL", "ECHO", "FORGE", "ALPHA"].map(s => (
+                   <a key={s} href="#" className="text-[10px] font-bold hover:text-white text-white/30 transition-colors tracking-[0.5em]">[{s}]</a>
+                 ))}
+               </div>
+            </div>
+            
+            <div className="lg:col-span-2">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40 mb-12">Systems</h4>
+               <ul className="space-y-6 text-xs font-bold uppercase tracking-[0.4em]">
+                 {["Archives", "Telemetry", "Shell", "Journal"].map(item => (
+                   <li key={item}><a href="#" className="hover:text-white transition-colors">{item}</a></li>
+                 ))}
+               </ul>
+            </div>
+
+            <div className="lg:col-span-4">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40 mb-12">Partner Inquiry</h4>
+               <p className="text-sm text-white/40 font-light mb-12 italic uppercase tracking-[0.2em] leading-loose">
+                 For new commissions, spectral studies, or distribution enclaves, contact our primary command center in Oslo.
+               </p>
+               <a href="mailto:ops@echo-scroll.no" className="text-3xl font-black italic hover:text-white transition-colors block border-b border-white/10 pb-8 uppercase tracking-tighter">
+                  ops@echo-scroll.no
+               </a>
+            </div>
+         </div>
+
+         <div className="max-w-[1600px] mx-auto flex flex-col md:row items-center justify-between gap-12 text-[9px] font-bold uppercase tracking-[0.8em] text-white/20 border-t border-white/5 pt-20">
+            <p>© 2024 ECHO SCROLL ATELIER AG. ALL RIGHTS RESERVED. OSLO // GLOBAL.</p>
+            <div className="flex gap-16">
+               <a href="#" className="hover:text-white transition-colors">[Echo_Vault]</a>
+               <a href="#" className="hover:text-white transition-colors">[Terms_of_Service]</a>
+            </div>
+         </div>
+      </footer>
     </div>
   );
 }

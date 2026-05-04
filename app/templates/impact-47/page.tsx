@@ -1,295 +1,467 @@
 "use client";
 
-import { motion, useScroll, useTransform, AnimatePresence, useInView, useMotionValue, useSpring } from "framer-motion";
-import { useRef, useState, useEffect, useCallback } from "react";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
-import { ArrowRight, X, ChevronDown, Play, Pause, Volume2, VolumeX, Maximize, ChevronLeft, ChevronRight } from "lucide-react";
+import { 
+  ArrowUpRight, 
+  Menu, 
+  X, 
+  Layers, 
+  ShieldCheck,
+  Plus,
+  Play,
+  ArrowRight,
+  ChevronDown,
+  Monitor,
+  LayoutGrid,
+  Zap,
+  Activity,
+  Ruler,
+  Wind,
+  Command,
+  Sparkles,
+  Box,
+  Eye,
+  Maximize2,
+  Minimize2,
+  Cpu,
+  Database,
+  Terminal,
+  Unplug,
+  Infinity as InfinityIcon,
+  HardDrive
+} from "lucide-react";
+import "../premium.css";
 
-const GLITCH_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*!?<>";
+// ─── DATA ──────────────────────────────────────────────────────────────────
 
-function GlitchText({ text, className = "" }: { text: string; className?: string }) {
-  const [display, setDisplay] = useState(text);
-  const [hovering, setHovering] = useState(false);
-  const scramble = useCallback(() => {
-    let iter = 0;
-    const interval = setInterval(() => {
-      setDisplay(text.split("").map((char, idx) => {
-        if (char === " ") return " ";
-        if (idx < iter) return text[idx];
-        return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
-      }).join(""));
-      if (iter >= text.length) clearInterval(interval);
-      iter += 0.5;
-    }, 40);
-  }, [text]);
-  return (
-    <span className={`cursor-default select-none ${className}`} onMouseEnter={() => { setHovering(true); scramble(); }} onMouseLeave={() => { setHovering(false); setDisplay(text); }}>
-      {display}
-    </span>
-  );
-}
-
-const FILMS = [
-  { id: 1, title: "SIGNAL LOST", genre: "Sci-Fi Short", year: 2025, duration: "12m", thumbnail: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&q=80", color: "#ff2d55" },
-  { id: 2, title: "NEON PULSE", genre: "Music Video", year: 2025, duration: "4m", thumbnail: "https://images.unsplash.com/photo-1557682260-96773eb01377?w=1200&q=80", color: "#bf5af2" },
-  { id: 3, title: "LAST FRAME", genre: "Experimental", year: 2024, duration: "8m", thumbnail: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=1200&q=80", color: "#30d158" },
-  { id: 4, title: "VOID WALK", genre: "Documentary", year: 2024, duration: "22m", thumbnail: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1200&q=80", color: "#ffd60a" },
+const STREAM_MANIFESTS = [
+  { 
+    id: "STR_01",
+    title: "BINARY_CASCADE", 
+    category: "Cascading Stream",
+    flow: "v9.4_FLOW",
+    img: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&q=80",
+    desc: "A high-fidelity study of absolute stream volume within the spatial environment. Zero-latency data synthesis."
+  },
+  { 
+    id: "STR_02",
+    title: "VERTICAL_DRIFT", 
+    category: "Depth Stream",
+    flow: "v3.1_PEAK",
+    img: "https://images.unsplash.com/photo-1557682260-96773eb01377?w=1200&q=80",
+    desc: "Planetary-scale distributed streams orchestrated through neural weight synthesis. High-fidelity stream routing."
+  },
+  { 
+    id: "STR_03",
+    title: "VOID_STREAM", 
+    category: "Spectral Stream",
+    flow: "v9.0_STARK",
+    img: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=1200&q=80",
+    desc: "A zero-latency stream engine built for the real-time synthesis of non-standard data artifacts through radical flow injection."
+  }
 ];
 
-const CLIENTS = ["NETFLIX", "A24", "BBC", "CANAL+", "ARTE", "HBO", "MUBI", "SUNDANCE"];
+const METRICS = [
+  { label: "Cascading", val: "99.9%", desc: "Absolute architectural synchronization across all distributed data edge nodes." },
+  { label: "Throughput", val: "12 EB/s", desc: "Sustainable visual delivery through our dedicated high-fidelity stream backbone." },
+  { label: "Reliability", val: "IMMUNE", desc: "Zero-leak stream logic verified through continuous adversarial stress-testing." }
+];
 
-function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+const CAPABILITIES = [
+  { icon: Database, title: "Stream Forge", desc: "Engineering stream volumes through a lens of mathematical and structural purity." },
+  { icon: InfinityIcon, title: "Cascade Logic", desc: "Scaling viewer interactions through distributed focal orchestration and visual synthesis." },
+  { icon: Activity, title: "Pulse Sync", desc: "Synchronizing system spikes with real-time biological demand cycles for absolute sync." },
+  { icon: Box, title: "Stream Shell", desc: "Leveraging heavy archival data fabrication for ultra-high fidelity data protection." }
+];
+
+// ─── COMPONENTS ──────────────────────────────────────────────────────────────
+
+function Reveal({ children, className = "", delay = 0, y = 30 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-100px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 36 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }} className={className}>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.23, 1, 0.32, 1] }}
+      className={className}
+    >
       {children}
     </motion.div>
   );
 }
 
-function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
-  useEffect(() => {
-    if (!inView) return;
-    let n = 0; const step = Math.max(1, Math.ceil(target / 55));
-    const t = setInterval(() => { n += step; if (n >= target) { setCount(target); clearInterval(t); } else setCount(n); }, 24);
-    return () => clearInterval(t);
-  }, [inView, target]);
-  return <span ref={ref}>{count}{suffix}</span>;
-}
+// ─── MAIN SPA ────────────────────────────────────────────────────────────────
 
-function MagneticBtn({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const x = useMotionValue(0); const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 200, damping: 20 });
-  const sy = useSpring(y, { stiffness: 200, damping: 20 });
-  return (
-    <motion.a ref={ref} style={{ x: sx, y: sy }} onMouseMove={e => { const r = ref.current!.getBoundingClientRect(); x.set((e.clientX - r.left - r.width / 2) * 0.35); y.set((e.clientY - r.top - r.height / 2) * 0.35); }} onMouseLeave={() => { x.set(0); y.set(0); }} href="#" className={className}>{children}</motion.a>
-  );
-}
-
-export default function GlitchVideoHero() {
-  const [activeFilm, setActiveFilm] = useState(FILMS[0]);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [muted, setMuted] = useState(true);
-  const [filmIdx, setFilmIdx] = useState(0);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 200]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-
-  // Auto-cycle hero films
-  useEffect(() => {
-    const t = setInterval(() => {
-      setFilmIdx(i => {
-        const next = (i + 1) % FILMS.length;
-        setActiveFilm(FILMS[next]);
-        return next;
-      });
-    }, 5000);
-    return () => clearInterval(t);
-  }, []);
-
-  const faqs = [
-    { q: "Do you shoot on film or digital?", a: "Both — 35mm and 16mm for narrative projects, ALEXA 35 and RED V-RAPTOR for commercial. Format driven by vision, not budget." },
-    { q: "What's your typical lead time?", a: "Concept-to-delivery is typically 6–12 weeks for shorts, 3–6 months for branded content campaigns." },
-    { q: "Do you handle post-production?", a: "Full in-house post: color grading on DaVinci Resolve, sound design, VFX compositing. One stop." },
-    { q: "Can you shoot internationally?", a: "Yes — we've shot in 24 countries. Travel and fixers are costed into production budgets on request." },
-  ];
+export default function DataStreamSPA() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeStr, setActiveStr] = useState(0);
+  const { scrollY } = useScroll();
+  
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const heroScale = useTransform(scrollY, [0, 800], [1, 1.05]);
 
   return (
-    <div className="min-h-screen bg-[#060408] text-white" style={{ fontFamily: "'Helvetica Neue', sans-serif" }}>
-      {/* Scanlines */}
-      <div className="fixed inset-0 z-[3] pointer-events-none opacity-[0.025]" style={{ backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, white 2px, white 4px)" }} />
+    <div className="min-h-screen bg-[#050508] text-[#eee] font-mono selection:bg-[#eee] selection:text-black">
+      
+      {/* ── STREAM OVERLAY ── */}
+      <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.08] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div className="fixed inset-0 z-[0] opacity-10 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
+      </div>
 
-      {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-8 py-5 flex items-center justify-between">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#060408] to-transparent pointer-events-none" />
-        <span className="relative text-sm font-black tracking-[0.2em] uppercase">
-          <GlitchText text="DEAD_FRAME" />
-        </span>
-        <div className="relative hidden md:flex gap-8 text-[10px] tracking-[0.2em] uppercase opacity-50">
-          {["Work", "Process", "Awards", "Contact"].map(l => (
-            <a key={l} href="#" className="hover:opacity-100 transition-opacity"><GlitchText text={l} /></a>
+      {/* ── NAVIGATION ── */}
+      <motion.nav 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-16 py-10 mix-blend-difference"
+      >
+        <div className="flex items-center gap-4">
+          <Database className="w-10 h-10 text-white" />
+          <span className="text-2xl font-black tracking-tighter uppercase italic text-white">DATA<span className="text-white/30">//</span>STREAM</span>
+        </div>
+        
+        <div className="hidden lg:flex items-center gap-16 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
+          {["Manifest", "Reserve", "Atelier", "Portal"].map(item => (
+            <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors">/{item}</a>
           ))}
         </div>
-        <MagneticBtn className="relative hidden md:block px-5 py-2 border border-white/20 text-[10px] tracking-[0.2em] uppercase hover:bg-white/10 transition-colors">
-          <GlitchText text="HIRE US" />
-        </MagneticBtn>
-        <button onClick={() => setMobileOpen(true)} className="relative md:hidden">{[0,1,2].map(i => <span key={i} className="block w-5 h-px bg-white mb-1.5" />)}</button>
-      </nav>
 
-      {/* Mobile Menu */}
+        <button 
+          onClick={() => setMenuOpen(true)}
+          className="px-6 py-2 border border-white/20 bg-white/5 backdrop-blur-md text-[10px] font-black uppercase tracking-widest hover:bg-white/20 transition-all text-white"
+        >
+          [INIT_STREAM]
+        </button>
+      </motion.nav>
+
+      {/* ── MOBILE MENU ── */}
       <AnimatePresence>
-        {mobileOpen && (
-          <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }} className="fixed inset-0 z-[100] bg-[#060408] flex flex-col p-10">
-            <button onClick={() => setMobileOpen(false)} className="self-end mb-12"><X size={24} /></button>
-            {["Work", "Process", "Awards", "Contact"].map((l, i) => (
-              <motion.a key={l} href="#" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }} className="text-4xl font-black mb-6 uppercase tracking-wider hover:opacity-50 transition-opacity" onClick={() => setMobileOpen(false)}>{l}</motion.a>
-            ))}
+        {menuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+            className="fixed inset-0 z-[60] bg-[#050508] text-[#eee] p-12 flex flex-col justify-between"
+          >
+            <div className="flex justify-between items-center border-b border-white/10 pb-12">
+              <span className="text-xl font-black uppercase tracking-tighter italic">DATA//STREAM</span>
+              <button onClick={() => setMenuOpen(false)} className="w-12 h-12 flex items-center justify-center border border-white/20 rounded-full">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="flex flex-col gap-12 text-center md:text-left">
+              {["STREAM_MANIFEST", "SYSTEM_ARCHIVE", "STREAM_FORGE", "ASSET_ENCLAVE", "SECURE_AUTH"].map((item, i) => (
+                <motion.a 
+                  key={item}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 + 0.3 }}
+                  href="#"
+                  className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter hover:text-white/40 transition-all leading-none"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item}
+                </motion.a>
+              ))}
+            </div>
+            <div className="flex justify-between text-[10px] font-bold uppercase tracking-[0.5em] border-t border-white/10 pt-12 text-white/30">
+              <span>STREAM_PRACTICE</span>
+              <span>EST. 2018 // OSLO</span>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Hero */}
-      <section ref={heroRef} className="relative h-screen flex items-end overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.div key={activeFilm.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }} style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0">
-            <Image src={activeFilm.thumbnail} alt={activeFilm.title} fill unoptimized className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#060408] via-[#060408]/40 to-transparent" />
-          </motion.div>
-        </AnimatePresence>
+      {/* ── HERO SECTION ── */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
+        <motion.div 
+          style={{ opacity: heroOpacity, scale: heroScale }}
+          className="absolute inset-0 z-0"
+        >
+          <Image 
+            src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1600&q=80" 
+            alt="Hero Stream" 
+            fill 
+            className="object-cover grayscale brightness-50 contrast-125 opacity-20" 
+            unoptimized 
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050508]" />
+        </motion.div>
 
-        {/* Glitch overlay */}
-        <motion.div animate={{ opacity: [0, 0.04, 0, 0.02, 0] }} transition={{ duration: 0.3, repeat: Infinity, repeatDelay: 3 }} className="absolute inset-0 bg-white pointer-events-none z-10" />
-
-        <div className="relative z-20 px-8 md:px-16 pb-12 w-full">
-          <AnimatePresence mode="wait">
-            <motion.div key={activeFilm.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.5 }}>
-              <p className="text-[10px] tracking-[0.3em] uppercase mb-2" style={{ color: activeFilm.color }}>{activeFilm.genre} · {activeFilm.year} · {activeFilm.duration}</p>
-              <h1 className="text-6xl md:text-[10rem] font-black leading-none tracking-tight mb-6">
-                <GlitchText text={activeFilm.title} className="text-white" />
-              </h1>
-            </motion.div>
-          </AnimatePresence>
-
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <div className="flex items-center gap-4">
-              <button onClick={() => setIsPlaying(!isPlaying)} className="flex items-center gap-3 border border-white/20 px-5 py-3 text-xs tracking-widest uppercase hover:bg-white/10 transition-colors">
-                {isPlaying ? <Pause size={12} /> : <Play size={12} />} {isPlaying ? "Pause" : "Play Reel"}
-              </button>
-              <button onClick={() => setMuted(!muted)} className="opacity-40 hover:opacity-100 transition-opacity">
-                {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-              </button>
+        <div className="relative z-10 text-center px-6">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[2.5em] text-white/40 mb-12 block italic">Cascading Endurance</span>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <h1 className="text-8xl md:text-[18rem] font-black tracking-tighter leading-[0.75] uppercase italic text-white mb-20">
+              RAW <br/> <span className="not-italic text-white/10">STREAM.</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.4}>
+            <div className="max-w-2xl mx-auto flex flex-col items-center gap-16 border-t border-white/10 pt-20">
+              <p className="text-white/40 text-xl leading-relaxed font-light uppercase tracking-[0.3em] italic leading-loose text-center">
+                Engineering the ultimate stream archives through distributed data orchestration. High-fidelity systems built for absolute structural precision and narrative clarity.
+              </p>
+              <div className="flex gap-8">
+                <button className="px-16 py-6 bg-white text-black font-black uppercase text-xs tracking-[0.4em] hover:bg-black hover:text-white transition-all">
+                  Manifest_Access
+                </button>
+                <button className="px-16 py-6 border border-white/20 text-white font-black uppercase text-xs tracking-[0.4em] hover:bg-white/5 transition-colors">
+                  Atelier_Dossier
+                </button>
+              </div>
             </div>
-            {/* Film selector dots */}
-            <div className="flex gap-3">
-              {FILMS.map((f, i) => (
-                <button key={f.id} onClick={() => { setFilmIdx(i); setActiveFilm(f); }} className="w-10 h-1 transition-all" style={{ background: i === filmIdx ? activeFilm.color : "rgba(255,255,255,0.2)" }} />
-              ))}
+          </Reveal>
+        </div>
+
+        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">
+          <div className="flex flex-col gap-2">
+            <span>OSLO // ATELIER</span>
+            <div className="w-48 h-[1px] bg-white/10" />
+          </div>
+          <div className="flex items-center gap-4 italic uppercase tracking-widest">
+             <span className="animate-pulse">●</span> STREAM_STATUS: NOMINAL
+          </div>
+        </div>
+      </section>
+
+      {/* ── METRICS GRID ── */}
+      <section className="py-40 bg-[#0a0a0d]">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-white/5 border border-white/5">
+            {METRICS.map((s, i) => (
+              <Reveal key={s.label} delay={i * 0.1} className="bg-[#050508] p-24 group hover:bg-white/5 transition-all duration-700">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 mb-12 block group-hover:text-white/60">{s.label}</span>
+                <h3 className="text-7xl font-black italic text-white mb-8 group-hover:text-white transition-colors">{s.val}</h3>
+                <p className="text-xs text-white/30 font-light tracking-widest uppercase italic leading-loose group-hover:text-white/60">
+                  {s.desc}
+                </p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* STREAM SHOWCASE ── */}
+      <section className="py-40 bg-black relative overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32">
+             <div className="flex flex-col lg:flex-row justify-between items-end gap-12 border-b border-white/10 pb-12">
+               <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-white">
+                 Stream <br/> <span className="text-white/20 not-italic">Archive.</span>
+               </h2>
+               <div className="text-right">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/20 mb-4 block italic">Manifest_Sequence_2024</span>
+                  <div className="flex gap-4">
+                    {STREAM_MANIFESTS.map((_, i) => (
+                      <button 
+                        key={i} 
+                        onClick={() => setActiveStr(i)}
+                        className={`w-16 h-1 transition-all ${activeStr === i ? "bg-white w-32" : "bg-white/10"}`}
+                      />
+                    ))}
+                  </div>
+               </div>
+             </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
+            <div className="lg:col-span-8 relative aspect-video rounded-sm overflow-hidden border border-white/5 group bg-[#111]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeStr}
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.1 }}
+                  transition={{ duration: 1, ease: [0.19, 1, 0.22, 1] }}
+                  className="absolute inset-0"
+                >
+                  <Image src={STREAM_MANIFESTS[activeStr].img} alt={STREAM_MANIFESTS[activeStr].title} fill className="object-cover grayscale contrast-125 opacity-40 group-hover:opacity-60 transition-opacity duration-1000" unoptimized />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
+                </motion.div>
+              </AnimatePresence>
+              <div className="absolute bottom-12 left-12 flex flex-col gap-4">
+                 <span className="text-[10px] font-black uppercase tracking-widest bg-white/10 backdrop-blur-md text-white px-6 py-2 border border-white/5">{STREAM_MANIFESTS[activeStr].flow} // ADVISORY</span>
+              </div>
+            </div>
+
+            <div className="lg:col-span-4 space-y-12">
+               <motion.div
+                  key={activeStr}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="space-y-12"
+               >
+                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40">{STREAM_MANIFESTS[activeStr].id} // ASSET</span>
+                 <h3 className="text-6xl md:text-8xl font-black italic uppercase text-white tracking-tighter">{STREAM_MANIFESTS[activeStr].title}</h3>
+                 <div className="space-y-6 border-y border-white/10 py-12">
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Category</span>
+                       <span className="text-sm font-black text-white uppercase tracking-widest">{STREAM_MANIFESTS[activeStr].category}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Stream_Status</span>
+                       <span className="text-sm font-black text-white uppercase tracking-widest italic">STABLE_OPTIC</span>
+                    </div>
+                 </div>
+                 <p className="text-white/30 text-lg font-light italic leading-loose uppercase tracking-wide">
+                   {STREAM_MANIFESTS[activeStr].desc}
+                 </p>
+                 <button className="flex items-center gap-6 group">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.8em] text-white">Request_Manifest</span>
+                    <div className="w-16 h-16 border border-white/10 rounded-full flex items-center justify-center group-hover:bg-white transition-all">
+                       <ArrowUpRight className="w-6 h-6 text-white group-hover:text-black transition-colors" />
+                    </div>
+                 </button>
+               </motion.div>
             </div>
           </div>
         </div>
-
-        {/* Film counter */}
-        <div className="absolute top-24 right-8 z-20 text-right hidden md:block">
-          <div className="text-[10px] tracking-[0.3em] opacity-30">{String(filmIdx + 1).padStart(2, "0")} / {String(FILMS.length).padStart(2, "0")}</div>
-        </div>
       </section>
 
-      {/* Marquee */}
-      <div className="border-y border-white/5 py-3 overflow-hidden">
-        <motion.div animate={{ x: [0, -2400] }} transition={{ repeat: Infinity, duration: 25, ease: "linear" }} className="flex gap-12 whitespace-nowrap">
-          {Array(10).fill(0).map((_, i) => CLIENTS.map(c => (
-            <span key={`${i}-${c}`} className="text-[10px] tracking-[0.3em] uppercase opacity-20">{c} ·</span>
-          )))}
-        </motion.div>
-      </div>
-
-      {/* Work Grid */}
-      <section className="py-24 px-6 max-w-7xl mx-auto">
-        <Reveal><h2 className="text-3xl font-black tracking-tight mb-2 uppercase"><GlitchText text="Selected Work" /></h2></Reveal>
-        <Reveal delay={0.1}><p className="text-sm opacity-40 mb-16">Films, videos, and moving images that don't play it safe.</p></Reveal>
-        <div className="grid md:grid-cols-2 gap-4">
-          {FILMS.map((f, i) => (
-            <Reveal key={f.id} delay={i * 0.1}>
-              <motion.div whileHover={{ scale: 1.02 }} onClick={() => setActiveFilm(f)} className="relative overflow-hidden cursor-pointer group" style={{ aspectRatio: "16/9" }}>
-                <Image src={f.thumbnail} alt={f.title} fill unoptimized className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#060408]/80 to-transparent" />
-                <div className="absolute inset-0 border-2 border-transparent group-hover:border-white/20 transition-colors" />
-                <div className="absolute bottom-5 left-5">
-                  <p className="text-[10px] tracking-widest uppercase mb-1 opacity-50">{f.genre} · {f.duration}</p>
-                  <h3 className="text-xl font-black tracking-wide" style={{ color: f.color }}>{f.title}</h3>
-                </div>
-                <div className="absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Play size={20} className="text-white" />
-                </div>
-              </motion.div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="py-24 px-6 border-y border-white/5">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10">
-          {[{ label: "Films Completed", value: 64, suffix: "" }, { label: "Festival Selections", value: 120, suffix: "+" }, { label: "Countries", value: 24, suffix: "" }, { label: "Awards", value: 38, suffix: "" }].map((s, i) => (
-            <Reveal key={s.label} delay={i * 0.1} className="text-center">
-              <div className="text-4xl font-black mb-2" style={{ color: FILMS[i % FILMS.length].color }}><Counter target={s.value} suffix={s.suffix} /></div>
-              <div className="text-[9px] tracking-[0.25em] uppercase opacity-30">{s.label}</div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Process */}
-      <section className="py-24 px-6 max-w-5xl mx-auto">
-        <Reveal><h2 className="text-2xl font-black tracking-tight mb-16 uppercase"><GlitchText text="How We Work" /></h2></Reveal>
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            { num: "01", title: "Development", desc: "Script, storyboard, mood. We don't pre-visualise — we pre-feel." },
-            { num: "02", title: "Production", desc: "Single-camera. Real locations. Minimal crew. Maximum intent." },
-            { num: "03", title: "Post", desc: "Color, sound, edit. Every frame earns its place or gets cut." },
-          ].map((s, i) => (
-            <Reveal key={s.num} delay={i * 0.1}>
-              <div className="border-t border-white/10 pt-6">
-                <div className="text-[10px] tracking-[0.3em] opacity-20 mb-4">{s.num}</div>
-                <h3 className="text-lg font-black mb-3">{s.title}</h3>
-                <p className="text-sm opacity-40 leading-relaxed">{s.desc}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="py-24 bg-[#0a0810] px-6">
-        <div className="max-w-2xl mx-auto">
-          <Reveal><h2 className="text-xl font-black tracking-tight uppercase mb-12"><GlitchText text="FAQ" /></h2></Reveal>
-          {faqs.map((f, i) => (
-            <Reveal key={i} delay={i * 0.05}>
-              <div className="border-b border-white/10">
-                <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full text-left py-5 flex items-center justify-between text-sm font-bold">
-                  {f.q} <motion.span animate={{ rotate: openFaq === i ? 180 : 0 }}><ChevronDown size={16} /></motion.span>
-                </button>
-                <AnimatePresence>
-                  {openFaq === i && (
-                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                      <p className="pb-5 text-sm opacity-50 leading-relaxed">{f.a}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-32 px-6 text-center relative overflow-hidden">
-        <motion.div animate={{ opacity: [0.03, 0.07, 0.03] }} transition={{ duration: 5, repeat: Infinity }} className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(circle at 50% 50%, ${activeFilm.color}30, transparent 60%)` }} />
-        <div className="relative z-10">
-          <Reveal><h2 className="text-5xl md:text-8xl font-black tracking-tight mb-4 leading-none uppercase">
-            <GlitchText text="LET'S MAKE" /><br /><span style={{ color: activeFilm.color }}><GlitchText text="SOMETHING" /></span>
-          </h2></Reveal>
-          <Reveal delay={0.2}><p className="text-sm opacity-40 mb-10 max-w-md mx-auto">We work with brands, agencies, and independent artists who have something real to say.</p></Reveal>
-          <Reveal delay={0.3}>
-            <MagneticBtn className="inline-flex items-center gap-3 px-10 py-5 font-black text-xs tracking-[0.2em] uppercase text-[#060408]" style={{ background: activeFilm.color }}>
-              Start a Project <ArrowRight size={14} />
-            </MagneticBtn>
+      {/* ── CAPABILITIES ── */}
+      <section className="py-40 bg-[#050508] border-y border-white/10">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32 text-center">
+             <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/40 mb-8 block italic">Operational Scope</span>
+             <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-white">
+                Technical <br/> <span className="text-white/20 not-italic">Expertise.</span>
+             </h2>
           </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10">
+            {CAPABILITIES.map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.1} className="bg-[#0a0a0d] p-12 group hover:bg-white/5 transition-all duration-700">
+                 <item.icon className="w-12 h-12 text-white/20 group-hover:text-white transition-colors mb-8" />
+                 <h3 className="text-2xl font-black italic uppercase text-white mb-6">{item.title}</h3>
+                 <p className="text-xs text-white/40 group-hover:text-white font-light tracking-widest uppercase italic leading-loose transition-colors">
+                   {item.desc}
+                 </p>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/10 py-12 px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] opacity-20 tracking-wider uppercase">
-        <GlitchText text="DEAD_FRAME © 2026" />
-        <div className="flex gap-8">{["Instagram", "Vimeo", "Festival", "Contact"].map(l => <a key={l} href="#" className="hover:opacity-100 transition-opacity">{l}</a>)}</div>
+      {/* ATELIER / LABORATORY ── */}
+      <section className="py-40 bg-black overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+          <Reveal>
+             <div className="relative aspect-square bg-[#050508] border border-white/5 p-20 flex flex-col justify-center group overflow-hidden">
+                <div className="absolute top-0 right-0 p-12">
+                   <Box className="w-16 h-16 text-white/5 group-hover:text-white/10 transition-colors" />
+                </div>
+                <Sparkles className="w-16 h-16 text-white mb-12" />
+                <h3 className="text-5xl font-black italic uppercase text-white mb-8">Stream <br/> <span className="text-white/20 not-italic">Atelier.</span></h3>
+                <p className="text-white/40 text-lg leading-relaxed mb-12 font-light uppercase tracking-wide italic leading-loose">
+                  Our Oslo atelier leverages heavy archival design fabrication and distributed spatial orchestration for the production of non-standard data artifacts. We push the tectonic limits of spatial stream.
+                </p>
+                <div className="flex gap-12 text-[10px] font-bold uppercase tracking-[0.5em] text-white/30">
+                   <span>[01] STREAM_BOND</span>
+                   <span>[02] SPATIAL_SYNTHESIS</span>
+                </div>
+             </div>
+          </Reveal>
+          <div className="space-y-24">
+             <Reveal delay={0.2}>
+                <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/40 mb-8 block italic">Curation_Sequence</span>
+                <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-none uppercase text-white">Data <br/> <span className="text-white/20 not-italic">Manifesto.</span></h2>
+             </Reveal>
+             <div className="space-y-12">
+                {[
+                  { n: "01", t: "Sectional Audit", d: "Rigorous cutting of complex stream volumes to reveal interior structural potential." },
+                  { n: "02", t: "Stream Stress", d: "Simulation of high-fidelity visual performance under extreme archival loads." },
+                  { n: "03", t: "Archive Aging", d: "Analyzing the interaction of archival stream models with digital weathering." }
+                ].map((step, i) => (
+                  <Reveal key={step.n} delay={i * 0.1 + 0.3} className="flex gap-12 group border-l border-white/10 pl-8 hover:border-white transition-colors">
+                    <span className="text-4xl font-black italic text-white/10 group-hover:text-white transition-colors">{step.n}</span>
+                    <div>
+                      <h4 className="text-xl font-black uppercase italic text-white mb-2">{step.t}</h4>
+                      <p className="text-xs text-white/40 font-light tracking-widest uppercase italic leading-loose">{step.d}</p>
+                    </div>
+                  </Reveal>
+                ))}
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA / INQUIRY ── */}
+      <section className="py-40 bg-[#050508] relative">
+         <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+            <div className="bg-white text-black p-24 lg:p-40 relative overflow-hidden flex flex-col items-center text-center group">
+               <div className="absolute inset-0 opacity-10 grayscale brightness-110 group-hover:opacity-20 transition-opacity">
+                  <Image src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1600&q=80" alt="CTA Stream" fill className="object-cover" />
+               </div>
+               <Reveal>
+                  <span className="text-[10px] font-bold uppercase tracking-[1em] text-black/50 mb-12 block italic">Allocation Initiation</span>
+                  <h2 className="text-7xl md:text-[12rem] font-black italic tracking-tighter leading-[0.8] uppercase mb-16">
+                     Own <br/> <span className="text-black/30 not-italic">The Stream.</span>
+                  </h2>
+                  <div className="flex flex-wrap justify-center gap-12 relative z-10">
+                     <button className="px-20 py-8 bg-black text-white font-black uppercase text-sm tracking-[0.5em] hover:italic transition-all">
+                        Request_Access
+                     </button>
+                     <button className="px-20 py-8 border border-black/20 text-black font-black uppercase text-sm tracking-[0.5em] hover:bg-black/5 transition-all">
+                        Atelier_Dossier
+                     </button>
+                  </div>
+               </Reveal>
+            </div>
+         </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-black pt-40 pb-20 px-8 md:px-16 border-t border-white/10">
+         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-32 mb-40">
+            <div className="lg:col-span-6">
+               <div className="flex items-center gap-4 mb-12">
+                 <Database className="w-10 h-10 text-white" />
+                 <span className="text-3xl font-black tracking-tighter uppercase italic text-white">DATA<span className="text-white/30">//</span>STREAM</span>
+               </div>
+               <p className="text-white/40 text-sm font-light leading-relaxed uppercase tracking-[0.3em] mb-12 italic max-w-md">
+                 Securing the future of stream objects through high-fidelity orchestration and radical visual clarity.
+               </p>
+               <div className="flex gap-12">
+                 {["TERMINAL", "DATA", "FORGE", "ALPHA"].map(s => (
+                   <a key={s} href="#" className="text-[10px] font-bold hover:text-white text-white/30 transition-colors tracking-[0.5em]">[{s}]</a>
+                 ))}
+               </div>
+            </div>
+            
+            <div className="lg:col-span-2">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40 mb-12">Systems</h4>
+               <ul className="space-y-6 text-xs font-bold uppercase tracking-[0.4em]">
+                 {["Archives", "Telemetry", "Shell", "Journal"].map(item => (
+                   <li key={item}><a href="#" className="hover:text-white transition-colors">{item}</a></li>
+                 ))}
+               </ul>
+            </div>
+
+            <div className="lg:col-span-4">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40 mb-12">Partner Inquiry</h4>
+               <p className="text-sm text-white/40 font-light mb-12 italic uppercase tracking-[0.2em] leading-loose">
+                 For new commissions, data studies, or distribution enclaves, contact our primary command center in Oslo.
+               </p>
+               <a href="mailto:ops@data-stream.no" className="text-3xl font-black italic hover:text-white transition-colors block border-b border-white/10 pb-8 uppercase tracking-tighter">
+                  ops@data-stream.no
+               </a>
+            </div>
+         </div>
+
+         <div className="max-w-[1600px] mx-auto flex flex-col md:row items-center justify-between gap-12 text-[9px] font-bold uppercase tracking-[0.8em] text-white/20 border-t border-white/5 pt-20">
+            <p>© 2024 DATA STREAM ATELIER AG. ALL RIGHTS RESERVED. OSLO // GLOBAL.</p>
+            <div className="flex gap-16">
+               <a href="#" className="hover:text-white transition-colors">[Stream_Vault]</a>
+               <a href="#" className="hover:text-white transition-colors">[Terms_of_Service]</a>
+            </div>
+         </div>
       </footer>
     </div>
   );
