@@ -1,348 +1,466 @@
 "use client";
 
-import { motion, useScroll, useTransform, AnimatePresence, useInView, useMotionValue, useSpring } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
-import { ArrowRight, X, ChevronDown, Cpu, GitBranch, Globe, Shield, Zap, TrendingUp, Activity, Terminal } from "lucide-react";
+import { 
+  ArrowUpRight, 
+  Menu, 
+  X, 
+  Layers, 
+  ShieldCheck,
+  Plus,
+  Play,
+  ArrowRight,
+  ChevronDown,
+  Monitor,
+  LayoutGrid,
+  Zap,
+  Cpu,
+  Eye,
+  Maximize2,
+  Minimize2,
+  Box,
+  Settings,
+  Sparkles,
+  Command,
+  Activity,
+  Ruler,
+  Wind,
+  Globe,
+  GitBranch
+} from "lucide-react";
+import "../premium.css";
 
-const NODES = [
-  { id: "n1", name: "NEXUS_ALPHA", region: "EU-WEST", status: "ACTIVE", load: 82, latency: 12, image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80", color: "#00ff88" },
-  { id: "n2", name: "NEXUS_BETA", region: "US-EAST", status: "ACTIVE", load: 67, latency: 8, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80", color: "#0ea5e9" },
-  { id: "n3", name: "NEXUS_GAMMA", region: "APAC", status: "SYNC", load: 45, latency: 23, image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&q=80", color: "#f59e0b" },
-  { id: "n4", name: "NEXUS_DELTA", region: "SA-EAST", status: "ACTIVE", load: 91, latency: 31, image: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800&q=80", color: "#8b5cf6" },
-  { id: "n5", name: "NEXUS_EPSILON", region: "AF-SOUTH", status: "OFFLINE", load: 0, latency: 0, image: "https://images.unsplash.com/photo-1561144257-e32e8a34c834?w=800&q=80", color: "#ef4444" },
-  { id: "n6", name: "NEXUS_ZETA", region: "ME-CENTRAL", status: "ACTIVE", load: 58, latency: 19, image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80", color: "#ec4899" },
+// ─── DATA ──────────────────────────────────────────────────────────────────
+
+const ASSET_MANIFESTS = [
+  { 
+    id: "AST_01",
+    title: "CLUSTER_VOID", 
+    category: "Drifting Asset",
+    depth: "v9.4_DEPTH",
+    img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&q=80",
+    desc: "A high-fidelity study of absolute asset drift within the spatial environment. Zero-latency cloud synthesis."
+  },
+  { 
+    id: "AST_02",
+    title: "NEURAL_NODE", 
+    category: "Synchronized Node",
+    depth: "v3.1_PEAK",
+    img: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80",
+    desc: "Planetary-scale distributed nodes orchestrated through neural weight synthesis. High-fidelity asset routing."
+  },
+  { 
+    id: "AST_03",
+    title: "VOID_ENCLAVE", 
+    category: "Spectral Cloud",
+    depth: "v9.0_STARK",
+    img: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&q=80",
+    desc: "A zero-latency enclave engine built for the real-time synthesis of non-standard asset artifacts through radical code injection."
+  }
 ];
 
-const SERVICES = [
-  { icon: Cpu, title: "Distributed Compute", desc: "Heterogeneous workloads spread intelligently across 1,200+ nodes for zero-downtime processing." },
-  { icon: Shield, title: "Zero-Trust Fabric", desc: "Every inter-node connection cryptographically verified. No implicit trust, ever." },
-  { icon: GitBranch, title: "Consensus Protocol", desc: "Byzantine fault-tolerant consensus with sub-200ms finality across 6 global regions." },
-  { icon: Globe, title: "Geo-Routing", desc: "Traffic auto-routes to the nearest healthy node. Regional failover in under 800ms." },
-  { icon: Activity, title: "Live Telemetry", desc: "Real-time metrics ingested at 50k events/sec. Alerting thresholds configurable per node." },
-  { icon: Zap, title: "Edge Execution", desc: "Wasm modules deployed to edge nodes. Execute at 5ms latency from any major metro area." },
+const METRICS = [
+  { label: "Drift", val: "99.9%", desc: "Absolute architectural synchronization across all distributed asset edge nodes." },
+  { label: "Throughput", val: "12 EB/s", desc: "Sustainable visual delivery through our dedicated high-fidelity cloud backbone." },
+  { label: "Reliability", val: "IMMUNE", desc: "Zero-leak asset logic verified through continuous adversarial stress-testing." }
 ];
 
-const STATS = [
-  { label: "Active Nodes", value: 1247, suffix: "" },
-  { label: "Uptime SLA", value: 99.97, suffix: "%" },
-  { label: "Req/sec Peak", value: 8400, suffix: "k" },
-  { label: "Regions", value: 6, suffix: "" },
+const CAPABILITIES = [
+  { icon: Cpu, title: "Cloud Forge", desc: "Engineering asset volumes through a lens of mathematical and structural purity." },
+  { icon: Eye, title: "Drift Logic", desc: "Scaling viewer interactions through distributed focal orchestration and visual synthesis." },
+  { icon: Activity, title: "Pulse Sync", desc: "Synchronizing system spikes with real-time biological demand cycles for absolute sync." },
+  { icon: Box, title: "Asset Shell", desc: "Leveraging heavy archival data fabrication for ultra-high fidelity asset protection." }
 ];
 
-const LOG_LINES = [
-  "[12:41:02] NODE::alpha heartbeat OK — 12ms",
-  "[12:41:03] CONSENSUS achieved — block #8841293",
-  "[12:41:05] FAILOVER detected node epsilon — rerouting",
-  "[12:41:07] GEO-ROUTE update: EU→US-EAST 14ms",
-  "[12:41:09] SYNC delta→gamma — 45k txn batch",
-  "[12:41:11] ALERT: delta load 91% — scaling trigger",
-  "[12:41:13] SPAWN replica::delta_2 — EU-WEST",
-  "[12:41:15] NODE::beta checkpoint stored",
-];
+// ─── COMPONENTS ──────────────────────────────────────────────────────────────
 
-function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+function Reveal({ children, className = "", delay = 0, y = 30 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-100px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 36 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }} className={className}>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.23, 1, 0.32, 1] }}
+      className={className}
+    >
       {children}
     </motion.div>
   );
 }
 
-function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
-  useEffect(() => {
-    if (!inView) return;
-    let n = 0; const step = Math.max(1, Math.ceil(target / 60));
-    const t = setInterval(() => { n += step; if (n >= target) { setCount(target); clearInterval(t); } else setCount(n); }, 24);
-    return () => clearInterval(t);
-  }, [inView, target]);
-  return <span ref={ref}>{typeof target === "number" && target < 100 ? count.toFixed(target % 1 !== 0 ? 2 : 0) : count}{suffix}</span>;
-}
+// ─── MAIN SPA ────────────────────────────────────────────────────────────────
 
-function LoadBar({ value, color }: { value: number; color: string }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
-  return (
-    <div ref={ref} className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-      <motion.div initial={{ width: 0 }} animate={inView ? { width: `${value}%` } : {}} transition={{ duration: 1.2, ease: "easeOut" }} className="h-full rounded-full" style={{ background: color }} />
-    </div>
-  );
-}
-
-function MagneticBtn({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const x = useMotionValue(0); const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 200, damping: 20 });
-  const sy = useSpring(y, { stiffness: 200, damping: 20 });
-  return (
-    <motion.a ref={ref} style={{ x: sx, y: sy }} onMouseMove={e => { const r = ref.current!.getBoundingClientRect(); x.set((e.clientX - r.left - r.width / 2) * 0.35); y.set((e.clientY - r.top - r.height / 2) * 0.35); }} onMouseLeave={() => { x.set(0); y.set(0); }} href="#" className={className}>{children}</motion.a>
-  );
-}
-
-export default function NexusClusterSPA() {
-  const [activeNode, setActiveNode] = useState<typeof NODES[0] | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [logIdx, setLogIdx] = useState(0);
-  const [visibleLogs, setVisibleLogs] = useState<string[]>([LOG_LINES[0]]);
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 160]);
-  const cx = useMotionValue(0); const cy = useMotionValue(0);
-  const scx = useSpring(cx, { stiffness: 80, damping: 20 });
-  const scy = useSpring(cy, { stiffness: 80, damping: 20 });
-
-  useEffect(() => {
-    const t = setInterval(() => {
-      setLogIdx(i => {
-        const next = (i + 1) % LOG_LINES.length;
-        setVisibleLogs(prev => [...prev.slice(-4), LOG_LINES[next]]);
-        return next;
-      });
-    }, 1800);
-    return () => clearInterval(t);
-  }, []);
-
-  const faqs = [
-    { q: "What consensus mechanism does Nexus use?", a: "A variant of HotStuff BFT with pipelined rounds. Provides liveness guarantees under ⅓ Byzantine faults with sub-200ms finality." },
-    { q: "How is node onboarding handled?", a: "Operators stake tokens for node admission. Automated health checks gate cluster entry — no manual review required." },
-    { q: "What SLA do you offer?", a: "99.97% network uptime guaranteed by contract. Credits issued automatically for any measured breach." },
-    { q: "Is the protocol open source?", a: "Core consensus and routing code is MIT licensed. Enterprise extensions are proprietary but fully audited." },
-  ];
+export default function ClusterOSSPA() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeAst, setActiveAst] = useState(0);
+  const { scrollY } = useScroll();
+  
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const heroScale = useTransform(scrollY, [0, 800], [1, 1.05]);
 
   return (
-    <div className="min-h-screen bg-[#040810] text-white font-mono">
-      {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 flex items-center justify-between border-b border-[#00ff88]/10 bg-[#040810]/90 backdrop-blur-lg">
-        <div className="flex items-center gap-3">
-          <div className="w-6 h-6 border border-[#00ff88]/60 rotate-45 flex items-center justify-center">
-            <div className="w-2 h-2 bg-[#00ff88]" />
-          </div>
-          <span className="text-sm font-black tracking-[0.25em] uppercase text-[#00ff88]">NEXUS</span>
+    <div className="min-h-screen bg-[#fcfcfc] text-[#111] font-mono selection:bg-[#111] selection:text-white">
+      
+      {/* ── CLUSTER OVERLAY ── */}
+      <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div className="fixed inset-0 z-[0] opacity-[0.05] pointer-events-none overflow-hidden">
+        <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
+      </div>
+
+      {/* ── NAVIGATION ── */}
+      <motion.nav 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-16 py-10 mix-blend-difference"
+      >
+        <div className="flex items-center gap-4">
+          <Cpu className="w-10 h-10 text-white" />
+          <span className="text-2xl font-black tracking-tighter uppercase italic text-white">CLUSTER<span className="text-white/30">//</span>OS</span>
         </div>
-        <div className="hidden md:flex gap-8 text-[10px] tracking-[0.2em] uppercase opacity-50">
-          {["Network", "Nodes", "Protocol", "Developers", "Status"].map(l => (
-            <a key={l} href="#" className="hover:text-[#00ff88] hover:opacity-100 transition-all">{l}</a>
+        
+        <div className="hidden lg:flex items-center gap-16 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
+          {["Manifest", "Reserve", "Atelier", "Portal"].map(item => (
+            <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors">/{item}</a>
           ))}
         </div>
-        <div className="flex items-center gap-3">
-          <span className="hidden md:flex items-center gap-1.5 text-[10px] text-[#00ff88] opacity-60">
-            <span className="w-1.5 h-1.5 bg-[#00ff88] rounded-full animate-pulse" /> 1,247 NODES ONLINE
-          </span>
-          <MagneticBtn className="hidden md:block px-4 py-2 border border-[#00ff88]/40 text-[#00ff88] text-[10px] tracking-[0.2em] uppercase hover:bg-[#00ff88]/10 transition-colors">
-            Run Node
-          </MagneticBtn>
-          <button onClick={() => setMobileOpen(true)} className="md:hidden flex flex-col gap-1.5">{[0,1,2].map(i => <span key={i} className="block w-5 h-px bg-[#00ff88]" />)}</button>
-        </div>
-      </nav>
 
-      {/* Mobile Menu */}
+        <button 
+          onClick={() => setMenuOpen(true)}
+          className="px-6 py-2 border border-white/20 bg-white/5 backdrop-blur-md text-[10px] font-black uppercase tracking-widest hover:bg-white/20 transition-all text-white"
+        >
+          [INIT_CLOUD]
+        </button>
+      </motion.nav>
+
+      {/* ── MOBILE MENU ── */}
       <AnimatePresence>
-        {mobileOpen && (
-          <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }} className="fixed inset-0 z-[100] bg-[#040810] flex flex-col p-10 border-l border-[#00ff88]/10">
-            <button onClick={() => setMobileOpen(false)} className="self-end mb-12 text-[#00ff88]"><X size={24} /></button>
-            {["Network", "Nodes", "Protocol", "Developers", "Status"].map((l, i) => (
-              <motion.a key={l} href="#" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }} className="text-3xl font-black mb-6 uppercase tracking-wider text-[#00ff88] hover:opacity-70 transition-opacity" onClick={() => setMobileOpen(false)}>{l}</motion.a>
-            ))}
+        {menuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+            className="fixed inset-0 z-[60] bg-[#fcfcfc] text-[#111] p-12 flex flex-col justify-between"
+          >
+            <div className="flex justify-between items-center border-b border-black/5 pb-12">
+              <span className="text-xl font-black uppercase tracking-tighter italic">CLUSTER//OS</span>
+              <button onClick={() => setMenuOpen(false)} className="w-12 h-12 flex items-center justify-center border border-black/10 rounded-full">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="flex flex-col gap-12 text-center md:text-left">
+              {["ASSET_MANIFEST", "CLOUD_ARCHIVE", "DRIFT_FORGE", "ASSET_ENCLAVE", "SECURE_AUTH"].map((item, i) => (
+                <motion.a 
+                  key={item}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 + 0.3 }}
+                  href="#"
+                  className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter hover:text-black/40 transition-all leading-none"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item}
+                </motion.a>
+              ))}
+            </div>
+            <div className="flex justify-between text-[10px] font-bold uppercase tracking-[0.5em] border-t border-black/5 pt-12 text-black/30">
+              <span>CLOUD_PRACTICE</span>
+              <span>EST. 2018 // STOCKHOLM</span>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Hero */}
-      <section ref={heroRef} className="relative h-screen flex items-center justify-center overflow-hidden" onMouseMove={e => { cx.set(e.clientX - window.innerWidth / 2); cy.set(e.clientY - window.innerHeight / 2); }}>
-        <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={NODES[0].image} alt="network" fill unoptimized className="object-cover opacity-10" />
-          <div className="absolute inset-0 bg-[#040810]/80" />
+      {/* ── HERO SECTION ── */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
+        <motion.div 
+          style={{ opacity: heroOpacity, scale: heroScale }}
+          className="absolute inset-0 z-0"
+        >
+          <Image 
+            src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&q=80" 
+            alt="Hero Cloud" 
+            fill 
+            className="object-cover grayscale brightness-50 contrast-125 opacity-30" 
+            unoptimized 
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#fcfcfc]" />
         </motion.div>
-        {/* Cursor gradient */}
-        <motion.div className="absolute w-[600px] h-[600px] rounded-full pointer-events-none blur-3xl" style={{ x: scx, y: scy, background: "radial-gradient(circle, rgba(0,255,136,0.08) 0%, transparent 70%)", left: "50%", top: "50%", translateX: "-50%", translateY: "-50%" }} />
-        {/* Grid overlay */}
-        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "linear-gradient(rgba(0,255,136,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,136,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
-        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="text-[10px] tracking-[0.3em] text-[#00ff88] mb-6 flex items-center justify-center gap-3">
-            <span className="w-8 h-px bg-[#00ff88]/40" />
-            DISTRIBUTED CLUSTER PROTOCOL v4.2.1
-            <span className="w-8 h-px bg-[#00ff88]/40" />
-          </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.2 }} className="text-5xl md:text-8xl font-black leading-none tracking-tight mb-6">
-            THE <span className="text-[#00ff88]">NEXUS</span><br />CLUSTER
-          </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="text-sm opacity-40 max-w-lg mx-auto mb-10 tracking-wider leading-loose">
-            1,247 nodes. 6 regions. Zero single point of failure.<br />The backbone of decentralized compute at global scale.
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }} className="flex gap-4 justify-center flex-wrap">
-            <a href="#" className="px-8 py-4 bg-[#00ff88] text-[#040810] font-black text-xs tracking-[0.2em] uppercase">
-              Explore Network
-            </a>
-            <a href="#" className="px-8 py-4 border border-[#00ff88]/30 text-[#00ff88] text-xs tracking-[0.2em] uppercase hover:bg-[#00ff88]/5 transition-colors">
-              Read Whitepaper
-            </a>
-          </motion.div>
+
+        <div className="relative z-10 text-center px-6">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[2.5em] text-black/40 mb-12 block italic">Spatial Endurance</span>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <h1 className="text-8xl md:text-[18rem] font-black tracking-tighter leading-[0.75] uppercase italic text-black mb-20">
+              RAW <br/> <span className="not-italic text-black/10">CLOUD.</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.4}>
+            <div className="max-w-2xl mx-auto flex flex-col items-center gap-16 border-t border-black/10 pt-20">
+              <p className="text-black/40 text-xl leading-relaxed font-light uppercase tracking-[0.3em] italic leading-loose text-center">
+                Engineering the ultimate asset archives through distributed cloud orchestration. High-fidelity systems built for absolute structural precision and narrative clarity.
+              </p>
+              <div className="flex gap-8">
+                <button className="px-16 py-6 bg-black text-white font-black uppercase text-xs tracking-[0.4em] hover:bg-white hover:text-black transition-all">
+                  Manifest_Access
+                </button>
+                <button className="px-16 py-6 border border-black/20 text-black font-black uppercase text-xs tracking-[0.4em] hover:bg-black/5 transition-colors">
+                  Atelier_Dossier
+                </button>
+              </div>
+            </div>
+          </Reveal>
         </div>
 
-        {/* Live terminal */}
-        <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.2 }} className="absolute bottom-12 right-8 hidden md:block w-72 bg-[#040810]/90 border border-[#00ff88]/20 p-4">
-          <div className="flex items-center gap-2 mb-3 text-[9px] tracking-[0.2em] text-[#00ff88]/50">
-            <Terminal size={10} /> LIVE LOG
+        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[10px] font-bold uppercase tracking-[0.5em] text-black/20">
+          <div className="flex flex-col gap-2">
+            <span>STOCKHOLM // ATELIER</span>
+            <div className="w-48 h-[1px] bg-black/10" />
           </div>
-          <div className="space-y-1">
-            {visibleLogs.map((l, i) => (
-              <motion.p key={i} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="text-[9px] font-mono opacity-50 leading-relaxed">{l}</motion.p>
-            ))}
+          <div className="flex items-center gap-4 italic uppercase tracking-widest">
+             <span className="animate-pulse">●</span> CLOUD_STATUS: NOMINAL
           </div>
-        </motion.div>
-      </section>
-
-      {/* Marquee */}
-      <div className="border-y border-[#00ff88]/10 py-3 overflow-hidden bg-[#00ff88]/5">
-        <motion.div animate={{ x: [0, -2400] }} transition={{ repeat: Infinity, duration: 30, ease: "linear" }} className="flex gap-12 whitespace-nowrap">
-          {Array(10).fill(0).map((_, i) => (
-            <span key={i} className="text-[9px] font-mono tracking-[0.2em] text-[#00ff88]/40">NEXUS_PROTOCOL · BFT_CONSENSUS · ZERO_TRUST · GEO_ROUTING · 1247_NODES · 99.97%_UPTIME · OPEN_SOURCE ·</span>
-          ))}
-        </motion.div>
-      </div>
-
-      {/* Node Grid */}
-      <section className="py-24 px-6 max-w-7xl mx-auto">
-        <Reveal><h2 className="text-2xl font-black tracking-[0.2em] uppercase mb-2 text-[#00ff88]">CLUSTER_MAP</h2></Reveal>
-        <Reveal delay={0.1}><p className="text-xs opacity-30 tracking-wider mb-12">Real-time node status across 6 global regions</p></Reveal>
-        <div className="grid md:grid-cols-3 gap-4">
-          {NODES.map((n, i) => (
-            <Reveal key={n.id} delay={i * 0.07}>
-              <motion.div whileHover={{ scale: 1.02 }} onClick={() => setActiveNode(n)} className="cursor-pointer border border-white/5 hover:border-white/10 transition-colors bg-[#070b14] p-5 group">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-[10px] tracking-[0.2em] font-black" style={{ color: n.color }}>{n.name}</span>
-                  <span className="text-[9px] tracking-wider opacity-30">{n.region}</span>
-                </div>
-                <div className="relative overflow-hidden mb-4" style={{ aspectRatio: "16/9" }}>
-                  <Image src={n.image} alt={n.name} fill unoptimized className="object-cover opacity-30 group-hover:opacity-50 transition-opacity" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className={`text-[10px] font-black tracking-widest px-3 py-1.5 border ${n.status === "ACTIVE" ? "border-green-500/40 text-green-400 bg-green-500/10" : n.status === "OFFLINE" ? "border-red-500/40 text-red-400 bg-red-500/10" : "border-yellow-500/40 text-yellow-400 bg-yellow-500/10"}`}>
-                      {n.status}
-                    </span>
-                  </div>
-                </div>
-                <div className="space-y-3 text-[9px]">
-                  <div>
-                    <div className="flex justify-between mb-1.5 opacity-40 tracking-wider">
-                      <span>NODE LOAD</span><span>{n.load}%</span>
-                    </div>
-                    <LoadBar value={n.load} color={n.color} />
-                  </div>
-                  <div className="flex justify-between opacity-30 tracking-wider">
-                    <span>LATENCY</span><span style={{ color: n.color }}>{n.latency > 0 ? `${n.latency}ms` : "—"}</span>
-                  </div>
-                </div>
-              </motion.div>
-            </Reveal>
-          ))}
         </div>
       </section>
 
-      {/* Services */}
-      <section className="py-24 bg-[#070b14] px-6">
-        <div className="max-w-6xl mx-auto">
-          <Reveal><h2 className="text-2xl font-black tracking-[0.2em] uppercase mb-16 text-[#00ff88]">PROTOCOL_STACK</h2></Reveal>
-          <div className="grid md:grid-cols-3 gap-4">
-            {SERVICES.map((s, i) => (
-              <Reveal key={s.title} delay={i * 0.08}>
-                <motion.div whileHover={{ y: -6 }} className="p-6 border border-white/5 hover:border-[#00ff88]/20 transition-colors">
-                  <s.icon size={20} className="mb-4 opacity-50" style={{ color: "#00ff88" }} />
-                  <h3 className="text-xs font-black tracking-[0.2em] uppercase mb-2">{s.title}</h3>
-                  <p className="text-[11px] opacity-30 leading-relaxed tracking-wide">{s.desc}</p>
-                </motion.div>
+      {/* ── METRICS GRID ── */}
+      <section className="py-40 bg-[#fcfcfc]">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-black/5 border border-black/5">
+            {METRICS.map((s, i) => (
+              <Reveal key={s.label} delay={i * 0.1} className="bg-white p-24 group hover:bg-black/5 transition-all duration-700">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/30 mb-12 block group-hover:text-black/60">{s.label}</span>
+                <h3 className="text-7xl font-black italic text-black mb-8 group-hover:text-black transition-colors">{s.val}</h3>
+                <p className="text-xs text-black/30 font-light tracking-widest uppercase italic leading-loose group-hover:text-black/60">
+                  {s.desc}
+                </p>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="py-24 px-6 border-y border-white/5">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10">
-          {STATS.map((s, i) => (
-            <Reveal key={s.label} delay={i * 0.1} className="text-center">
-              <div className="text-4xl font-black mb-2 text-[#00ff88]"><Counter target={s.value} suffix={s.suffix} /></div>
-              <div className="text-[9px] tracking-[0.25em] uppercase opacity-30">{s.label}</div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="py-24 px-6 max-w-2xl mx-auto">
-        <Reveal><h2 className="text-xl font-black tracking-[0.2em] uppercase mb-12 text-[#00ff88]">FAQ::PROTOCOL</h2></Reveal>
-        {faqs.map((f, i) => (
-          <Reveal key={i} delay={i * 0.05}>
-            <div className="border-b border-white/5">
-              <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full text-left py-5 flex items-center justify-between text-xs tracking-wider">
-                {f.q}
-                <motion.span animate={{ rotate: openFaq === i ? 180 : 0 }}><ChevronDown size={14} /></motion.span>
-              </button>
-              <AnimatePresence>
-                {openFaq === i && (
-                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                    <p className="pb-5 text-[11px] opacity-30 leading-relaxed tracking-wide">{f.a}</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </Reveal>
-        ))}
-      </section>
-
-      {/* CTA */}
-      <section className="py-32 px-6 text-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "linear-gradient(rgba(0,255,136,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,136,0.5) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-        <div className="relative z-10">
-          <Reveal><h2 className="text-4xl md:text-7xl font-black tracking-tight mb-4 leading-none">JOIN THE<br /><span className="text-[#00ff88]">CLUSTER</span></h2></Reveal>
-          <Reveal delay={0.2}><p className="text-xs opacity-30 mb-10 max-w-sm mx-auto tracking-wider leading-loose">Run a node. Earn rewards. Strengthen the network. No minimum stake required for observer nodes.</p></Reveal>
-          <Reveal delay={0.3}>
-            <MagneticBtn className="inline-flex items-center gap-3 px-10 py-5 bg-[#00ff88] text-[#040810] font-black text-xs tracking-[0.2em] uppercase">
-              RUN A NODE <ArrowRight size={14} />
-            </MagneticBtn>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-white/5 py-12 px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-[9px] opacity-20 tracking-[0.2em]">
-        <span>NEXUS PROTOCOL © 2026</span>
-        <div className="flex gap-8">{["GitHub", "Discord", "Docs", "Status"].map(l => <a key={l} href="#" className="hover:opacity-100 transition-opacity">{l}</a>)}</div>
-      </footer>
-
-      {/* Node Modal */}
-      <AnimatePresence>
-        {activeNode && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/80 flex items-center justify-center p-6" onClick={() => setActiveNode(null)}>
-            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} onClick={e => e.stopPropagation()} className="bg-[#070b14] border max-w-lg w-full overflow-hidden" style={{ borderColor: activeNode.color + "40" }}>
-              <div className="relative h-48">
-                <Image src={activeNode.image} alt={activeNode.name} fill unoptimized className="object-cover opacity-40" />
-                <button onClick={() => setActiveNode(null)} className="absolute top-4 right-4 opacity-60 hover:opacity-100"><X size={16} /></button>
-              </div>
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-black tracking-[0.2em] text-sm" style={{ color: activeNode.color }}>{activeNode.name}</h3>
-                  <span className="text-[9px] tracking-widest opacity-40">{activeNode.region}</span>
-                </div>
-                <div className="space-y-3 text-[10px] tracking-wider">
-                  <div className="flex justify-between"><span className="opacity-30">STATUS</span><span style={{ color: activeNode.color }}>{activeNode.status}</span></div>
-                  <div className="flex justify-between"><span className="opacity-30">LATENCY</span><span>{activeNode.latency > 0 ? `${activeNode.latency}ms` : "OFFLINE"}</span></div>
-                  <div className="mt-4">
-                    <div className="flex justify-between mb-2 opacity-30"><span>LOAD</span><span>{activeNode.load}%</span></div>
-                    <LoadBar value={activeNode.load} color={activeNode.color} />
+      {/* ASSET SHOWCASE ── */}
+      <section className="py-40 bg-white relative overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32">
+             <div className="flex flex-col lg:flex-row justify-between items-end gap-12 border-b border-black/10 pb-12">
+               <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-black">
+                 Asset <br/> <span className="text-black/20 not-italic">Archive.</span>
+               </h2>
+               <div className="text-right">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/20 mb-4 block italic">Manifest_Sequence_2024</span>
+                  <div className="flex gap-4">
+                    {ASSET_MANIFESTS.map((_, i) => (
+                      <button 
+                        key={i} 
+                        onClick={() => setActiveAst(i)}
+                        className={`w-16 h-1 transition-all ${activeAst === i ? "bg-black w-32" : "bg-black/10"}`}
+                      />
+                    ))}
                   </div>
-                </div>
+               </div>
+             </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
+            <div className="lg:col-span-8 relative aspect-video rounded-sm overflow-hidden border border-black/5 group bg-[#ddd]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeAst}
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.1 }}
+                  transition={{ duration: 1, ease: [0.19, 1, 0.22, 1] }}
+                  className="absolute inset-0"
+                >
+                  <Image src={ASSET_MANIFESTS[activeAst].img} alt={ASSET_MANIFESTS[activeAst].title} fill className="object-cover grayscale brightness-75 group-hover:grayscale-0 transition-all duration-[2s]" unoptimized />
+                  <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-80" />
+                </motion.div>
+              </AnimatePresence>
+              <div className="absolute bottom-12 left-12 flex flex-col gap-4">
+                 <span className="text-[10px] font-black uppercase tracking-widest bg-black/80 backdrop-blur-md text-white px-6 py-2 border border-white/5">{ASSET_MANIFESTS[activeAst].depth} // ADVISORY</span>
               </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </div>
+
+            <div className="lg:col-span-4 space-y-12">
+               <motion.div
+                  key={activeAst}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="space-y-12"
+               >
+                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-black/60">{ASSET_MANIFESTS[activeAst].id} // ASSET</span>
+                 <h3 className="text-6xl md:text-8xl font-black italic uppercase text-black tracking-tighter">{ASSET_MANIFESTS[activeAst].title}</h3>
+                 <div className="space-y-6 border-y border-black/10 py-12">
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/30">Category</span>
+                       <span className="text-sm font-black text-black uppercase tracking-widest">{ASSET_MANIFESTS[activeAst].category}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/30">Asset_Status</span>
+                       <span className="text-sm font-black text-black uppercase tracking-widest italic">Stable_Optical</span>
+                    </div>
+                 </div>
+                 <p className="text-black/30 text-lg font-light italic leading-loose uppercase tracking-wide">
+                   {ASSET_MANIFESTS[activeAst].desc}
+                 </p>
+                 <button className="flex items-center gap-6 group">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.8em] text-black">Request_Manifest</span>
+                    <div className="w-16 h-16 border border-black/10 rounded-full flex items-center justify-center group-hover:bg-black transition-all">
+                       <ArrowUpRight className="w-6 h-6 text-black group-hover:text-white transition-colors" />
+                    </div>
+                 </button>
+               </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CAPABILITIES ── */}
+      <section className="py-40 bg-[#fcfcfc] border-y border-black/10">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32 text-center">
+             <span className="text-[10px] font-bold uppercase tracking-[1em] text-black/40 mb-8 block italic">Operational Scope</span>
+             <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-black">
+                Technical <br/> <span className="text-black/20 not-italic">Expertise.</span>
+             </h2>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black/10 border border-black/10">
+            {CAPABILITIES.map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.1} className="bg-white p-12 group hover:bg-black/5 transition-all duration-700">
+                 <item.icon className="w-12 h-12 text-black/20 group-hover:text-black transition-colors mb-8" />
+                 <h3 className="text-2xl font-black italic uppercase text-black mb-6">{item.title}</h3>
+                 <p className="text-xs text-black/40 group-hover:text-black font-light tracking-widest uppercase italic leading-loose transition-colors">
+                   {item.desc}
+                 </p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ATELIER / LABORATORY ── */}
+      <section className="py-40 bg-white overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+          <Reveal>
+             <div className="relative aspect-square bg-[#fcfcfc] border border-black/5 p-20 flex flex-col justify-center group overflow-hidden">
+                <div className="absolute top-0 right-0 p-12">
+                   <Box className="w-16 h-16 text-black/5 group-hover:text-black/10 transition-colors" />
+                </div>
+                <Sparkles className="w-16 h-16 text-black mb-12" />
+                <h3 className="text-5xl font-black italic uppercase text-black mb-8">Asset <br/> <span className="text-black/20 not-italic">Atelier.</span></h3>
+                <p className="text-black/40 text-lg leading-relaxed mb-12 font-light uppercase tracking-wide italic leading-loose">
+                  Our Stockholm atelier leverages heavy archival design fabrication and distributed spatial orchestration for the production of non-standard asset artifacts. We push the tectonic limits of spatial drift.
+                </p>
+                <div className="flex gap-12 text-[10px] font-bold uppercase tracking-[0.5em] text-black/30">
+                   <span>[01] ASSET_BOND</span>
+                   <span>[02] SPATIAL_SYNTHESIS</span>
+                </div>
+             </div>
+          </Reveal>
+          <div className="space-y-24">
+             <Reveal delay={0.2}>
+                <span className="text-[10px] font-bold uppercase tracking-[1em] text-black/40 mb-8 block italic">Curation_Sequence</span>
+                <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-none uppercase text-black">Cloud <br/> <span className="text-black/20 not-italic">Manifesto.</span></h2>
+             </Reveal>
+             <div className="space-y-12">
+                {[
+                  { n: "01", t: "Sectional Audit", d: "Rigorous cutting of complex asset volumes to reveal interior structural potential." },
+                  { n: "02", t: "Asset Stress", d: "Simulation of high-fidelity visual performance under extreme archival loads." },
+                  { n: "03", t: "Archive Aging", d: "Analyzing the interaction of archival design models with digital weathering." }
+                ].map((step, i) => (
+                  <Reveal key={step.n} delay={i * 0.1 + 0.3} className="flex gap-12 group border-l border-black/10 pl-8 hover:border-black transition-colors">
+                    <span className="text-4xl font-black italic text-black/10 group-hover:text-black transition-colors">{step.n}</span>
+                    <div>
+                      <h4 className="text-xl font-black uppercase italic text-white mb-2">{step.t}</h4>
+                      <p className="text-xs text-black/40 font-light tracking-widest uppercase italic leading-loose">{step.d}</p>
+                    </div>
+                  </Reveal>
+                ))}
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA / INQUIRY ── */}
+      <section className="py-40 bg-[#fcfcfc] relative">
+         <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+            <div className="bg-black text-white p-24 lg:p-40 relative overflow-hidden flex flex-col items-center text-center group">
+               <div className="absolute inset-0 opacity-10 grayscale brightness-110 group-hover:opacity-20 transition-opacity">
+                  <Image src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&q=80" alt="CTA Cloud" fill className="object-cover" />
+               </div>
+               <Reveal>
+                  <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/50 mb-12 block italic">Allocation Initiation</span>
+                  <h2 className="text-7xl md:text-[12rem] font-black italic tracking-tighter leading-[0.8] uppercase mb-16">
+                     Own <br/> <span className="text-white/30 not-italic">The Cloud.</span>
+                  </h2>
+                  <div className="flex flex-wrap justify-center gap-12 relative z-10">
+                     <button className="px-20 py-8 bg-white text-black font-black uppercase text-sm tracking-[0.5em] hover:italic transition-all">
+                        Request_Allocation
+                     </button>
+                     <button className="px-20 py-8 border border-white/20 text-white font-black uppercase text-sm tracking-[0.5em] hover:bg-white/5 transition-all">
+                        Atelier_Dossier
+                     </button>
+                  </div>
+               </Reveal>
+            </div>
+         </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-white pt-40 pb-20 px-8 md:px-16 border-t border-black/10">
+         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-32 mb-40">
+            <div className="lg:col-span-6">
+               <div className="flex items-center gap-4 mb-12">
+                 <Cpu className="w-10 h-10 text-black" />
+                 <span className="text-3xl font-black tracking-tighter uppercase italic text-black">CLUSTER<span className="text-black/30">//</span>OS</span>
+               </div>
+               <p className="text-black/40 text-sm font-light leading-relaxed uppercase tracking-[0.3em] mb-12 italic max-w-md">
+                 Securing the future of asset objects through high-fidelity orchestration and radical visual clarity.
+               </p>
+               <div className="flex gap-12">
+                 {["TERMINAL", "CLOUD", "FORGE", "ALPHA"].map(s => (
+                   <a key={s} href="#" className="text-[10px] font-bold hover:text-black text-black/30 transition-colors tracking-[0.5em]">[{s}]</a>
+                 ))}
+               </div>
+            </div>
+            
+            <div className="lg:col-span-2">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/40 mb-12">Systems</h4>
+               <ul className="space-y-6 text-xs font-bold uppercase tracking-[0.4em]">
+                 {["Archives", "Telemetry", "Shell", "Journal"].map(item => (
+                   <li key={item}><a href="#" className="hover:text-black transition-colors">{item}</a></li>
+                 ))}
+               </ul>
+            </div>
+
+            <div className="lg:col-span-4">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/40 mb-12">Partner Inquiry</h4>
+               <p className="text-sm text-black/40 font-light mb-12 italic uppercase tracking-[0.2em] leading-loose">
+                 For new commissions, cloud studies, or distribution enclaves, contact our primary command center in Stockholm.
+               </p>
+               <a href="mailto:ops@cluster-os.se" className="text-3xl font-black italic hover:text-black transition-colors block border-b border-black/10 pb-8 uppercase tracking-tighter">
+                  ops@cluster-os.se
+               </a>
+            </div>
+         </div>
+
+         <div className="max-w-[1600px] mx-auto flex flex-col md:row items-center justify-between gap-12 text-[9px] font-bold uppercase tracking-[0.8em] text-black/20 border-t border-black/5 pt-20">
+            <p>© 2024 CLUSTER OS ATELIER AG. ALL RIGHTS RESERVED. STOCKHOLM // GLOBAL.</p>
+            <div className="flex gap-16">
+               <a href="#" className="hover:text-black transition-colors">[Asset_Vault]</a>
+               <a href="#" className="hover:text-white transition-colors">[Terms_of_Service]</a>
+            </div>
+         </div>
+      </footer>
     </div>
   );
 }

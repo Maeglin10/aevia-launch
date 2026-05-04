@@ -1,277 +1,465 @@
 "use client";
 
-import { motion, useScroll, useTransform, AnimatePresence, useInView, useMotionValue, useSpring } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
-import { ArrowRight, Play, X, ChevronDown, Film, Camera, Award, Clock, Eye, Star } from "lucide-react";
+import { 
+  ArrowUpRight, 
+  Menu, 
+  X, 
+  Layers, 
+  ShieldCheck,
+  Plus,
+  Play,
+  ArrowRight,
+  ChevronDown,
+  Monitor,
+  LayoutGrid,
+  Zap,
+  Film,
+  Eye,
+  Maximize2,
+  Minimize2,
+  Box,
+  Settings,
+  Sparkles,
+  Command,
+  Activity,
+  Ruler,
+  Wind,
+  Camera
+} from "lucide-react";
+import "../premium.css";
 
-const FILMS = [
-  { id: 1, title: "PARALLAX", director: "Elias Vorn", year: 2024, runtime: "2h 14m", genre: "Sci-Fi / Drama", awards: "3 Cannes Awards", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1200&q=80", still: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=800&q=80", color: "#f43f5e", rating: 9.1 },
-  { id: 2, title: "MERIDIAN", director: "Sasha Klein", year: 2023, runtime: "1h 58m", genre: "Thriller / Neo-Noir", awards: "Venice Silver Lion", image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=1200&q=80", still: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&q=80", color: "#8b5cf6", rating: 8.7 },
-  { id: 3, title: "SALT OCEAN", director: "Camille Reyes", year: 2023, runtime: "1h 44m", genre: "Documentary", awards: "Sundance Grand Jury", image: "https://images.unsplash.com/photo-1501426026826-31c667bdf23d?w=1200&q=80", still: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=800&q=80", color: "#0ea5e9", rating: 8.4 },
-  { id: 4, title: "AFTERGLOW", director: "Marcus Tan", year: 2022, runtime: "2h 02m", genre: "Romance / Drama", awards: "Palme d'Or", image: "https://images.unsplash.com/photo-1553095066-5014bc7b7f2d?w=1200&q=80", still: "https://images.unsplash.com/photo-1514306191717-452ec28c7814?w=800&q=80", color: "#f59e0b", rating: 9.3 },
+// ─── DATA ──────────────────────────────────────────────────────────────────
+
+const SCENE_MANIFESTS = [
+  { 
+    id: "SCN_01",
+    title: "PARALLAX_VOID", 
+    category: "Anamorphic Study",
+    aspect: "v2.39_CINEMA",
+    img: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1200&q=80",
+    desc: "A high-fidelity study of absolute cinematic volume within the spatial environment. Zero-latency visual synthesis."
+  },
+  { 
+    id: "SCN_02",
+    title: "NEURAL_STILL", 
+    category: "Tactile Frame",
+    aspect: "v1.85_FLAT",
+    img: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=1200&q=80",
+    desc: "Planetary-scale distributed frames orchestrated through neural weight synthesis. High-fidelity narrative routing."
+  },
+  { 
+    id: "SCN_03",
+    title: "VOID_CAPTURE", 
+    category: "Spectral Scene",
+    aspect: "v1.33_ACADEMY",
+    img: "https://images.unsplash.com/photo-1501426026826-31c667bdf23d?w=1200&q=80",
+    desc: "A zero-latency capture engine built for the real-time synthesis of non-standard narrative artifacts through radical shutter injection."
+  }
 ];
 
-const GALLERY = [
-  "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80",
-  "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=800&q=80",
-  "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&q=80",
-  "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=800&q=80",
-  "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&q=80",
-  "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=800&q=80",
+const METRICS = [
+  { label: "Fidelity", val: "99.9%", desc: "Absolute architectural synchronization across all distributed cinematic edge nodes." },
+  { label: "Throughput", val: "12 EB/s", desc: "Sustainable visual delivery through our dedicated high-fidelity production backbone." },
+  { label: "Reliability", val: "IMMUNE", desc: "Zero-leak production logic verified through continuous adversarial stress-testing." }
 ];
 
-const STATS = [
-  { label: "Films Distributed", value: 240, suffix: "+" },
-  { label: "Festival Awards", value: 89, suffix: "" },
-  { label: "Countries", value: 47, suffix: "" },
-  { label: "Avg Rating", value: 8.9, suffix: "" },
+const CAPABILITIES = [
+  { icon: Camera, title: "Optic Forge", desc: "Engineering film volumes through a lens of mathematical and structural purity." },
+  { icon: Eye, title: "Anamorphic Logic", desc: "Scaling viewer interactions through distributed focal orchestration and visual synthesis." },
+  { icon: Activity, title: "Pulse Sync", desc: "Synchronizing system spikes with real-time biological demand cycles for absolute sync." },
+  { icon: Box, title: "Production Shell", desc: "Leveraging heavy archival data fabrication for ultra-high fidelity film protection." }
 ];
 
-function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+// ─── COMPONENTS ──────────────────────────────────────────────────────────────
+
+function Reveal({ children, className = "", delay = 0, y = 30 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-100px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }} className={className}>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.23, 1, 0.32, 1] }}
+      className={className}
+    >
       {children}
     </motion.div>
   );
 }
 
-function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
-  useEffect(() => {
-    if (!inView) return;
-    let n = 0; const step = Math.max(1, Math.ceil(target / 60));
-    const t = setInterval(() => { n += step; if (n >= target) { setCount(target); clearInterval(t); } else setCount(n); }, 24);
-    return () => clearInterval(t);
-  }, [inView, target]);
-  return <span ref={ref}>{count}{suffix}</span>;
-}
+// ─── MAIN SPA ────────────────────────────────────────────────────────────────
 
-function MagneticBtn({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const x = useMotionValue(0); const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 200, damping: 20 });
-  const sy = useSpring(y, { stiffness: 200, damping: 20 });
-  return (
-    <motion.a ref={ref} style={{ x: sx, y: sy }} onMouseMove={e => { const r = ref.current!.getBoundingClientRect(); x.set((e.clientX - r.left - r.width / 2) * 0.35); y.set((e.clientY - r.top - r.height / 2) * 0.35); }} onMouseLeave={() => { x.set(0); y.set(0); }} href="#" className={className}>{children}</motion.a>
-  );
-}
-
-export default function CinematicMotionSPA() {
-  const [activeFilm, setActiveFilm] = useState(FILMS[0]);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [trailerOpen, setTrailerOpen] = useState(false);
-  const [galleryOpen, setGalleryOpen] = useState<number | null>(null);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 180]);
-  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-
-  const faqs = [
-    { q: "How do you select films for distribution?", a: "We look for singular vision over commercial formula. If a film has something to say and a cinematic language to say it with, we want to talk." },
-    { q: "Do you accept international submissions?", a: "Yes — all submissions are language and territory agnostic. We distribute in 47 countries with localised marketing support." },
-    { q: "What does your distribution deal look like?", a: "Non-exclusive festival runs, theatrical windows, then VOD. We take 20% of net receipts — no upfront fees." },
-    { q: "Can I screen one of your titles?", a: "Educational, festival, and repertory screenings available. Contact us with date, venue, and expected audience size." },
-  ];
+export default function FilmUnitSPA() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeScn, setActiveScn] = useState(0);
+  const { scrollY } = useScroll();
+  
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const heroScale = useTransform(scrollY, [0, 800], [1, 1.05]);
 
   return (
-    <div className="min-h-screen bg-[#08060e] text-white" style={{ fontFamily: "'Helvetica Neue', sans-serif" }}>
-      {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-8 py-5 flex items-center justify-between">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#08060e]/80 to-transparent pointer-events-none" />
-        <span className="relative text-sm font-black tracking-[0.2em] uppercase">LUMIÈRE FILMS</span>
-        <div className="relative hidden md:flex gap-8 text-[10px] tracking-[0.2em] uppercase opacity-50">
-          {["Catalogue", "In Cinemas", "Festivals", "About", "Submit"].map(l => (
-            <a key={l} href="#" className="hover:opacity-100 transition-opacity">{l}</a>
+    <div className="min-h-screen bg-[#050508] text-[#eee] font-mono selection:bg-[#eee] selection:text-black">
+      
+      {/* ── FILM OVERLAY ── */}
+      <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.08] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div className="fixed inset-0 z-[0] opacity-10 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
+      </div>
+
+      {/* ── NAVIGATION ── */}
+      <motion.nav 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-16 py-10 mix-blend-difference"
+      >
+        <div className="flex items-center gap-4">
+          <Film className="w-10 h-10 text-white" />
+          <span className="text-2xl font-black tracking-tighter uppercase italic text-white">FILM<span className="text-white/30">//</span>UNIT</span>
+        </div>
+        
+        <div className="hidden lg:flex items-center gap-16 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
+          {["Manifest", "Reserve", "Atelier", "Portal"].map(item => (
+            <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors">/{item}</a>
           ))}
         </div>
-        <MagneticBtn className="relative hidden md:block px-5 py-2 border border-white/20 text-[10px] tracking-[0.2em] uppercase hover:bg-white/10 transition-colors">
-          Submit Film →
-        </MagneticBtn>
-        <button onClick={() => setMobileOpen(true)} className="relative md:hidden">{[0,1,2].map(i => <span key={i} className="block w-6 h-px bg-white mb-1.5" />)}</button>
-      </nav>
 
-      {/* Mobile Menu */}
+        <button 
+          onClick={() => setMenuOpen(true)}
+          className="px-6 py-2 border border-white/20 bg-white/5 backdrop-blur-md text-[10px] font-black uppercase tracking-widest hover:bg-white/20 transition-all text-white"
+        >
+          [INIT_PRODUCTION]
+        </button>
+      </motion.nav>
+
+      {/* ── MOBILE MENU ── */}
       <AnimatePresence>
-        {mobileOpen && (
-          <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }} className="fixed inset-0 z-[100] bg-[#08060e] flex flex-col p-10">
-            <button onClick={() => setMobileOpen(false)} className="self-end mb-12"><X size={24} /></button>
-            {["Catalogue", "In Cinemas", "Festivals", "About", "Submit"].map((l, i) => (
-              <motion.a key={l} href="#" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }} className="text-4xl font-black mb-6 uppercase tracking-wider hover:opacity-50 transition-opacity" onClick={() => setMobileOpen(false)}>{l}</motion.a>
-            ))}
+        {menuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+            className="fixed inset-0 z-[60] bg-[#050508] text-[#eee] p-12 flex flex-col justify-between"
+          >
+            <div className="flex justify-between items-center border-b border-white/10 pb-12">
+              <span className="text-xl font-black uppercase tracking-tighter italic">FILM//UNIT</span>
+              <button onClick={() => setMenuOpen(false)} className="w-12 h-12 flex items-center justify-center border border-white/20 rounded-full">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="flex flex-col gap-12 text-center md:text-left">
+              {["SCENE_MANIFEST", "PRODUCTION_ARCHIVE", "FILM_FORGE", "ASSET_ENCLAVE", "SECURE_AUTH"].map((item, i) => (
+                <motion.a 
+                  key={item}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 + 0.3 }}
+                  href="#"
+                  className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter hover:text-white/40 transition-all leading-none"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item}
+                </motion.a>
+              ))}
+            </div>
+            <div className="flex justify-between text-[10px] font-bold uppercase tracking-[0.5em] border-t border-white/10 pt-12 text-white/30">
+              <span>FILM_PRACTICE</span>
+              <span>EST. 2018 // PARIS</span>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Hero */}
-      <section ref={heroRef} className="relative h-screen flex items-end overflow-hidden">
-        <motion.div style={{ y: heroY, scale: heroScale, opacity: heroOpacity }} className="absolute inset-0">
-          <Image src={activeFilm.image} alt={activeFilm.title} fill unoptimized className="object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#08060e] via-[#08060e]/40 to-[#08060e]/20" />
+      {/* ── HERO SECTION ── */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
+        <motion.div 
+          style={{ opacity: heroOpacity, scale: heroScale }}
+          className="absolute inset-0 z-0"
+        >
+          <Image 
+            src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1600&q=80" 
+            alt="Hero Film" 
+            fill 
+            className="object-cover grayscale brightness-50 contrast-125 opacity-20" 
+            unoptimized 
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050508]" />
         </motion.div>
-        <div className="relative z-10 px-8 md:px-16 pb-16 w-full">
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-            <div>
-              <p className="text-[10px] tracking-[0.3em] uppercase mb-3 opacity-50">{activeFilm.genre} · {activeFilm.year} · {activeFilm.runtime}</p>
-              <h1 className="text-6xl md:text-9xl font-black leading-none tracking-tight">{activeFilm.title}</h1>
-              <p className="text-sm opacity-40 mt-2">Directed by {activeFilm.director} · {activeFilm.awards}</p>
-            </div>
-            <div className="flex items-center gap-4">
-              <button onClick={() => setTrailerOpen(true)} className="flex items-center gap-3 px-6 py-3 border border-white/20 text-xs tracking-widest uppercase hover:bg-white/10 transition-colors">
-                <Play size={12} /> Trailer
-              </button>
-              <div className="flex items-center gap-2 text-sm font-bold" style={{ color: activeFilm.color }}>
-                <Star size={14} fill="currentColor" /> {activeFilm.rating}
+
+        <div className="relative z-10 text-center px-6">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[2.5em] text-white/40 mb-12 block italic">Cinematic Endurance</span>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <h1 className="text-8xl md:text-[18rem] font-black tracking-tighter leading-[0.75] uppercase italic text-white mb-20">
+              RAW <br/> <span className="not-italic text-white/10">FILM.</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.4}>
+            <div className="max-w-2xl mx-auto flex flex-col items-center gap-16 border-t border-white/10 pt-20">
+              <p className="text-white/40 text-xl leading-relaxed font-light uppercase tracking-[0.3em] italic leading-loose text-center">
+                Engineering the ultimate cinematic archives through distributed production orchestration. High-fidelity systems built for absolute structural precision and narrative clarity.
+              </p>
+              <div className="flex gap-8">
+                <button className="px-16 py-6 bg-white text-black font-black uppercase text-xs tracking-[0.4em] hover:bg-black hover:text-white transition-all">
+                  Manifest_Access
+                </button>
+                <button className="px-16 py-6 border border-white/20 text-white font-black uppercase text-xs tracking-[0.4em] hover:bg-white/5 transition-colors">
+                  Atelier_Dossier
+                </button>
               </div>
             </div>
-          </motion.div>
-          {/* Film selectors */}
-          <div className="flex gap-3 mt-8">
-            {FILMS.map((f, i) => (
-              <button key={f.id} onClick={() => setActiveFilm(f)} className="relative overflow-hidden w-16 h-10 transition-all" style={{ outline: f.id === activeFilm.id ? `2px solid ${f.color}` : "2px solid transparent" }}>
-                <Image src={f.still} alt={f.title} fill unoptimized className="object-cover opacity-60" />
-              </button>
+          </Reveal>
+        </div>
+
+        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">
+          <div className="flex flex-col gap-2">
+            <span>PARIS // ATELIER</span>
+            <div className="w-48 h-[1px] bg-white/10" />
+          </div>
+          <div className="flex items-center gap-4 italic uppercase tracking-widest">
+             <span className="animate-pulse">●</span> FILM_STATUS: NOMINAL
+          </div>
+        </div>
+      </section>
+
+      {/* ── METRICS GRID ── */}
+      <section className="py-40 bg-[#0a0a0d]">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-white/5 border border-white/5">
+            {METRICS.map((s, i) => (
+              <Reveal key={s.label} delay={i * 0.1} className="bg-[#050508] p-24 group hover:bg-white/5 transition-all duration-700">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 mb-12 block group-hover:text-white/60">{s.label}</span>
+                <h3 className="text-7xl font-black italic text-white mb-8 group-hover:text-white transition-colors">{s.val}</h3>
+                <p className="text-xs text-white/30 font-light tracking-widest uppercase italic leading-loose group-hover:text-white/60">
+                  {s.desc}
+                </p>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Catalogue */}
-      <section className="py-32 px-6 max-w-7xl mx-auto">
-        <Reveal><h2 className="text-3xl font-black tracking-tight mb-2 uppercase">Catalogue</h2></Reveal>
-        <Reveal delay={0.1}><p className="text-sm opacity-40 mb-16">240+ films from independent voices worldwide.</p></Reveal>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {FILMS.map((f, i) => (
-            <Reveal key={f.id} delay={i * 0.1}>
-              <motion.div whileHover={{ y: -8 }} onClick={() => setActiveFilm(f)} className="cursor-pointer group">
-                <div className="relative overflow-hidden mb-4" style={{ aspectRatio: "2/3" }}>
-                  <Image src={f.still} alt={f.title} fill unoptimized className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                    <span className="text-[10px] tracking-widest uppercase border border-white/40 px-3 py-1.5">View Film</span>
+      {/* SCENE SHOWCASE ── */}
+      <section className="py-40 bg-black relative overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32">
+             <div className="flex flex-col lg:flex-row justify-between items-end gap-12 border-b border-white/10 pb-12">
+               <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-white">
+                 Scene <br/> <span className="text-white/20 not-italic">Archive.</span>
+               </h2>
+               <div className="text-right">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/20 mb-4 block italic">Manifest_Sequence_2024</span>
+                  <div className="flex gap-4">
+                    {SCENE_MANIFESTS.map((_, i) => (
+                      <button 
+                        key={i} 
+                        onClick={() => setActiveScn(i)}
+                        className={`w-16 h-1 transition-all ${activeScn === i ? "bg-white w-32" : "bg-white/10"}`}
+                      />
+                    ))}
                   </div>
-                  <div className="absolute top-3 left-3 text-[9px] font-bold px-2 py-1 text-white" style={{ background: f.color }}>{f.awards}</div>
-                  <div className="absolute bottom-3 right-3 flex items-center gap-1 text-xs font-bold" style={{ color: f.color }}>
-                    <Star size={10} fill="currentColor" /> {f.rating}
-                  </div>
-                </div>
-                <h3 className="text-base font-black tracking-wide">{f.title}</h3>
-                <div className="flex items-center justify-between mt-1 text-[10px] opacity-40">
-                  <span>{f.director}</span><span>{f.year} · {f.runtime}</span>
-                </div>
-              </motion.div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Gallery */}
-      <section className="py-8 px-6 max-w-7xl mx-auto">
-        <Reveal><h2 className="text-2xl font-black tracking-tight mb-12 uppercase">Production Stills</h2></Reveal>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-          {GALLERY.map((img, i) => (
-            <Reveal key={i} delay={i * 0.06}>
-              <motion.div whileHover={{ scale: 1.02 }} onClick={() => setGalleryOpen(i)} className="relative overflow-hidden cursor-pointer" style={{ aspectRatio: i % 3 === 0 ? "1/1" : "16/9" }}>
-                <Image src={img} alt={`still ${i}`} fill unoptimized className="object-cover" />
-                <div className="absolute inset-0 bg-black/0 hover:bg-black/30 transition-colors flex items-center justify-center">
-                  <Eye size={20} className="opacity-0 group-hover:opacity-100" />
-                </div>
-              </motion.div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="py-24 px-6 border-t border-white/5 border-b border-white/5">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10">
-          {STATS.map((s, i) => (
-            <Reveal key={s.label} delay={i * 0.1} className="text-center">
-              <div className="text-5xl font-black mb-2" style={{ color: FILMS[i % FILMS.length].color }}><Counter target={s.value} suffix={s.suffix} /></div>
-              <div className="text-[10px] tracking-[0.2em] uppercase opacity-30">{s.label}</div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="py-24 bg-[#0e0b16] px-6">
-        <div className="max-w-2xl mx-auto">
-          <Reveal><h2 className="text-2xl font-black tracking-tight uppercase mb-12">Distribution FAQ</h2></Reveal>
-          {faqs.map((f, i) => (
-            <Reveal key={i} delay={i * 0.05}>
-              <div className="border-b border-white/10">
-                <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full text-left py-5 flex items-center justify-between text-sm font-bold">
-                  {f.q}
-                  <motion.span animate={{ rotate: openFaq === i ? 180 : 0 }}><ChevronDown size={16} /></motion.span>
-                </button>
-                <AnimatePresence>
-                  {openFaq === i && (
-                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                      <p className="pb-5 text-sm opacity-50 leading-relaxed">{f.a}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-32 px-6 text-center relative overflow-hidden">
-        <motion.div animate={{ opacity: [0.04, 0.08, 0.04] }} transition={{ duration: 6, repeat: Infinity }} className="absolute inset-0 bg-gradient-radial from-rose-500/20 to-transparent" />
-        <div className="relative z-10">
-          <Reveal><h2 className="text-5xl md:text-8xl font-black tracking-tight mb-4 leading-none uppercase">Your Film.<br /><em className="not-italic" style={{ color: activeFilm.color }}>Our Stage.</em></h2></Reveal>
-          <Reveal delay={0.2}><p className="text-sm opacity-40 mb-10 max-w-md mx-auto">We believe every singular film deserves an audience. Tell us about yours.</p></Reveal>
-          <Reveal delay={0.3}>
-            <MagneticBtn className="inline-flex items-center gap-3 px-10 py-5 font-black text-sm tracking-[0.2em] uppercase text-white" style={{ background: activeFilm.color }}>
-              Submit Your Film <ArrowRight size={16} />
-            </MagneticBtn>
+               </div>
+             </div>
           </Reveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
+            <div className="lg:col-span-8 relative aspect-video rounded-sm overflow-hidden border border-white/5 group bg-[#111]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeScn}
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.1 }}
+                  transition={{ duration: 1, ease: [0.19, 1, 0.22, 1] }}
+                  className="absolute inset-0"
+                >
+                  <Image src={SCENE_MANIFESTS[activeScn].img} alt={SCENE_MANIFESTS[activeScn].title} fill className="object-cover grayscale contrast-125 opacity-40 group-hover:opacity-60 transition-opacity duration-1000" unoptimized />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
+                </motion.div>
+              </AnimatePresence>
+              <div className="absolute bottom-12 left-12 flex flex-col gap-4">
+                 <span className="text-[10px] font-black uppercase tracking-widest bg-white/10 backdrop-blur-md text-white px-6 py-2 border border-white/5">{SCENE_MANIFESTS[activeScn].aspect} // ADVISORY</span>
+              </div>
+            </div>
+
+            <div className="lg:col-span-4 space-y-12">
+               <motion.div
+                  key={activeScn}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="space-y-12"
+               >
+                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40">{SCENE_MANIFESTS[activeScn].id} // ASSET</span>
+                 <h3 className="text-6xl md:text-8xl font-black italic uppercase text-white tracking-tighter">{SCENE_MANIFESTS[activeScn].title}</h3>
+                 <div className="space-y-6 border-y border-white/10 py-12">
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Category</span>
+                       <span className="text-sm font-black text-white uppercase tracking-widest">{SCENE_MANIFESTS[activeScn].category}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Scene_Status</span>
+                       <span className="text-sm font-black text-white uppercase tracking-widest italic">STABLE_OPTIC</span>
+                    </div>
+                 </div>
+                 <p className="text-white/30 text-lg font-light italic leading-loose uppercase tracking-wide">
+                   {SCENE_MANIFESTS[activeScn].desc}
+                 </p>
+                 <button className="flex items-center gap-6 group">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.8em] text-white">Request_Manifest</span>
+                    <div className="w-16 h-16 border border-white/10 rounded-full flex items-center justify-center group-hover:bg-white transition-all">
+                       <ArrowUpRight className="w-6 h-6 text-white group-hover:text-black transition-colors" />
+                    </div>
+                 </button>
+               </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/10 py-12 px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] opacity-30 tracking-wider uppercase">
-        <span>Lumière Films © 2026</span>
-        <div className="flex gap-8">{["Instagram", "Letterboxd", "Vimeo", "Press"].map(l => <a key={l} href="#" className="hover:opacity-100 transition-opacity">{l}</a>)}</div>
-      </footer>
+      {/* ── CAPABILITIES ── */}
+      <section className="py-40 bg-[#050508] border-y border-white/10">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32 text-center">
+             <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/40 mb-8 block italic">Operational Scope</span>
+             <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-white">
+                Technical <br/> <span className="text-white/20 not-italic">Expertise.</span>
+             </h2>
+          </Reveal>
 
-      {/* Trailer Modal */}
-      <AnimatePresence>
-        {trailerOpen && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/90 flex items-center justify-center p-6" onClick={() => setTrailerOpen(false)}>
-            <motion.div initial={{ scale: 0.85 }} animate={{ scale: 1 }} exit={{ scale: 0.85 }} onClick={e => e.stopPropagation()} className="w-full max-w-3xl bg-black aspect-video flex items-center justify-center relative border border-white/10">
-              <button onClick={() => setTrailerOpen(false)} className="absolute top-4 right-4"><X size={20} /></button>
-              <Play size={64} className="opacity-20" />
-              <p className="absolute bottom-4 text-xs opacity-30 tracking-widest">TRAILER · {activeFilm.title}</p>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10">
+            {CAPABILITIES.map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.1} className="bg-[#0a0a0d] p-12 group hover:bg-white/5 transition-all duration-700">
+                 <item.icon className="w-12 h-12 text-white/20 group-hover:text-white transition-colors mb-8" />
+                 <h3 className="text-2xl font-black italic uppercase text-white mb-6">{item.title}</h3>
+                 <p className="text-xs text-white/40 group-hover:text-white font-light tracking-widest uppercase italic leading-loose transition-colors">
+                   {item.desc}
+                 </p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      {/* Gallery Lightbox */}
-      <AnimatePresence>
-        {galleryOpen !== null && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center p-6" onClick={() => setGalleryOpen(null)}>
-            <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }} onClick={e => e.stopPropagation()} className="relative w-full max-w-4xl" style={{ aspectRatio: "16/9" }}>
-              <Image src={GALLERY[galleryOpen]} alt="still" fill unoptimized className="object-contain" />
-              <button onClick={() => setGalleryOpen(null)} className="absolute top-0 right-0 -mt-10 opacity-60 hover:opacity-100"><X size={20} /></button>
-              <div className="absolute bottom-0 left-0 right-0 flex justify-center gap-2 -mb-8">
-                {GALLERY.map((_, i) => (
-                  <button key={i} onClick={e => { e.stopPropagation(); setGalleryOpen(i); }} className="w-4 h-1 transition-all" style={{ background: i === galleryOpen ? "white" : "rgba(255,255,255,0.2)" }} />
+      {/* ATELIER / LABORATORY ── */}
+      <section className="py-40 bg-black overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+          <Reveal>
+             <div className="relative aspect-square bg-[#050508] border border-white/5 p-20 flex flex-col justify-center group overflow-hidden">
+                <div className="absolute top-0 right-0 p-12">
+                   <Box className="w-16 h-16 text-white/5 group-hover:text-white/10 transition-colors" />
+                </div>
+                <Sparkles className="w-16 h-16 text-white mb-12" />
+                <h3 className="text-5xl font-black italic uppercase text-white mb-8">Film <br/> <span className="text-white/20 not-italic">Atelier.</span></h3>
+                <p className="text-white/40 text-lg leading-relaxed mb-12 font-light uppercase tracking-wide italic leading-loose">
+                  Our Paris atelier leverages heavy archival design fabrication and distributed spatial orchestration for the production of non-standard cinematic artifacts. We push the tectonic limits of spatial production.
+                </p>
+                <div className="flex gap-12 text-[10px] font-bold uppercase tracking-[0.5em] text-white/30">
+                   <span>[01] FILM_BOND</span>
+                   <span>[02] SPATIAL_SYNTHESIS</span>
+                </div>
+             </div>
+          </Reveal>
+          <div className="space-y-24">
+             <Reveal delay={0.2}>
+                <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/40 mb-8 block italic">Curation_Sequence</span>
+                <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-none uppercase text-white">Film <br/> <span className="text-white/20 not-italic">Manifesto.</span></h2>
+             </Reveal>
+             <div className="space-y-12">
+                {[
+                  { n: "01", t: "Sectional Audit", d: "Rigorous cutting of complex film volumes to reveal interior structural potential." },
+                  { n: "02", t: "Film Stress", d: "Simulation of high-fidelity visual performance under extreme archival loads." },
+                  { n: "03", t: "Archive Aging", d: "Analyzing the interaction of archival film models with digital weathering." }
+                ].map((step, i) => (
+                  <Reveal key={step.n} delay={i * 0.1 + 0.3} className="flex gap-12 group border-l border-white/10 pl-8 hover:border-white transition-colors">
+                    <span className="text-4xl font-black italic text-white/10 group-hover:text-white transition-colors">{step.n}</span>
+                    <div>
+                      <h4 className="text-xl font-black uppercase italic text-white mb-2">{step.t}</h4>
+                      <p className="text-xs text-white/40 font-light tracking-widest uppercase italic leading-loose">{step.d}</p>
+                    </div>
+                  </Reveal>
                 ))}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA / INQUIRY ── */}
+      <section className="py-40 bg-[#050508] relative">
+         <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+            <div className="bg-white text-black p-24 lg:p-40 relative overflow-hidden flex flex-col items-center text-center group">
+               <div className="absolute inset-0 opacity-10 grayscale brightness-110 group-hover:opacity-20 transition-opacity">
+                  <Image src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1600&q=80" alt="CTA Film" fill className="object-cover" />
+               </div>
+               <Reveal>
+                  <span className="text-[10px] font-bold uppercase tracking-[1em] text-black/50 mb-12 block italic">Allocation Initiation</span>
+                  <h2 className="text-7xl md:text-[12rem] font-black italic tracking-tighter leading-[0.8] uppercase mb-16">
+                     Own <br/> <span className="text-black/30 not-italic">The Unit.</span>
+                  </h2>
+                  <div className="flex flex-wrap justify-center gap-12 relative z-10">
+                     <button className="px-20 py-8 bg-black text-white font-black uppercase text-sm tracking-[0.5em] hover:italic transition-all">
+                        Request_Access
+                     </button>
+                     <button className="px-20 py-8 border border-black/20 text-black font-black uppercase text-sm tracking-[0.5em] hover:bg-black/5 transition-all">
+                        Atelier_Dossier
+                     </button>
+                  </div>
+               </Reveal>
+            </div>
+         </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-black pt-40 pb-20 px-8 md:px-16 border-t border-white/10">
+         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-32 mb-40">
+            <div className="lg:col-span-6">
+               <div className="flex items-center gap-4 mb-12">
+                 <Film className="w-10 h-10 text-white" />
+                 <span className="text-3xl font-black tracking-tighter uppercase italic text-white">FILM<span className="text-white/30">//</span>UNIT</span>
+               </div>
+               <p className="text-white/40 text-sm font-light leading-relaxed uppercase tracking-[0.3em] mb-12 italic max-w-md">
+                 Securing the future of film objects through high-fidelity orchestration and radical visual clarity.
+               </p>
+               <div className="flex gap-12">
+                 {["TERMINAL", "FILM", "FORGE", "ALPHA"].map(s => (
+                   <a key={s} href="#" className="text-[10px] font-bold hover:text-white text-white/30 transition-colors tracking-[0.5em]">[{s}]</a>
+                 ))}
+               </div>
+            </div>
+            
+            <div className="lg:col-span-2">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40 mb-12">Systems</h4>
+               <ul className="space-y-6 text-xs font-bold uppercase tracking-[0.4em]">
+                 {["Archives", "Telemetry", "Shell", "Journal"].map(item => (
+                   <li key={item}><a href="#" className="hover:text-white transition-colors">{item}</a></li>
+                 ))}
+               </ul>
+            </div>
+
+            <div className="lg:col-span-4">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40 mb-12">Partner Inquiry</h4>
+               <p className="text-sm text-white/40 font-light mb-12 italic uppercase tracking-[0.2em] leading-loose">
+                 For new commissions, film studies, or distribution enclaves, contact our primary command center in Paris.
+               </p>
+               <a href="mailto:ops@film-unit.fr" className="text-3xl font-black italic hover:text-white transition-colors block border-b border-white/10 pb-8 uppercase tracking-tighter">
+                  ops@film-unit.fr
+               </a>
+            </div>
+         </div>
+
+         <div className="max-w-[1600px] mx-auto flex flex-col md:row items-center justify-between gap-12 text-[9px] font-bold uppercase tracking-[0.8em] text-white/20 border-t border-white/5 pt-20">
+            <p>© 2024 FILM UNIT ATELIER AG. ALL RIGHTS RESERVED. PARIS // GLOBAL.</p>
+            <div className="flex gap-16">
+               <a href="#" className="hover:text-white transition-colors">[Film_Vault]</a>
+               <a href="#" className="hover:text-white transition-colors">[Terms_of_Service]</a>
+            </div>
+         </div>
+      </footer>
     </div>
   );
 }

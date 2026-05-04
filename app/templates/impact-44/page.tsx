@@ -1,310 +1,466 @@
 "use client";
 
-import { motion, useScroll, useTransform, AnimatePresence, useInView, useMotionValue, useSpring } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
-import { ArrowRight, X, ChevronDown, Brain, Network, Cpu, Eye, Zap, GitMerge, TrendingUp, Activity } from "lucide-react";
+import { 
+  ArrowUpRight, 
+  Menu, 
+  X, 
+  Layers, 
+  ShieldCheck,
+  Plus,
+  Play,
+  ArrowRight,
+  ChevronDown,
+  Monitor,
+  LayoutGrid,
+  Zap,
+  Brain,
+  Eye,
+  Maximize2,
+  Minimize2,
+  Box,
+  Settings,
+  Sparkles,
+  Command,
+  Activity,
+  Ruler,
+  Wind,
+  Network,
+  Cpu
+} from "lucide-react";
+import "../premium.css";
 
-const MODELS = [
-  { id: "m1", name: "SYNAPSE_7B", type: "Language", accuracy: 94.2, params: "7B", tasks: 847, image: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&q=80", color: "#818cf8" },
-  { id: "m2", name: "VISIO_12B", type: "Vision", accuracy: 97.1, params: "12B", tasks: 1240, image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80", color: "#34d399" },
-  { id: "m3", name: "MESH_3B", type: "Graph Neural", accuracy: 89.7, params: "3B", tasks: 492, image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80", color: "#f472b6" },
-  { id: "m4", name: "AXON_22B", type: "Multimodal", accuracy: 98.4, params: "22B", tasks: 2103, image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&q=80", color: "#fb923c" },
-  { id: "m5", name: "REFLEX_1B", type: "Edge / Mobile", accuracy: 86.3, params: "1B", tasks: 304, image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80", color: "#38bdf8" },
-  { id: "m6", name: "CORTEX_70B", type: "Research", accuracy: 99.1, params: "70B", tasks: 3800, image: "https://images.unsplash.com/photo-1561144257-e32e8a34c834?w=800&q=80", color: "#e879f9" },
+// ─── DATA ──────────────────────────────────────────────────────────────────
+
+const NODE_MANIFESTS = [
+  { 
+    id: "NOD_01",
+    title: "NEURAL_VOID", 
+    category: "Inference Node",
+    latency: "v9.4_MS",
+    img: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1200&q=80",
+    desc: "A high-fidelity study of absolute inference density within the spatial environment. Zero-latency network synthesis."
+  },
+  { 
+    id: "NOD_02",
+    title: "MESH_LINK", 
+    category: "Synchronized Link",
+    latency: "v3.1_PEAK",
+    img: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&q=80",
+    desc: "Planetary-scale distributed links orchestrated through neural weight synthesis. High-fidelity network routing."
+  },
+  { 
+    id: "NOD_03",
+    title: "VOID_NETWORK", 
+    category: "Spectral Mesh",
+    latency: "v9.0_STARK",
+    img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&q=80",
+    desc: "A zero-latency mesh engine built for the real-time synthesis of non-standard neural artifacts through radical weight injection."
+  }
 ];
 
-const STATS = [
-  { label: "Models Deployed", value: 42, suffix: "" },
-  { label: "Daily Inferences", value: 840, suffix: "M" },
-  { label: "Avg Latency", value: 12, suffix: "ms" },
-  { label: "Uptime", value: 99.98, suffix: "%" },
+const METRICS = [
+  { label: "Stability", val: "99.9%", desc: "Absolute architectural synchronization across all distributed neural edge nodes." },
+  { label: "Throughput", val: "12 EB/s", desc: "Sustainable visual delivery through our dedicated high-fidelity network backbone." },
+  { label: "Reliability", val: "IMMUNE", desc: "Zero-leak network logic verified through continuous adversarial stress-testing." }
 ];
 
-const USECASES = [
-  { icon: Brain, title: "Cognitive Reasoning", desc: "Multi-step inference chains with structured chain-of-thought reasoning and self-consistency checks." },
-  { icon: Eye, title: "Visual Understanding", desc: "Object detection, scene parsing, and document analysis from raw pixel inputs in real-time." },
-  { icon: Network, title: "Graph Intelligence", desc: "Entity relationship extraction and knowledge graph construction from unstructured text corpora." },
-  { icon: Zap, title: "Edge Inference", desc: "Quantized models running on resource-constrained devices with sub-16ms p99 latency." },
-  { icon: GitMerge, title: "Multi-Agent Routing", desc: "Dynamic task decomposition and routing across specialized models with shared memory state." },
-  { icon: TrendingUp, title: "Fine-Tuning API", desc: "Continuous learning pipelines with LoRA adapters. Production checkpoints in under 4 hours." },
+const CAPABILITIES = [
+  { icon: Cpu, title: "Neural Forge", desc: "Engineering mesh volumes through a lens of mathematical and structural purity." },
+  { icon: Eye, title: "Inference Logic", desc: "Scaling viewer interactions through distributed focal orchestration and visual synthesis." },
+  { icon: Activity, title: "Pulse Sync", desc: "Synchronizing system spikes with real-time biological demand cycles for absolute sync." },
+  { icon: Box, title: "Network Shell", desc: "Leveraging heavy archival data fabrication for ultra-high fidelity neural protection." }
 ];
 
-function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+// ─── COMPONENTS ──────────────────────────────────────────────────────────────
+
+function Reveal({ children, className = "", delay = 0, y = 30 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-100px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 36 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }} className={className}>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.23, 1, 0.32, 1] }}
+      className={className}
+    >
       {children}
     </motion.div>
   );
 }
 
-function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
-  useEffect(() => {
-    if (!inView) return;
-    let n = 0; const step = Math.max(1, Math.ceil(target / 55));
-    const t = setInterval(() => { n += step; if (n >= target) { setCount(target); clearInterval(t); } else setCount(n); }, 24);
-    return () => clearInterval(t);
-  }, [inView, target]);
-  return <span ref={ref}>{count}{suffix}</span>;
-}
+// ─── MAIN SPA ────────────────────────────────────────────────────────────────
 
-function AccuracyBar({ value, color }: { value: number; color: string }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
-  return (
-    <div ref={ref} className="h-1 bg-white/10 rounded-full overflow-hidden">
-      <motion.div initial={{ width: 0 }} animate={inView ? { width: `${value}%` } : {}} transition={{ duration: 1.2, ease: "easeOut" }} className="h-full rounded-full" style={{ background: color }} />
-    </div>
-  );
-}
-
-function MagneticBtn({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const x = useMotionValue(0); const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 200, damping: 20 });
-  const sy = useSpring(y, { stiffness: 200, damping: 20 });
-  return (
-    <motion.a ref={ref} style={{ x: sx, y: sy }} onMouseMove={e => { const r = ref.current!.getBoundingClientRect(); x.set((e.clientX - r.left - r.width / 2) * 0.35); y.set((e.clientY - r.top - r.height / 2) * 0.35); }} onMouseLeave={() => { x.set(0); y.set(0); }} href="#" className={className}>{children}</motion.a>
-  );
-}
-
-export default function ParticleNeuralWeb() {
-  const [activeModel, setActiveModel] = useState<typeof MODELS[0] | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 160]);
-  const cx = useMotionValue(0); const cy = useMotionValue(0);
-  const scx = useSpring(cx, { stiffness: 70, damping: 20 });
-  const scy = useSpring(cy, { stiffness: 70, damping: 20 });
-
-  // Neural pulse animation
-  const [pulse, setPulse] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setPulse(p => (p + 1) % 4), 1200);
-    return () => clearInterval(t);
-  }, []);
-
-  const faqs = [
-    { q: "What inference backends do you support?", a: "CUDA, ROCm, Apple Neural Engine, and WebAssembly. Models auto-select the optimal backend based on the target hardware." },
-    { q: "How does fine-tuning pricing work?", a: "Fine-tuning is billed per GPU-hour with LoRA adapters bringing most jobs under $50. Full fine-tunes for 70B models are project-quoted." },
-    { q: "Is on-premise deployment available?", a: "Yes — AXON and SYNAPSE ship as Docker images with optional Kubernetes operators. Enterprise contracts include SLA and 24/7 support." },
-    { q: "What's the context window for CORTEX_70B?", a: "256K tokens with sparse attention. Benchmarked at 99.1% MMLU accuracy with 18-second TTFT at 128K context." },
-  ];
+export default function NeuralMeshSPA() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeNod, setActiveNod] = useState(0);
+  const { scrollY } = useScroll();
+  
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const heroScale = useTransform(scrollY, [0, 800], [1, 1.05]);
 
   return (
-    <div className="min-h-screen bg-[#05060f] text-white font-sans">
-      {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 flex items-center justify-between border-b border-white/5 bg-[#05060f]/90 backdrop-blur-lg">
-        <div className="flex items-center gap-3">
-          <div className="relative w-7 h-7">
-            <div className="absolute inset-0 rounded-full border border-[#818cf8]/40 animate-ping" style={{ animationDuration: "2s" }} />
-            <div className="absolute inset-1.5 rounded-full bg-[#818cf8]" />
-          </div>
-          <span className="text-sm font-black tracking-[0.15em] uppercase">NEURALWEB</span>
+    <div className="min-h-screen bg-[#050508] text-[#eee] font-mono selection:bg-[#eee] selection:text-black">
+      
+      {/* ── NEURAL OVERLAY ── */}
+      <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.08] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div className="fixed inset-0 z-[0] opacity-10 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
+      </div>
+
+      {/* ── NAVIGATION ── */}
+      <motion.nav 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-16 py-10 mix-blend-difference"
+      >
+        <div className="flex items-center gap-4">
+          <Brain className="w-10 h-10 text-white" />
+          <span className="text-2xl font-black tracking-tighter uppercase italic text-white">NEURAL<span className="text-white/30">//</span>MESH</span>
         </div>
-        <div className="hidden md:flex gap-8 text-[10px] tracking-[0.2em] uppercase opacity-50">
-          {["Models", "API", "Research", "Pricing", "Status"].map(l => (
-            <a key={l} href="#" className="hover:text-[#818cf8] hover:opacity-100 transition-all">{l}</a>
+        
+        <div className="hidden lg:flex items-center gap-16 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
+          {["Manifest", "Reserve", "Atelier", "Portal"].map(item => (
+            <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors">/{item}</a>
           ))}
         </div>
-        <MagneticBtn className="hidden md:flex items-center gap-2 px-5 py-2 bg-[#818cf8] text-[#05060f] text-xs font-black tracking-widest uppercase">
-          Free API Key
-        </MagneticBtn>
-        <button onClick={() => setMobileOpen(true)} className="md:hidden">{[0,1,2].map(i => <span key={i} className="block w-5 h-px bg-white mb-1.5" />)}</button>
-      </nav>
 
-      {/* Mobile Menu */}
+        <button 
+          onClick={() => setMenuOpen(true)}
+          className="px-6 py-2 border border-white/20 bg-white/5 backdrop-blur-md text-[10px] font-black uppercase tracking-widest hover:bg-white/20 transition-all text-white"
+        >
+          [INIT_MESH]
+        </button>
+      </motion.nav>
+
+      {/* ── MOBILE MENU ── */}
       <AnimatePresence>
-        {mobileOpen && (
-          <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }} className="fixed inset-0 z-[100] bg-[#05060f] flex flex-col p-10">
-            <button onClick={() => setMobileOpen(false)} className="self-end mb-12"><X size={24} /></button>
-            {["Models", "API", "Research", "Pricing", "Status"].map((l, i) => (
-              <motion.a key={l} href="#" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }} className="text-4xl font-black mb-6 uppercase tracking-wider hover:text-[#818cf8] transition-colors" onClick={() => setMobileOpen(false)}>{l}</motion.a>
-            ))}
+        {menuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+            className="fixed inset-0 z-[60] bg-[#050508] text-[#eee] p-12 flex flex-col justify-between"
+          >
+            <div className="flex justify-between items-center border-b border-white/10 pb-12">
+              <span className="text-xl font-black uppercase tracking-tighter italic">NEURAL//MESH</span>
+              <button onClick={() => setMenuOpen(false)} className="w-12 h-12 flex items-center justify-center border border-white/20 rounded-full">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="flex flex-col gap-12 text-center md:text-left">
+              {["NODE_MANIFEST", "NETWORK_ARCHIVE", "MESH_FORGE", "ASSET_ENCLAVE", "SECURE_AUTH"].map((item, i) => (
+                <motion.a 
+                  key={item}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 + 0.3 }}
+                  href="#"
+                  className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter hover:text-white/40 transition-all leading-none"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item}
+                </motion.a>
+              ))}
+            </div>
+            <div className="flex justify-between text-[10px] font-bold uppercase tracking-[0.5em] border-t border-white/10 pt-12 text-white/30">
+              <span>MESH_PRACTICE</span>
+              <span>EST. 2018 // TOKYO</span>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Hero */}
-      <section ref={heroRef} className="relative h-screen flex items-center justify-center overflow-hidden"
-        onMouseMove={e => { cx.set(e.clientX - window.innerWidth / 2); cy.set(e.clientY - window.innerHeight / 2); }}>
-        <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={MODELS[3].image} alt="hero" fill unoptimized className="object-cover opacity-15" />
-          <div className="absolute inset-0 bg-[#05060f]/80" />
+      {/* ── HERO SECTION ── */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
+        <motion.div 
+          style={{ opacity: heroOpacity, scale: heroScale }}
+          className="absolute inset-0 z-0"
+        >
+          <Image 
+            src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1600&q=80" 
+            alt="Hero Neural" 
+            fill 
+            className="object-cover grayscale brightness-50 contrast-125 opacity-20" 
+            unoptimized 
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050508]" />
         </motion.div>
-        {/* Cursor orb */}
-        <motion.div className="absolute w-[700px] h-[700px] rounded-full pointer-events-none blur-3xl" style={{ x: scx, y: scy, background: "radial-gradient(circle, rgba(129,140,248,0.1) 0%, transparent 70%)", left: "50%", top: "50%", translateX: "-50%", translateY: "-50%" }} />
-        {/* Node dots */}
-        {[...Array(12)].map((_, i) => (
-          <motion.div key={i} animate={{ opacity: pulse === i % 4 ? 0.6 : 0.1, scale: pulse === i % 4 ? 1.5 : 1 }} transition={{ duration: 0.4 }} className="absolute w-1.5 h-1.5 rounded-full bg-[#818cf8]" style={{ left: `${10 + (i % 4) * 25}%`, top: `${20 + Math.floor(i / 4) * 30}%` }} />
-        ))}
-        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[10px] tracking-[0.3em] text-[#818cf8] mb-6 flex items-center justify-center gap-3">
-            <Activity size={10} /> NEXT-GEN AI INFERENCE PLATFORM
-          </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.2 }} className="text-5xl md:text-9xl font-black leading-none tracking-tight mb-6">
-            NEURAL<br /><span className="text-[#818cf8]">WEB</span>
-          </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="text-sm opacity-40 max-w-xl mx-auto mb-10 leading-relaxed">
-            6 specialized models. 840M daily inferences. One unified API for everything from edge to research-grade tasks.
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }} className="flex gap-4 justify-center flex-wrap">
-            <a href="#" className="px-8 py-4 bg-[#818cf8] text-[#05060f] font-black text-xs tracking-[0.2em] uppercase">Get API Key</a>
-            <a href="#" className="px-8 py-4 border border-white/20 text-xs tracking-[0.2em] uppercase hover:bg-white/5 transition-colors">Read Docs</a>
-          </motion.div>
+
+        <div className="relative z-10 text-center px-6">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[2.5em] text-white/40 mb-12 block italic">Inference Endurance</span>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <h1 className="text-8xl md:text-[18rem] font-black tracking-tighter leading-[0.75] uppercase italic text-white mb-20">
+              RAW <br/> <span className="not-italic text-white/10">MESH.</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.4}>
+            <div className="max-w-2xl mx-auto flex flex-col items-center gap-16 border-t border-white/10 pt-20">
+              <p className="text-white/40 text-xl leading-relaxed font-light uppercase tracking-[0.3em] italic leading-loose text-center">
+                Engineering the ultimate neural archives through distributed mesh orchestration. High-fidelity systems built for absolute structural precision and narrative clarity.
+              </p>
+              <div className="flex gap-8">
+                <button className="px-16 py-6 bg-white text-black font-black uppercase text-xs tracking-[0.4em] hover:bg-black hover:text-white transition-all">
+                  Manifest_Access
+                </button>
+                <button className="px-16 py-6 border border-white/20 text-white font-black uppercase text-xs tracking-[0.4em] hover:bg-white/5 transition-colors">
+                  Atelier_Dossier
+                </button>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+
+        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">
+          <div className="flex flex-col gap-2">
+            <span>TOKYO // ATELIER</span>
+            <div className="w-48 h-[1px] bg-white/10" />
+          </div>
+          <div className="flex items-center gap-4 italic uppercase tracking-widest">
+             <span className="animate-pulse">●</span> MESH_STATUS: NOMINAL
+          </div>
         </div>
       </section>
 
-      {/* Marquee */}
-      <div className="border-y border-[#818cf8]/10 py-3 overflow-hidden bg-[#818cf8]/5">
-        <motion.div animate={{ x: [0, -2400] }} transition={{ repeat: Infinity, duration: 30, ease: "linear" }} className="flex gap-12 whitespace-nowrap">
-          {Array(10).fill(0).map((_, i) => (
-            <span key={i} className="text-[9px] tracking-[0.2em] text-[#818cf8]/40 uppercase">SYNAPSE_7B · VISIO_12B · MESH_3B · AXON_22B · REFLEX_1B · CORTEX_70B · 840M INFERENCES/DAY · 12MS LATENCY ·</span>
-          ))}
-        </motion.div>
-      </div>
-
-      {/* Models */}
-      <section className="py-24 px-6 max-w-7xl mx-auto">
-        <Reveal><h2 className="text-2xl font-black tracking-tight uppercase mb-2">Model Hub</h2></Reveal>
-        <Reveal delay={0.1}><p className="text-sm opacity-40 mb-16">Select from 6 production-grade models or fine-tune your own.</p></Reveal>
-        <div className="grid md:grid-cols-3 gap-4">
-          {MODELS.map((m, i) => (
-            <Reveal key={m.id} delay={i * 0.07}>
-              <motion.div whileHover={{ scale: 1.02 }} onClick={() => setActiveModel(m)} className="cursor-pointer border border-white/5 hover:border-white/10 transition-colors bg-[#0a0b16] p-6 group">
-                <div className="relative overflow-hidden mb-4" style={{ aspectRatio: "16/9" }}>
-                  <Image src={m.image} alt={m.name} fill unoptimized className="object-cover opacity-30 group-hover:opacity-50 transition-opacity" />
-                  <div className="absolute inset-0 flex items-end p-3">
-                    <span className="text-[9px] font-bold px-2 py-1 border tracking-widest" style={{ borderColor: m.color + "60", color: m.color }}>{m.type}</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-black tracking-wider" style={{ color: m.color }}>{m.name}</span>
-                  <span className="text-[9px] opacity-30 tracking-wider">{m.params}</span>
-                </div>
-                <div className="space-y-2 text-[9px]">
-                  <div>
-                    <div className="flex justify-between mb-1.5 opacity-30 tracking-wider"><span>ACCURACY</span><span>{m.accuracy}%</span></div>
-                    <AccuracyBar value={m.accuracy} color={m.color} />
-                  </div>
-                  <div className="flex justify-between opacity-30 tracking-wider pt-1"><span>TASKS COMPLETED</span><span>{m.tasks.toLocaleString()}</span></div>
-                </div>
-              </motion.div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Use Cases */}
-      <section className="py-24 bg-[#0a0b16] px-6">
-        <div className="max-w-6xl mx-auto">
-          <Reveal><h2 className="text-2xl font-black tracking-tight uppercase mb-16">Capabilities</h2></Reveal>
-          <div className="grid md:grid-cols-3 gap-4">
-            {USECASES.map((u, i) => (
-              <Reveal key={u.title} delay={i * 0.08}>
-                <motion.div whileHover={{ y: -6 }} className="p-6 border border-white/5 hover:border-[#818cf8]/20 transition-colors">
-                  <u.icon size={20} className="mb-4 text-[#818cf8]" />
-                  <h3 className="text-sm font-black mb-2">{u.title}</h3>
-                  <p className="text-xs opacity-40 leading-relaxed">{u.desc}</p>
-                </motion.div>
+      {/* ── METRICS GRID ── */}
+      <section className="py-40 bg-[#0a0a0d]">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-white/5 border border-white/5">
+            {METRICS.map((s, i) => (
+              <Reveal key={s.label} delay={i * 0.1} className="bg-[#050508] p-24 group hover:bg-white/5 transition-all duration-700">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 mb-12 block group-hover:text-white/60">{s.label}</span>
+                <h3 className="text-7xl font-black italic text-white mb-8 group-hover:text-white transition-colors">{s.val}</h3>
+                <p className="text-xs text-white/30 font-light tracking-widest uppercase italic leading-loose group-hover:text-white/60">
+                  {s.desc}
+                </p>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="py-24 px-6 border-y border-white/5">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10">
-          {STATS.map((s, i) => (
-            <Reveal key={s.label} delay={i * 0.1} className="text-center">
-              <div className="text-4xl font-black mb-2 text-[#818cf8]"><Counter target={s.value} suffix={s.suffix} /></div>
-              <div className="text-[9px] tracking-[0.2em] uppercase opacity-30">{s.label}</div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
+      {/* NODE SHOWCASE ── */}
+      <section className="py-40 bg-black relative overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32">
+             <div className="flex flex-col lg:flex-row justify-between items-end gap-12 border-b border-white/10 pb-12">
+               <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-white">
+                 Node <br/> <span className="text-white/20 not-italic">Archive.</span>
+               </h2>
+               <div className="text-right">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/20 mb-4 block italic">Manifest_Sequence_2024</span>
+                  <div className="flex gap-4">
+                    {NODE_MANIFESTS.map((_, i) => (
+                      <button 
+                        key={i} 
+                        onClick={() => setActiveNod(i)}
+                        className={`w-16 h-1 transition-all ${activeNod === i ? "bg-white w-32" : "bg-white/10"}`}
+                      />
+                    ))}
+                  </div>
+               </div>
+             </div>
+          </Reveal>
 
-      {/* FAQ */}
-      <section className="py-24 px-6 max-w-2xl mx-auto">
-        <Reveal><h2 className="text-xl font-black tracking-tight uppercase mb-12">Technical FAQ</h2></Reveal>
-        {faqs.map((f, i) => (
-          <Reveal key={i} delay={i * 0.05}>
-            <div className="border-b border-white/5">
-              <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full text-left py-5 flex items-center justify-between text-sm font-bold">
-                {f.q} <motion.span animate={{ rotate: openFaq === i ? 180 : 0 }}><ChevronDown size={16} /></motion.span>
-              </button>
-              <AnimatePresence>
-                {openFaq === i && (
-                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                    <p className="pb-5 text-sm opacity-40 leading-relaxed">{f.a}</p>
-                  </motion.div>
-                )}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
+            <div className="lg:col-span-8 relative aspect-video rounded-sm overflow-hidden border border-white/5 group bg-[#111]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeNod}
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.1 }}
+                  transition={{ duration: 1, ease: [0.19, 1, 0.22, 1] }}
+                  className="absolute inset-0"
+                >
+                  <Image src={NODE_MANIFESTS[activeNod].img} alt={NODE_MANIFESTS[activeNod].title} fill className="object-cover grayscale contrast-125 opacity-40 group-hover:opacity-60 transition-opacity duration-1000" unoptimized />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
+                </motion.div>
               </AnimatePresence>
+              <div className="absolute bottom-12 left-12 flex flex-col gap-4">
+                 <span className="text-[10px] font-black uppercase tracking-widest bg-white/10 backdrop-blur-md text-white px-6 py-2 border border-white/5">{NODE_MANIFESTS[activeNod].latency} // ADVISORY</span>
+              </div>
             </div>
-          </Reveal>
-        ))}
-      </section>
 
-      {/* CTA */}
-      <section className="py-32 px-6 text-center relative overflow-hidden">
-        <motion.div animate={{ scale: [1, 1.4, 1], opacity: [0.05, 0.1, 0.05] }} transition={{ duration: 8, repeat: Infinity }} className="absolute inset-0 rounded-full m-auto w-[800px] h-[800px] bg-[#818cf8] blur-3xl pointer-events-none" />
-        <div className="relative z-10">
-          <Reveal><h2 className="text-5xl md:text-8xl font-black tracking-tight mb-4 leading-none">BUILD ON<br /><span className="text-[#818cf8]">NEURALWEB</span></h2></Reveal>
-          <Reveal delay={0.2}><p className="text-sm opacity-40 mb-10 max-w-md mx-auto">Free tier: 1M tokens/month. Production plans from $29/month. No credit card for signup.</p></Reveal>
-          <Reveal delay={0.3}>
-            <MagneticBtn className="inline-flex items-center gap-3 px-10 py-5 bg-[#818cf8] text-[#05060f] font-black text-xs tracking-[0.2em] uppercase">
-              Start Building <ArrowRight size={14} />
-            </MagneticBtn>
-          </Reveal>
+            <div className="lg:col-span-4 space-y-12">
+               <motion.div
+                  key={activeNod}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="space-y-12"
+               >
+                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40">{NODE_MANIFESTS[activeNod].id} // ASSET</span>
+                 <h3 className="text-6xl md:text-8xl font-black italic uppercase text-white tracking-tighter">{NODE_MANIFESTS[activeNod].title}</h3>
+                 <div className="space-y-6 border-y border-white/10 py-12">
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Category</span>
+                       <span className="text-sm font-black text-white uppercase tracking-widest">{NODE_MANIFESTS[activeNod].category}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Mesh_Status</span>
+                       <span className="text-sm font-black text-white uppercase tracking-widest italic">STABLE_OPTIC</span>
+                    </div>
+                 </div>
+                 <p className="text-white/30 text-lg font-light italic leading-loose uppercase tracking-wide">
+                   {NODE_MANIFESTS[activeNod].desc}
+                 </p>
+                 <button className="flex items-center gap-6 group">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.8em] text-white">Request_Manifest</span>
+                    <div className="w-16 h-16 border border-white/10 rounded-full flex items-center justify-center group-hover:bg-white transition-all">
+                       <ArrowUpRight className="w-6 h-6 text-white group-hover:text-black transition-colors" />
+                    </div>
+                 </button>
+               </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/5 py-12 px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-[9px] opacity-20 tracking-[0.2em] uppercase">
-        <span>NeuralWeb AI © 2026</span>
-        <div className="flex gap-8">{["GitHub", "Discord", "Docs", "Blog"].map(l => <a key={l} href="#" className="hover:opacity-100 transition-opacity">{l}</a>)}</div>
-      </footer>
+      {/* ── CAPABILITIES ── */}
+      <section className="py-40 bg-[#050508] border-y border-white/10">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32 text-center">
+             <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/40 mb-8 block italic">Operational Scope</span>
+             <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-white">
+                Technical <br/> <span className="text-white/20 not-italic">Expertise.</span>
+             </h2>
+          </Reveal>
 
-      {/* Model Modal */}
-      <AnimatePresence>
-        {activeModel && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/85 flex items-center justify-center p-6" onClick={() => setActiveModel(null)}>
-            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} onClick={e => e.stopPropagation()} className="bg-[#0a0b16] border max-w-lg w-full overflow-hidden" style={{ borderColor: activeModel.color + "40" }}>
-              <div className="relative h-48">
-                <Image src={activeModel.image} alt={activeModel.name} fill unoptimized className="object-cover opacity-40" />
-                <button onClick={() => setActiveModel(null)} className="absolute top-4 right-4 opacity-60 hover:opacity-100"><X size={16} /></button>
-              </div>
-              <div className="p-6 space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-black tracking-widest text-sm" style={{ color: activeModel.color }}>{activeModel.name}</h3>
-                  <span className="text-[9px] tracking-wider border px-2 py-1" style={{ borderColor: activeModel.color + "40", color: activeModel.color }}>{activeModel.type}</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10">
+            {CAPABILITIES.map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.1} className="bg-[#0a0a0d] p-12 group hover:bg-white/5 transition-all duration-700">
+                 <item.icon className="w-12 h-12 text-white/20 group-hover:text-white transition-colors mb-8" />
+                 <h3 className="text-2xl font-black italic uppercase text-white mb-6">{item.title}</h3>
+                 <p className="text-xs text-white/40 group-hover:text-white font-light tracking-widest uppercase italic leading-loose transition-colors">
+                   {item.desc}
+                 </p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ATELIER / LABORATORY ── */}
+      <section className="py-40 bg-black overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+          <Reveal>
+             <div className="relative aspect-square bg-[#050508] border border-white/5 p-20 flex flex-col justify-center group overflow-hidden">
+                <div className="absolute top-0 right-0 p-12">
+                   <Box className="w-16 h-16 text-white/5 group-hover:text-white/10 transition-colors" />
                 </div>
-                <div className="grid grid-cols-3 gap-4 text-center text-[10px]">
-                  <div><div className="font-black text-lg" style={{ color: activeModel.color }}>{activeModel.params}</div><div className="opacity-30 tracking-wider">PARAMETERS</div></div>
-                  <div><div className="font-black text-lg" style={{ color: activeModel.color }}>{activeModel.accuracy}%</div><div className="opacity-30 tracking-wider">ACCURACY</div></div>
-                  <div><div className="font-black text-lg" style={{ color: activeModel.color }}>{activeModel.tasks.toLocaleString()}</div><div className="opacity-30 tracking-wider">TASKS</div></div>
+                <Sparkles className="w-16 h-16 text-white mb-12" />
+                <h3 className="text-5xl font-black italic uppercase text-white mb-8">Mesh <br/> <span className="text-white/20 not-italic">Atelier.</span></h3>
+                <p className="text-white/40 text-lg leading-relaxed mb-12 font-light uppercase tracking-wide italic leading-loose">
+                  Our Tokyo atelier leverages heavy archival design fabrication and distributed spatial orchestration for the production of non-standard neural artifacts. We push the tectonic limits of spatial mesh.
+                </p>
+                <div className="flex gap-12 text-[10px] font-bold uppercase tracking-[0.5em] text-white/30">
+                   <span>[01] MESH_BOND</span>
+                   <span>[02] SPATIAL_SYNTHESIS</span>
                 </div>
-                <div>
-                  <div className="text-[9px] tracking-wider opacity-30 mb-2">ACCURACY BENCHMARK</div>
-                  <AccuracyBar value={activeModel.accuracy} color={activeModel.color} />
-                </div>
-                <div className="flex gap-3 pt-2">
-                  <a href="#" className="flex-1 py-3 font-black text-xs tracking-widest uppercase text-center text-[#05060f]" style={{ background: activeModel.color }}>Use This Model</a>
-                  <a href="#" className="flex-1 py-3 border border-white/20 text-xs tracking-widest uppercase text-center hover:bg-white/5 transition-colors">View Docs</a>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+             </div>
+          </Reveal>
+          <div className="space-y-24">
+             <Reveal delay={0.2}>
+                <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/40 mb-8 block italic">Curation_Sequence</span>
+                <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-none uppercase text-white">Neural <br/> <span className="text-white/20 not-italic">Manifesto.</span></h2>
+             </Reveal>
+             <div className="space-y-12">
+                {[
+                  { n: "01", t: "Sectional Audit", d: "Rigorous cutting of complex neural volumes to reveal interior structural potential." },
+                  { n: "02", t: "Neural Stress", d: "Simulation of high-fidelity visual performance under extreme archival loads." },
+                  { n: "03", t: "Archive Aging", d: "Analyzing the interaction of archival neural models with digital weathering." }
+                ].map((step, i) => (
+                  <Reveal key={step.n} delay={i * 0.1 + 0.3} className="flex gap-12 group border-l border-white/10 pl-8 hover:border-white transition-colors">
+                    <span className="text-4xl font-black italic text-white/10 group-hover:text-white transition-colors">{step.n}</span>
+                    <div>
+                      <h4 className="text-xl font-black uppercase italic text-white mb-2">{step.t}</h4>
+                      <p className="text-xs text-white/40 font-light tracking-widest uppercase italic leading-loose">{step.d}</p>
+                    </div>
+                  </Reveal>
+                ))}
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA / INQUIRY ── */}
+      <section className="py-40 bg-[#050508] relative">
+         <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+            <div className="bg-white text-black p-24 lg:p-40 relative overflow-hidden flex flex-col items-center text-center group">
+               <div className="absolute inset-0 opacity-10 grayscale brightness-110 group-hover:opacity-20 transition-opacity">
+                  <Image src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1600&q=80" alt="CTA Neural" fill className="object-cover" />
+               </div>
+               <Reveal>
+                  <span className="text-[10px] font-bold uppercase tracking-[1em] text-black/50 mb-12 block italic">Allocation Initiation</span>
+                  <h2 className="text-7xl md:text-[12rem] font-black italic tracking-tighter leading-[0.8] uppercase mb-16">
+                     Own <br/> <span className="text-black/30 not-italic">The Mesh.</span>
+                  </h2>
+                  <div className="flex flex-wrap justify-center gap-12 relative z-10">
+                     <button className="px-20 py-8 bg-black text-white font-black uppercase text-sm tracking-[0.5em] hover:italic transition-all">
+                        Request_Access
+                     </button>
+                     <button className="px-20 py-8 border border-black/20 text-black font-black uppercase text-sm tracking-[0.5em] hover:bg-black/5 transition-all">
+                        Atelier_Dossier
+                     </button>
+                  </div>
+               </Reveal>
+            </div>
+         </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-black pt-40 pb-20 px-8 md:px-16 border-t border-white/10">
+         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-32 mb-40">
+            <div className="lg:col-span-6">
+               <div className="flex items-center gap-4 mb-12">
+                 <Brain className="w-10 h-10 text-white" />
+                 <span className="text-3xl font-black tracking-tighter uppercase italic text-white">NEURAL<span className="text-white/30">//</span>MESH</span>
+               </div>
+               <p className="text-white/40 text-sm font-light leading-relaxed uppercase tracking-[0.3em] mb-12 italic max-w-md">
+                 Securing the future of neural objects through high-fidelity orchestration and radical visual clarity.
+               </p>
+               <div className="flex gap-12">
+                 {["TERMINAL", "NEURAL", "FORGE", "ALPHA"].map(s => (
+                   <a key={s} href="#" className="text-[10px] font-bold hover:text-white text-white/30 transition-colors tracking-[0.5em]">[{s}]</a>
+                 ))}
+               </div>
+            </div>
+            
+            <div className="lg:col-span-2">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40 mb-12">Systems</h4>
+               <ul className="space-y-6 text-xs font-bold uppercase tracking-[0.4em]">
+                 {["Archives", "Telemetry", "Shell", "Journal"].map(item => (
+                   <li key={item}><a href="#" className="hover:text-white transition-colors">{item}</a></li>
+                 ))}
+               </ul>
+            </div>
+
+            <div className="lg:col-span-4">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40 mb-12">Partner Inquiry</h4>
+               <p className="text-sm text-white/40 font-light mb-12 italic uppercase tracking-[0.2em] leading-loose">
+                 For new commissions, neural studies, or distribution enclaves, contact our primary command center in Tokyo.
+               </p>
+               <a href="mailto:ops@neural-mesh.jp" className="text-3xl font-black italic hover:text-white transition-colors block border-b border-white/10 pb-8 uppercase tracking-tighter">
+                  ops@neural-mesh.jp
+               </a>
+            </div>
+         </div>
+
+         <div className="max-w-[1600px] mx-auto flex flex-col md:row items-center justify-between gap-12 text-[9px] font-bold uppercase tracking-[0.8em] text-white/20 border-t border-white/5 pt-20">
+            <p>© 2024 NEURAL MESH ATELIER AG. ALL RIGHTS RESERVED. TOKYO // GLOBAL.</p>
+            <div className="flex gap-16">
+               <a href="#" className="hover:text-white transition-colors">[Neural_Vault]</a>
+               <a href="#" className="hover:text-white transition-colors">[Terms_of_Service]</a>
+            </div>
+         </div>
+      </footer>
     </div>
   );
 }

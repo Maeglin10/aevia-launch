@@ -1,240 +1,463 @@
 "use client";
 
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
-import { ArrowRight, X, Menu, ShoppingBag, Star, Leaf, Droplets, Flame, Plus, ChevronLeft, ChevronRight } from "lucide-react";
+import { 
+  ArrowUpRight, 
+  Menu, 
+  X, 
+  Layers, 
+  ShieldCheck,
+  Plus,
+  Play,
+  ArrowRight,
+  ChevronDown,
+  Monitor,
+  LayoutGrid,
+  Zap,
+  ShoppingBag,
+  Eye,
+  Maximize2,
+  Minimize2,
+  Box,
+  Settings,
+  Sparkles,
+  Command,
+  Activity,
+  Ruler,
+  Wind
+} from "lucide-react";
 import "../premium.css";
 
-const PIECES = [
-  { id: 1, name: "Coupelle Vide", price: "€380", clay: "Stoneware", finish: "Raw matte", img: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?q=80&w=1200&auto=format&fit=crop", desc: "A single thrown form, unglazed. The thumb marks of the maker remain visible at the base." },
-  { id: 2, name: "Vase Colonne", price: "€620", clay: "Porcelain", finish: "Crackle celadon", img: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1000&auto=format&fit=crop", desc: "Wheel-thrown and stretched by hand. Each crackle in the glaze is unique and irreproducible." },
-  { id: 3, name: "Bol Cendré", price: "€280", clay: "Raku", finish: "Carbon smoked", img: "https://images.unsplash.com/photo-1612195583950-b8fd34c87093?q=80&w=1000&auto=format&fit=crop", desc: "Raku-fired in a reduction atmosphere. Carbon deposits create a unique surface that evolves with use." },
-  { id: 4, name: "Assiette Terrain", price: "€240", clay: "Earthenware", finish: "Oxide wash", img: "https://images.unsplash.com/photo-1558618047-f4fd15a54e2c?q=80&w=1000&auto=format&fit=crop", desc: "Hand-built from local earthenware clay. Iron oxide wash reveals texture on each piece." },
-  { id: 5, name: "Pichet Noir", price: "€450", clay: "Stoneware", finish: "Ash glaze", img: "https://images.unsplash.com/photo-1594938298603-c8148c4b4084?q=80&w=1000&auto=format&fit=crop", desc: "Wood-fired for 48 hours. The natural ash glaze creates patterns that cannot be replicated." },
-  { id: 6, name: "Tasse Minérale", price: "€195", clay: "Porcelain", finish: "Shino", img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1000&auto=format&fit=crop", desc: "Hand-thrown porcelain cup. Shino glaze develops pinholes during firing — each one intentional." },
+// ─── DATA ──────────────────────────────────────────────────────────────────
+
+const OBJECT_MANIFESTS = [
+  { 
+    id: "OBJ_01",
+    title: "FORM_VOID", 
+    category: "Structural Study",
+    material: "v9.4_CERAMIC",
+    img: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1200&q=80",
+    desc: "A high-fidelity minimalist study of object volumes within the spatial environment. Zero-latency tactile synthesis."
+  },
+  { 
+    id: "OBJ_02",
+    title: "NEURAL_SHELL", 
+    category: "Tactile Interface",
+    material: "v3.1_POLYMER",
+    img: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200&q=80",
+    desc: "Planetary-scale distributed surfaces orchestrated through neural weight synthesis. High-fidelity material routing."
+  },
+  { 
+    id: "OBJ_03",
+    title: "VOID_OBJECT", 
+    category: "Functional Core",
+    material: "v9.0_STARK",
+    img: "https://images.unsplash.com/photo-1612195583950-b8fd34c87093?w=1200&q=80",
+    desc: "A zero-latency object engine built for the real-time synthesis of non-standard spatial artifacts through radical form injection."
+  }
 ];
 
-const PROCESS = [
-  { icon: Droplets, title: "Throwing", desc: "Each piece begins on the wheel. Clay from three regions, chosen for specific properties." },
-  { icon: Flame, title: "Firing", desc: "Wood-fired kiln at 1280°C. A 48-hour process we cannot fully control — which is the point." },
-  { icon: Leaf, title: "Glazing", desc: "Natural ash glazes, oxide washes, and unglazed surfaces. Nothing synthetic enters our kiln." },
+const METRICS = [
+  { label: "Precision", val: "99.9%", desc: "Absolute architectural synchronization across all distributed object edge nodes." },
+  { label: "Throughput", val: "12 EB/s", desc: "Sustainable visual delivery through our dedicated high-fidelity object backbone." },
+  { label: "Reliability", val: "IMMUNE", desc: "Zero-leak object logic verified through continuous adversarial stress-testing." }
 ];
 
-const TESTIMONIALS = [
-  { name: "Maria S.", text: "The Coupelle Vide lives on my desk. Every morning it changes slightly — the light, the shadow, the mood. It is the most alive object I own.", rating: 5 },
-  { name: "T. Nakamura", text: "I have collected ceramics for 20 years. This work has the quietness of the best Japanese pieces — without imitation.", rating: 5 },
+const CAPABILITIES = [
+  { icon: Ruler, title: "Spatial Forge", desc: "Engineering object volumes through a lens of mathematical and structural purity." },
+  { icon: Eye, title: "Tactile Logic", desc: "Scaling surface interactions through distributed object orchestration and logic synthesis." },
+  { icon: Activity, title: "Pulse Sync", desc: "Synchronizing system spikes with real-time biological demand cycles for absolute sync." },
+  { icon: Box, title: "Archival Shell", desc: "Leveraging heavy archival data fabrication for ultra-high fidelity object protection." }
 ];
 
-function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+// ─── COMPONENTS ──────────────────────────────────────────────────────────────
+
+function Reveal({ children, className = "", delay = 0, y = 30 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "-100px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9, delay, ease: [0.25, 0.46, 0.45, 0.94] }} className={className}>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.23, 1, 0.32, 1] }}
+      className={className}
+    >
       {children}
     </motion.div>
   );
 }
 
-export default function CeramicsAtelierSPA() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activePiece, setActivePiece] = useState<number | null>(null);
-  const [cart, setCart] = useState<number[]>([]);
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 700], [0, 180]);
-  const heroScale = useTransform(scrollY, [0, 700], [1, 1.06]);
-  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0]);
+// ─── MAIN SPA ────────────────────────────────────────────────────────────────
 
-  useEffect(() => {
-    const t = setInterval(() => setActiveTestimonial(p => (p + 1) % TESTIMONIALS.length), 6000);
-    return () => clearInterval(t);
-  }, []);
+export default function MinimalObjectsSPA() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeObj, setActiveObj] = useState(0);
+  const { scrollY } = useScroll();
+  
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const heroScale = useTransform(scrollY, [0, 800], [1, 1.05]);
 
   return (
-    <div className="premium-theme bg-[#f6f2ec] text-[#1e1a14] min-h-screen overflow-x-hidden" style={{ fontFamily: "'Georgia', serif" }}>
+    <div className="min-h-screen bg-[#fcfcfc] text-[#111] font-mono selection:bg-[#111] selection:text-white">
+      
+      {/* ── MINIMAL OVERLAY ── */}
+      <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div className="fixed inset-0 z-[0] opacity-[0.05] pointer-events-none overflow-hidden">
+        <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
+      </div>
 
-      {/* NAV */}
-      <nav className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-8 md:px-16 py-5 bg-[#f6f2ec]/90 backdrop-blur-xl border-b border-[#1e1a14]/6">
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-base uppercase tracking-[0.5em] text-[#8b6b4a]">ARGILE</motion.div>
-        <div className="hidden md:flex items-center gap-10 text-[9px] uppercase tracking-[0.4em] opacity-40" style={{ fontFamily: "sans-serif" }}>
-          {["Collection", "Process", "Atelier", "Bespoke"].map(l => (
-            <a key={l} href="#" className="hover:opacity-100 transition-opacity">{l}</a>
+      {/* ── NAVIGATION ── */}
+      <motion.nav 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-16 py-10 mix-blend-difference"
+      >
+        <div className="flex items-center gap-4">
+          <ShoppingBag className="w-10 h-10 text-white" />
+          <span className="text-2xl font-black tracking-tighter uppercase italic text-white">MINIMAL<span className="text-white/30">//</span>OBJECTS</span>
+        </div>
+        
+        <div className="hidden lg:flex items-center gap-16 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
+          {["Manifest", "Shop", "Atelier", "Portal"].map(item => (
+            <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors">/{item}</a>
           ))}
         </div>
-        <div className="flex items-center gap-4">
-          <button className="relative">
-            <ShoppingBag size={16} className="text-[#8b6b4a]/60" />
-            {cart.length > 0 && <span className="absolute -top-1 -right-1 bg-[#8b6b4a] text-white text-[8px] w-3.5 h-3.5 rounded-full flex items-center justify-center">{cart.length}</span>}
-          </button>
-          <button onClick={() => setMenuOpen(true)} className="md:hidden"><Menu size={20} /></button>
-        </div>
-      </nav>
 
+        <button 
+          onClick={() => setMenuOpen(true)}
+          className="px-6 py-2 border border-white/20 bg-white/5 backdrop-blur-md text-[10px] font-black uppercase tracking-widest hover:bg-white/20 transition-all text-white"
+        >
+          [INIT_PURCHASE]
+        </button>
+      </motion.nav>
+
+      {/* ── MOBILE MENU ── */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div initial={{ y: "-100%" }} animate={{ y: 0 }} exit={{ y: "-100%" }} transition={{ type: "tween", duration: 0.3 }} className="fixed inset-0 z-[100] bg-[#1e1a14] text-white flex flex-col p-10">
-            <button onClick={() => setMenuOpen(false)} className="self-end mb-12"><X size={24} /></button>
-            <div className="flex flex-col gap-8 text-4xl uppercase">
-              {["Collection", "Process", "Atelier", "Bespoke"].map(l => <a key={l} href="#" onClick={() => setMenuOpen(false)} className="hover:opacity-60 transition-opacity">{l}</a>)}
+          <motion.div 
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+            className="fixed inset-0 z-[60] bg-[#fcfcfc] text-black p-12 flex flex-col justify-between"
+          >
+            <div className="flex justify-between items-center border-b border-black/5 pb-12">
+              <span className="text-xl font-black uppercase tracking-tighter italic">MINIMAL//OBJECTS</span>
+              <button onClick={() => setMenuOpen(false)} className="w-12 h-12 flex items-center justify-center border border-black/10 rounded-full">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="flex flex-col gap-12 text-center md:text-left">
+              {["OBJECT_MANIFEST", "SHOP_ARCHIVE", "SPATIAL_FORGE", "ASSET_ENCLAVE", "SECURE_AUTH"].map((item, i) => (
+                <motion.a 
+                  key={item}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 + 0.3 }}
+                  href="#"
+                  className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter hover:text-black/40 transition-all leading-none"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item}
+                </motion.a>
+              ))}
+            </div>
+            <div className="flex justify-between text-[10px] font-bold uppercase tracking-[0.5em] border-t border-black/5 pt-12 text-black/30">
+              <span>OBJECT_PRACTICE</span>
+              <span>EST. 2018 // BERLIN</span>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* HERO */}
-      <section className="relative h-screen flex items-end overflow-hidden bg-[#e8e0d5]">
-        <motion.div style={{ y: heroY, scale: heroScale }} className="absolute inset-0">
-          <Image src="https://images.unsplash.com/photo-196645?w=800&q=80" alt="Ceramics" fill className="object-cover opacity-60" unoptimized />
+      {/* ── HERO SECTION ── */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
+        <motion.div 
+          style={{ opacity: heroOpacity, scale: heroScale }}
+          className="absolute inset-0 z-0"
+        >
+          <Image 
+            src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1600&q=80" 
+            alt="Hero Object" 
+            fill 
+            className="object-cover grayscale brightness-50 contrast-125 opacity-30" 
+            unoptimized 
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#fcfcfc]" />
         </motion.div>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1e1a14]/80 via-transparent to-transparent" />
-        <motion.div style={{ opacity: heroOpacity }} className="relative z-10 px-8 md:px-16 pb-20 w-full">
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-[9px] uppercase tracking-[0.6em] text-white/40 mb-5" style={{ fontFamily: "sans-serif" }}>Céramique Artisanale · Atelier Rural · Bourgogne</motion.p>
-          <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 1 }} className="text-white text-6xl md:text-[8vw] leading-none mb-6">
-            Form<br />Follows<br /><em>Fire.</em>
-          </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }} className="text-white/50 max-w-sm text-sm leading-relaxed mb-8" style={{ fontFamily: "sans-serif" }}>
-            Handmade ceramics from a wood-fired kiln in rural Burgundy. Every piece unique — intentionally so.
-          </motion.p>
-          <motion.a initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }} href="#collection" className="inline-block bg-white text-[#1e1a14] px-8 py-3 text-[10px] uppercase tracking-[0.3em] hover:bg-white/90 transition-colors" style={{ fontFamily: "sans-serif" }}>
-            Browse Collection
-          </motion.a>
-        </motion.div>
-      </section>
 
-      {/* MARQUEE */}
-      <div className="overflow-hidden bg-[#1e1a14] py-3.5">
-        <motion.div animate={{ x: [0, -2800] }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }} className="flex gap-12 whitespace-nowrap">
-          {Array(18).fill(null).map((_, i) => (
-            <span key={i} className="text-[9px] uppercase tracking-[0.5em] text-white/20 shrink-0" style={{ fontFamily: "sans-serif" }}>Wood-Fired · Stoneware · Porcelain · Raku · Natural Glazes · Burgundy ·</span>
-          ))}
-        </motion.div>
-      </div>
+        <div className="relative z-10 text-center px-6">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[2.5em] text-black/40 mb-12 block italic">Structural Endurance</span>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <h1 className="text-8xl md:text-[18rem] font-black tracking-tighter leading-[0.75] uppercase italic text-black mb-20">
+              RAW <br/> <span className="not-italic text-black/10">FORM.</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.4}>
+            <div className="max-w-2xl mx-auto flex flex-col items-center gap-16 border-t border-black/10 pt-20">
+              <p className="text-black/40 text-xl leading-relaxed font-light uppercase tracking-[0.3em] italic leading-loose text-center">
+                Engineering the ultimate object archives through distributed material orchestration. High-fidelity systems built for absolute structural precision and tactile clarity.
+              </p>
+              <div className="flex gap-8">
+                <button className="px-16 py-6 bg-black text-white font-black uppercase text-xs tracking-[0.4em] hover:bg-white hover:text-black transition-all">
+                  Manifest_Access
+                </button>
+                <button className="px-16 py-6 border border-black/20 text-black font-black uppercase text-xs tracking-[0.4em] hover:bg-black/5 transition-colors">
+                  Shop_Dossier
+                </button>
+              </div>
+            </div>
+          </Reveal>
+        </div>
 
-      {/* COLLECTION */}
-      <section id="collection" className="px-8 md:px-16 py-24">
-        <Reveal className="mb-12">
-          <p className="text-[9px] uppercase tracking-[0.5em] text-[#8b6b4a] mb-4" style={{ fontFamily: "sans-serif" }}>The Collection</p>
-          <h2 className="text-5xl md:text-6xl leading-none tracking-tight">Current<br />Pieces</h2>
-        </Reveal>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {PIECES.map((p, i) => (
-            <Reveal key={p.id} delay={i * 0.07}>
-              <motion.div className="group cursor-pointer" whileHover={{ y: -5 }} onClick={() => setActivePiece(p.id)}>
-                <div className="relative overflow-hidden bg-[#ede8e0] mb-5" style={{ height: "55vh" }}>
-                  <Image src={p.img} alt={p.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" unoptimized />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1e1a14]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="bg-white text-[9px] uppercase tracking-widest px-5 py-2" style={{ fontFamily: "sans-serif" }}>View Details</div>
-                  </div>
-                </div>
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="text-xl leading-tight mb-1">{p.name}</h3>
-                    <p className="text-[9px] text-[#1e1a14]/40 uppercase tracking-widest" style={{ fontFamily: "sans-serif" }}>{p.clay} · {p.finish}</p>
-                  </div>
-                  <p className="font-bold text-[#8b6b4a]" style={{ fontFamily: "sans-serif" }}>{p.price}</p>
-                </div>
-              </motion.div>
-            </Reveal>
-          ))}
+        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[10px] font-bold uppercase tracking-[0.5em] text-black/20">
+          <div className="flex flex-col gap-2">
+            <span>BERLIN // ATELIER</span>
+            <div className="w-48 h-[1px] bg-black/10" />
+          </div>
+          <div className="flex items-center gap-4 italic uppercase tracking-widest">
+             <span className="animate-pulse">●</span> OBJECT_STATUS: NOMINAL
+          </div>
         </div>
       </section>
 
-      {/* PIECE MODAL */}
-      <AnimatePresence>
-        {activePiece !== null && (() => {
-          const p = PIECES.find(x => x.id === activePiece)!;
-          return (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/60 flex items-center justify-center p-8" onClick={() => setActivePiece(null)}>
-              <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 50, opacity: 0 }} className="bg-[#f6f2ec] max-w-3xl w-full grid md:grid-cols-2" onClick={e => e.stopPropagation()}>
-                <div className="relative h-72 md:h-auto">
-                  <Image src={p.img} alt={p.name} fill className="object-cover" unoptimized />
-                </div>
-                <div className="p-8 flex flex-col justify-between">
-                  <div>
-                    <p className="text-[9px] uppercase tracking-widest text-[#8b6b4a] mb-2" style={{ fontFamily: "sans-serif" }}>{p.clay} · {p.finish}</p>
-                    <h3 className="text-3xl leading-tight mb-3">{p.name}</h3>
-                    <p className="text-sm text-[#1e1a14]/50 leading-relaxed mb-6" style={{ fontFamily: "sans-serif" }}>{p.desc}</p>
-                  </div>
-                  <div>
-                    <p className="text-2xl text-[#8b6b4a] font-bold mb-5" style={{ fontFamily: "sans-serif" }}>{p.price}</p>
-                    <button onClick={() => { setCart(c => [...c, p.id]); setActivePiece(null); }} className="w-full bg-[#1e1a14] text-white py-3 text-[10px] uppercase tracking-widest hover:bg-[#2d2820] transition-colors flex items-center justify-center gap-2" style={{ fontFamily: "sans-serif" }}>
-                      Add to Bag <ShoppingBag size={12} />
-                    </button>
-                    <p className="text-[9px] text-[#1e1a14]/30 text-center mt-3" style={{ fontFamily: "sans-serif" }}>One of a kind. Once sold, gone.</p>
-                  </div>
-                </div>
-                <button onClick={() => setActivePiece(null)} className="absolute top-4 right-4 text-[#1e1a14]/40 hover:text-[#1e1a14]"><X size={16} /></button>
-              </motion.div>
-            </motion.div>
-          );
-        })()}
-      </AnimatePresence>
-
-      {/* PROCESS */}
-      <section className="bg-[#1e1a14] text-white px-8 md:px-16 py-24">
-        <Reveal className="mb-14">
-          <p className="text-[9px] uppercase tracking-[0.5em] text-[#c9a96e]/50 mb-4" style={{ fontFamily: "sans-serif" }}>How Each Piece is Made</p>
-          <h2 className="text-4xl md:text-5xl leading-tight">The<br />Process</h2>
-        </Reveal>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
-          {PROCESS.map((p, i) => (
-            <Reveal key={p.title} delay={i * 0.1} className="bg-[#1e1a14] p-8 border-t-2 border-[#c9a96e]/20">
-              <p.icon size={20} className="text-[#c9a96e]/40 mb-5" />
-              <h3 className="text-xl mb-3">{p.title}</h3>
-              <p className="text-white/40 text-sm leading-relaxed" style={{ fontFamily: "sans-serif" }}>{p.desc}</p>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section className="px-8 md:px-16 py-24">
-        <Reveal className="mb-10">
-          <p className="text-[9px] uppercase tracking-[0.5em] text-[#8b6b4a] mb-4" style={{ fontFamily: "sans-serif" }}>Collectors</p>
-          <h2 className="text-4xl leading-tight">What They<br />Hold</h2>
-        </Reveal>
-        <div className="relative min-h-[160px] max-w-2xl">
-          <AnimatePresence mode="wait">
-            <motion.div key={activeTestimonial} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.5 }}>
-              <div className="flex gap-1 mb-5">{Array(TESTIMONIALS[activeTestimonial].rating).fill(null).map((_, i) => <Star key={i} size={11} fill="#8b6b4a" className="text-[#8b6b4a]" />)}</div>
-              <p className="text-xl leading-relaxed text-[#1e1a14]/60 mb-5">"{TESTIMONIALS[activeTestimonial].text}"</p>
-              <p className="text-[9px] uppercase tracking-widest text-[#8b6b4a]" style={{ fontFamily: "sans-serif" }}>— {TESTIMONIALS[activeTestimonial].name}</p>
-            </motion.div>
-          </AnimatePresence>
-          <div className="flex gap-2 mt-8">
-            {TESTIMONIALS.map((_, i) => (
-              <button key={i} onClick={() => setActiveTestimonial(i)} className={`h-px rounded-full transition-all ${i === activeTestimonial ? "w-8 bg-[#8b6b4a]" : "w-3 bg-[#1e1a14]/15"}`} />
+      {/* ── METRICS GRID ── */}
+      <section className="py-40 bg-[#fcfcfc]">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-black/5 border border-black/5">
+            {METRICS.map((s, i) => (
+              <Reveal key={s.label} delay={i * 0.1} className="bg-white p-24 group hover:bg-black/5 transition-all duration-700">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/30 mb-12 block group-hover:text-black/60">{s.label}</span>
+                <h3 className="text-7xl font-black italic text-black mb-8 group-hover:text-black transition-colors">{s.val}</h3>
+                <p className="text-xs text-black/30 font-light tracking-widest uppercase italic leading-loose group-hover:text-black/60">
+                  {s.desc}
+                </p>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-[#e8e0d5] px-8 md:px-16 py-24 flex flex-col md:flex-row items-center justify-between gap-10">
-        <Reveal>
-          <p className="text-[9px] uppercase tracking-[0.5em] text-[#8b6b4a] mb-4" style={{ fontFamily: "sans-serif" }}>Commission a Piece</p>
-          <h2 className="text-5xl leading-none tracking-tight">Something<br /><em>Made for You.</em></h2>
-          <p className="text-sm text-[#1e1a14]/50 mt-4 max-w-sm leading-relaxed" style={{ fontFamily: "sans-serif" }}>Bespoke commissions accepted twice yearly. 12-week minimum lead time.</p>
-        </Reveal>
-        <Reveal delay={0.2}>
-          <a href="#" className="bg-[#1e1a14] text-white px-10 py-4 text-[10px] uppercase tracking-[0.3em] hover:bg-[#2d2820] transition-colors inline-flex items-center gap-2" style={{ fontFamily: "sans-serif" }}>
-            Enquire About Commission <ArrowRight size={12} />
-          </a>
-        </Reveal>
+      {/* OBJECT SHOWCASE ── */}
+      <section className="py-40 bg-white relative overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32">
+             <div className="flex flex-col lg:flex-row justify-between items-end gap-12 border-b border-black/10 pb-12">
+               <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-black">
+                 Object <br/> <span className="text-black/20 not-italic">Archive.</span>
+               </h2>
+               <div className="text-right">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/20 mb-4 block italic">Manifest_Sequence_2024</span>
+                  <div className="flex gap-4">
+                    {OBJECT_MANIFESTS.map((_, i) => (
+                      <button 
+                        key={i} 
+                        onClick={() => setActiveObj(i)}
+                        className={`w-16 h-1 transition-all ${activeObj === i ? "bg-black w-32" : "bg-black/10"}`}
+                      />
+                    ))}
+                  </div>
+               </div>
+             </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
+            <div className="lg:col-span-8 relative aspect-video rounded-sm overflow-hidden border border-black/5 group bg-[#ddd]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeObj}
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.1 }}
+                  transition={{ duration: 1, ease: [0.19, 1, 0.22, 1] }}
+                  className="absolute inset-0"
+                >
+                  <Image src={OBJECT_MANIFESTS[activeObj].img} alt={OBJECT_MANIFESTS[activeObj].title} fill className="object-cover grayscale brightness-75 group-hover:grayscale-0 transition-all duration-[2s]" unoptimized />
+                  <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-80" />
+                </motion.div>
+              </AnimatePresence>
+              <div className="absolute bottom-12 left-12 flex flex-col gap-4">
+                 <span className="text-[10px] font-black uppercase tracking-widest bg-black/80 backdrop-blur-md text-white px-6 py-2 border border-white/5">{OBJECT_MANIFESTS[activeObj].material} // ADVISORY</span>
+              </div>
+            </div>
+
+            <div className="lg:col-span-4 space-y-12">
+               <motion.div
+                  key={activeObj}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="space-y-12"
+               >
+                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-black/60">{OBJECT_MANIFESTS[activeObj].id} // ASSET</span>
+                 <h3 className="text-6xl md:text-8xl font-black italic uppercase text-black tracking-tighter">{OBJECT_MANIFESTS[activeObj].title}</h3>
+                 <div className="space-y-6 border-y border-black/10 py-12">
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/30">Category</span>
+                       <span className="text-sm font-black text-black uppercase tracking-widest">{OBJECT_MANIFESTS[activeObj].category}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/30">Object_Status</span>
+                       <span className="text-sm font-black text-black uppercase tracking-widest italic">Stable_Optical</span>
+                    </div>
+                 </div>
+                 <p className="text-black/30 text-lg font-light italic leading-loose uppercase tracking-wide">
+                   {OBJECT_MANIFESTS[activeObj].desc}
+                 </p>
+                 <button className="flex items-center gap-6 group">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.8em] text-black">Request_Manifest</span>
+                    <div className="w-16 h-16 border border-black/10 rounded-full flex items-center justify-center group-hover:bg-black transition-all">
+                       <ArrowUpRight className="w-6 h-6 text-black group-hover:text-white transition-colors" />
+                    </div>
+                 </button>
+               </motion.div>
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-[#1e1a14] text-white px-8 md:px-16 py-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div>
-          <p className="text-[#c9a96e] uppercase tracking-[0.5em] text-sm mb-1">ARGILE</p>
-          <p className="text-[9px] text-white/30" style={{ fontFamily: "sans-serif" }}>Céramique · Bourgogne, France</p>
+      {/* ── CAPABILITIES ── */}
+      <section className="py-40 bg-[#fcfcfc] border-y border-black/10">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32 text-center">
+             <span className="text-[10px] font-bold uppercase tracking-[1em] text-black/40 mb-8 block italic">Operational Scope</span>
+             <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-black">
+                Technical <br/> <span className="text-black/20 not-italic">Expertise.</span>
+             </h2>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black/10 border border-black/10">
+            {CAPABILITIES.map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.1} className="bg-white p-12 group hover:bg-black/5 transition-all duration-700">
+                 <item.icon className="w-12 h-12 text-black/20 group-hover:text-black transition-colors mb-8" />
+                 <h3 className="text-2xl font-black italic uppercase text-black mb-6">{item.title}</h3>
+                 <p className="text-xs text-black/40 group-hover:text-black font-light tracking-widest uppercase italic leading-loose transition-colors">
+                   {item.desc}
+                 </p>
+              </Reveal>
+            ))}
+          </div>
         </div>
-        <div className="flex gap-8 text-[9px] uppercase tracking-widest text-white/30" style={{ fontFamily: "sans-serif" }}>
-          {["Instagram", "Shop", "Commission", "Contact"].map(l => <a key={l} href="#" className="hover:text-white transition-colors">{l}</a>)}
+      </section>
+
+      {/* ATELIER / LABORATORY ── */}
+      <section className="py-40 bg-white overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+          <Reveal>
+             <div className="relative aspect-square bg-[#fcfcfc] border border-black/5 p-20 flex flex-col justify-center group overflow-hidden">
+                <div className="absolute top-0 right-0 p-12">
+                   <Box className="w-16 h-16 text-black/5 group-hover:text-black/10 transition-colors" />
+                </div>
+                <Sparkles className="w-16 h-16 text-black mb-12" />
+                <h3 className="text-5xl font-black italic uppercase text-black mb-8">Object <br/> <span className="text-black/20 not-italic">Atelier.</span></h3>
+                <p className="text-black/40 text-lg leading-relaxed mb-12 font-light uppercase tracking-wide italic leading-loose">
+                  Our Berlin atelier leverages heavy archival data fabrication and distributed object orchestration for the production of non-standard spatial artifacts. We push the tectonic limits of spatial design.
+                </p>
+                <div className="flex gap-12 text-[10px] font-bold uppercase tracking-[0.5em] text-black/30">
+                   <span>[01] OBJECT_BOND</span>
+                   <span>[02] TACTILE_SYNTHESIS</span>
+                </div>
+             </div>
+          </Reveal>
+          <div className="space-y-24">
+             <Reveal delay={0.2}>
+                <span className="text-[10px] font-bold uppercase tracking-[1em] text-black/40 mb-8 block italic">Curation_Sequence</span>
+                <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-none uppercase text-black">Object <br/> <span className="text-black/20 not-italic">Manifesto.</span></h2>
+             </Reveal>
+             <div className="space-y-12">
+                {[
+                  { n: "01", t: "Sectional Audit", d: "Rigorous cutting of complex object volumes to reveal interior structural potential." },
+                  { n: "02", t: "Tactile Stress", d: "Simulation of high-fidelity visual performance under extreme archival loads." },
+                  { n: "03", t: "Archive Aging", d: "Analyzing the interaction of archival object models with digital weathering." }
+                ].map((step, i) => (
+                  <Reveal key={step.n} delay={i * 0.1 + 0.3} className="flex gap-12 group border-l border-black/10 pl-8 hover:border-black transition-colors">
+                    <span className="text-4xl font-black italic text-black/10 group-hover:text-black transition-colors">{step.n}</span>
+                    <div>
+                      <h4 className="text-xl font-black uppercase italic text-white mb-2">{step.t}</h4>
+                      <p className="text-xs text-black/40 font-light tracking-widest uppercase italic leading-loose">{step.d}</p>
+                    </div>
+                  </Reveal>
+                ))}
+             </div>
+          </div>
         </div>
-        <p className="text-[9px] text-white/20 uppercase" style={{ fontFamily: "sans-serif" }}>© 2026 Argile</p>
+      </section>
+
+      {/* ── CTA / INQUIRY ── */}
+      <section className="py-40 bg-[#fcfcfc] relative">
+         <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+            <div className="bg-black text-white p-24 lg:p-40 relative overflow-hidden flex flex-col items-center text-center group">
+               <div className="absolute inset-0 opacity-10 grayscale brightness-110 group-hover:opacity-20 transition-opacity">
+                  <Image src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1600&q=80" alt="CTA Object" fill className="object-cover" />
+               </div>
+               <Reveal>
+                  <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/50 mb-12 block italic">Commission Initiation</span>
+                  <h2 className="text-7xl md:text-[12rem] font-black italic tracking-tighter leading-[0.8] uppercase mb-16">
+                     Own <br/> <span className="text-white/30 not-italic">The Form.</span>
+                  </h2>
+                  <div className="flex flex-wrap justify-center gap-12 relative z-10">
+                     <button className="px-20 py-8 bg-white text-black font-black uppercase text-sm tracking-[0.5em] hover:italic transition-all">
+                        Request_Selection
+                     </button>
+                     <button className="px-20 py-8 border border-white/20 text-white font-black uppercase text-sm tracking-[0.5em] hover:bg-white/5 transition-all">
+                        Atelier_Dossier
+                     </button>
+                  </div>
+               </Reveal>
+            </div>
+         </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-white pt-40 pb-20 px-8 md:px-16 border-t border-black/10">
+         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-32 mb-40">
+            <div className="lg:col-span-6">
+               <div className="flex items-center gap-4 mb-12">
+                 <ShoppingBag className="w-10 h-10 text-black" />
+                 <span className="text-3xl font-black tracking-tighter uppercase italic text-black">MINIMAL<span className="text-black/30">//</span>OBJECTS</span>
+               </div>
+               <p className="text-black/40 text-sm font-light leading-relaxed uppercase tracking-[0.3em] mb-12 italic max-w-md">
+                 Securing the future of spatial objects through high-fidelity orchestration and radical visual clarity.
+               </p>
+               <div className="flex gap-12">
+                 {["TERMINAL", "OBJECT", "FORGE", "ALPHA"].map(s => (
+                   <a key={s} href="#" className="text-[10px] font-bold hover:text-black text-black/30 transition-colors tracking-[0.5em]">[{s}]</a>
+                 ))}
+               </div>
+            </div>
+            
+            <div className="lg:col-span-2">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/40 mb-12">Systems</h4>
+               <ul className="space-y-6 text-xs font-bold uppercase tracking-[0.4em]">
+                 {["Archives", "Telemetry", "Shell", "Journal"].map(item => (
+                   <li key={item}><a href="#" className="hover:text-black transition-colors">{item}</a></li>
+                 ))}
+               </ul>
+            </div>
+
+            <div className="lg:col-span-4">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/40 mb-12">Partner Inquiry</h4>
+               <p className="text-sm text-black/40 font-light mb-12 italic uppercase tracking-[0.2em] leading-loose">
+                 For new commissions, spatial studies, or distribution enclaves, contact our primary command center in Berlin.
+               </p>
+               <a href="mailto:ops@minimal-objects.de" className="text-3xl font-black italic hover:text-black transition-colors block border-b border-black/10 pb-8 uppercase tracking-tighter">
+                  ops@minimal-objects.de
+               </a>
+            </div>
+         </div>
+
+         <div className="max-w-[1600px] mx-auto flex flex-col md:row items-center justify-between gap-12 text-[9px] font-bold uppercase tracking-[0.8em] text-black/20 border-t border-black/5 pt-20">
+            <p>© 2024 MINIMAL OBJECTS ATELIER AG. ALL RIGHTS RESERVED. BERLIN // GLOBAL.</p>
+            <div className="flex gap-16">
+               <a href="#" className="hover:text-black transition-colors">[Object_Vault]</a>
+               <a href="#" className="hover:text-white transition-colors">[Terms_of_Service]</a>
+            </div>
+         </div>
       </footer>
     </div>
   );

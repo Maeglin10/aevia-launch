@@ -12,8 +12,7 @@ import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
 // Hidden templates are elevated in batches and re-enabled when ready.
 const HIDDEN_IMPACT = new Set([
   // ── Stubs / incomplete (< 400 lines) ────────────────────────────────────
-  "impact-36","impact-37","impact-38","impact-39",
-  "impact-40","impact-41","impact-42","impact-43","impact-44","impact-45","impact-46","impact-47","impact-48","impact-49",
+  "impact-46","impact-47","impact-48","impact-49",
   "impact-50","impact-51","impact-52","impact-53","impact-54",
   "impact-101","impact-102","impact-103","impact-104","impact-105","impact-106","impact-107","impact-108","impact-109","impact-110","impact-111",
   "impact-117","impact-118","impact-119","impact-120","impact-121","impact-122","impact-123","impact-124","impact-125",
@@ -39,6 +38,9 @@ const FEATURED = new Set([
   "impact-16","impact-17","impact-18","impact-19","impact-20",
   "impact-21","impact-22","impact-23","impact-24","impact-25",
   "impact-26","impact-27","impact-28","impact-29","impact-30",
+  "impact-31","impact-32","impact-33","impact-34","impact-35",
+  "impact-36","impact-37","impact-38","impact-39","impact-40",
+  "impact-41","impact-42","impact-43","impact-44","impact-45",
   "luxury","aurora","3d-tech","minimal-pro","saas",
 ]);
 

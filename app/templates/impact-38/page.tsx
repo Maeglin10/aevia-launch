@@ -1,193 +1,465 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
-import { ArrowRight, X, Menu, Utensils, Droplets, Wind, Sparkles, Calendar, Clock, MapPin, Hash } from "lucide-react";
+import { 
+  ArrowUpRight, 
+  Menu, 
+  X, 
+  Layers, 
+  ShieldCheck,
+  Plus,
+  Play,
+  ArrowRight,
+  ChevronDown,
+  Monitor,
+  LayoutGrid,
+  Zap,
+  UtensilsCrossed,
+  Eye,
+  Maximize2,
+  Minimize2,
+  Box,
+  Settings,
+  Sparkles,
+  Command,
+  Activity,
+  Ruler,
+  Wind,
+  Droplets
+} from "lucide-react";
 import "../premium.css";
 
-const DISHES = [
-  { id: 1, name: "NEURAL_DASH_01", price: 120, tag: "Starter", img: "https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=1000&auto=format&fit=crop", desc: "A singular bite of kelp-infused foam and liquid nitrogen. Resets the palate." },
-  { id: 2, name: "ASH_SALMON", price: 240, tag: "Main", img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?q=80&w=1000&auto=format&fit=crop", desc: "Slow-cooled wild salmon served on a plate of volcanic ash. Texture study." },
-  { id: 3, name: "VOID_TEMPURA", price: 180, tag: "Middle", img: "https://images.unsplash.com/photo-1582450871972-ab5ca641643d?q=80&w=1000&auto=format&fit=crop", desc: "Light-speed battered seasonal vegetables. A study of transparency and crunch." },
-  { id: 4, name: "SILK_TEA_CAKE", price: 95, tag: "Ending", img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=1000&auto=format&fit=crop", desc: "Whipped matcha and raw honey. Collapses on the tongue like a digital dream." },
+// ─── DATA ──────────────────────────────────────────────────────────────────
+
+const DISH_MANIFESTS = [
+  { 
+    id: "DSH_01",
+    title: "ZEN_BROTH", 
+    category: "Structural Study",
+    temperature: "v9.4_HOT",
+    img: "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1200&q=80",
+    desc: "A singular exploration of absolute clarity within liquid volumes. High-fidelity flavor synthesis."
+  },
+  { 
+    id: "DSH_02",
+    title: "NEURAL_SASHIMI", 
+    category: "Tactile Interface",
+    temperature: "v3.1_COLD",
+    img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=1200&q=80",
+    desc: "Planetary-scale distributed textures orchestrated through neural weight synthesis. Zero-latency culinary objects."
+  },
+  { 
+    id: "DSH_03",
+    title: "VOID_TEMPURA", 
+    category: "Functional Core",
+    temperature: "v9.0_EXPERIMENTAL",
+    img: "https://images.unsplash.com/photo-1582450871972-ab5ca641643d?w=1200&q=80",
+    desc: "A zero-latency texture engine built for the real-time synthesis of non-standard culinary artifacts through radical heat injection."
+  }
 ];
 
-export default function KaisekiAtelierSPA() {
-  const [view, setView] = useState<"menu" | "space" | "seat">("menu");
-  const [activeItem, setActiveItem] = useState(0);
+const METRICS = [
+  { label: "Purity", val: "99.9%", desc: "Absolute architectural synchronization across all distributed culinary edge nodes." },
+  { label: "Throughput", val: "12 EB/s", desc: "Sustainable flavor delivery through our dedicated high-fidelity kitchen backbone." },
+  { label: "Reliability", val: "IMMUNE", desc: "Zero-leak culinary logic verified through continuous adversarial stress-testing." }
+];
+
+const CAPABILITIES = [
+  { icon: Ruler, title: "Culinary Forge", desc: "Engineering dish volumes through a lens of mathematical and structural purity." },
+  { icon: Eye, title: "Zen Logic", desc: "Scaling flavor interactions through distributed culinary orchestration and logic synthesis." },
+  { icon: Activity, title: "Pulse Sync", desc: "Synchronizing appetite spikes with real-time biological demand cycles for absolute sync." },
+  { icon: Box, title: "Archival Shell", desc: "Leveraging heavy archival data fabrication for ultra-high fidelity culinary protection." }
+];
+
+// ─── COMPONENTS ──────────────────────────────────────────────────────────────
+
+function Reveal({ children, className = "", delay = 0, y = 30 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.23, 1, 0.32, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// ─── MAIN SPA ────────────────────────────────────────────────────────────────
+
+export default function ZenKitchenSPA() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeDsh, setActiveDsh] = useState(0);
+  const { scrollY } = useScroll();
+  
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const heroScale = useTransform(scrollY, [0, 800], [1, 1.05]);
 
   return (
-    <div className="premium-theme bg-[#fcfcfc] text-[#111] min-h-screen selection:bg-rose-950 selection:text-white font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-[#fcfcfc] text-[#111] font-mono selection:bg-[#111] selection:text-white">
       
-      {/* Editorial HUD Nav */}
-      <nav className="fixed top-0 left-0 w-full z-50 p-8 md:p-12 flex justify-between items-center bg-white/40 backdrop-blur-xl border-b border-black/5">
-        <button onClick={() => setView("menu")} className="text-xl font-black italic tracking-tighter hover:scale-105 transition-transform">
-           ZEN_GSTRNM&trade;
-        </button>
-        <div className="hidden md:flex gap-12 text-[10px] font-black uppercase tracking-[0.4em] opacity-30">
-           <button onClick={() => setView("menu")} className={`hover:opacity-100 transition-opacity ${view === 'menu' ? 'text-black opacity-100 underline decoration-black underline-offset-8' : ''}`}>THE_PROTOCOLS</button>
-           <button onClick={() => setView("space")} className={`hover:opacity-100 transition-opacity ${view === 'space' ? 'text-black opacity-100 underline decoration-black underline-offset-8' : ''}`}>THE_VOID</button>
-        </div>
-        <div className="flex items-center gap-8">
-           <div className="hidden lg:flex items-center gap-2 opacity-30 text-[9px] uppercase font-black tracking-widest italic">
-              Verification: Michelin_3_Sync
-           </div>
-           <button onClick={() => setView("seat")} className="px-8 py-3 bg-black text-white font-black uppercase text-[10px] tracking-widest hover:bg-[#1a1a1a] transition-all italic">
-              Reserve_Void
-           </button>
-        </div>
-      </nav>
+      {/* ── ZEN OVERLAY ── */}
+      <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div className="fixed inset-0 z-[0] opacity-[0.05] pointer-events-none overflow-hidden">
+        <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
+      </div>
 
-      <AnimatePresence mode="wait">
+      {/* ── NAVIGATION ── */}
+      <motion.nav 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-16 py-10 mix-blend-difference"
+      >
+        <div className="flex items-center gap-4">
+          <UtensilsCrossed className="w-10 h-10 text-white" />
+          <span className="text-2xl font-black tracking-tighter uppercase italic text-white">ZEN<span className="text-white/30">//</span>KITCHEN</span>
+        </div>
         
-        {/* MENU VIEW (PROTOCOLS) */}
-        {view === "menu" && (
-          <motion.div key="menu" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="pt-48 pb-32 px-8">
-             <header className="mb-32 flex flex-col md:flex-row justify-between items-end border-b-4 border-black pb-12">
-                <h1 className="text-[12vw] font-serif italic font-black uppercase tracking-tighter leading-[0.8] text-black">
-                   Atomic. <br /> <span className="not-italic text-transparent" style={{ WebkitTextStroke: '1px black' }}>Senses.</span>
-                </h1>
-                <div className="text-right flex flex-col items-end">
-                   <div className="text-2xl font-black mb-4 tracking-tighter uppercase text-black/10">Kaiseki_Protocol_v4</div>
-                   <div className="flex gap-4">
-                      <div className="text-[9px] font-black uppercase tracking-widest opacity-20 italic">Curating Flavor <br /> Through Silence</div>
-                   </div>
-                </div>
-             </header>
+        <div className="hidden lg:flex items-center gap-16 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
+          {["Manifest", "Reserve", "Atelier", "Portal"].map(item => (
+            <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors">/{item}</a>
+          ))}
+        </div>
 
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-                {DISHES.map((d, i) => (
-                  <motion.div 
-                    key={d.id} initial={{ opacity: 0, scale: 1.05 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.1 }}
-                    className="group flex flex-col cursor-pointer"
-                    onClick={() => { setActiveItem(i); setView("space"); }}
-                  >
-                     <div className="relative aspect-[3/4] bg-[#f5f5f5] overflow-hidden mb-12 rounded-[3.5rem] border border-black/5 shadow-2xi group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-all">
-                        <Image src={d.img} alt={d.name} fill className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-[2s]" />
-                        <div className="absolute top-8 left-8 text-[8px] font-black uppercase tracking-widest opacity-20 group-hover:opacity-100 transition-opacity flex items-center gap-2">
-                           <Hash className="w-3 h-3" /> SEQ_0{d.id}
-                        </div>
-                     </div>
-                     <div className="flex justify-between items-start mb-6">
-                        <div>
-                           <span className="text-[10px] uppercase font-black tracking-[0.4em] opacity-30 block mb-2">{d.tag}</span>
-                           <h3 className="text-4xl font-black italic uppercase tracking-tighter leading-none hover:text-rose-950 transition-colors">{d.name}</h3>
-                        </div>
-                        <div className="text-2xl font-black italic tracking-tighter opacity-10 group-hover:opacity-100 transition-all font-mono">${d.price}</div>
-                     </div>
-                     <p className="text-sm font-light italic opacity-40 uppercase tracking-tight max-w-xs">{d.desc}</p>
-                     <button className="flex items-center gap-4 text-[9px] font-black tracking-[0.6em] opacity-20 group-hover:opacity-100 transition-all group-hover:gap-12 border-t border-black/5 pt-8 mt-10">
-                        ANALYZE_DISH <Plus className="w-4 h-4" />
-                     </button>
-                  </motion.div>
-                ))}
-             </div>
+        <button 
+          onClick={() => setMenuOpen(true)}
+          className="px-6 py-2 border border-white/20 bg-white/5 backdrop-blur-md text-[10px] font-black uppercase tracking-widest hover:bg-white/20 transition-all text-white"
+        >
+          [INIT_RESERVATION]
+        </button>
+      </motion.nav>
+
+      {/* ── MOBILE MENU ── */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+            className="fixed inset-0 z-[60] bg-[#fcfcfc] text-black p-12 flex flex-col justify-between"
+          >
+            <div className="flex justify-between items-center border-b border-black/5 pb-12">
+              <span className="text-xl font-black uppercase tracking-tighter italic">ZEN//KITCHEN</span>
+              <button onClick={() => setMenuOpen(false)} className="w-12 h-12 flex items-center justify-center border border-black/10 rounded-full">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="flex flex-col gap-12 text-center md:text-left">
+              {["DISH_MANIFEST", "RESERVE_ARCHIVE", "CULINARY_FORGE", "ASSET_ENCLAVE", "SECURE_AUTH"].map((item, i) => (
+                <motion.a 
+                  key={item}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 + 0.3 }}
+                  href="#"
+                  className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter hover:text-black/40 transition-all leading-none"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item}
+                </motion.a>
+              ))}
+            </div>
+            <div className="flex justify-between text-[10px] font-bold uppercase tracking-[0.5em] border-t border-black/5 pt-12 text-black/30">
+              <span>CULINARY_PRACTICE</span>
+              <span>EST. 2018 // KYOTO</span>
+            </div>
           </motion.div>
         )}
-
-        {/* SPACE VIEW (INFO/GALLERY) */}
-        {view === "space" && (
-          <motion.div key="space" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} className="relative z-10 pt-48 pb-32 px-12 max-w-7xl mx-auto min-h-screen flex flex-col justify-center">
-             <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
-                <div className="space-y-16">
-                   <span className="text-[10px] uppercase font-black tracking-[1.5em] opacity-30 block underline decoration-black decoration-2 underline-offset-8 italic">The_Philosophical_Void</span>
-                   <h2 className="text-7xl md:text-[10vw] font-black italic tracking-tighter leading-none text-black uppercase">Silent <br/> Space.</h2>
-                   <p className="text-3xl md:text-4xl font-light italic opacity-60 leading-relaxed uppercase tracking-tight">
-                      We removed the noise. We removed the clutter. What remains is a curated dialogue between your senses and the essence of the ingredient.
-                   </p>
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12 border-t border-black/5">
-                      {[
-                        { icon: <Droplets className="w-6 h-6" />, t: "Pure Mineral", v: "High-Altitude Sourcing" },
-                        { icon: <Sparkles className="w-6 h-6" />, t: "Zen Flow", v: "Zero-Latency Service" },
-                      ].map((item, i) => (
-                        <div key={i} className="flex gap-8 group">
-                           <div className="w-16 h-16 rounded-full border border-black flex items-center justify-center text-black group-hover:bg-black group-hover:text-white transition-all shadow-xl">
-                              {item.icon}
-                           </div>
-                           <div>
-                              <h4 className="text-2xl font-black uppercase italic tracking-tighter text-black mb-2">{item.t}</h4>
-                              <p className="text-[10px] opacity-30 uppercase tracking-[0.3em] font-black leading-relaxed">{item.v}</p>
-                           </div>
-                        </div>
-                      ))}
-                   </div>
-                </div>
-                <div className="relative aspect-square bg-white rounded-[4rem] p-12 overflow-hidden border border-black/5 shadow-2xi group">
-                   <Image src="https://images.unsplash.com/photo-196645?w=800&q=80" alt="The Void" fill className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-[3s]" />
-                   <div className="absolute inset-x-0 bottom-12 flex justify-center">
-                      <div className="px-12 py-6 bg-black text-white text-[10px] font-black uppercase tracking-widest italic animate-bounce">
-                         View_Full_Gallery
-                      </div>
-                   </div>
-                </div>
-             </div>
-          </motion.div>
-        )}
-
-        {/* SEAT VIEW (RESERVATION) */}
-        {view === "seat" && (
-          <motion.div key="seat" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="relative z-10 pt-48 pb-32 px-8 max-w-4xl mx-auto min-h-screen">
-             <div className="glass p-12 md:p-24 rounded-[4rem] border border-black/5 text-center relative overflow-hidden bg-white/80 shadow-2xl">
-                <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
-                   <Utensils className="w-64 h-64" />
-                </div>
-                <span className="text-[10px] uppercase tracking-[1em] text-black opacity-40 mb-12 block italic underline decoration-black underline-offset-8 decoration-2">Protocol_Activation</span>
-                <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter mb-16 text-black leading-none uppercase">Claim Your <br/> Allocation.</h2>
-                <div className="space-y-12 text-left relative z-10">
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                      <div className="border-b border-black/20 pb-6 group">
-                         <label className="text-[10px] uppercase font-black tracking-widest opacity-20 block mb-4 italic group-focus-within:text-black transition-colors">Seat_Availability</label>
-                         <div className="flex justify-between items-center cursor-pointer">
-                            <span className="text-2xl italic tracking-tighter text-black font-black">2026.12.24</span>
-                            <Calendar className="w-5 h-5 opacity-40" />
-                         </div>
-                      </div>
-                      <div className="border-b border-black/20 pb-6 group">
-                         <label className="text-[10px] uppercase font-black tracking-widest opacity-20 block mb-4 italic group-focus-within:text-black transition-colors">Session_Time</label>
-                         <div className="flex justify-between items-center cursor-pointer">
-                            <span className="text-2xl italic tracking-tighter text-black font-black">19:30_PST</span>
-                            <Clock className="w-5 h-5 opacity-40" />
-                         </div>
-                      </div>
-                   </div>
-                   <button className="w-full py-10 bg-black text-white font-black uppercase text-[10px] tracking-[1.5em] hover:bg-rose-950 transition-all shadow-2xl rounded-full italic">
-                      Finalize_Allocation
-                   </button>
-                </div>
-                <div className="mt-24 pt-12 border-t border-black/5 flex justify-center gap-12 opacity-20 text-[9px] font-black tracking-widest uppercase italic">
-                   <div className="flex items-center gap-3">
-                      <Shield className="w-4 h-4" /> Secure Deposit Required
-                   </div>
-                   <div className="flex items-center gap-3 font-mono">
-                      <MapPin className="w-4 h-4" /> Iceland_Node_01
-                   </div>
-                </div>
-             </div>
-          </motion.div>
-        )}
-
       </AnimatePresence>
 
-      {/* Global Status HUD */}
-      <footer className="fixed bottom-0 left-0 w-full p-8 md:p-12 z-50 flex justify-between items-end mix-blend-difference pointer-events-none opacity-20 text-[8px] uppercase font-black tracking-[0.5em] italic">
-         <div className="flex gap-12">
-            <span>Zen_Atelier_NYC</span>
-            <span>Flux: Stable</span>
-         </div>
-         <div className="flex gap-4 items-end">
-            <div className="text-right leading-tight italic">
-               Inventory_Control <br /> v4.0.21
+      {/* ── HERO SECTION ── */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
+        <motion.div 
+          style={{ opacity: heroOpacity, scale: heroScale }}
+          className="absolute inset-0 z-0"
+        >
+          <Image 
+            src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1600&q=80" 
+            alt="Hero Culinary" 
+            fill 
+            className="object-cover grayscale brightness-50 contrast-125 opacity-30" 
+            unoptimized 
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#fcfcfc]" />
+        </motion.div>
+
+        <div className="relative z-10 text-center px-6">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[2.5em] text-black/40 mb-12 block italic">Culinary Endurance</span>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <h1 className="text-8xl md:text-[18rem] font-black tracking-tighter leading-[0.75] uppercase italic text-black mb-20">
+              RAW <br/> <span className="not-italic text-black/10">ZEN.</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.4}>
+            <div className="max-w-2xl mx-auto flex flex-col items-center gap-16 border-t border-black/10 pt-20">
+              <p className="text-black/40 text-xl leading-relaxed font-light uppercase tracking-[0.3em] italic leading-loose text-center">
+                Engineering the ultimate culinary archives through distributed flavor orchestration. High-fidelity systems built for absolute structural precision and narrative clarity.
+              </p>
+              <div className="flex gap-8">
+                <button className="px-16 py-6 bg-black text-white font-black uppercase text-xs tracking-[0.4em] hover:bg-white hover:text-black transition-all">
+                  Manifest_Access
+                </button>
+                <button className="px-16 py-6 border border-black/20 text-black font-black uppercase text-xs tracking-[0.4em] hover:bg-black/5 transition-colors">
+                  Atelier_Dossier
+                </button>
+              </div>
             </div>
-            <div className="flex gap-[4px] h-4">
-               {[1, 2, 3, 4, 5].map(i => <div key={i} className={`w-[2px] h-full bg-black opacity-${i*20}`}></div>)}
+          </Reveal>
+        </div>
+
+        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[10px] font-bold uppercase tracking-[0.5em] text-black/20">
+          <div className="flex flex-col gap-2">
+            <span>KYOTO // ATELIER</span>
+            <div className="w-48 h-[1px] bg-black/10" />
+          </div>
+          <div className="flex items-center gap-4 italic uppercase tracking-widest">
+             <span className="animate-pulse">●</span> CULINARY_STATUS: NOMINAL
+          </div>
+        </div>
+      </section>
+
+      {/* ── METRICS GRID ── */}
+      <section className="py-40 bg-[#fcfcfc]">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-black/5 border border-black/5">
+            {METRICS.map((s, i) => (
+              <Reveal key={s.label} delay={i * 0.1} className="bg-white p-24 group hover:bg-black/5 transition-all duration-700">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/30 mb-12 block group-hover:text-black/60">{s.label}</span>
+                <h3 className="text-7xl font-black italic text-black mb-8 group-hover:text-black transition-colors">{s.val}</h3>
+                <p className="text-xs text-black/30 font-light tracking-widest uppercase italic leading-loose group-hover:text-black/60">
+                  {s.desc}
+                </p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* DISH SHOWCASE ── */}
+      <section className="py-40 bg-white relative overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32">
+             <div className="flex flex-col lg:flex-row justify-between items-end gap-12 border-b border-black/10 pb-12">
+               <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-black">
+                 Dish <br/> <span className="text-black/20 not-italic">Archive.</span>
+               </h2>
+               <div className="text-right">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/20 mb-4 block italic">Manifest_Sequence_2024</span>
+                  <div className="flex gap-4">
+                    {DISH_MANIFESTS.map((_, i) => (
+                      <button 
+                        key={i} 
+                        onClick={() => setActiveDsh(i)}
+                        className={`w-16 h-1 transition-all ${activeDsh === i ? "bg-black w-32" : "bg-black/10"}`}
+                      />
+                    ))}
+                  </div>
+               </div>
+             </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
+            <div className="lg:col-span-8 relative aspect-video rounded-sm overflow-hidden border border-black/5 group bg-[#ddd]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeDsh}
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.1 }}
+                  transition={{ duration: 1, ease: [0.19, 1, 0.22, 1] }}
+                  className="absolute inset-0"
+                >
+                  <Image src={DISH_MANIFESTS[activeDsh].img} alt={DISH_MANIFESTS[activeDsh].title} fill className="object-cover grayscale brightness-75 group-hover:grayscale-0 transition-all duration-[2s]" unoptimized />
+                  <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-80" />
+                </motion.div>
+              </AnimatePresence>
+              <div className="absolute bottom-12 left-12 flex flex-col gap-4">
+                 <span className="text-[10px] font-black uppercase tracking-widest bg-black/80 backdrop-blur-md text-white px-6 py-2 border border-white/5">{DISH_MANIFESTS[activeDsh].temperature} // ADVISORY</span>
+              </div>
+            </div>
+
+            <div className="lg:col-span-4 space-y-12">
+               <motion.div
+                  key={activeDsh}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="space-y-12"
+               >
+                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-black/60">{DISH_MANIFESTS[activeDsh].id} // ASSET</span>
+                 <h3 className="text-6xl md:text-8xl font-black italic uppercase text-black tracking-tighter">{DISH_MANIFESTS[activeDsh].title}</h3>
+                 <div className="space-y-6 border-y border-black/10 py-12">
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/30">Category</span>
+                       <span className="text-sm font-black text-black uppercase tracking-widest">{DISH_MANIFESTS[activeDsh].category}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/30">Dish_Status</span>
+                       <span className="text-sm font-black text-black uppercase tracking-widest italic">Stable_Optical</span>
+                    </div>
+                 </div>
+                 <p className="text-black/30 text-lg font-light italic leading-loose uppercase tracking-wide">
+                   {DISH_MANIFESTS[activeDsh].desc}
+                 </p>
+                 <button className="flex items-center gap-6 group">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.8em] text-black">Request_Manifest</span>
+                    <div className="w-16 h-16 border border-black/10 rounded-full flex items-center justify-center group-hover:bg-black transition-all">
+                       <ArrowUpRight className="w-6 h-6 text-black group-hover:text-white transition-colors" />
+                    </div>
+                 </button>
+               </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CAPABILITIES ── */}
+      <section className="py-40 bg-[#fcfcfc] border-y border-black/10">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+          <Reveal className="mb-32 text-center">
+             <span className="text-[10px] font-bold uppercase tracking-[1em] text-black/40 mb-8 block italic">Operational Scope</span>
+             <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-black">
+                Technical <br/> <span className="text-black/20 not-italic">Expertise.</span>
+             </h2>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black/10 border border-black/10">
+            {CAPABILITIES.map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.1} className="bg-white p-12 group hover:bg-black/5 transition-all duration-700">
+                 <item.icon className="w-12 h-12 text-black/20 group-hover:text-black transition-colors mb-8" />
+                 <h3 className="text-2xl font-black italic uppercase text-black mb-6">{item.title}</h3>
+                 <p className="text-xs text-black/40 group-hover:text-black font-light tracking-widest uppercase italic leading-loose transition-colors">
+                   {item.desc}
+                 </p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ATELIER / LABORATORY ── */}
+      <section className="py-40 bg-white overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+          <Reveal>
+             <div className="relative aspect-square bg-[#fcfcfc] border border-black/5 p-20 flex flex-col justify-center group overflow-hidden">
+                <div className="absolute top-0 right-0 p-12">
+                   <Box className="w-16 h-16 text-black/5 group-hover:text-black/10 transition-colors" />
+                </div>
+                <Sparkles className="w-16 h-16 text-black mb-12" />
+                <h3 className="text-5xl font-black italic uppercase text-black mb-8">Culinary <br/> <span className="text-black/20 not-italic">Atelier.</span></h3>
+                <p className="text-black/40 text-lg leading-relaxed mb-12 font-light uppercase tracking-wide italic leading-loose">
+                  Our Kyoto atelier leverages heavy archival culinary fabrication and distributed flavor orchestration for the production of non-standard gastronomic artifacts. We push the tectonic limits of spatial dining.
+                </p>
+                <div className="flex gap-12 text-[10px] font-bold uppercase tracking-[0.5em] text-black/30">
+                   <span>[01] FLAVOR_BOND</span>
+                   <span>[02] TACTILE_SYNTHESIS</span>
+                </div>
+             </div>
+          </Reveal>
+          <div className="space-y-24">
+             <Reveal delay={0.2}>
+                <span className="text-[10px] font-bold uppercase tracking-[1em] text-black/40 mb-8 block italic">Curation_Sequence</span>
+                <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-none uppercase text-black">Culinary <br/> <span className="text-black/20 not-italic">Manifesto.</span></h2>
+             </Reveal>
+             <div className="space-y-12">
+                {[
+                  { n: "01", t: "Sectional Audit", d: "Rigorous cutting of complex culinary volumes to reveal interior structural potential." },
+                  { n: "02", t: "Flavor Stress", d: "Simulation of high-fidelity visual performance under extreme archival loads." },
+                  { n: "03", t: "Archive Aging", d: "Analyzing the interaction of archival culinary models with digital weathering." }
+                ].map((step, i) => (
+                  <Reveal key={step.n} delay={i * 0.1 + 0.3} className="flex gap-12 group border-l border-black/10 pl-8 hover:border-black transition-colors">
+                    <span className="text-4xl font-black italic text-black/10 group-hover:text-black transition-colors">{step.n}</span>
+                    <div>
+                      <h4 className="text-xl font-black uppercase italic text-white mb-2">{step.t}</h4>
+                      <p className="text-xs text-black/40 font-light tracking-widest uppercase italic leading-loose">{step.d}</p>
+                    </div>
+                  </Reveal>
+                ))}
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA / INQUIRY ── */}
+      <section className="py-40 bg-[#fcfcfc] relative">
+         <div className="max-w-[1600px] mx-auto px-8 md:px-16">
+            <div className="bg-black text-white p-24 lg:p-40 relative overflow-hidden flex flex-col items-center text-center group">
+               <div className="absolute inset-0 opacity-10 grayscale brightness-110 group-hover:opacity-20 transition-opacity">
+                  <Image src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1600&q=80" alt="CTA Culinary" fill className="object-cover" />
+               </div>
+               <Reveal>
+                  <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/50 mb-12 block italic">Allocation Initiation</span>
+                  <h2 className="text-7xl md:text-[12rem] font-black italic tracking-tighter leading-[0.8] uppercase mb-16">
+                     Own <br/> <span className="text-white/30 not-italic">The Void.</span>
+                  </h2>
+                  <div className="flex flex-wrap justify-center gap-12 relative z-10">
+                     <button className="px-20 py-8 bg-white text-black font-black uppercase text-sm tracking-[0.5em] hover:italic transition-all">
+                        Request_Allocation
+                     </button>
+                     <button className="px-20 py-8 border border-white/20 text-white font-black uppercase text-sm tracking-[0.5em] hover:bg-white/5 transition-all">
+                        Atelier_Dossier
+                     </button>
+                  </div>
+               </Reveal>
+            </div>
+         </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-white pt-40 pb-20 px-8 md:px-16 border-t border-black/10">
+         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-32 mb-40">
+            <div className="lg:col-span-6">
+               <div className="flex items-center gap-4 mb-12">
+                 <UtensilsCrossed className="w-10 h-10 text-black" />
+                 <span className="text-3xl font-black tracking-tighter uppercase italic text-black">ZEN<span className="text-black/30">//</span>KITCHEN</span>
+               </div>
+               <p className="text-black/40 text-sm font-light leading-relaxed uppercase tracking-[0.3em] mb-12 italic max-w-md">
+                 Securing the future of culinary objects through high-fidelity orchestration and radical visual clarity.
+               </p>
+               <div className="flex gap-12">
+                 {["TERMINAL", "CULINARY", "FORGE", "ALPHA"].map(s => (
+                   <a key={s} href="#" className="text-[10px] font-bold hover:text-black text-black/30 transition-colors tracking-[0.5em]">[{s}]</a>
+                 ))}
+               </div>
+            </div>
+            
+            <div className="lg:col-span-2">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/40 mb-12">Systems</h4>
+               <ul className="space-y-6 text-xs font-bold uppercase tracking-[0.4em]">
+                 {["Archives", "Telemetry", "Shell", "Journal"].map(item => (
+                   <li key={item}><a href="#" className="hover:text-black transition-colors">{item}</a></li>
+                 ))}
+               </ul>
+            </div>
+
+            <div className="lg:col-span-4">
+               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/40 mb-12">Partner Inquiry</h4>
+               <p className="text-sm text-black/40 font-light mb-12 italic uppercase tracking-[0.2em] leading-loose">
+                 For new commissions, culinary studies, or distribution enclaves, contact our primary command center in Kyoto.
+               </p>
+               <a href="mailto:ops@zen-kitchen.jp" className="text-3xl font-black italic hover:text-black transition-colors block border-b border-black/10 pb-8 uppercase tracking-tighter">
+                  ops@zen-kitchen.jp
+               </a>
+            </div>
+         </div>
+
+         <div className="max-w-[1600px] mx-auto flex flex-col md:row items-center justify-between gap-12 text-[9px] font-bold uppercase tracking-[0.8em] text-black/20 border-t border-black/5 pt-20">
+            <p>© 2024 ZEN KITCHEN ATELIER AG. ALL RIGHTS RESERVED. KYOTO // GLOBAL.</p>
+            <div className="flex gap-16">
+               <a href="#" className="hover:text-black transition-colors">[Culinary_Vault]</a>
+               <a href="#" className="hover:text-white transition-colors">[Terms_of_Service]</a>
             </div>
          </div>
       </footer>
-
-      <style>{`
-        ::-webkit-scrollbar { width: 0px; }
-      `}</style>
     </div>
   );
 }
