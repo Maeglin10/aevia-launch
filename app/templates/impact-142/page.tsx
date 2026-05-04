@@ -1,376 +1,210 @@
-"use client"
+"use client";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import { Leaf, TreePine, Droplets, Menu, X, ArrowRight, Sun, Wind, Recycle, Globe, BarChart3, Heart, Users, CheckCircle2, Star, Mail } from "lucide-react";
+import "../premium.css";
 
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Progress } from "@/components/ui/progress"
-import { Separator } from "@/components/ui/separator"
-import { Building2, TrendingUp, Award, Globe, FileText, ChevronDown, ArrowRight, Lock } from "lucide-react"
+const IMPACT_STATS = [
+  { label: "CO₂ OFFSET", val: "24K", unit: "TONS", color: "#16a34a" },
+  { label: "TREES PLANTED", val: "1.2M", unit: "", color: "#16a34a" },
+  { label: "CLEAN ENERGY", val: "840", unit: "GWH", color: "#16a34a" },
+  { label: "COMMUNITIES", val: "320", unit: "", color: "#16a34a" },
+];
 
-const SERVICES = [
-  { name: "Wealth Planning", description: "Strategic asset allocation & retirement optimization", min: "€2.5M+" },
-  { name: "Investments", description: "Global equities, alternatives & direct deals", min: "€2.5M+" },
-  { name: "Tax Optimization", description: "International tax structuring & efficiency", min: "€2.5M+" },
-  { name: "Estate Planning", description: "Multi-generational wealth transfer", min: "€2.5M+" },
-  { name: "Philanthropy", description: "Impact investing & charitable structures", min: "€1.0M+" },
-]
-
-const TEAM_MEMBERS = [
-  { name: "Marcus Rothschild", role: "CFA, Founder", aum: "€2.1B", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200" },
-  { name: "Elena Rossi", role: "CFP, Senior Advisor", aum: "€1.8B", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200" },
-  { name: "James Chen", role: "CFA, Portfolio Manager", aum: "€1.5B", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200" },
-  { name: "Sophie Laurent", role: "CFP, Estate Specialist", aum: "€1.2B", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200" },
-]
+const FEATURES = [
+  { icon: <Sun className="w-6 h-6" />, title: "Solar Infrastructure", desc: "Utility-scale solar farms powering 200,000+ homes across three continents." },
+  { icon: <Wind className="w-6 h-6" />, title: "Wind Energy", desc: "Offshore and onshore wind projects delivering clean energy at grid parity." },
+  { icon: <Droplets className="w-6 h-6" />, title: "Water Restoration", desc: "Watershed protection programs restoring 14 river ecosystems to health." },
+  { icon: <Recycle className="w-6 h-6" />, title: "Circular Economy", desc: "Zero-waste manufacturing processes eliminating 98% of industrial byproducts." },
+  { icon: <TreePine className="w-6 h-6" />, title: "Reforestation", desc: "1.2 million native trees planted in partnership with indigenous communities." },
+  { icon: <Globe className="w-6 h-6" />, title: "Carbon Markets", desc: "Verified carbon credits traded on major exchanges with full chain-of-custody." },
+];
 
 const TESTIMONIALS = [
-  { text: "Exceptional wealth management across 5 continents. Turned complexity into clarity.", company: "Luxury Retail" },
-  { text: "25 years of consistent outperformance. These advisors understand true wealth.", company: "Manufacturing" },
-  { text: "Estate planning saved us millions. Professional, discreet, exceptional.", company: "Family Office" },
-]
+  { name: "Dr. Elena Vasquez", role: "Climate Policy Director, UNEP", quote: "Verdant has set a new standard for corporate environmental accountability. Their transparency is unmatched." },
+  { name: "Marcus Chen", role: "CEO, Pacific Renewables", quote: "Working with Verdant transformed our sustainability roadmap from aspiration to measurable action." },
+  { name: "Sarah Okafor", role: "Head of ESG, Meridian Capital", quote: "The impact metrics Verdant provides give our investors the confidence they need in green assets." },
+];
 
-const Reveal = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
-  return (
-    <motion.div ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
-    >{children}</motion.div>
-  )
+const PRICING = [
+  { name: "SEED", price: "$2,500", period: "/mo", desc: "For growing companies", features: ["Carbon footprint audit", "Quarterly reporting", "5 team members", "Email support"], cta: "Start_Seed" },
+  { name: "GROWTH", price: "$8,500", period: "/mo", desc: "For scaling impact", features: ["Full lifecycle analysis", "Monthly reporting", "25 team members", "Dedicated advisor", "Carbon offset program"], cta: "Start_Growth", featured: true },
+  { name: "FOREST", price: "Custom", period: "", desc: "Enterprise scale", features: ["Custom frameworks", "Real-time dashboards", "Unlimited team", "SLA guarantee", "Board presentations"], cta: "Contact_Sales" },
+];
+
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+  return <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay }}>{children}</motion.div>;
 }
 
-const Counter = ({ target, suffix = "", prefix = "" }: { target: number; suffix?: string; prefix?: string }) => {
-  const [count, setCount] = useState(0)
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
-  useEffect(() => {
-    if (!inView) return
-    const step = target / 90
-    const t = setInterval(() => setCount(c => { const n = c + step; if (n >= target) { clearInterval(t); return target; } return n; }), 16)
-    return () => clearInterval(t)
-  }, [inView, target])
-  return <span ref={ref}>{prefix}{Math.floor(count).toLocaleString()}{suffix}</span>
-}
-
-const MagneticBtn = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => {
-  const x = useMotionValue(0); const y = useMotionValue(0)
-  const sx = useSpring(x, { stiffness: 400, damping: 20 })
-  const sy = useSpring(y, { stiffness: 400, damping: 20 })
-  const ref = useRef<HTMLButtonElement>(null)
-  const handleMouse = (e: React.MouseEvent) => {
-    const r = ref.current!.getBoundingClientRect()
-    x.set((e.clientX - r.left - r.width/2) * 0.3)
-    y.set((e.clientY - r.top - r.height/2) * 0.3)
-  }
-  return <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={handleMouse}
-    onMouseLeave={() => { x.set(0); y.set(0) }} className={`cursor-pointer ${className}`}>{children}</motion.button>
-}
-
-export default function AurumFinance() {
-  const [activeTab, setActiveTab] = useState("wealth")
-  const [openConsult, setOpenConsult] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0.8])
+export default function VerdantImpactPage() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [contactName, setContactName] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactMessage, setContactMessage] = useState("");
+  useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
 
   return (
-    <div ref={containerRef} style={{ overflowX: 'hidden', scrollBehavior: 'smooth' }} className="bg-gradient-to-b from-[#070d14] via-[#0a1120] to-[#070d14] text-white min-h-screen font-sans">
-      {/* Parallax Hero */}
-      <motion.div style={{ opacity }} className="relative h-screen flex items-center overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200"
-          alt="Wealth Management"
-          fill
-          className="object-cover opacity-20"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#070d14] via-transparent to-[#070d14]" />
+    <div className="premium-theme min-h-screen bg-[#f8faf5] text-[#1a2e1a] font-mono selection:bg-[#16a34a] selection:text-white overflow-x-hidden">
+      <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.02]" style={{ backgroundImage: `radial-gradient(#16a34a 0.5px, transparent 0.5px)`, backgroundSize: "40px 40px" }} />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 w-full">
+      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#f8faf5]/90 backdrop-blur-xl py-4 border-b border-[#1a2e1a]/5" : "bg-transparent py-10"}`}>
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter">
+            <div className="w-8 h-8 bg-[#16a34a] rounded-full flex items-center justify-center text-white"><Leaf className="w-4 h-4" /></div>
+            <span className="group-hover:text-[#16a34a] transition-colors">VERDANT // <span className="text-[#1a2e1a]/30">IMPACT</span></span>
+          </Link>
+          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#1a2e1a]/30">
+            {["Solutions", "Impact", "Pricing", "Contact"].map(l => <Link key={l} href="#" className="hover:text-[#16a34a] transition-colors">{l}</Link>)}
+          </div>
+          <button className="px-6 py-2.5 bg-[#16a34a] text-white text-[10px] font-black uppercase tracking-widest hover:bg-[#1a2e1a] transition-all hidden md:block">Get_Started</button>
+          <button onClick={() => setMenuOpen(true)} className="lg:hidden text-[#1a2e1a]/40"><Menu className="w-6 h-6" /></button>
+        </div>
+      </nav>
+
+      <AnimatePresence>{menuOpen && (
+        <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-[#f8faf5] p-8 flex flex-col pt-32">
+          <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-[#1a2e1a]/40"><X className="w-10 h-10" /></button>
+          {["Solutions", "Impact", "Pricing", "Contact"].map(l => <Link key={l} href="#" onClick={() => setMenuOpen(false)} className="text-5xl font-black tracking-tighter uppercase mb-10">{l}</Link>)}
+        </motion.div>
+      )}</AnimatePresence>
+
+      {/* HERO */}
+      <section className="relative min-h-screen flex flex-col justify-center pt-20">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
           <Reveal>
-            <h1 className="text-6xl md:text-7xl font-black mb-6" style={{ color: '#d4af37' }}>
-              AURUM<br />WEALTH
+            <div className="flex items-center gap-4 mb-8">
+              <div className="px-3 py-1 bg-[#16a34a]/10 border border-[#16a34a]/30 text-[#16a34a] text-[9px] font-bold uppercase tracking-widest">B_CORP_CERTIFIED</div>
+            </div>
+            <h1 className="text-7xl md:text-9xl lg:text-[10rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
+              Build A <br /> <span className="text-[#16a34a]">Greener</span> <br /> Future.
             </h1>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <p className="text-xl md:text-2xl text-slate-300 max-w-2xl mb-8 font-light">
-              Private wealth management for discerning clients. €5B+ in assets under management across 200 ultra-high-net-worth families.
+            <p className="max-w-xl text-lg text-[#1a2e1a]/40 leading-relaxed font-light uppercase tracking-widest italic mb-12">
+              Enterprise sustainability platform. Measure, reduce, and offset your environmental footprint with verified impact.
             </p>
-          </Reveal>
-          <Reveal delay={0.4}>
-            <MagneticBtn className="px-8 py-4 bg-[#d4af37] text-[#070d14] font-bold rounded-lg hover:shadow-2xl hover:shadow-[#d4af37]/50 transition-all">
-              Schedule Consultation
-            </MagneticBtn>
+            <div className="flex flex-col sm:flex-row gap-6">
+              <button className="px-12 py-5 bg-[#16a34a] text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-[#1a2e1a] transition-all">Start_Free_Trial</button>
+              <button className="px-12 py-5 border border-[#1a2e1a]/10 text-[10px] font-black uppercase tracking-[0.4em] hover:bg-[#1a2e1a] hover:text-white transition-all">Watch_Demo</button>
+            </div>
           </Reveal>
         </div>
-      </motion.div>
-
-      {/* Service Tabs */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-4" style={{ color: '#d4af37' }}>Our Services</h2>
-          <p className="text-slate-400 mb-12 text-lg">Comprehensive wealth solutions tailored to your needs</p>
-        </Reveal>
-
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 gap-2 bg-[#1e2d40]/50 p-2 rounded-lg mb-8">
-            {SERVICES.map((svc) => (
-              <TabsTrigger
-                key={svc.name}
-                value={svc.name.toLowerCase().replace(" ", "")}
-                className="text-xs md:text-sm font-bold"
-              >
-                {svc.name.split(" ")[0]}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-
-          {SERVICES.map((svc) => (
-            <TabsContent key={svc.name} value={svc.name.toLowerCase().replace(" ", "")} className="space-y-6">
-              <Reveal>
-                <Card className="bg-[#1e2d40]/50 border-[#d4af37]/30 overflow-hidden group cursor-pointer hover:border-[#d4af37] transition-all duration-300">
-                  <CardContent className="p-8">
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h3 className="text-2xl font-bold mb-2">{svc.name}</h3>
-                        <p className="text-slate-400">{svc.description}</p>
-                      </div>
-                      <Badge className="bg-[#d4af37] text-[#070d14] font-bold">Min. {svc.min}</Badge>
-                    </div>
-                    <div className="pt-4 border-t border-[#d4af37]/20">
-                      <ul className="space-y-2 text-sm text-slate-300">
-                        <li className="flex items-center gap-2"><ArrowRight className="w-4 h-4" style={{ color: '#d4af37' }} /> Strategic allocation</li>
-                        <li className="flex items-center gap-2"><ArrowRight className="w-4 h-4" style={{ color: '#d4af37' }} /> Risk management</li>
-                        <li className="flex items-center gap-2"><ArrowRight className="w-4 h-4" style={{ color: '#d4af37' }} /> Tax optimization</li>
-                      </ul>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Reveal>
-            </TabsContent>
-          ))}
-        </Tabs>
       </section>
 
-      {/* Portfolio Allocation */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-4" style={{ color: '#d4af37' }}>Portfolio Allocation</h2>
-        </Reveal>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
-          {[
-            { name: "Equities", value: 35 },
-            { name: "Fixed Income", value: 28 },
-            { name: "Alternatives", value: 22 },
-            { name: "Real Assets", value: 15 },
-          ].map((item, idx) => (
-            <Reveal key={item.name} delay={idx * 0.1}>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="font-semibold text-lg">{item.name}</span>
-                  <span className="text-[#d4af37] font-bold">{item.value}%</span>
+      {/* FEATURES / BENEFITS */}
+      <section className="py-40 bg-white border-y border-[#1a2e1a]/5">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-6">Our <span className="text-[#16a34a]">Solutions.</span></h2></Reveal>
+          <Reveal delay={0.1}><p className="text-lg text-[#1a2e1a]/40 max-w-2xl mb-24 uppercase tracking-widest italic font-light">End-to-end sustainability infrastructure for companies that mean it.</p></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            {FEATURES.map((f, i) => (
+              <Reveal key={i} delay={i * 0.05}>
+                <div className="group p-10 bg-[#f8faf5] border border-[#1a2e1a]/5 hover:border-[#16a34a]/30 rounded-3xl transition-all">
+                  <div className="w-14 h-14 bg-[#16a34a]/10 rounded-2xl flex items-center justify-center text-[#16a34a] mb-8 group-hover:bg-[#16a34a] group-hover:text-white transition-all">{f.icon}</div>
+                  <h3 className="text-xl font-black uppercase tracking-tighter mb-4 group-hover:text-[#16a34a] transition-colors">{f.title}</h3>
+                  <p className="text-sm text-[#1a2e1a]/40 leading-relaxed">{f.desc}</p>
                 </div>
-                <Progress value={item.value} className="h-2 bg-[#1e2d40]" />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* IMPACT STATS */}
+      <section className="py-40 bg-[#1a2e1a] text-white text-center">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-24">Measured <span className="text-[#16a34a]">Impact.</span></h2></Reveal>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-16">
+            {IMPACT_STATS.map((s, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="group"><div className="text-4xl md:text-6xl font-black text-white mb-2 group-hover:text-[#16a34a] transition-colors">{s.val}</div><div className="text-[9px] font-black text-white/30 uppercase tracking-widest">{s.unit} {s.label}</div></div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section className="py-40 bg-[#f8faf5]">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-24">What They <span className="text-[#16a34a]">Say.</span></h2></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {TESTIMONIALS.map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="p-10 bg-white border border-[#1a2e1a]/5 rounded-3xl h-full flex flex-col">
+                  <div className="flex gap-1 mb-6">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 text-[#16a34a] fill-[#16a34a]" />)}</div>
+                  <p className="text-base text-[#1a2e1a]/50 italic leading-relaxed flex-1 mb-8">&ldquo;{t.quote}&rdquo;</p>
+                  <div className="pt-6 border-t border-[#1a2e1a]/5">
+                    <div className="font-black uppercase text-sm">{t.name}</div>
+                    <div className="text-[10px] text-[#1a2e1a]/30 uppercase tracking-widest">{t.role}</div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section className="py-40 bg-white border-y border-[#1a2e1a]/5">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-24 uppercase text-center">Simple <span className="text-[#16a34a]">Pricing.</span></h2></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            {PRICING.map((p, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className={`group p-10 border rounded-3xl transition-all ${p.featured ? "bg-[#16a34a]/5 border-[#16a34a]/30 scale-105" : "bg-[#f8faf5] border-[#1a2e1a]/5 hover:border-[#16a34a]/20"}`}>
+                  <div className="text-[9px] font-bold text-[#16a34a] uppercase tracking-widest mb-2">{p.name}</div>
+                  <div className="text-4xl font-black mb-1">{p.price}<span className="text-lg text-[#1a2e1a]/30">{p.period}</span></div>
+                  <p className="text-[10px] text-[#1a2e1a]/30 uppercase tracking-widest mb-8">{p.desc}</p>
+                  <div className="space-y-4 pt-8 border-t border-[#1a2e1a]/5">
+                    {p.features.map((f, j) => <div key={j} className="flex items-center gap-3 text-[10px] text-[#1a2e1a]/50"><CheckCircle2 className="w-3.5 h-3.5 text-[#16a34a]" />{f}</div>)}
+                  </div>
+                  <button className={`mt-8 w-full py-3 text-[10px] font-black uppercase tracking-widest transition-all rounded-lg ${p.featured ? "bg-[#16a34a] text-white hover:bg-[#1a2e1a]" : "border border-[#1a2e1a]/10 hover:bg-[#16a34a] hover:text-white hover:border-transparent"}`}>{p.cta}</button>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CONTACT */}
+      <section className="py-40 bg-[#f8faf5]">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
+            <div>
+              <Reveal>
+                <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-12 uppercase">Get In <span className="text-[#16a34a]">Touch.</span></h2>
+                <p className="text-lg text-[#1a2e1a]/40 max-w-lg mb-12 uppercase tracking-widest italic font-light">Ready to start your sustainability journey? Let&apos;s talk.</p>
+              </Reveal>
+            </div>
+            <Reveal delay={0.15}>
+              <div className="space-y-6">
+                <input type="text" placeholder="Your Name" value={contactName} onChange={e => setContactName(e.target.value)}
+                  className="w-full p-5 bg-white border border-[#1a2e1a]/10 rounded-xl text-sm font-mono focus:border-[#16a34a] focus:outline-none transition-colors" />
+                <input type="email" placeholder="Email Address" value={contactEmail} onChange={e => setContactEmail(e.target.value)}
+                  className="w-full p-5 bg-white border border-[#1a2e1a]/10 rounded-xl text-sm font-mono focus:border-[#16a34a] focus:outline-none transition-colors" />
+                <textarea placeholder="Tell us about your sustainability goals..." value={contactMessage} onChange={e => setContactMessage(e.target.value)} rows={5}
+                  className="w-full p-5 bg-white border border-[#1a2e1a]/10 rounded-xl text-sm font-mono focus:border-[#16a34a] focus:outline-none transition-colors resize-none" />
+                <button className="w-full py-5 bg-[#16a34a] text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-[#1a2e1a] transition-all rounded-xl">Send_Message</button>
               </div>
             </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Team */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-4" style={{ color: '#d4af37' }}>Our Team</h2>
-          <p className="text-slate-400 mb-12 text-lg">Industry veterans with 25+ years average experience</p>
-        </Reveal>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {TEAM_MEMBERS.map((member, idx) => (
-            <Reveal key={member.name} delay={idx * 0.1}>
-              <Card className="bg-[#1e2d40]/50 border-[#d4af37]/30 hover:border-[#d4af37] transition-all group cursor-pointer">
-                <CardContent className="p-6">
-                  <Avatar className="w-12 h-12 mb-4 border-2 border-[#d4af37]">
-                    <AvatarImage src={member.img} />
-                    <AvatarFallback>{member.name.split(" ")[0][0]}</AvatarFallback>
-                  </Avatar>
-                  <h3 className="font-bold text-lg mb-1">{member.name}</h3>
-                  <p className="text-xs text-[#d4af37] mb-3">{member.role}</p>
-                  <p className="text-sm text-slate-400">AUM: {member.aum}</p>
-                </CardContent>
-              </Card>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Stats Counter */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              { label: "AUM", value: 5, suffix: "B", prefix: "€" },
-              { label: "Clients", value: 200 },
-              { label: "Years Experience", value: 25 },
-              { label: "Performance", value: 1, suffix: "%", prefix: "Top " },
-            ].map((stat, idx) => (
-              <Reveal key={stat.label} delay={idx * 0.1}>
-                <div className="text-center p-6 bg-[#1e2d40]/30 rounded-lg border border-[#d4af37]/20">
-                  <div className="text-4xl font-black mb-2" style={{ color: '#d4af37' }}>
-                    <Counter target={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
-                  </div>
-                  <p className="text-slate-400">{stat.label}</p>
-                </div>
-              </Reveal>
-            ))}
           </div>
-        </Reveal>
-      </section>
-
-      {/* Onboarding Process */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-12" style={{ color: '#d4af37' }}>Client Onboarding</h2>
-        </Reveal>
-
-        <Accordion type="single" collapsible className="w-full space-y-4">
-          {[
-            { step: "1. Initial Consultation", desc: "Confidential meeting to understand goals & assets" },
-            { step: "2. Wealth Analysis", desc: "Comprehensive review of current portfolio & tax position" },
-            { step: "3. Strategy Development", desc: "Custom wealth plan with 10-year projections" },
-            { step: "4. Implementation", desc: "Execution of strategy with ongoing monitoring" },
-            { step: "5. Quarterly Reviews", desc: "Regular updates and rebalancing as needed" },
-          ].map((item, idx) => (
-            <Reveal key={item.step} delay={idx * 0.1}>
-              <AccordionItem value={`item-${idx}`} className="border-[#d4af37]/30">
-                <AccordionTrigger className="hover:text-[#d4af37] transition-colors">
-                  <span className="font-bold text-lg">{item.step}</span>
-                </AccordionTrigger>
-                <AccordionContent className="text-slate-400">
-                  {item.desc}
-                </AccordionContent>
-              </AccordionItem>
-            </Reveal>
-          ))}
-        </Accordion>
-      </section>
-
-      {/* Testimonials Carousel */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-12" style={{ color: '#d4af37' }}>Client Testimonials</h2>
-        </Reveal>
-
-        <Carousel opts={{ align: "start", loop: true }} className="w-full">
-          <CarouselContent>
-            {TESTIMONIALS.map((testimonial, idx) => (
-              <CarouselItem key={idx} className="md:basis-1/2 lg:basis-1/3">
-                <Card className="bg-[#1e2d40]/50 border-[#d4af37]/30 h-full">
-                  <CardContent className="p-8 flex flex-col justify-between h-full">
-                    <div>
-                      <div className="flex gap-1 mb-4">
-                        {[...Array(5)].map((_, i) => (
-                          <Award key={i} className="w-4 h-4" style={{ color: '#d4af37' }} />
-                        ))}
-                      </div>
-                      <p className="text-slate-300 italic mb-4">"{testimonial.text}"</p>
-                    </div>
-                    <Badge className="w-fit bg-[#d4af37]/20 text-[#d4af37] border-[#d4af37]/50">{testimonial.company}</Badge>
-                  </CardContent>
-                </Card>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
-      </section>
-
-      {/* Regulatory Badges */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-4" style={{ color: '#d4af37' }}>Regulatory Excellence</h2>
-          <p className="text-slate-400 mb-12">Trusted by regulators worldwide</p>
-        </Reveal>
-
-        <div className="flex flex-wrap gap-4">
-          {["FSA Regulated", "SEC Registered", "MAS Approved", "FINRA Member"].map((badge, idx) => (
-            <Reveal key={badge} delay={idx * 0.1}>
-              <Badge variant="outline" className="px-4 py-2 border-[#d4af37]/50 text-[#d4af37]">
-                {badge}
-              </Badge>
-            </Reveal>
-          ))}
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-12" style={{ color: '#d4af37' }}>FAQ</h2>
-        </Reveal>
-
-        <Accordion type="single" collapsible className="w-full space-y-4">
-          {[
-            { q: "What is the minimum to get started?", a: "Our typical minimum is €2.5M, though we work with selected clients from €1M." },
-            { q: "How are fees structured?", a: "Tiered fee structure: 0.85% on first €10M, 0.65% on €10-50M, 0.45% above €50M." },
-            { q: "How often do you rebalance?", a: "Quarterly reviews with rebalancing as market conditions warrant, minimum annually." },
-            { q: "Where is my money held?", a: "With our custodian partners - global banks, never with us. Full segregation & insurance." },
-          ].map((item, idx) => (
-            <Reveal key={item.q} delay={idx * 0.1}>
-              <AccordionItem value={`faq-${idx}`} className="border-[#d4af37]/30">
-                <AccordionTrigger className="hover:text-[#d4af37] transition-colors">
-                  {item.q}
-                </AccordionTrigger>
-                <AccordionContent className="text-slate-400">
-                  {item.a}
-                </AccordionContent>
-              </AccordionItem>
-            </Reveal>
-          ))}
-        </Accordion>
-      </section>
-
-      {/* Consultation CTA */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto text-center">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-6" style={{ color: '#d4af37' }}>Ready to Grow Your Wealth?</h2>
-          <p className="text-slate-400 mb-8 text-lg max-w-2xl mx-auto">
-            Our wealth advisors are standing by to discuss your financial goals.
-          </p>
-          <MagneticBtn
-            onClick={() => setOpenConsult(true)}
-            className="px-10 py-4 bg-[#d4af37] text-[#070d14] font-bold rounded-lg hover:shadow-2xl hover:shadow-[#d4af37]/50 transition-all"
-          >
-            Schedule Private Consultation
-          </MagneticBtn>
-        </Reveal>
-      </section>
-
-      <Dialog open={openConsult} onOpenChange={setOpenConsult}>
-        <DialogContent className="bg-[#1e2d40] border-[#d4af37]/30">
-          <DialogHeader>
-            <DialogTitle style={{ color: '#d4af37' }}>Schedule a Consultation</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <input placeholder="Full Name" className="w-full px-4 py-2 bg-[#070d14] border border-[#d4af37]/30 rounded text-white placeholder-slate-500" />
-            <input placeholder="Email" type="email" className="w-full px-4 py-2 bg-[#070d14] border border-[#d4af37]/30 rounded text-white placeholder-slate-500" />
-            <input placeholder="Assets Under Management" className="w-full px-4 py-2 bg-[#070d14] border border-[#d4af37]/30 rounded text-white placeholder-slate-500" />
-            <button className="w-full py-3 bg-[#d4af37] text-[#070d14] font-bold rounded hover:opacity-90 transition-opacity">
-              Request Meeting
-            </button>
+      <footer className="bg-[#1a2e1a] text-white py-32 px-6 md:px-12">
+        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
+          <div className="col-span-1 md:col-span-2">
+            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-[#16a34a] text-white rounded-full flex items-center justify-center"><Leaf className="w-4 h-4" /></div><span>VERDANT // IMPACT</span></Link>
+            <p className="text-[11px] text-white/15 uppercase tracking-[0.2em] max-w-sm leading-relaxed italic">Enterprise sustainability platform. Measure. Reduce. Offset.</p>
           </div>
-        </DialogContent>
-      </Dialog>
+          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#16a34a]">Platform</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Solutions", "Impact", "Pricing", "API"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
+          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#16a34a]">Company</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["About", "Blog", "Careers", "Contact"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
+        </div>
+        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 text-center text-[9px] font-bold text-white/10 uppercase tracking-widest">&copy; 2026 VERDANT IMPACT</div>
+      </footer>
     </div>
-  )
+  );
 }

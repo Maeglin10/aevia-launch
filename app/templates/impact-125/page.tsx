@@ -1,385 +1,277 @@
-"use client"
+"use client";
+import { motion, useInView, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import { Zap, Scan, Layers, Menu, X, ArrowRight, MousePointer2, Fingerprint, Globe, Radio, Activity, Wifi, Signal, Cpu, Eye, Radar } from "lucide-react";
+import "../premium.css";
 
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Progress } from "@/components/ui/progress"
+const MANIFESTS = {
+  hero: { experiences: "86", patents: "12", studios: "Berlin + Seoul", status: "LAB_OPEN" },
+  projects: [
+    { id: "tactile", name: "TACTILE // FIELD", desc: "Pressure-sensitive floor installation spanning 400m². Visitors' footsteps generate real-time generative audio-visual compositions projected on surrounding walls.", category: "INSTALLATION", tech: "Lidar + Max/MSP" },
+    { id: "resonance", name: "RESONANCE // WALL", desc: "Kinetic wall of 2,400 motorized tiles that responds to ambient sound. Each tile moves independently, creating a living surface that breathes with the city.", category: "KINETIC", tech: "Arduino + Custom PCB" },
+    { id: "phantom", name: "PHANTOM // TOUCH", desc: "Mid-air haptic interface using focused ultrasound. Users feel invisible buttons, textures, and shapes — no screen, no wearable, no contact.", category: "HAPTIC", tech: "Ultrasound Array" },
+    { id: "echo", name: "ECHO // SPACE", desc: "Spatial audio environment where sound objects exist in 3D space. Walk through a room of invisible instruments — each one plays as you pass.", category: "SPATIAL_AUDIO", tech: "Ambisonic + Tracking" },
+  ],
+  research: [
+    { name: "HAPTIC // COMPUTING", icon: <Fingerprint className="w-5 h-5" />, items: ["Mid-air Feedback", "Ultrasonic Arrays", "Tactile Rendering", "Force Fields"] },
+    { name: "SPATIAL // SENSING", icon: <Radar className="w-5 h-5" />, items: ["Lidar Mapping", "Depth Cameras", "Body Tracking", "Gesture Recognition"] },
+    { name: "GENERATIVE // SYSTEMS", icon: <Cpu className="w-5 h-5" />, items: ["Neural Audio", "Procedural Visuals", "Autonomous Agents", "Self-Organizing"] },
+  ],
+  telemetry: [
+    { label: "LATENCY_MS", val: 4, max: 20, color: "#22d3ee" },
+    { label: "TRACKING_FPS", val: 120, max: 144, color: "#22d3ee" },
+    { label: "HAPTIC_RES", val: 0.5, max: 1, color: "#22d3ee", unit: "mm" },
+    { label: "SPATIAL_ACC", val: 99.2, max: 100, color: "#22d3ee", unit: "%" },
+  ],
+};
 
-function Reveal({ children, delay=0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
-  return <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay }}>{children}</motion.div>
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+  return <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] }}>{children}</motion.div>;
 }
 
-function Counter({ target, suffix="" }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0)
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
+function MagneticBtn({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const x = useMotionValue(0), y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 300, damping: 20 }), sy = useSpring(y, { stiffness: 300, damping: 20 });
+  const ref = useRef<HTMLButtonElement>(null);
+  return <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={(e) => { const r = ref.current?.getBoundingClientRect(); if (r) { x.set((e.clientX - r.left - r.width / 2) * 0.4); y.set((e.clientY - r.top - r.height / 2) * 0.4); }}} onMouseLeave={() => { x.set(0); y.set(0); }} className={className}>{children}</motion.button>;
+}
+
+// Custom cursor aura
+function CursorAura() {
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [visible, setVisible] = useState(false);
+  const springX = useSpring(useMotionValue(0), { stiffness: 100, damping: 20 });
+  const springY = useSpring(useMotionValue(0), { stiffness: 100, damping: 20 });
   useEffect(() => {
-    if (!inView) return
-    const step = Math.ceil(target / 60)
-    const t = setInterval(() => setCount(c => Math.min(c + step, target)), 16)
-    return () => clearInterval(t)
-  }, [inView, target])
-  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>
+    const move = (e: MouseEvent) => { setPos({ x: e.clientX, y: e.clientY }); springX.set(e.clientX); springY.set(e.clientY); setVisible(true); };
+    const leave = () => setVisible(false);
+    window.addEventListener("mousemove", move);
+    window.addEventListener("mouseleave", leave);
+    return () => { window.removeEventListener("mousemove", move); window.removeEventListener("mouseleave", leave); };
+  }, [springX, springY]);
+  if (!visible) return null;
+  return (
+    <motion.div className="fixed pointer-events-none z-[200] mix-blend-difference" style={{ x: springX, y: springY, translateX: "-50%", translateY: "-50%" }}>
+      <div className="w-32 h-32 rounded-full bg-[#22d3ee]/20 blur-xl" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-[#22d3ee]/60" />
+    </motion.div>
+  );
 }
 
-function MagneticBtn({ children, className="" }: { children: React.ReactNode; className?: string }) {
-  const x = useMotionValue(0); const y = useMotionValue(0)
-  const sx = useSpring(x, { stiffness: 500, damping: 25 })
-  const sy = useSpring(y, { stiffness: 500, damping: 25 })
-  const ref = useRef<HTMLButtonElement>(null)
-  const handleMouse = (e: React.MouseEvent) => {
-    const r = ref.current!.getBoundingClientRect()
-    x.set((e.clientX - r.left - r.width/2) * 0.35)
-    y.set((e.clientY - r.top - r.height/2) * 0.35)
-  }
-  return <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={handleMouse} onMouseLeave={() => { x.set(0); y.set(0) }} className={className}>{children}</motion.button>
-}
+export default function AuraInteractivePage() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
+  useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
 
-const PORTFOLIO = [
-  { cat: "Weddings", season: "Spring", loc: "Tuscany", img: "https://images.unsplash.com/photo-1519741497674-611481863552?w=300" },
-  { cat: "Weddings", season: "Summer", loc: "Greece", img: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=300" },
-  { cat: "Elopements", season: "Fall", loc: "Iceland", img: "https://images.unsplash.com/photo-1478291143081-80f7f84ca84d?w=300" },
-  { cat: "Engagements", season: "Winter", loc: "Alps", img: "https://images.unsplash.com/photo-1519046904884-53103b34b206?w=300" },
-  { cat: "Couples", season: "Spring", loc: "Paris", img: "https://images.unsplash.com/photo-1529632066dd-637fac70e22f?w=300" },
-  { cat: "Weddings", season: "Summer", loc: "Hawaii", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300" },
-  { cat: "Engagements", season: "Fall", loc: "New York", img: "https://images.unsplash.com/photo-1516585427167-9f4af9627f6a?w=300" },
-  { cat: "Elopements", season: "Spring", loc: "Colorado", img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=300" },
-  { cat: "Couples", season: "Summer", loc: "Bali", img: "https://images.unsplash.com/photo-1529632066dd-637fac70e22f?w=300" },
-  { cat: "Weddings", season: "Fall", loc: "Napa", img: "https://images.unsplash.com/photo-1519741497674-611481863552?w=300" },
-  { cat: "Engagements", season: "Winter", loc: "Maine", img: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=300" },
-  { cat: "Couples", season: "Spring", loc: "Portugal", img: "https://images.unsplash.com/photo-1478291143081-80f7f84ca84d?w=300" }
-]
-
-const PACKAGES = [
-  { name: "Essential", price: "$2,500", includes: ["8 hours", "250+ photos", "Online gallery", "Engagement session"] },
-  { name: "Signature", price: "$4,500", includes: ["12 hours", "500+ photos", "Print album", "Video highlight", "Two photographers"] },
-  { name: "Premium", price: "$7,500", includes: ["16 hours", "750+ photos", "Premium album", "Full video", "3 photographers", "Drone footage"] }
-]
-
-const ADDONS = [
-  { title: "Premium Album", price: "$800", desc: "Luxury leather-bound album" },
-  { title: "Prints Package", price: "$500", desc: "High-quality canvas prints" },
-  { title: "Drone Footage", price: "$1,200", desc: "Aerial photography & video" },
-  { title: "Videography", price: "$2,000", desc: "Professional wedding film" },
-  { title: "Engagement Session", price: "$400", desc: "Pre-wedding photoshoot" },
-  { title: "Same-Day Edit", price: "$800", desc: "Video highlight reel" }
-]
-
-export default function GoldenHour() {
-  const [selectedPhoto, setSelectedPhoto] = useState<typeof PORTFOLIO[0] | null>(null)
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [addonsOpen, setAddonsOpen] = useState(false)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-gradient-to-b from-[#fdf8f0] via-amber-50 to-[#faf5f0] text-[#1a1209] overflow-hidden">
-      {/* Parallax Hero */}
-      <section className="relative h-screen overflow-hidden">
-        <motion.div initial={{ scale: 1.1 }} animate={{ scale: 1 }} transition={{ duration: 1.5 }} className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1519741497674-611481863552?w=1200"
-            alt="Wedding"
-            fill
-            className="object-cover brightness-50"
-          />
+    <div className="premium-theme min-h-screen bg-[#050608] text-white font-mono selection:bg-[#22d3ee] selection:text-black overflow-x-hidden cursor-none">
+      <CursorAura />
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#061520_0%,transparent_50%)]" />
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `radial-gradient(#22d3ee 0.5px, transparent 0.5px)`, backgroundSize: "40px 40px" }} />
+        {/* Radar sweep */}
+        <motion.div animate={{ rotate: 360 }} transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-[0.04]"
+          style={{ background: "conic-gradient(from 0deg, transparent 0deg, #22d3ee 15deg, transparent 30deg)" }} />
+      </div>
+
+      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 cursor-auto ${scrolled ? "bg-[#050608]/90 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-10"}`}>
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter cursor-pointer">
+            <div className="w-8 h-8 bg-[#22d3ee] rounded-full flex items-center justify-center text-black"><Radio className="w-4 h-4" /></div>
+            <span className="group-hover:text-[#22d3ee] transition-colors">AURA // <span className="text-white/40">INTERACTIVE</span></span>
+          </Link>
+          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
+            {["Projects", "Research", "Lab", "Connect"].map(l => <Link key={l} href="#" className="hover:text-[#22d3ee] transition-colors cursor-pointer">{l}</Link>)}
+          </div>
+          <div className="flex items-center gap-6">
+            <MagneticBtn className="px-6 py-2.5 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[#22d3ee] transition-all cursor-pointer">Collaborate</MagneticBtn>
+            <button onClick={() => setMenuOpen(true)} className="lg:hidden text-white/60 cursor-pointer"><Menu className="w-6 h-6" /></button>
+          </div>
+        </div>
+      </nav>
+
+      <AnimatePresence>{menuOpen && (
+        <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-[#050608] p-8 flex flex-col pt-32 cursor-auto">
+          <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40"><X className="w-10 h-10" /></button>
+          <div className="flex flex-col gap-10 text-5xl font-black tracking-tighter uppercase">
+            {["Projects", "Research", "Lab", "Connect"].map(l => <Link key={l} href="#" onClick={() => setMenuOpen(false)}>{l}</Link>)}
+          </div>
         </motion.div>
+      )}</AnimatePresence>
 
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#fdf8f0]/30 to-[#fdf8f0]" />
-
-        <div className="relative h-full flex flex-col items-center justify-center px-6 text-center z-10">
+      {/* HERO */}
+      <motion.section ref={heroRef} style={{ opacity: heroOpacity }} className="relative h-screen flex flex-col justify-center pt-20 overflow-hidden">
+        {/* Expanding sensor rings */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          {[...Array(5)].map((_, i) => (
+            <motion.div key={i} animate={{ scale: [0.3, 2.5], opacity: [0.15, 0] }} transition={{ duration: 5, repeat: Infinity, delay: i * 1 }}
+              className="absolute w-40 h-40 border border-[#22d3ee]/20 rounded-full" />
+          ))}
+        </div>
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
           <Reveal>
-            <motion.h1 className="text-6xl md:text-8xl font-light mb-6 text-[#c9a04c]" style={{ fontFamily: "Georgia, serif" }}>
-              Golden Hour
-            </motion.h1>
-            <p className="text-xl md:text-2xl text-amber-100 mb-12 max-w-3xl font-light">Capturing love in light. 300 weddings. 8 years. Forever moments.</p>
-            <motion.div whileHover={{ x: 5 }} className="inline-flex items-center gap-3 px-8 py-4 bg-[#c9a04c] text-[#1a1209] rounded-lg font-semibold cursor-pointer hover:bg-[#c9a04c]/90">
-              View Portfolio →
-            </motion.div>
+            <div className="flex items-center gap-4 mb-8">
+              <div className="px-3 py-1 bg-[#22d3ee]/10 border border-[#22d3ee]/30 text-[#22d3ee] text-[9px] font-bold uppercase tracking-widest">{MANIFESTS.hero.status}</div>
+              <div className="text-[9px] text-white/30 tracking-widest uppercase">EXPERIENCES: {MANIFESTS.hero.experiences} // PATENTS: {MANIFESTS.hero.patents}</div>
+            </div>
+            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
+              Touch <br /> <span className="text-[#22d3ee]">The</span> <br /> Invisible. <br /> <span className="text-white/15">Aura.</span>
+            </h1>
+            <p className="max-w-2xl text-xl text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">
+              An interactive design lab building haptic interfaces, spatial installations, and generative environments that respond to the human body.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6">
+              <button className="px-12 py-5 bg-[#22d3ee] text-black text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-[0_0_50px_rgba(34,211,238,0.2)] cursor-pointer">Enter_Lab</button>
+              <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all cursor-pointer">View_Work</button>
+            </div>
+          </Reveal>
+        </div>
+      </motion.section>
+
+      {/* PROJECTS */}
+      <section className="py-40 bg-[#080a10] border-y border-white/5 cursor-auto">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
+            <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85]">Active <br /> <span className="text-[#22d3ee]">Projects.</span></h2></Reveal>
+            <p className="max-w-md text-sm text-white/30 leading-relaxed uppercase tracking-widest font-light italic">Installations, kinetic sculptures, and haptic interfaces at the boundary of physical and digital.</p>
+          </div>
+          <div className="space-y-2">
+            {MANIFESTS.projects.map((p, i) => (
+              <Reveal key={p.id} delay={i * 0.05}>
+                <div className="group flex flex-col md:flex-row justify-between items-center p-10 md:p-14 border-b border-white/5 hover:bg-[#22d3ee] hover:text-black transition-all duration-500 cursor-pointer"
+                  onMouseEnter={() => setHoveredProject(p.id)} onMouseLeave={() => setHoveredProject(null)}>
+                  <div className="flex-1 mb-6 md:mb-0">
+                    <div className="flex items-center gap-6 mb-4">
+                      <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tighter">{p.name}</h3>
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-white/20 group-hover:text-black/40">{p.category}</span>
+                    </div>
+                    <p className="text-sm text-white/40 group-hover:text-black/50 leading-relaxed max-w-2xl italic transition-colors">&ldquo;{p.desc}&rdquo;</p>
+                  </div>
+                  <div className="flex items-center gap-8">
+                    <span className="text-[10px] font-bold text-white/20 group-hover:text-black/40 uppercase tracking-widest">{p.tech}</span>
+                    <motion.div animate={{ x: hoveredProject === p.id ? 5 : 0 }} className="opacity-0 group-hover:opacity-100 transition-opacity"><ArrowRight className="w-5 h-5" /></motion.div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* RESEARCH */}
+      <section className="py-40 bg-[#050608] cursor-auto">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-start">
+            <div className="lg:col-span-5">
+              <Reveal>
+                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#22d3ee] mb-6 block">Research_Areas</span>
+                <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-12 uppercase">Core <br /> <span className="text-white/20">Research.</span></h2>
+                <p className="text-sm text-white/30 leading-relaxed uppercase tracking-widest font-light italic">Three interconnected research streams converging at the intersection of sensing, computation, and human perception.</p>
+              </Reveal>
+              {/* Telemetry panel */}
+              <Reveal delay={0.2}>
+                <div className="mt-16 p-10 bg-[#080a10] border border-white/5 rounded-2xl">
+                  <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest mb-8">SYSTEM_TELEMETRY</div>
+                  <div className="space-y-8">
+                    {MANIFESTS.telemetry.map((t, i) => (
+                      <div key={i}>
+                        <div className="flex justify-between text-[8px] font-bold uppercase tracking-widest mb-3">
+                          <span className="text-white/40">{t.label}</span>
+                          <span style={{ color: t.color }}>{t.val}{t.unit || ""}</span>
+                        </div>
+                        <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                          <motion.div initial={{ width: 0 }} whileInView={{ width: `${(t.val / t.max) * 100}%` }} transition={{ duration: 2, delay: 0.5 + i * 0.1 }} viewport={{ once: true }}
+                            className="h-full" style={{ backgroundColor: t.color }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+            <div className="lg:col-span-7">
+              <div className="grid grid-cols-1 gap-12">
+                {MANIFESTS.research.map((r, i) => (
+                  <Reveal key={i} delay={i * 0.1}>
+                    <div className="group p-12 bg-[#080a10] border border-white/5 hover:border-[#22d3ee]/30 transition-all rounded-3xl relative overflow-hidden">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#22d3ee]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div className="flex items-start gap-8">
+                        <div className="w-16 h-16 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-center text-[#22d3ee] shrink-0 group-hover:bg-[#22d3ee] group-hover:text-black transition-all">{r.icon}</div>
+                        <div className="flex-1">
+                          <h3 className="text-3xl font-black uppercase mb-6 tracking-tighter group-hover:text-[#22d3ee] transition-colors">{r.name}</h3>
+                          <div className="grid grid-cols-2 gap-4">
+                            {r.items.map((item, j) => <div key={j} className="flex items-center gap-3 text-[9px] font-bold text-white/20 uppercase tracking-widest"><div className="w-1.5 h-1.5 bg-[#22d3ee] rotate-45" />{item}</div>)}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* METRICS */}
+      <section className="py-40 bg-[#080a10] border-y border-white/5 text-center overflow-hidden cursor-auto">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <h2 className="text-7xl md:text-[12rem] font-black tracking-tighter uppercase leading-[0.85] mb-12 text-white/5">Sense.</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-16 mt-24">
+              {[{ label: "EXPERIENCES_BUILT", val: "86" }, { label: "PATENTS_FILED", val: "12" }, { label: "RESEARCH_PAPERS", val: "34" }, { label: "LAB_VISITORS", val: "280K" }].map((s, i) => (
+                <div key={i} className="group"><div className="text-5xl font-black text-white mb-4 group-hover:text-[#22d3ee] transition-colors">{s.val}</div><div className="text-[10px] font-black text-white/20 uppercase tracking-widest">{s.label}</div></div>
+              ))}
+            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* Portfolio */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-light mb-16 text-center text-[#d4a5a5]" style={{ fontFamily: "Georgia, serif" }}>Portfolio Gallery</h2>
-        </Reveal>
-
-        <Tabs defaultValue="Weddings" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 gap-2 bg-amber-100 p-2 rounded-lg mb-12">
-            {["Weddings", "Elopements", "Engagements", "Couples"].map((cat) => (
-              <TabsTrigger key={cat} value={cat} className="text-sm font-semibold data-[state=active]:bg-[#c9a04c] data-[state=active]:text-white">
-                {cat}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-
-          {["Weddings", "Elopements", "Engagements", "Couples"].map((category) => (
-            <TabsContent key={category} value={category} className="mt-8">
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid md:grid-cols-4 gap-4">
-                {PORTFOLIO.filter(p => p.cat === category).map((photo, i) => (
-                  <Reveal key={i} delay={i * 0.1}>
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      onClick={() => { setSelectedPhoto(photo); setDialogOpen(true) }}
-                      className="group cursor-pointer relative h-64 rounded-lg overflow-hidden"
-                    >
-                      <Image src={photo.img} alt={`${category} - ${photo.loc}`} fill className="object-cover group-hover:scale-110 transition-transform duration-300" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                        <div className="text-white">
-                          <Badge className="mb-2 bg-[#c9a04c] text-[#1a1209]">{photo.season}</Badge>
-                          <p className="font-light text-sm">{photo.loc}</p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </Reveal>
-                ))}
-              </motion.div>
-            </TabsContent>
-          ))}
-        </Tabs>
-
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogContent className="max-w-3xl bg-[#fdf8f0]">
-            <DialogHeader>
-              <DialogTitle>{selectedPhoto?.cat} - {selectedPhoto?.loc}</DialogTitle>
-            </DialogHeader>
-            {selectedPhoto && (
-              <div className="space-y-6">
-                <div className="relative h-80 rounded-lg overflow-hidden">
-                  <Image src={selectedPhoto.img} alt={selectedPhoto.loc} fill className="object-cover" />
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div className="bg-amber-100 p-4 rounded-lg">
-                    <p className="text-xs text-[#c9a04c] uppercase font-semibold">Category</p>
-                    <p className="text-lg font-light mt-1">{selectedPhoto.cat}</p>
-                  </div>
-                  <div className="bg-amber-100 p-4 rounded-lg">
-                    <p className="text-xs text-[#c9a04c] uppercase font-semibold">Season</p>
-                    <p className="text-lg font-light mt-1">{selectedPhoto.season}</p>
-                  </div>
-                  <div className="bg-amber-100 p-4 rounded-lg">
-                    <p className="text-xs text-[#c9a04c] uppercase font-semibold">Location</p>
-                    <p className="text-lg font-light mt-1">{selectedPhoto.loc}</p>
-                  </div>
-                </div>
-
-                <Carousel className="w-full">
-                  <CarouselContent>
-                    {[1, 2, 3].map((i) => (
-                      <CarouselItem key={i} className="basis-full">
-                        <Image src={selectedPhoto.img} alt={`Photo ${i}`} width={500} height={300} className="w-full rounded-lg" />
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <CarouselPrevious />
-                  <CarouselNext />
-                </Carousel>
-              </div>
-            )}
-          </DialogContent>
-        </Dialog>
-      </section>
-
-      {/* Packages */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-light mb-16 text-center text-[#d4a5a5]" style={{ fontFamily: "Georgia, serif" }}>Packages</h2>
-        </Reveal>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {PACKAGES.map((pkg, i) => (
-            <Reveal key={i} delay={i * 0.1}>
-              <motion.div whileHover={{ y: -10 }} className="group">
-                <Card className={`border-2 ${i === 1 ? "border-[#c9a04c] bg-amber-50" : "border-amber-100"} overflow-hidden`}>
-                  <CardContent className="p-8">
-                    <h3 className="text-3xl font-light text-[#d4a5a5] mb-2" style={{ fontFamily: "Georgia, serif" }}>{pkg.name}</h3>
-                    <p className="text-4xl font-light text-[#c9a04c] mb-8">{pkg.price}</p>
-                    <ul className="space-y-3 mb-8">
-                      {pkg.includes.map((item, j) => (
-                        <li key={j} className="flex items-center gap-3">
-                          <span className="w-2 h-2 rounded-full bg-[#c9a04c]" />
-                          <span className="text-gray-700">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <MagneticBtn className="w-full py-3 bg-[#c9a04c] text-[#1a1209] rounded-lg font-semibold hover:bg-[#c9a04c]/90">
-                      Select Package
-                    </MagneticBtn>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Add-ons */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-light mb-16 text-center text-[#d4a5a5]" style={{ fontFamily: "Georgia, serif" }}>Add-ons</h2>
-        </Reveal>
-
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          {ADDONS.map((addon, i) => (
-            <Reveal key={i} delay={i * 0.1}>
-              <Card className="border border-amber-100 hover:border-[#c9a04c]/50 transition-colors">
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-light text-[#d4a5a5] mb-1">{addon.title}</h3>
-                  <p className="text-[#c9a04c] font-light text-2xl mb-3">{addon.price}</p>
-                  <p className="text-sm text-gray-600">{addon.desc}</p>
-                </CardContent>
-              </Card>
-            </Reveal>
-          ))}
-        </div>
-
-        <div className="text-center">
-          <MagneticBtn
-            onClick={() => setAddonsOpen(true)}
-            className="px-8 py-4 bg-[#c9a04c] text-[#1a1209] rounded-lg font-semibold hover:bg-[#c9a04c]/90"
-          >
-            View Full Price List
-          </MagneticBtn>
-        </div>
-
-        <Dialog open={addonsOpen} onOpenChange={setAddonsOpen}>
-          <DialogContent className="max-w-2xl bg-[#fdf8f0]">
-            <DialogHeader>
-              <DialogTitle>Add-ons & Pricing</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              {ADDONS.map((addon, i) => (
-                <div key={i} className="flex justify-between items-center pb-4 border-b border-amber-100">
-                  <div>
-                    <p className="font-semibold text-[#1a1209]">{addon.title}</p>
-                    <p className="text-sm text-gray-600">{addon.desc}</p>
-                  </div>
-                  <p className="text-[#c9a04c] font-semibold">{addon.price}</p>
-                </div>
-              ))}
-            </div>
-          </DialogContent>
-        </Dialog>
-      </section>
-
-      {/* Process */}
-      <section className="py-24 px-6 md:px-16 max-w-3xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-light mb-16 text-center text-[#d4a5a5]" style={{ fontFamily: "Georgia, serif" }}>Our Process</h2>
-        </Reveal>
-
-        <Accordion type="single" collapsible className="space-y-4">
-          {[
-            { title: "Inquiry", desc: "Contact us with your wedding date and vision. We'll respond within 24 hours." },
-            { title: "Consultation", desc: "Schedule a call to discuss your style, timeline, and any special requests." },
-            { title: "Shoot", desc: "We arrive early, capture every moment, and deliver full-day coverage." },
-            { title: "Gallery Delivery", desc: "Receive your edited photos within 30 days with complete gallery access." }
-          ].map((step, i) => (
-            <AccordionItem key={i} value={String(i)} className="border border-amber-200 px-6 rounded-lg">
-              <AccordionTrigger className="font-light text-[#d4a5a5]" style={{ fontFamily: "Georgia, serif" }}>{step.title}</AccordionTrigger>
-              <AccordionContent className="text-gray-600">{step.desc}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </section>
-
-      {/* Stats */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto bg-gradient-to-r from-[#d4a5a5]/10 to-[#c9a04c]/10 rounded-2xl">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-          {[{ v: 300, l: "Weddings" }, { v: 8, l: "Years" }, { v: 12, l: "Countries" }, { v: 5, s: "★", l: "Rating" }].map((stat, i) => (
-            <Reveal key={i}>
-              <div>
-                <p className="text-5xl font-light text-[#c9a04c]"><Counter target={stat.v} suffix={stat.s || ""} /></p>
-                <p className="text-gray-700 mt-2 font-light">{stat.l}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-light mb-16 text-center text-[#d4a5a5]" style={{ fontFamily: "Georgia, serif" }}>Couple Stories</h2>
-        </Reveal>
-
-        <Carousel className="w-full">
-          <CarouselContent>
-            {[1, 2, 3].map((i) => (
-              <CarouselItem key={i} className="md:basis-1/2">
-                <Card className="border border-amber-200 bg-white">
-                  <CardContent className="p-8">
-                    <div className="flex gap-2 mb-4">
-                      {[...Array(5)].map((_, j) => <span key={j} className="text-[#c9a04c]">★</span>)}
-                    </div>
-                    <p className="text-gray-700 mb-6 italic font-light">"Golden Hour captured our love story perfectly. Every photo is a treasure we'll cherish forever."</p>
-                    <div className="flex items-center gap-4">
-                      <Avatar>
-                        <AvatarImage src={`https://images.unsplash.com/photo-150${i}?w=100`} />
-                        <AvatarFallback>CP</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-light text-[#1a1209]">Couple Name</p>
-                        <p className="text-xs text-gray-500">Married {2024 - i}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
-      </section>
-
-      {/* FAQ */}
-      <section className="py-24 px-6 md:px-16 max-w-3xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-light mb-16 text-center text-[#d4a5a5]" style={{ fontFamily: "Georgia, serif" }}>Questions</h2>
-        </Reveal>
-
-        <Accordion type="single" collapsible className="space-y-4">
-          {[
-            { q: "What's your deposit policy?", a: "We require a 50% deposit to secure your date. The remaining balance is due 30 days before your wedding." },
-            { q: "How long until we get photos?", a: "You'll receive your complete edited gallery within 30 days of your wedding." },
-            { q: "Can you shoot at multiple locations?", a: "Absolutely! Travel time is included in our standard packages. Some travel fees may apply for remote locations." },
-            { q: "Do you offer same-day editing?", a: "Yes, available as an add-on. We'll create a highlight reel to play at your reception." }
-          ].map((item, i) => (
-            <AccordionItem key={i} value={String(i)} className="border border-amber-200 px-6 rounded-lg">
-              <AccordionTrigger className="font-light text-[#d4a5a5]" style={{ fontFamily: "Georgia, serif" }}>{item.q}</AccordionTrigger>
-              <AccordionContent className="text-gray-600">{item.a}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </section>
-
       {/* CTA */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <Reveal>
-          <div className="bg-gradient-to-r from-[#d4a5a5] to-[#c9a04c] rounded-2xl p-16 text-center text-white">
-            <h2 className="text-4xl font-light mb-6" style={{ fontFamily: "Georgia, serif" }}>Let's Capture Your Story</h2>
-            <p className="text-lg opacity-90 mb-8 max-w-2xl mx-auto font-light">Every love story deserves to be beautifully told. Book your wedding photographer today.</p>
-            <MagneticBtn className="px-12 py-4 bg-white text-[#c9a04c] rounded-lg font-semibold cursor-pointer hover:bg-gray-100">
-              Start Planning
-            </MagneticBtn>
-          </div>
-        </Reveal>
+      <section className="py-40 bg-[#050608] cursor-auto">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 text-center">
+          <Reveal>
+            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">Feel <br /> <span className="text-[#22d3ee]">More.</span></h2>
+            <p className="max-w-2xl mx-auto text-sm text-white/40 leading-relaxed font-light mb-16 uppercase tracking-widest italic">We collaborate with museums, brands, and research institutions to create experiences that redefine how humans interact with technology.</p>
+            <MagneticBtn className="px-16 py-6 bg-white text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[#22d3ee] transition-all shadow-[0_0_60px_rgba(34,211,238,0.15)] cursor-pointer">Start_Collaboration</MagneticBtn>
+          </Reveal>
+        </div>
       </section>
+
+      <footer className="bg-[#050608] border-t border-white/5 py-32 px-6 md:px-12 cursor-auto">
+        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
+          <div className="col-span-1 md:col-span-2">
+            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-white text-black rounded-full flex items-center justify-center"><Radio className="w-4 h-4" /></div><span>AURA // INTERACTIVE</span></Link>
+            <p className="text-[11px] text-white/20 uppercase tracking-[0.2em] max-w-sm leading-relaxed mb-16 italic">Interactive design lab. Haptic computing, spatial sensing, generative systems. Berlin + Seoul.</p>
+            <div className="flex gap-8">{[Fingerprint, Signal, Eye].map((Icon, i) => <button key={i} className="text-white/20 hover:text-[#22d3ee] transition-colors"><Icon className="w-5 h-5" /></button>)}</div>
+          </div>
+          <div>
+            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#22d3ee]">Work</h4>
+            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+              {["Installations", "Haptic_Interfaces", "Kinetic_Sculpture", "Spatial_Audio"].map(l => <li key={l} className="hover:text-white transition-colors"><Link href="#">{l}</Link></li>)}
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#22d3ee]">Lab</h4>
+            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+              {["Research", "Publications", "Open_Source", "Residencies"].map(l => <li key={l} className="hover:text-white transition-colors"><Link href="#">{l}</Link></li>)}
+            </ul>
+          </div>
+        </div>
+        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[9px] font-bold text-white/10 uppercase tracking-widest">
+          <span>&copy; 2026 AURA INTERACTIVE. ALL RIGHTS RESERVED.</span>
+          <div className="flex gap-10 font-mono"><span>BERLIN_DE</span><span>SEOUL_KR</span></div>
+        </div>
+      </footer>
     </div>
-  )
+  );
 }

@@ -1,346 +1,222 @@
-"use client"
+"use client";
+import { motion, useInView, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import { Play, Clapperboard, Film, Menu, X, ArrowRight, Video, Monitor, Aperture, Palette, Wand2, Box, Layers, Sparkles, Camera, Eye } from "lucide-react";
+import "../premium.css";
 
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Progress } from "@/components/ui/progress"
+const MANIFESTS = {
+  hero: { projects: "220+", awards: "34", studios: "LA + London", status: "ACCEPTING_BRIEFS" },
+  reel: [
+    { id: "apex", name: "APEX // TITLE", desc: "Main title sequence for HBO limited series. Liquid metal typography dissolving through tectonic landscapes. 90 seconds.", category: "TITLE_SEQUENCE", client: "HBO" },
+    { id: "nova", name: "NOVA // LAUNCH", desc: "Product launch film for next-gen EV reveal. Real-time ray-traced environment with procedural particle systems.", category: "BRAND_FILM", client: "Rivian" },
+    { id: "echo", name: "ECHO // LIVE", desc: "Real-time generative visual system for world tour. Reactive to audio, MIDI, and crowd biometrics.", category: "LIVE_VISUAL", client: "Massive Attack" },
+    { id: "flux", name: "FLUX // RETAIL", desc: "Immersive retail installation — 360° projection mapping with depth-sensor interaction across a 4-story atrium.", category: "INSTALLATION", client: "Gucci" },
+  ],
+  capabilities: [
+    { name: "MOTION // DESIGN", icon: <Play className="w-5 h-5" />, items: ["Title Sequences", "Brand Films", "UI Animation", "Explainers"] },
+    { name: "REAL-TIME // 3D", icon: <Box className="w-5 h-5" />, items: ["Unreal Engine", "TouchDesigner", "Notch", "Custom GLSL"] },
+    { name: "INTERACTIVE", icon: <Wand2 className="w-5 h-5" />, items: ["Installations", "WebGL / Three.js", "AR Filters", "Projection Mapping"] },
+  ],
+  clients: ["HBO", "Apple", "Nike", "Gucci", "Rivian", "Spotify", "Massive Attack", "Netflix"],
+};
 
-function Reveal({ children, delay=0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
-  return <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay }}>{children}</motion.div>
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+  return <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] }}>{children}</motion.div>;
 }
 
-function Counter({ target, suffix="" }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0)
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
-  useEffect(() => {
-    if (!inView) return
-    const step = Math.ceil(target / 60)
-    const t = setInterval(() => setCount(c => Math.min(c + step, target)), 16)
-    return () => clearInterval(t)
-  }, [inView, target])
-  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>
+function MagneticBtn({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const x = useMotionValue(0), y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 300, damping: 20 }), sy = useSpring(y, { stiffness: 300, damping: 20 });
+  const ref = useRef<HTMLButtonElement>(null);
+  return <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={(e) => { const r = ref.current?.getBoundingClientRect(); if (r) { x.set((e.clientX - r.left - r.width / 2) * 0.4); y.set((e.clientY - r.top - r.height / 2) * 0.4); }}} onMouseLeave={() => { x.set(0); y.set(0); }} className={className}>{children}</motion.button>;
 }
 
-function MagneticBtn({ children, className="" }: { children: React.ReactNode; className?: string }) {
-  const x = useMotionValue(0); const y = useMotionValue(0)
-  const sx = useSpring(x, { stiffness: 500, damping: 25 })
-  const sy = useSpring(y, { stiffness: 500, damping: 25 })
-  const ref = useRef<HTMLButtonElement>(null)
-  const handleMouse = (e: React.MouseEvent) => {
-    const r = ref.current!.getBoundingClientRect()
-    x.set((e.clientX - r.left - r.width/2) * 0.35)
-    y.set((e.clientY - r.top - r.height/2) * 0.35)
-  }
-  return <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={handleMouse} onMouseLeave={() => { x.set(0); y.set(0) }} className={className}>{children}</motion.button>
-}
+export default function MorphStudioPage() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
+  useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
 
-const PRODUCTS = [
-  { id: 1, name: "Alpine Jacket", category: "Apparel", terrain: "Mountain", rating: 4.9, specs: { temp: "-40°C", weight: "450g", fabric: "Gore-Tex Pro" }, img: "https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=400" },
-  { id: 2, name: "Trail Boots Pro", category: "Footwear", terrain: "Rugged", rating: 4.8, specs: { temp: "-20°C", weight: "680g", material: "Leather+Gore-Tex" }, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" },
-  { id: 3, name: "Expedition Pack 65L", category: "Packs", terrain: "Extreme", rating: 4.9, specs: { capacity: "65L", weight: "1.2kg", material: "Nylon" }, img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400" },
-  { id: 4, name: "Summit Tent", category: "Shelter", terrain: "Alpine", rating: 4.7, specs: { persons: "2", weight: "1.8kg", seasons: "4-Season" }, img: "https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=400" },
-  { id: 5, name: "Arctic Compass", category: "Navigation", terrain: "Polar", rating: 4.9, specs: { accuracy: "1°", type: "Magnetic", casing: "Titanium" }, img: "https://images.unsplash.com/photo-1569163139394-de4798aa62b1?w=400" },
-  { id: 6, name: "Thermal Gloves", category: "Apparel", terrain: "Winter", rating: 4.8, specs: { temp: "-50°C", material: "Merino Wool", grip: "Silicone" }, img: "https://images.unsplash.com/photo-1577720643272-265b2d4f1e6f?w=400" },
-  { id: 7, name: "Hydration System", category: "Gear", terrain: "All", rating: 4.8, specs: { capacity: "3L", material: "BPA-Free", weight: "200g" }, img: "https://images.unsplash.com/photo-1545575074-4ee1f60fadf4?w=400" },
-  { id: 8, name: "Emergency Kit", category: "Safety", terrain: "All", rating: 4.9, specs: { items: "24", weight: "450g", case: "Waterproof" }, img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400" }
-]
-
-const EXPEDITIONS = [
-  { title: "Kilimanjaro Summit", destination: "Tanzania", athletes: "12", img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500" },
-  { title: "Everest Base Camp", destination: "Nepal", athletes: "8", img: "https://images.unsplash.com/photo-1464066736753-a98c9cb62fb5?w=500" },
-  { title: "Patagonia Traverse", destination: "Argentina", athletes: "6", img: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=500" },
-  { title: "Norwegian Arctic", destination: "Norway", athletes: "10", img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500" }
-]
-
-const ATHLETES = [
-  { name: "Elena Vasquez", sport: "Mountaineering", achievement: "Everest Summiteer", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200" },
-  { name: "Marcus Storm", sport: "Polar Explorer", achievement: "Arctic Expeditions", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200" },
-  { name: "Jenna peaks", sport: "Rock Climbing", achievement: "El Capitan Ascents", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200" },
-  { name: "David Chen", sport: "Trail Running", achievement: "Ultra Marathon Champion", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200" }
-]
-
-const INNOVATIONS = [
-  { name: "DryShield", desc: "Advanced moisture-wicking technology", patent: "US Patent 2024-001" },
-  { name: "ThermoCore", desc: "Heat-retention fiber composite", patent: "US Patent 2024-002" },
-  { name: "ErgoPack", desc: "Weight-distribution system", patent: "US Patent 2024-003" },
-  { name: "NanoGrip", desc: "All-weather traction coating", patent: "US Patent 2024-004" }
-]
-
-export default function ArcticOutdoor() {
-  const [selectedProduct, setSelectedProduct] = useState<typeof PRODUCTS[0] | null>(null)
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-gradient-to-b from-[#f8fafc] via-blue-50 to-[#e0f2fe] text-[#1e293b] overflow-hidden">
-      {/* Parallax Hero */}
-      <section className="relative h-screen overflow-hidden">
-        <motion.div initial={{ scale: 1.1 }} animate={{ scale: 1 }} transition={{ duration: 1.5 }} className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200"
-            alt="Mountains"
-            fill
-            className="object-cover brightness-75"
-          />
+    <div className="premium-theme min-h-screen bg-[#060608] text-white font-mono selection:bg-[#e879f9] selection:text-black overflow-x-hidden">
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,#1a0820_0%,transparent_50%)]" />
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `radial-gradient(#e879f9 0.5px, transparent 0.5px)`, backgroundSize: "45px 45px" }} />
+        {/* Scanning lines */}
+        {[...Array(3)].map((_, i) => (
+          <motion.div key={i} animate={{ y: ["-100%", "200%"] }} transition={{ duration: 8, repeat: Infinity, delay: i * 2.5, ease: "linear" }}
+            className="absolute left-0 w-full h-px bg-gradient-to-r from-transparent via-[#e879f9]/10 to-transparent" />
+        ))}
+      </div>
+
+      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#060608]/90 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-10"}`}>
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter">
+            <div className="w-8 h-8 bg-[#e879f9] rounded-sm flex items-center justify-center text-black"><Play className="w-4 h-4 ml-0.5" /></div>
+            <span className="group-hover:text-[#e879f9] transition-colors">MORPH // <span className="text-white/40">STUDIO</span></span>
+          </Link>
+          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
+            {["Reel", "Capabilities", "About", "Contact"].map(l => <Link key={l} href="#" className="hover:text-[#e879f9] transition-colors">{l}</Link>)}
+          </div>
+          <div className="flex items-center gap-6">
+            <MagneticBtn className="px-6 py-2.5 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[#e879f9] transition-all">Send_Brief</MagneticBtn>
+            <button onClick={() => setMenuOpen(true)} className="lg:hidden text-white/60"><Menu className="w-6 h-6" /></button>
+          </div>
+        </div>
+      </nav>
+
+      <AnimatePresence>{menuOpen && (
+        <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-[#060608] p-8 flex flex-col pt-32">
+          <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40"><X className="w-10 h-10" /></button>
+          <div className="flex flex-col gap-10 text-5xl font-black tracking-tighter uppercase">
+            {["Reel", "Capabilities", "About", "Contact"].map(l => <Link key={l} href="#" onClick={() => setMenuOpen(false)}>{l}</Link>)}
+          </div>
         </motion.div>
+      )}</AnimatePresence>
 
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#f8fafc]/20 to-[#f8fafc]" />
-
-        <div className="relative h-full flex flex-col items-center justify-center px-6 text-center z-10">
+      {/* HERO */}
+      <motion.section ref={heroRef} style={{ scale: heroScale, opacity: heroOpacity }} className="relative h-screen flex flex-col justify-center pt-20 overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Morphing shape */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <motion.div animate={{ borderRadius: ["30% 70% 70% 30% / 30% 30% 70% 70%", "70% 30% 30% 70% / 70% 70% 30% 30%", "30% 70% 70% 30% / 30% 30% 70% 70%"] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              className="w-[400px] h-[400px] bg-gradient-to-br from-[#e879f9]/10 via-[#a855f7]/5 to-transparent border border-[#e879f9]/10" />
+          </div>
+        </div>
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
           <Reveal>
-            <motion.h1 className="text-6xl md:text-8xl font-bold mb-6 text-white drop-shadow-lg">
-              Arctic Outdoor
-            </motion.h1>
-            <p className="text-xl md:text-2xl text-blue-100 mb-12 max-w-3xl drop-shadow">Professional expedition gear trusted by adventurers worldwide. 30 years of excellence.</p>
-            <motion.div whileHover={{ x: 5 }} className="inline-flex items-center gap-3 px-8 py-4 bg-[#0284c7] text-white rounded-lg font-semibold cursor-pointer hover:bg-[#0284c7]/90">
-              Shop Collection →
-            </motion.div>
+            <div className="flex items-center gap-4 mb-8">
+              <div className="px-3 py-1 bg-[#e879f9]/10 border border-[#e879f9]/30 text-[#e879f9] text-[9px] font-bold uppercase tracking-widest">{MANIFESTS.hero.status}</div>
+              <div className="text-[9px] text-white/30 tracking-widest uppercase">PROJECTS: {MANIFESTS.hero.projects} // AWARDS: {MANIFESTS.hero.awards}</div>
+            </div>
+            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
+              Motion <br /> <span className="text-[#e879f9]">Design.</span> <br /> Real <br /> <span className="text-white/20">Time.</span>
+            </h1>
+            <p className="max-w-2xl text-xl text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">
+              A motion and real-time studio creating title sequences, brand films, live visuals, and immersive installations for culture-shaping brands.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6">
+              <button className="px-12 py-5 bg-[#e879f9] text-black text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-[0_0_50px_rgba(232,121,249,0.2)]">Watch_Reel</button>
+              <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">View_Work</button>
+            </div>
+          </Reveal>
+        </div>
+      </motion.section>
+
+      {/* REEL / PROJECTS */}
+      <section className="py-40 bg-[#080810] border-y border-white/5">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
+            <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85]">Selected <br /> <span className="text-[#e879f9]">Work.</span></h2></Reveal>
+            <p className="max-w-md text-sm text-white/30 leading-relaxed uppercase tracking-widest font-light italic">A selection from our portfolio spanning title design, brand film, live visual, and spatial installation.</p>
+          </div>
+          <div className="space-y-2">
+            {MANIFESTS.reel.map((r, i) => (
+              <Reveal key={r.id} delay={i * 0.05}>
+                <div className="group flex flex-col md:flex-row justify-between items-center p-10 md:p-14 border-b border-white/5 hover:bg-[#e879f9] hover:text-black transition-all duration-500 cursor-pointer"
+                  onMouseEnter={() => setHoveredProject(r.id)} onMouseLeave={() => setHoveredProject(null)}>
+                  <div className="flex-1 mb-6 md:mb-0">
+                    <div className="flex items-center gap-6 mb-4">
+                      <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tighter">{r.name}</h3>
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-white/20 group-hover:text-black/40">{r.category}</span>
+                    </div>
+                    <p className="text-sm text-white/40 group-hover:text-black/50 leading-relaxed max-w-2xl italic transition-colors">"{r.desc}"</p>
+                  </div>
+                  <div className="flex items-center gap-8">
+                    <span className="text-[10px] font-bold text-white/20 group-hover:text-black/40 uppercase tracking-widest">{r.client}</span>
+                    <motion.div animate={{ x: hoveredProject === r.id ? 5 : 0 }} className="opacity-0 group-hover:opacity-100 transition-opacity"><ArrowRight className="w-5 h-5" /></motion.div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CAPABILITIES */}
+      <section className="py-40 bg-[#060608]">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#e879f9] mb-6 block">What_We_Do</span>
+            <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-24 uppercase">Core <br /> <span className="text-white/20">Skills.</span></h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {MANIFESTS.capabilities.map((c, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="group p-12 bg-[#080810] border border-white/5 hover:border-[#e879f9]/30 transition-all flex flex-col h-full rounded-3xl relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#e879f9]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="w-16 h-16 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-center text-[#e879f9] mb-12 group-hover:bg-[#e879f9] group-hover:text-black transition-all">{c.icon}</div>
+                  <h3 className="text-3xl font-black uppercase mb-8 tracking-tighter group-hover:text-[#e879f9] transition-colors">{c.name}</h3>
+                  <div className="space-y-5 pt-8 border-t border-white/5">
+                    {c.items.map((item, j) => <div key={j} className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest"><div className="w-1.5 h-1.5 bg-[#e879f9] rotate-45" />{item}</div>)}
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CLIENTS */}
+      <section className="py-40 bg-[#080810] border-y border-white/5 text-center overflow-hidden">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <h2 className="text-7xl md:text-[12rem] font-black tracking-tighter uppercase leading-[0.85] mb-12 text-white/5">Clients.</h2>
+            <div className="flex flex-wrap justify-center gap-12 mt-24">
+              {MANIFESTS.clients.map((c, i) => (
+                <motion.div key={i} whileHover={{ scale: 1.1, color: "#e879f9" }}
+                  className="text-2xl md:text-3xl font-black uppercase tracking-tighter text-white/15 transition-colors cursor-default">{c}</motion.div>
+              ))}
+            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* Gear Tabs */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-bold mb-16 text-center">Gear Collection</h2>
-        </Reveal>
-
-        <Tabs defaultValue="Apparel" className="w-full">
-          <TabsList className="grid w-full grid-cols-5 gap-2 bg-blue-100 p-2 rounded-lg mb-12">
-            {["Apparel", "Footwear", "Packs", "Shelter", "Navigation"].map((cat) => (
-              <TabsTrigger key={cat} value={cat} className="text-sm font-semibold data-[state=active]:bg-[#0284c7] data-[state=active]:text-white">
-                {cat}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-
-          {["Apparel", "Footwear", "Packs", "Shelter", "Navigation"].map((category) => (
-            <TabsContent key={category} value={category} className="mt-8">
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid md:grid-cols-4 gap-6">
-                {PRODUCTS.filter(p => p.category.includes(category.slice(0, 5))).map((product, i) => (
-                  <Reveal key={product.id} delay={i * 0.1}>
-                    <motion.div
-                      whileHover={{ y: -10 }}
-                      onClick={() => { setSelectedProduct(product); setDialogOpen(true) }}
-                      className="group cursor-pointer"
-                    >
-                      <Card className="border border-[#0284c7]/20 hover:border-[#0284c7]/50 overflow-hidden transition-all h-full">
-                        <div className="relative h-40 overflow-hidden bg-blue-50">
-                          <Image src={product.img} alt={product.name} fill className="object-cover group-hover:scale-110 transition-transform duration-300" />
-                        </div>
-                        <CardContent className="p-6">
-                          <Badge className="mb-3 bg-[#0284c7]">{product.terrain}</Badge>
-                          <h3 className="text-lg font-bold mb-2">{product.name}</h3>
-                          <p className="text-sm text-gray-600 mb-3">{product.rating}★ Rating</p>
-                          <Progress value={product.rating * 20} className="h-1" />
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  </Reveal>
-                ))}
-              </motion.div>
-            </TabsContent>
-          ))}
-        </Tabs>
-
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>{selectedProduct?.name}</DialogTitle>
-            </DialogHeader>
-            {selectedProduct && (
-              <div className="space-y-6">
-                <div className="relative h-64 rounded-lg overflow-hidden bg-blue-50">
-                  <Image src={selectedProduct.img} alt={selectedProduct.name} fill className="object-cover" />
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <p className="text-xs text-[#0284c7] uppercase font-semibold">Category</p>
-                    <p className="text-lg font-bold mt-1">{selectedProduct.category}</p>
-                  </div>
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <p className="text-xs text-[#0284c7] uppercase font-semibold">Terrain</p>
-                    <p className="text-lg font-bold mt-1">{selectedProduct.terrain}</p>
-                  </div>
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <p className="text-xs text-[#0284c7] uppercase font-semibold">Rating</p>
-                    <p className="text-lg font-bold mt-1">{selectedProduct.rating}★</p>
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="text-lg font-bold mb-4">Technical Specs</h4>
-                  <div className="space-y-3">
-                    {Object.entries(selectedProduct.specs).map(([key, value]) => (
-                      <div key={key} className="flex justify-between items-center pb-2 border-b border-gray-200">
-                        <span className="capitalize font-semibold">{key}:</span>
-                        <span className="text-gray-600">{String(value)}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <h4 className="font-bold">Conditions Rating</h4>
-                  <div className="space-y-2">
-                    {["Extreme Cold", "Wet Conditions", "High Altitude"].map((cond, i) => (
-                      <div key={i}>
-                        <p className="text-sm font-medium mb-1">{cond}</p>
-                        <Progress value={85 + i * 5} className="h-2" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <MagneticBtn className="w-full py-3 bg-[#0284c7] text-white rounded-lg font-bold hover:bg-[#0284c7]/90">
-                  Add to Cart
-                </MagneticBtn>
-              </div>
-            )}
-          </DialogContent>
-        </Dialog>
-      </section>
-
-      {/* Expedition Stories */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-bold mb-16 text-center">Expedition Stories</h2>
-        </Reveal>
-
-        <Carousel className="w-full">
-          <CarouselContent>
-            {EXPEDITIONS.map((exp, i) => (
-              <CarouselItem key={i} className="md:basis-1/2 lg:basis-1/3">
-                <motion.div whileHover={{ y: -10 }} className="group">
-                  <Card className="border border-[#0284c7]/20 overflow-hidden hover:border-[#0284c7]/50 transition-all">
-                    <div className="relative h-48">
-                      <Image src={exp.img} alt={exp.title} fill className="object-cover group-hover:scale-110 transition-transform duration-300" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    </div>
-                    <CardContent className="p-6">
-                      <Badge className="mb-3 bg-[#0284c7]">{exp.destination}</Badge>
-                      <h3 className="text-xl font-bold text-white mb-2">{exp.title}</h3>
-                      <p className="text-sm text-gray-300">{exp.athletes} athletes participated</p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
-      </section>
-
-      {/* Athlete Ambassadors */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-bold mb-16 text-center">Athlete Ambassadors</h2>
-        </Reveal>
-
-        <div className="grid md:grid-cols-4 gap-8">
-          {ATHLETES.map((athlete, i) => (
-            <Reveal key={i} delay={i * 0.1}>
-              <Card className="border border-[#0284c7]/20 overflow-hidden hover:border-[#0284c7]/50 transition-colors">
-                <div className="relative h-48">
-                  <Image src={athlete.img} alt={athlete.name} fill className="object-cover" />
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-lg mb-1">{athlete.name}</h3>
-                  <Badge className="mb-3 bg-[#0284c7]/20 text-[#0284c7]">{athlete.sport}</Badge>
-                  <p className="text-sm text-gray-600">{athlete.achievement}</p>
-                </CardContent>
-              </Card>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto bg-gradient-to-r from-[#0284c7]/10 to-blue-300/10 rounded-2xl">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-          {[{ v: 30, l: "Years" }, { v: 500, l: "Products" }, { v: 80, l: "Countries" }, { v: 5, s: "★", l: "Rating" }].map((stat, i) => (
-            <Reveal key={i}>
-              <div>
-                <p className="text-5xl font-bold text-[#0284c7]"><Counter target={stat.v} suffix={stat.s || ""} /></p>
-                <p className="text-gray-700 mt-2">{stat.l}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Tech Innovations */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-bold mb-16 text-center">Tech Innovations</h2>
-        </Reveal>
-
-        <div className="grid md:grid-cols-4 gap-6">
-          {INNOVATIONS.map((tech, i) => (
-            <Reveal key={i} delay={i * 0.1}>
-              <motion.div whileHover={{ y: -10 }} className="group">
-                <Card className="border border-[#0284c7]/20 hover:border-[#0284c7]/50 overflow-hidden transition-all h-full">
-                  <CardContent className="p-8">
-                    <Badge className="mb-4 bg-[#0284c7]">Patent</Badge>
-                    <h3 className="text-xl font-bold mb-3">{tech.name}</h3>
-                    <p className="text-sm text-gray-600 mb-4">{tech.desc}</p>
-                    <p className="text-xs text-[#0284c7] font-semibold">{tech.patent}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="py-24 px-6 md:px-16 max-w-3xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-bold mb-16 text-center">FAQ</h2>
-        </Reveal>
-
-        <Accordion type="single" collapsible className="space-y-4">
-          {[
-            { q: "What sizing guide should I follow?", a: "We provide detailed sizing charts for all products. Most items come with a 30-day exchange policy." },
-            { q: "How long is the warranty?", a: "All Arctic Outdoor products include a 2-year manufacturer warranty covering defects." },
-            { q: "Are your products sustainable?", a: "Yes, we use eco-friendly materials and ethical manufacturing processes across our line." },
-            { q: "Do you ship internationally?", a: "We ship to 80+ countries. Shipping times vary by location, typically 7-14 business days." }
-          ].map((item, i) => (
-            <AccordionItem key={i} value={String(i)} className="border border-[#0284c7]/20 px-6 rounded-lg">
-              <AccordionTrigger className="font-semibold text-[#1e293b]">{item.q}</AccordionTrigger>
-              <AccordionContent className="text-gray-600">{item.a}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </section>
-
       {/* CTA */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <Reveal>
-          <div className="bg-gradient-to-r from-[#0284c7] to-cyan-500 rounded-2xl p-16 text-center text-white">
-            <h2 className="text-4xl font-bold mb-6">Gear Up for Adventure</h2>
-            <p className="text-lg opacity-90 mb-8 max-w-2xl mx-auto">Trusted by adventurers. Proven in the harshest conditions. Your next expedition awaits.</p>
-            <MagneticBtn className="px-12 py-4 bg-white text-[#0284c7] rounded-lg font-bold cursor-pointer hover:bg-gray-100">
-              Explore Gear Now
-            </MagneticBtn>
-          </div>
-        </Reveal>
+      <section className="py-40 bg-[#060608]">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 text-center">
+          <Reveal>
+            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">Start <br /> <span className="text-[#e879f9]">Moving.</span></h2>
+            <p className="max-w-2xl mx-auto text-sm text-white/40 leading-relaxed font-light mb-16 uppercase tracking-widest italic">We partner with brands who understand that motion is the most powerful design language. Send us your brief.</p>
+            <MagneticBtn className="px-16 py-6 bg-white text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[#e879f9] transition-all shadow-[0_0_60px_rgba(232,121,249,0.15)]">Send_Brief</MagneticBtn>
+          </Reveal>
+        </div>
       </section>
+
+      <footer className="bg-[#060608] border-t border-white/5 py-32 px-6 md:px-12">
+        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
+          <div className="col-span-1 md:col-span-2">
+            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-white text-black rounded-sm flex items-center justify-center"><Play className="w-4 h-4 ml-0.5" /></div><span>MORPH // STUDIO</span></Link>
+            <p className="text-[11px] text-white/20 uppercase tracking-[0.2em] max-w-sm leading-relaxed mb-16 italic">Motion design, real-time 3D, and immersive experiences. LA + London.</p>
+            <div className="flex gap-8">{[Film, Camera, Eye].map((Icon, i) => <button key={i} className="text-white/20 hover:text-[#e879f9] transition-colors"><Icon className="w-5 h-5" /></button>)}</div>
+          </div>
+          <div>
+            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#e879f9]">Work</h4>
+            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+              {["Title_Sequences", "Brand_Films", "Live_Visuals", "Installations"].map(l => <li key={l} className="hover:text-white transition-colors"><Link href="#">{l}</Link></li>)}
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#e879f9]">Studio</h4>
+            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+              {["About", "Careers", "Press", "Contact"].map(l => <li key={l} className="hover:text-white transition-colors"><Link href="#">{l}</Link></li>)}
+            </ul>
+          </div>
+        </div>
+        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[9px] font-bold text-white/10 uppercase tracking-widest">
+          <span>&copy; 2026 MORPH STUDIO. ALL RIGHTS RESERVED.</span>
+          <div className="flex gap-10 font-mono"><span>LA_STUDIO</span><span>LONDON_STUDIO</span></div>
+        </div>
+      </footer>
     </div>
-  )
+  );
 }

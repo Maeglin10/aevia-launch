@@ -1,372 +1,218 @@
-"use client"
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Progress } from "@/components/ui/progress"
-import { Menu, X, ShoppingCart, Zap, Dumbbell, Package, Badge as BadgeIcon, TrendingUp } from "lucide-react"
+"use client";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import { Gauge, Zap, Timer, Menu, X, ArrowRight, Shield, Fuel, Wind, Settings, Trophy, Car } from "lucide-react";
+import "../premium.css";
+
+const MODELS = [
+  { id: "gt", name: "APEX GT", tagline: "Grand Touring Perfection", hp: "620", torque: "590", zero: "3.2s", top: "318 km/h", price: "$142,000", status: "CONFIGURE" },
+  { id: "rs", name: "APEX RS", tagline: "Track-Bred Intensity", hp: "780", torque: "650", zero: "2.8s", top: "340 km/h", price: "$198,000", status: "PRE-ORDER" },
+  { id: "ev", name: "APEX EV", tagline: "Electric Revolution", hp: "950", torque: "1,100", zero: "2.1s", top: "280 km/h", price: "$165,000", status: "RESERVE" },
+];
+
+const SPECS = [
+  { label: "POWER_HP", val: 780, max: 1000, color: "#dc2626" },
+  { label: "TORQUE_NM", val: 650, max: 1200, color: "#dc2626" },
+  { label: "DOWNFORCE_KG", val: 420, max: 600, color: "#dc2626" },
+  { label: "WEIGHT_KG", val: 1480, max: 2000, color: "#dc2626" },
+];
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
-  return (
-    <motion.div ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
-    >
-      {children}
-    </motion.div>
-  )
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+  return <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay }}>{children}</motion.div>;
 }
 
-function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0)
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
-  useEffect(() => {
-    if (!inView) return
-    const duration = 1500
-    const step = target / (duration / 16)
-    const t = setInterval(() => setCount(c => { const next = c + step; if (next >= target) { clearInterval(t); return target; } return next; }), 16)
-    return () => clearInterval(t)
-  }, [inView, target])
-  return <span ref={ref}>{Math.floor(count).toLocaleString()}{suffix}</span>
-}
+export default function ApexAutomotivePage() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeModel, setActiveModel] = useState("rs");
+  useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
 
-function MagneticBtn({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const x = useMotionValue(0); const y = useMotionValue(0)
-  const sx = useSpring(x, { stiffness: 400, damping: 20 })
-  const sy = useSpring(y, { stiffness: 400, damping: 20 })
-  const ref = useRef<HTMLButtonElement>(null)
-  const handleMouse = (e: React.MouseEvent) => {
-    const r = ref.current!.getBoundingClientRect()
-    x.set((e.clientX - r.left - r.width / 2) * 0.3)
-    y.set((e.clientY - r.top - r.height / 2) * 0.3)
-  }
-  return (
-    <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={handleMouse}
-      onMouseLeave={() => { x.set(0); y.set(0) }}
-      className={`cursor-pointer transition-all duration-200 ${className}`}
-    >
-      {children}
-    </motion.button>
-  )
-}
-
-export default function VertxFitness() {
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const [loadingProgress, setLoadingProgress] = useState(0)
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [selectedProduct, setSelectedProduct] = useState(null)
-  const { scrollY } = useScroll()
-
-  useEffect(() => {
-    const timer = setTimeout(() => setLoadingProgress(100), 800)
-    return () => clearTimeout(timer)
-  }, [])
-
-  const products = {
-    racks: [
-      { id: 1, name: "Power Rack Pro", price: "$1,299", specs: "2x2\" steel, 1000lb capacity" },
-      { id: 2, name: "Squat Rack Elite", price: "$899", specs: "11-gauge, safety bars" },
-      { id: 3, name: "Half Rack Plus", price: "$599", specs: "Compact, 800lb capacity" },
-      { id: 4, name: "Bench Combo", price: "$799", specs: "Adjustable 7-position" },
-      { id: 5, name: "Smith Machine Pro", price: "$1,499", specs: "Guided motion system" },
-      { id: 6, name: "Functional Trainer", price: "$2,499", specs: "Dual stack 300lb each" },
-      { id: 7, name: "Multi-Station", price: "$3,999", specs: "8-station comprehensive" },
-      { id: 8, name: "Cable Machine", price: "$1,799", specs: "Single stack 300lb" },
-    ],
-    dumbbells: [
-      { id: 9, name: "EcoFlex Dumbbell Set", price: "$599", specs: "5-50lb pairs" },
-      { id: 10, name: "Adjustable Dumbbells", price: "$399", specs: "5-25lb per hand" },
-      { id: 11, name: "Rubber Hex Pairs", price: "$199", specs: "10-100lb" },
-    ],
-  }
-
-  const features = [
-    { icon: <Zap className="w-6 h-6" />, name: "SmartCoach™", desc: "AI-powered form analysis" },
-    { icon: <TrendingUp className="w-6 h-6" />, name: "HydraSteel™", desc: "Advanced alloy durability" },
-    { icon: <Dumbbell className="w-6 h-6" />, name: "EcoFlex™", desc: "100% sustainable material" },
-    { icon: <Badge as="div" className="w-6 h-6" />, name: "ConnectSync™", desc: "App integration suite" },
-  ]
-
-  const programs = [
-    { name: "Strength 101", level: "Beginner", duration: "8 weeks", equipment: "Rack, Dumbbells" },
-    { name: "Hypertrophy Build", level: "Intermediate", duration: "12 weeks", equipment: "Full setup" },
-    { name: "Power & Conditioning", level: "Advanced", duration: "16 weeks", equipment: "Complete station" },
-    { name: "Powerlifting Prep", level: "Advanced", duration: "20 weeks", equipment: "Competition gear" },
-    { name: "CrossFit Fusion", level: "Intermediate", duration: "10 weeks", equipment: "Cardio + weights" },
-    { name: "Recovery & Mobility", level: "All", duration: "6 weeks", equipment: "Minimal gear" },
-  ]
-
-  const stats = [
-    { num: 50000, label: "Athletes Using VERTX" },
-    { num: 30, label: "Countries Served" },
-    { num: 4.9, suffix: "★", label: "Customer Rating" },
-    { num: 25, suffix: " year", label: "Warranty" },
-  ]
+  const current = MODELS.find(m => m.id === activeModel) || MODELS[1];
 
   return (
-    <div style={{ overflowX: 'hidden', scrollBehavior: 'smooth' }} className="min-h-screen bg-[#090909] text-white">
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
-        body { font-family: 'Sora', sans-serif; }
-        h1, h2, h3, h4, h5, h6 { font-family: 'Space Mono', monospace; font-weight: bold; }
-      `}</style>
+    <div className="premium-theme min-h-screen bg-[#0a0a0a] text-white font-mono selection:bg-[#dc2626] selection:text-black overflow-x-hidden">
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,#dc262610_0%,transparent_50%)]" />
+        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: `linear-gradient(rgba(220,38,38,0.1) 1px, transparent 1px)`, backgroundSize: "1px 80px" }} />
+      </div>
 
-      {/* Mobile Nav */}
-      <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetTrigger asChild>
-          <button className="fixed top-6 left-6 z-50 md:hidden cursor-pointer transition-all duration-200 bg-white/10 backdrop-blur p-2 rounded-lg hover:bg-white/20">
-            <Menu className="w-6 h-6 text-white" />
-          </button>
-        </SheetTrigger>
-        <SheetContent side="left" className="bg-[#1a1a1a] border-[#dc2626]/20">
-          <nav className="flex flex-col gap-4 mt-8">
-            <Link href="#products" className="text-lg font-semibold text-[#dc2626] cursor-pointer hover:text-white">Products</Link>
-            <Link href="#features" className="text-lg font-semibold text-[#dc2626] cursor-pointer hover:text-white">Features</Link>
-            <Link href="#programs" className="text-lg font-semibold text-[#dc2626] cursor-pointer hover:text-white">Programs</Link>
-            <Link href="#faq" className="text-lg font-semibold text-[#dc2626] cursor-pointer hover:text-white">FAQ</Link>
-          </nav>
-        </SheetContent>
-      </Sheet>
-
-      {/* Hero with Loading Bar */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden pt-20">
-        <div className="absolute inset-0 z-0">
-          <Image src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop" alt="Gym Equipment" fill className="object-cover" />
-          <div className="absolute inset-0 bg-black/60" />
+      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#0a0a0a]/90 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-10"}`}>
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter">
+            <div className="w-8 h-8 bg-[#dc2626] rounded-sm flex items-center justify-center text-white"><Gauge className="w-4 h-4" /></div>
+            <span className="group-hover:text-[#dc2626] transition-colors">APEX // <span className="text-white/30">MOTORS</span></span>
+          </Link>
+          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">
+            {["Models", "Performance", "Heritage", "Configure"].map(l => <Link key={l} href="#" className="hover:text-[#dc2626] transition-colors">{l}</Link>)}
+          </div>
+          <button className="px-6 py-2.5 bg-[#dc2626] text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all hidden md:block">Configure</button>
+          <button onClick={() => setMenuOpen(true)} className="lg:hidden text-white/60"><Menu className="w-6 h-6" /></button>
         </div>
+      </nav>
 
-        {/* Animated Loading Bar */}
-        <motion.div className="absolute top-32 left-0 right-0 h-1 bg-gradient-to-r from-[#dc2626] via-white to-[#dc2626]"
-          initial={{ width: "0%" }}
-          animate={{ width: `${loadingProgress}%` }}
-          transition={{ duration: 2 }}
-        />
+      <AnimatePresence>{menuOpen && (
+        <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-[#0a0a0a] p-8 flex flex-col pt-32">
+          <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40"><X className="w-10 h-10" /></button>
+          {["Models", "Performance", "Heritage", "Configure"].map(l => <Link key={l} href="#" onClick={() => setMenuOpen(false)} className="text-5xl font-black tracking-tighter uppercase mb-10">{l}</Link>)}
+        </motion.div>
+      )}</AnimatePresence>
 
-        <div className="relative z-10 text-center max-w-5xl px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <motion.div animate={{ opacity: [0.7, 1, 0.7] }} transition={{ duration: 2, repeat: Infinity }} className="inline-block mb-4">
-              <Badge className="bg-[#dc2626] text-white text-xs">NEW COLLECTION</Badge>
-            </motion.div>
-            <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 leading-tight">VERTX</h1>
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="h-1 bg-[#dc2626] w-32 mx-auto mb-8"
-            />
-            <p className="text-xl md:text-2xl text-white/90 mb-8 uppercase tracking-wider">BUILD YOUR BEST</p>
-            <MagneticBtn className="px-8 py-4 bg-[#dc2626] text-white rounded-none font-bold hover:bg-[#991818] uppercase tracking-wider">Shop Now</MagneticBtn>
+      {/* HERO */}
+      <section className="relative min-h-screen flex flex-col justify-center pt-20">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
+          <Reveal>
+            <div className="flex items-center gap-4 mb-8">
+              <div className="px-3 py-1 bg-[#dc2626]/10 border border-[#dc2626]/30 text-[#dc2626] text-[9px] font-bold uppercase tracking-widest">2026_LINEUP</div>
+              <div className="text-[9px] text-white/20 tracking-widest uppercase">ENGINEERED IN GERMANY</div>
+            </div>
+            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
+              Born <br /> To <br /> <span className="text-[#dc2626]">Perform.</span>
+            </h1>
+            <p className="max-w-xl text-lg text-white/30 leading-relaxed font-light uppercase tracking-widest italic mb-12">
+              Three decades of motorsport heritage. Every curve engineered, every detail obsessed over.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6">
+              <button className="px-12 py-5 bg-[#dc2626] text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all shadow-[0_0_50px_rgba(220,38,38,0.2)]">Explore_Models</button>
+              <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">Book_Test_Drive</button>
+            </div>
+          </Reveal>
+        </div>
+        {/* RPM gauge animation */}
+        <div className="absolute right-12 bottom-32 hidden xl:block opacity-10">
+          <motion.div animate={{ rotate: [0, 220] }} transition={{ duration: 3, ease: "easeOut" }} className="w-64 h-64 border-4 border-[#dc2626] rounded-full relative">
+            <motion.div animate={{ rotate: [0, 220] }} transition={{ duration: 3, ease: "easeOut" }} className="absolute top-1/2 left-1/2 w-1 h-28 bg-[#dc2626] origin-bottom -translate-x-1/2 -translate-y-full" />
           </motion.div>
         </div>
       </section>
 
-      {/* Products Section */}
-      <section id="products" className="py-20 px-6 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-bold text-white mb-4 uppercase">Equipment</h2>
-          <p className="text-lg text-[#999] mb-12">Premium strength training solutions for serious athletes</p>
-        </Reveal>
-
-        <Tabs defaultValue="racks" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 bg-white/5 border border-[#dc2626]/20 rounded-none p-1">
-            <TabsTrigger value="racks" className="cursor-pointer uppercase text-xs">Racks</TabsTrigger>
-            <TabsTrigger value="dumbbells" className="cursor-pointer uppercase text-xs">Dumbbells</TabsTrigger>
-            <TabsTrigger value="cardio" className="cursor-pointer uppercase text-xs">Cardio</TabsTrigger>
-            <TabsTrigger value="accessories" className="cursor-pointer uppercase text-xs">Accessories</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="racks" className="mt-12">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {products.racks.map((prod, idx) => (
-                <Reveal key={prod.id} delay={idx * 0.08}>
-                  <Card className="bg-white/5 border-[#dc2626]/20 hover:border-[#dc2626]/60 hover:shadow-2xl hover:scale-105 cursor-pointer transition-all duration-300 group overflow-hidden"
-                    onClick={() => { setSelectedProduct(prod); setDialogOpen(true); }}>
-                    <CardContent className="p-6">
-                      <div className="relative aspect-square mb-4 rounded-lg overflow-hidden bg-[#1a1a1a] group-hover:bg-[#2a2a2a] transition-colors">
-                        <Image src={`https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=400&auto=format&fit=crop`} alt={prod.name} fill className="object-cover group-hover:scale-110 transition-transform duration-300" />
-                      </div>
-                      <h3 className="font-bold text-white mb-2 uppercase text-sm">{prod.name}</h3>
-                      <p className="text-xs text-[#999] mb-4">{prod.specs}</p>
-                      <div className="flex justify-between items-center">
-                        <span className="text-lg font-bold text-[#dc2626]">{prod.price}</span>
-                        <button className="p-2 bg-[#dc2626] text-white rounded-none hover:bg-[#991818] transition-all cursor-pointer">
-                          <ShoppingCart className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Reveal>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="dumbbells" className="mt-12">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {products.dumbbells.map((prod, idx) => (
-                <Reveal key={prod.id} delay={idx * 0.1}>
-                  <Card className="bg-white/5 border-[#dc2626]/20 hover:border-[#dc2626]/60 cursor-pointer transition-all duration-300 group overflow-hidden">
-                    <CardContent className="p-6">
-                      <div className="relative aspect-square mb-4 rounded-lg overflow-hidden bg-[#1a1a1a]">
-                        <Image src={`https://images.unsplash.com/photo-1638801429407-f5f06e9c9c13?q=80&w=400&auto=format&fit=crop`} alt={prod.name} fill className="object-cover group-hover:scale-110 transition-transform duration-300" />
-                      </div>
-                      <h3 className="font-bold text-white mb-2 uppercase text-sm">{prod.name}</h3>
-                      <p className="text-xs text-[#999] mb-4">{prod.specs}</p>
-                      <span className="text-lg font-bold text-[#dc2626]">{prod.price}</span>
-                    </CardContent>
-                  </Card>
-                </Reveal>
-              ))}
-            </div>
-          </TabsContent>
-        </Tabs>
-      </section>
-
-      {/* Features */}
-      <section id="features" className="py-20 px-6 max-w-7xl mx-auto bg-white/5 rounded-2xl">
-        <Reveal>
-          <h2 className="text-5xl font-bold text-white mb-12 uppercase">Innovation</h2>
-        </Reveal>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feat, idx) => (
-            <Reveal key={idx} delay={idx * 0.1}>
-              <Card className="bg-white/5 border-[#dc2626]/20 hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-[#dc2626] rounded-none flex items-center justify-center mb-4 text-white">
-                    {feat.icon}
+      {/* MODEL SELECTOR */}
+      <section className="py-40 bg-[#0c0c0c] border-y border-white/5">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-16">The <span className="text-[#dc2626]">Lineup.</span></h2></Reveal>
+          {/* Tabs */}
+          <div className="flex gap-2 mb-16">
+            {MODELS.map(m => (
+              <button key={m.id} onClick={() => setActiveModel(m.id)}
+                className={`px-8 py-3 text-[10px] font-black uppercase tracking-widest transition-all ${activeModel === m.id ? "bg-[#dc2626] text-white" : "bg-white/5 text-white/30 hover:text-white"}`}>{m.name}</button>
+            ))}
+          </div>
+          <AnimatePresence mode="wait">
+            <motion.div key={current.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4 }}>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
+                <div>
+                  <div className="w-full aspect-video bg-gradient-to-br from-[#dc2626]/10 to-transparent rounded-3xl flex items-center justify-center border border-white/5">
+                    <Car className="w-24 h-24 text-[#dc2626]/20" />
                   </div>
-                  <h3 className="font-bold text-white mb-2 uppercase text-sm">{feat.name}</h3>
-                  <Badge variant="outline" className="border-[#dc2626] text-[#dc2626] text-xs">{feat.desc}</Badge>
-                </CardContent>
-              </Card>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="py-20 px-6 max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-4 gap-8 text-center">
-          {stats.map((stat, idx) => (
-            <Reveal key={idx} delay={idx * 0.1}>
-              <div>
-                <p className="text-5xl font-bold text-[#dc2626] mb-2"><Counter target={stat.num} suffix={stat.suffix || ""} /></p>
-                <p className="text-[#999] uppercase text-sm font-semibold tracking-wider">{stat.label}</p>
+                </div>
+                <div>
+                  <h3 className="text-5xl font-black uppercase tracking-tighter mb-4">{current.name}</h3>
+                  <p className="text-lg text-white/30 italic mb-10">{current.tagline}</p>
+                  <div className="grid grid-cols-2 gap-8 mb-12">
+                    {[{ label: "POWER", val: `${current.hp} HP` }, { label: "TORQUE", val: `${current.torque} NM` }, { label: "0-100", val: current.zero }, { label: "TOP_SPEED", val: current.top }].map((s, i) => (
+                      <div key={i} className="p-6 bg-white/[0.03] border border-white/5 rounded-xl">
+                        <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest mb-2">{s.label}</div>
+                        <div className="text-2xl font-black text-white">{s.val}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex items-center justify-between pt-8 border-t border-white/5">
+                    <div className="text-3xl font-black text-[#dc2626]">{current.price}</div>
+                    <button className="px-10 py-4 bg-[#dc2626] text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all">{current.status}</button>
+                  </div>
+                </div>
               </div>
-            </Reveal>
-          ))}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 
-      {/* Training Programs */}
-      <section id="programs" className="py-20 px-6 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-bold text-white mb-12 uppercase">Training Programs</h2>
-        </Reveal>
-        <Accordion type="single" collapsible className="space-y-4">
-          {programs.map((prog, idx) => (
-            <AccordionItem key={idx} value={`prog-${idx}`} className="border border-[#dc2626]/20 rounded-none px-6 bg-white/5">
-              <AccordionTrigger className="text-white font-bold cursor-pointer hover:text-[#dc2626] transition-colors uppercase text-sm">
-                <div className="flex justify-between w-full items-center">
-                  <span>{prog.name}</span>
-                  <Badge variant="outline" className="border-[#dc2626] text-[#dc2626] text-xs ml-4">{prog.level}</Badge>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="text-[#999]">
-                <div className="grid md:grid-cols-3 gap-4 mt-4">
-                  <div>
-                    <p className="text-xs font-semibold text-[#dc2626] uppercase mb-1">Duration</p>
-                    <p className="text-white">{prog.duration}</p>
+      {/* ENGINEERING */}
+      <section className="py-40 bg-[#0a0a0a]">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-32">
+            <div>
+              <Reveal>
+                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#dc2626] mb-6 block">Engineering</span>
+                <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-12 uppercase">Built <span className="text-white/15">Different.</span></h2>
+              </Reveal>
+              <Reveal delay={0.2}>
+                <div className="p-10 bg-[#0c0c0c] border border-white/5 rounded-2xl">
+                  <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest mb-8">PERFORMANCE_TELEMETRY</div>
+                  <div className="space-y-8">
+                    {SPECS.map((s, i) => (
+                      <div key={i}>
+                        <div className="flex justify-between text-[8px] font-bold uppercase tracking-widest mb-3">
+                          <span className="text-white/40">{s.label}</span>
+                          <span className="text-[#dc2626]">{s.val}</span>
+                        </div>
+                        <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                          <motion.div initial={{ width: 0 }} whileInView={{ width: `${(s.val / s.max) * 100}%` }} transition={{ duration: 2, delay: 0.3 + i * 0.1 }} viewport={{ once: true }}
+                            className="h-full rounded-full bg-[#dc2626]" />
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <div>
-                    <p className="text-xs font-semibold text-[#dc2626] uppercase mb-1">Equipment</p>
-                    <p className="text-white text-sm">{prog.equipment}</p>
-                  </div>
-                  <button className="px-4 py-2 bg-[#dc2626] text-white rounded-none hover:bg-[#991818] transition-all font-semibold uppercase text-xs cursor-pointer">Start</button>
                 </div>
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+              </Reveal>
+            </div>
+            <div>
+              <Reveal delay={0.1}>
+                <div className="grid grid-cols-1 gap-8">
+                  {[{ icon: <Wind className="w-5 h-5" />, title: "ACTIVE_AERO", desc: "Dynamic spoiler and diffuser adjust in real-time for optimal downforce." },
+                    { icon: <Settings className="w-5 h-5" />, title: "DUAL_CLUTCH", desc: "8-speed PDK transmission with launch control and rev-match downshifts." },
+                    { icon: <Shield className="w-5 h-5" />, title: "CARBON_MONOCOQUE", desc: "Full carbon fiber tub weighing just 82kg. Stiffest in class." }
+                  ].map((f, i) => (
+                    <div key={i} className="group p-10 bg-[#0c0c0c] border border-white/5 hover:border-[#dc2626]/30 rounded-2xl transition-all">
+                      <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center text-[#dc2626] mb-6 group-hover:bg-[#dc2626] group-hover:text-white transition-all">{f.icon}</div>
+                      <h3 className="text-xl font-black uppercase tracking-tighter mb-3 group-hover:text-[#dc2626] transition-colors">{f.title}</h3>
+                      <p className="text-sm text-white/30">{f.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* FAQ */}
-      <section id="faq" className="py-20 px-6 max-w-3xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-bold text-white mb-12 uppercase">FAQ</h2>
-        </Reveal>
-        <Accordion type="single" collapsible className="space-y-4">
-          {[
-            { q: "What's the shipping timeframe?", a: "Orders ship within 3-5 business days. Delivery typically 7-14 days depending on location." },
-            { q: "Do you offer assembly service?", a: "Yes. Premium assembly available for $149-$299 depending on equipment complexity." },
-            { q: "What's your warranty coverage?", a: "25-year structural warranty on all equipment. Covers defects in materials and craftsmanship." },
-            { q: "Do you offer financing?", a: "Yes. 0% APR financing available for purchases over $2,000 with approved credit." },
-            { q: "Can I return equipment?", a: "30-day return window. Free return shipping on defective items. Restocking fee 10% on returns." },
-            { q: "Do you have showrooms?", a: "Yes. We have demo spaces in major cities where you can test equipment before purchase." },
-          ].map((faq, idx) => (
-            <AccordionItem key={idx} value={`faq-${idx}`} className="border border-[#dc2626]/20 rounded-none px-6 bg-white/5">
-              <AccordionTrigger className="text-white font-bold cursor-pointer hover:text-[#dc2626] transition-colors">{faq.q}</AccordionTrigger>
-              <AccordionContent className="text-[#999]">{faq.a}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+      {/* HERITAGE */}
+      <section className="py-40 bg-[#0c0c0c] border-y border-white/5 text-center">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-16">
+              {[{ label: "RACE_WINS", val: "147" }, { label: "CHAMPIONSHIPS", val: "12" }, { label: "YEARS_RACING", val: "34" }, { label: "COUNTRIES", val: "28" }].map((s, i) => (
+                <div key={i} className="group"><div className="text-4xl md:text-5xl font-black text-white mb-4 group-hover:text-[#dc2626] transition-colors">{s.val}</div><div className="text-[9px] font-black text-white/15 uppercase tracking-widest">{s.label}</div></div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-6 max-w-7xl mx-auto">
-        <Reveal>
-          <div className="bg-gradient-to-r from-[#dc2626] to-[#991818] rounded-none p-12 text-center text-white">
-            <h2 className="text-4xl font-bold mb-4 uppercase">Start Your Transformation</h2>
-            <p className="text-lg mb-8 opacity-90">Build the home gym of champions. Free trial included.</p>
-            <MagneticBtn className="px-8 py-3 bg-white text-[#dc2626] rounded-none font-bold hover:bg-[#f0f0f0] uppercase tracking-wider">Get Free Trial</MagneticBtn>
-          </div>
-        </Reveal>
+      <section className="py-40 bg-[#0a0a0a] text-center">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">Your <span className="text-[#dc2626]">Turn.</span></h2>
+            <p className="max-w-xl mx-auto text-sm text-white/30 leading-relaxed font-light mb-16 uppercase tracking-widest italic">Schedule a private viewing or configure your Apex online.</p>
+            <button className="px-16 py-6 bg-[#dc2626] text-white text-[12px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all shadow-[0_0_60px_rgba(220,38,38,0.15)]">Configure_Yours</button>
+          </Reveal>
+        </div>
       </section>
 
-      {/* Product Dialog */}
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="bg-[#1a1a1a] border-[#dc2626]/20 max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="text-white uppercase tracking-wider">{selectedProduct?.name}</DialogTitle>
-          </DialogHeader>
-          {selectedProduct && (
-            <div className="space-y-6">
-              <div className="relative aspect-video rounded-lg overflow-hidden">
-                <Image src={`https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop`} alt={selectedProduct.name} fill className="object-cover" />
-              </div>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <p className="text-white font-bold text-2xl">{selectedProduct.price}</p>
-                  <Badge className="bg-[#dc2626] text-white">In Stock</Badge>
-                </div>
-                <p className="text-[#999]">{selectedProduct.specs}</p>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <input type="number" placeholder="Quantity" defaultValue="1" className="px-4 py-2 bg-white/10 border border-[#dc2626]/20 rounded-none text-white" />
-                  <button className="px-4 py-2 bg-[#dc2626] text-white rounded-none hover:bg-[#991818] font-bold uppercase cursor-pointer">Add to Cart</button>
-                </div>
-              </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
-
-      {/* Footer */}
-      <footer className="bg-black border-t border-[#dc2626]/20 py-12 px-6 mt-20">
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="mb-4 uppercase font-bold tracking-wider text-white">VERTX FITNESS</p>
-          <p className="text-sm text-[#666]">Premium equipment for serious athletes © 2024</p>
+      <footer className="bg-[#0a0a0a] border-t border-white/5 py-32 px-6 md:px-12">
+        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
+          <div className="col-span-1 md:col-span-2">
+            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-[#dc2626] text-white rounded-sm flex items-center justify-center"><Gauge className="w-4 h-4" /></div><span>APEX // MOTORS</span></Link>
+            <p className="text-[11px] text-white/15 uppercase tracking-[0.2em] max-w-sm leading-relaxed italic">Performance engineering since 1992. Born on the track.</p>
+          </div>
+          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#dc2626]">Models</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Apex_GT", "Apex_RS", "Apex_EV", "Heritage"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
+          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#dc2626]">Experience</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Test_Drive", "Dealers", "Motorsport", "Events"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
         </div>
+        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 text-center text-[9px] font-bold text-white/10 uppercase tracking-widest">&copy; 2026 APEX MOTORS</div>
       </footer>
     </div>
-  )
+  );
 }

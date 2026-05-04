@@ -1,361 +1,213 @@
-"use client"
+"use client";
+import { motion, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import { Shirt, Scissors, Crown, Menu, X, ArrowRight, Eye, Camera, Sparkles, Heart, ShoppingBag, Star, Gem, Ruler, Palette, Wind } from "lucide-react";
+import "../premium.css";
 
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Progress } from "@/components/ui/progress"
+const MANIFESTS = {
+  hero: { pieces: "48", ateliers: "Paris", season: "AW26", status: "COLLECTION_LIVE" },
+  lookbook: [
+    { id: "nocturne", name: "NOCTURNE // 01", desc: "Structured wool overcoat in obsidian black with asymmetric closure and hand-finished lapels. Lined in Japanese cupro.", category: "OUTERWEAR", price: "€2,400" },
+    { id: "lumiere", name: "LUMIÈRE // 02", desc: "Bias-cut silk charmeuse gown in champagne gold. Zero-waste draping technique pioneered by the atelier for this collection.", category: "EVENINGWEAR", price: "€3,800" },
+    { id: "brut", name: "BRUT // 03", desc: "Deconstructed raw-edge blazer in undyed Italian linen. Exposed construction as design language. Gender-fluid sizing.", category: "TAILORING", price: "€1,600" },
+    { id: "veil", name: "VOILE // 04", desc: "Layered organza blouse with hand-painted botanical print. Each piece unique — signed and numbered by the artist.", category: "TOPS", price: "€890" },
+  ],
+  atelier: [
+    { name: "PATTERN // CUT", icon: <Scissors className="w-5 h-5" />, desc: "Every pattern is drafted by hand, cut by master tailors with 30+ years of experience in Parisian haute couture." },
+    { name: "FABRIC // SOURCE", icon: <Ruler className="w-5 h-5" />, desc: "Exclusively sourced from heritage mills in Italy, Japan, and Scotland. Full traceability from fiber to finished garment." },
+    { name: "FINISH // DETAIL", icon: <Gem className="w-5 h-5" />, desc: "Hand-finished details — bound seams, covered snaps, invisible hems. Garments built to last decades, not seasons." },
+  ],
+  press: [
+    { outlet: "VOGUE", quote: "A masterclass in restraint. Maison redefines luxury for those who know." },
+    { outlet: "ELLE", quote: "The collection we've been waiting for — timeless, radical, and impeccably made." },
+    { outlet: "BOF", quote: "In an era of excess, Maison's AW26 is a quiet revolution." },
+  ],
+};
 
-function Reveal({ children, delay=0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
-  return <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay }}>{children}</motion.div>
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+  return <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] }}>{children}</motion.div>;
 }
 
-function Counter({ target, suffix="" }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0)
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
-  useEffect(() => {
-    if (!inView) return
-    const step = Math.ceil(target / 60)
-    const t = setInterval(() => setCount(c => Math.min(c + step, target)), 16)
-    return () => clearInterval(t)
-  }, [inView, target])
-  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>
+function MagneticBtn({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const x = useMotionValue(0), y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 300, damping: 20 }), sy = useSpring(y, { stiffness: 300, damping: 20 });
+  const ref = useRef<HTMLButtonElement>(null);
+  return <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={(e) => { const r = ref.current?.getBoundingClientRect(); if (r) { x.set((e.clientX - r.left - r.width / 2) * 0.4); y.set((e.clientY - r.top - r.height / 2) * 0.4); }}} onMouseLeave={() => { x.set(0); y.set(0); }} className={className}>{children}</motion.button>;
 }
 
-function MagneticBtn({ children, className="" }: { children: React.ReactNode; className?: string }) {
-  const x = useMotionValue(0); const y = useMotionValue(0)
-  const sx = useSpring(x, { stiffness: 500, damping: 25 })
-  const sy = useSpring(y, { stiffness: 500, damping: 25 })
-  const ref = useRef<HTMLButtonElement>(null)
-  const handleMouse = (e: React.MouseEvent) => {
-    const r = ref.current!.getBoundingClientRect()
-    x.set((e.clientX - r.left - r.width/2) * 0.35)
-    y.set((e.clientY - r.top - r.height/2) * 0.35)
-  }
-  return <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={handleMouse} onMouseLeave={() => { x.set(0); y.set(0) }} className={className}>{children}</motion.button>
-}
-
-const COURSES = [
-  { id: 1, title: "Startup Fundamentals", level: "Beginner", rating: 4.9, duration: "4 weeks", category: "Business", img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400" },
-  { id: 2, title: "React Mastery", level: "Advanced", rating: 4.8, duration: "8 weeks", category: "Tech", img: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400" },
-  { id: 3, title: "UI/UX Principles", level: "Intermediate", rating: 4.9, duration: "6 weeks", category: "Design", img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400" },
-  { id: 4, title: "Digital Marketing", level: "Beginner", rating: 4.7, duration: "5 weeks", category: "Marketing", img: "https://images.unsplash.com/photo-1557821552-17105176677c?w=400" },
-  { id: 5, title: "Finance Basics", level: "Beginner", rating: 4.8, duration: "4 weeks", category: "Finance", img: "https://images.unsplash.com/photo-1526374965328-7f5ae4e8b04e?w=400" },
-  { id: 6, title: "Data Science Pro", level: "Advanced", rating: 4.9, duration: "10 weeks", category: "Tech", img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400" },
-  { id: 7, title: "Brand Strategy", level: "Intermediate", rating: 4.8, duration: "6 weeks", category: "Marketing", img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400" },
-  { id: 8, title: "Investment 101", level: "Beginner", rating: 4.9, duration: "5 weeks", category: "Finance", img: "https://images.unsplash.com/photo-1526374965328-7f5ae4e8b04e?w=400" }
-]
-
-const INSTRUCTORS = [
-  { name: "Dr. Sarah Johnson", expertise: "Tech & Entrepreneurship", students: "50K+", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200" },
-  { name: "James Chen", expertise: "Frontend Development", students: "80K+", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200" },
-  { name: "Maya Patel", expertise: "Design Systems", students: "45K+", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200" },
-  { name: "Alex Rivera", expertise: "Business Strategy", students: "60K+", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200" }
-]
-
-const PATHS = [
-  { title: "Beginner", courses: 15, duration: "12 weeks", desc: "Start your learning journey", color: "from-[#f97316] to-orange-500" },
-  { title: "Intermediate", courses: 25, duration: "24 weeks", desc: "Build professional skills", color: "from-[#0f172a] to-blue-900" },
-  { title: "Advanced", courses: 35, duration: "36 weeks", desc: "Master your discipline", color: "from-[#fef9f0] to-yellow-100" }
-]
-
-export default function RiseAcademy() {
-  const [selectedCourse, setSelectedCourse] = useState<typeof COURSES[0] | null>(null)
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
+export default function MaisonFashionPage() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-gradient-to-b from-[#0f172a] via-blue-950 to-[#1e293b] text-white overflow-hidden">
-      {/* Parallax Hero */}
-      <section className="relative h-screen overflow-hidden">
-        <motion.div initial={{ scale: 1.1 }} animate={{ scale: 1 }} transition={{ duration: 1.5 }} className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200"
-            alt="Learning"
-            fill
-            className="object-cover brightness-40"
-          />
+    <div className="premium-theme min-h-screen bg-[#0a0908] text-white font-mono selection:bg-[#d4a853] selection:text-black overflow-x-hidden">
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,#1a1408_0%,transparent_50%)]" />
+        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 100px, rgba(212,168,83,0.05) 100px, rgba(212,168,83,0.05) 101px)` }} />
+      </div>
+
+      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#0a0908]/90 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-10"}`}>
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="group text-2xl tracking-[0.4em] uppercase">
+            <span className="font-light group-hover:text-[#d4a853] transition-colors" style={{ fontFamily: "Georgia, serif" }}>MAISON</span>
+          </Link>
+          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
+            {["Collection", "Atelier", "Lookbook", "Boutiques"].map(l => <Link key={l} href="#" className="hover:text-[#d4a853] transition-colors">{l}</Link>)}
+          </div>
+          <div className="flex items-center gap-6">
+            <MagneticBtn className="px-6 py-2.5 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[#d4a853] transition-all">Shop_AW26</MagneticBtn>
+            <button onClick={() => setMenuOpen(true)} className="lg:hidden text-white/60"><Menu className="w-6 h-6" /></button>
+          </div>
+        </div>
+      </nav>
+
+      <AnimatePresence>{menuOpen && (
+        <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-[#0a0908] p-8 flex flex-col pt-32">
+          <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40"><X className="w-10 h-10" /></button>
+          <div className="flex flex-col gap-10 text-5xl font-light tracking-wider uppercase" style={{ fontFamily: "Georgia, serif" }}>
+            {["Collection", "Atelier", "Lookbook", "Boutiques"].map(l => <Link key={l} href="#" onClick={() => setMenuOpen(false)}>{l}</Link>)}
+          </div>
         </motion.div>
+      )}</AnimatePresence>
 
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0f172a]/50 to-[#0f172a]" />
-
-        <div className="relative h-full flex flex-col items-center justify-center px-6 text-center z-10">
+      {/* HERO */}
+      <section className="relative h-screen flex flex-col justify-center pt-20 overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 8, repeat: Infinity }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-[#d4a853]/5 rounded-full" />
+          <motion.div animate={{ y: [0, 20, 0] }} transition={{ duration: 10, repeat: Infinity }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-[#d4a853]/8 rounded-full" />
+        </div>
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
           <Reveal>
-            <motion.h1 className="text-6xl md:text-8xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#f97316] via-orange-400 to-yellow-300">
-              Rise Academy
-            </motion.h1>
-            <p className="text-xl md:text-2xl text-orange-100 mb-12 max-w-3xl">Master cutting-edge skills. Learn from industry experts. Transform your career.</p>
-            <motion.div whileHover={{ x: 5 }} className="inline-flex items-center gap-3 px-8 py-4 bg-[#f97316] text-white rounded-lg font-semibold cursor-pointer hover:bg-[#f97316]/90">
-              Explore Courses →
-            </motion.div>
+            <div className="flex items-center gap-4 mb-8">
+              <div className="px-3 py-1 bg-[#d4a853]/10 border border-[#d4a853]/30 text-[#d4a853] text-[9px] font-bold uppercase tracking-widest">{MANIFESTS.hero.season}</div>
+              <div className="text-[9px] text-white/30 tracking-widest uppercase">PIECES: {MANIFESTS.hero.pieces} // ATELIER: {MANIFESTS.hero.ateliers}</div>
+            </div>
+            <h1 className="text-7xl md:text-9xl lg:text-[11rem] leading-[0.8] tracking-tight uppercase mb-10" style={{ fontFamily: "Georgia, serif", fontWeight: 400 }}>
+              Autumn <br /> <span className="text-[#d4a853] italic">Winter</span> <br /> <span className="text-white/15">2026.</span>
+            </h1>
+            <p className="max-w-2xl text-xl text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">
+              A study in restraint. 48 pieces crafted from heritage fabrics, cut by hand in our Paris atelier. Permanence over trend.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6">
+              <button className="px-12 py-5 bg-[#d4a853] text-black text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-[0_0_50px_rgba(212,168,83,0.15)]">View_Lookbook</button>
+              <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">Shop_Collection</button>
+            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* Course Tabs */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-bold mb-16 text-center">Course Catalog</h2>
-        </Reveal>
-
-        <Tabs defaultValue="Business" className="w-full">
-          <TabsList className="grid w-full grid-cols-5 gap-2 bg-blue-900/30 p-2 rounded-lg mb-12">
-            {["Business", "Tech", "Design", "Marketing", "Finance"].map((cat) => (
-              <TabsTrigger key={cat} value={cat} className="text-sm font-semibold text-orange-400 data-[state=active]:text-white">
-                {cat}
-              </TabsTrigger>
+      {/* LOOKBOOK */}
+      <section className="py-40 bg-[#0d0c0a] border-y border-white/5">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
+            <Reveal><h2 className="text-6xl md:text-8xl tracking-tighter uppercase leading-[0.85]" style={{ fontFamily: "Georgia, serif", fontWeight: 400 }}>The <br /> <span className="text-[#d4a853] italic">Lookbook.</span></h2></Reveal>
+            <p className="max-w-md text-sm text-white/30 leading-relaxed uppercase tracking-widest font-light italic">Each look photographed in natural light at our 18th-century atelier in the Marais.</p>
+          </div>
+          <div className="space-y-2">
+            {MANIFESTS.lookbook.map((l, i) => (
+              <Reveal key={l.id} delay={i * 0.05}>
+                <div className="group flex flex-col md:flex-row justify-between items-center p-10 md:p-14 border-b border-white/5 hover:bg-white/2 transition-all cursor-pointer">
+                  <div className="flex-1 mb-6 md:mb-0">
+                    <div className="flex items-center gap-6 mb-4">
+                      <h3 className="text-3xl md:text-4xl uppercase tracking-tighter group-hover:text-[#d4a853] transition-colors" style={{ fontFamily: "Georgia, serif", fontWeight: 400 }}>{l.name}</h3>
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-white/20">{l.category}</span>
+                    </div>
+                    <p className="text-sm text-white/40 leading-relaxed max-w-2xl italic">"{l.desc}"</p>
+                  </div>
+                  <div className="flex items-center gap-8">
+                    <span className="text-lg font-light text-[#d4a853]" style={{ fontFamily: "Georgia, serif" }}>{l.price}</span>
+                    <motion.div className="opacity-0 group-hover:opacity-100 transition-opacity"><ArrowRight className="w-5 h-5 text-[#d4a853]" /></motion.div>
+                  </div>
+                </div>
+              </Reveal>
             ))}
-          </TabsList>
-
-          {["Business", "Tech", "Design", "Marketing", "Finance"].map((category) => (
-            <TabsContent key={category} value={category} className="mt-8">
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid md:grid-cols-4 gap-6">
-                {COURSES.filter(c => c.category === category).map((course, i) => (
-                  <Reveal key={course.id} delay={i * 0.1}>
-                    <motion.div
-                      whileHover={{ y: -10 }}
-                      onClick={() => { setSelectedCourse(course); setDialogOpen(true) }}
-                      className="group cursor-pointer"
-                    >
-                      <Card className="border border-orange-500/20 hover:border-[#f97316]/50 overflow-hidden transition-all h-full bg-blue-900/20">
-                        <div className="relative h-40 overflow-hidden">
-                          <Image src={course.img} alt={course.title} fill className="object-cover group-hover:scale-110 transition-transform duration-300" />
-                        </div>
-                        <CardContent className="p-6">
-                          <div className="flex justify-between items-start mb-3">
-                            <Badge className="bg-[#f97316]">{course.level}</Badge>
-                            <span className="text-[#f97316] font-bold">{course.rating}★</span>
-                          </div>
-                          <h3 className="text-lg font-bold mb-2">{course.title}</h3>
-                          <p className="text-sm text-gray-300 mb-3">{course.duration}</p>
-                          <Progress value={Math.random() * 100} className="h-1" />
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  </Reveal>
-                ))}
-              </motion.div>
-            </TabsContent>
-          ))}
-        </Tabs>
-
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogContent className="max-w-2xl bg-[#0f172a] border-[#f97316]/20">
-            <DialogHeader>
-              <DialogTitle className="text-white text-2xl">{selectedCourse?.title}</DialogTitle>
-            </DialogHeader>
-            {selectedCourse && (
-              <div className="space-y-6 text-gray-200">
-                <div className="relative h-64 rounded-lg overflow-hidden">
-                  <Image src={selectedCourse.img} alt={selectedCourse.title} fill className="object-cover" />
-                </div>
-
-                <div className="grid md:grid-cols-4 gap-4">
-                  <div className="bg-blue-900/40 p-4 rounded-lg">
-                    <p className="text-xs text-orange-400 uppercase font-semibold">Level</p>
-                    <p className="text-lg font-bold mt-1">{selectedCourse.level}</p>
-                  </div>
-                  <div className="bg-blue-900/40 p-4 rounded-lg">
-                    <p className="text-xs text-orange-400 uppercase font-semibold">Duration</p>
-                    <p className="text-lg font-bold mt-1">{selectedCourse.duration}</p>
-                  </div>
-                  <div className="bg-blue-900/40 p-4 rounded-lg">
-                    <p className="text-xs text-orange-400 uppercase font-semibold">Rating</p>
-                    <p className="text-lg font-bold mt-1">{selectedCourse.rating}★</p>
-                  </div>
-                  <div className="bg-blue-900/40 p-4 rounded-lg">
-                    <p className="text-xs text-orange-400 uppercase font-semibold">Category</p>
-                    <p className="text-lg font-bold mt-1">{selectedCourse.category}</p>
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="text-lg font-bold mb-4 text-white">Curriculum</h4>
-                  <Accordion type="single" collapsible className="space-y-2">
-                    {["Module 1: Fundamentals", "Module 2: Intermediate", "Module 3: Advanced"].map((mod, i) => (
-                      <AccordionItem key={i} value={String(i)} className="border border-orange-500/20">
-                        <AccordionTrigger className="text-sm font-semibold text-orange-400">{mod}</AccordionTrigger>
-                        <AccordionContent className="text-gray-300">
-                          <ul className="space-y-2">
-                            <li>• Lesson overview and objectives</li>
-                            <li>• Practical examples and exercises</li>
-                            <li>• Real-world case studies</li>
-                          </ul>
-                        </AccordionContent>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
-                </div>
-
-                <div className="flex items-center gap-4 bg-blue-900/40 p-4 rounded-lg">
-                  <Avatar>
-                    <AvatarImage src={INSTRUCTORS[0].img} />
-                    <AvatarFallback>SJ</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="font-bold text-white">{INSTRUCTORS[0].name}</p>
-                    <p className="text-sm text-gray-400">{INSTRUCTORS[0].expertise}</p>
-                  </div>
-                </div>
-
-                <MagneticBtn className="w-full py-3 bg-[#f97316] text-white rounded-lg font-bold hover:bg-[#f97316]/90">
-                  Enroll Now
-                </MagneticBtn>
-              </div>
-            )}
-          </DialogContent>
-        </Dialog>
-      </section>
-
-      {/* Instructors */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-bold mb-16 text-center">Expert Instructors</h2>
-        </Reveal>
-
-        <div className="grid md:grid-cols-4 gap-8">
-          {INSTRUCTORS.map((instructor, i) => (
-            <Reveal key={i} delay={i * 0.1}>
-              <Card className="border border-orange-500/20 bg-blue-900/20 overflow-hidden hover:border-[#f97316]/50 transition-colors">
-                <div className="relative h-48">
-                  <Image src={instructor.img} alt={instructor.name} fill className="object-cover" />
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-lg mb-1">{instructor.name}</h3>
-                  <p className="text-sm text-[#f97316] font-semibold mb-3">{instructor.expertise}</p>
-                  <p className="text-sm text-gray-300">{instructor.students} students</p>
-                </CardContent>
-              </Card>
-            </Reveal>
-          ))}
+          </div>
         </div>
       </section>
 
-      {/* Learning Paths */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-bold mb-16 text-center">Learning Paths</h2>
-        </Reveal>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {PATHS.map((path, i) => (
-            <Reveal key={i} delay={i * 0.1}>
-              <motion.div whileHover={{ y: -10 }} className="group">
-                <Card className={`border border-orange-500/20 bg-gradient-to-br ${path.color} text-white overflow-hidden`}>
-                  <CardContent className="p-8">
-                    <h3 className="text-3xl font-bold mb-4">{path.title}</h3>
-                    <div className="space-y-3 mb-8">
-                      <p className="text-sm opacity-90">{path.courses} courses</p>
-                      <p className="text-sm opacity-90">{path.duration}</p>
-                    </div>
-                    <p className="text-lg font-semibold mb-6">{path.desc}</p>
-                    <MagneticBtn className="w-full py-2 bg-white text-current rounded-lg font-bold hover:bg-gray-200">
-                      Start Learning
-                    </MagneticBtn>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto bg-blue-900/30 rounded-2xl border border-orange-500/20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-          {[{ v: 50, l: "K+ Students" }, { v: 200, l: "Courses" }, { v: 5, s: "★", l: "Avg Rating" }, { v: 95, s: "%", l: "Completion" }].map((stat, i) => (
-            <Reveal key={i}>
-              <div>
-                <p className="text-5xl font-bold text-[#f97316]"><Counter target={stat.v} suffix={stat.s || ""} /></p>
-                <p className="text-gray-300 mt-2">{stat.l}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-bold mb-16 text-center">Student Success</h2>
-        </Reveal>
-
-        <Carousel className="w-full">
-          <CarouselContent>
-            {[1, 2, 3, 4].map((i) => (
-              <CarouselItem key={i} className="md:basis-1/2">
-                <Card className="border border-orange-500/20 bg-blue-900/20">
-                  <CardContent className="p-8">
-                    <div className="flex gap-2 mb-4">
-                      {[...Array(5)].map((_, j) => <span key={j} className="text-[#f97316]">★</span>)}
-                    </div>
-                    <Badge className="mb-4 bg-[#f97316]">Completed {i} Courses</Badge>
-                    <p className="text-gray-200 mb-6 italic">"Rise Academy transformed my career. The instructors are world-class and the community is incredibly supportive."</p>
-                    <div className="flex items-center gap-4">
-                      <Avatar>
-                        <AvatarImage src={`https://images.unsplash.com/photo-150${i}?w=100`} />
-                        <AvatarFallback>ST</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-bold text-white">Student Name</p>
-                        <p className="text-xs text-gray-400">Course Grad {i}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </CarouselItem>
+      {/* ATELIER */}
+      <section className="py-40 bg-[#0a0908]">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#d4a853] mb-6 block">Craftsmanship</span>
+            <h2 className="text-6xl md:text-8xl tracking-tighter leading-[0.85] mb-24 uppercase" style={{ fontFamily: "Georgia, serif", fontWeight: 400 }}>The <br /> <span className="text-white/15 italic">Atelier.</span></h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {MANIFESTS.atelier.map((a, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="group p-12 bg-[#0d0c0a] border border-white/5 hover:border-[#d4a853]/30 transition-all flex flex-col h-full rounded-3xl relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#d4a853]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="w-16 h-16 bg-white/5 border border-white/5 rounded-full flex items-center justify-center text-[#d4a853] mb-12 group-hover:bg-[#d4a853] group-hover:text-black transition-all">{a.icon}</div>
+                  <h3 className="text-2xl uppercase mb-6 tracking-tighter group-hover:text-[#d4a853] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{a.name}</h3>
+                  <p className="text-sm text-white/40 leading-relaxed italic">"{a.desc}"</p>
+                </div>
+              </Reveal>
             ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+          </div>
+        </div>
       </section>
 
-      {/* FAQ */}
-      <section className="py-24 px-6 md:px-16 max-w-3xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-bold mb-16 text-center">FAQ</h2>
-        </Reveal>
-
-        <Accordion type="single" collapsible className="space-y-4">
-          {[
-            { q: "How do I access the courses?", a: "Once enrolled, you get lifetime access to course materials, updates, and community resources." },
-            { q: "Can I get a certificate?", a: "Yes! Complete a course and earn a verified certificate to showcase on LinkedIn and your resume." },
-            { q: "What's your refund policy?", a: "30-day money-back guarantee. If you're not satisfied, full refund no questions asked." },
-            { q: "Are group discounts available?", a: "Yes, we offer special pricing for teams and organizations. Contact our sales team for details." }
-          ].map((item, i) => (
-            <AccordionItem key={i} value={String(i)} className="border border-orange-500/20 px-6 rounded-lg bg-blue-900/20">
-              <AccordionTrigger className="font-semibold text-orange-400">{item.q}</AccordionTrigger>
-              <AccordionContent className="text-gray-300">{item.a}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+      {/* PRESS */}
+      <section className="py-40 bg-[#0d0c0a] border-y border-white/5 text-center overflow-hidden">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <h2 className="text-6xl md:text-8xl tracking-tighter uppercase leading-[0.85] mb-24" style={{ fontFamily: "Georgia, serif", fontWeight: 400 }}>Press <br /> <em className="text-[#d4a853]">Voices.</em></h2>
+          </Reveal>
+          <div className="space-y-20">
+            {MANIFESTS.press.map((p, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="text-center">
+                  <p className="text-2xl md:text-3xl text-white/60 leading-relaxed mb-8 italic max-w-3xl mx-auto" style={{ fontFamily: "Georgia, serif" }}>&ldquo;{p.quote}&rdquo;</p>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#d4a853]">— {p.outlet}</span>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <Reveal>
-          <div className="bg-gradient-to-r from-[#f97316] to-orange-500 rounded-2xl p-16 text-center text-white">
-            <h2 className="text-4xl font-bold mb-6">Start Learning Today</h2>
-            <p className="text-lg opacity-90 mb-8 max-w-2xl mx-auto">Join 50,000+ students already transforming their careers with Rise Academy.</p>
-            <MagneticBtn className="px-12 py-4 bg-white text-[#f97316] rounded-lg font-bold cursor-pointer hover:bg-gray-100">
-              Explore All Courses
-            </MagneticBtn>
-          </div>
-        </Reveal>
+      <section className="py-40 bg-[#0a0908]">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 text-center">
+          <Reveal>
+            <h2 className="text-6xl md:text-9xl tracking-tighter uppercase mb-12" style={{ fontFamily: "Georgia, serif", fontWeight: 400 }}>Wear <br /> <span className="text-[#d4a853] italic">Forever.</span></h2>
+            <p className="max-w-2xl mx-auto text-sm text-white/40 leading-relaxed font-light mb-16 uppercase tracking-widest italic">Garments that outlast trends. Visit our boutique or shop the AW26 collection online.</p>
+            <MagneticBtn className="px-16 py-6 bg-white text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[#d4a853] transition-all shadow-[0_0_60px_rgba(212,168,83,0.1)]">Enter_Boutique</MagneticBtn>
+          </Reveal>
+        </div>
       </section>
+
+      <footer className="bg-[#0a0908] border-t border-white/5 py-32 px-6 md:px-12">
+        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
+          <div className="col-span-1 md:col-span-2">
+            <Link href="/" className="text-2xl tracking-[0.4em] uppercase mb-10 block" style={{ fontFamily: "Georgia, serif" }}>MAISON</Link>
+            <p className="text-[11px] text-white/20 uppercase tracking-[0.2em] max-w-sm leading-relaxed mb-16 italic">Paris, since 1947. Craftsmanship, permanence, restraint.</p>
+            <div className="flex gap-8">{[Crown, Heart, Eye].map((Icon, i) => <button key={i} className="text-white/20 hover:text-[#d4a853] transition-colors"><Icon className="w-5 h-5" /></button>)}</div>
+          </div>
+          <div>
+            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#d4a853]">Shop</h4>
+            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+              {["AW26_Collection", "Accessories", "Made_to_Order", "Gift_Guide"].map(l => <li key={l} className="hover:text-white transition-colors"><Link href="#">{l}</Link></li>)}
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#d4a853]">Maison</h4>
+            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+              {["Heritage", "Atelier_Visit", "Sustainability", "Careers"].map(l => <li key={l} className="hover:text-white transition-colors"><Link href="#">{l}</Link></li>)}
+            </ul>
+          </div>
+        </div>
+        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[9px] font-bold text-white/10 uppercase tracking-widest">
+          <span>&copy; 2026 MAISON. ALL RIGHTS RESERVED.</span>
+          <div className="flex gap-10 font-mono"><span>PARIS_FR</span><span>EST_1947</span></div>
+        </div>
+      </footer>
     </div>
-  )
+  );
 }

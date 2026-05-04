@@ -1,333 +1,277 @@
-"use client"
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Progress } from "@/components/ui/progress"
+"use client";
+import { motion, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import { Building2, Ruler, Compass, Menu, X, ArrowRight, Layers, Grid3X3, PenTool, Square, Triangle, Maximize, Scan, Frame, Warehouse, Mountain } from "lucide-react";
+import "../premium.css";
 
-function Reveal({ children, delay=0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
-  return <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay }}>{children}</motion.div>
+const MANIFESTS = {
+  hero: { projects: "340+", sqft: "12M ft²", awards: "47", status: "STUDIO_ACTIVE" },
+  portfolio: [
+    { id: "meridian", name: "MERIDIAN // TOWER", desc: "52-story mixed-use high-rise with parametric glass curtain wall and sky-bridge connectivity to adjacent transit hub.", icon: <Building2 className="w-5 h-5" />, specs: ["780,000 ft²", "LEED Platinum", "Seismic Zone 4"] },
+    { id: "terraform", name: "TERRAFORM // CAMPUS", desc: "Biophilic corporate campus integrating living walls, rainwater harvesting, and mass-timber structural system throughout.", icon: <Mountain className="w-5 h-5" />, specs: ["24-Acre Site", "Net-Zero Energy", "Mass Timber CLT"] },
+    { id: "vaulted", name: "VAULT // MUSEUM", desc: "Underground museum complex with natural zenithal lighting through parametric concrete shell roof structures.", icon: <Warehouse className="w-5 h-5" />, specs: ["120,000 ft²", "Subterranean", "Natural Light Only"] },
+  ],
+  telemetry: [
+    { label: "STRUCTURAL_INTEGRITY", val: 99, color: "#38bdf8" },
+    { label: "ENERGY_EFFICIENCY", val: 94, color: "#38bdf8" },
+    { label: "DAYLIGHTING_RATIO", val: 87, color: "#22c55e" },
+    { label: "MATERIAL_SUSTAIN", val: 91, color: "#38bdf8" },
+  ],
+  timeline: [
+    { phase: "CONCEPT", project: "Meridian Tower", status: "Complete", year: "2024" },
+    { phase: "SCHEMATIC", project: "Terraform Campus", status: "In Review", year: "2025" },
+    { phase: "DD / CD", project: "Vault Museum", status: "Active", year: "2025" },
+    { phase: "CONSTRUCTION", project: "Apex Pavilion", status: "On Site", year: "2026" },
+  ],
+};
+
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+  return <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] }}>{children}</motion.div>;
 }
 
-function Counter({ target, suffix="" }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0)
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
-  useEffect(() => {
-    if (!inView) return
-    const step = Math.ceil(target / 60)
-    const t = setInterval(() => setCount(c => Math.min(c + step, target)), 16)
-    return () => clearInterval(t)
-  }, [inView, target])
-  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>
+function MagneticBtn({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const x = useMotionValue(0), y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 300, damping: 20 }), sy = useSpring(y, { stiffness: 300, damping: 20 });
+  const ref = useRef<HTMLButtonElement>(null);
+  return <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={(e) => { const r = ref.current?.getBoundingClientRect(); if (r) { x.set((e.clientX - r.left - r.width / 2) * 0.4); y.set((e.clientY - r.top - r.height / 2) * 0.4); }}} onMouseLeave={() => { x.set(0); y.set(0); }} className={className}>{children}</motion.button>;
 }
 
-function MagneticBtn({ children, className="" }: { children: React.ReactNode; className?: string }) {
-  const x = useMotionValue(0); const y = useMotionValue(0)
-  const sx = useSpring(x, { stiffness: 500, damping: 25 })
-  const sy = useSpring(y, { stiffness: 500, damping: 25 })
-  const ref = useRef<HTMLButtonElement>(null)
-  const handleMouse = (e: React.MouseEvent) => {
-    const r = ref.current!.getBoundingClientRect()
-    x.set((e.clientX - r.left - r.width/2) * 0.35)
-    y.set((e.clientY - r.top - r.height/2) * 0.35)
-  }
-  return <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={handleMouse} onMouseLeave={() => { x.set(0); y.set(0) }} className={className}>{children}</motion.button>
-}
-
-const PORTFOLIO = {
-  SaaS: [
-    { name: "TechFlow", raise: "€45M", desc: "AI workflow automation", tags: ["Series B", "YC"] },
-    { name: "CloudCore", raise: "€28M", desc: "Infrastructure scaling", tags: ["Series A", "Growth"] },
-  ],
-  Fintech: [
-    { name: "PayScale", raise: "€62M", desc: "Open banking platform", tags: ["Series C", "Regulated"] },
-    { name: "VestX", raise: "€35M", desc: "Algorithmic investing", tags: ["Series B", "Crypto"] },
-  ],
-  HealthTech: [
-    { name: "HealthHub", raise: "€41M", desc: "Telemedicine network", tags: ["Series B", "Global"] },
-    { name: "GenomeLabs", raise: "€52M", desc: "Gene sequencing AI", tags: ["Series C", "DeepTech"] },
-  ],
-  DeepTech: [
-    { name: "NeuralCore", raise: "€78M", desc: "Quantum computing", tags: ["Series B", "R&D"] },
-    { name: "SpaceTech", raise: "€55M", desc: "Satellite comms", tags: ["Series A", "Space"] },
-  ],
-  Consumer: [
-    { name: "StyleAI", raise: "€33M", desc: "Fashion recommendation", tags: ["Series A", "DTC"] },
-    { name: "FoodFlow", raise: "€29M", desc: "Supply chain logistics", tags: ["Series A", "Ops"] },
-  ],
-}
-
-const TEAM = [
-  { name: "Maria Rossi", role: "Founder/GP", bg: "Operator", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400" },
-  { name: "Hans Mueller", role: "Co-GP", bg: "Founder", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400" },
-  { name: "Dr. Chen Wei", role: "Investment Lead", bg: "Academic", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400" },
-  { name: "Amara Okafor", role: "Operations", bg: "Operator", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400" },
-  { name: "Viktor Lebedev", role: "Tech Lead", bg: "Founder", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400" },
-  { name: "Sophie Laurent", role: "Operations", bg: "Operator", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400" },
-]
-
-const THESIS = [
-  { title: "Market Timing", desc: "Invest in founders solving problems at inflection points." },
-  { title: "Deep Networks", desc: "Our team's domain expertise creates unfair advantages." },
-  { title: "Value Add", desc: "Beyond capital: intros, strategy, and hands-on support." },
-  { title: "Global Scope", desc: "European founders scaling to global markets." },
-]
-
-const TESTIMONIALS = [
-  { lp: "Swiss Family Office", quote: "Nexus consistently identifies opportunities before the market.", return: "3.8x" },
-  { lp: "Nordic Pension Fund", quote: "Exceptional deal flow and portfolio support.", return: "3.2x" },
-  { lp: "European Tech Hub", quote: "Best returns in our venture allocation.", return: "4.1x" },
-]
-
-export default function NexusVenturesPage() {
-  const [activeTab, setActiveTab] = useState("SaaS")
-  const [selectedCompany, setSelectedCompany] = useState<any>(null)
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const { scrollYProgress } = useScroll()
-  const parallaxY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"])
+export default function FormwerkStudioPage() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
 
   return (
-    <div style={{ background: "#050d1f", color: "#fff" }}>
-      {/* Hero Parallax */}
-      <motion.section style={{ y: parallaxY }} className="relative h-screen flex items-center justify-center overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1400"
-          alt="boardroom"
-          fill
-          className="object-cover brightness-50"
-        />
-        <div className="relative z-10 text-center px-6">
-          <Reveal>
-            <h1 className="text-7xl md:text-8xl font-black mb-6" style={{ color: "#d4a017" }}>NEXUS VENTURES</h1>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <p className="text-2xl text-gray-300 mb-8">European Deep Tech & Early-Stage Innovation</p>
-          </Reveal>
-          <Reveal delay={0.4}>
-            <MagneticBtn className="px-12 py-4 text-lg font-bold" style={{ background: "#d4a017", color: "#050d1f", border: "none", cursor: "pointer" }} onClick={() => setDialogOpen(true)}>
-              SUBMIT PITCH DECK
-            </MagneticBtn>
-          </Reveal>
-        </div>
-      </motion.section>
+    <div className="premium-theme min-h-screen bg-[#050709] text-white font-mono selection:bg-[#38bdf8] selection:text-black overflow-x-hidden">
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_70%,#051525_0%,transparent_50%)]" />
+        {/* Blueprint grid */}
+        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: `linear-gradient(rgba(56,189,248,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(56,189,248,0.3) 1px, transparent 1px)`, backgroundSize: "80px 80px" }} />
+        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: `linear-gradient(rgba(56,189,248,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(56,189,248,0.2) 1px, transparent 1px)`, backgroundSize: "16px 16px" }} />
+      </div>
 
-      {/* Portfolio Tabs */}
-      <section className="py-24 px-6 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-12 text-center" style={{ color: "#d4a017" }}>PORTFOLIO</h2>
-        </Reveal>
-        <Tabs defaultValue="SaaS" className="w-full">
-          <TabsList className="flex justify-center gap-2 mb-12 bg-transparent flex-wrap">
-            {Object.keys(PORTFOLIO).map((cat) => (
-              <TabsTrigger key={cat} value={cat} className="px-6 py-2 font-bold text-lg border" style={{ borderColor: "#d4a017", color: "#d4a017" }}>
-                {cat}
-              </TabsTrigger>
+      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#050709]/90 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-10"}`}>
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter">
+            <div className="w-8 h-8 bg-[#38bdf8] rounded-sm flex items-center justify-center text-black"><Compass className="w-5 h-5" /></div>
+            <span className="group-hover:text-[#38bdf8] transition-colors">FORMWERK // <span className="text-white/40">STUDIO</span></span>
+          </Link>
+          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
+            {["Portfolio", "Practice", "Materials", "Contact"].map(l => <Link key={l} href="#" className="hover:text-[#38bdf8] transition-colors">{l}</Link>)}
+          </div>
+          <div className="flex items-center gap-6">
+            <MagneticBtn className="px-6 py-2.5 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[#38bdf8] transition-all">Commission</MagneticBtn>
+            <button onClick={() => setMenuOpen(true)} className="lg:hidden text-white/60"><Menu className="w-6 h-6" /></button>
+          </div>
+        </div>
+      </nav>
+
+      <AnimatePresence>{menuOpen && (
+        <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-[#050709] p-8 flex flex-col pt-32">
+          <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40"><X className="w-10 h-10" /></button>
+          <div className="flex flex-col gap-10 text-5xl font-black tracking-tighter uppercase">
+            {["Portfolio", "Practice", "Materials", "Contact"].map(l => <Link key={l} href="#" onClick={() => setMenuOpen(false)}>{l}</Link>)}
+          </div>
+        </motion.div>
+      )}</AnimatePresence>
+
+      {/* HERO */}
+      <section className="relative h-screen flex flex-col justify-center pt-20 overflow-hidden">
+        {/* Architectural lines */}
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(5)].map((_, i) => (
+            <motion.div key={i} initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 2, delay: 0.5 + i * 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+              className="absolute h-px bg-gradient-to-r from-transparent via-[#38bdf8]/20 to-transparent origin-left" style={{ top: `${25 + i * 12}%`, width: "100%" }} />
+          ))}
+          {[...Array(3)].map((_, i) => (
+            <motion.div key={`v${i}`} initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ duration: 2, delay: 1 + i * 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+              className="absolute w-px bg-gradient-to-b from-transparent via-[#38bdf8]/10 to-transparent origin-top" style={{ left: `${30 + i * 20}%`, height: "100%" }} />
+          ))}
+        </div>
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            <div className="lg:col-span-8">
+              <Reveal>
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="px-3 py-1 bg-[#38bdf8]/10 border border-[#38bdf8]/30 text-[#38bdf8] text-[9px] font-bold uppercase tracking-widest">{MANIFESTS.hero.status}</div>
+                  <div className="text-[9px] text-white/30 tracking-widest uppercase">PROJECTS: {MANIFESTS.hero.projects} // AREA: {MANIFESTS.hero.sqft}</div>
+                </div>
+                <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
+                  Form <br /> <span className="text-[#38bdf8]">Follows.</span> <br /> Force. <br /> <span className="text-white/20">Always.</span>
+                </h1>
+                <p className="max-w-2xl text-xl text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">
+                  Architecture that performs. Structures engineered for beauty, resilience, and environmental responsibility. Every line has purpose.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-6">
+                  <button className="px-12 py-5 bg-[#38bdf8] text-black text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-[0_0_50px_rgba(56,189,248,0.2)]">View_Portfolio</button>
+                  <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">Our_Practice</button>
+                </div>
+              </Reveal>
+            </div>
+            <div className="lg:col-span-4 relative hidden lg:block">
+              <Reveal delay={0.2}>
+                <div className="relative aspect-square bg-[#080b10] border border-white/5 p-12 rounded-3xl overflow-hidden shadow-2xl">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#38bdf8]/5 to-transparent" />
+                  <div className="relative h-full flex flex-col justify-between">
+                    <div className="flex justify-between items-start">
+                      <div><div className="text-[8px] font-bold text-white/20 uppercase tracking-widest">AWARDS_WON</div><div className="text-xl font-black text-[#38bdf8]">{MANIFESTS.hero.awards}</div></div>
+                      <div className="w-10 h-10 border border-white/5 rounded-full flex items-center justify-center"><Ruler className="w-5 h-5 text-white/20" /></div>
+                    </div>
+                    <div className="space-y-10 my-10">
+                      {MANIFESTS.telemetry.map((s, i) => (
+                        <div key={i}>
+                          <div className="flex justify-between text-[8px] font-bold uppercase tracking-widest mb-3"><span className="text-white/40">{s.label}</span><span style={{ color: s.color }}>{s.val}%</span></div>
+                          <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden"><motion.div initial={{ width: 0 }} animate={{ width: `${s.val}%` }} transition={{ duration: 2, delay: 0.5 + i * 0.1 }} className="h-full" style={{ backgroundColor: s.color }} /></div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="pt-6 border-t border-white/5 flex justify-between items-center text-[8px] font-bold text-white/20 uppercase tracking-widest">
+                      <span>AIA_GOLD_MEDALIST</span>
+                      <div className="flex items-center gap-2 text-[#38bdf8]"><div className="w-1.5 h-1.5 bg-[#38bdf8] rounded-full" /><span>ACTIVE</span></div>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PORTFOLIO */}
+      <section className="py-40 bg-[#080b10] border-y border-white/5">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
+            <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85]">Selected <br /> <span className="text-[#38bdf8]">Works.</span></h2></Reveal>
+            <p className="max-w-md text-sm text-white/30 leading-relaxed uppercase tracking-widest font-light italic">Award-winning structures spanning civic, cultural, and commercial typologies across three continents.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {MANIFESTS.portfolio.map((p, i) => (
+              <Reveal key={p.id} delay={i * 0.1}>
+                <div className="group p-12 bg-[#080b10] border border-white/5 hover:border-[#38bdf8]/30 transition-all flex flex-col h-full rounded-3xl relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#38bdf8]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="w-16 h-16 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-center text-[#38bdf8] mb-12 group-hover:bg-[#38bdf8] group-hover:text-black transition-all">{p.icon}</div>
+                  <h3 className="text-3xl font-black uppercase mb-6 tracking-tighter group-hover:text-[#38bdf8] transition-colors">{p.name}</h3>
+                  <p className="text-sm text-white/40 leading-relaxed mb-12 flex-1 italic">"{p.desc}"</p>
+                  <div className="space-y-5 pt-10 border-t border-white/5">
+                    {p.specs.map((s, j) => <div key={j} className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest"><div className="w-1.5 h-1.5 bg-[#38bdf8] rotate-45" />{s}</div>)}
+                  </div>
+                </div>
+              </Reveal>
             ))}
-          </TabsList>
-          {Object.entries(PORTFOLIO).map(([cat, companies]) => (
-            <TabsContent key={cat} value={cat}>
-              <div className="grid md:grid-cols-2 gap-8">
-                {companies.map((c) => (
-                  <Reveal key={c.name}>
-                    <Card className="bg-neutral-900/50 border" style={{ borderColor: "#d4a017" }} onClick={() => setSelectedCompany(c)} className="cursor-pointer hover:bg-neutral-900/80 transition-all">
-                      <CardContent className="p-8">
-                        <div className="flex justify-between items-start mb-4">
-                          <h3 className="text-2xl font-black">{c.name}</h3>
-                          <Badge className="px-4 py-1" style={{ background: "#d4a017", color: "#050d1f" }}>{c.raise}</Badge>
-                        </div>
-                        <p className="text-gray-300 mb-6">{c.desc}</p>
-                        <div className="flex gap-2 flex-wrap">
-                          {c.tags.map((tag) => (
-                            <Badge key={tag} className="px-3 py-1 border" style={{ borderColor: "#d4a017", color: "#d4a017", background: "transparent" }}>
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Reveal>
-                ))}
-              </div>
-            </TabsContent>
-          ))}
-        </Tabs>
-      </section>
-
-      {/* Investment Thesis */}
-      <section className="py-24 px-6 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-12 text-center" style={{ color: "#d4a017" }}>INVESTMENT THESIS</h2>
-        </Reveal>
-        <div className="grid md:grid-cols-2 gap-8">
-          {THESIS.map((t, i) => (
-            <Reveal key={t.title} delay={i * 0.1}>
-              <Card className="bg-neutral-900/50 border-b-4" style={{ borderBottomColor: "#d4a017" }}>
-                <CardContent className="p-8">
-                  <h3 className="text-2xl font-black mb-4" style={{ color: "#d4a017" }}>{t.title}</h3>
-                  <p className="text-gray-300 text-lg">{t.desc}</p>
-                </CardContent>
-              </Card>
-            </Reveal>
-          ))}
+          </div>
         </div>
       </section>
 
-      {/* Fund Stats */}
-      <section className="py-24 px-6 max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-4 gap-8 text-center">
-          {[
-            { num: 500, label: "AUM (€M)", suffix: "" },
-            { num: 80, label: "Investments", suffix: "" },
-            { num: 12, label: "Exits", suffix: "" },
-            { num: 3.2, label: "Avg Return", suffix: "x" },
-          ].map((stat, i) => (
-            <Reveal key={i} delay={i * 0.1}>
-              <div>
-                <div className="text-5xl font-black mb-2" style={{ color: "#d4a017" }}>
-                  <Counter target={Math.floor(stat.num)} suffix={stat.suffix} />
+      {/* TIMELINE */}
+      <section className="py-40 bg-[#050709]">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-center">
+            <div className="lg:col-span-6">
+              <Reveal>
+                <div className="relative aspect-video bg-[#080b10] border border-white/5 rounded-2xl overflow-hidden p-8">
+                  <div className="absolute top-6 left-6 text-[8px] font-bold text-white/20 tracking-widest uppercase">SECTION_DETAIL</div>
+                  {/* Architectural section drawing */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="relative w-3/4 h-3/4">
+                      {/* Floor plates */}
+                      {[...Array(6)].map((_, i) => (
+                        <motion.div key={i} initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 1, delay: i * 0.15 }} viewport={{ once: true }}
+                          className="absolute h-px bg-[#38bdf8]/20 origin-left" style={{ bottom: `${i * 18}%`, width: `${90 - i * 8}%`, left: `${i * 4}%` }} />
+                      ))}
+                      {/* Columns */}
+                      {[...Array(4)].map((_, i) => (
+                        <motion.div key={`c${i}`} initial={{ scaleY: 0 }} whileInView={{ scaleY: 1 }} transition={{ duration: 1.2, delay: 0.5 + i * 0.1 }} viewport={{ once: true }}
+                          className="absolute w-px bg-[#38bdf8]/30 origin-bottom" style={{ left: `${15 + i * 22}%`, bottom: 0, height: "90%" }} />
+                      ))}
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#38bdf8]/20" />
+                    </div>
+                  </div>
+                  <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center text-[8px] font-bold text-white/20 tracking-widest uppercase">
+                    <span>SCALE: 1:200</span><div className="text-[#38bdf8]">SECTION_A-A</div>
+                  </div>
                 </div>
-                <p className="text-gray-400">{stat.label}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Team */}
-      <section className="py-24 px-6 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-12 text-center" style={{ color: "#d4a017" }}>TEAM</h2>
-        </Reveal>
-        <div className="grid md:grid-cols-3 gap-8">
-          {TEAM.map((member, i) => (
-            <Reveal key={member.name} delay={i * 0.1}>
-              <Card className="bg-neutral-900/50 border border-neutral-800 hover:border-yellow-700/50 transition-colors overflow-hidden">
-                <div className="relative h-48">
-                  <Image src={member.img} alt={member.name} fill className="object-cover" />
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-black mb-2">{member.name}</h3>
-                  <p className="text-gray-400 mb-4">{member.role}</p>
-                  <Badge className="px-3 py-1 border" style={{ borderColor: "#d4a017", color: "#d4a017", background: "transparent" }}>
-                    {member.bg}
-                  </Badge>
-                </CardContent>
-              </Card>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* LP Testimonials Carousel */}
-      <section className="py-24 px-6 max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-12 text-center" style={{ color: "#d4a017" }}>LP TESTIMONIALS</h2>
-        </Reveal>
-        <Carousel className="w-full">
-          <CarouselContent>
-            {TESTIMONIALS.map((t, i) => (
-              <CarouselItem key={i} className="md:basis-1/2">
-                <Reveal>
-                  <Card className="bg-neutral-900/50 border" style={{ borderColor: "#d4a017" }}>
-                    <CardContent className="p-8">
-                      <div className="flex justify-between items-start mb-4">
-                        <h4 className="text-lg font-black">{t.lp}</h4>
-                        <Badge className="px-4 py-1" style={{ background: "#d4a017", color: "#050d1f" }}>{t.return}</Badge>
+              </Reveal>
+            </div>
+            <div className="lg:col-span-6">
+              <Reveal>
+                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#38bdf8] mb-6 block">Project_Timeline</span>
+                <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-12 uppercase">Design <br /> <span className="text-white/20">Phases.</span></h2>
+                <div className="space-y-8">
+                  {MANIFESTS.timeline.map((t, i) => (
+                    <div key={i} className="group flex flex-col md:flex-row justify-between items-center p-8 bg-white/2 border border-white/5 hover:border-[#38bdf8]/30 transition-all">
+                      <div className="flex items-center gap-10 mb-6 md:mb-0">
+                        <div className="text-2xl font-black uppercase tracking-tighter">{t.phase}</div>
+                        <div className="text-[10px] font-bold text-white/20 uppercase tracking-widest">{t.project}</div>
                       </div>
-                      <p className="text-gray-300 text-lg italic">"{t.quote}"</p>
-                    </CardContent>
-                  </Card>
-                </Reveal>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+                      <div className="flex items-center gap-8 text-[10px] font-bold uppercase tracking-widest">
+                        <span className="text-white/30">{t.year}</span>
+                        <div className="flex items-center gap-3">
+                          <div className={`w-1.5 h-1.5 rounded-full ${t.status === "Complete" ? "bg-green-500" : t.status === "On Site" ? "bg-yellow-400 animate-pulse" : "bg-[#38bdf8]"}`} />
+                          <span>{t.status}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* Process Accordion */}
-      <section className="py-24 px-6 max-w-4xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-12 text-center" style={{ color: "#d4a017" }}>INVESTMENT PROCESS</h2>
-        </Reveal>
-        <Accordion type="single" collapsible>
-          {[
-            { stage: "Stage 1: Application", desc: "Submit pitch deck + founder background." },
-            { stage: "Stage 2: Initial Review", desc: "Our investment committee evaluates market fit." },
-            { stage: "Stage 3: Deep Dive", desc: "Technical due diligence + team assessment." },
-            { stage: "Stage 4: Term Sheet", desc: "Standard terms for qualified startups." },
-            { stage: "Stage 5: Closing", desc: "Legal docs, funding, and board seat assigned." },
-          ].map((item, i) => (
-            <AccordionItem key={i} value={`item-${i}`} className="border-b" style={{ borderColor: "#d4a017" }}>
-              <AccordionTrigger className="hover:text-yellow-700">{item.stage}</AccordionTrigger>
-              <AccordionContent className="text-gray-400">{item.desc}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </section>
-
-      {/* FAQ */}
-      <section className="py-24 px-6 max-w-4xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-12 text-center" style={{ color: "#d4a017" }}>FAQS</h2>
-        </Reveal>
-        <Accordion type="single" collapsible>
-          {[
-            { q: "What's your typical check size?", a: "€500K to €5M for pre-seed through Series A." },
-            { q: "Geographic focus?", a: "Europe-first, with global ambitions." },
-            { q: "Follow-on investments?", a: "Yes, we lead Series B rounds for portfolio companies." },
-            { q: "Board participation?", a: "Always, to add value beyond capital." },
-            { q: "What about international founders?", a: "We support founders building from EU hubs." },
-          ].map((item, i) => (
-            <AccordionItem key={i} value={`item-${i}`} className="border-b" style={{ borderColor: "#d4a017" }}>
-              <AccordionTrigger className="hover:text-yellow-700">{item.q}</AccordionTrigger>
-              <AccordionContent className="text-gray-400">{item.a}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+      {/* METRICS */}
+      <section className="py-40 bg-[#080b10] border-y border-white/5 text-center overflow-hidden">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <h2 className="text-7xl md:text-[12rem] font-black tracking-tighter uppercase leading-[0.85] mb-12 text-white/5">Built <br /> Form.</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-16 mt-24">
+              {[{ label: "PROJECTS_BUILT", val: "340+" }, { label: "TOTAL_AREA", val: "12M ft²" }, { label: "AIA_AWARDS", val: "47" }, { label: "COUNTRIES", val: "18" }].map((s, i) => (
+                <div key={i} className="group"><div className="text-5xl font-black text-white mb-4 group-hover:text-[#38bdf8] transition-colors">{s.val}</div><div className="text-[10px] font-black text-white/20 uppercase tracking-widest">{s.label}</div></div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-6 text-center">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-6">Ready to Scale Your Vision?</h2>
-        </Reveal>
-        <Reveal delay={0.2}>
-          <MagneticBtn className="px-16 py-5 text-xl font-bold" style={{ background: "#d4a017", color: "#050d1f", border: "none", cursor: "pointer" }} onClick={() => setDialogOpen(true)}>
-            APPLY NOW
-          </MagneticBtn>
-        </Reveal>
+      <section className="py-40 bg-[#050709]">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 text-center">
+          <Reveal>
+            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">Build <br /> <span className="text-[#38bdf8]">Forward.</span></h2>
+            <p className="max-w-2xl mx-auto text-sm text-white/40 leading-relaxed font-light mb-16 uppercase tracking-widest italic">Every structure is a statement. Commission Formwerk Studio for architecture that endures, inspires, and performs.</p>
+            <MagneticBtn className="px-16 py-6 bg-white text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[#38bdf8] transition-all shadow-[0_0_60px_rgba(56,189,248,0.15)]">Start_Commission</MagneticBtn>
+          </Reveal>
+        </div>
       </section>
 
-      {/* Pitch Deck Dialog */}
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="bg-neutral-900 border" style={{ borderColor: "#d4a017" }}>
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-black" style={{ color: "#d4a017" }}>SUBMIT PITCH DECK</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <input type="text" placeholder="Founder Name" className="w-full px-4 py-2 rounded bg-neutral-800 border text-white placeholder:text-gray-500" style={{ borderColor: "#d4a017" }} />
-            <input type="text" placeholder="Company" className="w-full px-4 py-2 rounded bg-neutral-800 border text-white placeholder:text-gray-500" style={{ borderColor: "#d4a017" }} />
-            <input type="email" placeholder="Email" className="w-full px-4 py-2 rounded bg-neutral-800 border text-white placeholder:text-gray-500" style={{ borderColor: "#d4a017" }} />
-            <textarea placeholder="Brief description" rows={4} className="w-full px-4 py-2 rounded bg-neutral-800 border text-white placeholder:text-gray-500" style={{ borderColor: "#d4a017" }} />
-            <button className="w-full py-3 font-black rounded text-black" style={{ background: "#d4a017" }}>
-              SUBMIT
-            </button>
+      <footer className="bg-[#050709] border-t border-white/5 py-32 px-6 md:px-12">
+        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
+          <div className="col-span-1 md:col-span-2">
+            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-white text-black rounded-sm flex items-center justify-center"><Compass className="w-5 h-5" /></div><span>FORMWERK // STUDIO</span></Link>
+            <p className="text-[11px] text-white/20 uppercase tracking-[0.2em] max-w-sm leading-relaxed mb-16 italic">Architecture engineered for beauty, resilience, and environmental stewardship.</p>
+            <div className="flex gap-8">{[Building2, Layers, Frame].map((Icon, i) => <button key={i} className="text-white/20 hover:text-[#38bdf8] transition-colors"><Icon className="w-5 h-5" /></button>)}</div>
           </div>
-        </DialogContent>
-      </Dialog>
+          <div>
+            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#38bdf8]">Practice</h4>
+            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+              {["Selected_Works", "Design_Process", "Sustainability", "Awards"].map(l => <li key={l} className="hover:text-white transition-colors"><Link href="#">{l}</Link></li>)}
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#38bdf8]">Connect</h4>
+            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+              {["Commissions", "Press_Room", "Careers", "Studio_Visit"].map(l => <li key={l} className="hover:text-white transition-colors"><Link href="#">{l}</Link></li>)}
+            </ul>
+          </div>
+        </div>
+        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[9px] font-bold text-white/10 uppercase tracking-widest">
+          <span>&copy; 2026 FORMWERK STUDIO. ALL RIGHTS RESERVED.</span>
+          <div className="flex gap-10 font-mono"><span>AIA_MEMBER</span><span>LEED_AP_BD+C</span></div>
+        </div>
+      </footer>
     </div>
-  )
+  );
 }

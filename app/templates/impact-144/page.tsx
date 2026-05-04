@@ -1,340 +1,188 @@
-"use client"
+"use client";
+import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import { Type, Sparkles, Zap, Menu, X, ArrowRight, Star, CheckCircle2, Users, Layers, Palette, Globe, Mail } from "lucide-react";
+import "../premium.css";
 
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Progress } from "@/components/ui/progress"
-import { Separator } from "@/components/ui/separator"
-import { Scissors, Zap, MapPin, Leaf, Award, FileText, ChevronDown, ArrowRight, Needle } from "lucide-react"
+const FEATURES = [
+  { icon: <Sparkles className="w-6 h-6" />, title: "Motion Design", desc: "Scroll-linked kinetic typography that responds to user interaction in real-time." },
+  { icon: <Layers className="w-6 h-6" />, title: "Variable Fonts", desc: "Dynamic weight, width, and slant axes animated fluidly across scroll positions." },
+  { icon: <Palette className="w-6 h-6" />, title: "Brand Systems", desc: "Complete typographic identity systems from logotype to editorial layout." },
+  { icon: <Globe className="w-6 h-6" />, title: "Web Performance", desc: "Subsetting, WOFF2 compression, and lazy loading for zero layout shift." },
+  { icon: <Zap className="w-6 h-6" />, title: "Animation Runtime", desc: "60fps spring-based type animations with GPU-accelerated transforms." },
+  { icon: <Type className="w-6 h-6" />, title: "Custom Typefaces", desc: "Bespoke font design for brands that need a unique voice." },
+];
 
-const COLLECTIONS = [
-  { name: "Suiting", desc: "Bespoke tailored suits", img: "https://images.unsplash.com/photo-1559414691-cee479f47b8e?w=400" },
-  { name: "Shirting", desc: "Custom dress shirts", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400" },
-  { name: "Outerwear", desc: "Coats & jackets", img: "https://images.unsplash.com/photo-1539533057687-6b3c3a0dba4d?w=400" },
-  { name: "Accessories", desc: "Ties, cufflinks & more", img: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400" },
-  { name: "Bespoke", desc: "Fully customized pieces", img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400" },
-  { name: "Heritage", desc: "Heirloom collection", img: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=400" },
-  { name: "Casual", desc: "Relaxed menswear", img: "https://images.unsplash.com/photo-1552062407-6685c1b3b7d3?w=400" },
-  { name: "Evening", desc: "Formal & black tie", img: "https://images.unsplash.com/photo-1517631008897-20770a87a17d?w=400" },
-]
+const TESTIMONIALS = [
+  { name: "Alex Morgan", role: "Creative Director, Nike", quote: "Kinetic transformed our campaign typography. The scroll interactions are buttery smooth and conversion went up 23%." },
+  { name: "Yuki Tanaka", role: "Head of Brand, Spotify", quote: "Finally a studio that understands type as a living system, not static assets. They changed how we think about motion." },
+  { name: "Emma Laurent", role: "Founder, Figment Studio", quote: "The variable font system they built for us is years ahead. Our designers can't stop experimenting with it." },
+];
 
-const MASTERS = [
-  { name: "Giuseppe Moretti", exp: "52 years", specialty: "Suiting & Structure", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150" },
-  { name: "Karl Hoffmann", exp: "38 years", specialty: "Pattern-Making", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" },
-  { name: "Akiko Tanaka", exp: "31 years", specialty: "Hand-Finishing", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" },
-]
+const PRICING = [
+  { name: "STARTER", price: "$4,900", period: "", desc: "Single project", features: ["Motion type system", "3 revisions", "Web implementation", "30-day support"], cta: "Get_Started" },
+  { name: "STUDIO", price: "$12,500", period: "", desc: "Brand system", features: ["Full type identity", "Variable font", "Animation library", "90-day support", "Source files"], cta: "Start_Studio", featured: true },
+  { name: "ENTERPRISE", price: "Custom", period: "", desc: "Ongoing partnership", features: ["Custom typeface", "Unlimited revisions", "Dedicated team", "SLA guarantee", "Annual license"], cta: "Contact_Us" },
+];
 
-const Reveal = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
-  return (
-    <motion.div ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
-    >{children}</motion.div>
-  )
+const MARQUEE_WORDS = ["KINETIC", "TYPOGRAPHY", "MOTION", "DESIGN", "VARIABLE", "FONTS", "ANIMATION", "BRAND"];
+
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+  return <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay }}>{children}</motion.div>;
 }
 
-const Counter = ({ target, suffix = "", prefix = "" }: { target: number; suffix?: string; prefix?: string }) => {
-  const [count, setCount] = useState(0)
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
-  useEffect(() => {
-    if (!inView) return
-    const step = target / 90
-    const t = setInterval(() => setCount(c => { const n = c + step; if (n >= target) { clearInterval(t); return target; } return n; }), 16)
-    return () => clearInterval(t)
-  }, [inView, target])
-  return <span ref={ref}>{prefix}{Math.floor(count).toLocaleString()}{suffix}</span>
-}
-
-const MagneticBtn = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => {
-  const x = useMotionValue(0); const y = useMotionValue(0)
-  const sx = useSpring(x, { stiffness: 400, damping: 20 })
-  const sy = useSpring(y, { stiffness: 400, damping: 20 })
-  const ref = useRef<HTMLButtonElement>(null)
-  const handleMouse = (e: React.MouseEvent) => {
-    const r = ref.current!.getBoundingClientRect()
-    x.set((e.clientX - r.left - r.width/2) * 0.3)
-    y.set((e.clientY - r.top - r.height/2) * 0.3)
-  }
-  return <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={handleMouse}
-    onMouseLeave={() => { x.set(0); y.set(0) }} className={`cursor-pointer ${className}`}>{children}</motion.button>
-}
-
-export default function LoomThread() {
-  const [openConsult, setOpenConsult] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0.8])
+export default function KineticMarqueePage() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
 
   return (
-    <div ref={containerRef} style={{ overflowX: 'hidden', scrollBehavior: 'smooth' }} className="bg-gradient-to-b from-[#fdf8f0] via-[#fffbf7] to-[#fdf8f0] text-[#1e2d40] min-h-screen font-sans">
-      {/* Parallax Hero */}
-      <motion.div style={{ opacity }} className="relative h-screen flex items-center overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200"
-          alt="Luxury Tailoring"
-          fill
-          className="object-cover opacity-20"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#fdf8f0] via-transparent to-[#fdf8f0]" />
+    <div className="premium-theme min-h-screen bg-[#0a0a0a] text-white font-mono selection:bg-[#f97316] selection:text-black overflow-x-hidden">
+      <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.015]" style={{ backgroundImage: `linear-gradient(rgba(249,115,22,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(249,115,22,0.1) 1px, transparent 1px)`, backgroundSize: "120px 120px" }} />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 w-full">
+      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#0a0a0a]/90 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-10"}`}>
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter">
+            <div className="w-8 h-8 bg-[#f97316] rounded-sm flex items-center justify-center text-black"><Type className="w-4 h-4" /></div>
+            <span className="group-hover:text-[#f97316] transition-colors">KINETIC // <span className="text-white/30">MARQUEE</span></span>
+          </Link>
+          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">
+            {["Work", "Services", "Pricing", "Contact"].map(l => <Link key={l} href="#" className="hover:text-[#f97316] transition-colors">{l}</Link>)}
+          </div>
+          <button className="px-6 py-2.5 bg-[#f97316] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all hidden md:block">Start_Project</button>
+          <button onClick={() => setMenuOpen(true)} className="lg:hidden text-white/60"><Menu className="w-6 h-6" /></button>
+        </div>
+      </nav>
+
+      <AnimatePresence>{menuOpen && (
+        <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-[#0a0a0a] p-8 flex flex-col pt-32">
+          <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40"><X className="w-10 h-10" /></button>
+          {["Work", "Services", "Pricing", "Contact"].map(l => <Link key={l} href="#" onClick={() => setMenuOpen(false)} className="text-5xl font-black tracking-tighter uppercase mb-10">{l}</Link>)}
+        </motion.div>
+      )}</AnimatePresence>
+
+      {/* HERO */}
+      <section className="relative min-h-screen flex flex-col justify-center pt-20">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
           <Reveal>
-            <h1 className="text-6xl md:text-7xl font-black mb-6" style={{ color: '#bf5b2a' }}>
-              LOOM<br />& THREAD
+            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
+              Type <br /> In <br /> <span className="text-[#f97316]">Motion.</span>
             </h1>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <p className="text-xl md:text-2xl text-[#6b5344] max-w-2xl mb-8 font-light">
-              Bespoke tailoring since 1952. Hand-crafted by master artisans. Every garment is a legacy.
+            <p className="max-w-xl text-lg text-white/30 leading-relaxed font-light uppercase tracking-widest italic mb-12">
+              Kinetic typography studio. We make words move, brands breathe, and interfaces dance.
             </p>
-          </Reveal>
-          <Reveal delay={0.4}>
-            <MagneticBtn className="px-8 py-4 bg-[#c9a84c] text-white font-bold rounded-lg hover:shadow-2xl hover:shadow-[#c9a84c]/50 transition-all">
-              Schedule Consultation
-            </MagneticBtn>
+            <div className="flex flex-col sm:flex-row gap-6">
+              <button className="px-12 py-5 bg-[#f97316] text-black text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-[0_0_50px_rgba(249,115,22,0.2)]">View_Work</button>
+              <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">Start_Project</button>
+            </div>
           </Reveal>
         </div>
-      </motion.div>
+      </section>
 
-      {/* Collections Grid */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-4" style={{ color: '#bf5b2a' }}>Collections</h2>
-          <p className="text-[#6b5344] mb-12 text-lg">Curated fabrics from the world's finest mills</p>
-        </Reveal>
+      {/* MARQUEE */}
+      <section className="py-12 border-y border-white/5 overflow-hidden">
+        <motion.div animate={{ x: [0, -1920] }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} className="flex gap-12 whitespace-nowrap">
+          {[...MARQUEE_WORDS, ...MARQUEE_WORDS, ...MARQUEE_WORDS].map((w, i) => (
+            <span key={i} className="text-7xl md:text-9xl font-black uppercase tracking-tighter text-white/[0.03] hover:text-[#f97316]/20 transition-colors">{w}</span>
+          ))}
+        </motion.div>
+        <motion.div animate={{ x: [-1920, 0] }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }} className="flex gap-12 whitespace-nowrap mt-4">
+          {[...MARQUEE_WORDS.reverse(), ...MARQUEE_WORDS, ...MARQUEE_WORDS].map((w, i) => (
+            <span key={i} className="text-7xl md:text-9xl font-black uppercase tracking-tighter text-white/[0.03]">{w}</span>
+          ))}
+        </motion.div>
+      </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {COLLECTIONS.map((col, idx) => (
-            <Reveal key={col.name} delay={idx * 0.1}>
-              <Card className="bg-white border-[#c9a84c]/30 hover:border-[#c9a84c] transition-all group overflow-hidden cursor-pointer">
-                <div className="relative h-48 overflow-hidden">
-                  <Image
-                    src={col.img}
-                    alt={col.name}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
+      {/* FEATURES */}
+      <section className="py-40 bg-[#0c0c0c]">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-6">What We <span className="text-[#f97316]">Do.</span></h2></Reveal>
+          <Reveal delay={0.1}><p className="text-lg text-white/30 max-w-2xl mb-24 uppercase tracking-widest italic font-light">Full-service kinetic type from concept to production-ready code.</p></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            {FEATURES.map((f, i) => (
+              <Reveal key={i} delay={i * 0.05}>
+                <div className="group p-10 bg-[#111] border border-white/5 hover:border-[#f97316]/30 rounded-3xl transition-all">
+                  <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-[#f97316] mb-8 group-hover:bg-[#f97316] group-hover:text-black transition-all">{f.icon}</div>
+                  <h3 className="text-xl font-black uppercase tracking-tighter mb-4 group-hover:text-[#f97316] transition-colors">{f.title}</h3>
+                  <p className="text-sm text-white/30 leading-relaxed">{f.desc}</p>
                 </div>
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-lg mb-1">{col.name}</h3>
-                  <p className="text-sm text-[#6b5344]">{col.desc}</p>
-                </CardContent>
-              </Card>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Bespoke Process */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-12" style={{ color: '#bf5b2a' }}>The Bespoke Journey</h2>
-        </Reveal>
-
-        <Accordion type="single" collapsible className="w-full space-y-4">
-          {[
-            {
-              step: "1. Consultation & Vision",
-              desc: "Meet with our tailoring experts. Discuss your style, lifestyle, and vision for the perfect garment. All conversations are confidential."
-            },
-            {
-              step: "2. Measurement & Fit",
-              desc: "Precise measurements taken by certified tailors. 40+ points of measurement ensure absolute precision. We travel internationally."
-            },
-            {
-              step: "3. Fabric Selection",
-              desc: "Choose from 500+ luxury fabrics. Loro Piana, Zegna, Scabal, Holland & Sherry. Our experts guide every choice."
-            },
-            {
-              step: "4. Pattern & First Fitting",
-              desc: "Master pattern-makers create your unique blocks. First fitting at 60% completion. Fine-tuning ensures perfection."
-            },
-          ].map((item, idx) => (
-            <Reveal key={item.step} delay={idx * 0.1}>
-              <AccordionItem value={`process-${idx}`} className="border-[#c9a84c]/30">
-                <AccordionTrigger className="hover:text-[#bf5b2a] transition-colors text-lg font-bold">
-                  {item.step}
-                </AccordionTrigger>
-                <AccordionContent className="text-[#6b5344]">
-                  {item.desc}
-                </AccordionContent>
-              </AccordionItem>
-            </Reveal>
-          ))}
-        </Accordion>
-      </section>
-
-      {/* Material Sourcing */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-4" style={{ color: '#bf5b2a' }}>Global Sourcing</h2>
-          <p className="text-[#6b5344] mb-12 text-lg">Finest mills from Europe to Asia</p>
-        </Reveal>
-
-        <div className="overflow-hidden bg-white rounded-lg border border-[#c9a84c]/30 p-8">
-          <div className="flex gap-8 md:gap-12 items-center overflow-x-auto pb-4">
-            {["Loro Piana", "Ermenegildo Zegna", "Scabal", "Holland & Sherry", "Dormeuil", "Vitale Barberis", "Cachapoal"].map((mill, idx) => (
-              <Reveal key={mill} delay={idx * 0.1}>
-                <span className="font-bold text-[#bf5b2a] whitespace-nowrap">{mill}</span>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Master Tailors */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-4" style={{ color: '#bf5b2a' }}>Master Craftspeople</h2>
-          <p className="text-[#6b5344] mb-12 text-lg">Three generations of excellence</p>
-        </Reveal>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {MASTERS.map((master, idx) => (
-            <Reveal key={master.name} delay={idx * 0.1}>
-              <Card className="bg-white border-[#c9a84c]/30 hover:border-[#c9a84c] transition-all">
-                <CardContent className="p-8">
-                  <Avatar className="w-16 h-16 mb-4 border-2 border-[#c9a84c]">
-                    <AvatarImage src={master.img} />
-                    <AvatarFallback>{master.name.split(" ")[0][0]}</AvatarFallback>
-                  </Avatar>
-                  <h3 className="font-bold text-lg mb-1">{master.name}</h3>
-                  <p className="text-sm text-[#c9a84c] mb-2">{master.exp} experience</p>
-                  <p className="text-sm text-[#6b5344]">{master.specialty}</p>
-                </CardContent>
-              </Card>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Tasting Notes Template */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-4" style={{ color: '#bf5b2a' }}>Fabric Details</h2>
-          <p className="text-[#6b5344] mb-12 text-lg">Understanding luxury textiles</p>
-        </Reveal>
-
-        <Accordion type="single" collapsible className="w-full space-y-4">
-          {[
-            { fabric: "Loro Piana Storm System", specs: "Weight: 300gsm | Thread count: 120s | Origin: Italy" },
-            { fabric: "Ermenegildo Zegna Super 200s", specs: "Weight: 280gsm | Thread count: 200s | Origin: Italy" },
-            { fabric: "Scabal Royal Twill", specs: "Weight: 320gsm | Thread count: 140s | Origin: Belgium" },
-            { fabric: "Holland & Sherry 100s", specs: "Weight: 250gsm | Thread count: 100s | Origin: UK" },
-          ].map((item, idx) => (
-            <Reveal key={item.fabric} delay={idx * 0.1}>
-              <AccordionItem value={`fabric-${idx}`} className="border-[#c9a84c]/30">
-                <AccordionTrigger className="hover:text-[#bf5b2a] transition-colors">
-                  {item.fabric}
-                </AccordionTrigger>
-                <AccordionContent className="text-[#6b5344] font-mono">
-                  {item.specs}
-                </AccordionContent>
-              </AccordionItem>
-            </Reveal>
-          ))}
-        </Accordion>
-      </section>
-
-      {/* Stats */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              { label: "Est.", value: 1952 },
-              { label: "Garments Made", value: 10, suffix: "K+" },
-              { label: "Countries Served", value: 40 },
-              { label: "Craftspeople", value: 3, suffix: "-Gen" },
-            ].map((stat, idx) => (
-              <Reveal key={stat.label} delay={idx * 0.1}>
-                <div className="text-center p-6 bg-white rounded-lg border border-[#c9a84c]/30">
-                  <div className="text-4xl font-black mb-2" style={{ color: '#c9a84c' }}>
-                    <Counter target={stat.value} suffix={stat.suffix} />
+      {/* TESTIMONIALS */}
+      <section className="py-40 bg-[#0a0a0a] border-y border-white/5">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-24">Client <span className="text-[#f97316]">Voices.</span></h2></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {TESTIMONIALS.map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="p-10 bg-[#111] border border-white/5 rounded-3xl h-full flex flex-col">
+                  <div className="flex gap-1 mb-6">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 text-[#f97316] fill-[#f97316]" />)}</div>
+                  <p className="text-base text-white/40 italic leading-relaxed flex-1 mb-8">&ldquo;{t.quote}&rdquo;</p>
+                  <div className="pt-6 border-t border-white/5">
+                    <div className="font-black uppercase text-sm">{t.name}</div>
+                    <div className="text-[10px] text-white/20 uppercase tracking-widest">{t.role}</div>
                   </div>
-                  <p className="text-[#6b5344]">{stat.label}</p>
                 </div>
               </Reveal>
             ))}
           </div>
-        </Reveal>
+        </div>
       </section>
 
-      {/* FAQ */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-12" style={{ color: '#bf5b2a' }}>FAQ</h2>
-        </Reveal>
-
-        <Accordion type="single" collapsible className="w-full space-y-4">
-          {[
-            { q: "What is the lead time for bespoke?", a: "Typically 8-12 weeks. Rush options available for additional fee." },
-            { q: "How many fittings are needed?", a: "Minimum 2 fittings: one at 60% and final check. International clients: virtual consultations available." },
-            { q: "Can you travel for measurements?", a: "Yes. We travel to London, Paris, New York, Dubai, Tokyo, and Hong Kong quarterly." },
-            { q: "What about alterations later?", a: "Lifetime alterations included for no additional charge. Garments are designed to last generations." },
-          ].map((item, idx) => (
-            <Reveal key={item.q} delay={idx * 0.1}>
-              <AccordionItem value={`faq-${idx}`} className="border-[#c9a84c]/30">
-                <AccordionTrigger className="hover:text-[#bf5b2a] transition-colors">
-                  {item.q}
-                </AccordionTrigger>
-                <AccordionContent className="text-[#6b5344]">
-                  {item.a}
-                </AccordionContent>
-              </AccordionItem>
-            </Reveal>
-          ))}
-        </Accordion>
-      </section>
-
-      {/* CTA */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto text-center">
-        <Reveal>
-          <h2 className="text-5xl font-black mb-6" style={{ color: '#bf5b2a' }}>Commission Your Garment</h2>
-          <p className="text-[#6b5344] mb-8 text-lg max-w-2xl mx-auto">
-            Every piece is a collaboration. Let's create something extraordinary together.
-          </p>
-          <MagneticBtn
-            onClick={() => setOpenConsult(true)}
-            className="px-10 py-4 bg-[#c9a84c] text-white font-bold rounded-lg hover:shadow-2xl hover:shadow-[#c9a84c]/50 transition-all"
-          >
-            Start Your Bespoke Journey
-          </MagneticBtn>
-        </Reveal>
-      </section>
-
-      <Dialog open={openConsult} onOpenChange={setOpenConsult}>
-        <DialogContent className="bg-[#fdf8f0] border-[#c9a84c]/30">
-          <DialogHeader>
-            <DialogTitle style={{ color: '#bf5b2a' }}>Schedule Consultation</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <input placeholder="Full Name" className="w-full px-4 py-2 bg-white border border-[#c9a84c]/30 rounded text-[#1e2d40] placeholder-[#6b5344]" />
-            <input placeholder="Email" type="email" className="w-full px-4 py-2 bg-white border border-[#c9a84c]/30 rounded text-[#1e2d40] placeholder-[#6b5344]" />
-            <select className="w-full px-4 py-2 bg-white border border-[#c9a84c]/30 rounded text-[#1e2d40]">
-              <option>Suiting</option>
-              <option>Shirting</option>
-              <option>Outerwear</option>
-              <option>Full Wardrobe</option>
-            </select>
-            <button className="w-full py-3 bg-[#c9a84c] text-white font-bold rounded hover:opacity-90 transition-opacity">
-              Request Consultation
-            </button>
+      {/* PRICING */}
+      <section className="py-40 bg-[#0c0c0c]">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-24 uppercase text-center">Clear <span className="text-[#f97316]">Pricing.</span></h2></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            {PRICING.map((p, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className={`group p-10 border rounded-3xl transition-all ${p.featured ? "bg-[#f97316]/5 border-[#f97316]/30 scale-105" : "bg-[#111] border-white/5 hover:border-[#f97316]/20"}`}>
+                  <div className="text-[9px] font-bold text-[#f97316] uppercase tracking-widest mb-2">{p.name}</div>
+                  <div className="text-4xl font-black mb-1">{p.price}<span className="text-lg text-white/30">{p.period}</span></div>
+                  <p className="text-[10px] text-white/20 uppercase tracking-widest mb-8">{p.desc}</p>
+                  <div className="space-y-4 pt-8 border-t border-white/5">
+                    {p.features.map((f, j) => <div key={j} className="flex items-center gap-3 text-[10px] text-white/40"><CheckCircle2 className="w-3.5 h-3.5 text-[#f97316]" />{f}</div>)}
+                  </div>
+                  <button className={`mt-8 w-full py-3 text-[10px] font-black uppercase tracking-widest transition-all ${p.featured ? "bg-[#f97316] text-black hover:bg-white" : "border border-white/10 hover:bg-[#f97316] hover:text-black hover:border-transparent"}`}>{p.cta}</button>
+                </div>
+              </Reveal>
+            ))}
           </div>
-        </DialogContent>
-      </Dialog>
+        </div>
+      </section>
+
+      {/* CONTACT / CTA */}
+      <section className="py-40 bg-[#0a0a0a] text-center">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">Let&apos;s <span className="text-[#f97316]">Move.</span></h2>
+            <p className="max-w-xl mx-auto text-sm text-white/30 leading-relaxed font-light mb-16 uppercase tracking-widest italic">Ready to bring your type to life? Tell us about your project.</p>
+            <div className="max-w-md mx-auto flex gap-4">
+              <input type="email" placeholder="your@email.com" className="flex-1 px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-sm font-mono focus:border-[#f97316] focus:outline-none" />
+              <button className="px-8 py-4 bg-[#f97316] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all rounded-xl">Send</button>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <footer className="bg-[#0a0a0a] border-t border-white/5 py-32 px-6 md:px-12">
+        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
+          <div className="col-span-1 md:col-span-2">
+            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-[#f97316] text-black rounded-sm flex items-center justify-center"><Type className="w-4 h-4" /></div><span>KINETIC // MARQUEE</span></Link>
+            <p className="text-[11px] text-white/15 uppercase tracking-[0.2em] max-w-sm leading-relaxed italic">Kinetic typography studio. Type in motion.</p>
+          </div>
+          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#f97316]">Studio</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Work", "Services", "Process", "Pricing"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
+          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#f97316]">Social</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Instagram", "Dribbble", "Twitter", "GitHub"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
+        </div>
+        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 text-center text-[9px] font-bold text-white/10 uppercase tracking-widest">&copy; 2026 KINETIC MARQUEE</div>
+      </footer>
     </div>
-  )
+  );
 }

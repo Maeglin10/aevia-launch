@@ -1,372 +1,265 @@
-"use client"
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Progress } from "@/components/ui/progress"
+"use client";
+import { motion, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import { Flame, Wind, Thermometer, Search, Menu, X, Mountain, TreePine, Droplets, Cloud, Sun, Compass, MapPin, ShieldAlert, Eye, Radio } from "lucide-react";
+import "../premium.css";
 
-function Reveal({ children, delay=0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
-  return <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay }}>{children}</motion.div>
+const MANIFESTS = {
+  hero: { fires_tracked: "2,841", drones: "380", accuracy: "99.2%", status: "SENTINEL_ACTIVE" },
+  systems: [
+    { id: "eye", name: "HAWK // EYE", desc: "Orbital thermal imaging array for early wildfire detection across continental forested zones.", icon: <Eye className="w-5 h-5" />, specs: ["IR + Multispectral", "3m Resolution", "15min Revisit"] },
+    { id: "swarm", name: "SWARM // WING", desc: "Autonomous drone formations for real-time perimeter mapping and suppression coordination.", icon: <Wind className="w-5 h-5" />, specs: ["48hr Endurance", "FLIR Payload", "AI Path-Planning"] },
+    { id: "shield", name: "FIRE // SHIELD", desc: "Predictive ignition modeling using topography, vegetation moisture, and atmospheric telemetry.", icon: <ShieldAlert className="w-5 h-5" />, specs: ["72hr Forecast", "ML Ensemble", "Wind-Vector Sim"] },
+  ],
+  telemetry: [
+    { label: "DETECTION_SPEED", val: 98, color: "#f97316" },
+    { label: "SUPPRESSION_RATE", val: 87, color: "#f97316" },
+    { label: "DRONE_FLEET_READY", val: 94, color: "#f97316" },
+    { label: "SATELLITE_UPLINK", val: 100, color: "#22c55e" },
+  ],
+  active_fires: [
+    { zone: "Sierra_NV_04", severity: "High", hectares: "1,200", status: "Containing" },
+    { zone: "Cascadia_OR_11", severity: "Medium", hectares: "340", status: "Monitored" },
+    { zone: "Boreal_BC_02", severity: "Low", hectares: "85", status: "Suppressed" },
+  ],
+};
+
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+  return <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] }}>{children}</motion.div>;
 }
 
-function Counter({ target, suffix="" }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0)
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
-  useEffect(() => {
-    if (!inView) return
-    const step = Math.ceil(target / 60)
-    const t = setInterval(() => setCount(c => Math.min(c + step, target)), 16)
-    return () => clearInterval(t)
-  }, [inView, target])
-  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>
+function MagneticBtn({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const x = useMotionValue(0), y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 300, damping: 20 }), sy = useSpring(y, { stiffness: 300, damping: 20 });
+  const ref = useRef<HTMLButtonElement>(null);
+  return <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={(e) => { const r = ref.current?.getBoundingClientRect(); if (r) { x.set((e.clientX - r.left - r.width / 2) * 0.4); y.set((e.clientY - r.top - r.height / 2) * 0.4); }}} onMouseLeave={() => { x.set(0); y.set(0); }} className={className}>{children}</motion.button>;
 }
 
-function MagneticBtn({ children, className="" }: { children: React.ReactNode; className?: string }) {
-  const x = useMotionValue(0); const y = useMotionValue(0)
-  const sx = useSpring(x, { stiffness: 500, damping: 25 })
-  const sy = useSpring(y, { stiffness: 500, damping: 25 })
-  const ref = useRef<HTMLButtonElement>(null)
-  const handleMouse = (e: React.MouseEvent) => {
-    const r = ref.current!.getBoundingClientRect()
-    x.set((e.clientX - r.left - r.width/2) * 0.35)
-    y.set((e.clientY - r.top - r.height/2) * 0.35)
-  }
-  return <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={handleMouse} onMouseLeave={() => { x.set(0); y.set(0) }} className={className}>{children}</motion.button>
-}
-
-export default function GrindCoffee() {
-  const { scrollYProgress } = useScroll()
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0])
-  const scale = useTransform(scrollYProgress, [0, 0.3], [1, 0.95])
-
-  const [showSubBuilder, setShowSubBuilder] = useState(false)
-  const [subscriptionTab, setSubscriptionTab] = useState("bean")
-  const [frequency, setFrequency] = useState("monthly")
-
-  const origins = [
-    { name: "ETHIOPIA", notes: "Floral, Fruity, Balanced", farmers: "120 small farms" },
-    { name: "COLOMBIA", notes: "Smooth, Chocolate, Nutty", farmers: "80 co-ops" },
-    { name: "GUATEMALA", notes: "Bold, Spicy, Full-bodied", farmers: "60 estates" },
-    { name: "JAPAN", notes: "Clean, Bright, Delicate", farmers: "12 artisans" },
-  ]
-
-  const brewMethods = [
-    { name: "ESPRESSO", steps: 30, water: "1.5oz", grind: "Fine" },
-    { name: "POUR-OVER", steps: 4, water: "8oz", grind: "Medium" },
-    { name: "FRENCH PRESS", steps: 6, water: "8oz", grind: "Coarse" },
-    { name: "COLD BREW", steps: 2, water: "8oz", grind: "Coarse" },
-  ]
-
-  const cafes = [
-    { name: "ROASTERY BERLIN", address: "Friedrichshain District", roasters: "8 roasters" },
-    { name: "CAFE TOKYO", address: "Shibuya-ku", roasters: "4 roasters" },
-    { name: "ESPRESSO LAB NYC", address: "Brooklyn", roasters: "12 roasters" },
-  ]
-
-  const testimonials = [
-    { text: "Best coffee subscription I've tried. Beans arrive fresh and perfectly roasted.", author: "COFFEE_GURU", avatar: "C" },
-    { text: "The flavor profiles are incredible. Finally found my favorite origin.", author: "JAVA_LOVER", avatar: "J" },
-    { text: "Customer service is amazing. They remembered my roast preference.", author: "BREW_MASTER", avatar: "B" },
-  ]
+export default function PyroSentinelPage() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
 
   return (
-    <div className="bg-[#fdf6ec] text-[#1a0d00] min-h-screen overflow-x-hidden">
-      {/* PARALLAX HERO */}
-      <motion.section style={{ opacity, scale }} className="relative h-screen flex items-center justify-center overflow-hidden">
-        <Image src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&h=900&fit=crop" alt="Coffee" fill className="object-cover brightness-50" />
-        <div className="relative z-10 text-center space-y-8">
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-7xl md:text-8xl font-black uppercase tracking-tighter text-white">
-            GRIND COFFEE
-          </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="text-xl text-white">
-            CRAFT ROASTED. DIRECT FROM ORIGIN. DELIVERED FRESH.
-          </motion.p>
+    <div className="premium-theme min-h-screen bg-[#0a0604] text-white font-mono selection:bg-[#f97316] selection:text-black overflow-x-hidden">
+      {/* BG */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_90%,#1a0a04_0%,transparent_50%)]" />
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `linear-gradient(rgba(249,115,22,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(249,115,22,0.1) 1px, transparent 1px)`, backgroundSize: "70px 70px" }} />
+        <div className="absolute bottom-0 w-full h-[40vh] bg-gradient-to-t from-[#f97316]/5 to-transparent" />
+      </div>
+
+      {/* NAV */}
+      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#0a0604]/90 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-10"}`}>
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter">
+            <div className="w-8 h-8 bg-[#f97316] rounded-sm flex items-center justify-center text-black"><Flame className="w-5 h-5" /></div>
+            <span className="group-hover:text-[#f97316] transition-colors">PYRO // <span className="text-white/40">SENTINEL</span></span>
+          </Link>
+          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
+            {["Fire_Map", "Fleet_Status", "Forecasting", "Command"].map(l => <Link key={l} href="#" className="hover:text-[#f97316] transition-colors">{l}</Link>)}
+          </div>
+          <div className="flex items-center gap-6">
+            <MagneticBtn className="px-6 py-2.5 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[#f97316] transition-all">Access_Command</MagneticBtn>
+            <button onClick={() => setMenuOpen(true)} className="lg:hidden text-white/60"><Menu className="w-6 h-6" /></button>
+          </div>
         </div>
-      </motion.section>
+      </nav>
 
-      {/* ORIGIN STORY TABS */}
-      <Reveal>
-        <section className="py-20 px-6 bg-[#6f4e37]">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-5xl font-black mb-12 text-[#fdf6ec]">ORIGINS</h2>
-            <Tabs defaultValue="Ethiopia" className="w-full">
-              <TabsList className="grid w-full grid-cols-4 bg-black/20 border-2 border-[#fdf6ec]">
-                {origins.map(origin => (
-                  <TabsTrigger key={origin.name} value={origin.name} className="uppercase text-sm font-bold text-[#fdf6ec]">{origin.name}</TabsTrigger>
-                ))}
-              </TabsList>
-              {origins.map(origin => (
-                <TabsContent key={origin.name} value={origin.name} className="mt-12">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                    <div>
-                      <h3 className="text-4xl font-black mb-6 text-[#fdf6ec]">{origin.name}</h3>
-                      <div className="space-y-6 text-[#fdf6ec]">
-                        <div>
-                          <p className="text-sm uppercase font-bold mb-2 opacity-80">FLAVOR PROFILE</p>
-                          <p className="text-2xl font-bold">{origin.notes}</p>
-                        </div>
-                        <div>
-                          <p className="text-sm uppercase font-bold mb-2 opacity-80">PARTNER FARMS</p>
-                          <p className="text-xl">{origin.farmers}</p>
-                        </div>
-                        <Badge className="bg-[#f97316] text-white text-base px-4 py-2">SPECIALTY</Badge>
-                      </div>
-                    </div>
-                    <div className="h-96 bg-black/20 rounded-xl border-2 border-[#fdf6ec]" />
-                  </div>
-                </TabsContent>
-              ))}
-            </Tabs>
+      {/* MOBILE */}
+      <AnimatePresence>{menuOpen && (
+        <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-[#0a0604] p-8 flex flex-col pt-32">
+          <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40"><X className="w-10 h-10" /></button>
+          <div className="flex flex-col gap-10 text-5xl font-black tracking-tighter uppercase">
+            {["Fire_Map", "Fleet_Status", "Forecasting", "Command"].map(l => <Link key={l} href="#" onClick={() => setMenuOpen(false)}>{l}</Link>)}
           </div>
-        </section>
-      </Reveal>
+        </motion.div>
+      )}</AnimatePresence>
 
-      {/* BREW METHOD ACCORDION */}
-      <Reveal>
-        <section className="py-20 px-6">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-5xl font-black mb-12">BREW GUIDE</h2>
-            <Accordion type="single" collapsible className="w-full">
-              {brewMethods.map((method, i) => (
-                <AccordionItem key={i} value={`method-${i}`} className="border-[#6f4e37]">
-                  <AccordionTrigger className="text-2xl font-black hover:text-[#f97316] text-[#1a0d00]">
-                    {method.name}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-gray-700 space-y-4">
-                    <div className="grid grid-cols-3 gap-4">
-                      <div>
-                        <p className="text-sm font-bold mb-1">TIME</p>
-                        <p className="text-lg font-black text-[#6f4e37]">{method.steps} sec</p>
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold mb-1">WATER</p>
-                        <p className="text-lg font-black text-[#6f4e37]">{method.water}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold mb-1">GRIND</p>
-                        <p className="text-lg font-black text-[#6f4e37]">{method.grind}</p>
-                      </div>
+      {/* HERO */}
+      <section className="relative h-screen flex flex-col justify-center pt-20 overflow-hidden">
+        {/* Heat shimmer effect */}
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(5)].map((_, i) => (
+            <motion.div key={i} animate={{ y: [0, -20, 0], opacity: [0.02, 0.06, 0.02] }} transition={{ duration: 4, repeat: Infinity, delay: i * 0.8 }}
+              className="absolute w-full h-32 bg-gradient-to-r from-transparent via-[#f97316]/10 to-transparent" style={{ bottom: `${i * 15}%` }} />
+          ))}
+        </div>
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            <div className="lg:col-span-8">
+              <Reveal>
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="px-3 py-1 bg-[#f97316]/10 border border-[#f97316]/30 text-[#f97316] text-[9px] font-bold uppercase tracking-widest">{MANIFESTS.hero.status}</div>
+                  <div className="text-[9px] text-white/30 tracking-widest uppercase">FIRES: {MANIFESTS.hero.fires_tracked} // DRONES: {MANIFESTS.hero.drones}</div>
+                </div>
+                <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
+                  Wildfire <br /> <span className="text-[#f97316]">Defense.</span> <br /> Autonomous <br /> <span className="text-white/20">Response.</span>
+                </h1>
+                <p className="max-w-2xl text-xl text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">
+                  AI-driven wildfire detection, prediction, and suppression coordination. Protecting forests, communities, and ecosystems with orbital and drone-based sentinel networks.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-6">
+                  <button className="px-12 py-5 bg-[#f97316] text-black text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-[0_0_50px_rgba(249,115,22,0.2)]">Launch_Sentinel</button>
+                  <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">View_Fire_Map</button>
+                </div>
+              </Reveal>
+            </div>
+            <div className="lg:col-span-4 relative hidden lg:block">
+              <Reveal delay={0.2}>
+                <div className="relative aspect-square bg-[#0d0806] border border-white/5 p-12 rounded-3xl overflow-hidden shadow-2xl">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#f97316]/5 to-transparent" />
+                  <div className="relative h-full flex flex-col justify-between">
+                    <div className="flex justify-between items-start">
+                      <div><div className="text-[8px] font-bold text-white/20 uppercase tracking-widest">DETECTION_ACC</div><div className="text-xl font-black text-[#f97316]">{MANIFESTS.hero.accuracy}</div></div>
+                      <div className="w-10 h-10 border border-white/5 rounded-full flex items-center justify-center"><Thermometer className="w-5 h-5 text-white/20 animate-pulse" /></div>
                     </div>
-                    <ol className="space-y-2 list-decimal list-inside">
-                      <li>Add ground coffee to vessel</li>
-                      <li>Pour hot water (200°F)</li>
-                      <li>Stir gently</li>
-                      <li>Let steep or drain</li>
-                    </ol>
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* SUBSCRIPTION BUILDER */}
-      <Reveal>
-        <section className="py-20 px-6 bg-[#6f4e37]">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-5xl font-black mb-12 text-[#fdf6ec]">BUILD YOUR SUBSCRIPTION</h2>
-            <Tabs value={subscriptionTab} onValueChange={setSubscriptionTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-3 bg-black/20 border-2 border-[#fdf6ec]">
-                {["bean", "ground", "capsule"].map(tab => (
-                  <TabsTrigger key={tab} value={tab} className="uppercase text-sm font-bold text-[#fdf6ec]">{tab}</TabsTrigger>
-                ))}
-              </TabsList>
-              {["bean", "ground", "capsule"].map(tab => (
-                <TabsContent key={tab} value={tab} className="mt-12 space-y-8">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="p-8 bg-white rounded-xl">
-                      <h3 className="text-2xl font-black mb-6 text-[#1a0d00]">{tab.toUpperCase()}</h3>
-                      <div className="space-y-4">
-                        <div className="p-4 bg-[#fdf6ec] rounded border-2 border-[#6f4e37]">
-                          <p className="font-bold text-[#6f4e37]">Type: {tab === "bean" ? "Whole Beans" : tab === "ground" ? "Ground" : "Compostable Pods"}</p>
+                    <div className="space-y-10 my-10">
+                      {MANIFESTS.telemetry.map((s, i) => (
+                        <div key={i}>
+                          <div className="flex justify-between text-[8px] font-bold uppercase tracking-widest mb-3"><span className="text-white/40">{s.label}</span><span style={{ color: s.color }}>{s.val}%</span></div>
+                          <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden"><motion.div initial={{ width: 0 }} animate={{ width: `${s.val}%` }} transition={{ duration: 2, delay: 0.5 + i * 0.1 }} className="h-full" style={{ backgroundColor: s.color }} /></div>
                         </div>
-                        <div>
-                          <label className="block text-sm font-bold mb-3 text-[#1a0d00]">FREQUENCY</label>
-                          <div className="grid grid-cols-3 gap-2">
-                            {["weekly", "biweekly", "monthly"].map(freq => (
-                              <button key={freq} onClick={() => setFrequency(freq)} className={`p-3 border-2 font-bold rounded ${frequency === freq ? "bg-[#6f4e37] text-white border-[#6f4e37]" : "border-[#6f4e37] text-[#6f4e37]"}`}>
-                                {freq}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
+                      ))}
                     </div>
-                    <div className="p-8 bg-[#f97316] rounded-xl text-white">
-                      <h4 className="text-2xl font-black mb-6">PREVIEW</h4>
-                      <div className="space-y-3">
-                        <div className="flex justify-between">
-                          <span>1x Specialty Beans</span>
-                          <span className="font-black">$12</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>{frequency.charAt(0).toUpperCase() + frequency.slice(1)} Delivery</span>
-                          <span className="font-black">$2</span>
-                        </div>
-                        <div className="border-t border-white pt-3 flex justify-between text-xl font-black">
-                          <span>Total</span>
-                          <span>$14</span>
-                        </div>
-                      </div>
-                      <button className="w-full mt-6 py-3 bg-white text-[#f97316] font-black hover:bg-[#fdf6ec] transition rounded">
-                        SUBSCRIBE NOW
-                      </button>
+                    <div className="pt-6 border-t border-white/5 flex justify-between items-center text-[8px] font-bold text-white/20 uppercase tracking-widest">
+                      <span>THERMAL_SCAN_ON</span>
+                      <div className="flex items-center gap-2 text-[#f97316]"><div className="w-1.5 h-1.5 bg-[#f97316] rounded-full animate-ping" /><span>MONITORING</span></div>
                     </div>
                   </div>
-                </TabsContent>
-              ))}
-            </Tabs>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* STATS */}
-      <Reveal>
-        <section className="py-20 px-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              {[
-                { label: "ORIGINS", value: 12 },
-                { label: "ROASTERS", value: 8 },
-                { label: "SUBSCRIBERS", value: 50000 },
-                { label: "RATING", value: 4.9, suffix: "★" },
-              ].map((stat, i) => (
-                <Reveal key={i} delay={i * 0.1}>
-                  <div>
-                    <div className="text-4xl font-black text-[#6f4e37]"><Counter target={stat.value} suffix={stat.suffix} /></div>
-                    <p className="text-gray-600 text-sm mt-2">{stat.label}</p>
-                  </div>
-                </Reveal>
-              ))}
+                </div>
+              </Reveal>
             </div>
           </div>
-        </section>
-      </Reveal>
-
-      {/* ROASTERY CAROUSEL */}
-      <Reveal>
-        <section className="py-20 px-6 bg-[#fdf6ec]">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-5xl font-black mb-12">ROASTERIES</h2>
-            <Carousel className="w-full">
-              <CarouselContent>
-                {[1, 2, 3, 4].map(i => (
-                  <CarouselItem key={i} className="basis-full md:basis-1/2">
-                    <div className="aspect-video bg-gradient-to-br from-[#6f4e37] to-[#f97316] rounded-xl flex items-center justify-center">
-                      <span className="text-3xl font-black text-white">Roastery {i}</span>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* CAFE LOCATIONS */}
-      <Reveal>
-        <section className="py-20 px-6">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-5xl font-black mb-12">CAFE LOCATIONS</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {cafes.map((cafe, i) => (
-                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} className="p-8 bg-[#f97316] rounded-xl text-white text-center">
-                  <h3 className="text-2xl font-black mb-4">{cafe.name}</h3>
-                  <p className="mb-4">{cafe.address}</p>
-                  <Badge className="bg-white text-[#f97316]">{cafe.roasters}</Badge>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* TESTIMONIALS */}
-      <Reveal>
-        <section className="py-20 px-6 bg-[#6f4e37]">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-5xl font-black mb-12 text-[#fdf6ec]">COFFEE LOVERS</h2>
-            <Carousel className="w-full">
-              <CarouselContent>
-                {testimonials.map((testi, i) => (
-                  <CarouselItem key={i} className="basis-full md:basis-1/3">
-                    <div className="p-8 bg-[#fdf6ec] rounded-xl">
-                      <p className="text-lg mb-6 italic text-[#1a0d00]">"{testi.text}"</p>
-                      <div className="flex items-center gap-3">
-                        <Avatar>
-                          <AvatarFallback className="bg-[#6f4e37] text-white font-black">{testi.avatar}</AvatarFallback>
-                        </Avatar>
-                        <span className="font-black text-[#6f4e37]">{testi.author}</span>
-                      </div>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* FAQ */}
-      <Reveal>
-        <section className="py-20 px-6">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-5xl font-black mb-12">FAQS</h2>
-            <Accordion type="single" collapsible className="w-full">
-              {[
-                { q: "How long do beans stay fresh?", a: "Best within 2 weeks of roasting. Unopened bags stay fresh for 4 weeks. Store in airtight containers away from light." },
-                { q: "What's your recommended grind?", a: "Depends on brew method. We include grind recommendations with each order. Ask our team anytime." },
-                { q: "Do you offer gifts?", a: "Yes! Gift subscriptions available. Perfect for coffee lovers. Custom messages included." },
-                { q: "Can I change my subscription?", a: "Absolutely. Skip weeks, change origins, or pause anytime. No penalty." },
-              ].map((faq, i) => (
-                <AccordionItem key={i} value={`item-${i}`} className="border-[#6f4e37]">
-                  <AccordionTrigger className="text-lg font-black hover:text-[#f97316] text-[#1a0d00]">{faq.q}</AccordionTrigger>
-                  <AccordionContent className="text-gray-600">{faq.a}</AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* CTA */}
-      <section className="py-20 px-6 bg-gradient-to-b from-[#6f4e37] to-[#1a0d00]">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-5xl font-black mb-6 text-[#fdf6ec]">START YOUR SUBSCRIPTION</h2>
-          <p className="text-[#fdf6ec] mb-8 text-lg">Fresh beans delivered monthly. Perfect every time.</p>
-          <MagneticBtn onClick={() => setShowSubBuilder(true)} className="px-8 py-4 bg-[#f97316] text-white font-black text-lg hover:bg-[#fdf6ec] hover:text-[#6f4e37] transition rounded">
-            SUBSCRIBE NOW
-          </MagneticBtn>
-          <Dialog open={showSubBuilder} onOpenChange={setShowSubBuilder}>
-            <DialogContent className="bg-[#fdf6ec] border-2 border-[#6f4e37]">
-              <DialogHeader>
-                <DialogTitle className="text-[#6f4e37] text-2xl">CUSTOMIZE YOUR ORDER</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4">
-                <input type="text" placeholder="Your name" className="w-full p-3 bg-white border-2 border-[#6f4e37] text-black placeholder-gray-600 rounded" />
-                <input type="email" placeholder="Email" className="w-full p-3 bg-white border-2 border-[#6f4e37] text-black placeholder-gray-600 rounded" />
-                <button className="w-full py-3 bg-[#6f4e37] text-white font-black hover:bg-[#1a0d00] transition rounded">CONTINUE</button>
-              </div>
-            </DialogContent>
-          </Dialog>
         </div>
       </section>
+
+      {/* SYSTEMS */}
+      <section className="py-40 bg-[#0d0806] border-y border-white/5">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
+            <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85]">Defense <br /> <span className="text-[#f97316]">Systems.</span></h2></Reveal>
+            <p className="max-w-md text-sm text-white/30 leading-relaxed uppercase tracking-widest font-light italic">From orbital detection to ground-level suppression, an integrated defense stack engineered for sub-minute wildfire response.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {MANIFESTS.systems.map((p, i) => (
+              <Reveal key={p.id} delay={i * 0.1}>
+                <div className="group p-12 bg-[#0d0806] border border-white/5 hover:border-[#f97316]/30 transition-all flex flex-col h-full rounded-3xl relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#f97316]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="w-16 h-16 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-center text-[#f97316] mb-12 group-hover:bg-[#f97316] group-hover:text-black transition-all">{p.icon}</div>
+                  <h3 className="text-3xl font-black uppercase mb-6 tracking-tighter group-hover:text-[#f97316] transition-colors">{p.name}</h3>
+                  <p className="text-sm text-white/40 leading-relaxed mb-12 flex-1 italic">"{p.desc}"</p>
+                  <div className="space-y-5 pt-10 border-t border-white/5">
+                    {p.specs.map((s, j) => <div key={j} className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest"><div className="w-1.5 h-1.5 bg-[#f97316] rotate-45" />{s}</div>)}
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ACTIVE FIRES */}
+      <section className="py-40 bg-[#0a0604]">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-center">
+            <div className="lg:col-span-6">
+              <Reveal>
+                <div className="relative aspect-video bg-[#0d0806] border border-white/5 rounded-2xl overflow-hidden p-8">
+                  <div className="absolute top-6 left-6 text-[8px] font-bold text-white/20 tracking-widest uppercase">THERMAL_OVERLAY_LIVE</div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    {[...Array(12)].map((_, i) => (
+                      <motion.div key={i} animate={{ opacity: [0.05, 0.3, 0.05], scale: [1, 1.5, 1] }} transition={{ duration: 2 + Math.random() * 2, repeat: Infinity, delay: i * 0.2 }}
+                        className="absolute w-6 h-6 bg-[#f97316]/30 rounded-full blur-md" style={{ left: `${15 + Math.random() * 70}%`, top: `${15 + Math.random() * 70}%` }} />
+                    ))}
+                  </div>
+                  <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center text-[8px] font-bold text-white/20 tracking-widest uppercase">
+                    <span>HOTSPOTS: 12</span><div className="text-[#f97316]">IR_LOCKED</div>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+            <div className="lg:col-span-6">
+              <Reveal>
+                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#f97316] mb-6 block">Active_Incidents</span>
+                <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-12 uppercase">Fire <br /> <span className="text-white/20">Status.</span></h2>
+                <div className="space-y-8">
+                  {MANIFESTS.active_fires.map((f, i) => (
+                    <div key={i} className="group flex flex-col md:flex-row justify-between items-center p-8 bg-white/2 border border-white/5 hover:border-[#f97316]/30 transition-all">
+                      <div className="flex items-center gap-10 mb-6 md:mb-0">
+                        <div className="text-2xl font-black uppercase tracking-tighter">{f.zone}</div>
+                        <div className="text-[10px] font-bold text-white/20 uppercase tracking-widest">{f.hectares} HA</div>
+                      </div>
+                      <div className="flex items-center gap-8 text-[10px] font-bold uppercase tracking-widest">
+                        <span className={`px-2 py-1 rounded text-[8px] ${f.severity === "High" ? "bg-red-500/20 text-red-400" : f.severity === "Medium" ? "bg-yellow-500/20 text-yellow-400" : "bg-green-500/20 text-green-400"}`}>{f.severity}</span>
+                        <div className="flex items-center gap-3">
+                          <div className={`w-1.5 h-1.5 rounded-full ${f.status === "Containing" ? "bg-orange-500 animate-pulse" : f.status === "Suppressed" ? "bg-green-500" : "bg-yellow-500"}`} />
+                          <span>{f.status}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* METRICS */}
+      <section className="py-40 bg-[#0d0806] border-y border-white/5 text-center overflow-hidden">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <h2 className="text-7xl md:text-[12rem] font-black tracking-tighter uppercase leading-[0.85] mb-12 text-white/5">Zero <br /> Burn.</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-16 mt-24">
+              {[{ label: "FIRES_PREVENTED", val: "1,400+" }, { label: "RESPONSE_TIME", val: "<8min" }, { label: "AREA_PROTECTED", val: "12M ha" }, { label: "COMMUNITIES_SAFE", val: "2,200" }].map((s, i) => (
+                <div key={i} className="group"><div className="text-5xl font-black text-white mb-4 group-hover:text-[#f97316] transition-colors">{s.val}</div><div className="text-[10px] font-black text-white/20 uppercase tracking-widest">{s.label}</div></div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-40 bg-[#0a0604]">
+        <div className="max-w-[1500px] mx-auto px-6 md:px-12 text-center">
+          <Reveal>
+            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">Protect <br /> <span className="text-[#f97316]">Earth.</span></h2>
+            <p className="max-w-2xl mx-auto text-sm text-white/40 leading-relaxed font-light mb-16 uppercase tracking-widest italic">Every minute matters. Deploy AI-driven wildfire defense systems to protect forests, wildlife, and communities before ignition spreads.</p>
+            <MagneticBtn className="px-16 py-6 bg-white text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[#f97316] transition-all shadow-[0_0_60px_rgba(249,115,22,0.15)]">Deploy_Sentinel_Grid</MagneticBtn>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="bg-[#0a0604] border-t border-white/5 py-32 px-6 md:px-12">
+        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
+          <div className="col-span-1 md:col-span-2">
+            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-white text-black rounded-sm flex items-center justify-center"><Flame className="w-5 h-5" /></div><span>PYRO // SENTINEL</span></Link>
+            <p className="text-[11px] text-white/20 uppercase tracking-[0.2em] max-w-sm leading-relaxed mb-16 italic">AI-powered wildfire defense infrastructure protecting planetary forests and communities.</p>
+            <div className="flex gap-8">{[Mountain, TreePine, Cloud].map((Icon, i) => <button key={i} className="text-white/20 hover:text-[#f97316] transition-colors"><Icon className="w-5 h-5" /></button>)}</div>
+          </div>
+          <div>
+            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#f97316]">Systems</h4>
+            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+              {["Hawk_Eye", "Swarm_Wing", "Fire_Shield", "Command_Hub"].map(l => <li key={l} className="hover:text-white transition-colors"><Link href="#">{l}</Link></li>)}
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#f97316]">Intel</h4>
+            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+              {["Live_Fire_Map", "Forecast_API", "Research_Papers", "System_Status"].map(l => <li key={l} className="hover:text-white transition-colors"><Link href="#">{l}</Link></li>)}
+            </ul>
+          </div>
+        </div>
+        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[9px] font-bold text-white/10 uppercase tracking-widest">
+          <span>&copy; 2026 PYRO SENTINEL SYSTEMS. ALL RIGHTS RESERVED.</span>
+          <div className="flex gap-10 font-mono"><span>THERMAL_SCAN_ON</span><span>ALL_ZONES_MONITORED</span></div>
+        </div>
+      </footer>
     </div>
-  )
+  );
 }
