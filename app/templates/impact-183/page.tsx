@@ -1,240 +1,33 @@
 "use client";
-
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
-import Image from "next/image";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { Sparkles, Terminal, Activity, Zap, Layers, Menu, Search, ArrowRight, TerminalSquare, Compass } from "lucide-react";
+import { Brain, Cpu, Sparkles, Menu, X, Star, CheckCircle2, Shield, Zap, BarChart3 } from "lucide-react";
 import "../premium.css";
+const FEAT=[{icon:<Brain className="w-6 h-6"/>,t:"Custom AI Models",d:"Fine-tuned LLMs trained on your proprietary data."},{icon:<Zap className="w-6 h-6"/>,t:"Real-Time Inference",d:"Sub-100ms latency with auto-scaling GPU clusters."},{icon:<Shield className="w-6 h-6"/>,t:"Enterprise Security",d:"SOC 2, HIPAA, and GDPR compliant infrastructure."},{icon:<BarChart3 className="w-6 h-6"/>,t:"Analytics Dashboard",d:"Monitor usage, costs, and model performance in real time."},{icon:<Cpu className="w-6 h-6"/>,t:"RAG Pipelines",d:"Retrieval-augmented generation with vector search."},{icon:<Sparkles className="w-6 h-6"/>,t:"AI Agents",d:"Autonomous agents that execute multi-step workflows."}];
+const TM=[{n:"Sarah Chen",r:"CTO, FinTech Startup",q:"Cognix cut our ML infrastructure costs by 70% while improving accuracy."},{n:"Dr. James Park",r:"Head of AI, Pharma",q:"The RAG pipeline handles our 500K document corpus flawlessly. Game-changer."},{n:"Maria Santos",r:"VP Engineering",q:"We replaced three internal tools with one Cognix integration. Incredible."}];
+const PR=[{n:"STARTER",p:"$99",pd:"/mo",f:["10K API calls","1 custom model","Community support","Basic analytics"],c:"Start_Free"},{n:"SCALE",p:"$499",pd:"/mo",f:["100K API calls","5 custom models","Priority support","Advanced analytics","RAG pipeline","Team seats"],c:"Scale_Up",ft:true},{n:"ENTERPRISE",p:"Custom",pd:"",f:["Unlimited calls","Unlimited models","Dedicated GPU","SLA guarantee","Custom integrations","On-prem option"],c:"Contact_Sales"}];
+function Reveal({children,delay=0}:{children:React.ReactNode;delay?:number}){const ref=useRef(null);const iv=useInView(ref,{once:true,margin:"-50px"});return<motion.div ref={ref} initial={{opacity:0,y:20}} animate={iv?{opacity:1,y:0}:{}} transition={{duration:0.8,delay}}>{children}</motion.div>;}
+export default function CognixAIPage(){
+  const[s,setS]=useState(false);const[m,setM]=useState(false);
+  useEffect(()=>{const h=()=>setS(window.scrollY>50);window.addEventListener("scroll",h);return()=>window.removeEventListener("scroll",h);},[]);
+  return(<div className="premium-theme min-h-screen bg-[#060612] text-white font-mono selection:bg-[#22d3ee] selection:text-black overflow-x-hidden">
+    <div className="fixed inset-0 pointer-events-none z-0"><div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_0%,#22d3ee12_0%,transparent_40%)]"/></div>
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${s?"bg-[#060612]/90 backdrop-blur-xl py-4 border-b border-white/5":"bg-transparent py-10"}`}><div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between"><Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter"><div className="w-8 h-8 bg-[#22d3ee] rounded-lg flex items-center justify-center text-black"><Brain className="w-4 h-4"/></div><span className="group-hover:text-[#22d3ee] transition-colors">COGNIX // <span className="text-white/30">AI</span></span></Link><div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">{["Platform","Pricing","Docs","Blog"].map(l=><Link key={l} href="#" className="hover:text-[#22d3ee] transition-colors">{l}</Link>)}</div><button className="px-6 py-2.5 bg-[#22d3ee] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all hidden md:block">Start_Free</button><button onClick={()=>setM(true)} className="lg:hidden"><Menu className="w-6 h-6"/></button></div></nav>
+    <AnimatePresence>{m&&(<motion.div initial={{opacity:0,x:"100%"}} animate={{opacity:1,x:0}} exit={{opacity:0,x:"100%"}} className="fixed inset-0 z-[100] bg-[#060612] p-8 flex flex-col pt-32"><button onClick={()=>setM(false)} className="absolute top-10 right-8"><X className="w-10 h-10"/></button>{["Platform","Pricing","Docs","Blog"].map(l=><Link key={l} href="#" onClick={()=>setM(false)} className="text-5xl font-black tracking-tighter uppercase mb-10">{l}</Link>)}</motion.div>)}</AnimatePresence>
 
-const MODELS = [
-  { icon: <Zap className="w-8 h-8" />, title: "COGNIX_ALPHA", cat: "Agentic", value: "Verified", img: "https://images.unsplash.com/photo-1620712943543-bcc4628c7007?auto=format&fit=crop&q=80&w=1500" },
-  { icon: <Activity className="w-8 h-8" />, title: "NEURAL_SYNC", cat: "Inference", value: "Active", img: "https://images.unsplash.com/photo-1531746790731-6c087fecd05a?auto=format&fit=crop&q=80&w=1500" },
-  { icon: <Layers className="w-8 h-8" />, title: "FLOW_CORE_V4", cat: "Workflow", value: "Locked", img: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=1500" },
-];
+    <section className="relative min-h-screen flex flex-col justify-center pt-20"><div className="max-w-[1500px] mx-auto px-6 md:px-12 relative z-10"><Reveal><div className="px-3 py-1 bg-[#22d3ee]/10 border border-[#22d3ee]/30 text-[#22d3ee] text-[9px] font-bold uppercase tracking-widest inline-block mb-8">AI_PLATFORM_V4</div><h1 className="text-7xl md:text-9xl lg:text-[10rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">Ship AI.<br/><span className="text-[#22d3ee]">Faster.</span></h1><p className="max-w-xl text-lg text-white/30 leading-relaxed font-light uppercase tracking-widest italic mb-12">Custom AI models, RAG pipelines, and autonomous agents. Enterprise-ready.</p><div className="flex flex-col sm:flex-row gap-6"><button className="px-12 py-5 bg-[#22d3ee] text-black text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-[0_0_50px_rgba(34,211,238,0.15)]">Try_Free</button><button className="px-12 py-5 border border-white/10 text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">View_Docs</button></div></Reveal></div></section>
 
-function TextScramble({ text }: { text: string }) {
-  const [display, setDisplay] = useState(text);
-  const chars = "!<>-_\\/[]{}—=+*^?#________";
-  
-  useEffect(() => {
-    let iteration = 0;
-    const interval = setInterval(() => {
-      setDisplay(prev => 
-        text.split("").map((char, index) => {
-          if (index < iteration) return text[index];
-          return chars[Math.floor(Math.random() * chars.length)];
-        }).join("")
-      );
-      if (iteration >= text.length) clearInterval(interval);
-      iteration += 1/3;
-    }, 30);
-    return () => clearInterval(interval);
-  }, [text]);
+    <section className="py-32 bg-[#080818] border-y border-white/5"><div className="max-w-[1500px] mx-auto px-6 md:px-12"><Reveal><div className="grid grid-cols-2 md:grid-cols-4 gap-16 text-center">{[{v:"50M+",l:"API_CALLS/DAY"},{v:"<100ms",l:"LATENCY"},{v:"99.99%",l:"UPTIME"},{v:"2,000+",l:"COMPANIES"}].map((s,i)=><div key={i}><div className="text-4xl md:text-5xl font-black text-[#22d3ee] mb-2">{s.v}</div><div className="text-[9px] font-black text-white/15 uppercase tracking-widest">{s.l}</div></div>)}</div></Reveal></div></section>
 
-  return <span>{display}</span>;
-}
+    <section className="py-40 bg-[#060612]"><div className="max-w-[1500px] mx-auto px-6 md:px-12"><Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-24">Platform <span className="text-[#22d3ee]">Features.</span></h2></Reveal><div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">{FEAT.map((f,i)=><Reveal key={i} delay={i*0.05}><div className="group p-10 bg-[#080818] border border-white/5 hover:border-[#22d3ee]/30 rounded-3xl transition-all"><div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-[#22d3ee] mb-8 group-hover:bg-[#22d3ee] group-hover:text-black transition-all">{f.icon}</div><h3 className="text-xl font-black uppercase tracking-tighter mb-4 group-hover:text-[#22d3ee] transition-colors">{f.t}</h3><p className="text-sm text-white/30">{f.d}</p></div></Reveal>)}</div></div></section>
 
-export default function CognixFiSPA() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: containerRef });
-  
-  const yHero = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1]);
-  
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 40, damping: 20 });
-  const springY = useSpring(mouseY, { stiffness: 40, damping: 20 });
+    <section className="py-40 bg-[#080818] border-y border-white/5"><div className="max-w-[1500px] mx-auto px-6 md:px-12"><Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-24">Customer <span className="text-[#22d3ee]">Stories.</span></h2></Reveal><div className="grid grid-cols-1 md:grid-cols-3 gap-8">{TM.map((t,i)=><Reveal key={i} delay={i*0.1}><div className="p-10 bg-[#0a0a1a] border border-white/5 rounded-3xl h-full flex flex-col"><div className="flex gap-1 mb-6">{[...Array(5)].map((_,j)=><Star key={j} className="w-4 h-4 text-[#22d3ee] fill-[#22d3ee]"/>)}</div><p className="text-base text-white/40 italic leading-relaxed flex-1 mb-8">&ldquo;{t.q}&rdquo;</p><div className="pt-6 border-t border-white/5"><div className="font-black uppercase text-sm">{t.n}</div><div className="text-[10px] text-white/20 uppercase tracking-widest">{t.r}</div></div></div></Reveal>)}</div></div></section>
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX - window.innerWidth / 2);
-      mouseY.set(e.clientY - window.innerHeight / 2);
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX, mouseY]);
+    <section className="py-40 bg-[#060612]"><div className="max-w-[1500px] mx-auto px-6 md:px-12"><Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-24 uppercase text-center">Simple <span className="text-[#22d3ee]">Pricing.</span></h2></Reveal><div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">{PR.map((p,i)=><Reveal key={i} delay={i*0.1}><div className={`group p-10 border rounded-3xl transition-all ${p.ft?"bg-[#22d3ee]/5 border-[#22d3ee]/30 scale-105":"bg-[#080818] border-white/5"}`}><div className="text-[9px] font-bold text-[#22d3ee] uppercase tracking-widest mb-2">{p.n}</div><div className="text-4xl font-black mb-1">{p.p}<span className="text-lg text-white/30">{p.pd}</span></div><div className="space-y-4 mt-8 pt-8 border-t border-white/5">{p.f.map((f,j)=><div key={j} className="flex items-center gap-3 text-[10px] text-white/40"><CheckCircle2 className="w-3.5 h-3.5 text-[#22d3ee]"/>{f}</div>)}</div><button className={`mt-8 w-full py-3 text-[10px] font-black uppercase tracking-widest transition-all rounded-lg ${p.ft?"bg-[#22d3ee] text-black":"border border-white/10 hover:bg-[#22d3ee] hover:text-black"}`}>{p.c}</button></div></Reveal>)}</div></div></section>
 
-  return (
-    <div ref={containerRef} className="premium-theme bg-[#050505] text-[#FAFAFA] min-h-screen font-sans selection:bg-[#6366F1] selection:text-white overflow-hidden relative uppercase">
-      
-      {/* AI GRID & NOISE */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.05)_1px,transparent_1px)] bg-[size:10rem_10rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)]" />
-        <motion.div 
-           style={{ x: springX, y: springY }}
-           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] bg-[#6366F1] opacity-[0.05] blur-[150px] rounded-full mix-blend-screen" 
-        />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.1] mix-blend-screen" />
-      </div>
+    <section className="py-40 bg-[#080818] text-center border-t border-white/5"><div className="max-w-[1500px] mx-auto px-6 md:px-12"><Reveal><h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">Build With <span className="text-[#22d3ee]">AI.</span></h2><button className="px-16 py-6 bg-[#22d3ee] text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-[0_0_60px_rgba(34,211,238,0.1)]">Get_Started</button></Reveal></div></section>
 
-      {/* HEADER */}
-      <header className="fixed top-0 left-0 w-full px-6 md:px-12 py-10 flex justify-between items-center z-50 bg-[#050505]/50 backdrop-blur-3xl border-b border-white/5">
-        <Link href="/" className="font-black text-2xl tracking-[0.3em] text-white flex items-center gap-4 italic uppercase text-center md:text-left">
-           COGNIX<span className="text-[#6366F1]">.AI</span>
-        </Link>
-        
-        <nav className="hidden lg:flex gap-16 font-black text-[10px] uppercase tracking-[0.6em] text-white/30 text-center">
-            <Link href="#" className="hover:text-[#6366F1] transition-colors group">
-               Platform<span className="inline-block w-0 group-hover:w-3 transition-all overflow-hidden text-[#6366F1] italic">.</span>
-            </Link>
-            <Link href="#" className="hover:text-[#6366F1] transition-colors group">
-               Models<span className="inline-block w-0 group-hover:w-3 transition-all overflow-hidden text-[#6366F1] italic">.</span>
-            </Link>
-            <Link href="#" className="hover:text-[#6366F1] transition-colors group">
-               API_Access<span className="inline-block w-0 group-hover:w-3 transition-all overflow-hidden text-[#6366F1] italic">.</span>
-            </Link>
-        </nav>
-        
-        <div className="flex items-center gap-10">
-           <button className="bg-white text-black px-12 py-4 font-black text-[10px] uppercase tracking-[0.4em] hover:bg-[#6366F1] hover:text-white transition-all shadow-[0_0_40px_rgba(99,102,241,0.3)]">
-              Console_Login
-           </button>
-           <Menu className="w-6 h-6 text-[#6366F1] cursor-pointer" />
-        </div>
-      </header>
-
-      {/* HERO SECTION */}
-      <section className="relative h-screen flex flex-col justify-center items-center px-6 text-center z-10 pt-20 overflow-hidden text-center">
-         <motion.div style={{ scale: heroScale, y: yHero }} className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]/40" />
-         </motion.div>
-         
-         <div className="relative z-10 max-w-7xl w-full text-center">
-            <motion.div 
-               initial={{ opacity: 0, scale: 0.95 }}
-               animate={{ opacity: 1, scale: 1 }}
-               transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            >
-               <div className="inline-flex items-center gap-4 font-black text-[10px] uppercase tracking-[1em] text-[#6366F1] mb-16 border-l-2 border-[#6366F1] pl-10 italic font-mono text-center">
-                  Neural_Capture // 0183_Alpha
-               </div>
-               
-               <h1 className="text-7xl md:text-[14vw] font-black italic uppercase leading-[0.75] tracking-tighter mb-20 text-white text-center">
-                  <TextScramble text="ADAPT." /><br/>
-                  <span className="text-transparent" style={{ WebkitTextStroke: "2px rgba(255,255,255,0.6)" }}>INTELLIGENCE.</span>
-               </h1>
-               
-               <p className="text-xl md:text-3xl font-light italic text-white/30 max-w-3xl mx-auto mb-24 leading-relaxed uppercase tracking-widest text-center">
-                  Structural allocation for neural intent. Architecting the future of cognition with tectonic precision.
-               </p>
-               
-               <div className="flex flex-col md:flex-row gap-16 justify-center items-center font-mono text-center">
-                  <div className="flex items-center gap-8 group cursor-pointer">
-                     <div className="w-20 h-px bg-[#6366F1]/30 group-hover:w-32 transition-all" />
-                     <span className="text-[10px] font-black uppercase tracking-[0.8em] text-white">Start_Building</span>
-                  </div>
-                  <div className="hidden md:block w-px h-16 bg-white/5" />
-                  <div className="font-black text-[9px] uppercase tracking-[0.6em] text-white/10 italic text-center">
-                     Inference Optimized // Real-time // Enterprise
-                  </div>
-               </div>
-            </motion.div>
-         </div>
-
-         {/* Neural HUD */}
-         <div className="absolute right-12 bottom-12 flex flex-col items-end gap-4 font-black text-[8px] uppercase tracking-[1em] text-[#6366F1]/20 hidden md:flex italic font-mono text-center">
-            <span>NEURAL_SYNC: ACTIVE</span>
-            <div className="flex gap-1 h-12 items-end">
-               {[1, 2, 3, 4, 5].map(i => <motion.div key={i} animate={{ height: ['20%', '100%', '40%'] }} transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }} className="w-[1px] bg-[#6366F1]" />)}
-            </div>
-         </div>
-         
-         <div className="absolute left-12 bottom-12 hidden md:block">
-            <div className="flex flex-col gap-2 text-[8px] font-black uppercase tracking-[0.4em] text-white/10 italic font-mono text-center">
-               <span>NODES: 4,096</span>
-               <span>LATENCY: 12MS</span>
-               <span>STATUS: OPTIMAL</span>
-            </div>
-         </div>
-      </section>
-
-      {/* MODELS GRID */}
-      <section className="py-48 px-6 md:px-12 max-w-[1800px] mx-auto relative z-10 bg-[#050505]">
-         <div className="flex flex-col md:flex-row justify-between items-end mb-40 border-b border-white/10 pb-20 gap-16 text-center md:text-left">
-            <div>
-               <span className="text-[10px] font-black uppercase tracking-[2em] text-[#6366F1] mb-8 block italic font-mono text-center md:text-left">Cognix_Manifest</span>
-               <h2 className="text-6xl md:text-[10vw] font-black italic uppercase tracking-tighter text-white leading-none text-center md:text-left">The <span className="text-[#6366F1]/20">Models_</span></h2>
-            </div>
-            <div className="flex gap-16 text-[10px] font-black uppercase tracking-[0.6em] text-white/20 italic font-mono text-center md:text-left">
-               <span>Records: [03]</span>
-               <span>Status: [Verified]</span>
-            </div>
-         </div>
-
-         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 text-center">
-            {MODELS.map((p, i) => (
-                <motion.div 
-                   key={i} 
-                   initial={{ opacity: 0, y: 80 }}
-                   whileInView={{ opacity: 1, y: 0 }}
-                   viewport={{ once: true, margin: "-100px" }}
-                   transition={{ duration: 1.2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                   className="group relative h-[85vh] bg-white/5 border border-white/5 overflow-hidden cursor-pointer hover:border-[#6366F1]/30 transition-all shadow-2xl text-center"
-                >
-                    <Image src={p.img} alt={p.title} fill className="object-cover opacity-30 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 text-center" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-95 text-center" />
-                    <div className="absolute inset-0 bg-white/5 group-hover:bg-transparent transition-colors duration-700 text-center" />
-                    
-                    <div className="absolute inset-16 flex flex-col justify-between z-10 font-mono text-white text-center">
-                        <div className="flex justify-between items-start text-center">
-                           <div className="p-5 bg-white/5 border border-white/10 rounded-none group-hover:bg-[#6366F1] group-hover:text-white transition-all shadow-xl text-center">
-                              {p.icon}
-                           </div>
-                           <div className="text-[10px] font-black uppercase tracking-[0.8em] text-[#6366F1] italic font-mono text-center">Ref_0x{i+183}</div>
-                        </div>
-                        
-                        <div className="text-center">
-                           <span className="text-[10px] uppercase tracking-[0.8em] text-[#6366F1] mb-8 block italic font-black text-center">{p.cat} // Verified</span>
-                           <h3 className="text-5xl md:text-6xl font-black italic uppercase tracking-tighter mb-16 text-white group-hover:tracking-widest transition-all leading-[0.8] text-center">{p.title}</h3>
-                           <div className="flex items-center gap-8 text-[10px] font-black uppercase tracking-[0.6em] opacity-0 group-hover:opacity-100 transition-all translate-y-10 group-hover:translate-y-0 text-white text-center justify-center">
-                              Documentation <ArrowRight className="w-6 h-6 text-center" />
-                           </div>
-                        </div>
-                    </div>
-                </motion.div>
-            ))}
-         </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="py-48 px-6 md:px-12 border-t border-white/5 relative z-10 bg-[#050505]">
-         <div className="max-w-[1800px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-40 text-center md:text-left">
-            <div className="max-w-2xl text-center md:text-left">
-               <div className="text-[#6366F1] mb-16 flex items-center gap-6 font-black text-2xl italic uppercase tracking-widest font-mono justify-center md:justify-start text-center md:text-left">
-                  <Activity className="w-10 h-10 text-center md:text-left" /> Cognix_Logs
-               </div>
-               <p className="text-4xl md:text-6xl font-light italic leading-[0.9] text-white/20 uppercase tracking-tighter mb-20 text-center md:text-left">
-                  WE TREAT INTELLIGENCE AS ARCHITECTURE. EVERY PARAMETER A FUNCTION.
-               </p>
-               <div className="flex gap-20 font-black text-[10px] uppercase tracking-[0.8em] text-[#6366F1]/40 italic font-mono justify-center md:justify-start text-center md:text-left">
-                  <span>Berlin</span>
-                  <span>London</span>
-                  <span>NYC</span>
-               </div>
-            </div>
-            <div className="flex flex-col justify-between items-end text-right font-mono text-center md:text-right">
-               <div className="w-full text-center md:text-right">
-                  <h4 className="text-[12vw] font-black italic uppercase tracking-tighter text-white opacity-[0.02] leading-none mb-20 text-center md:text-right">COGNIX</h4>
-                  <nav className="flex flex-col gap-10 font-black text-[10px] uppercase tracking-[0.8em] text-white/10 text-center md:text-right">
-                     <Link href="#" className="hover:text-[#6366F1] transition-colors group">
-                        Instagram<span className="text-[#6366F1]/0 group-hover:text-[#6366F1] transition-all">_</span>
-                     </Link>
-                     <Link href="#" className="hover:text-[#6366F1] transition-colors group">
-                        Console<span className="text-[#6366F1]/0 group-hover:text-[#6366F1] transition-all">_</span>
-                     </Link>
-                     <Link href="#" className="hover:text-[#6366F1] transition-colors group">
-                        Legal<span className="text-[#6366F1]/0 group-hover:text-[#6366F1] transition-all">_</span>
-                     </Link>
-                  </nav>
-               </div>
-               <div className="font-black text-[9px] uppercase tracking-[1.5em] text-white/5 mt-32 italic text-center md:text-right">
-                  &copy; 2026 // COGNIX_INTELLIGENCE_SYSTEMS&trade;
-               </div>
-            </div>
-         </div>
-      </footer>
-    </div>
-  );
+    <footer className="bg-[#060612] border-t border-white/5 py-32 px-6 md:px-12"><div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24"><div className="col-span-1 md:col-span-2"><Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-[#22d3ee] text-black rounded-lg flex items-center justify-center"><Brain className="w-4 h-4"/></div><span>COGNIX // AI</span></Link><p className="text-[11px] text-white/15 uppercase tracking-[0.2em] max-w-sm italic">AI platform for enterprise.</p></div><div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#22d3ee]">Product</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Platform","Docs","Status"].map(l=><li key={l}><Link href="#">{l}</Link></li>)}</ul></div><div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#22d3ee]">Connect</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Twitter","GitHub","Contact"].map(l=><li key={l}><Link href="#">{l}</Link></li>)}</ul></div></div><div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 text-center text-[9px] font-bold text-white/10 uppercase tracking-widest">&copy; 2026 COGNIX AI</div></footer>
+  </div>);
 }

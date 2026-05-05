@@ -1,241 +1,35 @@
 "use client";
-
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
-import Image from "next/image";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { Ticket, Clock, MapPin, Menu, Search, ArrowRight, Layers, Activity, Zap, Compass } from "lucide-react";
+import { Frame, Eye, Calendar, Menu, X, Star, CheckCircle2, Ticket, BookOpen, Users } from "lucide-react";
 import "../premium.css";
+const EXHI=[{t:"Structures of Silence",a:"Yoko Abe",c:"INSTALLATION",y:"2026"},{t:"Digital Brutalism",a:"Max Werner",c:"DIGITAL",y:"2025"},{t:"The Weight of Light",a:"Ana Morales",c:"SCULPTURE",y:"2026"},{t:"Grid Theory",a:"Collective Void",c:"MIXED MEDIA",y:"2025"}];
+const SVC=[{icon:<Frame className="w-6 h-6"/>,t:"Permanent Collection",d:"3,000+ works spanning modern and contemporary art."},{icon:<Eye className="w-6 h-6"/>,t:"Rotating Exhibitions",d:"Six major exhibitions annually from global artists."},{icon:<Calendar className="w-6 h-6"/>,t:"Events & Talks",d:"Artist talks, workshops, and opening night receptions."},{icon:<BookOpen className="w-6 h-6"/>,t:"Research Library",d:"50,000 volumes of art history and criticism."},{icon:<Users className="w-6 h-6"/>,t:"Education Programs",d:"K-12, university, and adult learning workshops."},{icon:<Ticket className="w-6 h-6"/>,t:"Membership",d:"Unlimited access, previews, and exclusive events."}];
+const TM=[{n:"Dr. Elena Voss",r:"Art Critic",q:"MoMA Structure is the most important new museum of the decade. The architecture alone is worth the visit."},{n:"Kenji Nakamura",r:"Collector",q:"Their curation is extraordinary. Every visit reveals something new."},{n:"Sophie Müller",r:"Artist",q:"Being exhibited here was a career-defining moment. Their support for artists is genuine."}];
+const PR=[{n:"DAY PASS",p:"$25",pd:"/visit",f:["All galleries","Current exhibitions","Audio guide","Gift shop discount"],c:"Buy_Ticket"},{n:"ANNUAL",p:"$120",pd:"/year",f:["Unlimited visits","Member previews","Guest passes","Event invites","10% shop discount"],c:"Join_Now",ft:true},{n:"PATRON",p:"$500",pd:"/year",f:["All Annual benefits","Private tours","Curator dinners","Name recognition","Tax deduction"],c:"Become_Patron"}];
+function Reveal({children,delay=0}:{children:React.ReactNode;delay?:number}){const ref=useRef(null);const iv=useInView(ref,{once:true,margin:"-50px"});return<motion.div ref={ref} initial={{opacity:0,y:20}} animate={iv?{opacity:1,y:0}:{}} transition={{duration:0.8,delay}}>{children}</motion.div>;}
+export default function MoMAStructurePage(){
+  const[s,setS]=useState(false);const[m,setM]=useState(false);
+  useEffect(()=>{const h=()=>setS(window.scrollY>50);window.addEventListener("scroll",h);return()=>window.removeEventListener("scroll",h);},[]);
+  return(<div className="premium-theme min-h-screen bg-[#fafafa] text-[#0a0a0a] font-mono selection:bg-[#0a0a0a] selection:text-white overflow-x-hidden">
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${s?"bg-[#fafafa]/90 backdrop-blur-xl py-4 border-b border-[#0a0a0a]/10":"bg-transparent py-10"}`}><div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between"><Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter"><div className="w-8 h-8 bg-[#0a0a0a] rounded-none flex items-center justify-center text-white"><Frame className="w-4 h-4"/></div><span className="group-hover:text-[#0a0a0a]/60 transition-colors">MOMA // <span className="text-[#0a0a0a]/30">STRUCTURE</span></span></Link><div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#0a0a0a]/30">{["Exhibitions","Collection","Visit","Join"].map(l=><Link key={l} href="#" className="hover:text-[#0a0a0a] transition-colors">{l}</Link>)}</div><button className="px-6 py-2.5 bg-[#0a0a0a] text-white text-[10px] font-black uppercase tracking-widest hover:bg-[#0a0a0a]/80 transition-all hidden md:block">Tickets</button><button onClick={()=>setM(true)} className="lg:hidden"><Menu className="w-6 h-6"/></button></div></nav>
+    <AnimatePresence>{m&&(<motion.div initial={{opacity:0,x:"100%"}} animate={{opacity:1,x:0}} exit={{opacity:0,x:"100%"}} className="fixed inset-0 z-[100] bg-[#fafafa] p-8 flex flex-col pt-32"><button onClick={()=>setM(false)} className="absolute top-10 right-8"><X className="w-10 h-10"/></button>{["Exhibitions","Collection","Visit","Join"].map(l=><Link key={l} href="#" onClick={()=>setM(false)} className="text-5xl font-black tracking-tighter uppercase mb-10">{l}</Link>)}</motion.div>)}</AnimatePresence>
 
-const EXHIBITIONS = [
-  { icon: <Layers className="w-8 h-8" />, title: "FORM_CHAOS_SC", cat: "Sculpture", value: "Verified", img: "https://images.unsplash.com/photo-1543857778-c4a1a3e0b2eb?auto=format&fit=crop&q=80&w=1500" },
-  { icon: <Activity className="w-8 h-8" />, title: "KINETIC_FLOW_V2", cat: "Installation", value: "Active", img: "https://images.unsplash.com/photo-1554188248-986adbb73be4?auto=format&fit=crop&q=80&w=1500" },
-  { icon: <Zap className="w-8 h-8" />, title: "LIGHT_VOID_CORE", cat: "Digital", value: "Locked", img: "https://images.unsplash.com/photo-1561839561-b13bcfe95249?auto=format&fit=crop&q=80&w=1500" },
-];
+    <section className="relative min-h-screen flex flex-col justify-center pt-20"><div className="max-w-[1500px] mx-auto px-6 md:px-12 relative z-10"><Reveal><div className="px-3 py-1 bg-[#0a0a0a]/5 border border-[#0a0a0a]/10 text-[#0a0a0a]/60 text-[9px] font-bold uppercase tracking-widest inline-block mb-8">NOW_EXHIBITING</div><h1 className="text-7xl md:text-9xl lg:text-[10rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">Art.<br/>Architecture.<br/><span className="text-[#0a0a0a]/30">Structure.</span></h1><p className="max-w-xl text-lg text-[#0a0a0a]/40 leading-relaxed font-light uppercase tracking-widest italic mb-12">Museum of modern art & architecture. Where form meets meaning.</p><div className="flex flex-col sm:flex-row gap-6"><button className="px-12 py-5 bg-[#0a0a0a] text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-[#0a0a0a]/80 transition-all">Buy_Tickets</button><button className="px-12 py-5 border-2 border-[#0a0a0a] text-[10px] font-black uppercase tracking-[0.4em] hover:bg-[#0a0a0a] hover:text-white transition-all">Plan_Visit</button></div></Reveal></div></section>
 
-function TextScramble({ text }: { text: string }) {
-  const [display, setDisplay] = useState(text);
-  const chars = "!<>-_\\/[]{}—=+*^?#________";
-  
-  useEffect(() => {
-    let iteration = 0;
-    const interval = setInterval(() => {
-      setDisplay(prev => 
-        text.split("").map((char, index) => {
-          if (index < iteration) return text[index];
-          return chars[Math.floor(Math.random() * chars.length)];
-        }).join("")
-      );
-      if (iteration >= text.length) clearInterval(interval);
-      iteration += 1/3;
-    }, 30);
-    return () => clearInterval(interval);
-  }, [text]);
+    <section className="py-40 bg-white border-y-4 border-[#0a0a0a]"><div className="max-w-[1500px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center"><Reveal><span className="text-[10px] text-[#0a0a0a]/60 font-bold uppercase tracking-[0.4em] mb-6 block">About</span><h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.85] mb-8 uppercase">Since <span className="text-[#0a0a0a]/30">1929.</span></h2><p className="text-base text-[#0a0a0a]/40 leading-relaxed mb-12">MoMA Structure redefines the museum as a living, breathing architectural experience. Our brutalist campus houses 3,000+ works across 12 galleries.</p><div className="flex gap-16">{[{v:"3K+",l:"WORKS"},{v:"12",l:"GALLERIES"},{v:"1.2M",l:"VISITORS/YR"}].map((s,i)=><div key={i}><div className="text-3xl font-black">{s.v}</div><div className="text-[9px] font-bold text-[#0a0a0a]/20 uppercase tracking-widest">{s.l}</div></div>)}</div></Reveal><Reveal delay={0.15}><div className="w-full aspect-square bg-[#0a0a0a] rounded-none flex items-center justify-center"><Frame className="w-20 h-20 text-white/10"/></div></Reveal></div></section>
 
-  return <span>{display}</span>;
-}
+    <section className="py-40 bg-[#fafafa]"><div className="max-w-[1500px] mx-auto px-6 md:px-12"><Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-24">Current <span className="text-[#0a0a0a]/30">Shows.</span></h2></Reveal><div className="grid grid-cols-1 md:grid-cols-2 gap-8">{EXHI.map((e,i)=><Reveal key={i} delay={i*0.05}><div className="group cursor-pointer"><div className="w-full aspect-[16/10] bg-[#0a0a0a]/5 border-2 border-[#0a0a0a]/10 rounded-none flex items-center justify-center mb-6 group-hover:bg-[#0a0a0a] group-hover:border-[#0a0a0a] transition-all"><Eye className="w-12 h-12 text-[#0a0a0a]/15 group-hover:text-white/20 transition-colors"/></div><div className="flex items-center gap-4 mb-2"><span className="text-[9px] font-bold text-[#0a0a0a]/60 uppercase tracking-widest">{e.c}</span><span className="text-[9px] text-[#0a0a0a]/20 uppercase tracking-widest">{e.y}</span></div><h3 className="text-2xl font-black uppercase tracking-tighter group-hover:text-[#0a0a0a]/60 transition-colors mb-1">{e.t}</h3><p className="text-sm text-[#0a0a0a]/30">{e.a}</p></div></Reveal>)}</div></div></section>
 
-export default function MoMASPA() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: containerRef });
-  
-  const yHero = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1]);
-  
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 40, damping: 20 });
-  const springY = useSpring(mouseY, { stiffness: 40, damping: 20 });
+    <section className="py-40 bg-white border-y-4 border-[#0a0a0a]"><div className="max-w-[1500px] mx-auto px-6 md:px-12"><Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-24">Museum <span className="text-[#0a0a0a]/30">Programs.</span></h2></Reveal><div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">{SVC.map((f,i)=><Reveal key={i} delay={i*0.05}><div className="group p-10 bg-[#fafafa] border-2 border-[#0a0a0a]/10 hover:border-[#0a0a0a] rounded-none transition-all"><div className="w-14 h-14 bg-[#0a0a0a]/5 rounded-none flex items-center justify-center text-[#0a0a0a] mb-8 group-hover:bg-[#0a0a0a] group-hover:text-white transition-all">{f.icon}</div><h3 className="text-xl font-black uppercase tracking-tighter mb-4">{f.t}</h3><p className="text-sm text-[#0a0a0a]/40">{f.d}</p></div></Reveal>)}</div></div></section>
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX - window.innerWidth / 2);
-      mouseY.set(e.clientY - window.innerHeight / 2);
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX, mouseY]);
+    <section className="py-40 bg-[#fafafa]"><div className="max-w-[1500px] mx-auto px-6 md:px-12"><Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-24">Visitor <span className="text-[#0a0a0a]/30">Reviews.</span></h2></Reveal><div className="grid grid-cols-1 md:grid-cols-3 gap-8">{TM.map((t,i)=><Reveal key={i} delay={i*0.1}><div className="p-10 bg-white border-2 border-[#0a0a0a]/10 rounded-none h-full flex flex-col"><div className="flex gap-1 mb-6">{[...Array(5)].map((_,j)=><Star key={j} className="w-4 h-4 text-[#0a0a0a] fill-[#0a0a0a]"/>)}</div><p className="text-base text-[#0a0a0a]/50 italic leading-relaxed flex-1 mb-8">&ldquo;{t.q}&rdquo;</p><div className="pt-6 border-t-2 border-[#0a0a0a]/10"><div className="font-black uppercase text-sm">{t.n}</div><div className="text-[10px] text-[#0a0a0a]/30 uppercase tracking-widest">{t.r}</div></div></div></Reveal>)}</div></div></section>
 
-  return (
-    <div ref={containerRef} className="premium-theme bg-[#E4E2DE] text-[#8B0000] min-h-screen font-sans selection:bg-[#8B0000] selection:text-[#E4E2DE] overflow-hidden relative uppercase">
-      
-      {/* MUSEUM GRID & NOISE */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(139,0,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,0,0,0.05)_1px,transparent_1px)] bg-[size:10rem_10rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)]" />
-        <motion.div 
-           style={{ x: springX, y: springY }}
-           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] bg-[#8B0000] opacity-[0.03] blur-[150px] rounded-full mix-blend-multiply" 
-        />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] mix-blend-multiply" />
-      </div>
+    <section className="py-40 bg-[#fafafa]"><div className="max-w-[1500px] mx-auto px-6 md:px-12"><Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-24 uppercase text-center">Membership.</h2></Reveal><div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">{PR.map((p,i)=><Reveal key={i} delay={i*0.1}><div className={`group p-10 border-2 rounded-none transition-all ${p.ft?"bg-[#0a0a0a] text-white border-[#0a0a0a]":"bg-white border-[#0a0a0a]/10"}`}><div className={`text-[9px] font-bold uppercase tracking-widest mb-2 ${p.ft?"text-white/60":"text-[#0a0a0a]/60"}`}>{p.n}</div><div className="text-4xl font-black mb-1">{p.p}<span className={`text-lg ${p.ft?"text-white/30":"text-[#0a0a0a]/30"}`}>{p.pd}</span></div><div className={`space-y-4 mt-8 pt-8 border-t ${p.ft?"border-white/10":"border-[#0a0a0a]/10"}`}>{p.f.map((f,j)=><div key={j} className={`flex items-center gap-3 text-[10px] ${p.ft?"text-white/40":"text-[#0a0a0a]/50"}`}><CheckCircle2 className={`w-3.5 h-3.5 ${p.ft?"text-white":"text-[#0a0a0a]"}`}/>{f}</div>)}</div><button className={`mt-8 w-full py-3 text-[10px] font-black uppercase tracking-widest transition-all ${p.ft?"bg-white text-[#0a0a0a]":"border-2 border-[#0a0a0a]/10 hover:bg-[#0a0a0a] hover:text-white"}`}>{p.c}</button></div></Reveal>)}</div></div></section>
 
-      {/* HEADER */}
-      <header className="fixed top-0 left-0 w-full px-6 md:px-12 py-10 flex justify-between items-center z-50 bg-[#E4E2DE]/50 backdrop-blur-3xl border-b border-[#8B0000]/5">
-        <Link href="/" className="font-black text-2xl tracking-[0.3em] text-[#8B0000] flex items-center gap-4 italic uppercase text-center md:text-left">
-           MOMA<span className="text-[#8B0000]/30">_MODERN_ART</span>
-        </Link>
-        
-        <nav className="hidden lg:flex gap-16 font-black text-[10px] uppercase tracking-[0.6em] text-[#8B0000]/30 text-center">
-            <Link href="#" className="hover:text-[#8B0000] transition-colors group">
-               Exhibitions<span className="inline-block w-0 group-hover:w-3 transition-all overflow-hidden text-[#8B0000] italic">.</span>
-            </Link>
-            <Link href="#" className="hover:text-[#8B0000] transition-colors group">
-               Collections<span className="inline-block w-0 group-hover:w-3 transition-all overflow-hidden text-[#8B0000] italic">.</span>
-            </Link>
-            <Link href="#" className="hover:text-[#8B0000] transition-colors group">
-               Visit<span className="inline-block w-0 group-hover:w-3 transition-all overflow-hidden text-[#8B0000] italic">.</span>
-            </Link>
-        </nav>
-        
-        <div className="flex items-center gap-10">
-           <button className="bg-[#8B0000] text-[#E4E2DE] px-12 py-4 font-black text-[10px] uppercase tracking-[0.4em] hover:bg-black transition-all shadow-xl">
-              Book_Tickets
-           </button>
-           <Menu className="w-6 h-6 text-[#8B0000] cursor-pointer" />
-        </div>
-      </header>
+    <section className="py-40 bg-[#0a0a0a] text-white text-center"><div className="max-w-[1500px] mx-auto px-6 md:px-12"><Reveal><h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">Visit <span className="text-white/30">Today.</span></h2><button className="px-16 py-6 bg-white text-[#0a0a0a] text-[12px] font-black uppercase tracking-[0.4em] hover:bg-white/80 transition-all">Get_Tickets</button></Reveal></div></section>
 
-      {/* HERO SECTION */}
-      <section className="relative h-screen flex flex-col justify-center items-center px-6 text-center z-10 pt-20 overflow-hidden text-center">
-         <motion.div style={{ scale: heroScale, y: yHero }} className="absolute inset-0 z-0">
-            <Image src="https://images.unsplash.com/photo-1543857778-c4a1a3e0b2eb?auto=format&fit=crop&q=80&w=2500" alt="Museum" fill className="object-cover opacity-20 grayscale contrast-125" priority />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#E4E2DE] via-transparent to-[#E4E2DE]/40" />
-         </motion.div>
-         
-         <div className="relative z-10 max-w-7xl w-full text-center">
-            <motion.div 
-               initial={{ opacity: 0, scale: 0.95 }}
-               animate={{ opacity: 1, scale: 1 }}
-               transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            >
-               <div className="inline-flex items-center gap-4 font-black text-[10px] uppercase tracking-[1em] text-[#8B0000] mb-16 border-l-2 border-[#8B0000] pl-10 italic font-mono text-center">
-                  Visual_Capture // 0184_Alpha
-               </div>
-               
-               <h1 className="text-7xl md:text-[14vw] font-black italic uppercase leading-[0.75] tracking-tighter mb-20 text-[#8B0000] text-center">
-                  <TextScramble text="FORM." /><br/>
-                  <span className="text-transparent" style={{ WebkitTextStroke: "2px #8B0000" }}>CHAOS.</span>
-               </h1>
-               
-               <p className="text-xl md:text-3xl font-light italic text-[#8B0000]/30 max-w-3xl mx-auto mb-24 leading-relaxed uppercase tracking-widest text-center">
-                  Structural allocation for aesthetic intent. Architecting the future of art with tectonic precision.
-               </p>
-               
-               <div className="flex flex-col md:flex-row gap-16 justify-center items-center font-mono text-center text-[#8B0000]">
-                  <div className="flex items-center gap-8 group cursor-pointer">
-                     <div className="w-20 h-px bg-[#8B0000]/30 group-hover:w-32 transition-all" />
-                     <span className="text-[10px] font-black uppercase tracking-[0.8em]">Explore_Gallery</span>
-                  </div>
-                  <div className="hidden md:block w-px h-16 bg-[#8B0000]/5" />
-                  <div className="font-black text-[9px] uppercase tracking-[0.6em] text-[#8B0000]/10 italic text-center">
-                     Established // 1929 // Manhattan
-                  </div>
-               </div>
-            </motion.div>
-         </div>
-
-         {/* Visual HUD */}
-         <div className="absolute right-12 bottom-12 flex flex-col items-end gap-4 font-black text-[8px] uppercase tracking-[1em] text-[#8B0000]/20 hidden md:flex italic font-mono text-center">
-            <span>VISUAL_SYNC: ACTIVE</span>
-            <div className="flex gap-1 h-12 items-end">
-               {[1, 2, 3, 4, 5].map(i => <motion.div key={i} animate={{ height: ['20%', '100%', '40%'] }} transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }} className="w-[1px] bg-[#8B0000]" />)}
-            </div>
-         </div>
-         
-         <div className="absolute left-12 bottom-12 hidden md:block">
-            <div className="flex flex-col gap-2 text-[8px] font-black uppercase tracking-[0.4em] text-[#8B0000]/10 italic font-mono text-center">
-               <span>EXHIBITS: 14</span>
-               <span>VISITORS: 2.4K</span>
-               <span>STATUS: OPEN</span>
-            </div>
-         </div>
-      </section>
-
-      {/* EXHIBITIONS GRID */}
-      <section className="py-48 px-6 md:px-12 max-w-[1800px] mx-auto relative z-10 bg-[#E4E2DE]">
-         <div className="flex flex-col md:flex-row justify-between items-end mb-40 border-b border-[#8B0000]/10 pb-20 gap-16 text-center md:text-left">
-            <div>
-               <span className="text-[10px] font-black uppercase tracking-[2em] text-[#8B0000] mb-8 block italic font-mono text-center md:text-left">Exhibition_Manifest</span>
-               <h2 className="text-6xl md:text-[10vw] font-black italic uppercase tracking-tighter text-[#8B0000] leading-none text-center md:text-left">The <span className="text-[#8B0000]/20">Archive_</span></h2>
-            </div>
-            <div className="flex gap-16 text-[10px] font-black uppercase tracking-[0.6em] text-[#8B0000]/20 italic font-mono text-center md:text-left">
-               <span>Records: [03]</span>
-               <span>Status: [Verified]</span>
-            </div>
-         </div>
-
-         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 text-center">
-            {EXHIBITIONS.map((p, i) => (
-                <motion.div 
-                   key={i} 
-                   initial={{ opacity: 0, y: 80 }}
-                   whileInView={{ opacity: 1, y: 0 }}
-                   viewport={{ once: true, margin: "-100px" }}
-                   transition={{ duration: 1.2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                   className="group relative h-[85vh] bg-white border border-[#8B0000]/5 overflow-hidden cursor-pointer hover:border-[#8B0000]/30 transition-all shadow-2xl text-center"
-                >
-                    <Image src={p.img} alt={p.title} fill className="object-cover opacity-30 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 text-center" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#E4E2DE] via-transparent to-transparent opacity-95 text-center" />
-                    <div className="absolute inset-0 bg-[#8B0000]/5 group-hover:bg-transparent transition-colors duration-700 text-center" />
-                    
-                    <div className="absolute inset-16 flex flex-col justify-between z-10 font-mono text-[#8B0000] text-center">
-                        <div className="flex justify-between items-start text-center">
-                           <div className="p-5 bg-white/5 border border-[#8B0000]/10 rounded-none group-hover:bg-[#8B0000] group-hover:text-[#E4E2DE] transition-all shadow-xl text-center">
-                              {p.icon}
-                           </div>
-                           <div className="text-[10px] font-black uppercase tracking-[0.8em] text-[#8B0000] italic font-mono text-center">Ref_0x{i+184}</div>
-                        </div>
-                        
-                        <div className="text-center">
-                           <span className="text-[10px] uppercase tracking-[0.8em] text-[#8B0000] mb-8 block italic font-black text-center">{p.cat} // Verified</span>
-                           <h3 className="text-5xl md:text-6xl font-black italic uppercase tracking-tighter mb-16 text-[#8B0000] group-hover:tracking-widest transition-all leading-[0.8] text-center">{p.title}</h3>
-                           <div className="flex items-center gap-8 text-[10px] font-black uppercase tracking-[0.6em] opacity-0 group-hover:opacity-100 transition-all translate-y-10 group-hover:translate-y-0 text-[#8B0000] text-center justify-center">
-                              Report <ArrowRight className="w-6 h-6 text-center" />
-                           </div>
-                        </div>
-                    </div>
-                </motion.div>
-            ))}
-         </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="py-48 px-6 md:px-12 border-t border-[#8B0000]/5 relative z-10 bg-[#E4E2DE]">
-         <div className="max-w-[1800px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-40 text-center md:text-left">
-            <div className="max-w-2xl text-center md:text-left">
-               <div className="text-[#8B0000] mb-16 flex items-center gap-6 font-black text-2xl italic uppercase tracking-widest font-mono justify-center md:justify-start text-center md:text-left">
-                  <Activity className="w-10 h-10 text-center md:text-left" /> Museum_Logs
-               </div>
-               <p className="text-4xl md:text-6xl font-light italic leading-[0.9] text-[#8B0000]/20 uppercase tracking-tighter mb-20 text-center md:text-left">
-                  WE TREAT ART AS ARCHITECTURE. EVERY PIECE A FUNCTION.
-               </p>
-               <div className="flex gap-20 font-black text-[10px] uppercase tracking-[0.8em] text-[#8B0000]/40 italic font-mono justify-center md:justify-start text-center md:text-left">
-                  <span>Berlin</span>
-                  <span>London</span>
-                  <span>NYC</span>
-               </div>
-            </div>
-            <div className="flex flex-col justify-between items-end text-right font-mono text-center md:text-right text-[#8B0000]">
-               <div className="w-full text-center md:text-right">
-                  <h4 className="text-[12vw] font-black italic uppercase tracking-tighter text-[#8B0000] opacity-[0.02] leading-none mb-20 text-center md:text-right">MOMA</h4>
-                  <nav className="flex flex-col gap-10 font-black text-[10px] uppercase tracking-[0.8em] text-[#8B0000]/10 text-center md:text-right">
-                     <Link href="#" className="hover:text-[#8B0000] transition-colors group">
-                        Instagram<span className="text-[#8B0000]/0 group-hover:text-[#8B0000] transition-all">_</span>
-                     </Link>
-                     <Link href="#" className="hover:text-[#8B0000] transition-colors group">
-                        Archive<span className="text-[#8B0000]/0 group-hover:text-[#8B0000] transition-all">_</span>
-                     </Link>
-                     <Link href="#" className="hover:text-[#8B0000] transition-colors group">
-                        Legal<span className="text-[#8B0000]/0 group-hover:text-[#8B0000] transition-all">_</span>
-                     </Link>
-                  </nav>
-               </div>
-               <div className="font-black text-[9px] uppercase tracking-[1.5em] text-[#8B0000]/5 mt-32 italic text-center md:text-right">
-                  &copy; 2026 // MUSEUM_OF_MODERN_ART_NYC&trade;
-               </div>
-            </div>
-         </div>
-      </footer>
-    </div>
-  );
+    <footer className="bg-[#0a0a0a] border-t-4 border-white/10 py-32 px-6 md:px-12 text-white"><div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24"><div className="col-span-1 md:col-span-2"><Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-white text-[#0a0a0a] rounded-none flex items-center justify-center"><Frame className="w-4 h-4"/></div><span>MOMA // STRUCTURE</span></Link><p className="text-[11px] text-white/15 uppercase tracking-[0.2em] max-w-sm italic">Museum of modern art. Since 1929.</p></div><div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-white/60">Visit</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Hours","Directions","Accessibility"].map(l=><li key={l}><Link href="#">{l}</Link></li>)}</ul></div><div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-white/60">Connect</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Instagram","Newsletter","Press"].map(l=><li key={l}><Link href="#">{l}</Link></li>)}</ul></div></div><div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 text-center text-[9px] font-bold text-white/10 uppercase tracking-widest">&copy; 2026 MOMA STRUCTURE</div></footer>
+  </div>);
 }

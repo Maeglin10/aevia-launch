@@ -1,241 +1,32 @@
 "use client";
-
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
-import Image from "next/image";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { Compass, Wind, Coffee, Menu, Search, ArrowRight, Layers, Activity, Zap } from "lucide-react";
+import { Crown, Bed, Wine, Menu, X, Star, CheckCircle2, Waves, UtensilsCrossed, Gem } from "lucide-react";
 import "../premium.css";
+const ROOMS=[{t:"Deluxe Suite",c:"SUITE",p:"$450/night",d:"King bed, city views, marble bath."},{t:"Penthouse",c:"PENTHOUSE",p:"$1,200/night",d:"Wraparound terrace, private butler."},{t:"Garden Room",c:"CLASSIC",p:"$280/night",d:"Garden access, queen bed, breakfast."},{t:"Royal Wing",c:"EXCLUSIVE",p:"$2,500/night",d:"Two-floor suite, private elevator, chef."}];
+const SVC=[{icon:<Wine className="w-6 h-6"/>,t:"Fine Dining",d:"Michelin-starred restaurant with seasonal tasting menus."},{icon:<Waves className="w-6 h-6"/>,t:"Infinity Pool",d:"Rooftop pool with panoramic skyline views."},{icon:<Gem className="w-6 h-6"/>,t:"Luxury Spa",d:"Full-service spa with Turkish hammam and treatments."},{icon:<UtensilsCrossed className="w-6 h-6"/>,t:"Private Events",d:"Ballrooms and gardens for weddings and galas."},{icon:<Bed className="w-6 h-6"/>,t:"Concierge 24/7",d:"Personal concierge for every guest, around the clock."},{icon:<Crown className="w-6 h-6"/>,t:"VIP Experience",d:"Airport transfers, priority dining, and exclusive access."}];
+const TM=[{n:"Victoria Lane",r:"Anniversary Stay",q:"The most beautiful hotel I have ever experienced. Pure elegance in every detail."},{n:"James Harrington III",r:"Business Travel",q:"I stay at The Grand every month. The service is impeccable and consistent."},{n:"Amélie Dupont",r:"Honeymoon",q:"Our honeymoon was a fairy tale. The penthouse suite took our breath away."}];
+function Reveal({children,delay=0}:{children:React.ReactNode;delay?:number}){const ref=useRef(null);const iv=useInView(ref,{once:true,margin:"-50px"});return<motion.div ref={ref} initial={{opacity:0,y:20}} animate={iv?{opacity:1,y:0}:{}} transition={{duration:0.8,delay}}>{children}</motion.div>;}
+export default function TheGrandHotelPage(){
+  const[s,setS]=useState(false);const[m,setM]=useState(false);
+  useEffect(()=>{const h=()=>setS(window.scrollY>50);window.addEventListener("scroll",h);return()=>window.removeEventListener("scroll",h);},[]);
+  return(<div className="premium-theme min-h-screen bg-[#faf8f2] text-[#1a1815] font-mono selection:bg-[#b8860b] selection:text-white overflow-x-hidden">
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${s?"bg-[#faf8f2]/90 backdrop-blur-xl py-4 border-b border-[#1a1815]/5":"bg-transparent py-10"}`}><div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between"><Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter"><div className="w-8 h-8 bg-[#b8860b] rounded-full flex items-center justify-center text-white"><Crown className="w-4 h-4"/></div><span className="group-hover:text-[#b8860b] transition-colors">THE GRAND // <span className="text-[#1a1815]/30">HOTEL</span></span></Link><div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#1a1815]/30">{["Rooms","Dining","Spa","Reserve"].map(l=><Link key={l} href="#" className="hover:text-[#b8860b] transition-colors">{l}</Link>)}</div><button className="px-6 py-2.5 bg-[#b8860b] text-white text-[10px] font-black uppercase tracking-widest hover:bg-[#1a1815] transition-all hidden md:block">Reserve</button><button onClick={()=>setM(true)} className="lg:hidden"><Menu className="w-6 h-6"/></button></div></nav>
+    <AnimatePresence>{m&&(<motion.div initial={{opacity:0,x:"100%"}} animate={{opacity:1,x:0}} exit={{opacity:0,x:"100%"}} className="fixed inset-0 z-[100] bg-[#faf8f2] p-8 flex flex-col pt-32"><button onClick={()=>setM(false)} className="absolute top-10 right-8"><X className="w-10 h-10"/></button>{["Rooms","Dining","Spa","Reserve"].map(l=><Link key={l} href="#" onClick={()=>setM(false)} className="text-5xl font-black tracking-tighter uppercase mb-10">{l}</Link>)}</motion.div>)}</AnimatePresence>
 
-const ROOMS = [
-  { icon: <Compass className="w-8 h-8" />, title: "PANORAMA_SUITE", cat: "Luxury", value: "Verified", img: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&q=80&w=1500" },
-  { icon: <Wind className="w-8 h-8" />, title: "HERITAGE_ROOM", cat: "Classic", value: "Active", img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=1500" },
-  { icon: <Coffee className="w-8 h-8" />, title: "CULINARY_VUE", cat: "Dining", value: "Locked", img: "https://images.unsplash.com/photo-1542314831-c6a4d42171ae?auto=format&fit=crop&q=80&w=1500" },
-];
+    <section className="relative min-h-screen flex flex-col justify-center pt-20"><div className="max-w-[1500px] mx-auto px-6 md:px-12 relative z-10"><Reveal><div className="px-3 py-1 bg-[#b8860b]/10 border border-[#b8860b]/30 text-[#b8860b] text-[9px] font-bold uppercase tracking-widest inline-block mb-8">FIVE_STAR_LUXURY</div><h1 className="text-7xl md:text-9xl lg:text-[10rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">Stay<br/>In<br/><span className="text-[#b8860b]">Grandeur.</span></h1><p className="max-w-xl text-lg text-[#1a1815]/40 leading-relaxed font-light uppercase tracking-widest italic mb-12">Five-star luxury hotel. Where every moment is extraordinary.</p><div className="flex flex-col sm:flex-row gap-6"><button className="px-12 py-5 bg-[#b8860b] text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-[#1a1815] transition-all">Book_Room</button><button className="px-12 py-5 border border-[#1a1815]/10 text-[10px] font-black uppercase tracking-[0.4em] hover:bg-[#1a1815] hover:text-white transition-all">Virtual_Tour</button></div></Reveal></div></section>
 
-function TextScramble({ text }: { text: string }) {
-  const [display, setDisplay] = useState(text);
-  const chars = "!<>-_\\/[]{}—=+*^?#________";
-  
-  useEffect(() => {
-    let iteration = 0;
-    const interval = setInterval(() => {
-      setDisplay(prev => 
-        text.split("").map((char, index) => {
-          if (index < iteration) return text[index];
-          return chars[Math.floor(Math.random() * chars.length)];
-        }).join("")
-      );
-      if (iteration >= text.length) clearInterval(interval);
-      iteration += 1/3;
-    }, 30);
-    return () => clearInterval(interval);
-  }, [text]);
+    <section className="py-40 bg-white border-y border-[#1a1815]/5"><div className="max-w-[1500px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center"><Reveal><span className="text-[10px] text-[#b8860b] font-bold uppercase tracking-[0.4em] mb-6 block">Heritage</span><h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.85] mb-8 uppercase">Timeless <span className="text-[#b8860b]">Elegance.</span></h2><p className="text-base text-[#1a1815]/40 leading-relaxed mb-12">Since 1892, The Grand has been the destination for discerning travelers. Every suite is a masterwork. Every meal is a memory. Every stay is unforgettable.</p><div className="flex gap-16">{[{v:"130+",l:"YEARS"},{v:"5★",l:"RATING"},{v:"200",l:"ROOMS"}].map((s,i)=><div key={i}><div className="text-3xl font-black text-[#b8860b]">{s.v}</div><div className="text-[9px] font-bold text-[#1a1815]/20 uppercase tracking-widest">{s.l}</div></div>)}</div></Reveal><Reveal delay={0.15}><div className="w-full aspect-square bg-gradient-to-br from-[#b8860b]/10 to-[#b8860b]/5 rounded-3xl flex items-center justify-center"><Crown className="w-20 h-20 text-[#b8860b]/15"/></div></Reveal></div></section>
 
-  return <span>{display}</span>;
-}
+    <section className="py-40 bg-[#faf8f2]"><div className="max-w-[1500px] mx-auto px-6 md:px-12"><Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-24">Our <span className="text-[#b8860b]">Rooms.</span></h2></Reveal><div className="grid grid-cols-1 md:grid-cols-2 gap-8">{ROOMS.map((r,i)=><Reveal key={i} delay={i*0.05}><div className="group cursor-pointer"><div className="w-full aspect-[16/10] bg-gradient-to-br from-[#b8860b]/10 to-[#b8860b]/5 rounded-2xl flex items-center justify-center mb-6 group-hover:from-[#b8860b]/20 transition-all"><Bed className="w-12 h-12 text-[#b8860b]/15"/></div><div className="flex items-center justify-between mb-2"><span className="text-[9px] font-bold text-[#b8860b] uppercase tracking-widest">{r.c}</span><span className="text-lg font-black text-[#b8860b]">{r.p}</span></div><h3 className="text-2xl font-black uppercase tracking-tighter group-hover:text-[#b8860b] transition-colors mb-2">{r.t}</h3><p className="text-sm text-[#1a1815]/30">{r.d}</p></div></Reveal>)}</div></div></section>
 
-export default function TheGrandSPA() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: containerRef });
-  
-  const yHero = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1]);
-  
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 40, damping: 20 });
-  const springY = useSpring(mouseY, { stiffness: 40, damping: 20 });
+    <section className="py-40 bg-white border-y border-[#1a1815]/5"><div className="max-w-[1500px] mx-auto px-6 md:px-12"><Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-24">Hotel <span className="text-[#b8860b]">Amenities.</span></h2></Reveal><div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">{SVC.map((f,i)=><Reveal key={i} delay={i*0.05}><div className="group p-10 bg-[#faf8f2] border border-[#1a1815]/5 hover:border-[#b8860b]/30 rounded-3xl transition-all"><div className="w-14 h-14 bg-[#b8860b]/10 rounded-2xl flex items-center justify-center text-[#b8860b] mb-8 group-hover:bg-[#b8860b] group-hover:text-white transition-all">{f.icon}</div><h3 className="text-xl font-black uppercase tracking-tighter mb-4 group-hover:text-[#b8860b] transition-colors">{f.t}</h3><p className="text-sm text-[#1a1815]/40">{f.d}</p></div></Reveal>)}</div></div></section>
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX - window.innerWidth / 2);
-      mouseY.set(e.clientY - window.innerHeight / 2);
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX, mouseY]);
+    <section className="py-40 bg-[#faf8f2]"><div className="max-w-[1500px] mx-auto px-6 md:px-12"><Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-24">Guest <span className="text-[#b8860b]">Reviews.</span></h2></Reveal><div className="grid grid-cols-1 md:grid-cols-3 gap-8">{TM.map((t,i)=><Reveal key={i} delay={i*0.1}><div className="p-10 bg-white border border-[#1a1815]/5 rounded-3xl h-full flex flex-col"><div className="flex gap-1 mb-6">{[...Array(5)].map((_,j)=><Star key={j} className="w-4 h-4 text-[#b8860b] fill-[#b8860b]"/>)}</div><p className="text-base text-[#1a1815]/50 italic leading-relaxed flex-1 mb-8">&ldquo;{t.q}&rdquo;</p><div className="pt-6 border-t border-[#1a1815]/5"><div className="font-black uppercase text-sm">{t.n}</div><div className="text-[10px] text-[#1a1815]/30 uppercase tracking-widest">{t.r}</div></div></div></Reveal>)}</div></div></section>
 
-  return (
-    <div ref={containerRef} className="premium-theme bg-[#FAF9F6] text-[#1A1A1A] min-h-screen font-sans selection:bg-[#B5A48B] selection:text-white overflow-hidden relative uppercase">
-      
-      {/* HOSPITALITY GRID & NOISE */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(181,164,139,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(181,164,139,0.05)_1px,transparent_1px)] bg-[size:10rem_10rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)]" />
-        <motion.div 
-           style={{ x: springX, y: springY }}
-           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] bg-[#B5A48B] opacity-[0.05] blur-[150px] rounded-full mix-blend-multiply" 
-        />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] mix-blend-multiply" />
-      </div>
+    <section className="py-40 bg-[#1a1815] text-white text-center"><div className="max-w-[1500px] mx-auto px-6 md:px-12"><Reveal><h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">Reserve Your <span className="text-[#b8860b]">Stay.</span></h2><button className="px-16 py-6 bg-[#b8860b] text-white text-[12px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-[#1a1815] transition-all">Book_Now</button></Reveal></div></section>
 
-      {/* HEADER */}
-      <header className="fixed top-0 left-0 w-full px-6 md:px-12 py-10 flex justify-between items-center z-50 bg-[#FAF9F6]/50 backdrop-blur-3xl border-b border-[#B5A48B]/5">
-        <Link href="/" className="font-black text-2xl tracking-[0.3em] text-[#1A1A1A] flex items-center gap-4 italic uppercase text-center md:text-left">
-           THE<span className="text-[#B5A48B]">_GRAND</span>
-        </Link>
-        
-        <nav className="hidden lg:flex gap-16 font-black text-[10px] uppercase tracking-[0.6em] text-[#1A1A1A]/30 text-center">
-            <Link href="#" className="hover:text-[#B5A48B] transition-colors group">
-               Suites<span className="inline-block w-0 group-hover:w-3 transition-all overflow-hidden text-[#B5A48B] italic">.</span>
-            </Link>
-            <Link href="#" className="hover:text-[#B5A48B] transition-colors group">
-               Spa<span className="inline-block w-0 group-hover:w-3 transition-all overflow-hidden text-[#B5A48B] italic">.</span>
-            </Link>
-            <Link href="#" className="hover:text-[#B5A48B] transition-colors group">
-               History<span className="inline-block w-0 group-hover:w-3 transition-all overflow-hidden text-[#B5A48B] italic">.</span>
-            </Link>
-        </nav>
-        
-        <div className="flex items-center gap-10">
-           <button className="bg-[#1A1A1A] text-white px-12 py-4 font-black text-[10px] uppercase tracking-[0.4em] hover:bg-[#B5A48B] transition-all shadow-xl">
-              Reserve_Stay
-           </button>
-           <Menu className="w-6 h-6 text-[#B5A48B] cursor-pointer" />
-        </div>
-      </header>
-
-      {/* HERO SECTION */}
-      <section className="relative h-screen flex flex-col justify-center items-center px-6 text-center z-10 pt-20 overflow-hidden text-center">
-         <motion.div style={{ scale: heroScale, y: yHero }} className="absolute inset-0 z-0">
-            <Image src="https://images.unsplash.com/photo-1542314831-c6a4d42171ae?auto=format&fit=crop&q=80&w=2500" alt="Hotel" fill className="object-cover opacity-20 grayscale contrast-125" priority />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#FAF9F6] via-transparent to-[#FAF9F6]/40" />
-         </motion.div>
-         
-         <div className="relative z-10 max-w-7xl w-full text-center">
-            <motion.div 
-               initial={{ opacity: 0, scale: 0.95 }}
-               animate={{ opacity: 1, scale: 1 }}
-               transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            >
-               <div className="inline-flex items-center gap-4 font-black text-[10px] uppercase tracking-[1em] text-[#B5A48B] mb-16 border-l-2 border-[#B5A48B] pl-10 italic font-mono text-center">
-                  Hospitality_Capture // 0182_Alpha
-               </div>
-               
-               <h1 className="text-7xl md:text-[14vw] font-black italic uppercase leading-[0.75] tracking-tighter mb-20 text-[#1A1A1A] text-center">
-                  <TextScramble text="REFINED." /><br/>
-                  <span className="text-transparent" style={{ WebkitTextStroke: "2px #1A1A1A" }}>ELEGANCE.</span>
-               </h1>
-               
-               <p className="text-xl md:text-3xl font-light italic text-[#1A1A1A]/30 max-w-3xl mx-auto mb-24 leading-relaxed uppercase tracking-widest text-center">
-                  Structural allocation for hospitality intent. Architecting the future of luxury with tectonic precision.
-               </p>
-               
-               <div className="flex flex-col md:flex-row gap-16 justify-center items-center font-mono text-center text-[#1A1A1A]">
-                  <div className="flex items-center gap-8 group cursor-pointer">
-                     <div className="w-20 h-px bg-[#B5A48B]/30 group-hover:w-32 transition-all" />
-                     <span className="text-[10px] font-black uppercase tracking-[0.8em]">Explore_Suites</span>
-                  </div>
-                  <div className="hidden md:block w-px h-16 bg-[#1A1A1A]/5" />
-                  <div className="font-black text-[9px] uppercase tracking-[0.6em] text-[#1A1A1A]/10 italic text-center">
-                     Michelin Dining // Thermal Spa // Concierge
-                  </div>
-               </div>
-            </motion.div>
-         </div>
-
-         {/* Concierge HUD */}
-         <div className="absolute right-12 bottom-12 flex flex-col items-end gap-4 font-black text-[8px] uppercase tracking-[1em] text-[#B5A48B]/20 hidden md:flex italic font-mono text-center">
-            <span>CONCIERGE_SYNC: ACTIVE</span>
-            <div className="flex gap-1 h-12 items-end">
-               {[1, 2, 3, 4, 5].map(i => <motion.div key={i} animate={{ height: ['20%', '100%', '40%'] }} transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }} className="w-[1px] bg-[#B5A48B]" />)}
-            </div>
-         </div>
-         
-         <div className="absolute left-12 bottom-12 hidden md:block">
-            <div className="flex flex-col gap-2 text-[8px] font-black uppercase tracking-[0.4em] text-[#1A1A1A]/10 italic font-mono text-center">
-               <span>AVAILABILITY: 84%</span>
-               <span>TEMP: 22&deg;C</span>
-               <span>STATUS: REFINED</span>
-            </div>
-         </div>
-      </section>
-
-      {/* ROOMS GRID */}
-      <section className="py-48 px-6 md:px-12 max-w-[1800px] mx-auto relative z-10 bg-[#FAF9F6]">
-         <div className="flex flex-col md:flex-row justify-between items-end mb-40 border-b border-[#1A1A1A]/10 pb-20 gap-16 text-center md:text-left">
-            <div>
-               <span className="text-[10px] font-black uppercase tracking-[2em] text-[#B5A48B] mb-8 block italic font-mono text-center md:text-left">Hospitality_Manifest</span>
-               <h2 className="text-6xl md:text-[10vw] font-black italic uppercase tracking-tighter text-[#1A1A1A] leading-none text-center md:text-left">The <span className="text-[#B5A48B]/20">Suites_</span></h2>
-            </div>
-            <div className="flex gap-16 text-[10px] font-black uppercase tracking-[0.6em] text-[#1A1A1A]/20 italic font-mono text-center md:text-left">
-               <span>Records: [03]</span>
-               <span>Status: [Verified]</span>
-            </div>
-         </div>
-
-         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 text-center">
-            {ROOMS.map((p, i) => (
-                <motion.div 
-                   key={i} 
-                   initial={{ opacity: 0, y: 80 }}
-                   whileInView={{ opacity: 1, y: 0 }}
-                   viewport={{ once: true, margin: "-100px" }}
-                   transition={{ duration: 1.2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                   className="group relative h-[85vh] bg-white border border-[#1A1A1A]/5 overflow-hidden cursor-pointer hover:border-[#B5A48B]/30 transition-all shadow-2xl text-center"
-                >
-                    <Image src={p.img} alt={p.title} fill className="object-cover opacity-30 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 text-center" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#FAF9F6] via-transparent to-transparent opacity-95 text-center" />
-                    <div className="absolute inset-0 bg-[#B5A48B]/5 group-hover:bg-transparent transition-colors duration-700 text-center" />
-                    
-                    <div className="absolute inset-16 flex flex-col justify-between z-10 font-mono text-[#1A1A1A] text-center">
-                        <div className="flex justify-between items-start text-center">
-                           <div className="p-5 bg-white/5 border border-[#1A1A1A]/10 rounded-none group-hover:bg-[#B5A48B] group-hover:text-white transition-all shadow-xl text-center">
-                              {p.icon}
-                           </div>
-                           <div className="text-[10px] font-black uppercase tracking-[0.8em] text-[#B5A48B] italic font-mono text-center">Ref_0x{i+182}</div>
-                        </div>
-                        
-                        <div className="text-center">
-                           <span className="text-[10px] uppercase tracking-[0.8em] text-[#B5A48B] mb-8 block italic font-black text-center">{p.cat} // Verified</span>
-                           <h3 className="text-5xl md:text-6xl font-black italic uppercase tracking-tighter mb-16 text-[#1A1A1A] group-hover:tracking-widest transition-all leading-[0.8] text-center">{p.title}</h3>
-                           <div className="flex items-center gap-8 text-[10px] font-black uppercase tracking-[0.6em] opacity-0 group-hover:opacity-100 transition-all translate-y-10 group-hover:translate-y-0 text-[#1A1A1A] text-center justify-center">
-                              Details <ArrowRight className="w-6 h-6 text-center" />
-                           </div>
-                        </div>
-                    </div>
-                </motion.div>
-            ))}
-         </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="py-48 px-6 md:px-12 border-t border-[#1A1A1A]/5 relative z-10 bg-[#FAF9F6]">
-         <div className="max-w-[1800px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-40 text-center md:text-left">
-            <div className="max-w-2xl text-center md:text-left">
-               <div className="text-[#B5A48B] mb-16 flex items-center gap-6 font-black text-2xl italic uppercase tracking-widest font-mono justify-center md:justify-start text-center md:text-left">
-                  <Activity className="w-10 h-10 text-center md:text-left" /> Grand_Logs
-               </div>
-               <p className="text-4xl md:text-6xl font-light italic leading-[0.9] text-[#1A1A1A]/20 uppercase tracking-tighter mb-20 text-center md:text-left">
-                  WE TREAT HOTELS AS ARCHITECTURE. EVERY STAY A FUNCTION.
-               </p>
-               <div className="flex gap-20 font-black text-[10px] uppercase tracking-[0.8em] text-[#B5A48B]/40 italic font-mono justify-center md:justify-start text-center md:text-left">
-                  <span>Berlin</span>
-                  <span>London</span>
-                  <span>NYC</span>
-               </div>
-            </div>
-            <div className="flex flex-col justify-between items-end text-right font-mono text-center md:text-right text-[#1A1A1A]">
-               <div className="w-full text-center md:text-right">
-                  <h4 className="text-[12vw] font-black italic uppercase tracking-tighter text-[#1A1A1A] opacity-[0.02] leading-none mb-20 text-center md:text-right">GRAND</h4>
-                  <nav className="flex flex-col gap-10 font-black text-[10px] uppercase tracking-[0.8em] text-[#1A1A1A]/10 text-center md:text-right">
-                     <Link href="#" className="hover:text-[#B5A48B] transition-colors group">
-                        Instagram<span className="text-[#B5A48B]/0 group-hover:text-[#B5A48B] transition-all">_</span>
-                     </Link>
-                     <Link href="#" className="hover:text-[#B5A48B] transition-colors group">
-                        Suites<span className="text-[#B5A48B]/0 group-hover:text-[#B5A48B] transition-all">_</span>
-                     </Link>
-                     <Link href="#" className="hover:text-[#B5A48B] transition-colors group">
-                        Legal<span className="text-[#B5A48B]/0 group-hover:text-[#B5A48B] transition-all">_</span>
-                     </Link>
-                  </nav>
-               </div>
-               <div className="font-black text-[9px] uppercase tracking-[1.5em] text-[#1A1A1A]/5 mt-32 italic text-center md:text-right">
-                  &copy; 2026 // THE_GRAND_HOTEL_GROUP&trade;
-               </div>
-            </div>
-         </div>
-      </footer>
-    </div>
-  );
+    <footer className="bg-[#1a1815] border-t border-white/5 py-32 px-6 md:px-12 text-white"><div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24"><div className="col-span-1 md:col-span-2"><Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-[#b8860b] text-white rounded-full flex items-center justify-center"><Crown className="w-4 h-4"/></div><span>THE GRAND // HOTEL</span></Link><p className="text-[11px] text-white/15 uppercase tracking-[0.2em] max-w-sm italic">Five-star luxury since 1892.</p></div><div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#b8860b]">Hotel</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Rooms","Dining","Spa"].map(l=><li key={l}><Link href="#">{l}</Link></li>)}</ul></div><div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#b8860b]">Contact</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Reservations","Events","Press"].map(l=><li key={l}><Link href="#">{l}</Link></li>)}</ul></div></div><div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 text-center text-[9px] font-bold text-white/10 uppercase tracking-widest">&copy; 2026 THE GRAND HOTEL</div></footer>
+  </div>);
 }
