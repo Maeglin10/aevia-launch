@@ -1,198 +1,259 @@
-"use client";
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
-import { Palette, Sofa, Lamp, Menu, X, ArrowRight, Star, Users, Award, Mail, Phone, MapPin, CheckCircle2, Brush, Layers, Eye } from "lucide-react";
-import "../premium.css";
+"use client"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { Sofa, ArrowRight, Menu, Star, Palette, Ruler, Eye, Lightbulb, Layers, ChevronRight, MapPin, Phone, Mail } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-const SERVICES = [
-  { icon: <Palette className="w-6 h-6" />, title: "Interior Design", desc: "Full-service residential and commercial design. From concept boards to final installation." },
-  { icon: <Layers className="w-6 h-6" />, title: "Space Planning", desc: "Optimized floor plans that maximize flow, light, and function for every room." },
-  { icon: <Brush className="w-6 h-6" />, title: "Custom Furniture", desc: "Bespoke pieces designed and crafted by our in-house atelier. Made to your exact specifications." },
-  { icon: <Eye className="w-6 h-6" />, title: "3D Visualization", desc: "Photorealistic renders of your space before construction begins. See it before you build it." },
-  { icon: <Lamp className="w-6 h-6" />, title: "Lighting Design", desc: "Layered lighting plans that set mood, enhance architecture, and reduce energy costs." },
-  { icon: <Sofa className="w-6 h-6" />, title: "Styling & Staging", desc: "Property staging for luxury real estate and editorial photoshoots." },
-];
-
-const PROJECTS = [
-  { id: "p1", title: "The Marble Residence", category: "RESIDENTIAL", location: "Manhattan, NY" },
-  { id: "p2", title: "Nobu Hotel Suite", category: "HOSPITALITY", location: "Malibu, CA" },
-  { id: "p3", title: "Vanguard Office", category: "COMMERCIAL", location: "London, UK" },
-  { id: "p4", title: "Lake Como Villa", category: "RESIDENTIAL", location: "Como, Italy" },
-];
-
-const TESTIMONIALS = [
-  { name: "Catherine Moore", role: "Homeowner, Manhattan", quote: "Atelier transformed our apartment into something out of Architectural Digest. Every detail was considered." },
-  { name: "James Rivera", role: "Director, Nobu Hospitality", quote: "Their understanding of luxury hospitality spaces is unmatched. Guests consistently comment on the design." },
-  { name: "Dr. Lisa Park", role: "Founder, Vanguard Capital", quote: "Our new office space directly impacted employee satisfaction scores. The ROI on great design is real." },
-];
-
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  return <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay }}>{children}</motion.div>;
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  )
 }
 
+function ParallaxImg({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const y = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"])
+  return (
+    <div ref={ref} className="relative w-full h-full overflow-hidden">
+      <motion.div style={{ y }} className="absolute inset-[-12%] w-[124%] h-[124%]">
+        <Image src={src} alt={alt} fill className="object-cover" />
+      </motion.div>
+    </div>
+  )
+}
+
+const PROJECTS = [
+  { title: "Villa Serena", type: "Residential", img: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200", desc: "Minimalist coastal retreat with organic textures and panoramic ocean views." },
+  { title: "Maison Noire", type: "Penthouse", img: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&q=80&w=1200", desc: "Dark luxury penthouse with travertine, brass accents, and bespoke furniture." },
+  { title: "Bureau Lumière", type: "Commercial", img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200", desc: "Biophilic office redesign for a tech company prioritizing employee wellbeing." },
+]
+
+const SERVICES = [
+  { icon: Palette, title: "Concept & Mood", desc: "Material palettes, mood boards, and spatial concepts tailored to your lifestyle." },
+  { icon: Ruler, title: "Space Planning", desc: "Functional layouts that flow naturally, maximizing light, movement, and comfort." },
+  { icon: Lightbulb, title: "Lighting Design", desc: "Layered lighting schemes that transform atmosphere from morning to evening." },
+  { icon: Layers, title: "Furniture Curation", desc: "Sourcing and commissioning bespoke pieces from artisan workshops worldwide." },
+]
+
+const TESTIMONIALS = [
+  { text: "Atelier transformed our home into something that feels like us, but elevated. Every detail was considered.", author: "Victoria & James R.", project: "Villa Serena" },
+  { text: "The attention to material quality is extraordinary. They source things you didn't know existed.", author: "Marc Dubois", project: "Maison Noire" },
+]
+
 export default function AtelierInteriorPage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
+  const [scrolled, setScrolled] = useState(false)
+
+  const { scrollYProgress } = useScroll()
+  const heroY = useTransform(scrollYProgress, [0, 0.2], ["0%", "30%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
+
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
+  }, [])
 
   return (
-    <div className="premium-theme min-h-screen bg-[#faf7f2] text-[#2a2420] font-mono selection:bg-[#a0845c] selection:text-white overflow-x-hidden">
-      <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.02]" style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px)`, backgroundSize: "80px 80px" }} />
+    <div className="bg-[#f5f0eb] text-[#2a2520] font-sans min-h-screen selection:bg-[#8b7355] selection:text-white overflow-x-hidden">
 
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#faf7f2]/90 backdrop-blur-xl py-4 border-b border-[#2a2420]/5" : "bg-transparent py-10"}`}>
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter">
-            <div className="w-8 h-8 bg-[#a0845c] rounded-full flex items-center justify-center text-white"><Palette className="w-4 h-4" /></div>
-            <span className="group-hover:text-[#a0845c] transition-colors">ATELIER // <span className="text-[#2a2420]/30">INTERIOR</span></span>
+      {/* ── NAVBAR ─────────────── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f5f0eb]/90 backdrop-blur-xl border-b border-[#8b7355]/10 py-4" : "bg-transparent py-8"}`}>
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="text-xl tracking-[0.2em] uppercase" style={{ fontFamily: "Georgia, serif" }}>
+            <span className="font-light">Atelier</span> <span className="font-bold text-[#8b7355]">Interior</span>
           </Link>
-          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#2a2420]/30">
-            {["Services", "Portfolio", "About", "Contact"].map(l => <Link key={l} href="#" className="hover:text-[#a0845c] transition-colors">{l}</Link>)}
+          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#2a2520]/40">
+            {["Projects", "Services", "About", "Contact"].map(l => (
+              <Link key={l} href="#" className="hover:text-[#8b7355] transition-colors">{l}</Link>
+            ))}
           </div>
-          <button className="px-6 py-2.5 bg-[#2a2420] text-[#faf7f2] text-[10px] font-black uppercase tracking-widest hover:bg-[#a0845c] transition-all hidden md:block">Book_Consultation</button>
-          <button onClick={() => setMenuOpen(true)} className="lg:hidden text-[#2a2420]/40"><Menu className="w-6 h-6" /></button>
+          <button className="hidden md:block px-8 py-3 bg-[#2a2520] text-[#f5f0eb] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#8b7355] transition-colors duration-500">
+            Book Consultation
+          </button>
+          <Sheet>
+            <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6" /></button></SheetTrigger>
+            <SheetContent side="right" className="bg-[#f5f0eb] p-12">
+              <div className="flex flex-col gap-8 mt-16">
+                {["Projects", "Services", "About", "Contact"].map(l => (
+                  <Link key={l} href="#" className="text-3xl font-light hover:text-[#8b7355] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</Link>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </nav>
 
-      <AnimatePresence>{menuOpen && (
-        <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-[#faf7f2] p-8 flex flex-col pt-32">
-          <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-[#2a2420]/40"><X className="w-10 h-10" /></button>
-          {["Services", "Portfolio", "About", "Contact"].map(l => <Link key={l} href="#" onClick={() => setMenuOpen(false)} className="text-5xl font-black tracking-tighter uppercase mb-10">{l}</Link>)}
-        </motion.div>
-      )}</AnimatePresence>
-
-      {/* HERO */}
-      <section className="relative min-h-screen flex flex-col justify-center pt-20">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
-          <Reveal>
-            <div className="flex items-center gap-4 mb-8">
-              <div className="px-3 py-1 bg-[#a0845c]/10 border border-[#a0845c]/30 text-[#a0845c] text-[9px] font-bold uppercase tracking-widest">ACCEPTING_PROJECTS</div>
-              <div className="text-[9px] text-[#2a2420]/20 tracking-widest uppercase">EST. 2011 // PARIS & NEW YORK</div>
-            </div>
-            <h1 className="text-7xl md:text-9xl lg:text-[10rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
-              Design <br /> That <br /> <span className="text-[#a0845c]">Lives.</span>
-            </h1>
-            <p className="max-w-xl text-lg text-[#2a2420]/40 leading-relaxed font-light uppercase tracking-widest italic mb-12">
-              Luxury interior design studio. Residential, hospitality, and commercial spaces crafted with precision.
-            </p>
-            <button className="px-12 py-5 bg-[#2a2420] text-[#faf7f2] text-[10px] font-black uppercase tracking-[0.4em] hover:bg-[#a0845c] transition-all">View_Portfolio</button>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ABOUT */}
-      <section className="py-40 bg-white border-y border-[#2a2420]/5">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+      <main>
+        {/* ── HERO ─────────────── */}
+        <section className="relative h-[110vh] min-h-[800px] flex items-end overflow-hidden">
+          <motion.div style={{ y: heroY }} className="absolute inset-0">
+            <Image src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=2400" alt="Interior" fill className="object-cover" priority />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#f5f0eb] via-[#f5f0eb]/20 to-transparent" />
+          </motion.div>
+          <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] w-full mx-auto px-6 md:px-12 pb-24">
             <Reveal>
-              <span className="text-[10px] text-[#a0845c] font-bold uppercase tracking-[0.4em] mb-6 block">About Us</span>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.85] mb-8 uppercase">Crafting <span className="text-[#a0845c]">Spaces</span> Since 2011.</h2>
-              <p className="text-base text-[#2a2420]/40 leading-relaxed mb-6">Founded in Paris by architect duo Marie Laurent and Thomas Becker, Atelier Interior has grown into a 40-person studio spanning two continents. We believe that great design is invisible — it simply makes life better.</p>
-              <p className="text-base text-[#2a2420]/40 leading-relaxed mb-12">Our work spans luxury residences, five-star hotels, and forward-thinking offices. Every project begins with listening and ends with a space that feels inevitable.</p>
-              <div className="flex gap-16">
-                {[{ val: "280+", label: "PROJECTS" }, { val: "14", label: "AWARDS" }, { val: "40", label: "TEAM" }].map((s, i) => (
-                  <div key={i}><div className="text-3xl font-black text-[#a0845c]">{s.val}</div><div className="text-[9px] font-bold text-[#2a2420]/20 uppercase tracking-widest">{s.label}</div></div>
-                ))}
+              <div className="flex items-center gap-4 mb-6">
+                <div className="h-[1px] w-12 bg-[#8b7355]" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#8b7355]">Interior Design Studio</span>
               </div>
             </Reveal>
-            <Reveal delay={0.15}>
-              <div className="w-full aspect-square bg-gradient-to-br from-[#a0845c]/10 to-[#a0845c]/5 rounded-3xl flex items-center justify-center">
-                <Sofa className="w-20 h-20 text-[#a0845c]/15" />
+            <Reveal delay={0.15} y={70}>
+              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>
+                Spaces<br/>That <em className="text-[#8b7355]">Speak.</em>
+              </h1>
+            </Reveal>
+            <Reveal delay={0.3}>
+              <p className="max-w-lg text-lg text-[#2a2520]/50 font-light leading-relaxed">
+                Bespoke interior design for discerning clients. We create environments that elevate daily life into something extraordinary.
+              </p>
+            </Reveal>
+          </motion.div>
+        </section>
+
+        {/* ── PROJECTS ─────────── */}
+        <section className="py-32 bg-[#f5f0eb]">
+          <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="mb-20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#8b7355] block mb-4">Portfolio</span>
+                <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                  Selected <em className="text-[#8b7355]">Spaces.</em>
+                </h2>
               </div>
             </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* SERVICES */}
-      <section className="py-40 bg-[#faf7f2]">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-24">Our <span className="text-[#a0845c]">Services.</span></h2></Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-            {SERVICES.map((s, i) => (
-              <Reveal key={i} delay={i * 0.05}>
-                <div className="group p-10 bg-white border border-[#2a2420]/5 hover:border-[#a0845c]/30 rounded-3xl transition-all">
-                  <div className="w-14 h-14 bg-[#a0845c]/10 rounded-2xl flex items-center justify-center text-[#a0845c] mb-8 group-hover:bg-[#a0845c] group-hover:text-white transition-all">{s.icon}</div>
-                  <h3 className="text-xl font-black uppercase tracking-tighter mb-4 group-hover:text-[#a0845c] transition-colors">{s.title}</h3>
-                  <p className="text-sm text-[#2a2420]/40 leading-relaxed">{s.desc}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PORTFOLIO */}
-      <section className="py-40 bg-white border-y border-[#2a2420]/5">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-24">Selected <span className="text-[#a0845c]">Work.</span></h2></Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {PROJECTS.map((p, i) => (
-              <Reveal key={p.id} delay={i * 0.05}>
-                <div className="group cursor-pointer">
-                  <div className="w-full aspect-[16/10] bg-gradient-to-br from-[#a0845c]/10 to-[#a0845c]/5 rounded-2xl flex items-center justify-center mb-6 group-hover:from-[#a0845c]/20 transition-all">
-                    <Lamp className="w-12 h-12 text-[#a0845c]/15" />
-                  </div>
-                  <div className="flex items-center gap-4 mb-2">
-                    <span className="text-[9px] font-bold text-[#a0845c] uppercase tracking-widest">{p.category}</span>
-                    <span className="text-[9px] text-[#2a2420]/20 uppercase tracking-widest">{p.location}</span>
-                  </div>
-                  <h3 className="text-2xl font-black uppercase tracking-tighter group-hover:text-[#a0845c] transition-colors">{p.title}</h3>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section className="py-40 bg-[#faf7f2]">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-24">Client <span className="text-[#a0845c]">Words.</span></h2></Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {TESTIMONIALS.map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="p-10 bg-white border border-[#2a2420]/5 rounded-3xl h-full flex flex-col">
-                  <div className="flex gap-1 mb-6">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 text-[#a0845c] fill-[#a0845c]" />)}</div>
-                  <p className="text-base text-[#2a2420]/50 italic leading-relaxed flex-1 mb-8">&ldquo;{t.quote}&rdquo;</p>
-                  <div className="pt-6 border-t border-[#2a2420]/5">
-                    <div className="font-black uppercase text-sm">{t.name}</div>
-                    <div className="text-[10px] text-[#2a2420]/30 uppercase tracking-widest">{t.role}</div>
+                <div className={`group grid grid-cols-1 lg:grid-cols-2 gap-12 items-center cursor-pointer ${i > 0 ? "mt-24" : ""}`}>
+                  <div className={`relative aspect-[4/3] overflow-hidden rounded-sm ${i % 2 !== 0 ? "lg:order-2" : ""}`}>
+                    <ParallaxImg src={p.img} alt={p.title} />
+                  </div>
+                  <div className={i % 2 !== 0 ? "lg:order-1" : ""}>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#8b7355] block mb-3">{p.type}</span>
+                    <h3 className="text-4xl md:text-5xl font-light tracking-tighter mb-6 group-hover:text-[#8b7355] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{p.title}</h3>
+                    <p className="text-[#2a2520]/50 leading-relaxed mb-8">{p.desc}</p>
+                    <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#8b7355]">
+                      View Project <ArrowRight className="w-4 h-4" />
+                    </span>
                   </div>
                 </div>
               </Reveal>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* CONTACT */}
-      <section className="py-40 bg-[#2a2420] text-[#faf7f2]">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 text-center">
-          <Reveal>
-            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">Start Your <span className="text-[#a0845c]">Project.</span></h2>
-            <p className="max-w-xl mx-auto text-sm text-[#faf7f2]/40 leading-relaxed font-light mb-16 uppercase tracking-widest italic">Schedule a complimentary consultation at our Paris or New York studio.</p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <button className="px-16 py-6 bg-[#a0845c] text-white text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[#faf7f2] hover:text-[#2a2420] transition-all">Book_Consultation</button>
-              <button className="px-16 py-6 border border-[#faf7f2]/10 text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[#faf7f2] hover:text-[#2a2420] transition-all">Call_Studio</button>
+        {/* ── SERVICES ─────────── */}
+        <section className="py-32 bg-[#2a2520] text-[#f5f0eb]">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="text-center mb-24">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c4a882] block mb-4">What We Offer</span>
+                <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                  Design <em className="text-[#c4a882]">Services.</em>
+                </h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {SERVICES.map((s, i) => (
+                <Reveal key={i} delay={i * 0.08}>
+                  <div className="group p-10 bg-white/[0.03] border border-white/5 rounded-sm hover:border-[#c4a882]/30 transition-all duration-500">
+                    <div className="flex items-start gap-6">
+                      <div className="w-14 h-14 rounded-full border border-[#c4a882]/20 flex items-center justify-center shrink-0 group-hover:bg-[#8b7355] group-hover:border-[#8b7355] transition-all duration-500">
+                        <s.icon className="w-6 h-6 text-[#c4a882] group-hover:text-white transition-colors" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold mb-3" style={{ fontFamily: "Georgia, serif" }}>{s.title}</h3>
+                        <p className="text-sm text-[#f5f0eb]/40 leading-relaxed">{s.desc}</p>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <footer className="bg-[#2a2420] border-t border-[#faf7f2]/5 py-32 px-6 md:px-12 text-[#faf7f2]">
-        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
-          <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-[#a0845c] text-white rounded-full flex items-center justify-center"><Palette className="w-4 h-4" /></div><span>ATELIER // INTERIOR</span></Link>
-            <p className="text-[11px] text-[#faf7f2]/15 uppercase tracking-[0.2em] max-w-sm leading-relaxed italic">Luxury interior design studio. Paris & New York.</p>
           </div>
-          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#a0845c]">Studio</h4><ul className="space-y-5 text-[10px] font-bold text-[#faf7f2]/20 uppercase tracking-widest">{["Services", "Portfolio", "Process", "Press"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
-          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#a0845c]">Connect</h4><ul className="space-y-5 text-[10px] font-bold text-[#faf7f2]/20 uppercase tracking-widest">{["Globe", "Pinterest", "LinkedIn", "Contact"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
+        </section>
+
+        {/* ── TESTIMONIALS ────── */}
+        <section className="py-32 bg-white">
+          <div className="max-w-[1000px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="text-center mb-20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#8b7355] block mb-4">Client Words</span>
+                <h2 className="text-5xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                  Kind <em className="text-[#8b7355]">Words.</em>
+                </h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {TESTIMONIALS.map((t, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="p-8 bg-[#f5f0eb] rounded-sm border border-[#8b7355]/5">
+                    <div className="flex gap-1 mb-6">
+                      {Array.from({ length: 5 }).map((_, j) => (
+                        <Star key={j} className="w-4 h-4 fill-[#8b7355] text-[#8b7355]" />
+                      ))}
+                    </div>
+                    <p className="text-[#2a2520]/60 leading-relaxed mb-6 italic" style={{ fontFamily: "Georgia, serif" }}>"{t.text}"</p>
+                    <div className="font-bold text-sm">{t.author}</div>
+                    <div className="text-xs text-[#8b7355]">{t.project}</div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── CTA ──────────────── */}
+        <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0">
+            <Image src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&q=80&w=2400" alt="CTA" fill className="object-cover" />
+            <div className="absolute inset-0 bg-[#2a2520]/60" />
+          </div>
+          <div className="relative z-10 text-center text-[#f5f0eb] px-6">
+            <Reveal>
+              <h2 className="text-5xl md:text-7xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>
+                Let's Create Your<br/><em className="text-[#c4a882]">Perfect Space.</em>
+              </h2>
+              <button className="px-12 py-5 bg-[#f5f0eb] text-[#2a2520] font-bold rounded-full hover:bg-[#8b7355] hover:text-white transition-all duration-500">
+                Book a Consultation
+              </button>
+            </Reveal>
+          </div>
+        </section>
+      </main>
+
+      {/* ── FOOTER ─────────────── */}
+      <footer className="bg-[#2a2520] text-[#f5f0eb] pt-24 pb-12 px-6">
+        <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
+          <div>
+            <span className="text-xl tracking-[0.2em] uppercase mb-6 block" style={{ fontFamily: "Georgia, serif" }}>Atelier <span className="font-bold text-[#c4a882]">Interior</span></span>
+            <p className="text-sm text-[#f5f0eb]/30 leading-relaxed">Bespoke interiors crafted with intention and care.</p>
+          </div>
+          {[
+            { title: "Studio", links: ["Projects", "Services", "Process", "Team"] },
+            { title: "Connect", links: ["Contact", "Instagram", "Pinterest", "Press"] },
+            { title: "Info", links: ["Privacy", "Terms", "Cookies", "FAQ"] },
+          ].map((col, i) => (
+            <div key={i}>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#c4a882] mb-6">{col.title}</h4>
+              <ul className="space-y-3 text-sm text-[#f5f0eb]/30">
+                {col.links.map(l => <li key={l}><Link href="#" className="hover:text-[#f5f0eb] transition-colors">{l}</Link></li>)}
+              </ul>
+            </div>
+          ))}
         </div>
-        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-[#faf7f2]/5 text-center text-[9px] font-bold text-[#faf7f2]/10 uppercase tracking-widest">&copy; 2026 ATELIER INTERIOR</div>
+        <div className="max-w-[1200px] mx-auto pt-8 border-t border-[#f5f0eb]/10 text-[10px] font-bold uppercase tracking-widest text-[#f5f0eb]/20 flex justify-between">
+          <span>© 2026 ATELIER INTERIOR.</span>
+          <span>PARIS · LONDON · MILAN</span>
+        </div>
       </footer>
     </div>
-  );
+  )
 }
