@@ -1,167 +1,82 @@
 "use client"
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useSpring } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
+import { Rocket, ArrowRight, Menu, Globe, Shield, Satellite, Zap, Radio, ChevronRight, Activity, Cpu, Box } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Progress } from "@/components/ui/progress"
-import { Separator } from "@/components/ui/separator"
-import { Menu, ArrowRight, Sparkles, Layers, Box, Cpu, ArrowUpRight, Copy, Check, Hexagon, Fingerprint } from "lucide-react"
 
-// ─── UTILS & ANIMATION COMPONENTS ─────────────────────────────────────────────
-
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-50px" })
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function GlassCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function ParallaxImg({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const y = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"])
   return (
-    <div className={`relative overflow-hidden rounded-3xl border border-white/20 bg-white/10 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(255,255,255,0.1)] ${className}`}>
-      <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent pointer-events-none" />
-      <div className="relative z-10 p-8 h-full">
-        {children}
-      </div>
+    <div ref={ref} className="relative w-full h-full overflow-hidden">
+      <motion.div style={{ y }} className="absolute inset-[-15%] w-[130%] h-[130%]">
+        <Image src={src} alt={alt} fill className="object-cover" />
+      </motion.div>
     </div>
   )
 }
 
-// ─── DATA MANIFESTS ─────────────────────────────────────────────────────────
+const MISSIONS = [
+  { id: "AR-104", target: "Lunar Gateway", payload: "3.2 Tons", type: "Resupply", date: "Sept 12" },
+  { id: "AR-105", target: "Low Earth Orbit", payload: "24 Satellites", type: "Deployment", date: "Oct 04" },
+  { id: "AR-106", target: "Mars Alpha", payload: "Human Habitat", type: "Exploration", date: "Nov 28" },
+]
 
-const MANIFEST = {
-  hero: {
-    status: "MAINNET LIVE",
-    title: "AURA NETWORK",
-    desc: "The iridescent layer for decentralized social graphs. Aura brings vaporwave aesthetics to Web3 utility, creating a frictionless identity protocol."
-  },
-  features: [
-    { id: "01", title: "Soulbound NFTs", icon: <Fingerprint className="w-6 h-6" />, desc: "Non-transferable identity tokens representing your aesthetic and social reputation across the metaverse." },
-    { id: "02", title: "Zero-Knowledge", icon: <Hexagon className="w-6 h-6" />, desc: "Prove your identity and verify your community roles without revealing your wallet address or balance." },
-    { id: "03", title: "Cross-Chain", icon: <Layers className="w-6 h-6" />, desc: "Aura operates natively across Ethereum, Solana, and Polygon using LayerZero messaging." }
-  ],
-  tokenomics: {
-    supply: "1,000,000,000 $AURA",
-    contract: "0x8a...3f9c",
-    allocation: [
-      { label: "Community Treasury", percent: 45, color: "#ff71ce" },
-      { label: "Core Contributors", percent: 20, color: "#01cdfe" },
-      { label: "Liquidity Pool", percent: 15, color: "#05ffa1" },
-      { label: "Ecosystem Grants", percent: 15, color: "#b967ff" },
-      { label: "Advisors", percent: 5, color: "#fffb96" }
-    ]
-  },
-  roadmap: [
-    { phase: "Phase 1: Synthesis", status: "Completed", items: ["Protocol Whitepaper", "Seed Round Closed", "Testnet Alpha", "Community Genesis"] },
-    { phase: "Phase 2: Resonance", status: "Current", items: ["Mainnet Beta Launch", "Aura ID Minting", "Cross-chain Bridge", "DEX Listing"] },
-    { phase: "Phase 3: Ascension", status: "Upcoming", items: ["DAO Governance", "Staking Rewards V2", "Social Graph API", "Tier 1 CEX"] },
-    { phase: "Phase 4: Nirvana", status: "2027", items: ["Mobile App SDK", "Zero-Knowledge Rollup", "Ecosystem Fund", "Global Hackathon"] }
-  ],
-  backers: [
-    "a16z crypto", "Paradigm", "Sequoia Capital", "Framework", "Variant", "Multicoin"
-  ],
-  faq: [
-    { q: "What is an Aura ID?", a: "An Aura ID is a soulbound NFT that aggregates your on-chain history, social connections, and community reputation into a single, beautifully rendered iridescent orb." },
-    { q: "How do I participate in the Airdrop?", a: "To be eligible, you must hold an active Aura ID and have participated in the Testnet Alpha or engaged in our Discord community before the snapshot date." },
-    { q: "Is the contract audited?", a: "Yes, the Aura smart contracts have been thoroughly audited by Trail of Bits and Certik. All audit reports are available on our Github." },
-    { q: "What are the utility cases for $AURA?", a: "$AURA is used for governance, staking for protocol revenue share, and paying for premium API access to the Aura Social Graph." }
-  ]
-}
+const FLEET = [
+  { name: "Atlas Heavy", capacity: "150 Tons", orbit: "LEO / Lunar", img: "https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&q=80&w=1200" },
+  { name: "Nebula One", capacity: "12 Crew", orbit: "LEO / ISS", img: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=1200" },
+  { name: "Orbiter X", capacity: "Science Lab", orbit: "Deep Space", img: "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?auto=format&fit=crop&q=80&w=1200" },
+]
 
-// ─── MAIN PAGE ──────────────────────────────────────────────────────────────
-
-export default function AuraInteractivePage() {
+export default function AstrumReachPage() {
   const [scrolled, setScrolled] = useState(false)
-  const [copied, setCopied] = useState(false)
-  const { scrollYProgress } = useScroll()
-  
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50)
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
   }, [])
 
-  const copyContract = () => {
-    navigator.clipboard.writeText(MANIFEST.tokenomics.contract)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
-
   return (
-    <div className="bg-[#1a0b2e] text-[#fcfaf7] font-sans min-h-screen selection:bg-[#ff71ce] selection:text-white overflow-x-hidden relative">
+    <div className="bg-[#02040a] text-white font-sans min-h-screen selection:bg-cyan-500 selection:text-white overflow-x-hidden">
       
-      {/* ─── VAPORWAVE IRIDESCENT BACKGROUND ───────────────────────────── */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#1a0b2e]">
-        <motion.div style={{ y: bgY }} className="absolute inset-0">
-          <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-[#ff71ce]/40 blur-[120px] mix-blend-screen animate-[pulse_8s_infinite]" />
-          <div className="absolute top-[20%] right-[-10%] w-[70%] h-[70%] rounded-full bg-[#01cdfe]/30 blur-[150px] mix-blend-screen animate-[pulse_10s_infinite_reverse]" />
-          <div className="absolute bottom-[-20%] left-[20%] w-[50%] h-[50%] rounded-full bg-[#05ffa1]/20 blur-[100px] mix-blend-screen" />
-        </motion.div>
-        {/* Retro Grid */}
-        <div 
-          className="absolute bottom-0 w-full h-[50vh] opacity-30"
-          style={{
-            backgroundImage: "linear-gradient(#ff71ce 1px, transparent 1px), linear-gradient(90deg, #ff71ce 1px, transparent 1px)",
-            backgroundSize: "40px 40px",
-            transform: "perspective(500px) rotateX(60deg) translateY(100px) scale(2)"
-          }}
-        />
-        {/* VHS Overlay effect */}
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none" />
-      </div>
-
-      {/* ─── NAVBAR ────────────────────────────────────────────────────── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-[#1a0b2e]/60 backdrop-blur-xl border-b border-white/10 py-4" : "bg-transparent py-8"}`}>
-        <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#ff71ce] to-[#01cdfe] flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-white" />
+      {/* ── NAVBAR ────────────────── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#02040a]/90 backdrop-blur-xl border-b border-cyan-500/20 py-4" : "bg-transparent py-8"}`}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center group-hover:bg-cyan-500 transition-all duration-500">
+              <Rocket className="w-5 h-5 text-cyan-400 group-hover:text-black" />
             </div>
-            <span className="text-xl font-black tracking-widest uppercase italic">AURA</span>
+            <span className="text-xl font-light tracking-[0.4em] uppercase">Astrum <span className="text-cyan-500 font-bold">Reach</span></span>
           </Link>
-
-          <div className="hidden lg:flex items-center gap-10 text-xs font-bold uppercase tracking-widest">
-            {["Protocol", "Tokenomics", "Roadmap", "DAO"].map((link) => (
-              <Link key={link} href="#" className="hover:text-[#ff71ce] transition-colors relative group">
-                {link}
-              </Link>
+          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">
+            {["Missions", "Fleet", "Technology", "Control"].map(l => (
+              <Link key={l} href="#" className="hover:text-cyan-400 transition-colors">{l}</Link>
             ))}
           </div>
-
           <div className="flex items-center gap-4">
-            <Link href="#" className="hidden md:flex items-center justify-center px-6 py-2.5 bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white hover:text-black transition-all rounded-full text-xs font-bold uppercase tracking-widest">
-              Launch App
-            </Link>
+            <button className="hidden md:block px-6 py-2.5 text-white/40 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Command Login</button>
+            <button className="px-8 py-3 bg-cyan-600 text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-cyan-400 transition-all duration-500 shadow-[0_0_20px_rgba(6,182,212,0.3)]">Book Payload</button>
             <Sheet>
-              <SheetTrigger asChild>
-                <button className="lg:hidden w-10 h-10 flex items-center justify-center bg-white/10 backdrop-blur-md rounded-full text-white">
-                  <Menu className="w-5 h-5" />
-                </button>
-              </SheetTrigger>
-              <SheetContent side="right" className="bg-[#1a0b2e]/90 backdrop-blur-xl border-l border-white/10 p-12 text-white">
-                <div className="flex flex-col gap-8 mt-20">
-                  {["Protocol", "Tokenomics", "Roadmap", "DAO", "Launch App"].map((link) => (
-                    <Link key={link} href="#" className="text-3xl font-black uppercase italic hover:text-[#01cdfe] transition-colors">
-                      {link}
-                    </Link>
+              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
+              <SheetContent side="right" className="bg-[#02040a] border-cyan-500/20 p-12 text-white">
+                <div className="flex flex-col gap-8 mt-16 text-left">
+                  {["Missions", "Fleet", "Tech", "Support"].map(l => (
+                    <Link key={l} href="#" className="text-3xl font-light uppercase tracking-widest hover:text-cyan-400 transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -170,171 +85,144 @@ export default function AuraInteractivePage() {
         </div>
       </nav>
 
-      <main className="relative z-10">
-        {/* ─── HERO ──────────────────────────────────────────────────────── */}
-        <section className="relative min-h-screen flex items-center pt-20 pb-32">
-          <div className="max-w-[1400px] mx-auto px-6 w-full text-center">
-            <Reveal>
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md mb-8">
-                <div className="w-2 h-2 rounded-full bg-[#05ffa1] animate-pulse" />
-                <span className="text-[10px] font-bold uppercase tracking-widest text-[#05ffa1]">{MANIFEST.hero.status}</span>
-              </div>
-              
-              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black uppercase tracking-tighter italic leading-none mb-8 drop-shadow-[0_0_30px_rgba(255,113,206,0.5)]">
-                {MANIFEST.hero.title}
-              </h1>
-              
-              <p className="max-w-2xl mx-auto text-lg md:text-2xl text-white/80 leading-relaxed font-medium mb-12">
-                {MANIFEST.hero.desc}
-              </p>
-              
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                <button className="w-full sm:w-auto px-10 py-5 rounded-full bg-gradient-to-r from-[#ff71ce] to-[#01cdfe] text-white text-xs font-black uppercase tracking-widest hover:scale-105 transition-transform shadow-[0_0_40px_rgba(1,205,254,0.4)]">
-                  Mint Aura ID
-                </button>
-                <button className="w-full sm:w-auto px-10 py-5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white text-xs font-black uppercase tracking-widest hover:bg-white/20 transition-colors">
-                  Read Docs
-                </button>
-              </div>
-            </Reveal>
-            
-            {/* Massive floating 3D orb placeholder */}
-            <Reveal delay={0.4}>
-              <div className="mt-24 relative w-64 h-64 md:w-96 md:h-96 mx-auto animate-[bounce_6s_infinite]">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#ff71ce] via-[#b967ff] to-[#01cdfe] blur-[10px] shadow-[0_0_100px_rgba(255,113,206,0.8)] border border-white/40" />
-                <div className="absolute inset-4 rounded-full bg-gradient-to-bl from-white/40 to-transparent backdrop-blur-sm" />
-              </div>
-            </Reveal>
+      <main>
+        {/* ── HERO ──────────────────── */}
+        <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+          {/* Star Field Background */}
+          <div className="absolute inset-0 opacity-40">
+             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] bg-repeat" />
+             <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-cyan-900/10 blur-[150px] rounded-full animate-pulse" />
           </div>
-        </section>
 
-        {/* ─── BACKERS MARQUEE ───────────────────────────────────────────── */}
-        <section className="py-8 bg-white/5 backdrop-blur-md border-y border-white/10 overflow-hidden">
-          <div className="flex items-center gap-16 whitespace-nowrap overflow-hidden">
-            <motion.div animate={{ x: [0, -1000] }} transition={{ repeat: Infinity, duration: 20, ease: "linear" }} className="flex gap-16 items-center">
-              {[...MANIFEST.backers, ...MANIFEST.backers, ...MANIFEST.backers].map((backer, i) => (
-                <div key={i} className="text-xl md:text-3xl font-black uppercase italic tracking-widest text-white/30 mix-blend-overlay">
-                  {backer}
-                </div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
-
-        {/* ─── FEATURES ──────────────────────────────────────────────────── */}
-        <section className="py-32">
-          <div className="max-w-[1400px] mx-auto px-6">
-            <Reveal>
-              <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight italic mb-20 text-center drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
-                Protocol Architecture
-              </h2>
-            </Reveal>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {MANIFEST.features.map((feat, i) => (
-                <Reveal key={i} delay={i * 0.1}>
-                  <GlassCard className="group hover:-translate-y-2 transition-transform duration-500">
-                    <div className="text-[100px] font-black italic text-white/5 absolute top-4 right-4 pointer-events-none">{feat.id}</div>
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#ff71ce]/20 to-[#01cdfe]/20 border border-white/20 flex items-center justify-center text-white mb-8 group-hover:scale-110 transition-transform">
-                      {feat.icon}
-                    </div>
-                    <h3 className="text-2xl font-black uppercase tracking-widest mb-4">{feat.title}</h3>
-                    <p className="text-white/70 leading-relaxed font-medium">{feat.desc}</p>
-                  </GlassCard>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ─── TOKENOMICS ────────────────────────────────────────────────── */}
-        <section className="py-32 relative">
-          <div className="max-w-[1400px] mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div>
                 <Reveal>
-                  <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight italic mb-8">
-                    Tokenomics
-                  </h2>
-                  <p className="text-white/70 text-lg mb-12">
-                    $AURA is the native governance and utility token of the protocol, designed for long-term sustainability and community ownership.
+                  <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-cyan-500/5 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-[0.4em] mb-12">
+                    <Activity className="w-4 h-4 animate-pulse" /> Orbital Logistics System Active
+                  </div>
+                </Reveal>
+                <Reveal delay={0.1} y={60}>
+                  <h1 className="text-6xl md:text-[9rem] font-light tracking-tighter leading-[0.8] uppercase mb-12">
+                    Infinite <br/> <span className="text-cyan-500 font-bold">Horizon.</span>
+                  </h1>
+                </Reveal>
+                <Reveal delay={0.3}>
+                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12 italic">
+                    Reliable, cost-effective orbital transport for the next generation of space exploration. From LEO to deep space, we bridge the gap.
                   </p>
-                  
-                  <div className="space-y-6 mb-12">
-                    <div>
-                      <div className="text-xs font-bold uppercase tracking-widest text-white/50 mb-2">Total Supply</div>
-                      <div className="text-3xl font-black text-[#05ffa1]">{MANIFEST.tokenomics.supply}</div>
-                    </div>
-                    <div>
-                      <div className="text-xs font-bold uppercase tracking-widest text-white/50 mb-2">Contract Address</div>
-                      <button onClick={copyContract} className="flex items-center gap-3 px-4 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-colors">
-                        <span className="font-mono text-[#01cdfe]">{MANIFEST.tokenomics.contract}</span>
-                        {copied ? <Check className="w-4 h-4 text-[#05ffa1]" /> : <Copy className="w-4 h-4 text-white/50" />}
-                      </button>
-                    </div>
+                </Reveal>
+                <Reveal delay={0.4}>
+                  <div className="flex flex-wrap gap-6">
+                    <button className="px-12 py-5 bg-cyan-600 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-cyan-400 transition-all duration-500">
+                       Track Current Missions
+                    </button>
+                    <button className="px-12 py-5 border border-white/10 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/5 transition-all flex items-center gap-3">
+                       System Status: Green
+                    </button>
                   </div>
                 </Reveal>
               </div>
               
-              <div>
-                <Reveal delay={0.2}>
-                  <GlassCard>
-                    <h3 className="text-xl font-black uppercase tracking-widest mb-8">Allocation Distribution</h3>
-                    <div className="space-y-6">
-                      {MANIFEST.tokenomics.allocation.map((item, i) => (
-                        <div key={i}>
-                          <div className="flex justify-between text-sm font-bold uppercase tracking-widest mb-2">
-                            <span>{item.label}</span>
-                            <span style={{ color: item.color }}>{item.percent}%</span>
+              <Reveal delay={0.5} y={0}>
+                 <div className="relative">
+                    <div className="absolute -inset-10 bg-cyan-500/5 blur-[120px] rounded-full" />
+                    <div className="relative aspect-square border border-white/5 p-2 bg-white/[0.02] rounded-full overflow-hidden">
+                       <Image src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=1200" alt="Orbital View" fill className="object-cover opacity-60 rounded-full" />
+                       <div className="absolute inset-0 bg-gradient-to-t from-[#02040a] via-transparent to-transparent opacity-80" />
+                       {/* Overlay HUD */}
+                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                          <div className="w-[80%] h-[80%] border border-cyan-500/20 rounded-full flex items-center justify-center animate-[spin_20s_linear_infinite]">
+                             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.8)] rounded-full" />
                           </div>
-                          <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-                            <motion.div 
-                              initial={{ width: 0 }} whileInView={{ width: `${item.percent}%` }} viewport={{ once: true }} transition={{ duration: 1, delay: i * 0.1 }}
-                              className="h-full rounded-full" style={{ backgroundColor: item.color }}
-                            />
-                          </div>
-                        </div>
-                      ))}
+                          <div className="absolute w-[60%] h-[60%] border border-cyan-500/10 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
+                       </div>
                     </div>
-                  </GlassCard>
-                </Reveal>
-              </div>
+                 </div>
+              </Reveal>
             </div>
           </div>
         </section>
 
-        {/* ─── ROADMAP ───────────────────────────────────────────────────── */}
-        <section className="py-32">
-          <div className="max-w-[1000px] mx-auto px-6">
+        {/* ── MISSIONS TABLE ────────── */}
+        <section className="py-32 bg-[#02040a] border-y border-white/5">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
-              <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight italic mb-20 text-center">
-                Protocol Roadmap
-              </h2>
+              <div className="mb-20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-500 block mb-4">Mission Manifest</span>
+                <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter">Scheduled <span className="font-bold">Flights.</span></h2>
+              </div>
             </Reveal>
-            
-            <div className="space-y-8">
-              {MANIFEST.roadmap.map((phase, i) => (
-                <Reveal key={i} delay={i * 0.1}>
-                  <div className={`p-8 rounded-3xl border ${phase.status === 'Current' ? 'border-[#ff71ce] bg-[#ff71ce]/10 shadow-[0_0_30px_rgba(255,113,206,0.2)]' : 'border-white/10 bg-white/5'} backdrop-blur-md`}>
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
-                      <h3 className="text-2xl font-black uppercase italic tracking-widest">{phase.phase}</h3>
-                      <div className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest border ${
-                        phase.status === 'Completed' ? 'border-[#05ffa1] text-[#05ffa1] bg-[#05ffa1]/10' :
-                        phase.status === 'Current' ? 'border-[#ff71ce] text-[#ff71ce] bg-[#ff71ce]/10' :
-                        'border-white/30 text-white/50 bg-white/5'
-                      }`}>
-                        {phase.status}
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="border-b border-white/10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">
+                    <th className="pb-8">Mission ID</th>
+                    <th className="pb-8">Target</th>
+                    <th className="pb-8">Payload</th>
+                    <th className="pb-8">Type</th>
+                    <th className="pb-8 text-right">Launch Date</th>
+                  </tr>
+                </thead>
+                <tbody className="text-sm font-light">
+                  {MISSIONS.map((m, i) => (
+                    <Reveal key={i} delay={i * 0.1}>
+                      <tr className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group">
+                        <td className="py-8 font-mono text-cyan-400">{m.id}</td>
+                        <td className="py-8">{m.target}</td>
+                        <td className="py-8 text-white/60">{m.payload}</td>
+                        <td className="py-8">
+                           <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] uppercase font-bold tracking-widest">{m.type}</span>
+                        </td>
+                        <td className="py-8 text-right font-bold text-white group-hover:text-cyan-400 transition-colors">{m.date}</td>
+                      </tr>
+                    </Reveal>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        {/* ── FLEET ─────────────────── */}
+        <section className="py-32 bg-[#02040a]">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8">
+                <div className="max-w-2xl">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-500 block mb-4">The Fleet</span>
+                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter italic leading-none">Space <span className="text-white/20">Infrastructure.</span></h2>
+                </div>
+                <div className="flex gap-4">
+                   <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all cursor-pointer"><ArrowRight className="w-5 h-5 rotate-180" /></div>
+                   <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all cursor-pointer"><ArrowRight className="w-5 h-5" /></div>
+                </div>
+              </div>
+            </Reveal>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {FLEET.map((f, i) => (
+                <Reveal key={i} delay={i * 0.15}>
+                  <div className="group cursor-pointer">
+                    <div className="relative aspect-[3/4] mb-8 overflow-hidden rounded-sm bg-white/[0.02]">
+                      <ParallaxImg src={f.img} alt={f.name} />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+                      <div className="absolute bottom-8 left-8 right-8">
+                         <div className="text-[10px] font-bold uppercase tracking-widest text-cyan-500 mb-2">Operational</div>
+                         <h3 className="text-3xl font-bold uppercase tracking-widest text-white">{f.name}</h3>
                       </div>
                     </div>
-                    
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {phase.items.map((item, j) => (
-                        <li key={j} className="flex items-center gap-3 text-sm font-bold text-white/80">
-                          <Check className={`w-4 h-4 ${phase.status === 'Completed' ? 'text-[#05ffa1]' : 'text-white/30'}`} />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="grid grid-cols-2 gap-8 border-t border-white/10 pt-8">
+                       <div>
+                          <div className="text-[8px] font-bold uppercase text-white/30 mb-1">Payload Capacity</div>
+                          <div className="text-lg font-bold italic uppercase">{f.capacity}</div>
+                       </div>
+                       <div>
+                          <div className="text-[8px] font-bold uppercase text-white/30 mb-1">Target Orbit</div>
+                          <div className="text-lg font-bold italic uppercase">{f.orbit}</div>
+                       </div>
+                    </div>
                   </div>
                 </Reveal>
               ))}
@@ -342,68 +230,123 @@ export default function AuraInteractivePage() {
           </div>
         </section>
 
-        {/* ─── FAQ ───────────────────────────────────────────────────────── */}
-        <section className="py-32">
-          <div className="max-w-[800px] mx-auto px-6">
-            <Reveal>
-              <h2 className="text-4xl font-black uppercase italic tracking-widest mb-16 text-center">Transmission Queries</h2>
-            </Reveal>
-            <Accordion type="single" collapsible className="w-full space-y-4">
-              {MANIFEST.faq.map((item, i) => (
-                <Reveal key={i} delay={i * 0.1}>
-                  <AccordionItem value={`item-${i}`} className="border border-white/10 bg-white/5 backdrop-blur-md px-6 rounded-2xl">
-                    <AccordionTrigger className="text-sm font-bold uppercase tracking-widest py-6 hover:text-[#01cdfe] hover:no-underline text-left">
-                      {item.q}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-white/70 leading-relaxed pb-6 font-medium">
-                      {item.a}
-                    </AccordionContent>
-                  </AccordionItem>
+        {/* ── TECHNOLOGY ────────────── */}
+        <section className="py-32 bg-[#05080f] relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-1/2 h-full opacity-5 pointer-events-none">
+             <Satellite className="w-[800px] h-[800px] -translate-y-1/4 translate-x-1/4" />
+          </div>
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+              <div>
+                <Reveal>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-500 block mb-4">Advancements</span>
+                  <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter mb-12 leading-tight italic">Propelling <br/>The <span className="font-bold text-white not-italic">Future.</span></h2>
+                  <div className="space-y-12">
+                    {[
+                      { icon: Cpu, t: "Autonomous Navigation", d: "Next-gen flight computers capable of sub-meter orbital docking with zero human intervention." },
+                      { icon: Shield, t: "Propulsion Safety", d: "Redundant plasma thrusters ensuring mission safety even in the most extreme cosmic conditions." },
+                      { icon: Radio, t: "Deep Space Comm", d: "Laser-based communication array providing gigabit-speed connectivity across the solar system." }
+                    ].map((f, i) => (
+                      <div key={i} className="flex gap-8 group">
+                         <div className="w-16 h-16 shrink-0 border border-cyan-500/20 flex items-center justify-center group-hover:bg-cyan-500 group-hover:border-cyan-500 transition-all duration-700">
+                            <f.icon className="w-6 h-6 text-cyan-400 group-hover:text-black transition-colors" />
+                         </div>
+                         <div>
+                            <h4 className="text-xl font-bold uppercase tracking-widest mb-2 italic">{f.t}</h4>
+                            <p className="text-white/30 leading-relaxed text-sm max-w-sm font-light">{f.d}</p>
+                         </div>
+                      </div>
+                    ))}
+                  </div>
                 </Reveal>
-              ))}
-            </Accordion>
+              </div>
+              <Reveal delay={0.2}>
+                 <div className="relative aspect-square border border-white/5 bg-white/[0.01] p-12 overflow-hidden flex items-center justify-center">
+                    <div className="relative w-full h-full border border-cyan-500/10 rounded-full flex items-center justify-center">
+                       <div className="w-3/4 h-3/4 border border-cyan-500/20 rounded-full animate-[ping_4s_linear_infinite]" />
+                       <div className="absolute inset-0 flex items-center justify-center">
+                          <Globe className="w-24 h-24 text-cyan-400/20" />
+                       </div>
+                    </div>
+                    {/* Telemetry markers */}
+                    <div className="absolute top-12 left-12 text-[8px] font-mono text-cyan-400/40 space-y-1">
+                       <p>ALT: 402.4 KM</p>
+                       <p>VEL: 7.66 KM/S</p>
+                       <p>LAT: 28.5721 N</p>
+                       <p>LON: 80.6490 W</p>
+                    </div>
+                 </div>
+              </Reveal>
+            </div>
           </div>
         </section>
 
-        {/* ─── CTA BANNER ────────────────────────────────────────────────── */}
-        <section className="py-40 relative border-t border-white/10">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1a0b2e] to-[#ff71ce]/20 pointer-events-none" />
-          <div className="max-w-[1000px] mx-auto px-6 relative z-10 text-center">
+        {/* ── CTA ───────────────────── */}
+        <section className="py-40 bg-cyan-600 text-white text-center relative overflow-hidden">
+           <div className="absolute inset-0 opacity-10">
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] bg-repeat" />
+           </div>
+          <div className="max-w-4xl mx-auto px-6 relative z-10">
             <Reveal>
-              <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter italic mb-8 drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
-                Enter The Grid
+              <h2 className="text-6xl md:text-[9rem] font-light uppercase tracking-tighter leading-[0.8] mb-12 italic">
+                Reach For <br/> <span className="font-bold not-italic">More.</span>
               </h2>
-              <p className="text-xl text-white/80 mb-12 font-medium">
-                Claim your Aura ID and start building your decentralized identity today.
+              <p className="text-xl text-white/80 font-light mb-16 leading-relaxed">
+                Our team is ready to handle your most complex orbital logistics. Join the list of space agencies and private firms reaching for the stars.
               </p>
-              <button className="px-12 py-6 rounded-full bg-white text-[#1a0b2e] text-sm font-black uppercase tracking-widest hover:scale-105 transition-transform shadow-[0_0_50px_rgba(255,255,255,0.3)]">
-                Connect Wallet
-              </button>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
+                <button className="px-16 py-6 bg-black text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white hover:text-black transition-all duration-700 italic">
+                   Initiate Mission Audit
+                </button>
+                <button className="px-16 py-6 border-2 border-white/40 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white hover:text-black transition-all duration-700 italic">
+                   Download Payload Guide
+                </button>
+              </div>
             </Reveal>
           </div>
         </section>
-
       </main>
 
-      {/* ─── FOOTER ──────────────────────────────────────────────────────── */}
-      <footer className="bg-[#1a0b2e] pt-20 pb-12 px-6 border-t border-white/10 relative z-20">
-        <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
-          <Link href="/" className="flex items-center gap-3">
-            <Sparkles className="w-6 h-6 text-[#ff71ce]" />
-            <span className="text-2xl font-black tracking-widest uppercase italic text-white">AURA</span>
-          </Link>
-
-          <div className="flex flex-wrap justify-center gap-8 text-[10px] font-bold uppercase tracking-widest text-white/50">
-            <Link href="#" className="hover:text-white transition-colors">Twitter</Link>
-            <Link href="#" className="hover:text-white transition-colors">Discord</Link>
-            <Link href="#" className="hover:text-white transition-colors">Github</Link>
-            <Link href="#" className="hover:text-white transition-colors">Docs</Link>
-            <Link href="#" className="hover:text-white transition-colors">Terms</Link>
+      {/* ── FOOTER ────────────────── */}
+      <footer className="bg-[#02040a] pt-32 pb-12 px-6 border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-16 mb-32">
+          <div className="md:col-span-2">
+            <Link href="/" className="flex items-center gap-3 mb-10">
+              <div className="w-10 h-10 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center">
+                <Rocket className="w-5 h-5 text-cyan-400" />
+              </div>
+              <span className="text-xl font-light tracking-[0.4em] uppercase text-white">Astrum <span className="text-cyan-500 font-bold">Reach</span></span>
+            </Link>
+            <p className="text-white/20 max-w-sm leading-relaxed mb-10 text-sm font-light italic">
+              Empowering the next century of space travel through sustainable, reliable, and frequent orbital access.
+            </p>
+            <div className="flex gap-8">
+               {["Mission Control", "YouTube", "GitHub", "Twitter"].map(s => (
+                 <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-cyan-400 transition-colors">{s}</Link>
+               ))}
+            </div>
           </div>
+          
+          {[
+            { t: "Missions", l: ["Payload Services", "Launch Schedule", "Orbital Mapping", "Lunar Transit"] },
+            { t: "Technology", l: ["Atlas Heavy", "Nebula Capsule", "Laser Comms", "Propulsion"] },
+            { t: "Resources", l: ["Payload Guide", "Launch Specs", "Safety Manual", "Contact"] },
+          ].map((col, i) => (
+            <div key={i} className="space-y-10">
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-500">{col.t}</h4>
+              <ul className="space-y-6">
+                {col.l.map(link => <li key={link}><Link href="#" className="text-xs text-white/40 hover:text-white transition-colors">{link}</Link></li>)}
+              </ul>
+            </div>
+          ))}
         </div>
         
-        <div className="max-w-[1400px] mx-auto text-center mt-16 text-[10px] font-bold uppercase tracking-widest text-white/30">
-          © 2026 Aura Network. Vaporwave is forever.
+        <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
+          <span>© 2026 ASTRUM REACH AEROSPACE. ALL STAGES NOMINAL.</span>
+          <div className="flex gap-10">
+             <Link href="#" className="hover:text-white transition-colors flex items-center gap-2">CAPE CANAVERAL, FL</Link>
+             <Link href="#" className="hover:text-white transition-colors flex items-center gap-2">STARBASE, TX</Link>
+          </div>
         </div>
       </footer>
     </div>

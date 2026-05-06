@@ -1,400 +1,272 @@
 "use client"
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useSpring } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
+import { Car, ArrowRight, Menu, Zap, Gauge, Shield, Settings, Timer, ChevronRight, Activity, MoveRight } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Progress } from "@/components/ui/progress"
-import { Separator } from "@/components/ui/separator"
-import { Menu, X, ArrowRight, ArrowUpRight, Play, ShoppingBag, Plus, Minus, Instagram, Facebook, Twitter, Hexagon } from "lucide-react"
 
-// ─── UTILS & ANIMATION COMPONENTS ─────────────────────────────────────────────
-
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function RevealImg({ src, alt, aspect = "aspect-[3/4]" }: { src: string; alt: string; aspect?: string }) {
+function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
-  
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const y = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"])
   return (
-    <div ref={ref} className={`relative overflow-hidden ${aspect}`}>
-      <motion.div
-        initial={{ height: "100%" }}
-        animate={isInView ? { height: "0%" } : {}}
-        transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
-        className="absolute inset-0 bg-[#e8e6e1] z-10"
-      />
-      <motion.div
-        initial={{ scale: 1.2 }}
-        animate={isInView ? { scale: 1 } : {}}
-        transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-        className="w-full h-full"
-      >
+    <div ref={ref} className="relative w-full h-full overflow-hidden">
+      <motion.div style={{ y }} className="absolute inset-[-20%] w-[140%] h-[140%]">
         <Image src={src} alt={alt} fill className="object-cover" />
       </motion.div>
     </div>
   )
 }
 
-// ─── DATA MANIFESTS ─────────────────────────────────────────────────────────
+const MODELS = [
+  { name: "V1 Prototype", year: "2024", topSpeed: "380 km/h", power: "1,200 hp", img: "https://images.unsplash.com/photo-1592198084033-aade902d1aae?auto=format&fit=crop&q=80&w=1200" },
+  { name: "Iron Lung S", year: "2023", topSpeed: "420 km/h", power: "1,600 hp", img: "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=1200" },
+  { name: "Apex Track", year: "2024", topSpeed: "340 km/h", power: "900 hp", img: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=1200" },
+]
 
-const MANIFEST = {
-  hero: {
-    collection: "Automne / Hiver 2026",
-    title: "Le Crépuscule d'Or",
-    desc: "A brutal juxtaposition of fragile silks and severe tailoring. The AW26 collection explores the tension between architectural rigidity and fluid femininity.",
-  },
-  looks: [
-    { id: "01", name: "L'Architecte", price: "€4,200", img: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80" },
-    { id: "02", name: "Ombre et Lumière", price: "€3,800", img: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80" },
-    { id: "03", name: "La Nuit Velours", price: "€5,100", img: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80" },
-    { id: "04", name: "Écho De Soie", price: "€2,900", img: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80" }
-  ],
-  atelier: [
-    { title: "Savoir-Faire", desc: "Every garment requires a minimum of 120 hours of manual labor at our Parisian atelier. Embroidery is executed by Lesage, ensuring ancestral techniques survive the modern era.", img: "https://images.unsplash.com/photo-1558769132-cb1fac0840f8?w=800&q=80" },
-    { title: "Matériaux Purs", desc: "We source our cashmere exclusively from ethical farms in Inner Mongolia, and our silks are woven on century-old looms in Lyon. Compromise is not in our vocabulary.", img: "https://images.unsplash.com/photo-1584916201218-f4242ceb4809?w=800&q=80" }
-  ],
-  press: [
-    { quote: "Maison reshapes the very silhouette of modern elegance. A triumph of austere beauty.", publication: "Vogue Paris", author: "Emmanuelle Alt" },
-    { quote: "The AW26 collection proves that true luxury still resides in the whispered details, not the scream of logos.", publication: "The Business of Fashion", author: "Tim Blanks" },
-    { quote: "Tailoring so sharp it could cut glass, draped in fabrics that float like smoke.", publication: "WWD", author: "Miles Socha" }
-  ],
-  faq: [
-    { q: "How do I secure an appointment at the Paris Atelier?", a: "Private fittings are strictly by appointment. Please submit a request via our concierge portal, and a client advisor will contact you within 48 hours." },
-    { q: "Do you offer international shipping for ready-to-wear?", a: "Yes, we ship globally via secure, insured courier services. Delivery typically occurs within 3-5 business days." },
-    { q: "Can a runway piece be customized to my measurements?", a: "Made-to-measure services are available exclusively for our Haute Couture clients. Ready-to-wear pieces can be altered at our flagship boutiques." },
-    { q: "What is the return policy?", a: "Unworn ready-to-wear items may be returned within 14 days of receipt. Haute Couture and personalized items are final sale." }
-  ]
-}
+const SPECS = [
+  { label: "0-100 km/h", value: "2.1s" },
+  { label: "Lateral G", value: "1.8G" },
+  { label: "Weight", value: "1,240kg" },
+  { label: "Aero Downforce", value: "800kg" },
+]
 
-// ─── MAIN PAGE ──────────────────────────────────────────────────────────────
-
-export default function MaisonFashionPage() {
+export default function VulcanMotorsPage() {
   const [scrolled, setScrolled] = useState(false)
-  const { scrollYProgress } = useScroll()
-  
-  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"])
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50)
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
-    <div className="bg-[#fcfbf9] text-[#111111] font-sans min-h-screen selection:bg-[#cfae70] selection:text-white overflow-x-hidden">
+    <div className="bg-[#050505] text-white font-sans min-h-screen selection:bg-[#ff3b30] selection:text-white overflow-x-hidden">
       
-      {/* ─── NAVBAR ────────────────────────────────────────────────────── */}
-      <motion.nav 
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#fcfbf9]/90 backdrop-blur-md py-4" : "bg-transparent py-8 mix-blend-difference text-white"}`}
-      >
-        <div className="max-w-[1800px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.2em]">
-            {["Collections", "Maison", "Atelier", "Boutiques"].map((link) => (
-              <Link key={link} href="#" className="hover:text-[#cfae70] transition-colors relative group">
-                {link}
-              </Link>
+      {/* ── NAVBAR ────────────────── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-black/90 backdrop-blur-xl border-b border-red-600/20 py-4" : "bg-transparent py-8"}`}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 bg-red-600 flex items-center justify-center -skew-x-12 group-hover:scale-110 transition-transform duration-500">
+              <Car className="w-6 h-6 text-black fill-current" />
+            </div>
+            <span className="text-2xl font-black tracking-tighter uppercase italic">Vulcan<span className="text-red-600">Motors</span></span>
+          </Link>
+          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
+            {["Atelier", "Collection", "Performance", "Reserve"].map(l => (
+              <Link key={l} href="#" className="hover:text-red-500 transition-colors">{l}</Link>
             ))}
           </div>
-
-          <Link href="/" className="absolute left-1/2 -translate-x-1/2">
-            <h1 className="text-3xl lg:text-4xl font-light tracking-[0.3em] uppercase" style={{ fontFamily: "Georgia, serif" }}>
-              Maison
-            </h1>
-          </Link>
-
-          <div className="flex items-center gap-6 lg:gap-10">
-            <Link href="#" className="hidden md:flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] hover:text-[#cfae70] transition-colors">
-              <Search className="w-4 h-4" /> Search
-            </Link>
-            <Link href="#" className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] hover:text-[#cfae70] transition-colors">
-              <ShoppingBag className="w-4 h-4" /> (0)
-            </Link>
+          <div className="flex items-center gap-4">
+            <button className="hidden md:block px-6 py-2.5 text-white/40 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Owner Portal</button>
+            <button className="px-8 py-3 bg-red-600 text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-white hover:text-black transition-all duration-500 italic">Configure</button>
             <Sheet>
-              <SheetTrigger asChild>
-                <button className="lg:hidden flex items-center justify-center hover:text-[#cfae70] transition-colors">
-                  <Menu className="w-6 h-6" />
-                </button>
-              </SheetTrigger>
-              <SheetContent side="right" className="bg-[#111111] text-[#fcfbf9] border-none p-12">
-                <div className="flex flex-col gap-8 mt-20">
-                  {["Collections", "Maison", "Atelier", "Boutiques", "Client Services", "Login"].map((link) => (
-                    <Link key={link} href="#" className="text-4xl font-light uppercase tracking-widest hover:text-[#cfae70] transition-colors" style={{ fontFamily: "Georgia, serif" }}>
-                      {link}
-                    </Link>
+              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
+              <SheetContent side="right" className="bg-black border-red-600/20 p-12 text-white">
+                <div className="flex flex-col gap-8 mt-16 text-left">
+                  {["The Atelier", "Models", "Tech Specs", "Contact"].map(l => (
+                    <Link key={l} href="#" className="text-3xl font-black uppercase tracking-tighter hover:text-red-600 transition-colors italic">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
             </Sheet>
           </div>
         </div>
-      </motion.nav>
+      </nav>
 
       <main>
-        {/* ─── HERO ──────────────────────────────────────────────────────── */}
-        <section className="relative h-screen min-h-[800px] overflow-hidden bg-[#111111]">
-          <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image 
-              src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=2000&q=80" 
-              alt="Maison Hero" 
-              fill 
-              className="object-cover opacity-70"
-            />
-          </motion.div>
-          
-          <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-black/30" />
+        {/* ── HERO ──────────────────── */}
+        <section className="relative h-screen flex items-center pt-32 pb-20 overflow-hidden">
+          <div className="absolute inset-0">
+            <Image src="https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=2400" alt="Hypercar Detail" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000" priority />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent" />
+            <div className="absolute inset-0 bg-black/40" />
+          </div>
 
-          <motion.div style={{ y: textY }} className="absolute inset-0 flex flex-col items-center justify-center text-center text-[#fcfbf9] px-6">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.5 }}>
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#cfae70] mb-6 block">
-                {MANIFEST.hero.collection}
-              </span>
-              <h2 className="text-6xl md:text-8xl lg:text-[10rem] font-light uppercase tracking-[0.1em] mb-8 leading-none" style={{ fontFamily: "Georgia, serif" }}>
-                {MANIFEST.hero.title}
-              </h2>
-              <p className="max-w-2xl mx-auto text-sm md:text-base font-light italic leading-relaxed text-white/70">
-                "{MANIFEST.hero.desc}"
-              </p>
-            </motion.div>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 1.2 }} className="absolute bottom-12">
-              <div className="w-[1px] h-24 bg-white/30" />
-            </motion.div>
-          </motion.div>
-        </section>
-
-        {/* ─── LOOKBOOK CAROUSEL ─────────────────────────────────────────── */}
-        <section className="py-32 overflow-hidden">
-          <div className="max-w-[1800px] mx-auto px-6 md:px-12 mb-20">
+          <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
             <Reveal>
-              <div className="flex items-end justify-between">
-                <div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#cfae70] mb-4">Runway</div>
-                  <h3 className="text-5xl md:text-7xl font-light uppercase tracking-widest" style={{ fontFamily: "Georgia, serif" }}>
-                    The Looks
-                  </h3>
-                </div>
-                <Link href="#" className="hidden md:flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] border-b border-[#111111] pb-1 hover:text-[#cfae70] hover:border-[#cfae70] transition-colors">
-                  View Full Collection <ArrowRight className="w-4 h-4" />
-                </Link>
+              <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-red-600/10 border border-red-600/20 text-red-500 text-[10px] font-bold uppercase tracking-[0.3em] mb-12 italic">
+                <Gauge className="w-4 h-4" /> The Pinnacle of Mechanical Intent
+              </div>
+            </Reveal>
+            <Reveal delay={0.1} y={60}>
+              <h1 className="text-7xl md:text-[10rem] font-black tracking-tighter leading-[0.8] uppercase italic mb-12">
+                Pure<br/>Kinetic<br/><span className="text-red-600">Soul.</span>
+              </h1>
+            </Reveal>
+            <Reveal delay={0.25}>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-4xl border-t border-white/10 pt-12">
+                {SPECS.map((s, i) => (
+                  <div key={i}>
+                    <div className="text-[9px] font-bold uppercase tracking-widest text-white/30 mb-2">{s.label}</div>
+                    <div className="text-3xl font-black italic">{s.value}</div>
+                  </div>
+                ))}
               </div>
             </Reveal>
           </div>
-
-          <div className="pl-6 md:pl-12">
-            <Carousel opts={{ align: "start", dragFree: true }} className="w-full">
-              <CarouselContent className="-ml-4 md:-ml-8">
-                {MANIFEST.looks.map((look, i) => (
-                  <CarouselItem key={look.id} className="pl-4 md:pl-8 basis-[85%] md:basis-[45%] lg:basis-[30%]">
-                    <Reveal delay={i * 0.1}>
-                      <Link href="#" className="group block">
-                        <div className="relative aspect-[3/4] overflow-hidden mb-6 bg-[#f0eee9]">
-                          <Image src={look.img} alt={look.name} fill className="object-cover group-hover:scale-105 transition-transform duration-1000" />
-                          <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                            <span className="bg-white text-[#111111] px-6 py-3 text-[10px] font-bold uppercase tracking-widest translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                              Discover
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <div className="text-[10px] font-bold text-[#111111]/50 mb-1">Look {look.id}</div>
-                            <h4 className="text-lg font-light uppercase tracking-widest" style={{ fontFamily: "Georgia, serif" }}>{look.name}</h4>
-                          </div>
-                          <div className="text-sm font-light text-[#cfae70]">{look.price}</div>
-                        </div>
-                      </Link>
-                    </Reveal>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
+          
+          <div className="absolute bottom-12 right-12 flex flex-col items-end gap-2 text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">
+            <span>Mechanical Audits</span>
+            <div className="w-24 h-1 bg-white/10 rounded-full overflow-hidden">
+               <motion.div animate={{ x: ["-100%", "100%"] }} transition={{ duration: 3, repeat: Infinity, ease: "linear" }} className="w-full h-full bg-red-600" />
+            </div>
           </div>
         </section>
 
-        {/* ─── ATELIER SECTION (SPLIT LAYOUT) ────────────────────────────── */}
-        <section className="py-32 bg-[#111111] text-[#fcfbf9]">
-          <div className="max-w-[1800px] mx-auto px-6 md:px-12">
-            <div className="text-center mb-32">
-              <Reveal>
-                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#cfae70] mb-4">L'Artisanat</div>
-                <h2 className="text-5xl md:text-7xl font-light uppercase tracking-[0.1em]" style={{ fontFamily: "Georgia, serif" }}>
-                  The Atelier
-                </h2>
+        {/* ── ATELIER ───────────────── */}
+        <section className="py-40 bg-[#050505] relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-1/2 h-full bg-red-600/5 -skew-x-12 translate-x-1/2" />
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+              <div>
+                <Reveal>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-red-600 block mb-4">Engineering Manifesto</span>
+                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-12 leading-tight">Hand-Forged <br/>In <span className="text-white/20 italic">The Dark.</span></h2>
+                  <div className="space-y-12">
+                    {[
+                      { icon: Settings, t: "Mechanical Purity", d: "Naturally aspirated power plants without digital intervention. Raw, unfiltered combustion." },
+                      { icon: Shield, t: "Aeronautic Materials", d: "Grade 5 titanium chassis and autoclaved carbon composite bodywork for extreme rigidity." },
+                      { icon: Timer, t: "Analog Precision", d: "Each component calibrated by hand in our specialized test cells over 600 hours." }
+                    ].map((f, i) => (
+                      <div key={i} className="flex gap-8 group">
+                         <div className="w-16 h-16 shrink-0 bg-white/5 border border-white/10 flex items-center justify-center -skew-x-12 group-hover:bg-red-600 group-hover:border-red-600 transition-all duration-700">
+                            <f.icon className="w-6 h-6 text-red-600 group-hover:text-black transition-colors" />
+                         </div>
+                         <div>
+                            <h4 className="text-xl font-bold uppercase italic mb-2 tracking-tight">{f.t}</h4>
+                            <p className="text-white/40 leading-relaxed text-sm max-w-sm">{f.d}</p>
+                         </div>
+                      </div>
+                    ))}
+                  </div>
+                </Reveal>
+              </div>
+              <Reveal delay={0.2}>
+                <div className="aspect-square relative grayscale hover:grayscale-0 transition-all duration-1000 border border-white/5 p-4 bg-white/[0.02]">
+                   <ParallaxImg src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=1200" alt="Engine Detail" />
+                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[1px] bg-red-600/20 rotate-45 pointer-events-none" />
+                </div>
               </Reveal>
             </div>
+          </div>
+        </section>
 
-            <div className="flex flex-col gap-32">
-              {MANIFEST.atelier.map((item, i) => (
-                <div key={i} className={`flex flex-col ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-16 lg:gap-32 items-center`}>
-                  <div className="w-full lg:w-1/2">
-                    <RevealImg src={item.img} alt={item.title} aspect="aspect-[4/5]" />
-                  </div>
-                  <div className="w-full lg:w-1/2">
-                    <Reveal delay={0.2}>
-                      <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#cfae70] mb-6">0{i+1}</div>
-                      <h3 className="text-4xl lg:text-5xl font-light uppercase tracking-widest mb-8 leading-tight" style={{ fontFamily: "Georgia, serif" }}>
-                        {item.title}
-                      </h3>
-                      <p className="text-lg font-light italic leading-relaxed text-white/60 max-w-md">
-                        "{item.desc}"
-                      </p>
-                      <button className="mt-12 flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.2em] hover:text-[#cfae70] transition-colors">
-                        <span className="w-8 h-[1px] bg-[#cfae70]" /> Explore
-                      </button>
-                    </Reveal>
-                  </div>
+        {/* ── MODELS ────────────────── */}
+        <section className="py-40 bg-[#0a0a0a]">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8">
+                <div className="max-w-2xl">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-red-600 block mb-4">Active Fleet</span>
+                  <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase italic leading-none">The <span className="text-white/20">Lineup.</span></h2>
                 </div>
+                <button className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-red-600 text-white/40 transition-colors group">
+                  Private Inventory <MoveRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                </button>
+              </div>
+            </Reveal>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {MODELS.map((m, i) => (
+                <Reveal key={i} delay={i * 0.15}>
+                  <div className="group relative aspect-[3/4] overflow-hidden rounded-sm cursor-pointer">
+                    <Image src={m.img} alt={m.name} fill className="object-cover opacity-60 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+                    <div className="absolute inset-0 p-10 flex flex-col justify-end">
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-red-600 mb-2">{m.year} Production</div>
+                      <h3 className="text-4xl font-black italic uppercase mb-8">{m.name}</h3>
+                      <div className="grid grid-cols-2 gap-8 border-t border-white/20 pt-8 opacity-0 group-hover:opacity-100 transition-all duration-700 translate-y-4 group-hover:translate-y-0">
+                         <div>
+                            <div className="text-[8px] font-bold uppercase text-white/40 mb-1">Top Speed</div>
+                            <div className="text-xl font-bold italic uppercase">{m.topSpeed}</div>
+                         </div>
+                         <div>
+                            <div className="text-[8px] font-bold uppercase text-white/40 mb-1">Power</div>
+                            <div className="text-xl font-bold italic uppercase">{m.power}</div>
+                         </div>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ─── PRESS QUOTES ──────────────────────────────────────────────── */}
-        <section className="py-40 bg-[#f4f2eb] border-y border-[#111111]/10">
-          <div className="max-w-[1200px] mx-auto px-6 text-center">
+        {/* ── CTA ───────────────────── */}
+        <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0 bg-red-600" />
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-30" />
+          <div className="relative z-10 text-center px-6">
             <Reveal>
-              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#cfae70] mb-16">Press</div>
-            </Reveal>
-            <Carousel opts={{ align: "center", loop: true }}>
-              <CarouselContent>
-                {MANIFEST.press.map((quote, i) => (
-                  <CarouselItem key={i}>
-                    <Reveal delay={0.1}>
-                      <h3 className="text-3xl md:text-5xl font-light italic leading-relaxed mb-12 text-[#111111]" style={{ fontFamily: "Georgia, serif" }}>
-                        "{quote.quote}"
-                      </h3>
-                      <div className="text-sm font-bold uppercase tracking-widest">
-                        {quote.publication}
-                      </div>
-                      <div className="text-[10px] font-bold text-[#111111]/50 uppercase tracking-widest mt-2">
-                        — {quote.author}
-                      </div>
-                    </Reveal>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
-          </div>
-        </section>
-
-        {/* ─── FAQ ───────────────────────────────────────────────────────── */}
-        <section className="py-32 max-w-[800px] mx-auto px-6">
-          <div className="text-center mb-20">
-            <Reveal>
-              <h2 className="text-4xl md:text-5xl font-light uppercase tracking-[0.1em] mb-4" style={{ fontFamily: "Georgia, serif" }}>
-                Client Services
+              <h2 className="text-7xl md:text-[12rem] font-black tracking-tighter uppercase italic leading-[0.75] text-black mb-12">
+                Command<br/>Gravity.
               </h2>
-            </Reveal>
-          </div>
-          
-          <Reveal delay={0.2}>
-            <Accordion type="single" collapsible className="w-full">
-              {MANIFEST.faq.map((item, i) => (
-                <AccordionItem key={i} value={`item-${i}`} className="border-[#111111]/10">
-                  <AccordionTrigger className="text-sm font-bold uppercase tracking-widest py-6 hover:text-[#cfae70] hover:no-underline text-left">
-                    {item.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-[#111111]/60 leading-relaxed pb-6 font-light italic">
-                    {item.a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </Reveal>
-        </section>
-
-        {/* ─── VIDEO/IMAGE CTA ───────────────────────────────────────────── */}
-        <section className="h-[80vh] relative flex items-center justify-center overflow-hidden">
-          <div className="absolute inset-0">
-            <Image src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=2000&q=80" alt="CTA" fill className="object-cover" />
-            <div className="absolute inset-0 bg-[#111111]/40" />
-          </div>
-          <div className="relative z-10 text-center text-white">
-            <Reveal>
-              <div className="w-20 h-20 rounded-full border border-white/30 flex items-center justify-center mx-auto mb-10 hover:bg-white hover:text-[#111111] transition-colors cursor-pointer backdrop-blur-sm">
-                <Play className="w-6 h-6 ml-1" />
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
+                <button className="px-16 py-6 bg-black text-white font-black uppercase tracking-[0.2em] text-[10px] hover:px-20 transition-all duration-700 italic">
+                  Book A Test Session
+                </button>
+                <button className="px-16 py-6 border-2 border-black text-black font-black uppercase tracking-[0.2em] text-[10px] hover:bg-black hover:text-white transition-all duration-700 italic">
+                  Configure Yours
+                </button>
               </div>
-              <h2 className="text-5xl md:text-7xl font-light uppercase tracking-[0.1em] mb-8" style={{ fontFamily: "Georgia, serif" }}>
-                The Campaign
-              </h2>
-              <p className="text-sm uppercase tracking-[0.3em] font-bold">Watch the Film</p>
             </Reveal>
           </div>
         </section>
       </main>
 
-      {/* ─── FOOTER ──────────────────────────────────────────────────────── */}
-      <footer className="bg-[#111111] text-white pt-32 pb-12 px-6 md:px-12">
-        <div className="max-w-[1800px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-32">
+      {/* ── FOOTER ────────────────── */}
+      <footer className="bg-black pt-32 pb-12 px-6 border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-16 mb-32">
+          <div className="md:col-span-2">
+            <Link href="/" className="flex items-center gap-3 mb-10">
+              <div className="w-10 h-10 bg-red-600 flex items-center justify-center -skew-x-12">
+                <Car className="w-6 h-6 text-black fill-current" />
+              </div>
+              <span className="text-2xl font-black tracking-tighter uppercase italic">Vulcan<span className="text-red-600">Motors</span></span>
+            </Link>
+            <p className="text-white/20 max-w-sm leading-relaxed mb-10 text-sm italic font-light">
+              Restoring the past, defining the future. Vulcan Motors is an atelier dedicated to the preservation and evolution of the hypercar.
+            </p>
+            <div className="flex gap-8">
+               {["Instagram", "YouTube", "LinkedIn", "Registry"].map(s => (
+                 <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-red-600 transition-colors">{s}</Link>
+               ))}
+            </div>
+          </div>
           
-          <div className="lg:col-span-2">
-            <h1 className="text-3xl font-light tracking-[0.3em] uppercase mb-8" style={{ fontFamily: "Georgia, serif" }}>
-              Maison
-            </h1>
-            <form className="max-w-md relative mb-12">
-              <input 
-                type="email" 
-                placeholder="SUBSCRIBE TO THE NEWSLETTER" 
-                className="w-full bg-transparent border-b border-white/20 py-4 text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:border-[#cfae70] transition-colors placeholder:text-white/30"
-              />
-              <button className="absolute right-0 top-1/2 -translate-y-1/2 text-white/50 hover:text-[#cfae70] transition-colors">
-                <ArrowRight className="w-5 h-5" />
-              </button>
-            </form>
-          </div>
-
-          <div>
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#cfae70] mb-8">Client Services</h4>
-            <ul className="space-y-4 text-[10px] font-bold tracking-widest uppercase text-white/60">
-              <li><Link href="#" className="hover:text-white transition-colors">Contact Us</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Shipping & Returns</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Track Order</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Book an Appointment</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">FAQ</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#cfae70] mb-8">La Maison</h4>
-            <ul className="space-y-4 text-[10px] font-bold tracking-widest uppercase text-white/60">
-              <li><Link href="#" className="hover:text-white transition-colors">Our History</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Sustainability</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Careers</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Press</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Legal</Link></li>
-            </ul>
-          </div>
-
+          {[
+            { t: "The Atelier", l: ["Restoration", "Bespoke Builds", "Engine Lab", "Carbon Cell"] },
+            { t: "Inventory", l: ["V1 Prototype", "Iron Lung S", "Apex Track", "Archive"] },
+            { t: "Owners", l: ["Concierge", "Documentation", "Global Track Days", "Contact"] },
+          ].map((col, i) => (
+            <div key={i} className="space-y-10">
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-red-600">{col.t}</h4>
+              <ul className="space-y-6">
+                {col.l.map(link => <li key={link}><Link href="#" className="text-xs text-white/40 hover:text-white transition-colors">{link}</Link></li>)}
+              </ul>
+            </div>
+          ))}
         </div>
-
-        <div className="max-w-[1800px] mx-auto border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-[9px] font-bold uppercase tracking-widest text-white/40">
-          <div>© 2026 MAISON. ALL RIGHTS RESERVED.</div>
-          <div className="flex gap-8">
-            <Link href="#" className="hover:text-white transition-colors">Instagram</Link>
-            <Link href="#" className="hover:text-white transition-colors">Facebook</Link>
-            <Link href="#" className="hover:text-white transition-colors">WeChat</Link>
+        
+        <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
+          <span>© 2026 VULCAN MOTORS ATELIER. REDLINE ADDICTED.</span>
+          <div className="flex gap-10">
+             <Link href="#" className="hover:text-white transition-colors flex items-center gap-2">MODENA, IT</Link>
+             <Link href="#" className="hover:text-white transition-colors flex items-center gap-2">SILVERSTONE, UK</Link>
           </div>
         </div>
       </footer>
