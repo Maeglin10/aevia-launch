@@ -1,222 +1,473 @@
-"use client";
-import { motion, useInView, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
-import { Play, Clapperboard, Film, Menu, X, ArrowRight, Video, Monitor, Aperture, Palette, Wand2, Box, Layers, Sparkles, Camera, Eye } from "lucide-react";
-import "../premium.css";
+"use client"
+import { motion, useScroll, useTransform, useInView, AnimatePresence, useSpring, useMotionValue } from "framer-motion"
+import { useState, useRef, useEffect } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { Progress } from "@/components/ui/progress"
+import { Separator } from "@/components/ui/separator"
+import { Menu, X, ArrowRight, Play, Box, Layers, Cpu, Zap, Maximize, Activity, Code, Orbit, Disc3, Sparkles } from "lucide-react"
 
-const MANIFESTS = {
-  hero: { projects: "220+", awards: "34", studios: "LA + London", status: "ACCEPTING_BRIEFS" },
-  reel: [
-    { id: "apex", name: "APEX // TITLE", desc: "Main title sequence for HBO limited series. Liquid metal typography dissolving through tectonic landscapes. 90 seconds.", category: "TITLE_SEQUENCE", client: "HBO" },
-    { id: "nova", name: "NOVA // LAUNCH", desc: "Product launch film for next-gen EV reveal. Real-time ray-traced environment with procedural particle systems.", category: "BRAND_FILM", client: "Rivian" },
-    { id: "echo", name: "ECHO // LIVE", desc: "Real-time generative visual system for world tour. Reactive to audio, MIDI, and crowd biometrics.", category: "LIVE_VISUAL", client: "Massive Attack" },
-    { id: "flux", name: "FLUX // RETAIL", desc: "Immersive retail installation — 360° projection mapping with depth-sensor interaction across a 4-story atrium.", category: "INSTALLATION", client: "Gucci" },
-  ],
-  capabilities: [
-    { name: "MOTION // DESIGN", icon: <Play className="w-5 h-5" />, items: ["Title Sequences", "Brand Films", "UI Animation", "Explainers"] },
-    { name: "REAL-TIME // 3D", icon: <Box className="w-5 h-5" />, items: ["Unreal Engine", "TouchDesigner", "Notch", "Custom GLSL"] },
-    { name: "INTERACTIVE", icon: <Wand2 className="w-5 h-5" />, items: ["Installations", "WebGL / Three.js", "AR Filters", "Projection Mapping"] },
-  ],
-  clients: ["HBO", "Apple", "Nike", "Gucci", "Rivian", "Spotify", "Massive Attack", "Netflix"],
-};
+// ─── UTILS & ANIMATION COMPONENTS ─────────────────────────────────────────────
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  return <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] }}>{children}</motion.div>;
-}
-
-function MagneticBtn({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const x = useMotionValue(0), y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 300, damping: 20 }), sy = useSpring(y, { stiffness: 300, damping: 20 });
-  const ref = useRef<HTMLButtonElement>(null);
-  return <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={(e) => { const r = ref.current?.getBoundingClientRect(); if (r) { x.set((e.clientX - r.left - r.width / 2) * 0.4); y.set((e.clientY - r.top - r.height / 2) * 0.4); }}} onMouseLeave={() => { x.set(0); y.set(0); }} className={className}>{children}</motion.button>;
-}
-
-export default function MorphStudioPage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
-  useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
-
-  const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+function Reveal({ children, delay = 0, direction = "up" }: { children: React.ReactNode; delay?: number, direction?: "up" | "left" | "right" }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  
+  const y = direction === "up" ? 40 : 0;
+  const x = direction === "left" ? 40 : direction === "right" ? -40 : 0;
 
   return (
-    <div className="premium-theme min-h-screen bg-[#060608] text-white font-mono selection:bg-[#e879f9] selection:text-black overflow-x-hidden">
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,#1a0820_0%,transparent_50%)]" />
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `radial-gradient(#e879f9 0.5px, transparent 0.5px)`, backgroundSize: "45px 45px" }} />
-        {/* Scanning lines */}
-        {[...Array(3)].map((_, i) => (
-          <motion.div key={i} animate={{ y: ["-100%", "200%"] }} transition={{ duration: 8, repeat: Infinity, delay: i * 2.5, ease: "linear" }}
-            className="absolute left-0 w-full h-px bg-gradient-to-r from-transparent via-[#e879f9]/10 to-transparent" />
-        ))}
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y, x }}
+      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
+      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function GlassCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={`relative overflow-hidden rounded-3xl border border-white/10 bg-black/40 backdrop-blur-xl ${className}`}>
+      <div className="absolute inset-0 bg-gradient-to-br from-white/[0.05] to-transparent pointer-events-none" />
+      <div className="absolute -inset-[1px] bg-gradient-to-br from-cyan-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
+      <div className="relative z-10 p-8 h-full">
+        {children}
       </div>
+    </div>
+  )
+}
 
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#060608]/90 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-10"}`}>
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter">
-            <div className="w-8 h-8 bg-[#e879f9] rounded-sm flex items-center justify-center text-black"><Play className="w-4 h-4 ml-0.5" /></div>
-            <span className="group-hover:text-[#e879f9] transition-colors">MORPH // <span className="text-white/40">STUDIO</span></span>
+function GridBackground() {
+  return (
+    <div className="fixed inset-0 z-0 pointer-events-none perspective-[1000px] overflow-hidden flex items-center justify-center">
+      {/* 3D Grid Floor */}
+      <motion.div 
+        animate={{ backgroundPosition: ["0px 0px", "0px 100px"] }}
+        transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+        className="absolute bottom-[-20%] w-[200%] h-[100%] opacity-20"
+        style={{
+          backgroundImage: "linear-gradient(cyan 1px, transparent 1px), linear-gradient(90deg, cyan 1px, transparent 1px)",
+          backgroundSize: "100px 100px",
+          transform: "rotateX(60deg) translateY(0)",
+          transformOrigin: "center center"
+        }}
+      />
+      {/* Neon Orbs */}
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-purple-600/30 rounded-full blur-[120px] mix-blend-screen" />
+      <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-cyan-600/20 rounded-full blur-[150px] mix-blend-screen" />
+    </div>
+  )
+}
+
+// ─── DATA MANIFESTS ─────────────────────────────────────────────────────────
+
+const MANIFEST = {
+  hero: {
+    status: "SYSTEMS ONLINE",
+    title: "MORPH STUDIO",
+    desc: "We engineer immersive 3D interfaces, WebGL experiences, and spatial computing environments for the next era of the web."
+  },
+  services: [
+    { id: "S-01", title: "Spatial Web", icon: <Box className="w-6 h-6" />, desc: "Transforming flat pages into interactive 3D environments using Three.js and WebGL." },
+    { id: "S-02", title: "Generative Systems", icon: <Zap className="w-6 h-6" />, desc: "Algorithmic design architectures that react in real-time to user input and audio." },
+    { id: "S-03", title: "Motion Engineering", icon: <Activity className="w-6 h-6" />, desc: "Physics-based animations, fluid simulations, and complex particle systems." }
+  ],
+  projects: [
+    { title: "Neon Genesis", tech: "Three.js / GLSL", desc: "Interactive product configurator for hyper-cars.", img: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800&q=80" },
+    { title: "Aether Protocol", tech: "React Three Fiber", desc: "Spatial data visualization for blockchain nodes.", img: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80" },
+    { title: "Void Analytics", tech: "WebGL / Canvas", desc: "Real-time particle system for tracking server loads.", img: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80" },
+    { title: "Cybernetics", tech: "Spline / React", desc: "Interactive 3D narrative for a tech hardware launch.", img: "https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?w=800&q=80" }
+  ],
+  stats: [
+    { label: "Vertices Rendered", val: "14.2B" },
+    { label: "FPS Target", val: "120" },
+    { label: "Shaders Written", val: "840+" },
+    { label: "Global Clients", val: "32" }
+  ],
+  stack: ["Three.js", "WebGL", "GLSL", "React Three Fiber", "Blender", "Framer Motion", "GSAP", "Lenis", "Next.js"],
+  pricing: [
+    { name: "Prototyping", price: "15k", desc: "Proof of concept and visual direction.", features: ["3D Asset Optimization", "Lighting Setup", "Basic Interactions", "Performance Audit"] },
+    { name: "Production", price: "45k", desc: "Full-scale WebGL experience.", features: ["Custom GLSL Shaders", "Physics Engine", "Audio Reactivity", "Post-processing FX"], recommended: true },
+    { name: "Enterprise", price: "Custom", desc: "Dedicated spatial computing team.", features: ["VR/AR Integration", "Backend Data Vis", "Infinite Scalability", "24/7 Support"] }
+  ],
+  faq: [
+    { q: "How does 3D affect website performance?", a: "We heavily optimize all models and textures, utilizing DRACO compression and efficient instancing. Our WebGL experiences typically run at a smooth 60fps even on mobile devices." },
+    { q: "Do you create the 3D assets in-house?", a: "Yes, our team includes technical artists who build, rig, and optimize assets specifically for real-time web rendering in Blender and Maya." },
+    { q: "What is your typical project timeline?", a: "A standard interactive 3D landing page takes 6-8 weeks from concept to deployment. Complex data visualizations or configurators may take 12-16 weeks." }
+  ]
+}
+
+// ─── MAIN PAGE ──────────────────────────────────────────────────────────────
+
+export default function MorphStudioPage() {
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll()
+  
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.5])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50)
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  return (
+    <div className="bg-[#050505] text-[#e0e0e0] font-mono min-h-screen selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden">
+      
+      <GridBackground />
+
+      {/* ─── NAVBAR ────────────────────────────────────────────────────── */}
+      <motion.nav 
+        initial={{ y: -100 }} animate={{ y: 0 }} transition={{ duration: 0.8 }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#050505]/80 backdrop-blur-lg border-b border-white/10 py-4" : "bg-transparent py-8"}`}
+      >
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3 group">
+            <Orbit className="w-8 h-8 text-cyan-400 group-hover:rotate-180 transition-transform duration-1000" />
+            <span className="text-xl font-bold tracking-widest text-white uppercase">MORPH</span>
           </Link>
-          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
-            {["Reel", "Capabilities", "About", "Contact"].map(l => <Link key={l} href="#" className="hover:text-[#e879f9] transition-colors">{l}</Link>)}
+
+          <div className="hidden lg:flex items-center gap-8 text-xs font-bold tracking-[0.2em] uppercase">
+            {["Engine", "Projects", "Stack", "Access"].map((link) => (
+              <Link key={link} href="#" className="text-zinc-400 hover:text-cyan-400 transition-colors relative group">
+                {link}
+              </Link>
+            ))}
           </div>
+
           <div className="flex items-center gap-6">
-            <MagneticBtn className="px-6 py-2.5 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[#e879f9] transition-all">Send_Brief</MagneticBtn>
-            <button onClick={() => setMenuOpen(true)} className="lg:hidden text-white/60"><Menu className="w-6 h-6" /></button>
+            <Link href="#" className="hidden md:flex items-center justify-center px-6 py-2.5 bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-bold uppercase tracking-widest hover:bg-cyan-500 hover:text-black transition-all rounded-full">
+              Initialize
+            </Link>
+            <Sheet>
+              <SheetTrigger asChild>
+                <button className="lg:hidden text-white hover:text-cyan-400 transition-colors">
+                  <Menu className="w-8 h-8" />
+                </button>
+              </SheetTrigger>
+              <SheetContent side="right" className="bg-[#0a0a0a] border-l border-white/10 p-12 text-white">
+                <div className="flex flex-col gap-8 mt-20">
+                  {["Engine", "Projects", "Stack", "Access"].map((link) => (
+                    <Link key={link} href="#" className="text-3xl font-bold tracking-widest uppercase hover:text-cyan-400 transition-colors">
+                      {link}
+                    </Link>
+                  ))}
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
-      </nav>
+      </motion.nav>
 
-      <AnimatePresence>{menuOpen && (
-        <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-[#060608] p-8 flex flex-col pt-32">
-          <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40"><X className="w-10 h-10" /></button>
-          <div className="flex flex-col gap-10 text-5xl font-black tracking-tighter uppercase">
-            {["Reel", "Capabilities", "About", "Contact"].map(l => <Link key={l} href="#" onClick={() => setMenuOpen(false)}>{l}</Link>)}
-          </div>
-        </motion.div>
-      )}</AnimatePresence>
-
-      {/* HERO */}
-      <motion.section ref={heroRef} style={{ scale: heroScale, opacity: heroOpacity }} className="relative h-screen flex flex-col justify-center pt-20 overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          {/* Morphing shape */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <motion.div animate={{ borderRadius: ["30% 70% 70% 30% / 30% 30% 70% 70%", "70% 30% 30% 70% / 70% 70% 30% 30%", "30% 70% 70% 30% / 30% 30% 70% 70%"] }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-              className="w-[400px] h-[400px] bg-gradient-to-br from-[#e879f9]/10 via-[#a855f7]/5 to-transparent border border-[#e879f9]/10" />
-          </div>
-        </div>
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
-          <Reveal>
-            <div className="flex items-center gap-4 mb-8">
-              <div className="px-3 py-1 bg-[#e879f9]/10 border border-[#e879f9]/30 text-[#e879f9] text-[9px] font-bold uppercase tracking-widest">{MANIFESTS.hero.status}</div>
-              <div className="text-[9px] text-white/30 tracking-widest uppercase">PROJECTS: {MANIFESTS.hero.projects} // AWARDS: {MANIFESTS.hero.awards}</div>
+      <main className="relative z-10">
+        {/* ─── HERO ──────────────────────────────────────────────────────── */}
+        <section className="relative h-screen min-h-[800px] flex items-center pt-20">
+          <div className="max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            
+            <div className="relative z-10">
+              <Reveal>
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                  <span className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-400">{MANIFEST.hero.status}</span>
+                </div>
+                
+                <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-black tracking-tighter leading-none text-white mb-8">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
+                    MORPH
+                  </span><br/>
+                  STUDIO.
+                </h1>
+                
+                <p className="max-w-xl text-lg md:text-xl text-zinc-400 leading-relaxed mb-12">
+                  {MANIFEST.hero.desc}
+                </p>
+                
+                <div className="flex flex-col sm:flex-row gap-6">
+                  <button className="px-8 py-4 bg-white text-black text-xs font-bold uppercase tracking-widest rounded-full hover:bg-cyan-400 transition-colors flex items-center justify-center gap-3">
+                    View Demo Reel <Play className="w-4 h-4" />
+                  </button>
+                  <button className="px-8 py-4 bg-white/5 border border-white/10 text-white text-xs font-bold uppercase tracking-widest rounded-full hover:bg-white/10 transition-colors">
+                    System Architecture
+                  </button>
+                </div>
+              </Reveal>
             </div>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
-              Motion <br /> <span className="text-[#e879f9]">Design.</span> <br /> Real <br /> <span className="text-white/20">Time.</span>
-            </h1>
-            <p className="max-w-2xl text-xl text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">
-              A motion and real-time studio creating title sequences, brand films, live visuals, and immersive installations for culture-shaping brands.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6">
-              <button className="px-12 py-5 bg-[#e879f9] text-black text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-[0_0_50px_rgba(232,121,249,0.2)]">Watch_Reel</button>
-              <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">View_Work</button>
-            </div>
-          </Reveal>
-        </div>
-      </motion.section>
 
-      {/* REEL / PROJECTS */}
-      <section className="py-40 bg-[#080810] border-y border-white/5">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
-            <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85]">Selected <br /> <span className="text-[#e879f9]">Work.</span></h2></Reveal>
-            <p className="max-w-md text-sm text-white/30 leading-relaxed uppercase tracking-widest font-light italic">A selection from our portfolio spanning title design, brand film, live visual, and spatial installation.</p>
+            {/* 3D Placeholder Graphic */}
+            <div className="hidden lg:flex items-center justify-center relative">
+              <motion.div style={{ scale: heroScale, opacity: heroOpacity }} className="relative w-[500px] h-[500px]">
+                <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-purple-500/20 rounded-full blur-[80px]" />
+                <motion.div 
+                  animate={{ rotateY: 360, rotateX: 360 }}
+                  transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+                  className="absolute inset-0 border-[2px] border-cyan-400/30 rounded-3xl"
+                  style={{ transformStyle: "preserve-3d" }}
+                >
+                  <div className="absolute inset-0 border-[2px] border-purple-500/30 rounded-3xl" style={{ transform: "rotateX(90deg)" }} />
+                  <div className="absolute inset-0 border-[2px] border-white/20 rounded-3xl" style={{ transform: "rotateY(90deg)" }} />
+                </motion.div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-32 h-32 bg-black/80 border border-white/20 rounded-full backdrop-blur-xl flex items-center justify-center shadow-[0_0_50px_rgba(34,211,238,0.3)]">
+                    <Zap className="w-10 h-10 text-cyan-400" />
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
           </div>
-          <div className="space-y-2">
-            {MANIFESTS.reel.map((r, i) => (
-              <Reveal key={r.id} delay={i * 0.05}>
-                <div className="group flex flex-col md:flex-row justify-between items-center p-10 md:p-14 border-b border-white/5 hover:bg-[#e879f9] hover:text-black transition-all duration-500 cursor-pointer"
-                  onMouseEnter={() => setHoveredProject(r.id)} onMouseLeave={() => setHoveredProject(null)}>
-                  <div className="flex-1 mb-6 md:mb-0">
-                    <div className="flex items-center gap-6 mb-4">
-                      <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tighter">{r.name}</h3>
-                      <span className="text-[9px] font-bold uppercase tracking-widest text-white/20 group-hover:text-black/40">{r.category}</span>
+        </section>
+
+        {/* ─── SCROLLING STATS MARQUEE ───────────────────────────────────── */}
+        <section className="py-10 border-y border-white/10 bg-black/50 backdrop-blur-md overflow-hidden flex whitespace-nowrap">
+          <motion.div 
+            animate={{ x: [0, -1000] }} 
+            transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+            className="flex items-center gap-32 px-16 text-2xl font-black uppercase tracking-widest text-zinc-600"
+          >
+            {Array(4).fill(MANIFEST.stats).flat().map((stat, i) => (
+              <div key={i} className="flex items-center gap-4">
+                <span className="text-cyan-400">{stat.val}</span>
+                <span>{stat.label}</span>
+                <Disc3 className="w-6 h-6 ml-8 text-zinc-800" />
+              </div>
+            ))}
+          </motion.div>
+        </section>
+
+        {/* ─── SERVICES (GLASS CARDS) ────────────────────────────────────── */}
+        <section className="py-32 relative">
+          <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="mb-20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-purple-400 mb-4 block">Core Modules</span>
+                <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter">System <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Capabilities.</span></h2>
+              </div>
+            </Reveal>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {MANIFEST.services.map((service, i) => (
+                <Reveal key={service.id} delay={i * 0.1}>
+                  <GlassCard className="group">
+                    <div className="flex justify-between items-start mb-16">
+                      <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400 group-hover:scale-110 group-hover:bg-cyan-500/20 transition-all duration-500">
+                        {service.icon}
+                      </div>
+                      <span className="text-[10px] font-bold text-zinc-600 tracking-widest">{service.id}</span>
                     </div>
-                    <p className="text-sm text-white/40 group-hover:text-black/50 leading-relaxed max-w-2xl italic transition-colors">"{r.desc}"</p>
-                  </div>
-                  <div className="flex items-center gap-8">
-                    <span className="text-[10px] font-bold text-white/20 group-hover:text-black/40 uppercase tracking-widest">{r.client}</span>
-                    <motion.div animate={{ x: hoveredProject === r.id ? 5 : 0 }} className="opacity-0 group-hover:opacity-100 transition-opacity"><ArrowRight className="w-5 h-5" /></motion.div>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CAPABILITIES */}
-      <section className="py-40 bg-[#060608]">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#e879f9] mb-6 block">What_We_Do</span>
-            <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-24 uppercase">Core <br /> <span className="text-white/20">Skills.</span></h2>
-          </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {MANIFESTS.capabilities.map((c, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className="group p-12 bg-[#080810] border border-white/5 hover:border-[#e879f9]/30 transition-all flex flex-col h-full rounded-3xl relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#e879f9]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="w-16 h-16 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-center text-[#e879f9] mb-12 group-hover:bg-[#e879f9] group-hover:text-black transition-all">{c.icon}</div>
-                  <h3 className="text-3xl font-black uppercase mb-8 tracking-tighter group-hover:text-[#e879f9] transition-colors">{c.name}</h3>
-                  <div className="space-y-5 pt-8 border-t border-white/5">
-                    {c.items.map((item, j) => <div key={j} className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest"><div className="w-1.5 h-1.5 bg-[#e879f9] rotate-45" />{item}</div>)}
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CLIENTS */}
-      <section className="py-40 bg-[#080810] border-y border-white/5 text-center overflow-hidden">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <h2 className="text-7xl md:text-[12rem] font-black tracking-tighter uppercase leading-[0.85] mb-12 text-white/5">Clients.</h2>
-            <div className="flex flex-wrap justify-center gap-12 mt-24">
-              {MANIFESTS.clients.map((c, i) => (
-                <motion.div key={i} whileHover={{ scale: 1.1, color: "#e879f9" }}
-                  className="text-2xl md:text-3xl font-black uppercase tracking-tighter text-white/15 transition-colors cursor-default">{c}</motion.div>
+                    <h3 className="text-2xl font-bold uppercase tracking-widest mb-4 text-white">{service.title}</h3>
+                    <p className="text-zinc-400 leading-relaxed text-sm">{service.desc}</p>
+                  </GlassCard>
+                </Reveal>
               ))}
             </div>
-          </Reveal>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* CTA */}
-      <section className="py-40 bg-[#060608]">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 text-center">
+        {/* ─── PROJECTS GALLERY ──────────────────────────────────────────── */}
+        <section className="py-32 relative">
+          <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex items-end justify-between mb-20">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-400 mb-4 block">Case Studies</span>
+                  <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter">Rendered <span className="text-zinc-600">Outputs.</span></h2>
+                </div>
+                <Link href="#" className="hidden md:flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-cyan-400 hover:text-white transition-colors">
+                  View Repository <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </Reveal>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+              {MANIFEST.projects.map((project, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <Link href="#" className="group block">
+                    <div className="relative aspect-video rounded-3xl overflow-hidden mb-8 border border-white/10 bg-[#111]">
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent z-10 opacity-60" />
+                      <Image src={project.img} alt={project.title} fill className="object-cover opacity-50 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 mix-blend-luminosity group-hover:mix-blend-normal" />
+                      <div className="absolute top-6 right-6 z-20 w-10 h-10 bg-black/50 backdrop-blur-md rounded-full border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                        <ArrowUpRight className="w-5 h-5 text-white" />
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="text-3xl font-bold uppercase tracking-widest mb-2 text-white group-hover:text-cyan-400 transition-colors">{project.title}</h3>
+                        <p className="text-zinc-500 text-sm max-w-sm leading-relaxed">{project.desc}</p>
+                      </div>
+                      <div className="text-[10px] font-bold uppercase tracking-widest px-3 py-1 bg-white/5 border border-white/10 rounded-full text-zinc-400">
+                        {project.tech}
+                      </div>
+                    </div>
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ─── TECH STACK ────────────────────────────────────────────────── */}
+        <section className="py-32 border-y border-white/10 bg-gradient-to-b from-black/0 via-cyan-900/10 to-black/0 relative">
+          <div className="max-w-[1600px] mx-auto px-6 text-center">
+            <Reveal>
+              <h2 className="text-3xl font-black uppercase tracking-[0.3em] text-zinc-600 mb-16">Technology Stack</h2>
+              <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
+                {MANIFEST.stack.map((tech, i) => (
+                  <div key={i} className="px-6 py-3 bg-black/50 border border-white/10 rounded-full text-sm font-bold uppercase tracking-widest text-white hover:border-cyan-400 hover:text-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all cursor-default">
+                    {tech}
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ─── PRICING ───────────────────────────────────────────────────── */}
+        <section className="py-32 relative">
+          <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="text-center mb-20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-purple-400 mb-4 block">Deployment Plans</span>
+                <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter">Licensing <span className="text-zinc-600">Models.</span></h2>
+              </div>
+            </Reveal>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {MANIFEST.pricing.map((tier, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <GlassCard className={`flex flex-col h-full ${tier.recommended ? 'border-cyan-500/50 shadow-[0_0_50px_rgba(34,211,238,0.1)]' : ''}`}>
+                    {tier.recommended && (
+                      <div className="absolute top-6 right-6 px-3 py-1 bg-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-widest rounded-full border border-cyan-500/30">
+                        Optimum
+                      </div>
+                    )}
+                    <h3 className="text-2xl font-bold uppercase tracking-widest mb-2 text-white">{tier.name}</h3>
+                    <p className="text-sm text-zinc-400 mb-10 h-10">{tier.desc}</p>
+                    <div className="text-5xl font-black tracking-tighter text-white mb-10">
+                      {tier.price !== "Custom" && <span className="text-2xl text-zinc-600 mr-2">$</span>}
+                      {tier.price}
+                    </div>
+                    
+                    <ul className="space-y-4 mb-12 flex-1">
+                      {tier.features.map((feat, j) => (
+                        <li key={j} className="flex items-center gap-4 text-sm font-medium text-zinc-300">
+                          <Code className="w-4 h-4 text-cyan-400 shrink-0" />
+                          {feat}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <button className={`w-full py-4 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${tier.recommended ? 'bg-cyan-500 text-black hover:bg-cyan-400' : 'bg-white/5 text-white hover:bg-white border border-white/10 hover:text-black'}`}>
+                      Initialize
+                    </button>
+                  </GlassCard>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ─── FAQ ───────────────────────────────────────────────────────── */}
+        <section className="py-32 max-w-[1000px] mx-auto px-6">
           <Reveal>
-            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">Start <br /> <span className="text-[#e879f9]">Moving.</span></h2>
-            <p className="max-w-2xl mx-auto text-sm text-white/40 leading-relaxed font-light mb-16 uppercase tracking-widest italic">We partner with brands who understand that motion is the most powerful design language. Send us your brief.</p>
-            <MagneticBtn className="px-16 py-6 bg-white text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[#e879f9] transition-all shadow-[0_0_60px_rgba(232,121,249,0.15)]">Send_Brief</MagneticBtn>
+            <div className="flex items-center gap-4 mb-16">
+              <Activity className="w-8 h-8 text-cyan-400" />
+              <h2 className="text-4xl font-black uppercase tracking-widest">System Queries</h2>
+            </div>
           </Reveal>
-        </div>
-      </section>
+          
+          <Reveal delay={0.2}>
+            <Accordion type="single" collapsible className="w-full space-y-4">
+              {MANIFEST.faq.map((item, i) => (
+                <AccordionItem key={i} value={`item-${i}`} className="border border-white/10 bg-black/40 backdrop-blur-sm px-6 rounded-2xl">
+                  <AccordionTrigger className="text-sm font-bold uppercase tracking-widest py-6 hover:text-cyan-400 hover:no-underline text-left">
+                    {item.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-zinc-400 leading-relaxed pb-6 text-sm">
+                    {item.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </Reveal>
+        </section>
 
-      <footer className="bg-[#060608] border-t border-white/5 py-32 px-6 md:px-12">
-        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
-          <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-white text-black rounded-sm flex items-center justify-center"><Play className="w-4 h-4 ml-0.5" /></div><span>MORPH // STUDIO</span></Link>
-            <p className="text-[11px] text-white/20 uppercase tracking-[0.2em] max-w-sm leading-relaxed mb-16 italic">Motion design, real-time 3D, and immersive experiences. LA + London.</p>
-            <div className="flex gap-8">{[Film, Camera, Eye].map((Icon, i) => <button key={i} className="text-white/20 hover:text-[#e879f9] transition-colors"><Icon className="w-5 h-5" /></button>)}</div>
+        {/* ─── CTA BANNER ────────────────────────────────────────────────── */}
+        <section className="py-40 relative overflow-hidden border-y border-white/10">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-cyan-900/20" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-full max-w-4xl aspect-video rounded-full bg-cyan-500/10 blur-[120px] mix-blend-screen animate-pulse" />
           </div>
+          
+          <div className="max-w-[1200px] mx-auto px-6 relative z-10 text-center">
+            <Reveal>
+              <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-8">
+                Ready to <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">Morph?</span>
+              </h2>
+              <p className="text-xl text-zinc-400 max-w-2xl mx-auto mb-12">
+                Initiate a secure connection with our lead engineers to discuss your spatial computing requirements.
+              </p>
+              <button className="px-12 py-5 bg-white text-black text-xs font-bold uppercase tracking-widest rounded-full hover:bg-cyan-400 transition-all shadow-[0_0_40px_rgba(34,211,238,0.2)]">
+                Establish Connection
+              </button>
+            </Reveal>
+          </div>
+        </section>
+      </main>
+
+      {/* ─── FOOTER ──────────────────────────────────────────────────────── */}
+      <footer className="bg-[#050505] pt-32 pb-12 px-6 md:px-12 relative z-20">
+        <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-24">
+          <div className="md:col-span-2">
+            <Link href="/" className="flex items-center gap-3 mb-8">
+              <Orbit className="w-6 h-6 text-cyan-400" />
+              <span className="text-xl font-bold tracking-widest text-white uppercase">MORPH</span>
+            </Link>
+            <p className="max-w-md text-sm text-zinc-500 leading-relaxed">
+              Pioneering the spatial web. We combine aesthetic discipline with extreme technical capabilities to build the digital future.
+            </p>
+          </div>
+          
           <div>
-            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#e879f9]">Work</h4>
-            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
-              {["Title_Sequences", "Brand_Films", "Live_Visuals", "Installations"].map(l => <li key={l} className="hover:text-white transition-colors"><Link href="#">{l}</Link></li>)}
+            <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600 mb-8">Protocols</h4>
+            <ul className="space-y-4 text-xs font-bold uppercase tracking-widest text-zinc-400">
+              <li><Link href="#" className="hover:text-cyan-400 transition-colors">Documentation</Link></li>
+              <li><Link href="#" className="hover:text-cyan-400 transition-colors">API Reference</Link></li>
+              <li><Link href="#" className="hover:text-cyan-400 transition-colors">Status</Link></li>
+              <li><Link href="#" className="hover:text-cyan-400 transition-colors">Github</Link></li>
             </ul>
           </div>
+
           <div>
-            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#e879f9]">Studio</h4>
-            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
-              {["About", "Careers", "Press", "Contact"].map(l => <li key={l} className="hover:text-white transition-colors"><Link href="#">{l}</Link></li>)}
+            <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600 mb-8">Terminal</h4>
+            <ul className="space-y-4 text-xs font-bold uppercase tracking-widest text-zinc-400">
+              <li><Link href="#" className="hover:text-white transition-colors">Transmission</Link></li>
+              <li><Link href="#" className="hover:text-white transition-colors">Careers</Link></li>
+              <li><Link href="#" className="hover:text-white transition-colors">Privacy</Link></li>
+              <li><Link href="#" className="hover:text-white transition-colors">Terms</Link></li>
             </ul>
           </div>
         </div>
-        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[9px] font-bold text-white/10 uppercase tracking-widest">
-          <span>&copy; 2026 MORPH STUDIO. ALL RIGHTS RESERVED.</span>
-          <div className="flex gap-10 font-mono"><span>LA_STUDIO</span><span>LONDON_STUDIO</span></div>
+
+        <div className="max-w-[1600px] mx-auto border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600">
+          <div>© 2026 MORPH STUDIO INC.</div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            ALL SYSTEMS NOMINAL
+          </div>
         </div>
       </footer>
     </div>
-  );
+  )
 }

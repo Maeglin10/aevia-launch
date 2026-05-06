@@ -1,211 +1,533 @@
-"use client";
-import { motion, useInView, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
-import { BookOpen, Feather, Quote, Menu, X, ArrowRight, Clock, User, Hash, MessageCircle, Share2, Bookmark, TrendingUp, Globe, Newspaper } from "lucide-react";
-import "../premium.css";
+"use client"
+import { motion, useScroll, useTransform, useInView, AnimatePresence, useSpring } from "framer-motion"
+import { useState, useRef, useEffect } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { Progress } from "@/components/ui/progress"
+import { Separator } from "@/components/ui/separator"
+import { Menu, X, ArrowRight, Play, Bookmark, Share2, Clock, Calendar, Search, Newspaper, Globe, Sparkles } from "lucide-react"
 
-const MANIFESTS = {
-  hero: { stories: "2,400+", readers: "1.2M", writers: "340", status: "ISSUE_147" },
-  features: [
-    { id: "dispatch", title: "THE LAST DISPATCH FROM STATION ALPHA", author: "Elena Voss", category: "LONG_READ", readTime: "24 min", excerpt: "For forty years, the Arctic research station transmitted data no one questioned. Then the final message arrived — and it changed everything we thought we knew about the ice." },
-    { id: "algorithm", title: "WHO OWNS THE ALGORITHM?", author: "Marcus Chen", category: "INVESTIGATION", readTime: "18 min", excerpt: "Inside the fight over AI training data, the artists who refuse to surrender their work, and the legal precedent that could reshape the creative economy." },
-    { id: "silence", title: "THE ARCHITECTURE OF SILENCE", author: "Amara Okafor", category: "ESSAY", readTime: "12 min", excerpt: "In a world optimized for noise, a new generation of architects is designing spaces that prioritize acoustic absence. This is their manifesto." },
-  ],
-  sections: [
-    { name: "DISPATCHES", icon: <Globe className="w-5 h-5" />, desc: "Global correspondence from conflict zones, cultural frontlines, and the edges of change." },
-    { name: "INVESTIGATIONS", icon: <TrendingUp className="w-5 h-5" />, desc: "Deep-dive accountability journalism. Data-driven, source-verified, consequence-minded." },
-    { name: "ESSAYS", icon: <Feather className="w-5 h-5" />, desc: "Long-form personal writing. Meditations, arguments, and the art of the considered opinion." },
-  ],
-  latest: [
-    { title: "The Collapse of Antarctic Shelf C-19", category: "CLIMATE", date: "May 2" },
-    { title: "Quantum Computing's Broken Promise", category: "TECHNOLOGY", date: "Apr 28" },
-    { title: "Portrait: The Chef Who Feeds a City", category: "PROFILE", date: "Apr 25" },
-    { title: "Why We Stopped Listening to Music", category: "CULTURE", date: "Apr 22" },
-  ],
-};
+// ─── UTILS & ANIMATION COMPONENTS ─────────────────────────────────────────────
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  return <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] }}>{children}</motion.div>;
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-50px" })
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </motion.div>
+  )
 }
 
-function MagneticBtn({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const x = useMotionValue(0), y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 300, damping: 20 }), sy = useSpring(y, { stiffness: 300, damping: 20 });
-  const ref = useRef<HTMLButtonElement>(null);
-  return <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={(e) => { const r = ref.current?.getBoundingClientRect(); if (r) { x.set((e.clientX - r.left - r.width / 2) * 0.4); y.set((e.clientY - r.top - r.height / 2) * 0.4); }}} onMouseLeave={() => { x.set(0); y.set(0); }} className={className}>{children}</motion.button>;
+function RevealText({ text }: { text: string }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-50px" })
+  
+  const words = text.split(" ")
+  
+  return (
+    <div ref={ref} className="overflow-hidden flex flex-wrap">
+      {words.map((word, i) => (
+        <motion.span
+          key={i}
+          initial={{ y: "100%", opacity: 0 }}
+          animate={isInView ? { y: 0, opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
+          className="mr-[0.25em] inline-block"
+        >
+          {word}
+        </motion.span>
+      ))}
+    </div>
+  )
 }
+
+// ─── DATA MANIFESTS ─────────────────────────────────────────────────────────
+
+const MANIFEST = {
+  hero: {
+    category: "Architecture",
+    title: "The Brutalist Revival of Eastern Europe",
+    author: "Elena Rostova",
+    date: "Oct 14, 2026",
+    readTime: "12 min read",
+    excerpt: "Once symbols of strict utilitarianism, the concrete monoliths of the Soviet era are finding new life among a generation of architects determined to preserve their stark, unforgiving beauty."
+  },
+  latestNews: [
+    { cat: "Politics", title: "The Shifting Sands of Global Trade Agreements", time: "2h ago" },
+    { cat: "Science", title: "Quantum Computing Reaches Commercial Viability", time: "5h ago" },
+    { cat: "Culture", title: "The Death and Rebirth of the American Novel", time: "12h ago" }
+  ],
+  featured: [
+    {
+      id: "ai-art",
+      cat: "Technology",
+      title: "When Machines Dream: The End of Human Art?",
+      excerpt: "As generative models surpass human technical ability, we are forced to redefine what makes art inherently valuable.",
+      author: "David Chen",
+      img: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80"
+    },
+    {
+      id: "ocean",
+      cat: "Environment",
+      title: "The Deep Sea Mining Rush",
+      excerpt: "A new gold rush is happening miles beneath the ocean surface, threatening ecosystems we barely understand.",
+      author: "Sarah Jenkins",
+      img: "https://images.unsplash.com/photo-1582967169287-6e9f2ee1a70c?w=800&q=80"
+    },
+    {
+      id: "culinary",
+      cat: "Gastronomy",
+      title: "The Return to Fire: Primal Cooking",
+      excerpt: "Top chefs are ditching sous-vide machines for open flames, wood smoke, and instinct.",
+      author: "Marco Rossi",
+      img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80"
+    }
+  ],
+  essays: [
+    { title: "The Psychology of Infinite Scrolling", author: "Dr. Amanda Weir", date: "Sep 22" },
+    { title: "Why We Still Need Physical Books", author: "Thomas Hardy", date: "Sep 18" },
+    { title: "The Architecture of Silence", author: "Maya Lin", date: "Sep 10" },
+    { title: "In Defense of Boredom", author: "Julian Barnes", date: "Sep 05" }
+  ],
+  subscription: {
+    tiers: [
+      { name: "Digital", price: "$5/mo", features: ["Unlimited web access", "Daily newsletter", "Audio articles", "Ad-free experience"] },
+      { name: "Print + Digital", price: "$12/mo", features: ["Monthly print magazine", "Unlimited web access", "Exclusive events", "Archive access"], recommended: true },
+      { name: "Patron", price: "$50/mo", features: ["Signed annual book", "Editor's dinner invite", "Print + Digital", "Gift subscriptions"] }
+    ]
+  },
+  faq: [
+    { q: "How do I manage my subscription?", a: "You can pause, upgrade, or cancel your subscription at any time through your account portal under the 'Membership' tab." },
+    { q: "Do you offer student discounts?", a: "Yes, verified university students receive a 50% discount on the Digital tier." },
+    { q: "Can I buy a gift subscription?", a: "Absolutely. During checkout, simply select 'This is a gift' and we will send a welcome email on the date of your choosing." },
+    { q: "Where do you ship the print magazine?", a: "We ship globally. International shipping is included in the 'Print + Digital' tier price." },
+    { q: "How often is the website updated?", a: "We publish 3-5 new long-form pieces daily, while our 'Latest' feed is updated continuously throughout the day." }
+  ]
+}
+
+// ─── MAIN PAGE ──────────────────────────────────────────────────────────────
 
 export default function ChronicleEditorialPage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll()
+  
+  // Reading progress bar
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
 
-  const { scrollYProgress } = useScroll();
-  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50)
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
-    <div className="premium-theme min-h-screen bg-[#fdfcfa] text-[#1a1a1a] overflow-x-hidden" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
-      <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.02]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000' fill-opacity='1'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E")` }} />
+    <div className="bg-[#fcfaf7] text-[#1a1814] min-h-screen selection:bg-[#d64000] selection:text-white overflow-x-hidden font-sans">
+      
+      {/* ─── READING PROGRESS BAR ──────────────────────────────────────── */}
+      <motion.div 
+        className="fixed top-0 left-0 right-0 h-1 bg-[#d64000] z-[60] origin-left"
+        style={{ scaleX }}
+      />
 
-      {/* Reading progress */}
-      <motion.div className="fixed top-0 left-0 h-0.5 bg-[#b45309] z-[60]" style={{ width: progressWidth }} />
-
-      <nav className={`fixed top-0.5 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#fdfcfa]/95 backdrop-blur-xl py-3 border-b border-black/5" : "bg-transparent py-8"}`}>
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group text-2xl tracking-tight">
-            <span className="font-bold italic group-hover:text-[#b45309] transition-colors">Chronicle</span>
-          </Link>
-          <div className="hidden lg:flex items-center gap-8 text-[11px] font-mono font-bold uppercase tracking-[0.2em] text-black/30">
-            {["Dispatches", "Investigations", "Essays", "Archive"].map(l => <Link key={l} href="#" className="hover:text-[#b45309] transition-colors">{l}</Link>)}
-          </div>
+      {/* ─── NAVBAR ────────────────────────────────────────────────────── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-[#fcfaf7]/95 backdrop-blur-sm border-b border-[#1a1814]/10 py-3" : "bg-transparent py-6"}`}>
+        <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <MagneticBtn className="px-5 py-2 bg-[#b45309] text-white text-[10px] font-mono font-bold uppercase tracking-widest hover:bg-black transition-all">Subscribe</MagneticBtn>
-            <button onClick={() => setMenuOpen(true)} className="lg:hidden text-black/40"><Menu className="w-6 h-6" /></button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest hover:text-[#d64000] transition-colors">
+                  <Menu className="w-5 h-5" /> Menu
+                </button>
+              </SheetTrigger>
+              <SheetContent side="left" className="bg-[#1a1814] text-[#fcfaf7] border-r-0 p-12 w-full sm:w-[400px]">
+                <div className="mt-12 flex flex-col gap-8">
+                  {["Politics", "Culture", "Science", "Environment", "Essays", "Archive"].map(link => (
+                    <Link key={link} href="#" className="text-4xl font-serif italic hover:text-[#d64000] transition-colors">
+                      {link}
+                    </Link>
+                  ))}
+                  <div className="w-full h-[1px] bg-white/10 my-4" />
+                  <Link href="#" className="text-sm font-bold uppercase tracking-widest text-[#d64000] hover:text-white transition-colors">Subscribe</Link>
+                  <Link href="#" className="text-sm font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors">Sign In</Link>
+                </div>
+              </SheetContent>
+            </Sheet>
+            <button className="hidden md:block hover:text-[#d64000] transition-colors"><Search className="w-5 h-5" /></button>
+          </div>
+
+          <Link href="/" className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
+            <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+              Chronicle.
+            </h1>
+            {!scrolled && <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1a1814]/50 mt-1">Est. 1924</span>}
+          </Link>
+
+          <div className="flex items-center gap-6">
+            <Link href="#subscribe" className="hidden md:block text-xs font-bold uppercase tracking-widest hover:text-[#d64000] transition-colors">
+              Subscribe
+            </Link>
+            <Link href="#subscribe" className="bg-[#d64000] text-white px-5 py-2.5 text-xs font-bold uppercase tracking-widest hover:bg-[#a33000] transition-colors">
+              Support Us
+            </Link>
           </div>
         </div>
       </nav>
 
-      <AnimatePresence>{menuOpen && (
-        <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-[#fdfcfa] p-8 flex flex-col pt-32">
-          <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-black/40"><X className="w-10 h-10" /></button>
-          <div className="flex flex-col gap-8 text-5xl font-bold italic">
-            {["Dispatches", "Investigations", "Essays", "Archive"].map(l => <Link key={l} href="#" onClick={() => setMenuOpen(false)}>{l}</Link>)}
-          </div>
-        </motion.div>
-      )}</AnimatePresence>
-
-      {/* HERO */}
-      <section className="relative min-h-screen flex flex-col justify-center pt-20 overflow-hidden">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12 w-full relative z-10">
-          <Reveal>
-            <div className="flex items-center gap-4 mb-8 font-mono">
-              <div className="px-3 py-1 bg-[#b45309]/10 border border-[#b45309]/30 text-[#b45309] text-[9px] font-bold uppercase tracking-widest">{MANIFESTS.hero.status}</div>
-              <div className="text-[9px] text-black/30 tracking-widest uppercase">STORIES: {MANIFESTS.hero.stories} // READERS: {MANIFESTS.hero.readers}</div>
+      <main className="pt-32">
+        {/* ─── DATE BAR ────────────────────────────────────────────────── */}
+        <div className="max-w-[1400px] mx-auto px-6 mb-12">
+          <div className="w-full border-y border-[#1a1814]/10 py-3 flex flex-wrap items-center justify-between text-xs font-bold uppercase tracking-widest text-[#1a1814]/50">
+            <div className="flex gap-8">
+              <span>Wednesday, October 14, 2026</span>
+              <span className="hidden md:inline">Today's Paper</span>
             </div>
-            <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-bold leading-[0.85] tracking-tight mb-10">
-              Stories <br /> that <br /> <em className="text-[#b45309]">matter.</em>
+            <div className="flex gap-8">
+              <span className="hidden md:inline">Global Edition</span>
+              <span className="flex items-center gap-2"><Globe className="w-4 h-4" /> EN</span>
+            </div>
+          </div>
+        </div>
+
+        {/* ─── HERO SPLIT LAYOUT ───────────────────────────────────────── */}
+        <section className="max-w-[1400px] mx-auto px-6 mb-24">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+            
+            {/* LATEST NEWS SIDEBAR (LEFT) */}
+            <div className="lg:col-span-3 order-2 lg:order-1 hidden md:block">
+              <h3 className="text-xs font-black uppercase tracking-widest border-b-2 border-[#1a1814] pb-4 mb-6">The Latest</h3>
+              <div className="flex flex-col gap-6">
+                {MANIFEST.latestNews.map((news, i) => (
+                  <Reveal key={i} delay={i * 0.1}>
+                    <div className="group cursor-pointer">
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-[#d64000] mb-2">{news.cat}</div>
+                      <h4 className="font-serif text-lg leading-snug group-hover:underline decoration-2 underline-offset-4 decoration-[#d64000]/30 mb-2">
+                        {news.title}
+                      </h4>
+                      <div className="text-[10px] text-[#1a1814]/40 font-bold uppercase tracking-widest flex items-center gap-1">
+                        <Clock className="w-3 h-3" /> {news.time}
+                      </div>
+                    </div>
+                    {i !== MANIFEST.latestNews.length - 1 && <div className="w-full h-[1px] bg-[#1a1814]/10 mt-6" />}
+                  </Reveal>
+                ))}
+              </div>
+              <div className="mt-8 p-6 bg-[#f0eee9] border border-[#1a1814]/10">
+                <Newspaper className="w-8 h-8 text-[#d64000] mb-4" />
+                <h4 className="font-serif italic text-xl mb-2">Morning Briefing</h4>
+                <p className="text-sm text-[#1a1814]/60 mb-4 leading-relaxed">Start your day with what you need to know.</p>
+                <button className="w-full py-2 bg-[#1a1814] text-white text-xs font-bold uppercase tracking-widest hover:bg-[#d64000] transition-colors">
+                  Sign Up
+                </button>
+              </div>
+            </div>
+
+            {/* MAIN FEATURE (CENTER/RIGHT) */}
+            <div className="lg:col-span-9 order-1 lg:order-2">
+              <Reveal>
+                <Link href="#" className="group block">
+                  <div className="relative w-full aspect-[16/9] md:aspect-[2/1] bg-[#e5e3de] mb-8 overflow-hidden">
+                    <Image 
+                      src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1600&q=80" 
+                      alt="Architecture" 
+                      fill 
+                      className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
+                    />
+                    <div className="absolute top-4 left-4 bg-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-sm">
+                      Cover Story
+                    </div>
+                  </div>
+                  
+                  <div className="max-w-3xl mx-auto text-center md:text-left">
+                    <div className="text-xs font-black uppercase tracking-widest text-[#d64000] mb-4">
+                      {MANIFEST.hero.category}
+                    </div>
+                    <h2 className="text-5xl md:text-7xl font-serif leading-[1.1] mb-6 tracking-tight">
+                      {MANIFEST.hero.title}
+                    </h2>
+                    <p className="text-lg md:text-2xl font-serif italic text-[#1a1814]/70 leading-relaxed mb-8">
+                      {MANIFEST.hero.excerpt}
+                    </p>
+                    
+                    <div className="flex flex-col sm:flex-row items-center justify-between py-4 border-y border-[#1a1814]/10">
+                      <div className="flex items-center gap-4 mb-4 sm:mb-0">
+                        <Avatar className="w-10 h-10 border border-[#1a1814]/10">
+                          <AvatarImage src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&q=80" />
+                          <AvatarFallback>ER</AvatarFallback>
+                        </Avatar>
+                        <div className="text-left">
+                          <div className="text-xs font-bold uppercase tracking-widest">By {MANIFEST.hero.author}</div>
+                          <div className="text-[10px] text-[#1a1814]/50 font-bold uppercase tracking-widest mt-1">
+                            {MANIFEST.hero.date} • {MANIFEST.hero.readTime}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <button className="w-8 h-8 rounded-full border border-[#1a1814]/20 flex items-center justify-center hover:bg-[#d64000] hover:text-white hover:border-[#d64000] transition-colors">
+                          <Bookmark className="w-4 h-4" />
+                        </button>
+                        <button className="w-8 h-8 rounded-full border border-[#1a1814]/20 flex items-center justify-center hover:bg-[#1a1814] hover:text-white hover:border-[#1a1814] transition-colors">
+                          <Share2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
+        {/* ─── FEATURED STORIES GRID ─────────────────────────────────────── */}
+        <section className="bg-[#f2efe9] py-24 border-y border-[#1a1814]/10">
+          <div className="max-w-[1400px] mx-auto px-6">
+            <div className="flex items-center justify-between mb-12">
+              <h3 className="text-3xl font-serif italic">Editors' Picks</h3>
+              <Link href="#" className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:text-[#d64000] transition-colors">
+                View All <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+              {MANIFEST.featured.map((story, i) => (
+                <Reveal key={story.id} delay={i * 0.1}>
+                  <Link href="#" className="group flex flex-col h-full">
+                    <div className="relative w-full aspect-[4/3] bg-[#e5e3de] mb-6 overflow-hidden">
+                      <Image src={story.img} alt={story.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                    </div>
+                    <div className="text-[10px] font-black uppercase tracking-widest text-[#d64000] mb-3">{story.cat}</div>
+                    <h4 className="text-2xl font-serif leading-snug mb-4 group-hover:text-[#d64000] transition-colors">
+                      {story.title}
+                    </h4>
+                    <p className="text-[#1a1814]/70 font-serif leading-relaxed mb-6 flex-1">
+                      {story.excerpt}
+                    </p>
+                    <div className="text-[10px] font-bold uppercase tracking-widest text-[#1a1814]/40 mt-auto border-t border-[#1a1814]/10 pt-4">
+                      By {story.author}
+                    </div>
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ─── DEEP READS & ESSAYS ───────────────────────────────────────── */}
+        <section className="py-24 max-w-[1400px] mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-center">
+            <div className="order-2 lg:order-1">
+              <Reveal>
+                <div className="w-16 h-[2px] bg-[#d64000] mb-8" />
+                <h2 className="text-4xl md:text-6xl font-serif leading-tight mb-8">
+                  The <br/><span className="italic">Sunday</span> Essays.
+                </h2>
+                <p className="text-lg text-[#1a1814]/70 leading-relaxed mb-12 max-w-md">
+                  Long-form reflections on culture, society, and the human condition. Designed for slow reading and deep thought.
+                </p>
+                <div className="flex flex-col border-t border-[#1a1814]/10">
+                  {MANIFEST.essays.map((essay, i) => (
+                    <Link key={i} href="#" className="group flex items-center justify-between py-6 border-b border-[#1a1814]/10 hover:bg-[#f2efe9] transition-colors -mx-6 px-6">
+                      <div>
+                        <h4 className="text-xl font-serif mb-2 group-hover:text-[#d64000] transition-colors">{essay.title}</h4>
+                        <div className="text-[10px] font-bold uppercase tracking-widest text-[#1a1814]/50">By {essay.author}</div>
+                      </div>
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-[#1a1814]/30">
+                        {essay.date}
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+            
+            <div className="order-1 lg:order-2">
+              <Reveal delay={0.2}>
+                <div className="relative w-full aspect-[3/4] bg-[#e5e3de] p-8 md:p-12 flex flex-col justify-end overflow-hidden group">
+                  <Image src="https://images.unsplash.com/photo-1455390582262-044cdead27d8?w=800&q=80" alt="Writing" fill className="object-cover opacity-80 mix-blend-multiply group-hover:scale-105 transition-transform duration-1000" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1a1814]/90 via-[#1a1814]/20 to-transparent" />
+                  <div className="relative z-10 text-white">
+                    <div className="text-[10px] font-black uppercase tracking-widest text-[#d64000] mb-4">Featured Essay</div>
+                    <h3 className="text-3xl md:text-5xl font-serif leading-tight mb-4">
+                      The Lost Art of Letter Writing
+                    </h3>
+                    <p className="text-white/70 italic font-serif mb-6">
+                      How instantaneous communication stripped language of its anticipation.
+                    </p>
+                    <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest hover:text-[#d64000] transition-colors">
+                      Read Essay <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
+        {/* ─── SUBSCRIPTION PRICING ──────────────────────────────────────── */}
+        <section id="subscribe" className="bg-[#1a1814] text-[#fcfaf7] py-32 border-y-[10px] border-[#d64000]">
+          <div className="max-w-[1400px] mx-auto px-6">
+            <div className="text-center mb-20">
+              <Reveal>
+                <Sparkles className="w-8 h-8 mx-auto text-[#d64000] mb-6" />
+                <h2 className="text-4xl md:text-6xl font-serif mb-6">Support Independent Journalism</h2>
+                <p className="text-[#fcfaf7]/60 max-w-xl mx-auto text-lg italic font-serif">
+                  No clickbait. No intrusive ads. Just rigorous reporting and thoughtful cultural analysis. 
+                  Choose the plan that suits you best.
+                </p>
+              </Reveal>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {MANIFEST.subscription.tiers.map((tier, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className={`p-10 border ${tier.recommended ? 'border-[#d64000] bg-[#2a261f]' : 'border-[#fcfaf7]/10 bg-[#1f1d18]'} relative flex flex-col h-full`}>
+                    {tier.recommended && (
+                      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#d64000] text-white px-4 py-1 text-[10px] font-black uppercase tracking-widest">
+                        Most Popular
+                      </div>
+                    )}
+                    <h3 className="text-2xl font-serif mb-2">{tier.name}</h3>
+                    <div className="text-4xl font-bold tracking-tighter mb-8">{tier.price}</div>
+                    
+                    <ul className="space-y-4 mb-10 flex-1">
+                      {tier.features.map((feat, j) => (
+                        <li key={j} className="flex items-start gap-3 text-sm text-[#fcfaf7]/80">
+                          <div className="w-1.5 h-1.5 bg-[#d64000] rounded-full mt-1.5 shrink-0" />
+                          {feat}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <button className={`w-full py-4 text-xs font-bold uppercase tracking-widest transition-colors ${tier.recommended ? 'bg-[#d64000] text-white hover:bg-[#a33000]' : 'bg-[#fcfaf7] text-[#1a1814] hover:bg-[#d64000] hover:text-white'}`}>
+                      Select Plan
+                    </button>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ─── FAQ ───────────────────────────────────────────────────────── */}
+        <section className="py-32 max-w-[800px] mx-auto px-6">
+          <div className="text-center mb-16">
+            <Reveal>
+              <h2 className="text-4xl font-serif mb-4">Questions?</h2>
+              <p className="text-[#1a1814]/60 italic font-serif">Details regarding our subscriptions and publishing schedule.</p>
+            </Reveal>
+          </div>
+          
+          <Reveal delay={0.2}>
+            <Accordion type="single" collapsible className="w-full">
+              {MANIFEST.faq.map((item, i) => (
+                <AccordionItem key={i} value={`item-${i}`} className="border-[#1a1814]/10">
+                  <AccordionTrigger className="text-lg font-serif py-6 hover:text-[#d64000] hover:no-underline text-left">
+                    {item.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-[#1a1814]/70 leading-relaxed pb-6 text-sm">
+                    {item.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </Reveal>
+        </section>
+
+        {/* ─── NEWSLETTER BANNER ─────────────────────────────────────────── */}
+        <section className="py-24 bg-[#f2efe9] border-y border-[#1a1814]/10">
+          <div className="max-w-[1000px] mx-auto px-6 text-center">
+            <Reveal>
+              <Newspaper className="w-10 h-10 mx-auto text-[#d64000] mb-8" />
+              <h2 className="text-4xl md:text-5xl font-serif mb-6">The Daily Chronicle</h2>
+              <p className="text-[#1a1814]/70 max-w-lg mx-auto mb-10 font-serif italic text-lg">
+                Our award-winning daily newsletter. The day's most important stories, curated by our editors and delivered straight to your inbox.
+              </p>
+              <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
+                <input 
+                  type="email" 
+                  placeholder="Your email address" 
+                  className="flex-1 bg-white border border-[#1a1814]/20 px-6 py-4 text-sm focus:outline-none focus:border-[#d64000] transition-colors"
+                />
+                <button className="bg-[#1a1814] text-white px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-[#d64000] transition-colors">
+                  Subscribe
+                </button>
+              </form>
+            </Reveal>
+          </div>
+        </section>
+
+      </main>
+
+      {/* ─── FOOTER ──────────────────────────────────────────────────────── */}
+      <footer className="bg-[#1a1814] text-[#fcfaf7]/60 pt-24 pb-12 px-6">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-24">
+          <div className="lg:col-span-2">
+            <h1 className="text-4xl font-black uppercase tracking-tighter text-[#fcfaf7] mb-6" style={{ fontFamily: "Georgia, serif" }}>
+              Chronicle.
             </h1>
-            <p className="max-w-xl text-xl text-black/40 leading-relaxed font-normal mb-12 italic">
-              Independent long-form journalism. Investigations, dispatches, and essays from the writers who refuse to look away.
+            <p className="max-w-sm text-sm font-serif italic leading-relaxed mb-8">
+              A journal of politics, culture, and science. Truth without compromise. Clarity without condescension.
             </p>
-            <div className="flex flex-col sm:flex-row gap-6 font-mono">
-              <button className="px-12 py-5 bg-black text-white text-[10px] font-bold uppercase tracking-[0.4em] hover:bg-[#b45309] transition-all">Read_Latest</button>
-              <button className="px-12 py-5 border border-black/10 text-black text-[10px] font-bold uppercase tracking-[0.4em] hover:bg-black hover:text-white transition-all">Browse_Archive</button>
+            <div className="flex gap-4">
+              {['Twitter', 'Facebook', 'Instagram', 'LinkedIn'].map(social => (
+                <Link key={social} href="#" className="w-10 h-10 border border-[#fcfaf7]/20 rounded-full flex items-center justify-center hover:bg-[#d64000] hover:text-white hover:border-[#d64000] transition-colors text-xs font-bold uppercase">
+                  {social.charAt(0)}
+                </Link>
+              ))}
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* FEATURED STORIES */}
-      <section className="py-32 bg-white border-y border-black/5">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-          <div className="flex justify-between items-end mb-20 gap-12">
-            <Reveal><h2 className="text-5xl md:text-7xl font-bold tracking-tight leading-[0.85]">Featured <br /> <em className="text-[#b45309]">Stories.</em></h2></Reveal>
-            <p className="max-w-sm text-sm text-black/30 leading-relaxed italic hidden md:block">Editor&apos;s picks from this month&apos;s most compelling journalism.</p>
           </div>
-          <div className="space-y-16">
-            {MANIFESTS.features.map((f, i) => (
-              <Reveal key={f.id} delay={i * 0.1}>
-                <article className="group cursor-pointer border-b border-black/5 pb-16 last:border-b-0">
-                  <div className="flex items-center gap-6 mb-6 font-mono text-[9px] font-bold uppercase tracking-widest text-black/30">
-                    <span className="text-[#b45309]">{f.category}</span>
-                    <span>BY {f.author.toUpperCase()}</span>
-                    <div className="flex items-center gap-1"><Clock className="w-3 h-3" />{f.readTime}</div>
-                  </div>
-                  <h3 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 group-hover:text-[#b45309] transition-colors leading-tight">{f.title}</h3>
-                  <p className="text-lg text-black/40 leading-relaxed max-w-3xl italic">{f.excerpt}</p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SECTIONS */}
-      <section className="py-32 bg-[#fdfcfa]">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <span className="text-[10px] font-mono uppercase tracking-[0.4em] font-bold text-[#b45309] mb-6 block">Departments</span>
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tight leading-[0.85] mb-20">Our <br /> <em className="text-black/15">Sections.</em></h2>
-          </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {MANIFESTS.sections.map((s, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className="group p-12 bg-white border border-black/5 hover:border-[#b45309]/30 hover:bg-[#b45309] hover:text-white transition-all flex flex-col h-full rounded-2xl">
-                  <div className="w-12 h-12 bg-black/5 group-hover:bg-white/10 rounded-xl flex items-center justify-center mb-10 transition-all">{s.icon}</div>
-                  <h3 className="text-2xl font-bold mb-4 font-mono tracking-tight">{s.name}</h3>
-                  <p className="text-sm text-black/40 group-hover:text-white/60 leading-relaxed italic transition-colors">{s.desc}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* LATEST */}
-      <section className="py-32 bg-white border-y border-black/5">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tight leading-[0.85] mb-20">Latest <br /> <em className="text-[#b45309]">Reads.</em></h2>
-          </Reveal>
-          <div className="space-y-6">
-            {MANIFESTS.latest.map((l, i) => (
-              <Reveal key={i} delay={i * 0.05}>
-                <div className="group flex justify-between items-center p-8 border border-black/5 hover:border-[#b45309]/30 transition-all cursor-pointer rounded-xl">
-                  <div className="flex items-center gap-8">
-                    <span className="font-mono text-[9px] font-bold text-[#b45309] uppercase tracking-widest">{l.category}</span>
-                    <h3 className="text-xl font-bold tracking-tight group-hover:text-[#b45309] transition-colors">{l.title}</h3>
-                  </div>
-                  <div className="flex items-center gap-6">
-                    <span className="font-mono text-[10px] text-black/20 uppercase tracking-widest">{l.date}</span>
-                    <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-[#b45309]" />
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-32 bg-[#1a1a1a] text-white">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12 text-center">
-          <Reveal>
-            <h2 className="text-5xl md:text-8xl font-bold tracking-tight mb-12">Read <br /> <em className="text-[#b45309]">deeply.</em></h2>
-            <p className="max-w-xl mx-auto text-lg text-white/40 leading-relaxed mb-16 italic">Join 1.2 million readers who choose substance over speed. Chronicle — delivered weekly to your inbox.</p>
-            <MagneticBtn className="px-16 py-6 bg-[#b45309] text-white text-[12px] font-mono font-bold uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">Subscribe_Free</MagneticBtn>
-          </Reveal>
-        </div>
-      </section>
-
-      <footer className="bg-[#1a1a1a] border-t border-white/5 py-24 px-6 md:px-12 text-white">
-        <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-20">
-          <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="text-2xl font-bold italic mb-8 block">Chronicle</Link>
-            <p className="text-[11px] text-white/20 tracking-wider max-w-sm leading-relaxed mb-12 italic">Independent journalism since 2018. No ads, no investors, reader-funded.</p>
-            <div className="flex gap-6">{[BookOpen, Newspaper, Globe].map((Icon, i) => <button key={i} className="text-white/20 hover:text-[#b45309] transition-colors"><Icon className="w-5 h-5" /></button>)}</div>
-          </div>
+          
           <div>
-            <h4 className="text-[10px] font-mono font-bold uppercase tracking-widest mb-8 text-[#b45309]">Read</h4>
-            <ul className="space-y-4 text-[10px] font-mono font-bold text-white/20 uppercase tracking-widest">
-              {["Dispatches", "Investigations", "Essays", "Archive"].map(l => <li key={l} className="hover:text-white transition-colors"><Link href="#">{l}</Link></li>)}
+            <h4 className="text-[#fcfaf7] text-xs font-bold uppercase tracking-widest mb-6">Sections</h4>
+            <ul className="space-y-4 text-sm font-serif">
+              {["Politics", "Business", "Science", "Culture", "Essays", "Opinion"].map(link => (
+                <li key={link}><Link href="#" className="hover:text-[#d64000] transition-colors">{link}</Link></li>
+              ))}
             </ul>
           </div>
+
           <div>
-            <h4 className="text-[10px] font-mono font-bold uppercase tracking-widest mb-8 text-[#b45309]">About</h4>
-            <ul className="space-y-4 text-[10px] font-mono font-bold text-white/20 uppercase tracking-widest">
-              {["Our_Mission", "Writers", "Ethics", "Contact"].map(l => <li key={l} className="hover:text-white transition-colors"><Link href="#">{l}</Link></li>)}
+            <h4 className="text-[#fcfaf7] text-xs font-bold uppercase tracking-widest mb-6">Company</h4>
+            <ul className="space-y-4 text-sm font-serif">
+              {["About Us", "Careers", "Ethics Policy", "Contact", "Advertise", "Press"].map(link => (
+                <li key={link}><Link href="#" className="hover:text-white transition-colors">{link}</Link></li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-[#fcfaf7] text-xs font-bold uppercase tracking-widest mb-6">Account</h4>
+            <ul className="space-y-4 text-sm font-serif">
+              {["Manage Subscription", "Gift a Subscription", "Help Center", "Newsletters", "Apps"].map(link => (
+                <li key={link}><Link href="#" className="hover:text-white transition-colors">{link}</Link></li>
+              ))}
             </ul>
           </div>
         </div>
-        <div className="max-w-[1200px] mx-auto mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[9px] font-mono font-bold text-white/10 uppercase tracking-widest">
-          <span>&copy; 2026 CHRONICLE. ALL RIGHTS RESERVED.</span>
-          <span>READER-FUNDED. AD-FREE. INDEPENDENT.</span>
+
+        <div className="max-w-[1400px] mx-auto border-t border-[#fcfaf7]/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] font-bold uppercase tracking-widest">
+          <div>© 2026 The Chronicle Media Group.</div>
+          <div className="flex flex-wrap justify-center gap-6">
+            <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="#" className="hover:text-white transition-colors">Cookie Settings</Link>
+            <Link href="#" className="hover:text-white transition-colors">Accessibility</Link>
+          </div>
         </div>
       </footer>
     </div>
-  );
+  )
 }

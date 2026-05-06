@@ -1,277 +1,411 @@
-"use client";
-import { motion, useInView, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
-import { Zap, Scan, Layers, Menu, X, ArrowRight, MousePointer2, Fingerprint, Globe, Radio, Activity, Wifi, Signal, Cpu, Eye, Radar } from "lucide-react";
-import "../premium.css";
+"use client"
+import { motion, useScroll, useTransform, useInView, AnimatePresence, useSpring } from "framer-motion"
+import { useState, useRef, useEffect } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { Progress } from "@/components/ui/progress"
+import { Separator } from "@/components/ui/separator"
+import { Menu, ArrowRight, Sparkles, Layers, Box, Cpu, ArrowUpRight, Copy, Check, Hexagon, Fingerprint } from "lucide-react"
 
-const MANIFESTS = {
-  hero: { experiences: "86", patents: "12", studios: "Berlin + Seoul", status: "LAB_OPEN" },
-  projects: [
-    { id: "tactile", name: "TACTILE // FIELD", desc: "Pressure-sensitive floor installation spanning 400m². Visitors' footsteps generate real-time generative audio-visual compositions projected on surrounding walls.", category: "INSTALLATION", tech: "Lidar + Max/MSP" },
-    { id: "resonance", name: "RESONANCE // WALL", desc: "Kinetic wall of 2,400 motorized tiles that responds to ambient sound. Each tile moves independently, creating a living surface that breathes with the city.", category: "KINETIC", tech: "Arduino + Custom PCB" },
-    { id: "phantom", name: "PHANTOM // TOUCH", desc: "Mid-air haptic interface using focused ultrasound. Users feel invisible buttons, textures, and shapes — no screen, no wearable, no contact.", category: "HAPTIC", tech: "Ultrasound Array" },
-    { id: "echo", name: "ECHO // SPACE", desc: "Spatial audio environment where sound objects exist in 3D space. Walk through a room of invisible instruments — each one plays as you pass.", category: "SPATIAL_AUDIO", tech: "Ambisonic + Tracking" },
-  ],
-  research: [
-    { name: "HAPTIC // COMPUTING", icon: <Fingerprint className="w-5 h-5" />, items: ["Mid-air Feedback", "Ultrasonic Arrays", "Tactile Rendering", "Force Fields"] },
-    { name: "SPATIAL // SENSING", icon: <Radar className="w-5 h-5" />, items: ["Lidar Mapping", "Depth Cameras", "Body Tracking", "Gesture Recognition"] },
-    { name: "GENERATIVE // SYSTEMS", icon: <Cpu className="w-5 h-5" />, items: ["Neural Audio", "Procedural Visuals", "Autonomous Agents", "Self-Organizing"] },
-  ],
-  telemetry: [
-    { label: "LATENCY_MS", val: 4, max: 20, color: "#22d3ee" },
-    { label: "TRACKING_FPS", val: 120, max: 144, color: "#22d3ee" },
-    { label: "HAPTIC_RES", val: 0.5, max: 1, color: "#22d3ee", unit: "mm" },
-    { label: "SPATIAL_ACC", val: 99.2, max: 100, color: "#22d3ee", unit: "%" },
-  ],
-};
+// ─── UTILS & ANIMATION COMPONENTS ─────────────────────────────────────────────
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  return <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] }}>{children}</motion.div>;
-}
-
-function MagneticBtn({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const x = useMotionValue(0), y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 300, damping: 20 }), sy = useSpring(y, { stiffness: 300, damping: 20 });
-  const ref = useRef<HTMLButtonElement>(null);
-  return <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={(e) => { const r = ref.current?.getBoundingClientRect(); if (r) { x.set((e.clientX - r.left - r.width / 2) * 0.4); y.set((e.clientY - r.top - r.height / 2) * 0.4); }}} onMouseLeave={() => { x.set(0); y.set(0); }} className={className}>{children}</motion.button>;
-}
-
-// Custom cursor aura
-function CursorAura() {
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-  const [visible, setVisible] = useState(false);
-  const springX = useSpring(useMotionValue(0), { stiffness: 100, damping: 20 });
-  const springY = useSpring(useMotionValue(0), { stiffness: 100, damping: 20 });
-  useEffect(() => {
-    const move = (e: MouseEvent) => { setPos({ x: e.clientX, y: e.clientY }); springX.set(e.clientX); springY.set(e.clientY); setVisible(true); };
-    const leave = () => setVisible(false);
-    window.addEventListener("mousemove", move);
-    window.addEventListener("mouseleave", leave);
-    return () => { window.removeEventListener("mousemove", move); window.removeEventListener("mouseleave", leave); };
-  }, [springX, springY]);
-  if (!visible) return null;
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-50px" })
   return (
-    <motion.div className="fixed pointer-events-none z-[200] mix-blend-difference" style={{ x: springX, y: springY, translateX: "-50%", translateY: "-50%" }}>
-      <div className="w-32 h-32 rounded-full bg-[#22d3ee]/20 blur-xl" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-[#22d3ee]/60" />
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {children}
     </motion.div>
-  );
+  )
 }
+
+function GlassCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={`relative overflow-hidden rounded-3xl border border-white/20 bg-white/10 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(255,255,255,0.1)] ${className}`}>
+      <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent pointer-events-none" />
+      <div className="relative z-10 p-8 h-full">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+// ─── DATA MANIFESTS ─────────────────────────────────────────────────────────
+
+const MANIFEST = {
+  hero: {
+    status: "MAINNET LIVE",
+    title: "AURA NETWORK",
+    desc: "The iridescent layer for decentralized social graphs. Aura brings vaporwave aesthetics to Web3 utility, creating a frictionless identity protocol."
+  },
+  features: [
+    { id: "01", title: "Soulbound NFTs", icon: <Fingerprint className="w-6 h-6" />, desc: "Non-transferable identity tokens representing your aesthetic and social reputation across the metaverse." },
+    { id: "02", title: "Zero-Knowledge", icon: <Hexagon className="w-6 h-6" />, desc: "Prove your identity and verify your community roles without revealing your wallet address or balance." },
+    { id: "03", title: "Cross-Chain", icon: <Layers className="w-6 h-6" />, desc: "Aura operates natively across Ethereum, Solana, and Polygon using LayerZero messaging." }
+  ],
+  tokenomics: {
+    supply: "1,000,000,000 $AURA",
+    contract: "0x8a...3f9c",
+    allocation: [
+      { label: "Community Treasury", percent: 45, color: "#ff71ce" },
+      { label: "Core Contributors", percent: 20, color: "#01cdfe" },
+      { label: "Liquidity Pool", percent: 15, color: "#05ffa1" },
+      { label: "Ecosystem Grants", percent: 15, color: "#b967ff" },
+      { label: "Advisors", percent: 5, color: "#fffb96" }
+    ]
+  },
+  roadmap: [
+    { phase: "Phase 1: Synthesis", status: "Completed", items: ["Protocol Whitepaper", "Seed Round Closed", "Testnet Alpha", "Community Genesis"] },
+    { phase: "Phase 2: Resonance", status: "Current", items: ["Mainnet Beta Launch", "Aura ID Minting", "Cross-chain Bridge", "DEX Listing"] },
+    { phase: "Phase 3: Ascension", status: "Upcoming", items: ["DAO Governance", "Staking Rewards V2", "Social Graph API", "Tier 1 CEX"] },
+    { phase: "Phase 4: Nirvana", status: "2027", items: ["Mobile App SDK", "Zero-Knowledge Rollup", "Ecosystem Fund", "Global Hackathon"] }
+  ],
+  backers: [
+    "a16z crypto", "Paradigm", "Sequoia Capital", "Framework", "Variant", "Multicoin"
+  ],
+  faq: [
+    { q: "What is an Aura ID?", a: "An Aura ID is a soulbound NFT that aggregates your on-chain history, social connections, and community reputation into a single, beautifully rendered iridescent orb." },
+    { q: "How do I participate in the Airdrop?", a: "To be eligible, you must hold an active Aura ID and have participated in the Testnet Alpha or engaged in our Discord community before the snapshot date." },
+    { q: "Is the contract audited?", a: "Yes, the Aura smart contracts have been thoroughly audited by Trail of Bits and Certik. All audit reports are available on our Github." },
+    { q: "What are the utility cases for $AURA?", a: "$AURA is used for governance, staking for protocol revenue share, and paying for premium API access to the Aura Social Graph." }
+  ]
+}
+
+// ─── MAIN PAGE ──────────────────────────────────────────────────────────────
 
 export default function AuraInteractivePage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
-  useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
+  const [scrolled, setScrolled] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const { scrollYProgress } = useScroll()
+  
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
 
-  const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50)
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const copyContract = () => {
+    navigator.clipboard.writeText(MANIFEST.tokenomics.contract)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   return (
-    <div className="premium-theme min-h-screen bg-[#050608] text-white font-mono selection:bg-[#22d3ee] selection:text-black overflow-x-hidden cursor-none">
-      <CursorAura />
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#061520_0%,transparent_50%)]" />
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `radial-gradient(#22d3ee 0.5px, transparent 0.5px)`, backgroundSize: "40px 40px" }} />
-        {/* Radar sweep */}
-        <motion.div animate={{ rotate: 360 }} transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-[0.04]"
-          style={{ background: "conic-gradient(from 0deg, transparent 0deg, #22d3ee 15deg, transparent 30deg)" }} />
+    <div className="bg-[#1a0b2e] text-[#fcfaf7] font-sans min-h-screen selection:bg-[#ff71ce] selection:text-white overflow-x-hidden relative">
+      
+      {/* ─── VAPORWAVE IRIDESCENT BACKGROUND ───────────────────────────── */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#1a0b2e]">
+        <motion.div style={{ y: bgY }} className="absolute inset-0">
+          <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-[#ff71ce]/40 blur-[120px] mix-blend-screen animate-[pulse_8s_infinite]" />
+          <div className="absolute top-[20%] right-[-10%] w-[70%] h-[70%] rounded-full bg-[#01cdfe]/30 blur-[150px] mix-blend-screen animate-[pulse_10s_infinite_reverse]" />
+          <div className="absolute bottom-[-20%] left-[20%] w-[50%] h-[50%] rounded-full bg-[#05ffa1]/20 blur-[100px] mix-blend-screen" />
+        </motion.div>
+        {/* Retro Grid */}
+        <div 
+          className="absolute bottom-0 w-full h-[50vh] opacity-30"
+          style={{
+            backgroundImage: "linear-gradient(#ff71ce 1px, transparent 1px), linear-gradient(90deg, #ff71ce 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
+            transform: "perspective(500px) rotateX(60deg) translateY(100px) scale(2)"
+          }}
+        />
+        {/* VHS Overlay effect */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none" />
       </div>
 
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 cursor-auto ${scrolled ? "bg-[#050608]/90 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-10"}`}>
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter cursor-pointer">
-            <div className="w-8 h-8 bg-[#22d3ee] rounded-full flex items-center justify-center text-black"><Radio className="w-4 h-4" /></div>
-            <span className="group-hover:text-[#22d3ee] transition-colors">AURA // <span className="text-white/40">INTERACTIVE</span></span>
+      {/* ─── NAVBAR ────────────────────────────────────────────────────── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-[#1a0b2e]/60 backdrop-blur-xl border-b border-white/10 py-4" : "bg-transparent py-8"}`}>
+        <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#ff71ce] to-[#01cdfe] flex items-center justify-center">
+              <Sparkles className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-xl font-black tracking-widest uppercase italic">AURA</span>
           </Link>
-          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
-            {["Projects", "Research", "Lab", "Connect"].map(l => <Link key={l} href="#" className="hover:text-[#22d3ee] transition-colors cursor-pointer">{l}</Link>)}
+
+          <div className="hidden lg:flex items-center gap-10 text-xs font-bold uppercase tracking-widest">
+            {["Protocol", "Tokenomics", "Roadmap", "DAO"].map((link) => (
+              <Link key={link} href="#" className="hover:text-[#ff71ce] transition-colors relative group">
+                {link}
+              </Link>
+            ))}
           </div>
-          <div className="flex items-center gap-6">
-            <MagneticBtn className="px-6 py-2.5 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[#22d3ee] transition-all cursor-pointer">Collaborate</MagneticBtn>
-            <button onClick={() => setMenuOpen(true)} className="lg:hidden text-white/60 cursor-pointer"><Menu className="w-6 h-6" /></button>
+
+          <div className="flex items-center gap-4">
+            <Link href="#" className="hidden md:flex items-center justify-center px-6 py-2.5 bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white hover:text-black transition-all rounded-full text-xs font-bold uppercase tracking-widest">
+              Launch App
+            </Link>
+            <Sheet>
+              <SheetTrigger asChild>
+                <button className="lg:hidden w-10 h-10 flex items-center justify-center bg-white/10 backdrop-blur-md rounded-full text-white">
+                  <Menu className="w-5 h-5" />
+                </button>
+              </SheetTrigger>
+              <SheetContent side="right" className="bg-[#1a0b2e]/90 backdrop-blur-xl border-l border-white/10 p-12 text-white">
+                <div className="flex flex-col gap-8 mt-20">
+                  {["Protocol", "Tokenomics", "Roadmap", "DAO", "Launch App"].map((link) => (
+                    <Link key={link} href="#" className="text-3xl font-black uppercase italic hover:text-[#01cdfe] transition-colors">
+                      {link}
+                    </Link>
+                  ))}
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </nav>
 
-      <AnimatePresence>{menuOpen && (
-        <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-[#050608] p-8 flex flex-col pt-32 cursor-auto">
-          <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40"><X className="w-10 h-10" /></button>
-          <div className="flex flex-col gap-10 text-5xl font-black tracking-tighter uppercase">
-            {["Projects", "Research", "Lab", "Connect"].map(l => <Link key={l} href="#" onClick={() => setMenuOpen(false)}>{l}</Link>)}
+      <main className="relative z-10">
+        {/* ─── HERO ──────────────────────────────────────────────────────── */}
+        <section className="relative min-h-screen flex items-center pt-20 pb-32">
+          <div className="max-w-[1400px] mx-auto px-6 w-full text-center">
+            <Reveal>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md mb-8">
+                <div className="w-2 h-2 rounded-full bg-[#05ffa1] animate-pulse" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#05ffa1]">{MANIFEST.hero.status}</span>
+              </div>
+              
+              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black uppercase tracking-tighter italic leading-none mb-8 drop-shadow-[0_0_30px_rgba(255,113,206,0.5)]">
+                {MANIFEST.hero.title}
+              </h1>
+              
+              <p className="max-w-2xl mx-auto text-lg md:text-2xl text-white/80 leading-relaxed font-medium mb-12">
+                {MANIFEST.hero.desc}
+              </p>
+              
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                <button className="w-full sm:w-auto px-10 py-5 rounded-full bg-gradient-to-r from-[#ff71ce] to-[#01cdfe] text-white text-xs font-black uppercase tracking-widest hover:scale-105 transition-transform shadow-[0_0_40px_rgba(1,205,254,0.4)]">
+                  Mint Aura ID
+                </button>
+                <button className="w-full sm:w-auto px-10 py-5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white text-xs font-black uppercase tracking-widest hover:bg-white/20 transition-colors">
+                  Read Docs
+                </button>
+              </div>
+            </Reveal>
+            
+            {/* Massive floating 3D orb placeholder */}
+            <Reveal delay={0.4}>
+              <div className="mt-24 relative w-64 h-64 md:w-96 md:h-96 mx-auto animate-[bounce_6s_infinite]">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#ff71ce] via-[#b967ff] to-[#01cdfe] blur-[10px] shadow-[0_0_100px_rgba(255,113,206,0.8)] border border-white/40" />
+                <div className="absolute inset-4 rounded-full bg-gradient-to-bl from-white/40 to-transparent backdrop-blur-sm" />
+              </div>
+            </Reveal>
           </div>
-        </motion.div>
-      )}</AnimatePresence>
+        </section>
 
-      {/* HERO */}
-      <motion.section ref={heroRef} style={{ opacity: heroOpacity }} className="relative h-screen flex flex-col justify-center pt-20 overflow-hidden">
-        {/* Expanding sensor rings */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          {[...Array(5)].map((_, i) => (
-            <motion.div key={i} animate={{ scale: [0.3, 2.5], opacity: [0.15, 0] }} transition={{ duration: 5, repeat: Infinity, delay: i * 1 }}
-              className="absolute w-40 h-40 border border-[#22d3ee]/20 rounded-full" />
-          ))}
-        </div>
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
-          <Reveal>
-            <div className="flex items-center gap-4 mb-8">
-              <div className="px-3 py-1 bg-[#22d3ee]/10 border border-[#22d3ee]/30 text-[#22d3ee] text-[9px] font-bold uppercase tracking-widest">{MANIFESTS.hero.status}</div>
-              <div className="text-[9px] text-white/30 tracking-widest uppercase">EXPERIENCES: {MANIFESTS.hero.experiences} // PATENTS: {MANIFESTS.hero.patents}</div>
-            </div>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
-              Touch <br /> <span className="text-[#22d3ee]">The</span> <br /> Invisible. <br /> <span className="text-white/15">Aura.</span>
-            </h1>
-            <p className="max-w-2xl text-xl text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">
-              An interactive design lab building haptic interfaces, spatial installations, and generative environments that respond to the human body.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6">
-              <button className="px-12 py-5 bg-[#22d3ee] text-black text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-[0_0_50px_rgba(34,211,238,0.2)] cursor-pointer">Enter_Lab</button>
-              <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all cursor-pointer">View_Work</button>
-            </div>
-          </Reveal>
-        </div>
-      </motion.section>
-
-      {/* PROJECTS */}
-      <section className="py-40 bg-[#080a10] border-y border-white/5 cursor-auto">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
-            <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85]">Active <br /> <span className="text-[#22d3ee]">Projects.</span></h2></Reveal>
-            <p className="max-w-md text-sm text-white/30 leading-relaxed uppercase tracking-widest font-light italic">Installations, kinetic sculptures, and haptic interfaces at the boundary of physical and digital.</p>
+        {/* ─── BACKERS MARQUEE ───────────────────────────────────────────── */}
+        <section className="py-8 bg-white/5 backdrop-blur-md border-y border-white/10 overflow-hidden">
+          <div className="flex items-center gap-16 whitespace-nowrap overflow-hidden">
+            <motion.div animate={{ x: [0, -1000] }} transition={{ repeat: Infinity, duration: 20, ease: "linear" }} className="flex gap-16 items-center">
+              {[...MANIFEST.backers, ...MANIFEST.backers, ...MANIFEST.backers].map((backer, i) => (
+                <div key={i} className="text-xl md:text-3xl font-black uppercase italic tracking-widest text-white/30 mix-blend-overlay">
+                  {backer}
+                </div>
+              ))}
+            </motion.div>
           </div>
-          <div className="space-y-2">
-            {MANIFESTS.projects.map((p, i) => (
-              <Reveal key={p.id} delay={i * 0.05}>
-                <div className="group flex flex-col md:flex-row justify-between items-center p-10 md:p-14 border-b border-white/5 hover:bg-[#22d3ee] hover:text-black transition-all duration-500 cursor-pointer"
-                  onMouseEnter={() => setHoveredProject(p.id)} onMouseLeave={() => setHoveredProject(null)}>
-                  <div className="flex-1 mb-6 md:mb-0">
-                    <div className="flex items-center gap-6 mb-4">
-                      <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tighter">{p.name}</h3>
-                      <span className="text-[9px] font-bold uppercase tracking-widest text-white/20 group-hover:text-black/40">{p.category}</span>
+        </section>
+
+        {/* ─── FEATURES ──────────────────────────────────────────────────── */}
+        <section className="py-32">
+          <div className="max-w-[1400px] mx-auto px-6">
+            <Reveal>
+              <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight italic mb-20 text-center drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                Protocol Architecture
+              </h2>
+            </Reveal>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {MANIFEST.features.map((feat, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <GlassCard className="group hover:-translate-y-2 transition-transform duration-500">
+                    <div className="text-[100px] font-black italic text-white/5 absolute top-4 right-4 pointer-events-none">{feat.id}</div>
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#ff71ce]/20 to-[#01cdfe]/20 border border-white/20 flex items-center justify-center text-white mb-8 group-hover:scale-110 transition-transform">
+                      {feat.icon}
                     </div>
-                    <p className="text-sm text-white/40 group-hover:text-black/50 leading-relaxed max-w-2xl italic transition-colors">&ldquo;{p.desc}&rdquo;</p>
-                  </div>
-                  <div className="flex items-center gap-8">
-                    <span className="text-[10px] font-bold text-white/20 group-hover:text-black/40 uppercase tracking-widest">{p.tech}</span>
-                    <motion.div animate={{ x: hoveredProject === p.id ? 5 : 0 }} className="opacity-0 group-hover:opacity-100 transition-opacity"><ArrowRight className="w-5 h-5" /></motion.div>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* RESEARCH */}
-      <section className="py-40 bg-[#050608] cursor-auto">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-start">
-            <div className="lg:col-span-5">
-              <Reveal>
-                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#22d3ee] mb-6 block">Research_Areas</span>
-                <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-12 uppercase">Core <br /> <span className="text-white/20">Research.</span></h2>
-                <p className="text-sm text-white/30 leading-relaxed uppercase tracking-widest font-light italic">Three interconnected research streams converging at the intersection of sensing, computation, and human perception.</p>
-              </Reveal>
-              {/* Telemetry panel */}
-              <Reveal delay={0.2}>
-                <div className="mt-16 p-10 bg-[#080a10] border border-white/5 rounded-2xl">
-                  <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest mb-8">SYSTEM_TELEMETRY</div>
-                  <div className="space-y-8">
-                    {MANIFESTS.telemetry.map((t, i) => (
-                      <div key={i}>
-                        <div className="flex justify-between text-[8px] font-bold uppercase tracking-widest mb-3">
-                          <span className="text-white/40">{t.label}</span>
-                          <span style={{ color: t.color }}>{t.val}{t.unit || ""}</span>
-                        </div>
-                        <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
-                          <motion.div initial={{ width: 0 }} whileInView={{ width: `${(t.val / t.max) * 100}%` }} transition={{ duration: 2, delay: 0.5 + i * 0.1 }} viewport={{ once: true }}
-                            className="h-full" style={{ backgroundColor: t.color }} />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </Reveal>
+                    <h3 className="text-2xl font-black uppercase tracking-widest mb-4">{feat.title}</h3>
+                    <p className="text-white/70 leading-relaxed font-medium">{feat.desc}</p>
+                  </GlassCard>
+                </Reveal>
+              ))}
             </div>
-            <div className="lg:col-span-7">
-              <div className="grid grid-cols-1 gap-12">
-                {MANIFESTS.research.map((r, i) => (
-                  <Reveal key={i} delay={i * 0.1}>
-                    <div className="group p-12 bg-[#080a10] border border-white/5 hover:border-[#22d3ee]/30 transition-all rounded-3xl relative overflow-hidden">
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#22d3ee]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <div className="flex items-start gap-8">
-                        <div className="w-16 h-16 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-center text-[#22d3ee] shrink-0 group-hover:bg-[#22d3ee] group-hover:text-black transition-all">{r.icon}</div>
-                        <div className="flex-1">
-                          <h3 className="text-3xl font-black uppercase mb-6 tracking-tighter group-hover:text-[#22d3ee] transition-colors">{r.name}</h3>
-                          <div className="grid grid-cols-2 gap-4">
-                            {r.items.map((item, j) => <div key={j} className="flex items-center gap-3 text-[9px] font-bold text-white/20 uppercase tracking-widest"><div className="w-1.5 h-1.5 bg-[#22d3ee] rotate-45" />{item}</div>)}
+          </div>
+        </section>
+
+        {/* ─── TOKENOMICS ────────────────────────────────────────────────── */}
+        <section className="py-32 relative">
+          <div className="max-w-[1400px] mx-auto px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <Reveal>
+                  <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight italic mb-8">
+                    Tokenomics
+                  </h2>
+                  <p className="text-white/70 text-lg mb-12">
+                    $AURA is the native governance and utility token of the protocol, designed for long-term sustainability and community ownership.
+                  </p>
+                  
+                  <div className="space-y-6 mb-12">
+                    <div>
+                      <div className="text-xs font-bold uppercase tracking-widest text-white/50 mb-2">Total Supply</div>
+                      <div className="text-3xl font-black text-[#05ffa1]">{MANIFEST.tokenomics.supply}</div>
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold uppercase tracking-widest text-white/50 mb-2">Contract Address</div>
+                      <button onClick={copyContract} className="flex items-center gap-3 px-4 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-colors">
+                        <span className="font-mono text-[#01cdfe]">{MANIFEST.tokenomics.contract}</span>
+                        {copied ? <Check className="w-4 h-4 text-[#05ffa1]" /> : <Copy className="w-4 h-4 text-white/50" />}
+                      </button>
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
+              
+              <div>
+                <Reveal delay={0.2}>
+                  <GlassCard>
+                    <h3 className="text-xl font-black uppercase tracking-widest mb-8">Allocation Distribution</h3>
+                    <div className="space-y-6">
+                      {MANIFEST.tokenomics.allocation.map((item, i) => (
+                        <div key={i}>
+                          <div className="flex justify-between text-sm font-bold uppercase tracking-widest mb-2">
+                            <span>{item.label}</span>
+                            <span style={{ color: item.color }}>{item.percent}%</span>
+                          </div>
+                          <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                            <motion.div 
+                              initial={{ width: 0 }} whileInView={{ width: `${item.percent}%` }} viewport={{ once: true }} transition={{ duration: 1, delay: i * 0.1 }}
+                              className="h-full rounded-full" style={{ backgroundColor: item.color }}
+                            />
                           </div>
                         </div>
-                      </div>
+                      ))}
                     </div>
-                  </Reveal>
-                ))}
+                  </GlassCard>
+                </Reveal>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* METRICS */}
-      <section className="py-40 bg-[#080a10] border-y border-white/5 text-center overflow-hidden cursor-auto">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <h2 className="text-7xl md:text-[12rem] font-black tracking-tighter uppercase leading-[0.85] mb-12 text-white/5">Sense.</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-16 mt-24">
-              {[{ label: "EXPERIENCES_BUILT", val: "86" }, { label: "PATENTS_FILED", val: "12" }, { label: "RESEARCH_PAPERS", val: "34" }, { label: "LAB_VISITORS", val: "280K" }].map((s, i) => (
-                <div key={i} className="group"><div className="text-5xl font-black text-white mb-4 group-hover:text-[#22d3ee] transition-colors">{s.val}</div><div className="text-[10px] font-black text-white/20 uppercase tracking-widest">{s.label}</div></div>
+        {/* ─── ROADMAP ───────────────────────────────────────────────────── */}
+        <section className="py-32">
+          <div className="max-w-[1000px] mx-auto px-6">
+            <Reveal>
+              <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight italic mb-20 text-center">
+                Protocol Roadmap
+              </h2>
+            </Reveal>
+            
+            <div className="space-y-8">
+              {MANIFEST.roadmap.map((phase, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className={`p-8 rounded-3xl border ${phase.status === 'Current' ? 'border-[#ff71ce] bg-[#ff71ce]/10 shadow-[0_0_30px_rgba(255,113,206,0.2)]' : 'border-white/10 bg-white/5'} backdrop-blur-md`}>
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+                      <h3 className="text-2xl font-black uppercase italic tracking-widest">{phase.phase}</h3>
+                      <div className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest border ${
+                        phase.status === 'Completed' ? 'border-[#05ffa1] text-[#05ffa1] bg-[#05ffa1]/10' :
+                        phase.status === 'Current' ? 'border-[#ff71ce] text-[#ff71ce] bg-[#ff71ce]/10' :
+                        'border-white/30 text-white/50 bg-white/5'
+                      }`}>
+                        {phase.status}
+                      </div>
+                    </div>
+                    
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {phase.items.map((item, j) => (
+                        <li key={j} className="flex items-center gap-3 text-sm font-bold text-white/80">
+                          <Check className={`w-4 h-4 ${phase.status === 'Completed' ? 'text-[#05ffa1]' : 'text-white/30'}`} />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </Reveal>
               ))}
             </div>
-          </Reveal>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* CTA */}
-      <section className="py-40 bg-[#050608] cursor-auto">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 text-center">
-          <Reveal>
-            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">Feel <br /> <span className="text-[#22d3ee]">More.</span></h2>
-            <p className="max-w-2xl mx-auto text-sm text-white/40 leading-relaxed font-light mb-16 uppercase tracking-widest italic">We collaborate with museums, brands, and research institutions to create experiences that redefine how humans interact with technology.</p>
-            <MagneticBtn className="px-16 py-6 bg-white text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[#22d3ee] transition-all shadow-[0_0_60px_rgba(34,211,238,0.15)] cursor-pointer">Start_Collaboration</MagneticBtn>
-          </Reveal>
-        </div>
-      </section>
+        {/* ─── FAQ ───────────────────────────────────────────────────────── */}
+        <section className="py-32">
+          <div className="max-w-[800px] mx-auto px-6">
+            <Reveal>
+              <h2 className="text-4xl font-black uppercase italic tracking-widest mb-16 text-center">Transmission Queries</h2>
+            </Reveal>
+            <Accordion type="single" collapsible className="w-full space-y-4">
+              {MANIFEST.faq.map((item, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <AccordionItem value={`item-${i}`} className="border border-white/10 bg-white/5 backdrop-blur-md px-6 rounded-2xl">
+                    <AccordionTrigger className="text-sm font-bold uppercase tracking-widest py-6 hover:text-[#01cdfe] hover:no-underline text-left">
+                      {item.q}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-white/70 leading-relaxed pb-6 font-medium">
+                      {item.a}
+                    </AccordionContent>
+                  </AccordionItem>
+                </Reveal>
+              ))}
+            </Accordion>
+          </div>
+        </section>
 
-      <footer className="bg-[#050608] border-t border-white/5 py-32 px-6 md:px-12 cursor-auto">
-        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
-          <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-white text-black rounded-full flex items-center justify-center"><Radio className="w-4 h-4" /></div><span>AURA // INTERACTIVE</span></Link>
-            <p className="text-[11px] text-white/20 uppercase tracking-[0.2em] max-w-sm leading-relaxed mb-16 italic">Interactive design lab. Haptic computing, spatial sensing, generative systems. Berlin + Seoul.</p>
-            <div className="flex gap-8">{[Fingerprint, Signal, Eye].map((Icon, i) => <button key={i} className="text-white/20 hover:text-[#22d3ee] transition-colors"><Icon className="w-5 h-5" /></button>)}</div>
+        {/* ─── CTA BANNER ────────────────────────────────────────────────── */}
+        <section className="py-40 relative border-t border-white/10">
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1a0b2e] to-[#ff71ce]/20 pointer-events-none" />
+          <div className="max-w-[1000px] mx-auto px-6 relative z-10 text-center">
+            <Reveal>
+              <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter italic mb-8 drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+                Enter The Grid
+              </h2>
+              <p className="text-xl text-white/80 mb-12 font-medium">
+                Claim your Aura ID and start building your decentralized identity today.
+              </p>
+              <button className="px-12 py-6 rounded-full bg-white text-[#1a0b2e] text-sm font-black uppercase tracking-widest hover:scale-105 transition-transform shadow-[0_0_50px_rgba(255,255,255,0.3)]">
+                Connect Wallet
+              </button>
+            </Reveal>
           </div>
-          <div>
-            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#22d3ee]">Work</h4>
-            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
-              {["Installations", "Haptic_Interfaces", "Kinetic_Sculpture", "Spatial_Audio"].map(l => <li key={l} className="hover:text-white transition-colors"><Link href="#">{l}</Link></li>)}
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#22d3ee]">Lab</h4>
-            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
-              {["Research", "Publications", "Open_Source", "Residencies"].map(l => <li key={l} className="hover:text-white transition-colors"><Link href="#">{l}</Link></li>)}
-            </ul>
+        </section>
+
+      </main>
+
+      {/* ─── FOOTER ──────────────────────────────────────────────────────── */}
+      <footer className="bg-[#1a0b2e] pt-20 pb-12 px-6 border-t border-white/10 relative z-20">
+        <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
+          <Link href="/" className="flex items-center gap-3">
+            <Sparkles className="w-6 h-6 text-[#ff71ce]" />
+            <span className="text-2xl font-black tracking-widest uppercase italic text-white">AURA</span>
+          </Link>
+
+          <div className="flex flex-wrap justify-center gap-8 text-[10px] font-bold uppercase tracking-widest text-white/50">
+            <Link href="#" className="hover:text-white transition-colors">Twitter</Link>
+            <Link href="#" className="hover:text-white transition-colors">Discord</Link>
+            <Link href="#" className="hover:text-white transition-colors">Github</Link>
+            <Link href="#" className="hover:text-white transition-colors">Docs</Link>
+            <Link href="#" className="hover:text-white transition-colors">Terms</Link>
           </div>
         </div>
-        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[9px] font-bold text-white/10 uppercase tracking-widest">
-          <span>&copy; 2026 AURA INTERACTIVE. ALL RIGHTS RESERVED.</span>
-          <div className="flex gap-10 font-mono"><span>BERLIN_DE</span><span>SEOUL_KR</span></div>
+        
+        <div className="max-w-[1400px] mx-auto text-center mt-16 text-[10px] font-bold uppercase tracking-widest text-white/30">
+          © 2026 Aura Network. Vaporwave is forever.
         </div>
       </footer>
     </div>
-  );
+  )
 }
