@@ -1,218 +1,295 @@
-"use client";
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
-import { Gauge, Zap, Timer, Menu, X, ArrowRight, Shield, Fuel, Wind, Settings, Trophy, Car } from "lucide-react";
-import "../premium.css";
+"use client"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { Dumbbell, ArrowRight, Menu, Star, MapPin, Clock, Users, Flame, ChevronRight, Heart, Trophy, Target, Zap, CheckCircle2 } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-const MODELS = [
-  { id: "gt", name: "APEX GT", tagline: "Grand Touring Perfection", hp: "620", torque: "590", zero: "3.2s", top: "318 km/h", price: "$142,000", status: "CONFIGURE" },
-  { id: "rs", name: "APEX RS", tagline: "Track-Bred Intensity", hp: "780", torque: "650", zero: "2.8s", top: "340 km/h", price: "$198,000", status: "PRE-ORDER" },
-  { id: "ev", name: "APEX EV", tagline: "Electric Revolution", hp: "950", torque: "1,100", zero: "2.1s", top: "280 km/h", price: "$165,000", status: "RESERVE" },
-];
-
-const SPECS = [
-  { label: "POWER_HP", val: 780, max: 1000, color: "#dc2626" },
-  { label: "TORQUE_NM", val: 650, max: 1200, color: "#dc2626" },
-  { label: "DOWNFORCE_KG", val: 420, max: 600, color: "#dc2626" },
-  { label: "WEIGHT_KG", val: 1480, max: 2000, color: "#dc2626" },
-];
-
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  return <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay }}>{children}</motion.div>;
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  )
 }
 
-export default function ApexAutomotivePage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeModel, setActiveModel] = useState("rs");
-  useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
+function ParallaxImg({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const y = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"])
+  return (
+    <div ref={ref} className="relative w-full h-full overflow-hidden">
+      <motion.div style={{ y }} className="absolute inset-[-12%] w-[124%] h-[124%]">
+        <Image src={src} alt={alt} fill className="object-cover" />
+      </motion.div>
+    </div>
+  )
+}
 
-  const current = MODELS.find(m => m.id === activeModel) || MODELS[1];
+const PROGRAMS = [
+  { title: "FORGE", type: "Strength", duration: "60 min", level: "Advanced", desc: "Heavy compound lifts with progressive overload programming.", img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=800" },
+  { title: "BLITZ", type: "HIIT", duration: "45 min", level: "All Levels", desc: "Heart-rate driven interval training for maximum caloric burn.", img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80&w=800" },
+  { title: "RECOVER", type: "Mobility", duration: "30 min", level: "All Levels", desc: "Active recovery with guided stretching and foam rolling protocols.", img: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&q=80&w=800" },
+]
+
+const FEATURES = [
+  { icon: Target, title: "Personal Programming", desc: "Every member gets a custom training plan based on their goals and baseline assessment." },
+  { icon: Flame, title: "Heart Rate Zones", desc: "Live biometric tracking during every session. Train smarter, not just harder." },
+  { icon: Trophy, title: "Progress Tracking", desc: "Monthly body composition scans, strength benchmarks, and recovery metrics." },
+  { icon: Users, title: "Community Driven", desc: "Small classes of 12 max. You're not a number — you're part of a tribe." },
+]
+
+const PLANS = [
+  { name: "Essential", price: "$79", desc: "3 sessions/week", features: ["3x Group Sessions", "Open Gym Access", "Monthly Check-in", "Community App"] },
+  { name: "Performance", price: "$129", desc: "Unlimited sessions", features: ["Unlimited Sessions", "Monthly Body Scan", "Nutrition Guidance", "Recovery Suite", "Priority Booking"], popular: true },
+  { name: "Elite", price: "$249", desc: "1:1 coaching", features: ["Everything in Performance", "2x PT Sessions/week", "Custom Meal Plans", "WhatsApp Support", "Quarterly Assessment"] },
+]
+
+export default function ApexFitnessPage() {
+  const [scrolled, setScrolled] = useState(false)
+
+  const { scrollYProgress } = useScroll()
+  const heroY = useTransform(scrollYProgress, [0, 0.2], ["0%", "30%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
+
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
+  }, [])
 
   return (
-    <div className="premium-theme min-h-screen bg-[#0a0a0a] text-white font-mono selection:bg-[#dc2626] selection:text-black overflow-x-hidden">
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,#dc262610_0%,transparent_50%)]" />
-        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: `linear-gradient(rgba(220,38,38,0.1) 1px, transparent 1px)`, backgroundSize: "1px 80px" }} />
-      </div>
+    <div className="bg-[#0a0a0a] text-white font-sans min-h-screen selection:bg-lime-500 selection:text-black overflow-x-hidden">
 
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#0a0a0a]/90 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-10"}`}>
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter">
-            <div className="w-8 h-8 bg-[#dc2626] rounded-sm flex items-center justify-center text-white"><Gauge className="w-4 h-4" /></div>
-            <span className="group-hover:text-[#dc2626] transition-colors">APEX // <span className="text-white/30">MOTORS</span></span>
+      {/* ── NAVBAR ────── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0a0a0a]/90 backdrop-blur-xl border-b border-lime-500/10 py-4" : "bg-transparent py-8"}`}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-lime-500 flex items-center justify-center -skew-x-6">
+              <Dumbbell className="w-5 h-5 text-black" />
+            </div>
+            <span className="text-xl font-black tracking-tight uppercase">Apex</span>
           </Link>
-          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">
-            {["Models", "Performance", "Heritage", "Configure"].map(l => <Link key={l} href="#" className="hover:text-[#dc2626] transition-colors">{l}</Link>)}
+          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
+            {["Programs", "Pricing", "Team", "Location"].map(l => (
+              <Link key={l} href="#" className="hover:text-lime-400 transition-colors">{l}</Link>
+            ))}
           </div>
-          <button className="px-6 py-2.5 bg-[#dc2626] text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all hidden md:block">Configure</button>
-          <button onClick={() => setMenuOpen(true)} className="lg:hidden text-white/60"><Menu className="w-6 h-6" /></button>
+          <button className="hidden md:block px-8 py-3 bg-lime-500 text-black text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-white transition-colors duration-500">
+            Start Free Trial
+          </button>
+          <Sheet>
+            <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
+            <SheetContent side="right" className="bg-[#0a0a0a] border-lime-500/10 p-12">
+              <div className="flex flex-col gap-8 mt-16">
+                {["Programs", "Pricing", "Team", "Book Trial"].map(l => (
+                  <Link key={l} href="#" className="text-3xl font-bold uppercase tracking-widest hover:text-lime-400 transition-colors">{l}</Link>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </nav>
 
-      <AnimatePresence>{menuOpen && (
-        <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-[#0a0a0a] p-8 flex flex-col pt-32">
-          <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40"><X className="w-10 h-10" /></button>
-          {["Models", "Performance", "Heritage", "Configure"].map(l => <Link key={l} href="#" onClick={() => setMenuOpen(false)} className="text-5xl font-black tracking-tighter uppercase mb-10">{l}</Link>)}
-        </motion.div>
-      )}</AnimatePresence>
-
-      {/* HERO */}
-      <section className="relative min-h-screen flex flex-col justify-center pt-20">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
-          <Reveal>
-            <div className="flex items-center gap-4 mb-8">
-              <div className="px-3 py-1 bg-[#dc2626]/10 border border-[#dc2626]/30 text-[#dc2626] text-[9px] font-bold uppercase tracking-widest">2026_LINEUP</div>
-              <div className="text-[9px] text-white/20 tracking-widest uppercase">ENGINEERED IN GERMANY</div>
-            </div>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
-              Born <br /> To <br /> <span className="text-[#dc2626]">Perform.</span>
-            </h1>
-            <p className="max-w-xl text-lg text-white/30 leading-relaxed font-light uppercase tracking-widest italic mb-12">
-              Three decades of motorsport heritage. Every curve engineered, every detail obsessed over.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6">
-              <button className="px-12 py-5 bg-[#dc2626] text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all shadow-[0_0_50px_rgba(220,38,38,0.2)]">Explore_Models</button>
-              <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">Book_Test_Drive</button>
-            </div>
-          </Reveal>
-        </div>
-        {/* RPM gauge animation */}
-        <div className="absolute right-12 bottom-32 hidden xl:block opacity-10">
-          <motion.div animate={{ rotate: [0, 220] }} transition={{ duration: 3, ease: "easeOut" }} className="w-64 h-64 border-4 border-[#dc2626] rounded-full relative">
-            <motion.div animate={{ rotate: [0, 220] }} transition={{ duration: 3, ease: "easeOut" }} className="absolute top-1/2 left-1/2 w-1 h-28 bg-[#dc2626] origin-bottom -translate-x-1/2 -translate-y-full" />
+      <main>
+        {/* ── HERO ────── */}
+        <section className="relative h-[110vh] min-h-[800px] flex items-center overflow-hidden">
+          <motion.div style={{ y: heroY }} className="absolute inset-0">
+            <Image src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=2400" alt="Gym" fill className="object-cover opacity-40" priority />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent" />
           </motion.div>
-        </div>
-      </section>
+          <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
+            <Reveal>
+              <div className="flex items-center gap-4 mb-8">
+                <Flame className="w-4 h-4 text-lime-500" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-400">Performance Training Studio</span>
+              </div>
+            </Reveal>
+            <Reveal delay={0.1} y={70}>
+              <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] uppercase mb-10">
+                Train<br/><span className="text-lime-500">Harder.</span>
+              </h1>
+            </Reveal>
+            <Reveal delay={0.25}>
+              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-10">
+                Science-backed programming. Expert coaching. A community that pushes you further than you'd go alone.
+              </p>
+            </Reveal>
+            <Reveal delay={0.35}>
+              <button className="px-10 py-5 bg-lime-500 text-black font-bold rounded-full hover:bg-white transition-colors duration-500 flex items-center gap-3">
+                <Zap className="w-5 h-5" /> Start Your Free Week
+              </button>
+            </Reveal>
+          </motion.div>
+        </section>
 
-      {/* MODEL SELECTOR */}
-      <section className="py-40 bg-[#0c0c0c] border-y border-white/5">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-16">The <span className="text-[#dc2626]">Lineup.</span></h2></Reveal>
-          {/* Tabs */}
-          <div className="flex gap-2 mb-16">
-            {MODELS.map(m => (
-              <button key={m.id} onClick={() => setActiveModel(m.id)}
-                className={`px-8 py-3 text-[10px] font-black uppercase tracking-widest transition-all ${activeModel === m.id ? "bg-[#dc2626] text-white" : "bg-white/5 text-white/30 hover:text-white"}`}>{m.name}</button>
+        {/* ── STATS ──── */}
+        <section className="py-16 bg-lime-500 text-black">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { v: "2,400+", l: "Members" },
+              { v: "94%", l: "Retention Rate" },
+              { v: "12", l: "Expert Coaches" },
+              { v: "6", l: "Programs" },
+            ].map((s, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div className="text-center">
+                  <div className="text-3xl font-black mb-1">{s.v}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-black/60">{s.l}</div>
+                </div>
+              </Reveal>
             ))}
           </div>
-          <AnimatePresence mode="wait">
-            <motion.div key={current.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4 }}>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
-                <div>
-                  <div className="w-full aspect-video bg-gradient-to-br from-[#dc2626]/10 to-transparent rounded-3xl flex items-center justify-center border border-white/5">
-                    <Car className="w-24 h-24 text-[#dc2626]/20" />
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-5xl font-black uppercase tracking-tighter mb-4">{current.name}</h3>
-                  <p className="text-lg text-white/30 italic mb-10">{current.tagline}</p>
-                  <div className="grid grid-cols-2 gap-8 mb-12">
-                    {[{ label: "POWER", val: `${current.hp} HP` }, { label: "TORQUE", val: `${current.torque} NM` }, { label: "0-100", val: current.zero }, { label: "TOP_SPEED", val: current.top }].map((s, i) => (
-                      <div key={i} className="p-6 bg-white/[0.03] border border-white/5 rounded-xl">
-                        <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest mb-2">{s.label}</div>
-                        <div className="text-2xl font-black text-white">{s.val}</div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex items-center justify-between pt-8 border-t border-white/5">
-                    <div className="text-3xl font-black text-[#dc2626]">{current.price}</div>
-                    <button className="px-10 py-4 bg-[#dc2626] text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all">{current.status}</button>
-                  </div>
-                </div>
+        </section>
+
+        {/* ── PROGRAMS ──── */}
+        <section className="py-32 bg-[#0a0a0a]">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="mb-20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-400 block mb-4">Programs</span>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">Find Your <span className="text-lime-500">Program.</span></h2>
               </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </section>
-
-      {/* ENGINEERING */}
-      <section className="py-40 bg-[#0a0a0a]">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-32">
-            <div>
-              <Reveal>
-                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#dc2626] mb-6 block">Engineering</span>
-                <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-12 uppercase">Built <span className="text-white/15">Different.</span></h2>
-              </Reveal>
-              <Reveal delay={0.2}>
-                <div className="p-10 bg-[#0c0c0c] border border-white/5 rounded-2xl">
-                  <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest mb-8">PERFORMANCE_TELEMETRY</div>
-                  <div className="space-y-8">
-                    {SPECS.map((s, i) => (
-                      <div key={i}>
-                        <div className="flex justify-between text-[8px] font-bold uppercase tracking-widest mb-3">
-                          <span className="text-white/40">{s.label}</span>
-                          <span className="text-[#dc2626]">{s.val}</span>
-                        </div>
-                        <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
-                          <motion.div initial={{ width: 0 }} whileInView={{ width: `${(s.val / s.max) * 100}%` }} transition={{ duration: 2, delay: 0.3 + i * 0.1 }} viewport={{ once: true }}
-                            className="h-full rounded-full bg-[#dc2626]" />
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {PROGRAMS.map((p, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="group cursor-pointer">
+                    <div className="relative aspect-[3/4] overflow-hidden rounded-xl mb-6">
+                      <ParallaxImg src={p.img} alt={p.title} />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                      <div className="absolute top-6 left-6 flex gap-2">
+                        <span className="px-3 py-1 bg-lime-500 text-black text-[10px] font-bold uppercase tracking-widest rounded-full">{p.type}</span>
+                        <span className="px-3 py-1 bg-black/50 backdrop-blur-md text-white/70 text-[10px] font-bold uppercase tracking-widest rounded-full">{p.level}</span>
+                      </div>
+                      <div className="absolute bottom-6 left-6 right-6">
+                        <h3 className="text-3xl font-black uppercase tracking-tight mb-2">{p.title}</h3>
+                        <p className="text-sm text-white/50 mb-3">{p.desc}</p>
+                        <div className="flex items-center gap-4 text-xs text-white/40">
+                          <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {p.duration}</span>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                </div>
-              </Reveal>
-            </div>
-            <div>
-              <Reveal delay={0.1}>
-                <div className="grid grid-cols-1 gap-8">
-                  {[{ icon: <Wind className="w-5 h-5" />, title: "ACTIVE_AERO", desc: "Dynamic spoiler and diffuser adjust in real-time for optimal downforce." },
-                    { icon: <Settings className="w-5 h-5" />, title: "DUAL_CLUTCH", desc: "8-speed PDK transmission with launch control and rev-match downshifts." },
-                    { icon: <Shield className="w-5 h-5" />, title: "CARBON_MONOCOQUE", desc: "Full carbon fiber tub weighing just 82kg. Stiffest in class." }
-                  ].map((f, i) => (
-                    <div key={i} className="group p-10 bg-[#0c0c0c] border border-white/5 hover:border-[#dc2626]/30 rounded-2xl transition-all">
-                      <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center text-[#dc2626] mb-6 group-hover:bg-[#dc2626] group-hover:text-white transition-all">{f.icon}</div>
-                      <h3 className="text-xl font-black uppercase tracking-tighter mb-3 group-hover:text-[#dc2626] transition-colors">{f.title}</h3>
-                      <p className="text-sm text-white/30">{f.desc}</p>
                     </div>
-                  ))}
-                </div>
-              </Reveal>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* HERITAGE */}
-      <section className="py-40 bg-[#0c0c0c] border-y border-white/5 text-center">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-16">
-              {[{ label: "RACE_WINS", val: "147" }, { label: "CHAMPIONSHIPS", val: "12" }, { label: "YEARS_RACING", val: "34" }, { label: "COUNTRIES", val: "28" }].map((s, i) => (
-                <div key={i} className="group"><div className="text-4xl md:text-5xl font-black text-white mb-4 group-hover:text-[#dc2626] transition-colors">{s.val}</div><div className="text-[9px] font-black text-white/15 uppercase tracking-widest">{s.label}</div></div>
+                  </div>
+                </Reveal>
               ))}
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-40 bg-[#0a0a0a] text-center">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">Your <span className="text-[#dc2626]">Turn.</span></h2>
-            <p className="max-w-xl mx-auto text-sm text-white/30 leading-relaxed font-light mb-16 uppercase tracking-widest italic">Schedule a private viewing or configure your Apex online.</p>
-            <button className="px-16 py-6 bg-[#dc2626] text-white text-[12px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all shadow-[0_0_60px_rgba(220,38,38,0.15)]">Configure_Yours</button>
-          </Reveal>
-        </div>
-      </section>
-
-      <footer className="bg-[#0a0a0a] border-t border-white/5 py-32 px-6 md:px-12">
-        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
-          <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-[#dc2626] text-white rounded-sm flex items-center justify-center"><Gauge className="w-4 h-4" /></div><span>APEX // MOTORS</span></Link>
-            <p className="text-[11px] text-white/15 uppercase tracking-[0.2em] max-w-sm leading-relaxed italic">Performance engineering since 1992. Born on the track.</p>
           </div>
-          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#dc2626]">Models</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Apex_GT", "Apex_RS", "Apex_EV", "Heritage"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
-          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#dc2626]">Experience</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Test_Drive", "Dealers", "Motorsport", "Events"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
+        </section>
+
+        {/* ── WHY APEX ──── */}
+        <section className="py-32 bg-[#0d0d0d]">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="text-center mb-24">
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">Why <span className="text-lime-500">Apex?</span></h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {FEATURES.map((f, i) => (
+                <Reveal key={i} delay={i * 0.08}>
+                  <div className="group p-8 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-lime-500/30 transition-all duration-500">
+                    <div className="flex items-start gap-6">
+                      <div className="w-14 h-14 rounded-xl bg-lime-500/10 border border-lime-500/20 flex items-center justify-center shrink-0 group-hover:bg-lime-500 group-hover:border-lime-500 transition-all duration-500">
+                        <f.icon className="w-6 h-6 text-lime-400 group-hover:text-black transition-colors" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold mb-3 uppercase">{f.title}</h3>
+                        <p className="text-sm text-white/40 leading-relaxed">{f.desc}</p>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── PRICING ──── */}
+        <section className="py-32 bg-[#0a0a0a]">
+          <div className="max-w-[1000px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="text-center mb-24">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-400 block mb-4">Membership</span>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">Choose Your <span className="text-lime-500">Plan.</span></h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {PLANS.map((p, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className={`p-8 rounded-2xl border h-full flex flex-col ${p.popular ? "bg-lime-500/5 border-lime-500/30 relative" : "bg-white/[0.02] border-white/5"}`}>
+                    {p.popular && <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-1 bg-lime-500 text-black text-[10px] font-bold uppercase tracking-widest rounded-full">Most Popular</div>}
+                    <h3 className="text-xl font-bold uppercase mb-1">{p.name}</h3>
+                    <div className="text-4xl font-black text-lime-400 mb-1">{p.price}<span className="text-lg text-white/30 font-normal">/mo</span></div>
+                    <p className="text-sm text-white/40 mb-6">{p.desc}</p>
+                    <ul className="space-y-3 flex-1 mb-8">
+                      {p.features.map((f, j) => (
+                        <li key={j} className="flex items-center gap-2 text-sm text-white/60">
+                          <CheckCircle2 className="w-4 h-4 text-lime-400 shrink-0" /> {f}
+                        </li>
+                      ))}
+                    </ul>
+                    <button className={`w-full py-4 font-bold rounded-full transition-all duration-500 ${p.popular ? "bg-lime-500 text-black hover:bg-white" : "bg-white/5 text-white hover:bg-white/10"}`}>
+                      Start Free Week
+                    </button>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── CTA ──────── */}
+        <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0">
+            <Image src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80&w=2400" alt="CTA" fill className="object-cover" />
+            <div className="absolute inset-0 bg-black/60" />
+          </div>
+          <div className="relative z-10 text-center px-6">
+            <Reveal>
+              <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-8">
+                Your First<br/>Week Is <span className="text-lime-500">Free.</span>
+              </h2>
+              <button className="px-12 py-5 bg-lime-500 text-black font-bold rounded-full hover:bg-white transition-colors duration-500">
+                Claim Your Trial
+              </button>
+            </Reveal>
+          </div>
+        </section>
+      </main>
+
+      {/* ── FOOTER ──────── */}
+      <footer className="bg-[#050505] pt-24 pb-12 px-6">
+        <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-8 h-8 rounded-lg bg-lime-500 flex items-center justify-center -skew-x-6"><Dumbbell className="w-4 h-4 text-black" /></div>
+              <span className="font-black tracking-tight uppercase">Apex</span>
+            </div>
+            <p className="text-sm text-white/30 leading-relaxed">Performance training studio for serious athletes.</p>
+          </div>
+          {[
+            { title: "Studio", links: ["Programs", "Schedule", "Coaches", "Location"] },
+            { title: "Join", links: ["Pricing", "Free Trial", "Corporate", "FAQ"] },
+            { title: "Follow", links: ["Instagram", "TikTok", "YouTube", "Strava"] },
+          ].map((col, i) => (
+            <div key={i}>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-lime-400 mb-6">{col.title}</h4>
+              <ul className="space-y-3 text-sm text-white/30">
+                {col.links.map(l => <li key={l}><Link href="#" className="hover:text-white transition-colors">{l}</Link></li>)}
+              </ul>
+            </div>
+          ))}
         </div>
-        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 text-center text-[9px] font-bold text-white/10 uppercase tracking-widest">&copy; 2026 APEX MOTORS</div>
+        <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
+          <span>© 2026 APEX FITNESS.</span>
+          <span>TRAIN HARDER.</span>
+        </div>
       </footer>
     </div>
-  );
+  )
 }

@@ -1,219 +1,290 @@
-"use client";
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
-import { Waves, Cpu, Activity, Menu, X, ArrowRight, Zap, Server, Shield, BarChart3, Gauge, Terminal } from "lucide-react";
-import "../premium.css";
+"use client"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
+import Link from "next/link"
+import { Code2, ArrowRight, Menu, Star, Terminal, GitBranch, Cpu, Boxes, Download, ChevronRight, Github, ExternalLink, Copy, Check } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-const PRODUCTS = [
-  { id: "engine", title: "WAVE // ENGINE", desc: "Real-time WebGL particle system with GPU-accelerated physics. 60fps at 500K particles. Zero-dependency, tree-shakeable.", version: "v4.2.1", license: "MIT" },
-  { id: "audio", title: "WAVE // AUDIO", desc: "Spatial audio synthesis library with 3D positioning, convolution reverb, and real-time spectral analysis. Web Audio API native.", version: "v2.8.0", license: "MIT" },
-  { id: "data", title: "WAVE // DATA", desc: "High-performance data visualization for streaming time-series. Canvas-rendered, WebSocket-native, handles 10M+ data points.", version: "v3.1.4", license: "APACHE" },
-  { id: "motion", title: "WAVE // MOTION", desc: "Spring-based animation runtime with declarative API. Gesture recognition, layout animations, and scroll-linked transforms.", version: "v5.0.0", license: "MIT" },
-];
-
-const TELEMETRY = [
-  { label: "RENDER_FPS", val: 60, max: 60, color: "#6366f1" },
-  { label: "PARTICLES_K", val: 500, max: 1000, color: "#6366f1" },
-  { label: "MEMORY_MB", val: 42, max: 256, color: "#6366f1" },
-  { label: "LATENCY_MS", val: 2.1, max: 16, color: "#6366f1" },
-];
-
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  return <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay }}>{children}</motion.div>;
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  )
 }
 
+function CodeBlock({ code, lang = "typescript" }: { code: string; lang?: string }) {
+  const [copied, setCopied] = useState(false)
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+  return (
+    <div className="relative group">
+      <div className="absolute top-3 right-3 z-10">
+        <button onClick={handleCopy} className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors">
+          {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5 text-white/40" />}
+        </button>
+      </div>
+      <div className="bg-[#0d1117] border border-white/5 rounded-xl p-6 overflow-x-auto">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-3 h-3 rounded-full bg-red-500/50" />
+          <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
+          <div className="w-3 h-3 rounded-full bg-green-500/50" />
+          <span className="ml-2 text-[10px] font-mono text-white/20">{lang}</span>
+        </div>
+        <pre className="text-sm font-mono text-white/60 leading-relaxed">
+          <code>{code}</code>
+        </pre>
+      </div>
+    </div>
+  )
+}
+
+const FEATURES = [
+  { icon: Cpu, title: "Zero-Copy Transforms", desc: "Process data streams without memory allocation overhead. 10x faster than alternatives." },
+  { icon: Boxes, title: "Plugin Architecture", desc: "Extend the core with typed plugins. Community-maintained registry with 200+ packages." },
+  { icon: GitBranch, title: "Built-in Versioning", desc: "Track every schema change with automatic migration generation and rollback." },
+  { icon: Terminal, title: "CLI First", desc: "Full control from your terminal. Scriptable, composable, and CI/CD-friendly." },
+]
+
+const STATS = [
+  { value: "14K", label: "GitHub Stars" },
+  { value: "2.3M", label: "Weekly Downloads" },
+  { value: "450+", label: "Contributors" },
+  { value: "99.8%", label: "Test Coverage" },
+]
+
+const INSTALL_CODE = `npm install wavefx
+
+# Initialize in your project
+npx wavefx init
+
+# Start the dev server
+npx wavefx dev`
+
+const USAGE_CODE = `import { createPipeline, transform } from 'wavefx';
+
+const pipeline = createPipeline({
+  source: 'postgres://localhost/mydb',
+  transforms: [
+    transform.deduplicate({ key: 'id' }),
+    transform.enrich({ lookup: 'geo_ip' }),
+    transform.aggregate({ 
+      window: '5m', 
+      fn: 'count' 
+    }),
+  ],
+  sink: 'kafka://events',
+});
+
+await pipeline.start();`
+
 export default function WaveFXPage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
-  useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
+  }, [])
 
   return (
-    <div className="premium-theme min-h-screen bg-[#08080e] text-white font-mono selection:bg-[#6366f1] selection:text-black overflow-x-hidden">
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#6366f115_0%,transparent_50%)]" />
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `radial-gradient(#6366f1 0.5px, transparent 0.5px)`, backgroundSize: "30px 30px" }} />
-      </div>
-      {/* Animated sine waves */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-[0.06]">
-        {[...Array(5)].map((_, i) => (
-          <motion.div key={i} animate={{ x: ["-100%", "0%"] }} transition={{ duration: 8 + i * 2, repeat: Infinity, ease: "linear" }}
-            className="absolute w-[200%] h-px" style={{ top: `${30 + i * 10}%`, background: `linear-gradient(90deg, transparent, #6366f1, transparent, #6366f1, transparent)` }} />
-        ))}
-      </div>
+    <div className="bg-[#070a10] text-white font-sans min-h-screen selection:bg-indigo-500 selection:text-white overflow-x-hidden">
 
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#08080e]/90 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-10"}`}>
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter">
-            <div className="w-8 h-8 bg-[#6366f1] rounded-full flex items-center justify-center text-white"><Waves className="w-4 h-4" /></div>
-            <span className="group-hover:text-[#6366f1] transition-colors">WAVE // <span className="text-white/30">FX</span></span>
+      {/* ── NAVBAR ────── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#070a10]/90 backdrop-blur-xl border-b border-indigo-500/10 py-4" : "bg-transparent py-8"}`}>
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center">
+              <Code2 className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-xl font-black tracking-tight">Wave<span className="text-indigo-400">FX</span></span>
           </Link>
-          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">
-            {["Products", "Docs", "Playground", "Pricing"].map(l => <Link key={l} href="#" className="hover:text-[#6366f1] transition-colors">{l}</Link>)}
+          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
+            {["Docs", "Examples", "Plugins", "Blog"].map(l => (
+              <Link key={l} href="#" className="hover:text-indigo-400 transition-colors">{l}</Link>
+            ))}
           </div>
           <div className="flex items-center gap-4">
-            <button className="px-6 py-2.5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all hidden md:block">Docs</button>
-            <button className="px-6 py-2.5 bg-[#6366f1] text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all hidden md:block">Get_Started</button>
+            <Link href="#" className="hidden md:flex items-center gap-2 text-white/40 hover:text-white transition-colors">
+              <Github className="w-5 h-5" />
+            </Link>
+            <button className="hidden md:block px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-blue-500 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:opacity-90 transition-opacity">
+              Get Started
+            </button>
+            <Sheet>
+              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
+              <SheetContent side="right" className="bg-[#070a10] border-indigo-500/10 p-12">
+                <div className="flex flex-col gap-8 mt-16">
+                  {["Docs", "Examples", "Plugins", "GitHub"].map(l => (
+                    <Link key={l} href="#" className="text-2xl font-light uppercase tracking-widest hover:text-indigo-400 transition-colors">{l}</Link>
+                  ))}
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
-          <button onClick={() => setMenuOpen(true)} className="lg:hidden text-white/60"><Menu className="w-6 h-6" /></button>
         </div>
       </nav>
 
-      <AnimatePresence>{menuOpen && (
-        <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-[#08080e] p-8 flex flex-col pt-32">
-          <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40"><X className="w-10 h-10" /></button>
-          {["Products", "Docs", "Playground", "Pricing"].map(l => <Link key={l} href="#" onClick={() => setMenuOpen(false)} className="text-5xl font-black tracking-tighter uppercase mb-10">{l}</Link>)}
-        </motion.div>
-      )}</AnimatePresence>
+      <main>
+        {/* ── HERO ────── */}
+        <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+          <div className="absolute inset-0">
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-indigo-500/8 blur-[200px] rounded-full" />
+          </div>
 
-      {/* HERO */}
-      <section className="relative min-h-screen flex flex-col justify-center pt-20">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
-          <Reveal>
-            <div className="flex items-center gap-4 mb-8">
-              <div className="px-3 py-1 bg-[#6366f1]/10 border border-[#6366f1]/30 text-[#6366f1] text-[9px] font-bold uppercase tracking-widest">v4.2.1_STABLE</div>
-              <div className="text-[9px] text-white/20 tracking-widest uppercase">NPM: 2.4M DL/MO // MIT LICENSE</div>
-            </div>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
-              Build <br /> <span className="text-[#6366f1]">Visual</span> <br /> Experiences.
-            </h1>
-            <p className="max-w-xl text-lg text-white/30 leading-relaxed font-light uppercase tracking-widest italic mb-12">
-              GPU-accelerated particle systems, spatial audio, and data visualization. Open source. Production-ready.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6">
-              <button className="px-12 py-5 bg-[#6366f1] text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all shadow-[0_0_50px_rgba(99,102,241,0.2)]">npm install wave-fx</button>
-              <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">View_Playground</button>
-            </div>
-          </Reveal>
-          {/* Code snippet */}
-          <Reveal delay={0.2}>
-            <div className="mt-20 p-8 bg-[#0c0c14] border border-white/5 rounded-2xl max-w-2xl font-mono text-sm">
-              <div className="flex items-center gap-2 mb-6"><div className="w-2.5 h-2.5 rounded-full bg-red-500/60" /><div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" /><div className="w-2.5 h-2.5 rounded-full bg-green-500/60" /></div>
-              <div className="text-white/30"><span className="text-[#6366f1]">import</span> {"{"} WaveEngine {"}"} <span className="text-[#6366f1]">from</span> <span className="text-green-400">&apos;wave-fx&apos;</span>;</div>
-              <div className="text-white/30 mt-2"><span className="text-[#6366f1]">const</span> engine = <span className="text-[#6366f1]">new</span> <span className="text-yellow-300">WaveEngine</span>(canvas, {"{"}</div>
-              <div className="text-white/30 ml-4">particles: <span className="text-orange-300">500_000</span>,</div>
-              <div className="text-white/30 ml-4">physics: <span className="text-green-400">&apos;gpu&apos;</span>,</div>
-              <div className="text-white/30 ml-4">interactive: <span className="text-[#6366f1]">true</span></div>
-              <div className="text-white/30">{"})"}.start();</div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+          <div className="relative z-10 max-w-[1000px] mx-auto px-6 md:px-12 w-full text-center">
+            <Reveal>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-indigo-500/20 bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-widest mb-8">
+                <Star className="w-3 h-3 fill-current" /> v3.0 Released — Now with Streaming Support
+              </div>
+            </Reveal>
+            <Reveal delay={0.1} y={60}>
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9] mb-8">
+                Data Pipelines<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-blue-300 to-indigo-500">Without the Pain.</span>
+              </h1>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <p className="text-xl text-white/40 font-light max-w-lg mx-auto leading-relaxed mb-10">
+                The open-source framework for building real-time data pipelines. Type-safe, zero-copy, and absurdly fast.
+              </p>
+            </Reveal>
+            <Reveal delay={0.3}>
+              <div className="flex flex-wrap gap-4 justify-center mb-16">
+                <button className="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-indigo-500 hover:text-white transition-all duration-500 flex items-center gap-2">
+                  <Download className="w-4 h-4" /> Install
+                </button>
+                <Link href="#" className="px-8 py-4 border border-white/10 text-white/60 font-bold rounded-full hover:border-indigo-500/50 transition-all flex items-center gap-2">
+                  <Github className="w-4 h-4" /> GitHub
+                </Link>
+              </div>
+            </Reveal>
 
-      {/* PRODUCTS */}
-      <section className="py-40 bg-[#0a0a12] border-y border-white/5">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-24">The <span className="text-[#6366f1]">Suite.</span></h2></Reveal>
-          <div className="space-y-2">
-            {PRODUCTS.map((p, i) => (
-              <Reveal key={p.id} delay={i * 0.05}>
-                <div className="group flex flex-col md:flex-row justify-between items-center p-10 md:p-14 border-b border-white/5 hover:bg-[#6366f1] hover:text-white transition-all duration-500 cursor-pointer"
-                  onMouseEnter={() => setHoveredProduct(p.id)} onMouseLeave={() => setHoveredProduct(null)}>
-                  <div className="flex-1 mb-6 md:mb-0">
-                    <div className="flex items-center gap-6 mb-3">
-                      <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tighter">{p.title}</h3>
-                      <span className="text-[9px] font-bold uppercase tracking-widest text-white/20 group-hover:text-white/50 px-2 py-0.5 border border-white/10 group-hover:border-white/30">{p.version}</span>
-                    </div>
-                    <p className="text-sm text-white/30 group-hover:text-white/60 transition-colors max-w-2xl">{p.desc}</p>
-                  </div>
-                  <div className="flex items-center gap-6">
-                    <span className="text-[9px] font-bold text-white/20 group-hover:text-white/40 uppercase tracking-widest">{p.license}</span>
-                    <motion.div animate={{ x: hoveredProduct === p.id ? 5 : 0 }} className="opacity-0 group-hover:opacity-100 transition-opacity"><ArrowRight className="w-5 h-5" /></motion.div>
-                  </div>
+            <Reveal delay={0.4} y={20}>
+              <CodeBlock code={INSTALL_CODE} lang="bash" />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ── STATS ────── */}
+        <section className="py-16 border-y border-white/5">
+          <div className="max-w-[1000px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+            {STATS.map((s, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div className="text-center">
+                  <div className="text-3xl font-black text-indigo-400 mb-1">{s.value}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">{s.label}</div>
                 </div>
               </Reveal>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* TELEMETRY */}
-      <section className="py-40 bg-[#08080e]">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-32">
-            <div>
+        {/* ── USAGE ────── */}
+        <section className="py-32 bg-[#070a10]">
+          <div className="max-w-[1000px] mx-auto px-6 md:px-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <Reveal>
-                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#6366f1] mb-6 block">Benchmarks</span>
-                <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-12 uppercase">Built For <span className="text-white/15">Speed.</span></h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-indigo-400 block mb-4">Simple API</span>
+                <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-6">
+                  Build Pipelines<br/>in <span className="text-indigo-400">Minutes.</span>
+                </h2>
+                <p className="text-white/40 leading-relaxed mb-8">
+                  Declarative pipeline definitions with full TypeScript support. Connect any source to any sink with composable transforms.
+                </p>
+                <Link href="#" className="inline-flex items-center gap-2 text-indigo-400 text-[10px] font-bold uppercase tracking-widest hover:gap-4 transition-all">
+                  Read the Docs <ArrowRight className="w-4 h-4" />
+                </Link>
               </Reveal>
-              <Reveal delay={0.2}>
-                <div className="p-10 bg-[#0c0c14] border border-white/5 rounded-2xl">
-                  <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest mb-8">RUNTIME_TELEMETRY</div>
-                  <div className="space-y-8">
-                    {TELEMETRY.map((t, i) => (
-                      <div key={i}>
-                        <div className="flex justify-between text-[8px] font-bold uppercase tracking-widest mb-3">
-                          <span className="text-white/40">{t.label}</span>
-                          <span style={{ color: t.color }}>{t.val}</span>
-                        </div>
-                        <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
-                          <motion.div initial={{ width: 0 }} whileInView={{ width: `${(t.val / t.max) * 100}%` }} transition={{ duration: 2, delay: 0.5 + i * 0.1 }} viewport={{ once: true }}
-                            className="h-full rounded-full" style={{ backgroundColor: t.color }} />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </Reveal>
-            </div>
-            <div>
-              <Reveal delay={0.1}>
-                <div className="grid grid-cols-1 gap-8">
-                  {[{ icon: <Zap className="w-5 h-5" />, title: "GPU_NATIVE", desc: "WebGL 2.0 compute shaders for massively parallel particle physics." },
-                    { icon: <Shield className="w-5 h-5" />, title: "ZERO_DEPS", desc: "No external dependencies. Tree-shakeable ESM bundles under 12KB gzipped." },
-                    { icon: <Terminal className="w-5 h-5" />, title: "DX_FIRST", desc: "TypeScript-native, full IntelliSense, comprehensive error messages." }
-                  ].map((f, i) => (
-                    <div key={i} className="group p-10 bg-[#0c0c14] border border-white/5 hover:border-[#6366f1]/30 rounded-2xl transition-all">
-                      <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center text-[#6366f1] mb-6 group-hover:bg-[#6366f1] group-hover:text-white transition-all">{f.icon}</div>
-                      <h3 className="text-xl font-black uppercase tracking-tighter mb-3 group-hover:text-[#6366f1] transition-colors">{f.title}</h3>
-                      <p className="text-sm text-white/30">{f.desc}</p>
-                    </div>
-                  ))}
-                </div>
+              <Reveal delay={0.15}>
+                <CodeBlock code={USAGE_CODE} />
               </Reveal>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* STATS */}
-      <section className="py-40 bg-[#0a0a12] border-y border-white/5 text-center">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-16">
-              {[{ label: "NPM_DOWNLOADS", val: "2.4M/mo" }, { label: "GITHUB_STARS", val: "18.6K" }, { label: "CONTRIBUTORS", val: "240+" }, { label: "BUNDLE_SIZE", val: "12KB" }].map((s, i) => (
-                <div key={i} className="group"><div className="text-4xl md:text-5xl font-black text-white mb-4 group-hover:text-[#6366f1] transition-colors">{s.val}</div><div className="text-[9px] font-black text-white/15 uppercase tracking-widest">{s.label}</div></div>
+        {/* ── FEATURES ──── */}
+        <section className="py-32 bg-[#0a0d14]">
+          <div className="max-w-[1000px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="text-center mb-24">
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Why <span className="text-indigo-400">WaveFX?</span></h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {FEATURES.map((f, i) => (
+                <Reveal key={i} delay={i * 0.08}>
+                  <div className="group p-8 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-indigo-500/30 transition-all duration-500 h-full">
+                    <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-6 group-hover:bg-indigo-500 group-hover:border-indigo-500 transition-all duration-500">
+                      <f.icon className="w-5 h-5 text-indigo-400 group-hover:text-white transition-colors" />
+                    </div>
+                    <h3 className="text-lg font-bold mb-3">{f.title}</h3>
+                    <p className="text-sm text-white/40 leading-relaxed">{f.desc}</p>
+                  </div>
+                </Reveal>
               ))}
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-40 bg-[#08080e] text-center">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">Start <span className="text-[#6366f1]">Building.</span></h2>
-            <p className="max-w-xl mx-auto text-sm text-white/30 leading-relaxed font-light mb-16 uppercase tracking-widest italic">Free forever. MIT licensed. Production-ready from day one.</p>
-            <button className="px-16 py-6 bg-[#6366f1] text-white text-[12px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all shadow-[0_0_60px_rgba(99,102,241,0.15)]">npm install wave-fx</button>
-          </Reveal>
-        </div>
-      </section>
-
-      <footer className="bg-[#08080e] border-t border-white/5 py-32 px-6 md:px-12">
-        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
-          <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-[#6366f1] text-white rounded-full flex items-center justify-center"><Waves className="w-4 h-4" /></div><span>WAVE // FX</span></Link>
-            <p className="text-[11px] text-white/15 uppercase tracking-[0.2em] max-w-sm leading-relaxed italic">Open-source visual computing toolkit. GPU-native. Production-ready.</p>
           </div>
-          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#6366f1]">Resources</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Docs", "Examples", "Changelog", "Blog"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
-          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#6366f1]">Community</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["GitHub", "Discord", "Globe", "Stack_Overflow"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
+        </section>
+
+        {/* ── CTA ──────── */}
+        <section className="py-32 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/10 via-transparent to-blue-600/10" />
+          <div className="relative z-10 max-w-[700px] mx-auto px-6 text-center">
+            <Reveal>
+              <h2 className="text-5xl md:text-6xl font-black tracking-tighter mb-6">
+                Start Building<br/><span className="text-indigo-400">Today.</span>
+              </h2>
+              <p className="text-lg text-white/40 font-light max-w-md mx-auto mb-10">
+                WaveFX is free, open-source, and backed by a community of 450+ contributors.
+              </p>
+              <div className="flex flex-wrap gap-4 justify-center">
+                <button className="px-10 py-4 bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-bold rounded-full hover:opacity-90 transition-opacity">
+                  Get Started Free
+                </button>
+                <Link href="#" className="px-10 py-4 border border-white/10 text-white/60 font-bold rounded-full hover:border-indigo-500/50 transition-all flex items-center gap-2">
+                  Star on GitHub <ExternalLink className="w-4 h-4" />
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      </main>
+
+      {/* ── FOOTER ──────── */}
+      <footer className="bg-[#040608] pt-24 pb-12 px-6">
+        <div className="max-w-[1000px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center"><Code2 className="w-4 h-4 text-white" /></div>
+              <span className="font-black tracking-tight">Wave<span className="text-indigo-400">FX</span></span>
+            </div>
+            <p className="text-sm text-white/30 leading-relaxed">Open-source data pipeline framework.</p>
+          </div>
+          {[
+            { title: "Product", links: ["Docs", "Examples", "Plugins", "Changelog"] },
+            { title: "Community", links: ["GitHub", "Discord", "Twitter", "Blog"] },
+            { title: "Legal", links: ["MIT License", "Privacy", "Security", "Contact"] },
+          ].map((col, i) => (
+            <div key={i}>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-indigo-400 mb-6">{col.title}</h4>
+              <ul className="space-y-3 text-sm text-white/30">
+                {col.links.map(l => <li key={l}><Link href="#" className="hover:text-white transition-colors">{l}</Link></li>)}
+              </ul>
+            </div>
+          ))}
         </div>
-        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 text-center text-[9px] font-bold text-white/10 uppercase tracking-widest">&copy; 2026 WAVE FX — MIT LICENSE</div>
+        <div className="max-w-[1000px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
+          <span>© 2026 WAVEFX LABS.</span>
+          <span>MIT LICENSE · OPEN SOURCE</span>
+        </div>
       </footer>
     </div>
-  );
+  )
 }

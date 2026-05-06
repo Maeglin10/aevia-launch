@@ -1,188 +1,280 @@
-"use client";
-import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
-import { Type, Sparkles, Zap, Menu, X, ArrowRight, Star, CheckCircle2, Users, Layers, Palette, Globe, Mail } from "lucide-react";
-import "../premium.css";
+"use client"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { Sparkles, ArrowRight, Menu, Star, Layers, Eye, Zap, Megaphone, PenTool, Award, Users, ChevronRight, ArrowUpRight } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-const FEATURES = [
-  { icon: <Sparkles className="w-6 h-6" />, title: "Motion Design", desc: "Scroll-linked kinetic typography that responds to user interaction in real-time." },
-  { icon: <Layers className="w-6 h-6" />, title: "Variable Fonts", desc: "Dynamic weight, width, and slant axes animated fluidly across scroll positions." },
-  { icon: <Palette className="w-6 h-6" />, title: "Brand Systems", desc: "Complete typographic identity systems from logotype to editorial layout." },
-  { icon: <Globe className="w-6 h-6" />, title: "Web Performance", desc: "Subsetting, WOFF2 compression, and lazy loading for zero layout shift." },
-  { icon: <Zap className="w-6 h-6" />, title: "Animation Runtime", desc: "60fps spring-based type animations with GPU-accelerated transforms." },
-  { icon: <Type className="w-6 h-6" />, title: "Custom Typefaces", desc: "Bespoke font design for brands that need a unique voice." },
-];
-
-const TESTIMONIALS = [
-  { name: "Alex Morgan", role: "Creative Director, Nike", quote: "Kinetic transformed our campaign typography. The scroll interactions are buttery smooth and conversion went up 23%." },
-  { name: "Yuki Tanaka", role: "Head of Brand, Spotify", quote: "Finally a studio that understands type as a living system, not static assets. They changed how we think about motion." },
-  { name: "Emma Laurent", role: "Founder, Figment Studio", quote: "The variable font system they built for us is years ahead. Our designers can't stop experimenting with it." },
-];
-
-const PRICING = [
-  { name: "STARTER", price: "$4,900", period: "", desc: "Single project", features: ["Motion type system", "3 revisions", "Web implementation", "30-day support"], cta: "Get_Started" },
-  { name: "STUDIO", price: "$12,500", period: "", desc: "Brand system", features: ["Full type identity", "Variable font", "Animation library", "90-day support", "Source files"], cta: "Start_Studio", featured: true },
-  { name: "ENTERPRISE", price: "Custom", period: "", desc: "Ongoing partnership", features: ["Custom typeface", "Unlimited revisions", "Dedicated team", "SLA guarantee", "Annual license"], cta: "Contact_Us" },
-];
-
-const MARQUEE_WORDS = ["KINETIC", "TYPOGRAPHY", "MOTION", "DESIGN", "VARIABLE", "FONTS", "ANIMATION", "BRAND"];
-
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  return <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay }}>{children}</motion.div>;
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  )
 }
 
+function Marquee({ children, reverse = false }: { children: React.ReactNode; reverse?: boolean }) {
+  return (
+    <div className="overflow-hidden whitespace-nowrap">
+      <motion.div
+        className="inline-flex gap-12"
+        animate={{ x: reverse ? ["0%", "-50%"] : ["-50%", "0%"] }}
+        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+      >
+        {children}
+        {children}
+      </motion.div>
+    </div>
+  )
+}
+
+const WORDS_1 = ["DESIGN", "MOTION", "IDENTITY", "STRATEGY", "CONTENT", "DIGITAL", "BRAND"]
+const WORDS_2 = ["CREATE", "LAUNCH", "SCALE", "DISRUPT", "CONVERT", "ENGAGE", "GROW"]
+
+const WORK = [
+  { title: "Neon Drift", client: "Pulse Gaming", type: "Brand Launch", img: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Apex Protocol", client: "Velos Finance", type: "Web3 Campaign", img: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Silk Thread", client: "Maison Versa", type: "Motion Design", img: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Gravity Shift", client: "Prism Analytics", type: "Product Campaign", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200" },
+]
+
+const SERVICES = [
+  { icon: PenTool, title: "Brand Identity", desc: "Name, logo, visual system, and tone of voice. A complete brand from scratch." },
+  { icon: Layers, title: "Web Experiences", desc: "Immersive websites that convert attention into action." },
+  { icon: Megaphone, title: "Campaign Design", desc: "Multi-channel campaigns that amplify your message." },
+  { icon: Zap, title: "Motion Design", desc: "Animated content that stops the scroll." },
+]
+
+const TESTIMONIALS = [
+  { text: "Kinetic doesn't just design — they ignite. Our rebrand generated a 400% increase in social engagement within the first month.", author: "Maya Chen", role: "VP Marketing, Pulse Gaming" },
+  { text: "The website they built is an experience. Our bounce rate dropped to 8% and conversions tripled.", author: "Thomas Engström", role: "CEO, Prism Analytics" },
+  { text: "Working with Kinetic felt like having the best creative team in-house. Except they're actually good.", author: "Sarah Laurent", role: "Founder, Maison Versa" },
+]
+
 export default function KineticMarqueePage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
+  const [scrolled, setScrolled] = useState(false)
+
+  const { scrollYProgress } = useScroll()
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0])
+
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
+  }, [])
 
   return (
-    <div className="premium-theme min-h-screen bg-[#0a0a0a] text-white font-mono selection:bg-[#f97316] selection:text-black overflow-x-hidden">
-      <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.015]" style={{ backgroundImage: `linear-gradient(rgba(249,115,22,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(249,115,22,0.1) 1px, transparent 1px)`, backgroundSize: "120px 120px" }} />
+    <div className="bg-[#0a0506] text-white font-sans min-h-screen selection:bg-orange-500 selection:text-white overflow-x-hidden">
 
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#0a0a0a]/90 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-10"}`}>
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter">
-            <div className="w-8 h-8 bg-[#f97316] rounded-sm flex items-center justify-center text-black"><Type className="w-4 h-4" /></div>
-            <span className="group-hover:text-[#f97316] transition-colors">KINETIC // <span className="text-white/30">MARQUEE</span></span>
+      {/* ── NAVBAR ──────── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0a0506]/90 backdrop-blur-xl border-b border-orange-500/10 py-4" : "bg-transparent py-8"}`}>
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="text-2xl font-black tracking-tighter">
+            KIN<span className="text-orange-500">ETIC</span>
           </Link>
-          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">
-            {["Work", "Services", "Pricing", "Contact"].map(l => <Link key={l} href="#" className="hover:text-[#f97316] transition-colors">{l}</Link>)}
+          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
+            {["Work", "Services", "About", "Contact"].map(l => (
+              <Link key={l} href="#" className="hover:text-orange-400 transition-colors">{l}</Link>
+            ))}
           </div>
-          <button className="px-6 py-2.5 bg-[#f97316] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all hidden md:block">Start_Project</button>
-          <button onClick={() => setMenuOpen(true)} className="lg:hidden text-white/60"><Menu className="w-6 h-6" /></button>
+          <div className="flex items-center gap-4">
+            <button className="hidden md:block px-8 py-3 bg-orange-500 text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-white hover:text-black transition-all duration-500">
+              Start a Project
+            </button>
+            <Sheet>
+              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
+              <SheetContent side="right" className="bg-[#0a0506] border-orange-500/10 p-12">
+                <div className="flex flex-col gap-8 mt-16">
+                  {["Work", "Services", "About", "Contact"].map(l => (
+                    <Link key={l} href="#" className="text-3xl font-light uppercase tracking-widest hover:text-orange-400 transition-colors">{l}</Link>
+                  ))}
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </nav>
 
-      <AnimatePresence>{menuOpen && (
-        <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-[#0a0a0a] p-8 flex flex-col pt-32">
-          <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40"><X className="w-10 h-10" /></button>
-          {["Work", "Services", "Pricing", "Contact"].map(l => <Link key={l} href="#" onClick={() => setMenuOpen(false)} className="text-5xl font-black tracking-tighter uppercase mb-10">{l}</Link>)}
-        </motion.div>
-      )}</AnimatePresence>
+      <main>
+        {/* ── HERO + MARQUEE ──── */}
+        <section className="relative min-h-screen flex flex-col justify-center pt-32 pb-20 overflow-hidden">
+          <motion.div style={{ opacity: heroOpacity }} className="max-w-[1600px] mx-auto px-6 md:px-12 w-full mb-20">
+            <Reveal>
+              <div className="flex items-center gap-4 mb-8">
+                <motion.div className="w-3 h-3 rounded-full bg-orange-500" animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 1.5, repeat: Infinity }} />
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-orange-400">Creative Agency — Open for Projects</span>
+              </div>
+            </Reveal>
+            <Reveal delay={0.1} y={60}>
+              <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] mb-10 uppercase">
+                We Make<br/>It <span className="text-orange-500 italic">Move.</span>
+              </h1>
+            </Reveal>
+            <Reveal delay={0.25}>
+              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed">
+                Brand identity, web experiences, and motion design for companies that refuse to stand still.
+              </p>
+            </Reveal>
+          </motion.div>
 
-      {/* HERO */}
-      <section className="relative min-h-screen flex flex-col justify-center pt-20">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
-          <Reveal>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
-              Type <br /> In <br /> <span className="text-[#f97316]">Motion.</span>
-            </h1>
-            <p className="max-w-xl text-lg text-white/30 leading-relaxed font-light uppercase tracking-widest italic mb-12">
-              Kinetic typography studio. We make words move, brands breathe, and interfaces dance.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6">
-              <button className="px-12 py-5 bg-[#f97316] text-black text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-[0_0_50px_rgba(249,115,22,0.2)]">View_Work</button>
-              <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">Start_Project</button>
+          {/* Marquee bands */}
+          <div className="space-y-4">
+            <div className="py-4 border-y border-white/5 -rotate-1">
+              <Marquee>
+                <div className="flex gap-12">
+                  {WORDS_1.map((w, i) => (
+                    <span key={i} className="text-5xl md:text-7xl font-black tracking-tighter text-white/5 uppercase flex items-center gap-6">
+                      {w} <span className="text-orange-500 text-2xl">✦</span>
+                    </span>
+                  ))}
+                </div>
+              </Marquee>
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* MARQUEE */}
-      <section className="py-12 border-y border-white/5 overflow-hidden">
-        <motion.div animate={{ x: [0, -1920] }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} className="flex gap-12 whitespace-nowrap">
-          {[...MARQUEE_WORDS, ...MARQUEE_WORDS, ...MARQUEE_WORDS].map((w, i) => (
-            <span key={i} className="text-7xl md:text-9xl font-black uppercase tracking-tighter text-white/[0.03] hover:text-[#f97316]/20 transition-colors">{w}</span>
-          ))}
-        </motion.div>
-        <motion.div animate={{ x: [-1920, 0] }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }} className="flex gap-12 whitespace-nowrap mt-4">
-          {[...MARQUEE_WORDS.reverse(), ...MARQUEE_WORDS, ...MARQUEE_WORDS].map((w, i) => (
-            <span key={i} className="text-7xl md:text-9xl font-black uppercase tracking-tighter text-white/[0.03]">{w}</span>
-          ))}
-        </motion.div>
-      </section>
-
-      {/* FEATURES */}
-      <section className="py-40 bg-[#0c0c0c]">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-6">What We <span className="text-[#f97316]">Do.</span></h2></Reveal>
-          <Reveal delay={0.1}><p className="text-lg text-white/30 max-w-2xl mb-24 uppercase tracking-widest italic font-light">Full-service kinetic type from concept to production-ready code.</p></Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-            {FEATURES.map((f, i) => (
-              <Reveal key={i} delay={i * 0.05}>
-                <div className="group p-10 bg-[#111] border border-white/5 hover:border-[#f97316]/30 rounded-3xl transition-all">
-                  <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-[#f97316] mb-8 group-hover:bg-[#f97316] group-hover:text-black transition-all">{f.icon}</div>
-                  <h3 className="text-xl font-black uppercase tracking-tighter mb-4 group-hover:text-[#f97316] transition-colors">{f.title}</h3>
-                  <p className="text-sm text-white/30 leading-relaxed">{f.desc}</p>
+            <div className="py-4 border-y border-white/5 rotate-1">
+              <Marquee reverse>
+                <div className="flex gap-12">
+                  {WORDS_2.map((w, i) => (
+                    <span key={i} className="text-5xl md:text-7xl font-black tracking-tighter text-white/5 uppercase flex items-center gap-6">
+                      {w} <span className="text-orange-500 text-2xl">✦</span>
+                    </span>
+                  ))}
                 </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section className="py-40 bg-[#0a0a0a] border-y border-white/5">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-24">Client <span className="text-[#f97316]">Voices.</span></h2></Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {TESTIMONIALS.map((t, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className="p-10 bg-[#111] border border-white/5 rounded-3xl h-full flex flex-col">
-                  <div className="flex gap-1 mb-6">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 text-[#f97316] fill-[#f97316]" />)}</div>
-                  <p className="text-base text-white/40 italic leading-relaxed flex-1 mb-8">&ldquo;{t.quote}&rdquo;</p>
-                  <div className="pt-6 border-t border-white/5">
-                    <div className="font-black uppercase text-sm">{t.name}</div>
-                    <div className="text-[10px] text-white/20 uppercase tracking-widest">{t.role}</div>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PRICING */}
-      <section className="py-40 bg-[#0c0c0c]">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-24 uppercase text-center">Clear <span className="text-[#f97316]">Pricing.</span></h2></Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            {PRICING.map((p, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className={`group p-10 border rounded-3xl transition-all ${p.featured ? "bg-[#f97316]/5 border-[#f97316]/30 scale-105" : "bg-[#111] border-white/5 hover:border-[#f97316]/20"}`}>
-                  <div className="text-[9px] font-bold text-[#f97316] uppercase tracking-widest mb-2">{p.name}</div>
-                  <div className="text-4xl font-black mb-1">{p.price}<span className="text-lg text-white/30">{p.period}</span></div>
-                  <p className="text-[10px] text-white/20 uppercase tracking-widest mb-8">{p.desc}</p>
-                  <div className="space-y-4 pt-8 border-t border-white/5">
-                    {p.features.map((f, j) => <div key={j} className="flex items-center gap-3 text-[10px] text-white/40"><CheckCircle2 className="w-3.5 h-3.5 text-[#f97316]" />{f}</div>)}
-                  </div>
-                  <button className={`mt-8 w-full py-3 text-[10px] font-black uppercase tracking-widest transition-all ${p.featured ? "bg-[#f97316] text-black hover:bg-white" : "border border-white/10 hover:bg-[#f97316] hover:text-black hover:border-transparent"}`}>{p.cta}</button>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CONTACT / CTA */}
-      <section className="py-40 bg-[#0a0a0a] text-center">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">Let&apos;s <span className="text-[#f97316]">Move.</span></h2>
-            <p className="max-w-xl mx-auto text-sm text-white/30 leading-relaxed font-light mb-16 uppercase tracking-widest italic">Ready to bring your type to life? Tell us about your project.</p>
-            <div className="max-w-md mx-auto flex gap-4">
-              <input type="email" placeholder="your@email.com" className="flex-1 px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-sm font-mono focus:border-[#f97316] focus:outline-none" />
-              <button className="px-8 py-4 bg-[#f97316] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all rounded-xl">Send</button>
+              </Marquee>
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <footer className="bg-[#0a0a0a] border-t border-white/5 py-32 px-6 md:px-12">
-        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
-          <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-[#f97316] text-black rounded-sm flex items-center justify-center"><Type className="w-4 h-4" /></div><span>KINETIC // MARQUEE</span></Link>
-            <p className="text-[11px] text-white/15 uppercase tracking-[0.2em] max-w-sm leading-relaxed italic">Kinetic typography studio. Type in motion.</p>
           </div>
-          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#f97316]">Studio</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Work", "Services", "Process", "Pricing"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
-          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#f97316]">Social</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Globe", "Globe", "Globe", "GitHub"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
+        </section>
+
+        {/* ── WORK ─────────── */}
+        <section className="py-32 bg-[#0a0506]">
+          <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-20">
+                Selected <span className="text-orange-500 italic">Work.</span>
+              </h2>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {WORK.map((w, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="group cursor-pointer">
+                    <div className="relative aspect-[16/10] overflow-hidden rounded-xl mb-6">
+                      <Image src={w.img} alt={w.title} fill className="object-cover group-hover:scale-105 transition-transform duration-1000" />
+                      <div className="absolute inset-0 bg-orange-900/0 group-hover:bg-orange-900/10 transition-colors duration-700" />
+                      <div className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ArrowUpRight className="w-5 h-5 text-black" />
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="text-2xl font-bold group-hover:text-orange-400 transition-colors">{w.title}</h3>
+                        <div className="text-sm text-white/30">{w.client} · {w.type}</div>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── SERVICES ─────── */}
+        <section className="py-32 bg-[#0d0708]">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="text-center mb-24">
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">What We <span className="text-orange-500 italic">Do.</span></h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {SERVICES.map((s, i) => (
+                <Reveal key={i} delay={i * 0.08}>
+                  <div className="group p-10 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-orange-500/30 transition-all duration-500">
+                    <div className="flex items-start gap-6">
+                      <div className="w-14 h-14 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center shrink-0 group-hover:bg-orange-500 group-hover:border-orange-500 transition-all duration-500">
+                        <s.icon className="w-6 h-6 text-orange-400 group-hover:text-white transition-colors" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold mb-3">{s.title}</h3>
+                        <p className="text-sm text-white/40 leading-relaxed">{s.desc}</p>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── TESTIMONIALS ──── */}
+        <section className="py-32 bg-[#0a0506]">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <h2 className="text-4xl font-black tracking-tighter uppercase mb-16 text-center">Client <span className="text-orange-500 italic">Words.</span></h2>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {TESTIMONIALS.map((t, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="p-8 bg-white/[0.02] border border-white/5 rounded-2xl h-full flex flex-col">
+                    <div className="flex gap-1 mb-6">
+                      {Array.from({ length: 5 }).map((_, j) => (
+                        <Star key={j} className="w-4 h-4 fill-orange-400 text-orange-400" />
+                      ))}
+                    </div>
+                    <p className="text-white/50 leading-relaxed flex-1 mb-6 italic">"{t.text}"</p>
+                    <div>
+                      <div className="font-bold">{t.author}</div>
+                      <div className="text-xs text-white/30">{t.role}</div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── CTA ───────────── */}
+        <section className="py-32 bg-orange-500 text-black">
+          <div className="max-w-[800px] mx-auto px-6 text-center">
+            <Reveal>
+              <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-8">
+                Let's Make<br/>Something.
+              </h2>
+              <button className="px-12 py-5 bg-black text-white font-bold rounded-full hover:bg-white hover:text-black transition-all duration-500">
+                Start a Project
+              </button>
+            </Reveal>
+          </div>
+        </section>
+      </main>
+
+      {/* ── FOOTER ─────────── */}
+      <footer className="bg-[#050305] pt-24 pb-12 px-6">
+        <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
+          <div>
+            <span className="text-2xl font-black tracking-tighter mb-6 block">KIN<span className="text-orange-500">ETIC</span></span>
+            <p className="text-sm text-white/30 leading-relaxed">Creative agency for brands in motion.</p>
+          </div>
+          {[
+            { title: "Studio", links: ["Work", "Services", "Team", "Culture"] },
+            { title: "Connect", links: ["Contact", "Careers", "Press", "Newsletter"] },
+            { title: "Social", links: ["Instagram", "Behance", "X", "LinkedIn"] },
+          ].map((col, i) => (
+            <div key={i}>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-orange-400 mb-6">{col.title}</h4>
+              <ul className="space-y-3 text-sm text-white/30">
+                {col.links.map(l => <li key={l}><Link href="#" className="hover:text-white transition-colors">{l}</Link></li>)}
+              </ul>
+            </div>
+          ))}
         </div>
-        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 text-center text-[9px] font-bold text-white/10 uppercase tracking-widest">&copy; 2026 KINETIC MARQUEE</div>
+        <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
+          <span>© 2026 KINETIC.</span>
+          <span>BRANDS IN MOTION.</span>
+        </div>
       </footer>
     </div>
-  );
+  )
 }
