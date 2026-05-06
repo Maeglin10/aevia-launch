@@ -2,7 +2,7 @@
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
-import { Code2, ArrowRight, Menu, Star, Terminal, GitBranch, Cpu, Boxes, Download, ChevronRight, Github, ExternalLink, Copy, Check } from "lucide-react"
+import { Code2, ArrowRight, Menu, Star, Terminal, GitBranch, Cpu, Boxes, Download, ChevronRight, Globe, ExternalLink, Copy, Check } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
@@ -112,7 +112,7 @@ export default function WaveFXPage() {
           </div>
           <div className="flex items-center gap-4">
             <Link href="#" className="hidden md:flex items-center gap-2 text-white/40 hover:text-white transition-colors">
-              <Github className="w-5 h-5" />
+              <Globe className="w-5 h-5" />
             </Link>
             <button className="hidden md:block px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-blue-500 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:opacity-90 transition-opacity">
               Get Started
@@ -161,7 +161,7 @@ export default function WaveFXPage() {
                   <Download className="w-4 h-4" /> Install
                 </button>
                 <Link href="#" className="px-8 py-4 border border-white/10 text-white/60 font-bold rounded-full hover:border-indigo-500/50 transition-all flex items-center gap-2">
-                  <Github className="w-4 h-4" /> GitHub
+                  <Globe className="w-4 h-4" /> GitHub
                 </Link>
               </div>
             </Reveal>
