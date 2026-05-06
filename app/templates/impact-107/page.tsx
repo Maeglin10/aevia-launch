@@ -1,169 +1,261 @@
-"use client";
-import { motion, useInView, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
-import { Compass, Map, Mountain, Menu, X, ArrowRight } from "lucide-react";
-import "../premium.css";
+"use client"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { Compass, ArrowRight, Menu, Star, MapPin, Mountain, Camera, Globe, Tent, Flame, Award, Users, ChevronRight } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-const CHAPTERS = [
-  { id: "ch1", num: "01", title: "THE SOUTHERN RIDGE", location: "Patagonia, Argentina", desc: "We set out at 4 AM, headlamps cutting through pre-dawn frost. The Torres del Paine massif materialized slowly — first as silhouettes, then as walls of granite catching the first amber light.", color: "#0d9488" },
-  { id: "ch2", num: "02", title: "ICE CATHEDRAL", location: "Vatnajökull, Iceland", desc: "Inside the glacier cave, every surface refracted blue. Not sky-blue or ocean-blue — a blue that exists nowhere else on Earth. The ice groaned above us, a living architecture reshaping itself.", color: "#0ea5e9" },
-  { id: "ch3", num: "03", title: "THE SILK ROAD", location: "Samarkand, Uzbekistan", desc: "The Registan square at golden hour is overwhelming. Three madrasas facing each other across six centuries of ambition, their turquoise tilework still impossibly vivid.", color: "#d97706" },
-  { id: "ch4", num: "04", title: "ABOVE THE CLOUDS", location: "Annapurna Circuit, Nepal", desc: "At 5,416 meters, Thorong La Pass strips everything to essentials: breath, step, breath, step. Prayer flags snapped in thin air. Below, the world fell away in every direction.", color: "#dc2626" },
-];
-
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  return <motion.div ref={ref} initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9, delay }}>{children}</motion.div>;
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  )
 }
 
-export default function MeridianJourneyPage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
+function ParallaxImg({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const y = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"])
+  return (
+    <div ref={ref} className="relative w-full h-full overflow-hidden">
+      <motion.div style={{ y }} className="absolute inset-[-12%] w-[124%] h-[124%]">
+        <Image src={src} alt={alt} fill className="object-cover" />
+      </motion.div>
+    </div>
+  )
+}
 
-  const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+const EXPEDITIONS = [
+  { title: "Karakoram Traverse", region: "Pakistan", duration: "18 days", difficulty: "Expert", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1200", desc: "Cross the world's most dramatic mountain range through ancient Silk Road passes." },
+  { title: "Svalbard Polar", region: "Arctic Norway", duration: "12 days", difficulty: "Moderate", img: "https://images.unsplash.com/photo-1517783999520-f068d7431d5f?auto=format&fit=crop&q=80&w=1200", desc: "Glacier treks and polar wildlife encounters at 78°N latitude." },
+  { title: "Namib Desert Crossing", region: "Namibia", duration: "10 days", difficulty: "Challenging", img: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&q=80&w=1200", desc: "Navigate the world's oldest desert, from Deadvlei to the Skeleton Coast." },
+]
+
+const CHAPTERS = [
+  { num: "01", title: "The Approach", desc: "Every expedition begins months before departure — with research, conditioning, and route reconnaissance.", icon: Globe },
+  { num: "02", title: "The Field", desc: "Small teams of 4-8, moving through terrain with purpose. Camps built for recovery, not luxury.", icon: Tent },
+  { num: "03", title: "The Summit", desc: "The objective is never the top. It's the transformation that happens on the way.", icon: Mountain },
+  { num: "04", title: "The Archive", desc: "Every journey is documented. Photography, field notes, and GPS data become your permanent record.", icon: Camera },
+]
+
+export default function MeridianJourneyPage() {
+  const [scrolled, setScrolled] = useState(false)
+
+  const { scrollYProgress } = useScroll()
+  const heroY = useTransform(scrollYProgress, [0, 0.2], ["0%", "30%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
+
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
+  }, [])
 
   return (
-    <div className="premium-theme min-h-screen bg-[#0a0f0d] text-white font-mono selection:bg-[#0d9488] selection:text-black overflow-x-hidden">
-      <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.015]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30Z' fill='none' stroke='%230d9488' stroke-width='0.5'/%3E%3C/svg%3E")`, backgroundSize: "60px 60px" }} />
+    <div className="bg-[#0d1210] text-white font-sans min-h-screen selection:bg-teal-500 selection:text-black overflow-x-hidden">
 
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#0a0f0d]/90 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-10"}`}>
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter">
-            <div className="w-8 h-8 bg-[#0d9488] rounded-full flex items-center justify-center text-black"><Compass className="w-4 h-4" /></div>
-            <span className="group-hover:text-[#0d9488] transition-colors">MERIDIAN // <span className="text-white/30">JOURNEY</span></span>
+      {/* ── NAVBAR ──────────────────────────── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0d1210]/90 backdrop-blur-xl border-b border-teal-500/10 py-4" : "bg-transparent py-8"}`}>
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3">
+            <Compass className="w-6 h-6 text-teal-400" />
+            <span className="text-xl font-bold tracking-[0.2em] uppercase">Meridian</span>
           </Link>
-          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">
-            {["Expeditions", "Stories", "Gear", "About"].map(l => <Link key={l} href="#" className="hover:text-[#0d9488] transition-colors">{l}</Link>)}
+          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
+            {["Expeditions", "Stories", "Gear", "About"].map(l => (
+              <Link key={l} href="#" className="hover:text-teal-400 transition-colors">{l}</Link>
+            ))}
           </div>
-          <button className="px-6 py-2.5 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[#0d9488] transition-all hidden md:block">Join_Expedition</button>
-          <button onClick={() => setMenuOpen(true)} className="lg:hidden text-white/60"><Menu className="w-6 h-6" /></button>
+          <div className="flex items-center gap-6">
+            <button className="hidden md:block px-8 py-3 bg-teal-500 text-black text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-white transition-colors duration-500">
+              Join Expedition
+            </button>
+            <Sheet>
+              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
+              <SheetContent side="right" className="bg-[#0d1210] border-teal-500/10 p-12">
+                <div className="flex flex-col gap-8 mt-16">
+                  {["Expeditions", "Stories", "Gear", "Contact"].map(l => (
+                    <Link key={l} href="#" className="text-3xl font-light uppercase tracking-widest hover:text-teal-400 transition-colors">{l}</Link>
+                  ))}
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </nav>
 
-      <AnimatePresence>{menuOpen && (
-        <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-[#0a0f0d] p-8 flex flex-col pt-32">
-          <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40"><X className="w-10 h-10" /></button>
-          {["Expeditions", "Stories", "Gear", "About"].map(l => <Link key={l} href="#" onClick={() => setMenuOpen(false)} className="text-5xl font-black tracking-tighter uppercase mb-10">{l}</Link>)}
-        </motion.div>
-      )}</AnimatePresence>
+      <main>
+        {/* ── HERO ──────────────────────────── */}
+        <section className="relative h-[120vh] min-h-[900px] flex items-end overflow-hidden">
+          <motion.div style={{ y: heroY }} className="absolute inset-0">
+            <Image src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2400" alt="Mountains" fill className="object-cover opacity-70" priority />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0d1210] via-[#0d1210]/30 to-transparent" />
+          </motion.div>
 
-      {/* HERO */}
-      <motion.section ref={heroRef} style={{ opacity: heroOpacity }} className="relative h-screen flex flex-col justify-end pb-32 pt-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0d9488]/10 via-transparent to-[#0a0f0d]" />
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
-          <Reveal>
-            <div className="flex items-center gap-4 mb-8">
-              <div className="px-3 py-1 bg-[#0d9488]/10 border border-[#0d9488]/30 text-[#0d9488] text-[9px] font-bold uppercase tracking-widest">EXPEDITION_LIVE</div>
-              <div className="text-[9px] text-white/20 tracking-widest uppercase">COUNTRIES: 38 // SUMMITS: 12</div>
-            </div>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
-              Beyond <br /> The <br /> <span className="text-[#0d9488]">Known</span> <br /> <span className="text-white/10">Path.</span>
-            </h1>
-            <p className="max-w-2xl text-lg text-white/30 leading-relaxed font-light uppercase tracking-widest italic">
-              Long-form expedition narratives from the world&apos;s most remote landscapes.
-            </p>
-          </Reveal>
-        </div>
-        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity }} className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3">
-          <span className="text-[8px] uppercase tracking-[0.4em] text-white/20">Scroll</span>
-          <div className="w-px h-12 bg-gradient-to-b from-white/20 to-transparent" />
-        </motion.div>
-      </motion.section>
-
-      {/* CHAPTERS */}
-      <section className="relative">
-        {CHAPTERS.map((ch, i) => (
-          <div key={ch.id} className="border-t border-white/5">
-            <div className="max-w-[1500px] mx-auto px-6 md:px-12 py-40">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-start">
-                <div className="lg:col-span-4 lg:sticky lg:top-40">
-                  <Reveal>
-                    <span className="text-[10px] uppercase tracking-[0.5em] font-bold mb-6 block" style={{ color: ch.color }}>CHAPTER_{ch.num}</span>
-                    <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.85] mb-6 uppercase">{ch.title}</h2>
-                    <div className="flex items-center gap-3 text-[10px] text-white/20 uppercase tracking-widest mb-12">
-                      <Map className="w-3.5 h-3.5" style={{ color: ch.color }} /><span>{ch.location}</span>
-                    </div>
-                    <div className="w-full h-px mb-12" style={{ background: `linear-gradient(90deg, ${ch.color}40 0%, transparent 100%)` }} />
-                    <div className="w-full aspect-[4/3] rounded-2xl flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${ch.color}20, ${ch.color}05)` }}>
-                      <Mountain className="w-16 h-16 opacity-10" style={{ color: ch.color }} />
-                    </div>
-                  </Reveal>
-                </div>
-                <div className="lg:col-span-8">
-                  <Reveal delay={0.15}>
-                    <p className="text-xl md:text-2xl text-white/50 leading-[1.8] font-light italic mb-16">&ldquo;{ch.desc}&rdquo;</p>
-                    <p className="text-base text-white/30 leading-[2] mb-12">{ch.desc} The light shifted constantly, painting new versions of the same landscape every few minutes. We shot twelve rolls of medium format film. Some moments resist documentation — they exist only in the nervous system of those present.</p>
-                    <div className="flex items-center gap-6 pt-8 border-t border-white/5">
-                      <button className="px-8 py-3 text-[9px] font-black uppercase tracking-widest border border-white/10 hover:bg-white hover:text-black transition-all" style={{ color: ch.color }}>Read_Full</button>
-                      <span className="text-[9px] text-white/10 uppercase tracking-widest">12 MIN READ</span>
-                    </div>
-                  </Reveal>
-                </div>
+          <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] w-full mx-auto px-6 md:px-12 pb-24">
+            <Reveal>
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-[1px] bg-teal-400" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-teal-400">Expedition Storytelling</span>
               </div>
-            </div>
-          </div>
-        ))}
-      </section>
+            </Reveal>
+            <Reveal delay={0.15} y={70}>
+              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black tracking-tighter leading-[0.8] mb-8 uppercase">
+                Into The<br/><span className="text-teal-400">Unknown.</span>
+              </h1>
+            </Reveal>
+            <Reveal delay={0.3}>
+              <p className="max-w-lg text-lg text-white/50 font-light leading-relaxed">
+                Guided expeditions to the world's most remote landscapes. Small teams, real challenge, permanent transformation.
+              </p>
+            </Reveal>
+          </motion.div>
 
-      {/* GEAR */}
-      <section className="py-40 bg-[#070b09] border-y border-white/5">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-24 uppercase">Field <span className="text-[#0d9488]">Kit.</span></h2></Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {[{ name: "NAVIGATION", items: ["Satellite GPS", "Topo Maps", "Compass Set", "Beacon"] }, { name: "DOCUMENTATION", items: ["Medium Format", "Drone System", "Audio Recorder", "Journal"] }, { name: "SURVIVAL", items: ["Alpine Kit", "Water Purifier", "Emergency Shelter", "First Aid"] }].map((g, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className="group p-12 bg-[#0d120f] border border-white/5 hover:border-[#0d9488]/30 transition-all rounded-3xl">
-                  <h3 className="text-2xl font-black uppercase mb-8 tracking-tighter group-hover:text-[#0d9488] transition-colors">{g.name}</h3>
-                  <div className="space-y-5 pt-8 border-t border-white/5">
-                    {g.items.map((item, j) => <div key={j} className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest"><div className="w-1.5 h-1.5 bg-[#0d9488] rotate-45" />{item}</div>)}
-                  </div>
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+            <span className="text-[8px] font-bold uppercase tracking-[0.4em] text-white/30">Scroll</span>
+            <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2 }}
+              className="w-[1px] h-10 bg-gradient-to-b from-teal-400/60 to-transparent" />
+          </div>
+        </section>
+
+        {/* ── STATS ────────────────────────── */}
+        <section className="py-20 border-y border-white/5">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { v: "47", l: "Expeditions led" },
+              { v: "26", l: "Countries traversed" },
+              { v: "100%", l: "Safety record" },
+              { v: "8", l: "Max group size" },
+            ].map((s, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div className="text-center">
+                  <div className="text-4xl font-black text-teal-400 mb-1">{s.v}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">{s.l}</div>
                 </div>
               </Reveal>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* STATS */}
-      <section className="py-40 bg-[#0a0f0d] text-center">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-16">
-              {[{ label: "DISTANCE_KM", val: "142K" }, { label: "DAYS_IN_FIELD", val: "1,840" }, { label: "STORIES", val: "64" }, { label: "PHOTO_ARCHIVE", val: "380K" }].map((s, i) => (
-                <div key={i} className="group"><div className="text-4xl md:text-5xl font-black text-white mb-4 group-hover:text-[#0d9488] transition-colors">{s.val}</div><div className="text-[9px] font-black text-white/15 uppercase tracking-widest">{s.label}</div></div>
+        {/* ── EXPEDITIONS ──────────────────── */}
+        <section className="py-32 bg-[#0d1210]">
+          <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="mb-20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-teal-400 block mb-4">Upcoming</span>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">Next <span className="text-teal-400">Expeditions.</span></h2>
+              </div>
+            </Reveal>
+            <div className="flex flex-col gap-12">
+              {EXPEDITIONS.map((exp, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="group grid grid-cols-1 lg:grid-cols-2 gap-8 cursor-pointer items-center">
+                    <div className="relative aspect-[16/9] overflow-hidden rounded-xl">
+                      <ParallaxImg src={exp.img} alt={exp.title} />
+                      <div className="absolute inset-0 bg-teal-900/10 group-hover:bg-transparent transition-colors duration-700" />
+                      <div className="absolute top-6 left-6 flex gap-2">
+                        <span className="px-3 py-1 bg-black/50 backdrop-blur-md text-[10px] font-bold uppercase tracking-widest text-teal-300 rounded-full">{exp.duration}</span>
+                        <span className="px-3 py-1 bg-black/50 backdrop-blur-md text-[10px] font-bold uppercase tracking-widest text-white/60 rounded-full">{exp.difficulty}</span>
+                      </div>
+                    </div>
+                    <div className="lg:pl-8">
+                      <div className="flex items-center gap-2 mb-3 text-xs text-teal-400">
+                        <MapPin className="w-3 h-3" /> {exp.region}
+                      </div>
+                      <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tight mb-4 group-hover:text-teal-400 transition-colors">{exp.title}</h3>
+                      <p className="text-white/40 leading-relaxed mb-6">{exp.desc}</p>
+                      <button className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-teal-400 group-hover:gap-5 transition-all">
+                        View Expedition <ArrowRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </Reveal>
               ))}
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-40 bg-[#070b09] border-t border-white/5 text-center">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">Write <span className="text-[#0d9488]">With Us.</span></h2>
-            <p className="max-w-2xl mx-auto text-sm text-white/30 leading-relaxed font-light mb-16 uppercase tracking-widest italic">We fund two writers per year to join expeditions. Applications open January.</p>
-            <button className="px-16 py-6 bg-white text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[#0d9488] transition-all">Apply_Now</button>
-          </Reveal>
-        </div>
-      </section>
-
-      <footer className="bg-[#070b09] border-t border-white/5 py-32 px-6 md:px-12">
-        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
-          <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-[#0d9488] text-black rounded-full flex items-center justify-center"><Compass className="w-4 h-4" /></div><span>MERIDIAN // JOURNEY</span></Link>
-            <p className="text-[11px] text-white/15 uppercase tracking-[0.2em] max-w-sm leading-relaxed italic">Long-form expedition narratives. Written in the field.</p>
           </div>
-          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#0d9488]">Explore</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Expeditions", "Photo_Archive", "Notes", "Map"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
-          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#0d9488]">Connect</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Globe", "Newsletter", "Podcast", "Press"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
+        </section>
+
+        {/* ── CHAPTERS (PROCESS) ───────────── */}
+        <section className="py-32 bg-[#111a16]">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="text-center mb-24">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-teal-400 block mb-4">The Journey</span>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">Four <span className="text-teal-400">Chapters.</span></h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {CHAPTERS.map((ch, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="text-center group">
+                    <div className="text-5xl font-light text-teal-400/15 mb-4">{ch.num}</div>
+                    <div className="w-14 h-14 rounded-full border border-teal-400/20 flex items-center justify-center mx-auto mb-6 group-hover:bg-teal-500 group-hover:border-teal-500 transition-all duration-500">
+                      <ch.icon className="w-6 h-6 text-teal-400 group-hover:text-black transition-colors" />
+                    </div>
+                    <h3 className="text-lg font-bold mb-3 uppercase tracking-wide">{ch.title}</h3>
+                    <p className="text-sm text-white/40 leading-relaxed">{ch.desc}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── CTA ─────────────────────────── */}
+        <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0">
+            <Image src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&q=80&w=2400" alt="CTA" fill className="object-cover" />
+            <div className="absolute inset-0 bg-[#0d1210]/70" />
+          </div>
+          <div className="relative z-10 text-center px-6">
+            <Reveal>
+              <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-8">
+                Answer The<br/><span className="text-teal-400">Call.</span>
+              </h2>
+              <p className="text-lg text-white/50 font-light max-w-md mx-auto mb-10">
+                Applications for 2026 expeditions are now open. Limited to 8 per journey.
+              </p>
+              <button className="px-12 py-5 bg-teal-500 text-black font-bold rounded-full hover:bg-white transition-colors duration-500">
+                Apply Now
+              </button>
+            </Reveal>
+          </div>
+        </section>
+      </main>
+
+      {/* ── FOOTER ──────────────────────────── */}
+      <footer className="bg-[#080d0b] pt-24 pb-12 px-6">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <Compass className="w-5 h-5 text-teal-400" />
+              <span className="font-bold tracking-[0.2em] uppercase">Meridian</span>
+            </div>
+            <p className="text-sm text-white/30 leading-relaxed">Expedition storytelling and guided wilderness journeys since 2017.</p>
+          </div>
+          {[
+            { title: "Explore", links: ["All Expeditions", "Past Journeys", "Photo Archive", "Stories"] },
+            { title: "Plan", links: ["Apply", "Gear List", "Training Guide", "FAQ"] },
+            { title: "Company", links: ["About", "Guides", "Safety", "Contact"] },
+          ].map((col, i) => (
+            <div key={i}>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-teal-400 mb-6">{col.title}</h4>
+              <ul className="space-y-3 text-sm text-white/30">
+                {col.links.map(l => <li key={l}><Link href="#" className="hover:text-white transition-colors">{l}</Link></li>)}
+              </ul>
+            </div>
+          ))}
         </div>
-        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 text-center text-[9px] font-bold text-white/10 uppercase tracking-widest">&copy; 2026 MERIDIAN JOURNEY</div>
+        <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
+          <span>© 2026 MERIDIAN EXPEDITIONS.</span>
+          <span>INTO THE UNKNOWN.</span>
+        </div>
       </footer>
     </div>
-  );
+  )
 }

@@ -1,171 +1,243 @@
-"use client";
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
-import { Home, MapPin, Bed, Bath, Maximize, Menu, X, ArrowRight, Phone, Mail, Star, Building2, TreePine, Car } from "lucide-react";
-import "../premium.css";
+"use client"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { Home, ArrowRight, Menu, Star, MapPin, Bed, Bath, Maximize2, Phone, Mail, Building, Award, ChevronRight, Heart, DollarSign } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-const PROPERTIES = [
-  { id: "p1", title: "The Meridian Penthouse", address: "42 Park Avenue, Manhattan", price: "$4,200,000", beds: 4, baths: 3, sqft: "3,200", type: "PENTHOUSE", status: "NEW" },
-  { id: "p2", title: "Willow Creek Estate", address: "18 Elm Drive, Greenwich", price: "$2,850,000", beds: 5, baths: 4, sqft: "4,800", type: "ESTATE", status: "OPEN_HOUSE" },
-  { id: "p3", title: "Harbor View Loft", address: "7 Wharf Street, Brooklyn", price: "$1,650,000", beds: 2, baths: 2, sqft: "1,800", type: "LOFT", status: "FEATURED" },
-  { id: "p4", title: "Summit Ridge Villa", address: "92 Canyon Road, Aspen", price: "$6,500,000", beds: 6, baths: 5, sqft: "7,200", type: "VILLA", status: "EXCLUSIVE" },
-  { id: "p5", title: "The Atelier Townhouse", address: "155 Charles Street, West Village", price: "$3,900,000", beds: 3, baths: 3, sqft: "2,600", type: "TOWNHOUSE", status: "NEW" },
-  { id: "p6", title: "Coastal Modern Residence", address: "31 Ocean Blvd, Malibu", price: "$8,200,000", beds: 5, baths: 4, sqft: "5,400", type: "RESIDENCE", status: "EXCLUSIVE" },
-];
-
-const STATS = [{ label: "PROPERTIES_SOLD", val: "840+" }, { label: "TOTAL_VALUE", val: "$2.1B" }, { label: "AVG_DAYS_MARKET", val: "18" }, { label: "CLIENT_RETENTION", val: "94%" }];
-
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  return <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay }}>{children}</motion.div>;
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  )
 }
 
-export default function HavenRealEstatePage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
+function ParallaxImg({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const y = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"])
+  return (
+    <div ref={ref} className="relative w-full h-full overflow-hidden">
+      <motion.div style={{ y }} className="absolute inset-[-12%] w-[124%] h-[124%]">
+        <Image src={src} alt={alt} fill className="object-cover" />
+      </motion.div>
+    </div>
+  )
+}
+
+const PROPERTIES = [
+  { title: "The Belvedere Penthouse", location: "Upper East Side, NY", price: "$12.5M", beds: 5, baths: 4, sqft: "6,200", img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200", tag: "Exclusive" },
+  { title: "Château des Vignes", location: "Provence, France", price: "€8.9M", beds: 7, baths: 5, sqft: "9,400", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200", tag: "New Listing" },
+  { title: "Marina Bay Residence", location: "Singapore", price: "S$18.2M", beds: 4, baths: 3, sqft: "4,800", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=1200", tag: "Penthouse" },
+  { title: "Hampstead Manor", location: "London, UK", price: "£14.7M", beds: 8, baths: 6, sqft: "11,200", img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200", tag: "Heritage" },
+]
+
+const SERVICES = [
+  { icon: Building, title: "Acquisition Advisory", desc: "End-to-end guidance from search to closing on residential and commercial assets." },
+  { icon: DollarSign, title: "Investment Strategy", desc: "Portfolio construction for ultra-high-net-worth individuals seeking trophy real estate." },
+  { icon: Award, title: "Off-Market Access", desc: "Exclusive pre-market listings and pocket deals from our global broker network." },
+]
+
+export default function HavenEstatesPage() {
+  const [scrolled, setScrolled] = useState(false)
+
+  const { scrollYProgress } = useScroll()
+  const heroY = useTransform(scrollYProgress, [0, 0.2], ["0%", "30%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
+
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
+  }, [])
 
   return (
-    <div className="premium-theme min-h-screen bg-[#faf8f4] text-[#1a1a1a] font-mono selection:bg-[#b8860b] selection:text-white overflow-x-hidden">
-      <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.015]" style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px)`, backgroundSize: "60px 60px" }} />
+    <div className="bg-[#faf9f6] text-[#1a1a1a] font-sans min-h-screen selection:bg-[#b8860b] selection:text-white overflow-x-hidden">
 
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#faf8f4]/90 backdrop-blur-xl py-4 border-b border-black/5" : "bg-transparent py-10"}`}>
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3 text-xl font-black tracking-tighter">
-            <div className="w-8 h-8 bg-[#b8860b] rounded-full flex items-center justify-center text-white"><Home className="w-4 h-4" /></div>
-            <span className="group-hover:text-[#b8860b] transition-colors">HAVEN // <span className="text-black/30">ESTATES</span></span>
+      {/* ── NAVBAR ────────────────────────── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#faf9f6]/90 backdrop-blur-xl border-b border-[#b8860b]/10 py-4" : "bg-transparent py-8"}`}>
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3">
+            <Home className="w-5 h-5 text-[#b8860b]" />
+            <span className="text-xl font-light tracking-[0.15em] uppercase" style={{ fontFamily: "Georgia, serif" }}>Haven <span className="font-bold text-[#b8860b]">Estates</span></span>
           </Link>
-          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-black/30">
-            {["Properties", "Neighborhoods", "Agents", "Contact"].map(l => <Link key={l} href="#" className="hover:text-[#b8860b] transition-colors">{l}</Link>)}
+          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#1a1a1a]/40">
+            {["Properties", "Services", "About", "Journal"].map(l => (
+              <Link key={l} href="#" className="hover:text-[#b8860b] transition-colors">{l}</Link>
+            ))}
           </div>
-          <button className="px-6 py-2.5 bg-[#1a1a1a] text-white text-[10px] font-black uppercase tracking-widest hover:bg-[#b8860b] transition-all hidden md:block">Schedule_Tour</button>
-          <button onClick={() => setMenuOpen(true)} className="lg:hidden text-black/40"><Menu className="w-6 h-6" /></button>
+          <div className="flex items-center gap-6">
+            <button className="hidden md:block px-8 py-3 bg-[#1a1a1a] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#b8860b] transition-colors duration-500">
+              Private Inquiry
+            </button>
+            <Sheet>
+              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6" /></button></SheetTrigger>
+              <SheetContent side="right" className="bg-[#faf9f6] p-12">
+                <div className="flex flex-col gap-8 mt-16">
+                  {["Properties", "Services", "About", "Contact"].map(l => (
+                    <Link key={l} href="#" className="text-3xl font-light hover:text-[#b8860b] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</Link>
+                  ))}
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </nav>
 
-      <AnimatePresence>{menuOpen && (
-        <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-[#faf8f4] p-8 flex flex-col pt-32">
-          <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-black/40"><X className="w-10 h-10" /></button>
-          {["Properties", "Neighborhoods", "Agents", "Contact"].map(l => <Link key={l} href="#" onClick={() => setMenuOpen(false)} className="text-5xl font-black tracking-tighter uppercase mb-10">{l}</Link>)}
-        </motion.div>
-      )}</AnimatePresence>
+      <main>
+        {/* ── HERO ────────────────────────── */}
+        <section className="relative h-[110vh] min-h-[800px] flex items-end overflow-hidden">
+          <motion.div style={{ y: heroY }} className="absolute inset-0">
+            <Image src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2400" alt="Estate" fill className="object-cover" priority />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#faf9f6] via-[#faf9f6]/20 to-transparent" />
+          </motion.div>
 
-      {/* HERO */}
-      <section className="relative min-h-screen flex flex-col justify-center pt-20">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
-          <Reveal>
-            <div className="flex items-center gap-4 mb-8">
-              <div className="px-3 py-1 bg-[#b8860b]/10 border border-[#b8860b]/30 text-[#b8860b] text-[9px] font-bold uppercase tracking-widest">ACCEPTING_CLIENTS</div>
-              <div className="text-[9px] text-black/20 tracking-widest uppercase">EST. 2008 // NEW YORK</div>
-            </div>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
-              Find <br /> Your <br /> <span className="text-[#b8860b]">Haven.</span>
-            </h1>
-            <p className="max-w-xl text-lg text-black/40 leading-relaxed font-light uppercase tracking-widest italic mb-12">
-              Curated luxury properties across the tri-state area. White-glove service from search to close.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6">
-              <button className="px-12 py-5 bg-[#1a1a1a] text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-[#b8860b] transition-all">View_Properties</button>
-              <button className="px-12 py-5 border border-black/10 text-[10px] font-black uppercase tracking-[0.4em] hover:bg-black hover:text-white transition-all">Book_Consultation</button>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+          <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] w-full mx-auto px-6 md:px-12 pb-24">
+            <Reveal>
+              <div className="flex items-center gap-4 mb-6">
+                <div className="h-[1px] w-12 bg-[#b8860b]" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b8860b]">Luxury Real Estate — Global Portfolio</span>
+              </div>
+            </Reveal>
+            <Reveal delay={0.15} y={70}>
+              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>
+                Exceptional<br/><em className="text-[#b8860b]">Residences.</em>
+              </h1>
+            </Reveal>
+            <Reveal delay={0.3}>
+              <p className="max-w-lg text-lg text-[#1a1a1a]/50 font-light leading-relaxed">
+                Curated trophy properties for discerning clients worldwide. Off-market access. Discretion guaranteed.
+              </p>
+            </Reveal>
+          </motion.div>
+        </section>
 
-      {/* PROPERTIES GRID */}
-      <section className="py-40 bg-white border-y border-black/5">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] mb-24">Featured <span className="text-[#b8860b]">Listings.</span></h2></Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-            {PROPERTIES.map((p, i) => (
-              <Reveal key={p.id} delay={i * 0.05}>
-                <div className="group bg-[#faf8f4] border border-black/5 rounded-3xl overflow-hidden hover:border-[#b8860b]/30 hover:shadow-xl transition-all duration-500 cursor-pointer">
-                  {/* Image placeholder */}
-                  <div className="w-full aspect-[4/3] bg-gradient-to-br from-[#b8860b]/10 to-[#b8860b]/5 flex items-center justify-center relative">
-                    <Building2 className="w-12 h-12 text-[#b8860b]/20" />
-                    <div className="absolute top-4 left-4 flex gap-2">
-                      <span className="px-2 py-0.5 bg-black text-white text-[8px] font-black uppercase tracking-widest">{p.type}</span>
-                      <span className="px-2 py-0.5 bg-[#b8860b] text-white text-[8px] font-black uppercase tracking-widest">{p.status}</span>
-                    </div>
-                  </div>
-                  <div className="p-8">
-                    <div className="text-2xl font-black text-[#b8860b] mb-2">{p.price}</div>
-                    <h3 className="text-xl font-black uppercase tracking-tighter mb-2 group-hover:text-[#b8860b] transition-colors">{p.title}</h3>
-                    <div className="flex items-center gap-2 text-[10px] text-black/30 uppercase tracking-widest mb-6">
-                      <MapPin className="w-3 h-3" />{p.address}
-                    </div>
-                    <div className="flex items-center gap-6 pt-6 border-t border-black/5 text-[10px] font-bold text-black/40 uppercase tracking-widest">
-                      <div className="flex items-center gap-2"><Bed className="w-3.5 h-3.5" />{p.beds} Beds</div>
-                      <div className="flex items-center gap-2"><Bath className="w-3.5 h-3.5" />{p.baths} Baths</div>
-                      <div className="flex items-center gap-2"><Maximize className="w-3.5 h-3.5" />{p.sqft} sqft</div>
-                    </div>
-                  </div>
+        {/* ── PROPERTIES ────────────────────── */}
+        <section className="py-32 bg-[#faf9f6]">
+          <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex justify-between items-end mb-20">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b8860b] block mb-4">Current Portfolio</span>
+                  <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                    Featured <em className="text-[#b8860b]">Listings.</em>
+                  </h2>
                 </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SERVICES */}
-      <section className="py-40 bg-[#faf8f4]">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal><h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-24 uppercase">Our <span className="text-[#b8860b]">Services.</span></h2></Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {[{ name: "BUYER // ADVISORY", items: ["Market Analysis", "Property Matching", "Negotiation", "Due Diligence"] },
-              { name: "SELLER // SERVICES", items: ["Valuation", "Staging", "Photography", "Marketing"] },
-              { name: "INVESTMENT // COUNSEL", items: ["Portfolio Review", "ROI Analysis", "Tax Strategy", "1031 Exchange"] }
-            ].map((s, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className="group p-12 bg-white border border-black/5 hover:border-[#b8860b]/30 hover:bg-[#1a1a1a] hover:text-white transition-all rounded-3xl">
-                  <h3 className="text-2xl font-black uppercase mb-8 tracking-tighter group-hover:text-[#b8860b] transition-colors">{s.name}</h3>
-                  <div className="space-y-5 pt-8 border-t border-black/5 group-hover:border-white/10">
-                    {s.items.map((item, j) => <div key={j} className="flex items-center gap-4 text-[9px] font-bold text-black/20 group-hover:text-white/30 uppercase tracking-widest"><div className="w-1.5 h-1.5 bg-[#b8860b] rotate-45" />{item}</div>)}
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {PROPERTIES.map((p, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="group cursor-pointer">
+                    <div className="relative aspect-[16/10] overflow-hidden rounded-sm mb-6">
+                      <ParallaxImg src={p.img} alt={p.title} />
+                      <div className="absolute top-6 left-6 flex gap-2">
+                        <span className="px-3 py-1 bg-[#b8860b] text-white text-[10px] font-bold uppercase tracking-widest rounded-full">{p.tag}</span>
+                      </div>
+                      <button className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Heart className="w-4 h-4 text-[#1a1a1a]" />
+                      </button>
+                      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <div className="flex gap-6 text-white/80 text-xs font-bold">
+                          <span className="flex items-center gap-1"><Bed className="w-3 h-3" /> {p.beds} Beds</span>
+                          <span className="flex items-center gap-1"><Bath className="w-3 h-3" /> {p.baths} Baths</span>
+                          <span className="flex items-center gap-1"><Maximize2 className="w-3 h-3" /> {p.sqft} sqft</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="text-2xl font-bold group-hover:text-[#b8860b] transition-colors mb-1" style={{ fontFamily: "Georgia, serif" }}>{p.title}</h3>
+                        <div className="flex items-center gap-1 text-sm text-[#1a1a1a]/40"><MapPin className="w-3 h-3" /> {p.location}</div>
+                      </div>
+                      <div className="text-xl font-bold text-[#b8860b]">{p.price}</div>
+                    </div>
                   </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* STATS */}
-      <section className="py-40 bg-[#1a1a1a] text-white text-center">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-16">
-              {STATS.map((s, i) => (
-                <div key={i} className="group"><div className="text-4xl md:text-5xl font-black text-white mb-4 group-hover:text-[#b8860b] transition-colors">{s.val}</div><div className="text-[9px] font-black text-white/20 uppercase tracking-widest">{s.label}</div></div>
+                </Reveal>
               ))}
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-40 bg-[#faf8f4] text-center">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">Your <span className="text-[#b8860b]">Move.</span></h2>
-            <p className="max-w-xl mx-auto text-sm text-black/40 leading-relaxed font-light mb-16 uppercase tracking-widest italic">Schedule a private consultation with one of our senior advisors.</p>
-            <button className="px-16 py-6 bg-[#1a1a1a] text-white text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[#b8860b] transition-all">Get_Started</button>
-          </Reveal>
-        </div>
-      </section>
-
-      <footer className="bg-[#1a1a1a] text-white py-32 px-6 md:px-12">
-        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
-          <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10"><div className="w-8 h-8 bg-[#b8860b] text-white rounded-full flex items-center justify-center"><Home className="w-4 h-4" /></div><span>HAVEN // ESTATES</span></Link>
-            <p className="text-[11px] text-white/15 uppercase tracking-[0.2em] max-w-sm leading-relaxed italic">Curated luxury real estate. White-glove service since 2008.</p>
           </div>
-          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#b8860b]">Browse</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Buy", "Sell", "Invest", "Neighborhoods"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
-          <div><h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#b8860b]">Connect</h4><ul className="space-y-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{["Contact", "Globe", "LinkedIn", "Press"].map(l => <li key={l}><Link href="#">{l}</Link></li>)}</ul></div>
+        </section>
+
+        {/* ── SERVICES ────────────────────── */}
+        <section className="py-32 bg-[#1a1a1a] text-white">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="text-center mb-24">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b8860b] block mb-4">Advisory</span>
+                <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                  Private <em className="text-[#b8860b]">Services.</em>
+                </h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {SERVICES.map((s, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="text-center group p-8">
+                    <div className="w-16 h-16 rounded-full border border-[#b8860b]/20 flex items-center justify-center mx-auto mb-6 group-hover:bg-[#b8860b] group-hover:border-[#b8860b] transition-all duration-500">
+                      <s.icon className="w-6 h-6 text-[#b8860b] group-hover:text-white transition-colors" />
+                    </div>
+                    <h3 className="text-lg font-bold mb-3" style={{ fontFamily: "Georgia, serif" }}>{s.title}</h3>
+                    <p className="text-sm text-white/40 leading-relaxed">{s.desc}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── CTA ──────────────────────────── */}
+        <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0">
+            <Image src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=2400" alt="CTA" fill className="object-cover" />
+            <div className="absolute inset-0 bg-black/50" />
+          </div>
+          <div className="relative z-10 text-center text-white px-6">
+            <Reveal>
+              <h2 className="text-5xl md:text-7xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>
+                Find Your<br/><em className="text-[#b8860b]">Haven.</em>
+              </h2>
+              <button className="px-12 py-5 bg-white text-[#1a1a1a] font-bold rounded-full hover:bg-[#b8860b] hover:text-white transition-all duration-500">
+                Schedule Private Viewing
+              </button>
+            </Reveal>
+          </div>
+        </section>
+      </main>
+
+      {/* ── FOOTER ────────────────────────── */}
+      <footer className="bg-[#1a1a1a] text-white pt-24 pb-12 px-6">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <Home className="w-5 h-5 text-[#b8860b]" />
+              <span className="text-xl font-light tracking-[0.15em] uppercase" style={{ fontFamily: "Georgia, serif" }}>Haven <span className="font-bold text-[#b8860b]">Estates</span></span>
+            </div>
+            <p className="text-sm text-white/30 leading-relaxed">Discreet luxury real estate advisory for the world's most exceptional properties.</p>
+          </div>
+          {[
+            { title: "Properties", links: ["New York", "London", "Paris", "Singapore"] },
+            { title: "Services", links: ["Acquisition", "Investment", "Off-Market", "Valuation"] },
+            { title: "Company", links: ["About", "Team", "Press", "Contact"] },
+          ].map((col, i) => (
+            <div key={i}>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#b8860b] mb-6">{col.title}</h4>
+              <ul className="space-y-3 text-sm text-white/30">
+                {col.links.map(l => <li key={l}><Link href="#" className="hover:text-white transition-colors">{l}</Link></li>)}
+              </ul>
+            </div>
+          ))}
         </div>
-        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 text-center text-[9px] font-bold text-white/10 uppercase tracking-widest">&copy; 2026 HAVEN ESTATES</div>
+        <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
+          <span>© 2026 HAVEN ESTATES.</span>
+          <span>NEW YORK · LONDON · PARIS · SINGAPORE</span>
+        </div>
       </footer>
     </div>
-  );
+  )
 }

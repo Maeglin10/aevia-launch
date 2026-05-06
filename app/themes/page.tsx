@@ -204,11 +204,21 @@ function ThumbCard({ item, index }: { item: ThemeItem; index: number }) {
             {/* Fallback graphic when thumbnail is missing and not hovered */}
             {thumbFailed && !showIframe && (
               <div
-                className="absolute inset-0 flex flex-col items-center justify-center gap-2"
-                style={{ background: `radial-gradient(ellipse at center, ${accent}15 0%, transparent 70%)` }}
+                className="absolute inset-0 flex flex-col items-center justify-center gap-3"
+                style={{ background: `linear-gradient(135deg, ${accent}08 0%, ${accent}18 50%, ${accent}05 100%)` }}
               >
-                <div className="text-white/20 font-bold tracking-widest uppercase text-[10px]">
-                  Preview
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:2rem_2rem] pointer-events-none" />
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center mb-1"
+                  style={{ background: `${accent}20`, border: `1px solid ${accent}30` }}
+                >
+                  <span className="text-lg font-bold" style={{ color: accent }}>{item.label.charAt(0)}</span>
+                </div>
+                <div className="text-white/40 font-bold tracking-wide text-xs text-center px-4 line-clamp-1">
+                  {item.label}
+                </div>
+                <div className="text-white/15 font-bold tracking-widest uppercase text-[8px]">
+                  Hover to preview
                 </div>
               </div>
             )}
