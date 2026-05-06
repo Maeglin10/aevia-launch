@@ -119,114 +119,116 @@ function ThumbCard({ item, index }: { item: ThemeItem; index: number }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: Math.min((index % 8) * 0.04, 0.24) }}
-      className="group"
+      className="group relative"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <Link href={item.href} className="block h-full cursor-pointer">
         <div
-          className="relative rounded-2xl border overflow-hidden flex flex-col h-full transition-all duration-300 hover:-translate-y-1 hover:border-white/20"
+          className="relative rounded-2xl border overflow-hidden flex flex-col h-full transition-all duration-500 hover:-translate-y-2 hover:border-white/20 shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
           style={{ background: "linear-gradient(135deg,#0a0a0d,#111118)", borderColor: "rgba(255,255,255,0.07)" }}
         >
           {/* Hover glow */}
           <div
-            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"
-            style={{ background: `radial-gradient(ellipse at 50% 0%, ${accent}22 0%, transparent 65%)` }}
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-10"
+            style={{ background: `radial-gradient(circle at 50% 0%, ${accent}33 0%, transparent 70%)` }}
           />
 
           {/* ── Preview area ── */}
           <div className="w-full aspect-video relative overflow-hidden bg-[#050506] border-b border-white/5 shrink-0">
+            
+            {/* Beautiful Placeholder (Always present as background) */}
+            <div 
+              className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center"
+              style={{ background: `linear-gradient(135deg, ${accent}11 0%, #050506 100%)` }}
+            >
+               <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 opacity-20 border border-white/10 group-hover:scale-110 group-hover:opacity-40 transition-all duration-700">
+                  <Sparkles className="w-8 h-8 text-white" />
+               </div>
+               <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 mb-2">{item.category}</span>
+               <h3 className="text-xl font-bold text-white/40 group-hover:text-white transition-colors duration-700 tracking-tighter uppercase">{item.label}</h3>
+            </div>
 
-            {/* Static WebP thumbnail (fast, always visible) */}
+            {/* Static WebP thumbnail */}
             {!thumbFailed && (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={thumbSrc}
                 alt={item.label}
-                className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ${thumbLoaded ? "opacity-100" : "opacity-0"}`}
+                className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-700 z-20 ${thumbLoaded ? "opacity-100" : "opacity-0"}`}
                 onLoad={() => setThumbLoaded(true)}
                 onError={() => setThumbFailed(true)}
               />
             )}
 
-            {/* Live iframe — overlaid on hover ONLY */}
-            {entered && showIframe && (
-              <div
-                className={`absolute inset-0 transition-opacity duration-300 ${showIframe ? "opacity-100" : "opacity-0"}`}
-              >
-                <iframe
-                  src={item.href}
-                  className={`absolute inset-0 w-[400%] h-[400%] origin-top-left scale-25 pointer-events-none transition-opacity duration-500 ${iframeLoaded ? "opacity-95" : "opacity-0"}`}
-                  sandbox="allow-scripts allow-same-origin"
-                  loading="lazy"
-                  onLoad={() => setIframeLoaded(true)}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0d]/60 via-transparent to-transparent pointer-events-none" />
-              </div>
-            )}
-
-            {/* Placeholder while loading or if failed */}
-            {((!thumbLoaded && !thumbFailed) && !iframeLoaded) && (
-              <div
-                className="absolute inset-0 flex items-center justify-center"
-                style={{ background: `radial-gradient(ellipse at center, ${accent}12 0%, transparent 70%)` }}
-              >
-                <div className="w-4 h-4 border-2 border-white/10 border-t-white/40 rounded-full animate-spin" />
-              </div>
-            )}
-            
-            {/* Fallback graphic when thumbnail is missing and not hovered */}
-            {thumbFailed && !showIframe && (
-              <div
-                className="absolute inset-0 flex flex-col items-center justify-center gap-3"
-                style={{ background: `linear-gradient(135deg, ${accent}08 0%, ${accent}18 50%, ${accent}05 100%)` }}
-              >
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:2rem_2rem] pointer-events-none" />
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center mb-1"
-                  style={{ background: `${accent}20`, border: `1px solid ${accent}30` }}
+            {/* Live Iframe (on hover) */}
+            <AnimatePresence>
+              {showIframe && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 z-30 pointer-events-none"
                 >
-                  <span className="text-lg font-bold" style={{ color: accent }}>{item.label.charAt(0)}</span>
-                </div>
-                <div className="text-white/40 font-bold tracking-wide text-xs text-center px-4 line-clamp-1">
-                  {item.label}
-                </div>
-                <div className="text-white/15 font-bold tracking-widest uppercase text-[8px]">
-                  Hover to preview
-                </div>
-              </div>
-            )}
+                  <iframe
+                    src={item.href}
+                    className="w-[1280px] h-[720px] origin-top-left scale-[calc(100/1280*1.5)] pointer-events-none"
+                    style={{ 
+                       transform: `scale(${1 / (1280 / ref.current?.offsetWidth!)})`,
+                       width: '1280px',
+                       height: '720px'
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-transparent" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
-            {/* "Live" badge on hover */}
+            {/* Live Iframe (on hover) logic moved to AnimatePresence above */}
+
+            
+
             {showIframe && (
-              <div className="absolute top-2 right-2 z-20 px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-sm text-white/60">
-                Live
+              <div className="absolute top-3 right-3 z-40 px-2 py-1 rounded-full text-[8px] font-black uppercase tracking-widest bg-white text-black shadow-xl animate-pulse">
+                Live Preview
               </div>
             )}
           </div>
 
-          {/* Info */}
-          <div className="relative z-10 p-4 flex flex-col flex-1">
-            <div className="flex items-center justify-between mb-2.5">
-              <span
-                className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full"
-                style={{ color: accent, background: `${accent}18`, border: `1px solid ${accent}28` }}
-              >
-                {item.category}
-              </span>
-              <div className="flex items-center gap-1.5">
-                {item.featured && <Star className="w-3 h-3 fill-yellow-400 text-yellow-400 shrink-0" />}
-                {item.source === "builder" && (
-                  <span className="text-[8px] text-zinc-600 font-mono uppercase tracking-wider">Builder</span>
-                )}
-                <ArrowRight
-                  className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-all duration-200 -translate-x-1 group-hover:translate-x-0"
-                  style={{ color: accent }}
-                />
+          {/* Info Section */}
+          <div className="p-5 flex flex-col flex-1 relative z-10">
+            <div className="flex justify-between items-start mb-4">
+              <div className="flex items-center gap-2">
+                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/20">{item.category}</span>
+                {item.featured && <div className="px-1.5 py-0.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-[7px] font-bold text-yellow-500 uppercase tracking-widest">Featured</div>}
+              </div>
+              <div className="flex items-center gap-1">
+                <Star className="w-2.5 h-2.5 text-yellow-500 fill-yellow-500" />
+                <span className="text-[9px] font-bold text-white/30">4.9</span>
               </div>
             </div>
-            <h3 className="text-sm font-bold text-white leading-tight mb-1.5">{item.label}</h3>
-            <p className="text-[11px] text-zinc-500 leading-snug line-clamp-2 flex-1">{item.desc}</p>
+
+            <h3 className="text-sm font-bold text-white mb-2 group-hover:text-white transition-colors duration-500 tracking-tight">{item.label}</h3>
+            <p className="text-[11px] leading-relaxed text-white/40 line-clamp-2 mb-6 font-medium italic">
+              {item.desc}
+            </p>
+
+            <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                 <div className="flex -space-x-2">
+                    {[1,2,3].map(i => (
+                      <div key={i} className="w-5 h-5 rounded-full border border-[#050506] bg-[#111118] flex items-center justify-center overflow-hidden">
+                         <div className="w-full h-full bg-gradient-to-br from-white/5 to-transparent" />
+                      </div>
+                    ))}
+                 </div>
+                 <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest">12k+ active</div>
+              </div>
+              <div className="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
+                 <ArrowRight className="w-3.5 h-3.5" />
+              </div>
+            </div>
           </div>
         </div>
       </Link>

@@ -1,576 +1,269 @@
-"use client";
+"use client"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { Heart, ArrowRight, Menu, Star, Flower2, Moon, Sparkles, MapPin, Camera, Music, ChevronRight, Play } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { Star, TrendingUp, Users, MessageSquare, Zap, Award, ArrowRight, Globe, Heart, Share2, Eye } from "lucide-react";
-
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1.5, delay, ease: [0.16, 1, 0.3, 1] }}>
       {children}
     </motion.div>
-  );
+  )
 }
 
-function Counter({ target, suffix = "", prefix = "" }: { target: number; suffix?: string; prefix?: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
+function ParallaxImg({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"])
+  return (
+    <div ref={ref} className="relative w-full h-full overflow-hidden rounded-[4rem]">
+      <motion.div style={{ y }} className="absolute inset-[-15%] w-[130%] h-[130%]">
+        <Image src={src} alt={alt} fill className="object-cover" />
+      </motion.div>
+    </div>
+  )
+}
+
+export default function ElysianEventsPage() {
+  const [scrolled, setScrolled] = useState(false)
+
   useEffect(() => {
-    if (!inView) return;
-    const step = target / 90;
-    const t = setInterval(() =>
-      setCount((c) => {
-        const n = c + step;
-        if (n >= target) {
-          clearInterval(t);
-          return target;
-        }
-        return n;
-      }),
-      16
-    );
-    return () => clearInterval(t);
-  }, [inView, target]);
-  return (
-    <span ref={ref}>
-      {prefix}
-      {Math.floor(count).toLocaleString()}
-      {suffix}
-    </span>
-  );
-}
-
-function MagneticBtn({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 400, damping: 20 });
-  const sy = useSpring(y, { stiffness: 400, damping: 20 });
-  const ref = useRef<HTMLButtonElement>(null);
-  const handleMouse = (e: React.MouseEvent) => {
-    const r = ref.current!.getBoundingClientRect();
-    x.set((e.clientX - r.left - r.width / 2) * 0.3);
-    y.set((e.clientY - r.top - r.height / 2) * 0.3);
-  };
-  return (
-    <motion.button
-      ref={ref}
-      style={{ x: sx, y: sy }}
-      onMouseMove={handleMouse}
-      onMouseLeave={() => {
-        x.set(0);
-        y.set(0);
-      }}
-      className={`cursor-pointer ${className}`}
-    >
-      {children}
-    </motion.button>
-  );
-}
-
-const metricCards = [
-  { icon: Eye, label: "Subscribers", value: "2.4M", color: "#f97316" },
-  { icon: TrendingUp, label: "Monthly Views", value: "18.5M", color: "#ec4899" },
-  { icon: Heart, label: "Engagement Rate", value: "8.2%", color: "#f97316" },
-  { icon: Globe, label: "Global Reach", value: "145 Countries", color: "#ec4899" },
-  { icon: Award, label: "ROI Generated", value: "4.2x", color: "#f97316" },
-  { icon: Users, label: "Collaborations", value: "320+", color: "#ec4899" },
-];
-
-const platformData = [
-  {
-    name: "Globe",
-    engagement: "7.8%",
-    campaigns: ["Feed Posts", "Reels", "Stories", "IGTV"],
-    caseStudy: { client: "Fashion Brand XL", results: "340% engagement lift", image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=1500" }
-  },
-  {
-    name: "TikTok",
-    engagement: "9.4%",
-    campaigns: ["Trending Challenges", "Duets", "Stitches", "Live Streams"],
-    caseStudy: { client: "Beauty Startup", results: "520% brand awareness growth", image: "https://images.unsplash.com/photo-1611087437281-687acc636f8c?auto=format&fit=crop&q=80&w=1500" }
-  },
-  {
-    name: "YouTube",
-    engagement: "6.2%",
-    campaigns: ["Long Form", "Shorts", "Sponsorships", "Collaborations"],
-    caseStudy: { client: "Tech Company", results: "850K subscriber growth", image: "https://images.unsplash.com/photo-1618519266859-3794278e47e3?auto=format&fit=crop&q=80&w=1500" }
-  },
-  {
-    name: "LinkedIn",
-    engagement: "5.9%",
-    campaigns: ["Thought Leadership", "B2B Partnerships", "Industry Insights"],
-    caseStudy: { client: "SaaS Leader", results: "12M impressions/month", image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1500" }
-  },
-  {
-    name: "Podcast",
-    engagement: "12.1%",
-    campaigns: ["Sponsored Episodes", "Guest Appearances", "Ad Reads"],
-    caseStudy: { client: "Premium Brand", results: "75K new listeners", image: "https://images.unsplash.com/photo-1624997997946-a1bc658deed3?auto=format&fit=crop&q=80&w=1500" }
-  },
-  {
-    name: "Newsletter",
-    engagement: "14.3%",
-    campaigns: ["Sponsored Content", "Product Launches", "Exclusive Offers"],
-    caseStudy: { client: "Digital Creator", results: "32% conversion rate", image: "https://images.unsplash.com/photo-1614008375890-cb53b6c5f8f5?auto=format&fit=crop&q=80&w=1500" }
-  },
-];
-
-const creators = [
-  { name: "Sophia Chen", niche: "Fashion & Lifestyle", followers: "2.3M", engagement: "8.4%", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=500" },
-  { name: "Marcus Johnson", niche: "Tech & Innovation", followers: "1.8M", engagement: "7.2%", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=500" },
-  { name: "Elena Rodriguez", niche: "Wellness & Beauty", followers: "3.1M", engagement: "9.1%", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=500" },
-  { name: "David Park", niche: "Gaming & Esports", followers: "2.7M", engagement: "10.3%", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=500" },
-  { name: "Isabella Santos", niche: "Food & Travel", followers: "1.5M", engagement: "11.2%", image: "https://images.unsplash.com/photo-1517492712202-14dd9538aa97?auto=format&fit=crop&q=80&w=500" },
-  { name: "James Liu", niche: "Fitness & Lifestyle", followers: "2.9M", engagement: "8.7%", image: "https://images.unsplash.com/photo-1506026613408-eca07ce68773?auto=format&fit=crop&q=80&w=500" },
-];
-
-const campaigns = [
-  { name: "Summer Collection Launch", brand: "Fashion Brand XL", roas: "3.8x", image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&q=80&w=800" },
-  { name: "Product Release Event", brand: "Tech Innovators", roas: "4.2x", image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&q=80&w=800" },
-  { name: "Holiday Campaign", brand: "Luxury Goods Inc", roas: "5.1x", image: "https://images.unsplash.com/photo-1489749798305-4fea3ba63d60?auto=format&fit=crop&q=80&w=800" },
-  { name: "Wellness Initiative", brand: "Health & Wellness Co", roas: "3.5x", image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800" },
-];
-
-const faqData = [
-  { q: "Are creators exclusive to one brand?", a: "No. Our creators maintain their independence while working on your campaigns. Exclusive partnerships are available upon negotiation." },
-  { q: "What are typical creator rates?", a: "Rates vary by platform, follower count, and engagement metrics. Entry-level starts at $2K-$5K per post, scaling to $50K+ for top-tier creators." },
-  { q: "How are contracts structured?", a: "We offer flexible models: flat fees, revenue-share, or hybrid arrangements. All terms are negotiated and customized to campaign objectives." },
-  { q: "Is FTC compliance handled?", a: "Yes. All campaigns include FTC-compliant disclosures (#ad, #sponsored). We audit all content before publication." },
-];
-
-export default function LuminartCreativePlatform() {
-  const [selectedCreator, setSelectedCreator] = useState<(typeof creators)[0] | null>(null);
-  const [selectedCampaign, setSelectedCampaign] = useState<(typeof campaigns)[0] | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: containerRef });
-  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
+  }, [])
 
   return (
-    <div
-      ref={containerRef}
-      style={{ overflowX: "hidden", scrollBehavior: "smooth" }}
-      className="min-h-screen bg-[#080810] text-white selection:bg-orange-600"
-    >
-      {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center px-6 md:px-12 overflow-hidden pt-20">
-        <motion.div style={{ y: heroY }} className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-600/20 via-pink-600/10 to-transparent" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(249,115,22,0.15),transparent_50%)]" />
-        </motion.div>
-
-        <Reveal delay={0}>
-          <div className="relative z-10 max-w-5xl text-center">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
-              className="mb-8"
-            >
-              <Badge className="bg-orange-600/20 text-orange-400 border-orange-600/30 px-4 py-2 font-mono text-xs">
-                INFLUENCER MARKETING PLATFORM
-              </Badge>
-            </motion.div>
-
-            <h1 className="text-6xl md:text-7xl font-black mb-6 bg-gradient-to-r from-orange-400 via-pink-400 to-orange-400 bg-clip-text text-transparent">
-              LUMINARY
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
-              Connect with authentic creators, amplify your brand, measure every impression with AI-powered insights
-            </p>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12">
-              {metricCards.map((metric, i) => (
-                <Reveal key={i} delay={i * 0.05}>
-                  <motion.div
-                    whileHover={{ scale: 1.05, y: -5 }}
-                    transition={{ duration: 0.2 }}
-                    className="p-4 bg-white/5 border border-orange-600/20 rounded-lg backdrop-blur cursor-pointer hover:border-orange-600/50 transition-all duration-200"
-                  >
-                    <metric.icon className="w-6 h-6 mx-auto mb-2" style={{ color: metric.color }} />
-                    <div className="text-2xl font-black mb-1">{metric.value}</div>
-                    <div className="text-xs text-gray-400">{metric.label}</div>
-                  </motion.div>
-                </Reveal>
-              ))}
+    <div className="bg-[#faf7f2] text-[#4a4a4a] font-sans min-h-screen selection:bg-[#f3e5f5] selection:text-[#4a4a4a] overflow-x-hidden">
+      
+      {/* ── NAVBAR ────────────────── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-white/80 backdrop-blur-xl border-b border-black/5 py-4" : "bg-transparent py-10"}`}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-4 group">
+            <div className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center group-hover:bg-[#f3e5f5] transition-all duration-700">
+              <Flower2 className="w-5 h-5 text-[#8e8e8e]" />
             </div>
-
-            <MagneticBtn className="px-8 py-4 bg-gradient-to-r from-orange-600 to-pink-600 rounded-lg font-black text-white transition-all duration-200 hover:shadow-lg hover:shadow-orange-600/50">
-              Start Your Campaign
-            </MagneticBtn>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* Platform Tabs */}
-      <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto">
-        <Reveal>
-          <div className="mb-16">
-            <h2 className="text-4xl md:text-5xl font-black mb-4">Platform Ecosystem</h2>
-            <p className="text-gray-400 max-w-xl">
-              Reach audiences across every major social platform with platform-optimized strategies
-            </p>
-          </div>
-        </Reveal>
-
-        <Tabs defaultValue="Globe" className="w-full">
-          <TabsList className="grid grid-cols-3 md:grid-cols-6 gap-2 bg-transparent p-0 h-auto">
-            {platformData.map((platform) => (
-              <TabsTrigger
-                key={platform.name}
-                value={platform.name}
-                className="px-4 py-3 bg-white/5 border border-orange-600/20 rounded-lg hover:bg-white/10 hover:border-orange-600/50 transition-all duration-200 cursor-pointer data-[state=active]:bg-orange-600 data-[state=active]:text-white data-[state=active]:border-orange-600"
-              >
-                <span className="text-sm font-bold">{platform.name}</span>
-              </TabsTrigger>
+            <span className="text-xl font-light tracking-[0.3em] uppercase">Elysian <span className="font-bold">Events</span></span>
+          </Link>
+          <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-black/30">
+            {["Sanctuary", "Destinations", "Essence", "Journal"].map(l => (
+              <Link key={l} href="#" className="hover:text-black transition-colors">{l}</Link>
             ))}
-          </TabsList>
-
-          {platformData.map((platform) => (
-            <TabsContent key={platform.name} value={platform.name} className="mt-8">
-              <Reveal>
-                <div className="grid md:grid-cols-3 gap-8">
-                  <div className="space-y-6">
-                    <div>
-                      <Badge className="bg-orange-600/20 text-orange-400 mb-3">Avg Engagement</Badge>
-                      <div className="text-4xl font-black mb-2">{platform.engagement}</div>
-                      <p className="text-gray-400">Higher than industry standard</p>
-                    </div>
-
-                    <div>
-                      <h4 className="font-black mb-3 text-sm">Campaign Types</h4>
-                      <ul className="space-y-2">
-                        {platform.campaigns.map((campaign, i) => (
-                          <li key={i} className="flex items-center gap-2 text-sm text-gray-400">
-                            <Zap className="w-4 h-4 text-orange-400" />
-                            {campaign}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div className="md:col-span-2">
-                    <h4 className="font-black mb-4">Recent Case Study</h4>
-                    <div className="bg-white/5 border border-orange-600/20 rounded-lg overflow-hidden cursor-pointer hover:border-orange-600/50 transition-all duration-200">
-                      <div className="relative h-64">
-                        <Image
-                          src={platform.caseStudy.image}
-                          alt={platform.caseStudy.client}
-                          fill
-                          className="object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                      </div>
-                      <div className="p-6">
-                        <h5 className="font-black mb-2">{platform.caseStudy.client}</h5>
-                        <Badge className="bg-green-600/20 text-green-400">{platform.caseStudy.results}</Badge>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            </TabsContent>
-          ))}
-        </Tabs>
-      </section>
-
-      {/* Creator Marketplace */}
-      <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto">
-        <Reveal>
-          <div className="mb-16">
-            <h2 className="text-4xl md:text-5xl font-black mb-4">Creator Marketplace</h2>
-            <p className="text-gray-400 max-w-xl">
-              Browse and book from our network of 5,000+ verified creators
-            </p>
           </div>
-        </Reveal>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {creators.map((creator, i) => (
-            <Reveal key={i} delay={i * 0.05}>
-              <motion.div
-                whileHover={{ scale: 1.02, y: -10 }}
-                transition={{ duration: 0.2 }}
-                onClick={() => setSelectedCreator(creator)}
-                className="bg-white/5 border border-orange-600/20 rounded-lg overflow-hidden cursor-pointer hover:border-orange-600/50 transition-all duration-200"
-              >
-                <div className="relative h-48">
-                  <Image
-                    src={creator.image}
-                    alt={creator.name}
-                    fill
-                    className="object-cover"
-                  />
+          <div className="flex items-center gap-8">
+            <button className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-black/40 hover:text-black transition-colors underline underline-offset-8 decoration-pink-200">The Gallery</button>
+            <button className="px-10 py-4 bg-[#4a4a4a] text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-transparent hover:text-[#4a4a4a] border border-transparent hover:border-black/20 transition-all duration-700">Inquire</button>
+            <Sheet>
+              <SheetTrigger asChild><button className="lg:hidden p-2"><Menu className="w-6 h-6 text-black" /></button></SheetTrigger>
+              <SheetContent side="right" className="bg-[#faf7f2] border-none p-12 text-black">
+                <div className="flex flex-col gap-10 mt-16 text-left">
+                  {["Experience", "Locations", "Philosophy", "Book"].map(l => (
+                    <Link key={l} href="#" className="text-4xl font-light uppercase tracking-widest hover:italic transition-all">{l}</Link>
+                  ))}
                 </div>
-                <div className="p-4">
-                  <h4 className="font-black mb-1">{creator.name}</h4>
-                  <Badge className="bg-orange-600/20 text-orange-400 mb-3 text-xs">{creator.niche}</Badge>
-                  <div className="space-y-1 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Followers</span>
-                      <span className="font-bold">{creator.followers}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Engagement</span>
-                      <span className="font-bold text-green-400">{creator.engagement}</span>
-                    </div>
-                  </div>
-                  <button className="w-full mt-4 py-2 bg-orange-600 text-white rounded font-bold text-xs hover:bg-orange-700 transition-colors duration-200">
-                    View Profile
-                  </button>
-                </div>
-              </motion.div>
-            </Reveal>
-          ))}
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
+      </nav>
 
-        <Dialog open={!!selectedCreator} onOpenChange={() => setSelectedCreator(null)}>
-          <DialogContent className="bg-[#080810] border-orange-600/20">
-            <DialogHeader>
-              <DialogTitle className="text-white">{selectedCreator?.name}</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4 text-gray-200">
-              <p className="text-sm">{selectedCreator?.niche}</p>
-              <p className="text-4xl font-black text-orange-400">{selectedCreator?.followers}</p>
-              <p className="text-sm">Followers • {selectedCreator?.engagement} Engagement Rate</p>
-              <button className="w-full py-3 bg-orange-600 text-white font-black rounded hover:bg-orange-700 transition-colors duration-200">
-                Start Collaboration
-              </button>
-            </div>
-          </DialogContent>
-        </Dialog>
-      </section>
-
-      {/* Campaign Carousel */}
-      <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto">
-        <Reveal>
-          <div className="mb-16">
-            <h2 className="text-4xl md:text-5xl font-black mb-4">Recent Campaigns</h2>
-            <p className="text-gray-400 max-w-xl">
-              Proven results across industries with measurable ROI
-            </p>
+      <main>
+        {/* ── HERO ──────────────────── */}
+        <section className="relative h-screen flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0">
+             <Image src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=2400" alt="Luxury Event" fill className="object-cover opacity-10 scale-105" priority />
           </div>
-        </Reveal>
 
-        <Carousel className="w-full">
-          <CarouselContent>
-            {campaigns.map((campaign, i) => (
-              <CarouselItem key={i} className="md:basis-1/2">
-                <Reveal delay={i * 0.1}>
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    onClick={() => setSelectedCampaign(campaign)}
-                    className="bg-white/5 border border-orange-600/20 rounded-lg overflow-hidden cursor-pointer hover:border-orange-600/50 transition-all duration-200"
-                  >
-                    <div className="relative h-64">
-                      <Image
-                        src={campaign.image}
-                        alt={campaign.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="p-6">
-                      <h4 className="font-black mb-2">{campaign.name}</h4>
-                      <p className="text-sm text-gray-400 mb-4">{campaign.brand}</p>
-                      <Badge className="bg-green-600/20 text-green-400 font-black">
-                        {campaign.roas} ROI
-                      </Badge>
-                    </div>
-                  </motion.div>
-                </Reveal>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="cursor-pointer border-orange-600/20 hover:border-orange-600/50" />
-          <CarouselNext className="cursor-pointer border-orange-600/20 hover:border-orange-600/50" />
-        </Carousel>
-
-        <Dialog open={!!selectedCampaign} onOpenChange={() => setSelectedCampaign(null)}>
-          <DialogContent className="bg-[#080810] border-orange-600/20">
-            <DialogHeader>
-              <DialogTitle className="text-white">{selectedCampaign?.name}</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4 text-gray-200">
-              <p className="text-sm">{selectedCampaign?.brand}</p>
-              <p className="text-4xl font-black text-orange-400">{selectedCampaign?.roas}</p>
-              <p className="text-sm">Return on Ad Spend</p>
-              <button className="w-full py-3 bg-orange-600 text-white font-black rounded hover:bg-orange-700 transition-colors duration-200">
-                View Full Report
-              </button>
-            </div>
-          </DialogContent>
-        </Dialog>
-      </section>
-
-      {/* Vetting Accordion */}
-      <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto">
-        <Reveal>
-          <div className="mb-16">
-            <h2 className="text-4xl md:text-5xl font-black mb-4">Creator Vetting Process</h2>
-            <p className="text-gray-400 max-w-xl">
-              All creators undergo comprehensive analysis to ensure authenticity and brand safety
-            </p>
-          </div>
-        </Reveal>
-
-        <Accordion type="single" collapsible className="space-y-4 max-w-2xl">
-          <AccordionItem value="authenticity" className="bg-white/5 border border-orange-600/20 px-6 rounded cursor-pointer hover:border-orange-600/50 transition-all duration-200">
-            <AccordionTrigger className="hover:text-orange-400 transition-colors duration-200 font-black">
-              Authenticity Score Analysis
-            </AccordionTrigger>
-            <AccordionContent className="text-gray-300">
-              We analyze growth patterns, engagement quality, and audience composition using proprietary AI. All followers are verified as real, active accounts with meaningful engagement history.
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem value="audience" className="bg-white/5 border border-orange-600/20 px-6 rounded cursor-pointer hover:border-orange-600/50 transition-all duration-200">
-            <AccordionTrigger className="hover:text-orange-400 transition-colors duration-200 font-black">
-              Audience Demographic Deep-Dive
-            </AccordionTrigger>
-            <AccordionContent className="text-gray-300">
-              We review age distribution, geographic location, interests, and engagement patterns. Ensures perfect alignment with your target market and campaign objectives.
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem value="safety" className="bg-white/5 border border-orange-600/20 px-6 rounded cursor-pointer hover:border-orange-600/50 transition-all duration-200">
-            <AccordionTrigger className="hover:text-orange-400 transition-colors duration-200 font-black">
-              Brand Safety Compliance
-            </AccordionTrigger>
-            <AccordionContent className="text-gray-300">
-              Content moderation scan for brand violations, controversial topics, and audience sentiment. Safety score ensures creators align with your brand values.
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem value="contract" className="bg-white/5 border border-orange-600/20 px-6 rounded cursor-pointer hover:border-orange-600/50 transition-all duration-200">
-            <AccordionTrigger className="hover:text-orange-400 transition-colors duration-200 font-black">
-              Contract & Performance Terms
-            </AccordionTrigger>
-            <AccordionContent className="text-gray-300">
-              Flexible agreements including exclusivity clauses, performance bonuses, and usage rights. Full legal review included in every partnership.
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto bg-gradient-to-r from-orange-600/10 to-pink-600/10 rounded-2xl">
-        <div className="grid md:grid-cols-4 gap-12">
-          {[
-            { label: "Active Creators", value: 5000 },
-            { label: "Brand Partners", value: 500 },
-            { label: "Years Experience", value: 8 },
-            { label: "Avg Campaign ROI", value: 4.2, suffix: "x" }
-          ].map((stat, i) => (
-            <Reveal key={i} delay={i * 0.1}>
-              <div className="text-center">
-                <div className="text-4xl md:text-5xl font-black text-orange-400 mb-2">
-                  <Counter target={stat.value} suffix={stat.suffix || ""} />
-                </div>
-                <p className="text-gray-400 font-black text-sm">{stat.label}</p>
+          <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
+            <Reveal>
+              <div className="flex items-center justify-center gap-6 mb-12 opacity-30">
+                 <div className="w-12 h-[1px] bg-black" />
+                 <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-black">Artisan Celebration</span>
+                 <div className="w-12 h-[1px] bg-black" />
               </div>
             </Reveal>
-          ))}
+            <Reveal delay={0.2} y={70}>
+              <h1 className="text-7xl md:text-[11vw] font-light tracking-tighter leading-[0.8] text-[#1a1a1a] mb-12 uppercase" style={{ fontFamily: "serif" }}>
+                Rare <br/> <span className="italic">Moments.</span>
+              </h1>
+            </Reveal>
+            <Reveal delay={0.4}>
+              <div className="flex flex-col items-center justify-center gap-12">
+                <p className="text-2xl text-black/40 font-light max-w-xl leading-relaxed italic">
+                  Curating the world's most intimate and ethereal celebrations. Where architectural beauty meets human connection.
+                </p>
+                <div className="flex flex-wrap justify-center gap-10">
+                  <button className="px-16 py-6 bg-[#4a4a4a] text-white font-bold uppercase tracking-widest text-[10px] rounded-full hover:px-20 transition-all duration-700">
+                    Discover The Essence
+                  </button>
+                  <button className="px-16 py-6 border border-black/10 text-black/60 font-bold uppercase tracking-widest text-[10px] hover:bg-black/5 transition-all flex items-center gap-4 rounded-full">
+                    <Play className="w-3 h-3 fill-current" /> Witness A Moment
+                  </button>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+          
+          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[9px] font-bold uppercase tracking-[0.4em] text-black/20 italic">
+            <span>PARIS / COMO / SANTORINI / BALI</span>
+            <div className="flex gap-4">
+               <Heart className="w-3 h-3" />
+               <Sparkles className="w-3 h-3" />
+            </div>
+          </div>
+        </section>
+
+        {/* ── PILLARS ───────────────── */}
+        <section className="py-40 bg-white">
+           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-24">
+                 {[
+                   { icon: Flower2, t: "Botanical Design", d: "Sourcing the world's most rare florals to create immersive living atmospheres." },
+                   { icon: Music, t: "Sonic Ambiance", d: "Curated soundscapes and performances that define the emotional rhythm of your day." },
+                   { icon: Camera, t: "Visual Legacy", d: "Cinematic documentation of every subtle interaction and architectural detail." }
+                 ].map((p, i) => (
+                   <Reveal key={i} delay={i * 0.1}>
+                      <div className="text-center group">
+                         <div className="w-20 h-20 mx-auto rounded-full border border-black/5 flex items-center justify-center mb-10 group-hover:bg-[#fdf3f2] transition-colors duration-700">
+                            <p.icon className="w-6 h-6 text-black/20" />
+                         </div>
+                         <h3 className="text-2xl font-bold mb-6 uppercase tracking-tighter italic" style={{ fontFamily: "serif" }}>{p.t}</h3>
+                         <p className="text-black/40 leading-relaxed font-light text-sm italic">{p.d}</p>
+                      </div>
+                   </Reveal>
+                 ))}
+              </div>
+           </div>
+        </section>
+
+        {/* ── DESTINATIONS ──────────── */}
+        <section className="py-60 bg-[#faf7f2] relative overflow-hidden">
+           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+              <Reveal>
+                 <div className="flex flex-col lg:flex-row items-end justify-between mb-32 gap-8 border-b border-black/5 pb-16">
+                    <div className="max-w-2xl">
+                       <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/30 block mb-6">The Global Stage</span>
+                       <h2 className="text-6xl md:text-[8vw] font-light uppercase tracking-tighter text-[#1a1a1a] leading-none italic" style={{ fontFamily: "serif" }}>Ethereal <br/> <span className="not-italic font-bold opacity-10">Venues.</span></h2>
+                    </div>
+                    <Link href="#" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-black text-black/40 transition-colors group italic">
+                       View Map Of Essence <ChevronRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                    </Link>
+                 </div>
+              </Reveal>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+                 <Reveal>
+                    <div className="relative aspect-[16/11]">
+                       <ParallaxImg src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=1200" alt="Santorini Event" />
+                       <div className="absolute bottom-12 left-12 p-8 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
+                          <div className="text-[9px] font-bold text-white uppercase tracking-widest mb-1 italic">Location 01</div>
+                          <div className="text-2xl font-bold text-white tracking-tighter" style={{ fontFamily: "serif" }}>Aethra Cliffs, Greece</div>
+                       </div>
+                    </div>
+                 </Reveal>
+                 <div className="flex flex-col justify-center space-y-16 lg:pl-20">
+                    <Reveal delay={0.2}>
+                       <h3 className="text-4xl md:text-6xl font-light uppercase text-[#1a1a1a] italic leading-tight" style={{ fontFamily: "serif" }}>The World <br/> As Your <span className="not-italic font-bold opacity-10">Altar.</span></h3>
+                       <p className="text-2xl text-black/40 font-light leading-relaxed italic max-w-md">
+                          From the marble palazzos of Lake Como to the untouched cliffs of the Cyclades, we secure the world's most evocative stages for your story.
+                       </p>
+                    </Reveal>
+                    <Reveal delay={0.3}>
+                       <div className="flex gap-12">
+                          <button className="px-12 py-5 bg-[#4a4a4a] text-white font-bold uppercase tracking-widest text-[10px] rounded-full hover:px-14 transition-all">Request Venue Audit</button>
+                          <div className="flex -space-x-3 items-center">
+                             {[1,2,3,4].map(i => (
+                               <div key={i} className="w-10 h-10 rounded-full border-2 border-[#faf7f2] bg-pink-100 flex items-center justify-center overflow-hidden">
+                                  <div className="w-full h-full bg-gradient-to-br from-pink-200 to-white" />
+                               </div>
+                             ))}
+                             <span className="text-[9px] font-bold uppercase tracking-widest text-black/20 pl-6">Active Collections</span>
+                          </div>
+                       </div>
+                    </Reveal>
+                 </div>
+              </div>
+           </div>
+        </section>
+
+        {/* ── CTA ───────────────────── */}
+        <section className="py-60 bg-white text-[#1a1a1a] text-center relative overflow-hidden">
+           <div className="max-w-4xl mx-auto px-6 relative z-10">
+              <Reveal>
+                 <div className="w-20 h-20 mx-auto mb-20 rounded-full bg-[#fdf3f2] flex items-center justify-center">
+                    <Sparkles className="w-8 h-8 text-[#8e8e8e]" />
+                 </div>
+                 <h2 className="text-7xl md:text-[15vw] font-light uppercase tracking-tighter leading-[0.8] mb-16 italic" style={{ fontFamily: "serif" }}>
+                    Hold The <br/> <span className="not-italic font-bold opacity-10 italic">Eternal.</span>
+                 </h2>
+                 <p className="text-2xl text-black/40 font-light mb-20 leading-relaxed italic max-w-2xl mx-auto">
+                    We accept a limited number of commissions each season to ensure absolute focus on the refinement of every interaction.
+                 </p>
+                 <div className="flex flex-col sm:flex-row items-center justify-center gap-12">
+                    <button className="px-20 py-8 bg-[#1a1a1a] text-white font-bold uppercase tracking-[0.3em] text-[10px] rounded-full hover:px-24 transition-all duration-700 italic">
+                       Initiate Commission
+                    </button>
+                    <button className="px-20 py-8 border border-black/10 text-black/40 font-bold uppercase tracking-[0.3em] text-[10px] rounded-full hover:text-black transition-all italic">
+                       View Portfolio
+                    </button>
+                 </div>
+              </Reveal>
+           </div>
+        </section>
+      </main>
+
+      {/* ── FOOTER ────────────────── */}
+      <footer className="bg-[#faf7f2] pt-40 pb-12 px-6 border-t border-black/5">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-20 mb-40">
+           <div className="md:col-span-2">
+              <Link href="/" className="flex items-center gap-4 mb-10 group">
+                <div className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center">
+                  <Flower2 className="w-5 h-5 text-[#8e8e8e]" />
+                </div>
+                <span className="text-xl font-light tracking-[0.3em] uppercase text-black">Elysian Events</span>
+              </Link>
+              <p className="text-black/20 max-w-sm leading-relaxed mb-12 text-sm font-light italic" style={{ fontFamily: "serif" }}>
+                 "In the silence of the moment, we find the beauty of a lifetime. Curated with absolute intent."
+              </p>
+              <div className="flex gap-10">
+                 {["Instagram", "Vimeo", "Pinterest", "Journal"].map(s => (
+                   <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-black/20 hover:text-black transition-colors italic">{s}</Link>
+                 ))}
+              </div>
+           </div>
+           
+           {[
+             { t: "THE EXPERIENCE", l: ["Bespoke Planning", "Venue Audit", "Botanical Design", "Sonic Lab"] },
+             { t: "DESTINATIONS", l: ["Season 2026", "Lake Como", "Cyclades", "Bali Retreats"] },
+             { t: "ENTITY", l: ["Our Legacy", "The Team", "Commissions", "Legal"] }
+           ].map((col, i) => (
+             <div key={i} className="space-y-12">
+                <h4 className="text-[10px] font-bold uppercase tracking-[0.6em] text-black/20">{col.t}</h4>
+                <ul className="space-y-6">
+                   {col.l.map(link => (
+                     <li key={link} className="text-xs font-bold uppercase tracking-widest text-black/40 hover:text-black transition-colors italic">
+                        <Link href="#">{link}</Link>
+                     </li>
+                   ))}
+                </ul>
+             </div>
+           ))}
         </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto">
-        <Reveal>
-          <div className="mb-16">
-            <h2 className="text-4xl md:text-5xl font-black mb-4">Frequently Asked Questions</h2>
-          </div>
-        </Reveal>
-
-        <Accordion type="single" collapsible className="space-y-4 max-w-3xl">
-          {faqData.map((item, i) => (
-            <AccordionItem key={i} value={`faq-${i}`} className="bg-white/5 border border-orange-600/20 px-6 rounded cursor-pointer hover:border-orange-600/50 transition-all duration-200">
-              <AccordionTrigger className="hover:text-orange-400 transition-colors duration-200 font-bold text-left">
-                {item.q}
-              </AccordionTrigger>
-              <AccordionContent className="text-gray-300">
-                {item.a}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto text-center">
-        <Reveal>
-          <h2 className="text-4xl md:text-5xl font-black mb-6">Ready to Launch Your Campaign?</h2>
-          <p className="text-gray-400 mb-8 max-w-xl mx-auto">
-            Get matched with the perfect creators for your brand in minutes
-          </p>
-          <MagneticBtn className="px-8 py-4 bg-gradient-to-r from-orange-600 to-pink-600 rounded-lg font-black text-white transition-all duration-200 hover:shadow-lg hover:shadow-orange-600/50">
-            Schedule Demo Today
-          </MagneticBtn>
-        </Reveal>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-orange-600/10 py-12 px-6 md:px-12 mt-20">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8 mb-12">
-            <div>
-              <h4 className="font-black mb-4">Platform</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link href="#" className="hover:text-orange-400 transition-colors duration-200 cursor-pointer">Creators</Link></li>
-                <li><Link href="#" className="hover:text-orange-400 transition-colors duration-200 cursor-pointer">Brands</Link></li>
-                <li><Link href="#" className="hover:text-orange-400 transition-colors duration-200 cursor-pointer">Pricing</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-black mb-4">Company</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link href="#" className="hover:text-orange-400 transition-colors duration-200 cursor-pointer">About</Link></li>
-                <li><Link href="#" className="hover:text-orange-400 transition-colors duration-200 cursor-pointer">Blog</Link></li>
-                <li><Link href="#" className="hover:text-orange-400 transition-colors duration-200 cursor-pointer">Careers</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-black mb-4">Resources</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link href="#" className="hover:text-orange-400 transition-colors duration-200 cursor-pointer">Documentation</Link></li>
-                <li><Link href="#" className="hover:text-orange-400 transition-colors duration-200 cursor-pointer">API</Link></li>
-                <li><Link href="#" className="hover:text-orange-400 transition-colors duration-200 cursor-pointer">Support</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-black mb-4">Follow</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link href="#" className="hover:text-orange-400 transition-colors duration-200 cursor-pointer flex items-center gap-2"><Share2 className="w-4 h-4" /> Globe</Link></li>
-                <li><Link href="#" className="hover:text-orange-400 transition-colors duration-200 cursor-pointer flex items-center gap-2"><Share2 className="w-4 h-4" /> Globe</Link></li>
-                <li><Link href="#" className="hover:text-orange-400 transition-colors duration-200 cursor-pointer flex items-center gap-2"><Share2 className="w-4 h-4" /> LinkedIn</Link></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-orange-600/10 pt-8 flex justify-between items-center text-sm text-gray-400">
-            <p>&copy; 2026 LUMINARY. All rights reserved.</p>
-            <div className="flex gap-6">
-              <Link href="#" className="hover:text-orange-400 transition-colors duration-200 cursor-pointer">Privacy</Link>
-              <Link href="#" className="hover:text-orange-400 transition-colors duration-200 cursor-pointer">Terms</Link>
-            </div>
-          </div>
+        <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8 border-t border-black/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-black/10 italic">
+           <span>© 2026 ELYSIAN EVENTS GLOBAL COMMISSIONS. MOMENTS ARE ETERNAL.</span>
+           <div className="flex gap-12">
+              <Link href="#" className="hover:text-black transition-all">FLORENCE</Link>
+              <Link href="#" className="hover:text-black transition-all">NEW YORK</Link>
+              <Link href="#" className="hover:text-black transition-all">TOKYO</Link>
+           </div>
         </div>
       </footer>
     </div>
-  );
+  )
 }
