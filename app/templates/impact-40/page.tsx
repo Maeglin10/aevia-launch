@@ -1,440 +1,256 @@
-"use client";
+"use client"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { Camera, ArrowRight, Menu, Star, Maximize2, MoveRight, Layers, Layout, Zap, ChevronRight, Play } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect, Suspense } from "react";
-import Image from "next/image";
-import { ArrowUpRight, Menu, X, Layers, ShieldCheck, Plus, Play, ArrowRight, ChevronDown, Monitor, LayoutGrid, Zap, BookOpen, Eye, Maximize2, Minimize2, Box, Settings, Sparkles, Command, Activity, Ruler, Wind } from "lucide-react";
-import "../premium.css";
-
-// ─── DATA ──────────────────────────────────────────────────────────────────
-
-const CHAPTER_MANIFESTS = [
-  { 
-    id: "CHP_01",
-    title: "THE_ORIGIN", 
-    category: "Narrative Root",
-    epoch: "v9.4_START",
-    img: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1200&q=80",
-    desc: "A high-fidelity study of absolute narrative beginnings within the spatial environment. Zero-latency storytelling synthesis."
-  },
-  { 
-    id: "CHP_02",
-    title: "THE_CRISIS", 
-    category: "Tectonic Conflict",
-    epoch: "v3.1_PEAK",
-    img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&q=80",
-    desc: "Planetary-scale distributed conflicts orchestrated through neural weight synthesis. High-fidelity narrative routing."
-  },
-  { 
-    id: "CHP_03",
-    title: "THE_RESOLUTION", 
-    category: "Spectral Ending",
-    epoch: "v9.0_STARK",
-    img: "https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=1200&q=80",
-    desc: "A zero-latency resolution engine built for the real-time synthesis of non-standard narrative artifacts through radical code injection."
-  }
-];
-
-const METRICS = [
-  { label: "Narrative", val: "99.9%", desc: "Absolute architectural synchronization across all distributed story edge nodes." },
-  { label: "Throughput", val: "12 EB/s", desc: "Sustainable visual delivery through our dedicated high-fidelity narrative backbone." },
-  { label: "Reliability", val: "IMMUNE", desc: "Zero-leak story logic verified through continuous adversarial stress-testing." }
-];
-
-const CAPABILITIES = [
-  { icon: Ruler, title: "Story Forge", desc: "Engineering narrative volumes through a lens of mathematical and structural purity." },
-  { icon: Eye, title: "Journey Logic", desc: "Scaling viewer interactions through distributed story orchestration and logic synthesis." },
-  { icon: Activity, title: "Pulse Sync", desc: "Synchronizing system spikes with real-time biological demand cycles for absolute sync." },
-  { icon: Box, title: "Archival Shell", desc: "Leveraging heavy archival data fabrication for ultra-high fidelity story protection." }
-];
-
-// ─── COMPONENTS ──────────────────────────────────────────────────────────────
-
-function Reveal({ children, className = "", delay = 0, y = 30 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 1, delay, ease: [0.23, 1, 0.32, 1] }}
-      className={className}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}>
       {children}
     </motion.div>
-  );
+  )
 }
 
-// ─── MAIN SPA ────────────────────────────────────────────────────────────────
+const PROJECTS = [
+  { title: "Obsidian", cat: "Art Direction", img: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Vapor", cat: "3D Motion", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Prism", cat: "Web Design", img: "https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Kinetics", cat: "Typography", img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Fluid", cat: "Visual Identity", img: "https://images.unsplash.com/photo-1550684399-3f41d5ecc33e?auto=format&fit=crop&q=80&w=1200" },
+]
 
-export default function TheJourneySPA() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeChp, setActiveChp] = useState(0);
-  const { scrollY } = useScroll();
-  
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
-  const heroScale = useTransform(scrollY, [0, 800], [1, 1.05]);
+export default function KineticLensPage() {
+  const [scrolled, setScrolled] = useState(false)
+  const targetRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: targetRef })
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-80%"])
+
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
+  }, [])
 
   return (
-    <div className="min-h-screen bg-[#050508] text-[#eee] font-mono selection:bg-[#eee] selection:text-black">
+    <div className="bg-[#050505] text-white font-sans min-h-screen selection:bg-white selection:text-black overflow-x-hidden">
       
-      {/* ── STORY OVERLAY ── */}
-      <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.08] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
-      <div className="fixed inset-0 z-[0] opacity-10 pointer-events-none overflow-hidden">
-        <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
-      </div>
-
-      {/* ── NAVIGATION ── */}
-      <motion.nav 
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-16 py-10 mix-blend-difference"
-      >
-        <div className="flex items-center gap-4">
-          <BookOpen className="w-10 h-10 text-white" />
-          <span className="text-2xl font-black tracking-tighter uppercase italic text-white">THE<span className="text-white/30">//</span>JOURNEY</span>
+      {/* ── NAVBAR ────────────────── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-black/90 backdrop-blur-xl border-b border-white/5 py-4" : "bg-transparent py-8"}`}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+              <Camera className="w-5 h-5 text-black" />
+            </div>
+            <span className="text-xl font-bold tracking-[0.2em] uppercase">Kinetic <span className="font-light text-white/40">Lens</span></span>
+          </Link>
+          <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
+            {["Gallery", "Method", "Atelier", "Archive"].map(l => (
+              <Link key={l} href="#" className="hover:text-white transition-colors">{l}</Link>
+            ))}
+          </div>
+          <div className="flex items-center gap-4">
+             <button className="hidden md:block px-8 py-3 border border-white text-white text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-700">Project Brief</button>
+            <Sheet>
+              <SheetTrigger asChild><button className="lg:hidden p-2"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
+              <SheetContent side="right" className="bg-black border-white/5 p-12 text-white">
+                <div className="flex flex-col gap-10 mt-16 text-left">
+                  {["Work", "Labs", "Contact"].map(l => (
+                    <Link key={l} href="#" className="text-4xl font-bold uppercase tracking-tighter hover:italic transition-all">{l}</Link>
+                  ))}
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
-        
-        <div className="hidden lg:flex items-center gap-16 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
-          {["Manifest", "Reserve", "Atelier", "Portal"].map(item => (
-            <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors">/{item}</a>
+      </nav>
+
+      <main>
+        {/* ── HERO ──────────────────── */}
+        <section className="relative h-screen flex items-center pt-20 overflow-hidden">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 gap-20">
+             <div>
+                <Reveal>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-white/40 block mb-12">Creative Studio — London / NYC</span>
+                </Reveal>
+                <Reveal delay={0.1} y={100}>
+                  <h1 className="text-7xl md:text-[10vw] font-black leading-[0.85] uppercase tracking-tighter mb-12">
+                    Crafting <br/> <span className="text-white/20 italic">Motion.</span>
+                  </h1>
+                </Reveal>
+                <Reveal delay={0.3}>
+                   <div className="flex items-center gap-8 group cursor-pointer">
+                      <div className="w-20 h-20 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:border-white transition-all duration-700">
+                         <Play className="w-6 h-6 text-white group-hover:text-black fill-current" />
+                      </div>
+                      <span className="text-xs font-bold uppercase tracking-widest italic group-hover:translate-x-4 transition-transform duration-700">Watch Studio Showreel</span>
+                   </div>
+                </Reveal>
+             </div>
+             <div className="flex flex-col justify-end pb-20">
+                <Reveal delay={0.4}>
+                   <p className="text-xl md:text-3xl font-light text-white/60 leading-tight max-w-md">
+                      Specializing in the intersection of high-fidelity 3D motion and interactive digital design.
+                   </p>
+                </Reveal>
+             </div>
+          </div>
+          {/* Background Text */}
+          <div className="absolute top-1/2 left-0 -translate-y-1/2 text-[30vw] font-black uppercase text-white/[0.02] pointer-events-none select-none">
+             STUDIO
+          </div>
+        </section>
+
+        {/* ── HORIZONTAL WORK ───────── */}
+        <section ref={targetRef} className="h-[400vh] relative">
+          <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+             <motion.div style={{ x }} className="flex gap-20 px-24">
+                <div className="w-[80vw] md:w-[40vw] shrink-0 flex flex-col justify-center">
+                   <Reveal>
+                      <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter mb-8 leading-none">THE <br/> GALLERY.</h2>
+                      <p className="text-lg text-white/40 max-w-sm">A collection of our most recent experiments in spatial design and motion graphics.</p>
+                   </Reveal>
+                </div>
+                {PROJECTS.map((p, i) => (
+                  <div key={i} className="w-[80vw] md:w-[60vw] shrink-0 relative group">
+                     <div className="aspect-[16/9] relative overflow-hidden rounded-sm grayscale group-hover:grayscale-0 transition-all duration-1000">
+                        <Image src={p.img} alt={p.title} fill className="object-cover group-hover:scale-105 transition-transform duration-1000" />
+                        <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-all duration-1000" />
+                        <div className="absolute top-12 left-12 opacity-0 group-hover:opacity-100 transition-opacity duration-1000">
+                           <div className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4">0{i+1} / Project</div>
+                           <h3 className="text-4xl font-black uppercase tracking-tighter italic">{p.title}</h3>
+                        </div>
+                     </div>
+                     <div className="mt-8 flex justify-between items-end border-b border-white/10 pb-8">
+                        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">{p.cat}</span>
+                        <ArrowUpRight className="w-8 h-8 opacity-0 group-hover:opacity-100 transition-all duration-700 translate-y-4 group-hover:translate-y-0" />
+                     </div>
+                  </div>
+                ))}
+                <div className="w-[40vw] shrink-0 flex flex-col justify-center items-center text-center">
+                   <Link href="#" className="group">
+                      <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40 mb-12 group-hover:text-white transition-colors italic">Ready For More?</div>
+                      <h4 className="text-4xl md:text-6xl font-black uppercase tracking-tighter group-hover:italic transition-all underline underline-offset-[20px]">View Full Archive</h4>
+                   </Link>
+                </div>
+             </motion.div>
+          </div>
+        </section>
+
+        {/* ── METHOD ────────────────── */}
+        <section className="py-40 bg-white text-black">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+             <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+                <Reveal>
+                   <div className="relative aspect-square bg-[#050505] p-2 overflow-hidden">
+                      <Image src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=1200" alt="Detail" fill className="object-cover opacity-50 grayscale" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                         <div className="w-2/3 h-2/3 border border-white/20 rounded-full flex items-center justify-center animate-[spin_30s_linear_infinite]">
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full" />
+                         </div>
+                      </div>
+                   </div>
+                </Reveal>
+                <div>
+                   <Reveal>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/30 block mb-8">Our Method</span>
+                      <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter mb-12 italic">Digital <br/> <span className="not-italic">Physics.</span></h2>
+                      <p className="text-2xl font-light text-black/60 leading-relaxed mb-16">
+                         We don't just animate. We simulate weight, friction, and light to create digital objects that feel like they belong in the real world.
+                      </p>
+                      <div className="space-y-12">
+                         {[
+                           { t: "KINETIC DEPTH", d: "Layered 3D environments that respond to user interaction with organic movement." },
+                           { t: "LIGHT SIMULATION", d: "Custom-built lighting rigs for digital objects to ensure physical accuracy." }
+                         ].map((item, i) => (
+                           <div key={i} className="flex gap-8 group">
+                              <div className="text-3xl font-black italic opacity-20 group-hover:opacity-100 transition-opacity italic-none">0{i+1}</div>
+                              <div>
+                                 <h4 className="text-xl font-bold uppercase tracking-widest mb-2">{item.t}</h4>
+                                 <p className="text-sm text-black/40 leading-relaxed font-light">{item.d}</p>
+                              </div>
+                           </div>
+                         ))}
+                      </div>
+                   </Reveal>
+                </div>
+             </div>
+          </div>
+        </section>
+
+        {/* ── CTA ───────────────────── */}
+        <section className="py-40 bg-[#050505] text-center border-t border-white/10">
+           <div className="max-w-4xl mx-auto px-6">
+              <Reveal>
+                 <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter leading-[0.8] mb-16">
+                    SHIFT <br/> <span className="text-white/20 italic">GEARS.</span>
+                 </h2>
+                 <div className="flex flex-col sm:flex-row items-center justify-center gap-10">
+                    <button className="px-16 py-6 bg-white text-black font-bold uppercase tracking-widest text-[10px] hover:px-20 transition-all duration-700">
+                       Start Project
+                    </button>
+                    <button className="px-16 py-6 border border-white/20 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/5 transition-all">
+                       Studio Journal
+                    </button>
+                 </div>
+              </Reveal>
+           </div>
+        </section>
+      </main>
+
+      {/* ── FOOTER ────────────────── */}
+      <footer className="bg-black pt-32 pb-12 px-6">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-16 mb-32">
+          <div className="md:col-span-2">
+            <Link href="/" className="flex items-center gap-3 mb-10">
+              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+                <Camera className="w-5 h-5 text-black" />
+              </div>
+              <span className="text-xl font-bold tracking-[0.2em] uppercase text-white">Kinetic Lens</span>
+            </Link>
+            <p className="text-white/20 max-w-sm leading-relaxed mb-10 text-sm italic font-light">
+              Redefining the digital frontier through physics-driven motion and high-fidelity interaction.
+            </p>
+            <div className="flex gap-8">
+               {["Vimeo", "Instagram", "Behance", "X"].map(s => (
+                 <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors">{s}</Link>
+               ))}
+            </div>
+          </div>
+          
+          {[
+            { t: "STUDIO", l: ["Our Lab", "The Team", "Process", "Careers"] },
+            { t: "SERVICES", l: ["Motion Design", "Interactive", "3D Art", "Branding"] },
+            { t: "CLIENTS", l: ["Access Hub", "Archive", "Log In", "Support"] },
+          ].map((col, i) => (
+            <div key={i} className="space-y-10">
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">{col.t}</h4>
+              <ul className="space-y-6">
+                {col.l.map(link => <li key={link} className="text-xs font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic"><Link href="#">{link}</Link></li>)}
+              </ul>
+            </div>
           ))}
         </div>
-
-        <button 
-          onClick={() => setMenuOpen(true)}
-          className="px-6 py-2 border border-white/20 bg-white/5 backdrop-blur-md text-[10px] font-black uppercase tracking-widest hover:bg-white/20 transition-all text-white"
-        >
-          [INIT_JOURNEY]
-        </button>
-      </motion.nav>
-
-      {/* ── MOBILE MENU ── */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.1 }}
-            transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
-            className="fixed inset-0 z-[60] bg-[#050508] text-[#eee] p-12 flex flex-col justify-between"
-          >
-            <div className="flex justify-between items-center border-b border-white/10 pb-12">
-              <span className="text-xl font-black uppercase tracking-tighter italic">THE//JOURNEY</span>
-              <button onClick={() => setMenuOpen(false)} className="w-12 h-12 flex items-center justify-center border border-white/20 rounded-full">
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-            <div className="flex flex-col gap-12 text-center md:text-left">
-              {["CHAPTER_MANIFEST", "JOURNEY_ARCHIVE", "STORY_FORGE", "ASSET_ENCLAVE", "SECURE_AUTH"].map((item, i) => (
-                <motion.a 
-                  key={item}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 + 0.3 }}
-                  href="#"
-                  className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter hover:text-white/40 transition-all leading-none"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {item}
-                </motion.a>
-              ))}
-            </div>
-            <div className="flex justify-between text-[10px] font-bold uppercase tracking-[0.5em] border-t border-white/10 pt-12 text-white/30">
-              <span>STORY_PRACTICE</span>
-              <span>EST. 2018 // LONDON</span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── HERO SECTION ── */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
-        <motion.div 
-          style={{ opacity: heroOpacity, scale: heroScale }}
-          className="absolute inset-0 z-0"
-        >
-          <Image 
-            src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1600&q=80" 
-            alt="Hero Story" 
-            fill 
-            className="object-cover grayscale brightness-50 contrast-125 opacity-20" 
-            unoptimized 
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050508]" />
-        </motion.div>
-
-        <div className="relative z-10 text-center px-6">
-          <Reveal>
-            <span className="text-[10px] font-bold uppercase tracking-[2.5em] text-white/40 mb-12 block italic">Narrative Endurance</span>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <h1 className="text-8xl md:text-[18rem] font-black tracking-tighter leading-[0.75] uppercase italic text-white mb-20">
-              RAW <br/> <span className="not-italic text-white/10">PATH.</span>
-            </h1>
-          </Reveal>
-          <Reveal delay={0.4}>
-            <div className="max-w-2xl mx-auto flex flex-col items-center gap-16 border-t border-white/10 pt-20">
-              <p className="text-white/40 text-xl leading-relaxed font-light uppercase tracking-[0.3em] italic leading-loose text-center">
-                Engineering the ultimate story archives through distributed narrative orchestration. High-fidelity systems built for absolute structural precision and cinematic clarity.
-              </p>
-              <div className="flex gap-8">
-                <button className="px-16 py-6 bg-white text-black font-black uppercase text-xs tracking-[0.4em] hover:bg-black hover:text-white transition-all">
-                  Manifest_Access
-                </button>
-                <button className="px-16 py-6 border border-white/20 text-white font-black uppercase text-xs tracking-[0.4em] hover:bg-white/5 transition-colors">
-                  Atelier_Dossier
-                </button>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-
-        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">
-          <div className="flex flex-col gap-2">
-            <span>LONDON // ATELIER</span>
-            <div className="w-48 h-[1px] bg-white/10" />
-          </div>
-          <div className="flex items-center gap-4 italic uppercase tracking-widest">
-             <span className="animate-pulse">●</span> STORY_STATUS: NOMINAL
+        
+        <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
+          <span>© 2026 KINETIC LENS STUDIO. MOTION IS LIFE.</span>
+          <div className="flex gap-10 italic">
+             <Link href="#" className="hover:text-white transition-colors">Privacy</Link>
+             <Link href="#" className="hover:text-white transition-colors">Terms</Link>
           </div>
         </div>
-      </section>
-
-      {/* ── METRICS GRID ── */}
-      <section className="py-40 bg-[#0a0a0d]">
-        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-white/5 border border-white/5">
-            {METRICS.map((s, i) => (
-              <Reveal key={s.label} delay={i * 0.1} className="bg-[#050508] p-24 group hover:bg-white/5 transition-all duration-700">
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 mb-12 block group-hover:text-white/60">{s.label}</span>
-                <h3 className="text-7xl font-black italic text-white mb-8 group-hover:text-white transition-colors">{s.val}</h3>
-                <p className="text-xs text-white/30 font-light tracking-widest uppercase italic leading-loose group-hover:text-white/60">
-                  {s.desc}
-                </p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CHAPTER SHOWCASE ── */}
-      <section className="py-40 bg-black relative overflow-hidden">
-        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
-          <Reveal className="mb-32">
-             <div className="flex flex-col lg:flex-row justify-between items-end gap-12 border-b border-white/10 pb-12">
-               <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-white">
-                 Chapter <br/> <span className="text-white/20 not-italic">Archive.</span>
-               </h2>
-               <div className="text-right">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/20 mb-4 block italic">Manifest_Sequence_2024</span>
-                  <div className="flex gap-4">
-                    {CHAPTER_MANIFESTS.map((_, i) => (
-                      <button 
-                        key={i} 
-                        onClick={() => setActiveChp(i)}
-                        className={`w-16 h-1 transition-all ${activeChp === i ? "bg-white w-32" : "bg-white/10"}`}
-                      />
-                    ))}
-                  </div>
-               </div>
-             </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
-            <div className="lg:col-span-8 relative aspect-video rounded-sm overflow-hidden border border-white/5 group bg-[#111]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeChp}
-                  initial={{ opacity: 0, scale: 1.1 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 1.1 }}
-                  transition={{ duration: 1, ease: [0.19, 1, 0.22, 1] }}
-                  className="absolute inset-0"
-                >
-                  <Image src={CHAPTER_MANIFESTS[activeChp].img} alt={CHAPTER_MANIFESTS[activeChp].title} fill className="object-cover grayscale contrast-125 opacity-40 group-hover:opacity-60 transition-opacity duration-1000" unoptimized />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
-                </motion.div>
-              </AnimatePresence>
-              <div className="absolute bottom-12 left-12 flex flex-col gap-4">
-                 <span className="text-[10px] font-black uppercase tracking-widest bg-white/10 backdrop-blur-md text-white px-6 py-2 border border-white/5">{CHAPTER_MANIFESTS[activeChp].epoch} // ADVISORY</span>
-              </div>
-            </div>
-
-            <div className="lg:col-span-4 space-y-12">
-               <motion.div
-                  key={activeChp}
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="space-y-12"
-               >
-                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40">{CHAPTER_MANIFESTS[activeChp].id} // ASSET</span>
-                 <h3 className="text-6xl md:text-8xl font-black italic uppercase text-white tracking-tighter">{CHAPTER_MANIFESTS[activeChp].title}</h3>
-                 <div className="space-y-6 border-y border-white/10 py-12">
-                    <div className="flex justify-between items-center">
-                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Category</span>
-                       <span className="text-sm font-black text-white uppercase tracking-widest">{CHAPTER_MANIFESTS[activeChp].category}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Chapter_Status</span>
-                       <span className="text-sm font-black text-white uppercase tracking-widest italic">STABLE_OPTIC</span>
-                    </div>
-                 </div>
-                 <p className="text-white/30 text-lg font-light italic leading-loose uppercase tracking-wide">
-                   {CHAPTER_MANIFESTS[activeChp].desc}
-                 </p>
-                 <button className="flex items-center gap-6 group">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.8em] text-white">Request_Manifest</span>
-                    <div className="w-16 h-16 border border-white/10 rounded-full flex items-center justify-center group-hover:bg-white transition-all">
-                       <ArrowUpRight className="w-6 h-6 text-white group-hover:text-black transition-colors" />
-                    </div>
-                 </button>
-               </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── CAPABILITIES ── */}
-      <section className="py-40 bg-[#050508] border-y border-white/10">
-        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
-          <Reveal className="mb-32 text-center">
-             <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/40 mb-8 block italic">Operational Scope</span>
-             <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-white">
-                Technical <br/> <span className="text-white/20 not-italic">Expertise.</span>
-             </h2>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10">
-            {CAPABILITIES.map((item, i) => (
-              <Reveal key={item.title} delay={i * 0.1} className="bg-[#0a0a0d] p-12 group hover:bg-white/5 transition-all duration-700">
-                 <item.icon className="w-12 h-12 text-white/20 group-hover:text-white transition-colors mb-8" />
-                 <h3 className="text-2xl font-black italic uppercase text-white mb-6">{item.title}</h3>
-                 <p className="text-xs text-white/40 group-hover:text-white font-light tracking-widest uppercase italic leading-loose transition-colors">
-                   {item.desc}
-                 </p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ATELIER / LABORATORY ── */}
-      <section className="py-40 bg-black overflow-hidden">
-        <div className="max-w-[1600px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
-          <Reveal>
-             <div className="relative aspect-square bg-[#050508] border border-white/5 p-20 flex flex-col justify-center group overflow-hidden">
-                <div className="absolute top-0 right-0 p-12">
-                   <Box className="w-16 h-16 text-white/5 group-hover:text-white/10 transition-colors" />
-                </div>
-                <Sparkles className="w-16 h-16 text-white mb-12" />
-                <h3 className="text-5xl font-black italic uppercase text-white mb-8">Narrative <br/> <span className="text-white/20 not-italic">Atelier.</span></h3>
-                <p className="text-white/40 text-lg leading-relaxed mb-12 font-light uppercase tracking-wide italic leading-loose">
-                  Our London atelier leverages heavy archival design fabrication and distributed narrative orchestration for the production of non-standard storytelling artifacts. We push the tectonic limits of spatial narrative.
-                </p>
-                <div className="flex gap-12 text-[10px] font-bold uppercase tracking-[0.5em] text-white/30">
-                   <span>[01] STORY_BOND</span>
-                   <span>[02] SPATIAL_SYNTHESIS</span>
-                </div>
-             </div>
-          </Reveal>
-          <div className="space-y-24">
-             <Reveal delay={0.2}>
-                <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/40 mb-8 block italic">Curation_Sequence</span>
-                <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-none uppercase text-white">Narrative <br/> <span className="text-white/20 not-italic">Manifesto.</span></h2>
-             </Reveal>
-             <div className="space-y-12">
-                {[
-                  { n: "01", t: "Sectional Audit", d: "Rigorous cutting of complex story volumes to reveal interior structural potential." },
-                  { n: "02", t: "Narrative Stress", d: "Simulation of high-fidelity visual performance under extreme archival loads." },
-                  { n: "03", t: "Archive Aging", d: "Analyzing the interaction of archival story models with digital weathering." }
-                ].map((step, i) => (
-                  <Reveal key={step.n} delay={i * 0.1 + 0.3} className="flex gap-12 group border-l border-white/10 pl-8 hover:border-white transition-colors">
-                    <span className="text-4xl font-black italic text-white/10 group-hover:text-white transition-colors">{step.n}</span>
-                    <div>
-                      <h4 className="text-xl font-black uppercase italic text-white mb-2">{step.t}</h4>
-                      <p className="text-xs text-white/40 font-light tracking-widest uppercase italic leading-loose">{step.d}</p>
-                    </div>
-                  </Reveal>
-                ))}
-             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── CTA / INQUIRY ── */}
-      <section className="py-40 bg-[#050508] relative">
-         <div className="max-w-[1600px] mx-auto px-8 md:px-16">
-            <div className="bg-white text-black p-24 lg:p-40 relative overflow-hidden flex flex-col items-center text-center group">
-               <div className="absolute inset-0 opacity-10 grayscale brightness-110 group-hover:opacity-20 transition-opacity">
-                  <Image src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1600&q=80" alt="CTA Story" fill className="object-cover" />
-               </div>
-               <Reveal>
-                  <span className="text-[10px] font-bold uppercase tracking-[1em] text-black/50 mb-12 block italic">Journey Initiation</span>
-                  <h2 className="text-7xl md:text-[12rem] font-black italic tracking-tighter leading-[0.8] uppercase mb-16">
-                     Own <br/> <span className="text-black/30 not-italic">The Path.</span>
-                  </h2>
-                  <div className="flex flex-wrap justify-center gap-12 relative z-10">
-                     <button className="px-20 py-8 bg-black text-white font-black uppercase text-sm tracking-[0.5em] hover:italic transition-all">
-                        Request_Access
-                     </button>
-                     <button className="px-20 py-8 border border-black/20 text-black font-black uppercase text-sm tracking-[0.5em] hover:bg-black/5 transition-all">
-                        Atelier_Dossier
-                     </button>
-                  </div>
-               </Reveal>
-            </div>
-         </div>
-      </section>
-
-      {/* ── FOOTER ── */}
-      <footer className="bg-black pt-40 pb-20 px-8 md:px-16 border-t border-white/10">
-         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-32 mb-40">
-            <div className="lg:col-span-6">
-               <div className="flex items-center gap-4 mb-12">
-                 <BookOpen className="w-10 h-10 text-white" />
-                 <span className="text-3xl font-black tracking-tighter uppercase italic text-white">THE<span className="text-white/30">//</span>JOURNEY</span>
-               </div>
-               <p className="text-white/40 text-sm font-light leading-relaxed uppercase tracking-[0.3em] mb-12 italic max-w-md">
-                 Securing the future of story objects through high-fidelity orchestration and radical visual clarity.
-               </p>
-               <div className="flex gap-12">
-                 {["TERMINAL", "STORY", "FORGE", "ALPHA"].map(s => (
-                   <a key={s} href="#" className="text-[10px] font-bold hover:text-white text-white/30 transition-colors tracking-[0.5em]">[{s}]</a>
-                 ))}
-               </div>
-            </div>
-            
-            <div className="lg:col-span-2">
-               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40 mb-12">Systems</h4>
-               <ul className="space-y-6 text-xs font-bold uppercase tracking-[0.4em]">
-                 {["Archives", "Telemetry", "Shell", "Journal"].map(item => (
-                   <li key={item}><a href="#" className="hover:text-white transition-colors">{item}</a></li>
-                 ))}
-               </ul>
-            </div>
-
-            <div className="lg:col-span-4">
-               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40 mb-12">Partner Inquiry</h4>
-               <p className="text-sm text-white/40 font-light mb-12 italic uppercase tracking-[0.2em] leading-loose">
-                 For new commissions, story studies, or distribution enclaves, contact our primary command center in London.
-               </p>
-               <a href="mailto:ops@the-journey.co.uk" className="text-3xl font-black italic hover:text-white transition-colors block border-b border-white/10 pb-8 uppercase tracking-tighter">
-                  ops@the-journey.co.uk
-               </a>
-            </div>
-         </div>
-
-         <div className="max-w-[1600px] mx-auto flex flex-col md:row items-center justify-between gap-12 text-[9px] font-bold uppercase tracking-[0.8em] text-white/20 border-t border-white/5 pt-20">
-            <p>© 2024 THE JOURNEY ATELIER AG. ALL RIGHTS RESERVED. LONDON // GLOBAL.</p>
-            <div className="flex gap-16">
-               <a href="#" className="hover:text-white transition-colors">[Story_Vault]</a>
-               <a href="#" className="hover:text-white transition-colors">[Terms_of_Service]</a>
-            </div>
-         </div>
       </footer>
     </div>
-  );
+  )
+}
+
+function ArrowUpRight({ className }: { className?: string }) {
+  return (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+  )
 }
