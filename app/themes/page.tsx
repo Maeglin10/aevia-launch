@@ -7,18 +7,42 @@ import { ArrowRight, Sparkles, Search, Star } from "lucide-react";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
 
 // ─── Quality filter ───────────────────────────────────────────────────────────
-// Only templates genuinely at "$10k level" are shown.
-// Threshold: 550+ lines (original batch) OR part of the recent rewrite (157-176).
+// Only templates genuinely at "$10k level" (650+ lines, loading correctly) are shown.
 // Hidden templates are elevated in batches and re-enabled when ready.
 const HIDDEN_IMPACT = new Set([
-  // All templates have been elevated — none hidden
+  // ── Stubs / never built (< 400 lines) ──────────────────────────────────────
+  "impact-06","impact-07","impact-08","impact-09",
+  "impact-10","impact-11","impact-12","impact-13","impact-14","impact-15","impact-16","impact-17","impact-18","impact-19",
+  "impact-20","impact-21","impact-22","impact-23","impact-24","impact-25","impact-26","impact-27","impact-28","impact-29",
+  "impact-30","impact-31","impact-32","impact-33","impact-34","impact-35","impact-36","impact-37","impact-38","impact-39",
+  "impact-40","impact-41","impact-42","impact-43","impact-44","impact-45","impact-46","impact-47","impact-48","impact-49",
+  "impact-50","impact-51","impact-52","impact-53","impact-54",
+  "impact-55","impact-60","impact-67","impact-70","impact-71","impact-73","impact-74","impact-75",
+  "impact-76","impact-77","impact-78","impact-79","impact-80",
+  "impact-87","impact-92","impact-93",
+  "impact-97","impact-98","impact-99",
+  "impact-100","impact-101","impact-102","impact-103","impact-104","impact-105","impact-106","impact-107","impact-108","impact-109","impact-110","impact-111",
+  "impact-116","impact-117","impact-118","impact-119","impact-120","impact-121","impact-122","impact-123","impact-124","impact-125",
+  "impact-127","impact-128","impact-129",
+  "impact-136","impact-137","impact-138","impact-139",
+  "impact-140","impact-141","impact-142","impact-143","impact-144","impact-145","impact-146",
+  "impact-147","impact-148","impact-149","impact-150","impact-151",
+  "impact-152","impact-153","impact-154","impact-155","impact-156",
+  "impact-177","impact-178","impact-179","impact-180","impact-181","impact-182",
+  "impact-183","impact-184","impact-185","impact-186","impact-187","impact-188","impact-189",
+  "impact-190","impact-191","impact-192","impact-193","impact-194","impact-195",
+  "impact-197","impact-198","impact-199","impact-200",
+  // ── Don't load / broken (confirmed via audit) ───────────────────────────────
+  "impact-56","impact-59","impact-62","impact-65","impact-66","impact-113",
+  // ── Duplicate / identical design ────────────────────────────────────────────
+  "impact-159","impact-160",
 ]);
 
 // ─── Featured (hand-picked best) ─────────────────────────────────────────────
 const FEATURED = new Set([
-  // All 200 impact templates + builder themes
-  ...Array.from({ length: 200 }, (_, i) => `impact-${String(i + 1).padStart(2, '0')}`),
-  "luxury","aurora","3d-tech","minimal-pro","saas",
+  "impact-57","impact-58","impact-61","impact-63","impact-64","impact-72",
+  "impact-81","impact-82","impact-85","impact-86","impact-88","impact-91",
+  "impact-112","impact-115","impact-126","impact-131","impact-135",
 ]);
 
 // ─── Site builder themes ──────────────────────────────────────────────────────
@@ -50,7 +74,6 @@ const SITE_THEMES = [
 
 // ─── Unified category system ──────────────────────────────────────────────────
 const CAT_COLOR: Record<string, string> = {
-  Builder:     "#7c3aed",
   Tech:        "#2563eb",
   Creative:    "#a855f7",
   Luxury:      "#c9a96e",
@@ -66,7 +89,7 @@ const CAT_COLOR: Record<string, string> = {
 };
 
 const CATS = [
-  "All", "Builder", "Tech", "Creative", "Luxury", "Minimal", "Editorial", 
+  "All", "Tech", "Creative", "Luxury", "Minimal", "Editorial",
   "Corporate", "E-Commerce", "Health", "Hospitality", "Services", "Education", "Free"
 ];
 
@@ -194,45 +217,44 @@ function ThumbCard({ item, index }: { item: ThemeItem; index: number }) {
                 Live Preview
               </div>
             )}
-          </div>
 
-          {/* Info Section */}
-          <div className="p-5 flex flex-col flex-1 relative z-10">
-            <div className="flex justify-between items-start mb-4">
-              <div className="flex items-center gap-2">
-                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/20">{item.category}</span>
-                {item.featured && <div className="px-1.5 py-0.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-[7px] font-bold text-yellow-500 uppercase tracking-widest">Featured</div>}
+            {/* Info Section */}
+            <div className="p-5 flex flex-col flex-1 relative z-10">
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/20">{item.category}</span>
+                  {item.featured && <div className="px-1.5 py-0.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-[7px] font-bold text-yellow-500 uppercase tracking-widest">Featured</div>}
+                </div>
+                <div className="flex items-center gap-1">
+                  <Star className="w-2.5 h-2.5 text-yellow-500 fill-yellow-500" />
+                  <span className="text-[9px] font-bold text-white/30">4.9</span>
+                </div>
               </div>
-              <div className="flex items-center gap-1">
-                <Star className="w-2.5 h-2.5 text-yellow-500 fill-yellow-500" />
-                <span className="text-[9px] font-bold text-white/30">4.9</span>
+
+              <h3 className="text-sm font-bold text-white mb-2 group-hover:text-white transition-colors duration-500 tracking-tight">{item.label}</h3>
+              <p className="text-[11px] leading-relaxed text-white/40 line-clamp-2 mb-6 font-medium italic">
+                {item.desc}
+              </p>
+
+              <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                   <div className="flex -space-x-2">
+                      {[1,2,3].map(i => (
+                        <div key={i} className="w-5 h-5 rounded-full border border-[#050506] bg-[#111118] flex items-center justify-center overflow-hidden">
+                           <div className="w-full h-full bg-gradient-to-br from-white/5 to-transparent" />
+                        </div>
+                      ))}
+                   </div>
+                   <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest">12k+ active</div>
+                </div>
+                <div className="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
+                   <ArrowRight className="w-3.5 h-3.5" />
+                </div>
               </div>
             </div>
-
-            <h3 className="text-sm font-bold text-white mb-2 group-hover:text-white transition-colors duration-500 tracking-tight">{item.label}</h3>
-            <p className="text-[11px] leading-relaxed text-white/40 line-clamp-2 mb-6 font-medium italic">
-              {item.desc}
-            </p>
-
-            <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                 <div className="flex -space-x-2">
-                    {[1,2,3].map(i => (
-                      <div key={i} className="w-5 h-5 rounded-full border border-[#050506] bg-[#111118] flex items-center justify-center overflow-hidden">
-                         <div className="w-full h-full bg-gradient-to-br from-white/5 to-transparent" />
-                      </div>
-                    ))}
-                 </div>
-                 <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest">12k+ active</div>
-              </div>
-              <div className="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
-                 <ArrowRight className="w-3.5 h-3.5" />
-              </div>
-            </div>
           </div>
-        </div>
-      </Link>
-    </motion.div>
+        </Link>
+      </motion.div>
   );
 }
 
@@ -242,16 +264,7 @@ function ThemesContent() {
   const [search, setSearch] = useState("");
 
   const allThemes = useMemo<ThemeItem[]>(() => {
-    const builders: ThemeItem[] = SITE_THEMES.map(t => ({
-      id: t.id,
-      label: t.label,
-      desc: t.desc,
-      category: "Builder",
-      href: `/themes/${t.id}`,
-      source: "builder",
-      featured: FEATURED.has(t.id),
-    }));
-    const impacts: ThemeItem[] = TEMPLATES_REGISTRY
+    return TEMPLATES_REGISTRY
       .filter(t => !HIDDEN_IMPACT.has(t.id))
       .map(t => ({
         id: t.id,
@@ -259,10 +272,9 @@ function ThemesContent() {
         desc: t.description,
         category: t.category,
         href: `/templates/${t.id}`,
-        source: "impact",
+        source: "impact" as const,
         featured: FEATURED.has(t.id),
       }));
-    return [...builders, ...impacts];
   }, []);
 
   const catCounts = useMemo(() => {
@@ -345,7 +357,7 @@ function ThemesContent() {
             </span>
           </h1>
           <p className="text-zinc-400 text-sm sm:text-base max-w-sm mx-auto leading-relaxed">
-            {allThemes.length} premium themes — Site Builder + Impact Vault, one unified gallery.
+            {allThemes.length} premium themes — handpicked, quality-audited, ready to ship.
           </p>
         </motion.div>
 

@@ -1,569 +1,556 @@
 "use client"
 
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
-import { useState, useRef, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useRef, useMemo } from "react"
+import { 
+  motion, 
+  AnimatePresence, 
+  useScroll, 
+  useTransform, 
+  useInView, 
+  useSpring,
+  useMotionValue
+} from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
+import { 
+  Zap, Activity, Target, Layers, Box, Hexagon, 
+  Terminal, Settings, Power, Info, 
+  AlertTriangle, ChevronRight, ArrowRight, 
+  Share2, Maximize2, Download, ExternalLink, 
+  Archive, Hash, BarChart3, Fingerprint, Scan, 
+  Briefcase, Wind, Timer, Lightbulb, Command, Grid, 
+  Radar, Orbit, Atom, Search, Cpu, Rocket, PlaneTakeoff, 
+  Compass, Map, Radio, Gauge, Disc, Waves, ShieldCheck, 
+  Thermometer, Flame, Battery, Signal, Milestone, 
+  FlaskConical, Microscope, Ghost, Binary, Database, 
+  CircleDot, Waves as WaveIcon, Pickaxe, Mountain, Gem, 
+  Drill, Telescope, MilestoneIcon, Globe, Layout, 
+  Smartphone, PenTool, Camera, Music, Film, Palette, 
+  MessageSquare, Send, ZapOff, Sun, Moon, Cloud, 
+  CloudLightning, CloudRain, CloudSnow, Wind as WindIcon, 
+  Droplets, ThermometerSnowflake, ThermometerSun, 
+  Navigation, Navigation2, Anchor, Ship, Truck, Train, 
+  Bus, Car, Bike, Shield, Eye, ScanEye, EyeOff, 
+  Lock, Unlock, Key, KeyRound, Fingerprint as FingerprintIcon
+} from "lucide-react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Separator } from "@/components/ui/separator"
-import { Rocket, Globe, Moon, Sun, Star, Mail, MapPin, ChevronRight, ArrowRight, X, Menu, Compass, Shield, Timer, Zap, Navigation, Telescope, Microscope, Settings2, Activity, Info, Share2, Heart, Search, ShoppingBag, Eye, CloudMoon, Orbit } from "lucide-react"
-
-import "../premium.css";
 
 /* ==========================================================================
-   DATA STRUCTURES
-   ========================================================================= */
+   ASTRUM REACH ORBITAL DATASET (ULTRA DENSITY)
+   ========================================================================== */
 
 const MISSIONS = [
-  { 
-    id: 1, 
-    name: "Lunar Descent", 
-    category: "Deep Space", 
-    price: "$2.5M / seat",
-    desc: "A 10-day expedition to the Shackleton Crater, including lunar surface traversal and orbital photography.",
-    img: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1200&q=80"
+  {
+    id: "mis-lh-01",
+    name: "Lunar Descent",
+    target: "Moon // Shackleton Crater",
+    duration: "12 Days",
+    payload: "Scientific Relay",
+    risk: "Medium",
+    desc: "Une mission de précision visant à établir un relais de communication permanent au pôle sud lunaire. Exploitation de la glace d'eau pour le support de vie.",
+    img: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1600&q=80",
+    color: "#6366f1"
   },
-  { 
-    id: 2, 
-    name: "Orbital Halo", 
-    category: "Low Earth Orbit", 
-    price: "$450k / seat",
-    desc: "Experience 48 hours of weightlessness aboard our luxury glass-canopy station with panoramic Earth views.",
-    img: "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=1200&q=80"
+  {
+    id: "mis-oh-08",
+    name: "Orbital Halo",
+    target: "LEO // Station Alpha",
+    duration: "45 Days",
+    payload: "Bio-Synthetic Labs",
+    risk: "Low",
+    desc: "Station de recherche en microgravité dédiée à la synthèse moléculaire et aux tests de biocompatibilité pour les futurs colons martiens.",
+    img: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600&q=80",
+    color: "#a855f7"
   },
-  { 
-    id: 3, 
-    name: "Mars Catalyst", 
-    category: "Interplanetary", 
-    price: "Inquire for Tier 1",
-    desc: "The first commercial research expedition to the Valles Marineris. Limited to certified specialist pioneers.",
-    img: "https://images.unsplash.com/photo-1614726365954-5233df6d610c?w=1200&q=80"
-  },
-];
+  {
+    id: "mis-mc-15",
+    name: "Mars Catalyst",
+    target: "Mars // Jezero",
+    duration: "180 Days",
+    payload: "Terraforming Core",
+    risk: "Extreme",
+    desc: "L'engagement le plus ambitieux. Déploiement du premier réacteur à fusion pour l'épaississement de l'atmosphère martienne.",
+    img: "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=1600&q=80",
+    color: "#f43f5e"
+  }
+]
 
-const INFRASTRUCTURE = [
-  { 
-    title: "Quantum Navigation", 
-    desc: "Sub-millisecond trajectory adjustments powered by orbital quantum-compute arrays.",
-    icon: Compass
-  },
-  { 
-    title: "Bio-Seal 9", 
-    desc: "Advanced life support systems maintaining 100% atmospheric purity through molecular recycling.",
-    icon: Shield
-  },
-  { 
-    title: "Propulsion X", 
-    desc: "Ion-drive technology providing sustained acceleration with zero chemical exhaust or vibration.",
-    icon: Zap
-  },
-];
+const CRAFT_SPECS = [
+  { label: "Shield Integrity", value: "98.4%", trend: "Stable", detail: "Liquid-Graphene Layer" },
+  { label: "Orbital Stability", value: "±0.002m", trend: "Nominal", detail: "AI Corrected Thrusters" },
+  { label: "Propulsion Load", value: "42%", trend: "Efficient", detail: "Ion Drive Pulse" },
+  { label: "Life Support", value: "NOMINAL", trend: "Safe", detail: "Bio-Filtered Cycle" }
+]
 
-const LOGISTICS = [
-  { label: "Active Craft", value: "12" },
-  { label: "Flight Hours", value: "145k" },
-  { label: "Safety Rating", value: "AAAA+" },
-  { label: "Destinations", value: "08" },
-];
+const TELEMETRY_LOGS = [
+  { time: "T+14:22:01", event: "STAGE_2_SEP", code: "OK", value: "14,200 km/h" },
+  { time: "T+14:22:15", event: "ORBIT_INSERT", code: "SYNC", value: "LEO_ALT_400km" },
+  { time: "T+14:22:48", event: "THERMAL_SHIELD", code: "ACTIVE", value: "1,240°C" }
+]
 
-/* ==========================================================================
-   UTILITY COMPONENTS
-   ========================================================================= */
+/* ==========================================
+   TECHNICAL COMPONENTS (SLIDER REVOLUTION)
+   ========================================== */
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
+function Reveal({ children, delay = 0, y = 40, x = 0, scale = 1 }: { children: React.ReactNode, delay?: number, y?: number, x?: number, scale?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 1, delay, ease: [0.22, 1, 0.36, 1] }}>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y, x, scale }}
+      animate={isInView ? { opacity: 1, y: 0, x: 0, scale: 1 } : {}}
+      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
+    >
       {children}
     </motion.div>
-  );
+  )
 }
 
-function MagneticBtn({ children, className = "", onClick }: { children: React.ReactNode; className?: string; onClick?: () => void }) {
-  const ref = useRef<HTMLButtonElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 150, damping: 20 });
-  const sy = useSpring(y, { stiffness: 150, damping: 20 });
-
-  const handleMouse = useCallback((e: React.MouseEvent) => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    x.set((e.clientX - rect.left - rect.width / 2) * 0.35);
-    y.set((e.clientY - rect.top - rect.height / 2) * 0.35);
-  }, [x, y]);
-
+function StarfieldBackground() {
   return (
-    <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={handleMouse} onMouseLeave={() => { x.set(0); y.set(0); }} onClick={onClick} className={className}>
-      {children}
-    </motion.button>
-  );
+    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden bg-[#020205]">
+       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.1)_0%,transparent_70%)]" />
+       {[...Array(100)].map((_, i) => (
+          <motion.div 
+             key={i}
+             className="absolute w-1 h-1 bg-white rounded-full"
+             style={{ 
+                top: `${Math.random() * 100}%`, 
+                left: `${Math.random() * 100}%`,
+                opacity: Math.random() * 0.5 + 0.2
+             }}
+             animate={{ 
+                opacity: [0.2, 0.8, 0.2],
+                scale: [1, 1.5, 1]
+             }}
+             transition={{ 
+                duration: Math.random() * 3 + 2, 
+                repeat: Infinity,
+                delay: Math.random() * 5
+             }}
+          />
+       ))}
+       {/* Orbital Path Rings */}
+       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[150vw] border border-indigo-500/10 rounded-full animate-spin-slow pointer-events-none" />
+       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vw] border border-purple-500/5 rounded-full animate-reverse-slow pointer-events-none" />
+    </div>
+  )
+}
+
+function OrbitVisualizer() {
+   return (
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] pointer-events-none opacity-20">
+         <svg viewBox="0 0 500 500" className="w-full h-full">
+            <motion.circle 
+               cx="250" cy="250" r="100" fill="none" stroke="indigo" strokeWidth="0.5" 
+               animate={{ r: [100, 110, 100] }} transition={{ duration: 4, repeat: Infinity }}
+            />
+            <motion.path 
+               d="M 250 150 L 250 50 M 250 350 L 250 450 M 150 250 L 50 250 M 350 250 L 450 250" 
+               stroke="indigo" strokeWidth="0.5" 
+               animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+               style={{ originX: "250px", originY: "250px" }}
+            />
+         </svg>
+      </div>
+   )
+}
+
+function HUD_Sidebar() {
+   return (
+      <div className="fixed left-8 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col gap-12 items-start pointer-events-none">
+         <div className="flex flex-col gap-4">
+            <div className="w-1 h-24 bg-indigo-500/20 relative">
+               <motion.div 
+                  className="absolute top-0 left-0 w-full bg-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)]"
+                  animate={{ height: ["10%", "90%", "30%"] }}
+                  transition={{ duration: 4, repeat: Infinity }}
+               />
+            </div>
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] vertical-text text-indigo-500/50">Orbital_Sync</span>
+         </div>
+         <div className="space-y-4">
+            <div className="p-3 border border-indigo-500/20 bg-indigo-500/5 rounded-sm">
+               <Orbit className="w-4 h-4 text-indigo-500 animate-spin-slow" />
+            </div>
+            <div className="p-3 border border-white/10 bg-white/5 rounded-sm">
+               <Navigation className="w-4 h-4 text-white/40" />
+            </div>
+         </div>
+      </div>
+   )
 }
 
 /* ==========================================================================
-   MAIN PAGE COMPONENT
-   ========================================================================= */
+   MAIN PAGE: ASTRUM REACH ORBITAL (SPACEMAN STYLE)
+   ========================================================================== */
 
-export default function AstrumReachPage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeMission, setActiveMission] = useState<number | null>(null);
+export default function AstrumReachPremium() {
+  const containerRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: containerRef })
 
-  useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", h);
-    return () => window.removeEventListener("scroll", h);
-  }, []);
+  // Parallax effects
+  const shipY = useTransform(scrollYProgress, [0, 1], [0, -400])
+  const textScale = useTransform(scrollYProgress, [0, 0.2], [1, 1.2])
+  const opacity = useTransform(scrollYProgress, [0, 0.1], [1, 0])
 
   return (
-    <div className="premium-theme min-h-screen bg-[#020205] text-[#e0e0e0] font-sans selection:bg-[#4f46e5] selection:text-white overflow-x-hidden">
-
-      {/* ── NAVIGATION ── */}
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-black/90 backdrop-blur-3xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}>
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex flex-col items-center">
-             <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none">Astrum</span>
-             <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#4f46e5] -mt-1 ml-1">Reach Orbital</span>
-          </Link>
-
-          <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
-            {["Manifest", "Logistics", "Science", "Training", "Support"].map(link => (
-              <Link key={link} href="#" className="hover:text-[#4f46e5] transition-colors cursor-pointer">{link}</Link>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-8">
-             <button className="hidden md:flex items-center gap-3 group">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[#4f46e5] transition-colors">Flight_Portal</span>
-                <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 group-hover:bg-[#4f46e5] group-hover:text-white group-hover:border-[#4f46e5] transition-all">
-                   <Navigation className="w-4 h-4" />
-                </div>
-             </button>
-             <button onClick={() => setMenuOpen(true)} className="lg:hidden text-[#4f46e5]"><Menu className="w-6 h-6" /></button>
-          </div>
-        </div>
+    <div ref={containerRef} className="bg-[#020205] text-[#f0f0f0] font-sans selection:bg-indigo-500/40 selection:text-white min-h-screen overflow-x-hidden">
+      
+      <StarfieldBackground />
+      <HUD_Sidebar />
+      
+      {/* 1. HEADER (ORBITAL STYLE) */}
+      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-12 py-12 border-b border-white/5 bg-black/40 backdrop-blur-xl">
+         <div className="flex flex-col group cursor-pointer">
+            <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none group-hover:text-indigo-400 transition-colors">Astrum.</span>
+            <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-indigo-500 -mt-1 ml-1">Reach Orbital Group</span>
+         </div>
+         <div className="hidden lg:flex gap-16 text-[10px] font-black uppercase tracking-[0.4em] text-white/30">
+            <a href="#mission" className="hover:text-white transition-colors relative group">
+               [ Manifest ]
+               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-indigo-500 group-hover:w-full transition-all" />
+            </a>
+            <a href="#tech" className="hover:text-white transition-colors relative group">
+               [ Engineering ]
+               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-indigo-500 group-hover:w-full transition-all" />
+            </a>
+            <a href="#about" className="hover:text-white transition-colors relative group">
+               [ The_Maison ]
+               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-indigo-500 group-hover:w-full transition-all" />
+            </a>
+         </div>
+         <div className="flex items-center gap-8">
+            <div className="flex flex-col items-end">
+               <div className="text-[8px] font-black text-indigo-500 uppercase">Pressure_Stable</div>
+               <div className="text-[10px] font-bold">1.2G Nominal</div>
+            </div>
+            <button className="w-12 h-12 flex items-center justify-center border border-white/10 rounded-full hover:border-indigo-500 transition-colors">
+               <Search className="w-4 h-4" />
+            </button>
+         </div>
       </nav>
 
-      {/* MOBILE MENU */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-black p-12 flex flex-col justify-center gap-10">
-             <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40 hover:text-[#4f46e5]"><X className="w-10 h-10"/></button>
-             <div className="flex flex-col gap-6 text-6xl font-black uppercase text-white/5 italic">
-                {["Manifest", "Training", "Science", "Contact"].map(l => (
-                   <Link key={l} href="#" onClick={() => setMenuOpen(false)} className="hover:text-[#4f46e5] transition-all">{l}</Link>
-                ))}
-             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── HERO ── */}
-      <section className="relative h-[100svh] flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <Image src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1600&q=80" alt="Space" fill className="object-cover opacity-30 mix-blend-screen grayscale contrast-150" priority />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#020205] via-transparent to-[#020205]" />
-        </div>
-
-        <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center gap-20">
-          <Reveal>
-             <Badge className="bg-[#4f46e5]/10 text-[#4f46e5] border border-[#4f46e5]/30 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full">
-                Orbital Logistics // Sector 09 // Q1 2025
-             </Badge>
-             <h1 className="text-8xl md:text-[14rem] font-black leading-[0.75] tracking-tighter mb-12 uppercase text-white">
-               Leave <br/> <span className="text-[#4f46e5]">Earth.</span>
-             </h1>
-             <p className="max-w-md text-xl text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic leading-loose">
-               The apex of commercial orbital transit. Engineering the bridge to the stars for those who look beyond.
-             </p>
-             <div className="flex flex-col sm:flex-row gap-6">
-                <MagneticBtn className="px-12 py-5 bg-[#4f46e5] text-white text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all cursor-pointer shadow-[0_0_50px_rgba(79,70,229,0.3)]">
-                  Reserve Build Slot
-                </MagneticBtn>
-                <Link href="#manifest" className="px-12 py-5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-white hover:text-black transition-all flex items-center justify-center gap-3">
-                  Flight Manifest <ArrowRight className="w-4 h-4" />
-                </Link>
-             </div>
-          </Reveal>
-
-          <div className="hidden lg:flex justify-end relative">
-             <Reveal delay={0.4}>
-                <div className="relative w-[500px] h-[500px] flex items-center justify-center">
-                   <motion.div animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }} className="absolute inset-0 border border-white/5 rounded-full" />
-                   <motion.div animate={{ rotate: -360 }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }} className="absolute inset-12 border border-[#4f46e5]/20 rounded-full" />
-                   <div className="text-center space-y-4">
-                      <Orbit className="w-12 h-12 text-[#4f46e5] mx-auto animate-pulse" />
-                      <span className="text-6xl font-black italic text-white tracking-tighter block">1.4G</span>
-                      <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block">Launch Pressure Tolerance</span>
-                   </div>
-                </div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#4f46e5] rounded-full blur-[120px] opacity-10" />
-             </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ── LOGISTICS STATS ── */}
-      <section className="py-24 border-y border-white/5 bg-[#050508]">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12">
-           <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
-              {LOGISTICS.map((stat, i) => (
-                <Reveal key={i} delay={i * 0.1}>
-                   <div className="text-center md:text-left">
-                      <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#4f46e5] mb-2">{stat.label}</div>
-                      <div className="text-5xl font-black italic text-white tracking-tighter">{stat.value}</div>
-                   </div>
-                </Reveal>
-              ))}
-           </div>
-        </div>
-      </section>
-
-      {/* ── MANIFEST ── */}
-      <section id="manifest" className="py-32 px-6 md:px-12">
-        <div className="max-w-[1600px] mx-auto">
-          <Reveal>
-            <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
-               <div>
-                  <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">The <br/> <span className="text-[#4f46e5]">Flight.</span></h2>
-                  <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">Active Manifest // Sector 09 // Certified Safe</p>
-               </div>
-               <Link href="#" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#4f46e5] border-b border-[#4f46e5] pb-2 hover:text-white hover:border-white transition-all">Download Logistical Ledger</Link>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {MISSIONS.map((item, i) => (
-              <Reveal key={item.id} delay={i * 0.1}>
-                 <div className="group space-y-10 cursor-pointer" onMouseEnter={() => setActiveMission(item.id)} onMouseLeave={() => setActiveMission(null)}>
-                    <div className="relative aspect-[3/4] overflow-hidden rounded-sm grayscale group-hover:grayscale-0 transition-all duration-[1s]">
-                       <Image src={item.img} alt={item.name} fill className="object-cover transition-transform duration-[2s] group-hover:scale-125" />
-                       <div className="absolute inset-0 bg-black/60 group-hover:bg-transparent transition-colors duration-700" />
-                       
-                       <div className="absolute top-6 left-6">
-                          <Badge className="bg-black/60 backdrop-blur-md text-white border-white/10 text-[9px] font-bold uppercase tracking-widest px-3 py-1">
-                             {item.category}
-                          </Badge>
-                       </div>
-
-                       <AnimatePresence>
-                          {activeMission === item.id && (
-                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 flex items-center justify-center bg-[#4f46e5]/10 backdrop-blur-[2px]">
-                               <button className="px-10 py-4 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:scale-110 transition-all shadow-2xl tracking-[0.3em]">View Trajectory</button>
-                            </motion.div>
-                          )}
-                       </AnimatePresence>
-                    </div>
-                    <div className="space-y-6">
-                       <div className="flex justify-between items-baseline">
-                          <h3 className="text-4xl font-black uppercase tracking-tighter text-white italic group-hover:text-[#4f46e5] transition-colors">{item.name}</h3>
-                          <span className="text-lg font-black text-[#4f46e5] tracking-tighter">{item.price}</span>
-                       </div>
-                       <p className="text-sm text-white/30 font-light leading-relaxed uppercase tracking-widest italic leading-loose">{item.desc}</p>
-                       <div className="flex items-center gap-4">
-                          <div className="h-[1px] flex-1 bg-white/5" />
-                          <Star className="w-5 h-5 text-white/10 group-hover:text-[#4f46e5] transition-all" />
-                       </div>
-                    </div>
+      <main>
+        {/* 2. LAUNCH IGNITION (HERO / SPACEMAN STYLE) */}
+        <section className="relative h-screen flex flex-col justify-center items-center px-12 pt-32 overflow-hidden">
+           <OrbitVisualizer />
+           
+           <div className="relative z-10 w-full max-w-7xl flex flex-col items-center text-center">
+              <Reveal>
+                 <div className="inline-flex items-center gap-4 px-6 py-3 border border-indigo-500/30 bg-indigo-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-16 italic">
+                    <Rocket className="w-4 h-4 animate-bounce" /> Status: LAUNCH_WINDOW_OPEN // 00:04:12
                  </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── ENGINEERING PHILOSOPHY ── */}
-      <section className="py-40 bg-[#050508] overflow-hidden relative border-t border-white/5">
-         <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-[#4f46e5]/5 blur-[120px] rounded-full" />
-         <div className="max-w-[1600px] mx-auto px-6 md:px-12">
-            <Reveal>
-               <div className="text-center mb-32">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#4f46e5] mb-8 block">Orbital Integrity</span>
-                  <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">Space <span className="text-[#4f46e5] not-italic">Logistics.</span></h2>
-               </div>
-            </Reveal>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-               {INFRASTRUCTURE.map((s, i) => (
-                 <Reveal key={i} delay={i * 0.1}>
-                    <div className="p-16 border border-white/5 bg-white/[0.01] hover:border-[#4f46e5]/30 transition-all group h-full flex flex-col relative overflow-hidden">
-                       <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-[#4f46e5] mb-10 group-hover:bg-[#4f46e5] group-hover:text-white transition-all duration-500">
-                          <s.icon className="w-8 h-8" />
-                       </div>
-                       <h3 className="text-3xl font-black uppercase italic mb-6 tracking-tighter text-white group-hover:translate-x-2 transition-transform">{s.title}</h3>
-                       <p className="text-sm text-white/30 font-light leading-relaxed mb-12 flex-1 tracking-wide uppercase italic leading-loose">{s.desc}</p>
-                       <button className="flex items-center gap-4 text-[9px] font-bold uppercase tracking-[0.3em] text-[#4f46e5] group-hover:gap-6 transition-all">
-                          Safety Protocol <ArrowRight className="w-4 h-4" />
+                 <motion.h1 
+                    style={{ scale: textScale, opacity }}
+                    className="text-8xl md:text-[15vw] font-black tracking-tighter uppercase mb-16 leading-[0.7] italic flex flex-col"
+                 >
+                    <span>Reach the</span>
+                    <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Beyond.</span>
+                 </motion.h1>
+                 
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-end text-left max-w-5xl">
+                    <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">
+                       Nous maîtrisons le transit orbital commercial. Conçu pour l'élite évolutive, notre service assure une sécurité absolue vers les destinations lointaines.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-8 justify-end">
+                       <button className="px-14 py-8 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_50px_rgba(99,102,241,0.4)] flex items-center gap-4 italic group">
+                          [ Start Mission ] <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
                        </button>
                     </div>
-                 </Reveal>
-               ))}
-            </div>
-         </div>
-      </section>
-
-      {/* ── THE ATELIER ── */}
-      <section className="py-40 px-6 md:px-12 bg-black">
-         <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
-            <Reveal>
-               <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
-                  <Image src="https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=1200&q=80" alt="Spacecraft" fill className="object-cover group-hover:scale-110 transition-all duration-[3s] grayscale hover:grayscale-0 opacity-60" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-                  <div className="absolute bottom-16 left-16 text-white">
-                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-[#4f46e5]">The Atelier</span>
-                     <h4 className="text-5xl font-black italic uppercase tracking-tighter leading-none">Orbital Habitat <br/> Engineering.</h4>
-                  </div>
-               </div>
-            </Reveal>
-
-            <Reveal delay={0.2}>
-               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#4f46e5] mb-8 block">The Protocol</span>
-               <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white">
-                 Pure <br/> <span className="text-[#4f46e5] not-italic">Void.</span>
-               </h2>
-               <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic leading-loose">
-                 Beyond the atmosphere. We design orbital experiences that merge the raw power of propulsion technology with the clinical precision of life-support engineering.
-               </p>
-               <div className="grid grid-cols-2 gap-12">
-                  {[
-                    { icon: Telescope, label: "Deep_Space", desc: "Shackleton Crater" },
-                    { icon: Globe, label: "Orbital_Hub", desc: "Halo 1 station" },
-                    { icon: Microscope, label: "Bio_Safe", desc: "Medical Tier A" },
-                    { icon: Activity, label: "Live_Comms", desc: "Quantum Relay" },
-                  ].map((val, i) => (
-                    <div key={i} className="space-y-4">
-                       <val.icon className="w-6 h-6 text-[#4f46e5]" />
-                       <h4 className="text-[11px] font-black uppercase tracking-widest text-white">{val.label}</h4>
-                       <p className="text-[10px] font-light text-white/30 uppercase tracking-widest leading-loose">{val.desc}</p>
-                    </div>
-                  ))}
-               </div>
-               <MagneticBtn className="mt-20 px-14 py-6 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:bg-[#4f46e5] hover:text-white transition-all shadow-2xl">
-                  Request Launch Window
-               </MagneticBtn>
-            </Reveal>
-         </div>
-      </section>
-
-      {/* ── DESIGN HERITAGE ── */}
-      <section className="py-40 bg-black relative overflow-hidden">
-         <div className="absolute top-0 right-0 w-[60rem] h-[60rem] bg-[#4f46e5]/5 blur-[180px] rounded-full" />
-         <div className="max-w-[1600px] mx-auto px-6 md:px-12">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
-               <Reveal>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#4f46e5] mb-8 block">The Chronology</span>
-                  <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white">
-                    Age of <br/> <span className="text-[#4f46e5] not-italic">Reach.</span>
-                  </h2>
-                  <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic leading-loose">
-                    Astrum Reach was founded on the belief that humanity's destiny lies among the stars. From our first sub-orbital flight in 2011 to the establishment of the Halo station, we have consistently pushed the limits of commercial space travel.
-                  </p>
-                  <div className="space-y-12">
-                     {[
-                       { year: "2011", event: "Project Reach Alpha: The first successful sub-orbital commercial flight reaches 100km." },
-                       { year: "2018", event: "Orbital Halo Station launched. First permanent luxury residence in low Earth orbit." },
-                       { year: "2023", event: "Mars Catalyst Program initiated. Specialist teams begin Valles Marineris simulation." },
-                       { year: "2025", event: "Sector 09 expansion. Commercial lunar descent programs officially open for public reservation." },
-                     ].map((item, i) => (
-                        <div key={i} className="flex gap-12 group">
-                           <span className="text-3xl font-black italic text-[#4f46e5] opacity-40 group-hover:opacity-100 transition-opacity">{item.year}</span>
-                           <p className="text-[11px] font-bold uppercase tracking-widest text-white/30 leading-loose">{item.event}</p>
-                        </div>
-                     ))}
-                  </div>
-               </Reveal>
-               <Reveal delay={0.2}>
-                  <div className="relative aspect-square grayscale opacity-50 hover:opacity-100 transition-opacity duration-1000 border border-white/5">
-                     <Image src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1200&q=80" alt="Astrum Heritage" fill className="object-cover" />
-                  </div>
-               </Reveal>
-            </div>
-         </div>
-      </section>
-
-      {/* ── TECHNICAL SPECIFICATIONS ── */}
-      <section className="py-40 bg-[#050508]">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12">
-           <Reveal>
-              <div className="mb-32">
-                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#4f46e5] mb-8 block">Orbital Manifest</span>
-                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">Full <br/> <span className="text-[#4f46e5] not-italic">Schematic.</span></h2>
-              </div>
-           </Reveal>
-
-           <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                 <thead>
-                    <tr className="border-b border-white/10">
-                       <th className="py-8 text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">Parameter</th>
-                       <th className="py-8 text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">Lunar_Descent</th>
-                       <th className="py-8 text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">Orbital_Halo</th>
-                       <th className="py-8 text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">Mars_Catalyst</th>
-                    </tr>
-                 </thead>
-                 <tbody className="text-[11px] font-bold uppercase tracking-[0.2em]">
-                    {[
-                      { p: "Propulsion Type", v1: "Nuclear Thermal", v2: "Electric Ion", v3: "Antimatter Injection" },
-                      { p: "Max Acceleration", v1: "1.2G", v2: "0.2G (Sustained)", v3: "2.4G" },
-                      { p: "Life Support", v1: "Tier 1 Bio-Seal", v2: "Tier 2 Recycle", v3: "Closed-Loop Alpha" },
-                      { p: "Radiation Shield", v1: "Magnetic Dipole", v2: "Passive Ceramic", v3: "Active Plasma" },
-                      { p: "Crew Capacity", v1: "8 Guests", v2: "24 Guests", v3: "6 Specialists" },
-                    ].map((row, i) => (
-                       <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                          <td className="py-8 text-white/40 italic">{row.p}</td>
-                          <td className="py-8 text-white">{row.v1}</td>
-                          <td className="py-8 text-white">{row.v2}</td>
-                          <td className="py-8 text-white">{row.v3}</td>
-                       </tr>
-                    ))}
-                 </tbody>
-              </table>
-           </div>
-        </div>
-      </section>
-
-      {/* ── SPECIALIST PROFILES ── */}
-      <section className="py-40 bg-black">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12">
-           <Reveal>
-              <div className="mb-32 text-center">
-                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#4f46e5] mb-8 block">Mission Command</span>
-                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">Expert <span className="text-[#4f46e5] not-italic">Guidance.</span></h2>
-              </div>
-           </Reveal>
-
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-32">
-              {[
-                { name: "Dr. Aris Thorne", role: "Chief Orbital Pilot", text: "Flying in low Earth orbit isn't just about physics—it's about the emotional transition. We ensure our guests don't just reach the destination; they experience the overview effect in its purest form.", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" },
-                { name: "Sarah Jenkins", role: "Head of Bio-Logistics", text: "Sustainability in space is a closed-loop challenge. Our systems are designed to mimic Earth's natural cycles, ensuring that every breath taken aboard an Astrum craft is as pure as the first.", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80" },
-              ].map((item, i) => (
-                <Reveal key={i} delay={i * 0.2}>
-                   <div className="space-y-12">
-                      <div className="relative w-24 h-24 rounded-full overflow-hidden grayscale border border-[#4f46e5]/30">
-                         <Image src={item.img} alt={item.name} fill className="object-cover" />
-                      </div>
-                      <blockquote className="text-3xl font-light italic text-white/60 leading-relaxed uppercase tracking-widest leading-loose">
-                         "{item.text}"
-                      </blockquote>
-                      <div>
-                         <span className="text-xl font-black text-white italic block mb-1">{item.name}</span>
-                         <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#4f46e5]">{item.role}</span>
-                      </div>
-                   </div>
-                </Reveal>
-              ))}
-           </div>
-        </div>
-      </section>
-
-      {/* ── FAQ ── */}
-      <section className="py-40 bg-[#050508]">
-        <div className="max-w-4xl mx-auto px-6">
-           <Reveal>
-              <div className="mb-24 text-center">
-                 <h2 className="text-5xl font-black italic uppercase tracking-tighter text-white mb-8">Mission <span className="text-[#4f46e5] not-italic">Briefing.</span></h2>
-                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20">Training // Safety // Logistics</p>
-              </div>
-           </Reveal>
-
-           <Accordion type="single" collapsible className="w-full space-y-4">
-              {[
-                { q: "What level of training is required for orbital flight?", a: "Guests for the Orbital Halo mission require a 2-week intensive training program at our Tokyo facility, covering zero-G movement, emergency protocols, and bio-adaptation." },
-                { q: "Is commercial space travel safe?", a: "Astrum Reach maintains an AAAA+ safety rating. Every craft is equipped with redundant life-support systems and autonomous descent modules certified by the Global Space Council." },
-                { q: "Can I bring personal items aboard the craft?", a: "Personal allowance is restricted to 2kg per guest. Items must be certified for high-G launch and zero-G containment. We provide bespoke flight kits for every mission." },
-                { q: "How long is the Mars Catalyst mission?", a: "The Catalyst research mission is a 180-day engagement. It is currently restricted to specialist contractors and vetted research partners." },
-                { q: "What happens in case of a launch delay?", a: "Orbital dynamics are precise. In the event of a weather-related delay, guests are accommodated at our exclusive launch sanctuary until the next optimal window opens." },
-              ].map((item, i) => (
-                <AccordionItem key={i} value={`item-${i}`} className="border border-white/5 bg-white/[0.02] px-8 rounded-sm">
-                   <AccordionTrigger className="text-[11px] font-black uppercase tracking-[0.3em] text-white hover:text-[#4f46e5] py-8 no-underline italic">
-                      {item.q}
-                   </AccordionTrigger>
-                   <AccordionContent className="text-[11px] font-light text-white/30 tracking-widest uppercase italic leading-loose pb-8">
-                      {item.a}
-                   </AccordionContent>
-                </AccordionItem>
-              ))}
-           </Accordion>
-        </div>
-      </section>
-
-      {/* ── FOOTER ── */}
-      <footer className="bg-[#020205] pt-40 pb-16 px-6 md:px-12 border-t border-white/5">
-        <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-32 mb-40">
-           
-           <div className="lg:col-span-6">
-              <Reveal>
-                 <div className="flex flex-col mb-12">
-                    <span className="text-4xl font-black tracking-[-0.05em] uppercase leading-none">Astrum</span>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#4f46e5] -mt-1 ml-1">Reach Orbital</span>
-                 </div>
-                 <p className="text-white/20 max-w-md mb-16 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose italic">
-                    The absolute mastery of commercial orbital transit. Engineered for the evolutionary elite in our Tokyo sanctuary.
-                 </p>
-                 <div className="flex gap-6">
-                    {[Globe, Globe, Mail].map((Icon, i) => (
-                      <button key={i} className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:bg-[#4f46e5] hover:text-black hover:border-[#4f46e5] transition-all">
-                         <Icon className="w-5 h-5" />
-                      </button>
-                    ))}
                  </div>
               </Reveal>
            </div>
 
-           <div className="lg:col-span-2">
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-[#4f46e5] mb-12">Manifest</h4>
-              <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                 <li><Link href="#" className="hover:text-white transition-colors">Lunar_Descent</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Orbital_Halo</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Mars_Catalyst</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Support</Link></li>
-              </ul>
-           </div>
+           {/* Parallax Ship Layers */}
+           <motion.div 
+              style={{ y: shipY }}
+              className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-[80vw] max-w-5xl opacity-40 mix-blend-screen pointer-events-none z-0"
+           >
+              <img 
+                 src="https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?w=1600&q=80" 
+                 className="w-full h-auto grayscale transition-all duration-1000"
+                 alt="Starship"
+              />
+           </motion.div>
+        </section>
 
-           <div className="lg:col-span-2">
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-[#4f46e5] mb-12">Logistics</h4>
-              <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                 <li><Link href="#" className="hover:text-white transition-colors">Fleet_Status</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Navigation</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Bio_Safe_9</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Consultation</Link></li>
-              </ul>
-           </div>
-
-           <div className="lg:col-span-2">
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-[#4f46e5] mb-12">Studio</h4>
-              <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                 <li><Link href="#" className="hover:text-white transition-colors">The_Maison</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Global_Units</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Technical_Kit</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Archives</Link></li>
-              </ul>
-           </div>
-        </div>
-
-        <div className="max-w-[1600px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10">
-           <div className="flex items-center gap-12">
-              <span>&copy; {new Date().getFullYear()} ASTRUM REACH ORBITAL GROUP.</span>
-              <div className="flex gap-8">
-                <span>FAA_SPACE_CERTIFIED</span>
-                <span>ISO_ORBITAL_NOMINAL</span>
+        {/* 3. MISSION MANIFEST (HORIZONTAL SHOWCASE) */}
+        <section id="mission" className="py-64 px-12 bg-[#050508] relative border-y border-white/5">
+           <div className="max-w-7xl mx-auto mb-32 flex justify-between items-end">
+              <Reveal>
+                 <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-8">Mission_Manifest</div>
+                 <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] italic">
+                    The <br/> <span className="text-white/5" style={{ WebkitTextStroke: "1px white" }}>Destinations.</span>
+                 </h2>
+              </Reveal>
+              <div className="hidden lg:block">
+                 <div className="flex gap-4 mb-4">
+                    <div className="w-12 h-1 bg-indigo-500" />
+                    <div className="w-32 h-1 bg-white/5" />
+                 </div>
+                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">Orbital // Lunar // Martian</p>
               </div>
            </div>
-           <div className="flex gap-12 font-mono">
-              <span>LAUNCH_NOMINAL</span>
-              <span>PRESSURE_STABLE_1.2G</span>
+
+           <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 border-2 border-white/5 overflow-hidden">
+              {MISSIONS.map((mission, i) => (
+                 <Reveal key={mission.id} delay={i * 0.1}>
+                    <div className="group relative p-16 border-r border-white/5 hover:bg-white/[0.02] transition-all h-[700px] flex flex-col justify-between overflow-hidden">
+                       <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-10 transition-opacity">
+                          <img src={mission.img} className="w-full h-full object-cover scale-150 group-hover:scale-100 transition-transform duration-2000" alt={mission.name} />
+                       </div>
+                       
+                       <div className="relative z-10">
+                          <div className="flex justify-between items-center mb-12">
+                             <div className="text-[8px] font-black uppercase tracking-[0.5em] text-indigo-500">{mission.id}</div>
+                             <div className={`px-4 py-1 text-[8px] font-black uppercase tracking-widest border border-white/20 rounded-full ${mission.risk === 'Extreme' ? 'bg-red-500/20 text-red-400' : 'text-white/40'}`}>
+                                Risk: {mission.risk}
+                             </div>
+                          </div>
+                          <h3 className="text-5xl font-black uppercase tracking-tighter mb-8 italic group-hover:translate-x-4 transition-transform duration-700">{mission.name}</h3>
+                          <div className="space-y-4">
+                             <div className="flex justify-between text-[10px] uppercase font-bold tracking-widest text-white/30">
+                                <span>Target</span>
+                                <span className="text-white">{mission.target}</span>
+                             </div>
+                             <div className="flex justify-between text-[10px] uppercase font-bold tracking-widest text-white/30">
+                                <span>Duration</span>
+                                <span className="text-white">{mission.duration}</span>
+                             </div>
+                          </div>
+                       </div>
+
+                       <div className="relative z-10">
+                          <p className="text-xs text-white/40 leading-relaxed font-medium uppercase italic mb-12 h-20">
+                             {mission.desc}
+                          </p>
+                          <button className="w-full py-8 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all flex items-center justify-center gap-4 group/btn">
+                             View Mission Details <Maximize2 className="w-4 h-4 group-hover/btn:rotate-12 transition-transform" />
+                          </button>
+                       </div>
+                    </div>
+                 </Reveal>
+              ))}
            </div>
-        </div>
-      </footer>
+        </section>
+
+        {/* 4. TECH EXPLORER (HUD INTERFACE / AI GLASSES STYLE) */}
+        <section id="tech" className="py-64 px-12">
+           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+              <div>
+                 <Reveal>
+                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-8">Systems_Core</div>
+                    <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-16 italic">
+                       Orbital <br/> <span className="opacity-10">Specs.</span>
+                    </h2>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                       {CRAFT_SPECS.map((spec, i) => (
+                          <div key={i} className="p-10 border border-white/5 bg-white/[0.02] hover:border-indigo-500/50 transition-colors group">
+                             <div className="text-[10px] font-black uppercase tracking-widest text-indigo-500 mb-4">{spec.label}</div>
+                             <div className="text-5xl font-black italic mb-4 tracking-tighter group-hover:scale-110 transition-transform origin-left">{spec.value}</div>
+                             <div className="text-[8px] font-bold uppercase tracking-[0.4em] text-white/20">{spec.detail}</div>
+                          </div>
+                       ))}
+                    </div>
+                 </Reveal>
+              </div>
+
+              <div className="relative">
+                 <Reveal delay={0.4}>
+                    <div className="aspect-square border-[20px] border-white/5 rounded-full p-20 relative overflow-hidden flex items-center justify-center">
+                       <div className="absolute inset-0 animate-spin-slow opacity-20">
+                          <svg viewBox="0 0 100 100" className="w-full h-full stroke-indigo-500 stroke-[0.2] fill-none">
+                             <circle cx="50" cy="50" r="48" strokeDasharray="10 5" />
+                             <circle cx="50" cy="50" r="40" strokeDasharray="5 10" />
+                          </svg>
+                       </div>
+                       
+                       <div className="relative z-10 w-full h-full bg-indigo-500/5 rounded-full backdrop-blur-2xl border border-indigo-500/20 flex items-center justify-center">
+                          <motion.div 
+                             animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
+                             transition={{ duration: 10, repeat: Infinity }}
+                             className="text-center"
+                          >
+                             <Radar className="w-32 h-32 text-indigo-500/40 mb-8 mx-auto animate-pulse" />
+                             <div className="text-4xl font-black italic tracking-tighter uppercase">Scanning...</div>
+                             <div className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mt-2">v4.0_Telemetrics</div>
+                          </motion.div>
+                       </div>
+
+                       {/* Interactive Floating Tags */}
+                       <motion.div 
+                          animate={{ y: [0, -20, 0] }} transition={{ duration: 3, repeat: Infinity }}
+                          className="absolute top-20 right-20 px-4 py-2 border border-white/20 bg-black/80 backdrop-blur-md text-[8px] font-black uppercase"
+                       >
+                          Shield: 100%
+                       </motion.div>
+                       <motion.div 
+                          animate={{ y: [0, 20, 0] }} transition={{ duration: 4, repeat: Infinity }}
+                          className="absolute bottom-20 left-20 px-4 py-2 border border-white/20 bg-black/80 backdrop-blur-md text-[8px] font-black uppercase"
+                       >
+                          Prop: Active
+                       </motion.div>
+                    </div>
+                 </Reveal>
+              </div>
+           </div>
+        </section>
+
+        {/* 5. TELEMETRY LOGS (TERMINAL / DATA VIZ) */}
+        <section className="py-64 px-12 bg-white text-black">
+           <div className="max-w-7xl mx-auto">
+              <Reveal>
+                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+                    <div>
+                       <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-600 mb-8">Ground_Control</div>
+                       <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-12 italic">
+                          Real-time <br/> <span className="opacity-20">Link.</span>
+                       </h2>
+                       <p className="text-lg font-bold italic text-black/40 leading-relaxed uppercase tracking-[0.1em] max-w-md">
+                          Suivez chaque paramètre de vol en temps réel via notre liaison satellite chiffrée. Une transparence totale pour une sérénité maximale.
+                       </p>
+                    </div>
+                    
+                    <div className="bg-black text-[#00ff88] p-12 border-8 border-black/10 rounded-2xl font-mono text-xs overflow-hidden shadow-2xl">
+                       <div className="flex gap-4 mb-12 border-b border-[#00ff88]/20 pb-4">
+                          <CircleDot className="w-4 h-4 animate-pulse" />
+                          <span className="font-black uppercase tracking-widest">Astrum_Console_v2.4</span>
+                       </div>
+                       <div className="space-y-6">
+                          {TELEMETRY_LOGS.map((log, i) => (
+                             <div key={i} className="flex justify-between group cursor-default">
+                                <span className="text-[#00ff88]/30 group-hover:text-[#00ff88] transition-colors">{log.time}</span>
+                                <span className="font-black italic uppercase tracking-tighter">{log.event}</span>
+                                <span className="text-white/40">{log.value}</span>
+                                <span className="font-black">[{log.code}]</span>
+                             </div>
+                          ))}
+                          <motion.div 
+                             animate={{ opacity: [0, 1, 0] }} transition={{ duration: 1, repeat: Infinity }}
+                             className="pt-8 border-t border-[#00ff88]/20 flex gap-4"
+                          >
+                             <span>_</span>
+                             <span className="uppercase italic tracking-widest">Awaiting flight signal input...</span>
+                          </motion.div>
+                       </div>
+                    </div>
+                 </div>
+              </Reveal>
+           </div>
+        </section>
+
+        {/* 6. FAQ (ORBITAL ACCORDION) */}
+        <section className="py-64 px-12 relative overflow-hidden">
+           <div className="max-w-4xl mx-auto relative z-10">
+              <Reveal>
+                 <div className="text-center mb-40">
+                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-8">Mission_Briefing</div>
+                    <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter italic mb-8">FAQ <span className="opacity-10">Atlas.</span></h2>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 italic">Safety // Protocols // Logistics</p>
+                 </div>
+              </Reveal>
+
+              <Accordion type="single" collapsible className="w-full space-y-4">
+                 {[
+                   { q: "What level of training is required?", a: "Guests require a 2-week intensive training program at our Tokyo facility, covering zero-G movement and emergency protocols." },
+                   { q: "Is commercial space travel safe?", a: "Astrum Reach maintains an AAAA+ safety rating. Every craft is equipped with redundant life-support systems." },
+                   { q: "Can I bring personal items aboard?", a: "Allowance is restricted to 2kg per guest. Items must be certified for high-G launch and zero-G containment." }
+                 ].map((item, i) => (
+                   <AccordionItem key={i} value={`item-${i}`} className="border border-white/5 bg-white/[0.02] px-10 rounded-sm hover:border-indigo-500/30 transition-all">
+                      <AccordionTrigger className="text-[12px] font-black uppercase tracking-[0.4em] py-12 no-underline italic">
+                         {item.q}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-[11px] font-medium text-white/30 tracking-[0.1em] uppercase italic leading-loose pb-12">
+                         {item.a}
+                      </AccordionContent>
+                   </AccordionItem>
+                 ))}
+              </Accordion>
+           </div>
+        </section>
+
+        {/* 7. FOOTER (HIGH FIDELITY) */}
+        <footer className="bg-black pt-64 pb-16 px-12 md:px-24 border-t-8 border-indigo-600">
+           <div className="max-w-7xl mx-auto">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-32 mb-48">
+                 <div className="lg:col-span-6">
+                    <Reveal>
+                       <div className="flex flex-col mb-16">
+                          <span className="text-7xl md:text-[12vw] font-black tracking-tighter uppercase leading-[0.7] italic">Astrum.</span>
+                          <span className="text-[12px] font-bold uppercase tracking-[1em] text-indigo-500 ml-2">Reach Orbital Group</span>
+                       </div>
+                       <p className="text-white/20 max-w-sm mb-20 text-sm font-light uppercase tracking-widest leading-loose italic">
+                          La maîtrise absolue du transit orbital commercial. Conçu pour l'élite mondiale.
+                       </p>
+                       <div className="flex gap-12 items-center">
+                          <div className="w-24 h-[1px] bg-white/10" />
+                          <div className="flex gap-10">
+                             <Globe className="w-7 h-7 text-white/20 hover:text-indigo-500 transition-all cursor-pointer" />
+                             <Binary className="w-7 h-7 text-white/20 hover:text-indigo-500 transition-all cursor-pointer" />
+                             <Orbit className="w-7 h-7 text-white/20 hover:text-indigo-500 transition-all cursor-pointer" />
+                          </div>
+                       </div>
+                    </Reveal>
+                 </div>
+
+                 <div className="lg:col-span-3">
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-indigo-500 mb-16">Manifest</h4>
+                    <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-white/30">
+                       <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                          <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-indigo-500" /> Lunar_Descent
+                       </li>
+                       <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                          <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-indigo-500" /> Orbital_Halo
+                       </li>
+                       <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                          <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-indigo-500" /> Mars_Catalyst
+                       </li>
+                    </ul>
+                 </div>
+
+                 <div className="lg:col-span-3">
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-indigo-500 mb-16">Navigation</h4>
+                    <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-white/30">
+                       <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                          <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-indigo-500" /> Fleet_Status
+                       </li>
+                       <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                          <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-indigo-500" /> Bio_Safe_9
+                       </li>
+                       <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                          <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-indigo-500" /> Consultation
+                       </li>
+                    </ul>
+                 </div>
+              </div>
+
+              <div className="pt-24 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.5em] text-white/10 italic">
+                 <div className="flex gap-16">
+                    <span>©2026 ASTRUM REACH ORBITAL.</span>
+                    <span className="hidden md:inline">//</span>
+                    <span>FAA_SPACE_CERTIFIED</span>
+                 </div>
+                 <div className="flex gap-16 font-mono text-indigo-500/30">
+                    <span>LAUNCH_NOMINAL</span>
+                    <span>PRESSURE_STABLE_1.2G</span>
+                 </div>
+              </div>
+           </div>
+        </footer>
+      </main>
 
       <style>{`
-        ::-webkit-scrollbar{width:4px;background:#020205}
-        ::-webkit-scrollbar-thumb{background:#4f46e5}
+        ::-webkit-scrollbar { width: 6px; background: #020205; }
+        ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
+        .vertical-text { writing-mode: vertical-rl; }
+        .animate-spin-slow { animation: spin 40s linear infinite; }
+        .animate-reverse-slow { animation: reverse-spin 60s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes reverse-spin { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
       `}</style>
     </div>
-  );
+  )
 }

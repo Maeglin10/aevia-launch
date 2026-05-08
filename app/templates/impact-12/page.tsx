@@ -1,412 +1,523 @@
-"use client";
+"use client"
 
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect, Suspense } from "react";
-import Image from "next/image";
-import { ArrowUpRight, Menu, X, Layers, ShieldCheck, Plus, Play, ArrowRight, ChevronDown, Monitor, LayoutGrid } from "lucide-react";
-import "../premium.css";
+import React, { useState, useEffect, useRef, useMemo } from "react"
+import { 
+  motion, 
+  AnimatePresence, 
+  useScroll, 
+  useTransform, 
+  useInView, 
+  useSpring,
+  useMotionValue
+} from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
+import { 
+  Zap, Activity, Target, Layers, Box, Hexagon, 
+  Terminal, Settings, Power, Info, 
+  AlertTriangle, ChevronRight, ArrowRight, 
+  Share2, Maximize2, Download, ExternalLink, 
+  Archive, Hash, BarChart3, Fingerprint, Scan, 
+  Briefcase, Wind, Timer, Lightbulb, Command, Grid, 
+  Radar, Orbit, Atom, Search, Cpu, Monitor,
+  Database, ShieldCheck, Binary, Code2, Globe,
+  Waves, Gauge, Thermometer, FlaskConical,
+  Sun, Moon, Star, Sparkles, CircleDot,
+  ArrowUpRight, ArrowDownLeft, Expand, Shrink,
+  MousePointer2, HardDrive, Key, Lock, Unlock,
+  Fingerprint as FingerprintIcon, ScanEye, Eye,
+  EyeOff, Shield, ShieldAlert, Laptop, Server,
+  Network, Wifi, Bluetooth, Radio
+} from "lucide-react"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
-// ─── DATA ──────────────────────────────────────────────────────────────────
-
-const PROJECTS = [
-  { 
-    id: "01",
-    title: "NEO_KINETICS", 
-    category: "Creative Direction",
-    year: "2024",
-    img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1200&q=80",
-    desc: "A digital-first identity for a robotic choreography studio, focusing on motion-mapped typography."
-  },
-  { 
-    id: "02",
-    title: "VIRTUAL_VOGUE", 
-    category: "Digital Fashion",
-    year: "2023",
-    img: "https://images.unsplash.com/photo-1537832816519-689ad163238b?w=1200&q=80",
-    desc: "Exploration of procedural fabric shaders and real-time cloth physics for luxury avatars."
-  },
-  { 
-    id: "03",
-    title: "SILICON_SOUL", 
-    category: "Aesthetic Research",
-    year: "2024",
-    img: "https://images.unsplash.com/photo-1547891654-e66ed7ebb968?w=1200&q=80",
-    desc: "Documenting the intersection of organic form and industrial precision via large-scale projections."
-  },
-  { 
-    id: "04",
-    title: "MONO_ARCHIVE", 
-    category: "System Design",
-    year: "2024",
-    img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&q=80",
-    desc: "A unified design language for an architecture-focused publishing house in Berlin."
-  }
-];
-
-const PHILOSOPHY = [
-  { label: "Concept", val: "Raw", desc: "Stripping away the superfluous to find the core message." },
-  { label: "Execution", val: "Brutal", desc: "Unapologetic grids and massive typographic presence." },
-  { label: "Output", val: "Premium", desc: "High-fidelity digital experiences that define the next era." }
-];
+/* ==========================================================================
+   ARCHIVE STUDIO DATASET (ULTRA DENSITY)
+   ========================================================================== */
 
 const SERVICES = [
-  { id: "A", title: "Creative Direction", desc: "Complete visual ecosystem design from strategy to execution." },
-  { id: "B", title: "Digital Craft", desc: "Interactive experiences built on the bleeding edge of WebGL/Three.js." },
-  { id: "C", title: "Aesthetic Research", desc: "Deep-dives into cultural trends and visual anthropology." },
-  { id: "D", title: "Identity Systems", desc: "Scalable design languages that evolve with the brand." }
-];
+  {
+    id: "sys-01",
+    title: "System Solutions",
+    desc: "Architecture de systèmes complexes orientée performance. Nous concevons des écosystèmes numériques capables de supporter des charges critiques avec une latence nulle.",
+    icon: Server
+  },
+  {
+    id: "ui-08",
+    title: "Interfaces of the Future",
+    desc: "Design d'expériences immersives et intuitives. Chaque pixel est une décision, chaque interaction est une intention. Le futur est haptique et spatial.",
+    icon: Monitor
+  },
+  {
+    id: "lab-15",
+    title: "Digital Supremacy",
+    desc: "R&D sur les nouvelles frontières de la technologie. Du rendu 8K natif à l'intégration de l'IA générative au cœur des interfaces métiers.",
+    icon: Cpu
+  }
+]
 
-// ─── COMPONENTS ──────────────────────────────────────────────────────────────
+const TECHNICAL_AUDIT = [
+  { label: "Uptime", value: "100%", trend: "Guaranteed", detail: "Active Redundancy" },
+  { label: "Speed", value: "<0.8s", trend: "Instant", detail: "Global Edge Nodes" },
+  { label: "Fidelity", value: "8K Native", trend: "Ultra", detail: "Pixel-Perfect Mesh" },
+  { label: "Security", value: "AES-512", trend: "Military", detail: "Post-Quantum Ready" }
+]
 
-function Reveal({ children, className = "", delay = 0, y = 40 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+const SYSTEM_LOGS = [
+  { time: "16:22:04", node: "Core_Alpha", task: "Packet_Synthesis", status: "DONE", load: "12%" },
+  { time: "16:22:15", node: "Edge_Tokyo", task: "Buffer_Flush", status: "SYNC", load: "44%" },
+  { time: "16:22:48", node: "Secure_Vault", task: "Hash_Rotated", status: "PASS", load: "02%" }
+]
+
+/* ==========================================
+   TECHNICAL COMPONENTS (SPACEMAN / FLUID)
+   ========================================== */
+
+function Reveal({ children, delay = 0, y = 40, x = 0, scale = 1 }: { children: React.ReactNode, delay?: number, y?: number, x?: number, scale?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 1, delay, ease: [0.19, 1, 0.22, 1] }}
-      className={className}
+      initial={{ opacity: 0, y, x, scale }}
+      animate={isInView ? { opacity: 1, y: 0, x: 0, scale: 1 } : {}}
+      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </motion.div>
-  );
+  )
 }
 
-// ─── MAIN SPA ────────────────────────────────────────────────────────────────
+function FloatingDataBlocks() {
+  return (
+    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20">
+       {[...Array(8)].map((_, i) => (
+          <motion.div 
+             key={i}
+             className="absolute p-4 border border-white/10 bg-white/5 backdrop-blur-sm rounded-sm"
+             style={{ 
+                top: `${20 + i * 10}%`, 
+                left: `${10 + i * 8}%`,
+                width: 120 + i * 20
+             }}
+             animate={{ 
+                y: [0, -30, 0],
+                x: [0, 20, 0],
+                rotate: [0, 5, -5, 0]
+             }}
+             transition={{ 
+                duration: 8 + i, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+             }}
+          >
+             <div className="flex justify-between items-center mb-2">
+                <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+                <span className="text-[6px] font-black uppercase text-white/40">Node_{i}</span>
+             </div>
+             <div className="space-y-1">
+                <div className="h-[2px] bg-white/5 w-full" />
+                <div className="h-[2px] bg-white/5 w-2/3" />
+             </div>
+          </motion.div>
+       ))}
+    </div>
+  )
+}
 
-export default function ArchiveStudioSPA() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeProject, setActiveProject] = useState(0);
-  const { scrollY } = useScroll();
-  
-  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0]);
-  const heroScale = useTransform(scrollY, [0, 800], [1, 1.2]);
+function HUD_Console() {
+   return (
+      <div className="fixed top-32 left-12 z-40 hidden xl:flex flex-col gap-12 items-start pointer-events-none">
+         <div className="flex flex-col gap-4">
+            <div className="w-1 h-32 bg-indigo-500/20 relative">
+               <motion.div 
+                  className="absolute top-0 left-0 w-full bg-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.6)]"
+                  animate={{ height: ["10%", "90%", "30%"] }}
+                  transition={{ duration: 4, repeat: Infinity }}
+               />
+            </div>
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] vertical-text text-indigo-500">System_Health</span>
+         </div>
+         <div className="flex flex-col gap-6">
+            <div className="p-4 border border-indigo-500/20 bg-indigo-500/5 backdrop-blur-md">
+               <Cpu className="w-6 h-6 text-indigo-500" />
+            </div>
+            <div className="p-4 border border-white/10 bg-white/5 backdrop-blur-md">
+               <Terminal className="w-6 h-6 text-white/40" />
+            </div>
+         </div>
+      </div>
+   )
+}
+
+/* ==========================================================================
+   MAIN PAGE: ARCHIVE STUDIO (DIGITAL SUPREMACY)
+   ========================================================================== */
+
+export default function ArchiveStudioPremium() {
+  const containerRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: containerRef })
+
+  // Parallax transforms
+  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -250])
+  const heroScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.1])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
 
   return (
-    <div className="min-h-screen bg-[#000] text-white font-mono selection:bg-white selection:text-black">
+    <div ref={containerRef} className="bg-[#020205] text-[#f0f0f0] font-sans selection:bg-indigo-500/40 selection:text-white min-h-screen overflow-x-hidden">
       
-      {/* ── GRAIN OVERLAY ── */}
-      <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
-
-      {/* ── NAVIGATION ── */}
-      <motion.nav 
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-8 mix-blend-difference"
-      >
-        <div className="flex items-center gap-4">
-          <span className="text-2xl font-black tracking-tighter uppercase italic">ARCHIVE<span className="text-white/40">//</span>STUDIO</span>
-        </div>
-        
-        <div className="hidden lg:flex items-center gap-16 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
-          {["Work", "Research", "Studio", "Contact"].map(item => (
-            <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors">[{item}]</a>
-          ))}
-        </div>
-
-        <button 
-          onClick={() => setMenuOpen(true)}
-          className="flex items-center gap-4 group"
-        >
-          <span className="hidden md:block text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 group-hover:text-white transition-colors">Menu</span>
-          <div className="w-12 h-12 flex flex-col items-center justify-center gap-2">
-            <span className="w-8 h-[3px] bg-white" />
-            <span className="w-8 h-[3px] bg-white" />
-          </div>
-        </button>
-      </motion.nav>
-
-      {/* ── MOBILE MENU ── */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div 
-            initial={{ y: "-100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "-100%" }}
-            transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
-            className="fixed inset-0 z-[60] bg-white text-black p-12 flex flex-col justify-between"
-          >
-            <div className="flex justify-between items-center">
-              <span className="text-lg font-black uppercase tracking-tighter italic">ARCHIVE//STUDIO</span>
-              <button onClick={() => setMenuOpen(false)} className="w-12 h-12 flex items-center justify-center">
-                <X className="w-8 h-8" />
-              </button>
-            </div>
-            <div className="flex flex-col">
-              {["WORKS", "RESEARCH", "MANIFESTO", "CLIENTS", "CONTACT"].map((item, i) => (
-                <motion.a 
-                  key={item}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 + 0.3 }}
-                  href="#"
-                  className="text-7xl md:text-[10rem] font-black uppercase tracking-tighter hover:italic transition-all leading-[0.8]"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {item}
-                </motion.a>
-              ))}
-            </div>
-            <div className="flex justify-between text-[10px] font-bold uppercase tracking-[0.5em] border-t border-black/10 pt-12">
-              <span>EST. 2024</span>
-              <span>Based in Berlin // Global</span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── HERO SECTION ── */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden border-b border-white/10">
-        <motion.div 
-          style={{ opacity: heroOpacity, scale: heroScale }}
-          className="absolute inset-0 z-0"
-        >
-          <Image 
-            src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1600&q=80" 
-            alt="Hero Raw" 
-            fill 
-            className="object-cover grayscale opacity-20" 
-            unoptimized 
-          />
-        </motion.div>
-
-        <div className="relative z-10 text-center px-6 mt-20">
-          <Reveal>
-            <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/40 mb-12 block">Aesthetic Intelligence</span>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <h1 className="text-8xl md:text-[18rem] font-black tracking-tighter leading-[0.75] uppercase italic text-white mb-20">
-              RAW <br/> <span className="not-italic">BRUTAL.</span>
-            </h1>
-          </Reveal>
-          <Reveal delay={0.4}>
-            <div className="max-w-3xl mx-auto flex flex-col md:flex-row items-center justify-center gap-12 border-t border-white/10 pt-20">
-              <p className="text-white/30 text-lg leading-relaxed font-light uppercase tracking-wide italic leading-loose text-left max-w-md">
-                Defining the intersection of raw brutality and digital premium. We build the interfaces that matter.
-              </p>
-              <button className="w-32 h-32 rounded-full border border-white/20 flex items-center justify-center group hover:bg-white transition-all">
-                <ArrowRight className="w-8 h-8 group-hover:text-black group-hover:rotate-45 transition-all" />
-              </button>
-            </div>
-          </Reveal>
-        </div>
-
-        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">
-          <div className="flex flex-col gap-2">
-            <span>Scroll_to_Explore</span>
-            <div className="w-32 h-1 bg-white/10 relative overflow-hidden">
-              <motion.div 
-                animate={{ x: [-128, 128] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                className="absolute top-0 left-0 h-full w-1/2 bg-white"
-              />
-            </div>
-          </div>
-          <span>BERLIN // 52.5200° N</span>
-        </div>
-      </section>
-
-      {/* ── PHILOSOPHY ── */}
-      <section className="py-40 bg-[#000]">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-start mb-40">
-            <Reveal className="lg:col-span-8">
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40 mb-12 block">Manifesto</span>
-              <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-white">
-                FUNCTION <br/> OVER <span className="text-white/20 not-italic">NOISE.</span>
-              </h2>
-            </Reveal>
-            <Reveal delay={0.2} className="lg:col-span-4 mt-12">
-              <p className="text-white/40 text-xl leading-relaxed font-light uppercase tracking-wide italic leading-loose">
-                We reject the decorative. We embrace the structure. Our design language is a response to the digital fatigue of our era.
-              </p>
-            </Reveal>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-1px bg-white/10 border border-white/10">
-            {PHILOSOPHY.map((p, i) => (
-              <Reveal key={p.label} delay={i * 0.1} className="bg-black p-20 group hover:bg-white transition-colors">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 mb-12 block group-hover:text-black/40">{p.label}</span>
-                <h3 className="text-6xl font-black italic text-white mb-8 group-hover:text-black transition-colors">{p.val}</h3>
-                <p className="text-xs text-white/30 font-light tracking-widest uppercase italic leading-loose group-hover:text-black/60">{p.desc}</p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── WORKS GRID (BRUTALIST) ── */}
-      <section className="bg-white text-black py-40">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24">
-          <Reveal className="mb-32">
-            <div className="flex justify-between items-end border-b-8 border-black pb-12">
-              <h2 className="text-8xl md:text-[12rem] font-black tracking-tighter uppercase leading-none">WORKS</h2>
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] mb-4">[SELECTED_04]</span>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-px bg-black border border-black overflow-hidden">
-            {PROJECTS.map((project, i) => (
-              <div key={project.id} className={`${i % 3 === 0 ? "lg:col-span-8" : "lg:col-span-4"} bg-white group cursor-pointer`}>
-                <div className="relative aspect-[16/10] overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000">
-                  <Image src={project.img} alt={project.title} fill className="object-cover group-hover:scale-105 transition-transform duration-[2s]" unoptimized />
-                </div>
-                <div className="p-12">
-                  <div className="flex justify-between items-start mb-8">
-                    <div>
-                      <span className="text-[10px] font-bold uppercase tracking-widest mb-4 block text-black/40">{project.id} // {project.year}</span>
-                      <h3 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.8] mb-6 italic">{project.title}</h3>
-                    </div>
-                    <ArrowUpRight className="w-12 h-12" />
-                  </div>
-                  <div className="flex justify-between items-end border-t border-black/10 pt-8">
-                    <span className="text-[10px] font-black uppercase tracking-widest bg-black text-white px-3 py-1">{project.category}</span>
-                    <p className="text-[10px] text-black/40 font-bold uppercase tracking-widest max-w-[200px] text-right">{project.desc}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── SERVICES ── */}
-      <section className="py-40 bg-[#000]">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-32">
-            <Reveal>
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40 mb-12 block">Capabilities</span>
-              <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-[0.8] uppercase text-white mb-20">
-                SYSTEM <br/> <span className="not-italic">SOLUTIONS.</span>
-              </h2>
-              <div className="space-y-12">
-                {SERVICES.map((s, i) => (
-                  <div key={s.id} className="group border-b border-white/10 pb-12 hover:border-white transition-colors cursor-default">
-                    <div className="flex items-center gap-8 mb-6">
-                      <span className="text-xl font-black text-white/20 italic group-hover:text-white transition-colors">{s.id} //</span>
-                      <h3 className="text-3xl md:text-5xl font-black tracking-tighter uppercase group-hover:italic transition-all">{s.title}</h3>
-                    </div>
-                    <p className="text-sm text-white/30 font-light tracking-widest uppercase italic leading-loose max-w-xl pl-20">
-                      {s.desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-            <Reveal delay={0.3} className="relative hidden lg:block">
-              <div className="sticky top-40 aspect-[4/5] bg-white/[0.02] border border-white/5 p-16 flex flex-col justify-between overflow-hidden group">
-                <div className="absolute top-0 right-0 p-8">
-                  <Monitor className="w-16 h-16 text-white/10 group-hover:text-white/40 transition-colors" />
-                </div>
-                <div>
-                  <h3 className="text-5xl font-black italic uppercase text-white mb-8">Digital <br/> Supremacy.</h3>
-                  <p className="text-white/20 text-lg leading-relaxed mb-12 font-light uppercase tracking-wide italic leading-loose">
-                    We deliver the interfaces of the future by respecting the constraints of the present. Performance is our primary aesthetic.
-                  </p>
-                </div>
-                <div className="space-y-12">
-                  <div className="h-[2px] bg-white/10 relative overflow-hidden">
-                    <motion.div 
-                      animate={{ x: ["-100%", "100%"] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                      className="absolute top-0 left-0 h-full w-full bg-white/40 shadow-[0_0_20px_white]"
-                    />
-                  </div>
-                  <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-white/20">
-                    <span>STATUS: OPTIMIZED</span>
-                    <span>CORE_VERSION: 1.0.4</span>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ── TECHNICAL AUDIT ── */}
-      <section className="py-40 border-y border-white/10 bg-white text-black">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-            {[
-              { l: "Uptime", v: "100%", d: "Guaranteed availability for all deployed ecosystems." },
-              { l: "Speed", v: "<0.8s", d: "Average page load across our premium SPA portfolio." },
-              { l: "Fidelity", v: "8K Native", d: "Pixel-perfect rendering for large-format displays." },
-              { l: "Security", v: "AES-512", d: "Military-grade encryption for all client data nodes." },
-            ].map((stat, i) => (
-              <Reveal key={stat.l} delay={i * 0.1} className="border-l-8 border-black pl-8">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/40 mb-6 block">{stat.l}</span>
-                <h3 className="text-6xl font-black italic mb-4">{stat.v}</h3>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-black/40 leading-loose">{stat.d}</p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── CTA / CONTACT ── */}
-      <section className="py-40 bg-black relative">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24 text-center">
-          <Reveal>
-            <h2 className="text-7xl md:text-[15rem] font-black italic tracking-tighter leading-[0.8] uppercase text-white mb-20">
-              INITIATE <br/> <span className="not-italic text-white/20">PROJECT.</span>
-            </h2>
-            <div className="flex flex-wrap justify-center gap-8">
-              <button className="px-16 py-8 bg-white text-black font-black uppercase text-sm tracking-widest hover:italic transition-all">
-                Send_Brieffing
-              </button>
-              <button className="px-16 py-8 border border-white/20 text-white font-black uppercase text-sm tracking-widest hover:bg-white/5 transition-all">
-                The_Portal
-              </button>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── FOOTER ── */}
-      <footer className="bg-black pt-40 pb-16 px-6 md:px-12 lg:px-24 border-t border-white/10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-32 mb-40">
-          <div className="lg:col-span-6">
-            <span className="text-4xl font-black tracking-tighter uppercase italic block mb-12">ARCHIVE<span className="text-white/40">//</span>STUDIO</span>
-            <p className="text-white/20 text-sm font-light leading-relaxed uppercase tracking-widest mb-12 italic max-w-md">
-              A creative laboratory focused on the synthesis of raw brutality and digital premium. We define the aesthetic of the new era.
-            </p>
-            <div className="flex gap-8">
-              {["IG", "TW", "BE", "LN", "FB"].map(s => (
-                <a key={s} href="#" className="text-xs font-black hover:text-white text-white/20 transition-colors tracking-widest">[{s}]</a>
-              ))}
-            </div>
-          </div>
-          
-          <div className="lg:col-span-2">
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-10">Studio</h4>
-            <ul className="space-y-4 text-xs font-bold uppercase tracking-widest">
-              {["Works", "Research", "Manifesto", "Clients"].map(item => (
-                <li key={item}><a href="#" className="hover:text-white transition-colors">{item}</a></li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="lg:col-span-4">
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-10">Inquiry</h4>
-            <p className="text-sm text-white/20 font-light mb-8 italic uppercase tracking-widest leading-loose">
-              For new projects and research collaborations, initiate contact via our secure server.
-            </p>
-            <a href="mailto:hello@archive-studio.com" className="text-3xl font-black italic hover:text-white transition-colors block border-b-4 border-white/10 pb-6 uppercase tracking-tighter">
-              hello@archive.studio
+      <FloatingDataBlocks />
+      <HUD_Console />
+      
+      {/* 1. NAVIGATION (STUDIO STYLE) */}
+      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-12 py-10 border-b border-white/5 bg-black/60 backdrop-blur-2xl">
+         <div className="flex flex-col group cursor-pointer">
+            <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none italic group-hover:text-indigo-500 transition-colors">Archive<span className="text-white/20">//</span>Studio</span>
+            <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-white/20 -mt-1 ml-1">Digital Supremacy Laboratory</span>
+         </div>
+         <div className="hidden lg:flex gap-16 text-[10px] font-black uppercase tracking-[0.4em] text-white/30">
+            <a href="#services" className="hover:text-white transition-colors relative group">
+               [ Capabilities ]
+               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-indigo-500 group-hover:w-full transition-all" />
             </a>
-          </div>
-        </div>
+            <a href="#audit" className="hover:text-white transition-colors relative group">
+               [ Tech_Audit ]
+               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-indigo-500 group-hover:w-full transition-all" />
+            </a>
+            <a href="#about" className="hover:text-white transition-colors relative group">
+               [ Manifesto ]
+               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-indigo-500 group-hover:w-full transition-all" />
+            </a>
+         </div>
+         <div className="flex items-center gap-12">
+            <div className="hidden md:flex flex-col items-end border-r border-white/10 pr-6">
+               <div className="text-[8px] font-black text-indigo-500 uppercase">Core_Status</div>
+               <div className="text-[10px] font-bold uppercase tracking-widest">v1.0.4 Optimized</div>
+            </div>
+            <button className="px-10 py-5 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-indigo-500 hover:text-white transition-all shadow-[0_0_40px_rgba(255,255,255,0.1)] italic">
+               Initiate_Project
+            </button>
+         </div>
+      </nav>
 
-        <div className="flex flex-col md:row items-center justify-between gap-8 text-[9px] font-bold uppercase tracking-[0.5em] text-white/10 border-t border-white/5 pt-16">
-          <p>© 2024 ARCHIVE STUDIO LABS. ALL RIGHTS RESERVED.</p>
-          <div className="flex gap-12">
-            <a href="#" className="hover:text-white transition-colors">[Privacy_Policy]</a>
-            <a href="#" className="hover:text-white transition-colors">[Terms_of_Service]</a>
-          </div>
-        </div>
-      </footer>
+      <main>
+        {/* 2. DIGITAL SUPREMACY (HERO / SPACEMAN STYLE) */}
+        <section className="relative h-screen flex flex-col justify-center items-center px-12 pt-32 overflow-hidden border-b border-white/5">
+           <div className="relative z-10 w-full max-w-7xl">
+              <Reveal>
+                 <div className="inline-flex items-center gap-4 px-6 py-3 border border-indigo-500/30 bg-indigo-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-16 italic">
+                    <Activity className="w-4 h-4" /> Performance_Primary_Aesthetic // Secure_Node_Active
+                 </div>
+                 <motion.h1 
+                    style={{ y: heroY, scale: heroScale, opacity: heroOpacity }}
+                    className="text-8xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.7] italic flex flex-col"
+                 >
+                    <span>Digital</span>
+                    <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Supremacy.</span>
+                 </motion.h1>
+                 
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-end text-left max-w-5xl mx-auto">
+                    <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-[0.15em] border-l-2 border-indigo-500/20 pl-12">
+                       Nous définissons l'esthétique de la nouvelle ère. Notre laboratoire créatif fusionne brutalité brute et premium numérique pour délivrer les interfaces du futur.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-8 justify-end">
+                       <button className="px-14 py-8 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_50px_rgba(99,102,241,0.4)] flex items-center gap-4 italic group">
+                          [ Start Journey ] <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                       </button>
+                    </div>
+                 </div>
+              </Reveal>
+           </div>
+
+           {/* Floating HUD Background */}
+           <div className="absolute top-0 right-0 w-[60vw] h-[60vw] opacity-10 pointer-events-none select-none z-0">
+              <svg viewBox="0 0 100 100" className="w-full h-full stroke-indigo-500 stroke-[0.1] fill-none">
+                 <circle cx="50" cy="50" r="48" strokeDasharray="1 1" />
+                 <path d="M 50 2 L 50 98 M 2 50 L 98 50" strokeDasharray="2 2" />
+                 <motion.circle 
+                    cx="50" cy="50" r="30" strokeWidth="0.5" 
+                    animate={{ r: [30, 35, 30], opacity: [0.2, 0.5, 0.2] }} 
+                    transition={{ duration: 5, repeat: Infinity }}
+                 />
+              </svg>
+           </div>
+        </section>
+
+        {/* 3. CAPABILITIES (DENSE GRID INTERFACE) */}
+        <section id="services" className="py-64 px-12 bg-[#050508] relative overflow-hidden">
+           <div className="max-w-7xl mx-auto mb-32 flex justify-between items-end">
+              <Reveal>
+                 <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-8">Service_Matrix</div>
+                 <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] italic">
+                    The <br/> <span className="text-white/5" style={{ WebkitTextStroke: "1px white" }}>Solutions.</span>
+                 </h2>
+              </Reveal>
+              <div className="hidden lg:block text-right">
+                 <div className="flex justify-end gap-4 mb-4">
+                    <div className="w-48 h-[1px] bg-white/10" />
+                    <div className="w-16 h-[1px] bg-indigo-500" />
+                 </div>
+                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 italic">Architectures // Interfaces // R&D</p>
+              </div>
+           </div>
+
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-2 border-white/5">
+              {SERVICES.map((s, i) => (
+                 <Reveal key={s.id} delay={i * 0.1}>
+                    <div className="group relative p-16 border-r border-b border-white/5 hover:bg-white/[0.02] transition-all h-[600px] flex flex-col justify-between overflow-hidden">
+                       <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:opacity-10 transition-opacity">
+                          <s.icon className="w-48 h-48" />
+                       </div>
+                       
+                       <div>
+                          <div className="text-[10px] font-black uppercase tracking-[0.6em] text-indigo-500 mb-12">{s.id} // ACTIVE</div>
+                          <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none italic mb-8 group-hover:translate-x-4 transition-transform duration-700">
+                             {s.title}
+                          </h3>
+                       </div>
+
+                       <div className="relative z-10">
+                          <p className="text-xs text-white/40 leading-relaxed font-medium uppercase italic mb-12 h-24 tracking-widest leading-loose">
+                             {s.desc}
+                          </p>
+                          <div className="flex gap-4">
+                             <div className="w-2 h-2 rounded-full bg-indigo-500" />
+                             <div className="w-2 h-2 rounded-full bg-white/10 group-hover:bg-indigo-500/40 transition-colors" />
+                             <div className="w-2 h-2 rounded-full bg-white/10 group-hover:bg-indigo-500/40 transition-colors" />
+                          </div>
+                       </div>
+                    </div>
+                 </Reveal>
+              ))}
+           </div>
+        </section>
+
+        {/* 4. TECHNICAL AUDIT (HUD DATA VIZ) */}
+        <section id="audit" className="py-64 px-12 border-b border-white/5 bg-white text-black relative">
+           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-32 items-center relative z-10">
+              <div className="lg:col-span-7">
+                 <Reveal>
+                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-600 mb-8">Performance_Metrics</div>
+                    <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-16 italic">
+                       System <br/> <span className="opacity-20">Audit.</span>
+                    </h2>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                       {TECHNICAL_AUDIT.map((audit, i) => (
+                          <div key={i} className="p-12 border-2 border-black/5 bg-black/[0.02] hover:border-indigo-600/30 transition-all group relative overflow-hidden">
+                             <div className="text-[10px] font-black uppercase tracking-widest text-indigo-600 mb-6">{audit.label}</div>
+                             <div className="text-6xl font-black italic mb-6 tracking-tighter group-hover:scale-105 transition-transform origin-left">{audit.value}</div>
+                             <div className="flex justify-between items-center text-[9px] font-bold uppercase tracking-[0.4em] text-black/20">
+                                <span>{audit.detail}</span>
+                                <span className="text-indigo-600">{audit.trend}</span>
+                             </div>
+                             <div className="mt-8 h-1 bg-black/5 relative overflow-hidden">
+                                <motion.div 
+                                   className="absolute inset-y-0 left-0 bg-indigo-600"
+                                   initial={{ width: 0 }}
+                                   whileInView={{ width: '85%' }}
+                                   transition={{ duration: 1.5, delay: i * 0.1 }}
+                                />
+                             </div>
+                          </div>
+                       ))}
+                    </div>
+                 </Reveal>
+              </div>
+
+              <div className="lg:col-span-5 space-y-16">
+                 <Reveal delay={0.4}>
+                    <div className="p-12 bg-black text-white rounded-sm relative group overflow-hidden border border-white/10 shadow-2xl">
+                       <div className="flex justify-between items-center mb-12">
+                          <h4 className="text-2xl font-black uppercase tracking-tighter italic">Core Logs</h4>
+                          <div className="flex gap-2">
+                             <div className="w-3 h-3 rounded-full bg-red-500/50" />
+                             <div className="w-3 h-3 rounded-full bg-green-500" />
+                          </div>
+                       </div>
+                       <div className="space-y-6 font-mono text-[10px]">
+                          {SYSTEM_LOGS.map((log, i) => (
+                             <div key={i} className="flex justify-between border-b border-white/5 pb-2 group/log hover:bg-white/5 px-2 transition-colors">
+                                <span className="text-white/20 group-hover/log:text-white transition-colors">[{log.time}]</span>
+                                <span className="text-indigo-500 font-black">{log.node}</span>
+                                <span className="text-white/40 italic">{log.task}</span>
+                                <span className="font-black">[{log.status}]</span>
+                             </div>
+                          ))}
+                       </div>
+                       <div className="mt-12 flex items-center gap-4 text-[10px] font-black uppercase text-indigo-500 animate-pulse">
+                          <Terminal className="w-4 h-4" /> Awaiting_Signal_Packet...
+                       </div>
+                    </div>
+                 </Reveal>
+                 <Reveal delay={0.5}>
+                    <p className="text-sm text-black/40 font-bold leading-relaxed uppercase tracking-[0.2em] italic">
+                       "Le code est notre pinceau, la performance est notre canevas. Nous construisons des architectures monolithiques capables de résister à l'épreuve du temps numérique."
+                    </p>
+                 </Reveal>
+              </div>
+           </div>
+
+           {/* Background Large Text Accent */}
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] font-black text-black/[0.02] pointer-events-none select-none italic z-0">
+              CORE
+           </div>
+        </section>
+
+        {/* 5. MANIFESTO (EDITORIAL LAYOUT) */}
+        <section id="about" className="py-64 px-12">
+           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-32 items-center">
+              <div className="lg:col-span-5">
+                 <Reveal>
+                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-8">Studio_Manifesto</div>
+                    <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-12 italic">
+                       Brutal <br/> <span className="opacity-10">Premium.</span>
+                    </h2>
+                    <p className="text-lg font-bold italic text-white/30 leading-relaxed uppercase tracking-[0.1em] mb-16">
+                       Nous croyons en une esthétique sans compromis. Nos designs sont brutaux dans leur efficacité mais premium dans leur exécution. Pas de superflu, seulement l'essentiel élevé au rang d'art.
+                    </p>
+                    <div className="grid grid-cols-2 gap-12 border-t border-white/5 pt-12">
+                       <div className="flex flex-col gap-4">
+                          <div className="text-[10px] font-black text-white/20 uppercase tracking-widest">Established</div>
+                          <div className="text-4xl font-black italic">MMXXIV</div>
+                       </div>
+                       <div className="flex flex-col gap-4">
+                          <div className="text-[10px] font-black text-white/20 uppercase tracking-widest">Global Node</div>
+                          <div className="text-4xl font-black italic">01_CH</div>
+                       </div>
+                    </div>
+                 </Reveal>
+              </div>
+
+              <div className="lg:col-span-7">
+                 <Reveal scale={0.9}>
+                    <div className="relative aspect-video bg-black group overflow-hidden border-[20px] border-white/5">
+                       <img 
+                          src="https://images.unsplash.com/photo-1518005020250-68a377a747e9?w=1600&q=80" 
+                          className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-2000"
+                          alt="Studio Interior"
+                       />
+                       <div className="absolute inset-0 bg-indigo-500/10 mix-blend-overlay" />
+                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="w-24 h-24 border-2 border-white rounded-full flex items-center justify-center animate-spin-slow">
+                             <Maximize2 className="w-8 h-8 text-white" />
+                          </div>
+                       </div>
+                    </div>
+                 </Reveal>
+              </div>
+           </div>
+        </section>
+
+        {/* 6. FAQ (STUDIO ACCORDION) */}
+        <section className="py-64 px-12 bg-[#0a0a0a]">
+           <div className="max-w-4xl mx-auto">
+              <Reveal>
+                 <div className="text-center mb-40">
+                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-8">Secure_Inquiry</div>
+                    <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter italic mb-8">Lab <span className="opacity-10">Atlas.</span></h2>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 italic">Process // Research // Deployment</p>
+                 </div>
+              </Reveal>
+
+              <Accordion type="single" collapsible className="w-full space-y-4">
+                 {[
+                   { q: "What is your primary design philosophy?", a: "Performance is our aesthetic. We believe that a high-performing system is inherently beautiful. We strip away the unnecessary to reveal the core strength." },
+                   { q: "How do you handle data security?", a: "Every node in our network is encrypted using AES-512 military-grade protocols. We operate a zero-trust architecture for all client R&D data." },
+                   { q: "Do you offer post-deployment audits?", a: "Yes. Every system we deploy is monitored 24/7. We provide quarterly technical audits to ensure peak performance and security fidelity." }
+                 ].map((item, i) => (
+                   <AccordionItem key={i} value={`item-${i}`} className="border border-white/5 bg-white/[0.02] px-10 rounded-sm hover:border-indigo-500/30 transition-all">
+                      <AccordionTrigger className="text-[14px] font-black uppercase tracking-[0.4em] py-12 no-underline italic text-left">
+                         {item.q}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-[11px] font-medium text-white/30 tracking-[0.1em] uppercase italic leading-loose pb-12">
+                         {item.a}
+                      </AccordionContent>
+                   </AccordionItem>
+                 ))}
+              </Accordion>
+           </div>
+        </section>
+
+        {/* 7. FOOTER (HIGH FIDELITY) */}
+        <footer className="bg-black pt-64 pb-16 px-12 md:px-24 border-t-8 border-indigo-600">
+           <div className="max-w-7xl mx-auto">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-32 mb-48">
+                 <div className="lg:col-span-7">
+                    <Reveal>
+                       <div className="flex flex-col mb-16">
+                          <span className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.7] italic">Archive.</span>
+                          <span className="text-[12px] font-bold uppercase tracking-[1em] text-indigo-500 ml-2">Digital Supremacy Laboratory</span>
+                       </div>
+                       <p className="text-white/20 max-w-sm mb-20 text-sm font-light uppercase tracking-widest leading-loose italic">
+                          La maîtrise absolue de la synthèse numérique. Zurich // Global Nodes.
+                       </p>
+                       <div className="flex gap-12 items-center">
+                          <div className="w-24 h-[1px] bg-white/10" />
+                          <div className="flex gap-10">
+                             <Globe className="w-7 h-7 text-white/20 hover:text-indigo-500 transition-all cursor-pointer" />
+                             <Terminal className="w-7 h-7 text-white/20 hover:text-indigo-500 transition-all cursor-pointer" />
+                             <Cpu className="w-7 h-7 text-white/20 hover:text-indigo-500 transition-all cursor-pointer" />
+                          </div>
+                       </div>
+                    </Reveal>
+                 </div>
+
+                 <div className="lg:col-span-5 grid grid-cols-2 gap-16">
+                    <div className="space-y-12">
+                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-indigo-500 mb-16 border-b border-indigo-500/20 pb-4">Capabilities</h4>
+                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-white/30">
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-indigo-500" /> System_Solutions
+                          </li>
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-indigo-500" /> UI_Supremacy
+                          </li>
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-indigo-500" /> R&D_Lab
+                          </li>
+                       </ul>
+                    </div>
+                    <div className="space-y-12">
+                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-indigo-500 mb-16 border-b border-indigo-500/20 pb-4">Studio</h4>
+                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-white/30">
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-indigo-500" /> Manifesto
+                          </li>
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-indigo-500" /> Global_Nodes
+                          </li>
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-indigo-500" /> Contact
+                          </li>
+                       </ul>
+                    </div>
+                 </div>
+              </div>
+
+              <div className="pt-24 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.5em] text-white/10 italic text-center">
+                 <div className="flex gap-16">
+                    <span>©2026 ARCHIVE STUDIO LABS.</span>
+                    <span className="hidden md:inline">//</span>
+                    <span>CORE_OPTIMIZED_V1.0.4</span>
+                 </div>
+                 <div className="flex gap-16 font-mono text-indigo-500/30">
+                    <span>UPTIME_100%_GUARANTEED</span>
+                    <span>AES_512_ENCRYPTED</span>
+                 </div>
+              </div>
+           </div>
+        </footer>
+      </main>
+
+      <style>{`
+        ::-webkit-scrollbar { width: 6px; background: #020205; }
+        ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .vertical-text { writing-mode: vertical-rl; }
+        .animate-spin-slow { animation: spin 40s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+      `}</style>
     </div>
-  );
+  )
 }

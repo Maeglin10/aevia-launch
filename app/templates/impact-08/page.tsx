@@ -1,577 +1,628 @@
 "use client"
 
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
-import { useState, useRef, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useRef, useMemo } from "react"
+import { 
+  motion, 
+  AnimatePresence, 
+  useScroll, 
+  useTransform, 
+  useInView, 
+  useSpring,
+  useMotionValue
+} from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
+import { 
+  Zap, Activity, Target, Layers, Box, Hexagon, 
+  Terminal, Settings, Power, Info, 
+  AlertTriangle, ChevronRight, ArrowRight, 
+  Share2, Maximize2, Download, ExternalLink, 
+  Archive, Hash, BarChart3, Fingerprint, Scan, 
+  Briefcase, Wind, Timer, Lightbulb, Command, Grid, 
+  Radar, Orbit, Atom, Search, Cpu, Wrench, Hammer, 
+  Cog, Hand, Accessibility, Bot, Sparkles, Infinity, 
+  Code2, Cloud, HardDrive, Key, MousePointer2, 
+  Globe, Layout, Smartphone, PenTool, Camera, 
+  Music, Film, Palette, MessageSquare, Send,
+  Gauge, Disc, Waves, ShieldCheck, Thermometer, 
+  Flame, Battery, Radio, Signal, Milestone, 
+  FlaskConical, Microscope, Ghost, Binary, Database,
+  Rocket, PlaneTakeoff, Compass, Map, RadioIcon,
+  CircleDot, Waves as WaveIcon, Pickaxe, Mountain, Gem,
+  Drill, Telescope, MilestoneIcon
+} from "lucide-react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Separator } from "@/components/ui/separator"
-import { Zap, Gauge, Fuel, ShieldAlert, Cpu, Globe, Mail, MapPin, ChevronRight, ArrowRight, X, Menu, Settings, PenTool, Wind, Trophy, Activity, Info, Share2, Heart, Search, ShoppingBag, Eye, ZapOff } from "lucide-react"
-
-import "../premium.css";
 
 /* ==========================================================================
-   DATA STRUCTURES
-   ========================================================================= */
+   VULCAN MOTOR GROUP DATASET (ULTRA DENSITY)
+   ========================================================================== */
 
 const FLEET = [
-  { 
-    id: 1, 
-    name: "Vulcan Tyrant", 
-    category: "Hyper-Grand Tourer", 
-    specs: { power: "1,400 HP", top: "420 KM/H", zero: "2.1s" },
-    desc: "A carbon-monocoque masterpiece powered by a quad-turbo hybrid V12. Perfection without compromise.",
-    img: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1200&q=80"
+  {
+    id: "vul-ty-01",
+    name: "Tyrant GT",
+    class: "Grand Tourer",
+    power: "1200 HP",
+    torque: "1400 Nm",
+    topSpeed: "385 km/h",
+    accel: "2.1s",
+    desc: "L'apogée du Grand Tourisme. Un moteur V12 bi-turbo couplé à un système hybride de récupération d'énergie issu de la Formule 1.",
+    img: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=1600&q=80",
+    color: "#3b82f6"
   },
-  { 
-    id: 2, 
-    name: "Apex Evo", 
-    category: "Track Focused", 
-    specs: { power: "1,100 HP", top: "350 KM/H", zero: "1.9s" },
-    desc: "Active aerodynamics and pushrod suspension derived from Formula 1 engineering. The ultimate track weapon.",
-    img: "https://images.unsplash.com/photo-1592193660027-290025d3cd0a?w=1200&q=80"
+  {
+    id: "vul-ap-08",
+    name: "Apex EVO",
+    class: "Track Focused",
+    power: "980 HP",
+    torque: "1100 Nm",
+    topSpeed: "340 km/h",
+    accel: "1.9s",
+    desc: "Conçue pour la piste. Une carrosserie entièrement en carbone pré-imprégné avec un appui aérodynamique actif de 800kg à 250km/h.",
+    img: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1600&q=80",
+    color: "#ef4444"
   },
-  { 
-    id: 3, 
-    name: "Stratos E", 
-    category: "Pure Electric", 
-    specs: { power: "2,000 HP", top: "380 KM/H", zero: "1.8s" },
-    desc: "Tri-motor axial flux technology providing instant torque vectoring and unprecedented electric soul.",
-    img: "https://images.unsplash.com/photo-1617469767053-d3b508a0d84d?w=1200&q=80"
-  },
-];
+  {
+    id: "vul-st-15",
+    name: "Stratos E",
+    class: "Electric Hypercar",
+    power: "2000 HP",
+    torque: "2500 Nm",
+    topSpeed: "410 km/h",
+    accel: "1.7s",
+    desc: "Le futur électrique. Quatre moteurs indépendants pilotés par une IA de vectorisation de couple en temps réel.",
+    img: "https://images.unsplash.com/photo-1611605645802-c21be743c321?w=1600&q=80",
+    color: "#10b981"
+  }
+]
 
-const CRAFTSMANSHIP = [
-  { 
-    title: "Carbon Monocoque", 
-    desc: "Ultra-lightweight chassis woven from high-modulus T1000 carbon fiber for maximum torsional rigidity.",
-    icon: ShieldAlert
-  },
-  { 
-    title: "Active Aero", 
-    desc: "Continuously variable wing profiles that adjust based on downforce requirements and braking loads.",
-    icon: Wind
-  },
-  { 
-    title: "Bespoke Interior", 
-    desc: "Aniline leathers, machined magnesium, and zero-gravity seating tailored to your exact biomechanics.",
-    icon: PenTool
-  },
-];
+const PERFORMANCE_METRICS = [
+  { label: "Aero Efficiency", value: "0.24 Cd", trend: "Optimal", percent: 92 },
+  { label: "Thermal Stability", value: "84°C", trend: "Stable", percent: 88 },
+  { label: "Torque Vectoring", value: "Active", trend: "Precise", percent: 96 },
+  { label: "G-Force Max", value: "1.8 G", trend: "Extreme", percent: 84 }
+]
 
-const PERFORMANCE = [
-  { label: "Max Power", value: "2,000 HP" },
-  { label: "Weight", value: "1,240 KG" },
-  { label: "Lateral G", value: "2.4 G" },
-  { label: "Hand-Assembled", value: "100%" },
-];
+const ENGINEERING_LOGS = [
+  { timestamp: "12:04:12", unit: "Chassis_01", task: "Stress_Test", status: "PASS", load: "98%" },
+  { timestamp: "12:05:01", unit: "Propulsion", task: "Cycle_Calibration", status: "ACTIVE", load: "44%" },
+  { timestamp: "12:05:48", unit: "Aerodynamics", task: "Wind_Tunnel_Sim", status: "DONE", load: "100%" }
+]
 
-/* ==========================================================================
-   UTILITY COMPONENTS
-   ========================================================================= */
+/* ==========================================
+   TECHNICAL COMPONENTS (SLIDER REVOLUTION STANDARD)
+   ========================================== */
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
+function Reveal({ children, delay = 0, y = 40, x = 0, scale = 1 }: { children: React.ReactNode, delay?: number, y?: number, x?: number, scale?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 1, delay, ease: [0.22, 1, 0.36, 1] }}>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y, x, scale }}
+      animate={isInView ? { opacity: 1, y: 0, x: 0, scale: 1 } : {}}
+      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
+    >
       {children}
     </motion.div>
-  );
+  )
 }
 
-function MagneticBtn({ children, className = "", onClick }: { children: React.ReactNode; className?: string; onClick?: () => void }) {
-  const ref = useRef<HTMLButtonElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 150, damping: 20 });
-  const sy = useSpring(y, { stiffness: 150, damping: 20 });
-
-  const handleMouse = useCallback((e: React.MouseEvent) => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    x.set((e.clientX - rect.left - rect.width / 2) * 0.35);
-    y.set((e.clientY - rect.top - rect.height / 2) * 0.35);
-  }, [x, y]);
+function FluidAeroVisualizer() {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  useEffect(() => {
+    const handleMouse = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
+    window.addEventListener("mousemove", handleMouse)
+    return () => window.removeEventListener("mousemove", handleMouse)
+  }, [])
 
   return (
-    <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={handleMouse} onMouseLeave={() => { x.set(0); y.set(0); }} onClick={onClick} className={className}>
-      {children}
-    </motion.button>
-  );
+    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20">
+       <svg width="100%" height="100%" className="w-full h-full">
+          <defs>
+            <linearGradient id="aero-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0" />
+              <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          {[...Array(20)].map((_, i) => (
+            <motion.path 
+               key={i}
+               d={`M -100 ${i * 50} Q 500 ${i * 50 + 100} 2000 ${i * 50}`}
+               stroke="url(#aero-grad)" 
+               strokeWidth="1" 
+               fill="none"
+               animate={{ 
+                  d: `M -100 ${i * 50} Q ${mousePos.x} ${mousePos.y + (i - 10) * 20} 2000 ${i * 50}`,
+                  opacity: [0.1, 0.3, 0.1]
+               }}
+               transition={{ type: "spring", damping: 50, stiffness: 30 }}
+            />
+          ))}
+          {[...Array(50)].map((_, i) => (
+             <motion.circle
+                key={`p-${i}`}
+                cx={Math.random() * 2000}
+                cy={Math.random() * 1000}
+                r="1"
+                fill="#3b82f6"
+                animate={{
+                   x: [0, 2000],
+                   opacity: [0, 1, 0]
+                }}
+                transition={{
+                   duration: Math.random() * 2 + 1,
+                   repeat: Infinity,
+                   delay: Math.random() * 5,
+                   ease: "linear"
+                }}
+             />
+          ))}
+       </svg>
+    </div>
+  )
+}
+
+function HUD_Telemetry() {
+  return (
+    <div className="fixed top-24 right-12 z-40 hidden xl:flex flex-col gap-8 items-end pointer-events-none">
+       <div className="flex flex-col items-end border-r-2 border-blue-500/30 pr-6 py-2">
+          <div className="text-[10px] font-black tracking-widest text-blue-500 uppercase mb-2">Vulcan_System_V4.2</div>
+          <div className="text-2xl font-mono text-white tracking-tighter">44.12.08</div>
+          <div className="text-[8px] font-bold text-white/30 uppercase mt-1">Modena // Italy</div>
+       </div>
+       <div className="space-y-4">
+          {[1, 0.8, 1.2, 0.6].map((h, i) => (
+             <div key={i} className="flex gap-1 items-end h-12">
+                <motion.div 
+                  className="w-1 bg-blue-500/40"
+                  animate={{ height: ["20%", "80%", "40%"] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
+                />
+             </div>
+          ))}
+       </div>
+    </div>
+  )
+}
+
+function VehicleCard({ vehicle, index }: { vehicle: any, index: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { margin: "-100px" })
+
+  return (
+    <motion.div 
+      ref={ref}
+      className="min-w-[80vw] md:min-w-[60vw] lg:min-w-[45vw] h-[70vh] relative group overflow-hidden border border-white/5 bg-zinc-950"
+    >
+       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10" />
+       <motion.img 
+          src={vehicle.img} 
+          className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-110 group-hover:scale-100"
+          alt={vehicle.name}
+       />
+       
+       <div className="absolute bottom-0 left-0 p-12 z-20 w-full">
+          <div className="flex justify-between items-end">
+             <div>
+                <div className="text-[10px] font-black uppercase tracking-[0.5em] text-white/30 mb-4">{vehicle.class} // {vehicle.id}</div>
+                <h3 className="text-5xl md:text-7xl font-black uppercase tracking-tighter italic mb-8 group-hover:translate-x-4 transition-transform duration-700">
+                   {vehicle.name}
+                </h3>
+             </div>
+             <div className="text-right pb-4">
+                <div className="text-[10px] font-black uppercase tracking-widest text-blue-500 mb-2">Power_Output</div>
+                <div className="text-4xl font-black italic">{vehicle.power}</div>
+             </div>
+          </div>
+          
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }}
+            animate={isInView ? { height: "auto", opacity: 1 } : {}}
+            className="overflow-hidden"
+          >
+             <p className="max-w-xl text-sm text-white/40 leading-relaxed font-medium uppercase italic mb-8">
+                {vehicle.desc}
+             </p>
+             <div className="grid grid-cols-3 gap-8 border-t border-white/10 pt-8">
+                <div>
+                   <div className="text-[8px] text-white/20 uppercase mb-2">Top Speed</div>
+                   <div className="text-lg font-bold italic">{vehicle.topSpeed}</div>
+                </div>
+                <div>
+                   <div className="text-[8px] text-white/20 uppercase mb-2">Torque</div>
+                   <div className="text-lg font-bold italic">{vehicle.torque}</div>
+                </div>
+                <div>
+                   <div className="text-[8px] text-white/20 uppercase mb-2">0-100 km/h</div>
+                   <div className="text-lg font-bold italic">{vehicle.accel}</div>
+                </div>
+             </div>
+          </motion.div>
+       </div>
+       
+       <div className="absolute top-12 right-12 z-20 flex gap-4">
+          <button className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center bg-black/50 backdrop-blur-md hover:bg-blue-500 transition-colors group/btn">
+             <ArrowUpRight className="w-5 h-5 group-hover/btn:rotate-45 transition-transform" />
+          </button>
+       </div>
+    </motion.div>
+  )
 }
 
 /* ==========================================================================
-   MAIN PAGE COMPONENT
-   ========================================================================= */
+   MAIN PAGE: VULCAN MOTOR GROUP MODENA (ULTRA DENSITY)
+   ========================================================================== */
 
-export default function VulcanMotorsPage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeCar, setActiveCar] = useState<number | null>(null);
+export default function VulcanMotorPremium() {
+  const [activeTab, setActiveTab] = useState(0)
+  const containerRef = useRef(null)
+  const fleetRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: containerRef })
 
-  useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", h);
-    return () => window.removeEventListener("scroll", h);
-  }, []);
+  // Parallax & Scroll transforms
+  const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 1.1])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0])
+  const bgTextY = useTransform(scrollYProgress, [0, 1], [0, -400])
+  
+  // Fleet Horizontal Scroll
+  const { scrollXProgress } = useScroll({ target: fleetRef })
+  const fleetX = useTransform(scrollYProgress, [0.3, 0.6], ["0%", "-100%"])
 
   return (
-    <div className="premium-theme min-h-screen bg-[#050505] text-[#d1d1d1] font-sans selection:bg-[#3b82f6] selection:text-white overflow-x-hidden">
-
-      {/* ── NAVIGATION ── */}
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-black/95 backdrop-blur-3xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}>
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex flex-col items-center">
-             <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none italic">Vulcan</span>
-             <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-[#3b82f6] -mt-1 ml-1">Motor Group</span>
-          </Link>
-
-          <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
-            {["Fleet", "Customization", "Engineering", "Atelier", "Heritage"].map(link => (
-              <Link key={link} href="#" className="hover:text-[#3b82f6] transition-colors cursor-pointer">{link}</Link>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-8">
-             <button className="hidden md:flex items-center gap-3 group">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[#3b82f6] transition-colors">Configurator</span>
-                <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 group-hover:bg-[#3b82f6] group-hover:text-white group-hover:border-[#3b82f6] transition-all">
-                   <Settings className="w-4 h-4" />
-                </div>
-             </button>
-             <button onClick={() => setMenuOpen(true)} className="lg:hidden text-[#3b82f6]"><Menu className="w-6 h-6" /></button>
-          </div>
-        </div>
+    <div ref={containerRef} className="bg-[#050505] text-[#f0f0f0] font-sans selection:bg-blue-500/40 selection:text-white min-h-screen overflow-x-hidden">
+      
+      <HUD_Telemetry />
+      
+      {/* 1. NAVIGATION (HUD STYLE) */}
+      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-8 py-10 border-b border-white/5 bg-black/80 backdrop-blur-md">
+         <div className="flex flex-col">
+            <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">Vulcan</span>
+            <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-blue-500 -mt-1 ml-1">Motor Group Modena</span>
+         </div>
+         <div className="hidden md:flex gap-12 text-[10px] font-black uppercase tracking-widest text-white/40">
+            <a href="#fleet" className="hover:text-white transition-colors">[ The_Fleet ]</a>
+            <a href="#engineering" className="hover:text-white transition-colors">[ Engineering ]</a>
+            <a href="#atelier" className="hover:text-white transition-colors">[ The_Atelier ]</a>
+         </div>
+         <div className="flex items-center gap-6">
+            <div className="flex flex-col items-end mr-4">
+               <div className="text-[8px] font-black text-blue-500 uppercase tracking-widest">Active_Node</div>
+               <div className="text-[10px] font-bold">Modena_01</div>
+            </div>
+            <button className="p-3 border border-white/10 rounded-full hover:border-blue-500 transition-colors group">
+               <Settings className="w-5 h-5 group-hover:rotate-90 transition-transform" />
+            </button>
+         </div>
       </nav>
 
-      {/* MOBILE MENU */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="fixed inset-0 z-[100] bg-black p-12 flex flex-col justify-center gap-10 text-center">
-             <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40 hover:text-[#3b82f6]"><X className="w-10 h-10"/></button>
-             <div className="flex flex-col gap-6 text-5xl font-black uppercase italic text-white/5">
-                {["The Fleet", "Engineering", "Configurator", "Labs"].map(l => (
-                   <Link key={l} href="#" onClick={() => setMenuOpen(false)} className="hover:text-[#3b82f6] transition-all">{l}</Link>
+      <main>
+        {/* 2. AERODYNAMIC IGNITION (HERO) */}
+        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
+          <FluidAeroVisualizer />
+          
+          <motion.div 
+            style={{ y: bgTextY }}
+            className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-[0.03] pointer-events-none select-none z-0"
+          >
+             <h2 className="text-[35vw] font-black uppercase tracking-tighter leading-none italic">VULCAN</h2>
+          </motion.div>
+
+          <div className="relative z-10 w-full max-w-7xl">
+             <Reveal>
+                <div className="inline-flex items-center gap-4 px-6 py-2 border border-blue-500/30 bg-blue-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-12 italic">
+                   Propulsion_Init // Thermal: NOMINAL // Flow: OPTIMAL
+                </div>
+                <motion.h1 
+                  style={{ scale: heroScale }}
+                  className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-12 leading-[0.7] italic flex flex-col"
+                >
+                   <span>Force of</span>
+                   <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Nature.</span>
+                </motion.h1>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
+                   <p className="max-w-xl text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">
+                      Nous ne construisons pas des voitures. Nous domptons la physique. Chaque courbe est dictée par le vent, chaque watt est maîtrisé par l'IA.
+                   </p>
+                   <div className="flex flex-col sm:flex-row gap-8 md:justify-end">
+                      <button className="px-12 py-6 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(59,130,246,0.3)] flex items-center gap-4 italic group">
+                         <Zap className="w-5 h-5 group-hover:animate-pulse" /> Configure Your Unit
+                      </button>
+                      <button className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
+                         <Disc className="w-5 h-5" /> View Registry
+                      </button>
+                   </div>
+                </div>
+             </Reveal>
+          </div>
+
+          {/* Bottom HUD Bar */}
+          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-12">
+             <div className="flex gap-16">
+                {PERFORMANCE_METRICS.slice(0, 2).map((m, i) => (
+                   <div key={i}>
+                      <div className="text-[8px] text-white/20 uppercase tracking-widest mb-2">{m.label}</div>
+                      <div className="text-2xl font-black italic">{m.value}</div>
+                      <div className="w-32 h-[2px] bg-white/5 mt-2 overflow-hidden">
+                         <motion.div 
+                           className="h-full bg-blue-500" 
+                           initial={{ width: 0 }}
+                           whileInView={{ width: `${m.percent}%` }}
+                           transition={{ duration: 2 }}
+                         />
+                      </div>
+                   </div>
                 ))}
              </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── HERO ── */}
-      <section className="relative h-[100svh] flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <Image src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1600&q=80" alt="Supercar" fill className="object-cover opacity-60 mix-blend-overlay grayscale contrast-125" priority />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent" />
-        </div>
-
-        <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full">
-          <Reveal>
-             <Badge className="bg-[#3b82f6]/10 text-[#3b82f6] border border-[#3b82f6]/30 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full">
-                Hand-Assembled in Modena // Limitless Customization
-             </Badge>
-             <h1 className="text-8xl md:text-[14rem] font-black leading-[0.8] tracking-tighter mb-12 uppercase text-white italic">
-               Defy <br/> <span className="text-[#3b82f6] not-italic">Physics.</span>
-             </h1>
-             <p className="max-w-md text-xl text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic">
-               The ultimate expression of automotive performance. Engineering without compromise for the world's elite drivers.
-             </p>
-             <div className="flex flex-col sm:flex-row gap-6">
-                <MagneticBtn className="px-12 py-5 bg-[#3b82f6] text-white text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all cursor-pointer shadow-[0_0_50px_rgba(59,130,246,0.3)]">
-                  Launch Configurator
-                </MagneticBtn>
-                <Link href="#fleet" className="px-12 py-5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-white hover:text-black transition-all flex items-center justify-center gap-3">
-                  Current Fleet <ArrowRight className="w-4 h-4" />
-                </Link>
+             <div className="flex items-center gap-6">
+                <div className="flex flex-col items-end">
+                   <div className="text-[10px] font-black uppercase tracking-widest text-white/30 italic">Wind_Tunnel_Active</div>
+                   <div className="text-xs font-bold text-blue-500">v0.24 Cd</div>
+                </div>
+                <div className="w-12 h-12 rounded-full border-2 border-blue-500 border-t-transparent animate-spin" />
              </div>
-          </Reveal>
-        </div>
+          </div>
+        </section>
 
-        <div className="absolute bottom-12 right-12 flex flex-col gap-8 text-right hidden lg:flex">
-           <Reveal delay={0.4}>
-              <div className="space-y-2 border-r-2 border-[#3b82f6] pr-8">
-                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block">Performance Metric</span>
-                 <span className="text-6xl font-black italic text-white tracking-tighter">0-100 IN 1.8s</span>
+        {/* 3. THE FLEET (HORIZONTAL SCROLL / KORR STYLE) */}
+        <section id="fleet" className="py-48 px-8 md:px-24 bg-zinc-950 relative overflow-hidden">
+           <div className="max-w-7xl mx-auto mb-24 flex justify-between items-end">
+              <Reveal>
+                 <div className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-8">Vulcan_Registry</div>
+                 <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] italic">
+                    The <br/> <span className="text-white/10">Arsenal.</span>
+                 </h2>
+              </Reveal>
+              <div className="hidden md:block">
+                 <p className="max-w-xs text-xs text-white/20 leading-relaxed uppercase italic text-right">
+                    Trois modèles. Trois philosophies. Une seule quête de perfection absolue dans l'ingénierie mécanique.
+                 </p>
               </div>
-           </Reveal>
-           <Reveal delay={0.6}>
-              <div className="space-y-2 border-r-2 border-white/5 pr-8">
-                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block">Downforce</span>
-                 <span className="text-6xl font-black italic text-white tracking-tighter">800 KG @ 250 KM/H</span>
-              </div>
-           </Reveal>
-        </div>
-      </section>
+           </div>
 
-      {/* ── PERFORMANCE STATS ── */}
-      <section className="py-24 border-y border-white/5 bg-[#080808]">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12">
-           <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
-              {PERFORMANCE.map((stat, i) => (
-                <Reveal key={i} delay={i * 0.1}>
-                   <div className="text-center md:text-left">
-                      <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#3b82f6] mb-2">{stat.label}</div>
-                      <div className="text-5xl font-black italic text-white tracking-tighter">{stat.value}</div>
-                   </div>
-                </Reveal>
+           <div className="flex gap-8 overflow-x-auto pb-12 no-scrollbar px-4 -mx-4 snap-x snap-mandatory">
+              {FLEET.map((vehicle, i) => (
+                 <div key={vehicle.id} className="snap-center">
+                    <VehicleCard vehicle={vehicle} index={i} />
+                 </div>
               ))}
            </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ── FLEET ── */}
-      <section id="fleet" className="py-32 px-6 md:px-12">
-        <div className="max-w-[1600px] mx-auto">
-          <Reveal>
-            <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
-               <div>
-                  <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">The <br/> <span className="text-[#3b82f6]">Stable.</span></h2>
-                  <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">Current Manifest // 2024 Release // Limited to 25 Units</p>
-               </div>
-               <Link href="#" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#3b82f6] border-b border-[#3b82f6] pb-2 hover:text-white hover:border-white transition-all">Download Technical Ledger</Link>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {FLEET.map((car, i) => (
-              <Reveal key={car.id} delay={i * 0.1}>
-                 <div className="group space-y-10 cursor-pointer" onMouseEnter={() => setActiveCar(car.id)} onMouseLeave={() => setActiveCar(null)}>
-                    <div className="relative aspect-[4/5] overflow-hidden rounded-sm grayscale group-hover:grayscale-0 transition-all duration-[1s]">
-                       <Image src={car.img} alt={car.name} fill className="object-cover transition-transform duration-[2s] group-hover:scale-125" />
-                       <div className="absolute inset-0 bg-black/60 group-hover:bg-transparent transition-colors duration-700" />
-                       
-                       <div className="absolute top-6 left-6">
-                          <Badge className="bg-black/60 backdrop-blur-md text-white border-white/10 text-[9px] font-bold uppercase tracking-widest px-3 py-1">
-                             {car.category}
-                          </Badge>
-                       </div>
-
-                       <AnimatePresence>
-                          {activeCar === car.id && (
-                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 flex items-center justify-center bg-[#3b82f6]/10 backdrop-blur-[2px]">
-                               <button className="px-10 py-4 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:scale-110 transition-all shadow-2xl tracking-[0.3em]">Configure Unit</button>
-                            </motion.div>
-                          )}
-                       </AnimatePresence>
-                    </div>
-                    <div className="space-y-8">
-                       <div className="flex justify-between items-baseline">
-                          <h3 className="text-4xl font-black uppercase tracking-tighter text-white italic group-hover:text-[#3b82f6] transition-colors">{car.name}</h3>
-                          <div className="flex gap-4 text-[10px] font-black text-[#3b82f6] tracking-tighter">
-                             <span>{car.specs.power}</span>
-                             <span className="opacity-20 text-white">|</span>
-                             <span>{car.specs.zero}</span>
+        {/* 4. PERFORMANCE TELEMETRY (GRID DATA VIZ) */}
+        <section className="py-48 px-8 md:px-24 border-y border-white/5 bg-black relative">
+           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-24 items-center">
+              <div className="lg:col-span-2">
+                 <Reveal>
+                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-8">Performance_Matrix</div>
+                    <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] mb-16 italic">
+                       Advanced <br/> <span className="opacity-20">Dynamics.</span>
+                    </h2>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                       {PERFORMANCE_METRICS.map((metric, i) => (
+                          <div key={metric.label} className="border border-white/5 bg-white/[0.02] p-10 backdrop-blur-sm group hover:border-blue-500/50 transition-colors">
+                             <div className="flex justify-between items-start mb-8">
+                                <div className="text-[10px] text-white/30 uppercase tracking-[0.2em]">{metric.label}</div>
+                                <div className="p-2 border border-white/10 text-white/20 group-hover:text-blue-500 group-hover:border-blue-500 transition-colors">
+                                   {i === 0 ? <Wind className="w-4 h-4" /> : i === 1 ? <Thermometer className="w-4 h-4" /> : i === 2 ? <Cog className="w-4 h-4" /> : <Gauge className="w-4 h-4" />}
+                                </div>
+                             </div>
+                             <div className="text-5xl font-black mb-4 italic tracking-tighter">{metric.value}</div>
+                             <div className="flex items-center gap-3">
+                                <div className="flex-1 h-[2px] bg-white/5 overflow-hidden">
+                                   <motion.div 
+                                      className="h-full bg-blue-500"
+                                      initial={{ width: 0 }}
+                                      whileInView={{ width: `${metric.percent}%` }}
+                                      transition={{ duration: 1.5, delay: i * 0.1 }}
+                                   />
+                                </div>
+                                <div className="text-[10px] text-blue-500 font-black italic">{metric.trend}</div>
+                             </div>
                           </div>
+                       ))}
+                    </div>
+                 </Reveal>
+              </div>
+
+              <div className="space-y-12">
+                 <Reveal delay={0.3}>
+                    <div className="bg-blue-600/5 border border-blue-500/20 p-12">
+                       <h4 className="text-xl font-black uppercase tracking-tighter mb-6 italic">Carbon Structure</h4>
+                       <p className="text-sm text-white/30 leading-relaxed uppercase tracking-widest font-light italic mb-12">
+                          Notre monocoque en carbone pèse seulement 74kg. Une rigidité torsionnelle record de 50,000 Nm/degré assurant une précision chirurgicale en virage.
+                       </p>
+                       <div className="flex items-center gap-4">
+                          <Pickaxe className="w-5 h-5 text-blue-500" />
+                          <div className="text-[10px] font-black uppercase tracking-widest italic">T700_Industrial_Grade</div>
                        </div>
-                       <p className="text-sm text-white/30 font-light leading-relaxed uppercase tracking-widest italic leading-loose">{car.desc}</p>
-                       <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/5">
-                          {Object.entries(car.specs).map(([k, v]) => (
-                            <div key={k} className="text-center">
-                               <span className="text-[8px] font-bold uppercase tracking-widest text-white/20 block mb-1">{k}</span>
-                               <span className="text-[10px] font-black text-white italic tracking-widest">{v}</span>
-                            </div>
+                    </div>
+                 </Reveal>
+                 
+                 <Reveal delay={0.4}>
+                    <div className="bg-white/5 p-10 border border-white/5">
+                       <div className="text-[10px] font-black uppercase tracking-widest text-blue-500 mb-8 flex items-center gap-3">
+                          <Terminal className="w-4 h-4" /> Live_Telemetry_Log
+                       </div>
+                       <div className="space-y-4 font-mono">
+                          {ENGINEERING_LOGS.map((log, i) => (
+                             <div key={i} className="flex justify-between text-[10px] border-b border-white/5 pb-2 group hover:bg-white/5 transition-colors px-2">
+                                <span className="text-white/20 group-hover:text-white transition-colors">[{log.timestamp}]</span>
+                                <span className="text-white/60 font-bold">{log.unit}</span>
+                                <span className="text-blue-500">{log.task}</span>
+                                <span className="text-green-500 font-black">{log.status}</span>
+                             </div>
                           ))}
                        </div>
                     </div>
-                 </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+                 </Reveal>
+              </div>
+           </div>
+        </section>
 
-      {/* ── ENGINEERING PHILOSOPHY ── */}
-      <section className="py-40 bg-[#080808] overflow-hidden relative border-t border-white/5">
-         <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] bg-[#3b82f6]/5 blur-[120px] rounded-full" />
-         <div className="max-w-[1600px] mx-auto px-6 md:px-12">
-            <Reveal>
-               <div className="text-center mb-32">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#3b82f6] mb-8 block">Structural Mastery</span>
-                  <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">Obsessive <span className="text-[#3b82f6] not-italic">Engineering.</span></h2>
-               </div>
-            </Reveal>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-               {CRAFTSMANSHIP.map((s, i) => (
-                 <Reveal key={i} delay={i * 0.1}>
-                    <div className="p-16 border border-white/5 bg-white/[0.01] hover:border-[#3b82f6]/30 transition-all group h-full flex flex-col relative overflow-hidden">
-                       <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-[#3b82f6] mb-10 group-hover:bg-[#3b82f6] group-hover:text-white transition-all duration-500">
-                          <s.icon className="w-8 h-8" />
+        {/* 5. THE ATELIER (EDITORIAL LAYOUT) */}
+        <section id="atelier" className="py-48 px-8 md:px-24">
+           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
+              <div className="lg:col-span-5">
+                 <Reveal>
+                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-8">Bespoke_Atelier</div>
+                    <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.8] mb-12 italic">
+                       Tailored <br/> <span className="opacity-20">Velocity.</span>
+                    </h2>
+                    <p className="text-lg font-light italic text-white/40 leading-relaxed uppercase tracking-[0.1em] mb-16">
+                       Votre Vulcan est unique. Notre programme de personnalisation permet de choisir chaque détail, des textures de carbone aux coutures intérieures, pour refléter votre vision de la performance.
+                    </p>
+                    <div className="flex gap-12">
+                       <div className="flex flex-col gap-4">
+                          <div className="text-[10px] font-black text-white/20">Options</div>
+                          <div className="text-2xl font-black italic">4,200+</div>
                        </div>
-                       <h3 className="text-3xl font-black uppercase italic mb-6 tracking-tighter text-white group-hover:translate-x-2 transition-transform">{s.title}</h3>
-                       <p className="text-sm text-white/30 font-light leading-relaxed mb-12 flex-1 tracking-wide uppercase italic leading-loose">{s.desc}</p>
-                       <button className="flex items-center gap-4 text-[9px] font-bold uppercase tracking-[0.3em] text-[#3b82f6] group-hover:gap-6 transition-all">
-                          Technical Whitepaper <ArrowRight className="w-4 h-4" />
-                       </button>
+                       <div className="flex flex-col gap-4">
+                          <div className="text-[10px] font-black text-white/20">Artisans</div>
+                          <div className="text-2xl font-black italic">12</div>
+                       </div>
                     </div>
                  </Reveal>
-               ))}
-            </div>
-         </div>
-      </section>
+              </div>
 
-      {/* ── THE ATELIER ── */}
-      <section className="py-40 px-6 md:px-12 bg-black">
-         <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
-            <Reveal>
-               <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
-                  <Image src="https://images.unsplash.com/photo-1592193660027-290025d3cd0a?w=1200&q=80" alt="Supercar Cockpit" fill className="object-cover group-hover:scale-110 transition-all duration-[3s] grayscale hover:grayscale-0 opacity-60" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-                  <div className="absolute bottom-16 left-16 text-white">
-                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-[#3b82f6]">The Atelier</span>
-                     <h4 className="text-5xl font-black italic uppercase tracking-tighter leading-none">Carbon Monocoque <br/> Architecture.</h4>
-                  </div>
-               </div>
-            </Reveal>
-
-            <Reveal delay={0.2}>
-               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#3b82f6] mb-8 block">The Protocol</span>
-               <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white">
-                 Pure <br/> <span className="text-[#3b82f6] not-italic">Grip.</span>
-               </h2>
-               <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic leading-loose">
-                 Beyond the limit. We design automotive instruments that merge the visceral energy of a high-revving internal combustion heart with the clinical precision of 21st-century aerospace technology.
-               </p>
-               <div className="grid grid-cols-2 gap-12">
-                  {[
-                    { icon: Gauge, label: "Telemetry_Link", desc: "Live track analysis" },
-                    { icon: Cpu, label: "Drive_Logic", desc: "AI Vectoring 4.0" },
-                    { icon: Trophy, label: "Racing_DNA", desc: "F1 Derived Aero" },
-                    { icon: Zap, label: "Hybrid_Boost", desc: "2.0MJ Energy Recovery" },
-                  ].map((val, i) => (
-                    <div key={i} className="space-y-4">
-                       <val.icon className="w-6 h-6 text-[#3b82f6]" />
-                       <h4 className="text-[11px] font-black uppercase tracking-widest text-white">{val.label}</h4>
-                       <p className="text-[10px] font-light text-white/30 uppercase tracking-widest leading-loose">{val.desc}</p>
+              <div className="lg:col-span-7 grid grid-cols-2 gap-4">
+                 <Reveal delay={0.2} scale={0.9}>
+                    <div className="aspect-[4/5] bg-zinc-900 border border-white/5 relative overflow-hidden group">
+                       <img src="https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80" className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" alt="Material" />
+                       <div className="absolute inset-0 flex items-end p-8 bg-gradient-to-t from-black/80 to-transparent">
+                          <span className="text-[10px] font-black uppercase tracking-widest italic">Anodized_Alloy</span>
+                       </div>
                     </div>
-                  ))}
-               </div>
-               <MagneticBtn className="mt-20 px-14 py-6 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:bg-[#3b82f6] hover:text-white transition-all shadow-2xl">
-                  Request Build Slot
-               </MagneticBtn>
-            </Reveal>
-         </div>
-      </section>
-
-      {/* ── DESIGN HERITAGE ── */}
-      <section className="py-40 bg-black relative overflow-hidden">
-         <div className="absolute top-0 left-0 w-[60rem] h-[60rem] bg-[#3b82f6]/5 blur-[180px] rounded-full" />
-         <div className="max-w-[1600px] mx-auto px-6 md:px-12">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
-               <Reveal>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#3b82f6] mb-8 block">The Lineage</span>
-                  <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white">
-                    Evolution of <br/> <span className="text-[#3b82f6] not-italic">Speed.</span>
-                  </h2>
-                  <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic leading-loose">
-                    From our first wind-tunnel prototype in 2002 to the quad-turbo hybrid powerplants of today, Vulcan has remained obsessed with a single metric: the visceral connection between driver and asphalt.
-                  </p>
-                  <div className="space-y-12">
-                     {[
-                       { year: "2002", event: "Project Vulcan Alpha: The first carbon-monocoque prototype breaks the 350 KM/H barrier." },
-                       { year: "2010", event: "The Tyrant V1 is born. First commercial application of active-venturi aerodynamics." },
-                       { year: "2022", event: "Vulcan E-Labs achieves 2,000 HP with the Stratos axial-flux tri-motor setup." },
-                       { year: "2024", event: "Bespoke Atelier opens in Modena, offering 1-of-1 customization for global collectors." },
-                     ].map((item, i) => (
-                        <div key={i} className="flex gap-12 group">
-                           <span className="text-3xl font-black italic text-[#3b82f6] opacity-40 group-hover:opacity-100 transition-opacity">{item.year}</span>
-                           <p className="text-[11px] font-bold uppercase tracking-widest text-white/30 leading-loose">{item.event}</p>
-                        </div>
-                     ))}
-                  </div>
-               </Reveal>
-               <Reveal delay={0.2}>
-                  <div className="relative aspect-square grayscale opacity-50 hover:opacity-100 transition-opacity duration-1000 border border-white/5">
-                     <Image src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1200&q=80" alt="Vulcan Heritage" fill className="object-cover" />
-                  </div>
-               </Reveal>
-            </div>
-         </div>
-      </section>
-
-      {/* ── TECHNICAL SPECIFICATIONS ── */}
-      <section className="py-40 bg-[#080808]">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12">
-           <Reveal>
-              <div className="mb-32">
-                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#3b82f6] mb-8 block">Mechanical Manifest</span>
-                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">The <br/> <span className="text-[#3b82f6] not-italic">Ledger.</span></h2>
+                 </Reveal>
+                 <Reveal delay={0.4} scale={0.9} y={100}>
+                    <div className="aspect-[4/5] bg-zinc-900 border border-white/5 relative overflow-hidden group mt-12">
+                       <img src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=800&q=80" className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" alt="Interior" />
+                       <div className="absolute inset-0 flex items-end p-8 bg-gradient-to-t from-black/80 to-transparent">
+                          <span className="text-[10px] font-black uppercase tracking-widest italic">Alcantara_Grey</span>
+                       </div>
+                    </div>
+                 </Reveal>
               </div>
-           </Reveal>
-
-           <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                 <thead>
-                    <tr className="border-b border-white/10">
-                       <th className="py-8 text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">Metric</th>
-                       <th className="py-8 text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">Tyrant_GT</th>
-                       <th className="py-8 text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">Apex_EVO</th>
-                       <th className="py-8 text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">Stratos_E</th>
-                    </tr>
-                 </thead>
-                 <tbody className="text-[11px] font-bold uppercase tracking-[0.2em]">
-                    {[
-                      { m: "Engine / Motor", v1: "6.5L V12 Hybrid", v2: "4.0L V8 Twin-Turbo", v3: "Tri-Axial Flux Electric" },
-                      { m: "Transmission", v1: "8-Speed Dual-Clutch", v2: "7-Speed Sequential", v3: "Direct Drive Vectoring" },
-                      { m: "Chassis", v1: "Carbon T1000", v2: "Carbon/Titanium", v3: "Composite Monocoque" },
-                      { m: "Downforce @ 250", v1: "650 KG", v2: "1,200 KG", v3: "800 KG" },
-                      { m: "Stopping Distance", v1: "30m (100-0)", v2: "28m (100-0)", v3: "31m (100-0)" },
-                    ].map((row, i) => (
-                       <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                          <td className="py-8 text-white/40 italic">{row.m}</td>
-                          <td className="py-8 text-white">{row.v1}</td>
-                          <td className="py-8 text-white">{row.v2}</td>
-                          <td className="py-8 text-white">{row.v3}</td>
-                       </tr>
-                    ))}
-                 </tbody>
-              </table>
            </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ── PERFORMANCE DATA ── */}
-      <section className="py-40 bg-black">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12">
-           <Reveal>
-              <div className="mb-32 text-center">
-                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#3b82f6] mb-8 block">Dynamic Analysis</span>
-                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">Track <span className="text-[#3b82f6] not-italic">Logic.</span></h2>
-              </div>
-           </Reveal>
-
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-32">
-              {[
-                { name: "Marco V.", role: "Chief Test Pilot", text: "The Tyrant is the only GT I've driven that maintains its composure at 400 KM/H while providing the luxury of a private jet. It's a dual-purpose monster.", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" },
-                { name: "Julian S.", role: "Aerodynamicist", text: "We didn't just design a car; we designed a shape that manipulates the atmosphere. Every vent, every curve is dedicated to high-speed stability and thermal efficiency.", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80" },
-              ].map((item, i) => (
-                <Reveal key={i} delay={i * 0.2}>
-                   <div className="space-y-12">
-                      <div className="relative w-24 h-24 rounded-full overflow-hidden grayscale border border-[#3b82f6]/30">
-                         <Image src={item.img} alt={item.name} fill className="object-cover" />
-                      </div>
-                      <blockquote className="text-3xl font-light italic text-white/60 leading-relaxed uppercase tracking-widest leading-loose">
-                         "{item.text}"
-                      </blockquote>
-                      <div>
-                         <span className="text-xl font-black text-white italic block mb-1">{item.name}</span>
-                         <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#3b82f6]">{item.role}</span>
-                      </div>
-                   </div>
-                </Reveal>
-              ))}
-           </div>
-        </div>
-      </section>
-
-      {/* ── FAQ ── */}
-      <section className="py-40 bg-[#080808]">
-        <div className="max-w-4xl mx-auto px-6">
-           <Reveal>
-              <div className="mb-24 text-center">
-                 <h2 className="text-5xl font-black italic uppercase tracking-tighter text-white mb-8">Bespoke <span className="text-[#3b82f6] not-italic">Inquiry.</span></h2>
-                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20">Acquisition // Maintenance // customization</p>
-              </div>
-           </Reveal>
-
-           <Accordion type="single" collapsible className="w-full space-y-4">
-              {[
-                { q: "What is the typical wait time for a bespoke unit?", a: "Each Vulcan unit is hand-assembled in Modena. Depending on the level of customization, production typically takes between 14 to 22 months from design freeze." },
-                { q: "Do you offer international delivery and servicing?", a: "Yes. Every Vulcan owner is assigned a dedicated Flying Technician and global concierge who manages white-glove transport and on-site maintenance anywhere in the world." },
-                { q: "Can I choose my own materials for the interior?", a: "Our Atelier offers an 'Open Specification' program. If a material meets our safety and durability standards, we can integrate it—from rare woods to bespoke textiles." },
-                { q: "Is the Stratos E road-legal?", a: "The Stratos E is currently homologated for road use in the EU, UK, and USA. Certain track-only variants (Stratos-R) are available for private circuits only." },
-                { q: "What is the warranty on the hybrid powerplants?", a: "We provide a 5-year unlimited mileage warranty on all mechanical components and a 10-year performance guarantee on the energy recovery systems and batteries." },
-              ].map((item, i) => (
-                <AccordionItem key={i} value={`item-${i}`} className="border border-white/5 bg-white/[0.02] px-8 rounded-sm">
-                   <AccordionTrigger className="text-[11px] font-black uppercase tracking-[0.3em] text-white hover:text-[#3b82f6] py-8 no-underline italic">
-                      {item.q}
-                   </AccordionTrigger>
-                   <AccordionContent className="text-[11px] font-light text-white/30 tracking-widest uppercase italic leading-loose pb-8">
-                      {item.a}
-                   </AccordionContent>
-                </AccordionItem>
-              ))}
-           </Accordion>
-        </div>
-      </section>
-
-      {/* ── FOOTER ── */}
-      <footer className="bg-[#050505] pt-40 pb-16 px-6 md:px-12 border-t border-white/5">
-        <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-32 mb-40">
-           
-           <div className="lg:col-span-6">
+        {/* 6. FAQ (INDUSTRIAL ACCORDION) */}
+        <section className="py-48 px-8 md:px-24 bg-white text-black relative overflow-hidden">
+           <div className="max-w-4xl mx-auto relative z-10">
               <Reveal>
-                 <div className="flex flex-col mb-12">
-                    <span className="text-4xl font-black tracking-[-0.05em] uppercase leading-none italic">Vulcan</span>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#3b82f6] -mt-1 ml-1">Motor Group</span>
-                 </div>
-                 <p className="text-white/20 max-w-md mb-16 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose italic">
-                    The absolute mastery of automotive performance. Engineered for the evolutionary elite in our Modena sanctuary.
-                 </p>
-                 <div className="flex gap-6">
-                    {[Globe, Globe, Mail].map((Icon, i) => (
-                      <button key={i} className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:bg-[#3b82f6] hover:text-white hover:border-[#3b82f6] transition-all">
-                         <Icon className="w-5 h-5" />
-                      </button>
-                    ))}
+                 <div className="text-center mb-32">
+                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-600 mb-8">Support_Center</div>
+                    <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter italic mb-8">Common <span className="opacity-20">Queries.</span></h2>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/30 italic">Maintenance // Homologation // Logistics</p>
                  </div>
               </Reveal>
-           </div>
 
-           <div className="lg:col-span-2">
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-[#3b82f6] mb-12">The Fleet</h4>
-              <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                 <li><Link href="#" className="hover:text-white transition-colors">Tyrant_GT</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Apex_EVO</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Stratos_E</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Pre-Owned</Link></li>
-              </ul>
+              <Accordion type="single" collapsible className="w-full space-y-4">
+                 {[
+                   { q: "What is the typical wait time for a bespoke unit?", a: "Each Vulcan unit is hand-assembled in Modena. Production typically takes between 14 to 22 months from design freeze." },
+                   { q: "Do you offer international delivery?", a: "Yes. Every owner is assigned a dedicated Flying Technician and global concierge who manages white-glove transport." },
+                   { q: "Is the Stratos E road-legal?", a: "The Stratos E is homologated for road use in the EU, UK, and USA. Track-only variants are also available." }
+                 ].map((item, i) => (
+                   <AccordionItem key={i} value={`item-${i}`} className="border-2 border-black/5 bg-black/[0.02] px-10 rounded-sm hover:border-black/20 transition-all">
+                      <AccordionTrigger className="text-xs font-black uppercase tracking-[0.3em] py-10 no-underline italic">
+                         {item.q}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-[11px] font-medium text-black/50 tracking-[0.1em] uppercase italic leading-loose pb-10">
+                         {item.a}
+                      </AccordionContent>
+                   </AccordionItem>
+                 ))}
+              </Accordion>
            </div>
-
-           <div className="lg:col-span-2">
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-[#3b82f6] mb-12">Engineering</h4>
-              <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                 <li><Link href="#" className="hover:text-white transition-colors">Lab_Reports</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Carbon_Science</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Aero_Dynamics</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Propulsion</Link></li>
-              </ul>
+           
+           {/* Background Grid Accent */}
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] font-black text-black/[0.02] pointer-events-none select-none italic">
+              VULCAN
            </div>
+        </section>
 
-           <div className="lg:col-span-2">
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-[#3b82f6] mb-12">Studio</h4>
-              <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                 <li><Link href="#" className="hover:text-white transition-colors">The_Atelier</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Global_Units</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Press_Kit</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Archives</Link></li>
-              </ul>
-           </div>
-        </div>
+        {/* 7. CONVERGENCE (FOOTER) */}
+        <footer className="bg-black pt-48 pb-16 px-8 md:px-24 border-t-8 border-blue-600">
+           <div className="max-w-7xl mx-auto">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 mb-48">
+                 <div className="lg:col-span-7">
+                    <Reveal>
+                       <div className="flex flex-col mb-16">
+                          <span className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.7] italic">Vulcan</span>
+                          <span className="text-[12px] font-bold uppercase tracking-[0.8em] text-blue-500 ml-2">Motor Group Modena</span>
+                       </div>
+                       <p className="text-white/20 max-w-md mb-20 text-sm font-light uppercase tracking-widest leading-loose italic">
+                          L'excellence absolue dans la performance automobile. Conçue pour l'élite mondiale dans notre sanctuaire italien.
+                       </p>
+                       <div className="flex gap-12 items-center">
+                          <div className="w-24 h-[1px] bg-white/10" />
+                          <div className="flex gap-8">
+                             <Globe className="w-6 h-6 text-white/20 hover:text-blue-500 transition-all cursor-pointer" />
+                             <RadioIcon className="w-6 h-6 text-white/20 hover:text-blue-500 transition-all cursor-pointer" />
+                             <Share2 className="w-6 h-6 text-white/20 hover:text-blue-500 transition-all cursor-pointer" />
+                          </div>
+                       </div>
+                    </Reveal>
+                 </div>
 
-        <div className="max-w-[1600px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10">
-           <div className="flex items-center gap-12">
-              <span>&copy; {new Date().getFullYear()} VULCAN MOTOR GROUP MODENA.</span>
-              <div className="flex gap-8">
-                <span>FIA_GT_CERTIFIED</span>
-                <span>ISO_9001_PREMIUM</span>
+                 <div className="lg:col-span-5 grid grid-cols-2 gap-16">
+                    <div className="space-y-12">
+                       <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 border-b border-blue-500/20 pb-4">The_Fleet</h4>
+                       <ul className="space-y-6 text-xs font-black uppercase tracking-widest text-white/30">
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-2 group">
+                             <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all" /> Tyrant_GT
+                          </li>
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-2 group">
+                             <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all" /> Apex_EVO
+                          </li>
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-2 group">
+                             <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all" /> Stratos_E
+                          </li>
+                       </ul>
+                    </div>
+                    <div className="space-y-12">
+                       <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 border-b border-blue-500/20 pb-4">Experience</h4>
+                       <ul className="space-y-6 text-xs font-black uppercase tracking-widest text-white/30">
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-2 group">
+                             <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all" /> The_Atelier
+                          </li>
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-2 group">
+                             <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all" /> Racing_Dept
+                          </li>
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-2 group">
+                             <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all" /> Archives
+                          </li>
+                       </ul>
+                    </div>
+                 </div>
+              </div>
+
+              <div className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.4em] text-white/10 italic">
+                 <div className="flex gap-12">
+                    <span>©2026 VULCAN MOTOR GROUP MODENA.</span>
+                    <span className="hidden md:inline">//</span>
+                    <span>FIA_GT_HOMOLOGATED</span>
+                 </div>
+                 <div className="flex gap-12 font-mono">
+                    <span className="text-blue-500/40">TELEMETRY_LINK_ESTABLISHED</span>
+                    <span className="text-blue-500/40">LOAD_0.12%</span>
+                 </div>
               </div>
            </div>
-           <div className="flex gap-12 font-mono">
-              <span>TORQUE_VEC_STABLE</span>
-              <span>THERMAL_NOMINAL_44%</span>
-           </div>
-        </div>
-      </footer>
+        </footer>
+      </main>
 
       <style>{`
-        ::-webkit-scrollbar{width:4px;background:#050505}
-        ::-webkit-scrollbar-thumb{background:#3b82f6}
+        ::-webkit-scrollbar { width: 6px; background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .vertical-text { writing-mode: vertical-rl; }
+        .animate-spin-slow { animation: spin 10s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}</style>
     </div>
-  );
+  )
 }

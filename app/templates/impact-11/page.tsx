@@ -1,536 +1,511 @@
-"use client";
+"use client"
 
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect, Suspense } from "react";
-import Image from "next/image";
-import { ArrowUpRight, ChevronDown, Menu, X, LayoutGrid, Maximize2, Layers, Compass, Monitor, ShieldCheck, MousePointer2, Plus, Play } from "lucide-react";
-import "../premium.css";
+import React, { useState, useEffect, useRef, useMemo } from "react"
+import { 
+  motion, 
+  AnimatePresence, 
+  useScroll, 
+  useTransform, 
+  useInView, 
+  useSpring,
+  useMotionValue
+} from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
+import { 
+  Zap, Activity, Target, Layers, Box, Hexagon, 
+  Terminal, Settings, Power, Info, 
+  AlertTriangle, ChevronRight, ArrowRight, 
+  Share2, Maximize2, Download, ExternalLink, 
+  Archive, Hash, BarChart3, Fingerprint, Scan, 
+  Briefcase, Wind, Timer, Lightbulb, Command, Grid, 
+  Radar, Orbit, Atom, Search, Cpu, Building, 
+  Building2, Home, Layout, Compass, PenTool, 
+  Camera, Film, Palette, Image as ImageIcon, 
+  Maximize, Minimize, Plus, Minus, Check, 
+  ShieldCheck, Globe, Database, Binary, Code2,
+  Waves, Gauge, Thermometer, FlaskConical,
+  Sun, Moon, Star, Sparkles, CircleDot,
+  ArrowUpRight, ArrowDownLeft, Expand, Shrink
+} from "lucide-react"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
-// ─── DATA ──────────────────────────────────────────────────────────────────
+/* ==========================================================================
+   AETHER VISUALS DATASET (ULTRA DENSITY)
+   ========================================================================== */
 
-const ARCHIVE = [
-  { 
-    id: "01",
-    title: "Vortex Pavilion", 
+const PROJECTS = [
+  {
+    id: "ae-prj-01",
+    name: "The Glass Monolith",
     location: "Zurich, CH",
-    year: "2024",
-    category: "Commercial",
-    img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80",
-    desc: "A fluid-form commercial landmark exploring the boundaries of structural glass and carbon fiber composites."
-  },
-  { 
-    id: "02",
-    title: "Monolith House", 
-    location: "Oslo, NO",
-    year: "2023",
-    category: "Residential",
-    img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80",
-    desc: "Brutalist concrete dwelling integrated into the rocky coastline, featuring subterranean thermal management."
-  },
-  { 
-    id: "03",
-    title: "Aether Tower", 
-    location: "Dubai, UAE",
     year: "2025",
-    category: "Hospitality",
-    img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80",
-    desc: "Ultra-luxury hotel concept utilizing reflective titanium cladding and vertical botanical sanctuaries."
+    type: "Commercial Synthesis",
+    desc: "Une exploration de la transparence radicale et de l'intégration structurelle. Rendu en 12k natif avec simulation de réfraction volumétrique.",
+    img: "https://images.unsplash.com/photo-1486406146926-c627a92fb1ab?w=1600&q=80",
+    color: "#c9a84c"
   },
-  { 
-    id: "04",
-    title: "Silent Atrium", 
-    location: "Kyoto, JP",
+  {
+    id: "ae-prj-08",
+    name: "Entropy Residence",
+    location: "Aspen, US",
     year: "2024",
-    category: "Cultural",
-    img: "https://images.unsplash.com/photo-1518005020250-68a377a747e9?w=1200&q=80",
-    desc: "Minimalist meditation center focusing on acoustic transparency and natural light modulation."
+    type: "Residential Twin",
+    desc: "Jumeau numérique haute fidélité permettant une analyse thermique en temps réel et une simulation acoustique pour une isolation parfaite.",
+    img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&q=80",
+    color: "#2d4a2d"
+  },
+  {
+    id: "ae-prj-15",
+    name: "Vertical Atrium",
+    location: "Tokyo, JP",
+    year: "2026",
+    type: "Atmospheric Render",
+    desc: "Étude sur la diffusion de la lumière naturelle dans les espaces confinés. Simulation de 400 types de verre et textures organiques.",
+    img: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80",
+    color: "#1a1a1a"
   }
-];
+]
 
-const SERVICES = [
-  { icon: Maximize2, title: "CGI Synthesis", desc: "Photorealistic spatial rendering using proprietary light-path algorithms." },
-  { icon: Layers, title: "BIM Integration", desc: "Full architectural data layering for seamless construction transitions." },
-  { icon: Monitor, title: "Digital Twins", desc: "Interactive real-time simulations of atmospheric and structural performance." },
-  { icon: Compass, title: "Site Analysis", desc: "Environmental data mapping including solar tracking and acoustic audits." }
-];
+const WORKFLOW = [
+  {
+    id: "01",
+    title: "Geometry Ingestion",
+    desc: "Deep analysis of CAD/BIM data for structural fidelity. Conversion vers des maillages haute densité optimisés pour le Ray Tracing.",
+    icon: Box
+  },
+  {
+    id: "02",
+    title: "Material Synthesis",
+    desc: "Creation of physical-based shaders following real-world specs. Utilisation de la photogrammétrie pour des textures réalistes au micron.",
+    icon: Layers
+  },
+  {
+    id: "03",
+    title: "Atmospheric Simulation",
+    desc: "Dynamic lighting based on GPS coordinates and time-series data. Simulation volumétrique des particules d'air et de l'humidité.",
+    icon: Wind
+  }
+]
 
-const PHILOSOPHY = [
-  { label: "Precision", val: "0.01mm", desc: "Absolute accuracy in structural replication." },
-  { label: "Rendering", val: "8K Native", desc: "Ultra-high fidelity visual outputs for large-scale displays." },
-  { label: "Sync", val: "Real-Time", desc: "Live-update workflows across all design stakeholders." }
-];
+const ATELIER_METRICS = [
+  { label: "Render Nodes", value: "124", trend: "Scalable", detail: "Vulcan Cluster v2" },
+  { label: "Encryption", value: "AES-512", trend: "Secure", detail: "End-to-End Bridge" },
+  { label: "Resolution", value: "12k", trend: "Native", detail: "Ultra-High Definition" },
+  { label: "BIM Sync", value: "Real-time", trend: "Live", detail: "Data-Driven Renders" }
+]
 
-const STATS = [
-  { val: 120, label: "Global Projects", suffix: "+" },
-  { val: 15, label: "Design Awards", suffix: "" },
-  { val: 98, label: "Client Satisfaction", suffix: "%" },
-  { val: 24, label: "Hour Support", suffix: "h" }
-];
+/* ==========================================
+   TECHNICAL COMPONENTS (SLIDER REVOLUTION)
+   ========================================== */
 
-// ─── COMPONENTS ──────────────────────────────────────────────────────────────
-
-function Reveal({ children, className = "", delay = 0, y = 30 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+function Reveal({ children, delay = 0, y = 40, x = 0, scale = 1 }: { children: React.ReactNode, delay?: number, y?: number, x?: number, scale?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-      className={className}
+      initial={{ opacity: 0, y, x, scale }}
+      animate={isInView ? { opacity: 1, y: 0, x: 0, scale: 1 } : {}}
+      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </motion.div>
-  );
+  )
 }
 
-function MagneticButton({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-  const ref = useRef<HTMLButtonElement>(null);
-
-  const handleMove = (e: React.MouseEvent) => {
-    if (!ref.current) return;
-    const { clientX, clientY } = e;
-    const { left, top, width, height } = ref.current.getBoundingClientRect();
-    const x = (clientX - (left + width / 2)) * 0.35;
-    const y = (clientY - (top + height / 2)) * 0.35;
-    setPos({ x, y });
-  };
-
+function GridOverlay() {
   return (
-    <motion.button
-      ref={ref}
-      onMouseMove={handleMove}
-      onMouseLeave={() => setPos({ x: 0, y: 0 })}
-      animate={{ x: pos.x, y: pos.y }}
-      transition={{ type: "spring", stiffness: 150, damping: 15 }}
-      className={`relative group ${className}`}
-    >
-      <span className="relative z-10">{children}</span>
-      <motion.div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 rounded-full transition-opacity" />
-    </motion.button>
-  );
-}
-
-// ─── MAIN SPA ────────────────────────────────────────────────────────────────
-
-export default function AetherArchSPA() {
-  const [activeArchive, setActiveArchive] = useState(0);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const { scrollY } = useScroll();
-  
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
-  const heroScale = useTransform(scrollY, [0, 600], [1, 1.1]);
-  const heroY = useTransform(scrollY, [0, 600], [0, 100]);
-
-  return (
-    <div className="min-h-screen bg-[#080808] text-[#e0e0e0] font-sans selection:bg-[#c9a84c] selection:text-black">
-      
-      {/* ── CUSTOM CURSOR ── */}
-      <motion.div 
-        className="fixed top-0 left-0 w-8 h-8 border border-[#c9a84c]/50 rounded-full pointer-events-none z-[9999] hidden lg:block"
-        animate={{ x: -16, y: -16 }}
-        style={{ x: 0, y: 0 }}
-      />
-
-      {/* ── NAVIGATION ── */}
-      <motion.nav 
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-6 mix-blend-difference"
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-            <div className="w-5 h-5 border-2 border-black rotate-45" />
-          </div>
-          <span className="text-xl font-bold tracking-tighter uppercase italic">Aether <span className="text-[#c9a84c]">Visuals.</span></span>
-        </div>
-        
-        <div className="hidden md:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em]">
-          {["Archives", "Philosophy", "Lab", "Contact"].map(item => (
-            <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-[#c9a84c] transition-colors">/{item}</a>
+    <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.03] select-none">
+       <div className="h-full w-full grid grid-cols-12 gap-0 border-x border-white">
+          {[...Array(11)].map((_, i) => (
+             <div key={i} className="h-full border-r border-white" />
           ))}
-        </div>
-
-        <button 
-          onClick={() => setMenuOpen(true)}
-          className="w-12 h-12 flex flex-col items-center justify-center gap-1.5 group"
-        >
-          <span className="w-6 h-[2px] bg-white group-hover:w-8 transition-all" />
-          <span className="w-8 h-[2px] bg-white group-hover:w-6 transition-all" />
-        </button>
-      </motion.nav>
-
-      {/* ── MOBILE MENU ── */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[60] bg-[#c9a84c] text-black p-12 flex flex-col justify-between"
-          >
-            <div className="flex justify-between items-center">
-              <span className="text-sm font-bold uppercase tracking-widest">Navigation</span>
-              <button onClick={() => setMenuOpen(false)} className="w-12 h-12 flex items-center justify-center">
-                <X className="w-8 h-8" />
-              </button>
-            </div>
-            <div className="flex flex-col gap-8">
-              {["Archives", "Philosophy", "Lab", "Journal", "Contact"].map((item, i) => (
-                <motion.a 
-                  key={item}
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  href="#"
-                  className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter hover:italic transition-all leading-none"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {item}
-                </motion.a>
-              ))}
-            </div>
-            <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest border-t border-black/20 pt-8">
-              <span>Aether Visuals // 2024</span>
-              <span>Based in Zurich</span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── HERO SECTION ── */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <motion.div 
-          style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
-          className="absolute inset-0 z-0"
-        >
-          <Image 
-            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80" 
-            alt="Hero Arch" 
-            fill 
-            className="object-cover grayscale opacity-30" 
-            unoptimized 
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#080808]/50 to-[#080808]" />
-        </motion.div>
-
-        <div className="relative z-10 text-center px-6">
-          <Reveal delay={0.2}>
-            <span className="text-[10px] font-bold uppercase tracking-[1em] text-[#c9a84c] mb-8 block">Synthetic Realities</span>
-          </Reveal>
-          <Reveal delay={0.4}>
-            <h1 className="text-7xl md:text-[14rem] font-black italic tracking-tighter leading-[0.75] uppercase text-white mb-12">
-              Beyond <br/> <span className="text-[#c9a84c] not-italic">Matter.</span>
-            </h1>
-          </Reveal>
-          <Reveal delay={0.6} className="max-w-2xl mx-auto mb-16">
-            <p className="text-white/40 text-xl leading-relaxed font-light uppercase tracking-wide italic leading-loose">
-              Synthesizing architectural vision into photorealistic precision. We don't just render space; we simulate light, texture, and time.
-            </p>
-          </Reveal>
-          <Reveal delay={0.8}>
-            <div className="flex flex-wrap justify-center gap-6">
-              <MagneticButton className="px-10 py-5 bg-white text-black font-black uppercase text-xs tracking-widest flex items-center gap-3">
-                View Archives <ArrowUpRight className="w-4 h-4" />
-              </MagneticButton>
-              <button className="px-10 py-5 border border-white/10 font-black uppercase text-xs tracking-widest hover:bg-white/5 transition-colors">
-                The Process
-              </button>
-            </div>
-          </Reveal>
-        </div>
-
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-white/20">
-          <span className="text-[8px] font-bold uppercase tracking-[0.5em] rotate-90 mb-8">Scroll</span>
-          <div className="w-px h-12 bg-white/20 relative overflow-hidden">
-            <motion.div 
-              animate={{ y: [0, 48] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-              className="absolute top-0 left-0 w-full h-1/2 bg-[#c9a84c]"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* ── PHILOSOPHY GRID ── */}
-      <section className="py-40 bg-[#0a0a0a] border-y border-white/5">
-        <div className="max-w-[1600px] mx-auto px-8 lg:px-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-end mb-32">
-            <Reveal>
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a84c] mb-8 block">Technical Core</span>
-              <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">The Precision <br/> <span className="text-[#c9a84c] not-italic">Engine.</span></h2>
-            </Reveal>
-            <Reveal delay={0.2}>
-              <p className="text-white/30 text-lg leading-relaxed max-w-xl font-light italic">
-                Our methodology rests at the intersection of high-end CGI and structural engineering. We utilize proprietary light-path synthesis to ensure that every photon behaves according to the laws of physical reality.
-              </p>
-            </Reveal>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-1px bg-white/5 border border-white/5">
-            {PHILOSOPHY.map((item, i) => (
-              <Reveal key={item.label} delay={i * 0.1} className="bg-[#080808] p-16 group hover:bg-[#c9a84c]/5 transition-colors">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 mb-8 block">{item.label}</span>
-                <h3 className="text-6xl font-black italic text-white mb-6 group-hover:text-[#c9a84c] transition-colors">{item.val}</h3>
-                <p className="text-sm text-white/30 font-light tracking-widest uppercase italic leading-loose">{item.desc}</p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── INTERACTIVE ARCHIVE ── */}
-      <section className="py-40 bg-black overflow-hidden relative">
-        <div className="absolute top-0 left-0 w-[50rem] h-[50rem] bg-[#c9a84c]/5 blur-[150px] rounded-full -translate-x-1/2 -translate-y-1/2" />
-        
-        <div className="max-w-[1600px] mx-auto px-8 lg:px-16">
-          <Reveal className="mb-32">
-            <div className="flex justify-between items-end">
-              <div>
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a84c] mb-8 block">Project Manifest</span>
-                <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">Visual <br/> <span className="text-[#c9a84c] not-italic">Ledger.</span></h2>
-              </div>
-              <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">
-                <span>Total Archives: 084</span>
-                <span>Active Projects: 12</span>
-              </div>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            {/* List */}
-            <div className="lg:col-span-4 space-y-4">
-              {ARCHIVE.map((project, i) => (
-                <button 
-                  key={project.id}
-                  onMouseEnter={() => setActiveArchive(i)}
-                  className={`w-full text-left p-8 border transition-all flex justify-between items-center group ${activeArchive === i ? "bg-white text-black border-white" : "bg-transparent text-white/40 border-white/5 hover:border-white/20"}`}
-                >
-                  <div>
-                    <span className="text-[10px] font-bold mb-2 block tracking-widest opacity-40">{project.id} //</span>
-                    <h3 className="text-2xl font-black uppercase italic tracking-tighter">{project.title}</h3>
-                  </div>
-                  <ArrowUpRight className={`w-6 h-6 transition-transform ${activeArchive === i ? "translate-x-0" : "-translate-x-4 opacity-0"}`} />
-                </button>
-              ))}
-            </div>
-
-            {/* Preview */}
-            <div className="lg:col-span-8 relative aspect-[16/10] bg-white/5 rounded-sm overflow-hidden border border-white/5">
-              <AnimatePresence mode="wait">
-                <motion.div 
-                  key={activeArchive}
-                  initial={{ opacity: 0, scale: 1.05 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.6 }}
-                  className="absolute inset-0"
-                >
-                  <Image 
-                    src={ARCHIVE[activeArchive].img} 
-                    alt={ARCHIVE[activeArchive].title} 
-                    fill 
-                    className="object-cover grayscale hover:grayscale-0 transition-all duration-1000" 
-                    unoptimized 
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
-                  
-                  <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end">
-                    <div className="max-w-md">
-                      <div className="flex gap-4 mb-6">
-                        <span className="px-3 py-1 bg-[#c9a84c] text-black text-[9px] font-black uppercase tracking-widest">{ARCHIVE[activeArchive].category}</span>
-                        <span className="px-3 py-1 bg-white/10 text-white text-[9px] font-black uppercase tracking-widest">{ARCHIVE[activeArchive].location}</span>
-                      </div>
-                      <p className="text-white/60 text-sm font-light italic leading-loose uppercase tracking-widest">
-                        {ARCHIVE[activeArchive].desc}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-4xl font-black text-white italic block mb-1">{ARCHIVE[activeArchive].year}</span>
-                      <span className="text-[9px] font-bold text-[#c9a84c] uppercase tracking-[0.4em]">Completion_Date</span>
-                    </div>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── SERVICES SECTION ── */}
-      <section className="py-40 bg-[#080808]">
-        <div className="max-w-[1600px] mx-auto px-8 lg:px-16">
-          <Reveal className="mb-32 text-center">
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a84c] mb-8 block">Operational Scope</span>
-            <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">Expertise <br/> <span className="text-[#c9a84c] not-italic">Synthesis.</span></h2>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {SERVICES.map((s, i) => (
-              <Reveal key={s.title} delay={i * 0.1} className="p-12 bg-white/[0.02] border border-white/5 hover:border-[#c9a84c]/30 transition-all group">
-                <s.icon className="w-10 h-10 text-[#c9a84c] mb-12 group-hover:scale-110 transition-transform" />
-                <h3 className="text-2xl font-black italic uppercase text-white mb-6">{s.title}</h3>
-                <p className="text-sm text-white/30 font-light tracking-widest uppercase italic leading-loose">
-                  {s.desc}
-                </p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── LAB / TECHNICAL SPECS ── */}
-      <section className="py-40 border-y border-white/5 bg-[#0a0a0a]">
-        <div className="max-w-[1600px] mx-auto px-8 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
-          <Reveal>
-            <div className="relative aspect-square bg-white/[0.02] border border-white/5 p-16 flex flex-col justify-center overflow-hidden group">
-               <div className="absolute top-0 right-0 w-full h-full opacity-5 pointer-events-none">
-                  <div className="absolute inset-0" style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-               </div>
-               <ShieldCheck className="w-20 h-20 text-[#c9a84c] mb-12" />
-               <h3 className="text-5xl font-black italic uppercase text-white mb-8">Structural <br/> Integrity <span className="text-[#c9a84c] not-italic">Audit.</span></h3>
-               <p className="text-white/30 text-lg leading-relaxed mb-12 font-light uppercase tracking-wide italic leading-loose">
-                 Every visualization undergoes a rigorous material audit. We ensure that textures reflect physical IOR values and that light bounces align with the Kelvin scale of the intended site.
-               </p>
-               <div className="grid grid-cols-2 gap-12">
-                  <div className="space-y-2">
-                     <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20">Render Node Status</span>
-                     <span className="text-sm font-black text-white uppercase tracking-widest block">ONLINE // 124 NODES</span>
-                  </div>
-                  <div className="space-y-2">
-                     <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20">Encryption Protocol</span>
-                     <span className="text-sm font-black text-white uppercase tracking-widest block">AES-512-VULCAN</span>
-                  </div>
-               </div>
-            </div>
-          </Reveal>
-          <div className="space-y-24">
-            <Reveal delay={0.2}>
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a84c] mb-8 block">Project Lifecyle</span>
-              <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-none uppercase text-white">Atomic <br/> <span className="text-[#c9a84c] not-italic">Workflows.</span></h2>
-            </Reveal>
-            <div className="space-y-12">
-              {[
-                { n: "01", t: "Geometry Ingestion", d: "Deep analysis of CAD/BIM data for structural fidelity." },
-                { n: "02", t: "Material Synthesis", d: "Creation of physical-based shaders following real-world specs." },
-                { n: "03", t: "Atmospheric Simulation", d: "Dynamic lighting based on GPS coordinates and time-series data." },
-              ].map((step, i) => (
-                <Reveal key={step.n} delay={i * 0.1 + 0.3} className="flex gap-12 group">
-                  <span className="text-4xl font-black italic text-[#c9a84c]/20 group-hover:text-[#c9a84c] transition-colors">{step.n}</span>
-                  <div>
-                    <h4 className="text-xl font-black uppercase italic text-white mb-2">{step.t}</h4>
-                    <p className="text-xs text-white/30 font-light tracking-widest uppercase italic leading-loose">{step.d}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── STATS SECTION ── */}
-      <section className="py-24 bg-black">
-        <div className="max-w-[1600px] mx-auto px-8 lg:px-16 grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-1px bg-white/5 border border-white/5 overflow-hidden">
-          {STATS.map((s, i) => (
-            <Reveal key={s.label} delay={i * 0.1} className="bg-black py-20 px-8 text-center group">
-              <span className="text-5xl font-black italic text-white mb-4 block group-hover:text-[#c9a84c] transition-colors">
-                {s.val}{s.suffix}
-              </span>
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 group-hover:text-white/40 transition-colors">
-                {s.label}
-              </span>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* ── CTA / CONTACT ── */}
-      <section className="py-40 bg-[#080808] relative">
-        <div className="max-w-[1600px] mx-auto px-8 lg:px-16">
-          <div className="bg-white text-black p-24 lg:p-40 relative overflow-hidden flex flex-col items-center text-center">
-            <div className="absolute top-0 right-0 w-full h-full opacity-10 pointer-events-none grayscale">
-              <Image src="https://images.unsplash.com/photo-1518005020250-68a377a747e9?w=1200&q=80" alt="CTA Arch" fill className="object-cover" />
-            </div>
-            <Reveal>
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/40 mb-8 block">Project Initiation</span>
-              <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] uppercase mb-16">
-                Start Your <br/> <span className="text-black/30 not-italic">Synthesis.</span>
-              </h2>
-              <div className="flex flex-wrap justify-center gap-6">
-                <button className="px-12 py-6 bg-black text-white font-black uppercase text-sm tracking-widest hover:bg-[#c9a84c] transition-colors">
-                  Contact Studio
-                </button>
-                <button className="px-12 py-6 border border-black/10 font-black uppercase text-sm tracking-widest hover:bg-black/5 transition-colors">
-                  Bespoke Portal
-                </button>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ── FOOTER ── */}
-      <footer className="bg-[#050505] pt-40 pb-16 px-8 lg:px-16 border-t border-white/5">
-        <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-32 mb-40">
-          <div className="lg:col-span-4">
-            <div className="flex items-center gap-3 mb-12">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                <div className="w-5 h-5 border-2 border-black rotate-45" />
-              </div>
-              <span className="text-xl font-bold tracking-tighter uppercase italic">Aether <span className="text-[#c9a84c]">Visuals.</span></span>
-            </div>
-            <p className="text-white/20 text-sm font-light leading-relaxed uppercase tracking-widest mb-12 italic">
-              Zurich-based architectural synthesis atelier. <br/> Defining the next era of photorealistic precision.
-            </p>
-            <div className="flex gap-6">
-              {["IG", "TW", "BE", "LN"].map(social => (
-                <a key={social} href="#" className="w-10 h-10 border border-white/10 flex items-center justify-center text-[10px] font-bold hover:bg-white hover:text-black transition-all">
-                  {social}
-                </a>
-              ))}
-            </div>
-          </div>
-          
-          <div className="lg:col-span-2">
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-10">Atelier</h4>
-            <ul className="space-y-4 text-xs font-bold uppercase tracking-widest">
-              {["Archives", "Philosophy", "Lab", "Journal"].map(item => (
-                <li key={item}><a href="#" className="hover:text-[#c9a84c] transition-colors">{item}</a></li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="lg:col-span-2">
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-10">Expertise</h4>
-            <ul className="space-y-4 text-xs font-bold uppercase tracking-widest text-white/20">
-              {["CGI Synthesis", "BIM Layering", "Digital Twins", "Site Audits"].map(item => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="lg:col-span-4">
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-10">Bespoke Inquiry</h4>
-            <p className="text-sm text-white/20 font-light mb-8 italic uppercase tracking-widest leading-loose">
-              For high-scale residential and commercial syntheses, contact our lead curator directly.
-            </p>
-            <a href="mailto:studio@aether-visuals.arch" className="text-xl font-black italic hover:text-[#c9a84c] transition-colors block border-b border-white/10 pb-4">
-              studio@aether.arch
-            </a>
-          </div>
-        </div>
-
-        <div className="max-w-[1600px] mx-auto flex flex-col md:row items-center justify-between gap-8 text-[9px] font-bold uppercase tracking-[0.5em] text-white/10 border-t border-white/5 pt-16">
-          <p>© 2024 Aether Visuals Atelier. All rights reserved.</p>
-          <div className="flex gap-12">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Synthesis</a>
-          </div>
-        </div>
-      </footer>
+       </div>
     </div>
-  );
+  )
+}
+
+function HUD_Atelier() {
+   return (
+      <div className="fixed right-12 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col gap-12 items-end pointer-events-none">
+         <div className="flex flex-col gap-4 items-end">
+            <div className="w-1 h-32 bg-[#c9a84c]/20 relative">
+               <motion.div 
+                  className="absolute bottom-0 left-0 w-full bg-[#c9a84c]"
+                  animate={{ height: ["20%", "80%", "40%"] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+               />
+            </div>
+            <span className="text-[9px] font-black uppercase tracking-[0.6em] vertical-text text-[#c9a84c]">Atelier_Sync_v4</span>
+         </div>
+         <div className="flex flex-col gap-4">
+            <div className="w-12 h-12 border border-white/10 flex items-center justify-center bg-black/40 backdrop-blur-md">
+               <Camera className="w-5 h-5 text-white/40" />
+            </div>
+            <div className="w-12 h-12 border border-[#c9a84c]/30 flex items-center justify-center bg-[#c9a84c]/5 backdrop-blur-md">
+               <div className="w-2 h-2 rounded-full bg-[#c9a84c] animate-pulse" />
+            </div>
+         </div>
+      </div>
+   )
+}
+
+function ProjectCard({ project, index }: { project: any, index: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { margin: "-100px" })
+
+  return (
+    <div className="min-w-[85vw] md:min-w-[65vw] lg:min-w-[50vw] h-[75vh] relative group overflow-hidden border border-white/5 bg-[#0a0a0a] snap-center">
+       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10" />
+       <motion.img 
+          src={project.img} 
+          className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-110 group-hover:scale-100"
+          alt={project.name}
+       />
+       
+       <div className="absolute top-12 left-12 z-20">
+          <div className="text-[10px] font-black uppercase tracking-[0.6em] text-[#c9a84c] mb-4">{project.id} // {project.year}</div>
+          <h3 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic group-hover:translate-x-8 transition-transform duration-1000">
+             {project.name}
+          </h3>
+       </div>
+
+       <div className="absolute bottom-12 left-12 right-12 z-20">
+          <p className="text-sm md:text-base text-white/40 leading-relaxed font-light uppercase italic mb-12 max-w-lg tracking-widest">
+             {project.desc}
+          </p>
+          <div className="flex justify-between items-end border-t border-white/10 pt-12">
+             <div className="grid grid-cols-2 gap-12">
+                <div>
+                   <div className="text-[8px] text-white/20 uppercase mb-2">Location</div>
+                   <div className="text-lg font-black italic">{project.location}</div>
+                </div>
+                <div>
+                   <div className="text-[8px] text-white/20 uppercase mb-2">Synthesis Type</div>
+                   <div className="text-lg font-black italic">{project.type}</div>
+                </div>
+             </div>
+             <button className="px-12 py-6 border-2 border-[#c9a84c] text-[#c9a84c] text-[10px] font-black uppercase tracking-widest hover:bg-[#c9a84c] hover:text-black transition-all italic flex items-center gap-4">
+                Explore Twin <ArrowUpRight className="w-4 h-4" />
+             </button>
+          </div>
+       </div>
+       
+       {/* Background Number Accent */}
+       <div className="absolute top-1/2 right-0 -translate-y-1/2 text-[30vw] font-black text-white/[0.02] pointer-events-none select-none italic translate-x-1/2">
+          {index + 1}
+       </div>
+    </div>
+  )
+}
+
+/* ==========================================================================
+   MAIN PAGE: AETHER VISUALS (LUXURY ARCHITECTURAL)
+   ========================================================================== */
+
+export default function AetherVisualsPremium() {
+  const containerRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: containerRef })
+
+  // Parallax transforms
+  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -300])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
+  const textScale = useTransform(scrollYProgress, [0, 0.2], [1, 1.1])
+
+  return (
+    <div ref={containerRef} className="bg-[#050505] text-[#f0f0f0] font-sans selection:bg-[#c9a84c]/40 selection:text-white min-h-screen overflow-x-hidden">
+      
+      <GridOverlay />
+      <HUD_Atelier />
+      
+      {/* 1. NAVIGATION (LUXURY ATELIER) */}
+      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-12 py-12 border-b border-white/5 bg-black/60 backdrop-blur-2xl">
+         <div className="flex items-center gap-6 group cursor-pointer">
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center group-hover:rotate-45 transition-transform duration-700">
+               <div className="w-6 h-6 border-2 border-black rotate-45" />
+            </div>
+            <div className="flex flex-col">
+               <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">Aether <span className="text-[#c9a84c]">Visuals.</span></span>
+               <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-white/20 -mt-1 ml-1">Architectural Synthesis Atelier</span>
+            </div>
+         </div>
+         <div className="hidden lg:flex gap-16 text-[10px] font-black uppercase tracking-[0.4em] text-white/30">
+            <a href="#projects" className="hover:text-[#c9a84c] transition-colors relative group">
+               [ Projects ]
+               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#c9a84c] group-hover:w-full transition-all" />
+            </a>
+            <a href="#workflow" className="hover:text-[#c9a84c] transition-colors relative group">
+               [ Workflow ]
+               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#c9a84c] group-hover:w-full transition-all" />
+            </a>
+            <a href="#atelier" className="hover:text-[#c9a84c] transition-colors relative group">
+               [ The_Atelier ]
+               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#c9a84c] group-hover:w-full transition-all" />
+            </a>
+         </div>
+         <div className="flex items-center gap-12">
+            <div className="hidden md:flex flex-col items-end border-r border-white/10 pr-6">
+               <div className="text-[8px] font-black text-[#c9a84c] uppercase">Render_Nodes</div>
+               <div className="text-[10px] font-bold uppercase tracking-widest">124_Active</div>
+            </div>
+            <button className="px-8 py-4 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[#c9a84c] transition-all italic rounded-full">
+               Bespoke Portal
+            </button>
+         </div>
+      </nav>
+
+      <main>
+        {/* 2. SYNTHESIS IGNITION (HERO / LUXURY STYLE) */}
+        <section className="relative h-screen flex flex-col justify-center items-center px-12 pt-32 overflow-hidden">
+           <div className="relative z-10 w-full max-w-7xl flex flex-col items-center text-center">
+              <Reveal>
+                 <div className="inline-flex items-center gap-4 px-6 py-3 border border-[#c9a84c]/30 bg-[#c9a84c]/5 text-[10px] font-black uppercase tracking-[0.5em] text-[#c9a84c] mb-16 italic">
+                    <Sparkles className="w-4 h-4" /> Atelier_Status: SYNTHESIZING // VULCAN_NODES_MAX
+                 </div>
+                 <motion.h1 
+                    style={{ y: heroY, scale: textScale, opacity: heroOpacity }}
+                    className="text-8xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.7] italic flex flex-col"
+                 >
+                    <span>Atomic</span>
+                    <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Precision.</span>
+                 </motion.h1>
+                 
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-end text-left max-w-5xl mx-auto">
+                    <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-[0.15em]">
+                       Nous fusionnons l'art CGI et les données BIM pour créer des jumeaux numériques d'une fidélité absolue. La réalité n'est plus une limite, c'est notre point de départ.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-8 justify-end">
+                       <button className="px-14 py-8 bg-[#c9a84c] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_50px_rgba(201,168,76,0.3)] flex items-center gap-4 italic group rounded-sm">
+                          Explore Archives <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                       </button>
+                    </div>
+                 </div>
+              </Reveal>
+           </div>
+
+           {/* Background Image Parallax */}
+           <div className="absolute inset-0 z-0 opacity-10 grayscale select-none">
+              <img src="https://images.unsplash.com/photo-1518005020250-68a377a747e9?w=1600&q=80" className="w-full h-full object-cover" alt="Background Arch" />
+           </div>
+        </section>
+
+        {/* 3. PROJECT SYNTHESIS (HORIZONTAL SCROLL / KORR STYLE) */}
+        <section id="projects" className="py-64 px-12 border-y border-white/5 relative overflow-hidden">
+           <div className="max-w-7xl mx-auto mb-32 flex justify-between items-end">
+              <Reveal>
+                 <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[#c9a84c] mb-8">Atelier_Portfolio</div>
+                 <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] italic">
+                    Recent <br/> <span className="text-white/5" style={{ WebkitTextStroke: "1px white" }}>Syntheses.</span>
+                 </h2>
+              </Reveal>
+              <div className="hidden lg:block text-right">
+                 <div className="flex justify-end gap-4 mb-4">
+                    <div className="w-48 h-[1px] bg-white/10" />
+                    <div className="w-16 h-[1px] bg-[#c9a84c]" />
+                 </div>
+                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 italic">Zurich // Tokyo // Aspen</p>
+              </div>
+           </div>
+
+           <div className="flex gap-16 overflow-x-auto pb-24 no-scrollbar px-4 -mx-4 snap-x snap-mandatory">
+              {PROJECTS.map((project, i) => (
+                 <ProjectCard key={project.id} project={project} index={i} />
+              ))}
+           </div>
+        </section>
+
+        {/* 4. ATOMIC WORKFLOW (GRID DENSITY) */}
+        <section id="workflow" className="py-64 px-12 bg-zinc-950">
+           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-32 items-start">
+              <div className="lg:col-span-5">
+                 <Reveal>
+                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[#c9a84c] mb-8">Process_Logic</div>
+                    <h2 className="text-7xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] mb-12 italic">
+                       The <br/> <span className="opacity-20">Cycle.</span>
+                    </h2>
+                    <p className="text-lg font-light italic text-white/40 leading-relaxed uppercase tracking-[0.1em] mb-16">
+                       Chaque projet traverse un cycle de synthèse rigoureux, transformant des données brutes en expériences visuelles immersives et techniquement précises.
+                    </p>
+                    <div className="p-12 border border-white/5 bg-white/[0.02] space-y-8">
+                       <div className="flex items-center gap-6">
+                          <Terminal className="w-6 h-6 text-[#c9a84c]" />
+                          <span className="text-[10px] font-black uppercase tracking-widest italic">Core_Synthesis_v4</span>
+                       </div>
+                       <div className="space-y-4">
+                          <div className="flex justify-between text-[10px] uppercase text-white/20 italic">
+                             <span>Processing Speed</span>
+                             <span className="text-[#c9a84c]">1.2 TB/h</span>
+                          </div>
+                          <div className="w-full h-1 bg-white/5">
+                             <motion.div className="h-full bg-[#c9a84c]" initial={{ width: 0 }} whileInView={{ width: '85%' }} transition={{ duration: 2 }} />
+                          </div>
+                       </div>
+                    </div>
+                 </Reveal>
+              </div>
+
+              <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-8">
+                 {WORKFLOW.map((step, i) => (
+                    <Reveal key={step.id} delay={i * 0.1} y={80}>
+                       <div className="p-12 border border-white/5 hover:border-[#c9a84c]/50 bg-black transition-all group h-full">
+                          <div className="flex justify-between items-start mb-12">
+                             <div className="w-16 h-16 border border-[#c9a84c]/30 flex items-center justify-center group-hover:bg-[#c9a84c]/10 transition-all">
+                                <step.icon className="w-8 h-8 text-[#c9a84c]" />
+                             </div>
+                             <span className="text-4xl font-black italic text-white/[0.05] group-hover:text-[#c9a84c]/20 transition-colors">{step.id}</span>
+                          </div>
+                          <h4 className="text-2xl font-black uppercase tracking-tighter italic mb-6 group-hover:text-[#c9a84c] transition-colors">{step.title}</h4>
+                          <p className="text-sm text-white/30 font-light leading-relaxed uppercase tracking-widest italic">
+                             {step.desc}
+                          </p>
+                       </div>
+                    </Reveal>
+                 ))}
+              </div>
+           </div>
+        </section>
+
+        {/* 5. ATELIER METRICS (HUD INTERFACE) */}
+        <section id="atelier" className="py-64 px-12 relative overflow-hidden">
+           <div className="max-w-7xl mx-auto">
+              <Reveal>
+                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-32 gap-12">
+                    <div className="max-w-2xl">
+                       <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[#c9a84c] mb-8">Laboratory_Status</div>
+                       <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] italic">
+                          Twin <br/> <span className="opacity-10">Specs.</span>
+                       </h2>
+                    </div>
+                 </div>
+              </Reveal>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 border-2 border-white/5 bg-white/5">
+                 {ATELIER_METRICS.map((metric, i) => (
+                    <Reveal key={i} delay={i * 0.1}>
+                       <div className="bg-[#050505] p-16 h-full group hover:bg-[#c9a84c]/5 transition-all">
+                          <div className="text-[10px] font-black uppercase tracking-widest text-[#c9a84c] mb-8">{metric.label}</div>
+                          <div className="text-6xl font-black italic mb-8 tracking-tighter group-hover:scale-110 transition-transform origin-left">{metric.value}</div>
+                          <div className="flex justify-between items-center text-[9px] font-bold uppercase tracking-[0.4em] text-white/20">
+                             <span>{metric.detail}</span>
+                             <span className="text-[#c9a84c]">{metric.trend}</span>
+                          </div>
+                       </div>
+                    </Reveal>
+                 ))}
+              </div>
+           </div>
+        </section>
+
+        {/* 6. FAQ (LUXURY ACCORDION) */}
+        <section className="py-64 px-12 bg-white text-black relative">
+           <div className="max-w-4xl mx-auto relative z-10">
+              <Reveal>
+                 <div className="text-center mb-40">
+                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[#c9a84c] mb-8">Studio_Inquiry</div>
+                    <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter italic mb-8">Atelier <span className="opacity-20">Q&A.</span></h2>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/30 italic">Process // Delivery // Technology</p>
+                 </div>
+              </Reveal>
+
+              <Accordion type="single" collapsible className="w-full space-y-4">
+                 {[
+                   { q: "What is the typical project duration?", a: "Depending on scale and complexity, a full architectural synthesis typically requires between 4 to 12 weeks from data ingestion to final twin delivery." },
+                   { q: "Do you integrate real-time sensor data?", a: "Yes. Our Digital Twins can be connected to on-site IoT sensors for live performance monitoring and predictive maintenance simulations." },
+                   { q: "What hardware is required for local playback?", a: "While we provide cloud-based streaming for twins, local playback requires an NVIDIA RTX 4090 class GPU for optimal 12k real-time performance." }
+                 ].map((item, i) => (
+                   <AccordionItem key={i} value={`item-${i}`} className="border-2 border-black/5 bg-black/[0.02] px-12 rounded-sm hover:border-black/20 transition-all">
+                      <AccordionTrigger className="text-[14px] font-black uppercase tracking-[0.3em] py-14 no-underline italic text-left">
+                         {item.q}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-[12px] font-medium text-black/50 tracking-[0.1em] uppercase italic leading-loose pb-14">
+                         {item.a}
+                      </AccordionContent>
+                   </AccordionItem>
+                 ))}
+              </Accordion>
+           </div>
+        </section>
+
+        {/* 7. FOOTER (HIGH FIDELITY) */}
+        <footer className="bg-black pt-64 pb-16 px-12 md:px-24 border-t-8 border-[#c9a84c]">
+           <div className="max-w-7xl mx-auto">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-32 mb-48">
+                 <div className="lg:col-span-7">
+                    <Reveal>
+                       <div className="flex flex-col mb-16">
+                          <span className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.7] italic text-[#c9a84c]">Aether.</span>
+                          <span className="text-[12px] font-bold uppercase tracking-[1em] text-white/20 ml-2">Architectural Synthesis Atelier</span>
+                       </div>
+                       <p className="text-white/20 max-w-sm mb-20 text-sm font-light uppercase tracking-widest leading-loose italic">
+                          La synthèse ultime de l'architecture et du numérique. Zurich, Suisse.
+                       </p>
+                       <div className="flex gap-12 items-center">
+                          <div className="w-24 h-[1px] bg-white/10" />
+                          <div className="flex gap-10">
+                             <Globe className="w-7 h-7 text-white/20 hover:text-[#c9a84c] transition-all cursor-pointer" />
+                             <Camera className="w-7 h-7 text-white/20 hover:text-[#c9a84c] transition-all cursor-pointer" />
+                             <Binary className="w-7 h-7 text-white/20 hover:text-[#c9a84c] transition-all cursor-pointer" />
+                          </div>
+                       </div>
+                    </Reveal>
+                 </div>
+
+                 <div className="lg:col-span-5 grid grid-cols-2 gap-16">
+                    <div className="space-y-12">
+                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-[#c9a84c] mb-16 border-b border-[#c9a84c]/20 pb-4">Synthesis</h4>
+                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-white/30">
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#c9a84c]" /> CGI_Visuals
+                          </li>
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#c9a84c]" /> BIM_Layering
+                          </li>
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#c9a84c]" /> Digital_Twins
+                          </li>
+                       </ul>
+                    </div>
+                    <div className="space-y-12">
+                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-[#c9a84c] mb-16 border-b border-[#c9a84c]/20 pb-4">Atelier</h4>
+                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-white/30">
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#c9a84c]" /> Philosophy
+                          </li>
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#c9a84c]" /> Lab_Reports
+                          </li>
+                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
+                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#c9a84c]" /> Archives
+                          </li>
+                       </ul>
+                    </div>
+                 </div>
+              </div>
+
+              <div className="pt-24 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.5em] text-white/10 italic text-center">
+                 <div className="flex gap-16">
+                    <span>©2026 AETHER VISUALS ATELIER.</span>
+                    <span className="hidden md:inline">//</span>
+                    <span>PHOTOREALISM_CERTIFIED</span>
+                 </div>
+                 <div className="flex gap-16 font-mono text-[#c9a84c]/30">
+                    <span>VULCAN_LINK_STABLE</span>
+                    <span>RENDER_NODES_124_ACTIVE</span>
+                 </div>
+              </div>
+           </div>
+        </footer>
+      </main>
+
+      <style>{`
+        ::-webkit-scrollbar { width: 6px; background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #c9a84c; border-radius: 10px; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .vertical-text { writing-mode: vertical-rl; }
+        .animate-spin-slow { animation: spin 40s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+      `}</style>
+    </div>
+  )
 }
