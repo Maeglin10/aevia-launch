@@ -36,6 +36,11 @@ const SITE_BUILDER = [
 const IMPACT_VISIBLE = [
   // Originals / early elevated
   "impact-01", "impact-02", "impact-03", "impact-04", "impact-05",
+  // Round 1 rewrites (716-1952 lines, all premium)
+  "impact-10", "impact-11", "impact-12", "impact-13", "impact-14", "impact-15",
+  "impact-16", "impact-17", "impact-18", "impact-19", "impact-20", "impact-21",
+  "impact-22", "impact-23", "impact-24", "impact-25", "impact-26", "impact-27",
+  "impact-28", "impact-29",
   // Elevated batch (700-1100 lines)
   "impact-57", "impact-58", "impact-61", "impact-63", "impact-64",
   "impact-68", "impact-69", "impact-72",

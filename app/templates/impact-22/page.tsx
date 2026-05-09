@@ -1,539 +1,921 @@
 "use client"
 
-import React, { useState, useEffect, useRef, useMemo } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring,
-  useMotionValue
-} from "framer-motion"
-import Image from "next/image"
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import { useState, useRef } from "react"
 import Link from "next/link"
-import { 
-  Zap, Activity, Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, BarChart3, Fingerprint, Scan, 
-  Briefcase, Wind, Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Search, Cpu, Globe,
-  ShieldCheck, Binary, Code2, Database,
-  Gauge, Thermometer, FlaskConical, Sun, Moon,
-  Star, Sparkles, CircleDot, ArrowUpRight,
-  ArrowDownLeft, Expand, Shrink, MousePointer2,
-  HardDrive, Key, Lock, Unlock, Shield, ShieldAlert,
-  Laptop, Server, Network, Wifi, Bluetooth, Radio,
-  Droplets, Pickaxe, Mountain, Gem, Drill,
-  Telescope, MilestoneIcon, Layout, Smartphone,
-  PenTool, Camera, Film, Palette, MessageSquare,
-  Send, ZapOff, Anchor, Ship, Truck, Train, Bus,
-  Car, Bike, Eye, ScanEye, EyeOff, KeyRound,
-  Fingerprint as FingerprintIcon, Navigation,
-  Navigation2, Wind as WindIcon, Biohazard,
-  Crosshair, Focus, Bug, ShieldAlert as ShieldAlertIcon,
-  Skull, Scan as ScanIcon, Aperture, Cast, 
-  Ghost, Headphones, Mic, Music, Speaker,
-  Video, Volume2, WifiOff, Code, Braces,
-  Cpu as CpuIcon, Share
-} from "lucide-react"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
-/* ==========================================================================
-   SPLIT OS DATASET (ULTRA DENSITY)
-   ========================================================================== */
+const C = {
+  bg: "#060b18",
+  card: "#0d1829",
+  text: "#e8f4ff",
+  muted: "#7a9bb5",
+  accent: "#00d4ff",
+  border: "rgba(0,212,255,0.15)",
+  borderHover: "rgba(0,212,255,0.4)",
+  gradient: "linear-gradient(135deg, #060b18 0%, #0a1628 100%)",
+}
 
-const PROTOCOLS = [
+const navLinks = ["Produit", "Solutions", "Sécurité", "Tarifs", "Docs"]
+
+const stats = [
+  { value: "850+", label: "Entreprises clientes", suffix: "" },
+  { value: "2Md+", label: "Requêtes par mois", suffix: "" },
+  { value: "99.99%", label: "Disponibilité garantie", suffix: "" },
+  { value: "40ms", label: "Latence médiane", suffix: "" },
+]
+
+const features = [
   {
-    id: "prot-01",
-    title: "Mesh Synapse",
-    desc: "Connexion de nœuds de données disparates dans un environnement réactif unifié. Chaque point de données devient une extension de l'intelligence système.",
-    status: "SYNC",
-    load: "88%"
+    tab: "RAG & Knowledge Base",
+    headline: "Connectez vos données, interrogez en langage naturel",
+    body: "Ingérez n'importe quelle source de données — PDF, bases de données, APIs, data lakes — et construisez des pipelines RAG haute performance avec chunking intelligent, reranking et cache sémantique. Vos équipes obtiennent des réponses précises ancrées dans vos données propriétaires.",
+    points: ["Chunking adaptatif par type de document", "Reranking croisé multi-modèle", "Cache vectoriel avec TTL configurable", "Connecteurs natifs S3, GCS, SharePoint, Confluence"],
   },
   {
-    id: "prot-08",
-    title: "Entropy Zero",
-    desc: "Réduction agressive du bruit système pour une clarté computationnelle absolue. Nous purifions le flux d'informations pour une performance optimale.",
-    status: "READY",
-    load: "94%"
+    tab: "Agents IA",
+    headline: "Orchestrez des agents autonomes sur vos workflows métier",
+    body: "Déployez des agents multi-étapes capables de planifier, exécuter et corriger leurs actions. Intégration native avec vos outils existants via 200+ connecteurs. Supervision temps réel, audit trail complet et kill-switch instantané.",
+    points: ["Agents multi-step avec mémoire persistante", "200+ connecteurs Zapier, Salesforce, SAP", "Monitoring en temps réel avec traces", "Rollback instantané sur erreur détectée"],
   },
   {
-    id: "prot-15",
-    title: "Fidelity Push",
-    desc: "Délivrance de sorties visuelles et de données haute fidélité sur tous les nœuds périphériques. Une intégrité totale de l'interface utilisateur.",
-    status: "ACTIVE",
-    load: "100%"
-  }
+    tab: "Analytics & BI",
+    headline: "Transformez vos données brutes en insight décisionnels",
+    body: "Interface en langage naturel sur vos entrepôts de données. Posez vos questions en français, obtenez des dashboards, des graphiques et des analyses narratives. Connecté nativement à BigQuery, Snowflake, Redshift et dbt.",
+    points: ["SQL auto-généré et auditable", "Dashboards interactifs exportables", "Analyse de séries temporelles et prédiction", "Intégration Metabase, Tableau, Power BI"],
+  },
+  {
+    tab: "Sécurité & Conformité",
+    headline: "Conformité RGPD, SOC2 et ISO 27001 par défaut",
+    body: "Vos données restent dans votre région cloud. Chiffrement AES-256 au repos, TLS 1.3 en transit. Audit log immuable, contrôle d'accès granulaire par rôle, et options de déploiement on-premise ou VPC privé.",
+    points: ["RGPD, SOC2 Type II, ISO 27001 certifiés", "Déploiement on-premise ou VPC isolé", "Audit log immuable et exportable", "SSO SAML 2.0 / OIDC avec MFA obligatoire"],
+  },
 ]
 
-const SYSTEM_METRICS = [
-  { label: "Kernel Load", value: "8%", trend: "Stable", detail: "Kernel v4.2.0 Verified" },
-  { label: "Mesh Synapse", value: "99.9%", trend: "High", detail: "Distributed Sync Active" },
-  { label: "Entropy Level", value: "Zero", trend: "Pure", detail: "Computational Clarity" },
-  { label: "Fidelity", value: "8K Native", trend: "Max", detail: "UI Integrity Audit" }
+const testimonials = [
+  {
+    quote: "NimbusAI nous a permis de déployer notre premier agent IA en production en moins de 3 semaines. Le ROI était visible dès le deuxième mois : 60% de réduction des tickets niveau 1.",
+    name: "Camille Rousseau",
+    title: "CTO, Fintech Scale-up (Série B)",
+    avatar: "CR",
+  },
+  {
+    quote: "La performance du RAG est impressionnante. On interroge 40 ans d'archives juridiques en moins de 200ms. Aucun autre fournisseur n'a pu s'approcher de ce niveau de précision sur notre corpus.",
+    name: "Édouard Marchetti",
+    title: "Directeur Data, Cabinet d'avocats international",
+    avatar: "EM",
+  },
+  {
+    quote: "La certification SOC2 native et le déploiement dans notre VPC privé étaient non-négociables pour notre DSI. NimbusAI était la seule plateforme à cocher toutes les cases en enterprise.",
+    name: "Sofia Andriessen",
+    title: "VP Engineering, Assureur européen Top 10",
+    avatar: "SA",
+  },
+  {
+    quote: "On a remplacé 3 outils distincts par NimbusAI. L'unification du pipeline IA a réduit notre complexité opérationnelle de 70% et nos coûts d'infrastructure de 45%.",
+    name: "Thomas Keller",
+    title: "Head of Data, Retailer 500M€ de CA",
+    avatar: "TK",
+  },
 ]
 
-const KERNEL_LOGS = [
-  { time: "16:12:08", event: "SPLIT_INIT", status: "PASS", detail: "Shell_Enclave_01" },
-  { time: "16:15:32", event: "KERNEL_VERIFY", status: "PASS", detail: "v4.2.0_Core" },
-  { time: "16:22:15", event: "MESH_SYNC", status: "ACTIVE", detail: "Global_Node_4" }
+const faqs = [
+  {
+    q: "Où sont hébergées mes données ?",
+    a: "Vos données sont hébergées dans la région cloud de votre choix — Europe (Paris, Francfort), US ou APAC. Nous supportons AWS, GCP et Azure. En option Entreprise, déploiement entièrement dans votre infrastructure on-premise ou VPC privé, sans aucune donnée quittant votre périmètre.",
+  },
+  {
+    q: "Puis-je utiliser mes propres LLMs (GPT-4, Claude, Mistral) ?",
+    a: "Oui. NimbusAI est model-agnostic. Vous choisissez le modèle pour chaque tâche : OpenAI, Anthropic, Mistral, Cohere, ou vos propres modèles fine-tunés déployés sur HuggingFace ou SageMaker. Le routage intelligent peut basculer automatiquement selon le coût ou la performance.",
+  },
+  {
+    q: "Est-il possible de déployer sans écrire de code ?",
+    a: "Absolument. Notre interface no-code permet de construire des pipelines RAG, des agents et des dashboards analytiques par glisser-déposer. Pour les équipes techniques, notre SDK Python/TypeScript et notre API REST donnent un contrôle total. Les deux approches sont disponibles sur tous les plans.",
+  },
+  {
+    q: "Comment NimbusAI assure-t-il la conformité RGPD ?",
+    a: "Nous sommes sous-traitant au sens du RGPD. Nous signons un DPA (Data Processing Agreement) standard. Nos datacenters européens sont certifiés ISO 27001. Aucune donnée n'est utilisée pour entraîner nos modèles. Vous conservez la pleine propriété et le droit à l'effacement de toutes vos données.",
+  },
+  {
+    q: "Quel est le délai de mise en production réaliste ?",
+    a: "Les cas d'usage standards (chatbot sur documents, agent de support) sont en production en 1 à 3 semaines. Les intégrations complexes (multi-systèmes, on-premise, compliance stricte) prennent 4 à 8 semaines avec l'accompagnement de notre équipe Solutions Engineering dédiée.",
+  },
+  {
+    q: "Proposez-vous un environnement de test avant achat ?",
+    a: "Oui. Notre POC gratuit de 30 jours vous donne accès à toutes les fonctionnalités Business sans engagement. Vous êtes accompagné par un Solutions Engineer dédié qui vous aide à connecter vos sources de données réelles et à valider le ROI sur votre cas d'usage spécifique.",
+  },
 ]
 
-/* ==========================================
-   TECHNICAL COMPONENTS (SPLIT / HUD)
-   ========================================== */
+const pricing = [
+  {
+    name: "Starter",
+    price: "490€",
+    period: "/mois",
+    description: "Idéal pour valider votre premier projet IA en production",
+    features: ["1M tokens inclus/mois", "3 projets IA actifs", "RAG jusqu'à 50K documents", "Connecteurs standards (10)", "Support email 9h-18h", "Dashboard analytics de base", "API REST + SDK Python"],
+    cta: "Démarrer gratuitement",
+    highlighted: false,
+  },
+  {
+    name: "Business",
+    price: "1 990€",
+    period: "/mois",
+    description: "Pour les équipes qui scalent leur IA en entreprise",
+    features: ["10M tokens inclus/mois", "Projets IA illimités", "RAG documents illimité", "Tous connecteurs (200+)", "SLA 99.9% garanti contractuellement", "Support prioritaire 24/7", "SSO SAML 2.0 / OIDC", "Agents multi-step avancés", "Fine-tuning de modèles"],
+    cta: "Essayer 30 jours",
+    highlighted: true,
+  },
+  {
+    name: "Entreprise",
+    price: "Sur devis",
+    period: "",
+    description: "Déploiement souverain et conformité maximale",
+    features: ["Tokens illimités", "Déploiement on-premise ou VPC privé", "SLA 99.99% avec pénalités", "Support dédié 24/7 avec CSM", "Compliance RGPD, SOC2, ISO 27001", "Audit trail immuable", "Formation équipes incluse", "Intégrations custom sur mesure"],
+    cta: "Contacter les ventes",
+    highlighted: false,
+  },
+]
 
-function Reveal({ children, delay = 0, y = 40, x = 0, scale = 1 }: { children: React.ReactNode, delay?: number, y?: number, x?: number, scale?: number }) {
+function StatCounter({ value, label }: { value: string; label: string }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const inView = useInView(ref, { once: true })
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y, x, scale }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0, scale: 1 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6 }}
+      style={{ textAlign: "center", padding: "0 24px" }}
     >
-      {children}
+      <div style={{ fontSize: "2.75rem", fontWeight: 800, color: C.accent, fontFamily: '"JetBrains Mono", monospace', lineHeight: 1 }}>
+        {value}
+      </div>
+      <div style={{ fontSize: "0.875rem", color: C.muted, marginTop: "8px", fontWeight: 500 }}>
+        {label}
+      </div>
     </motion.div>
   )
 }
 
-function MeshFlowBackground() {
-  return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-10 select-none">
-       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,59,59,0.05)_0%,transparent_70%)]" />
-       <svg width="100%" height="100%" className="w-full h-full opacity-30">
-          <defs>
-             <pattern id="split-grid" width="80" height="80" patternUnits="userSpaceOnUse">
-                <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#ff3b3b" strokeWidth="0.5" />
-             </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#split-grid)" />
-       </svg>
-       {[...Array(12)].map((_, i) => (
-          <motion.div 
-             key={i}
-             className="absolute h-px bg-gradient-to-r from-transparent via-[#ff3b3b] to-transparent"
-             style={{ 
-                left: -500, 
-                top: `${i * 9}%`,
-                width: 1000,
-                rotate: i % 2 === 0 ? 3 : -3
-             }}
-             animate={{ 
-                left: ['-50%', '150%'],
-                opacity: [0, 1, 0]
-             }}
-             transition={{ 
-                duration: 5 + Math.random() * 7, 
-                repeat: Infinity, 
-                ease: "linear",
-                delay: Math.random() * 5
-             }}
-          />
-       ))}
-    </div>
-  )
-}
+export default function NimbusAIPage() {
+  const { scrollY } = useScroll()
+  const heroTextY = useTransform(scrollY, [0, 500], [0, -40])
+  const diagramY = useTransform(scrollY, [0, 500], [0, 30])
 
-function HUD_Split() {
-   return (
-      <div className="fixed left-12 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col gap-12 items-start pointer-events-none">
-         <div className="flex flex-col gap-4">
-            <div className="w-1 h-32 bg-[#ff3b3b]/20 relative">
-               <motion.div 
-                  className="absolute top-0 left-0 w-full bg-[#ff3b3b] shadow-[0_0_20px_rgba(255,59,59,0.6)]"
-                  animate={{ height: ["10%", "90%", "30%"] }}
-                  transition={{ duration: 4, repeat: Infinity }}
-               />
-            </div>
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] vertical-text text-[#ff3b3b]">Kernel_Flow</span>
-         </div>
-         <div className="flex flex-col gap-6">
-            <div className="p-4 border border-[#ff3b3b]/20 bg-[#ff3b3b]/5 backdrop-blur-md rounded-sm">
-               <CpuIcon className="w-6 h-6 text-[#ff3b3b]" />
-            </div>
-            <div className="p-4 border border-white/10 bg-white/5 backdrop-blur-md rounded-sm">
-               <Braces className="w-6 h-6 text-white/40" />
-            </div>
-         </div>
-      </div>
-   )
-}
+  const [activeTab, setActiveTab] = useState(0)
+  const [activeTestimonial, setActiveTestimonial] = useState(0)
+  const [direction, setDirection] = useState(1)
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-function ProtocolCard({ prot, index }: { prot: any, index: number }) {
+  function goTestimonial(idx: number) {
+    setDirection(idx > activeTestimonial ? 1 : -1)
+    setActiveTestimonial(idx)
+  }
+  function prevTestimonial() {
+    const idx = (activeTestimonial - 1 + testimonials.length) % testimonials.length
+    setDirection(-1)
+    setActiveTestimonial(idx)
+  }
+  function nextTestimonial() {
+    const idx = (activeTestimonial + 1) % testimonials.length
+    setDirection(1)
+    setActiveTestimonial(idx)
+  }
+
   return (
-    <div className="group relative p-16 border border-[#ff3b3b]/10 bg-[#050505] hover:bg-[#ff3b3b]/5 transition-all h-[550px] flex flex-col justify-between overflow-hidden">
-       <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:opacity-10 transition-opacity">
-          <Terminal className="w-48 h-48 text-[#ff3b3b]" />
-       </div>
-       
-       <div>
-          <div className="flex justify-between items-center mb-12">
-             <div className="text-[10px] font-black uppercase tracking-[0.6em] text-[#ff3b3b]">{prot.id} // SECURE</div>
-             <div className="px-4 py-1 border border-[#ff3b3b]/30 rounded-full text-[8px] font-black text-[#ff3b3b] uppercase tracking-widest">
-                {prot.status}
-             </div>
+    <div style={{ background: C.bg, color: C.text, fontFamily: "system-ui, -apple-system, sans-serif", overflowX: "hidden" }}>
+
+      {/* ── 1. NAVBAR ── */}
+      <motion.nav
+        initial={{ y: -60, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        style={{
+          position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "0 48px", height: "64px",
+          background: "rgba(6,11,24,0.92)", backdropFilter: "blur(16px)",
+          borderBottom: `1px solid ${C.border}`,
+        }}
+      >
+        <Link href="/" style={{ textDecoration: "none" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div style={{
+              width: "32px", height: "32px", borderRadius: "8px",
+              background: `linear-gradient(135deg, ${C.accent}, #0090cc)`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <span style={{ fontWeight: 700, fontSize: "1.1rem", color: C.text, letterSpacing: "-0.02em" }}>NimbusAI</span>
           </div>
-          <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none italic mb-8 group-hover:translate-x-4 transition-transform duration-700 text-white">
-             {prot.title}
-          </h3>
-       </div>
+        </Link>
 
-       <div className="relative z-10">
-          <p className="text-xs text-white/30 leading-relaxed font-medium uppercase italic mb-12 h-24 tracking-widest leading-loose">
-             {prot.desc}
-          </p>
-          <div className="space-y-4">
-             <div className="flex justify-between text-[8px] font-black uppercase tracking-widest text-white/20">
-                <span>Kernel_Affinity</span>
-                <span className="text-[#ff3b3b]">{prot.load}</span>
-             </div>
-             <div className="w-full h-[1px] bg-white/10 relative overflow-hidden">
-                <motion.div 
-                   className="absolute inset-y-0 left-0 bg-[#ff3b3b]"
-                   initial={{ width: 0 }}
-                   whileInView={{ width: prot.load }}
-                   transition={{ duration: 1.5 }}
-                />
-             </div>
-          </div>
-       </div>
-    </div>
-  )
-}
-
-/* ==========================================================================
-   MAIN PAGE: SPLIT OS (planetary data orchestration)
-   ========================================================================== */
-
-export default function SplitOSPremium() {
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Parallax transforms
-  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -250])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const shipScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.1])
-
-  return (
-    <div ref={containerRef} className="bg-[#020205] text-[#e0e0ff] font-mono selection:bg-[#ff3b3b]/40 selection:text-white min-h-screen overflow-x-hidden">
-      
-      <MeshFlowBackground />
-      <HUD_Split />
-      
-      {/* 1. NAVIGATION (SPLIT TACTICAL) */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-12 py-10 border-b border-[#ff3b3b]/10 bg-black/80 backdrop-blur-2xl">
-         <div className="flex items-center gap-6 group cursor-pointer">
-            <Activity className="w-10 h-10 text-[#ff3b3b] group-hover:scale-110 transition-transform" />
-            <div className="flex flex-col">
-               <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic text-white">Split<span className="text-[#ff3b3b]/40">_</span>OS.</span>
-               <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-[#ff3b3b]/30 -mt-1 ml-1">Planetary Data Orchestration</span>
-            </div>
-         </div>
-         <div className="hidden lg:flex gap-16 text-[10px] font-black uppercase tracking-[0.4em] text-[#ff3b3b]/30">
-            <a href="#protocols" className="hover:text-white transition-colors relative group">
-               [ Protocols ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#ff3b3b] group-hover:w-full transition-all" />
+        <div style={{ display: "flex", alignItems: "center", gap: "32px" }}>
+          {navLinks.map(link => (
+            <a key={link} href="#" style={{ color: C.muted, textDecoration: "none", fontSize: "0.9rem", fontWeight: 500, transition: "color 0.2s", cursor: "pointer" }}
+              onMouseEnter={e => (e.currentTarget.style.color = C.text)}
+              onMouseLeave={e => (e.currentTarget.style.color = C.muted)}
+            >
+              {link}
             </a>
-            <a href="#metrics" className="hover:text-white transition-colors relative group">
-               [ Tech_Audit ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#ff3b3b] group-hover:w-full transition-all" />
-            </a>
-            <a href="#about" className="hover:text-white transition-colors relative group">
-               [ Manifesto ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#ff3b3b] group-hover:w-full transition-all" />
-            </a>
-         </div>
-         <div className="flex items-center gap-12">
-            <div className="hidden md:flex flex-col items-end border-r border-[#ff3b3b]/10 pr-6">
-               <div className="text-[8px] font-black text-[#ff3b3b] uppercase tracking-widest">Global_Status</div>
-               <div className="text-[10px] font-bold uppercase tracking-widest italic text-white">All_Nodes_Nominal</div>
-            </div>
-            <button className="px-10 py-5 bg-[#ff3b3b] text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(255,59,59,0.2)] italic">
-               Initiate_Shell
-            </button>
-         </div>
-      </nav>
+          ))}
+          <motion.a
+            href="#poc"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            style={{
+              background: C.accent, color: "#060b18", padding: "9px 20px",
+              borderRadius: "8px", fontWeight: 700, fontSize: "0.875rem",
+              textDecoration: "none", cursor: "pointer", letterSpacing: "-0.01em",
+            }}
+          >
+            Démarrer le POC
+          </motion.a>
+        </div>
+      </motion.nav>
 
-      <main>
-        {/* 2. SYSTEM IGNITION (HERO / LUXURY STYLE) */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-12 pt-32 overflow-hidden border-b border-[#ff3b3b]/10">
-           <div className="relative z-10 w-full max-w-7xl flex flex-col items-center text-center">
-              <Reveal>
-                 <div className="inline-flex items-center gap-4 px-6 py-3 border border-[#ff3b3b]/30 bg-[#ff3b3b]/5 text-[10px] font-black uppercase tracking-[0.5em] text-[#ff3b3b] mb-16 italic">
-                    <Braces className="w-4 h-4 animate-pulse" /> System_Status: VERIFIED // KERNEL_V4.2.0_READY
-                 </div>
-                 <motion.h1 
-                    style={{ y: heroY, scale: shipScale, opacity: heroOpacity }}
-                    className="text-8xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.7] italic flex flex-col text-white"
-                 >
-                    <span>Own the</span>
-                    <span className="text-transparent" style={{ WebkitTextStroke: "2px #ff3b3b" }}>Shell.</span>
-                 </motion.h1>
-                 
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-end text-left max-w-5xl mx-auto">
-                    <p className="text-lg md:text-xl text-[#ff3b3b]/40 leading-relaxed font-light italic uppercase tracking-[0.15em] border-l-2 border-[#ff3b3b]/20 pl-12">
-                       Sécuriser le futur des systèmes distribués via une orchestration haute fidélité et une clarté computationnelle radicale. Le futur est fragmenté mais unifié.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-8 justify-end">
-                       <button className="px-14 py-8 bg-[#ff3b3b] text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_50px_rgba(255,59,59,0.3)] flex items-center gap-4 italic group">
-                          [ Start Orchestration ] <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                       </button>
-                    </div>
-                 </div>
-              </Reveal>
-           </div>
+      {/* ── 2. HERO ── */}
+      <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", padding: "120px 48px 80px", position: "relative", overflow: "hidden" }}>
+        {/* Background glow */}
+        <div style={{
+          position: "absolute", top: "20%", left: "10%", width: "600px", height: "600px",
+          background: "radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%)",
+          borderRadius: "50%", pointerEvents: "none",
+        }} />
 
-           {/* Floating Background Accents */}
-           <div className="absolute inset-0 z-0 opacity-10 pointer-events-none select-none">
-              <div className="w-full h-full" style={{ backgroundImage: 'radial-gradient(circle at center, #ff3b3b 1px, transparent 1px)', backgroundSize: '100px 100px' }} />
-           </div>
-        </section>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", maxWidth: "1280px", margin: "0 auto", gap: "64px" }}>
 
-        {/* 3. PROTOCOLS (DENSE GRID INTERFACE) */}
-        <section id="protocols" className="py-64 px-12 bg-black relative border-b border-[#ff3b3b]/10">
-           <div className="max-w-7xl mx-auto mb-32 flex justify-between items-end">
-              <Reveal>
-                 <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[#ff3b3b]/40 mb-8">System_Sequence</div>
-                 <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] italic text-white">
-                    Protocol <br/> <span className="text-[#ff3b3b]/10" style={{ WebkitTextStroke: "1px #ff3b3b" }}>Logic.</span>
-                 </h2>
-              </Reveal>
-              <div className="hidden lg:block text-right">
-                 <div className="flex justify-end gap-4 mb-4">
-                    <div className="w-48 h-[1px] bg-white/10" />
-                    <div className="w-16 h-[1px] bg-[#ff3b3b]" />
-                 </div>
-                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#ff3b3b]/20 italic">Mesh // Entropy // Fidelity</p>
-              </div>
-           </div>
+          {/* Left — text */}
+          <motion.div style={{ flex: "1 1 50%", y: heroTextY }}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              style={{
+                display: "inline-flex", alignItems: "center", gap: "8px",
+                background: "rgba(0,212,255,0.08)", border: `1px solid ${C.border}`,
+                borderRadius: "100px", padding: "6px 14px", marginBottom: "28px",
+              }}
+            >
+              <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: C.accent }} />
+              <span style={{ fontSize: "0.78rem", fontWeight: 600, color: C.accent, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                Nouvelle infrastructure IA · v3.0
+              </span>
+            </motion.div>
 
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {PROTOCOLS.map((prot, i) => (
-                 <Reveal key={prot.id} delay={i * 0.1}>
-                    <ProtocolCard prot={prot} index={i} />
-                 </Reveal>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.7 }}
+              style={{
+                fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, lineHeight: 1.08,
+                letterSpacing: "-0.04em", marginBottom: "24px", color: C.text,
+              }}
+            >
+              L'IA d'Entreprise.<br />
+              <span style={{ color: C.accent }}>Prête à l'Emploi.</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.45, duration: 0.6 }}
+              style={{ fontSize: "1.15rem", color: C.muted, lineHeight: 1.65, marginBottom: "36px", maxWidth: "500px" }}
+            >
+              Déployez des pipelines RAG, des agents autonomes et des analytics génératifs en production en quelques semaines — sans compromis sur la sécurité ni la conformité.
+            </motion.p>
+
+            {/* Metric pills */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+              style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "44px" }}
+            >
+              {["99.9% SLA", "<200ms latence", "SOC2 Certifié"].map(pill => (
+                <div key={pill} style={{
+                  background: "rgba(0,212,255,0.07)", border: `1px solid ${C.border}`,
+                  borderRadius: "100px", padding: "7px 16px",
+                  fontSize: "0.8rem", fontWeight: 600, color: C.accent,
+                  fontFamily: '"JetBrains Mono", monospace',
+                }}>
+                  {pill}
+                </div>
               ))}
-           </div>
-        </section>
+            </motion.div>
 
-        {/* 4. TECH AUDIT (HUD DATA VIZ) */}
-        <section id="metrics" className="py-64 px-12 bg-black relative border-b border-[#ff3b3b]/10">
-           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-32 items-center relative z-10">
-              <div className="lg:col-span-7">
-                 <Reveal>
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[#ff3b3b]/40 mb-8">System_Data</div>
-                    <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-16 italic text-white">
-                       Kernel <br/> <span className="opacity-10">Stats.</span>
-                    </h2>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                       {SYSTEM_METRICS.map((metric, i) => (
-                          <div key={i} className="p-12 border border-[#ff3b3b]/10 bg-[#ff3b3b]/5 hover:border-[#ff3b3b]/50 transition-all group relative overflow-hidden">
-                             <div className="text-[10px] font-black uppercase tracking-widest text-[#ff3b3b]/40 mb-6">{metric.label}</div>
-                             <div className="text-6xl font-black italic mb-6 tracking-tighter group-hover:scale-105 transition-transform origin-left text-white">{metric.value}</div>
-                             <div className="flex justify-between items-center text-[9px] font-bold uppercase tracking-[0.4em] text-[#ff3b3b]/20">
-                                <span>{metric.detail}</span>
-                                <span className="text-[#ff3b3b]">{metric.trend}</span>
-                             </div>
-                             <div className="mt-8 h-[2px] bg-white/5 relative overflow-hidden">
-                                <motion.div 
-                                   className="absolute inset-y-0 left-0 bg-[#ff3b3b]"
-                                   initial={{ width: 0 }}
-                                   whileInView={{ width: '100%' }}
-                                   transition={{ duration: 1.5, delay: i * 0.1 }}
-                                />
-                             </div>
-                          </div>
-                       ))}
-                    </div>
-                 </Reveal>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.75, duration: 0.6 }}
+              style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}
+            >
+              <motion.a
+                href="#poc"
+                whileHover={{ scale: 1.03, boxShadow: `0 0 32px rgba(0,212,255,0.3)` }}
+                whileTap={{ scale: 0.97 }}
+                style={{
+                  display: "inline-block", background: C.accent, color: "#060b18",
+                  padding: "14px 28px", borderRadius: "10px", fontWeight: 800,
+                  fontSize: "1rem", textDecoration: "none", cursor: "pointer",
+                }}
+              >
+                Démarrer votre POC gratuit
+              </motion.a>
+              <motion.a
+                href="#demo"
+                whileHover={{ scale: 1.02 }}
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: "8px",
+                  color: C.text, textDecoration: "none", padding: "14px 24px",
+                  border: `1px solid ${C.border}`, borderRadius: "10px",
+                  fontWeight: 600, fontSize: "1rem", cursor: "pointer",
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke={C.accent} strokeWidth="2"/>
+                  <path d="M10 8l6 4-6 4V8z" fill={C.accent}/>
+                </svg>
+                Voir la démo
+              </motion.a>
+            </motion.div>
+          </motion.div>
+
+          {/* Right — AI Pipeline diagram */}
+          <motion.div style={{ flex: "1 1 45%", y: diagramY }}>
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              style={{
+                background: C.card, border: `1px solid ${C.border}`, borderRadius: "20px",
+                padding: "32px", position: "relative",
+              }}
+            >
+              {/* Card header */}
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "28px" }}>
+                <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#ff5f57" }} />
+                <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#febc2e" }} />
+                <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#28c840" }} />
+                <span style={{ marginLeft: "12px", fontSize: "0.8rem", color: C.muted, fontFamily: '"JetBrains Mono", monospace' }}>
+                  nimbus — ai-pipeline.yml
+                </span>
               </div>
 
-              <div className="lg:col-span-5 space-y-16">
-                 <Reveal delay={0.4}>
-                    <div className="p-12 bg-[#ff3b3b]/5 border border-[#ff3b3b]/20 rounded-sm relative group overflow-hidden shadow-2xl">
-                       <div className="flex justify-between items-center mb-12">
-                          <h4 className="text-2xl font-black uppercase tracking-tighter italic text-white">Kernel Logs</h4>
-                          <div className="w-2 h-2 rounded-full bg-[#ff3b3b] animate-ping" />
-                       </div>
-                       <div className="space-y-6 font-mono text-[10px]">
-                          {KERNEL_LOGS.map((log, i) => (
-                             <div key={i} className="flex justify-between border-b border-white/10 pb-2 group/log hover:bg-[#ff3b3b]/5 px-2 transition-colors">
-                                <span className="text-[#ff3b3b]/30 group-hover/log:text-white transition-colors">[{log.time}]</span>
-                                <span className="text-white font-black">{log.event}</span>
-                                <span className="text-[#ff3b3b]/40 italic">{log.detail}</span>
-                                <span className="font-black text-white">[{log.status}]</span>
-                             </div>
-                          ))}
-                       </div>
-                       <div className="mt-12 flex items-center gap-4 text-[10px] font-black uppercase text-[#ff3b3b]/40 animate-pulse">
-                          <Terminal className="w-4 h-4" /> Awaiting_Kernel_Inquiry...
-                       </div>
-                    </div>
-                 </Reveal>
-              </div>
-           </div>
+              {/* Pipeline diagram */}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px" }}>
+                {/* Box 1: Data Sources */}
+                <div style={{
+                  flex: 1, background: "rgba(0,212,255,0.06)", border: `1px solid ${C.border}`,
+                  borderRadius: "12px", padding: "16px 12px", textAlign: "center",
+                }}>
+                  <div style={{ fontSize: "1.4rem", marginBottom: "6px" }}>🗄️</div>
+                  <div style={{ fontSize: "0.7rem", fontWeight: 700, color: C.text, fontFamily: '"JetBrains Mono", monospace' }}>Data Sources</div>
+                  <div style={{ fontSize: "0.65rem", color: C.muted, marginTop: "4px" }}>PDF · SQL · API · S3</div>
+                </div>
 
-           {/* Background Overlay Large Text */}
-           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] font-black text-[#ff3b3b]/[0.01] pointer-events-none select-none italic z-0">
-              ORCHESTRA
-           </div>
-        </section>
+                {/* Connector 1 */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px", flex: "0 0 auto" }}>
+                  <div style={{ width: "40px", height: "2px", background: `linear-gradient(90deg, ${C.border}, ${C.accent})`, borderRadius: "2px", position: "relative" }}>
+                    <motion.div
+                      animate={{ opacity: [1, 0.3, 1] }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                      style={{
+                        position: "absolute", right: "-4px", top: "-4px",
+                        width: "10px", height: "10px", borderRadius: "50%",
+                        background: C.accent, boxShadow: `0 0 8px ${C.accent}`,
+                      }}
+                    />
+                  </div>
+                </div>
 
-        {/* 5. MANIFESTO (EDITORIAL LAYOUT) */}
-        <section id="about" className="py-64 px-12 bg-white text-black relative">
-           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-32 items-center">
-              <div className="lg:col-span-5">
-                 <Reveal>
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[#ff3b3b] mb-8">System_Doctrine</div>
-                    <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-12 italic">
-                       System <br/> <span className="opacity-20">Enclave.</span>
-                    </h2>
-                    <p className="text-lg font-bold italic text-black/40 leading-relaxed uppercase tracking-[0.1em] mb-16 leading-loose">
-                       Un environnement de shell unifié pour l'orchestration haute fidélité d'enclaves de données à l'échelle planétaire. Construit pour ceux qui construisent les systèmes.
-                    </p>
-                    <div className="grid grid-cols-2 gap-12 border-t border-black/10 pt-12">
-                       <div className="flex flex-col gap-4">
-                          <div className="text-[10px] font-black text-black/20 uppercase tracking-widest">Kernel</div>
-                          <div className="text-4xl font-black italic">VERIFIED</div>
-                       </div>
-                       <div className="flex flex-col gap-4">
-                          <div className="text-[10px] font-black text-black/20 uppercase tracking-widest">Distributed</div>
-                          <div className="text-4xl font-black italic">SYNC</div>
-                       </div>
-                    </div>
-                 </Reveal>
-              </div>
+                {/* Box 2: NimbusAI */}
+                <div style={{
+                  flex: 1, background: `linear-gradient(135deg, rgba(0,212,255,0.12), rgba(0,212,255,0.04))`,
+                  border: `2px solid rgba(0,212,255,0.4)`,
+                  borderRadius: "12px", padding: "16px 12px", textAlign: "center",
+                  boxShadow: `0 0 24px rgba(0,212,255,0.1)`,
+                }}>
+                  <div style={{ fontSize: "1.4rem", marginBottom: "6px" }}>⚡</div>
+                  <div style={{ fontSize: "0.7rem", fontWeight: 700, color: C.accent, fontFamily: '"JetBrains Mono", monospace' }}>NimbusAI</div>
+                  <div style={{ fontSize: "0.65rem", color: C.muted, marginTop: "4px" }}>RAG · Agents · BI</div>
+                </div>
 
-              <div className="lg:col-span-7">
-                 <Reveal scale={0.9}>
-                    <div className="relative aspect-video bg-black group overflow-hidden border-[20px] border-black/5 shadow-2xl">
-                       <img 
-                          src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1600&q=80" 
-                          className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-2000"
-                          alt="Data Orchestration Interior"
-                       />
-                       <div className="absolute inset-0 bg-[#ff3b3b]/10 mix-blend-overlay" />
-                    </div>
-                 </Reveal>
-              </div>
-           </div>
-        </section>
+                {/* Connector 2 */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px", flex: "0 0 auto" }}>
+                  <div style={{ width: "40px", height: "2px", background: `linear-gradient(90deg, ${C.accent}, ${C.border})`, borderRadius: "2px", position: "relative" }}>
+                    <motion.div
+                      animate={{ opacity: [1, 0.3, 1] }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", delay: 0.75 }}
+                      style={{
+                        position: "absolute", right: "-4px", top: "-4px",
+                        width: "10px", height: "10px", borderRadius: "50%",
+                        background: C.accent, boxShadow: `0 0 8px ${C.accent}`,
+                      }}
+                    />
+                  </div>
+                </div>
 
-        {/* 6. FAQ (TACTICAL ACCORDION) */}
-        <section className="py-64 px-12 bg-black relative overflow-hidden">
-           <div className="max-w-4xl mx-auto relative z-10">
-              <Reveal>
-                 <div className="text-center mb-40">
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[#ff3b3b] mb-8">Technical_Briefing</div>
-                    <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter italic mb-8 text-white">System <span className="opacity-10">Vault.</span></h2>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#ff3b3b]/20 italic">API // Research // Orchestration</p>
-                 </div>
-              </Reveal>
-
-              <Accordion type="single" collapsible className="w-full space-y-4">
-                 {[
-                   { q: "What is your primary system philosophy?", a: "Computational clarity. We believe that a high-performing system should be reflected in its orchestration logic. Every protocol and data flow is a deliberate decision." },
-                   { q: "How do you handle data integrity?", a: "Every mesh synapse operates in a memory-only enclave. Post-execution, we perform kernel-level audits to ensure 100% integrity of the system state." },
-                   { q: "Do you offer custom system enclaves?", a: "Yes. For bespoke planetary workflows, we design unique mesh topologies and orchestration sequences that synchronize with the planetary data load." }
-                 ].map((item, i) => (
-                   <AccordionItem key={i} value={`item-${i}`} className="border border-[#ff3b3b]/10 bg-[#ff3b3b]/5 px-10 rounded-sm hover:border-[#ff3b3b]/40 transition-all">
-                      <AccordionTrigger className="text-[14px] font-black uppercase tracking-[0.4em] py-12 no-underline italic text-left text-white">
-                         {item.q}
-                      </AccordionTrigger>
-                      <AccordionContent className="text-[11px] font-medium text-[#ff3b3b]/40 tracking-[0.1em] uppercase italic leading-loose pb-12">
-                         {item.a}
-                      </AccordionContent>
-                   </AccordionItem>
-                 ))}
-              </Accordion>
-           </div>
-        </section>
-
-        {/* 7. FOOTER (HIGH FIDELITY) */}
-        <footer className="bg-black pt-64 pb-20 px-12 md:px-24 border-t-8 border-[#ff3b3b]">
-           <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-32 mb-48">
-                 <div className="lg:col-span-7">
-                    <Reveal>
-                       <div className="flex flex-col mb-16">
-                          <span className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.7] italic text-white">Split<span className="text-[#ff3b3b]/40">_</span>OS.</span>
-                          <span className="text-[12px] font-bold uppercase tracking-[1em] text-[#ff3b3b]/40 ml-2">Planetary Data Orchestration</span>
-                       </div>
-                       <p className="text-[#e0e0ff]/20 max-w-sm mb-20 text-sm font-light uppercase tracking-widest leading-loose italic">
-                          La maîtrise absolue de l'orchestration planétaire. Global // Mesh.
-                       </p>
-                       <div className="flex gap-12 items-center">
-                          <div className="w-24 h-[1px] bg-white/10" />
-                          <div className="flex gap-10">
-                             <Globe className="w-7 h-7 text-[#ff3b3b]/30 hover:text-[#ff3b3b] transition-all cursor-pointer" />
-                             <CpuIcon className="w-7 h-7 text-[#ff3b3b]/30 hover:text-[#ff3b3b] transition-all cursor-pointer" />
-                             <Braces className="w-7 h-7 text-[#ff3b3b]/30 hover:text-[#ff3b3b] transition-all cursor-pointer" />
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-
-                 <div className="lg:col-span-5 grid grid-cols-2 gap-16">
-                    <div className="space-y-12">
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-[#ff3b3b] mb-16 border-b border-[#ff3b3b]/20 pb-4">Protocols</h4>
-                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-white/30">
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#ff3b3b]" /> Mesh_Synapse
-                          </li>
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#ff3b3b]" /> Entropy_Zero
-                          </li>
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#ff3b3b]" /> Fidelity_Push
-                          </li>
-                       </ul>
-                    </div>
-                    <div className="space-y-12">
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-[#ff3b3b] mb-16 border-b border-[#ff3b3b]/20 pb-4">System</h4>
-                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-white/30">
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#ff3b3b]" /> Kernel_Audit
-                          </li>
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#ff3b3b]" /> Planetary_Mesh
-                          </li>
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#ff3b3b]" /> API_Access
-                          </li>
-                       </ul>
-                    </div>
-                 </div>
+                {/* Box 3: Business Output */}
+                <div style={{
+                  flex: 1, background: "rgba(0,212,255,0.06)", border: `1px solid ${C.border}`,
+                  borderRadius: "12px", padding: "16px 12px", textAlign: "center",
+                }}>
+                  <div style={{ fontSize: "1.4rem", marginBottom: "6px" }}>📊</div>
+                  <div style={{ fontSize: "0.7rem", fontWeight: 700, color: C.text, fontFamily: '"JetBrains Mono", monospace' }}>Business Output</div>
+                  <div style={{ fontSize: "0.65rem", color: C.muted, marginTop: "4px" }}>Insights · Actions</div>
+                </div>
               </div>
 
-              <div className="pt-24 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.5em] text-white/10 italic text-center">
-                 <div className="flex gap-16">
-                    <span>©2026 SPLIT OS SYSTEMS.</span>
-                    <span className="hidden md:inline">//</span>
-                    <span>PLANETARY_DATA_CERTIFIED</span>
-                 </div>
-                 <div className="flex gap-16 font-mono text-[#ff3b3b]/30">
-                    <span>8K_RESOLUTION_NATIVE</span>
-                    <span>KERNEL_INTEGRITY_100%</span>
-                 </div>
+              {/* Metrics row */}
+              <div style={{ display: "flex", gap: "12px", marginTop: "24px" }}>
+                {[
+                  { label: "Requêtes/s", value: "12,847", trend: "+12%" },
+                  { label: "Précision RAG", value: "97.3%", trend: "+3.1%" },
+                  { label: "Latence P99", value: "187ms", trend: "-8%" },
+                ].map(m => (
+                  <div key={m.label} style={{
+                    flex: 1, background: "rgba(255,255,255,0.03)", borderRadius: "8px",
+                    padding: "10px", textAlign: "center",
+                  }}>
+                    <div style={{ fontSize: "0.65rem", color: C.muted, marginBottom: "4px" }}>{m.label}</div>
+                    <div style={{ fontSize: "0.875rem", fontWeight: 700, color: C.text, fontFamily: '"JetBrains Mono", monospace' }}>{m.value}</div>
+                    <div style={{ fontSize: "0.65rem", color: "#22c55e", marginTop: "2px", fontFamily: '"JetBrains Mono", monospace' }}>{m.trend}</div>
+                  </div>
+                ))}
               </div>
-           </div>
-        </footer>
-      </main>
 
-      <style>{`
-        ::-webkit-scrollbar { width: 6px; background: #020205; }
-        ::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .vertical-text { writing-mode: vertical-rl; }
-        .animate-spin-slow { animation: spin 40s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-      `}</style>
+              {/* Status badge */}
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "20px" }}>
+                <motion.div
+                  animate={{ opacity: [1, 0.4, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#22c55e" }}
+                />
+                <span style={{ fontSize: "0.72rem", color: C.muted, fontFamily: '"JetBrains Mono", monospace' }}>
+                  Pipeline actif · Tous systèmes opérationnels
+                </span>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── 3. STATS BAR ── */}
+      <section style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, background: C.card }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "52px 48px", display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: "32px" }}>
+          {stats.map(s => <StatCounter key={s.label} value={s.value} label={s.label} />)}
+        </div>
+      </section>
+
+      {/* ── 4. FEATURES / TABS ── */}
+      <section style={{ maxWidth: "1280px", margin: "0 auto", padding: "100px 48px" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          style={{ textAlign: "center", marginBottom: "56px" }}
+        >
+          <div style={{ fontSize: "0.78rem", fontWeight: 600, color: C.accent, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "12px" }}>Plateforme complète</div>
+          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1 }}>
+            Tout ce dont votre équipe IA a besoin
+          </h2>
+        </motion.div>
+
+        {/* Tab bar */}
+        <div style={{ display: "flex", gap: "8px", marginBottom: "40px", borderBottom: `1px solid ${C.border}`, paddingBottom: "0", flexWrap: "wrap" }}>
+          {features.map((f, i) => (
+            <button
+              key={f.tab}
+              onClick={() => setActiveTab(i)}
+              style={{
+                background: "none", border: "none", padding: "12px 20px",
+                cursor: "pointer", fontSize: "0.875rem", fontWeight: 600,
+                color: activeTab === i ? C.accent : C.muted,
+                borderBottom: activeTab === i ? `2px solid ${C.accent}` : "2px solid transparent",
+                marginBottom: "-1px", transition: "all 0.2s", whiteSpace: "nowrap",
+              }}
+            >
+              {f.tab}
+            </button>
+          ))}
+        </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.35 }}
+            style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "48px", alignItems: "start" }}
+          >
+            <div>
+              <h3 style={{ fontSize: "1.75rem", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: "16px", lineHeight: 1.25 }}>
+                {features[activeTab].headline}
+              </h3>
+              <p style={{ color: C.muted, lineHeight: 1.7, fontSize: "1rem", marginBottom: "28px" }}>
+                {features[activeTab].body}
+              </p>
+              <motion.a
+                href="#demo"
+                whileHover={{ scale: 1.02 }}
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: "8px",
+                  color: C.accent, textDecoration: "none", fontWeight: 700,
+                  fontSize: "0.9rem", cursor: "pointer",
+                }}
+              >
+                Voir en démo
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12h14M12 5l7 7-7 7" stroke={C.accent} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </motion.a>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              {features[activeTab].points.map((point, i) => (
+                <motion.div
+                  key={point}
+                  initial={{ opacity: 0, x: 16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.08, duration: 0.35 }}
+                  style={{
+                    display: "flex", alignItems: "flex-start", gap: "12px",
+                    background: C.card, border: `1px solid ${C.border}`,
+                    borderRadius: "10px", padding: "14px 16px",
+                  }}
+                >
+                  <div style={{ width: "20px", height: "20px", borderRadius: "50%", background: "rgba(0,212,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: "1px" }}>
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 6l3 3 5-5" stroke={C.accent} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <span style={{ fontSize: "0.875rem", color: C.text, lineHeight: 1.5 }}>{point}</span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </section>
+
+      {/* ── 5. TESTIMONIALS ── */}
+      <section style={{ background: C.card, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "100px 48px" }}>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            style={{ textAlign: "center", marginBottom: "60px" }}
+          >
+            <div style={{ fontSize: "0.78rem", fontWeight: 600, color: C.accent, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "12px" }}>Témoignages clients</div>
+            <h2 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)", fontWeight: 800, letterSpacing: "-0.03em" }}>
+              Ce que disent nos clients
+            </h2>
+          </motion.div>
+
+          <div style={{ position: "relative", maxWidth: "720px", margin: "0 auto" }}>
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={activeTestimonial}
+                custom={direction}
+                initial={{ opacity: 0, x: direction * 60 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: direction * -60 }}
+                transition={{ duration: 0.4 }}
+                style={{
+                  background: C.bg, border: `1px solid ${C.border}`, borderRadius: "20px",
+                  padding: "44px 48px", textAlign: "center",
+                }}
+              >
+                {/* Stars */}
+                <div style={{ display: "flex", justifyContent: "center", gap: "4px", marginBottom: "24px" }}>
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <svg key={i} width="18" height="18" viewBox="0 0 24 24" fill={C.accent}>
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                  ))}
+                </div>
+                <p style={{ fontSize: "1.1rem", color: C.text, lineHeight: 1.7, marginBottom: "32px", fontStyle: "italic" }}>
+                  "{testimonials[activeTestimonial].quote}"
+                </p>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "14px" }}>
+                  <div style={{
+                    width: "44px", height: "44px", borderRadius: "50%",
+                    background: `linear-gradient(135deg, ${C.accent}, #0090cc)`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: "0.8rem", fontWeight: 800, color: "#060b18",
+                  }}>
+                    {testimonials[activeTestimonial].avatar}
+                  </div>
+                  <div style={{ textAlign: "left" }}>
+                    <div style={{ fontWeight: 700, fontSize: "0.9rem", color: C.text }}>{testimonials[activeTestimonial].name}</div>
+                    <div style={{ fontSize: "0.8rem", color: C.muted }}>{testimonials[activeTestimonial].title}</div>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Controls */}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", marginTop: "32px" }}>
+              <button onClick={prevTestimonial} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: "50%", width: "40px", height: "40px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: C.text }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </button>
+              <div style={{ display: "flex", gap: "8px" }}>
+                {testimonials.map((_, i) => (
+                  <button key={i} onClick={() => goTestimonial(i)} style={{ width: i === activeTestimonial ? "24px" : "8px", height: "8px", borderRadius: "100px", background: i === activeTestimonial ? C.accent : C.border, border: "none", cursor: "pointer", transition: "all 0.3s", padding: 0 }} />
+                ))}
+              </div>
+              <button onClick={nextTestimonial} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: "50%", width: "40px", height: "40px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: C.text }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 6. PRICING ── */}
+      <section style={{ maxWidth: "1280px", margin: "0 auto", padding: "100px 48px" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          style={{ textAlign: "center", marginBottom: "60px" }}
+        >
+          <div style={{ fontSize: "0.78rem", fontWeight: 600, color: C.accent, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "12px" }}>Tarification transparente</div>
+          <h2 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.75rem)", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: "16px" }}>
+            Des plans qui s'adaptent à votre croissance
+          </h2>
+          <p style={{ color: C.muted, maxWidth: "480px", margin: "0 auto", lineHeight: 1.6 }}>
+            Commencez avec un POC gratuit de 30 jours. Passez à l'échelle sans surprises.
+          </p>
+        </motion.div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px", alignItems: "start" }}>
+          {pricing.map((plan, i) => (
+            <motion.div
+              key={plan.name}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              whileHover={{ y: -4 }}
+              style={{
+                background: plan.highlighted ? `linear-gradient(160deg, rgba(0,212,255,0.1), ${C.card})` : C.card,
+                border: plan.highlighted ? `2px solid rgba(0,212,255,0.5)` : `1px solid ${C.border}`,
+                borderRadius: "16px", padding: "36px 32px",
+                transform: plan.highlighted ? "scale(1.03)" : "scale(1)",
+                boxShadow: plan.highlighted ? `0 0 40px rgba(0,212,255,0.12)` : "none",
+                position: "relative",
+              }}
+            >
+              {plan.highlighted && (
+                <div style={{
+                  position: "absolute", top: "-14px", left: "50%", transform: "translateX(-50%)",
+                  background: C.accent, color: "#060b18", padding: "4px 16px",
+                  borderRadius: "100px", fontSize: "0.72rem", fontWeight: 800, letterSpacing: "0.04em",
+                  textTransform: "uppercase", whiteSpace: "nowrap",
+                }}>
+                  Recommandé
+                </div>
+              )}
+              <div style={{ marginBottom: "8px" }}>
+                <span style={{ fontSize: "0.85rem", fontWeight: 700, color: plan.highlighted ? C.accent : C.muted, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  {plan.name}
+                </span>
+              </div>
+              <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "8px" }}>
+                <span style={{ fontSize: "2.5rem", fontWeight: 900, color: C.text, letterSpacing: "-0.04em", fontFamily: '"JetBrains Mono", monospace' }}>
+                  {plan.price}
+                </span>
+                {plan.period && <span style={{ fontSize: "0.875rem", color: C.muted }}>{plan.period}</span>}
+              </div>
+              <p style={{ fontSize: "0.85rem", color: C.muted, marginBottom: "28px", lineHeight: 1.5 }}>{plan.description}</p>
+              <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: "24px", marginBottom: "28px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                {plan.features.map(f => (
+                  <div key={f} style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, marginTop: "1px" }}>
+                      <path d="M20 6L9 17l-5-5" stroke={C.accent} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    <span style={{ fontSize: "0.85rem", color: C.text, lineHeight: 1.45 }}>{f}</span>
+                  </div>
+                ))}
+              </div>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                style={{
+                  width: "100%", padding: "13px", borderRadius: "10px",
+                  border: plan.highlighted ? "none" : `1px solid ${C.border}`,
+                  background: plan.highlighted ? C.accent : "transparent",
+                  color: plan.highlighted ? "#060b18" : C.text,
+                  fontWeight: 700, fontSize: "0.9rem", cursor: "pointer",
+                  transition: "all 0.2s",
+                }}
+              >
+                {plan.cta}
+              </motion.button>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── 7. FAQ ── */}
+      <section style={{ background: C.card, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: "800px", margin: "0 auto", padding: "100px 48px" }}>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            style={{ textAlign: "center", marginBottom: "56px" }}
+          >
+            <div style={{ fontSize: "0.78rem", fontWeight: 600, color: C.accent, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "12px" }}>Questions fréquentes</div>
+            <h2 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)", fontWeight: 800, letterSpacing: "-0.03em" }}>
+              Tout ce que vous devez savoir
+            </h2>
+          </motion.div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            {faqs.map((faq, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06, duration: 0.4 }}
+                style={{ background: C.bg, border: `1px solid ${openFaq === i ? "rgba(0,212,255,0.35)" : C.border}`, borderRadius: "12px", overflow: "hidden", transition: "border-color 0.2s" }}
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  style={{
+                    width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center",
+                    padding: "20px 24px", background: "none", border: "none",
+                    cursor: "pointer", textAlign: "left", gap: "16px",
+                  }}
+                >
+                  <span style={{ fontWeight: 700, fontSize: "0.95rem", color: C.text, lineHeight: 1.4 }}>{faq.q}</span>
+                  <motion.div
+                    animate={{ rotate: openFaq === i ? 45 : 0 }}
+                    transition={{ duration: 0.25 }}
+                    style={{ flexShrink: 0 }}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 5v14M5 12h14" stroke={openFaq === i ? C.accent : C.muted} strokeWidth="2" strokeLinecap="round"/>
+                    </svg>
+                  </motion.div>
+                </button>
+                <AnimatePresence>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      style={{ overflow: "hidden" }}
+                    >
+                      <div style={{ padding: "0 24px 22px", color: C.muted, fontSize: "0.9rem", lineHeight: 1.7 }}>
+                        {faq.a}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 8. CTA BANNER ── */}
+      <section id="poc" style={{ background: `linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(0,144,204,0.06) 100%)`, borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: "900px", margin: "0 auto", padding: "100px 48px", textAlign: "center" }}>
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            <div style={{ fontSize: "0.78rem", fontWeight: 600, color: C.accent, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "20px" }}>
+              POC gratuit · 30 jours · Aucune CB requise
+            </div>
+            <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1.1, marginBottom: "20px" }}>
+              Démarrer Votre POC<br />
+              <span style={{ color: C.accent }}>Gratuitement</span>
+            </h2>
+            <p style={{ fontSize: "1.1rem", color: C.muted, lineHeight: 1.65, marginBottom: "44px", maxWidth: "520px", margin: "0 auto 44px" }}>
+              Connectez vos données réelles, testez vos cas d'usage, mesurez le ROI. Accompagné par un Solutions Engineer dédié — sans engagement.
+            </p>
+            <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" }}>
+              <motion.a
+                href="/poc"
+                whileHover={{ scale: 1.04, boxShadow: `0 0 48px rgba(0,212,255,0.35)` }}
+                whileTap={{ scale: 0.97 }}
+                style={{
+                  display: "inline-block", background: C.accent, color: "#060b18",
+                  padding: "16px 36px", borderRadius: "12px", fontWeight: 800,
+                  fontSize: "1.05rem", textDecoration: "none", cursor: "pointer",
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                Démarrer votre POC gratuit
+              </motion.a>
+              <motion.a
+                href="/contact"
+                whileHover={{ scale: 1.02 }}
+                style={{
+                  display: "inline-block", color: C.text, border: `1px solid ${C.border}`,
+                  padding: "16px 32px", borderRadius: "12px", fontWeight: 600,
+                  fontSize: "1.05rem", textDecoration: "none", cursor: "pointer",
+                }}
+              >
+                Parler aux ventes
+              </motion.a>
+            </div>
+            <div style={{ display: "flex", justifyContent: "center", gap: "32px", marginTop: "40px", flexWrap: "wrap" }}>
+              {["RGPD conforme", "Hébergement EU", "SLA contractuel", "Support dédié"].map(badge => (
+                <div key={badge} style={{ display: "flex", alignItems: "center", gap: "8px", color: C.muted, fontSize: "0.8rem" }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke={C.accent} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  {badge}
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── 9. FOOTER ── */}
+      <footer style={{ background: C.bg, borderTop: `1px solid ${C.border}`, padding: "60px 48px 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "48px", marginBottom: "48px" }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+                <div style={{ width: "28px", height: "28px", borderRadius: "7px", background: `linear-gradient(135deg, ${C.accent}, #0090cc)`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </div>
+                <span style={{ fontWeight: 700, color: C.text }}>NimbusAI</span>
+              </div>
+              <p style={{ fontSize: "0.85rem", color: C.muted, lineHeight: 1.65, maxWidth: "260px", marginBottom: "20px" }}>
+                La plateforme IA d'entreprise qui transforme vos données en avantage compétitif.
+              </p>
+              <div style={{ display: "flex", gap: "12px" }}>
+                {/* GitHub */}
+                <a href="#" style={{ width: "36px", height: "36px", borderRadius: "8px", background: C.card, border: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "border-color 0.2s" }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill={C.muted}><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                {/* LinkedIn */}
+                <a href="#" style={{ width: "36px", height: "36px", borderRadius: "8px", background: C.card, border: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill={C.muted}><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </a>
+                {/* MessageSquare/X */}
+                <a href="#" style={{ width: "36px", height: "36px", borderRadius: "8px", background: C.card, border: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill={C.muted}><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.736l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+              </div>
+            </div>
+
+            {[
+              { title: "Produit", links: ["RAG & Knowledge Base", "Agents IA", "Analytics & BI", "Sécurité", "API & SDK", "Statut système"] },
+              { title: "Solutions", links: ["Finance & Assurance", "Retail & E-commerce", "Santé & Pharma", "Industrie", "Secteur public"] },
+              { title: "Entreprise", links: ["Tarifs", "Documentation", "Blog technique", "Cas clients", "Partenaires", "Nous contacter"] },
+            ].map(col => (
+              <div key={col.title}>
+                <div style={{ fontWeight: 700, fontSize: "0.875rem", color: C.text, marginBottom: "16px" }}>{col.title}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  {col.links.map(link => (
+                    <a key={link} href="#" style={{ fontSize: "0.85rem", color: C.muted, textDecoration: "none", cursor: "pointer", transition: "color 0.2s" }}
+                      onMouseEnter={e => (e.currentTarget.style.color = C.text)}
+                      onMouseLeave={e => (e.currentTarget.style.color = C.muted)}
+                    >
+                      {link}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: "28px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
+            <div style={{ fontSize: "0.8rem", color: C.muted }}>
+              © 2025 NimbusAI SAS. Tous droits réservés. · Hébergé en Europe · RGPD conforme
+            </div>
+            <div style={{ display: "flex", gap: "24px" }}>
+              {["Confidentialité", "Conditions d'utilisation", "Mentions légales", "Cookies"].map(link => (
+                <a key={link} href="#" style={{ fontSize: "0.8rem", color: C.muted, textDecoration: "none", cursor: "pointer" }}
+                  onMouseEnter={e => (e.currentTarget.style.color = C.text)}
+                  onMouseLeave={e => (e.currentTarget.style.color = C.muted)}
+                >
+                  {link}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

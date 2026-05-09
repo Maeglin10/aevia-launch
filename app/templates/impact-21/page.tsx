@@ -1,532 +1,1655 @@
 "use client"
 
-import React, { useState, useEffect, useRef, useMemo } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring,
-  useMotionValue
-} from "framer-motion"
-import Image from "next/image"
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import { useState, useRef } from "react"
 import Link from "next/link"
-import { 
-  Zap, Activity, Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, BarChart3, Fingerprint, Scan, 
-  Briefcase, Wind, Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Search, Cpu, Box as BoxIcon,
-  ShieldCheck, Binary, Code2, Globe, Database,
-  Gauge, Thermometer, FlaskConical, Sun, Moon,
-  Star, Sparkles, CircleDot, ArrowUpRight,
-  ArrowDownLeft, Expand, Shrink, MousePointer2,
-  HardDrive, Key, Lock, Unlock, Shield, ShieldAlert,
-  Laptop, Server, Network, Wifi, Bluetooth, Radio,
-  Droplets, Pickaxe, Mountain, Gem, Drill,
-  Telescope, MilestoneIcon, Layout, Smartphone,
-  PenTool, Camera, Film, Palette, MessageSquare,
-  Send, ZapOff, Anchor, Ship, Truck, Train, Bus,
-  Car, Bike, Eye, ScanEye, EyeOff, KeyRound,
-  Fingerprint as FingerprintIcon, Navigation,
-  Navigation2, Wind as WindIcon, Biohazard,
-  Crosshair, Focus, Bug, ShieldAlert as ShieldAlertIcon,
-  Skull, Scan as ScanIcon, Ruler, Construction,
-  Hammer, Pencil, Shapes, Warehouse, Building,
-  Factory, HardHat, LandPlot, MapPin, Pipette,
-  Layers as LayersIcon
-} from "lucide-react"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
-/* ==========================================================================
-   NEO OBJECT DATASET (ULTRA DENSITY)
-   ========================================================================== */
+const C = {
+  bg: "#fafafa",
+  dark: "#1c1c1e",
+  orange: "#f97316",
+  grey: "#f4f4f5",
+  muted: "#6b7280",
+  border: "#e4e4e7",
+  white: "#ffffff",
+}
 
-const SEQUENCE = [
-  {
-    id: "seq-01",
-    title: "Sectional Audit",
-    desc: "Découpe rigoureuse de volumes complexes pour révéler le potentiel spatial du matériau. Chaque section est une étude de la densité et du vide.",
-    status: "SYNC",
-    load: "Titanium G5"
-  },
-  {
-    id: "seq-08",
-    title: "Stress Simulation",
-    desc: "Analyse de la performance de l'objet sous des charges structurelles et domestiques extrêmes. Nous testons les limites de la gravité matérielle.",
-    status: "READY",
-    load: "8000N/m²"
-  },
-  {
-    id: "seq-15",
-    title: "Aging Protocol",
-    desc: "Surveillance de l'interaction des alliages bruts avec l'oxydation multigénérationnelle. La patine devient une archive temporelle.",
-    status: "ACTIVE",
-    load: "VERIFIED"
-  }
-]
+const FONT = "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
 
-const MATERIAL_METRICS = [
-  { label: "Alloy Density", value: "8K Native", trend: "Max", detail: "Molecular Integrity Scan" },
-  { label: "Forge Latency", value: "0.1ms", trend: "Nano", detail: "Real-time Thermal Sync" },
-  { label: "Vacuum Integrity", value: "99.9%", trend: "Pure", detail: "Zero-Air Entrapment" },
-  { label: "Stress Tolerance", value: "Extreme", trend: "High", detail: "Structural Gravity Audit" }
-]
-
-const FORGE_LOGS = [
-  { time: "10:12:04", event: "VACUUM_CAST", status: "PASS", detail: "Forge_Arm_Alpha" },
-  { time: "10:15:32", event: "TITANIUM_BOND", status: "DONE", detail: "Laser_Enclave_2" },
-  { time: "10:22:15", event: "FORGE_VERIFIED", status: "PASS", detail: "Material_Core_V4" }
-]
-
-/* ==========================================
-   TECHNICAL COMPONENTS (INDUSTRIAL / HUD)
-   ========================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0, scale = 1 }: { children: React.ReactNode, delay?: number, y?: number, x?: number, scale?: number }) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+// ─── Isometric product mockup ───────────────────────────────────────────────
+function IsometricProduct() {
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x, scale }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0, scale: 1 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
+    <div
+      style={{
+        position: "relative",
+        width: 280,
+        height: 300,
+        perspective: 1000,
+        flexShrink: 0,
+      }}
     >
-      {children}
-    </motion.div>
-  )
-}
-
-function AlloyFlowBackground() {
-  return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-5 select-none">
-       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.05)_0%,transparent_70%)]" />
-       {[...Array(15)].map((_, i) => (
-          <motion.div 
-             key={i}
-             className="absolute border border-black/10 rounded-full"
-             style={{ 
-                width: 400 + i * 200, 
-                height: 400 + i * 200,
-                top: `${i * 8}%`,
-                left: `${-15 + i * 4}%`
-             }}
-             animate={{ 
-                rotate: i % 2 === 0 ? 360 : -360,
-                scale: [1, 1.05, 1]
-             }}
-             transition={{ 
-                duration: 25 + i * 12, 
-                repeat: Infinity, 
-                ease: "linear"
-             }}
-          >
-             <div className="w-full h-full border-t border-black/5" />
-          </motion.div>
-       ))}
-    </div>
-  )
-}
-
-function HUD_Industrial() {
-   return (
-      <div className="fixed left-12 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col gap-12 items-start pointer-events-none">
-         <div className="flex flex-col gap-4">
-            <div className="w-1 h-32 bg-black/10 relative">
-               <motion.div 
-                  className="absolute top-0 left-0 w-full bg-black shadow-[0_0_20px_rgba(0,0,0,0.6)]"
-                  animate={{ height: ["10%", "90%", "30%"] }}
-                  transition={{ duration: 4, repeat: Infinity }}
-               />
-            </div>
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] vertical-text text-black">Forge_Flow</span>
-         </div>
-         <div className="flex flex-col gap-6">
-            <div className="p-4 border border-black/10 bg-black/5 backdrop-blur-md rounded-sm">
-               <Factory className="w-6 h-6 text-black" />
-            </div>
-            <div className="p-4 border border-black/5 bg-black/5 backdrop-blur-md rounded-sm">
-               <Ruler className="w-6 h-6 text-black/40" />
-            </div>
-         </div>
+      {/* Main body */}
+      <div
+        style={{
+          position: "absolute",
+          top: 60,
+          left: 40,
+          width: 200,
+          height: 130,
+          background: C.dark,
+          transform: "rotateX(20deg) rotateY(-25deg) rotateZ(0deg)",
+          boxShadow: "24px 24px 0 rgba(249,115,22,0.25), 8px 8px 40px rgba(0,0,0,0.15)",
+          borderRadius: 8,
+        }}
+      >
+        {/* Screen */}
+        <div
+          style={{
+            position: "absolute",
+            top: 12,
+            left: 12,
+            right: 12,
+            bottom: 24,
+            background: "#0f0f10",
+            borderRadius: 4,
+            overflow: "hidden",
+          }}
+        >
+          {/* Screen content lines */}
+          {[0, 1, 2, 3].map((i) => (
+            <div
+              key={i}
+              style={{
+                height: 6,
+                background: i === 0 ? C.orange : "rgba(255,255,255,0.08)",
+                width: i === 0 ? "60%" : `${50 + i * 10}%`,
+                margin: `${12 + i * 16}px 12px 0`,
+                borderRadius: 3,
+              }}
+            />
+          ))}
+        </div>
+        {/* Home button */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 6,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: 14,
+            height: 14,
+            border: "1.5px solid rgba(255,255,255,0.2)",
+            borderRadius: "50%",
+          }}
+        />
       </div>
-   )
-}
 
-function SequenceCard({ seq, index }: { seq: any, index: number }) {
-  return (
-    <div className="group relative p-16 border border-black/5 bg-zinc-50 hover:bg-zinc-100 transition-all h-[550px] flex flex-col justify-between overflow-hidden">
-       <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:opacity-10 transition-opacity">
-          <Warehouse className="w-48 h-48 text-black" />
-       </div>
-       
-       <div>
-          <div className="flex justify-between items-center mb-12">
-             <div className="text-[10px] font-black uppercase tracking-[0.6em] text-black/40">{seq.id} // INDUSTRIAL</div>
-             <div className="px-4 py-1 border border-black/30 rounded-full text-[8px] font-black text-black uppercase tracking-widest">
-                {seq.status}
-             </div>
-          </div>
-          <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none italic mb-8 group-hover:translate-x-4 transition-transform duration-700 text-black">
-             {seq.title}
-          </h3>
-       </div>
+      {/* Side panel */}
+      <div
+        style={{
+          position: "absolute",
+          top: 94,
+          left: 212,
+          width: 24,
+          height: 130,
+          background: "#141416",
+          transform: "skewY(-20deg)",
+          transformOrigin: "top left",
+        }}
+      />
 
-       <div className="relative z-10">
-          <p className="text-xs text-black/40 leading-relaxed font-medium uppercase italic mb-12 h-24 tracking-widest leading-loose">
-             {seq.desc}
-          </p>
-          <div className="space-y-4">
-             <div className="flex justify-between text-[8px] font-black uppercase tracking-widest text-black/20">
-                <span>Material_Load</span>
-                <span className="text-black">{seq.load}</span>
-             </div>
-             <div className="w-full h-[1px] bg-black/10 relative overflow-hidden">
-                <motion.div 
-                   className="absolute inset-y-0 left-0 bg-black"
-                   initial={{ width: 0 }}
-                   whileInView={{ width: seq.load.includes('G5') ? '85%' : '100%' }}
-                   transition={{ duration: 1.5 }}
-                />
-             </div>
-          </div>
-       </div>
+      {/* Bottom panel */}
+      <div
+        style={{
+          position: "absolute",
+          top: 186,
+          left: 40,
+          width: 200,
+          height: 24,
+          background: "#2a2a2e",
+          transform: "skewX(-25deg)",
+          transformOrigin: "top left",
+        }}
+      />
+
+      {/* Floating accent dot */}
+      <motion.div
+        animate={{ y: [-4, 4, -4] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        style={{
+          position: "absolute",
+          top: 40,
+          right: 20,
+          width: 12,
+          height: 12,
+          background: C.orange,
+          borderRadius: "50%",
+        }}
+      />
+      <motion.div
+        animate={{ y: [4, -4, 4] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        style={{
+          position: "absolute",
+          bottom: 60,
+          right: 10,
+          width: 8,
+          height: 8,
+          background: C.orange,
+          opacity: 0.4,
+          borderRadius: "50%",
+        }}
+      />
+
+      {/* Small floating card */}
+      <motion.div
+        animate={{ y: [-6, 2, -6] }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+        style={{
+          position: "absolute",
+          top: 16,
+          left: 10,
+          background: C.white,
+          borderRadius: 6,
+          padding: "8px 12px",
+          boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
+        <div style={{ width: 8, height: 8, background: C.orange, borderRadius: "50%" }} />
+        <span style={{ fontFamily: FONT, fontSize: 10, fontWeight: 700, color: C.dark, letterSpacing: "0.04em" }}>
+          Red Dot Award
+        </span>
+      </motion.div>
     </div>
   )
 }
 
-/* ==========================================================================
-   MAIN PAGE: NEO OBJECT (MATERIAL SUPREMACY)
-   ========================================================================== */
-
-export default function NeoObjectPremium() {
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Parallax transforms
-  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -250])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const shipScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.1])
+// ─── Stat Counter ───────────────────────────────────────────────────────────
+function StatCounter({ value, label }: { value: string; label: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: "-60px" })
 
   return (
-    <div ref={containerRef} className="bg-[#f2f2f2] text-black font-sans selection:bg-black selection:text-white min-h-screen overflow-x-hidden">
-      
-      <AlloyFlowBackground />
-      <HUD_Industrial />
-      
-      {/* 1. NAVIGATION (NEO TACTICAL) */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-12 py-10 border-b border-black/10 bg-white/80 backdrop-blur-2xl">
-         <div className="flex items-center gap-6 group cursor-pointer">
-            <BoxIcon className="w-10 h-10 text-black group-hover:rotate-12 transition-transform" />
-            <div className="flex flex-col">
-               <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">Neo<span className="text-black/20">_</span>Object.</span>
-               <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-black/30 -mt-1 ml-1">Material Supremacy Atelier</span>
-            </div>
-         </div>
-         <div className="hidden lg:flex gap-16 text-[10px] font-black uppercase tracking-[0.4em] text-black/30">
-            <a href="#sequence" className="hover:text-black transition-colors relative group">
-               [ Sequence ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-black group-hover:w-full transition-all" />
-            </a>
-            <a href="#metrics" className="hover:text-black transition-colors relative group">
-               [ Tech_Audit ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-black group-hover:w-full transition-all" />
-            </a>
-            <a href="#about" className="hover:text-black transition-colors relative group">
-               [ Manifesto ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-black group-hover:w-full transition-all" />
-            </a>
-         </div>
-         <div className="flex items-center gap-12">
-            <div className="hidden md:flex flex-col items-end border-r border-black/10 pr-6">
-               <div className="text-[8px] font-black text-black/40 uppercase tracking-widest">Global_Status</div>
-               <div className="text-[10px] font-bold uppercase tracking-widest italic">Manufacturing_Active</div>
-            </div>
-            <button className="px-10 py-5 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-zinc-800 transition-all shadow-[0_0_40px_rgba(0,0,0,0.2)] italic">
-               Initiate_Access
-            </button>
-         </div>
+    <div ref={ref} style={{ textAlign: "center", flex: 1, minWidth: 140 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        style={{
+          fontFamily: FONT,
+          fontSize: "clamp(2.2rem, 4vw, 3.2rem)",
+          fontWeight: 900,
+          color: C.dark,
+          lineHeight: 1,
+        }}
+      >
+        {value}
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.6, delay: 0.25 }}
+        style={{
+          fontFamily: FONT,
+          fontSize: 13,
+          color: C.muted,
+          marginTop: 8,
+          fontWeight: 400,
+        }}
+      >
+        {label}
+      </motion.div>
+    </div>
+  )
+}
+
+// ─── Tabs data ──────────────────────────────────────────────────────────────
+const tabs = [
+  {
+    label: "Design Produit",
+    heading: "Du brief au brevet",
+    body: "Nous transformons vos cahiers des charges en objets désirables. Research utilisateur, étude concurrentielle, sketching, CAO et rendus réalistes : chaque phase est documentée et validée avec vous. Notre équipe maîtrise les contraintes de production dès la conception — zéro surprise en phase industrielle.",
+    points: ["Étude ergonomique complète", "Rendus photoréalistes 4K", "Fichiers CAO prêts pour outillage", "Rapport de faisabilité inclus"],
+  },
+  {
+    label: "UX & Interface",
+    heading: "L'expérience avant tout",
+    body: "Un produit physique brillant mérite une interface à la hauteur. Nous concevons les écrans, panneaux de contrôle, applications mobiles et dashboards qui accompagnent vos produits connectés. Tests utilisateurs, prototypes interactifs Figma, guidelines design system livrés en fin de sprint.",
+    points: ["Audit UX existing products", "Wireframes + prototypes Figma", "Tests utilisateurs (5+ sessions)", "Design system complet"],
+  },
+  {
+    label: "Packaging",
+    heading: "La première impression",
+    body: "Le packaging est un vecteur de désirabilité souvent sous-estimé. Nous concevons des emballages qui reflètent l'identité du produit, optimisent la protection, et respectent les contraintes logistiques. De la boîte retail au packaging premium, en passant par le packaging industriel.",
+    points: ["Diecut 3D et maquettes physiques", "Sélection matières et finitions", "BAT et suivi impression", "Pack éco-responsable sur demande"],
+  },
+  {
+    label: "Prototypage Rapide",
+    heading: "Tenir le concept en main",
+    body: "Impression 3D FDM et SLA, usinage CNC, électronique embarquée — notre atelier de prototypage permet de valider l'ergonomie, les assemblages et le ressenti utilisateur en quelques jours. Nos prototypes servent aussi de maquettes investisseurs et outils de présentation commerciale.",
+    points: ["Délai 48h à 5 jours", "Impression SLA haute résolution", "Assemblage et finition manuelle", "Photos produit incluses"],
+  },
+]
+
+// ─── Testimonials ───────────────────────────────────────────────────────────
+const testimonials = [
+  {
+    quote: "Forme Studio a transformé notre concept en produit commercialisable en 11 semaines. Leur capacité à anticiper les contraintes fabrication dès le design nous a économisé au moins 3 mois et 40k€. Un partenaire indispensable.",
+    name: "Théo Marchetti",
+    title: "CEO, Zeno Technologies",
+    company: "Startup deeptech, 1er levée de fonds",
+  },
+  {
+    quote: "Nous avions un cahier des charges complexe : un dispositif médical de classe IIA avec une interface tactile intuitive. Forme Studio a livré un design qui a passé les tests utilisateurs du premier coup. Impressionnant.",
+    name: "Dr. Laure Fontaine",
+    title: "Directrice Innovation, MedGroup",
+    company: "Industriel médical, 200 salariés",
+  },
+  {
+    quote: "Le sprint de 4 semaines pour notre MVP visuel a été décisif pour notre levée. Les investisseurs ont immédiatement compris le produit. Forme Studio a su synthétiser notre vision et la rendre tangible, désirable, crédible.",
+    name: "Antoine Bruel",
+    title: "Co-fondateur, Looop",
+    company: "Startup hardware, pré-seed",
+  },
+  {
+    quote: "En retainer depuis 18 mois, Forme Studio est devenu notre département design interne. Réactivité, qualité constante, compréhension fine de nos contraintes industrielles — exactement ce dont un ETI a besoin.",
+    name: "Christelle Moreau",
+    title: "Directrice R&D, Groupe Innopack",
+    company: "ETI packaging industriel",
+  },
+]
+
+// ─── FAQ data ───────────────────────────────────────────────────────────────
+const faqs = [
+  {
+    q: "Livrez-vous les fichiers source et les DPI ?",
+    a: "Oui, systématiquement. Tous les livrables incluent les fichiers sources ouverts : STEP et IGES pour la CAO, Figma avec variables et composants pour l'UX, Adobe Illustrator pour le packaging. Vous êtes propriétaire à 100% de tout ce que nous produisons. Aucune dépendance logicielle propriétaire.",
+  },
+  {
+    q: "Comment gérez-vous la confidentialité et les NDA ?",
+    a: "Nous signons un NDA bilatéral avant tout échange de brief ou de données produit. Notre équipe est formée à la gestion des informations confidentielles. Les projets sont compartimentés : seuls les membres directement assignés y ont accès. Nos serveurs sont hébergés en Europe (ISO 27001). Le dépôt de brevet éventuel reste à votre initiative.",
+  },
+  {
+    q: "Assurez-vous un suivi en phase de production ?",
+    a: "Pour les projets Complet, nous incluons un suivi de 3 mois post-livraison : validation des prototypes série, passage en revue des premières pièces produites, ajustements de design si nécessaire. Pour les clients en Retainer, le suivi production est inclus dans le scope mensuel. Nous travaillons avec un réseau de sous-traitants certifiés en Europe et Asie.",
+  },
+  {
+    q: "Quels sont les délais réalistes pour un projet ?",
+    a: "Sprint Design MVP : 4 semaines. Projet Complet (recherche → proto → specs production) : 12 à 20 semaines selon la complexité. Packaging seul : 3 à 6 semaines. Prototypage rapide : 48h à 5 jours. Ces délais supposent une disponibilité client pour les ateliers de validation bi-hebdomadaires. Les délais sont contractualisés avec pénalités.",
+  },
+  {
+    q: "Combien de tours de révisions sont inclus ?",
+    a: "Pour le Sprint Design : 2 tours de révisions inclus par phase (concepts, développement, final). Pour le Projet Complet : 3 tours par phase. Pour le Retainer : révisions illimitées dans le scope mensuel convenu. Au-delà, des heures supplémentaires sont facturées au taux horaire (120€/h senior, 80€/h junior), toujours estimées et validées à l'avance.",
+  },
+]
+
+// ─── Main Component ─────────────────────────────────────────────────────────
+export default function FormeStudioPage() {
+  const { scrollY } = useScroll()
+  const heroTitleY = useTransform(scrollY, [0, 500], [0, -60])
+  const panelY = useTransform(scrollY, [0, 500], [0, 30])
+
+  const [activeTab, setActiveTab] = useState(0)
+  const [testimonialIndex, setTestimonialIndex] = useState(0)
+  const [testimonialDir, setTestimonialDir] = useState(1)
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+
+  function nextTestimonial() {
+    setTestimonialDir(1)
+    setTestimonialIndex((i) => (i + 1) % testimonials.length)
+  }
+  function prevTestimonial() {
+    setTestimonialDir(-1)
+    setTestimonialIndex((i) => (i - 1 + testimonials.length) % testimonials.length)
+  }
+
+  return (
+    <div style={{ background: C.bg, color: C.dark, fontFamily: FONT, overflowX: "hidden" }}>
+
+      {/* ── 1. NAVBAR ─────────────────────────────────────────────────── */}
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0 clamp(20px, 5vw, 80px)",
+          height: 60,
+          background: "rgba(250,250,250,0.92)",
+          backdropFilter: "blur(12px)",
+          borderBottom: `1px solid ${C.border}`,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div
+            style={{
+              width: 28,
+              height: 28,
+              background: C.orange,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <rect x="1" y="1" width="5" height="5" fill="white" />
+              <rect x="8" y="1" width="5" height="5" fill="white" opacity="0.5" />
+              <rect x="1" y="8" width="5" height="5" fill="white" opacity="0.5" />
+              <rect x="8" y="8" width="5" height="5" fill="white" />
+            </svg>
+          </div>
+          <span
+            style={{
+              fontFamily: FONT,
+              fontSize: 15,
+              fontWeight: 800,
+              color: C.dark,
+              letterSpacing: "-0.03em",
+            }}
+          >
+            Forme Studio
+          </span>
+        </div>
+
+        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+          {["Services", "Projets", "Studio", "Blog"].map((l) => (
+            <Link
+              key={l}
+              href="#"
+              style={{
+                fontFamily: FONT,
+                fontSize: 14,
+                fontWeight: 500,
+                color: C.muted,
+                textDecoration: "none",
+                transition: "color 0.2s",
+              }}
+            >
+              {l}
+            </Link>
+          ))}
+          <a
+            href="#contact"
+            style={{
+              fontFamily: FONT,
+              fontSize: 14,
+              fontWeight: 700,
+              color: C.white,
+              background: C.orange,
+              padding: "9px 22px",
+              textDecoration: "none",
+              cursor: "pointer",
+              borderRadius: 4,
+              transition: "background 0.2s",
+            }}
+          >
+            Lancer un projet
+          </a>
+        </div>
       </nav>
 
-      <main>
-        {/* 2. MATERIAL SUPREMACY (HERO / LUXURY STYLE) */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-12 pt-32 overflow-hidden border-b border-black/5">
-           <div className="relative z-10 w-full max-w-7xl flex flex-col items-center text-center">
-              <Reveal>
-                 <div className="inline-flex items-center gap-4 px-6 py-3 border border-black/30 bg-black/5 text-[10px] font-black uppercase tracking-[0.5em] text-black mb-16 italic">
-                    <Factory className="w-4 h-4 animate-pulse" /> Material_Status: NOMINAL // VACUUM_SYNC_PASS
-                 </div>
-                 <motion.h1 
-                    style={{ y: heroY, scale: shipScale, opacity: heroOpacity }}
-                    className="text-8xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.7] italic flex flex-col text-black"
-                 >
-                    <span>Own The</span>
-                    <span className="text-transparent" style={{ WebkitTextStroke: "2px black" }}>Weight.</span>
-                 </motion.h1>
-                 
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-end text-left max-w-5xl mx-auto">
-                    <p className="text-lg md:text-xl text-black/40 leading-relaxed font-light italic uppercase tracking-[0.15em] border-l-2 border-black/20 pl-12">
-                       Sécuriser le futur des objets matériels via des techniques de forge industrielle et une logique de réduction radicale. La densité est notre esthétique.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-8 justify-end">
-                       <button className="px-14 py-8 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-zinc-800 transition-all shadow-[0_0_50px_rgba(0,0,0,0.3)] flex items-center gap-4 italic group">
-                          [ Start Commission ] <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                       </button>
-                    </div>
-                 </div>
-              </Reveal>
-           </div>
+      {/* ── 2. HERO ───────────────────────────────────────────────────── */}
+      <section
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          padding: "0 clamp(20px, 5vw, 80px)",
+          paddingTop: 60,
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        {/* Orange diagonal panel (right) */}
+        <motion.div
+          style={{
+            y: panelY,
+            position: "absolute",
+            top: 0,
+            right: 0,
+            bottom: 0,
+            width: "46%",
+            background: C.orange,
+            clipPath: "polygon(12% 0, 100% 0, 100% 100%, 0% 100%)",
+            zIndex: 0,
+          }}
+        />
 
-           {/* Floating Background Accents */}
-           <div className="absolute inset-0 z-0 opacity-10 pointer-events-none select-none">
-              <div className="w-full h-full" style={{ backgroundImage: 'radial-gradient(circle at center, black 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
-           </div>
-        </section>
+        {/* Background decoration */}
+        <div
+          style={{
+            position: "absolute",
+            top: 120,
+            left: "clamp(20px, 5vw, 80px)",
+            fontFamily: FONT,
+            fontSize: "clamp(5rem, 14vw, 12rem)",
+            fontWeight: 900,
+            color: "rgba(28,28,30,0.03)",
+            userSelect: "none",
+            lineHeight: 1,
+            zIndex: 0,
+          }}
+        >
+          DESIGN
+        </div>
 
-        {/* 3. SEQUENCE (DENSE GRID INTERFACE) */}
-        <section id="sequence" className="py-64 px-12 bg-zinc-100 relative border-b border-black/10">
-           <div className="max-w-7xl mx-auto mb-32 flex justify-between items-end">
-              <Reveal>
-                 <div className="text-[10px] font-black uppercase tracking-[0.5em] text-black/40 mb-8">Production_Sequence</div>
-                 <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] italic text-black">
-                    Industrial <br/> <span className="text-black/5" style={{ WebkitTextStroke: "1px black" }}>Forge.</span>
-                 </h2>
-              </Reveal>
-              <div className="hidden lg:block text-right">
-                 <div className="flex justify-end gap-4 mb-4">
-                    <div className="w-48 h-[1px] bg-black/10" />
-                    <div className="w-16 h-[1px] bg-black" />
-                 </div>
-                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/20 italic">Vacuum // Bond // Protocol</p>
+        {/* Left: heading */}
+        <motion.div
+          style={{
+            y: heroTitleY,
+            flex: 1,
+            zIndex: 2,
+            maxWidth: 560,
+            paddingRight: 40,
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: C.grey,
+              border: `1px solid ${C.border}`,
+              borderRadius: 100,
+              padding: "6px 14px",
+              marginBottom: 32,
+            }}
+          >
+            <div style={{ width: 7, height: 7, background: C.orange, borderRadius: "50%" }} />
+            <span style={{ fontFamily: FONT, fontSize: 12, fontWeight: 600, color: C.muted }}>
+              Studio fondé en 2013 · Paris
+            </span>
+          </motion.div>
+
+          <div>
+            {[
+              { word: "Design.", size: "clamp(3rem, 7vw, 5.5rem)", delay: 0.1 },
+              { word: "Fonctionnel.", size: "clamp(2.4rem, 5.5vw, 4.5rem)", delay: 0.2 },
+              { word: "Désirable.", size: "clamp(3rem, 7vw, 5.5rem)", delay: 0.3 },
+            ].map(({ word, size, delay }) => (
+              <motion.div
+                key={word}
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay }}
+                style={{
+                  fontFamily: FONT,
+                  fontSize: size,
+                  fontWeight: 900,
+                  color: C.dark,
+                  lineHeight: 1.05,
+                  letterSpacing: "-0.03em",
+                }}
+              >
+                {word}
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            style={{
+              fontFamily: FONT,
+              fontSize: 17,
+              color: C.muted,
+              lineHeight: 1.7,
+              margin: "28px 0 40px",
+              maxWidth: 440,
+            }}
+          >
+            Cabinet de design produit industriel et UX. Nous transformons vos idées en produits que les gens veulent acheter et utiliser.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.75 }}
+            style={{ display: "flex", gap: 14, flexWrap: "wrap" }}
+          >
+            <button
+              style={{
+                background: C.orange,
+                border: "none",
+                color: C.white,
+                fontFamily: FONT,
+                fontSize: 15,
+                fontWeight: 700,
+                padding: "16px 36px",
+                borderRadius: 4,
+                cursor: "pointer",
+                transition: "background 0.2s",
+              }}
+            >
+              Lancer Votre Projet
+            </button>
+            <button
+              style={{
+                background: "transparent",
+                border: `2px solid ${C.dark}`,
+                color: C.dark,
+                fontFamily: FONT,
+                fontSize: 15,
+                fontWeight: 600,
+                padding: "14px 36px",
+                borderRadius: 4,
+                cursor: "pointer",
+              }}
+            >
+              Voir nos projets →
+            </button>
+          </motion.div>
+
+          {/* Trust badges */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            style={{ display: "flex", gap: 24, marginTop: 40, alignItems: "center" }}
+          >
+            {["3× Red Dot", "8 Brevets", "180+ Produits"].map((b) => (
+              <div key={b} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{ width: 6, height: 6, background: C.orange, borderRadius: "50%" }} />
+                <span style={{ fontFamily: FONT, fontSize: 12, fontWeight: 600, color: C.muted }}>{b}</span>
               </div>
-           </div>
+            ))}
+          </motion.div>
+        </motion.div>
 
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {SEQUENCE.map((seq, i) => (
-                 <Reveal key={seq.id} delay={i * 0.1}>
-                    <SequenceCard seq={seq} index={i} />
-                 </Reveal>
+        {/* Right: isometric product */}
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          style={{
+            zIndex: 2,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: "0 0 auto",
+            width: "min(380px, 45vw)",
+          }}
+        >
+          <IsometricProduct />
+        </motion.div>
+      </section>
+
+      {/* ── 3. STATS BAR ──────────────────────────────────────────────── */}
+      <section
+        style={{
+          background: C.dark,
+          padding: "72px clamp(20px, 8vw, 120px)",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            gap: 40,
+            justifyContent: "center",
+            flexWrap: "wrap",
+            maxWidth: 900,
+            margin: "0 auto",
+          }}
+        >
+          {[
+            { value: "12 ans", label: "d'expérience studio" },
+            { value: "180+", label: "produits lancés" },
+            { value: "8", label: "brevets déposés" },
+            { value: "3×", label: "Red Dot Award" },
+          ].map(({ value, label }) => (
+            <div key={label} style={{ flex: 1, minWidth: 140, textAlign: "center" }}>
+              <StatCounter
+                value={value}
+                label={label}
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── 4. FEATURES / TABS ────────────────────────────────────────── */}
+      <section style={{ padding: "100px clamp(20px, 8vw, 120px)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            style={{
+              display: "inline-block",
+              background: "#fff3eb",
+              color: C.orange,
+              fontFamily: FONT,
+              fontSize: 12,
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+              padding: "6px 14px",
+              borderRadius: 100,
+              marginBottom: 16,
+            }}
+          >
+            NOS SERVICES
+          </motion.div>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            style={{
+              fontFamily: FONT,
+              fontSize: "clamp(2rem, 4vw, 3rem)",
+              fontWeight: 900,
+              color: C.dark,
+              letterSpacing: "-0.03em",
+              marginBottom: 52,
+              lineHeight: 1.1,
+            }}
+          >
+            Ce que nous faisons<br />
+            <span style={{ color: C.orange }}>mieux que quiconque.</span>
+          </motion.h2>
+
+          {/* Tab buttons with sliding indicator */}
+          <div style={{ position: "relative", borderBottom: `2px solid ${C.border}`, marginBottom: 52 }}>
+            <div style={{ display: "flex", gap: 0 }}>
+              {tabs.map((t, i) => (
+                <button
+                  key={t.label}
+                  onClick={() => setActiveTab(i)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    padding: "14px 28px",
+                    fontFamily: FONT,
+                    fontSize: 14,
+                    fontWeight: i === activeTab ? 700 : 500,
+                    color: i === activeTab ? C.dark : C.muted,
+                    cursor: "pointer",
+                    transition: "color 0.25s, font-weight 0.25s",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {t.label}
+                </button>
               ))}
-           </div>
-        </section>
+            </div>
+            {/* Sliding orange indicator */}
+            <motion.div
+              animate={{
+                left: `calc(${activeTab} * (100% / ${tabs.length}))`,
+                width: `calc(100% / ${tabs.length})`,
+              }}
+              transition={{ type: "spring", stiffness: 400, damping: 36 }}
+              style={{
+                position: "absolute",
+                bottom: -2,
+                height: 3,
+                background: C.orange,
+                borderRadius: "2px 2px 0 0",
+              }}
+            />
+          </div>
 
-        {/* 4. TECH AUDIT (HUD DATA VIZ) */}
-        <section id="metrics" className="py-64 px-12 bg-white relative border-b border-black/10">
-           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-32 items-center relative z-10">
-              <div className="lg:col-span-7">
-                 <Reveal>
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-black/40 mb-8">Material_Data</div>
-                    <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-16 italic text-black">
-                       Structural <br/> <span className="opacity-10">Stats.</span>
-                    </h2>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                       {MATERIAL_METRICS.map((metric, i) => (
-                          <div key={i} className="p-12 border border-black/10 bg-black/5 hover:border-black/50 transition-all group relative overflow-hidden">
-                             <div className="text-[10px] font-black uppercase tracking-widest text-black/40 mb-6">{metric.label}</div>
-                             <div className="text-6xl font-black italic mb-6 tracking-tighter group-hover:scale-105 transition-transform origin-left text-black">{metric.value}</div>
-                             <div className="flex justify-between items-center text-[9px] font-bold uppercase tracking-[0.4em] text-black/20">
-                                <span>{metric.detail}</span>
-                                <span className="text-black">{metric.trend}</span>
-                             </div>
-                             <div className="mt-8 h-[2px] bg-black/5 relative overflow-hidden">
-                                <motion.div 
-                                   className="absolute inset-y-0 left-0 bg-black"
-                                   initial={{ width: 0 }}
-                                   whileInView={{ width: '100%' }}
-                                   transition={{ duration: 1.5, delay: i * 0.1 }}
-                                />
-                             </div>
-                          </div>
-                       ))}
-                    </div>
-                 </Reveal>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.35 }}
+              style={{ display: "flex", gap: 64, alignItems: "flex-start", flexWrap: "wrap" }}
+            >
+              <div style={{ flex: 1, minWidth: 280 }}>
+                <h3
+                  style={{
+                    fontFamily: FONT,
+                    fontSize: "clamp(1.5rem, 3vw, 2.2rem)",
+                    fontWeight: 900,
+                    color: C.dark,
+                    letterSpacing: "-0.03em",
+                    marginBottom: 18,
+                    lineHeight: 1.15,
+                  }}
+                >
+                  {tabs[activeTab].heading}
+                </h3>
+                <p
+                  style={{
+                    fontFamily: FONT,
+                    fontSize: 15,
+                    lineHeight: 1.8,
+                    color: C.muted,
+                    marginBottom: 28,
+                  }}
+                >
+                  {tabs[activeTab].body}
+                </p>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+                  {tabs[activeTab].points.map((p) => (
+                    <li key={p} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <div style={{ width: 6, height: 6, background: C.orange, borderRadius: "50%", flexShrink: 0 }} />
+                      <span style={{ fontFamily: FONT, fontSize: 14, color: C.dark, fontWeight: 500 }}>{p}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
 
-              <div className="lg:col-span-5 space-y-16">
-                 <Reveal delay={0.4}>
-                    <div className="p-12 bg-black text-white rounded-sm relative group overflow-hidden border border-black/10 shadow-2xl">
-                       <div className="flex justify-between items-center mb-12">
-                          <h4 className="text-2xl font-black uppercase tracking-tighter italic">Forge Logs</h4>
-                          <div className="w-2 h-2 rounded-full bg-white animate-ping" />
-                       </div>
-                       <div className="space-y-6 font-mono text-[10px]">
-                          {FORGE_LOGS.map((log, i) => (
-                             <div key={i} className="flex justify-between border-b border-white/10 pb-2 group/log hover:bg-white/5 px-2 transition-colors">
-                                <span className="text-white/20 group-hover/log:text-white transition-colors">[{log.time}]</span>
-                                <span className="text-white font-black">{log.event}</span>
-                                <span className="text-white/40 italic">{log.detail}</span>
-                                <span className="font-black text-white">[{log.status}]</span>
-                             </div>
-                          ))}
-                       </div>
-                       <div className="mt-12 flex items-center gap-4 text-[10px] font-black uppercase text-white/40 animate-pulse">
-                          <Terminal className="w-4 h-4" /> Awaiting_Material_Sync...
-                       </div>
-                    </div>
-                 </Reveal>
+              {/* Visual aside */}
+              <div
+                style={{
+                  width: 300,
+                  height: 320,
+                  background: C.grey,
+                  borderRadius: 8,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: "40%",
+                    background: C.orange,
+                    opacity: 0.08,
+                  }}
+                />
+                <div style={{ textAlign: "center", zIndex: 1 }}>
+                  <div
+                    style={{
+                      width: 64,
+                      height: 64,
+                      background: C.orange,
+                      borderRadius: 12,
+                      margin: "0 auto 16px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
+                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                    </svg>
+                  </div>
+                  <span style={{ fontFamily: FONT, fontSize: 13, fontWeight: 700, color: C.dark }}>
+                    {tabs[activeTab].label}
+                  </span>
+                  <div style={{ fontFamily: FONT, fontSize: 12, color: C.muted, marginTop: 4 }}>
+                    Forme Studio
+                  </div>
+                </div>
               </div>
-           </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
 
-           {/* Background Overlay Large Text */}
-           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] font-black text-black/[0.02] pointer-events-none select-none italic z-0">
-              DENSITY
-           </div>
-        </section>
+      {/* ── 5. TESTIMONIALS CAROUSEL ──────────────────────────────────── */}
+      <section style={{ background: C.grey, padding: "100px clamp(20px, 8vw, 120px)" }}>
+        <div style={{ maxWidth: 860, margin: "0 auto" }}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            style={{ textAlign: "center", marginBottom: 56 }}
+          >
+            <div
+              style={{
+                display: "inline-block",
+                background: "#fff3eb",
+                color: C.orange,
+                fontFamily: FONT,
+                fontSize: 12,
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                padding: "6px 14px",
+                borderRadius: 100,
+                marginBottom: 16,
+              }}
+            >
+              TÉMOIGNAGES CLIENTS
+            </div>
+            <h2
+              style={{
+                fontFamily: FONT,
+                fontSize: "clamp(2rem, 4vw, 2.8rem)",
+                fontWeight: 900,
+                color: C.dark,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              Ce que disent nos clients
+            </h2>
+          </motion.div>
 
-        {/* 5. MANIFESTO (EDITORIAL LAYOUT) */}
-        <section id="about" className="py-64 px-12 bg-black text-white relative">
-           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-32 items-center">
-              <div className="lg:col-span-5">
-                 <Reveal>
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-white mb-8">Structural_Doctrine</div>
-                    <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-12 italic text-white">
-                       Vacuum <br/> <span className="opacity-20">Casting.</span>
-                    </h2>
-                    <p className="text-lg font-bold italic text-white/40 leading-relaxed uppercase tracking-[0.1em] mb-16">
-                       Notre atelier de Berlin utilise des techniques de fabrication de l'industrie lourde pour la production d'objets à échelle domestique. Nous repoussons les limites de la densité.
-                    </p>
-                    <div className="grid grid-cols-2 gap-12 border-t border-white/10 pt-12">
-                       <div className="flex flex-col gap-4">
-                          <div className="text-[10px] font-black text-white/20 uppercase tracking-widest">Titanium</div>
-                          <div className="text-4xl font-black italic">BOND_SYNC</div>
-                       </div>
-                       <div className="flex flex-col gap-4">
-                          <div className="text-[10px] font-black text-white/20 uppercase tracking-widest">Precision</div>
-                          <div className="text-4xl font-black italic">8K_OBJECT</div>
-                       </div>
+          <div
+            style={{
+              background: C.white,
+              borderRadius: 12,
+              padding: "52px 52px 40px",
+              boxShadow: "0 4px 32px rgba(0,0,0,0.06)",
+              minHeight: 260,
+              position: "relative",
+            }}
+          >
+            {/* Orange accent */}
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: 4,
+                height: "100%",
+                background: C.orange,
+                borderRadius: "12px 0 0 12px",
+              }}
+            />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={testimonialIndex}
+                initial={{ opacity: 0, x: testimonialDir * 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: testimonialDir * -30 }}
+                transition={{ duration: 0.4 }}
+              >
+                <div
+                  style={{
+                    fontFamily: FONT,
+                    fontSize: "clamp(1rem, 2.2vw, 1.2rem)",
+                    lineHeight: 1.75,
+                    color: C.dark,
+                    marginBottom: 32,
+                    fontWeight: 400,
+                  }}
+                >
+                  "{testimonials[testimonialIndex].quote}"
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                  <div
+                    style={{
+                      width: 44,
+                      height: 44,
+                      background: C.orange,
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: FONT,
+                        fontSize: 16,
+                        fontWeight: 800,
+                        color: C.white,
+                      }}
+                    >
+                      {testimonials[testimonialIndex].name.charAt(0)}
+                    </span>
+                  </div>
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: FONT,
+                        fontSize: 14,
+                        fontWeight: 700,
+                        color: C.dark,
+                      }}
+                    >
+                      {testimonials[testimonialIndex].name}
                     </div>
-                 </Reveal>
-              </div>
-
-              <div className="lg:col-span-7">
-                 <Reveal scale={0.9}>
-                    <div className="relative aspect-video bg-zinc-900 group overflow-hidden border-[20px] border-zinc-800 shadow-2xl">
-                       <img 
-                          src="https://images.unsplash.com/photo-1592078615290-033ee584e226?w=1600&q=80" 
-                          className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-2000"
-                          alt="Neo Object Atelier"
-                       />
-                       <div className="absolute inset-0 bg-white/5 mix-blend-overlay" />
+                    <div style={{ fontFamily: FONT, fontSize: 12, color: C.muted }}>
+                      {testimonials[testimonialIndex].title} · {testimonials[testimonialIndex].company}
                     </div>
-                 </Reveal>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Controls */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginTop: 32 }}>
+            <button
+              onClick={prevTestimonial}
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: "50%",
+                background: C.white,
+                border: `1px solid ${C.border}`,
+                cursor: "pointer",
+                fontSize: 16,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+              }}
+            >
+              ←
+            </button>
+            <div style={{ display: "flex", gap: 8 }}>
+              {testimonials.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setTestimonialDir(i > testimonialIndex ? 1 : -1)
+                    setTestimonialIndex(i)
+                  }}
+                  style={{
+                    width: i === testimonialIndex ? 24 : 8,
+                    height: 8,
+                    borderRadius: 4,
+                    background: i === testimonialIndex ? C.orange : C.border,
+                    border: "none",
+                    cursor: "pointer",
+                    padding: 0,
+                    transition: "width 0.3s, background 0.3s",
+                  }}
+                />
+              ))}
+            </div>
+            <button
+              onClick={nextTestimonial}
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: "50%",
+                background: C.white,
+                border: `1px solid ${C.border}`,
+                cursor: "pointer",
+                fontSize: 16,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+              }}
+            >
+              →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 6. PRICING ────────────────────────────────────────────────── */}
+      <section style={{ padding: "100px clamp(20px, 8vw, 120px)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            style={{ textAlign: "center", marginBottom: 56 }}
+          >
+            <div
+              style={{
+                display: "inline-block",
+                background: "#fff3eb",
+                color: C.orange,
+                fontFamily: FONT,
+                fontSize: 12,
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                padding: "6px 14px",
+                borderRadius: 100,
+                marginBottom: 16,
+              }}
+            >
+              OFFRES
+            </div>
+            <h2
+              style={{
+                fontFamily: FONT,
+                fontSize: "clamp(2rem, 4vw, 3rem)",
+                fontWeight: 900,
+                color: C.dark,
+                letterSpacing: "-0.03em",
+              }}
+            >
+              Des engagements clairs,<br />des résultats mesurables.
+            </h2>
+          </motion.div>
+
+          <div style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center", alignItems: "stretch" }}>
+            {[
+              {
+                name: "Sprint Design",
+                price: "8 500€",
+                sub: "4 semaines",
+                highlight: false,
+                description: "Idéal pour valider un concept, préparer un dossier investisseur ou tester la désirabilité avant de développer.",
+                features: [
+                  "Brief + benchmark concurrentiel",
+                  "3 directions de design",
+                  "MVP visuel haute fidélité",
+                  "Specs techniques pour dev",
+                  "2 tours de révisions inclus",
+                  "Présentation finale",
+                ],
+                cta: "Démarrer un Sprint",
+              },
+              {
+                name: "Projet Complet",
+                price: "28 000€+",
+                sub: "12 à 20 semaines",
+                highlight: true,
+                description: "De la recherche au prototype série : un accompagnement complet pour lancer un produit industriel ou digital solide.",
+                features: [
+                  "Recherche utilisateur (10+ entretiens)",
+                  "Design produit + UX intégrés",
+                  "Prototypage physique ou interactif",
+                  "Suivi production 3 mois",
+                  "Dossier fabricant complet",
+                  "Brevets (accompagnement)",
+                  "3 tours de révisions / phase",
+                ],
+                cta: "Discuter du projet",
+              },
+              {
+                name: "Retainer Studio",
+                price: "4 500€/mois",
+                sub: "Partenariat dédié",
+                highlight: false,
+                description: "Un designer senior dédié à votre entreprise, disponible chaque semaine. Pour les équipes qui ont besoin de design en continu.",
+                features: [
+                  "80h/mois garanties",
+                  "Designer senior dédié",
+                  "Réunion hebdomadaire",
+                  "Révisions illimitées (scope)",
+                  "Accès aux outils studio",
+                  "Suivi production inclus",
+                ],
+                cta: "Demander une démo",
+              },
+            ].map((tier, i) => (
+              <motion.div
+                key={tier.name}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.12 }}
+                style={{
+                  flex: "1 1 290px",
+                  maxWidth: 330,
+                  background: tier.highlight ? C.dark : C.white,
+                  border: tier.highlight ? `2px solid ${C.orange}` : `1px solid ${C.border}`,
+                  borderRadius: 12,
+                  padding: "40px 32px",
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  boxShadow: tier.highlight ? "0 12px 48px rgba(249,115,22,0.18)" : "0 2px 16px rgba(0,0,0,0.05)",
+                }}
+              >
+                {tier.highlight && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: -14,
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      background: C.orange,
+                      color: C.white,
+                      fontFamily: FONT,
+                      fontSize: 11,
+                      fontWeight: 800,
+                      letterSpacing: "0.1em",
+                      padding: "5px 18px",
+                      borderRadius: 100,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    RECOMMANDÉ
+                  </div>
+                )}
+
+                <div
+                  style={{
+                    fontFamily: FONT,
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: tier.highlight ? C.muted : C.muted,
+                    marginBottom: 8,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                  }}
+                >
+                  {tier.name}
+                </div>
+                <div
+                  style={{
+                    fontFamily: FONT,
+                    fontSize: "2rem",
+                    fontWeight: 900,
+                    color: tier.highlight ? C.white : C.dark,
+                    letterSpacing: "-0.04em",
+                    lineHeight: 1,
+                    marginBottom: 4,
+                  }}
+                >
+                  {tier.price}
+                </div>
+                <div
+                  style={{
+                    fontFamily: FONT,
+                    fontSize: 13,
+                    color: C.orange,
+                    fontWeight: 600,
+                    marginBottom: 16,
+                  }}
+                >
+                  {tier.sub}
+                </div>
+                <p
+                  style={{
+                    fontFamily: FONT,
+                    fontSize: 13,
+                    lineHeight: 1.65,
+                    color: tier.highlight ? "#9ca3af" : C.muted,
+                    marginBottom: 24,
+                    borderBottom: `1px solid ${tier.highlight ? "rgba(255,255,255,0.08)" : C.border}`,
+                    paddingBottom: 20,
+                  }}
+                >
+                  {tier.description}
+                </p>
+                <ul
+                  style={{
+                    listStyle: "none",
+                    padding: 0,
+                    margin: "0 0 32px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10,
+                    flex: 1,
+                  }}
+                >
+                  {tier.features.map((f) => (
+                    <li key={f} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <circle cx="7" cy="7" r="7" fill={C.orange} opacity={tier.highlight ? 1 : 0.15} />
+                        <path d="M4 7l2 2 4-4" stroke={tier.highlight ? C.white : C.orange} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <span
+                        style={{
+                          fontFamily: FONT,
+                          fontSize: 13,
+                          color: tier.highlight ? "#d1d5db" : C.dark,
+                          fontWeight: 400,
+                        }}
+                      >
+                        {f}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  style={{
+                    width: "100%",
+                    padding: "14px 0",
+                    background: tier.highlight ? C.orange : "transparent",
+                    border: tier.highlight ? "none" : `2px solid ${C.dark}`,
+                    color: tier.highlight ? C.white : C.dark,
+                    fontFamily: FONT,
+                    fontSize: 14,
+                    fontWeight: 700,
+                    borderRadius: 6,
+                    cursor: "pointer",
+                    transition: "background 0.2s, transform 0.15s",
+                  }}
+                >
+                  {tier.cta}
+                </button>
+              </motion.div>
+            ))}
+          </div>
+
+          <p
+            style={{
+              textAlign: "center",
+              fontFamily: FONT,
+              fontSize: 13,
+              color: C.muted,
+              marginTop: 32,
+            }}
+          >
+            Tous les projets commencent par un appel découverte gratuit de 30 minutes. Aucun engagement.
+          </p>
+        </div>
+      </section>
+
+      {/* ── 7. FAQ ACCORDION ──────────────────────────────────────────── */}
+      <section style={{ background: C.grey, padding: "100px clamp(20px, 8vw, 120px)" }}>
+        <div style={{ maxWidth: 760, margin: "0 auto" }}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            style={{ marginBottom: 48 }}
+          >
+            <div
+              style={{
+                display: "inline-block",
+                background: "#fff3eb",
+                color: C.orange,
+                fontFamily: FONT,
+                fontSize: 12,
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                padding: "6px 14px",
+                borderRadius: 100,
+                marginBottom: 16,
+              }}
+            >
+              FAQ
+            </div>
+            <h2
+              style={{
+                fontFamily: FONT,
+                fontSize: "clamp(2rem, 4vw, 2.8rem)",
+                fontWeight: 900,
+                color: C.dark,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              Vos questions, nos réponses.
+            </h2>
+          </motion.div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+            {faqs.map((faq, i) => (
+              <div key={i} style={{ background: C.white, borderRadius: 8, marginBottom: 8, overflow: "hidden" }}>
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    background: "none",
+                    border: "none",
+                    padding: "20px 24px",
+                    cursor: "pointer",
+                    textAlign: "left",
+                    gap: 16,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: FONT,
+                      fontSize: 15,
+                      fontWeight: 700,
+                      color: C.dark,
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {faq.q}
+                  </span>
+                  <motion.div
+                    animate={{ rotate: openFaq === i ? 45 : 0 }}
+                    transition={{ duration: 0.2 }}
+                    style={{
+                      width: 28,
+                      height: 28,
+                      background: openFaq === i ? C.orange : C.grey,
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                      transition: "background 0.25s",
+                    }}
+                  >
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M6 2v8M2 6h8" stroke={openFaq === i ? C.white : C.dark} strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                  </motion.div>
+                </button>
+                <AnimatePresence>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      style={{ overflow: "hidden" }}
+                    >
+                      <p
+                        style={{
+                          fontFamily: FONT,
+                          fontSize: 14,
+                          lineHeight: 1.75,
+                          color: C.muted,
+                          padding: "0 24px 24px",
+                        }}
+                      >
+                        {faq.a}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-           </div>
-        </section>
+            ))}
+          </div>
+        </div>
+      </section>
 
-        {/* 6. FAQ (TACTICAL ACCORDION) */}
-        <section className="py-64 px-12 bg-[#f8f8f8] relative overflow-hidden">
-           <div className="max-w-4xl mx-auto relative z-10">
-              <Reveal>
-                 <div className="text-center mb-40">
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-black/40 mb-8">Technical_Briefing</div>
-                    <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter italic mb-8 text-black">Atelier <span className="opacity-10">Vault.</span></h2>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/20 italic">Commission // Research // Execution</p>
-                 </div>
-              </Reveal>
+      {/* ── 8. CTA BANNER ─────────────────────────────────────────────── */}
+      <section
+        style={{
+          background: C.dark,
+          padding: "100px clamp(20px, 8vw, 120px)",
+          textAlign: "center",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        {/* Background graphic */}
+        <div
+          style={{
+            position: "absolute",
+            top: -80,
+            right: -80,
+            width: 400,
+            height: 400,
+            background: C.orange,
+            opacity: 0.06,
+            borderRadius: "50%",
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: -100,
+            left: -60,
+            width: 300,
+            height: 300,
+            background: C.orange,
+            opacity: 0.04,
+            borderRadius: "50%",
+            pointerEvents: "none",
+          }}
+        />
 
-              <Accordion type="single" collapsible className="w-full space-y-4">
-                 {[
-                   { q: "What is your primary design philosophy?", a: "Material supremacy. We believe that the object should reflect its industrial heritage. Every vacuum cast and titanium bond is a deliberate expression of weight and form." },
-                   { q: "How do you handle structural safety?", a: "Every volume undergoes a multi-pass stress simulation audit. We operate within extreme performance standards to ensure absolute material stability across generations." },
-                   { q: "Do you offer custom industrial fabrication?", a: "Yes. For bespoke domestic enclaves, we design unique alloys and vacuum casting paths that push the limits of traditional product design." }
-                 ].map((item, i) => (
-                   <AccordionItem key={i} value={`item-${i}`} className="border border-black/10 bg-black/5 px-10 rounded-sm hover:border-black/40 transition-all">
-                      <AccordionTrigger className="text-[14px] font-black uppercase tracking-[0.4em] py-12 no-underline italic text-left text-black">
-                         {item.q}
-                      </AccordionTrigger>
-                      <AccordionContent className="text-[11px] font-medium text-black/40 tracking-[0.1em] uppercase italic leading-loose pb-12">
-                         {item.a}
-                      </AccordionContent>
-                   </AccordionItem>
-                 ))}
-              </Accordion>
-           </div>
-        </section>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          style={{ position: "relative", zIndex: 1 }}
+        >
+          <div
+            style={{
+              display: "inline-block",
+              background: "rgba(249,115,22,0.15)",
+              color: C.orange,
+              fontFamily: FONT,
+              fontSize: 12,
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+              padding: "6px 14px",
+              borderRadius: 100,
+              marginBottom: 24,
+            }}
+          >
+            PRÊT À DÉMARRER ?
+          </div>
 
-        {/* 7. FOOTER (HIGH FIDELITY) */}
-        <footer className="bg-white pt-64 pb-20 px-12 md:px-24 border-t-8 border-black">
-           <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-32 mb-48">
-                 <div className="lg:col-span-7">
-                    <Reveal>
-                       <div className="flex flex-col mb-16">
-                          <span className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.7] italic text-black">Neo<span className="text-black/20">_</span>Object.</span>
-                          <span className="text-[12px] font-bold uppercase tracking-[1em] text-black/40 ml-2">Material Supremacy Atelier</span>
-                       </div>
-                       <p className="text-black/20 max-w-sm mb-20 text-sm font-light uppercase tracking-widest leading-loose italic">
-                          La maîtrise absolue de la densité matérielle. Berlin // Global Command Center.
-                       </p>
-                       <div className="flex gap-12 items-center">
-                          <div className="w-24 h-[1px] bg-black/10" />
-                          <div className="flex gap-10">
-                             <Globe className="w-7 h-7 text-black/30 hover:text-black transition-all cursor-pointer" />
-                             <BoxIcon className="w-7 h-7 text-black/30 hover:text-black transition-all cursor-pointer" />
-                             <Factory className="w-7 h-7 text-black/30 hover:text-black transition-all cursor-pointer" />
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
+          <h2
+            style={{
+              fontFamily: FONT,
+              fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
+              fontWeight: 900,
+              color: C.white,
+              letterSpacing: "-0.04em",
+              lineHeight: 1.05,
+              marginBottom: 20,
+            }}
+          >
+            Lancer Votre Projet
+          </h2>
 
-                 <div className="lg:col-span-5 grid grid-cols-2 gap-16">
-                    <div className="space-y-12">
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-black mb-16 border-b border-black/20 pb-4">Sequence</h4>
-                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-black/30">
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> Sectional_Audit
-                          </li>
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> Stress_Simulation
-                          </li>
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> Aging_Protocol
-                          </li>
-                       </ul>
-                    </div>
-                    <div className="space-y-12">
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-black mb-16 border-b border-black/20 pb-4">Atelier</h4>
-                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-black/30">
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> Manifesto
-                          </li>
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> Global_Nodes
-                          </li>
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> Partners
-                          </li>
-                       </ul>
-                    </div>
-                 </div>
+          <p
+            style={{
+              fontFamily: FONT,
+              fontSize: 18,
+              color: "#9ca3af",
+              maxWidth: 480,
+              margin: "0 auto 44px",
+              lineHeight: 1.65,
+            }}
+          >
+            Appel découverte gratuit, 30 minutes. On écoute votre brief, on vous dit ce qui est faisable, en combien de temps, et pour combien.
+          </p>
+
+          <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+            <button
+              style={{
+                background: C.orange,
+                border: "none",
+                color: C.white,
+                fontFamily: FONT,
+                fontSize: 16,
+                fontWeight: 700,
+                padding: "18px 44px",
+                borderRadius: 6,
+                cursor: "pointer",
+                transition: "background 0.2s",
+              }}
+            >
+              Réserver un appel gratuit
+            </button>
+            <button
+              style={{
+                background: "transparent",
+                border: `1.5px solid rgba(255,255,255,0.2)`,
+                color: C.white,
+                fontFamily: FONT,
+                fontSize: 16,
+                fontWeight: 500,
+                padding: "18px 44px",
+                borderRadius: 6,
+                cursor: "pointer",
+              }}
+            >
+              Voir nos réalisations
+            </button>
+          </div>
+
+          <p
+            style={{
+              fontFamily: FONT,
+              fontSize: 13,
+              color: "#4b5563",
+              marginTop: 24,
+            }}
+          >
+            Réponse garantie sous 24h · NDA signé avant tout échange
+          </p>
+        </motion.div>
+      </section>
+
+      {/* ── 9. FOOTER ─────────────────────────────────────────────────── */}
+      <footer
+        style={{
+          background: C.white,
+          borderTop: `1px solid ${C.border}`,
+          padding: "64px clamp(20px, 8vw, 120px) 32px",
+        }}
+      >
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 40, marginBottom: 56 }}>
+            {/* Brand column */}
+            <div style={{ maxWidth: 280 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+                <div
+                  style={{
+                    width: 32,
+                    height: 32,
+                    background: C.orange,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: 4,
+                  }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
+                    <rect x="1" y="1" width="5" height="5" fill="white" />
+                    <rect x="8" y="1" width="5" height="5" fill="white" opacity="0.5" />
+                    <rect x="1" y="8" width="5" height="5" fill="white" opacity="0.5" />
+                    <rect x="8" y="8" width="5" height="5" fill="white" />
+                  </svg>
+                </div>
+                <span
+                  style={{
+                    fontFamily: FONT,
+                    fontSize: 16,
+                    fontWeight: 800,
+                    color: C.dark,
+                    letterSpacing: "-0.03em",
+                  }}
+                >
+                  Forme Studio
+                </span>
               </div>
-
-              <div className="pt-24 border-t border-black/10 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.5em] text-black/10 italic text-center">
-                 <div className="flex gap-16">
-                    <span>©2026 NEO OBJECT ATELIER AG.</span>
-                    <span className="hidden md:inline">//</span>
-                    <span>MATERIAL_SUPREMACY_CERTIFIED</span>
-                 </div>
-                 <div className="flex gap-16 font-mono text-black/30">
-                    <span>8K_RESOLUTION_OBJECT_NATIVE</span>
-                    <span>TITANIUM_BOND_SYNC_LEVEL_5</span>
-                 </div>
+              <p
+                style={{
+                  fontFamily: FONT,
+                  fontSize: 13,
+                  color: C.muted,
+                  lineHeight: 1.7,
+                  marginBottom: 24,
+                }}
+              >
+                Cabinet de design produit industriel et UX. 12 Place de la Bourse, Paris 2e. hello@forme.studio
+              </p>
+              {/* Social icons */}
+              <div style={{ display: "flex", gap: 12 }}>
+                {/* LinkedIn */}
+                <a href="#" style={{ color: C.muted, cursor: "pointer", transition: "color 0.2s" }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                    <rect x="2" y="9" width="4" height="12" />
+                    <circle cx="4" cy="4" r="2" />
+                  </svg>
+                </a>
+                {/* MessageSquare/X */}
+                <a href="#" style={{ color: C.muted, cursor: "pointer" }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </a>
+                {/* Behance */}
+                <a href="#" style={{ color: C.muted, cursor: "pointer" }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M1 12c0-1.657.896-3 2-3h4c1.1 0 2 1.343 2 3s-.9 3-2 3H3c-1.104 0-2-1.343-2-3z" />
+                    <path d="M1 6h7M9 9c0-1.657.896-3 2-3h4c1.104 0 2 1.343 2 3v6c0 1.657-.896 3-2 3h-4c-1.104 0-2-1.343-2-3V9z" />
+                    <path d="M9 12h8" />
+                  </svg>
+                </a>
+                {/* Dribbble */}
+                <a href="#" style={{ color: C.muted, cursor: "pointer" }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32" />
+                  </svg>
+                </a>
               </div>
-           </div>
-        </footer>
-      </main>
+            </div>
 
-      <style>{`
-        ::-webkit-scrollbar { width: 6px; background: #f2f2f2; }
-        ::-webkit-scrollbar-thumb { background: #000000; border-radius: 10px; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .vertical-text { writing-mode: vertical-rl; }
-        .animate-spin-slow { animation: spin 40s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-      `}</style>
+            {/* Link columns */}
+            {[
+              {
+                heading: "Services",
+                links: ["Design Produit", "UX & Interface", "Packaging", "Prototypage Rapide", "Audit Design"],
+              },
+              {
+                heading: "Studio",
+                links: ["Notre approche", "L'équipe", "Nos projets", "Presse & Awards", "Blog"],
+              },
+              {
+                heading: "Contact",
+                links: ["Appel découverte", "Devis sur-mesure", "Partenariats", "Offres d'emploi", "Mentions légales"],
+              },
+            ].map((col) => (
+              <div key={col.heading}>
+                <div
+                  style={{
+                    fontFamily: FONT,
+                    fontSize: 12,
+                    fontWeight: 800,
+                    color: C.dark,
+                    letterSpacing: "0.06em",
+                    textTransform: "uppercase",
+                    marginBottom: 18,
+                  }}
+                >
+                  {col.heading}
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {col.links.map((l) => (
+                    <a
+                      key={l}
+                      href="#"
+                      style={{
+                        fontFamily: FONT,
+                        fontSize: 13,
+                        color: C.muted,
+                        textDecoration: "none",
+                        cursor: "pointer",
+                        fontWeight: 400,
+                        transition: "color 0.2s",
+                      }}
+                    >
+                      {l}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom bar */}
+          <div
+            style={{
+              borderTop: `1px solid ${C.border}`,
+              paddingTop: 24,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: 12,
+            }}
+          >
+            <span style={{ fontFamily: FONT, fontSize: 13, color: C.muted }}>
+              © 2026 Forme Studio. Tous droits réservés. · Paris, France
+            </span>
+            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+              <div style={{ width: 6, height: 6, background: "#22c55e", borderRadius: "50%" }} />
+              <span style={{ fontFamily: FONT, fontSize: 13, color: C.muted }}>
+                Disponible pour nouveaux projets
+              </span>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

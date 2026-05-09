@@ -1,531 +1,962 @@
 "use client"
 
-import React, { useState, useEffect, useRef, useMemo } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring,
-  useMotionValue
-} from "framer-motion"
-import Image from "next/image"
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
-import { 
-  Zap, Activity, Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, BarChart3, Fingerprint, Scan, 
-  Briefcase, Wind, Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Search, Cpu, Box as BoxIcon,
-  ShieldCheck, Binary, Code2, Globe, Database,
-  Gauge, Thermometer, FlaskConical, Sun, Moon,
-  Star, Sparkles, CircleDot, ArrowUpRight,
-  ArrowDownLeft, Expand, Shrink, MousePointer2,
-  HardDrive, Key, Lock, Unlock, Shield, ShieldAlert,
-  Laptop, Server, Network, Wifi, Bluetooth, Radio,
-  Droplets, Pickaxe, Mountain, Gem, Drill,
-  Telescope, MilestoneIcon, Layout, Smartphone,
-  PenTool, Camera, Film, Palette, MessageSquare,
-  Send, ZapOff, Anchor, Ship, Truck, Train, Bus,
-  Car, Bike, Eye, ScanEye, EyeOff, KeyRound,
-  Fingerprint as FingerprintIcon, Navigation,
-  Navigation2, Wind as WindIcon, Biohazard,
-  Crosshair, Focus, Bug, ShieldAlert as ShieldAlertIcon,
-  Skull, Scan as ScanIcon, Ruler, Construction,
-  Hammer, Pencil, Shapes, Warehouse, Building,
-  Building2, Factory, HardHat, LandPlot, MapPin
-} from "lucide-react"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
-/* ==========================================================================
-   CONCRETE ATELIER DATASET (ULTRA DENSITY)
-   ========================================================================== */
+const C = {
+  bg: "#fafafa",
+  charcoal: "#1a1a1a",
+  grey: "#6b7280",
+  lightGrey: "#e5e7eb",
+  accent: "#c45c3a",
+  white: "#ffffff",
+  card: "#f3f4f6",
+}
 
-const SEQUENCE = [
-  {
-    id: "seq-01",
-    title: "Sectional Audit",
-    desc: "Découpe rigoureuse de volumes complexes pour révéler le potentiel spatial intérieur. Chaque section est une étude de la lumière et du vide.",
-    status: "SYNC",
-    load: "80 MPa"
-  },
-  {
-    id: "seq-08",
-    title: "Material Stress",
-    desc: "Simulation de haute performance sous des charges tectoniques extrêmes. Nous testons les limites de la résistance agrégée.",
-    status: "STABLE",
-    load: "120 MPa"
-  },
-  {
-    id: "seq-15",
-    title: "Atmospheric Aging",
-    desc: "Analyse de l'interaction de la texture du béton avec le vieillissement séculaire. La patine devient une composante du design.",
-    status: "ACTIVE",
-    load: "SECURE"
-  }
-]
+const headingFont = '"Cormorant Garamond", serif'
+const bodyFont = "system-ui, sans-serif"
 
-const TECTONIC_METRICS = [
-  { label: "Concrete Strength", value: "80 MPa", trend: "High", detail: "Ultra-High Performance" },
-  { label: "BIM Integration", value: "Level 3", trend: "Full", detail: "Cloud-Sync Delivery" },
-  { label: "Robotic Precision", value: "±0.1mm", trend: "Nano", detail: "6-Axis Fabrication" },
-  { label: "Material Waste", value: "0.2%", trend: "Zero", detail: "Additive Synthesis" }
-]
+// ─── Blueprint Grid Background ─────────────────────────────────────────────────
+function BlueprintGrid() {
+  return (
+    <div style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
+      <svg width="100%" height="100%" style={{ position: "absolute", inset: 0, opacity: 0.04 }}>
+        <defs>
+          <pattern id="blueprint-grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke={C.charcoal} strokeWidth="0.5" />
+          </pattern>
+          <pattern id="blueprint-grid-large" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
+            <rect width="200" height="200" fill="url(#blueprint-grid)" />
+            <path d="M 200 0 L 0 0 0 200" fill="none" stroke={C.charcoal} strokeWidth="1" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#blueprint-grid-large)" />
+      </svg>
+    </div>
+  )
+}
 
-const TECTONIC_LOGS = [
-  { time: "08:12:04", event: "DIGITAL_FORMWORK", status: "PASS", detail: "Robot_Arm_Alpha" },
-  { time: "08:15:32", event: "AGGREGATE_SYNTH", status: "DONE", detail: "Mixer_Enclave_2" },
-  { time: "08:22:15", event: "TECTONIC_SYNC", status: "PASS", detail: "BIM_Core_V4" }
-]
-
-/* ==========================================
-   TECHNICAL COMPONENTS (TECTONIC / HUD)
-   ========================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0, scale = 1 }: { children: React.ReactNode, delay?: number, y?: number, x?: number, scale?: number }) {
+// ─── Animated Counter ─────────────────────────────────────────────────────────
+function Counter({ target, suffix = "", prefix = "" }: { target: number; suffix?: string; prefix?: string }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const inView = useInView(ref, { once: true })
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    if (!inView) return
+    let start = 0
+    const duration = 1800
+    const step = 16
+    const increment = target / (duration / step)
+    const timer = setInterval(() => {
+      start += increment
+      if (start >= target) { setCount(target); clearInterval(timer) }
+      else setCount(Math.floor(start))
+    }, step)
+    return () => clearInterval(timer)
+  }, [inView, target])
+  return (
+    <span ref={ref}>{prefix}{count.toLocaleString("fr-FR")}{suffix}</span>
+  )
+}
+
+// ─── Project Row ──────────────────────────────────────────────────────────────
+function ProjectRow({ name, location, year, delay }: { name: string; location: string; year: string; delay: number }) {
+  const [hovered, setHovered] = useState(false)
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x, scale }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0, scale: 1 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.7, delay }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        padding: "20px 0 20px 24px",
+        borderBottom: `1px solid ${C.lightGrey}`,
+        borderLeft: `3px solid ${hovered ? C.accent : "transparent"}`,
+        transition: "border-color 0.3s, padding-left 0.3s",
+        cursor: "pointer",
+        paddingLeft: hovered ? 28 : 24,
+      }}
     >
-      {children}
+      <div style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 20, color: C.charcoal, fontWeight: 400 }}>
+        {name}
+      </div>
+      <div style={{ display: "flex", gap: 16, marginTop: 4 }}>
+        <span style={{ fontFamily: bodyFont, fontSize: 12, color: C.grey }}>{location}</span>
+        <span style={{ fontFamily: bodyFont, fontSize: 12, color: C.accent }}>{year}</span>
+      </div>
     </motion.div>
   )
 }
 
-function MaterialFlowBackground() {
+// ─── Main Component ───────────────────────────────────────────────────────────
+export default function KeopsCabinet() {
+  const { scrollY } = useScroll()
+  const heroTextY = useTransform(scrollY, [0, 600], [0, -60])
+  const listY = useTransform(scrollY, [0, 600], [0, -30])
+
+  const [activeTab, setActiveTab] = useState(0)
+  const [activeTestimonial, setActiveTestimonial] = useState(0)
+  const [testimonialDir, setTestimonialDir] = useState(1)
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+
+  const tabs = [
+    {
+      label: "Logement",
+      title: "Habiter avec intention",
+      body: "De la villa individuelle à la résidence collective, nous concevons des espaces résidentiels où chaque décision architecturale sert la qualité de vie. Lumière naturelle, rapport à l'extérieur, circulation intérieure, matériaux durables : notre approche est globale et centrée sur l'habitant.",
+      detail: "Permis de construire, suivi de chantier, réception des travaux. Honoraires : 8 à 12% du coût des travaux HT.",
+      tags: ["Villa", "Résidence", "Rénovation", "Extension"],
+    },
+    {
+      label: "Tertiaire & Commercial",
+      title: "L'espace de travail repensé",
+      body: "Bureaux, commerces, hôtels, restaurants — l'architecture tertiaire est un levier stratégique pour l'attractivité et la performance. Nous concevons des espaces qui reflètent l'identité de marque tout en optimisant les flux, l'acoustique et le bien-être des équipes.",
+      detail: "De l'esquisse à la livraison. Coordination MOE. Mise en conformité ERP. Mission complète ou partielle.",
+      tags: ["Bureaux", "Commerce", "Hôtellerie", "Restauration"],
+    },
+    {
+      label: "Réhabilitation",
+      title: "Révéler le patrimoine",
+      body: "La réhabilitation est notre domaine de prédilection. Transformer un bâtiment existant sans en trahir l'âme, améliorer ses performances thermiques sans effacer son histoire, réinterpréter un espace pour de nouveaux usages — c'est là que notre sensibilité s'exprime pleinement.",
+      detail: "Diagnostic technique et patrimonial inclus. Travaux BIMBY, surélévation, changement de destination.",
+      tags: ["Bâtiment classé", "Patrimoine", "Surélévation", "Changement d'usage"],
+    },
+    {
+      label: "Urbanisme",
+      title: "La ville à l'échelle humaine",
+      body: "Notre département urbanisme accompagne collectivités, aménageurs et promoteurs dans la conception de quartiers, de ZAC et d'espaces publics. Nous sommes convaincus que la ville doit être pensée à l'échelle de ses habitants, et non l'inverse.",
+      detail: "PLU, études préalables, concours publics, maîtrise d'œuvre urbaine. Équipe pluridisciplinaire interne.",
+      tags: ["ZAC", "Espace public", "Concours", "PLU"],
+    },
+  ]
+
+  const testimonials = [
+    {
+      name: "Édouard Lemaire",
+      role: "Directeur général, Groupe Lemaire Immobilier",
+      text: "Kéops a livré notre résidence Les Acacias à Bordeaux avec une rigueur et une inventivité que je n'avais pas rencontrées depuis longtemps. Chaque logement est distinct, chaque espace commun est pensé. Les délais ont été tenus, le budget respecté. Nous leur avons confié deux programmes supplémentaires.",
+    },
+    {
+      name: "Nathalie Orcel",
+      role: "Propriétaire, rénovation maison de maître — Lyon",
+      text: "J'avais une maison de maître des années 1890 que je voulais rénover sans la dénaturer. Kéops a compris immédiatement ce que je cherchais — ce dialogue entre passé et présent. Le résultat est saisissant : la maison a retrouvé son élégance tout en étant parfaitement contemporaine dans ses usages.",
+    },
+    {
+      name: "Serge Moatti",
+      role: "Directeur des opérations, Châteauform'",
+      text: "La conversion de notre domaine en centre de séminaires était un projet complexe : patrimoine classé, contraintes PMR, budget serré. Kéops a navigué avec une intelligence rare entre toutes ces contraintes. La livraison a été exemplaire et les retours de nos clients sont unanimement positifs.",
+    },
+    {
+      name: "Florence Dupré",
+      role: "Adjointe à l'urbanisme, Mairie de Villeurbanne",
+      text: "Le cabinet Kéops a remporté notre concours pour la requalification du quartier Gratte-Ciel historique. Leur approche combine une compréhension fine du patrimoine moderniste et une vision prospective des usages. Leur équipe est accessible, réactive et d'une probité intellectuelle rare dans les marchés publics.",
+    },
+  ]
+
+  const faqs = [
+    {
+      q: "Combien coûtent les honoraires d'architecte en pourcentage ?",
+      a: "Les honoraires varient selon la complexité et la mission : de 8 à 12% du montant HT des travaux pour une maison individuelle neuve, de 10 à 15% pour une réhabilitation (plus complexe techniquement), et de 5 à 8% pour des projets tertiaires d'envergure. Pour les missions partielles (esquisse seule, suivi de chantier seul), nous établissons des forfaits adaptés. Un premier chiffrage indicatif est fourni lors de notre entretien initial.",
+    },
+    {
+      q: "Quelle est la durée typique d'un projet de construction ?",
+      a: "Un projet résidentiel neuf (villa) prend généralement 18 à 24 mois de la première esquisse à la livraison : 3 à 4 mois pour les études, 3 à 6 mois pour l'instruction du permis de construire, puis 12 à 16 mois de chantier. Un projet de réhabilitation peut être plus court (12 à 18 mois) si les fondations et la structure sont saines. Nous établissons un planning détaillé dès la phase ESQ.",
+    },
+    {
+      q: "Est-ce que vous gérez le permis de construire ?",
+      a: "Oui, le dépôt et le suivi du permis de construire font partie intégrante de nos missions standard (phase PC/DCE). Nous constituons le dossier complet, gérons les éventuelles demandes de pièces complémentaires des services instructeurs, et vous informons à chaque étape. Pour les projets en secteur protégé ou ABF, nous avons l'expérience des procédures spécifiques.",
+    },
+    {
+      q: "Intervenez-vous sur des projets de rénovation énergétique ?",
+      a: "C'est l'un de nos axes de développement prioritaires. Nous proposons une mission AMO Rénovation Énergétique complète : audit thermique, définition du programme de travaux, sélection des entreprises, coordination des interventions (isolation, menuiseries, CVC, ENR). Nous vous accompagnons également dans l'accès aux aides (MaPrimeRénov', CEE, prêt éco-PTZ) et la labellisation BBC Rénovation.",
+    },
+    {
+      q: "L'architecte est-il obligatoire pour mon projet ?",
+      a: "En France, le recours à un architecte est obligatoire pour tout projet dont la surface de plancher créée dépasse 150 m² (pour une construction neuve) ou dont les travaux portent la surface totale au-delà de 150 m². Pour les particuliers en dessous de ce seuil, le recours est facultatif mais vivement recommandé : un architecte optimise la conception, sécurise les démarches administratives et coordonne les entreprises pour vous.",
+    },
+    {
+      q: "Travaillez-vous à l'international ?",
+      a: "Oui. Nous intervenons régulièrement en Europe (Belgique, Suisse, Portugal, Maroc) et avons livré des projets sur 12 pays à ce jour. Notre équipe inclut des architectes maîtrisant l'anglais et l'espagnol. Pour les projets hors France, nous travaillons en association avec des cabinets locaux qui gèrent les procédures réglementaires spécifiques à chaque pays.",
+    },
+  ]
+
+  const pricingTiers = [
+    {
+      name: "Esquisse Conseil",
+      price: "600€",
+      duration: "Session de 2 heures",
+      features: [
+        "Vision stratégique du projet",
+        "Analyse faisabilité et contraintes",
+        "Orientations architecturales",
+        "Estimation budgétaire indicative",
+        "Compte-rendu écrit sous 5 jours",
+      ],
+      highlight: false,
+      cta: "Prendre rendez-vous",
+    },
+    {
+      name: "Mission Complète",
+      price: "% honoraires",
+      duration: "De l'esquisse au suivi chantier",
+      features: [
+        "Esquisse, APS, APD, PRO",
+        "Permis de construire",
+        "Consultation des entreprises",
+        "Direction des travaux (DET)",
+        "Réception et levée des réserves",
+        "Garantie de parfait achèvement",
+      ],
+      highlight: true,
+      cta: "Discutons de votre projet",
+    },
+    {
+      name: "AMO & Expertise",
+      price: "Sur devis",
+      duration: "Assistance Maîtrise d'Ouvrage",
+      features: [
+        "Audit technique et patrimonial",
+        "Assistance concours et appels d'offres",
+        "Expertises amiables et judiciaires",
+        "Rénovation énergétique (DPE → B)",
+        "Coordination OPC externe",
+      ],
+      highlight: false,
+      cta: "Demander une expertise",
+    },
+  ]
+
+  const recentProjects = [
+    { name: "Résidence Les Acacias", location: "Bordeaux, France", year: "2024" },
+    { name: "Hôtel Particulier Gambetta", location: "Lyon, France", year: "2023" },
+    { name: "Siège Social Athos Capital", location: "Bruxelles, Belgique", year: "2023" },
+    { name: "ZAC du Vieux-Port Nord", location: "Marseille, France", year: "2022" },
+    { name: "Villa Azurra", location: "Lagos, Portugal", year: "2022" },
+  ]
+
+  function prevTestimonial() {
+    setTestimonialDir(-1)
+    setActiveTestimonial(i => (i - 1 + testimonials.length) % testimonials.length)
+  }
+  function nextTestimonial() {
+    setTestimonialDir(1)
+    setActiveTestimonial(i => (i + 1) % testimonials.length)
+  }
+
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-10 select-none">
-       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.05)_0%,transparent_70%)]" />
-       {[...Array(12)].map((_, i) => (
-          <motion.div 
-             key={i}
-             className="absolute border border-black/10 rounded-full"
-             style={{ 
-                width: 300 + i * 200, 
-                height: 300 + i * 200,
-                top: `${i * 10}%`,
-                left: `${-10 + i * 5}%`
-             }}
-             animate={{ 
-                rotate: i % 2 === 0 ? 360 : -360,
-                scale: [1, 1.1, 1]
-             }}
-             transition={{ 
-                duration: 20 + i * 10, 
-                repeat: Infinity, 
-                ease: "linear"
-             }}
+    <div style={{ background: C.bg, color: C.charcoal, fontFamily: bodyFont, minHeight: "100vh" }}>
+
+      {/* ── NAVBAR ─────────────────────────────────────────────────────────── */}
+      <nav style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        padding: "0 56px", height: 72,
+        background: "rgba(250,250,250,0.94)", backdropFilter: "blur(12px)",
+        borderBottom: `1px solid ${C.lightGrey}`,
+      }}>
+        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "baseline", gap: 8 }}>
+          <span style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 26, color: C.charcoal, letterSpacing: 1 }}>
+            Kéops
+          </span>
+          <span style={{ fontFamily: bodyFont, fontSize: 11, color: C.grey, letterSpacing: 3, textTransform: "uppercase" }}>
+            Architecture
+          </span>
+        </Link>
+
+        <div style={{ display: "flex", gap: 40, alignItems: "center" }}>
+          {["Agence", "Projets", "Services", "Réalisations", "Contact"].map(link => (
+            <Link key={link} href={`#${link.toLowerCase()}`} style={{
+              fontFamily: bodyFont, fontSize: 12, color: C.grey,
+              textDecoration: "none", letterSpacing: 1.5, textTransform: "uppercase",
+              transition: "color 0.2s",
+            }}
+              onMouseEnter={e => (e.currentTarget.style.color = C.charcoal)}
+              onMouseLeave={e => (e.currentTarget.style.color = C.grey)}
+            >
+              {link}
+            </Link>
+          ))}
+          <motion.a
+            href="#contact"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+            style={{
+              fontFamily: bodyFont, fontSize: 11, letterSpacing: 2, textTransform: "uppercase",
+              background: C.accent, color: C.white, padding: "10px 24px",
+              textDecoration: "none", cursor: "pointer", fontWeight: 600,
+            }}
           >
-             <div className="w-full h-full border-t border-black/5" />
-          </motion.div>
-       ))}
-    </div>
-  )
-}
-
-function HUD_Tectonic() {
-   return (
-      <div className="fixed left-12 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col gap-12 items-start pointer-events-none">
-         <div className="flex flex-col gap-4">
-            <div className="w-1 h-32 bg-black/10 relative">
-               <motion.div 
-                  className="absolute top-0 left-0 w-full bg-black shadow-[0_0_20px_rgba(0,0,0,0.6)]"
-                  animate={{ height: ["10%", "90%", "30%"] }}
-                  transition={{ duration: 4, repeat: Infinity }}
-               />
-            </div>
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] vertical-text text-black">Stress_Load</span>
-         </div>
-         <div className="flex flex-col gap-6">
-            <div className="p-4 border border-black/10 bg-black/5 backdrop-blur-md rounded-sm">
-               <Construction className="w-6 h-6 text-black" />
-            </div>
-            <div className="p-4 border border-black/5 bg-black/5 backdrop-blur-md rounded-sm">
-               <Ruler className="w-6 h-6 text-black/40" />
-            </div>
-         </div>
-      </div>
-   )
-}
-
-function SequenceCard({ seq, index }: { seq: any, index: number }) {
-  return (
-    <div className="group relative p-16 border border-black/5 bg-zinc-50 hover:bg-zinc-100 transition-all h-[550px] flex flex-col justify-between overflow-hidden">
-       <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:opacity-10 transition-opacity">
-          <Warehouse className="w-48 h-48 text-black" />
-       </div>
-       
-       <div>
-          <div className="flex justify-between items-center mb-12">
-             <div className="text-[10px] font-black uppercase tracking-[0.6em] text-black/40">{seq.id} // TECTONIC</div>
-             <div className="px-4 py-1 border border-black/30 rounded-full text-[8px] font-black text-black uppercase tracking-widest">
-                {seq.status}
-             </div>
-          </div>
-          <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none italic mb-8 group-hover:translate-x-4 transition-transform duration-700 text-black">
-             {seq.title}
-          </h3>
-       </div>
-
-       <div className="relative z-10">
-          <p className="text-xs text-black/40 leading-relaxed font-medium uppercase italic mb-12 h-24 tracking-widest leading-loose">
-             {seq.desc}
-          </p>
-          <div className="space-y-4">
-             <div className="flex justify-between text-[8px] font-black uppercase tracking-widest text-black/20">
-                <span>Material_Resistance</span>
-                <span className="text-black">{seq.load}</span>
-             </div>
-             <div className="w-full h-[1px] bg-black/10 relative overflow-hidden">
-                <motion.div 
-                   className="absolute inset-y-0 left-0 bg-black"
-                   initial={{ width: 0 }}
-                   whileInView={{ width: seq.load.includes('MPa') ? '85%' : '100%' }}
-                   transition={{ duration: 1.5 }}
-                />
-             </div>
-          </div>
-       </div>
-    </div>
-  )
-}
-
-/* ==========================================================================
-   MAIN PAGE: CONCRETE ATELIER (TECTONIC ARCHITECTURE)
-   ========================================================================== */
-
-export default function ConcreteAtelierPremium() {
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Parallax transforms
-  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -250])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const shipScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.1])
-
-  return (
-    <div ref={containerRef} className="bg-[#f0f0f0] text-black font-sans selection:bg-black selection:text-white min-h-screen overflow-x-hidden">
-      
-      <MaterialFlowBackground />
-      <HUD_Tectonic />
-      
-      {/* 1. NAVIGATION (CONCRETE TACTICAL) */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-12 py-10 border-b border-black/10 bg-white/80 backdrop-blur-2xl">
-         <div className="flex items-center gap-6 group cursor-pointer">
-            <BoxIcon className="w-10 h-10 text-black group-hover:rotate-12 transition-transform" />
-            <div className="flex flex-col">
-               <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">Concrete<span className="text-black/20">_</span>Atelier.</span>
-               <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-black/30 -mt-1 ml-1">Tectonic Fabrication Group</span>
-            </div>
-         </div>
-         <div className="hidden lg:flex gap-16 text-[10px] font-black uppercase tracking-[0.4em] text-black/30">
-            <a href="#sequence" className="hover:text-black transition-colors relative group">
-               [ Sequence ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-black group-hover:w-full transition-all" />
-            </a>
-            <a href="#metrics" className="hover:text-black transition-colors relative group">
-               [ Tech_Audit ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-black group-hover:w-full transition-all" />
-            </a>
-            <a href="#about" className="hover:text-black transition-colors relative group">
-               [ Manifesto ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-black group-hover:w-full transition-all" />
-            </a>
-         </div>
-         <div className="flex items-center gap-12">
-            <div className="hidden md:flex flex-col items-end border-r border-black/10 pr-6">
-               <div className="text-[8px] font-black text-black/40 uppercase tracking-widest">Global_Status</div>
-               <div className="text-[10px] font-bold uppercase tracking-widest italic">Manufacturing_Active</div>
-            </div>
-            <button className="px-10 py-5 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-zinc-800 transition-all shadow-[0_0_40px_rgba(0,0,0,0.2)] italic">
-               Initiate_Dialogue
-            </button>
-         </div>
+            Projet
+          </motion.a>
+        </div>
       </nav>
 
-      <main>
-        {/* 2. TECTONIC SUPREMACY (HERO / LUXURY STYLE) */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-12 pt-32 overflow-hidden border-b border-black/5">
-           <div className="relative z-10 w-full max-w-7xl flex flex-col items-center text-center">
-              <Reveal>
-                 <div className="inline-flex items-center gap-4 px-6 py-3 border border-black/30 bg-black/5 text-[10px] font-black uppercase tracking-[0.5em] text-black mb-16 italic">
-                    <Construction className="w-4 h-4 animate-pulse" /> Material_Status: NOMINAL // TECTONIC_SYNC_PASS
-                 </div>
-                 <motion.h1 
-                    style={{ y: heroY, scale: shipScale, opacity: heroOpacity }}
-                    className="text-8xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.7] italic flex flex-col text-black"
-                 >
-                    <span>Cast The</span>
-                    <span className="text-transparent" style={{ WebkitTextStroke: "2px black" }}>Future.</span>
-                 </motion.h1>
-                 
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-end text-left max-w-5xl mx-auto">
-                    <p className="text-lg md:text-xl text-black/40 leading-relaxed font-light italic uppercase tracking-[0.15em] border-l-2 border-black/20 pl-12">
-                       Définir le futur de l'architecture tectonique par l'honnêteté des matériaux bruts et la logique de fabrication robotisée. Le béton est notre média, le vide notre intention.
+      {/* ── HERO ───────────────────────────────────────────────────────────── */}
+      <section style={{
+        position: "relative", height: "100vh", minHeight: 700,
+        display: "flex", alignItems: "center",
+        overflow: "hidden", paddingTop: 72,
+        borderBottom: `1px solid ${C.lightGrey}`,
+      }}>
+        {/* Left: Heading */}
+        <div style={{ flex: "0 0 55%", paddingLeft: 96, paddingRight: 48, zIndex: 2 }}>
+          <motion.div style={{ y: heroTextY }}>
+            <motion.p
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 32 }}
+            >
+              Cabinet fondé en 1996 — Paris & Lyon
+            </motion.p>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.35 }}
+              style={{
+                fontFamily: headingFont, fontStyle: "italic",
+                fontSize: "clamp(64px, 7.5vw, 100px)", fontWeight: 300,
+                lineHeight: 0.95, color: C.charcoal, margin: 0,
+                letterSpacing: -1,
+              }}
+            >
+              Architecture
+            </motion.h1>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+              style={{
+                fontFamily: headingFont, fontStyle: "italic",
+                fontSize: "clamp(64px, 7.5vw, 100px)", fontWeight: 300,
+                lineHeight: 0.95, color: C.charcoal, margin: "8px 0",
+                letterSpacing: -1,
+              }}
+            >
+              du
+            </motion.h1>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.65 }}
+              style={{
+                fontFamily: headingFont, fontStyle: "italic",
+                fontSize: "clamp(64px, 7.5vw, 100px)", fontWeight: 300,
+                lineHeight: 0.95, color: C.charcoal, margin: 0,
+                letterSpacing: -1,
+              }}
+            >
+              Vivant
+            </motion.h1>
+
+            {/* Terracotta underline accent */}
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: 120 }}
+              transition={{ duration: 0.8, delay: 1.1 }}
+              style={{ height: 3, background: C.accent, marginTop: 24, marginBottom: 32 }}
+            />
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.0 }}
+              style={{ fontFamily: bodyFont, fontSize: 16, color: C.grey, maxWidth: 400, lineHeight: 1.7, margin: "0 0 40px" }}
+            >
+              Logement, tertiaire, réhabilitation, urbanisme. 28 ans d'exercice. 340 projets livrés sur 12 pays.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.3 }}
+              style={{ display: "flex", gap: 16 }}
+            >
+              <motion.a
+                href="#contact"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                style={{
+                  fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
+                  background: C.accent, color: C.white, padding: "14px 36px",
+                  textDecoration: "none", cursor: "pointer", fontWeight: 600,
+                }}
+              >
+                Discutons de votre projet
+              </motion.a>
+              <motion.a
+                href="#projets"
+                whileHover={{ borderColor: C.accent, color: C.accent }}
+                style={{
+                  fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
+                  border: `1px solid ${C.lightGrey}`, color: C.grey, padding: "14px 36px",
+                  textDecoration: "none", cursor: "pointer", transition: "all 0.3s",
+                }}
+              >
+                Nos réalisations
+              </motion.a>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Right: Project list */}
+        <motion.div
+          style={{ flex: "0 0 45%", paddingRight: 80, y: listY, zIndex: 2 }}
+        >
+          <div style={{ borderTop: `1px solid ${C.lightGrey}` }}>
+            {recentProjects.map((project, i) => (
+              <ProjectRow
+                key={project.name}
+                name={project.name}
+                location={project.location}
+                year={project.year}
+                delay={0.5 + i * 0.1}
+              />
+            ))}
+          </div>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2 }}
+            style={{ fontFamily: bodyFont, fontSize: 11, color: C.grey, letterSpacing: 2, textTransform: "uppercase", marginTop: 16 }}
+          >
+            Sélection de projets récents
+          </motion.p>
+        </motion.div>
+      </section>
+
+      {/* ── STATS BAR ──────────────────────────────────────────────────────── */}
+      <section style={{
+        padding: "80px 96px",
+        display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
+        borderBottom: `1px solid ${C.lightGrey}`,
+        background: C.white,
+      }}>
+        {[
+          { label: "Ans d'exercice", value: 28, suffix: "" },
+          { label: "Projets livrés", value: 340, suffix: "+" },
+          { label: "Pays", value: 12, suffix: "" },
+          { label: "Récompenses nationales", value: 6, suffix: "" },
+        ].map((stat, i) => (
+          <motion.div
+            key={stat.label}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: i * 0.1 }}
+            style={{
+              padding: "0 40px",
+              borderRight: i < 3 ? `1px solid ${C.lightGrey}` : "none",
+              textAlign: "center",
+            }}
+          >
+            <div style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 64, color: C.accent, lineHeight: 1 }}>
+              <Counter target={stat.value} suffix={stat.suffix} />
+            </div>
+            <div style={{ fontFamily: bodyFont, fontSize: 12, color: C.grey, letterSpacing: 1.5, textTransform: "uppercase", marginTop: 8 }}>
+              {stat.label}
+            </div>
+          </motion.div>
+        ))}
+      </section>
+
+      {/* ── FEATURES / TABS ────────────────────────────────────────────────── */}
+      <section id="services" style={{ padding: "120px 96px", position: "relative" }}>
+        <BlueprintGrid />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            style={{ marginBottom: 64 }}
+          >
+            <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 16 }}>
+              Domaines d'expertise
+            </p>
+            <h2 style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 52, color: C.charcoal, margin: 0, fontWeight: 300 }}>
+              Quatre disciplines, une architecture
+            </h2>
+          </motion.div>
+
+          {/* Tab buttons */}
+          <div style={{ display: "flex", gap: 0, marginBottom: 56, borderBottom: `2px solid ${C.lightGrey}` }}>
+            {tabs.map((tab, i) => (
+              <button
+                key={tab.label}
+                onClick={() => setActiveTab(i)}
+                style={{
+                  background: "none", border: "none",
+                  fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
+                  color: activeTab === i ? C.accent : C.grey,
+                  padding: "16px 32px", cursor: "pointer",
+                  borderBottom: activeTab === i ? `2px solid ${C.accent}` : "2px solid transparent",
+                  marginBottom: -2, transition: "all 0.3s",
+                }}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Tab content */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.4 }}
+              style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}
+            >
+              <div>
+                <h3 style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 40, color: C.charcoal, margin: "0 0 20px", fontWeight: 300 }}>
+                  {tabs[activeTab].title}
+                </h3>
+                <p style={{ fontFamily: bodyFont, fontSize: 16, color: C.grey, lineHeight: 1.8, margin: "0 0 24px" }}>
+                  {tabs[activeTab].body}
+                </p>
+                <p style={{ fontFamily: bodyFont, fontSize: 13, color: C.accent, lineHeight: 1.6, borderLeft: `2px solid ${C.accent}`, paddingLeft: 16, margin: "0 0 32px" }}>
+                  {tabs[activeTab].detail}
+                </p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                  {tabs[activeTab].tags.map(tag => (
+                    <span key={tag} style={{
+                      fontFamily: bodyFont, fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase",
+                      color: C.grey, border: `1px solid ${C.lightGrey}`, padding: "6px 14px",
+                    }}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div style={{
+                  background: C.card, border: `1px solid ${C.lightGrey}`,
+                  aspectRatio: "4/3",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  position: "relative", overflow: "hidden",
+                }}>
+                  <span style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 22, color: C.grey, opacity: 0.4 }}>
+                    {tabs[activeTab].label}
+                  </span>
+                  {/* Terracotta corner accent */}
+                  <div style={{
+                    position: "absolute", top: 0, left: 0,
+                    width: 4, height: 64, background: C.accent,
+                  }} />
+                  <div style={{
+                    position: "absolute", top: 0, left: 0,
+                    width: 64, height: 4, background: C.accent,
+                  }} />
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
+
+      {/* ── TESTIMONIALS ───────────────────────────────────────────────────── */}
+      <section style={{
+        background: C.charcoal,
+        padding: "120px 96px",
+      }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          style={{ marginBottom: 64, display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}
+        >
+          <div>
+            <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 16 }}>
+              Ce qu'ils disent
+            </p>
+            <h2 style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 52, color: C.white, margin: 0, fontWeight: 300 }}>
+              Paroles de clients
+            </h2>
+          </div>
+          <div style={{ display: "flex", gap: 12 }}>
+            {[prevTestimonial, nextTestimonial].map((fn, i) => (
+              <button
+                key={i}
+                onClick={fn}
+                style={{
+                  width: 48, height: 48, background: "none",
+                  border: `1px solid rgba(255,255,255,0.15)`, color: "rgba(255,255,255,0.5)",
+                  cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 18, transition: "all 0.2s",
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = C.accent; (e.currentTarget as HTMLButtonElement).style.color = C.accent }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,255,255,0.15)"; (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.5)" }}
+              >
+                {i === 0 ? "←" : "→"}
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
+        <AnimatePresence mode="wait" custom={testimonialDir}>
+          <motion.div
+            key={activeTestimonial}
+            custom={testimonialDir}
+            initial={{ opacity: 0, x: testimonialDir * 60 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: testimonialDir * -60 }}
+            transition={{ duration: 0.5 }}
+            style={{ maxWidth: 760 }}
+          >
+            <p style={{
+              fontFamily: headingFont, fontStyle: "italic",
+              fontSize: 26, color: C.white, lineHeight: 1.65, margin: "0 0 36px",
+              fontWeight: 300,
+            }}>
+              "{testimonials[activeTestimonial].text}"
+            </p>
+            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+              <div style={{
+                width: 40, height: 40, borderRadius: "50%",
+                background: C.accent, display: "flex", alignItems: "center", justifyContent: "center",
+                fontFamily: bodyFont, fontWeight: 700, color: C.white, fontSize: 14,
+              }}>
+                {testimonials[activeTestimonial].name[0]}
+              </div>
+              <div>
+                <div style={{ fontFamily: bodyFont, fontWeight: 600, color: C.white, fontSize: 14 }}>
+                  {testimonials[activeTestimonial].name}
+                </div>
+                <div style={{ fontFamily: bodyFont, fontSize: 12, color: "rgba(255,255,255,0.45)", marginTop: 2 }}>
+                  {testimonials[activeTestimonial].role}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        <div style={{ display: "flex", gap: 8, marginTop: 48 }}>
+          {testimonials.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => { setTestimonialDir(i > activeTestimonial ? 1 : -1); setActiveTestimonial(i) }}
+              style={{
+                width: i === activeTestimonial ? 28 : 6, height: 6,
+                background: i === activeTestimonial ? C.accent : "rgba(255,255,255,0.15)",
+                border: "none", cursor: "pointer", padding: 0,
+                transition: "all 0.3s",
+              }}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* ── PRICING ────────────────────────────────────────────────────────── */}
+      <section id="tarifs" style={{ padding: "120px 96px", background: C.bg }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          style={{ marginBottom: 64 }}
+        >
+          <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 16 }}>
+            Nos missions
+          </p>
+          <h2 style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 52, color: C.charcoal, margin: 0, fontWeight: 300 }}>
+            Trois niveaux d'intervention
+          </h2>
+          <p style={{ fontFamily: bodyFont, fontSize: 16, color: C.grey, marginTop: 16, maxWidth: 540, lineHeight: 1.7 }}>
+            Nous adaptons notre mission à votre besoin : consultation stratégique, mission complète ou assistance à maîtrise d'ouvrage.
+          </p>
+        </motion.div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
+          {pricingTiers.map((tier, i) => (
+            <motion.div
+              key={tier.name}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.12 }}
+              style={{
+                background: tier.highlight ? C.charcoal : C.white,
+                border: tier.highlight ? `1px solid ${C.accent}` : `1px solid ${C.lightGrey}`,
+                padding: "48px 36px",
+                transform: tier.highlight ? "scale(1.03)" : "scale(1)",
+                position: "relative",
+              }}
+            >
+              {tier.highlight && (
+                <div style={{
+                  position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)",
+                  background: C.accent, color: C.white, fontFamily: bodyFont, fontSize: 10,
+                  letterSpacing: 2, textTransform: "uppercase", fontWeight: 700, padding: "4px 16px",
+                }}>
+                  Notre mission phare
+                </div>
+              )}
+              <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 3, color: C.accent, textTransform: "uppercase", margin: "0 0 16px" }}>
+                {tier.name}
+              </p>
+              <div style={{
+                fontFamily: headingFont, fontStyle: "italic",
+                fontSize: tier.price.length > 5 ? 32 : 48,
+                color: tier.highlight ? C.white : C.charcoal,
+                margin: "0 0 4px", lineHeight: 1.1,
+              }}>
+                {tier.price}
+              </div>
+              <p style={{ fontFamily: bodyFont, fontSize: 13, color: tier.highlight ? "rgba(255,255,255,0.45)" : C.grey, margin: "0 0 32px" }}>
+                {tier.duration}
+              </p>
+              <div style={{ width: 40, height: 2, background: C.accent, marginBottom: 32 }} />
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 40px", display: "flex", flexDirection: "column", gap: 14 }}>
+                {tier.features.map(f => (
+                  <li key={f} style={{
+                    fontFamily: bodyFont, fontSize: 14,
+                    color: tier.highlight ? "rgba(255,255,255,0.7)" : C.grey,
+                    display: "flex", gap: 10, alignItems: "flex-start",
+                  }}>
+                    <span style={{ color: C.accent, flexShrink: 0 }}>—</span> {f}
+                  </li>
+                ))}
+              </ul>
+              <motion.a
+                href="#contact"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                style={{
+                  display: "block", textAlign: "center", textDecoration: "none",
+                  padding: "14px 0",
+                  background: tier.highlight ? C.accent : "none",
+                  border: tier.highlight ? "none" : `1px solid ${C.lightGrey}`,
+                  color: tier.highlight ? C.white : C.grey,
+                  fontFamily: bodyFont, fontSize: 11, letterSpacing: 2, textTransform: "uppercase",
+                  fontWeight: tier.highlight ? 600 : 400, cursor: "pointer",
+                }}
+              >
+                {tier.cta}
+              </motion.a>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── FAQ ────────────────────────────────────────────────────────────── */}
+      <section style={{
+        background: C.white,
+        borderTop: `1px solid ${C.lightGrey}`,
+        padding: "120px 96px",
+      }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          style={{ marginBottom: 64 }}
+        >
+          <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 16 }}>
+            Questions fréquentes
+          </p>
+          <h2 style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 52, color: C.charcoal, margin: 0, fontWeight: 300 }}>
+            Ce que l'on nous demande
+          </h2>
+        </motion.div>
+
+        <div style={{ maxWidth: 840, display: "flex", flexDirection: "column", gap: 0 }}>
+          {faqs.map((faq, i) => (
+            <div key={i} style={{ borderBottom: `1px solid ${C.lightGrey}` }}>
+              <button
+                onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                style={{
+                  width: "100%", background: "none", border: "none",
+                  padding: "28px 0", display: "flex", justifyContent: "space-between", alignItems: "center",
+                  cursor: "pointer", textAlign: "left",
+                }}
+              >
+                <span style={{ fontFamily: bodyFont, fontSize: 16, color: C.charcoal, fontWeight: 400, paddingRight: 24 }}>
+                  {faq.q}
+                </span>
+                <motion.span
+                  animate={{ rotate: openFaq === i ? 45 : 0 }}
+                  transition={{ duration: 0.25 }}
+                  style={{ color: C.accent, fontSize: 22, flexShrink: 0, lineHeight: 1 }}
+                >
+                  +
+                </motion.span>
+              </button>
+              <AnimatePresence>
+                {openFaq === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.35 }}
+                    style={{ overflow: "hidden" }}
+                  >
+                    <p style={{
+                      fontFamily: bodyFont, fontSize: 15, color: C.grey,
+                      lineHeight: 1.8, paddingBottom: 28, margin: 0,
+                    }}>
+                      {faq.a}
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-8 justify-end">
-                       <button className="px-14 py-8 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-zinc-800 transition-all shadow-[0_0_50px_rgba(0,0,0,0.3)] flex items-center gap-4 italic group">
-                          [ Start Commission ] <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                       </button>
-                    </div>
-                 </div>
-              </Reveal>
-           </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+      </section>
 
-           {/* Floating Background Accents */}
-           <div className="absolute inset-0 z-0 opacity-10 pointer-events-none select-none">
-              <div className="w-full h-full" style={{ backgroundImage: 'radial-gradient(circle at center, black 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
-           </div>
-        </section>
+      {/* ── CTA BANNER ─────────────────────────────────────────────────────── */}
+      <section id="contact" style={{
+        padding: "140px 96px",
+        background: C.bg,
+        position: "relative", overflow: "hidden",
+        borderTop: `1px solid ${C.lightGrey}`,
+      }}>
+        {/* Decorative terracotta vertical line */}
+        <div style={{
+          position: "absolute", left: 0, top: 0, bottom: 0,
+          width: 4, background: C.accent, opacity: 0.5,
+        }} />
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          style={{ maxWidth: 700 }}
+        >
+          <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 24 }}>
+            Parlons de votre projet
+          </p>
+          <h2 style={{
+            fontFamily: headingFont, fontStyle: "italic", fontSize: "clamp(40px, 5vw, 72px)",
+            color: C.charcoal, margin: "0 0 24px", fontWeight: 300, lineHeight: 1.1,
+          }}>
+            Discutons de Votre Projet
+          </h2>
+          <p style={{ fontFamily: bodyFont, fontSize: 16, color: C.grey, maxWidth: 480, margin: "0 0 48px", lineHeight: 1.7 }}>
+            Premier entretien sans engagement. Réponse sous 48h. Agences à Paris (11e) et Lyon (2e).
+          </p>
+          <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+            <motion.a
+              href="mailto:contact@keops-architecture.fr"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              style={{
+                fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
+                background: C.accent, color: C.white, padding: "18px 48px",
+                textDecoration: "none", cursor: "pointer", fontWeight: 600,
+              }}
+            >
+              Envoyer un message
+            </motion.a>
+            <motion.a
+              href="tel:+33145001234"
+              whileHover={{ borderColor: C.accent, color: C.accent }}
+              style={{
+                fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
+                border: `1px solid ${C.lightGrey}`, color: C.grey, padding: "18px 48px",
+                textDecoration: "none", cursor: "pointer", transition: "all 0.3s",
+              }}
+            >
+              +33 1 45 00 12 34
+            </motion.a>
+          </div>
+        </motion.div>
+      </section>
 
-        {/* 3. SEQUENCE (DENSE GRID INTERFACE) */}
-        <section id="sequence" className="py-64 px-12 bg-zinc-100 relative border-b border-black/10">
-           <div className="max-w-7xl mx-auto mb-32 flex justify-between items-end">
-              <Reveal>
-                 <div className="text-[10px] font-black uppercase tracking-[0.5em] text-black/40 mb-8">Production_Sequence</div>
-                 <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] italic text-black">
-                    Robotic <br/> <span className="text-black/5" style={{ WebkitTextStroke: "1px black" }}>Masonry.</span>
-                 </h2>
-              </Reveal>
-              <div className="hidden lg:block text-right">
-                 <div className="flex justify-end gap-4 mb-4">
-                    <div className="w-48 h-[1px] bg-black/10" />
-                    <div className="w-16 h-[1px] bg-black" />
-                 </div>
-                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/20 italic">Sectional // Stress // Aging</p>
-              </div>
-           </div>
+      {/* ── FOOTER ─────────────────────────────────────────────────────────── */}
+      <footer style={{
+        background: C.charcoal,
+        padding: "80px 96px 48px",
+      }}>
+        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 48, marginBottom: 64 }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 20 }}>
+              <span style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 28, color: C.white }}>Kéops</span>
+              <span style={{ fontFamily: bodyFont, fontSize: 10, color: "rgba(255,255,255,0.3)", letterSpacing: 3, textTransform: "uppercase" }}>Architecture</span>
+            </div>
+            <p style={{ fontFamily: bodyFont, fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.75, maxWidth: 280, margin: "0 0 28px" }}>
+              Cabinet d'architecture, d'urbanisme et de design intérieur fondé à Paris en 1996. 28 ans d'exercice, 340 projets livrés.
+            </p>
+            <div style={{ display: "flex", gap: 16 }}>
+              {/* LinkedIn */}
+              <a href="#" style={{ color: "rgba(255,255,255,0.35)", transition: "color 0.2s", cursor: "pointer" }}
+                onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.35)")}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+              </a>
+              {/* Camera */}
+              <a href="#" style={{ color: "rgba(255,255,255,0.35)", transition: "color 0.2s", cursor: "pointer" }}
+                onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.35)")}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                </svg>
+              </a>
+              {/* X / MessageSquare */}
+              <a href="#" style={{ color: "rgba(255,255,255,0.35)", transition: "color 0.2s", cursor: "pointer" }}
+                onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.35)")}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </a>
+              {/* Bookmark */}
+              <a href="#" style={{ color: "rgba(255,255,255,0.35)", transition: "color 0.2s", cursor: "pointer" }}
+                onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.35)")}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z" />
+                </svg>
+              </a>
+            </div>
+          </div>
 
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {SEQUENCE.map((seq, i) => (
-                 <Reveal key={seq.id} delay={i * 0.1}>
-                    <SequenceCard seq={seq} index={i} />
-                 </Reveal>
-              ))}
-           </div>
-        </section>
+          {[
+            { title: "Le Cabinet", links: ["Notre histoire", "L'équipe", "Engagements", "Presse & Distinctions"] },
+            { title: "Expertises", links: ["Logement", "Tertiaire", "Réhabilitation", "Urbanisme"] },
+            { title: "Contact", links: ["Paris 11e", "Lyon 2e", "Consultation", "Mentions légales"] },
+          ].map(col => (
+            <div key={col.title}>
+              <h4 style={{ fontFamily: bodyFont, fontSize: 10, letterSpacing: 3, color: C.accent, textTransform: "uppercase", margin: "0 0 20px" }}>
+                {col.title}
+              </h4>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 12 }}>
+                {col.links.map(link => (
+                  <li key={link}>
+                    <a href="#" style={{
+                      fontFamily: bodyFont, fontSize: 13, color: "rgba(255,255,255,0.4)", textDecoration: "none",
+                      transition: "color 0.2s", cursor: "pointer",
+                    }}
+                      onMouseEnter={e => (e.currentTarget.style.color = C.white)}
+                      onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.4)")}>
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
 
-        {/* 4. TECH AUDIT (HUD DATA VIZ) */}
-        <section id="metrics" className="py-64 px-12 bg-white relative border-b border-black/10">
-           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-32 items-center relative z-10">
-              <div className="lg:col-span-7">
-                 <Reveal>
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-black/40 mb-8">Tectonic_Data</div>
-                    <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-16 italic text-black">
-                       Structural <br/> <span className="opacity-10">Stats.</span>
-                    </h2>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                       {TECTONIC_METRICS.map((metric, i) => (
-                          <div key={i} className="p-12 border border-black/10 bg-black/5 hover:border-black/50 transition-all group relative overflow-hidden">
-                             <div className="text-[10px] font-black uppercase tracking-widest text-black/40 mb-6">{metric.label}</div>
-                             <div className="text-6xl font-black italic mb-6 tracking-tighter group-hover:scale-105 transition-transform origin-left text-black">{metric.value}</div>
-                             <div className="flex justify-between items-center text-[9px] font-bold uppercase tracking-[0.4em] text-black/20">
-                                <span>{metric.detail}</span>
-                                <span className="text-black">{metric.trend}</span>
-                             </div>
-                             <div className="mt-8 h-[2px] bg-black/5 relative overflow-hidden">
-                                <motion.div 
-                                   className="absolute inset-y-0 left-0 bg-black"
-                                   initial={{ width: 0 }}
-                                   whileInView={{ width: '100%' }}
-                                   transition={{ duration: 1.5, delay: i * 0.1 }}
-                                />
-                             </div>
-                          </div>
-                       ))}
-                    </div>
-                 </Reveal>
-              </div>
-
-              <div className="lg:col-span-5 space-y-16">
-                 <Reveal delay={0.4}>
-                    <div className="p-12 bg-black text-white rounded-sm relative group overflow-hidden border border-black/10 shadow-2xl">
-                       <div className="flex justify-between items-center mb-12">
-                          <h4 className="text-2xl font-black uppercase tracking-tighter italic">Tectonic Logs</h4>
-                          <div className="w-2 h-2 rounded-full bg-white animate-ping" />
-                       </div>
-                       <div className="space-y-6 font-mono text-[10px]">
-                          {TECTONIC_LOGS.map((log, i) => (
-                             <div key={i} className="flex justify-between border-b border-white/10 pb-2 group/log hover:bg-white/5 px-2 transition-colors">
-                                <span className="text-white/20 group-hover/log:text-white transition-colors">[{log.time}]</span>
-                                <span className="text-white font-black">{log.event}</span>
-                                <span className="text-white/40 italic">{log.detail}</span>
-                                <span className="font-black text-white">[{log.status}]</span>
-                             </div>
-                          ))}
-                       </div>
-                       <div className="mt-12 flex items-center gap-4 text-[10px] font-black uppercase text-white/40 animate-pulse">
-                          <Terminal className="w-4 h-4" /> Awaiting_Fabrication_Sync...
-                       </div>
-                    </div>
-                 </Reveal>
-              </div>
-           </div>
-
-           {/* Background Overlay Large Text */}
-           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] font-black text-black/[0.02] pointer-events-none select-none italic z-0">
-              RAW
-           </div>
-        </section>
-
-        {/* 5. MANIFESTO (EDITORIAL LAYOUT) */}
-        <section id="about" className="py-64 px-12 bg-black text-white relative">
-           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-32 items-center">
-              <div className="lg:col-span-5">
-                 <Reveal>
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-white mb-8">Structural_Doctrine</div>
-                    <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-12 italic text-white">
-                       Robotic <br/> <span className="opacity-20">Masonry.</span>
-                    </h2>
-                    <p className="text-lg font-bold italic text-white/40 leading-relaxed uppercase tracking-[0.1em] mb-16">
-                       Notre atelier utilise des bras robotisés à 6 axes pour la fabrication de coffrages non standards. Nous repoussons les limites tectoniques de la synthèse d'agrégats.
-                    </p>
-                    <div className="grid grid-cols-2 gap-12 border-t border-white/10 pt-12">
-                       <div className="flex flex-col gap-4">
-                          <div className="text-[10px] font-black text-white/20 uppercase tracking-widest">Aggregate</div>
-                          <div className="text-4xl font-black italic">SYNTHESIS</div>
-                       </div>
-                       <div className="flex flex-col gap-4">
-                          <div className="text-[10px] font-black text-white/20 uppercase tracking-widest">Precision</div>
-                          <div className="text-4xl font-black italic">0.1_MM</div>
-                       </div>
-                    </div>
-                 </Reveal>
-              </div>
-
-              <div className="lg:col-span-7">
-                 <Reveal scale={0.9}>
-                    <div className="relative aspect-video bg-zinc-900 group overflow-hidden border-[20px] border-zinc-800 shadow-2xl">
-                       <img 
-                          src="https://images.unsplash.com/photo-1541829070764-84a7d30dee62?w=1600&q=80" 
-                          className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-2000"
-                          alt="Concrete Atelier Interior"
-                       />
-                       <div className="absolute inset-0 bg-white/5 mix-blend-overlay" />
-                    </div>
-                 </Reveal>
-              </div>
-           </div>
-        </section>
-
-        {/* 6. FAQ (TACTICAL ACCORDION) */}
-        <section className="py-64 px-12 bg-[#f5f5f5] relative overflow-hidden">
-           <div className="max-w-4xl mx-auto relative z-10">
-              <Reveal>
-                 <div className="text-center mb-40">
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-black/40 mb-8">Technical_Briefing</div>
-                    <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter italic mb-8 text-black">Practice <span className="opacity-10">Vault.</span></h2>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/20 italic">Commission // Research // Execution</p>
-                 </div>
-              </Reveal>
-
-              <Accordion type="single" collapsible className="w-full space-y-4">
-                 {[
-                   { q: "What is your primary design philosophy?", a: "Tectonic honesty. We believe that the structure should be the ornament. Every robotic path and concrete pour is a deliberate architectural expression." },
-                   { q: "How do you handle structural safety?", a: "Every volume undergoes a multi-pass MPa stress audit. We operate within extreme performance standards to ensure century-long tectonic stability." },
-                   { q: "Do you offer custom robotic fabrication?", a: "Yes. For bespoke architectural enclaves, we design unique digital formwork and robotic paths that push the limits of traditional masonry." }
-                 ].map((item, i) => (
-                   <AccordionItem key={i} value={`item-${i}`} className="border border-black/10 bg-black/5 px-10 rounded-sm hover:border-black/40 transition-all">
-                      <AccordionTrigger className="text-[14px] font-black uppercase tracking-[0.4em] py-12 no-underline italic text-left text-black">
-                         {item.q}
-                      </AccordionTrigger>
-                      <AccordionContent className="text-[11px] font-medium text-black/40 tracking-[0.1em] uppercase italic leading-loose pb-12">
-                         {item.a}
-                      </AccordionContent>
-                   </AccordionItem>
-                 ))}
-              </Accordion>
-           </div>
-        </section>
-
-        {/* 7. FOOTER (HIGH FIDELITY) */}
-        <footer className="bg-white pt-64 pb-20 px-12 md:px-24 border-t-8 border-black">
-           <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-32 mb-48">
-                 <div className="lg:col-span-7">
-                    <Reveal>
-                       <div className="flex flex-col mb-16">
-                          <span className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.7] italic text-black">Concrete<span className="text-black/20">_</span>Atelier.</span>
-                          <span className="text-[12px] font-bold uppercase tracking-[1em] text-black/40 ml-2">Tectonic Fabrication Group</span>
-                       </div>
-                       <p className="text-black/20 max-w-sm mb-20 text-sm font-light uppercase tracking-widest leading-loose italic">
-                          La maîtrise absolue de la synthèse tectonique. Zurich // Global Command Center.
-                       </p>
-                       <div className="flex gap-12 items-center">
-                          <div className="w-24 h-[1px] bg-black/10" />
-                          <div className="flex gap-10">
-                             <Globe className="w-7 h-7 text-black/30 hover:text-black transition-all cursor-pointer" />
-                             <BoxIcon className="w-7 h-7 text-black/30 hover:text-black transition-all cursor-pointer" />
-                             <Construction className="w-7 h-7 text-black/30 hover:text-black transition-all cursor-pointer" />
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-
-                 <div className="lg:col-span-5 grid grid-cols-2 gap-16">
-                    <div className="space-y-12">
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-black mb-16 border-b border-black/20 pb-4">Sequence</h4>
-                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-black/30">
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> Sectional_Audit
-                          </li>
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> Material_Stress
-                          </li>
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> Atmospheric_Aging
-                          </li>
-                       </ul>
-                    </div>
-                    <div className="space-y-12">
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-black mb-16 border-b border-black/20 pb-4">Practice</h4>
-                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-black/30">
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> Manifesto
-                          </li>
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> Global_Nodes
-                          </li>
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> Contact
-                          </li>
-                       </ul>
-                    </div>
-                 </div>
-              </div>
-
-              <div className="pt-24 border-t border-black/10 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.5em] text-black/10 italic text-center">
-                 <div className="flex gap-16">
-                    <span>©2026 CONCRETE ATELIER AG.</span>
-                    <span className="hidden md:inline">//</span>
-                    <span>TECTONIC_FABRICATION_CERTIFIED</span>
-                 </div>
-                 <div className="flex gap-16 font-mono text-black/30">
-                    <span>80_MPA_STRENGTH_GUARANTEED</span>
-                    <span>BIM_LEVEL_3_SYNC</span>
-                 </div>
-              </div>
-           </div>
-        </footer>
-      </main>
-
-      <style>{`
-        ::-webkit-scrollbar { width: 6px; background: #f0f0f0; }
-        ::-webkit-scrollbar-thumb { background: #000000; border-radius: 10px; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .vertical-text { writing-mode: vertical-rl; }
-        .animate-spin-slow { animation: spin 40s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-      `}</style>
+        <div style={{
+          borderTop: `1px solid rgba(255,255,255,0.08)`, paddingTop: 32,
+          display: "flex", justifyContent: "space-between", alignItems: "center",
+        }}>
+          <p style={{ fontFamily: bodyFont, fontSize: 12, color: "rgba(255,255,255,0.25)", margin: 0 }}>
+            © 2024 Kéops Architecture & Urbanisme. Tous droits réservés.
+          </p>
+          <p style={{ fontFamily: bodyFont, fontSize: 12, color: "rgba(255,255,255,0.25)", margin: 0 }}>
+            DPLG — SIRET 404 872 109 00038 — Inscrit à l'Ordre des Architectes d'Île-de-France
+          </p>
+        </div>
+      </footer>
     </div>
   )
 }

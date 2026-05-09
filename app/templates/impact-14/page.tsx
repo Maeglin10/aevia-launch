@@ -1,548 +1,716 @@
 "use client"
 
-import React, { useState, useEffect, useRef, useMemo } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring,
-  useMotionValue
-} from "framer-motion"
-import Image from "next/image"
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
-import { 
-  Zap, Activity, Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, BarChart3, Fingerprint, Scan, 
-  Briefcase, Wind, Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Search, Cpu, Anchor, Ship, 
-  Waves, Gauge, Compass, Map, Radio, Disc, 
-  ShieldCheck, Thermometer, FlaskConical, Sun, 
-  Moon, Star, Sparkles, CircleDot, ArrowUpRight, 
-  ArrowDownLeft, Expand, Shrink, MousePointer2, 
-  HardDrive, Key, Lock, Unlock, Shield, ShieldAlert, 
-  Laptop, Server, Network, Wifi, Bluetooth,
-  Droplets, Pickaxe, Mountain, Gem, Drill,
-  Telescope, MilestoneIcon, Globe, Layout,
-  Smartphone, PenTool, Camera, Film, Palette,
-  MessageSquare, Send, ZapOff, Truck, Train, 
-  Bus, Car, Bike, Eye, ScanEye, EyeOff, 
-  KeyRound, Fingerprint as FingerprintIcon,
-  Navigation, Navigation2, Wind as WindIcon,
-  Sailboat, LifeBuoy, Fish, Waves as WaveIcon
-} from "lucide-react"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
-/* ==========================================================================
-   AETHEL MARITIME DATASET (ULTRA DENSITY)
-   ========================================================================== */
+const C = {
+  bg: "#0a1628",
+  teal: "#0e7490",
+  tealLight: "#22d3ee",
+  white: "#ffffff",
+  sandy: "#f0e6d3",
+  sandyDim: "#c8b49a",
+  navBg: "rgba(10, 22, 40, 0.95)",
+  cardBg: "rgba(14, 116, 144, 0.12)",
+  cardBorder: "rgba(14, 116, 144, 0.35)",
+}
 
-const FLEET = [
-  {
-    id: "ae-fl-01",
-    name: "Aethel 01",
-    type: "Explorer Yacht",
-    length: "85m",
-    speed: "22 Knots",
-    range: "6000 nm",
-    desc: "Un navire d'exploration sans compromis. Coque renforcée pour la glace et système de propulsion hybride pour une autonomie mondiale.",
-    img: "https://images.unsplash.com/photo-1544462242-94585e5ca8d2?w=1600&q=80",
-    color: "#0c4a6e"
-  },
-  {
-    id: "ae-fl-08",
-    name: "Command X",
-    type: "Performance Cruiser",
-    length: "42m",
-    speed: "45 Knots",
-    range: "1200 nm",
-    desc: "La suprématie de la vitesse. Utilisation massive de fibre de carbone et d'hydrofoils pour une navigation aérienne au-dessus des vagues.",
-    img: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1600&q=80",
-    color: "#38bdf8"
-  },
-  {
-    id: "ae-fl-15",
-    name: "Deep Sea Twin",
-    type: "Digital Research Vessel",
-    length: "110m",
-    speed: "18 Knots",
-    range: "Global",
-    desc: "Laboratoire flottant ultra-connecté. Équipé de jumeaux numériques en temps réel pour l'analyse océanographique profonde.",
-    img: "https://images.unsplash.com/photo-1499244015948-ac7508999715?w=1600&q=80",
-    color: "#020617"
-  }
-]
+const font = { heading: "system-ui, -apple-system, sans-serif", body: "system-ui, -apple-system, sans-serif" }
 
-const MARITIME_METRICS = [
-  { label: "Displacement", value: "2,400 T", trend: "Stable", detail: "Active Ballast Sync" },
-  { label: "Hydrodynamics", value: "0.18 Cd", trend: "Optimal", detail: "Hull Flow Analysis" },
-  { label: "Draft Depth", value: "5.2m", trend: "Variable", detail: "Dynamic Positioning" },
-  { label: "Engine Load", value: "64%", trend: "Efficient", detail: "Hydrogen Hybrid" }
-]
+function useCounter(target: number, active: boolean, duration = 1800) {
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    if (!active) return
+    let start = 0
+    const step = target / (duration / 16)
+    const timer = setInterval(() => {
+      start += step
+      if (start >= target) { setCount(target); clearInterval(timer) }
+      else setCount(Math.floor(start))
+    }, 16)
+    return () => clearInterval(timer)
+  }, [active, target, duration])
+  return count
+}
 
-const COMMAND_LOGS = [
-  { time: "04:12:08", node: "Monaco_HQ", task: "Course_Sync", status: "OK", wind: "12kts NE" },
-  { time: "04:15:32", node: "Aethel_01", task: "Ballast_Adj", status: "SYNC", wind: "14kts N" },
-  { time: "04:22:15", node: "Global_SAT", task: "Depth_Scan", status: "PASS", wind: "08kts E" }
-]
+// ─── NAVBAR ──────────────────────────────────────────────────────────────────
+function Navbar() {
+  const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
-/* ==========================================
-   TECHNICAL COMPONENTS (FLUID DYNAMICS / KORR)
-   ========================================== */
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 40)
+    window.addEventListener("scroll", fn)
+    return () => window.removeEventListener("scroll", fn)
+  }, [])
 
-function Reveal({ children, delay = 0, y = 40, x = 0, scale = 1 }: { children: React.ReactNode, delay?: number, y?: number, x?: number, scale?: number }) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const links = ["Formations", "Location", "Croisières", "Bases", "Contact"]
+
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x, scale }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0, scale: 1 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
+    <motion.nav
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 100,
+        background: scrolled ? C.navBg : "transparent",
+        backdropFilter: scrolled ? "blur(12px)" : "none",
+        borderBottom: scrolled ? `1px solid ${C.cardBorder}` : "none",
+        transition: "background 0.3s, backdrop-filter 0.3s, border-bottom 0.3s",
+        padding: "0 2rem",
+        height: "72px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
     >
-      {children}
-    </motion.div>
-  )
-}
-
-function OceanicFluidBackground() {
-  return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-10">
-       <svg width="100%" height="100%" className="w-full h-full">
-          <defs>
-             <linearGradient id="wave-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#38bdf8" stopOpacity="0" />
-                <stop offset="50%" stopColor="#38bdf8" stopOpacity="0.5" />
-                <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
-             </linearGradient>
-          </defs>
-          {[...Array(12)].map((_, i) => (
-             <motion.path 
-                key={i}
-                d={`M -200 ${i * 100} Q 400 ${i * 100 - 50} 1000 ${i * 100} T 2200 ${i * 100}`}
-                stroke="url(#wave-grad)" 
-                strokeWidth="2" 
-                fill="none"
-                animate={{ 
-                   d: [
-                      `M -200 ${i * 100} Q 400 ${i * 100 - 50} 1000 ${i * 100} T 2200 ${i * 100}`,
-                      `M -200 ${i * 100} Q 400 ${i * 100 + 50} 1000 ${i * 100} T 2200 ${i * 100}`,
-                      `M -200 ${i * 100} Q 400 ${i * 100 - 50} 1000 ${i * 100} T 2200 ${i * 100}`
-                   ]
-                }}
-                transition={{ duration: 5 + i, repeat: Infinity, ease: "easeInOut" }}
-             />
-          ))}
-       </svg>
-    </div>
-  )
-}
-
-function HUD_Maritime() {
-   return (
-      <div className="fixed left-12 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col gap-12 items-start pointer-events-none">
-         <div className="flex flex-col gap-4">
-            <div className="w-1 h-32 bg-[#38bdf8]/20 relative">
-               <motion.div 
-                  className="absolute top-0 left-0 w-full bg-[#38bdf8] shadow-[0_0_20px_rgba(56,189,248,0.6)]"
-                  animate={{ height: ["10%", "90%", "30%"] }}
-                  transition={{ duration: 4, repeat: Infinity }}
-               />
-            </div>
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] vertical-text text-[#38bdf8]">Hull_Stability</span>
-         </div>
-         <div className="flex flex-col gap-6">
-            <div className="p-4 border border-[#38bdf8]/20 bg-[#38bdf8]/5 backdrop-blur-md rounded-sm">
-               <Anchor className="w-6 h-6 text-[#38bdf8]" />
-            </div>
-            <div className="p-4 border border-white/10 bg-white/5 backdrop-blur-md rounded-sm">
-               <Navigation2 className="w-6 h-6 text-white/40" />
-            </div>
-         </div>
+      {/* Logo */}
+      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <circle cx="18" cy="18" r="17" stroke={C.tealLight} strokeWidth="2" />
+          <path d="M8 22 L18 8 L28 22" stroke={C.sandy} strokeWidth="2.5" fill="none" strokeLinecap="round" />
+          <path d="M18 8 L18 28" stroke={C.tealLight} strokeWidth="1.5" strokeDasharray="2 2" />
+          <path d="M8 22 Q18 30 28 22" stroke={C.teal} strokeWidth="2" fill="none" />
+        </svg>
+        <span style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "1.35rem", color: C.white, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+          AZIMUT
+        </span>
       </div>
-   )
+
+      {/* Desktop links */}
+      <div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
+        {links.map(l => (
+          <Link key={l} href="#" style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.04em", textDecoration: "none", transition: "color 0.2s" }}
+            onMouseEnter={e => (e.currentTarget.style.color = C.white)}
+            onMouseLeave={e => (e.currentTarget.style.color = C.sandyDim)}>
+            {l}
+          </Link>
+        ))}
+        <motion.button
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.97 }}
+          style={{ cursor: "pointer", background: C.teal, color: C.white, border: "none", borderRadius: "8px", padding: "0.6rem 1.4rem", fontFamily: font.heading, fontWeight: 700, fontSize: "0.88rem", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+          Réserver
+        </motion.button>
+      </div>
+    </motion.nav>
+  )
 }
 
-function FleetCard({ yacht, index }: { yacht: any, index: number }) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { margin: "-100px" })
+// ─── HERO ─────────────────────────────────────────────────────────────────────
+function Hero() {
+  const { scrollY } = useScroll()
+  const heroTextY = useTransform(scrollY, [0, 500], [0, -50])
+  const waveY = useTransform(scrollY, [0, 400], [0, -20])
+
+  const cards = [
+    { icon: "⚓", title: "Formations Voile", desc: "Du débutant au capitaine hauturier, programmes certifiants FFV" },
+    { icon: "🚤", title: "Location de Bateaux", desc: "120 voiliers & catamarans, sans ou avec équipage" },
+    { icon: "🌊", title: "Croisières Méditerranée", desc: "Itinéraires Côte d'Azur, Corse, Sardaigne & Baléares" },
+  ]
 
   return (
-    <div className="min-w-[85vw] md:min-w-[65vw] lg:min-w-[50vw] h-[75vh] relative group overflow-hidden border border-white/5 bg-[#0a0a0a] snap-center">
-       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10" />
-       <motion.img 
-          src={yacht.img} 
-          className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-110 group-hover:scale-100"
-          alt={yacht.name}
-       />
-       
-       <div className="absolute top-12 left-12 z-20">
-          <div className="text-[10px] font-black uppercase tracking-[0.6em] text-[#38bdf8] mb-4">{yacht.id} // COMMAND CENTER</div>
-          <h3 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic group-hover:translate-x-8 transition-transform duration-1000">
-             {yacht.name}
-          </h3>
-       </div>
+    <section style={{ position: "relative", minHeight: "100vh", background: C.bg, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", paddingTop: "72px" }}>
+      {/* Radial glow */}
+      <div style={{ position: "absolute", top: "30%", left: "50%", transform: "translate(-50%,-50%)", width: "700px", height: "500px", background: "radial-gradient(ellipse, rgba(14,116,144,0.22) 0%, transparent 70%)", pointerEvents: "none" }} />
 
-       <div className="absolute bottom-12 left-12 right-12 z-20">
-          <p className="text-sm md:text-base text-white/40 leading-relaxed font-light uppercase italic mb-12 max-w-lg tracking-widest">
-             {yacht.desc}
-          </p>
-          <div className="flex justify-between items-end border-t border-white/10 pt-12">
-             <div className="grid grid-cols-2 gap-12">
-                <div>
-                   <div className="text-[8px] text-white/20 uppercase mb-2">Maximum Speed</div>
-                   <div className="text-lg font-black italic">{yacht.speed}</div>
-                </div>
-                <div>
-                   <div className="text-[8px] text-white/20 uppercase mb-2">Total Length</div>
-                   <div className="text-lg font-black italic">{yacht.length}</div>
-                </div>
-             </div>
-             <button className="px-12 py-6 border-2 border-[#38bdf8] text-[#38bdf8] text-[10px] font-black uppercase tracking-widest hover:bg-[#38bdf8] hover:text-white transition-all italic flex items-center gap-4">
-                Initiate Protocol <ArrowUpRight className="w-4 h-4" />
-             </button>
-          </div>
-       </div>
-       
-       <div className="absolute bottom-0 right-0 p-12 text-[15vw] font-black text-white/[0.02] pointer-events-none select-none italic">
-          {index + 1}
-       </div>
+      {/* Heading */}
+      <motion.div style={{ y: heroTextY, textAlign: "center", position: "relative", zIndex: 2, padding: "0 1rem" }}>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          style={{ fontFamily: font.body, color: C.tealLight, fontWeight: 600, fontSize: "0.85rem", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "1.2rem" }}>
+          École de Voile &amp; Location — Méditerranée
+        </motion.p>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35, duration: 0.7 }}
+          style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "clamp(3.5rem, 8vw, 6.5rem)", color: C.white, lineHeight: 1.0, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: "1.5rem" }}>
+          Prenez<br />
+          <span style={{ color: C.tealLight }}>le Large</span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.6 }}
+          style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "1.15rem", maxWidth: "520px", margin: "0 auto 2.5rem", lineHeight: 1.7 }}>
+          25 ans de passion nautique. Des formations reconnues, une flotte d'exception, et la Méditerranée pour terrain de jeu.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.65, duration: 0.6 }}
+          style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+          <motion.button
+            whileHover={{ scale: 1.05, background: C.tealLight }}
+            whileTap={{ scale: 0.97 }}
+            style={{ cursor: "pointer", background: C.teal, color: C.white, border: "none", borderRadius: "10px", padding: "0.85rem 2rem", fontFamily: font.heading, fontWeight: 700, fontSize: "0.95rem", letterSpacing: "0.06em", textTransform: "uppercase", transition: "background 0.2s" }}>
+            Voir les Formations
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05, borderColor: C.tealLight, color: C.tealLight }}
+            whileTap={{ scale: 0.97 }}
+            style={{ cursor: "pointer", background: "transparent", color: C.sandy, border: `2px solid ${C.cardBorder}`, borderRadius: "10px", padding: "0.85rem 2rem", fontFamily: font.heading, fontWeight: 700, fontSize: "0.95rem", letterSpacing: "0.06em", textTransform: "uppercase", transition: "border-color 0.2s, color 0.2s" }}>
+            Nos Bateaux
+          </motion.button>
+        </motion.div>
+      </motion.div>
+
+      {/* Boat cards */}
+      <div style={{ display: "flex", gap: "1.25rem", justifyContent: "center", flexWrap: "wrap", marginTop: "4rem", padding: "0 1.5rem", position: "relative", zIndex: 2 }}>
+        {cards.map((card, i) => (
+          <motion.div
+            key={card.title}
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 + i * 0.15, duration: 0.65, ease: "easeOut" }}
+            whileHover={{ y: -6, borderColor: C.teal }}
+            style={{ background: C.cardBg, border: `1px solid ${C.cardBorder}`, borderRadius: "14px", padding: "1.5rem 1.75rem", width: "220px", textAlign: "center", cursor: "pointer", transition: "border-color 0.2s" }}>
+            <div style={{ fontSize: "2.2rem", marginBottom: "0.75rem" }}>{card.icon}</div>
+            <div style={{ fontFamily: font.heading, fontWeight: 700, fontSize: "0.95rem", color: C.white, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.5rem" }}>{card.title}</div>
+            <div style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.82rem", lineHeight: 1.6 }}>{card.desc}</div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Animated wave SVG */}
+      <motion.div style={{ y: waveY, position: "absolute", bottom: 0, left: 0, right: 0, pointerEvents: "none" }}>
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style={{ width: "100%", height: "120px", display: "block" }}>
+          <motion.path
+            d="M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 L1440,120 L0,120 Z"
+            fill="rgba(14,116,144,0.18)"
+            animate={{ d: ["M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 L1440,120 L0,120 Z", "M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,120 L0,120 Z", "M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 L1440,120 L0,120 Z"] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.path
+            d="M0,80 C360,40 720,100 1080,60 C1260,40 1380,80 1440,80 L1440,120 L0,120 Z"
+            fill="rgba(14,116,144,0.10)"
+            animate={{ d: ["M0,80 C360,40 720,100 1080,60 C1260,40 1380,80 1440,80 L1440,120 L0,120 Z", "M0,60 C360,20 720,80 1080,40 C1260,20 1380,60 1440,60 L1440,120 L0,120 Z", "M0,80 C360,40 720,100 1080,60 C1260,40 1380,80 1440,80 L1440,120 L0,120 Z"] }}
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          />
+        </svg>
+      </motion.div>
+    </section>
+  )
+}
+
+// ─── STATS BAR ────────────────────────────────────────────────────────────────
+function StatItem({ value, suffix, label, active }: { value: number; suffix: string; label: string; active: boolean }) {
+  const count = useCounter(value, active)
+  return (
+    <div style={{ textAlign: "center", flex: "1 1 160px" }}>
+      <div style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "clamp(2.2rem, 4vw, 3rem)", color: C.tealLight, lineHeight: 1, letterSpacing: "-0.02em" }}>
+        {count}{suffix}
+      </div>
+      <div style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.88rem", marginTop: "0.4rem", letterSpacing: "0.04em" }}>{label}</div>
     </div>
   )
 }
 
-/* ==========================================================================
-   MAIN PAGE: AETHEL MARITIME (HYDRODYNAMIC SUPREMACY)
-   ========================================================================== */
+function StatsBar() {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: "-80px" })
 
-export default function AethelMaritimePremium() {
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Parallax transforms
-  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -250])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textScale = useTransform(scrollYProgress, [0, 0.2], [1, 1.1])
+  const stats = [
+    { value: 25, suffix: " ans", label: "D'expérience en voile" },
+    { value: 120, suffix: "", label: "Bateaux disponibles" },
+    { value: 8500, suffix: "+", label: "Élèves formés" },
+    { value: 6, suffix: "", label: "Bases nautiques" },
+  ]
 
   return (
-    <div ref={containerRef} className="bg-[#020408] text-[#f0f0f0] font-sans selection:bg-[#38bdf8]/40 selection:text-white min-h-screen overflow-x-hidden">
-      
-      <OceanicFluidBackground />
-      <HUD_Maritime />
-      
-      {/* 1. NAVIGATION (MARITIME ATELIER) */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-12 py-10 border-b border-white/5 bg-black/60 backdrop-blur-2xl">
-         <div className="flex items-center gap-6 group cursor-pointer">
-            <Anchor className="w-10 h-10 text-[#38bdf8] group-hover:rotate-12 transition-transform" />
-            <div className="flex flex-col">
-               <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">Aethel <span className="text-[#38bdf8]">Maritime.</span></span>
-               <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-white/20 -mt-1 ml-1">Monaco // Global Command Center</span>
+    <section ref={ref} style={{ background: `linear-gradient(135deg, #061020 0%, #0a1628 100%)`, borderTop: `1px solid ${C.cardBorder}`, borderBottom: `1px solid ${C.cardBorder}`, padding: "4.5rem 2rem" }}>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.7 }}
+        style={{ maxWidth: "960px", margin: "0 auto", display: "flex", flexWrap: "wrap", gap: "3rem", justifyContent: "space-around", alignItems: "center" }}>
+        {stats.map((s, i) => (
+          <motion.div
+            key={s.label}
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: i * 0.12, duration: 0.6 }}
+            key={s.label}>
+            <StatItem value={s.value} suffix={s.suffix} label={s.label} active={inView} />
+          </motion.div>
+        ))}
+      </motion.div>
+    </section>
+  )
+}
+
+// ─── FEATURES / TABS ──────────────────────────────────────────────────────────
+function Features() {
+  const [active, setActive] = useState(0)
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: "-60px" })
+
+  const tabs = [
+    {
+      label: "Formations",
+      headline: "Devenez Skipper Certifié FFV",
+      body: "Nos formations couvrent tous les niveaux, du débutant curieux au futur capitaine hauturier. Pédagogie pratique, encadrement par des moniteurs brevetés d'État, et programmes validés par la Fédération Française de Voile. En fin de cursus, vous repartez avec un brevet reconnu dans toute l'Europe.",
+      points: ["Initiation Week-end — 2 jours en baie", "Permis Côtier officiel — 4 jours", "Voile Hauturière — certification internationale", "Cours collectifs & stages intensifs"],
+    },
+    {
+      label: "Location",
+      headline: "120 Bateaux à Votre Disposition",
+      body: "Voiliers monocoques, catamarans grand confort, day-boats : notre flotte est renouvelée chaque saison. Location à la journée, au week-end ou à la semaine, avec ou sans skipper. Tous nos bateaux sont équipés GPS, VHF, gilets et kit de sécurité complet.",
+      points: ["Voiliers 7m à 15m de longueur", "Catamarans 38–50 pieds", "Option skipper professionnel incluse", "Assistance 24h disponible en mer"],
+    },
+    {
+      label: "Croisières",
+      headline: "La Méditerranée Comme Terrain de Jeu",
+      body: "Partez explorer la Côte d'Azur, la Corse sauvage, la Sardaigne ensoleillée ou les Baléares. Nos croisières guidées partent chaque semaine de mai à octobre. Groupes de 4 à 8 personnes maximum, ambiance conviviale garantie et itinéraires flexibles selon la météo.",
+      points: ["Nice → Corse : 7 jours", "Tour de Sardaigne : 10 jours", "Méditerranée Ouest : Ibiza & Majorque", "Croisières thématiques œnotourisme"],
+    },
+    {
+      label: "Stages Enfants",
+      headline: "La Voile Dès 7 Ans",
+      body: "Nos stages enfants et ados transforment les jeunes en marins passionnés. Cadre sécurisé, petits groupes de 6 maximum, moniteurs spécialisés en pédagogie jeunesse. Une semaine sur l'eau pour décrocher le sourire et les bases de la navigation.",
+      points: ["Stages 7–12 ans & 13–17 ans", "Mini-voiliers optimist & dériveurs", "Semaines thématiques été & vacances", "Groupes scolaires sur devis"],
+    },
+  ]
+
+  const tab = tabs[active]
+
+  return (
+    <section ref={ref} style={{ background: C.bg, padding: "6rem 2rem" }}>
+      <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
+          style={{ textAlign: "center", marginBottom: "3rem" }}>
+          <p style={{ fontFamily: font.body, color: C.tealLight, fontWeight: 600, fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.75rem" }}>Nos Activités</p>
+          <h2 style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "clamp(2rem, 4vw, 3rem)", color: C.white, textTransform: "uppercase", letterSpacing: "0.04em", lineHeight: 1.1 }}>
+            Choisissez Votre<br /><span style={{ color: C.tealLight }}>Aventure</span>
+          </h2>
+        </motion.div>
+
+        {/* Tab buttons */}
+        <div style={{ display: "flex", gap: "0.5rem", justifyContent: "center", flexWrap: "wrap", marginBottom: "2.5rem" }}>
+          {tabs.map((t, i) => (
+            <motion.button
+              key={t.label}
+              onClick={() => setActive(i)}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              style={{ cursor: "pointer", background: active === i ? C.teal : "transparent", color: active === i ? C.white : C.sandyDim, border: `1.5px solid ${active === i ? C.teal : C.cardBorder}`, borderRadius: "8px", padding: "0.55rem 1.25rem", fontFamily: font.heading, fontWeight: 700, fontSize: "0.85rem", letterSpacing: "0.06em", textTransform: "uppercase", transition: "all 0.25s" }}>
+              {t.label}
+            </motion.button>
+          ))}
+        </div>
+
+        {/* Tab content */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={active}
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -18 }}
+            transition={{ duration: 0.38 }}
+            style={{ background: C.cardBg, border: `1px solid ${C.cardBorder}`, borderRadius: "16px", padding: "2.5rem", display: "flex", gap: "3rem", flexWrap: "wrap" }}>
+            <div style={{ flex: "1 1 280px" }}>
+              <h3 style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "1.5rem", color: C.white, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: "1rem", lineHeight: 1.2 }}>{tab.headline}</h3>
+              <p style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.95rem", lineHeight: 1.75 }}>{tab.body}</p>
             </div>
-         </div>
-         <div className="hidden lg:flex gap-16 text-[10px] font-black uppercase tracking-[0.4em] text-white/30">
-            <a href="#fleet" className="hover:text-[#38bdf8] transition-colors relative group">
-               [ The_Fleet ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#38bdf8] group-hover:w-full transition-all" />
-            </a>
-            <a href="#engineering" className="hover:text-[#38bdf8] transition-colors relative group">
-               [ Engineering ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#38bdf8] group-hover:w-full transition-all" />
-            </a>
-            <a href="#about" className="hover:text-[#38bdf8] transition-colors relative group">
-               [ Command ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#38bdf8] group-hover:w-full transition-all" />
-            </a>
-         </div>
-         <div className="flex items-center gap-12">
-            <div className="hidden md:flex flex-col items-end border-r border-white/10 pr-6">
-               <div className="text-[8px] font-black text-[#38bdf8] uppercase tracking-widest">Global_Status</div>
-               <div className="text-[10px] font-bold uppercase tracking-widest italic">All_Units_Online</div>
+            <div style={{ flex: "1 1 200px" }}>
+              <p style={{ fontFamily: font.heading, fontWeight: 700, fontSize: "0.8rem", color: C.tealLight, textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "1rem" }}>Ce qui est inclus</p>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                {tab.points.map(p => (
+                  <li key={p} style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", fontFamily: font.body, color: C.sandy, fontSize: "0.9rem", lineHeight: 1.55 }}>
+                    <span style={{ color: C.tealLight, fontWeight: 700, flexShrink: 0, marginTop: "2px" }}>—</span>
+                    {p}
+                  </li>
+                ))}
+              </ul>
+              <motion.button
+                whileHover={{ scale: 1.04, background: C.tealLight }}
+                whileTap={{ scale: 0.97 }}
+                style={{ cursor: "pointer", marginTop: "1.5rem", background: C.teal, color: C.white, border: "none", borderRadius: "8px", padding: "0.7rem 1.5rem", fontFamily: font.heading, fontWeight: 700, fontSize: "0.85rem", letterSpacing: "0.06em", textTransform: "uppercase", transition: "background 0.2s" }}>
+                En savoir plus →
+              </motion.button>
             </div>
-            <button className="px-10 py-5 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[#38bdf8] hover:text-white transition-all shadow-[0_0_40px_rgba(56,189,248,0.2)] italic">
-               Initiate_Command
-            </button>
-         </div>
-      </nav>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </section>
+  )
+}
 
-      <main>
-        {/* 2. OCEANIC SUPREMACY (HERO / LUXURY STYLE) */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-12 pt-32 overflow-hidden border-b border-white/5">
-           <div className="relative z-10 w-full max-w-7xl flex flex-col items-center text-center">
-              <Reveal>
-                 <div className="inline-flex items-center gap-4 px-6 py-3 border border-[#38bdf8]/30 bg-[#38bdf8]/5 text-[10px] font-black uppercase tracking-[0.5em] text-[#38bdf8] mb-16 italic">
-                    <WaveIcon className="w-4 h-4 animate-pulse" /> Command_Status: NOMINAL // HYDRO_OPTIMIZED
-                 </div>
-                 <motion.h1 
-                    style={{ y: heroY, scale: textScale, opacity: heroOpacity }}
-                    className="text-8xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.7] italic flex flex-col"
-                 >
-                    <span>Command</span>
-                    <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>The Deep.</span>
-                 </motion.h1>
-                 
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-end text-left max-w-5xl mx-auto">
-                    <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-[0.15em] border-l-2 border-[#38bdf8]/20 pl-12">
-                       Nous concevons le futur de l'exploration maritime par une ingénierie de haute fidélité et une suprématie architecturale. Chaque navire est un sanctuaire de technologie.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-8 justify-end">
-                       <button className="px-14 py-8 bg-[#38bdf8] text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_50px_rgba(56,189,248,0.4)] flex items-center gap-4 italic group">
-                          [ Start Expedition ] <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                       </button>
-                    </div>
-                 </div>
-              </Reveal>
-           </div>
+// ─── TESTIMONIALS CAROUSEL ────────────────────────────────────────────────────
+function Testimonials() {
+  const [active, setActive] = useState(0)
+  const [direction, setDirection] = useState(1)
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: "-60px" })
 
-           {/* Floating Background Accents */}
-           <div className="absolute bottom-[-10vw] left-[-10vw] w-[50vw] h-[50vw] border border-white/5 rounded-full opacity-20 pointer-events-none select-none" />
-           <div className="absolute top-[20vw] right-[-10vw] w-[40vw] h-[40vw] border border-[#38bdf8]/10 rounded-full opacity-10 pointer-events-none select-none" />
-        </section>
+  const testimonials = [
+    { name: "Camille D.", role: "Élève Permis Côtier", text: "J'ai passé mon permis côtier en 4 jours avec Azimut. Les moniteurs sont pédagogues, patients et vraiment passionnés. Je suis repartie avec mon brevet ET l'envie de continuer en hauturier !", stars: 5 },
+    { name: "Marc L.", role: "Locataire — Corse 10 jours", text: "Deuxième location avec Azimut, toujours aussi pro. Le catamaran était impeccable, l'assistance répondait en moins d'une heure. On reviendra l'année prochaine pour les Baléares.", stars: 5 },
+    { name: "Sophie & Pierre", role: "Croisière Côte d'Azur", text: "Notre première croisière en couple. Le skipper Azimut nous a appris les bases pendant 7 jours. Magique, nous sommes complètement conquis. Hyères, Porquerolles, Saint-Tropez… inoubliable.", stars: 5 },
+    { name: "Thomas B.", role: "Stage enfant (fils de 10 ans)", text: "Mon fils est revenu du stage transformé. En une semaine, il sait gouverner un optimist et rêve déjà de naviguer autour du monde. Encadrement top, sécurité irréprochable.", stars: 5 },
+  ]
 
-        {/* 3. THE FLEET (HORIZONTAL SCROLL / KORR STYLE) */}
-        <section id="fleet" className="py-64 px-12 bg-black relative overflow-hidden">
-           <div className="max-w-7xl mx-auto mb-32 flex justify-between items-end">
-              <Reveal>
-                 <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[#38bdf8] mb-8">Fleet_Manifest</div>
-                 <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] italic">
-                    Naval <br/> <span className="text-white/5" style={{ WebkitTextStroke: "1px white" }}>Icons.</span>
-                 </h2>
-              </Reveal>
-              <div className="hidden lg:block text-right">
-                 <div className="flex justify-end gap-4 mb-4">
-                    <div className="w-48 h-[1px] bg-white/10" />
-                    <div className="w-16 h-[1px] bg-[#38bdf8]" />
-                 </div>
-                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 italic">Explorer // Cruiser // Research</p>
+  const prev = () => { setDirection(-1); setActive(a => (a - 1 + testimonials.length) % testimonials.length) }
+  const next = () => { setDirection(1); setActive(a => (a + 1) % testimonials.length) }
+
+  const t = testimonials[active]
+
+  return (
+    <section ref={ref} style={{ background: `linear-gradient(180deg, #061020 0%, ${C.bg} 100%)`, padding: "6rem 2rem" }}>
+      <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
+          style={{ textAlign: "center", marginBottom: "3.5rem" }}>
+          <p style={{ fontFamily: font.body, color: C.tealLight, fontWeight: 600, fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.75rem" }}>Ils Ont Navigué Avec Nous</p>
+          <h2 style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "clamp(2rem, 4vw, 2.8rem)", color: C.white, textTransform: "uppercase", letterSpacing: "0.04em", lineHeight: 1.1 }}>
+            Ce Qu'ils <span style={{ color: C.tealLight }}>Disent</span>
+          </h2>
+        </motion.div>
+
+        <div style={{ position: "relative", overflow: "hidden", borderRadius: "18px" }}>
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={active}
+              custom={direction}
+              initial={{ opacity: 0, x: direction * 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -direction * 60 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              style={{ background: C.cardBg, border: `1px solid ${C.cardBorder}`, borderRadius: "18px", padding: "2.5rem 3rem", textAlign: "center" }}>
+              <div style={{ fontSize: "1.4rem", letterSpacing: "0.1em", color: "#f59e0b", marginBottom: "1.2rem" }}>{"★".repeat(t.stars)}</div>
+              <p style={{ fontFamily: font.body, color: C.sandy, fontSize: "1.05rem", lineHeight: 1.8, fontStyle: "italic", marginBottom: "1.8rem" }}>"{t.text}"</p>
+              <div style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "1rem", color: C.white, letterSpacing: "0.05em", textTransform: "uppercase" }}>{t.name}</div>
+              <div style={{ fontFamily: font.body, color: C.tealLight, fontSize: "0.82rem", marginTop: "0.3rem" }}>{t.role}</div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Controls */}
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "1.5rem", marginTop: "2rem" }}>
+          <motion.button onClick={prev} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} style={{ cursor: "pointer", background: "transparent", border: `1.5px solid ${C.cardBorder}`, borderRadius: "50%", width: "44px", height: "44px", color: C.white, fontSize: "1.1rem", display: "flex", alignItems: "center", justifyContent: "center", transition: "border-color 0.2s" }}>‹</motion.button>
+          <div style={{ display: "flex", gap: "0.5rem" }}>
+            {testimonials.map((_, i) => (
+              <button key={i} onClick={() => { setDirection(i > active ? 1 : -1); setActive(i) }} style={{ cursor: "pointer", width: i === active ? "24px" : "8px", height: "8px", borderRadius: "4px", background: i === active ? C.teal : C.cardBorder, border: "none", transition: "all 0.3s" }} />
+            ))}
+          </div>
+          <motion.button onClick={next} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} style={{ cursor: "pointer", background: "transparent", border: `1.5px solid ${C.cardBorder}`, borderRadius: "50%", width: "44px", height: "44px", color: C.white, fontSize: "1.1rem", display: "flex", alignItems: "center", justifyContent: "center", transition: "border-color 0.2s" }}>›</motion.button>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── PRICING ──────────────────────────────────────────────────────────────────
+function Pricing() {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: "-60px" })
+
+  const plans = [
+    {
+      name: "Initiation",
+      price: "390",
+      duration: "Week-end 2 jours",
+      tag: null,
+      features: ["2 jours en baie protégée", "Théorie + pratique à bord", "Matériel & gilets inclus", "Groupe max 6 personnes", "Attestation de formation"],
+      cta: "Réserver",
+      highlight: false,
+    },
+    {
+      name: "Permis Côtier",
+      price: "690",
+      duration: "Stage 4 jours",
+      tag: "Le plus populaire",
+      features: ["4 jours de formation intensive", "Préparation examen officiel", "Passage du permis inclus", "Théorie navigation & météo", "Règles COLREG & manœuvres", "Groupe max 4 personnes"],
+      cta: "Réserver ma place",
+      highlight: true,
+    },
+    {
+      name: "Capitaine Large",
+      price: "1 290",
+      duration: "Formation 8 jours",
+      tag: null,
+      features: ["8 jours hauturier offshore", "Navigation de nuit incluse", "Certificat offshore FFV", "Utilisation GPS / VHF / radar", "Météorologie avancée", "Logbook personnel offert"],
+      cta: "Réserver",
+      highlight: false,
+    },
+  ]
+
+  return (
+    <section ref={ref} style={{ background: C.bg, padding: "6rem 2rem" }}>
+      <div style={{ maxWidth: "1040px", margin: "0 auto" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
+          style={{ textAlign: "center", marginBottom: "3.5rem" }}>
+          <p style={{ fontFamily: font.body, color: C.tealLight, fontWeight: 600, fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.75rem" }}>Nos Formations</p>
+          <h2 style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "clamp(2rem, 4vw, 3rem)", color: C.white, textTransform: "uppercase", letterSpacing: "0.04em", lineHeight: 1.1 }}>
+            Formules <span style={{ color: C.tealLight }}>et Tarifs</span>
+          </h2>
+          <p style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.95rem", maxWidth: "480px", margin: "1rem auto 0" }}>Tous les tarifs incluent l'encadrement par moniteur breveté, le matériel pédagogique et la taxe de séjour.</p>
+        </motion.div>
+
+        <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap", justifyContent: "center" }}>
+          {plans.map((plan, i) => (
+            <motion.div
+              key={plan.name}
+              initial={{ opacity: 0, y: 40 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: i * 0.14, duration: 0.6 }}
+              whileHover={{ y: -6 }}
+              style={{ flex: "1 1 280px", maxWidth: "320px", background: plan.highlight ? `linear-gradient(145deg, ${C.teal}, #0891b2)` : C.cardBg, border: `1px solid ${plan.highlight ? C.teal : C.cardBorder}`, borderRadius: "18px", padding: "2rem 1.75rem", position: "relative", boxShadow: plan.highlight ? `0 20px 60px rgba(14,116,144,0.4)` : "none" }}>
+              {plan.tag && (
+                <div style={{ position: "absolute", top: "-13px", left: "50%", transform: "translateX(-50%)", background: C.sandy, color: C.bg, fontFamily: font.heading, fontWeight: 700, fontSize: "0.72rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "0.3rem 1rem", borderRadius: "20px", whiteSpace: "nowrap" }}>{plan.tag}</div>
+              )}
+              <div style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "0.9rem", color: plan.highlight ? "rgba(255,255,255,0.75)" : C.tealLight, textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: "0.75rem" }}>{plan.name}</div>
+              <div style={{ display: "flex", alignItems: "baseline", gap: "0.25rem", marginBottom: "0.35rem" }}>
+                <span style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "2.8rem", color: C.white, lineHeight: 1 }}>{plan.price}€</span>
               </div>
-           </div>
+              <div style={{ fontFamily: font.body, color: plan.highlight ? "rgba(255,255,255,0.7)" : C.sandyDim, fontSize: "0.82rem", marginBottom: "1.5rem" }}>{plan.duration}</div>
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 1.75rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                {plan.features.map(f => (
+                  <li key={f} style={{ display: "flex", alignItems: "center", gap: "0.6rem", fontFamily: font.body, color: plan.highlight ? "rgba(255,255,255,0.85)" : C.sandy, fontSize: "0.87rem" }}>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}><circle cx="7" cy="7" r="7" fill={plan.highlight ? "rgba(255,255,255,0.25)" : "rgba(14,116,144,0.3)"} /><path d="M4 7l2 2 4-4" stroke={plan.highlight ? C.white : C.tealLight} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <motion.button
+                whileHover={{ scale: 1.04, background: plan.highlight ? C.white : C.teal }}
+                whileTap={{ scale: 0.97 }}
+                style={{ cursor: "pointer", width: "100%", background: plan.highlight ? "rgba(255,255,255,0.15)" : "transparent", color: plan.highlight ? C.white : C.tealLight, border: `2px solid ${plan.highlight ? "rgba(255,255,255,0.5)" : C.teal}`, borderRadius: "10px", padding: "0.75rem", fontFamily: font.heading, fontWeight: 700, fontSize: "0.85rem", letterSpacing: "0.06em", textTransform: "uppercase", transition: "all 0.2s" }}>
+                {plan.cta}
+              </motion.button>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
 
-           <div className="flex gap-16 overflow-x-auto pb-24 no-scrollbar px-4 -mx-4 snap-x snap-mandatory">
-              {FLEET.map((yacht, i) => (
-                 <FleetCard key={yacht.id} yacht={yacht} index={i} />
+// ─── FAQ ──────────────────────────────────────────────────────────────────────
+function FAQ() {
+  const [open, setOpen] = useState<number | null>(null)
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: "-60px" })
+
+  const items = [
+    { q: "Quel niveau est requis pour nos formations ?", a: "Aucun prérequis pour les stages Initiation et Permis Côtier. Pour la formation Capitaine Large, nous recommandons d'avoir déjà navigué quelques jours ou d'avoir obtenu le Permis Côtier au préalable. Un test de niveau est toujours proposé à l'inscription." },
+    { q: "L'assurance est-elle incluse dans le prix ?", a: "Oui. Toutes nos formations incluent une assurance responsabilité civile et une garantie accident pour les stagiaires pendant la durée de la formation. Pour les locations, une assurance tous risques est proposée en option au tarif de 45€/jour." },
+    { q: "Quel est l'âge minimum pour naviguer ?", a: "Les stages Enfants accueillent les 7-17 ans. Pour les formations Permis Côtier et adultes, l'âge minimum est 16 ans (avec autorisation parentale pour les mineurs). Les locations sont réservées aux personnes majeures titulaires d'un permis valide." },
+    { q: "Le permis obtenu est-il reconnu en dehors de France ?", a: "Le Permis Côtier français est reconnu en Méditerranée, Adriatique et en mer du Nord selon les accords bilatéraux. Pour naviguer dans certains pays (Grèce, Croatie, Turquie), nous conseillons d'ajouter le certificat ICC, que nous pouvons faire passer sur demande." },
+    { q: "Que se passe-t-il en cas de mauvaise météo ?", a: "La sécurité prime toujours. En cas de conditions défavorables, nous proposons un report de stage sur une autre date sans frais supplémentaires, ou un avoir valable 18 mois. Certaines sessions peuvent être adaptées en navigation en baie protégée si la météo le permet." },
+    { q: "Peut-on payer en plusieurs fois ?", a: "Oui, nous proposons un paiement en 3 fois sans frais pour les formations supérieures à 500€. Un acompte de 30% est demandé à l'inscription, le solde étant dû 10 jours avant le début du stage." },
+  ]
+
+  return (
+    <section ref={ref} style={{ background: `linear-gradient(180deg, ${C.bg} 0%, #061020 100%)`, padding: "6rem 2rem" }}>
+      <div style={{ maxWidth: "760px", margin: "0 auto" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
+          style={{ textAlign: "center", marginBottom: "3rem" }}>
+          <p style={{ fontFamily: font.body, color: C.tealLight, fontWeight: 600, fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.75rem" }}>Questions Fréquentes</p>
+          <h2 style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "clamp(2rem, 4vw, 2.8rem)", color: C.white, textTransform: "uppercase", letterSpacing: "0.04em", lineHeight: 1.1 }}>
+            Tout Ce Que<br /><span style={{ color: C.tealLight }}>Vous Voulez Savoir</span>
+          </h2>
+        </motion.div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+          {items.map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: i * 0.08, duration: 0.5 }}>
+              <button
+                onClick={() => setOpen(open === i ? null : i)}
+                style={{ cursor: "pointer", width: "100%", background: C.cardBg, border: `1px solid ${open === i ? C.teal : C.cardBorder}`, borderRadius: "12px", padding: "1.25rem 1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem", textAlign: "left", transition: "border-color 0.2s" }}>
+                <span style={{ fontFamily: font.heading, fontWeight: 700, fontSize: "0.95rem", color: C.white, textTransform: "uppercase", letterSpacing: "0.04em", lineHeight: 1.4 }}>{item.q}</span>
+                <motion.span
+                  animate={{ rotate: open === i ? 45 : 0 }}
+                  transition={{ duration: 0.25 }}
+                  style={{ color: C.tealLight, fontSize: "1.5rem", fontWeight: 300, flexShrink: 0, lineHeight: 1 }}>+</motion.span>
+              </button>
+              <AnimatePresence>
+                {open === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                    style={{ overflow: "hidden" }}>
+                    <div style={{ padding: "1rem 1.5rem 1.5rem", fontFamily: font.body, color: C.sandyDim, fontSize: "0.92rem", lineHeight: 1.75, background: "rgba(14,116,144,0.05)", borderLeft: `3px solid ${C.teal}`, marginTop: "4px", borderRadius: "0 0 10px 10px" }}>
+                      {item.a}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── CTA BANNER ───────────────────────────────────────────────────────────────
+function CTABanner() {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: "-60px" })
+
+  return (
+    <section ref={ref} style={{ background: `linear-gradient(135deg, ${C.teal} 0%, #0891b2 50%, #0e7490 100%)`, padding: "5rem 2rem", position: "relative", overflow: "hidden" }}>
+      {/* Decorative waves */}
+      <svg style={{ position: "absolute", top: 0, left: 0, right: 0, opacity: 0.12 }} viewBox="0 0 1440 80" preserveAspectRatio="none" height="80">
+        <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,20 1440,40 L1440,0 L0,0 Z" fill="white" />
+      </svg>
+      <svg style={{ position: "absolute", bottom: 0, left: 0, right: 0, opacity: 0.12 }} viewBox="0 0 1440 80" preserveAspectRatio="none" height="80">
+        <path d="M0,40 C360,0 720,80 1080,40 C1260,20 1380,60 1440,40 L1440,80 L0,80 Z" fill="white" />
+      </svg>
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.7 }}
+        style={{ textAlign: "center", maxWidth: "700px", margin: "0 auto", position: "relative", zIndex: 1 }}>
+        <h2 style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "clamp(2rem, 4vw, 3rem)", color: C.white, textTransform: "uppercase", letterSpacing: "0.04em", lineHeight: 1.1, marginBottom: "1.2rem" }}>
+          Réservez Votre<br />Formation
+        </h2>
+        <p style={{ fontFamily: font.body, color: "rgba(255,255,255,0.8)", fontSize: "1.05rem", lineHeight: 1.7, marginBottom: "2.5rem" }}>
+          Les places sont limitées. Assurez la vôtre dès aujourd'hui et partez naviguer avec les meilleurs moniteurs de Méditerranée.
+        </p>
+        <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+          <motion.button
+            whileHover={{ scale: 1.05, background: C.sandy }}
+            whileTap={{ scale: 0.97 }}
+            style={{ cursor: "pointer", background: C.white, color: C.teal, border: "none", borderRadius: "10px", padding: "0.9rem 2.2rem", fontFamily: font.heading, fontWeight: 800, fontSize: "0.95rem", letterSpacing: "0.07em", textTransform: "uppercase", transition: "background 0.2s" }}>
+            Réserver Maintenant
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05, background: "rgba(255,255,255,0.2)" }}
+            whileTap={{ scale: 0.97 }}
+            style={{ cursor: "pointer", background: "transparent", color: C.white, border: "2px solid rgba(255,255,255,0.6)", borderRadius: "10px", padding: "0.9rem 2.2rem", fontFamily: font.heading, fontWeight: 700, fontSize: "0.95rem", letterSpacing: "0.07em", textTransform: "uppercase", transition: "background 0.2s" }}>
+            Nous Contacter
+          </motion.button>
+        </div>
+      </motion.div>
+    </section>
+  )
+}
+
+// ─── FOOTER ───────────────────────────────────────────────────────────────────
+function Footer() {
+  const links = {
+    "Formations": ["Initiation", "Permis Côtier", "Capitaine Large", "Stages Enfants"],
+    "Location": ["Voiliers", "Catamarans", "Avec Skipper", "Tarifs"],
+    "Bases": ["Nice", "Marseille", "Ajaccio", "Toulon", "Barcelone", "Palma"],
+  }
+
+  const socials = [
+    { label: "Users2", href: "#", icon: <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" /></svg> },
+    { label: "Camera", href: "#", icon: <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></svg> },
+    { label: "YouTube", href: "#", icon: <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z" /><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white" /></svg> },
+  ]
+
+  return (
+    <footer style={{ background: "#040d1a", borderTop: `1px solid ${C.cardBorder}`, padding: "4rem 2rem 2rem" }}>
+      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+        <div style={{ display: "flex", gap: "3rem", flexWrap: "wrap", marginBottom: "3rem" }}>
+          {/* Brand */}
+          <div style={{ flex: "1 1 220px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "1rem" }}>
+              <svg width="30" height="30" viewBox="0 0 36 36" fill="none">
+                <circle cx="18" cy="18" r="17" stroke={C.tealLight} strokeWidth="2" />
+                <path d="M8 22 L18 8 L28 22" stroke={C.sandy} strokeWidth="2.5" fill="none" strokeLinecap="round" />
+                <path d="M8 22 Q18 30 28 22" stroke={C.teal} strokeWidth="2" fill="none" />
+              </svg>
+              <span style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "1.2rem", color: C.white, letterSpacing: "0.08em", textTransform: "uppercase" }}>AZIMUT</span>
+            </div>
+            <p style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.87rem", lineHeight: 1.7, maxWidth: "220px" }}>École de voile et location de bateaux en Méditerranée depuis 1999.</p>
+            <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.25rem" }}>
+              {socials.map(s => (
+                <motion.a key={s.label} href={s.href} whileHover={{ scale: 1.15, color: C.tealLight }} style={{ color: C.sandyDim, transition: "color 0.2s", cursor: "pointer" }} aria-label={s.label}>{s.icon}</motion.a>
               ))}
-           </div>
-        </section>
+            </div>
+          </div>
 
-        {/* 4. ENGINEERING (HUD DATA VIZ) */}
-        <section id="engineering" className="py-64 px-12 bg-white text-black relative">
-           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-32 items-center relative z-10">
-              <div className="lg:col-span-7">
-                 <Reveal>
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[#38bdf8] mb-8">Hydrodynamic_Data</div>
-                    <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-16 italic">
-                       Naval <br/> <span className="opacity-20">Stats.</span>
-                    </h2>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                       {MARITIME_METRICS.map((metric, i) => (
-                          <div key={i} className="p-12 border-2 border-black/5 bg-black/[0.02] hover:border-[#38bdf8]/30 transition-all group relative overflow-hidden">
-                             <div className="text-[10px] font-black uppercase tracking-widest text-[#38bdf8] mb-6">{metric.label}</div>
-                             <div className="text-6xl font-black italic mb-6 tracking-tighter group-hover:scale-105 transition-transform origin-left">{metric.value}</div>
-                             <div className="flex justify-between items-center text-[9px] font-bold uppercase tracking-[0.4em] text-black/20">
-                                <span>{metric.detail}</span>
-                                <span className="text-[#38bdf8]">{metric.trend}</span>
-                             </div>
-                             <div className="mt-8 h-1 bg-black/5 relative overflow-hidden">
-                                <motion.div 
-                                   className="absolute inset-y-0 left-0 bg-[#38bdf8]"
-                                   initial={{ width: 0 }}
-                                   whileInView={{ width: '85%' }}
-                                   transition={{ duration: 1.5, delay: i * 0.1 }}
-                                />
-                             </div>
-                          </div>
-                       ))}
-                    </div>
-                 </Reveal>
-              </div>
+          {/* Links */}
+          {Object.entries(links).map(([category, items]) => (
+            <div key={category} style={{ flex: "1 1 130px" }}>
+              <h4 style={{ fontFamily: font.heading, fontWeight: 700, fontSize: "0.75rem", color: C.tealLight, textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "1rem" }}>{category}</h4>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                {items.map(item => (
+                  <li key={item}>
+                    <Link href="#" style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.87rem", textDecoration: "none", transition: "color 0.2s" }}
+                      onMouseEnter={e => (e.currentTarget.style.color = C.white)}
+                      onMouseLeave={e => (e.currentTarget.style.color = C.sandyDim)}>
+                      {item}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
 
-              <div className="lg:col-span-5 space-y-16">
-                 <Reveal delay={0.4}>
-                    <div className="p-12 bg-black text-white rounded-sm relative group overflow-hidden border border-white/10 shadow-2xl">
-                       <div className="flex justify-between items-center mb-12">
-                          <h4 className="text-2xl font-black uppercase tracking-tighter italic">Command Logs</h4>
-                          <div className="flex gap-2">
-                             <div className="w-3 h-3 rounded-full bg-red-500/50" />
-                             <div className="w-3 h-3 rounded-full bg-[#38bdf8]" />
-                          </div>
-                       </div>
-                       <div className="space-y-6 font-mono text-[10px]">
-                          {COMMAND_LOGS.map((log, i) => (
-                             <div key={i} className="flex justify-between border-b border-white/5 pb-2 group/log hover:bg-white/5 px-2 transition-colors">
-                                <span className="text-white/20 group-hover/log:text-white transition-colors">[{log.time}]</span>
-                                <span className="text-[#38bdf8] font-black">{log.node}</span>
-                                <span className="text-white/40 italic">{log.task}</span>
-                                <span className="font-black">[{log.status}]</span>
-                             </div>
-                          ))}
-                       </div>
-                       <div className="mt-12 flex items-center gap-4 text-[10px] font-black uppercase text-[#38bdf8] animate-pulse">
-                          <Compass className="w-4 h-4" /> Sat_Link_Stable...
-                       </div>
-                    </div>
-                 </Reveal>
-              </div>
-           </div>
+          {/* Contact */}
+          <div style={{ flex: "1 1 180px" }}>
+            <h4 style={{ fontFamily: font.heading, fontWeight: 700, fontSize: "0.75rem", color: C.tealLight, textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "1rem" }}>Contact</h4>
+            <div style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.87rem", lineHeight: 1.85 }}>
+              <div>📍 Port Lympia, Nice 06300</div>
+              <div>📞 +33 4 93 12 34 56</div>
+              <div>✉️ contact@azimut-voile.fr</div>
+              <div style={{ marginTop: "0.75rem", color: C.sandyDim }}>Ouvert 7j/7 — 8h à 19h</div>
+            </div>
+          </div>
+        </div>
 
-           {/* Background Overlay Large Text */}
-           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] font-black text-black/[0.02] pointer-events-none select-none italic z-0">
-              OCEAN
-           </div>
-        </section>
+        <div style={{ borderTop: `1px solid ${C.cardBorder}`, paddingTop: "1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
+          <p style={{ fontFamily: font.body, color: "rgba(200,180,154,0.45)", fontSize: "0.8rem" }}>© 2024 Azimut Voile Méditerranée. Tous droits réservés.</p>
+          <div style={{ display: "flex", gap: "1.5rem" }}>
+            {["Mentions légales", "CGV", "Politique de confidentialité"].map(l => (
+              <Link key={l} href="#" style={{ fontFamily: font.body, color: "rgba(200,180,154,0.45)", fontSize: "0.8rem", textDecoration: "none", transition: "color 0.2s" }}
+                onMouseEnter={e => (e.currentTarget.style.color = C.sandyDim)}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(200,180,154,0.45)")}>{l}</Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
+}
 
-        {/* 5. INTERIOR ATELIER (EDITORIAL LAYOUT) */}
-        <section id="about" className="py-64 px-12">
-           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-32 items-center">
-              <div className="lg:col-span-5">
-                 <Reveal>
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[#38bdf8] mb-8">Atmospheric_Atelier</div>
-                    <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-12 italic">
-                       Private <br/> <span className="opacity-10">Sanctuary.</span>
-                    </h2>
-                    <p className="text-lg font-bold italic text-white/30 leading-relaxed uppercase tracking-[0.1em] mb-16">
-                       Nos intérieurs sont conçus comme des sanctuaires privés. Nous utilisons des bois exotiques, des métaux précieux et une isolation acoustique de pointe pour assurer une déconnexion totale.
-                    </p>
-                    <div className="grid grid-cols-2 gap-12 border-t border-white/5 pt-12">
-                       <div className="flex flex-col gap-4">
-                          <div className="text-[10px] font-black text-white/20 uppercase tracking-widest">Acoustic</div>
-                          <div className="text-4xl font-black italic">Zero_Zone</div>
-                       </div>
-                       <div className="flex flex-col gap-4">
-                          <div className="text-[10px] font-black text-white/20 uppercase tracking-widest">Materials</div>
-                          <div className="text-4xl font-black italic">Rare_Audit</div>
-                       </div>
-                    </div>
-                 </Reveal>
-              </div>
-
-              <div className="lg:col-span-7">
-                 <Reveal scale={0.9}>
-                    <div className="relative aspect-video bg-black group overflow-hidden border-[20px] border-white/5">
-                       <img 
-                          src="https://images.unsplash.com/photo-1544462242-94585e5ca8d2?w=1600&q=80" 
-                          className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-2000"
-                          alt="Yacht Interior"
-                       />
-                       <div className="absolute inset-0 bg-[#38bdf8]/10 mix-blend-overlay" />
-                    </div>
-                 </Reveal>
-              </div>
-           </div>
-        </section>
-
-        {/* 6. FAQ (MARITIME ACCORDION) */}
-        <section className="py-64 px-12 bg-zinc-950">
-           <div className="max-w-4xl mx-auto">
-              <Reveal>
-                 <div className="text-center mb-40">
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[#38bdf8] mb-8">Secure_Inquiry</div>
-                    <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter italic mb-8">Fleet <span className="opacity-10">Q&A.</span></h2>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 italic">Acquisition // Charter // Engineering</p>
-                 </div>
-              </Reveal>
-
-              <Accordion type="single" collapsible className="w-full space-y-4">
-                 {[
-                   { q: "What is your primary design philosophy?", a: "Hydrodynamic supremacy. We believe that efficiency on the water is the ultimate luxury. Every line is dictated by flow physics." },
-                   { q: "Do you offer hydrogen hybrid propulsion?", a: "Yes. Our latest fleet units are equipped with hydrogen-ready fuel cell systems, allowing for silent, zero-emission navigation in protected waters." },
-                   { q: "How do you manage global maintenance?", a: "Every yacht is a connected digital twin. We monitor technical status 24/7 from our command center and deploy flying technicians anywhere in the world within 48 hours." }
-                 ].map((item, i) => (
-                   <AccordionItem key={i} value={`item-${i}`} className="border border-white/5 bg-white/[0.02] px-10 rounded-sm hover:border-[#38bdf8]/30 transition-all">
-                      <AccordionTrigger className="text-[14px] font-black uppercase tracking-[0.4em] py-12 no-underline italic text-left">
-                         {item.q}
-                      </AccordionTrigger>
-                      <AccordionContent className="text-[11px] font-medium text-white/30 tracking-[0.1em] uppercase italic leading-loose pb-12">
-                         {item.a}
-                      </AccordionContent>
-                   </AccordionItem>
-                 ))}
-              </Accordion>
-           </div>
-        </section>
-
-        {/* 7. FOOTER (HIGH FIDELITY) */}
-        <footer className="bg-black pt-64 pb-16 px-12 md:px-24 border-t-8 border-[#38bdf8]">
-           <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-32 mb-48">
-                 <div className="lg:col-span-7">
-                    <Reveal>
-                       <div className="flex flex-col mb-16">
-                          <span className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.7] italic text-[#38bdf8]">Aethel.</span>
-                          <span className="text-[12px] font-bold uppercase tracking-[1em] text-white/20 ml-2">Maritime Engineering Group</span>
-                       </div>
-                       <p className="text-white/20 max-w-sm mb-20 text-sm font-light uppercase tracking-widest leading-loose italic">
-                          La suprématie de l'exploration maritime. Monaco // Global.
-                       </p>
-                       <div className="flex gap-12 items-center">
-                          <div className="w-24 h-[1px] bg-white/10" />
-                          <div className="flex gap-10">
-                             <Globe className="w-7 h-7 text-white/20 hover:text-[#38bdf8] transition-all cursor-pointer" />
-                             <Anchor className="w-7 h-7 text-white/20 hover:text-[#38bdf8] transition-all cursor-pointer" />
-                             <Compass className="w-7 h-7 text-white/20 hover:text-[#38bdf8] transition-all cursor-pointer" />
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-
-                 <div className="lg:col-span-5 grid grid-cols-2 gap-16">
-                    <div className="space-y-12">
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-[#38bdf8] mb-16 border-b border-[#38bdf8]/20 pb-4">Fleet</h4>
-                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-white/30">
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#38bdf8]" /> Explorer_Yachts
-                          </li>
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#38bdf8]" /> Performance_Cruisers
-                          </li>
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#38bdf8]" /> Research_Vessels
-                          </li>
-                       </ul>
-                    </div>
-                    <div className="space-y-12">
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-[#38bdf8] mb-16 border-b border-[#38bdf8]/20 pb-4">Command</h4>
-                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-white/30">
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#38bdf8]" /> Global_HQ
-                          </li>
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#38bdf8]" /> Fleet_Manifest
-                          </li>
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#38bdf8]" /> Engineering
-                          </li>
-                       </ul>
-                    </div>
-                 </div>
-              </div>
-
-              <div className="pt-24 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.5em] text-white/10 italic text-center">
-                 <div className="flex gap-16">
-                    <span>©2026 AETHEL MARITIME GROUP.</span>
-                    <span className="hidden md:inline">//</span>
-                    <span>HYDRODYNAMIC_SUPREMACY_CERTIFIED</span>
-                 </div>
-                 <div className="flex gap-16 font-mono text-[#38bdf8]/30">
-                    <span>GLOBAL_SAT_STABLE</span>
-                    <span>FLEET_UNITS_ACTIVE</span>
-                 </div>
-              </div>
-           </div>
-        </footer>
-      </main>
-
-      <style>{`
-        ::-webkit-scrollbar { width: 6px; background: #020408; }
-        ::-webkit-scrollbar-thumb { background: #38bdf8; border-radius: 10px; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .vertical-text { writing-mode: vertical-rl; }
-        .animate-spin-slow { animation: spin 40s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-      `}</style>
-    </div>
+// ─── PAGE ─────────────────────────────────────────────────────────────────────
+export default function AzimutPage() {
+  return (
+    <main style={{ background: C.bg, fontFamily: font.body }}>
+      <Navbar />
+      <Hero />
+      <StatsBar />
+      <Features />
+      <Testimonials />
+      <Pricing />
+      <FAQ />
+      <CTABanner />
+      <Footer />
+    </main>
   )
 }

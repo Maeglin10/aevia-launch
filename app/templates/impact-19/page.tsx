@@ -1,535 +1,1142 @@
 "use client"
 
-import React, { useState, useEffect, useRef, useMemo } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring,
-  useMotionValue
-} from "framer-motion"
-import Image from "next/image"
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import { useState, useRef } from "react"
 import Link from "next/link"
-import { 
-  Zap, Activity, Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, BarChart3, Fingerprint, Scan, 
-  Briefcase, Wind, Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Search, Cpu, TrendingUp,
-  ShieldCheck, Binary, Code2, Globe, Database,
-  Gauge, Thermometer, FlaskConical, Sun, Moon,
-  Star, Sparkles, CircleDot, ArrowUpRight,
-  ArrowDownLeft, Expand, Shrink, MousePointer2,
-  HardDrive, Key, Lock, Unlock, Shield, ShieldAlert,
-  Laptop, Server, Network, Wifi, Bluetooth, Radio,
-  Droplets, Pickaxe, Mountain, Gem, Drill,
-  Telescope, MilestoneIcon, Layout, Smartphone,
-  PenTool, Camera, Film, Palette, MessageSquare,
-  Send, ZapOff, Anchor, Ship, Truck, Train, Bus,
-  Car, Bike, Eye, ScanEye, EyeOff, KeyRound,
-  Fingerprint as FingerprintIcon, Navigation,
-  Navigation2, Wind as WindIcon, Biohazard,
-  Crosshair, Focus, Bug, ShieldAlert as ShieldAlertIcon,
-  Skull, Scan as ScanIcon, PieChart, ArrowRightCircle,
-  Coins, Landmark, Wallet, Briefcase as BriefcaseIcon,
-  Presentation, BarChart, LineChart, CandlestickChart
-} from "lucide-react"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
-/* ==========================================================================
-   AEVIA CAPITAL DATASET (ULTRA DENSITY)
-   ========================================================================== */
+const C = {
+  bg: "#0a0a0a",
+  card: "#111111",
+  gold: "#c4a96a",
+  goldLight: "#d9c08a",
+  cream: "#f5f0e8",
+  border: "rgba(196,169,106,0.18)",
+  borderStrong: "rgba(196,169,106,0.4)",
+  text: "#d4cfc8",
+  muted: "#7a7570",
+  white: "#f5f0e8",
+}
 
-const VENTURES = [
+const FONT_SERIF = '"Cormorant Garamond", Georgia, serif'
+const FONT_BODY = "system-ui, -apple-system, sans-serif"
+
+const PORTFOLIO_COMPANIES = [
+  { name: "Karlia", sector: "SaaS CRM B2B", stage: "Série A", flag: "🇫🇷" },
+  { name: "Convictional", sector: "Commerce B2B", stage: "Série A", flag: "🇨🇦" },
+  { name: "Pennylane", sector: "FinTech PME", stage: "Série B", flag: "🇫🇷" },
+  { name: "Watershed", sector: "Climate Tech", stage: "Série B", flag: "🇺🇸" },
+]
+
+const FOCUS_AREAS = [
   {
-    id: "ven-01",
-    name: "FinTech Core",
-    sector: "Algorithmic Finance",
-    alpha: "14.8%",
-    capital: "$450M",
-    desc: "Synthèse de modèles prédictifs haute fréquence et d'intuition d'opérateurs chevronnés. La référence du trading algorithmique.",
-    img: "https://images.unsplash.com/photo-1611974714851-eb607737421c?w=1600&q=80",
-    color: "#1a1a1a"
+    id: "saas",
+    icon: "◈",
+    title: "SaaS B2B",
+    subtitle: "Verticaux métier & infrastructure",
+    body: "Nous ciblons les logiciels métier qui résolvent des problèmes complexes dans des secteurs peu digitalisés : RH, supply chain, comptabilité, conformité, gestion de flotte. Notre thèse : des niches profondes avec LTV élevée et churn structurellement bas.",
+    metrics: ["ARR cible seed : 500k€–2M€", "NRR attendu : >110%", "Deal size B2B >5k€/an"],
   },
   {
-    id: "ven-08",
-    name: "BioGen Enclave",
-    sector: "Bio-Engineering",
-    alpha: "22.4%",
-    capital: "$820M",
-    desc: "Laboratoire de recherche en synthèse génétique et longévité. Nous finançons les frontières de la biologie computationnelle.",
-    img: "https://images.unsplash.com/photo-1532187875605-1ef6c237f1f0?w=1600&q=80",
-    color: "#f8f9fa"
+    id: "fintech",
+    icon: "◎",
+    title: "FinTech & InsurTech",
+    subtitle: "Réinventer les services financiers",
+    body: "Paiements B2B, gestion de trésorerie, assurance paramétrique, crédit alternatif. Nous privilégions les modèles qui désintermédiient des acteurs établis via la technologie et la distribution directe, non via le dumping de prix.",
+    metrics: ["Marge brute >60%", "Régulé ou en cours", "Fondateurs ex-banque ou ex-assurance"],
   },
   {
-    id: "ven-15",
-    name: "NeoTransit",
-    sector: "Orbital Logistics",
-    alpha: "18.2%",
-    capital: "$1.2B",
-    desc: "Solutions de transit orbital et logistique spatiale profonde. Redéfinir les chaînes d'approvisionnement interplanétaires.",
-    img: "https://images.unsplash.com/photo-1517976487492-5750f3195933?w=1600&q=80",
-    color: "#000000"
-  }
+    id: "deeptech",
+    icon: "◉",
+    title: "DeepTech & IA",
+    subtitle: "Avantage défendable par la technologie",
+    body: "Modèles fondationnels appliqués à la santé, au juridique et à l'industrie. Nous évitons les wrappers GPT. Nous finançons des équipes qui construisent de vrais avantages techniques : données propriétaires, modèles fine-tunés, intégrations systèmes critiques.",
+    metrics: ["IP ou data moat identifié", "Publication académique ou brevet", "Time-to-market 18–36 mois"],
+  },
+  {
+    id: "climate",
+    icon: "◷",
+    title: "Climate & Énergie",
+    subtitle: "Décarbonation et transition énergétique",
+    body: "Efficacité énergétique industrielle, gestion des énergies renouvelables, marchés carbone volontaires, mobilité bas-carbone B2B. Nous finançons des solutions rentables sans subvention, avec un plan vers la profitabilité visible avant 2028.",
+    metrics: ["Tonne CO₂ évitée mesurable", "LCOE compétitif", "Réglementaire comme tailwind"],
+  },
 ]
 
-const ALPHA_METRICS = [
-  { label: "Venture Alpha", value: "8K Native", trend: "Max", detail: "Algorithmic Precision" },
-  { label: "Risk Insulation", value: "Zero Exp", trend: "Stable", detail: "High-Fidelity Hedging" },
-  { label: "Strategic Depth", value: "Infinite", trend: "High", detail: "Network Synergy Enclave" },
-  { label: "Equity Integrity", value: "100%", trend: "Pure", detail: "Ledger-Verified Assets" }
+const TESTIMONIALS = [
+  {
+    quote: "Summit ne s'est pas comporté comme un investisseur classique. Dès la term sheet, ils nous ont connectés avec trois directeurs achats chez des grands comptes que nous cherchions depuis six mois. Leur réseau a accéléré notre premier million d'ARR.",
+    name: "Antoine Ferrand",
+    role: "CEO & Co-fondateur",
+    company: "Karlia",
+    raise: "Série A — 4,2M€",
+    avatar: "AF",
+  },
+  {
+    quote: "La due diligence a été sérieuse mais rapide — 18 jours du premier meeting à la term sheet. Ce que j'ai apprécié : ils ont challengé nos hypothèses de marché sans jamais remettre en cause notre vision. C'est rare dans l'écosystème early-stage.",
+    name: "Sarah Benoist",
+    role: "CTO & Co-fondatrice",
+    company: "Helixia",
+    raise: "Seed — 1,8M€",
+    avatar: "SB",
+  },
+  {
+    quote: "Trois ans après l'investissement initial, Summit est encore actif au board. Ils ont apporté deux CFO intérimaires lors de notre pivot, facilité notre entrée en Allemagne et participé à notre Série B aux côtés de Balderton. Ce n'est pas du capital — c'est un accélérateur.",
+    name: "Mathieu Durand",
+    role: "Fondateur",
+    company: "Fintecture",
+    raise: "Seed → Série A → Série B",
+    avatar: "MD",
+  },
+  {
+    quote: "Nous avions peur de perdre le contrôle de notre cap table trop tôt. Summit nous a proposé une structure propre avec un board d'un seul membre, des droits d'information standards et aucune clause de liquidation préférentielle participante. Un partenaire aligné long terme.",
+    name: "Léa Vignon",
+    role: "CEO",
+    company: "Clearpath Analytics",
+    raise: "Seed — 2,1M€",
+    avatar: "LV",
+  },
 ]
 
-const ALPHA_LOGS = [
-  { time: "09:12:04", event: "ALGO_SYNTH", status: "PASS", detail: "Core_Model_X" },
-  { time: "09:15:32", event: "CAPITAL_DEPLOY", status: "DONE", detail: "Venture_Enclave_2" },
-  { time: "09:22:15", event: "ALPHA_VERIFIED", status: "SYNC", detail: "Equity_Ledger_V4" }
+const PROCESS_STEPS = [
+  {
+    num: "01",
+    title: "Candidature",
+    sub: "Formulaire en ligne",
+    body: "Soumettez votre dossier via notre formulaire structuré : deck, métriques actuelles, usage des fonds. Nous lisons toutes les candidatures. Réponse initiale sous 5 jours ouvrés — oui ou non, avec un retour argumenté.",
+    icon: "◈",
+  },
+  {
+    num: "02",
+    title: "Analyse",
+    sub: "2 à 3 semaines",
+    body: "Premier call (30 min) puis rencontre avec les fondateurs (2h). Analyse du marché, des métriques, de la technologie et de la concurrence. Calls avec clients de référence. Feedback détaillé transmis à l'issue de cette phase.",
+    icon: "◎",
+  },
+  {
+    num: "03",
+    title: "Comité",
+    sub: "Décision sous 30 jours",
+    body: "Présentation au comité d'investissement (fondateurs + associés Summit). Discussion interne. Vous recevez notre décision motivée dans les 72h suivant le comité. En cas de go, nous avançons vers la term sheet immédiatement.",
+    icon: "◉",
+  },
+  {
+    num: "04",
+    title: "Term Sheet",
+    sub: "Si le fit est confirmé",
+    body: "Term sheet négociée en 5 à 10 jours, closing juridique sous 3 à 6 semaines. Nous travaillons avec des avocats M&A reconnus pour fluidifier le process. Dès le closing, votre Account Partner Summit est désigné et actif.",
+    icon: "◷",
+  },
 ]
 
-/* ==========================================
-   TECHNICAL COMPONENTS (ALPHA / HUD)
-   ========================================== */
+const FAQS = [
+  {
+    q: "Quel ticket d'investissement proposez-vous ?",
+    a: "Nous investissons entre 500k€ et 3M€ en seed, et entre 3M€ et 12M€ en Série A. Nous co-investissons systématiquement avec d'autres fonds sur les tours importants. Nous réservons une capacité de suivi pour les tours suivants — typiquement 30 à 50% du ticket initial.",
+  },
+  {
+    q: "Quels secteurs excluez-vous ?",
+    a: "Nous n'investissons pas dans : les ICO, cryptomonnaies spéculatives, tabac, armement, jeux d'argent, médias grand public ou e-commerce pur. Nous sommes également prudents sur les marketplaces B2C à marge faible et les modèles fortement dépendants de la publicité.",
+  },
+  {
+    q: "Prenez-vous un board seat systématiquement ?",
+    a: "En seed, nous demandons un siège observateur et un siège au board uniquement si nous leadons le tour (>50% du montant). En Série A, nous prenons toujours un board seat. Nous visons un board efficient : 5 membres maximum, avec une charte de gouvernance claire dès le closing.",
+  },
+  {
+    q: "Quelle est votre zone géographique d'investissement ?",
+    a: "Principalement France et Europe francophone (Belgique, Suisse, Luxembourg). Nous pouvons accompagner des tours en Europe germanophone ou ibérique si nous co-investissons avec un fonds local. Nous n'investissons pas aux États-Unis ou en Asie en lead.",
+  },
+  {
+    q: "Comment assurez-vous le suivi post-investissement ?",
+    a: "Chaque portefeuille bénéficie d'un Account Partner dédié, d'un accès à notre réseau de 280+ executives (CTO, CFO, VP Sales à disposition), de sessions de board préparées, d'introductions VC pour les tours suivants et d'un accès prioritaire à nos partenaires RH pour les recrutements clés.",
+  },
+  {
+    q: "Peut-on postuler sans avoir de revenus ?",
+    a: "Oui, en pré-seed. Nous finançons des équipes en phase de validation produit si nous croyons au marché et à la composition de l'équipe. Nous attendons a minima : un MVP en production, des premiers utilisateurs payants ou un LOI signé, et une équipe technique fondatrice. Les projets 100% idée sans traction sont hors scope.",
+  },
+]
 
-function Reveal({ children, delay = 0, y = 40, x = 0, scale = 1 }: { children: React.ReactNode, delay?: number, y?: number, x?: number, scale?: number }) {
+function StatCounter({ value, label }: { value: string; label: string }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const inView = useInView(ref, { once: true, margin: "-60px" })
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y, x, scale }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0, scale: 1 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0, y: 24 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7 }}
+      style={{ textAlign: "center" }}
     >
-      {children}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.5, delay: 0.15 }}
+        style={{
+          fontFamily: FONT_SERIF,
+          fontSize: "clamp(2.4rem, 4vw, 3.4rem)",
+          fontWeight: 700,
+          fontStyle: "italic",
+          color: C.gold,
+          letterSpacing: "-0.5px",
+          lineHeight: 1,
+          marginBottom: "10px",
+        }}
+      >
+        {value}
+      </motion.div>
+      <div style={{
+        fontSize: "0.78rem",
+        fontFamily: FONT_BODY,
+        color: C.muted,
+        letterSpacing: "0.08em",
+        textTransform: "uppercase",
+        fontWeight: 500,
+      }}>
+        {label}
+      </div>
     </motion.div>
   )
 }
 
-function CapitalFlowBackground() {
+export default function Page() {
+  const { scrollY } = useScroll()
+  const heroTextY = useTransform(scrollY, [0, 500], [0, -50])
+  const portfolioY = useTransform(scrollY, [0, 500], [0, -25])
+
+  const [activeTestimonial, setActiveTestimonial] = useState(0)
+  const [direction, setDirection] = useState(1)
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+
+  function prevTestimonial() {
+    const idx = (activeTestimonial - 1 + TESTIMONIALS.length) % TESTIMONIALS.length
+    setDirection(-1)
+    setActiveTestimonial(idx)
+  }
+  function nextTestimonial() {
+    const idx = (activeTestimonial + 1) % TESTIMONIALS.length
+    setDirection(1)
+    setActiveTestimonial(idx)
+  }
+  function goToTestimonial(idx: number) {
+    setDirection(idx > activeTestimonial ? 1 : -1)
+    setActiveTestimonial(idx)
+  }
+
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-5 select-none">
-       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(26,26,26,0.05)_0%,transparent_70%)]" />
-       <svg width="100%" height="100%" className="w-full h-full opacity-30">
-          <defs>
-             <pattern id="financial-grid" width="60" height="60" patternUnits="userSpaceOnUse">
-                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#1a1a1a" strokeWidth="0.5" />
-             </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#financial-grid)" />
-       </svg>
-       {[...Array(8)].map((_, i) => (
-          <motion.div 
-             key={i}
-             className="absolute h-px bg-black/10 w-full"
-             style={{ top: `${i * 12.5}%` }}
-             animate={{ opacity: [0.1, 0.3, 0.1] }}
-             transition={{ duration: 4 + i, repeat: Infinity }}
-          />
-       ))}
-    </div>
-  )
-}
+    <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "hidden" }}>
 
-function HUD_Alpha() {
-   return (
-      <div className="fixed right-12 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col gap-12 items-end pointer-events-none">
-         <div className="flex flex-col gap-4 items-end">
-            <div className="w-1 h-32 bg-black/10 relative">
-               <motion.div 
-                  className="absolute top-0 left-0 w-full bg-black shadow-[0_0_20px_rgba(26,26,26,0.6)]"
-                  animate={{ height: ["20%", "80%", "40%"] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-               />
-            </div>
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] vertical-text text-black">Alpha_Scan</span>
-         </div>
-         <div className="flex flex-col gap-6">
-            <div className="p-4 border border-black/10 bg-white/40 backdrop-blur-md rounded-full">
-               <TrendingUp className="w-6 h-6 text-black" />
-            </div>
-            <div className="p-4 border border-black/5 bg-white/20 backdrop-blur-md rounded-full">
-               <LineChart className="w-6 h-6 text-black/40" />
-            </div>
-         </div>
-      </div>
-   )
-}
-
-function VentureCard({ venture, index }: { venture: any, index: number }) {
-  return (
-    <div className="min-w-[85vw] md:min-w-[65vw] lg:min-w-[45vw] h-[70vh] relative group overflow-hidden border border-black/5 bg-white snap-center">
-       <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent z-10" />
-       <motion.img 
-          src={venture.img} 
-          className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-110 group-hover:scale-100 opacity-20 group-hover:opacity-100"
-          alt={venture.name}
-       />
-       
-       <div className="absolute top-12 left-12 z-20">
-          <div className="text-[10px] font-black uppercase tracking-[0.6em] text-black/40 mb-4">{venture.id} // PORTFOLIO</div>
-          <h3 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic group-hover:translate-x-8 transition-transform duration-1000">
-             {venture.name}
-          </h3>
-       </div>
-
-       <div className="absolute bottom-12 left-12 right-12 z-20">
-          <p className="text-sm md:text-base text-black/60 leading-relaxed font-light uppercase italic mb-12 max-w-lg tracking-widest leading-loose">
-             {venture.desc}
-          </p>
-          <div className="flex justify-between items-end border-t border-black/10 pt-12">
-             <div className="grid grid-cols-2 gap-12">
-                <div>
-                   <div className="text-[8px] text-black/20 uppercase mb-2">Alpha Yield</div>
-                   <div className="text-lg font-black italic">{venture.alpha}</div>
-                </div>
-                <div>
-                   <div className="text-[8px] text-black/20 uppercase mb-2">Capital Pool</div>
-                   <div className="text-lg font-black italic">{venture.capital}</div>
-                </div>
-             </div>
-             <button className="px-12 py-6 border-2 border-black text-black text-[10px] font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all italic flex items-center gap-4">
-                View Ledger <ArrowUpRight className="w-4 h-4" />
-             </button>
+      {/* ── NAVBAR ────────────────────────────────────────────── */}
+      <motion.nav
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        style={{
+          position: "fixed",
+          top: 0, left: 0, right: 0,
+          zIndex: 100,
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "24px 60px",
+          background: "rgba(10,10,10,0.92)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          borderBottom: `1px solid ${C.border}`,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+          <div style={{
+            width: "36px", height: "36px",
+            border: `1.5px solid ${C.gold}`,
+            borderRadius: "4px",
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
+            <span style={{
+              fontFamily: FONT_SERIF, fontSize: "1.1rem",
+              fontWeight: 700, color: C.gold, fontStyle: "italic",
+            }}>S</span>
           </div>
-       </div>
-       
-       <div className="absolute top-1/2 right-0 -translate-y-1/2 text-[30vw] font-black text-black/[0.02] pointer-events-none select-none italic translate-x-1/2">
-          {index + 1}
-       </div>
-    </div>
-  )
-}
-
-/* ==========================================================================
-   MAIN PAGE: AEVIA CAPITAL (STRATEGIC ALPHA)
-   ========================================================================== */
-
-export default function AeviaCapitalPremium() {
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Parallax transforms
-  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -300])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.1])
-
-  return (
-    <div ref={containerRef} className="bg-[#f8f9fa] text-black font-sans selection:bg-black selection:text-white min-h-screen overflow-x-hidden">
-      
-      <CapitalFlowBackground />
-      <HUD_Alpha />
-      
-      {/* 1. NAVIGATION (AEVIA TACTICAL) */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-12 py-10 border-b border-black/10 bg-white/80 backdrop-blur-2xl">
-         <div className="flex items-center gap-6 group cursor-pointer">
-            <TrendingUp className="w-10 h-10 text-black group-hover:scale-110 transition-transform" />
-            <div className="flex flex-col">
-               <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">Aevia<span className="text-black/20">_</span>Capital.</span>
-               <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-black/30 -mt-1 ml-1">Strategic Alpha Agency</span>
+          <div>
+            <div style={{
+              fontFamily: FONT_SERIF, fontSize: "1.15rem",
+              fontWeight: 700, color: C.cream, letterSpacing: "0.04em",
+            }}>Summit Capital</div>
+            <div style={{ fontSize: "0.6rem", color: C.muted, letterSpacing: "0.12em", textTransform: "uppercase", marginTop: "-2px" }}>
+              Seed & Série A
             </div>
-         </div>
-         <div className="hidden lg:flex gap-16 text-[10px] font-black uppercase tracking-[0.4em] text-black/30">
-            <a href="#ventures" className="hover:text-black transition-colors relative group">
-               [ Ventures ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-black group-hover:w-full transition-all" />
-            </a>
-            <a href="#metrics" className="hover:text-black transition-colors relative group">
-               [ Tech_Audit ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-black group-hover:w-full transition-all" />
-            </a>
-            <a href="#about" className="hover:text-black transition-colors relative group">
-               [ Manifesto ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-black group-hover:w-full transition-all" />
-            </a>
-         </div>
-         <div className="flex items-center gap-12">
-            <div className="hidden md:flex flex-col items-end border-r border-black/10 pr-6">
-               <div className="text-[8px] font-black text-black/40 uppercase tracking-widest">Global_Status</div>
-               <div className="text-[10px] font-bold uppercase tracking-widest italic">Alpha_Verified</div>
-            </div>
-            <button className="px-10 py-5 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-zinc-800 transition-all shadow-[0_0_40px_rgba(0,0,0,0.1)] italic">
-               Initiate_Access
-            </button>
-         </div>
-      </nav>
+          </div>
+        </div>
 
-      <main>
-        {/* 2. ALPHA IGNITION (HERO / LUXURY STYLE) */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-12 pt-32 overflow-hidden border-b border-black/5">
-           <div className="relative z-10 w-full max-w-7xl flex flex-col items-center text-center">
-              <Reveal>
-                 <div className="inline-flex items-center gap-4 px-6 py-3 border border-black/30 bg-black/5 text-[10px] font-black uppercase tracking-[0.5em] text-black mb-16 italic">
-                    <PieChart className="w-4 h-4 animate-pulse" /> Alpha_Status: OPTIMIZED // EQUITY_SYNC_PASS
-                 </div>
-                 <motion.h1 
-                    style={{ y: heroY, scale: textScale, opacity: heroOpacity }}
-                    className="text-8xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.7] italic flex flex-col text-black"
-                 >
-                    <span>Secure the</span>
-                    <span className="text-transparent" style={{ WebkitTextStroke: "2px black" }}>Alpha.</span>
-                 </motion.h1>
-                 
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-end text-left max-w-5xl mx-auto">
-                    <p className="text-lg md:text-xl text-black/40 leading-relaxed font-light italic uppercase tracking-[0.15em] border-l-2 border-black/20 pl-12">
-                       Sécuriser le futur des entreprises à forte croissance via une synthèse algorithmique de l'alpha et une profondeur stratégique d'opérateurs.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-8 justify-end">
-                       <button className="px-14 py-8 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-zinc-800 transition-all shadow-[0_0_50px_rgba(0,0,0,0.2)] flex items-center gap-4 italic group">
-                          [ Start Vetting ] <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                       </button>
+        <div style={{ display: "flex", alignItems: "center", gap: "40px" }}>
+          {["Thèse", "Portefeuille", "Équipe", "Actualités"].map((link) => (
+            <Link key={link} href="#" style={{
+              fontFamily: FONT_BODY, color: C.muted, textDecoration: "none",
+              fontSize: "0.875rem", letterSpacing: "0.02em", cursor: "pointer",
+              transition: "color 0.2s",
+            }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = C.cream)}
+              onMouseLeave={(e) => (e.currentTarget.style.color = C.muted)}
+            >{link}</Link>
+          ))}
+        </div>
+
+        <motion.a
+          href="#"
+          whileHover={{ backgroundColor: C.gold, color: "#0a0a0a" }}
+          style={{
+            border: `1px solid ${C.gold}`, color: C.gold,
+            padding: "11px 24px", borderRadius: "2px",
+            textDecoration: "none", fontSize: "0.8rem",
+            fontWeight: 600, letterSpacing: "0.1em",
+            textTransform: "uppercase", cursor: "pointer",
+            transition: "all 0.25s",
+            fontFamily: FONT_BODY,
+          }}
+        >
+          Soumettre un Dossier
+        </motion.a>
+      </motion.nav>
+
+      {/* ── HERO ──────────────────────────────────────────────── */}
+      <section style={{
+        minHeight: "100vh",
+        display: "flex", alignItems: "center",
+        padding: "140px 60px 100px",
+        maxWidth: "1300px", margin: "0 auto",
+        gap: "80px",
+      }}>
+        <motion.div style={{ flex: "0 0 60%", y: heroTextY }}>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.3 }}
+          >
+            <div style={{
+              fontSize: "0.7rem", fontFamily: FONT_BODY, fontWeight: 600,
+              letterSpacing: "0.16em", textTransform: "uppercase",
+              color: C.gold, marginBottom: "32px",
+              display: "flex", alignItems: "center", gap: "12px",
+            }}>
+              <div style={{ width: "32px", height: "1px", background: C.gold }} />
+              Fonds de Capital-Risque — Paris
+            </div>
+
+            <h1 style={{
+              fontFamily: FONT_SERIF,
+              fontSize: "clamp(3.2rem, 5.5vw, 5rem)",
+              fontWeight: 700,
+              fontStyle: "italic",
+              lineHeight: 1.06,
+              letterSpacing: "-1px",
+              color: C.cream,
+              marginBottom: "0",
+            }}>
+              Nous Investissons
+              <br />
+              dans les
+              <br />
+              <span style={{ color: C.gold }}>Bâtisseurs.</span>
+            </h1>
+
+            {/* Gold underline rule */}
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: "180px" }}
+              transition={{ duration: 0.9, delay: 0.8 }}
+              style={{
+                height: "2px",
+                background: `linear-gradient(90deg, ${C.gold}, transparent)`,
+                margin: "28px 0 36px",
+              }}
+            />
+
+            <p style={{
+              fontSize: "1.05rem", fontFamily: FONT_BODY,
+              lineHeight: 1.8, color: C.muted, maxWidth: "520px",
+              marginBottom: "48px",
+            }}>
+              Summit Capital investit en seed et Série A dans des startups tech B2B européennes. 280M€ sous gestion, 47 participations, une conviction : les meilleurs fondateurs ont besoin d'un partenaire — pas d'un actionnaire.
+            </p>
+
+            <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+              <motion.a
+                href="#"
+                whileHover={{ backgroundColor: C.gold, color: "#0a0a0a" }}
+                style={{
+                  border: `1px solid ${C.gold}`, color: C.gold,
+                  padding: "15px 32px", display: "inline-block",
+                  textDecoration: "none", fontSize: "0.85rem",
+                  fontWeight: 600, letterSpacing: "0.1em",
+                  textTransform: "uppercase", cursor: "pointer",
+                  transition: "all 0.25s", fontFamily: FONT_BODY,
+                  borderRadius: "2px",
+                }}
+              >
+                Soumettre Votre Dossier
+              </motion.a>
+              <Link href="#" style={{
+                color: C.muted, textDecoration: "none",
+                fontSize: "0.85rem", cursor: "pointer",
+                display: "flex", alignItems: "center", gap: "8px",
+                transition: "color 0.2s", fontFamily: FONT_BODY,
+              }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = C.cream)}
+                onMouseLeave={(e) => (e.currentTarget.style.color = C.muted)}
+              >
+                Notre thèse d'investissement →
+              </Link>
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Portfolio list */}
+        <motion.div
+          style={{ flex: "0 0 35%", y: portfolioY }}
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+        >
+          <div style={{
+            borderLeft: `2px solid ${C.gold}`,
+            paddingLeft: "28px",
+          }}>
+            <div style={{
+              fontSize: "0.65rem", fontFamily: FONT_BODY, fontWeight: 600,
+              letterSpacing: "0.14em", textTransform: "uppercase",
+              color: C.gold, marginBottom: "24px",
+            }}>
+              Quelques participations
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+              {PORTFOLIO_COMPANIES.map((co, i) => (
+                <motion.div
+                  key={co.name}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.7 + i * 0.1 }}
+                  style={{
+                    padding: "18px 20px",
+                    background: i % 2 === 0 ? C.card : "transparent",
+                    borderRadius: "2px",
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                    <div>
+                      <div style={{
+                        fontFamily: FONT_SERIF, fontSize: "1.3rem",
+                        fontWeight: 700, color: C.cream, letterSpacing: "-0.3px",
+                        marginBottom: "4px",
+                      }}>
+                        {co.flag} {co.name}
+                      </div>
+                      <div style={{ fontSize: "0.75rem", color: C.muted, fontFamily: FONT_BODY }}>
+                        {co.sector}
+                      </div>
                     </div>
-                 </div>
-              </Reveal>
-           </div>
-
-           {/* Floating Background Accents */}
-           <div className="absolute inset-0 z-0 opacity-10 pointer-events-none select-none">
-              <div className="w-full h-full" style={{ backgroundImage: 'radial-gradient(circle at center, black 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
-           </div>
-        </section>
-
-        {/* 3. VENTURES (HORIZONTAL SCROLL / KORR STYLE) */}
-        <section id="ventures" className="py-64 px-12 bg-white relative border-b border-black/10">
-           <div className="max-w-7xl mx-auto mb-32 flex justify-between items-end">
-              <Reveal>
-                 <div className="text-[10px] font-black uppercase tracking-[0.5em] text-black/40 mb-8">Portfolio_Manifest</div>
-                 <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] italic text-black">
-                    Venture <br/> <span className="text-black/5" style={{ WebkitTextStroke: "1px black" }}>Archives.</span>
-                 </h2>
-              </Reveal>
-              <div className="hidden lg:block text-right">
-                 <div className="flex justify-end gap-4 mb-4">
-                    <div className="w-48 h-[1px] bg-black/10" />
-                    <div className="w-16 h-[1px] bg-black" />
-                 </div>
-                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/20 italic">FinTech // BioGen // Space</p>
-              </div>
-           </div>
-
-           <div className="flex gap-16 overflow-x-auto pb-24 no-scrollbar px-4 -mx-4 snap-x snap-mandatory">
-              {VENTURES.map((venture, i) => (
-                 <VentureCard key={venture.id} venture={venture} index={i} />
+                    <span style={{
+                      fontSize: "0.65rem", fontWeight: 700,
+                      color: C.gold, border: `1px solid ${C.border}`,
+                      padding: "3px 10px", borderRadius: "1px",
+                      letterSpacing: "0.06em", textTransform: "uppercase",
+                      fontFamily: FONT_BODY,
+                    }}>{co.stage}</span>
+                  </div>
+                </motion.div>
               ))}
-           </div>
-        </section>
+            </div>
+            <div style={{
+              marginTop: "20px", paddingTop: "16px",
+              borderTop: `1px solid ${C.border}`,
+            }}>
+              <Link href="#" style={{
+                fontSize: "0.78rem", color: C.gold, textDecoration: "none",
+                letterSpacing: "0.06em", cursor: "pointer", fontFamily: FONT_BODY,
+                fontWeight: 600,
+              }}>
+                Voir les 47 participations →
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+      </section>
 
-        {/* 4. TECH AUDIT (HUD DATA VIZ) */}
-        <section id="metrics" className="py-64 px-12 bg-white relative border-b border-black/10">
-           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-32 items-center relative z-10">
-              <div className="lg:col-span-7">
-                 <Reveal>
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-black/40 mb-8">Algorithmic_Data</div>
-                    <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-16 italic text-black">
-                       Alpha <br/> <span className="opacity-10">Stats.</span>
-                    </h2>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                       {ALPHA_METRICS.map((metric, i) => (
-                          <div key={i} className="p-12 border border-black/10 bg-black/5 hover:border-black/50 transition-all group relative overflow-hidden">
-                             <div className="text-[10px] font-black uppercase tracking-widest text-black/40 mb-6">{metric.label}</div>
-                             <div className="text-6xl font-black italic mb-6 tracking-tighter group-hover:scale-105 transition-transform origin-left text-black">{metric.value}</div>
-                             <div className="flex justify-between items-center text-[9px] font-bold uppercase tracking-[0.4em] text-black/20">
-                                <span>{metric.detail}</span>
-                                <span className="text-black">{metric.trend}</span>
-                             </div>
-                             <div className="mt-8 h-[2px] bg-black/5 relative overflow-hidden">
-                                <motion.div 
-                                   className="absolute inset-y-0 left-0 bg-black"
-                                   initial={{ width: 0 }}
-                                   whileInView={{ width: '100%' }}
-                                   transition={{ duration: 1.5, delay: i * 0.1 }}
-                                />
-                             </div>
-                          </div>
-                       ))}
-                    </div>
-                 </Reveal>
+      {/* ── STATS BAR ─────────────────────────────────────────── */}
+      <section style={{
+        borderTop: `1px solid ${C.border}`,
+        borderBottom: `1px solid ${C.border}`,
+        background: C.card,
+        padding: "64px 60px",
+      }}>
+        <div style={{
+          maxWidth: "1000px", margin: "0 auto",
+          display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
+          gap: "40px", alignItems: "center",
+        }}>
+          <StatCounter value="280M€" label="Sous gestion" />
+          <StatCounter value="47" label="Participations actives" />
+          <StatCounter value="12 sorties" label="Dont 3 licornes" />
+          <StatCounter value="2008" label="Fondé à Paris" />
+        </div>
+      </section>
+
+      {/* ── INVESTMENT FOCUS (replaces Features/Tabs) ─────────── */}
+      <section style={{ padding: "110px 60px", maxWidth: "1300px", margin: "0 auto" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          style={{ marginBottom: "64px" }}
+        >
+          <div style={{
+            fontSize: "0.65rem", fontFamily: FONT_BODY, fontWeight: 600,
+            letterSpacing: "0.16em", textTransform: "uppercase",
+            color: C.gold, marginBottom: "20px",
+            display: "flex", alignItems: "center", gap: "12px",
+          }}>
+            <div style={{ width: "24px", height: "1px", background: C.gold }} />
+            Thèse d'Investissement
+          </div>
+          <h2 style={{
+            fontFamily: FONT_SERIF, fontSize: "clamp(2.2rem, 4vw, 3.4rem)",
+            fontWeight: 700, fontStyle: "italic",
+            color: C.cream, letterSpacing: "-0.5px",
+            maxWidth: "600px", lineHeight: 1.15,
+          }}>
+            Quatre domaines où nous avons une conviction forte
+          </h2>
+        </motion.div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "24px" }}>
+          {FOCUS_AREAS.map((area, i) => (
+            <motion.div
+              key={area.id}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              whileHover={{ borderColor: C.goldLight }}
+              style={{
+                background: C.card, borderRadius: "2px",
+                border: `1px solid ${C.border}`,
+                borderTop: `2px solid ${C.gold}`,
+                padding: "40px 36px",
+                transition: "border-color 0.3s",
+              }}
+            >
+              <div style={{
+                display: "flex", alignItems: "center", gap: "12px",
+                marginBottom: "20px",
+              }}>
+                <span style={{ fontSize: "1.4rem", color: C.gold }}>{area.icon}</span>
+                <div>
+                  <div style={{
+                    fontFamily: FONT_SERIF, fontSize: "1.4rem",
+                    fontWeight: 700, color: C.cream, letterSpacing: "-0.2px",
+                  }}>{area.title}</div>
+                  <div style={{ fontSize: "0.75rem", color: C.gold, fontFamily: FONT_BODY, fontWeight: 500 }}>
+                    {area.subtitle}
+                  </div>
+                </div>
               </div>
 
-              <div className="lg:col-span-5 space-y-16">
-                 <Reveal delay={0.4}>
-                    <div className="p-12 bg-black text-white rounded-sm relative group overflow-hidden border border-black/10 shadow-2xl">
-                       <div className="flex justify-between items-center mb-12">
-                          <h4 className="text-2xl font-black uppercase tracking-tighter italic">Alpha Logs</h4>
-                          <div className="w-2 h-2 rounded-full bg-white animate-ping" />
-                       </div>
-                       <div className="space-y-6 font-mono text-[10px]">
-                          {ALPHA_LOGS.map((log, i) => (
-                             <div key={i} className="flex justify-between border-b border-white/10 pb-2 group/log hover:bg-white/5 px-2 transition-colors">
-                                <span className="text-white/20 group-hover/log:text-white transition-colors">[{log.time}]</span>
-                                <span className="text-white font-black">{log.event}</span>
-                                <span className="text-white/40 italic">{log.detail}</span>
-                                <span className="font-black text-white">[{log.status}]</span>
-                             </div>
-                          ))}
-                       </div>
-                       <div className="mt-12 flex items-center gap-4 text-[10px] font-black uppercase text-white/40 animate-pulse">
-                          <Terminal className="w-4 h-4" /> Awaiting_Alpha_Sync...
-                       </div>
-                    </div>
-                 </Reveal>
+              <p style={{
+                fontSize: "0.9rem", lineHeight: 1.8, color: C.muted,
+                marginBottom: "24px", fontFamily: FONT_BODY,
+              }}>
+                {area.body}
+              </p>
+
+              <div style={{
+                borderTop: `1px solid ${C.border}`,
+                paddingTop: "20px",
+                display: "flex", flexDirection: "column", gap: "8px",
+              }}>
+                {area.metrics.map((m) => (
+                  <div key={m} style={{
+                    display: "flex", alignItems: "center", gap: "10px",
+                    fontSize: "0.8rem", color: C.muted, fontFamily: FONT_BODY,
+                  }}>
+                    <div style={{ width: "4px", height: "4px", borderRadius: "50%", background: C.gold, flexShrink: 0 }} />
+                    {m}
+                  </div>
+                ))}
               </div>
-           </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
 
-           {/* Background Overlay Large Text */}
-           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] font-black text-black/[0.01] pointer-events-none select-none italic z-0">
-              EQUITY
-           </div>
-        </section>
+      {/* ── TESTIMONIALS ──────────────────────────────────────── */}
+      <section style={{
+        background: C.card,
+        borderTop: `1px solid ${C.border}`,
+        borderBottom: `1px solid ${C.border}`,
+        padding: "110px 60px",
+      }}>
+        <div style={{ maxWidth: "900px", margin: "0 auto" }}>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            style={{ marginBottom: "64px" }}
+          >
+            <div style={{
+              fontSize: "0.65rem", fontFamily: FONT_BODY, fontWeight: 600,
+              letterSpacing: "0.16em", textTransform: "uppercase",
+              color: C.gold, marginBottom: "20px",
+              display: "flex", alignItems: "center", gap: "12px",
+            }}>
+              <div style={{ width: "24px", height: "1px", background: C.gold }} />
+              Ce que disent les fondateurs
+            </div>
+            <h2 style={{
+              fontFamily: FONT_SERIF, fontSize: "clamp(2rem, 3.5vw, 3rem)",
+              fontWeight: 700, fontStyle: "italic",
+              color: C.cream, letterSpacing: "-0.5px",
+            }}>
+              Au-delà du capital
+            </h2>
+          </motion.div>
 
-        {/* 5. MANIFESTO (EDITORIAL LAYOUT) */}
-        <section id="about" className="py-64 px-12 bg-black text-white relative">
-           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-32 items-center">
-              <div className="lg:col-span-5">
-                 <Reveal>
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-white mb-8">Alpha_Doctrine</div>
-                    <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-12 italic text-white">
-                       Strategic <br/> <span className="opacity-20">Alpha.</span>
-                    </h2>
-                    <p className="text-lg font-bold italic text-white/40 leading-relaxed uppercase tracking-[0.1em] mb-16 leading-loose">
-                       Notre portail stratégique offre aux partenaires une visibilité en temps réel sur la performance des entreprises, le déploiement de capital et l'alpha des marchés émergents.
-                    </p>
-                    <div className="grid grid-cols-2 gap-12 border-t border-white/10 pt-12">
-                       <div className="flex flex-col gap-4">
-                          <div className="text-[10px] font-black text-white/20 uppercase tracking-widest">Equity</div>
-                          <div className="text-4xl font-black italic">LEDGER_V4</div>
-                       </div>
-                       <div className="flex flex-col gap-4">
-                          <div className="text-[10px] font-black text-white/20 uppercase tracking-widest">Risk</div>
-                          <div className="text-4xl font-black italic">INSULATION</div>
-                       </div>
+          <div style={{ position: "relative", minHeight: "320px" }}>
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={activeTestimonial}
+                custom={direction}
+                initial={{ opacity: 0, x: direction * 60 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: direction * -60 }}
+                transition={{ duration: 0.45 }}
+                style={{
+                  background: C.bg, borderRadius: "2px",
+                  border: `1px solid ${C.border}`,
+                  borderLeft: `3px solid ${C.gold}`,
+                  padding: "48px 56px",
+                }}
+              >
+                <div style={{
+                  fontFamily: FONT_SERIF, fontSize: "1.15rem",
+                  fontStyle: "italic", lineHeight: 1.85,
+                  color: C.text, marginBottom: "36px",
+                }}>
+                  « {TESTIMONIALS[activeTestimonial].quote} »
+                </div>
+
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+                    <div style={{
+                      width: "44px", height: "44px",
+                      border: `1.5px solid ${C.gold}`,
+                      borderRadius: "50%",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontFamily: FONT_BODY, fontWeight: 700,
+                      fontSize: "0.8rem", color: C.gold,
+                    }}>
+                      {TESTIMONIALS[activeTestimonial].avatar}
                     </div>
-                 </Reveal>
-              </div>
-
-              <div className="lg:col-span-7">
-                 <Reveal scale={0.9}>
-                    <div className="relative aspect-video bg-zinc-900 group overflow-hidden border-[20px] border-zinc-800 shadow-2xl">
-                       <img 
-                          src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80" 
-                          className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-2000"
-                          alt="Aevia Capital Interior"
-                       />
-                       <div className="absolute inset-0 bg-white/5 mix-blend-overlay" />
+                    <div>
+                      <div style={{
+                        fontFamily: FONT_SERIF, fontSize: "1rem",
+                        fontWeight: 700, color: C.cream,
+                      }}>
+                        {TESTIMONIALS[activeTestimonial].name}
+                      </div>
+                      <div style={{ fontSize: "0.78rem", color: C.muted, fontFamily: FONT_BODY }}>
+                        {TESTIMONIALS[activeTestimonial].role} — {TESTIMONIALS[activeTestimonial].company}
+                      </div>
                     </div>
-                 </Reveal>
+                  </div>
+                  <div style={{
+                    fontSize: "0.72rem", fontFamily: FONT_BODY,
+                    color: C.gold, fontWeight: 600,
+                    padding: "6px 14px", border: `1px solid ${C.border}`,
+                    borderRadius: "1px", letterSpacing: "0.04em",
+                  }}>
+                    {TESTIMONIALS[activeTestimonial].raise}
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "28px" }}>
+            <div style={{ display: "flex", gap: "8px" }}>
+              {TESTIMONIALS.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => goToTestimonial(i)}
+                  style={{
+                    width: i === activeTestimonial ? "28px" : "8px",
+                    height: "2px",
+                    background: i === activeTestimonial ? C.gold : C.border,
+                    border: "none", cursor: "pointer",
+                    transition: "all 0.3s", borderRadius: "1px",
+                    padding: 0,
+                  }}
+                />
+              ))}
+            </div>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <motion.button
+                onClick={prevTestimonial}
+                whileHover={{ borderColor: C.gold, color: C.gold }}
+                style={{
+                  width: "40px", height: "40px",
+                  background: "transparent", border: `1px solid ${C.border}`,
+                  color: C.muted, cursor: "pointer", fontSize: "0.9rem",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  borderRadius: "1px", transition: "all 0.2s",
+                }}
+              >←</motion.button>
+              <motion.button
+                onClick={nextTestimonial}
+                whileHover={{ borderColor: C.gold, color: C.gold }}
+                style={{
+                  width: "40px", height: "40px",
+                  background: "transparent", border: `1px solid ${C.border}`,
+                  color: C.muted, cursor: "pointer", fontSize: "0.9rem",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  borderRadius: "1px", transition: "all 0.2s",
+                }}
+              >→</motion.button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── PROCESS (replaces Pricing) ────────────────────────── */}
+      <section style={{ padding: "110px 60px", maxWidth: "1300px", margin: "0 auto" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          style={{ marginBottom: "64px" }}
+        >
+          <div style={{
+            fontSize: "0.65rem", fontFamily: FONT_BODY, fontWeight: 600,
+            letterSpacing: "0.16em", textTransform: "uppercase",
+            color: C.gold, marginBottom: "20px",
+            display: "flex", alignItems: "center", gap: "12px",
+          }}>
+            <div style={{ width: "24px", height: "1px", background: C.gold }} />
+            Notre Processus
+          </div>
+          <h2 style={{
+            fontFamily: FONT_SERIF, fontSize: "clamp(2.2rem, 4vw, 3.4rem)",
+            fontWeight: 700, fontStyle: "italic",
+            color: C.cream, letterSpacing: "-0.5px", lineHeight: 1.15,
+          }}>
+            De la candidature
+            <br />à la term sheet
+          </h2>
+        </motion.div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "2px" }}>
+          {PROCESS_STEPS.map((step, i) => (
+            <motion.div
+              key={step.num}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.12 }}
+              style={{ position: "relative" }}
+            >
+              {/* Connector line */}
+              {i < PROCESS_STEPS.length - 1 && (
+                <div style={{
+                  position: "absolute", top: "56px", right: "-1px",
+                  width: "2px", height: "calc(100% - 80px)",
+                  background: C.border, zIndex: 0,
+                  display: "none",
+                }} />
+              )}
+              <div style={{
+                background: C.card, padding: "36px 28px",
+                borderTop: `2px solid ${i === 1 ? C.gold : C.border}`,
+                height: "100%",
+              }}>
+                <div style={{
+                  fontFamily: FONT_SERIF, fontSize: "2.8rem",
+                  fontWeight: 700, fontStyle: "italic",
+                  color: i === 1 ? C.gold : "rgba(196,169,106,0.2)",
+                  lineHeight: 1, marginBottom: "20px",
+                }}>{step.num}</div>
+
+                <div style={{
+                  fontFamily: FONT_SERIF, fontSize: "1.25rem",
+                  fontWeight: 700, color: C.cream, marginBottom: "4px",
+                }}>{step.title}</div>
+                <div style={{
+                  fontSize: "0.72rem", fontFamily: FONT_BODY,
+                  color: C.gold, fontWeight: 600, letterSpacing: "0.04em",
+                  marginBottom: "16px", textTransform: "uppercase",
+                }}>{step.sub}</div>
+
+                <p style={{
+                  fontSize: "0.85rem", lineHeight: 1.8,
+                  color: C.muted, fontFamily: FONT_BODY,
+                }}>{step.body}</p>
               </div>
-           </div>
-        </section>
+            </motion.div>
+          ))}
+        </div>
 
-        {/* 6. FAQ (TACTICAL ACCORDION) */}
-        <section className="py-64 px-12 bg-[#f5f5f5] relative overflow-hidden">
-           <div className="max-w-4xl mx-auto relative z-10">
-              <Reveal>
-                 <div className="text-center mb-40">
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-black/40 mb-8">Technical_Briefing</div>
-                    <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter italic mb-8 text-black">Venture <span className="opacity-10">Vault.</span></h2>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/20 italic">Selection // Alpha // Deployment</p>
-                 </div>
-              </Reveal>
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          style={{
+            marginTop: "40px", padding: "28px 36px",
+            background: "rgba(196,169,106,0.05)",
+            border: `1px solid ${C.border}`,
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+            gap: "24px", flexWrap: "wrap",
+          }}
+        >
+          <div>
+            <div style={{
+              fontFamily: FONT_SERIF, fontSize: "1.1rem",
+              fontWeight: 700, color: C.cream, marginBottom: "4px",
+            }}>
+              Délai moyen de décision : 30 jours
+            </div>
+            <div style={{ fontSize: "0.82rem", color: C.muted, fontFamily: FONT_BODY }}>
+              Du premier contact à la term sheet signée. Nous respectons votre temps.
+            </div>
+          </div>
+          <motion.a
+            href="#"
+            whileHover={{ backgroundColor: C.gold, color: "#0a0a0a" }}
+            style={{
+              border: `1px solid ${C.gold}`, color: C.gold,
+              padding: "13px 28px", textDecoration: "none",
+              fontSize: "0.8rem", fontWeight: 600,
+              letterSpacing: "0.1em", textTransform: "uppercase",
+              cursor: "pointer", transition: "all 0.25s",
+              fontFamily: FONT_BODY, whiteSpace: "nowrap",
+              borderRadius: "1px",
+            }}
+          >
+            Commencer le processus →
+          </motion.a>
+        </motion.div>
+      </section>
 
-              <Accordion type="single" collapsible className="w-full space-y-4">
-                 {[
-                   { q: "What is your primary selection philosophy?", a: "Algorithmic alpha synthesis. We believe that seasoned operator intuition should be synchronized with high-fidelity predictive models for ultimate performance." },
-                   { q: "How do you handle risk insulation?", a: "Every venture enclave undergoes a multi-pass risk audit. We operate within high-fidelity hedging standards to ensure absolute capital stability across cycles." },
-                   { q: "Do you offer bespoke strategic advisory?", a: "Yes. For select venture partners, we design unique alpha sequences and capital orchestration paths that push the limits of traditional private equity." }
-                 ].map((item, i) => (
-                   <AccordionItem key={i} value={`item-${i}`} className="border border-black/10 bg-black/5 px-10 rounded-sm hover:border-black/40 transition-all">
-                      <AccordionTrigger className="text-[14px] font-black uppercase tracking-[0.4em] py-12 no-underline italic text-left text-black">
-                         {item.q}
-                      </AccordionTrigger>
-                      <AccordionContent className="text-[11px] font-medium text-black/40 tracking-[0.1em] uppercase italic leading-loose pb-12">
-                         {item.a}
-                      </AccordionContent>
-                   </AccordionItem>
-                 ))}
-              </Accordion>
-           </div>
-        </section>
+      {/* ── FAQ ───────────────────────────────────────────────── */}
+      <section style={{
+        background: C.card,
+        borderTop: `1px solid ${C.border}`,
+        borderBottom: `1px solid ${C.border}`,
+        padding: "110px 60px",
+      }}>
+        <div style={{ maxWidth: "820px", margin: "0 auto" }}>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            style={{ marginBottom: "56px" }}
+          >
+            <div style={{
+              fontSize: "0.65rem", fontFamily: FONT_BODY, fontWeight: 600,
+              letterSpacing: "0.16em", textTransform: "uppercase",
+              color: C.gold, marginBottom: "20px",
+              display: "flex", alignItems: "center", gap: "12px",
+            }}>
+              <div style={{ width: "24px", height: "1px", background: C.gold }} />
+              Questions Fréquentes
+            </div>
+            <h2 style={{
+              fontFamily: FONT_SERIF, fontSize: "clamp(2rem, 3.5vw, 3rem)",
+              fontWeight: 700, fontStyle: "italic",
+              color: C.cream, letterSpacing: "-0.5px",
+            }}>
+              Ce que les fondateurs nous demandent
+            </h2>
+          </motion.div>
 
-        {/* 7. FOOTER (HIGH FIDELITY) */}
-        <footer className="bg-white pt-64 pb-20 px-12 md:px-24 border-t-8 border-black">
-           <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-32 mb-48">
-                 <div className="lg:col-span-7">
-                    <Reveal>
-                       <div className="flex flex-col mb-16">
-                          <span className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.7] italic text-black">Aevia<span className="text-black/20">_</span>Capital.</span>
-                          <span className="text-[12px] font-bold uppercase tracking-[1em] text-black/40 ml-2">Strategic Alpha Agency</span>
-                       </div>
-                       <p className="text-black/20 max-w-sm mb-20 text-sm font-light uppercase tracking-widest leading-loose italic">
-                          La maîtrise absolue de l'alpha financier. Singapour // Global Command Center.
-                       </p>
-                       <div className="flex gap-12 items-center">
-                          <div className="w-24 h-[1px] bg-black/10" />
-                          <div className="flex gap-10">
-                             <Globe className="w-7 h-7 text-black/30 hover:text-black transition-all cursor-pointer" />
-                             <TrendingUp className="w-7 h-7 text-black/30 hover:text-black transition-all cursor-pointer" />
-                             <Coins className="w-7 h-7 text-black/30 hover:text-black transition-all cursor-pointer" />
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {FAQS.map((faq, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                style={{
+                  borderBottom: `1px solid ${C.border}`,
+                }}
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  style={{
+                    width: "100%", padding: "24px 0",
+                    display: "flex", justifyContent: "space-between", alignItems: "center",
+                    background: "transparent", border: "none", cursor: "pointer",
+                    textAlign: "left", gap: "24px",
+                  }}
+                >
+                  <span style={{
+                    fontFamily: FONT_SERIF, fontSize: "1.05rem",
+                    fontWeight: 700, color: openFaq === i ? C.cream : C.text,
+                    lineHeight: 1.4, fontStyle: "italic",
+                    transition: "color 0.2s",
+                  }}>
+                    {faq.q}
+                  </span>
+                  <motion.span
+                    animate={{ rotate: openFaq === i ? 45 : 0 }}
+                    transition={{ duration: 0.25 }}
+                    style={{
+                      color: C.gold, fontSize: "1.4rem",
+                      flexShrink: 0, fontWeight: 300,
+                      lineHeight: 1,
+                    }}
+                  >+</motion.span>
+                </button>
 
-                 <div className="lg:col-span-5 grid grid-cols-2 gap-16">
-                    <div className="space-y-12">
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-black mb-16 border-b border-black/20 pb-4">Ventures</h4>
-                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-black/30">
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> FinTech_Core
-                          </li>
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> BioGen_Enclave
-                          </li>
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> NeoTransit_Orbital
-                          </li>
-                       </ul>
-                    </div>
-                    <div className="space-y-12">
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-black mb-16 border-b border-black/20 pb-4">Agency</h4>
-                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-black/30">
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> Manifesto
-                          </li>
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> Global_Nodes
-                          </li>
-                          <li className="hover:text-black cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-black" /> Partners
-                          </li>
-                       </ul>
-                    </div>
-                 </div>
+                <AnimatePresence>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      style={{ overflow: "hidden" }}
+                    >
+                      <div style={{
+                        paddingBottom: "28px", color: C.muted,
+                        fontSize: "0.9rem", lineHeight: 1.85,
+                        fontFamily: FONT_BODY,
+                      }}>
+                        {faq.a}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA BANNER ────────────────────────────────────────── */}
+      <section style={{ padding: "80px 60px" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          style={{
+            maxWidth: "1000px", margin: "0 auto",
+            background: C.card,
+            border: `1px solid ${C.border}`,
+            borderTop: `3px solid ${C.gold}`,
+            padding: "72px 80px",
+            display: "grid", gridTemplateColumns: "1fr auto",
+            gap: "60px", alignItems: "center",
+          }}
+        >
+          <div>
+            <div style={{
+              fontSize: "0.65rem", fontFamily: FONT_BODY, fontWeight: 600,
+              letterSpacing: "0.16em", textTransform: "uppercase",
+              color: C.gold, marginBottom: "20px",
+              display: "flex", alignItems: "center", gap: "12px",
+            }}>
+              <div style={{ width: "24px", height: "1px", background: C.gold }} />
+              Prêt à nous rencontrer ?
+            </div>
+            <h2 style={{
+              fontFamily: FONT_SERIF, fontSize: "clamp(2rem, 3.5vw, 3rem)",
+              fontWeight: 700, fontStyle: "italic",
+              color: C.cream, letterSpacing: "-0.5px", lineHeight: 1.15,
+              marginBottom: "20px",
+            }}>
+              Soumettre Votre Dossier
+            </h2>
+            <p style={{
+              fontSize: "0.95rem", fontFamily: FONT_BODY,
+              color: C.muted, lineHeight: 1.8, maxWidth: "480px",
+            }}>
+              Deck, métriques, vision. Pas de template imposé. Nous lisons toutes les candidatures et répondons sous 5 jours ouvrés avec un retour argumenté — qu'il soit positif ou négatif.
+            </p>
+            <div style={{
+              display: "flex", gap: "32px", marginTop: "32px",
+              flexWrap: "wrap",
+            }}>
+              {[
+                { icon: "◈", text: "Réponse sous 5 jours" },
+                { icon: "◎", text: "Retour toujours argumenté" },
+                { icon: "◷", text: "Décision en 30 jours max" },
+              ].map((item) => (
+                <div key={item.text} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <span style={{ color: C.gold, fontSize: "0.9rem" }}>{item.icon}</span>
+                  <span style={{ fontSize: "0.8rem", color: C.muted, fontFamily: FONT_BODY }}>{item.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px", minWidth: "200px" }}>
+            <motion.a
+              href="#"
+              whileHover={{ backgroundColor: C.gold, color: "#0a0a0a" }}
+              style={{
+                border: `1px solid ${C.gold}`, color: C.gold,
+                padding: "16px 32px", textDecoration: "none",
+                fontWeight: 600, fontSize: "0.85rem",
+                letterSpacing: "0.1em", textTransform: "uppercase",
+                cursor: "pointer", transition: "all 0.25s",
+                fontFamily: FONT_BODY, textAlign: "center",
+                display: "block", borderRadius: "1px",
+              }}
+            >
+              Soumettre un Dossier
+            </motion.a>
+            <motion.a
+              href="#"
+              whileHover={{ color: C.cream }}
+              style={{
+                color: C.muted, textDecoration: "none",
+                fontSize: "0.82rem", textAlign: "center",
+                cursor: "pointer", fontFamily: FONT_BODY,
+                transition: "color 0.2s", padding: "10px",
+              }}
+            >
+              Rencontrer l'équipe →
+            </motion.a>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ── FOOTER ────────────────────────────────────────────── */}
+      <footer style={{
+        borderTop: `1px solid ${C.border}`,
+        background: "#050505",
+        padding: "64px 60px 40px",
+      }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "56px", marginBottom: "56px" }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "20px" }}>
+                <div style={{
+                  width: "36px", height: "36px",
+                  border: `1.5px solid ${C.gold}`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
+                  <span style={{
+                    fontFamily: FONT_SERIF, fontSize: "1.1rem",
+                    fontWeight: 700, color: C.gold, fontStyle: "italic",
+                  }}>S</span>
+                </div>
+                <div>
+                  <div style={{
+                    fontFamily: FONT_SERIF, fontSize: "1.1rem",
+                    fontWeight: 700, color: C.cream,
+                  }}>Summit Capital</div>
+                  <div style={{ fontSize: "0.6rem", color: C.muted, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    Paris · Genève · Bruxelles
+                  </div>
+                </div>
               </div>
-
-              <div className="pt-24 border-t border-black/10 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.5em] text-black/10 italic text-center">
-                 <div className="flex gap-16">
-                    <span>©2026 AEVIA CAPITAL GROUP.</span>
-                    <span className="hidden md:inline">//</span>
-                    <span>ALGORITHMIC_ALPHA_CERTIFIED</span>
-                 </div>
-                 <div className="flex gap-16 font-mono text-black/30">
-                    <span>8K_RESOLUTION_ALPHA</span>
-                    <span>100%_EQUITY_INTEGRITY</span>
-                 </div>
+              <p style={{
+                color: C.muted, fontSize: "0.82rem",
+                lineHeight: 1.8, maxWidth: "260px", marginBottom: "28px",
+                fontFamily: FONT_BODY,
+              }}>
+                Fonds de capital-risque indépendant. 280M€ sous gestion. Seed et Série A, tech B2B, Europe.
+              </p>
+              <div style={{ display: "flex", gap: "10px" }}>
+                {[
+                  {
+                    label: "LinkedIn",
+                    d: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z M4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z",
+                  },
+                  {
+                    label: "MessageSquare",
+                    d: "M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.5 7-3.8 1.1 0 3-1.2 3-1.2z",
+                  },
+                  {
+                    label: "AngelList",
+                    d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z",
+                  },
+                ].map((social) => (
+                  <motion.a
+                    key={social.label}
+                    href="#"
+                    whileHover={{ borderColor: C.gold, color: C.gold }}
+                    style={{
+                      width: "36px", height: "36px",
+                      border: `1px solid ${C.border}`,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      cursor: "pointer", color: C.muted, textDecoration: "none",
+                      transition: "all 0.2s",
+                    }}
+                    aria-label={social.label}
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d={social.d} />
+                    </svg>
+                  </motion.a>
+                ))}
               </div>
-           </div>
-        </footer>
-      </main>
+            </div>
 
-      <style>{`
-        ::-webkit-scrollbar { width: 6px; background: #f8f9fa; }
-        ::-webkit-scrollbar-thumb { background: #000000; border-radius: 10px; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .vertical-text { writing-mode: vertical-rl; }
-        .animate-spin-slow { animation: spin 40s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-      `}</style>
+            {[
+              { title: "Fonds", links: ["Thèse d'investissement", "Portefeuille", "Équipe", "Track Record"] },
+              { title: "Fondateurs", links: ["Soumettre un dossier", "FAQ", "Processus", "Nos partenaires"] },
+              { title: "Ressources", links: ["Blog", "Podcast", "Événements", "Presse"] },
+            ].map((col) => (
+              <div key={col.title}>
+                <div style={{
+                  fontSize: "0.65rem", fontFamily: FONT_BODY, fontWeight: 700,
+                  letterSpacing: "0.12em", textTransform: "uppercase",
+                  color: C.gold, marginBottom: "22px",
+                }}>{col.title}</div>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "13px" }}>
+                  {col.links.map((link) => (
+                    <li key={link}>
+                      <Link href="#" style={{
+                        color: C.muted, textDecoration: "none",
+                        fontSize: "0.82rem", fontFamily: FONT_BODY,
+                        cursor: "pointer", transition: "color 0.2s",
+                      }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = C.cream)}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = C.muted)}
+                      >{link}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div style={{
+            borderTop: `1px solid ${C.border}`,
+            paddingTop: "28px",
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+            flexWrap: "wrap", gap: "16px",
+          }}>
+            <span style={{ fontSize: "0.75rem", color: C.muted, fontFamily: FONT_BODY }}>
+              © 2025 Summit Capital SAS. AMF agréé — GP n°GP-XXXXXX. Tous droits réservés.
+            </span>
+            <div style={{ display: "flex", gap: "28px" }}>
+              {["Mentions légales", "Politique RGPD", "Conflits d'intérêts"].map((l) => (
+                <Link key={l} href="#" style={{
+                  fontSize: "0.75rem", color: C.muted,
+                  textDecoration: "none", cursor: "pointer",
+                  fontFamily: FONT_BODY, transition: "color 0.2s",
+                }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = C.cream)}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = C.muted)}
+                >{l}</Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

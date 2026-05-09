@@ -1,556 +1,1685 @@
 "use client"
 
-import React, { useState, useEffect, useRef, useMemo } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring,
-  useMotionValue
-} from "framer-motion"
-import Image from "next/image"
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import { useState, useRef } from "react"
 import Link from "next/link"
-import { 
-  Zap, Activity, Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, BarChart3, Fingerprint, Scan, 
-  Briefcase, Wind, Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Search, Cpu, Leaf, Droplets, 
-  FlaskConical, Microscope, Thermometer, Gauge, 
-  Waves, ShieldCheck, Sun, Moon, Sparkles, 
-  Compass, Map, Radio, Disc, Binary, Database,
-  CircleDot, Waves as WaveIcon, Pickaxe, Mountain, Gem,
-  Drill, Telescope, MilestoneIcon, Globe, Layout,
-  Smartphone, PenTool, Camera, Music, Film, Palette,
-  MessageSquare, Send, Flower, Flower2, Sprout,
-  Grape, GlassWater, Shovel, Dna, Biohazard,
-  Crosshair, Focus, ScanEye
-} from "lucide-react"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
-/* ==========================================================================
-   VERIDIAN BOTANICAL DATASET (ULTRA DENSITY)
-   ========================================================================== */
+const C = {
+  bg: "#f8f4ec",
+  bgCard: "#fffdf8",
+  bgDark: "#0f1f3d",
+  bgDarkAlt: "#162848",
+  text: "#0f1f3d",
+  textMuted: "#5a6a7e",
+  textLight: "#f8f4ec",
+  textGold: "#c4a96a",
+  accent: "#c4a96a",
+  accentDark: "#a08448",
+  accentLight: "#e8d9b8",
+  border: "#e0d5c0",
+  borderDark: "#1e3360",
+  headingFont: '"Cormorant Garamond", Georgia, serif',
+  bodyFont: "system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+  shadow: "0 4px 24px rgba(15,31,61,0.08)",
+  shadowMd: "0 8px 40px rgba(15,31,61,0.12)",
+  shadowLg: "0 20px 60px rgba(15,31,61,0.15)",
+  radius: "2px",
+  radiusMd: "4px",
+}
 
-const STRAINS = [
+const NAV_LINKS = [
+  { label: "Chambres", href: "#chambres" },
+  { label: "Gastronomie", href: "#gastronomie" },
+  { label: "Spa", href: "#spa" },
+  { label: "Événements", href: "#evenements" },
+  { label: "À Propos", href: "#about" },
+]
+
+const STATS = [
+  { value: 12, suffix: "", label: "Suites & Chambres", prefix: "" },
+  { value: 4.9, suffix: "★", label: "Note Moyenne", prefix: "" },
+  { value: 150, suffix: "+", label: "Ans d'Histoire", prefix: "" },
+  { value: 3, suffix: "", label: "Restaurants Étoilés", prefix: "" },
+]
+
+const TABS = [
   {
-    id: "ver-go-01",
-    name: "Veridian Gold",
-    terpenes: "Limonene // Myrcene",
-    potency: "98% Retained",
-    cure: "Cold-Cure / 14 Days",
-    desc: "L'expression ultime de la vigueur solaire. Une synergie de terpènes d'agrumes stabilisée par notre processus de cure à froid propriétaire.",
-    img: "https://images.unsplash.com/photo-1536640710159-2f3f144c209d?w=1200&q=80",
-    color: "#c4a45e"
+    id: "chambres",
+    label: "Chambres & Suites",
+    icon: "🏛",
+    heading: "Des Havres de Paix Raffinés",
+    body: "Chacune de nos 12 suites et chambres a été conçue par des architectes d'intérieur parisiens renommés. Boiseries anciennes, marbres de Carrare et linge de maison brodé à la main composent un univers où le temps s'arrête. Chaque chambre offre une vue imprenable sur les toits de Paris ou sur nos jardins privés.",
+    details: ["Literie de 600 fils", "Bain moussant sur commande", "Minibar premium cuisiné", "Service de chambre 24h/24"],
   },
   {
-    id: "ver-vn-08",
-    name: "Velvet Night",
-    terpenes: "Linalool // Caryophyllene",
-    potency: "99% Retained",
-    cure: "Slow-Dry / 21 Days",
-    desc: "Une profondeur florale évoquant la sérénité nocturne. Cultivée sous spectre violet pur pour maximiser la production de métabolites secondaires.",
-    img: "https://images.unsplash.com/photo-1502444330042-d1a1ddf9bb5c?w=1200&q=80",
-    color: "#5e4b8b"
+    id: "gastro",
+    label: "Gastronomie",
+    icon: "🍷",
+    heading: "Une Cuisine d'Exception",
+    body: "Notre chef triplement étoilé Thierry Marchand sublime les produits du terroir français dans une carte évoluant au fil des saisons. Du petit-déjeuner continental servi en chambre au dîner gastronomique dans notre salle voûtée du XVIIIe siècle, chaque repas devient un moment d'exception.",
+    details: ["Breakfast continental inclus", "Cave de 800 références", "Menu dégustation 8 plats", "Cours de cuisine privés"],
   },
   {
-    id: "ver-ob-15",
-    name: "Obsidian Bloom",
-    terpenes: "Pinene // Humulene",
-    potency: "97.5% Retained",
-    cure: "Ice-Preserved",
-    desc: "Issue de sols volcaniques enrichis, cette variété offre une structure cristalline unique et une résine d'une densité exceptionnelle.",
-    img: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=1200&q=80",
-    color: "#1a1a1a"
+    id: "spa",
+    label: "Spa & Bien-être",
+    icon: "✦",
+    heading: "Le Temps de la Sérénité",
+    body: "Notre spa de 600 m² au sous-sol voûté du XIXe siècle propose des soins exclusifs développés avec la Maison Dior. Hammam traditionnel, bassins de nage contrecourant, cabines de soins privatives doubles et salle de yoga donnant sur les jardins intérieurs constituent un sanctuaire du bien-être.",
+    details: ["6 cabines de soins", "Hammam & sauna privatifs", "Piscine intérieure chauffée", "Soins Dior exclusifs"],
+  },
+  {
+    id: "events",
+    label: "Événements",
+    icon: "◆",
+    heading: "L'Excellence pour Vos Célébrations",
+    body: "De l'intime dîner de fiançailles aux réceptions de 120 convives dans notre grande salle de bal haussmannienne, nous orchestrons chaque détail avec une précision absolue. Notre équipe dédiée aux événements travaille avec les meilleurs prestataires parisiens pour créer des souvenirs impérissables.",
+    details: ["Grande Salle : 120 convives", "Salon Napoléon : 30 convives", "Jardin privatif : 80 convives", "Coordination complète incluse"],
+  },
+]
+
+const TESTIMONIALS = [
+  {
+    name: "Isabelle Fontaine",
+    role: "Directrice Artistique, Paris",
+    text: "Le Grand Palais est l'adresse la plus secrète et la plus précieuse de Paris. J'y séjourne chaque fois que je veux retrouver cette sensation rare d'être au cœur de l'histoire tout en bénéficiant d'un confort absolu. Le personnel anticipe chaque désir avec une discrétion admirable.",
+    rating: 5,
+    stay: "Suite Prestige, Novembre 2025",
+  },
+  {
+    name: "James & Catherine Whitmore",
+    role: "Voyageurs, Londres",
+    text: "Notre lune de miel au Grand Palais restera le plus beau souvenir de notre vie. Depuis le champagne de bienvenue jusqu'au petit-déjeuner servi dans notre suite avec vue sur les toits, chaque instant a été parfaitement orchestré. Le chef Marchand nous a même préparé un menu personnalisé.",
+    rating: 5,
+    stay: "Suite Impériale, Juin 2025",
+  },
+  {
+    name: "Ahmed Al-Rashid",
+    role: "Chef d'Entreprise, Dubaï",
+    text: "J'ai séjourné dans les plus grands palaces du monde, de Tokyo à New York. Le Grand Palais occupe une place à part : c'est là que l'architecture haussmannienne, la gastronomie française et l'art de vivre parisien se conjuguent dans leur expression la plus pure. Je n'imagine plus séjourner ailleurs.",
+    rating: 5,
+    stay: "Suite Prestige, Mars 2025",
+  },
+  {
+    name: "Marie-Claire Dubois",
+    role: "Écrivaine, Lyon",
+    text: "Je suis venue pour un week-end d'écriture et je suis repartie avec un roman entier dans la tête. Les jardins intérieurs, le silence feutré des couloirs, la lumière dorée qui filtre par les hautes fenêtres — tout ici invite à la contemplation et à la création. Un lieu magique.",
+    rating: 5,
+    stay: "Chambre Classique, Janvier 2026",
+  },
+]
+
+const PRICING = [
+  {
+    name: "Chambre Classique",
+    price: "450",
+    period: "/ nuit",
+    description: "L'élégance parisienne dans sa forme la plus pure",
+    features: [
+      "Chambre de 32 m²",
+      "Vue sur jardins ou cour intérieure",
+      "Petit-déjeuner continental inclus",
+      "Accès Spa (2h/jour)",
+      "Conciergerie 24h/24",
+      "WiFi haut débit",
+    ],
+    highlight: false,
+    cta: "Réserver",
+  },
+  {
+    name: "Suite Prestige",
+    price: "890",
+    period: "/ nuit",
+    description: "Notre suite signature avec salon séparé",
+    features: [
+      "Suite de 65 m² avec salon",
+      "Vue panoramique sur les toits",
+      "Petit-déjeuner en suite inclus",
+      "Accès Spa illimité",
+      "Butler personnel dédié",
+      "Transfert aéroport inclus",
+      "Champagne de bienvenue",
+    ],
+    highlight: true,
+    cta: "Réserver la Suite",
+  },
+  {
+    name: "Suite Impériale",
+    price: "1 800",
+    period: "/ nuit",
+    description: "L'expérience ultime de l'art de vivre parisien",
+    features: [
+      "Suite de 120 m² sur 2 niveaux",
+      "Terrasse privée avec vue 360°",
+      "Chef privé sur demande",
+      "Spa privatif inclus",
+      "Rolls-Royce à disposition",
+      "Personal shopper inclus",
+      "Tous repas inclus",
+    ],
+    highlight: false,
+    cta: "Contacter",
+  },
+]
+
+const FAQS = [
+  {
+    q: "Quels sont les horaires d'arrivée et de départ ?",
+    a: "L'arrivée est prévue à partir de 15h00 et le départ avant 12h00. Nous proposons le check-in anticipé et le late check-out sous réserve de disponibilité, souvent sans supplément pour nos hôtes réguliers. Vos bagages peuvent être déposés dès votre arrivée quel que soit l'horaire.",
+  },
+  {
+    q: "Y a-t-il un parking disponible à l'hôtel ?",
+    a: "Nous disposons d'un parking privé sécurisé avec service voiturier, accessible 24h/24. Le tarif est de 45€ par nuit. Nous proposons également un service de transfert depuis les aéroports Charles de Gaulle et Orly avec nos véhicules de prestige. La réservation est conseillée.",
+  },
+  {
+    q: "Comment réserver une table au restaurant gastronomique ?",
+    a: "La réservation au Restaurant Marchand est vivement recommandée, idéalement 3 à 4 semaines à l'avance pour les dîners du week-end. En tant que client de l'hôtel, vous bénéficiez d'une priorité de réservation et d'une table avec vue privilégiée. Notre conciergerie se charge de tout.",
+  },
+  {
+    q: "Les animaux de compagnie sont-ils acceptés ?",
+    a: "Le Grand Palais accueille avec plaisir les animaux de compagnie de petite taille (moins de 8 kg) dans les chambres classiques. Un supplément de 35€ par nuit s'applique. Nous mettons à disposition gamelles, coussins et une sélection de friandises gourmandes. Les animaux ne sont pas admis dans les espaces de restauration.",
+  },
+  {
+    q: "Quelle est votre politique d'annulation ?",
+    a: "L'annulation est gratuite jusqu'à 72 heures avant l'arrivée pour les chambres classiques, et jusqu'à 7 jours pour les suites. Au-delà, une nuit sera facturée. Pour les séjours de plus de 3 nuits ou les événements privatisés, des conditions spécifiques s'appliquent, précisées lors de la réservation.",
+  },
+  {
+    q: "Proposez-vous des offres spéciales et des forfaits romantiques ?",
+    a: "Nous créons régulièrement des forfaits sur mesure : weekends romantiques avec dîner aux chandelles et soins en duo, escapades gastronomiques incluant des cours de cuisine privés, ou séjours culturels avec visites privées des musées parisiens. Contactez notre équipe pour un devis personnalisé.",
+  },
+]
+
+function useCounter(target: number, inView: boolean, duration = 1800) {
+  const [count, setCount] = useState(0)
+  const isDecimal = target % 1 !== 0
+
+  const prev = useRef(false)
+  if (inView && !prev.current) {
+    prev.current = true
+    const steps = 60
+    const increment = target / steps
+    let current = 0
+    let step = 0
+    const timer = setInterval(() => {
+      step++
+      current = Math.min(increment * step, target)
+      setCount(parseFloat(current.toFixed(isDecimal ? 1 : 0)))
+      if (step >= steps) clearInterval(timer)
+    }, duration / steps)
   }
-]
 
-const LAB_METRICS = [
-  { label: "Terpene Retention", value: "98%", trend: "Optimal", detail: "Nitrogen Sealed" },
-  { label: "pH Stability", value: "6.2", trend: "Nominal", detail: "Organic Soil" },
-  { label: "Pesticide Analysis", value: "0.00", trend: "Clean", detail: "Bio-Synthetic Control" },
-  { label: "Microbial Load", value: "<10 CFU", trend: "Safe", detail: "Cleanroom Class 100" }
-]
+  return count
+}
 
-const ATELIER_LOGS = [
-  { time: "08:12:04", unit: "Zone_A", task: "Nutrient_Flow", status: "SYNC", value: "6.2 pH" },
-  { time: "08:15:32", unit: "Atelier", task: "Light_Cycle", status: "DAWN", value: "450nm" },
-  { time: "08:22:15", unit: "Lab_01", task: "Terpene_Scan", status: "PASS", value: "104 Para" }
-]
-
-/* ==========================================
-   TECHNICAL COMPONENTS (FLUID DYNAMICS)
-   ========================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0, scale = 1 }: { children: React.ReactNode, delay?: number, y?: number, x?: number, scale?: number }) {
+function StatItem({ stat, index }: { stat: typeof STATS[0]; index: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const inView = useInView(ref, { once: true, margin: "-80px" })
+  const count = useCounter(stat.value, inView)
+
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y, x, scale }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0, scale: 1 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ duration: 0.6, delay: index * 0.12 }}
+      style={{
+        textAlign: "center",
+        padding: "0 32px",
+        borderRight: index < STATS.length - 1 ? `1px solid ${C.accentLight}` : "none",
+      }}
     >
-      {children}
+      <div
+        style={{
+          fontFamily: C.headingFont,
+          fontSize: "clamp(2.4rem, 5vw, 3.4rem)",
+          fontStyle: "italic",
+          fontWeight: 600,
+          color: C.accent,
+          lineHeight: 1,
+          letterSpacing: "-0.01em",
+        }}
+      >
+        {stat.prefix}{count}{stat.suffix}
+      </div>
+      <div
+        style={{
+          fontFamily: C.bodyFont,
+          fontSize: "0.82rem",
+          color: C.textMuted,
+          marginTop: "8px",
+          textTransform: "uppercase",
+          letterSpacing: "0.12em",
+          fontWeight: 500,
+        }}
+      >
+        {stat.label}
+      </div>
     </motion.div>
   )
 }
 
-function FluidOrganicBackground() {
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
+export default function Page() {
+  const { scrollY } = useScroll()
+  const heroTextY = useTransform(scrollY, [0, 600], [0, -60])
+  const cardsY = useTransform(scrollY, [0, 600], [0, 40])
 
-  useEffect(() => {
-    const handleMouse = (e: MouseEvent) => {
-      mouseX.set(e.clientX)
-      mouseY.set(e.clientY)
-    }
-    window.addEventListener("mousemove", handleMouse)
-    return () => window.removeEventListener("mousemove", handleMouse)
-  }, [])
+  const [activeTab, setActiveTab] = useState(0)
+  const [activeTestimonial, setActiveTestimonial] = useState(0)
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [scrolled, setScrolled] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const featuresRef = useRef(null)
+  const pricingRef = useRef(null)
+  const ctaRef = useRef(null)
+  const featuresInView = useInView(featuresRef, { once: true, margin: "-100px" })
+  const pricingInView = useInView(pricingRef, { once: true, margin: "-100px" })
+  const ctaInView = useInView(ctaRef, { once: true, margin: "-100px" })
+
+  const prevTestimonial = () =>
+    setActiveTestimonial((p) => (p - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)
+  const nextTestimonial = () =>
+    setActiveTestimonial((p) => (p + 1) % TESTIMONIALS.length)
+
+  if (typeof window !== "undefined") {
+    window.onscroll = () => setScrolled(window.scrollY > 40)
+  }
+
+  const ROOM_CARDS = [
+    { label: "Suite Prestige", detail: "65 m² • Vue toits de Paris", color: "#1a2e55", rotation: "-3deg" },
+    { label: "Suite Impériale", detail: "120 m² • Terrasse privée", color: "#0f1f3d", rotation: "0deg" },
+    { label: "Chambre Classique", detail: "32 m² • Jardins intérieurs", color: "#2a3f6e", rotation: "3deg" },
+  ]
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-30">
-       <svg className="hidden">
-          <filter id="gooey">
-             <feGaussianBlur in="SourceGraphic" stdDeviation="20" result="blur" />
-             <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10" result="goo" />
-             <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-          </filter>
-       </svg>
-       
-       <div className="w-full h-full" style={{ filter: 'url(#gooey)' }}>
-          {[...Array(6)].map((_, i) => (
-             <motion.div 
-                key={i}
-                className="absolute rounded-full"
-                style={{ 
-                   width: 400 + i * 50, 
-                   height: 400 + i * 50,
-                   background: i % 2 === 0 ? '#c4a45e' : '#2d4a2d',
-                   opacity: 0.4,
-                   left: `${10 + i * 15}%`,
-                   top: `${20 + i * 10}%`
-                }}
-                animate={{ 
-                   x: [0, 50, 0],
-                   y: [0, -40, 0],
-                   scale: [1, 1.1, 1]
-                }}
-                transition={{ 
-                   duration: 10 + i * 2, 
-                   repeat: Infinity, 
-                   ease: "easeInOut" 
-                }}
-             />
+    <div style={{ background: C.bg, fontFamily: C.bodyFont, color: C.text, minHeight: "100vh" }}>
+
+      {/* ── NAVBAR ── */}
+      <motion.nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          padding: scrolled ? "12px 48px" : "22px 48px",
+          background: scrolled ? "rgba(248,244,236,0.97)" : "transparent",
+          backdropFilter: scrolled ? "blur(12px)" : "none",
+          borderBottom: scrolled ? `1px solid ${C.border}` : "none",
+          transition: "all 0.35s ease",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <div
+          style={{
+            fontFamily: C.headingFont,
+            fontSize: "1.5rem",
+            fontStyle: "italic",
+            fontWeight: 600,
+            color: scrolled ? C.text : C.textLight,
+            letterSpacing: "0.04em",
+          }}
+        >
+          Grand Palais
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "36px" }}>
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              style={{
+                fontFamily: C.bodyFont,
+                fontSize: "0.82rem",
+                fontWeight: 500,
+                textTransform: "uppercase",
+                letterSpacing: "0.12em",
+                color: scrolled ? C.textMuted : "rgba(248,244,236,0.85)",
+                textDecoration: "none",
+                transition: "color 0.2s",
+              }}
+            >
+              {link.label}
+            </Link>
           ))}
-       </div>
-    </div>
-  )
-}
+          <a
+            href="#reservation"
+            style={{
+              fontFamily: C.bodyFont,
+              fontSize: "0.78rem",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.15em",
+              color: C.bgDark,
+              background: C.accent,
+              padding: "10px 22px",
+              textDecoration: "none",
+              transition: "background 0.2s",
+              cursor: "pointer",
+            }}
+          >
+            Réserver
+          </a>
+        </div>
+      </motion.nav>
 
-function HUD_Microscope() {
-   return (
-      <div className="fixed top-32 right-12 z-40 hidden xl:flex flex-col gap-8 items-end pointer-events-none">
-         <div className="p-8 border border-[#c4a45e]/30 bg-black/40 backdrop-blur-md rounded-full relative group">
-            <div className="absolute inset-0 border border-[#c4a45e] rounded-full animate-ping opacity-20" />
-            <ScanEye className="w-8 h-8 text-[#c4a45e]" />
-            <div className="absolute -top-12 right-0 whitespace-nowrap text-[8px] font-black uppercase tracking-[0.5em] text-[#c4a45e]">
-               Micro_Scan_Active
-            </div>
-         </div>
-         <div className="flex flex-col gap-2">
-            {[1, 2, 3].map(i => (
-               <div key={i} className="w-12 h-1 bg-white/10 relative overflow-hidden">
-                  <motion.div 
-                     className="absolute inset-0 bg-[#c4a45e]"
-                     animate={{ x: ["-100%", "100%"] }}
-                     transition={{ duration: 2, repeat: Infinity, delay: i * 0.5 }}
-                  />
-               </div>
-            ))}
-         </div>
-      </div>
-   )
-}
+      {/* ── HERO ── */}
+      <section
+        id="hero"
+        style={{
+          minHeight: "100vh",
+          background: `linear-gradient(135deg, ${C.bgDark} 0%, #1a2f55 60%, #0a1628 100%)`,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0 6vw",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        {/* Background texture */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage:
+              "radial-gradient(ellipse 80% 60% at 60% 50%, rgba(196,169,106,0.06) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }}
+        />
+        {/* Gold line accent */}
+        <div
+          style={{
+            position: "absolute",
+            left: "6vw",
+            top: "50%",
+            transform: "translateY(-50%)",
+            width: "2px",
+            height: "140px",
+            background: `linear-gradient(to bottom, transparent, ${C.accent}, transparent)`,
+          }}
+        />
 
-function StrainCard({ strain, index }: { strain: any, index: number }) {
-   return (
-      <div className="min-w-[80vw] md:min-w-[50vw] lg:min-w-[40vw] h-[60vh] relative group overflow-hidden border border-white/5 bg-[#0a0a0a] snap-center">
-         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10" />
-         <motion.img 
-            src={strain.img} 
-            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-110 group-hover:scale-100"
-            alt={strain.name}
-         />
-         
-         <div className="absolute top-12 left-12 z-20">
-            <div className="text-[10px] font-black uppercase tracking-[0.6em] text-[#c4a45e] mb-2">{strain.id}</div>
-            <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter italic leading-none group-hover:translate-x-4 transition-transform duration-700">
-               {strain.name}
-            </h3>
-         </div>
+        {/* LEFT: Hero text */}
+        <motion.div
+          style={{ y: heroTextY, flex: "0 0 auto", maxWidth: "520px", paddingLeft: "32px" }}
+        >
+          <motion.p
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            style={{
+              fontFamily: C.bodyFont,
+              fontSize: "0.75rem",
+              textTransform: "uppercase",
+              letterSpacing: "0.22em",
+              color: C.accent,
+              marginBottom: "24px",
+              fontWeight: 500,
+            }}
+          >
+            Palace — Paris · Since 1872
+          </motion.p>
 
-         <div className="absolute bottom-12 left-12 right-12 z-20">
-            <p className="text-xs text-white/40 leading-relaxed font-medium uppercase italic mb-8 max-w-sm">
-               {strain.desc}
-            </p>
-            <div className="grid grid-cols-2 gap-8 border-t border-white/10 pt-8">
-               <div>
-                  <div className="text-[8px] text-white/20 uppercase mb-2">Terpene Profile</div>
-                  <div className="text-xs font-bold italic">{strain.terpenes}</div>
-               </div>
-               <div>
-                  <div className="text-[8px] text-white/20 uppercase mb-2">Cure Method</div>
-                  <div className="text-xs font-bold italic">{strain.cure}</div>
-               </div>
-            </div>
-         </div>
-         
-         <div className="absolute bottom-12 right-12 z-30 flex flex-col items-center gap-4">
-            <div className="text-[8px] font-black uppercase tracking-widest text-[#c4a45e] rotate-90 mb-4 whitespace-nowrap">Potency_Cert</div>
-            <div className="w-12 h-12 rounded-full border border-[#c4a45e] flex items-center justify-center text-[10px] font-bold">
-               {strain.potency.split(' ')[0]}
-            </div>
-         </div>
-      </div>
-   )
-}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            style={{
+              fontFamily: C.headingFont,
+              fontSize: "clamp(3rem, 7vw, 5.5rem)",
+              fontStyle: "italic",
+              fontWeight: 600,
+              color: C.textLight,
+              lineHeight: 1.05,
+              letterSpacing: "-0.01em",
+              margin: "0 0 20px",
+            }}
+          >
+            L'Art de<br />l'Accueil
+          </motion.h1>
 
-/* ==========================================================================
-   MAIN PAGE: VERIDIAN BOTANICAL ATELIER (FLUID ORGANIC)
-   ========================================================================== */
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.65 }}
+            style={{
+              fontFamily: C.bodyFont,
+              fontSize: "1.05rem",
+              color: "rgba(248,244,236,0.7)",
+              lineHeight: 1.7,
+              marginBottom: "40px",
+              maxWidth: "420px",
+            }}
+          >
+            Au cœur du 8e arrondissement, le Grand Palais incarne 150 ans d'hospitalité parisienne raffinée, entre tradition haussmannienne et luxe contemporain.
+          </motion.p>
 
-export default function VeridianBotanicalPremium() {
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Parallax transforms
-  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -200])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const blobScale = useTransform(scrollYProgress, [0, 1], [1, 1.5])
-
-  return (
-    <div ref={containerRef} className="bg-[#050805] text-[#f0f0f0] font-sans selection:bg-[#c4a45e]/40 selection:text-white min-h-screen overflow-x-hidden">
-      
-      <FluidOrganicBackground />
-      <HUD_Microscope />
-      
-      {/* 1. NAVIGATION (ATELIER STYLE) */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-12 py-12 border-b border-white/5 bg-black/40 backdrop-blur-xl">
-         <div className="flex flex-col group cursor-pointer">
-            <span className="text-3xl font-black tracking-[0.1em] uppercase leading-none text-[#c4a45e]">Veridian.</span>
-            <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-white/30 -mt-1 ml-1">Botanical Atelier California</span>
-         </div>
-         <div className="hidden lg:flex gap-16 text-[10px] font-black uppercase tracking-[0.4em] text-white/30">
-            <a href="#strains" className="hover:text-[#c4a45e] transition-colors relative group">
-               [ The_Library ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#c4a45e] group-hover:w-full transition-all" />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.85 }}
+            style={{ display: "flex", gap: "16px", alignItems: "center" }}
+          >
+            <a
+              href="#reservation"
+              style={{
+                fontFamily: C.bodyFont,
+                fontSize: "0.82rem",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.15em",
+                color: C.bgDark,
+                background: C.accent,
+                padding: "16px 36px",
+                textDecoration: "none",
+                cursor: "pointer",
+                transition: "all 0.2s",
+              }}
+            >
+              Réservez Votre Séjour
             </a>
-            <a href="#science" className="hover:text-[#c4a45e] transition-colors relative group">
-               [ Bio_Science ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#c4a45e] group-hover:w-full transition-all" />
+            <a
+              href="#chambres"
+              style={{
+                fontFamily: C.bodyFont,
+                fontSize: "0.82rem",
+                fontWeight: 500,
+                textTransform: "uppercase",
+                letterSpacing: "0.12em",
+                color: "rgba(248,244,236,0.75)",
+                textDecoration: "none",
+                cursor: "pointer",
+                borderBottom: `1px solid rgba(196,169,106,0.4)`,
+                paddingBottom: "2px",
+              }}
+            >
+              Découvrir les Chambres
             </a>
-            <a href="#contact" className="hover:text-[#c4a45e] transition-colors relative group">
-               [ Consultation ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#c4a45e] group-hover:w-full transition-all" />
-            </a>
-         </div>
-         <div className="flex items-center gap-12">
-            <div className="hidden md:flex flex-col items-end border-r border-white/10 pr-6">
-               <div className="text-[8px] font-black text-[#c4a45e] uppercase">pH_Stability</div>
-               <div className="text-[10px] font-bold">6.2 Nominal</div>
-            </div>
-            <button className="w-12 h-12 flex items-center justify-center border border-white/10 rounded-full hover:border-[#c4a45e] transition-colors bg-black/20">
-               <Grid className="w-4 h-4" />
+          </motion.div>
+        </motion.div>
+
+        {/* RIGHT: Stacked room cards */}
+        <motion.div
+          style={{
+            y: cardsY,
+            flex: "0 0 auto",
+            position: "relative",
+            width: "320px",
+            height: "420px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {ROOM_CARDS.map((card, i) => (
+            <motion.div
+              key={card.label}
+              initial={{ opacity: 0, y: 30, rotate: card.rotation }}
+              animate={{ opacity: 1, y: 0, rotate: card.rotation }}
+              transition={{ duration: 0.9, delay: 0.5 + i * 0.15 }}
+              style={{
+                position: "absolute",
+                width: "260px",
+                background: card.color,
+                border: `1px solid rgba(196,169,106,0.25)`,
+                padding: "28px 24px",
+                top: `${i * 60}px`,
+                boxShadow: "0 12px 40px rgba(0,0,0,0.35)",
+                transform: `rotate(${card.rotation})`,
+              }}
+            >
+              <div
+                style={{
+                  width: "100%",
+                  height: "80px",
+                  background: `linear-gradient(135deg, rgba(196,169,106,0.15), rgba(196,169,106,0.05))`,
+                  marginBottom: "16px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div
+                  style={{
+                    width: "32px",
+                    height: "32px",
+                    border: `1px solid ${C.accent}`,
+                    transform: "rotate(45deg)",
+                    opacity: 0.6,
+                  }}
+                />
+              </div>
+              <div
+                style={{
+                  fontFamily: C.headingFont,
+                  fontSize: "1.15rem",
+                  fontStyle: "italic",
+                  color: C.textLight,
+                  marginBottom: "6px",
+                }}
+              >
+                {card.label}
+              </div>
+              <div
+                style={{
+                  fontFamily: C.bodyFont,
+                  fontSize: "0.75rem",
+                  color: C.accent,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                }}
+              >
+                {card.detail}
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity }}
+          style={{
+            position: "absolute",
+            bottom: "40px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "8px",
+          }}
+        >
+          <div
+            style={{
+              fontFamily: C.bodyFont,
+              fontSize: "0.7rem",
+              textTransform: "uppercase",
+              letterSpacing: "0.18em",
+              color: "rgba(248,244,236,0.45)",
+            }}
+          >
+            Découvrir
+          </div>
+          <div
+            style={{
+              width: "1px",
+              height: "36px",
+              background: `linear-gradient(to bottom, ${C.accent}, transparent)`,
+            }}
+          />
+        </motion.div>
+      </section>
+
+      {/* ── STATS BAR ── */}
+      <section
+        style={{
+          background: C.bgCard,
+          padding: "56px 0",
+          borderTop: `1px solid ${C.border}`,
+          borderBottom: `1px solid ${C.border}`,
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "900px",
+            margin: "0 auto",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "0",
+          }}
+        >
+          {STATS.map((stat, i) => (
+            <StatItem key={stat.label} stat={stat} index={i} />
+          ))}
+        </div>
+      </section>
+
+      {/* ── FEATURES / TABS ── */}
+      <section
+        ref={featuresRef}
+        id="chambres"
+        style={{ padding: "100px 6vw", maxWidth: "1200px", margin: "0 auto" }}
+      >
+        <motion.div
+          animate={featuresInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.7 }}
+          style={{ textAlign: "center", marginBottom: "64px" }}
+        >
+          <p
+            style={{
+              fontFamily: C.bodyFont,
+              fontSize: "0.75rem",
+              textTransform: "uppercase",
+              letterSpacing: "0.22em",
+              color: C.accent,
+              marginBottom: "16px",
+              fontWeight: 500,
+            }}
+          >
+            Nos Services
+          </p>
+          <h2
+            style={{
+              fontFamily: C.headingFont,
+              fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
+              fontStyle: "italic",
+              fontWeight: 600,
+              color: C.text,
+              margin: 0,
+              lineHeight: 1.1,
+            }}
+          >
+            Une Expérience Totale
+          </h2>
+        </motion.div>
+
+        {/* Tab selectors */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "0",
+            marginBottom: "56px",
+            borderBottom: `1px solid ${C.border}`,
+          }}
+        >
+          {TABS.map((tab, i) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(i)}
+              style={{
+                fontFamily: C.bodyFont,
+                fontSize: "0.8rem",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.1em",
+                color: activeTab === i ? C.accent : C.textMuted,
+                background: "none",
+                border: "none",
+                padding: "14px 28px",
+                cursor: "pointer",
+                borderBottom: activeTab === i ? `2px solid ${C.accent}` : "2px solid transparent",
+                transition: "all 0.2s",
+                marginBottom: "-1px",
+              }}
+            >
+              {tab.label}
             </button>
-         </div>
-      </nav>
+          ))}
+        </div>
 
-      <main>
-        {/* 2. ORGANIC IGNITION (HERO / FLUID STYLE) */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-12 pt-32 overflow-hidden">
-           <div className="relative z-10 w-full max-w-7xl">
-              <Reveal>
-                 <div className="inline-flex items-center gap-4 px-6 py-3 border border-[#c4a45e]/30 bg-[#c4a45e]/5 text-[10px] font-black uppercase tracking-[0.5em] text-[#c4a45e] mb-16 italic">
-                    <Sprout className="w-4 h-4" /> Synthesis: ACTIVE // Batch_ID: VER_44 // Cleanroom: ON
-                 </div>
-                 <motion.h1 
-                    style={{ y: heroY, opacity: heroOpacity }}
-                    className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.7] italic flex flex-col"
-                 >
-                    <span>Organic</span>
-                    <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Mastery.</span>
-                 </motion.h1>
-                 
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-end max-w-5xl">
-                    <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">
-                       Nous redéfinissons l'art de la botanique par la science. Chaque bloom est un chef-d'œuvre de bio-ingénierie, conçu pour une pureté absolue et un profil terpénique inégalé.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-8 justify-end">
-                       <button className="px-14 py-8 bg-[#c4a45e] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_50px_rgba(196,164,94,0.3)] flex items-center gap-4 italic group">
-                          [ Enter the Library ] <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                       </button>
-                    </div>
-                 </div>
-              </Reveal>
-           </div>
-
-           {/* Floating Macro Detail */}
-           <motion.div 
-              style={{ scale: blobScale }}
-              className="absolute bottom-[-10vw] right-[-5vw] w-[40vw] h-[40vw] opacity-20 pointer-events-none z-0"
-           >
-              <div className="w-full h-full border border-[#c4a45e]/20 rounded-full flex items-center justify-center">
-                 <div className="w-[80%] h-[80%] border border-[#c4a45e]/10 rounded-full animate-spin-slow flex items-center justify-center">
-                    <div className="w-[60%] h-[60%] border border-[#c4a45e]/5 rounded-full" />
-                 </div>
+        {/* Tab content */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.38 }}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "64px",
+              alignItems: "center",
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  fontFamily: C.bodyFont,
+                  fontSize: "2.5rem",
+                  marginBottom: "24px",
+                  opacity: 0.8,
+                }}
+              >
+                {TABS[activeTab].icon}
               </div>
-           </motion.div>
-        </section>
+              <h3
+                style={{
+                  fontFamily: C.headingFont,
+                  fontSize: "2.2rem",
+                  fontStyle: "italic",
+                  fontWeight: 600,
+                  color: C.text,
+                  margin: "0 0 20px",
+                  lineHeight: 1.15,
+                }}
+              >
+                {TABS[activeTab].heading}
+              </h3>
+              <p
+                style={{
+                  fontFamily: C.bodyFont,
+                  fontSize: "1rem",
+                  color: C.textMuted,
+                  lineHeight: 1.75,
+                  margin: "0 0 32px",
+                }}
+              >
+                {TABS[activeTab].body}
+              </p>
+              <a
+                href="#reservation"
+                style={{
+                  fontFamily: C.bodyFont,
+                  fontSize: "0.8rem",
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.15em",
+                  color: C.bgDark,
+                  background: C.accent,
+                  padding: "13px 28px",
+                  textDecoration: "none",
+                  cursor: "pointer",
+                  display: "inline-block",
+                }}
+              >
+                En Savoir Plus
+              </a>
+            </div>
 
-        {/* 3. THE LIBRARY (HORIZONTAL SCROLL / KORR STYLE) */}
-        <section id="strains" className="py-64 px-12 bg-black/40 border-y border-white/5 relative">
-           <div className="max-w-7xl mx-auto mb-32 flex justify-between items-end">
-              <Reveal>
-                 <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[#c4a45e] mb-8">Strain_Archive</div>
-                 <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] italic">
-                    Bespoke <br/> <span className="text-white/5" style={{ WebkitTextStroke: "1px white" }}>Blooms.</span>
-                 </h2>
-              </Reveal>
-              <div className="hidden lg:block text-right">
-                 <div className="flex justify-end gap-4 mb-4">
-                    <div className="w-32 h-1 bg-white/5" />
-                    <div className="w-12 h-1 bg-[#c4a45e]" />
-                 </div>
-                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">California // Small Batch // Gold Seal</p>
-              </div>
-           </div>
-
-           <div className="flex gap-12 overflow-x-auto pb-24 no-scrollbar px-4 -mx-4 snap-x snap-mandatory">
-              {STRAINS.map((strain, i) => (
-                 <StrainCard key={strain.id} strain={strain} index={i} />
+            <div
+              style={{
+                background: C.bgDark,
+                padding: "40px",
+                borderLeft: `3px solid ${C.accent}`,
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: C.bodyFont,
+                  fontSize: "0.72rem",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.18em",
+                  color: C.accent,
+                  marginBottom: "28px",
+                  fontWeight: 600,
+                }}
+              >
+                Inclus dans votre séjour
+              </p>
+              {TABS[activeTab].details.map((detail, i) => (
+                <motion.div
+                  key={detail}
+                  initial={{ opacity: 0, x: 12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.35, delay: i * 0.08 }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "14px",
+                    padding: "14px 0",
+                    borderBottom: i < TABS[activeTab].details.length - 1 ? `1px solid ${C.borderDark}` : "none",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "6px",
+                      height: "6px",
+                      background: C.accent,
+                      flexShrink: 0,
+                      transform: "rotate(45deg)",
+                    }}
+                  />
+                  <span
+                    style={{
+                      fontFamily: C.bodyFont,
+                      fontSize: "0.9rem",
+                      color: "rgba(248,244,236,0.85)",
+                    }}
+                  >
+                    {detail}
+                  </span>
+                </motion.div>
               ))}
-           </div>
-        </section>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </section>
 
-        {/* 4. BIO-SCIENCE (HUD INTERFACE / DENSITY) */}
-        <section id="science" className="py-64 px-12">
-           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-32 items-center">
-              <div className="lg:col-span-7">
-                 <Reveal>
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[#c4a45e] mb-8">Lab_Protocols</div>
-                    <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-16 italic">
-                       Cellular <br/> <span className="opacity-10">Integrity.</span>
-                    </h2>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                       {LAB_METRICS.map((metric, i) => (
-                          <div key={i} className="p-12 border border-white/5 bg-white/[0.02] hover:border-[#c4a45e]/50 transition-all group relative overflow-hidden">
-                             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
-                                {i === 0 ? <Dna className="w-6 h-6" /> : i === 1 ? <FlaskConical className="w-6 h-6" /> : i === 2 ? <ShieldCheck className="w-6 h-6" /> : <Biohazard className="w-6 h-6" />}
-                             </div>
-                             <div className="text-[10px] font-black uppercase tracking-widest text-[#c4a45e] mb-6">{metric.label}</div>
-                             <div className="text-6xl font-black italic mb-6 tracking-tighter group-hover:scale-105 transition-transform origin-left">{metric.value}</div>
-                             <div className="flex justify-between items-center text-[8px] font-bold uppercase tracking-[0.4em] text-white/20">
-                                <span>{metric.detail}</span>
-                                <span className="text-[#c4a45e]">{metric.trend}</span>
-                             </div>
-                             <div className="mt-8 h-1 bg-white/5 relative overflow-hidden">
-                                <motion.div 
-                                   className="absolute inset-y-0 left-0 bg-[#c4a45e]"
-                                   initial={{ width: 0 }}
-                                   whileInView={{ width: '70%' }}
-                                   transition={{ duration: 1.5, delay: i * 0.1 }}
-                                />
-                             </div>
-                          </div>
-                       ))}
-                    </div>
-                 </Reveal>
+      {/* ── TESTIMONIALS ── */}
+      <section
+        style={{
+          background: C.bgDark,
+          padding: "100px 6vw",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: "-60px",
+            right: "-60px",
+            width: "400px",
+            height: "400px",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(196,169,106,0.06) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }}
+        />
+        <div style={{ maxWidth: "900px", margin: "0 auto", textAlign: "center" }}>
+          <p
+            style={{
+              fontFamily: C.bodyFont,
+              fontSize: "0.75rem",
+              textTransform: "uppercase",
+              letterSpacing: "0.22em",
+              color: C.accent,
+              marginBottom: "16px",
+              fontWeight: 500,
+            }}
+          >
+            Témoignages
+          </p>
+          <h2
+            style={{
+              fontFamily: C.headingFont,
+              fontSize: "clamp(2rem, 5vw, 3.5rem)",
+              fontStyle: "italic",
+              fontWeight: 600,
+              color: C.textLight,
+              margin: "0 0 64px",
+              lineHeight: 1.1,
+            }}
+          >
+            Ce Que Disent Nos Hôtes
+          </h2>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTestimonial}
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.45 }}
+              style={{
+                background: C.bgDarkAlt,
+                padding: "52px 56px",
+                borderLeft: `3px solid ${C.accent}`,
+                textAlign: "left",
+                marginBottom: "48px",
+              }}
+            >
+              <div style={{ marginBottom: "24px" }}>
+                {Array.from({ length: TESTIMONIALS[activeTestimonial].rating }).map((_, i) => (
+                  <span key={i} style={{ color: C.accent, fontSize: "1.1rem", marginRight: "3px" }}>★</span>
+                ))}
               </div>
-
-              <div className="lg:col-span-5 space-y-16">
-                 <Reveal delay={0.4}>
-                    <div className="p-12 bg-[#c4a45e]/5 border border-[#c4a45e]/20 rounded-2xl relative group overflow-hidden">
-                       <div className="absolute -top-12 -right-12 w-48 h-48 bg-[#c4a45e]/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000" />
-                       <h4 className="text-2xl font-black uppercase tracking-tighter mb-8 italic">Terpene Archiving</h4>
-                       <p className="text-sm text-white/40 leading-relaxed uppercase tracking-widest font-light italic mb-12">
-                          Notre bibliothèque génétique contient plus de 450 profils terpéniques uniques. Chaque lot est archivé pour garantir une traçabilité totale et une constance sensorielle absolue.
-                       </p>
-                       <div className="space-y-4 font-mono text-[10px]">
-                          {ATELIER_LOGS.map((log, i) => (
-                             <div key={i} className="flex justify-between border-b border-white/5 pb-2 group/log hover:bg-white/5 px-2 transition-colors">
-                                <span className="text-white/20 group-hover/log:text-white transition-colors">[{log.time}]</span>
-                                <span className="text-[#c4a45e] font-black">{log.unit}</span>
-                                <span className="text-white/40 italic">{log.task}</span>
-                                <span className="font-black">[{log.status}]</span>
-                             </div>
-                          ))}
-                       </div>
-                    </div>
-                 </Reveal>
+              <blockquote
+                style={{
+                  fontFamily: C.headingFont,
+                  fontSize: "clamp(1.1rem, 2.5vw, 1.45rem)",
+                  fontStyle: "italic",
+                  color: "rgba(248,244,236,0.9)",
+                  lineHeight: 1.65,
+                  margin: "0 0 36px",
+                  quotes: "none",
+                }}
+              >
+                "{TESTIMONIALS[activeTestimonial].text}"
+              </blockquote>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+                <div>
+                  <div
+                    style={{
+                      fontFamily: C.bodyFont,
+                      fontWeight: 600,
+                      fontSize: "0.92rem",
+                      color: C.textLight,
+                      marginBottom: "4px",
+                    }}
+                  >
+                    {TESTIMONIALS[activeTestimonial].name}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: C.bodyFont,
+                      fontSize: "0.8rem",
+                      color: "rgba(248,244,236,0.5)",
+                    }}
+                  >
+                    {TESTIMONIALS[activeTestimonial].role}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    fontFamily: C.bodyFont,
+                    fontSize: "0.72rem",
+                    color: C.accent,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.08em",
+                    textAlign: "right",
+                  }}
+                >
+                  {TESTIMONIALS[activeTestimonial].stay}
+                </div>
               </div>
-           </div>
-        </section>
+            </motion.div>
+          </AnimatePresence>
 
-        {/* 5. CULTIVATION ATELIER (EDITORIAL) */}
-        <section className="py-64 px-12 bg-white text-black relative">
-           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
-              <div className="order-2 lg:order-1">
-                 <Reveal scale={0.9}>
-                    <div className="relative aspect-[4/5] bg-black group overflow-hidden border-[15px] border-black/5">
-                       <img 
-                          src="https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=1200&q=80" 
-                          className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-2000"
-                          alt="Atelier"
-                       />
-                       <div className="absolute inset-0 bg-[#c4a45e]/10 mix-blend-overlay" />
-                       <div className="absolute top-12 left-12 flex flex-col gap-2">
-                          <div className="text-[10px] font-black uppercase tracking-widest bg-black text-white px-4 py-2">Zone_01_Interior</div>
-                          <div className="text-[8px] font-bold uppercase tracking-widest bg-white/90 px-4 py-1">Controlled_Environment</div>
-                       </div>
+          {/* Navigation */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "24px" }}>
+            <button
+              onClick={prevTestimonial}
+              style={{
+                width: "44px",
+                height: "44px",
+                background: "none",
+                border: `1px solid rgba(196,169,106,0.4)`,
+                color: C.accent,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "1.1rem",
+                transition: "all 0.2s",
+              }}
+            >
+              ←
+            </button>
+            <div style={{ display: "flex", gap: "10px" }}>
+              {TESTIMONIALS.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveTestimonial(i)}
+                  style={{
+                    width: i === activeTestimonial ? "28px" : "8px",
+                    height: "8px",
+                    background: i === activeTestimonial ? C.accent : "rgba(196,169,106,0.3)",
+                    border: "none",
+                    cursor: "pointer",
+                    transition: "all 0.3s",
+                    padding: 0,
+                  }}
+                />
+              ))}
+            </div>
+            <button
+              onClick={nextTestimonial}
+              style={{
+                width: "44px",
+                height: "44px",
+                background: "none",
+                border: `1px solid rgba(196,169,106,0.4)`,
+                color: C.accent,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "1.1rem",
+                transition: "all 0.2s",
+              }}
+            >
+              →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ── PRICING ── */}
+      <section
+        ref={pricingRef}
+        id="reservation"
+        style={{ padding: "100px 6vw", background: C.bg }}
+      >
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <motion.div
+            animate={pricingInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.7 }}
+            style={{ textAlign: "center", marginBottom: "64px" }}
+          >
+            <p
+              style={{
+                fontFamily: C.bodyFont,
+                fontSize: "0.75rem",
+                textTransform: "uppercase",
+                letterSpacing: "0.22em",
+                color: C.accent,
+                marginBottom: "16px",
+                fontWeight: 500,
+              }}
+            >
+              Tarifs
+            </p>
+            <h2
+              style={{
+                fontFamily: C.headingFont,
+                fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
+                fontStyle: "italic",
+                fontWeight: 600,
+                color: C.text,
+                margin: "0 0 16px",
+                lineHeight: 1.1,
+              }}
+            >
+              Nos Hébergements
+            </h2>
+            <p
+              style={{
+                fontFamily: C.bodyFont,
+                fontSize: "0.95rem",
+                color: C.textMuted,
+                maxWidth: "480px",
+                margin: "0 auto",
+              }}
+            >
+              Tarifs par nuit, petit-déjeuner continental inclus. À partir de 2 nuits en semaine.
+            </p>
+          </motion.div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr 1fr",
+              gap: "24px",
+              alignItems: "start",
+            }}
+          >
+            {PRICING.map((plan, i) => (
+              <motion.div
+                key={plan.name}
+                animate={pricingInView ? { opacity: 1, y: 0, scale: plan.highlight ? 1.03 : 1 } : { opacity: 0, y: 30, scale: 1 }}
+                transition={{ duration: 0.6, delay: i * 0.12 }}
+                style={{
+                  background: plan.highlight ? C.bgDark : C.bgCard,
+                  border: plan.highlight ? `2px solid ${C.accent}` : `1px solid ${C.border}`,
+                  padding: "44px 36px",
+                  position: "relative",
+                  boxShadow: plan.highlight ? C.shadowLg : C.shadow,
+                }}
+              >
+                {plan.highlight && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "-14px",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      background: C.accent,
+                      color: C.bgDark,
+                      fontFamily: C.bodyFont,
+                      fontSize: "0.68rem",
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.15em",
+                      padding: "5px 18px",
+                    }}
+                  >
+                    Le Plus Populaire
+                  </div>
+                )}
+
+                <div
+                  style={{
+                    fontFamily: C.bodyFont,
+                    fontSize: "0.72rem",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.18em",
+                    color: C.accent,
+                    marginBottom: "12px",
+                    fontWeight: 600,
+                  }}
+                >
+                  {plan.name}
+                </div>
+                <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "10px" }}>
+                  <span
+                    style={{
+                      fontFamily: C.headingFont,
+                      fontSize: "3rem",
+                      fontStyle: "italic",
+                      fontWeight: 600,
+                      color: plan.highlight ? C.textLight : C.text,
+                      lineHeight: 1,
+                    }}
+                  >
+                    {plan.price}€
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: C.bodyFont,
+                      fontSize: "0.85rem",
+                      color: plan.highlight ? "rgba(248,244,236,0.5)" : C.textMuted,
+                    }}
+                  >
+                    {plan.period}
+                  </span>
+                </div>
+                <p
+                  style={{
+                    fontFamily: C.bodyFont,
+                    fontSize: "0.88rem",
+                    color: plan.highlight ? "rgba(248,244,236,0.65)" : C.textMuted,
+                    marginBottom: "32px",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {plan.description}
+                </p>
+
+                <div style={{ marginBottom: "36px" }}>
+                  {plan.features.map((feature) => (
+                    <div
+                      key={feature}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "12px",
+                        padding: "10px 0",
+                        borderBottom: `1px solid ${plan.highlight ? C.borderDark : C.border}`,
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "5px",
+                          height: "5px",
+                          background: C.accent,
+                          flexShrink: 0,
+                          transform: "rotate(45deg)",
+                        }}
+                      />
+                      <span
+                        style={{
+                          fontFamily: C.bodyFont,
+                          fontSize: "0.87rem",
+                          color: plan.highlight ? "rgba(248,244,236,0.82)" : C.text,
+                        }}
+                      >
+                        {feature}
+                      </span>
                     </div>
-                 </Reveal>
+                  ))}
+                </div>
+
+                <button
+                  style={{
+                    width: "100%",
+                    padding: "14px",
+                    background: plan.highlight ? C.accent : "transparent",
+                    border: plan.highlight ? "none" : `1px solid ${C.accent}`,
+                    color: plan.highlight ? C.bgDark : C.accent,
+                    fontFamily: C.bodyFont,
+                    fontSize: "0.8rem",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.14em",
+                    cursor: "pointer",
+                    transition: "all 0.2s",
+                  }}
+                >
+                  {plan.cta}
+                </button>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section style={{ padding: "100px 6vw", background: C.bgCard }}>
+        <div style={{ maxWidth: "760px", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: "64px" }}>
+            <p
+              style={{
+                fontFamily: C.bodyFont,
+                fontSize: "0.75rem",
+                textTransform: "uppercase",
+                letterSpacing: "0.22em",
+                color: C.accent,
+                marginBottom: "16px",
+                fontWeight: 500,
+              }}
+            >
+              Questions Fréquentes
+            </p>
+            <h2
+              style={{
+                fontFamily: C.headingFont,
+                fontSize: "clamp(2rem, 5vw, 3.4rem)",
+                fontStyle: "italic",
+                fontWeight: 600,
+                color: C.text,
+                margin: 0,
+                lineHeight: 1.1,
+              }}
+            >
+              Tout Ce Qu'il Faut Savoir
+            </h2>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
+            {FAQS.map((faq, i) => (
+              <div
+                key={i}
+                style={{
+                  borderBottom: `1px solid ${C.border}`,
+                  borderTop: i === 0 ? `1px solid ${C.border}` : "none",
+                }}
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "24px 0",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    textAlign: "left",
+                    gap: "20px",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: C.headingFont,
+                      fontSize: "1.2rem",
+                      fontStyle: "italic",
+                      fontWeight: 600,
+                      color: openFaq === i ? C.accent : C.text,
+                      lineHeight: 1.3,
+                      transition: "color 0.2s",
+                    }}
+                  >
+                    {faq.q}
+                  </span>
+                  <motion.div
+                    animate={{ rotate: openFaq === i ? 45 : 0 }}
+                    transition={{ duration: 0.2 }}
+                    style={{
+                      width: "24px",
+                      height: "24px",
+                      border: `1px solid ${openFaq === i ? C.accent : C.border}`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                      color: openFaq === i ? C.accent : C.textMuted,
+                      fontSize: "1rem",
+                      lineHeight: 1,
+                      transition: "border-color 0.2s, color 0.2s",
+                    }}
+                  >
+                    +
+                  </motion.div>
+                </button>
+
+                <AnimatePresence>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      style={{ overflow: "hidden" }}
+                    >
+                      <p
+                        style={{
+                          fontFamily: C.bodyFont,
+                          fontSize: "0.95rem",
+                          color: C.textMuted,
+                          lineHeight: 1.75,
+                          paddingBottom: "24px",
+                          margin: 0,
+                        }}
+                      >
+                        {faq.a}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              <div className="order-1 lg:order-2">
-                 <Reveal>
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[#c4a45e] mb-8">The_Maison</div>
-                    <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-12 italic">
-                       Craft <br/> <span className="opacity-20">Cured.</span>
-                    </h2>
-                    <p className="text-lg font-bold italic text-black/40 leading-relaxed uppercase tracking-[0.1em] mb-16">
-                       Le temps est notre ingrédient le plus précieux. Notre processus de séchage lent à température contrôlée permet de préserver la structure fragile des trichomes et la complexité des arômes.
-                    </p>
-                    <div className="grid grid-cols-2 gap-12 border-t border-black/10 pt-12">
-                       <div className="flex flex-col gap-4">
-                          <div className="text-[10px] font-black text-black/20">Cure Duration</div>
-                          <div className="text-4xl font-black italic">21 Days</div>
-                       </div>
-                       <div className="flex flex-col gap-4">
-                          <div className="text-[10px] font-black text-black/20">Storage Env</div>
-                          <div className="text-4xl font-black italic">Cryo_V2</div>
-                       </div>
-                    </div>
-                 </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA BANNER ── */}
+      <section
+        ref={ctaRef}
+        style={{
+          background: `linear-gradient(135deg, ${C.bgDark} 0%, #1a2f55 100%)`,
+          padding: "100px 6vw",
+          textAlign: "center",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: "radial-gradient(ellipse 70% 80% at 50% 50%, rgba(196,169,106,0.07) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "1px",
+            height: "60px",
+            background: `linear-gradient(to bottom, transparent, ${C.accent})`,
+          }}
+        />
+        <motion.div
+          animate={ctaInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.8 }}
+          style={{ position: "relative", maxWidth: "680px", margin: "0 auto" }}
+        >
+          <p
+            style={{
+              fontFamily: C.bodyFont,
+              fontSize: "0.75rem",
+              textTransform: "uppercase",
+              letterSpacing: "0.22em",
+              color: C.accent,
+              marginBottom: "24px",
+              fontWeight: 500,
+            }}
+          >
+            Disponibilités
+          </p>
+          <h2
+            style={{
+              fontFamily: C.headingFont,
+              fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
+              fontStyle: "italic",
+              fontWeight: 600,
+              color: C.textLight,
+              margin: "0 0 20px",
+              lineHeight: 1.05,
+            }}
+          >
+            Réservez Votre Séjour
+          </h2>
+          <p
+            style={{
+              fontFamily: C.bodyFont,
+              fontSize: "1.05rem",
+              color: "rgba(248,244,236,0.65)",
+              lineHeight: 1.7,
+              marginBottom: "48px",
+              maxWidth: "480px",
+              margin: "0 auto 48px",
+            }}
+          >
+            Contactez notre équipe de conciergerie pour créer votre séjour sur mesure. Chaque visite au Grand Palais est unique.
+          </p>
+          <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" }}>
+            <a
+              href="tel:+33142654545"
+              style={{
+                fontFamily: C.bodyFont,
+                fontSize: "0.82rem",
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "0.16em",
+                color: C.bgDark,
+                background: C.accent,
+                padding: "18px 44px",
+                textDecoration: "none",
+                cursor: "pointer",
+                display: "inline-block",
+                transition: "all 0.2s",
+              }}
+            >
+              +33 1 42 65 45 45
+            </a>
+            <a
+              href="mailto:reservations@grandpalais-paris.fr"
+              style={{
+                fontFamily: C.bodyFont,
+                fontSize: "0.82rem",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.14em",
+                color: C.textLight,
+                background: "transparent",
+                border: `1px solid rgba(248,244,236,0.3)`,
+                padding: "18px 44px",
+                textDecoration: "none",
+                cursor: "pointer",
+                display: "inline-block",
+                transition: "all 0.2s",
+              }}
+            >
+              Envoyer un Message
+            </a>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer
+        style={{
+          background: "#070e1c",
+          padding: "72px 6vw 40px",
+          color: "rgba(248,244,236,0.5)",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "1200px",
+            margin: "0 auto",
+          }}
+        >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "2fr 1fr 1fr 1fr",
+              gap: "48px",
+              marginBottom: "64px",
+            }}
+          >
+            {/* Brand */}
+            <div>
+              <div
+                style={{
+                  fontFamily: C.headingFont,
+                  fontSize: "1.8rem",
+                  fontStyle: "italic",
+                  fontWeight: 600,
+                  color: C.textLight,
+                  marginBottom: "16px",
+                }}
+              >
+                Grand Palais
               </div>
-           </div>
-        </section>
-
-        {/* 6. FAQ (ATELIER STYLE) */}
-        <section className="py-64 px-12 relative overflow-hidden bg-[#0a0a0a]">
-           <div className="max-w-4xl mx-auto relative z-10">
-              <Reveal>
-                 <div className="text-center mb-40">
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[#c4a45e] mb-8">Concierge_Support</div>
-                    <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter italic mb-8">Atelier <span className="opacity-10">Q&A.</span></h2>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 italic">Acquisition // Storage // Integrity</p>
-                 </div>
-              </Reveal>
-
-              <Accordion type="single" collapsible className="w-full space-y-4">
-                 {[
-                   { q: "What is the shelf-life of Veridian blooms?", a: "Due to our cold-cure process and nitrogen-sealed packaging, peak terpene potency is maintained for up to 12 months." },
-                   { q: "Do you ship internationally?", a: "Veridian operates strictly within compliant jurisdictions. We offer discreet concierge delivery to vetted members." },
-                   { q: "What is your testing protocol?", a: "Every batch undergoes a full-panel laboratory audit covering 104 parameters, including heavy metals and 64 pesticides." }
-                 ].map((item, i) => (
-                   <AccordionItem key={i} value={`item-${i}`} className="border border-white/5 bg-white/[0.02] px-10 rounded-sm hover:border-[#c4a45e]/30 transition-all">
-                      <AccordionTrigger className="text-[12px] font-black uppercase tracking-[0.4em] py-12 no-underline italic text-left">
-                         {item.q}
-                      </AccordionTrigger>
-                      <AccordionContent className="text-[11px] font-medium text-white/30 tracking-[0.1em] uppercase italic leading-loose pb-12">
-                         {item.a}
-                      </AccordionContent>
-                   </AccordionItem>
-                 ))}
-              </Accordion>
-           </div>
-        </section>
-
-        {/* 7. FOOTER (HIGH FIDELITY) */}
-        <footer className="bg-black pt-64 pb-16 px-12 md:px-24 border-t-8 border-[#c4a45e]">
-           <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-32 mb-48">
-                 <div className="lg:col-span-7">
-                    <Reveal>
-                       <div className="flex flex-col mb-16">
-                          <span className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.7] italic text-[#c4a45e]">Veridian.</span>
-                          <span className="text-[12px] font-bold uppercase tracking-[1em] text-white/20 ml-2">Botanical Atelier Group</span>
-                       </div>
-                       <p className="text-white/20 max-w-sm mb-20 text-sm font-light uppercase tracking-widest leading-loose italic">
-                          La maîtrise absolue de l'art botanique. Cultivé pour l'élite mondiale dans notre sanctuaire californien.
-                       </p>
-                       <div className="flex gap-12 items-center">
-                          <div className="w-24 h-[1px] bg-white/10" />
-                          <div className="flex gap-10">
-                             <Globe className="w-7 h-7 text-white/20 hover:text-[#c4a45e] transition-all cursor-pointer" />
-                             <Dna className="w-7 h-7 text-white/20 hover:text-[#c4a45e] transition-all cursor-pointer" />
-                             <Leaf className="w-7 h-7 text-white/20 hover:text-[#c4a45e] transition-all cursor-pointer" />
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-
-                 <div className="lg:col-span-5 grid grid-cols-2 gap-16">
-                    <div className="space-y-12">
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-[#c4a45e] mb-16 border-b border-[#c4a45e]/20 pb-4">Library</h4>
-                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-white/30">
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#c4a45e]" /> Veridian_Gold
-                          </li>
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#c4a45e]" /> Velvet_Night
-                          </li>
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#c4a45e]" /> Obsidian_Bloom
-                          </li>
-                       </ul>
-                    </div>
-                    <div className="space-y-12">
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-[#c4a45e] mb-16 border-b border-[#c4a45e]/20 pb-4">Science</h4>
-                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-white/30">
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#c4a45e]" /> Lab_Results
-                          </li>
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#c4a45e]" /> Terpene_Archive
-                          </li>
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-[#c4a45e]" /> Consultation
-                          </li>
-                       </ul>
-                    </div>
-                 </div>
+              <p
+                style={{
+                  fontFamily: C.bodyFont,
+                  fontSize: "0.88rem",
+                  lineHeight: 1.7,
+                  color: "rgba(248,244,236,0.45)",
+                  marginBottom: "28px",
+                  maxWidth: "280px",
+                }}
+              >
+                8 Avenue Montaigne, 75008 Paris<br />
+                Depuis 1872, l'art de recevoir à la parisienne.
+              </p>
+              <div style={{ display: "flex", gap: "16px" }}>
+                {/* Camera */}
+                <a href="#" style={{ color: "rgba(248,244,236,0.4)", transition: "color 0.2s", cursor: "pointer" }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="2" y="2" width="20" height="20" rx="5" />
+                    <circle cx="12" cy="12" r="4" />
+                    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                  </svg>
+                </a>
+                {/* Users2 */}
+                <a href="#" style={{ color: "rgba(248,244,236,0.4)", transition: "color 0.2s", cursor: "pointer" }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                  </svg>
+                </a>
+                {/* TripAdvisor owl icon */}
+                <a href="#" style={{ color: "rgba(248,244,236,0.4)", transition: "color 0.2s", cursor: "pointer" }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M8 12a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm4 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+                    <path d="M6 8c1.5-1.5 3-2 6-2s4.5.5 6 2" />
+                  </svg>
+                </a>
               </div>
+            </div>
 
-              <div className="pt-24 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.5em] text-white/10 italic text-center">
-                 <div className="flex gap-16">
-                    <span>©2026 VERIDIAN BOTANICAL ATELIER.</span>
-                    <span className="hidden md:inline">//</span>
-                    <span>CRAFT_CURE_CERTIFIED</span>
-                 </div>
-                 <div className="flex gap-16 font-mono text-[#c4a45e]/30">
-                    <span>TERPENE_RETAINED_98%</span>
-                    <span>PH_STABLE_6.2_NOMINAL</span>
-                 </div>
-              </div>
-           </div>
-        </footer>
-      </main>
+            {/* Hébergement */}
+            <div>
+              <h4
+                style={{
+                  fontFamily: C.bodyFont,
+                  fontSize: "0.72rem",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.18em",
+                  color: C.accent,
+                  marginBottom: "20px",
+                  fontWeight: 600,
+                }}
+              >
+                Hébergement
+              </h4>
+              {["Chambres Classiques", "Suites Prestige", "Suite Impériale", "Offres Spéciales", "Cadeaux & Bons"].map((item) => (
+                <a
+                  key={item}
+                  href="#"
+                  style={{
+                    display: "block",
+                    fontFamily: C.bodyFont,
+                    fontSize: "0.87rem",
+                    color: "rgba(248,244,236,0.5)",
+                    textDecoration: "none",
+                    marginBottom: "12px",
+                    transition: "color 0.2s",
+                    cursor: "pointer",
+                  }}
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
 
-      <style>{`
-        ::-webkit-scrollbar { width: 6px; background: #050805; }
-        ::-webkit-scrollbar-thumb { background: #c4a45e; border-radius: 10px; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .vertical-text { writing-mode: vertical-rl; }
-        .animate-spin-slow { animation: spin 40s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-      `}</style>
+            {/* Expériences */}
+            <div>
+              <h4
+                style={{
+                  fontFamily: C.bodyFont,
+                  fontSize: "0.72rem",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.18em",
+                  color: C.accent,
+                  marginBottom: "20px",
+                  fontWeight: 600,
+                }}
+              >
+                Expériences
+              </h4>
+              {["Restaurant Marchand", "Bar Le Napoléon", "Spa & Bien-être", "Privatisation", "Séminaires"].map((item) => (
+                <a
+                  key={item}
+                  href="#"
+                  style={{
+                    display: "block",
+                    fontFamily: C.bodyFont,
+                    fontSize: "0.87rem",
+                    color: "rgba(248,244,236,0.5)",
+                    textDecoration: "none",
+                    marginBottom: "12px",
+                    transition: "color 0.2s",
+                    cursor: "pointer",
+                  }}
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+
+            {/* Informations */}
+            <div>
+              <h4
+                style={{
+                  fontFamily: C.bodyFont,
+                  fontSize: "0.72rem",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.18em",
+                  color: C.accent,
+                  marginBottom: "20px",
+                  fontWeight: 600,
+                }}
+              >
+                Informations
+              </h4>
+              {["À Propos", "Actualités", "Presse", "Mentions Légales", "Contact"].map((item) => (
+                <a
+                  key={item}
+                  href="#"
+                  style={{
+                    display: "block",
+                    fontFamily: C.bodyFont,
+                    fontSize: "0.87rem",
+                    color: "rgba(248,244,236,0.5)",
+                    textDecoration: "none",
+                    marginBottom: "12px",
+                    transition: "color 0.2s",
+                    cursor: "pointer",
+                  }}
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div
+            style={{
+              borderTop: "1px solid rgba(248,244,236,0.08)",
+              paddingTop: "32px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: "16px",
+            }}
+          >
+            <p
+              style={{
+                fontFamily: C.bodyFont,
+                fontSize: "0.8rem",
+                color: "rgba(248,244,236,0.3)",
+                margin: 0,
+              }}
+            >
+              © 2026 Grand Palais Paris. Tous droits réservés.
+            </p>
+            <div style={{ display: "flex", gap: "28px" }}>
+              {["Confidentialité", "CGV", "Cookies"].map((item) => (
+                <a
+                  key={item}
+                  href="#"
+                  style={{
+                    fontFamily: C.bodyFont,
+                    fontSize: "0.78rem",
+                    color: "rgba(248,244,236,0.3)",
+                    textDecoration: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

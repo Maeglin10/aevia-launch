@@ -1,441 +1,1431 @@
-"use client";
+"use client"
 
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect, Suspense } from "react";
-import Image from "next/image";
-import { ArrowUpRight, Menu, X, Layers, ShieldCheck, Plus, Play, ArrowRight, ChevronDown, Monitor, LayoutGrid, Building2, Maximize2, Minimize2, Box, Compass, Zap, Activity, Shield, Search, Hammer } from "lucide-react";
-import "../premium.css";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import { useState, useRef } from "react"
+import Link from "next/link"
 
-// ─── DATA ──────────────────────────────────────────────────────────────────
+const C = {
+  bg: "#ffffff",
+  text: "#0a0a0a",
+  accent: "#0a0a0a",
+  white: "#ffffff",
+  border: "2px solid #0a0a0a",
+  borderThick: "4px solid #0a0a0a",
+}
 
-const PROJECTS = [
-  { 
-    id: "ARCH_01",
-    title: "VOID_TOWER", 
-    category: "Mixed Use",
-    location: "Oslo, NO",
-    img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80",
-    desc: "A singular monolithic volume designed for sub-millisecond structural recognition. Every service element is folded into the brutalist logic."
+const FONT = '"Helvetica Neue", Helvetica, Arial, sans-serif'
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const NAV_LINKS = ["PROJETS", "APPROCHE", "ÉQUIPE", "MANIFESTE", "CONTACT"]
+
+const STATS = [
+  { value: "2003", label: "Fondée à Bruxelles" },
+  { value: "85", label: "Bâtiments livrés" },
+  { value: "12", label: "Distinctions nationales" },
+  { value: "8", label: "Pays en Europe" },
+]
+
+const TABS = [
+  {
+    id: "logement",
+    label: "LOGEMENT COLLECTIF",
+    heading: "HABITAT RADICAL",
+    body: "Nous concevons des immeubles résidentiels qui refusent la médiocrité. Chaque programme collectif est traité comme un manifeste urbain — masse assumée, matière brute, espaces communs imposants. Nos bâtiments vieillissent bien parce qu'ils sont honnêtes dès le départ.",
+    tags: ["BÉTON BRUT", "MASSE CONSTRUITE", "ESPACES COMMUNS", "DURABILITÉ"],
+    projects: ["Tour Molenbeek — 240 logements, 2022", "Résidence Anderlecht — 88 logements, 2019", "Complexe Schaerbeek — 160 logements, 2021"],
   },
-  { 
-    id: "ARCH_02",
-    title: "THERMAL_WING", 
-    category: "Cultural",
-    location: "Lyon, FR",
-    img: "https://images.unsplash.com/photo-1541829070764-84a7d30dee62?w=1200&q=80",
-    desc: "An arts center whose envelope harvests geothermal energy and redistributes it as radiant heat through a network of structural voids."
+  {
+    id: "tertiaire",
+    label: "TERTIAIRE",
+    heading: "BUREAUX SANS COMPROMIS",
+    body: "L'architecture de bureau n'a pas à être neutre. Nos immeubles tertiaires imposent leur présence dans le tissu urbain. Plateaux libres, structure apparente, façades qui n'imitent rien — des espaces de travail pensés pour durer 100 ans.",
+    tags: ["OPEN SPACE", "STRUCTURE APPARENTE", "FAÇADE AUTONOME", "FLEXIBILITÉ"],
+    projects: ["Siège BPT Group — 12 000 m², 2023", "Campus Axisparc — 3 bâtiments, 2020", "Tour Bastion — 8 000 m², 2018"],
   },
-  { 
-    id: "ARCH_03",
-    title: "MEMBRANE_HUB", 
-    category: "Infrastructure",
-    location: "Copenhagen, DK",
-    img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80",
-    desc: "A pedestrian crossing that flexes under load, actively reducing wind-induced vibration through distributed kinetic logic."
-  }
-];
+  {
+    id: "equipements",
+    label: "ÉQUIPEMENTS PUBLICS",
+    heading: "ARCHITECTURE CIVIQUE",
+    body: "Les bâtiments publics ont une responsabilité symbolique que les programmes privés n'ont pas. Nous prenons cette responsabilité au sérieux. Écoles, bibliothèques, centres culturels — des lieux qui affirment la présence de la collectivité dans l'espace urbain.",
+    tags: ["COMMANDE PUBLIQUE", "PROGRAMME CIVIQUE", "MATÉRIAUX LOCAUX", "PÉRENNITÉ"],
+    projects: ["Bibliothèque Centrale de Liège — 2021", "École Secondaire de Gand — 2020", "Centre Culturel de Namur — 2019"],
+  },
+  {
+    id: "renovation",
+    label: "RÉNOVATION RADICALE",
+    heading: "TRANSFORMER SANS TRAHIR",
+    body: "La rénovation radicale ne cache pas le passé — elle le confronte. Nous intervenons sur du bâti existant avec la même exigence que sur le neuf. Pas de plaquettes de faux matériaux, pas de ravalement cosmétique. Une transformation honnête qui reconnaît ce qu'était le bâtiment.",
+    tags: ["PATRIMOINE INDUSTRIEL", "RÉHABILITATION", "SURÉLÉVATION", "RECONVERSION"],
+    projects: ["Filature de Verviers — reconversion, 2022", "Entrepôts du Port — 4 000 m², 2021", "Brasserie Wielemans — logements, 2023"],
+  },
+]
 
-const METRICS = [
-  { label: "Built_Projects", val: "31", desc: "Monolithic structures delivered across global urban enclaves with absolute visual integrity." },
-  { label: "Structural_Yield", val: "94.2%", desc: "Average material efficiency yield across all active architectural manifests." },
-  { label: "Awards_Won", val: "14", desc: "Global recognition for our contributions to structural brutalism and logic." }
-];
+const TESTIMONIALS = [
+  {
+    quote: "Brutco a eu le courage de défendre une vision quand nous voulions nous replier vers une solution plus conventionnelle. Aujourd'hui, la bibliothèque est devenue un repère de la ville. Ce n'est pas un hasard.",
+    author: "MARC DEGREEF",
+    role: "ÉCHEVIN DE L'URBANISME — VILLE DE LIÈGE",
+  },
+  {
+    quote: "On nous avait conseillé de choisir un cabinet 'plus accessible'. Nous avons choisi Brutco. Trois ans après la livraison, nos locataires renouvellent leurs baux et la valeur vénale a progressé de 28%. L'architecture exigeante, ça paie.",
+    author: "SOPHIE VANDENBERGHE",
+    role: "DIRECTRICE — BPT REAL ESTATE PARTNERS",
+  },
+  {
+    quote: "Brutco ne produit pas de beaux rendus pour gagner des concours puis livrer autre chose. Ce que vous voyez dans le dossier, c'est ce que vous obtenez en vrai. Dans notre métier, c'est extraordinairement rare.",
+    author: "THOMAS LECLERCQ",
+    role: "DIRECTEUR DES MARCHÉS PUBLICS — COMMUNAUTÉ FRANÇAISE",
+  },
+  {
+    quote: "Ils nous ont dit clairement que notre budget initial était incompatible avec nos ambitions architecturales. Nous avons trouvé les moyens d'ajuster. Le résultat valait chaque euro supplémentaire.",
+    author: "ANNE-SOPHIE MAES",
+    role: "PDG — GROUPE MAES CONSTRUCTION",
+  },
+]
 
-const CAPABILITIES = [
-  { icon: Building2, title: "Monolith Forge", desc: "Engineering architectural volumes through a lens of mathematical and structural purity." },
-  { icon: Compass, title: "Spatial Sync", desc: "Scaling urban environments through distributed tectonic orchestration." },
-  { icon: Hammer, title: "Logic Build", desc: "Synchronizing construction spikes with real-time biological demand cycles." },
-  { icon: Shield, title: "Void Shell", desc: "Leveraging heavy concrete fabrication for ultra-high fidelity protection." }
-];
+const PRICING = [
+  {
+    name: "CONSULTATION",
+    price: "GRATUITE",
+    sub: "1 HEURE — DIAGNOSTIC INITIAL",
+    features: [
+      "Analyse du site et du programme",
+      "Évaluation de faisabilité brute",
+      "Retour direct sans filtre",
+      "Pas d'engagement",
+    ],
+    cta: "RÉSERVER UN CRÉNEAU",
+    highlighted: false,
+  },
+  {
+    name: "ESQUISSE CONCEPT",
+    price: "3 500€",
+    sub: "VISION BRUTE — 2 SEMAINES",
+    features: [
+      "Implantation et volumétrie",
+      "2 options conceptuelles",
+      "Maquette de masse 1:500",
+      "Note d'intention architecturale",
+      "Présentation en agence",
+    ],
+    cta: "DÉMARRER L'ESQUISSE",
+    highlighted: true,
+  },
+  {
+    name: "MISSION COMPLÈTE",
+    price: "% CONSTRUCTION",
+    sub: "MIN. 45 000€ — CLÉS EN MAIN",
+    features: [
+      "PC → APS → APD → DCE",
+      "Suivi de chantier hebdomadaire",
+      "Coordination BET",
+      "Réception des travaux",
+      "Garantie décennale",
+      "Dossier des ouvrages exécutés",
+    ],
+    cta: "DISCUTER DE LA MISSION",
+    highlighted: false,
+  },
+]
 
-// ─── COMPONENTS ──────────────────────────────────────────────────────────────
+const FAQS = [
+  {
+    q: "QU'EST-CE QUE BRUTCO FAIT EXACTEMENT?",
+    a: "Brutco est une agence d'architecture fondée à Bruxelles en 2003. Nous couvrons l'ensemble de la mission architecturale — de l'esquisse à la réception de chantier — sur des programmes résidentiels collectifs, tertiaires et d'équipements publics. Notre positionnement est radical : nous concevons des bâtiments qui ont un point de vue, pas des constructions génériques.",
+  },
+  {
+    q: "TRAVAILLEZ-VOUS PARTOUT EN EUROPE?",
+    a: "Oui. Nous avons livré des projets en Belgique, aux Pays-Bas, en Allemagne, en France, au Luxembourg, en Suisse, au Portugal, et en Pologne. Nos 8 pays d'intervention sont le résultat de commandes directes ou de concours remportés hors frontières. Nous ne nous déplaçons pas pour des projets en dessous de 3 millions d'euros de budget construction.",
+  },
+  {
+    q: "QUEL EST LE BUDGET MINIMUM DE CHANTIER?",
+    a: "Pour une mission complète, nous travaillons à partir de 3 millions d'euros de budget construction. En dessous, nos honoraires sur base de pourcentage ne permettent pas de constituer l'équipe projet nécessaire pour maintenir notre niveau d'exigence. Pour des projets plus petits, la prestation Esquisse Concept peut être pertinente pour cadrer une direction.",
+  },
+  {
+    q: "QUEL EST LE DÉLAI MOYEN D'UN PROJET?",
+    a: "Un projet résidentiel standard de permis à réception prend entre 36 et 54 mois selon la complexité, le programme et les délais d'instruction administrative. La phase de conception (esquisse + APS + APD + DCE) représente environ 12 à 18 mois. Nous ne promettons pas des délais que nous ne pouvons pas tenir — la qualité architecturale prend le temps qu'elle prend.",
+  },
+  {
+    q: "PEUT-ON VISITER DES CHANTIERS EN COURS?",
+    a: "Oui, nous organisons des visites de chantier pour les clients potentiels sur rendez-vous. C'est souvent la meilleure façon de comprendre comment nous travaillons et ce que nous défendons. Voir un bâtiment Brutco en construction — structure brute, matière visible, aucun artifice — est plus éloquent que n'importe quel portfolio.",
+  },
+  {
+    q: "COMMENT BRUTCO GÈRE-T-IL LES DÉSACCORDS AVEC LE CLIENT?",
+    a: "Franchement. Nous argumentons nos partis pris et nous pouvons évoluer si les arguments sont pertinents. Mais nous ne capitulons pas sous la pression commerciale. Si un client exige des choix que nous estimons architecturalement ou éthiquement problématiques, nous préférons nous retirer du projet. Cela ne s'est produit que trois fois en vingt ans.",
+  },
+]
 
-function Reveal({ children, className = "", delay = 0, y = 40 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+// ─── STAT COUNTER ────────────────────────────────────────────────────────────
+
+function StatItem({ value, label }: { value: string; label: string }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: "-80px" })
+
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y }}
+      initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.19, 1, 0.22, 1] }}
-      className={className}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      style={{
+        textAlign: "center",
+        padding: "40px 20px",
+        borderRight: C.border,
+        flex: 1,
+      }}
     >
-      {children}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        style={{
+          fontFamily: FONT,
+          fontWeight: 900,
+          fontSize: "clamp(48px, 6vw, 80px)",
+          color: C.white,
+          lineHeight: 1,
+          letterSpacing: "-2px",
+        }}
+      >
+        {value}
+      </motion.div>
+      <div
+        style={{
+          fontFamily: FONT,
+          fontWeight: 400,
+          fontSize: "12px",
+          color: "rgba(255,255,255,0.6)",
+          marginTop: "12px",
+          letterSpacing: "2px",
+          textTransform: "uppercase",
+        }}
+      >
+        {label}
+      </div>
     </motion.div>
-  );
+  )
 }
 
-// ─── MAIN SPA ────────────────────────────────────────────────────────────────
+// ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 
-export default function AetherArchSPA() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeProj, setActiveProj] = useState(0);
-  const { scrollY } = useScroll();
-  
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
-  const heroScale = useTransform(scrollY, [0, 800], [1, 1.1]);
-  const blueprintY = useTransform(scrollY, [0, 1000], [0, 100]);
+export default function BrutcoPage() {
+  const { scrollY } = useScroll()
+  const heroTitleX = useTransform(scrollY, [0, 600], ["0%", "-2%"])
+  const gridY = useTransform(scrollY, [0, 600], [0, -20])
+
+  const [activeTab, setActiveTab] = useState(0)
+  const [activeTestimonial, setActiveTestimonial] = useState(0)
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [direction, setDirection] = useState(1)
+
+  function goTestimonial(idx: number) {
+    setDirection(idx > activeTestimonial ? 1 : -1)
+    setActiveTestimonial(idx)
+  }
+  function prevTestimonial() {
+    const next = (activeTestimonial - 1 + TESTIMONIALS.length) % TESTIMONIALS.length
+    setDirection(-1)
+    setActiveTestimonial(next)
+  }
+  function nextTestimonial() {
+    const next = (activeTestimonial + 1) % TESTIMONIALS.length
+    setDirection(1)
+    setActiveTestimonial(next)
+  }
 
   return (
-    <div className="min-h-screen bg-[#f2f2f2] text-[#111] font-mono selection:bg-[#111] selection:text-white">
-      
-      {/* ── BLUEPRINT OVERLAY ── */}
-      <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
-      <div className="fixed inset-0 z-[0] opacity-[0.1] pointer-events-none">
-        <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
-      </div>
+    <div style={{ background: C.bg, color: C.text, fontFamily: FONT, overflowX: "hidden" }}>
 
-      {/* ── NAVIGATION ── */}
-      <motion.nav 
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-16 py-10 mix-blend-difference"
+      {/* ── 1. NAVBAR ──────────────────────────────────────────────────────── */}
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          background: "transparent",
+          borderBottom: C.borderThick,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0 40px",
+          height: "64px",
+        }}
       >
-        <div className="flex items-center gap-4">
-          <Building2 className="w-10 h-10 text-white" />
-          <span className="text-2xl font-black tracking-tighter uppercase italic text-white">AETHER<span className="text-white/30">//</span>ARCH</span>
+        <div
+          style={{
+            fontFamily: FONT,
+            fontWeight: 900,
+            fontSize: "18px",
+            letterSpacing: "4px",
+            color: C.text,
+          }}
+        >
+          BRUTCO
         </div>
-        
-        <div className="hidden lg:flex items-center gap-16 text-[10px] font-bold uppercase tracking-[0.5em] text-white/40">
-          {["Manifest", "Projects", "Atelier", "Archive"].map(item => (
-            <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors">/{item}</a>
+        <div style={{ display: "flex", gap: "40px", alignItems: "center" }}>
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link}
+              href="#"
+              style={{
+                fontFamily: FONT,
+                fontWeight: 400,
+                fontSize: "11px",
+                letterSpacing: "2px",
+                color: C.text,
+                textDecoration: "none",
+                cursor: "pointer",
+              }}
+            >
+              {link}
+            </Link>
+          ))}
+          <motion.button
+            whileHover={{ background: C.text, color: C.white }}
+            transition={{ duration: 0.15 }}
+            style={{
+              fontFamily: FONT,
+              fontWeight: 900,
+              fontSize: "11px",
+              letterSpacing: "2px",
+              padding: "10px 24px",
+              border: C.border,
+              background: "transparent",
+              color: C.text,
+              cursor: "pointer",
+            }}
+          >
+            PRENDRE CONTACT
+          </motion.button>
+        </div>
+      </nav>
+
+      {/* ── 2. HERO ────────────────────────────────────────────────────────── */}
+      <section
+        style={{
+          minHeight: "100vh",
+          background: C.bg,
+          paddingTop: "64px",
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        {/* Logo mark */}
+        <div style={{ padding: "48px 40px 0" }}>
+          <div
+            style={{
+              width: "120px",
+              height: "120px",
+              background: C.text,
+              flexShrink: 0,
+            }}
+          />
+        </div>
+
+        {/* Main heading */}
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "40px 40px 0",
+          }}
+        >
+          <motion.div style={{ x: heroTitleX }}>
+            <div
+              style={{
+                fontFamily: FONT,
+                fontWeight: 900,
+                fontSize: "clamp(80px, 12vw, 180px)",
+                lineHeight: 0.9,
+                color: C.text,
+                textTransform: "uppercase",
+                letterSpacing: "-4px",
+              }}
+            >
+              ARCHITECTURE
+            </div>
+            <div
+              style={{
+                fontFamily: FONT,
+                fontWeight: 900,
+                fontSize: "clamp(80px, 12vw, 180px)",
+                lineHeight: 0.9,
+                color: C.text,
+                textTransform: "uppercase",
+                letterSpacing: "-4px",
+              }}
+            >
+              / RADICALE
+            </div>
+          </motion.div>
+
+          <div
+            style={{
+              marginTop: "48px",
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "space-between",
+              gap: "40px",
+            }}
+          >
+            <div
+              style={{
+                fontFamily: FONT,
+                fontWeight: 400,
+                fontSize: "14px",
+                letterSpacing: "1px",
+                color: C.text,
+                maxWidth: "320px",
+                lineHeight: 1.6,
+                borderLeft: C.borderThick,
+                paddingLeft: "20px",
+              }}
+            >
+              Agence d'architecture fondée à Bruxelles en 2003. Nous concevons des bâtiments qui
+              ont un point de vue. Pas de façades génériques. Pas de compromis esthétiques.
+            </div>
+
+            {/* Project grid — bottom right */}
+            <motion.div style={{ y: gridY }}>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "2px",
+                  width: "480px",
+                }}
+              >
+                {[
+                  { label: "TOUR MOLENBEEK", year: "2022", type: "RÉSIDENTIEL" },
+                  { label: "SIÈGE BPT GROUP", year: "2023", type: "TERTIAIRE" },
+                  { label: "BIBLIOTHÈQUE LIÈGE", year: "2021", type: "ÉQUIPEMENT PUBLIC" },
+                  { label: "FILATURE VERVIERS", year: "2022", type: "RÉNOVATION" },
+                ].map((p) => (
+                  <motion.div
+                    key={p.label}
+                    whileHover={{ background: "#111" }}
+                    transition={{ duration: 0.1 }}
+                    style={{
+                      background: C.text,
+                      padding: "24px",
+                      borderRadius: 0,
+                      cursor: "pointer",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontFamily: FONT,
+                        fontWeight: 900,
+                        fontSize: "11px",
+                        color: C.white,
+                        letterSpacing: "1px",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      {p.label}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: FONT,
+                        fontWeight: 400,
+                        fontSize: "10px",
+                        color: "rgba(255,255,255,0.5)",
+                        letterSpacing: "2px",
+                      }}
+                    >
+                      {p.type} — {p.year}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div
+          style={{
+            padding: "40px",
+            display: "flex",
+            alignItems: "center",
+            gap: "16px",
+          }}
+        >
+          <div style={{ width: "40px", height: "2px", background: C.text }} />
+          <span
+            style={{
+              fontFamily: FONT,
+              fontWeight: 400,
+              fontSize: "10px",
+              letterSpacing: "3px",
+              color: C.text,
+            }}
+          >
+            DÉFILER
+          </span>
+        </div>
+      </section>
+
+      {/* Section divider */}
+      <div style={{ borderTop: "2px solid #0a0a0a" }} />
+
+      {/* ── 3. STATS ───────────────────────────────────────────────────────── */}
+      <section style={{ background: C.text }}>
+        <div
+          style={{
+            display: "flex",
+            borderBottom: "2px solid rgba(255,255,255,0.15)",
+          }}
+        >
+          {STATS.map((s, i) => (
+            <div
+              key={s.label}
+              style={{
+                flex: 1,
+                borderRight: i < STATS.length - 1 ? "2px solid rgba(255,255,255,0.15)" : "none",
+              }}
+            >
+              <StatItem value={s.value} label={s.label} />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Section divider */}
+      <div style={{ borderTop: "2px solid #0a0a0a" }} />
+
+      {/* ── 4. FEATURES / TABS ─────────────────────────────────────────────── */}
+      <section style={{ background: C.bg, padding: "100px 40px" }}>
+        <div style={{ marginBottom: "16px" }}>
+          <span
+            style={{
+              fontFamily: FONT,
+              fontWeight: 400,
+              fontSize: "11px",
+              letterSpacing: "3px",
+              color: C.text,
+            }}
+          >
+            DOMAINES D'INTERVENTION
+          </span>
+        </div>
+        <h2
+          style={{
+            fontFamily: FONT,
+            fontWeight: 900,
+            fontSize: "clamp(40px, 5vw, 72px)",
+            color: C.text,
+            textTransform: "uppercase",
+            letterSpacing: "-2px",
+            marginBottom: "60px",
+            lineHeight: 1,
+          }}
+        >
+          CE QUE NOUS
+          <br />
+          CONSTRUISONS
+        </h2>
+
+        {/* Tab labels */}
+        <div
+          style={{
+            display: "flex",
+            borderBottom: "2px solid #0a0a0a",
+            marginBottom: "0",
+            overflowX: "auto",
+          }}
+        >
+          {TABS.map((tab, i) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(i)}
+              style={{
+                fontFamily: FONT,
+                fontWeight: 900,
+                fontSize: "11px",
+                letterSpacing: "2px",
+                padding: "20px 32px",
+                border: "none",
+                borderBottom: activeTab === i ? "4px solid #0a0a0a" : "4px solid transparent",
+                background: "transparent",
+                color: activeTab === i ? C.text : "rgba(10,10,10,0.4)",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+                marginBottom: "-2px",
+              }}
+            >
+              {tab.label}
+            </button>
           ))}
         </div>
 
-        <button 
-          onClick={() => setMenuOpen(true)}
-          className="w-16 h-16 flex items-center justify-center border border-white/10 group bg-white/5 backdrop-blur-md"
+        {/* Tab content */}
+        <div
+          style={{
+            borderLeft: C.border,
+            borderRight: C.border,
+            borderBottom: C.border,
+            minHeight: "360px",
+          }}
         >
-          <Menu className="w-6 h-6 text-white group-hover:scale-x-50 transition-transform" />
-        </button>
-      </motion.nav>
-
-      {/* ── MOBILE MENU ── */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.1 }}
-            transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
-            className="fixed inset-0 z-[60] bg-[#f2f2f2] text-black p-12 flex flex-col justify-between"
-          >
-            <div className="flex justify-between items-center border-b border-black/5 pb-12">
-              <span className="text-xl font-black uppercase tracking-tighter italic">AETHER//ARCH</span>
-              <button onClick={() => setMenuOpen(false)} className="w-12 h-12 flex items-center justify-center border border-black/10 rounded-full">
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-            <div className="flex flex-col gap-12 text-center md:text-left">
-              {["STRUCTURAL_MANIFEST", "PROJECT_ARCHIVE", "BRUTALIST_FORGE", "URBAN_ENCLAVE", "SECURE_AUTH"].map((item, i) => (
-                <motion.a 
-                  key={item}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 + 0.3 }}
-                  href="#"
-                  className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter hover:text-black/40 transition-all leading-none"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {item}
-                </motion.a>
-              ))}
-            </div>
-            <div className="flex justify-between text-[10px] font-bold uppercase tracking-[0.5em] border-t border-black/5 pt-12">
-              <span>ARCHITECTURAL_PRACTICE</span>
-              <span>EST. 2012 // OSLO</span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── HERO SECTION ── */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
-        <motion.div 
-          style={{ opacity: heroOpacity, scale: heroScale, y: blueprintY }}
-          className="absolute inset-0 z-0"
-        >
-          <Image 
-            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80" 
-            alt="Hero Arch" 
-            fill 
-            className="object-cover grayscale brightness-50 contrast-125 opacity-30" 
-            unoptimized 
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f2f2f2]" />
-        </motion.div>
-
-        <div className="relative z-10 text-center px-6">
-          <Reveal>
-            <span className="text-[10px] font-bold uppercase tracking-[2.5em] text-black/40 mb-12 block">Structural Endurance</span>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <h1 className="text-8xl md:text-[18rem] font-black tracking-tighter leading-[0.75] uppercase italic text-black mb-20">
-              PURE <br/> <span className="not-italic text-black/10">VOID.</span>
-            </h1>
-          </Reveal>
-          <Reveal delay={0.4}>
-            <div className="max-w-2xl mx-auto flex flex-col items-center gap-16 border-t border-black/10 pt-20">
-              <p className="text-black/40 text-xl leading-relaxed font-light uppercase tracking-[0.3em] italic leading-loose text-center">
-                Refining the urban environment through radical structural reduction. Where brutalist forge meets domestic synthesis.
-              </p>
-              <div className="flex gap-8">
-                <button className="px-16 py-6 bg-black text-white font-black uppercase text-xs tracking-[0.4em] hover:bg-white hover:text-black transition-all">
-                  Manifest_Access
-                </button>
-                <button className="px-16 py-6 border border-black/20 text-black font-black uppercase text-xs tracking-[0.4em] hover:bg-black/5 transition-colors">
-                  Atelier_Dossier
-                </button>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-
-        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[10px] font-bold uppercase tracking-[0.5em] text-black/20">
-          <div className="flex flex-col gap-2">
-            <span>OSLO // ATELIER</span>
-            <div className="w-48 h-[1px] bg-black/10" />
-          </div>
-          <div className="flex items-center gap-4 italic uppercase tracking-widest">
-             <span className="animate-pulse">●</span> FORGE_STATUS: CASTING
-          </div>
-        </div>
-      </section>
-
-      {/* ── SPECS GRID ── */}
-      <section className="py-40 bg-[#f2f2f2]">
-        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-black/5 border border-black/5">
-            {METRICS.map((s, i) => (
-              <Reveal key={s.label} delay={i * 0.1} className="bg-white p-24 group hover:bg-black/5 transition-all duration-700">
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/30 mb-12 block group-hover:text-black/60">{s.label}</span>
-                <h3 className="text-7xl font-black italic text-black mb-8 group-hover:text-black transition-colors">{s.val}</h3>
-                <p className="text-xs text-black/30 font-light tracking-widest uppercase italic leading-loose group-hover:text-black/60">
-                  {s.desc}
-                </p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── PROJECTS SHOWCASE ── */}
-      <section className="py-40 bg-white relative overflow-hidden">
-        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
-          <Reveal className="mb-32">
-             <div className="flex flex-col lg:flex-row justify-between items-end gap-12 border-b border-black/10 pb-12">
-               <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-black">
-                 Project <br/> <span className="text-black/20 not-italic">Archive.</span>
-               </h2>
-               <div className="text-right">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/20 mb-4 block italic">Manifest_Sequence_2024</span>
-                  <div className="flex gap-4">
-                    {PROJECTS.map((_, i) => (
-                      <button 
-                        key={i} 
-                        onClick={() => setActiveProj(i)}
-                        className={`w-16 h-1 transition-all ${activeProj === i ? "bg-black w-32" : "bg-black/10"}`}
-                      />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              style={{ padding: "48px" }}
+            >
+              <div style={{ display: "flex", gap: "80px" }}>
+                <div style={{ flex: 1 }}>
+                  <h3
+                    style={{
+                      fontFamily: FONT,
+                      fontWeight: 900,
+                      fontSize: "32px",
+                      color: C.text,
+                      textTransform: "uppercase",
+                      letterSpacing: "-1px",
+                      marginBottom: "24px",
+                    }}
+                  >
+                    {TABS[activeTab].heading}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: FONT,
+                      fontWeight: 400,
+                      fontSize: "16px",
+                      color: C.text,
+                      lineHeight: 1.7,
+                      marginBottom: "32px",
+                    }}
+                  >
+                    {TABS[activeTab].body}
+                  </p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                    {TABS[activeTab].tags.map((tag) => (
+                      <span
+                        key={tag}
+                        style={{
+                          fontFamily: FONT,
+                          fontWeight: 900,
+                          fontSize: "10px",
+                          letterSpacing: "2px",
+                          padding: "6px 14px",
+                          border: C.border,
+                          color: C.text,
+                        }}
+                      >
+                        {tag}
+                      </span>
                     ))}
                   </div>
-               </div>
-             </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
-            <div className="lg:col-span-8 relative aspect-video rounded-sm overflow-hidden border border-black/5 group bg-[#ddd]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeProj}
-                  initial={{ opacity: 0, scale: 1.1 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 1.1 }}
-                  transition={{ duration: 1, ease: [0.19, 1, 0.22, 1] }}
-                  className="absolute inset-0"
-                >
-                  <Image src={PROJECTS[activeProj].img} alt={PROJECTS[activeProj].title} fill className="object-cover grayscale brightness-75 group-hover:grayscale-0 transition-all duration-[2s]" unoptimized />
-                  <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-80" />
-                </motion.div>
-              </AnimatePresence>
-              <div className="absolute bottom-12 left-12 flex flex-col gap-4">
-                 <span className="text-[10px] font-black uppercase tracking-widest bg-black/80 backdrop-blur-md text-white px-6 py-2 border border-white/5">{PROJECTS[activeProj].location}</span>
+                </div>
+                <div style={{ width: "280px", flexShrink: 0 }}>
+                  <div
+                    style={{
+                      fontFamily: FONT,
+                      fontWeight: 900,
+                      fontSize: "10px",
+                      letterSpacing: "3px",
+                      color: C.text,
+                      marginBottom: "16px",
+                    }}
+                  >
+                    PROJETS RÉFÉRENCES
+                  </div>
+                  {TABS[activeTab].projects.map((p) => (
+                    <div
+                      key={p}
+                      style={{
+                        fontFamily: FONT,
+                        fontWeight: 400,
+                        fontSize: "13px",
+                        color: C.text,
+                        padding: "14px 0",
+                        borderBottom: "1px solid rgba(10,10,10,0.15)",
+                        lineHeight: 1.4,
+                      }}
+                    >
+                      {p}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
 
-            <div className="lg:col-span-4 space-y-12">
-               <motion.div
-                  key={activeProj}
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="space-y-12"
-               >
-                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-black/60">{PROJECTS[activeProj].id} // MANIFEST</span>
-                 <h3 className="text-6xl md:text-8xl font-black italic uppercase text-black tracking-tighter">{PROJECTS[activeProj].title}</h3>
-                 <div className="space-y-6 border-y border-black/10 py-12">
-                    <div className="flex justify-between items-center">
-                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/30">Category</span>
-                       <span className="text-sm font-black text-black uppercase tracking-widest">{PROJECTS[activeProj].category}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/30">Build_Status</span>
-                       <span className="text-sm font-black text-black uppercase tracking-widest italic">Structural_Stable</span>
-                    </div>
-                 </div>
-                 <p className="text-black/30 text-lg font-light italic leading-loose uppercase tracking-wide">
-                   {PROJECTS[activeProj].desc}
-                 </p>
-                 <button className="flex items-center gap-6 group">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.8em] text-black">Request_Dossier</span>
-                    <div className="w-16 h-16 border border-black/10 rounded-full flex items-center justify-center group-hover:bg-black transition-all">
-                       <ArrowUpRight className="w-6 h-6 text-black group-hover:text-white transition-colors" />
-                    </div>
-                 </button>
-               </motion.div>
+      {/* Section divider */}
+      <div style={{ borderTop: "2px solid #0a0a0a" }} />
+
+      {/* ── 5. TESTIMONIALS ────────────────────────────────────────────────── */}
+      <section style={{ background: C.bg, padding: "100px 40px" }}>
+        <div style={{ marginBottom: "16px" }}>
+          <span
+            style={{
+              fontFamily: FONT,
+              fontWeight: 400,
+              fontSize: "11px",
+              letterSpacing: "3px",
+              color: C.text,
+            }}
+          >
+            ILS ONT TRAVAILLÉ AVEC NOUS
+          </span>
+        </div>
+        <h2
+          style={{
+            fontFamily: FONT,
+            fontWeight: 900,
+            fontSize: "clamp(40px, 5vw, 72px)",
+            color: C.text,
+            textTransform: "uppercase",
+            letterSpacing: "-2px",
+            marginBottom: "60px",
+            lineHeight: 1,
+          }}
+        >
+          CE QU'ILS
+          <br />
+          EN DISENT
+        </h2>
+
+        <div style={{ position: "relative", overflow: "hidden" }}>
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={activeTestimonial}
+              custom={direction}
+              initial={{ opacity: 0, x: direction * 80 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: direction * -80 }}
+              transition={{ duration: 0.45 }}
+              style={{
+                border: C.border,
+                padding: "56px 60px",
+                borderRadius: 0,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: FONT,
+                  fontWeight: 900,
+                  fontSize: "clamp(24px, 3vw, 40px)",
+                  color: C.text,
+                  lineHeight: 1.3,
+                  marginBottom: "48px",
+                  letterSpacing: "-0.5px",
+                }}
+              >
+                "{TESTIMONIALS[activeTestimonial].quote}"
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
+                <div
+                  style={{
+                    width: "48px",
+                    height: "48px",
+                    background: C.text,
+                    flexShrink: 0,
+                  }}
+                />
+                <div>
+                  <div
+                    style={{
+                      fontFamily: FONT,
+                      fontWeight: 900,
+                      fontSize: "13px",
+                      color: C.text,
+                      letterSpacing: "2px",
+                    }}
+                  >
+                    {TESTIMONIALS[activeTestimonial].author}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: FONT,
+                      fontWeight: 400,
+                      fontSize: "11px",
+                      color: "rgba(10,10,10,0.5)",
+                      letterSpacing: "1px",
+                      marginTop: "4px",
+                    }}
+                  >
+                    {TESTIMONIALS[activeTestimonial].role}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Controls */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginTop: "32px",
+            }}
+          >
+            <div style={{ display: "flex", gap: "8px" }}>
+              {TESTIMONIALS.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => goTestimonial(i)}
+                  style={{
+                    width: i === activeTestimonial ? "32px" : "8px",
+                    height: "8px",
+                    background: C.text,
+                    border: "none",
+                    padding: 0,
+                    cursor: "pointer",
+                    transition: "width 0.3s",
+                  }}
+                />
+              ))}
+            </div>
+            <div style={{ display: "flex", gap: "0" }}>
+              <motion.button
+                whileHover={{ background: C.text, color: C.white }}
+                transition={{ duration: 0.15 }}
+                onClick={prevTestimonial}
+                style={{
+                  fontFamily: FONT,
+                  fontWeight: 900,
+                  fontSize: "18px",
+                  padding: "14px 24px",
+                  border: C.border,
+                  background: "transparent",
+                  color: C.text,
+                  cursor: "pointer",
+                }}
+              >
+                ←
+              </motion.button>
+              <motion.button
+                whileHover={{ background: C.text, color: C.white }}
+                transition={{ duration: 0.15 }}
+                onClick={nextTestimonial}
+                style={{
+                  fontFamily: FONT,
+                  fontWeight: 900,
+                  fontSize: "18px",
+                  padding: "14px 24px",
+                  border: C.border,
+                  borderLeft: "none",
+                  background: "transparent",
+                  color: C.text,
+                  cursor: "pointer",
+                }}
+              >
+                →
+              </motion.button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── CAPABILITIES ── */}
-      <section className="py-40 bg-[#f2f2f2] border-y border-black/10">
-        <div className="max-w-[1600px] mx-auto px-8 md:px-16">
-          <Reveal className="mb-32 text-center">
-             <span className="text-[10px] font-bold uppercase tracking-[1em] text-black/40 mb-8 block italic">Operational Scope</span>
-             <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase text-black">
-                Technical <br/> <span className="text-black/20 not-italic">Expertise.</span>
-             </h2>
-          </Reveal>
+      {/* Section divider */}
+      <div style={{ borderTop: "2px solid #0a0a0a" }} />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black/10 border border-black/10">
-            {CAPABILITIES.map((item, i) => (
-              <Reveal key={item.title} delay={i * 0.1} className="bg-white p-12 group hover:bg-black/5 transition-all duration-700">
-                 <item.icon className="w-12 h-12 text-black/20 group-hover:text-black transition-colors mb-8" />
-                 <h3 className="text-2xl font-black italic uppercase text-black mb-6">{item.title}</h3>
-                 <p className="text-xs text-black/40 group-hover:text-black font-light tracking-widest uppercase italic leading-loose transition-colors">
-                   {item.desc}
-                 </p>
-              </Reveal>
+      {/* ── 6. PRICING ─────────────────────────────────────────────────────── */}
+      <section style={{ background: C.bg, padding: "100px 40px" }}>
+        <div style={{ marginBottom: "16px" }}>
+          <span
+            style={{
+              fontFamily: FONT,
+              fontWeight: 400,
+              fontSize: "11px",
+              letterSpacing: "3px",
+              color: C.text,
+            }}
+          >
+            NOS PRESTATIONS
+          </span>
+        </div>
+        <h2
+          style={{
+            fontFamily: FONT,
+            fontWeight: 900,
+            fontSize: "clamp(40px, 5vw, 72px)",
+            color: C.text,
+            textTransform: "uppercase",
+            letterSpacing: "-2px",
+            marginBottom: "60px",
+            lineHeight: 1,
+          }}
+        >
+          COMMENT
+          <br />
+          TRAVAILLER AVEC NOUS
+        </h2>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0" }}>
+          {PRICING.map((tier, i) => (
+            <motion.div
+              key={tier.name}
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.2 }}
+              style={{
+                border: C.border,
+                borderLeft: i === 0 ? C.border : "none",
+                padding: "48px 40px",
+                borderRadius: 0,
+                background: tier.highlighted ? C.text : C.bg,
+                position: "relative",
+              }}
+            >
+              {tier.highlighted && (
+                <div
+                  style={{
+                    fontFamily: FONT,
+                    fontWeight: 900,
+                    fontSize: "9px",
+                    letterSpacing: "3px",
+                    color: C.white,
+                    background: "rgba(255,255,255,0.2)",
+                    padding: "4px 12px",
+                    display: "inline-block",
+                    marginBottom: "24px",
+                  }}
+                >
+                  RECOMMANDÉ
+                </div>
+              )}
+              <div
+                style={{
+                  fontFamily: FONT,
+                  fontWeight: 900,
+                  fontSize: "13px",
+                  letterSpacing: "3px",
+                  color: tier.highlighted ? C.white : C.text,
+                  marginBottom: "16px",
+                }}
+              >
+                {tier.name}
+              </div>
+              <div
+                style={{
+                  fontFamily: FONT,
+                  fontWeight: 900,
+                  fontSize: "clamp(28px, 3vw, 40px)",
+                  color: tier.highlighted ? C.white : C.text,
+                  letterSpacing: "-1px",
+                  marginBottom: "8px",
+                  lineHeight: 1,
+                }}
+              >
+                {tier.price}
+              </div>
+              <div
+                style={{
+                  fontFamily: FONT,
+                  fontWeight: 400,
+                  fontSize: "11px",
+                  color: tier.highlighted ? "rgba(255,255,255,0.6)" : "rgba(10,10,10,0.5)",
+                  letterSpacing: "1px",
+                  marginBottom: "36px",
+                }}
+              >
+                {tier.sub}
+              </div>
+              <div
+                style={{
+                  borderTop: tier.highlighted ? "2px solid rgba(255,255,255,0.2)" : "2px solid #0a0a0a",
+                  paddingTop: "28px",
+                  marginBottom: "36px",
+                }}
+              >
+                {tier.features.map((f) => (
+                  <div
+                    key={f}
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: "12px",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: FONT,
+                        fontWeight: 900,
+                        fontSize: "12px",
+                        color: tier.highlighted ? C.white : C.text,
+                        marginTop: "1px",
+                        flexShrink: 0,
+                      }}
+                    >
+                      +
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: FONT,
+                        fontWeight: 400,
+                        fontSize: "13px",
+                        color: tier.highlighted ? "rgba(255,255,255,0.8)" : C.text,
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      {f}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <motion.button
+                whileHover={{
+                  background: tier.highlighted ? C.white : C.text,
+                  color: tier.highlighted ? C.text : C.white,
+                }}
+                transition={{ duration: 0.15 }}
+                style={{
+                  fontFamily: FONT,
+                  fontWeight: 900,
+                  fontSize: "11px",
+                  letterSpacing: "2px",
+                  padding: "16px 28px",
+                  border: tier.highlighted ? "2px solid #ffffff" : C.border,
+                  background: "transparent",
+                  color: tier.highlighted ? C.white : C.text,
+                  cursor: "pointer",
+                  width: "100%",
+                }}
+              >
+                {tier.cta}
+              </motion.button>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Section divider */}
+      <div style={{ borderTop: "2px solid #0a0a0a" }} />
+
+      {/* ── 7. FAQ ─────────────────────────────────────────────────────────── */}
+      <section style={{ background: C.bg, padding: "100px 40px" }}>
+        <div style={{ marginBottom: "16px" }}>
+          <span
+            style={{
+              fontFamily: FONT,
+              fontWeight: 400,
+              fontSize: "11px",
+              letterSpacing: "3px",
+              color: C.text,
+            }}
+          >
+            QUESTIONS FRÉQUENTES
+          </span>
+        </div>
+        <h2
+          style={{
+            fontFamily: FONT,
+            fontWeight: 900,
+            fontSize: "clamp(40px, 5vw, 72px)",
+            color: C.text,
+            textTransform: "uppercase",
+            letterSpacing: "-2px",
+            marginBottom: "60px",
+            lineHeight: 1,
+          }}
+        >
+          CE QU'ON
+          <br />
+          NOUS DEMANDE
+        </h2>
+
+        <div style={{ maxWidth: "960px" }}>
+          {FAQS.map((faq, i) => (
+            <div key={i} style={{ borderTop: "2px solid #0a0a0a" }}>
+              <button
+                onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  padding: "28px 0",
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  textAlign: "left",
+                  gap: "24px",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: FONT,
+                    fontWeight: 900,
+                    fontSize: "clamp(14px, 1.6vw, 20px)",
+                    color: C.text,
+                    letterSpacing: "-0.5px",
+                  }}
+                >
+                  {faq.q}
+                </span>
+                <motion.span
+                  animate={{ rotate: openFaq === i ? 45 : 0 }}
+                  transition={{ duration: 0.2 }}
+                  style={{
+                    fontFamily: FONT,
+                    fontWeight: 900,
+                    fontSize: "24px",
+                    color: C.text,
+                    flexShrink: 0,
+                    display: "inline-block",
+                  }}
+                >
+                  +
+                </motion.span>
+              </button>
+              <AnimatePresence>
+                {openFaq === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.35 }}
+                    style={{ overflow: "hidden" }}
+                  >
+                    <p
+                      style={{
+                        fontFamily: FONT,
+                        fontWeight: 400,
+                        fontSize: "15px",
+                        color: C.text,
+                        lineHeight: 1.75,
+                        paddingBottom: "32px",
+                        maxWidth: "760px",
+                      }}
+                    >
+                      {faq.a}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+          <div style={{ borderTop: "2px solid #0a0a0a" }} />
+        </div>
+      </section>
+
+      {/* Section divider */}
+      <div style={{ borderTop: "2px solid #0a0a0a" }} />
+
+      {/* ── 8. CTA BANNER ──────────────────────────────────────────────────── */}
+      <section
+        style={{
+          background: C.text,
+          padding: "120px 40px",
+          textAlign: "center",
+        }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true }}
+        >
+          <div
+            style={{
+              fontFamily: FONT,
+              fontWeight: 400,
+              fontSize: "11px",
+              letterSpacing: "4px",
+              color: "rgba(255,255,255,0.5)",
+              marginBottom: "32px",
+            }}
+          >
+            PRÊT À CONSTRUIRE AUTREMENT?
+          </div>
+          <h2
+            style={{
+              fontFamily: FONT,
+              fontWeight: 900,
+              fontSize: "clamp(48px, 8vw, 120px)",
+              color: C.white,
+              textTransform: "uppercase",
+              letterSpacing: "-3px",
+              lineHeight: 0.95,
+              marginBottom: "60px",
+            }}
+          >
+            PRENONS
+            <br />
+            CONTACT
+          </h2>
+          <div style={{ display: "flex", justifyContent: "center", gap: "0" }}>
+            <motion.a
+              href="mailto:contact@brutco.be"
+              whileHover={{ background: C.white, color: C.text }}
+              transition={{ duration: 0.2 }}
+              style={{
+                fontFamily: FONT,
+                fontWeight: 900,
+                fontSize: "13px",
+                letterSpacing: "3px",
+                padding: "20px 48px",
+                border: "2px solid #ffffff",
+                color: C.white,
+                textDecoration: "none",
+                display: "inline-block",
+                cursor: "pointer",
+              }}
+            >
+              PRENDRE CONTACT
+            </motion.a>
+            <motion.a
+              href="tel:+3225551234"
+              whileHover={{ background: C.white, color: C.text }}
+              transition={{ duration: 0.2 }}
+              style={{
+                fontFamily: FONT,
+                fontWeight: 400,
+                fontSize: "13px",
+                letterSpacing: "2px",
+                padding: "20px 48px",
+                border: "2px solid #ffffff",
+                borderLeft: "none",
+                color: C.white,
+                textDecoration: "none",
+                display: "inline-block",
+                cursor: "pointer",
+              }}
+            >
+              +32 2 555 12 34
+            </motion.a>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Section divider */}
+      <div style={{ borderTop: "2px solid rgba(255,255,255,0.2)" }} />
+
+      {/* ── 9. FOOTER ──────────────────────────────────────────────────────── */}
+      <footer
+        style={{
+          background: C.text,
+          padding: "60px 40px 40px",
+        }}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "2fr 1fr 1fr 1fr",
+            gap: "60px",
+            marginBottom: "60px",
+          }}
+        >
+          {/* Brand */}
+          <div>
+            <div
+              style={{
+                fontFamily: FONT,
+                fontWeight: 900,
+                fontSize: "24px",
+                letterSpacing: "4px",
+                color: C.white,
+                marginBottom: "16px",
+              }}
+            >
+              BRUTCO
+            </div>
+            <p
+              style={{
+                fontFamily: FONT,
+                fontWeight: 400,
+                fontSize: "12px",
+                color: "rgba(255,255,255,0.4)",
+                lineHeight: 1.7,
+                maxWidth: "260px",
+              }}
+            >
+              Agence d'architecture brutaliste et design radical. Fondée à Bruxelles en 2003. 85 bâtiments livrés.
+            </p>
+            {/* Social icons */}
+            <div style={{ display: "flex", gap: "16px", marginTop: "24px" }}>
+              {/* LinkedIn */}
+              <a href="#" style={{ cursor: "pointer" }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(255,255,255,0.4)">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+              </a>
+              {/* Camera */}
+              <a href="#" style={{ cursor: "pointer" }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.5" r="0.5" fill="rgba(255,255,255,0.4)" stroke="none" />
+                </svg>
+              </a>
+              {/* Behance */}
+              <a href="#" style={{ cursor: "pointer" }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(255,255,255,0.4)">
+                  <path d="M8.228 9c.549 0 .99.422.99.96 0 .524-.441.96-.99.96H5v-1.92h3.228zM5 12.48h3.762c.601 0 1.087.468 1.087 1.044 0 .576-.486 1.044-1.087 1.044H5v-2.088zM14.5 8h4v1h-4zM12.5 13.5c0 .83.67 1.5 1.5 1.5h3c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-3c-.83 0-1.5.67-1.5 1.5zM12.5 11.5c0 .83.67 1.5 1.5 1.5h2.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5H14c-.83 0-1.5.67-1.5 1.5z" />
+                  <rect x="1" y="1" width="22" height="22" rx="2" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <div>
+            <div
+              style={{
+                fontFamily: FONT,
+                fontWeight: 900,
+                fontSize: "10px",
+                letterSpacing: "3px",
+                color: "rgba(255,255,255,0.3)",
+                marginBottom: "20px",
+              }}
+            >
+              NAVIGATION
+            </div>
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link}
+                href="#"
+                style={{
+                  display: "block",
+                  fontFamily: FONT,
+                  fontWeight: 400,
+                  fontSize: "12px",
+                  color: "rgba(255,255,255,0.5)",
+                  textDecoration: "none",
+                  marginBottom: "12px",
+                  letterSpacing: "1px",
+                  cursor: "pointer",
+                }}
+              >
+                {link}
+              </Link>
+            ))}
+          </div>
+
+          {/* Services */}
+          <div>
+            <div
+              style={{
+                fontFamily: FONT,
+                fontWeight: 900,
+                fontSize: "10px",
+                letterSpacing: "3px",
+                color: "rgba(255,255,255,0.3)",
+                marginBottom: "20px",
+              }}
+            >
+              DOMAINES
+            </div>
+            {TABS.map((tab) => (
+              <div
+                key={tab.id}
+                style={{
+                  fontFamily: FONT,
+                  fontWeight: 400,
+                  fontSize: "12px",
+                  color: "rgba(255,255,255,0.5)",
+                  marginBottom: "12px",
+                  letterSpacing: "1px",
+                }}
+              >
+                {tab.label}
+              </div>
+            ))}
+          </div>
+
+          {/* Contact */}
+          <div>
+            <div
+              style={{
+                fontFamily: FONT,
+                fontWeight: 900,
+                fontSize: "10px",
+                letterSpacing: "3px",
+                color: "rgba(255,255,255,0.3)",
+                marginBottom: "20px",
+              }}
+            >
+              CONTACT
+            </div>
+            {[
+              "Rue de la Régence 14",
+              "1000 Bruxelles, Belgique",
+              "",
+              "+32 2 555 12 34",
+              "contact@brutco.be",
+            ].map((line, i) =>
+              line ? (
+                <div
+                  key={i}
+                  style={{
+                    fontFamily: FONT,
+                    fontWeight: 400,
+                    fontSize: "12px",
+                    color: "rgba(255,255,255,0.5)",
+                    marginBottom: "8px",
+                    letterSpacing: "1px",
+                  }}
+                >
+                  {line}
+                </div>
+              ) : (
+                <div key={i} style={{ height: "8px" }} />
+              )
+            )}
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div
+          style={{
+            borderTop: "2px solid rgba(255,255,255,0.1)",
+            paddingTop: "32px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              fontFamily: FONT,
+              fontWeight: 400,
+              fontSize: "11px",
+              color: "rgba(255,255,255,0.3)",
+              letterSpacing: "1px",
+            }}
+          >
+            © 2026 BRUTCO — TOUS DROITS RÉSERVÉS
+          </div>
+          <div style={{ display: "flex", gap: "32px" }}>
+            {["MENTIONS LÉGALES", "POLITIQUE DE CONFIDENTIALITÉ", "ORDRE DES ARCHITECTES"].map((item) => (
+              <Link
+                key={item}
+                href="#"
+                style={{
+                  fontFamily: FONT,
+                  fontWeight: 400,
+                  fontSize: "10px",
+                  color: "rgba(255,255,255,0.3)",
+                  textDecoration: "none",
+                  letterSpacing: "1px",
+                  cursor: "pointer",
+                }}
+              >
+                {item}
+              </Link>
             ))}
           </div>
         </div>
-      </section>
-
-      {/* ── ATELIER / LABORATORY ── */}
-      <section className="py-40 bg-white overflow-hidden">
-        <div className="max-w-[1600px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
-          <Reveal>
-             <div className="relative aspect-square bg-[#f2f2f2] border border-black/5 p-20 flex flex-col justify-center group overflow-hidden">
-                <div className="absolute top-0 right-0 p-12">
-                   <Box className="w-16 h-16 text-black/5 group-hover:text-black/10 transition-colors" />
-                </div>
-                <Hammer className="w-16 h-16 text-black mb-12" />
-                <h3 className="text-5xl font-black italic uppercase text-black mb-8">Structural <br/> <span className="text-black/20 not-italic">Atelier.</span></h3>
-                <p className="text-black/40 text-lg leading-relaxed mb-12 font-light uppercase tracking-wide italic leading-loose">
-                  Our Oslo atelier leverages heavy concrete fabrication and distributed tectonic orchestration for the production of non-standard architectural artifacts. We push the tectonic limits of spatial brutalism.
-                </p>
-                <div className="flex gap-12 text-[10px] font-bold uppercase tracking-[0.5em] text-black/30">
-                   <span>[01] MONOLITH_BOND</span>
-                   <span>[02] VOID_SYNTHESIS</span>
-                </div>
-             </div>
-          </Reveal>
-          <div className="space-y-24">
-             <Reveal delay={0.2}>
-                <span className="text-[10px] font-bold uppercase tracking-[1em] text-black/40 mb-8 block italic">Curation_Sequence</span>
-                <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-none uppercase text-black">Urban <br/> <span className="text-black/20 not-italic">Manifesto.</span></h2>
-             </Reveal>
-             <div className="space-y-12">
-                {[
-                  { n: "01", t: "Sectional Audit", d: "Rigorous cutting of complex structural volumes to reveal interior spatial potential." },
-                  { n: "02", t: "Structural Stress", d: "Simulation of high-fidelity architectural performance under extreme urban loads." },
-                  { n: "03", t: "Material Aging", d: "Analyzing the interaction of archival concrete models with digital weathering." }
-                ].map((step, i) => (
-                  <Reveal key={step.n} delay={i * 0.1 + 0.3} className="flex gap-12 group border-l border-black/10 pl-8 hover:border-black transition-colors">
-                    <span className="text-4xl font-black italic text-black/10 group-hover:text-black transition-colors">{step.n}</span>
-                    <div>
-                      <h4 className="text-xl font-black uppercase italic text-black mb-2">{step.t}</h4>
-                      <p className="text-xs text-black/40 font-light tracking-widest uppercase italic leading-loose">{step.d}</p>
-                    </div>
-                  </Reveal>
-                ))}
-             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── CTA / INQUIRY ── */}
-      <section className="py-40 bg-[#f2f2f2] relative">
-         <div className="max-w-[1600px] mx-auto px-8 md:px-16">
-            <div className="bg-black text-white p-24 lg:p-40 relative overflow-hidden flex flex-col items-center text-center group">
-               <div className="absolute inset-0 opacity-10 grayscale brightness-110 group-hover:opacity-20 transition-opacity">
-                  <Image src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80" alt="CTA Arch" fill className="object-cover" />
-               </div>
-               <Reveal>
-                  <span className="text-[10px] font-bold uppercase tracking-[1em] text-white/50 mb-12 block italic">Commission Initiation</span>
-                  <h2 className="text-7xl md:text-[12rem] font-black italic tracking-tighter leading-[0.8] uppercase mb-16">
-                     Own <br/> <span className="text-white/30 not-italic">The Structure.</span>
-                  </h2>
-                  <div className="flex flex-wrap justify-center gap-12 relative z-10">
-                     <button className="px-20 py-8 bg-white text-black font-black uppercase text-sm tracking-[0.5em] hover:italic transition-all">
-                        Request_Selection
-                     </button>
-                     <button className="px-20 py-8 border border-white/20 text-white font-black uppercase text-sm tracking-[0.5em] hover:bg-white/5 transition-all">
-                        Atelier_Dossier
-                     </button>
-                  </div>
-               </Reveal>
-            </div>
-         </div>
-      </section>
-
-      {/* ── FOOTER ── */}
-      <footer className="bg-white pt-40 pb-20 px-8 md:px-16 border-t border-black/10">
-         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-32 mb-40">
-            <div className="lg:col-span-6">
-               <div className="flex items-center gap-4 mb-12">
-                 <Building2 className="w-10 h-10 text-black" />
-                 <span className="text-3xl font-black tracking-tighter uppercase italic text-black">AETHER<span className="text-black/30">//</span>ARCH</span>
-               </div>
-               <p className="text-black/40 text-sm font-light leading-relaxed uppercase tracking-[0.3em] mb-12 italic max-w-md">
-                 Securing the future of architectural objects through high-fidelity orchestration and structural clarity.
-               </p>
-               <div className="flex gap-12">
-                 {["TERMINAL", "STRUCTURE", "FORGE", "ALPHA"].map(s => (
-                   <a key={s} href="#" className="text-[10px] font-bold hover:text-black text-black/30 transition-colors tracking-[0.5em]">[{s}]</a>
-                 ))}
-               </div>
-            </div>
-            
-            <div className="lg:col-span-2">
-               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/40 mb-12">Atelier</h4>
-               <ul className="space-y-6 text-xs font-bold uppercase tracking-[0.4em]">
-                 {["Projects", "Manifests", "Atelier", "Journal"].map(item => (
-                   <li key={item}><a href="#" className="hover:text-black transition-colors">{item}</a></li>
-                 ))}
-               </ul>
-            </div>
-
-            <div className="lg:col-span-4">
-               <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/40 mb-12">Partner Inquiry</h4>
-               <p className="text-sm text-black/40 font-light mb-12 italic uppercase tracking-[0.2em] leading-loose">
-                 For new commissions, structural studies, or distribution enclaves, contact our primary command center in Oslo.
-               </p>
-               <a href="mailto:atelier@aether-arch.no" className="text-3xl font-black italic hover:text-black transition-colors block border-b border-black/10 pb-8 uppercase tracking-tighter">
-                  atelier@aether-arch.no
-               </a>
-            </div>
-         </div>
-
-         <div className="max-w-[1600px] mx-auto flex flex-col md:row items-center justify-between gap-12 text-[9px] font-bold uppercase tracking-[0.8em] text-black/20 border-t border-black/5 pt-20">
-            <p>© 2024 AETHER ARCH ATELIER AG. ALL RIGHTS RESERVED. OSLO // GLOBAL.</p>
-            <div className="flex gap-16">
-               <a href="#" className="hover:text-black transition-colors">[Structural_Vault]</a>
-               <a href="#" className="hover:text-black transition-colors">[Terms_of_Form]</a>
-            </div>
-         </div>
       </footer>
     </div>
-  );
+  )
 }

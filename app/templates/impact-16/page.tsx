@@ -1,530 +1,866 @@
 "use client"
 
-import React, { useState, useEffect, useRef, useMemo } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring,
-  useMotionValue
-} from "framer-motion"
-import Image from "next/image"
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
-import { 
-  Zap, Activity, Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, BarChart3, Fingerprint, Scan, 
-  Briefcase, Wind, Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Search, Cpu, Sun,
-  ShieldCheck, Binary, Code2, Globe, Database,
-  Gauge, Thermometer, FlaskConical, Moon,
-  Star, Sparkles, CircleDot, ArrowUpRight,
-  ArrowDownLeft, Expand, Shrink, MousePointer2,
-  HardDrive, Key, Lock, Unlock, Shield, ShieldAlert,
-  Laptop, Server, Network, Wifi, Bluetooth, Radio,
-  Droplets, Pickaxe, Mountain, Gem, Drill,
-  Telescope, MilestoneIcon, Layout, Smartphone,
-  PenTool, Camera, Film, Palette, MessageSquare,
-  Send, ZapOff, Anchor, Ship, Truck, Train, Bus,
-  Car, Bike, Eye, ScanEye, EyeOff, KeyRound,
-  Fingerprint as FingerprintIcon, Navigation,
-  Navigation2, Wind as WindIcon, Biohazard,
-  Crosshair, Focus, Bug, ShieldAlert as ShieldAlertIcon,
-  Skull, Scan as ScanIcon, Aperture, Cast, 
-  Ghost, Headphones, Mic, Music, Speaker,
-  Video, Volume2, WifiOff
-} from "lucide-react"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
-/* ==========================================================================
-   LUMINA ARCHIVE DATASET (ULTRA DENSITY)
-   ========================================================================== */
+const C = {
+  bg: "#080808",
+  card: "#111111",
+  silver: "#9ca3af",
+  accent: "#c4a96a",
+  white: "#f5f5f5",
+  border: "#1e1e1e",
+}
 
-const SEQUENCE = [
-  {
-    id: "seq-01",
-    title: "Photon Mapping",
-    desc: "Simulation haute densité de l'interaction de la lumière avec les particules atmosphériques. Nous cartographions chaque trajectoire photonique pour une fidélité absolue.",
-    status: "SYNC",
-    intensity: "88%"
-  },
-  {
-    id: "seq-08",
-    title: "Structural Audit",
-    desc: "Analyse de la géométrie architecturale pour optimiser les rebonds lumineux et les enclaves d'ombre. La lumière devient une extension de la structure.",
-    status: "READY",
-    intensity: "94%"
-  },
-  {
-    id: "seq-15",
-    title: "Emission Control",
-    desc: "Calibration de précision des matrices laser et LED pour une réponse à latence nulle. Un contrôle total sur le spectre d'émission visible et invisible.",
-    status: "ACTIVE",
-    intensity: "100%"
-  }
-]
+const headingFont = '"Cormorant Garamond", Georgia, serif'
+const bodyFont = "system-ui, sans-serif"
 
-const ATMOSPHERIC_METRICS = [
-  { label: "Photon Density", value: "8K Native", trend: "Max", detail: "Atmospheric Saturation" },
-  { label: "Retinal Integrity", value: "99.8%", trend: "Pure", detail: "Non-Ionizing Emission" },
-  { label: "Spatial Dopamine", value: "Optimal", trend: "High", detail: "Neural Response Sync" },
-  { label: "Spectral Shift", value: "Δ 0.02", trend: "Stable", detail: "Color Accuracy Range" }
-]
+// ─── Grain Overlay ────────────────────────────────────────────────────────────
+function GrainOverlay() {
+  const [freq, setFreq] = useState(0.65)
+  useEffect(() => {
+    const iv = setInterval(() => {
+      setFreq(0.62 + Math.random() * 0.06)
+    }, 120)
+    return () => clearInterval(iv)
+  }, [])
+  return (
+    <div style={{ position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none", opacity: 0.04, overflow: "hidden" }}>
+      <svg width="100%" height="100%" style={{ position: "absolute", inset: 0 }}>
+        <filter id="grain">
+          <feTurbulence type="fractalNoise" baseFrequency={`${freq}`} numOctaves="4" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#grain)" />
+      </svg>
+    </div>
+  )
+}
 
-const LIGHT_LOGS = [
-  { time: "01:22:04", event: "LIGHT_SYNTH", status: "PASS", detail: "Matrix_Tokyo_G7" },
-  { time: "01:25:32", event: "PHOTON_BUFFER", status: "DONE", detail: "Emission_Array_2" },
-  { time: "01:28:48", event: "SPECTRAL_SHIFT", status: "SYNC", detail: "Lumina_Core_V4" }
-]
-
-/* ==========================================
-   TECHNICAL COMPONENTS (PHOTON / HUD)
-   ========================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0, scale = 1 }: { children: React.ReactNode, delay?: number, y?: number, x?: number, scale?: number }) {
+// ─── Animated Counter ─────────────────────────────────────────────────────────
+function Counter({ target, suffix = "", prefix = "" }: { target: number; suffix?: string; prefix?: string }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const inView = useInView(ref, { once: true })
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    if (!inView) return
+    let start = 0
+    const duration = 1800
+    const step = 16
+    const increment = target / (duration / step)
+    const timer = setInterval(() => {
+      start += increment
+      if (start >= target) { setCount(target); clearInterval(timer) }
+      else setCount(Math.floor(start))
+    }, step)
+    return () => clearInterval(timer)
+  }, [inView, target])
+  return (
+    <span ref={ref}>
+      {prefix}{count.toLocaleString("fr-FR")}{suffix}
+    </span>
+  )
+}
+
+// ─── Photo Card ───────────────────────────────────────────────────────────────
+function PhotoCard({ rotate, label, delay }: { rotate: number; label: string; delay: number }) {
+  const [hovered, setHovered] = useState(false)
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x, scale }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0, scale: 1 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay }}
+      style={{
+        transform: hovered ? "rotate(0deg)" : `rotate(${rotate}deg)`,
+        transition: "transform 0.4s ease",
+        background: C.card,
+        border: `1px solid ${C.border}`,
+        borderRadius: 4,
+        overflow: "hidden",
+        cursor: "pointer",
+        aspectRatio: "3/4",
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      {children}
+      <div style={{
+        width: "100%",
+        height: "100%",
+        background: `linear-gradient(135deg, #1a1a1a 0%, #222 50%, #161616 100%)`,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-end",
+        padding: 12,
+      }}>
+        <span style={{ fontFamily: bodyFont, fontSize: 11, color: C.silver, letterSpacing: 1.5, textTransform: "uppercase" }}>{label}</span>
+      </div>
     </motion.div>
   )
 }
 
-function PhotonFlowBackground() {
+// ─── Main Component ───────────────────────────────────────────────────────────
+export default function ObscuraStudio() {
+  const { scrollY } = useScroll()
+  const heroTitleY = useTransform(scrollY, [0, 500], [0, -70])
+  const gridY = useTransform(scrollY, [0, 500], [0, 30])
+
+  const [activeTab, setActiveTab] = useState(0)
+  const [activeTestimonial, setActiveTestimonial] = useState(0)
+  const [testimonialDir, setTestimonialDir] = useState(1)
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  const tabs = [
+    {
+      label: "Portraits",
+      title: "Le Portrait comme Révélation",
+      body: "Chaque visage raconte une histoire unique. Notre approche du portrait va au-delà de la simple ressemblance — nous cherchons à capturer ce moment fugace où le sujet oublie la caméra et révèle quelque chose d'essentiel. Sessions en studio avec éclairage sur mesure ou en extérieur en lumière naturelle.",
+      detail: "Séances individuelles, professionnelles, artistiques ou de famille. Durée 1h à 3h. Consultation préalable offerte.",
+    },
+    {
+      label: "Architecture",
+      title: "L'Espace Sublimé",
+      body: "L'architecture photographiée est une double création : celle de l'architecte et celle du photographe qui choisit l'angle, la lumière, l'instant. Nous travaillons en étroite collaboration avec architectes et promoteurs pour produire des images qui valorisent chaque projet.",
+      detail: "Intérieur, extérieur, chantier, livraison. Visite de repérage incluse. Droits d'utilisation illimités.",
+    },
+    {
+      label: "Mariage & Événements",
+      title: "L'Instant Suspendu",
+      body: "Le mariage est l'un des rares moments où chaque seconde mérite d'être préservée. Notre style documentaire se mêle à une sensibilité artistique pour produire un reportage authentique, loin des poses convenues. Disponible en France entière et à l'international.",
+      detail: "Engagement session incluse. Album premium disponible. Second photographe sur demande.",
+    },
+    {
+      label: "Laboratoire Argentique",
+      title: "Le Retour à l'Essentiel",
+      body: "Notre laboratoire argentique est l'un des rares encore actifs à Paris. Développement C-41, E-6 et noir & blanc. Tirages baryté fibre, impression contact, agrandissements format XXL. Nous proposons également des ateliers de pratique argentique pour particuliers et professionnels.",
+      detail: "Développement sous 48h. Numérisations haute résolution. Stockage archive sécurisé.",
+    },
+  ]
+
+  const testimonials = [
+    {
+      name: "Marie-Claire Fontaine",
+      role: "Architecte d'intérieur",
+      text: "Obscura a transformé la documentation de mes projets. Les images qu'ils produisent capturent non seulement l'espace, mais son âme. Chaque photo que je leur confie revient avec une profondeur que je ne savais pas possible. Partenaire incontournable depuis 2019.",
+    },
+    {
+      name: "Thomas & Élise Renard",
+      role: "Mariés en juin 2024",
+      text: "Nous avions peur de sembler coincés sur nos photos de mariage. Avec Obscura, c'est tout l'inverse — chaque image respire, chaque moment semble vrai. Le tirage argentique de nos vœux trône dans notre salon. Une œuvre, pas juste une photo.",
+    },
+    {
+      name: "Jean-Baptiste Moreau",
+      role: "Directeur artistique, Maison Ledoux",
+      text: "J'ai confié à Obscura la campagne portrait de notre collection printemps. La direction artistique, la maîtrise de la lumière, le soin apporté à chaque détail — tout était au niveau de nos exigences les plus élevées. Le résultat a dépassé nos attentes.",
+    },
+    {
+      name: "Camille Assémat",
+      role: "Galeriste, Espace 11",
+      text: "Obscura documente nos expositions depuis trois ans. Leur sensibilité pour les œuvres d'art est rare — ils savent rendre justice à une sculpture ou une peinture sans en trahir les couleurs ni les textures. Un studio d'une intégrité remarquable.",
+    },
+  ]
+
+  const faqs = [
+    {
+      q: "Quel est le délai de livraison des photos ?",
+      a: "Pour un portrait ou une séance studio, comptez 10 à 15 jours ouvrés. Pour un reportage mariage, le délai est de 4 à 6 semaines afin de prendre le temps nécessaire à une sélection et une retouche soignées. Les tirages argentiques ont un délai spécifique de 3 à 4 semaines supplémentaires selon la technique.",
+    },
+    {
+      q: "Dans quels formats livrez-vous les fichiers ?",
+      a: "Tous nos fichiers numériques sont livrés en JPEG haute résolution (minimum 20 mégapixels) et, sur demande, en TIFF non compressé pour un usage impression grand format. Les photos sont transmises via une galerie privée en ligne sécurisée, téléchargeable pendant 12 mois.",
+    },
+    {
+      q: "Les tirages papier sont-ils inclus dans les formules ?",
+      a: "La formule Reportage Découverte inclut 5 tirages fine-art 20×30 cm. La formule Séance Complète inclut 15 tirages fine-art au choix jusqu'au 40×60 cm. Pour les projets sur-mesure, une liasse de tirages est intégrée au devis. Des tirages argentiques supplémentaires sont disponibles à la carte.",
+    },
+    {
+      q: "Réalisez-vous des shootings en extérieur ?",
+      a: "Absolument. Nous connaissons une sélection de lieux à Paris et en Île-de-France (friches industrielles, jardins confidentiels, cours d'immeubles haussmanniens) qui offrent une lumière et une atmosphère uniques. Nous pouvons également nous déplacer en province ou à l'international selon votre projet.",
+    },
+    {
+      q: "Peut-on commander des retouches supplémentaires ?",
+      a: "Les retouches incluses dans chaque formule correspondent à notre standard éditorial : ajustement d'exposition, de couleur, recadrage et retouche peau légère. Des retouches avancées (compositing, manipulation extensive) sont facturées 45€ de l'heure. Nous vous consultons toujours avant d'engager des heures supplémentaires.",
+    },
+    {
+      q: "Comment se passe la première prise de contact ?",
+      a: "Après votre demande en ligne, nous vous proposons un entretien de 30 minutes (en personne au studio ou en visio) pour comprendre votre projet, vos attentes esthétiques et définir ensemble la formule la plus adaptée. Cet entretien est offert et sans engagement.",
+    },
+  ]
+
+  const pricingTiers = [
+    {
+      name: "Reportage Découverte",
+      price: "450€",
+      duration: "2 heures",
+      features: ["30 photos retouchées", "5 tirages fine-art 20×30", "Galerie privée 12 mois", "1 format de livraison", "Consultation incluse"],
+      highlight: false,
+    },
+    {
+      name: "Séance Complète",
+      price: "890€",
+      duration: "Demi-journée (4h)",
+      features: ["80 photos retouchées", "15 tirages fine-art jusqu'au 40×60", "Galerie privée 24 mois", "JPEG + TIFF inclus", "Repérage de lieu", "Consultant stylisme"],
+      highlight: true,
+    },
+    {
+      name: "Projet Sur-Mesure",
+      price: "Sur devis",
+      duration: "Selon le projet",
+      features: ["Campagne de marque", "Livre photographique", "Préparation d'exposition", "Droits commerciaux complets", "Équipe dédiée", "Suivi éditorial complet"],
+      highlight: false,
+    },
+  ]
+
+  function prevTestimonial() {
+    setTestimonialDir(-1)
+    setActiveTestimonial(i => (i - 1 + testimonials.length) % testimonials.length)
+  }
+  function nextTestimonial() {
+    setTestimonialDir(1)
+    setActiveTestimonial(i => (i + 1) % testimonials.length)
+  }
+
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20 select-none">
-       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05)_0%,transparent_70%)]" />
-       {[...Array(15)].map((_, i) => (
-          <motion.div 
-             key={i}
-             className="absolute h-px bg-gradient-to-r from-transparent via-white to-transparent"
-             style={{ 
-                left: -500, 
-                top: `${i * 7}%`,
-                width: 1000,
-                rotate: i % 2 === 0 ? 5 : -5
-             }}
-             animate={{ 
-                left: ['-50%', '150%'],
-                opacity: [0, 1, 0]
-             }}
-             transition={{ 
-                duration: 4 + Math.random() * 6, 
-                repeat: Infinity, 
-                ease: "linear",
-                delay: Math.random() * 5
-             }}
-          />
-       ))}
-    </div>
-  )
-}
+    <div style={{ background: C.bg, color: C.white, fontFamily: bodyFont, minHeight: "100vh" }}>
 
-function HUD_Optics() {
-   return (
-      <div className="fixed right-12 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col gap-12 items-end pointer-events-none">
-         <div className="flex flex-col gap-4 items-end">
-            <div className="w-1 h-32 bg-white/10 relative">
-               <motion.div 
-                  className="absolute top-0 left-0 w-full bg-white shadow-[0_0_20px_rgba(255,255,255,0.6)]"
-                  animate={{ height: ["20%", "80%", "40%"] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-               />
-            </div>
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] vertical-text text-white">Neural_Optics</span>
-         </div>
-         <div className="flex flex-col gap-6">
-            <div className="p-4 border border-white/20 bg-white/5 backdrop-blur-md rounded-full">
-               <Eye className="w-6 h-6 text-white" />
-            </div>
-            <div className="p-4 border border-white/10 bg-white/5 backdrop-blur-md rounded-full">
-               <ScanIcon className="w-6 h-6 text-white/40" />
-            </div>
-         </div>
-      </div>
-   )
-}
+      {/* ── NAVBAR ─────────────────────────────────────────────────────────── */}
+      <nav style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        padding: "0 48px", height: 72,
+        background: "rgba(8,8,8,0.92)", backdropFilter: "blur(12px)",
+        borderBottom: `1px solid ${C.border}`,
+      }}>
+        <Link href="/" style={{ textDecoration: "none" }}>
+          <span style={{ fontFamily: headingFont, fontSize: 22, fontStyle: "italic", color: C.accent, letterSpacing: 2 }}>
+            OBSCURA
+          </span>
+        </Link>
 
-function SequenceCard({ seq, index }: { seq: any, index: number }) {
-  return (
-    <div className="group relative p-16 border border-white/5 bg-[#050505] hover:bg-white/[0.02] transition-all h-[550px] flex flex-col justify-between overflow-hidden">
-       <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:opacity-10 transition-opacity">
-          <Aperture className="w-48 h-48 text-white" />
-       </div>
-       
-       <div>
-          <div className="flex justify-between items-center mb-12">
-             <div className="text-[10px] font-black uppercase tracking-[0.6em] text-white/40">{seq.id} // CALIBRATED</div>
-             <div className="px-4 py-1 border border-white/30 rounded-full text-[8px] font-black text-white uppercase tracking-widest">
-                {seq.status}
-             </div>
-          </div>
-          <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none italic mb-8 group-hover:translate-x-4 transition-transform duration-700 text-white">
-             {seq.title}
-          </h3>
-       </div>
-
-       <div className="relative z-10">
-          <p className="text-xs text-white/30 leading-relaxed font-medium uppercase italic mb-12 h-24 tracking-widest leading-loose">
-             {seq.desc}
-          </p>
-          <div className="space-y-4">
-             <div className="flex justify-between text-[8px] font-black uppercase tracking-widest text-white/20">
-                <span>Emission_Intensity</span>
-                <span className="text-white">{seq.intensity}</span>
-             </div>
-             <div className="w-full h-[1px] bg-white/10 relative overflow-hidden">
-                <motion.div 
-                   className="absolute inset-y-0 left-0 bg-white"
-                   initial={{ width: 0 }}
-                   whileInView={{ width: seq.intensity }}
-                   transition={{ duration: 1.5 }}
-                />
-             </div>
-          </div>
-       </div>
-    </div>
-  )
-}
-
-/* ==========================================================================
-   MAIN PAGE: LUMINA ARCHIVE (ATMOSPHERIC INTELLIGENCE)
-   ========================================================================== */
-
-export default function LuminaArchivePremium() {
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Parallax transforms
-  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -300])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const shipScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.1])
-
-  return (
-    <div ref={containerRef} className="bg-[#020202] text-white font-sans selection:bg-white selection:text-black min-h-screen overflow-x-hidden">
-      
-      <PhotonFlowBackground />
-      <HUD_Optics />
-      
-      {/* 1. NAVIGATION (LUMINA TACTICAL) */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-12 py-10 border-b border-white/10 bg-black/80 backdrop-blur-2xl">
-         <div className="flex items-center gap-6 group cursor-pointer">
-            <Sun className="w-10 h-10 text-white group-hover:rotate-90 transition-transform duration-700" />
-            <div className="flex flex-col">
-               <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">Lumina<span className="text-white/20">_</span>Archive.</span>
-               <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-white/30 -mt-1 ml-1">Atmospheric Intelligence Group</span>
-            </div>
-         </div>
-         <div className="hidden lg:flex gap-16 text-[10px] font-black uppercase tracking-[0.4em] text-white/30">
-            <a href="#sequence" className="hover:text-white transition-colors relative group">
-               [ Sequence ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white group-hover:w-full transition-all" />
-            </a>
-            <a href="#metrics" className="hover:text-white transition-colors relative group">
-               [ Tech_Audit ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white group-hover:w-full transition-all" />
-            </a>
-            <a href="#about" className="hover:text-white transition-colors relative group">
-               [ Manifesto ]
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white group-hover:w-full transition-all" />
-            </a>
-         </div>
-         <div className="flex items-center gap-12">
-            <div className="hidden md:flex flex-col items-end border-r border-white/10 pr-6">
-               <div className="text-[8px] font-black text-white/40 uppercase tracking-widest">Global_Status</div>
-               <div className="text-[10px] font-bold uppercase tracking-widest italic">All_Arrays_Online</div>
-            </div>
-            <button className="px-10 py-5 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-white/80 transition-all shadow-[0_0_40px_rgba(255,255,255,0.2)] italic">
-               Initiate_Dialogue
-            </button>
-         </div>
+        <div style={{ display: "flex", gap: 40, alignItems: "center" }}>
+          {["Studio", "Services", "Galerie", "Laboratoire", "Contact"].map(link => (
+            <Link key={link} href={`#${link.toLowerCase()}`} style={{
+              fontFamily: bodyFont, fontSize: 13, color: C.silver,
+              textDecoration: "none", letterSpacing: 1.5, textTransform: "uppercase",
+              transition: "color 0.2s",
+            }}
+              onMouseEnter={e => (e.currentTarget.style.color = C.white)}
+              onMouseLeave={e => (e.currentTarget.style.color = C.silver)}
+            >
+              {link}
+            </Link>
+          ))}
+          <motion.a
+            href="#booking"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+            style={{
+              fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
+              background: C.accent, color: C.bg, padding: "10px 24px",
+              textDecoration: "none", cursor: "pointer", fontWeight: 600,
+            }}
+          >
+            Réserver
+          </motion.a>
+        </div>
       </nav>
 
-      <main>
-        {/* 2. ATMOSPHERIC SYNTHESIS (HERO / LUXURY STYLE) */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-12 pt-32 overflow-hidden border-b border-white/5">
-           <div className="relative z-10 w-full max-w-7xl flex flex-col items-center text-center">
-              <Reveal>
-                 <div className="inline-flex items-center gap-4 px-6 py-3 border border-white/30 bg-white/5 text-[10px] font-black uppercase tracking-[0.5em] text-white mb-16 italic">
-                    <Activity className="w-4 h-4 animate-pulse" /> Photon_Status: OPTIMIZED // RETINAL_SYNC_PASS
-                 </div>
-                 <motion.h1 
-                    style={{ y: heroY, scale: shipScale, opacity: heroOpacity }}
-                    className="text-8xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.7] italic flex flex-col text-white"
-                 >
-                    <span>Command</span>
-                    <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>The Light.</span>
-                 </motion.h1>
-                 
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-end text-left max-w-5xl mx-auto">
-                    <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-[0.15em] border-l-2 border-white/20 pl-12">
-                       Ingénierie du futur de l'intelligence atmosphérique via une synthèse photonique haute fidélité et une optique neurale. La lumière est notre média, l'espace notre canevas.
+      {/* ── HERO ───────────────────────────────────────────────────────────── */}
+      <section style={{
+        position: "relative", height: "100vh", minHeight: 700,
+        display: "flex", alignItems: "center",
+        overflow: "hidden", paddingTop: 72,
+      }}>
+        <GrainOverlay />
+
+        {/* Vertical text label */}
+        <div style={{
+          position: "absolute", left: 32, top: "50%",
+          transform: "translateY(-50%) rotate(-90deg)",
+          transformOrigin: "center center",
+          fontFamily: bodyFont, fontSize: 10, letterSpacing: 6,
+          color: C.silver, textTransform: "uppercase", opacity: 0.5,
+          whiteSpace: "nowrap", zIndex: 3,
+        }}>
+          OBSCURA STUDIO — PARIS — DEPUIS 2008
+        </div>
+
+        {/* Left: Heading */}
+        <div style={{ flex: "0 0 55%", paddingLeft: 96, paddingRight: 48, zIndex: 3 }}>
+          <motion.div style={{ y: heroTitleY }}>
+            <motion.p
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 24 }}
+            >
+              Studio & Laboratoire photographique
+            </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.4 }}
+              style={{
+                fontFamily: headingFont, fontStyle: "italic",
+                fontSize: "clamp(56px, 7vw, 96px)", fontWeight: 300,
+                lineHeight: 1.05, color: C.white, margin: 0,
+              }}
+            >
+              La Lumière<br />
+              <span style={{ color: C.accent }}>comme</span><br />
+              Medium
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.9 }}
+              style={{ fontFamily: bodyFont, fontSize: 16, color: C.silver, marginTop: 28, maxWidth: 440, lineHeight: 1.7 }}
+            >
+              Photographie argentique et numérique. Portraits, architecture, mariages. Laboratoire de tirage à Paris 11e.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.2 }}
+              style={{ display: "flex", gap: 16, marginTop: 40 }}
+            >
+              <motion.a
+                href="#booking"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                style={{
+                  fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
+                  background: C.accent, color: C.bg, padding: "14px 32px",
+                  textDecoration: "none", cursor: "pointer", fontWeight: 700,
+                }}
+              >
+                Réserver une séance
+              </motion.a>
+              <motion.a
+                href="#galerie"
+                whileHover={{ borderColor: C.accent, color: C.accent }}
+                style={{
+                  fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
+                  border: `1px solid ${C.border}`, color: C.silver, padding: "14px 32px",
+                  textDecoration: "none", cursor: "pointer", transition: "all 0.3s",
+                }}
+              >
+                Voir la galerie
+              </motion.a>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Right: Photo grid */}
+        <motion.div
+          style={{ flex: "0 0 45%", paddingRight: 64, y: gridY, zIndex: 3 }}
+        >
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, maxWidth: 380, marginLeft: "auto" }}>
+            <PhotoCard rotate={-2} label="Portrait — 2024" delay={0.5} />
+            <PhotoCard rotate={1} label="Architecture — Paris" delay={0.65} />
+            <PhotoCard rotate={-1} label="Mariage — Bourgogne" delay={0.8} />
+            <PhotoCard rotate={2} label="Argentique — Leica" delay={0.95} />
+          </div>
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          style={{
+            position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)",
+            display: "flex", flexDirection: "column", alignItems: "center", gap: 8, zIndex: 3,
+          }}
+        >
+          <span style={{ fontFamily: bodyFont, fontSize: 10, letterSpacing: 3, color: C.silver, textTransform: "uppercase" }}>Défiler</span>
+          <div style={{ width: 1, height: 40, background: `linear-gradient(to bottom, ${C.silver}, transparent)` }} />
+        </motion.div>
+      </section>
+
+      {/* ── STATS BAR ──────────────────────────────────────────────────────── */}
+      <section style={{
+        borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`,
+        padding: "60px 48px",
+        display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
+        gap: 0,
+      }}>
+        {[
+          { label: "Fondé en", value: 2008, suffix: "", prefix: "" },
+          { label: "Séances réalisées", value: 3200, suffix: "+", prefix: "" },
+          { label: "Ans d'expertise", value: 16, suffix: "", prefix: "" },
+          { label: "Clients satisfaits", value: 98, suffix: "%", prefix: "" },
+        ].map((stat, i) => (
+          <motion.div
+            key={stat.label}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: i * 0.1 }}
+            style={{
+              padding: "0 40px",
+              borderRight: i < 3 ? `1px solid ${C.border}` : "none",
+              textAlign: "center",
+            }}
+          >
+            <div style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 52, color: C.accent, lineHeight: 1 }}>
+              <Counter target={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
+            </div>
+            <div style={{ fontFamily: bodyFont, fontSize: 12, color: C.silver, letterSpacing: 1.5, textTransform: "uppercase", marginTop: 8 }}>
+              {stat.label}
+            </div>
+          </motion.div>
+        ))}
+      </section>
+
+      {/* ── FEATURES / TABS ────────────────────────────────────────────────── */}
+      <section id="services" style={{ padding: "120px 96px" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          style={{ marginBottom: 64 }}
+        >
+          <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 16 }}>
+            Nos Services
+          </p>
+          <h2 style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 52, color: C.white, margin: 0, fontWeight: 300 }}>
+            Quatre disciplines, une exigence
+          </h2>
+        </motion.div>
+
+        {/* Tab buttons */}
+        <div style={{ display: "flex", gap: 0, marginBottom: 56, borderBottom: `1px solid ${C.border}` }}>
+          {tabs.map((tab, i) => (
+            <button
+              key={tab.label}
+              onClick={() => setActiveTab(i)}
+              style={{
+                background: "none", border: "none",
+                fontFamily: bodyFont, fontSize: 13, letterSpacing: 2, textTransform: "uppercase",
+                color: activeTab === i ? C.accent : C.silver,
+                padding: "16px 32px", cursor: "pointer",
+                borderBottom: activeTab === i ? `2px solid ${C.accent}` : "2px solid transparent",
+                marginBottom: -1, transition: "all 0.3s",
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Tab content */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.4 }}
+            style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}
+          >
+            <div>
+              <h3 style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 40, color: C.white, margin: "0 0 20px", fontWeight: 300 }}>
+                {tabs[activeTab].title}
+              </h3>
+              <p style={{ fontFamily: bodyFont, fontSize: 16, color: C.silver, lineHeight: 1.75, margin: "0 0 24px" }}>
+                {tabs[activeTab].body}
+              </p>
+              <p style={{ fontFamily: bodyFont, fontSize: 13, color: C.accent, lineHeight: 1.6, borderLeft: `2px solid ${C.accent}`, paddingLeft: 16 }}>
+                {tabs[activeTab].detail}
+              </p>
+            </div>
+            <div style={{
+              background: C.card, border: `1px solid ${C.border}`,
+              aspectRatio: "4/3",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <span style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 18, color: C.silver, opacity: 0.4 }}>
+                {tabs[activeTab].label}
+              </span>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </section>
+
+      {/* ── TESTIMONIALS ───────────────────────────────────────────────────── */}
+      <section style={{
+        background: C.card, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`,
+        padding: "120px 96px",
+      }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          style={{ marginBottom: 64, display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}
+        >
+          <div>
+            <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 16 }}>
+              Témoignages
+            </p>
+            <h2 style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 52, color: C.white, margin: 0, fontWeight: 300 }}>
+              Ce que disent nos clients
+            </h2>
+          </div>
+          <div style={{ display: "flex", gap: 12 }}>
+            {[prevTestimonial, nextTestimonial].map((fn, i) => (
+              <button
+                key={i}
+                onClick={fn}
+                style={{
+                  width: 48, height: 48, background: "none",
+                  border: `1px solid ${C.border}`, color: C.silver,
+                  cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 18, transition: "all 0.2s",
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = C.accent; (e.currentTarget as HTMLButtonElement).style.color = C.accent }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = C.border; (e.currentTarget as HTMLButtonElement).style.color = C.silver }}
+              >
+                {i === 0 ? "←" : "→"}
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
+        <AnimatePresence mode="wait" custom={testimonialDir}>
+          <motion.div
+            key={activeTestimonial}
+            custom={testimonialDir}
+            initial={{ opacity: 0, x: testimonialDir * 60 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: testimonialDir * -60 }}
+            transition={{ duration: 0.5 }}
+            style={{
+              maxWidth: 760,
+            }}
+          >
+            <p style={{
+              fontFamily: headingFont, fontStyle: "italic",
+              fontSize: 26, color: C.white, lineHeight: 1.65, margin: "0 0 32px",
+              fontWeight: 300,
+            }}>
+              "{testimonials[activeTestimonial].text}"
+            </p>
+            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+              <div style={{
+                width: 40, height: 40, borderRadius: "50%",
+                background: C.accent, display: "flex", alignItems: "center", justifyContent: "center",
+                fontFamily: bodyFont, fontWeight: 700, color: C.bg, fontSize: 14,
+              }}>
+                {testimonials[activeTestimonial].name[0]}
+              </div>
+              <div>
+                <div style={{ fontFamily: bodyFont, fontWeight: 600, color: C.white, fontSize: 14 }}>
+                  {testimonials[activeTestimonial].name}
+                </div>
+                <div style={{ fontFamily: bodyFont, fontSize: 12, color: C.silver, marginTop: 2 }}>
+                  {testimonials[activeTestimonial].role}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Dots */}
+        <div style={{ display: "flex", gap: 8, marginTop: 40 }}>
+          {testimonials.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => { setTestimonialDir(i > activeTestimonial ? 1 : -1); setActiveTestimonial(i) }}
+              style={{
+                width: i === activeTestimonial ? 24 : 6, height: 6,
+                background: i === activeTestimonial ? C.accent : C.border,
+                border: "none", cursor: "pointer", padding: 0,
+                transition: "all 0.3s",
+              }}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* ── PRICING ────────────────────────────────────────────────────────── */}
+      <section id="tarifs" style={{ padding: "120px 96px" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          style={{ marginBottom: 64, textAlign: "center" }}
+        >
+          <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 16 }}>
+            Tarifs
+          </p>
+          <h2 style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 52, color: C.white, margin: 0, fontWeight: 300 }}>
+            Nos formules
+          </h2>
+        </motion.div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
+          {pricingTiers.map((tier, i) => (
+            <motion.div
+              key={tier.name}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.12 }}
+              style={{
+                background: tier.highlight ? C.card : C.bg,
+                border: tier.highlight ? `1px solid ${C.accent}` : `1px solid ${C.border}`,
+                padding: "48px 36px",
+                transform: tier.highlight ? "scale(1.03)" : "scale(1)",
+                position: "relative",
+              }}
+            >
+              {tier.highlight && (
+                <div style={{
+                  position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)",
+                  background: C.accent, color: C.bg, fontFamily: bodyFont, fontSize: 10,
+                  letterSpacing: 2, textTransform: "uppercase", fontWeight: 700, padding: "4px 16px",
+                }}>
+                  Le plus choisi
+                </div>
+              )}
+              <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 3, color: C.accent, textTransform: "uppercase", margin: "0 0 16px" }}>
+                {tier.name}
+              </p>
+              <div style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 48, color: C.white, margin: "0 0 4px" }}>
+                {tier.price}
+              </div>
+              <p style={{ fontFamily: bodyFont, fontSize: 13, color: C.silver, margin: "0 0 32px" }}>{tier.duration}</p>
+              <div style={{ width: 40, height: 1, background: C.accent, marginBottom: 32 }} />
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 40px", display: "flex", flexDirection: "column", gap: 12 }}>
+                {tier.features.map(f => (
+                  <li key={f} style={{ fontFamily: bodyFont, fontSize: 14, color: C.silver, display: "flex", gap: 10, alignItems: "flex-start" }}>
+                    <span style={{ color: C.accent, flexShrink: 0 }}>—</span> {f}
+                  </li>
+                ))}
+              </ul>
+              <motion.a
+                href="#booking"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                style={{
+                  display: "block", textAlign: "center", textDecoration: "none",
+                  padding: "14px 0",
+                  background: tier.highlight ? C.accent : "none",
+                  border: tier.highlight ? "none" : `1px solid ${C.border}`,
+                  color: tier.highlight ? C.bg : C.silver,
+                  fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
+                  fontWeight: tier.highlight ? 700 : 400, cursor: "pointer",
+                }}
+              >
+                {tier.price === "Sur devis" ? "Demander un devis" : "Réserver"}
+              </motion.a>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── FAQ ────────────────────────────────────────────────────────────── */}
+      <section style={{
+        background: C.card, borderTop: `1px solid ${C.border}`,
+        padding: "120px 96px",
+      }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          style={{ marginBottom: 64 }}
+        >
+          <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 16 }}>
+            Questions fréquentes
+          </p>
+          <h2 style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 52, color: C.white, margin: 0, fontWeight: 300 }}>
+            Tout ce que vous devez savoir
+          </h2>
+        </motion.div>
+
+        <div style={{ maxWidth: 800, display: "flex", flexDirection: "column", gap: 0 }}>
+          {faqs.map((faq, i) => (
+            <div
+              key={i}
+              style={{ borderBottom: `1px solid ${C.border}` }}
+            >
+              <button
+                onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                style={{
+                  width: "100%", background: "none", border: "none",
+                  padding: "28px 0", display: "flex", justifyContent: "space-between", alignItems: "center",
+                  cursor: "pointer", textAlign: "left",
+                }}
+              >
+                <span style={{ fontFamily: bodyFont, fontSize: 16, color: C.white, fontWeight: 400, paddingRight: 24 }}>
+                  {faq.q}
+                </span>
+                <motion.span
+                  animate={{ rotate: openFaq === i ? 45 : 0 }}
+                  transition={{ duration: 0.25 }}
+                  style={{ color: C.accent, fontSize: 22, flexShrink: 0, lineHeight: 1 }}
+                >
+                  +
+                </motion.span>
+              </button>
+              <AnimatePresence>
+                {openFaq === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.35 }}
+                    style={{ overflow: "hidden" }}
+                  >
+                    <p style={{
+                      fontFamily: bodyFont, fontSize: 15, color: C.silver,
+                      lineHeight: 1.75, paddingBottom: 28, margin: 0,
+                    }}>
+                      {faq.a}
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-8 justify-end">
-                       <button className="px-14 py-8 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-white/80 transition-all shadow-[0_0_50px_rgba(255,255,255,0.3)] flex items-center gap-4 italic group">
-                          [ Start Synthesis ] <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                       </button>
-                    </div>
-                 </div>
-              </Reveal>
-           </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+      </section>
 
-           {/* Floating Background Accents */}
-           <div className="absolute inset-0 z-0 opacity-10 pointer-events-none select-none">
-              <div className="w-full h-full" style={{ backgroundImage: 'radial-gradient(circle at center, white 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
-           </div>
-        </section>
+      {/* ── CTA BANNER ─────────────────────────────────────────────────────── */}
+      <section id="booking" style={{
+        padding: "120px 96px",
+        background: C.bg,
+        position: "relative", overflow: "hidden",
+      }}>
+        <div style={{
+          position: "absolute", inset: 0, opacity: 0.03,
+          background: `radial-gradient(ellipse at 30% 50%, ${C.accent} 0%, transparent 60%)`,
+          pointerEvents: "none",
+        }} />
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          style={{ textAlign: "center", position: "relative", zIndex: 1 }}
+        >
+          <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 24 }}>
+            Passez à l'étape suivante
+          </p>
+          <h2 style={{
+            fontFamily: headingFont, fontStyle: "italic", fontSize: "clamp(40px, 5vw, 72px)",
+            color: C.white, margin: "0 auto 24px", fontWeight: 300, maxWidth: 700, lineHeight: 1.15,
+          }}>
+            Votre vision mérite d'être photographiée avec soin
+          </h2>
+          <p style={{ fontFamily: bodyFont, fontSize: 16, color: C.silver, maxWidth: 500, margin: "0 auto 48px", lineHeight: 1.7 }}>
+            Entretien découverte offert. Réponse sous 24h. Studio au 14 rue de la Roquette, Paris 11e.
+          </p>
+          <div style={{ display: "flex", gap: 16, justifyContent: "center" }}>
+            <motion.a
+              href="mailto:contact@obscura-studio.fr"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              style={{
+                fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
+                background: C.accent, color: C.bg, padding: "18px 48px",
+                textDecoration: "none", cursor: "pointer", fontWeight: 700,
+              }}
+            >
+              Réserver une Séance
+            </motion.a>
+            <motion.a
+              href="tel:+33142001122"
+              whileHover={{ borderColor: C.accent, color: C.accent }}
+              style={{
+                fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
+                border: `1px solid ${C.border}`, color: C.silver, padding: "18px 48px",
+                textDecoration: "none", cursor: "pointer", transition: "all 0.3s",
+              }}
+            >
+              +33 1 42 00 11 22
+            </motion.a>
+          </div>
+        </motion.div>
+      </section>
 
-        {/* 3. SEQUENCE (DENSE GRID INTERFACE) */}
-        <section id="sequence" className="py-64 px-12 bg-black relative border-b border-white/10">
-           <div className="max-w-7xl mx-auto mb-32 flex justify-between items-end">
-              <Reveal>
-                 <div className="text-[10px] font-black uppercase tracking-[0.5em] text-white/40 mb-8">Emission_Sequence</div>
-                 <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] italic text-white">
-                    Light <br/> <span className="text-white/5" style={{ WebkitTextStroke: "1px white" }}>Archives.</span>
-                 </h2>
-              </Reveal>
-              <div className="hidden lg:block text-right">
-                 <div className="flex justify-end gap-4 mb-4">
-                    <div className="w-48 h-[1px] bg-white/10" />
-                    <div className="w-16 h-[1px] bg-white" />
-                 </div>
-                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 italic">Photon // Mapping // Audit</p>
-              </div>
-           </div>
+      {/* ── FOOTER ─────────────────────────────────────────────────────────── */}
+      <footer style={{
+        background: C.card, borderTop: `1px solid ${C.border}`,
+        padding: "64px 96px 40px",
+      }}>
+        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 48, marginBottom: 56 }}>
+          <div>
+            <span style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 28, color: C.accent }}>OBSCURA</span>
+            <p style={{ fontFamily: bodyFont, fontSize: 14, color: C.silver, lineHeight: 1.7, marginTop: 16, maxWidth: 280 }}>
+              Studio et laboratoire photographique au cœur de Paris. Argentique & numérique depuis 2008.
+            </p>
+            <div style={{ display: "flex", gap: 16, marginTop: 24 }}>
+              {/* Camera */}
+              <a href="#" style={{ color: C.silver, transition: "color 0.2s", cursor: "pointer" }}
+                onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
+                onMouseLeave={e => (e.currentTarget.style.color = C.silver)}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                </svg>
+              </a>
+              {/* Behance / Portfolio */}
+              <a href="#" style={{ color: C.silver, transition: "color 0.2s", cursor: "pointer" }}
+                onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
+                onMouseLeave={e => (e.currentTarget.style.color = C.silver)}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9.17 11.4c.44-.24.75-.52.95-.84.2-.32.3-.7.3-1.16 0-.46-.1-.87-.3-1.22-.2-.35-.48-.64-.84-.87-.36-.23-.79-.4-1.28-.5-.5-.1-1.02-.15-1.57-.15H2v9.68h4.62c.58 0 1.12-.06 1.63-.18.5-.12.95-.32 1.32-.58.37-.26.66-.59.87-.99.21-.4.32-.88.32-1.43 0-.63-.16-1.17-.48-1.61-.32-.44-.76-.76-1.31-.95h.2zm-4.74-3.3h2.1c.21 0 .41.02.6.06.2.04.37.1.52.19.15.09.27.22.36.38.09.16.13.37.13.62 0 .48-.14.83-.42 1.04-.28.21-.65.32-1.12.32H4.43V8.1zm3.5 6.04c-.1.17-.24.31-.41.41-.17.1-.36.17-.58.21-.22.04-.44.06-.67.06H4.43V12h1.98c.5 0 .91.11 1.22.33.31.22.47.58.47 1.09 0 .28-.05.5-.15.72h-.02zM20.38 8.28H15.6v1.48h4.78V8.28zM15.4 14.5c.15.32.36.58.63.77.27.19.59.32.95.4.36.08.74.12 1.14.12.38 0 .76-.04 1.12-.13.36-.09.68-.22.97-.41.29-.19.53-.44.71-.75.18-.31.27-.69.27-1.13h-1.9c0 .34-.11.6-.33.77-.22.17-.49.26-.82.26-.35 0-.63-.07-.85-.2-.22-.13-.39-.3-.5-.5-.11-.2-.18-.43-.2-.67-.02-.24-.03-.47-.03-.7h4.72c.01-.1.02-.22.02-.34v-.34c0-.47-.08-.9-.23-1.3-.15-.4-.37-.75-.66-1.04-.29-.29-.64-.52-1.04-.68-.4-.16-.86-.24-1.37-.24-.5 0-.96.08-1.37.24-.41.16-.77.39-1.07.69-.3.3-.53.66-.69 1.08-.16.42-.24.88-.24 1.39 0 .53.07 1.01.22 1.43l.03.07h.01zM17.1 11.1c.2-.18.46-.27.8-.27.2 0 .38.04.53.11.15.07.27.17.37.28.1.11.18.24.23.38.05.14.08.28.09.43h-2.86c.06-.37.21-.68.41-.93h.43z" />
+                </svg>
+              </a>
+              {/* LinkedIn */}
+              <a href="#" style={{ color: C.silver, transition: "color 0.2s", cursor: "pointer" }}
+                onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
+                onMouseLeave={e => (e.currentTarget.style.color = C.silver)}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+              </a>
+            </div>
+          </div>
 
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {SEQUENCE.map((seq, i) => (
-                 <Reveal key={seq.id} delay={i * 0.1}>
-                    <SequenceCard seq={seq} index={i} />
-                 </Reveal>
-              ))}
-           </div>
-        </section>
+          {[
+            { title: "Studio", links: ["À propos", "Notre équipe", "Galerie", "Presse"] },
+            { title: "Services", links: ["Portraits", "Architecture", "Mariage", "Laboratoire"] },
+            { title: "Informations", links: ["Tarifs", "FAQ", "Contact", "Mentions légales"] },
+          ].map(col => (
+            <div key={col.title}>
+              <h4 style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 3, color: C.accent, textTransform: "uppercase", margin: "0 0 20px" }}>
+                {col.title}
+              </h4>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+                {col.links.map(link => (
+                  <li key={link}>
+                    <a href="#" style={{
+                      fontFamily: bodyFont, fontSize: 14, color: C.silver, textDecoration: "none",
+                      transition: "color 0.2s", cursor: "pointer",
+                    }}
+                      onMouseEnter={e => (e.currentTarget.style.color = C.white)}
+                      onMouseLeave={e => (e.currentTarget.style.color = C.silver)}>
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
 
-        {/* 4. TECH AUDIT (HUD DATA VIZ) */}
-        <section id="metrics" className="py-64 px-12 bg-black relative border-b border-white/10">
-           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-32 items-center relative z-10">
-              <div className="lg:col-span-7">
-                 <Reveal>
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-white/40 mb-8">Spectral_Data</div>
-                    <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-16 italic text-white">
-                       Optical <br/> <span className="opacity-10">Stats.</span>
-                    </h2>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                       {ATMOSPHERIC_METRICS.map((metric, i) => (
-                          <div key={i} className="p-12 border border-white/10 bg-white/5 hover:border-white/50 transition-all group relative overflow-hidden">
-                             <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-6">{metric.label}</div>
-                             <div className="text-6xl font-black italic mb-6 tracking-tighter group-hover:scale-105 transition-transform origin-left text-white">{metric.value}</div>
-                             <div className="flex justify-between items-center text-[9px] font-bold uppercase tracking-[0.4em] text-white/20">
-                                <span>{metric.detail}</span>
-                                <span className="text-white">{metric.trend}</span>
-                             </div>
-                             <div className="mt-8 h-[2px] bg-white/5 relative overflow-hidden">
-                                <motion.div 
-                                   className="absolute inset-y-0 left-0 bg-white"
-                                   initial={{ width: 0 }}
-                                   whileInView={{ width: '100%' }}
-                                   transition={{ duration: 1.5, delay: i * 0.1 }}
-                                />
-                             </div>
-                          </div>
-                       ))}
-                    </div>
-                 </Reveal>
-              </div>
-
-              <div className="lg:col-span-5 space-y-16">
-                 <Reveal delay={0.4}>
-                    <div className="p-12 bg-white/5 border border-white/20 rounded-sm relative group overflow-hidden">
-                       <div className="flex justify-between items-center mb-12">
-                          <h4 className="text-2xl font-black uppercase tracking-tighter italic text-white">Light Logs</h4>
-                          <div className="w-2 h-2 rounded-full bg-white animate-ping" />
-                       </div>
-                       <div className="space-y-6 font-mono text-[10px]">
-                          {LIGHT_LOGS.map((log, i) => (
-                             <div key={i} className="flex justify-between border-b border-white/10 pb-2 group/log hover:bg-white/5 px-2 transition-colors">
-                                <span className="text-white/20 group-hover/log:text-white transition-colors">[{log.time}]</span>
-                                <span className="text-white font-black">{log.event}</span>
-                                <span className="text-white/40 italic">{log.detail}</span>
-                                <span className="font-black text-white">[{log.status}]</span>
-                             </div>
-                          ))}
-                       </div>
-                       <div className="mt-12 flex items-center gap-4 text-[10px] font-black uppercase text-white/40 animate-pulse">
-                          <Aperture className="w-4 h-4" /> Awaiting_Array_Emission...
-                       </div>
-                    </div>
-                 </Reveal>
-              </div>
-           </div>
-
-           {/* Background Overlay Large Text */}
-           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] font-black text-white/[0.01] pointer-events-none select-none italic z-0">
-              PHOTON
-           </div>
-        </section>
-
-        {/* 5. MANIFESTO (EDITORIAL LAYOUT) */}
-        <section id="about" className="py-64 px-12 bg-white text-black relative">
-           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-32 items-center">
-              <div className="lg:col-span-5">
-                 <Reveal>
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-black mb-8">Optical_Doctrine</div>
-                    <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-12 italic">
-                       Neural <br/> <span className="opacity-20">Optics.</span>
-                    </h2>
-                    <p className="text-lg font-bold italic text-black/40 leading-relaxed uppercase tracking-[0.1em] mb-16">
-                       Nos recherches explorent la réponse biologique à la luminosité contrôlée. Nous utilisons des émissions photoniques haute fidélité pour remodeler la perception spatiale psychologique.
-                    </p>
-                    <div className="grid grid-cols-2 gap-12 border-t border-black/10 pt-12">
-                       <div className="flex flex-col gap-4">
-                          <div className="text-[10px] font-black text-black/20 uppercase tracking-widest">Retinal</div>
-                          <div className="text-4xl font-black italic">INTEGRITY</div>
-                       </div>
-                       <div className="flex flex-col gap-4">
-                          <div className="text-[10px] font-black text-black/20 uppercase tracking-widest">Spatial</div>
-                          <div className="text-4xl font-black italic">DOPAMINE</div>
-                       </div>
-                    </div>
-                 </Reveal>
-              </div>
-
-              <div className="lg:col-span-7">
-                 <Reveal scale={0.9}>
-                    <div className="relative aspect-video bg-black group overflow-hidden border-[20px] border-black/5 shadow-2xl">
-                       <img 
-                          src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600&q=80" 
-                          className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-2000"
-                          alt="Optical Lab"
-                       />
-                       <div className="absolute inset-0 bg-white/10 mix-blend-overlay" />
-                    </div>
-                 </Reveal>
-              </div>
-           </div>
-        </section>
-
-        {/* 6. FAQ (ARCHIVE ACCORDION) */}
-        <section className="py-64 px-12 bg-black relative overflow-hidden">
-           <div className="max-w-4xl mx-auto relative z-10">
-              <Reveal>
-                 <div className="text-center mb-40">
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] text-white/40 mb-8">Technical_Briefing</div>
-                    <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter italic mb-8 text-white">Lumina <span className="opacity-10">Vault.</span></h2>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 italic">Acquisition // Research // Deployment</p>
-                 </div>
-              </Reveal>
-
-              <Accordion type="single" collapsible className="w-full space-y-4">
-                 {[
-                   { q: "What is the primary design philosophy?", a: "Performance is our aesthetic. We believe that light is the most powerful tool for spatial manipulation. Every photon emission is a deliberate architectural decision." },
-                   { q: "How do you handle retinal safety?", a: "Every array undergoes a multi-layered retinal integrity audit. We operate within non-ionizing emission standards to ensure absolute safety for biological observers." },
-                   { q: "Do you offer custom emission arrays?", a: "Yes. For bespoke architectural enclaves, we design unique spectral profiles and emission patterns that synchronize with the neural response of the occupants." }
-                 ].map((item, i) => (
-                   <AccordionItem key={i} value={`item-${i}`} className="border border-white/10 bg-white/5 px-10 rounded-sm hover:border-white/40 transition-all">
-                      <AccordionTrigger className="text-[14px] font-black uppercase tracking-[0.4em] py-12 no-underline italic text-left text-white">
-                         {item.q}
-                      </AccordionTrigger>
-                      <AccordionContent className="text-[11px] font-medium text-white/40 tracking-[0.1em] uppercase italic leading-loose pb-12">
-                         {item.a}
-                      </AccordionContent>
-                   </AccordionItem>
-                 ))}
-              </Accordion>
-           </div>
-        </section>
-
-        {/* 7. FOOTER (HIGH FIDELITY) */}
-        <footer className="bg-black pt-64 pb-20 px-12 md:px-24 border-t-8 border-white">
-           <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-32 mb-48">
-                 <div className="lg:col-span-7">
-                    <Reveal>
-                       <div className="flex flex-col mb-16">
-                          <span className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.7] italic text-white">Lumina<span className="text-white/20">_</span>Archive.</span>
-                          <span className="text-[12px] font-bold uppercase tracking-[1em] text-white/40 ml-2">Atmospheric Intelligence Group</span>
-                       </div>
-                       <p className="text-white/20 max-w-sm mb-20 text-sm font-light uppercase tracking-widest leading-loose italic">
-                          La maîtrise absolue de la synthèse photonique. Tokyo // Global Command Center.
-                       </p>
-                       <div className="flex gap-12 items-center">
-                          <div className="w-24 h-[1px] bg-white/10" />
-                          <div className="flex gap-10">
-                             <Globe className="w-7 h-7 text-white/30 hover:text-white transition-all cursor-pointer" />
-                             <Sun className="w-7 h-7 text-white/30 hover:text-white transition-all cursor-pointer" />
-                             <Aperture className="w-7 h-7 text-white/30 hover:text-white transition-all cursor-pointer" />
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-
-                 <div className="lg:col-span-5 grid grid-cols-2 gap-16">
-                    <div className="space-y-12">
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-white mb-16 border-b border-white/20 pb-4">Sequence</h4>
-                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-white/30">
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-white" /> Photon_Mapping
-                          </li>
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-white" /> Structural_Audit
-                          </li>
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-white" /> Emission_Control
-                          </li>
-                       </ul>
-                    </div>
-                    <div className="space-y-12">
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.6em] text-white mb-16 border-b border-white/20 pb-4">Archive</h4>
-                       <ul className="space-y-8 text-xs font-black uppercase tracking-[0.2em] text-white/30">
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-white" /> Manifesto
-                          </li>
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-white" /> Global_Nodes
-                          </li>
-                          <li className="hover:text-white cursor-pointer transition-all italic flex items-center gap-3 group">
-                             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-white" /> Contact
-                          </li>
-                       </ul>
-                    </div>
-                 </div>
-              </div>
-
-              <div className="pt-24 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.5em] text-white/10 italic text-center">
-                 <div className="flex gap-16">
-                    <span>©2026 LUMINA ARCHIVE GROUP.</span>
-                    <span className="hidden md:inline">//</span>
-                    <span>PHOTON_SYNTHESIS_CERTIFIED</span>
-                 </div>
-                 <div className="flex gap-16 font-mono text-white/30">
-                    <span>RETINAL_INTEGRITY_99.8%</span>
-                    <span>LATENCY_ZERO_EMISSION</span>
-                 </div>
-              </div>
-           </div>
-        </footer>
-      </main>
-
-      <style>{`
-        ::-webkit-scrollbar { width: 6px; background: #020202; }
-        ::-webkit-scrollbar-thumb { background: #ffffff; border-radius: 10px; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .vertical-text { writing-mode: vertical-rl; }
-        .animate-spin-slow { animation: spin 40s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-      `}</style>
+        <div style={{
+          borderTop: `1px solid ${C.border}`, paddingTop: 32,
+          display: "flex", justifyContent: "space-between", alignItems: "center",
+        }}>
+          <p style={{ fontFamily: bodyFont, fontSize: 12, color: C.silver, margin: 0 }}>
+            © 2024 Obscura Studio. 14 rue de la Roquette, 75011 Paris.
+          </p>
+          <p style={{ fontFamily: bodyFont, fontSize: 12, color: C.silver, margin: 0 }}>
+            Tous droits réservés — SIRET 842 610 733 00021
+          </p>
+        </div>
+      </footer>
     </div>
   )
 }
