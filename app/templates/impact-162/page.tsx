@@ -1,522 +1,431 @@
 "use client"
-
-import React, { useState, useEffect, useRef } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
-} from "framer-motion"
+import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
+import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  Activity, Cpu, Brain, Zap, 
-  ShieldCheck, Eye, Zap as ZapIcon, 
-  Terminal, Lock, Key, Eye as EyeIcon, 
-  Activity as ActivityIcon, Settings, Power, 
-  Info, AlertTriangle, ChevronRight, 
-  ArrowRight, Share2, Maximize2, 
-  Download, ExternalLink, Archive, 
-  Hash, Wifi, BarChart3, Microscope, 
-  Fingerprint, Scan, Layers, 
-  Frame, Box, Target, Orbit, 
-  Atom, Satellite, Milestone, Gauge, 
-  Timer, Cloud, Signal, Search,
-  Navigation, Code, Command, Grid,
-  Radar, Lightbulb, User, Heart,
-  Dna, Smartphone, Bluetooth, Watch
-} from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { Progress } from "@/components/ui/progress"
+import { Separator } from "@/components/ui/separator"
+import { Coffee, Star, Clock, MapPin, Leaf, Heart, Instagram, Facebook, Menu, Check, Wifi, Music } from "lucide-react"
 
-/* ==========================================================================
-   THE BIO-SYNC DATASET (ULTRA DENSITY)
-   ========================================================================== */
-
-const AUGMENTATIONS = [
-  {
-    id: "aug-neural-01",
-    name: "Neural Mesh v9",
-    type: "Cognitive Processor",
-    sync_rate: "98.4%",
-    latency: "0.2ms",
-    draw: "4.2W",
-    bio_comp: "Class A+",
-    desc: "Interface neuronale directe permettant une expansion cognitive de 400% et un accès instantané aux réseaux de données.",
-    status: "Operational"
-  },
-  {
-    id: "aug-optic-04",
-    name: "Crystalline HUD",
-    type: "Optical Overlay",
-    sync_rate: "99.2%",
-    latency: "0.1ms",
-    draw: "2.1W",
-    bio_comp: "Class S",
-    desc: "Implant rétinien offrant une vision multi-spectrale et une analyse de données en temps réel sur le champ de vision.",
-    status: "Secure"
-  },
-  {
-    id: "aug-kinetic-09",
-    name: "Titanium Servos",
-    type: "Motor Enhancement",
-    sync_rate: "96.8%",
-    latency: "0.5ms",
-    draw: "12.8W",
-    bio_comp: "Class B+",
-    desc: "Remplacement musculaire par des fibres synthétiques à haute densité pour une force et une endurance surhumaines.",
-    status: "Testing"
-  }
-]
-
-const NEURAL_METRICS = [
-  { label: "Synaptic Load", value: "42.8%", trend: "Stable" },
-  { label: "Neural Integration", value: "98.4%", trend: "High" },
-  { label: "Metabolic Offset", value: "+12.4%", trend: "Elevated" },
-  { label: "System Uptime", value: "420d", trend: "Infinite" }
-]
-
-const SURGICAL_LOGS = [
-  { timestamp: "08:14:42", op: "Implant Sync: Node-42", status: "SUCCESS" },
-  { timestamp: "08:14:45", op: "Neural Handshake: v9.4", status: "ACTIVE" },
-  { timestamp: "08:14:48", op: "Biometric Audit: Clear", status: "VERIFIED" }
-]
-
-/* ==========================================================================
-   TECHNICAL COMPONENTS
-   ========================================================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y: 32 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function HUDOverlay() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
-  useEffect(() => {
-    const handleMouse = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
-    window.addEventListener("mousemove", handleMouse)
-    return () => window.removeEventListener("mousemove", handleMouse)
-  }, [])
+const MENU_ITEMS = [
+  { cat: "Cafés", items: [
+    { name: "Espresso Signature", desc: "Blend maison torréfié sur place — notes de chocolat noir et noisette grillée", price: "3.20 €" },
+    { name: "Flat White", desc: "Double ristretto, lait entier micromoussé — velours en tasse", price: "4.50 €" },
+    { name: "Latte à la Rose", desc: "Espresso, mousse de lait, sirop rose maison — notre signature florale", price: "5.00 €" },
+    { name: "Cold Brew Nitro", desc: "Infusion froide 18h, service au robinet azote — crémeux et naturellement sucré", price: "5.50 €" },
+  ]},
+  { cat: "Douceurs", items: [
+    { name: "Banana Bread", desc: "Bananes mûres, noix de pécan, caramel beurre salé maison", price: "4.50 €" },
+    { name: "Croissant au beurre", desc: "Feuilletage AOP beurre de la Manche — livraison 7h du matin", price: "3.00 €" },
+    { name: "Cookie Tahini", desc: "Sesame, pépites de chocolat 70%, fleur de sel — sans gluten", price: "3.50 €" },
+    { name: "Cheesecake Matcha", desc: "Fromage blanc fermier, thé matcha cérémonie, biscuit sésame", price: "6.00 €" },
+  ]},
+]
+
+const AMBIANCE = [
+  { icon: Wifi, title: "WiFi haut débit", desc: "Connexion fibre 500 Mbps symétrique — code sur ardoise à l'accueil" },
+  { icon: Music, title: "Playlist curatée", desc: "Jazz lo-fi le matin, indie le midi, ambient le soir — ambiance garantie" },
+  { icon: Leaf, title: "Produits locaux", desc: "Cafés en grain de 6 origines, lait bio Île-de-France, pâtisseries du quartier" },
+  { icon: Heart, title: "Pet-friendly", desc: "Votre compagnon est le bienvenu — gamelle d'eau toujours disponible" },
+]
+
+const STATS = [
+  { val: "6", label: "Origines de café" },
+  { val: "4.9/5", label: "Avis Google" },
+  { val: "2013", label: "Fondé en" },
+  { val: "7j/7", label: "Ouvert" },
+  { val: "100%", label: "Ingrédients locaux" },
+]
+
+const TESTIMONIALS = [
+  { name: "Sophie Marchand", role: "Cliente quotidienne", rating: 5, text: "Mon café du matin depuis 4 ans. Le flat white est le meilleur de Paris, sans discussion. L'équipe me connaît par mon prénom et mon lait d'avoine arrive automatiquement.", avatar: "SM" },
+  { name: "Théo Dupuis", role: "Freelance & habitué", rating: 5, text: "Le meilleur spot de travail du 11ème. WiFi stable, bruit ambiant idéal pour se concentrer, et le banana bread me donne l'énergie pour tenir jusqu'au soir.", avatar: "TD" },
+  { name: "Camille Aubert", role: "Food blogger", rating: 5, text: "Le latte à la rose est une vraie création artistique. La présentation, l'équilibre sucré-floral, la qualité du lait... c'est ce genre de détails qui font un grand café.", avatar: "CA" },
+  { name: "Marc Renard", role: "Architecte", rating: 5, text: "J'y tiens mes réunions informelles. L'ambiance est parfaite — assez animée pour être stimulante, assez zen pour discuter tranquillement. La terrasse l'été est magique.", avatar: "MR" },
+  { name: "Julie Petit", role: "Voisine de quartier", rating: 5, text: "Le cold brew nitro a changé ma vie l'été dernier. On en parle encore avec mon copain. Et les cookies tahini... je ne mange plus que ça au goûter.", avatar: "JP" },
+]
+
+const PRICING = [
+  { name: "Fidèle", price: "15", desc: "La carte de fidélité", features: ["10 cafés achetés = 1 offert", "Viennoiserie offerte le jour de votre anniversaire", "Priorité sur les nouveautés saisonnières", "Newsletter mensuelle recettes & actualités", "Accès dégustation producteurs"] },
+  { name: "Nomade", price: "49", desc: "Abonnement mensuel café illimité", featured: true, features: ["Espresso, allongé & filtre illimités", "1 spécialité/jour (flat white, latte...)", "Accès réservation table premium", "Réduction 15% sur pâtisseries", "Invitez un ami 1x/mois", "Code WiFi prioritaire"] },
+  { name: "Entreprise", price: "Sur devis", desc: "Pour vos équipes et événements", features: ["Commandes régulières livrées", "Privatisation soirée ou weekend", "Atelier dégustation café", "Branding co-organisé possible", "Facturation mensuelle", "Account manager dédié"] },
+]
+
+const FAQS = [
+  { q: "Proposez-vous des options véganes et sans gluten ?", a: "Oui. Nos laits végétaux (avoine, soja, amande, coco) sont disponibles pour tous les cafés. La plupart de nos pâtisseries ont une option sans gluten. Consultez notre ardoise quotidienne pour les spécialités du jour." },
+  { q: "Peut-on réserver une table ?", a: "Oui, les tables du fond et la terrasse sont réservables via notre application ou par téléphone, minimum 2h à l'avance. Les comptoirs et banquettes sont en libre-accès." },
+  { q: "D'où viennent vos cafés ?", a: "Nous sourceons nos grains directement chez 6 producteurs partenaires en Éthiopie, Colombie, Guatemala, Rwanda, Yemen et Indonésie. Nous visitons chaque exploitation tous les 18 mois." },
+  { q: "Proposez-vous des formations barista ?", a: "Oui, nous organisons des ateliers barista le samedi matin (2h, maximum 8 participants). Inscription sur notre site. Nous proposons aussi des ateliers café pour entreprises sur demande." },
+  { q: "Peut-on acheter vos cafés en grain ?", a: "Absolument. Nos 6 origines sont disponibles à la vente en boutique (250g et 1kg) et sur notre boutique en ligne. Nous proposons aussi un abonnement mensuel avec un blend différent chaque mois." },
+  { q: "Les chiens sont-ils acceptés ?", a: "Oui, vos compagnons sont les bienvenus sur la terrasse et dans la salle basse. Une gamelle d'eau fraîche est toujours disponible à l'entrée." },
+]
+
+export default function EssentialCafePage() {
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [activeMenuCat, setActiveMenuCat] = useState(0)
+  const heroRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"])
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[100] opacity-30 overflow-hidden">
-       {/* Scanner Circle */}
-       <motion.div 
-         animate={{ x: mousePos.x - 100, y: mousePos.y - 100 }}
-         transition={{ type: "spring", damping: 30, stiffness: 200 }}
-         className="w-[200px] h-[200px] border border-cyan-400/40 rounded-full flex items-center justify-center relative"
-       >
-          <div className="w-[180px] h-[180px] border border-cyan-400/10 rounded-full animate-ping" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-12 bg-cyan-400 px-2 py-0.5 text-[8px] font-black text-black uppercase">Scanning_Subject</div>
-       </motion.div>
-       
-       {/* Data Streams */}
-       <div className="absolute top-12 left-12 space-y-4">
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className="flex items-center gap-4 text-[8px] font-bold text-cyan-400/40 uppercase tracking-widest italic">
-               <div className="w-8 h-px bg-cyan-400/20" />
-               TRK_SYNC_{i+102}: OK
-            </div>
-          ))}
-       </div>
-    </div>
-  )
-}
+    <div style={{ overflowX: "hidden", scrollBehavior: "smooth", background: "#1a1208", color: "#f0e8d8", fontFamily: "'Playfair Display', Georgia, serif" }}>
 
-function SectionTitle({ subtitle, title, alignment = "left" }: { subtitle: string, title: string, alignment?: "center" | "left" }) {
-  return (
-    <div className={`mb-32 ${alignment === "center" ? "text-center" : "text-left"}`}>
-       <Reveal>
-          <span className="text-[10px] font-black uppercase tracking-[0.6em] text-cyan-400 mb-8 block italic underline underline-offset-8 decoration-cyan-400/20 font-mono">
-             {subtitle}
-          </span>
-          <h2 className="text-6xl md:text-[8vw] font-black tracking-tighter uppercase text-white italic font-mono leading-none">
-             {title}
-          </h2>
-       </Reveal>
-    </div>
-  )
-}
+      {/* NAVBAR */}
+      <motion.nav initial={{ y: -80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, backdropFilter: "blur(16px)", background: "rgba(26,18,8,0.92)", borderBottom: "1px solid rgba(200,160,80,0.12)" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+            <Coffee size={20} color="#c8a050" />
+            <span style={{ fontSize: 20, fontWeight: 700, color: "#f0e8d8", letterSpacing: "0.04em" }}>Brûlerie du Canal</span>
+          </Link>
+          <div style={{ display: "flex", gap: 28, alignItems: "center" }} className="hidden md:flex">
+            {["Menu", "Nos cafés", "Ambiance", "Contact"].map(item => (
+              <a key={item} href={`#${item.toLowerCase().replace("nos ", "")}`}
+                style={{ color: "rgba(240,232,216,0.55)", textDecoration: "none", fontSize: 14, fontFamily: "system-ui", transition: "color 0.2s" }}
+                onMouseEnter={e => (e.currentTarget.style.color = "#c8a050")}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(240,232,216,0.55)")}>
+                {item}
+              </a>
+            ))}
+            <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
+              style={{ padding: "9px 20px", background: "#c8a050", color: "#1a1208", border: "none", borderRadius: 6, fontSize: 13, fontFamily: "system-ui", fontWeight: 700, cursor: "pointer" }}>
+              Réserver
+            </motion.button>
+          </div>
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild>
+              <button style={{ background: "none", border: "none", color: "#f0e8d8", cursor: "pointer" }} className="md:hidden block"><Menu size={24} /></button>
+            </SheetTrigger>
+            <SheetContent side="right" style={{ background: "#1a1208" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24, paddingTop: 48 }}>
+                {["Menu", "Nos cafés", "Ambiance", "Contact"].map(item => (
+                  <a key={item} href="#" onClick={() => setMobileOpen(false)} style={{ color: "#f0e8d8", textDecoration: "none", fontSize: 18, fontFamily: "system-ui" }}>{item}</a>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </motion.nav>
 
-/* ==========================================
-   THE BIO-SYNC - MAIN INTERFACE
-   ========================================== */
+      {/* HERO */}
+      <section ref={heroRef} style={{ position: "relative", height: "100vh", minHeight: 680, display: "flex", alignItems: "center", overflow: "hidden" }}>
+        <motion.div style={{ position: "absolute", inset: 0, y: bgY }}>
+          <Image src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&q=80" alt="Café" fill style={{ objectFit: "cover" }} priority />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(110deg, rgba(26,18,8,0.88) 40%, rgba(26,18,8,0.45) 100%)" }} />
+        </motion.div>
 
-export default function BioSyncPremium() {
-  const [activeTab, setActiveTab] = useState("neural")
-  const [isSyncActive, setIsSyncActive] = useState(true)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Augmented Scroll Effects
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const bodyScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.2])
-  const hudRotate = useTransform(scrollYProgress, [0, 1], [0, 360])
-
-  return (
-    <div ref={containerRef} className="bg-[#050505] text-[#e0e2e5] font-mono selection:bg-cyan-500/30 selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000">
-      
-      {/* GLOBAL HUD OVERLAY */}
-      <HUDOverlay />
-      <Header isSyncActive={isSyncActive} />
-
-      <main>
-        {/* ==========================================
-            1. NEURAL IGNITION (HERO)
-            ========================================== */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-          <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,#06b6d410_1px,transparent_1px)] bg-[size:40px_40px]" />
-          
-          <motion.div style={{ scale: bodyScale, rotate: hudRotate, opacity: heroOpacity }} className="absolute z-0 pointer-events-none flex items-center justify-center opacity-20">
-             <div className="w-[70vw] h-[70vw] border border-cyan-400/10 rounded-full flex items-center justify-center">
-                <div className="w-[50vw] h-[50vw] border border-cyan-400/5 rounded-full flex items-center justify-center">
-                   <Dna className="w-48 h-48 text-cyan-400/20" />
-                </div>
-             </div>
+        <motion.div style={{ position: "relative", zIndex: 10, padding: "0 10vw", maxWidth: 680, opacity }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <Badge style={{ background: "rgba(200,160,80,0.1)", color: "#c8a050", border: "1px solid rgba(200,160,80,0.3)", fontSize: 11, letterSpacing: "0.1em", marginBottom: 28, fontFamily: "system-ui" }}>
+              CAFÉ DE SPÉCIALITÉ — PARIS 10ème
+            </Badge>
           </motion.div>
 
-          <div className="relative z-10 text-center max-w-7xl">
-             <Reveal>
-                <div className="inline-flex items-center gap-4 px-6 py-2 border border-cyan-400/30 bg-cyan-400/5 text-[10px] font-black uppercase tracking-[0.5em] text-cyan-400 mb-12 italic">
-                   <ActivityIcon className="w-4 h-4" /> System_Link: Biometric_Secure // v9.4.0
-                </div>
-                <h1 className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic">
-                   Bio <br/> <span className="text-white/5 italic">Sync.</span>
-                </h1>
-                <p className="max-w-3xl mx-auto text-sm md:text-lg text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16 italic">
-                   L'évolution dirigée par l'ingénierie. Nous redéfinissons les limites de l'humain à travers une intégration bionique et neuronale de haute fidélité.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                   <button className="px-12 py-6 bg-cyan-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(8,145,178,0.3)] flex items-center gap-4 italic">
-                      <Scan className="w-5 h-5" /> Initialize Sync
-                   </button>
-                   <button className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
-                      <Database className="w-5 h-5" /> Augmentation Registry
-                   </button>
-                </div>
-             </Reveal>
-          </div>
+          <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            style={{ fontSize: "clamp(40px, 6vw, 76px)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 24, color: "#f0e8d8" }}>
+            Le café qui<br />mérite votre <em style={{ color: "#c8a050", fontStyle: "italic" }}>matin.</em>
+          </motion.h1>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-12">
-             <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Subject_ID: BIO-HASH-42
-                </div>
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Sync_Level: 98.4%
-                </div>
-             </div>
-             <div className="text-right flex flex-col items-end gap-4">
-                <span className="text-[8px] font-black uppercase tracking-[0.5em] text-cyan-400">Neural_Pulse_Stream</span>
-                <div className="flex gap-2 h-12 items-end">
-                   {[...Array(16)].map((_, i) => (
-                     <motion.div 
-                        key={i}
-                        animate={{ height: ["10%", "100%", "30%", "80%", "10%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                        className="w-2 bg-cyan-400/20"
-                     />
-                   ))}
-                </div>
-             </div>
-          </div>
-        </section>
+          <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
+            style={{ fontSize: 17, color: "rgba(240,232,216,0.65)", fontFamily: "system-ui", lineHeight: 1.75, marginBottom: 40, maxWidth: 460 }}>
+            Torréfaction artisanale, 6 origines directes, pâtisseries maison. Un café de quartier qui prend son métier au sérieux depuis 2013.
+          </motion.p>
 
-        {/* ==========================================
-            2. AUGMENTATION MATRIX (DENSE GRID)
-            ========================================== */}
-        <section className="py-60 bg-[#080808] relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-              <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-                 <Reveal>
-                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-cyan-400 block mb-6 italic underline underline-offset-8 decoration-cyan-400/20">Implant // Registry</span>
-                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">Augments.</h2>
-                 </Reveal>
-                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Biometric_Audit</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-cyan-400">L'Architecture du Surhomme</p>
-                 </div>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.45 }}
+            style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+            <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(200,160,80,0.3)" }} whileTap={{ scale: 0.97 }}
+              style={{ padding: "16px 32px", background: "#c8a050", color: "#1a1208", border: "none", borderRadius: 6, fontSize: 14, fontFamily: "system-ui", fontWeight: 700, cursor: "pointer" }}>
+              Voir la carte
+            </motion.button>
+            <motion.button whileHover={{ scale: 1.04 }}
+              style={{ padding: "16px 32px", background: "transparent", color: "#f0e8d8", border: "1px solid rgba(240,232,216,0.2)", borderRadius: 6, fontSize: 14, fontFamily: "system-ui", cursor: "pointer" }}>
+              Réserver une table
+            </motion.button>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.6 }}
+            style={{ display: "flex", gap: 24, marginTop: 40, flexWrap: "wrap" }}>
+            {[{ icon: Clock, text: "7h – 20h, 7j/7" }, { icon: MapPin, text: "32 quai de Valmy, Paris 10" }, { icon: Wifi, text: "WiFi 500 Mbps" }].map((item, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "rgba(240,232,216,0.55)", fontFamily: "system-ui" }}>
+                <item.icon size={14} color="#c8a050" />{item.text}
               </div>
+            ))}
+          </motion.div>
+        </motion.div>
 
-              <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 shadow-2xl">
-                 {AUGMENTATIONS.map((aug, i) => (
-                   <Reveal key={aug.id} delay={i * 0.1}>
-                      <div className="bg-[#050505] p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
-                         <div className="flex justify-between items-start mb-16">
-                            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-cyan-600 group-hover:text-black transition-all duration-500">
-                               <Cpu className="w-8 h-8" />
-                            </div>
-                            <span className={`px-4 py-2 bg-white/5 text-[9px] font-black uppercase tracking-[0.3em] ${aug.status === "Operational" ? "text-cyan-400" : "text-yellow-500"}`}>{aug.status}</span>
-                         </div>
-                         
-                         <h3 className="text-5xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{aug.name}</h3>
-                         <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-12">{aug.type}</div>
-                         
-                         <div className="space-y-8 mb-20 border-l border-cyan-400/20 pl-8">
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Sync Rate</span>
-                               <span className="text-white group-hover:text-cyan-400 transition-colors">{aug.sync_rate}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Latency</span>
-                               <span className="text-white group-hover:text-cyan-400 transition-colors">{aug.latency}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Bio-Comp</span>
-                               <span className="text-white group-hover:text-cyan-400 transition-colors">{aug.bio_comp}</span>
-                            </div>
-                         </div>
+        <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.9, duration: 0.7 }}
+          style={{ position: "absolute", right: 48, bottom: 100, background: "rgba(255,255,255,0.05)", backdropFilter: "blur(16px)", border: "1px solid rgba(200,160,80,0.2)", borderRadius: 12, padding: "20px 24px", zIndex: 10 }}>
+          <div style={{ display: "flex", gap: 3, marginBottom: 6 }}>
+            {[1,2,3,4,5].map(i => <Star key={i} size={12} fill="#c8a050" color="#c8a050" />)}
+          </div>
+          <div style={{ fontSize: 24, fontWeight: 700, color: "#c8a050", fontFamily: "system-ui" }}>4.9/5</div>
+          <div style={{ fontSize: 12, color: "rgba(240,232,216,0.45)", fontFamily: "system-ui" }}>+520 avis Google</div>
+        </motion.div>
+      </section>
 
-                         <p className="text-[12px] text-white/30 leading-loose uppercase tracking-[0.2em] font-bold italic mb-16">
-                            {aug.desc}
-                         </p>
+      {/* STATS */}
+      <section style={{ padding: "44px 32px", background: "rgba(200,160,80,0.05)", borderTop: "1px solid rgba(200,160,80,0.1)", borderBottom: "1px solid rgba(200,160,80,0.1)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", flexWrap: "wrap", gap: 32, justifyContent: "center" }}>
+          {STATS.map((s, i) => (
+            <Reveal key={i} delay={i * 0.1}>
+              <div style={{ textAlign: "center", minWidth: 120 }}>
+                <div style={{ fontSize: 32, fontWeight: 700, color: "#c8a050", fontFamily: "system-ui" }}>{s.val}</div>
+                <div style={{ fontSize: 13, color: "rgba(240,232,216,0.45)", fontFamily: "system-ui", marginTop: 4 }}>{s.label}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
-                         <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center">
-                            <span className="text-[10px] font-black text-white/10 uppercase tracking-widest">Ref: {aug.id}</span>
-                            <button className="text-[10px] font-black uppercase text-white/40 flex items-center gap-4 group-hover:text-white transition-all">
-                               System_Specs <ChevronRight className="w-5 h-5" />
-                            </button>
-                         </div>
+      {/* MENU */}
+      <section id="menu" style={{ padding: "100px 32px" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 52 }}>
+              <Badge style={{ background: "rgba(200,160,80,0.1)", color: "#c8a050", border: "1px solid rgba(200,160,80,0.25)", fontSize: 11, letterSpacing: "0.1em", marginBottom: 16, fontFamily: "system-ui" }}>NOTRE CARTE</Badge>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, color: "#f0e8d8" }}>Sélection du <em style={{ color: "#c8a050" }}>moment</em></h2>
+            </div>
+          </Reveal>
+
+          <Tabs defaultValue="Cafés" style={{ width: "100%" }}>
+            <TabsList style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(200,160,80,0.12)", marginBottom: 36, display: "flex", height: "auto", padding: 4, gap: 4 }}>
+              {MENU_ITEMS.map(cat => (
+                <TabsTrigger key={cat.cat} value={cat.cat} style={{ flex: 1, fontSize: 14, fontFamily: "system-ui", fontWeight: 600, color: "rgba(240,232,216,0.55)" }}>{cat.cat}</TabsTrigger>
+              ))}
+            </TabsList>
+            {MENU_ITEMS.map(cat => (
+              <TabsContent key={cat.cat} value={cat.cat}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                  {cat.items.map((item, i) => (
+                    <Reveal key={i} delay={i * 0.08}>
+                      <motion.div whileHover={{ borderColor: "rgba(200,160,80,0.3)" }}
+                        style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(200,160,80,0.1)", borderRadius: 12, padding: "22px 20px", transition: "border-color 0.3s" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                          <h3 style={{ fontSize: 17, fontWeight: 700, color: "#f0e8d8" }}>{item.name}</h3>
+                          <span style={{ fontSize: 16, fontWeight: 700, color: "#c8a050", fontFamily: "system-ui", flexShrink: 0, marginLeft: 12 }}>{item.price}</span>
+                        </div>
+                        <p style={{ fontSize: 13, color: "rgba(240,232,216,0.55)", fontFamily: "system-ui", lineHeight: 1.65 }}>{item.desc}</p>
+                      </motion.div>
+                    </Reveal>
+                  ))}
+                </div>
+              </TabsContent>
+            ))}
+          </Tabs>
+        </div>
+      </section>
+
+      {/* AMBIANCE */}
+      <section id="ambiance" style={{ padding: "100px 32px", background: "rgba(255,255,255,0.02)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 56 }}>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, color: "#f0e8d8" }}>Plus qu'un café, <em style={{ color: "#c8a050" }}>un lieu de vie</em></h2>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "center" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              {AMBIANCE.map((a, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(200,160,80,0.1)", borderRadius: 12, padding: "24px 20px" }}>
+                    <div style={{ width: 40, height: 40, borderRadius: 10, background: "rgba(200,160,80,0.1)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}>
+                      <a.icon size={18} color="#c8a050" />
+                    </div>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: "#f0e8d8", marginBottom: 8 }}>{a.title}</h3>
+                    <p style={{ fontSize: 13, color: "rgba(240,232,216,0.55)", fontFamily: "system-ui", lineHeight: 1.65 }}>{a.desc}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal delay={0.2}>
+              <div style={{ position: "relative", aspectRatio: "4/5", borderRadius: 20, overflow: "hidden" }}>
+                <Image src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&q=80" alt="Ambiance café" fill style={{ objectFit: "cover" }} />
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section style={{ padding: "100px 32px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 52 }}>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, color: "#f0e8d8" }}>Nos <em style={{ color: "#c8a050" }}>habitués</em> parlent</h2>
+            </div>
+          </Reveal>
+          <Carousel opts={{ align: "start", loop: true }}>
+            <CarouselContent style={{ paddingLeft: 8 }}>
+              {TESTIMONIALS.map((t, i) => (
+                <CarouselItem key={i} style={{ paddingLeft: 16, flexBasis: "calc(50% - 8px)" }}>
+                  <Card style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(200,160,80,0.1)", borderRadius: 12 }}>
+                    <CardContent style={{ padding: 28 }}>
+                      <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>
+                        {Array.from({ length: t.rating }).map((_, j) => <Star key={j} size={13} fill="#c8a050" color="#c8a050" />)}
                       </div>
-                   </Reveal>
-                 ))}
-              </div>
-           </div>
-        </section>
+                      <p style={{ fontSize: 15, color: "rgba(240,232,216,0.7)", fontFamily: "system-ui", lineHeight: 1.75, marginBottom: 20, fontStyle: "italic" }}>"{t.text}"</p>
+                      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                        <Avatar><AvatarFallback style={{ background: "rgba(200,160,80,0.15)", color: "#c8a050", fontSize: 12, fontWeight: 700 }}>{t.avatar}</AvatarFallback></Avatar>
+                        <div>
+                          <div style={{ fontSize: 14, fontWeight: 700, color: "#f0e8d8" }}>{t.name}</div>
+                          <div style={{ fontSize: 12, color: "rgba(240,232,216,0.4)", fontFamily: "system-ui" }}>{t.role}</div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(200,160,80,0.25)", color: "#c8a050" }} />
+            <CarouselNext style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(200,160,80,0.25)", color: "#c8a050" }} />
+          </Carousel>
+        </div>
+      </section>
 
-        {/* ==========================================
-            3. SYNAPTIC MONITOR (INTERACTIVE DATA)
-            ========================================== */}
-        <section className="py-60 bg-black relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div>
-                    <Reveal>
-                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-cyan-400 block mb-12 italic underline underline-offset-8 decoration-cyan-400/20">Synaptic // Performance</span>
-                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">
-                          The <br/> <span className="not-italic font-black text-white/5 italic">Neural_Load.</span>
-                       </h2>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">
-                          Surveillance de l'activité cérébrale en temps réel. Nos protocoles de synchronisation optimisent l'intégration des implants pour une symbiose parfaite entre l'homme et la machine.
-                       </p>
-                       <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
-                          {NEURAL_METRICS.map((metric, i) => (
-                            <div key={i} className="p-16 bg-[#0a0a0c] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
-                               <div className="text-[10px] font-black uppercase text-cyan-400 mb-6 tracking-[0.4em]">{metric.label}</div>
-                               <div className="text-5xl font-black text-white italic mb-6 tracking-tighter group-hover:translate-x-4 transition-transform">{metric.value}</div>
-                               <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
-                                  <ActivityIcon className="w-4 h-4 text-cyan-400" /> {metric.trend}
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                       <button 
-                         onClick={() => setIsSyncActive(!isSyncActive)}
-                         className="w-full py-8 bg-cyan-600 text-white text-[11px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center gap-6 italic"
-                       >
-                          <Settings className="w-5 h-5" /> Re-Calibrate Neural Mesh
-                       </button>
-                    </Reveal>
-                 </div>
-                 
-                 <div className="relative">
-                    <Reveal delay={0.3} x={40}>
-                       <div className="aspect-square bg-[#0a0a0c] border border-white/10 p-20 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 p-80 bg-cyan-400 opacity-[0.02] blur-[150px] rounded-full group-hover:opacity-[0.05] transition-opacity" />
-                          
-                          <div className="flex justify-between items-start z-10">
-                             <div className="flex flex-col gap-3">
-                                <span className="text-[10px] font-black text-white/10 uppercase tracking-[0.5em]">Subject_Link // SYNC-HASH-v9</span>
-                                <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.6em]">Neural_Density_Map</span>
-                             </div>
-                             <Wifi className="w-6 h-6 text-cyan-400" />
-                          </div>
-                          
-                          {/* NEURAL VISUALIZER (SVG) */}
-                          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                             <div className="w-64 h-64 border border-cyan-400/5 rounded-full flex items-center justify-center relative">
-                                <motion.div 
-                                  animate={{ rotate: 360 }}
-                                  transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-0 border-t-2 border-cyan-400/20 rounded-full" 
-                                />
-                                <motion.div 
-                                  animate={{ rotate: -360 }}
-                                  transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-8 border-b-2 border-cyan-400/10 rounded-full" 
-                                />
-                                <Brain className={`w-24 h-24 transition-colors duration-1000 ${isSyncActive ? "text-cyan-400 animate-pulse" : "text-white/5"}`} />
-                             </div>
-                             <div className="mt-16 text-center space-y-6">
-                                <div className={`text-4xl font-black italic tracking-tighter ${isSyncActive ? "text-white" : "text-white/20"}`}>
-                                   {isSyncActive ? "SYNC_ESTABLISHED" : "SYNC_INTERRUPTED"}
-                                </div>
-                                <span className="text-[11px] font-bold text-white/10 uppercase tracking-[0.6em] block">Auth_Node: NEURAL_CENTRAL_01</span>
-                             </div>
-                          </div>
-
-                          <div className="relative z-10 flex gap-6">
-                             <div className="flex-1 h-1 bg-white/5 overflow-hidden">
-                                <motion.div 
-                                   animate={isSyncActive ? { x: ["-100%", "100%"] } : {}}
-                                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-cyan-600"
-                                />
-                             </div>
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            4. AUGMENTATION LAB (TECH STORYTELLING)
-            ========================================== */}
-        <section className="py-60 bg-[#050505] relative overflow-hidden border-t border-white/5">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">
-                    <Image 
-                       src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1200&auto=format&fit=crop" 
-                       alt="Robotic Lab" 
-                       fill 
-                       className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"
-                    />
-                    <div className="absolute inset-0 bg-cyan-900/10 mix-blend-color group-hover:opacity-0 transition-opacity" />
-                    <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                       <div className="text-white">
-                          <span className="text-[11px] font-black uppercase tracking-[0.6em] text-cyan-400 mb-8 block italic underline underline-offset-8 decoration-cyan-400/20">Atelier // Bio // Ethics</span>
-                          <h4 className="text-6xl font-black tracking-tighter uppercase italic mb-12 mix-blend-difference text-white">Augmented <br/> Future.</h4>
-                          <button className="flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/20 pb-4 hover:border-cyan-400 transition-all group">
-                             Ethical Protocols <ExternalLink className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                          </button>
-                       </div>
+      {/* PRICING */}
+      <section style={{ padding: "100px 32px", background: "rgba(255,255,255,0.02)" }}>
+        <div style={{ maxWidth: 950, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 56 }}>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, color: "#f0e8d8" }}>Nos offres <em style={{ color: "#c8a050" }}>fidélité</em></h2>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+            {PRICING.map((plan, i) => (
+              <Reveal key={i} delay={i * 0.12}>
+                <motion.div whileHover={{ y: -6, boxShadow: plan.featured ? "0 20px 50px rgba(200,160,80,0.15)" : "0 8px 32px rgba(0,0,0,0.4)" }}
+                  style={{ borderRadius: 16, border: plan.featured ? "1px solid rgba(200,160,80,0.4)" : "1px solid rgba(255,255,255,0.06)", overflow: "hidden", cursor: "pointer", position: "relative" }}>
+                  {plan.featured && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "#c8a050" }} />}
+                  <div style={{ padding: "28px 22px", background: plan.featured ? "rgba(200,160,80,0.04)" : "rgba(255,255,255,0.02)" }}>
+                    {plan.featured && <div style={{ display: "inline-block", background: "rgba(200,160,80,0.15)", color: "#c8a050", fontSize: 10, letterSpacing: "0.1em", fontWeight: 700, padding: "3px 10px", borderRadius: 20, marginBottom: 12, fontFamily: "system-ui" }}>POPULAIRE</div>}
+                    <h3 style={{ fontSize: 20, fontWeight: 700, color: "#f0e8d8", marginBottom: 4 }}>{plan.name}</h3>
+                    <p style={{ fontSize: 13, color: "rgba(240,232,216,0.4)", fontFamily: "system-ui", marginBottom: 16 }}>{plan.desc}</p>
+                    <div style={{ marginBottom: 20 }}>
+                      {plan.price !== "Sur devis" ? (
+                        <><span style={{ fontSize: 36, fontWeight: 700, color: "#c8a050", fontFamily: "system-ui" }}>{plan.price}€</span><span style={{ fontSize: 13, color: "rgba(240,232,216,0.4)", fontFamily: "system-ui" }}>/mois</span></>
+                      ) : (
+                        <span style={{ fontSize: 22, fontWeight: 700, color: "#c8a050", fontFamily: "system-ui" }}>Sur devis</span>
+                      )}
                     </div>
-                 </div>
+                    <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
+                      {plan.features.map(f => (
+                        <li key={f} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 13, color: "rgba(240,232,216,0.6)", fontFamily: "system-ui" }}>
+                          <Check size={13} color="#c8a050" style={{ marginTop: 2, flexShrink: 0 }} />{f}
+                        </li>
+                      ))}
+                    </ul>
+                    <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                      style={{ width: "100%", padding: "12px", background: plan.featured ? "#c8a050" : "transparent", color: plan.featured ? "#1a1208" : "#c8a050", border: plan.featured ? "none" : "1px solid rgba(200,160,80,0.35)", borderRadius: 8, fontSize: 13, fontFamily: "system-ui", fontWeight: 700, cursor: "pointer" }}>
+                      {plan.price === "Sur devis" ? "Nous contacter" : "S'abonner"}
+                    </motion.button>
+                  </div>
+                </motion.div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                 <div>
-                    <Reveal>
-                       <div className="mb-24 text-left">
-                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-cyan-400 mb-8 block italic">Chapitre III // Evolution</span>
-                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none text-white">Next_Step.</h2>
-                       </div>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">
-                          L'augmentation bionique n'est pas une simple amélioration, c'est une transition vers une nouvelle forme d'existence. Nous garantissons la sécurité et l'éthique de chaque transition.
-                       </p>
-                       <div className="space-y-20">
-                          {[
-                            { t: "Neural Sovereignty", d: "Protection absolue de l'intégrité cognitive et de la vie privée neurale de chaque utilisateur." },
-                            { t: "Bio-Compatibility", d: "Matériaux nanostructurés garantissant une intégration sans rejet et une longévité perpétuelle." },
-                            { t: "Sync Mastery", d: "Optimisation logicielle de haut niveau pour une réponse motrice et cognitive sans latence." }
-                          ].map((step, i) => (
-                            <div key={i} className="group flex gap-12 border-b border-white/5 pb-16 hover:border-cyan-400/20 transition-all cursor-default">
-                               <div className="text-6xl font-black text-white/5 group-hover:text-cyan-400/20 transition-colors italic leading-none">0{i+1}</div>
-                               <div>
-                                  <h5 className="text-3xl font-black uppercase tracking-tight text-white mb-6 italic group-hover:translate-x-4 transition-transform text-white">{step.t}</h5>
-                                  <p className="text-[12px] text-white/20 uppercase tracking-[0.3em] font-bold leading-loose italic">{step.d}</p>
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                    </Reveal>
-                 </div>
+      {/* FAQ */}
+      <section id="contact" style={{ padding: "100px 32px" }}>
+        <div style={{ maxWidth: 760, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 48 }}>
+              <h2 style={{ fontSize: "clamp(26px, 4vw, 44px)", fontWeight: 700, color: "#f0e8d8" }}>Questions fréquentes</h2>
+            </div>
+          </Reveal>
+          <Accordion type="single" collapsible style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {FAQS.map((faq, i) => (
+              <AccordionItem key={i} value={`q${i}`} style={{ border: "1px solid rgba(200,160,80,0.1)", borderRadius: 10, overflow: "hidden", background: "rgba(255,255,255,0.02)" }}>
+                <AccordionTrigger style={{ padding: "16px 20px", fontSize: 15, fontWeight: 600, color: "#f0e8d8", fontFamily: "system-ui", textAlign: "left" }}>{faq.q}</AccordionTrigger>
+                <AccordionContent style={{ padding: "0 20px 16px", fontSize: 14, color: "rgba(240,232,216,0.55)", fontFamily: "system-ui", lineHeight: 1.8 }}>{faq.a}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section style={{ padding: "80px 32px", background: "linear-gradient(135deg, rgba(200,160,80,0.12) 0%, rgba(200,160,80,0.04) 100%)", borderTop: "1px solid rgba(200,160,80,0.12)" }}>
+        <div style={{ maxWidth: 600, margin: "0 auto", textAlign: "center" }}>
+          <Reveal>
+            <Coffee size={40} color="#c8a050" style={{ marginBottom: 24 }} />
+            <h2 style={{ fontSize: "clamp(26px, 4vw, 48px)", fontWeight: 700, color: "#f0e8d8", marginBottom: 16 }}>
+              On vous attend <em style={{ color: "#c8a050" }}>demain matin.</em>
+            </h2>
+            <p style={{ fontSize: 16, color: "rgba(240,232,216,0.5)", fontFamily: "system-ui", lineHeight: 1.7, marginBottom: 36 }}>Ouvert 7j/7 de 7h à 20h. 32 quai de Valmy, Paris 10ème.</p>
+            <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+              <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(200,160,80,0.25)" }} whileTap={{ scale: 0.97 }}
+                style={{ padding: "16px 32px", background: "#c8a050", color: "#1a1208", border: "none", borderRadius: 6, fontSize: 14, fontFamily: "system-ui", fontWeight: 700, cursor: "pointer" }}>
+                Réserver une table
+              </motion.button>
+              <motion.button whileHover={{ scale: 1.04 }}
+                style={{ padding: "16px 32px", background: "transparent", color: "#c8a050", border: "1px solid rgba(200,160,80,0.35)", borderRadius: 6, fontSize: 14, fontFamily: "system-ui", cursor: "pointer" }}>
+                Commander en ligne
+              </motion.button>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer style={{ padding: "48px 32px 32px", background: "#0d0904" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 40, marginBottom: 40 }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+                <Coffee size={18} color="#c8a050" />
+                <span style={{ fontSize: 18, fontWeight: 700, color: "#c8a050", fontFamily: "system-ui" }}>Brûlerie du Canal</span>
               </div>
-           </div>
-        </section>
-
-        {/* MEGA FOOTER */}
-        <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-              <div className="lg:col-span-2">
-                 <div className="flex items-center gap-6 mb-16">
-                    <div className="w-16 h-16 bg-cyan-600 flex items-center justify-center">
-                      <Atom className="w-10 h-10 text-black" />
-                    </div>
-                    <span className="text-4xl font-black uppercase tracking-tighter italic">BIO<span className="text-white/20">_SYNC.</span></span>
-                 </div>
-                 <p className="text-white/20 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
-                    "L'avenir de l'humanité est écrit en code et en bionique." — Archive Bio-Sync V.9
-                 </p>
-                 <div className="flex gap-16">
-                    {["NeuralLog", "AugmentRegistry", "GitHub", "X_Protocol"].map(s => (
-                      <Link key={s} href="#" className="text-[11px] font-black uppercase tracking-widest text-white/20 hover:text-cyan-400 transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
-                    ))}
-                 </div>
+              <p style={{ fontSize: 13, color: "rgba(240,232,216,0.35)", fontFamily: "system-ui", lineHeight: 1.8, maxWidth: 280 }}>
+                32 quai de Valmy, 75010 Paris — Ouvert 7h–20h, 7j/7<br />01 42 38 XX XX — hello@brulerieducanal.fr
+              </p>
+              <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
+                {[Instagram, Facebook].map((Icon, i) => (
+                  <motion.button key={i} whileHover={{ scale: 1.15 }} style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "rgba(240,232,216,0.35)" }}>
+                    <Icon size={14} />
+                  </motion.button>
+                ))}
               </div>
-
+            </div>
+            <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
               {[
-                { t: "AUGMENTATIONS", l: ["Neural Mesh", "Optical HUD", "Kinetic Servos", "Bio Filters"] },
-                { t: "SERVICES", l: ["Neural Sync", "Bio Audit", "System Repair", "Uptime S9"] },
-                { t: "FIRM", l: ["Our Legacy", "Ethics Council", "Locations", "Support"] }
-              ].map((col, i) => (
-                <div key={i} className="flex flex-col gap-12">
-                  <h4 className="text-[11px] font-black text-cyan-400 uppercase tracking-[0.6em] italic">{col.t}</h4>
-                  <ul className="flex flex-col gap-8">
-                    {col.l.map(link => (
-                      <li key={link} className="text-[11px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-[0.4em] italic">{link}</li>
-                    ))}
+                { title: "Carte", links: ["Cafés", "Thés & infusions", "Douceurs", "Boissons froides", "Brunch"] },
+                { title: "Infos", links: ["Notre histoire", "Nos cafés", "Ateliers", "Abonnements", "Contact"] },
+              ].map(col => (
+                <div key={col.title}>
+                  <h4 style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "#c8a050", marginBottom: 16, fontFamily: "system-ui" }}>{col.title.toUpperCase()}</h4>
+                  <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+                    {col.links.map(l => <li key={l}><a href="#" style={{ fontSize: 13, color: "rgba(240,232,216,0.35)", textDecoration: "none", fontFamily: "system-ui" }}>{l}</a></li>)}
                   </ul>
                 </div>
               ))}
-           </div>
-
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 BIO-SYNC BIONIC ENGINEERING AG. // ALL_RIGHTS_RESERVED</span>
-              <div className="flex gap-16">
-                 <span>STATUS: SYNCED</span>
-                 <span>LATENCY: 0.12ms (AVG)</span>
-                 <span>v9.4.0-STABLE</span>
-              </div>
-           </div>
-        </footer>
-      </main>
+            </div>
+          </div>
+          <Separator style={{ background: "rgba(255,255,255,0.05)", marginBottom: 20 }} />
+          <p style={{ fontSize: 12, color: "rgba(240,232,216,0.2)", fontFamily: "system-ui", textAlign: "center" }}>© 2024 Brûlerie du Canal — Café de spécialité Paris</p>
+        </div>
+      </footer>
     </div>
-  )
-}
-
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
-
-function Header({ isSyncActive }: { isSyncActive: boolean }) {
-  return (
-    <nav className="fixed top-0 left-0 right-0 z-[200] p-8 md:px-24 flex justify-between items-center">
-       <Link href="/" className="flex items-center gap-4 group">
-          <div className="w-12 h-12 bg-white flex items-center justify-center group-hover:bg-cyan-600 transition-colors duration-500">
-             <Atom className="w-8 h-8 text-black" />
-          </div>
-          <span className="text-2xl font-black uppercase tracking-tighter italic text-white">Bio<span className="text-white/20">_Sync.</span></span>
-       </Link>
-       
-       <div className="hidden lg:flex gap-16 text-[11px] font-black uppercase tracking-[0.4em] text-white/40">
-          {["Implants", "Sync", "Archives", "Atelier"].map(l => (
-            <Link key={l} href="#" className="hover:text-cyan-400 transition-colors italic">{l}</Link>
-          ))}
-       </div>
-
-       <div className="flex items-center gap-12">
-          <div className="hidden md:flex items-center gap-4">
-             <div className={`w-3 h-3 rounded-full transition-colors duration-500 ${isSyncActive ? "bg-cyan-400" : "bg-red-500"}`} />
-             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 italic">Link_{isSyncActive ? "Nominal" : "Interrupted"}</span>
-          </div>
-          <button className="px-10 py-4 bg-white text-black text-[11px] font-black uppercase tracking-[0.3em] hover:bg-cyan-600 hover:text-white transition-all italic">Inquire_Augment</button>
-       </div>
-    </nav>
   )
 }

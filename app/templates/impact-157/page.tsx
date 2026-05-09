@@ -1,474 +1,429 @@
 "use client"
-
-import React, { useState, useEffect, useRef } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
-} from "framer-motion"
+import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
+import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  Flame, Zap, Activity, Thermometer, 
-  Droplets, Wind, Mountain, Compass, 
-  ArrowRight, Menu, X, Plus, 
-  Maximize2, Share2, Download, ExternalLink, 
-  Archive, Hash, Wifi, BarChart3, 
-  Microscope, Fingerprint, Scan, Brain,
-  Layers, Frame, Box, Database, 
-  Server, Cpu, Target, ShieldCheck, 
-  Gauge, Timer, Orbit, Atom, 
-  Satellite, Milestone, Power, Settings,
-  AlertTriangle, Info, ChevronRight, Play,
-  Lock, Key, BookOpen, PenTool, Radio
-} from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { Progress } from "@/components/ui/progress"
+import { Separator } from "@/components/ui/separator"
+import { Gem, Star, Shield, Award, Heart, Package, Instagram, Facebook, Twitter, Menu, Check, ArrowRight, Sparkles, RefreshCw } from "lucide-react"
 
-/* ==========================================================================
-   VOLCANIC CORE DATASET (ULTRA DENSITY)
-   ========================================================================== */
-
-const EXTRACTION_SITES = [
-  {
-    id: "site-iceland-01",
-    name: "Reykjanes Breach",
-    depth: "4,500m",
-    temp: "420°C",
-    output: "1.2 GW",
-    geology: "Basaltic Crust",
-    status: "Optimal"
-  },
-  {
-    id: "site-java-04",
-    name: "Mount Merapi Node",
-    depth: "6,200m",
-    temp: "580°C",
-    output: "2.4 GW",
-    geology: "Andesitic Strata",
-    status: "Active"
-  },
-  {
-    id: "site-andes-09",
-    name: "Cotopaxi Vent",
-    depth: "3,800m",
-    temp: "390°C",
-    output: "0.8 GW",
-    geology: "Rhyolitic Formation",
-    status: "Maintenance"
-  }
-]
-
-const THERMAL_METRICS = [
-  { label: "Core Temperature", value: "1,200°C", trend: "Rising" },
-  { label: "Vapor Pressure", value: "220 bar", trend: "Stable" },
-  { label: "Seismic Activity", value: "1.2 Mw", trend: "Minimal" },
-  { label: "Grid Efficiency", value: "98.4%", trend: "Optimal" }
-]
-
-const ENERGY_LOGS = [
-  { timestamp: "08:42:12", event: "Thermal Siphon Synchronized", status: "SECURE" },
-  { timestamp: "08:42:15", event: "Turbine A-4 Speed: 3600 RPM", status: "STABLE" },
-  { timestamp: "08:42:18", event: "Output Flux: +4.2%", status: "OPTIMIZING" }
-]
-
-/* ==========================================================================
-   TECHNICAL COMPONENTS
-   ========================================================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y: 32 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function SeismicLine() {
+const COLLECTIONS = [
+  { name: "Éternité", desc: "Bagues solitaires & alliances — diamants GVS, platine 950", img: "photo-1515562141207-7a88fb7ce338", items: 24, from: "1 890 €" },
+  { name: "Soleil d'Or", desc: "Colliers & pendentifs — or jaune 18K, pierres naturelles", img: "photo-1599643478518-a784e5dc4c8f", items: 18, from: "480 €" },
+  { name: "Minuit Bleu", desc: "Bracelet & manchettes — saphirs de Ceylan, or blanc 18K", img: "photo-1630018548696-8e5e5b4d7c1b", items: 12, from: "740 €" },
+  { name: "Héritage", desc: "Boucles d'oreilles statement — opales, turquoises, ambre", img: "photo-1535632066927-ab7c9ab60908", items: 30, from: "320 €" },
+]
+
+const MATERIALS = [
+  { icon: Gem, name: "Diamants certifiés GIA", desc: "Chaque diamant est certifié par le GIA (Gemological Institute of America) — couleur D-F, pureté VS, taille Excellent." },
+  { icon: Award, name: "Or 18K & Platine 950", desc: "Nous utilisons uniquement de l'or 18 carats et du platine 950 d'origine traçable, recyclé ou extrait de manière éthique." },
+  { icon: Shield, name: "Pierres précieuses sourcées", desc: "Rubis du Mozambique, émeraudes de Colombie, saphirs de Ceylan — chaque pierre est accompagnée d'un certificat d'origine." },
+  { icon: Sparkles, name: "Artisanat parisien", desc: "Chaque pièce est réalisée à la main dans notre atelier du Marais, Paris, par des artisans formés aux Beaux-Arts et à l'École de Joaillerie." },
+]
+
+const STATS = [
+  { val: "1 200+", label: "Pièces créées" },
+  { val: "18K", label: "Or certifié" },
+  { val: "35 ans", label: "Maîtrise artisanale" },
+  { val: "4.9/5", label: "Avis clients" },
+  { val: "GIA", label: "Certification diamants" },
+]
+
+const TESTIMONIALS = [
+  { name: "Marianne Voss", role: "Bague de fiançailles", rating: 5, text: "Je cherchais une bague unique pour ma demande en mariage. L'équipe d'Aurum a créé une pièce qui a fait pleurer ma fiancée. Un travail exceptionnel, un service irréprochable.", avatar: "MV" },
+  { name: "Thomas Girard", role: "Alliance personnalisée", rating: 5, text: "Nos alliances sur mesure sont parfaites. Le processus de création — du dessin initial aux essayages — était une expérience en soi. Merci à toute l'équipe.", avatar: "TG" },
+  { name: "Camille Fontaine", role: "Collier Éternité", rating: 5, text: "Le collier avec le diamant de ma grand-mère réinserti dans un nouveau design contemporain est magnifique. Aurum a su respecter l'histoire de la pierre tout en créant quelque chose de moderne.", avatar: "CF" },
+  { name: "Alexandre Petit", role: "Boucles Héritage", rating: 5, text: "J'offre systématiquement les bijoux Aurum pour les occasions importantes. La qualité est constante, l'emballage soigné, et chaque pièce raconte une histoire.", avatar: "AP" },
+  { name: "Sophie Renard", role: "Bracelet Minuit Bleu", rating: 5, text: "Les saphirs sont d'une couleur et d'une clarté absolument remarquables. Le bracelet est devenu la pièce de joaillerie dont je reçois le plus de compliments.", avatar: "SR" },
+]
+
+const PRICING = [
+  { name: "Signature", price: "480", desc: "Pièces prêt-à-porter de la collection", features: ["Bijoux de la collection en stock", "Or 18K & argent sterling", "Pierres semi-précieuses sélectionnées", "Écrin Aurum signature", "Certificat d'authenticité", "Gravure offerte"] },
+  { name: "Sur Mesure", price: "1 890", desc: "Création unique à votre image", featured: true, features: ["Consultation atelier 60 min", "Design exclusif & moodboard", "Matériaux premium certifiés", "Diamants & pierres GIA", "3 essayages inclus", "Livraison assurée", "Garantie 10 ans atelier"] },
+  { name: "Prestige", price: "Sur devis", desc: "Pièces de haute joaillerie", features: ["Diamants D-IF exclusifs", "Platine 950 ou or 24K", "Pierres rares & collection", "Atelier privé dédié", "Expertise GIA sur site", "Assurance & coffre-fort", "Service après-vente vie"] },
+]
+
+const FAQS = [
+  { q: "Proposez-vous des bijoux sur mesure ?", a: "Absolument. La création sur mesure est au cœur de notre maison. Après une consultation gratuite dans notre atelier du Marais, nos artisans créent un dessin unique avant la réalisation." },
+  { q: "Quels matériaux utilisez-vous ?", a: "Nous travaillons exclusivement avec de l'or 18 carats (jaune, blanc, rose), du platine 950, de l'argent 925 Sterling, et des pierres précieuses certifiées GIA ou accompagnées d'un certificat d'origine." },
+  { q: "Comment sont certifiés vos diamants ?", a: "Tous nos diamants de plus de 0,30 ct sont certifiés GIA (Gemological Institute of America), le plus strict organisme de certification mondial. Chaque certificat accompagne votre bijou." },
+  { q: "Acceptez-vous la reprise ou la transformation d'anciens bijoux ?", a: "Oui, c'est l'un de nos services les plus demandés. Vous apportez un bijou de famille, nous extraisons les pierres et les remettons en valeur dans un nouveau design qui vous ressemble." },
+  { q: "Quels sont les délais pour une création sur mesure ?", a: "Comptez 4 à 8 semaines selon la complexité de la pièce. Pour les occasions urgentes (demande en mariage imminente !), nous proposons un service express de 2 semaines sur certaines créations." },
+  { q: "Proposez-vous des cartes cadeaux ?", a: "Oui, disponibles en boutique et en ligne, de 100 € à 5 000 €. Valables 12 mois, elles sont échangeables contre toute pièce de la collection ou en acompte sur une création sur mesure." },
+  { q: "Quelle est votre garantie ?", a: "Nos pièces sur mesure sont garanties 10 ans contre les défauts de fabrication. Nous proposons également un service d'entretien annuel (nettoyage, rhodiage, vérification des griffes) à tarif préférentiel." },
+]
+
+export default function AurumJewelryPage() {
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [selectedCollection, setSelectedCollection] = useState(0)
+  const heroRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"])
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+
   return (
-    <div className="flex gap-1 h-12 items-end opacity-20">
-       {[...Array(24)].map((_, i) => (
-         <motion.div 
-            key={i}
-            animate={{ height: ["10%", "100%", "30%", "70%", "10%"] }}
-            transition={{ duration: 1, repeat: Infinity, delay: i * 0.05 }}
-            className="w-1 bg-[#ff4d00]"
-         />
-       ))}
-    </div>
-  )
-}
+    <div style={{ overflowX: "hidden", scrollBehavior: "smooth", background: "#0a0806", color: "#f4ede3", fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
 
-/* ==========================================================================
-   THE VOLCANIC CORE - MAIN INTERFACE
-   ========================================================================== */
+      {/* NAVBAR */}
+      <motion.nav initial={{ y: -80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, backdropFilter: "blur(20px)", background: "rgba(10,8,6,0.88)", borderBottom: "1px solid rgba(212,180,140,0.12)" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 12, textDecoration: "none" }}>
+            <Gem size={18} color="#c9a96e" />
+            <span style={{ fontSize: 22, fontWeight: 400, color: "#f4ede3", letterSpacing: "0.18em" }}>AURUM</span>
+          </Link>
+          <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="hidden md:flex">
+            {["Collections", "Sur Mesure", "Atelier", "Contact"].map(item => (
+              <a key={item} href={`#${item.toLowerCase().replace(" ", "")}`}
+                style={{ color: "rgba(244,237,227,0.5)", textDecoration: "none", fontSize: 13, fontFamily: "system-ui", letterSpacing: "0.1em", transition: "color 0.2s" }}
+                onMouseEnter={e => (e.currentTarget.style.color = "#c9a96e")}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(244,237,227,0.5)")}>
+                {item.toUpperCase()}
+              </a>
+            ))}
+            <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
+              style={{ padding: "9px 22px", background: "transparent", color: "#c9a96e", border: "1px solid rgba(201,169,110,0.4)", borderRadius: 2, fontSize: 12, fontFamily: "system-ui", fontWeight: 600, letterSpacing: "0.1em", cursor: "pointer" }}>
+              BOUTIQUE
+            </motion.button>
+          </div>
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild>
+              <button style={{ background: "none", border: "none", color: "#f4ede3", cursor: "pointer" }} className="md:hidden block"><Menu size={24} /></button>
+            </SheetTrigger>
+            <SheetContent side="right" style={{ background: "#0a0806", borderLeft: "1px solid rgba(201,169,110,0.1)" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 28, paddingTop: 60 }}>
+                {["Collections", "Sur Mesure", "Atelier", "Contact"].map(item => (
+                  <a key={item} href="#" onClick={() => setMobileOpen(false)} style={{ color: "#f4ede3", textDecoration: "none", fontSize: 20, letterSpacing: "0.12em" }}>{item}</a>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </motion.nav>
 
-export default function VolcanicCorePremium() {
-  const [activeSite, setActiveSite] = useState(0)
-  const [powerActive, setPowerActive] = useState(false)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Thermal Gradient Effects
-  const bgColor = useTransform(scrollYProgress, [0, 0.5, 1], ["#050505", "#1a0800", "#330f00"])
-  const drillDepth = useTransform(scrollYProgress, [0, 1], [0, 10000])
-  const drillTemp = useTransform(scrollYProgress, [0, 1], [20, 1200])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-
-  return (
-    <motion.div 
-      ref={containerRef} 
-      style={{ backgroundColor: bgColor }}
-      className="text-[#e0e2e5] font-mono selection:bg-[#ff4d00]/30 selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000"
-    >
-      
-      {/* GLOBAL HUD OVERLAY */}
-      <HUD_Overlay />
-
-      {/* ==========================================
-          1. THERMAL IGNITION (HERO)
-          ========================================== */}
-      <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-        {/* Background Heat Ripple */}
-        <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,#ff4d0008_1px,transparent_1px)] bg-[size:60px_60px]" />
-        
-        <motion.div style={{ opacity: heroOpacity }} className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
-           <div className="w-[90vw] h-[90vw] border border-[#ff4d0010] rounded-full animate-spin-slow" />
-           <div className="absolute w-[70vw] h-[70vw] border border-[#ff4d0005] rounded-full animate-reverse-spin" />
-           <div className="absolute w-1/2 h-1/2 bg-[#ff4d0005] blur-[150px] rounded-full animate-pulse" />
+      {/* HERO */}
+      <section ref={heroRef} style={{ position: "relative", height: "100vh", minHeight: 700, display: "flex", alignItems: "center", overflow: "hidden" }}>
+        <motion.div style={{ position: "absolute", inset: 0, y: bgY }}>
+          <Image src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1600&q=80" alt="Bijoux de luxe" fill style={{ objectFit: "cover" }} priority />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(110deg, rgba(10,8,6,0.88) 40%, rgba(10,8,6,0.45) 100%)" }} />
         </motion.div>
 
-        <div className="relative z-10 text-center max-w-7xl">
-           <Reveal>
-              <div className="inline-flex items-center gap-4 px-4 py-1 border border-[#ff4d0030] bg-[#ff4d0005] text-[10px] font-black uppercase tracking-[0.5em] text-[#ff4d00] mb-12 italic">
-                 <Flame className="w-3 h-3" /> Core_Status: Critical_Heat_Flux
-              </div>
-              <h1 className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic">
-                Volcanic <br/> <span className="text-white/5 italic">Energy.</span>
-              </h1>
-              <p className="max-w-2xl mx-auto text-sm md:text-base text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16 italic">
-                 Ingénierie géothermique de profondeur extrême. Nous exploitons l'énergie primaire de la Terre pour alimenter le futur sans émission.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                 <button className="px-12 py-5 bg-[#ff4d00] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_40px_rgba(255,77,0,0.3)] flex items-center gap-4">
-                    <Power className="w-4 h-4" /> Initialize Drill
-                 </button>
-                 <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4">
-                    <Database className="w-4 h-4" /> Geological Archives
-                 </button>
-              </div>
-           </Reveal>
-        </div>
+        <motion.div style={{ position: "relative", zIndex: 10, padding: "0 10vw", maxWidth: 680, opacity }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <Badge style={{ background: "rgba(201,169,110,0.1)", color: "#c9a96e", border: "1px solid rgba(201,169,110,0.3)", fontSize: 11, letterSpacing: "0.15em", marginBottom: 32, fontFamily: "system-ui", padding: "6px 16px" }}>
+              MAISON DE JOAILLERIE — PARIS, DEPUIS 1989
+            </Badge>
+          </motion.div>
 
-        {/* DEPTH METRICS */}
-        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-8">
-           <div className="flex flex-col gap-4 text-left">
-              <span className="text-[8px] font-black uppercase tracking-[0.5em] text-white/20 italic">Live_Borehole_Visualizer</span>
-              <div className="flex items-center gap-8">
-                 <div className="flex flex-col">
-                    <motion.span className="text-4xl font-black italic text-[#ff4d00] leading-none">
-                       {useSpring(drillDepth, { stiffness: 50 }).get().toFixed(0)}m
-                    </motion.span>
-                    <span className="text-[8px] font-black uppercase text-white/20 italic">Current Depth</span>
-                 </div>
-                 <div className="w-px h-12 bg-white/10" />
-                 <div className="flex flex-col">
-                    <motion.span className="text-4xl font-black italic text-[#ff4d00] leading-none">
-                       {useSpring(drillTemp, { stiffness: 50 }).get().toFixed(0)}°C
-                    </motion.span>
-                    <span className="text-[8px] font-black uppercase text-white/20 italic">Internal Temp</span>
-                 </div>
+          <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            style={{ fontSize: "clamp(44px, 7vw, 88px)", fontWeight: 300, lineHeight: 1.0, letterSpacing: "-0.01em", marginBottom: 28, color: "#f4ede3" }}>
+            L'art de<br />sublimer<br /><em style={{ color: "#c9a96e", fontStyle: "italic" }}>l'éternel.</em>
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
+            style={{ fontSize: 17, color: "rgba(244,237,227,0.65)", fontFamily: "system-ui", lineHeight: 1.75, marginBottom: 44, maxWidth: 440 }}>
+            Bijoux haute joaillerie créés à la main dans notre atelier parisien. Diamants GIA, or 18K, pierres précieuses sourcées éthiquement.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.45 }}
+            style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+            <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(201,169,110,0.25)" }} whileTap={{ scale: 0.97 }}
+              style={{ padding: "16px 36px", background: "#c9a96e", color: "#0a0806", border: "none", borderRadius: 2, fontSize: 12, fontFamily: "system-ui", fontWeight: 700, letterSpacing: "0.12em", cursor: "pointer" }}>
+              DÉCOUVRIR LES COLLECTIONS
+            </motion.button>
+            <motion.button whileHover={{ scale: 1.04 }}
+              style={{ padding: "16px 36px", background: "transparent", color: "#f4ede3", border: "1px solid rgba(244,237,227,0.2)", borderRadius: 2, fontSize: 12, fontFamily: "system-ui", letterSpacing: "0.12em", cursor: "pointer" }}>
+              CRÉER SUR MESURE
+            </motion.button>
+          </motion.div>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.9, duration: 0.7 }}
+          style={{ position: "absolute", right: 48, bottom: 100, background: "rgba(255,255,255,0.04)", backdropFilter: "blur(16px)", border: "1px solid rgba(201,169,110,0.2)", borderRadius: 8, padding: "20px 24px", zIndex: 10 }}>
+          <div style={{ fontSize: 30, fontWeight: 300, color: "#c9a96e" }}>GIA</div>
+          <div style={{ fontSize: 11, color: "rgba(244,237,227,0.45)", fontFamily: "system-ui", letterSpacing: "0.08em" }}>Diamants certifiés</div>
+        </motion.div>
+      </section>
+
+      {/* STATS */}
+      <section style={{ padding: "44px 32px", background: "rgba(201,169,110,0.04)", borderTop: "1px solid rgba(201,169,110,0.1)", borderBottom: "1px solid rgba(201,169,110,0.1)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", flexWrap: "wrap", gap: 32, justifyContent: "center" }}>
+          {STATS.map((s, i) => (
+            <Reveal key={i} delay={i * 0.1}>
+              <div style={{ textAlign: "center", minWidth: 130 }}>
+                <div style={{ fontSize: 34, fontWeight: 300, color: "#c9a96e", letterSpacing: "0.02em" }}>{s.val}</div>
+                <div style={{ fontSize: 11, color: "rgba(244,237,227,0.4)", fontFamily: "system-ui", letterSpacing: "0.1em", marginTop: 6 }}>{s.label.toUpperCase()}</div>
               </div>
-           </div>
-           <div className="text-right flex flex-col items-end gap-2">
-              <span className="text-[8px] font-black uppercase tracking-[0.5em] text-[#ff4d00]">Seismic_Activity_Monitor</span>
-              <SeismicLine />
-           </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
-      {/* ==========================================
-          2. EXTRACTION MATRIX (DENSE GRID)
-          ========================================== */}
-      <section className="py-60 bg-black/40 relative border-y border-white/5 overflow-hidden">
-         <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-            <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-               <Reveal>
-                  <span className="text-[10px] font-black uppercase tracking-[0.6em] text-[#ff4d00] block mb-6 italic underline underline-offset-8">Geothermal // Sites</span>
-                  <h2 className="text-6xl md:text-[9vw] font-black uppercase tracking-tighter italic leading-none">Extraction.</h2>
-               </Reveal>
-               <div className="text-right">
-                  <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Global_Network</span>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#ff4d00]">L'Architecture de la Terre</p>
-               </div>
+      {/* COLLECTIONS */}
+      <section id="collections" style={{ padding: "100px 32px" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 64 }}>
+              <Badge style={{ background: "rgba(201,169,110,0.1)", color: "#c9a96e", border: "1px solid rgba(201,169,110,0.25)", fontSize: 11, letterSpacing: "0.15em", marginBottom: 20, fontFamily: "system-ui" }}>NOS COLLECTIONS</Badge>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 54px)", fontWeight: 300, letterSpacing: "-0.01em", color: "#f4ede3" }}>
+                Quatre univers, <em style={{ color: "#c9a96e", fontStyle: "italic" }}>une obsession</em>
+              </h2>
             </div>
+          </Reveal>
 
-            <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5">
-               {EXTRACTION_SITES.map((site, i) => (
-                 <Reveal key={site.id} delay={i * 0.1}>
-                    <div className="bg-[#050505] p-16 flex flex-col h-full hover:bg-white/5 transition-all group cursor-crosshair">
-                       <div className="flex justify-between items-start mb-16">
-                          <div className="w-12 h-12 bg-white/5 flex items-center justify-center group-hover:bg-[#ff4d00] transition-all duration-500">
-                             <Mountain className="w-6 h-6 text-[#ff4d00] group-hover:text-black" />
-                          </div>
-                          <span className="px-3 py-1 bg-[#ff4d0010] text-[#ff4d00] text-[8px] font-black uppercase tracking-widest">{site.status}</span>
-                       </div>
-                       
-                       <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 italic">{site.name}</h3>
-                       <div className="text-[10px] font-black text-[#ff4d00]/60 uppercase tracking-widest mb-8">{site.geology}</div>
-                       
-                       <div className="space-y-6 mb-16 border-l border-[#ff4d0020] pl-6">
-                          <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
-                             <span className="text-white/20">Depth</span>
-                             <span className="text-white group-hover:text-[#ff4d00] transition-colors">{site.depth}</span>
-                          </div>
-                          <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
-                             <span className="text-white/20">Temperature</span>
-                             <span className="text-white group-hover:text-[#ff4d00] transition-colors">{site.temp}</span>
-                          </div>
-                          <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
-                             <span className="text-white/20">Net Output</span>
-                             <span className="text-white group-hover:text-[#ff4d00] transition-colors">{site.output}</span>
-                          </div>
-                       </div>
-
-                       <div className="mt-auto flex justify-between items-center pt-8 border-t border-white/5">
-                          <div className="flex items-center gap-3">
-                             <Hash className="w-4 h-4 text-white/20" />
-                             <span className="text-[9px] font-black uppercase tracking-widest text-white/40">Node_ID: {site.id}</span>
-                          </div>
-                          <ChevronRight className="w-6 h-6 text-white/10 group-hover:text-[#ff4d00] group-hover:translate-x-2 transition-all" />
-                       </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 20 }}>
+            {COLLECTIONS.map((col, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <motion.div whileHover={{ y: -6, boxShadow: "0 16px 48px rgba(0,0,0,0.6)" }}
+                  style={{ borderRadius: 4, overflow: "hidden", cursor: "pointer", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(201,169,110,0.1)" }}>
+                  <div style={{ position: "relative", aspectRatio: "3/4" }}>
+                    <Image src={`https://images.unsplash.com/${col.img}?w=500&q=80`} alt={col.name} fill style={{ objectFit: "cover" }} />
+                    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, rgba(10,8,6,0.8) 0%, transparent 60%)" }} />
+                    <div style={{ position: "absolute", bottom: 20, left: 20, right: 20 }}>
+                      <h3 style={{ fontSize: 22, fontWeight: 300, letterSpacing: "0.08em", marginBottom: 4 }}>{col.name}</h3>
+                      <p style={{ fontSize: 12, color: "rgba(244,237,227,0.6)", fontFamily: "system-ui", lineHeight: 1.5 }}>{col.desc}</p>
                     </div>
-                 </Reveal>
-               ))}
-            </div>
-         </div>
-      </section>
-
-      {/* ==========================================
-          3. POWER CONVERSION (INTERACTIVE)
-          ========================================== */}
-      <section className="py-60 bg-black/60 relative border-y border-white/5 overflow-hidden">
-         <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-            <div className="grid lg:grid-cols-2 gap-32 items-center">
-               <div>
-                  <Reveal>
-                     <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[#ff4d00] block mb-12 italic underline underline-offset-8">Advanced // Conversion_Cycle</span>
-                     <h2 className="text-6xl md:text-[8vw] font-light italic leading-none text-white mb-12 uppercase tracking-tighter">
-                        The <br/> <span className="not-italic font-black text-white/5 italic">Primary_Power.</span>
-                     </h2>
-                     <p className="text-xl font-light text-white/20 leading-relaxed mb-20 italic uppercase tracking-widest">
-                        Conversion thermodynamique à cycle binaire. Nous transformons la chaleur extrême du magma en une électricité stable et propre, alimentant des métropoles entières.
-                     </p>
-                     <div className="grid grid-cols-2 gap-8 mb-20">
-                        {THERMAL_METRICS.map((stat, i) => (
-                          <div key={i} className="p-10 bg-black/40 border border-[#ff4d0010] group hover:border-[#ff4d0030] transition-all">
-                             <div className="text-[9px] font-black uppercase text-[#ff4d00] mb-4 tracking-[0.3em]">{stat.label}</div>
-                             <div className="text-4xl font-light text-white italic">{stat.value}</div>
-                             <div className="flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest text-white/20 italic">
-                                <Activity className="w-3 h-3" /> {stat.trend}
-                             </div>
-                          </div>
-                        ))}
-                     </div>
-                     <button 
-                      onClick={() => setPowerActive(!powerActive)}
-                      className="w-full py-6 bg-[#ff4d00] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-2xl flex items-center justify-center gap-4"
-                     >
-                        <Power className="w-4 h-4" /> Toggle Heat Siphon
-                     </button>
-                  </Reveal>
-               </div>
-               
-               <div className="relative">
-                  <Reveal delay={0.3} x={40}>
-                     <div className="aspect-square bg-black border border-white/10 p-16 flex flex-col justify-between relative group overflow-hidden">
-                        <div className="absolute top-0 right-0 p-60 bg-[#ff4d00] opacity-[0.03] blur-[120px] rounded-full group-hover:opacity-[0.1] transition-opacity" />
-                        
-                        <div className="flex justify-between items-start z-10">
-                           <div className="flex flex-col gap-2">
-                              <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">System_ID // THERMAL-SYNC-v4</span>
-                              <span className="text-[10px] font-black text-white uppercase tracking-[0.4em]">Turbine_Flow_Analysis</span>
-                           </div>
-                           <Wifi className="w-5 h-5 text-[#ff4d00]" />
-                        </div>
-                        
-                        <div className="relative z-10 flex flex-col items-center gap-12">
-                           <div className="w-32 h-32 border-2 border-dashed border-[#ff4d0020] rounded-full flex items-center justify-center relative">
-                              <motion.div 
-                                animate={{ rotate: 360 }}
-                                transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                                className="absolute inset-0 border-t-2 border-[#ff4d00] rounded-full" 
-                              />
-                              <Atom className="w-12 h-12 text-[#ff4d00]" />
-                           </div>
-                           <div className="text-center space-y-4">
-                              <div className={`text-4xl font-black italic tracking-tighter ${powerActive ? "text-[#ff4d00] animate-pulse" : "text-white/20"}`}>
-                                 {powerActive ? "SIPHON_ACTIVE" : "STANDBY"}
-                              </div>
-                              <span className="text-[9px] font-bold text-white/10 uppercase tracking-[0.5em]">Auth_Node: ICELAND_CORE_RELAY</span>
-                           </div>
-                        </div>
-
-                        <div className="relative z-10 flex gap-4">
-                           <div className="flex-1 h-1 bg-white/5 overflow-hidden">
-                              <motion.div 
-                                animate={powerActive ? { x: ["-100%", "100%"] } : {}}
-                                transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                                className="w-1/2 h-full bg-[#ff4d00]"
-                              />
-                           </div>
-                        </div>
-                     </div>
-                  </Reveal>
-               </div>
-            </div>
-         </div>
-      </section>
-
-      {/* ==========================================
-          4. SEISMIC SAFETY (TECH STORYTELLING)
-          ========================================== */}
-      <section className="py-60 relative overflow-hidden">
-         <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-            <div className="grid lg:grid-cols-2 gap-32 items-center">
-               <div className="relative aspect-[4/5] overflow-hidden group border border-white/10 shadow-2xl">
-                  <Image 
-                     src="https://images.unsplash.com/photo-1518005020250-ee29de9d282e?q=80&w=1200&auto=format&fit=crop" 
-                     alt="Magma Texture" 
-                     fill 
-                     className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
-                  />
-                  <div className="absolute inset-0 bg-[#ff4d0020] mix-blend-color group-hover:opacity-0 transition-opacity" />
-                  <div className="absolute inset-0 p-16 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                     <div className="text-white">
-                        <span className="text-[10px] font-black uppercase tracking-[0.6em] text-[#ff4d00] mb-6 block italic underline underline-offset-8">Critical // Seismic // Audit</span>
-                        <h4 className="text-5xl font-black tracking-tighter uppercase italic mb-8">Structural <br/> Core Integrity.</h4>
-                        <button className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest border-b border-[#ff4d00] pb-2">
-                           Safety Protocols <ExternalLink className="w-4 h-4" />
-                        </button>
-                     </div>
                   </div>
-               </div>
-
-               <div>
-                  <Reveal>
-                     <div className="mb-24">
-                        <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[#ff4d00] mb-8 block italic">Chapitre III // Safety</span>
-                        <h2 className="text-6xl md:text-[8vw] font-black tracking-tighter uppercase text-white italic leading-none">Safe_Duct.</h2>
-                     </div>
-                     <p className="text-xl font-light text-white/30 leading-relaxed italic mb-16 uppercase tracking-widest">
-                        L'extraction géothermique profonde exige une surveillance sismologique absolue. Nos capteurs nanométriques détectent les micro-fractures avant même qu'elles n'apparaissent.
-                     </p>
-                     <div className="space-y-16">
-                        {[
-                          { t: "Tectonic Locking", d: "Stabilisation hydrostatique des zones de faille pour prévenir tout déclenchement sismique accidentel." },
-                          { t: "Pressure Shielding", d: "Revêtements de forage en titane-céramique capables de résister à des pressions de plus de 1000 bar." },
-                          { t: "Predictive Shutdown", d: "Algorithmes d'IA coupant instantanément le flux en cas de divergence thermique anormale." }
-                        ].map((step, i) => (
-                          <div key={i} className="group flex gap-12 border-b border-white/5 pb-12 hover:border-[#ff4d0030] transition-all cursor-default">
-                             <div className="text-5xl font-black text-white/5 group-hover:text-[#ff4d0020] transition-colors italic">0{i+1}</div>
-                             <div>
-                                <h5 className="text-2xl font-bold uppercase tracking-tight text-white mb-4 italic group-hover:text-[#ff4d00] transition-colors">{step.t}</h5>
-                                <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] font-bold leading-relaxed">{step.d}</p>
-                             </div>
-                          </div>
-                        ))}
-                     </div>
-                  </Reveal>
-               </div>
-            </div>
-         </div>
+                  <div style={{ padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span style={{ fontSize: 12, color: "rgba(244,237,227,0.4)", fontFamily: "system-ui", letterSpacing: "0.08em" }}>{col.items} pièces</span>
+                    <span style={{ fontSize: 14, color: "#c9a96e", fontFamily: "system-ui" }}>À partir de {col.from}</span>
+                  </div>
+                </motion.div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </section>
 
-      {/* MEGA FOOTER */}
-      <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-            <div className="lg:col-span-2">
-               <div className="flex items-center gap-4 mb-12">
-                  <div className="w-12 h-12 bg-[#ff4d00] flex items-center justify-center">
-                    <Flame className="w-8 h-8 text-black" />
-                  </div>
-                  <span className="text-3xl font-black uppercase tracking-tighter italic">VOLCANIC<span className="text-[#ff4d00]">_CORE.</span></span>
-               </div>
-               <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.4em] leading-loose max-w-sm mb-16 italic">
-                  "L'énergie est sous nos pieds, nous avons juste appris à l'écouter." — Archive Volcanic V.4
-               </p>
-               <div className="flex gap-12">
-                  {["EnergyLog", "ThermalRegistry", "GitHub", "X_Protocol"].map(s => (
-                    <Link key={s} href="#" className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-[#ff4d00] transition-colors italic">{s}</Link>
-                  ))}
-               </div>
+      {/* MATÉRIAUX TABS */}
+      <section id="surmesure" style={{ padding: "100px 32px", background: "rgba(255,255,255,0.02)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 56 }}>
+              <Badge style={{ background: "rgba(201,169,110,0.1)", color: "#c9a96e", border: "1px solid rgba(201,169,110,0.25)", fontSize: 11, letterSpacing: "0.15em", marginBottom: 20, fontFamily: "system-ui" }}>NOTRE SAVOIR-FAIRE</Badge>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 300, color: "#f4ede3" }}>
+                L'excellence <em style={{ color: "#c9a96e", fontStyle: "italic" }}>à chaque détail</em>
+              </h2>
             </div>
+          </Reveal>
 
+          <Tabs defaultValue="mat0" style={{ width: "100%" }}>
+            <TabsList style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(201,169,110,0.12)", marginBottom: 40, display: "flex", height: "auto", padding: 4, gap: 4 }}>
+              {MATERIALS.map((m, i) => (
+                <TabsTrigger key={i} value={`mat${i}`} style={{ flex: 1, fontSize: 12, fontFamily: "system-ui", color: "rgba(244,237,227,0.5)", letterSpacing: "0.06em" }}>{m.name.split(" ")[0]}</TabsTrigger>
+              ))}
+            </TabsList>
+
+            {MATERIALS.map((mat, i) => (
+              <TabsContent key={i} value={`mat${i}`}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
+                  <div>
+                    <div style={{ width: 52, height: 52, borderRadius: 12, background: "rgba(201,169,110,0.1)", border: "1px solid rgba(201,169,110,0.2)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 24 }}>
+                      <mat.icon size={22} color="#c9a96e" />
+                    </div>
+                    <h3 style={{ fontSize: 28, fontWeight: 300, color: "#f4ede3", marginBottom: 16, letterSpacing: "0.02em" }}>{mat.name}</h3>
+                    <p style={{ fontSize: 16, color: "rgba(244,237,227,0.6)", fontFamily: "system-ui", lineHeight: 1.8, marginBottom: 28 }}>{mat.desc}</p>
+                    <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 12 }}>
+                      {["Traçabilité complète de l'origine", "Certification internationale", "Stock réservé & personnalisé", "Documentation complète fournie"].map(f => (
+                        <li key={f} style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 14, color: "rgba(244,237,227,0.6)", fontFamily: "system-ui" }}>
+                          <Check size={14} color="#c9a96e" style={{ flexShrink: 0 }} />{f}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div style={{ position: "relative", aspectRatio: "1/1", borderRadius: 8, overflow: "hidden" }}>
+                    <Image src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=600&q=80" alt="Matériaux" fill style={{ objectFit: "cover" }} />
+                  </div>
+                </div>
+              </TabsContent>
+            ))}
+          </Tabs>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section style={{ padding: "100px 32px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 52 }}>
+              <Badge style={{ background: "rgba(201,169,110,0.1)", color: "#c9a96e", border: "1px solid rgba(201,169,110,0.25)", fontSize: 11, letterSpacing: "0.15em", marginBottom: 20, fontFamily: "system-ui" }}>TÉMOIGNAGES</Badge>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 300, color: "#f4ede3" }}>Ce qu'ils portent, <em style={{ color: "#c9a96e", fontStyle: "italic" }}>ce qu'ils ressentent</em></h2>
+            </div>
+          </Reveal>
+
+          <Carousel opts={{ align: "start", loop: true }}>
+            <CarouselContent style={{ paddingLeft: 8 }}>
+              {TESTIMONIALS.map((t, i) => (
+                <CarouselItem key={i} style={{ paddingLeft: 16, flexBasis: "calc(50% - 8px)" }}>
+                  <Card style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(201,169,110,0.1)", borderRadius: 8 }}>
+                    <CardContent style={{ padding: 28 }}>
+                      <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>
+                        {Array.from({ length: t.rating }).map((_, j) => <Star key={j} size={13} fill="#c9a96e" color="#c9a96e" />)}
+                      </div>
+                      <p style={{ fontSize: 15, color: "rgba(244,237,227,0.65)", fontFamily: "system-ui", lineHeight: 1.75, marginBottom: 20, fontStyle: "italic" }}>"{t.text}"</p>
+                      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                        <Avatar><AvatarFallback style={{ background: "rgba(201,169,110,0.12)", color: "#c9a96e", fontSize: 12, fontWeight: 700 }}>{t.avatar}</AvatarFallback></Avatar>
+                        <div>
+                          <div style={{ fontSize: 14, fontWeight: 400, color: "#f4ede3", letterSpacing: "0.04em" }}>{t.name}</div>
+                          <div style={{ fontSize: 12, color: "rgba(244,237,227,0.35)", fontFamily: "system-ui" }}>{t.role}</div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(201,169,110,0.25)", color: "#c9a96e" }} />
+            <CarouselNext style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(201,169,110,0.25)", color: "#c9a96e" }} />
+          </Carousel>
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section style={{ padding: "100px 32px", background: "rgba(255,255,255,0.02)" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 60 }}>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 300, color: "#f4ede3" }}>Nos <em style={{ color: "#c9a96e", fontStyle: "italic" }}>formules</em></h2>
+            </div>
+          </Reveal>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+            {PRICING.map((plan, i) => (
+              <Reveal key={i} delay={i * 0.12}>
+                <motion.div whileHover={{ y: -6, boxShadow: plan.featured ? "0 20px 50px rgba(201,169,110,0.15)" : "0 8px 32px rgba(0,0,0,0.5)" }}
+                  style={{ borderRadius: 8, border: plan.featured ? "1px solid rgba(201,169,110,0.4)" : "1px solid rgba(255,255,255,0.05)", overflow: "hidden", cursor: "pointer", position: "relative" }}>
+                  {plan.featured && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "#c9a96e" }} />}
+                  <div style={{ padding: "32px 24px", background: plan.featured ? "rgba(201,169,110,0.04)" : "rgba(255,255,255,0.02)" }}>
+                    {plan.featured && <div style={{ display: "inline-block", background: "rgba(201,169,110,0.12)", color: "#c9a96e", fontSize: 10, letterSpacing: "0.14em", fontWeight: 700, padding: "3px 10px", borderRadius: 2, marginBottom: 12, fontFamily: "system-ui" }}>LE PLUS CHOISI</div>}
+                    <h3 style={{ fontSize: 22, fontWeight: 300, color: "#f4ede3", letterSpacing: "0.08em", marginBottom: 4 }}>{plan.name}</h3>
+                    <p style={{ fontSize: 13, color: "rgba(244,237,227,0.38)", fontFamily: "system-ui", marginBottom: 20 }}>{plan.desc}</p>
+                    <div style={{ marginBottom: 24 }}>
+                      {plan.price !== "Sur devis" && <span style={{ fontSize: 12, color: "rgba(244,237,227,0.38)", fontFamily: "system-ui" }}>À partir de </span>}
+                      <span style={{ fontSize: plan.price === "Sur devis" ? 20 : 36, fontWeight: 300, color: "#c9a96e" }}>{plan.price}</span>
+                      {plan.price !== "Sur devis" && <span style={{ fontSize: 14, color: "rgba(244,237,227,0.38)", fontFamily: "system-ui" }}> €</span>}
+                    </div>
+                    <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
+                      {plan.features.map(f => (
+                        <li key={f} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 13, color: "rgba(244,237,227,0.6)", fontFamily: "system-ui" }}>
+                          <Check size={13} color="#c9a96e" style={{ marginTop: 2, flexShrink: 0 }} />{f}
+                        </li>
+                      ))}
+                    </ul>
+                    <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                      style={{ width: "100%", padding: "12px", background: plan.featured ? "#c9a96e" : "transparent", color: plan.featured ? "#0a0806" : "#c9a96e", border: plan.featured ? "none" : "1px solid rgba(201,169,110,0.35)", borderRadius: 2, fontSize: 12, fontFamily: "system-ui", fontWeight: 700, letterSpacing: "0.1em", cursor: "pointer" }}>
+                      {plan.price === "Sur devis" ? "DEMANDER UN DEVIS" : "COMMANDER"}
+                    </motion.button>
+                  </div>
+                </motion.div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="atelier" style={{ padding: "100px 32px" }}>
+        <div style={{ maxWidth: 780, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 52 }}>
+              <Badge style={{ background: "rgba(201,169,110,0.1)", color: "#c9a96e", border: "1px solid rgba(201,169,110,0.25)", fontSize: 11, letterSpacing: "0.15em", marginBottom: 20, fontFamily: "system-ui" }}>FAQ</Badge>
+              <h2 style={{ fontSize: "clamp(26px, 4vw, 44px)", fontWeight: 300, color: "#f4ede3" }}>Vos questions</h2>
+            </div>
+          </Reveal>
+
+          <Accordion type="single" collapsible style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {FAQS.map((faq, i) => (
+              <AccordionItem key={i} value={`q${i}`} style={{ border: "1px solid rgba(201,169,110,0.1)", borderRadius: 4, overflow: "hidden", background: "rgba(255,255,255,0.02)" }}>
+                <AccordionTrigger style={{ padding: "18px 22px", fontSize: 15, fontWeight: 300, color: "#f4ede3", textAlign: "left", letterSpacing: "0.02em" }}>{faq.q}</AccordionTrigger>
+                <AccordionContent style={{ padding: "0 22px 18px", fontSize: 14, color: "rgba(244,237,227,0.55)", fontFamily: "system-ui", lineHeight: 1.8 }}>{faq.a}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section id="contact" style={{ padding: "80px 32px", background: "linear-gradient(135deg, rgba(201,169,110,0.08) 0%, rgba(201,169,110,0.03) 100%)", borderTop: "1px solid rgba(201,169,110,0.12)" }}>
+        <div style={{ maxWidth: 640, margin: "0 auto", textAlign: "center" }}>
+          <Reveal>
+            <Gem size={36} color="#c9a96e" style={{ marginBottom: 24 }} />
+            <h2 style={{ fontSize: "clamp(26px, 4vw, 52px)", fontWeight: 300, color: "#f4ede3", marginBottom: 16, letterSpacing: "-0.01em" }}>
+              Créez le bijou <em style={{ color: "#c9a96e", fontStyle: "italic" }}>de votre vie</em>
+            </h2>
+            <p style={{ fontSize: 16, color: "rgba(244,237,227,0.5)", fontFamily: "system-ui", lineHeight: 1.7, marginBottom: 36 }}>
+              Consultation gratuite en atelier. Devis personnalisé sous 48h. Livraison assurée dans le monde entier.
+            </p>
+            <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+              <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(201,169,110,0.25)" }} whileTap={{ scale: 0.97 }}
+                style={{ padding: "16px 36px", background: "#c9a96e", color: "#0a0806", border: "none", borderRadius: 2, fontSize: 12, fontFamily: "system-ui", fontWeight: 700, letterSpacing: "0.12em", cursor: "pointer" }}>
+                PRENDRE RENDEZ-VOUS
+              </motion.button>
+              <motion.button whileHover={{ scale: 1.04 }}
+                style={{ padding: "16px 36px", background: "transparent", color: "#c9a96e", border: "1px solid rgba(201,169,110,0.35)", borderRadius: 2, fontSize: 12, fontFamily: "system-ui", letterSpacing: "0.12em", cursor: "pointer" }}>
+                VOIR LA BOUTIQUE
+              </motion.button>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer style={{ padding: "56px 32px 36px", background: "#060402" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 40, marginBottom: 48 }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
+                <Gem size={16} color="#c9a96e" />
+                <span style={{ fontSize: 18, fontWeight: 300, color: "#c9a96e", letterSpacing: "0.18em" }}>AURUM</span>
+              </div>
+              <p style={{ fontSize: 13, color: "rgba(244,237,227,0.3)", fontFamily: "system-ui", lineHeight: 1.8, maxWidth: 260, marginBottom: 20 }}>
+                Maison de joaillerie artisanale fondée à Paris en 1989. 24 rue des Francs-Bourgeois, 75004 Paris.
+              </p>
+              <div style={{ display: "flex", gap: 10 }}>
+                {[Instagram, Facebook, Twitter].map((Icon, i) => (
+                  <motion.button key={i} whileHover={{ scale: 1.15 }} style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "rgba(244,237,227,0.35)" }}>
+                    <Icon size={14} />
+                  </motion.button>
+                ))}
+              </div>
+            </div>
             {[
-              { t: "EXTRACTION", l: ["Borehole Tech", "Magma Siphons", "Binary Cycles", "Coolant Systems"] },
-              { t: "GEOLOGY", l: ["Seismic Monitoring", "Strata Mapping", "Crustal Audit", "Plate Dynamics"] },
-              { t: "FACILITIES", l: ["Reykjanes Hub", "Andes Node", "Java Vent", "Global Command"] }
-            ].map((col, i) => (
-              <div key={i} className="flex flex-col gap-12">
-                <h4 className="text-[10px] font-black text-[#ff4d00] uppercase tracking-[0.5em] italic">{col.t}</h4>
-                <ul className="flex flex-col gap-6">
-                  {col.l.map(link => (
-                    <li key={link} className="text-[10px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-widest italic">{link}</li>
-                  ))}
+              { title: "Collections", links: ["Éternité", "Soleil d'Or", "Minuit Bleu", "Héritage", "Nouvelles pièces"] },
+              { title: "Services", links: ["Sur mesure", "Transformation", "Entretien", "Expertise", "Carte cadeau"] },
+              { title: "Maison", links: ["Notre histoire", "L'atelier", "Certifications", "Presse", "Contact"] },
+            ].map(col => (
+              <div key={col.title}>
+                <h4 style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.16em", color: "#c9a96e", marginBottom: 18, fontFamily: "system-ui" }}>{col.title.toUpperCase()}</h4>
+                <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+                  {col.links.map(l => <li key={l}><a href="#" style={{ fontSize: 13, color: "rgba(244,237,227,0.3)", textDecoration: "none", fontFamily: "system-ui" }}>{l}</a></li>)}
                 </ul>
               </div>
             ))}
-         </div>
-
-         <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-12 text-[8px] font-black text-white/10 uppercase tracking-[0.4em] italic">
-            <span>© 2026 VOLCANIC CORE HEAVY ENERGY INDUSTRIES AG. // ALL_RIGHTS_RESERVED</span>
-            <div className="flex gap-12">
-               <span>STATUS: GEOTHERMAL_OPTIMAL</span>
-               <span>GRID_LOAD: 42.4 GW</span>
-               <span>v4.2.0-STABLE</span>
-            </div>
-         </div>
+          </div>
+          <Separator style={{ background: "rgba(255,255,255,0.05)", marginBottom: 24 }} />
+          <p style={{ fontSize: 12, color: "rgba(244,237,227,0.18)", fontFamily: "system-ui", textAlign: "center" }}>© 2024 Aurum — Maison de Joaillerie Paris</p>
+        </div>
       </footer>
-    </div>
-  )
-}
-
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
-
-function HUD_Overlay() {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Corner Brackets */}
-       <div className="absolute top-12 left-12 w-16 h-16 border-t border-l border-white/10" />
-       <div className="absolute top-12 right-12 w-16 h-16 border-t border-r border-white/10" />
-       <div className="absolute bottom-12 left-12 w-16 h-16 border-b border-l border-white/10" />
-       <div className="absolute bottom-12 right-12 w-16 h-16 border-b border-r border-white/10" />
-
-       {/* Top Status Bar */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-16 bg-black/40 backdrop-blur-md px-10 py-3 border border-white/5 rounded-full">
-          <div className="flex items-center gap-4">
-             <div className="w-2 h-2 rounded-full bg-[#ff4d00] animate-pulse" />
-             <span className="text-[9px] font-black text-white/60 uppercase tracking-[0.2em]">Extraction_Active: Depth_Locked</span>
-          </div>
-          <div className="h-4 w-px bg-white/10" />
-          <div className="flex items-center gap-4 text-[9px] font-black text-white/20 uppercase tracking-[0.2em]">
-             <Wifi className="w-3 h-3" /> Earth_Relay: Secure
-          </div>
-       </div>
-
-       {/* Right Rotation Info */}
-       <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[8px] font-black uppercase tracking-[0.6em] text-white/5 italic">Unauthorized_Drilling_Beyond_Crustal_Boundary_Is_Strictly_Monitored_By_Global_Energy_Council</span>
-       </div>
     </div>
   )
 }

@@ -31,7 +31,6 @@ const HIDDEN_IMPACT = new Set([
   "impact-177","impact-178","impact-179","impact-180","impact-181","impact-182",
   "impact-183","impact-184","impact-185","impact-186","impact-187","impact-188","impact-189",
   "impact-190","impact-191","impact-192","impact-193","impact-194","impact-195",
-  "impact-197","impact-198","impact-199","impact-200",
   // ── Don't load / broken (confirmed via audit) ───────────────────────────────
   "impact-56","impact-59","impact-62","impact-65","impact-66","impact-113",
   // ── Duplicate / identical design ────────────────────────────────────────────

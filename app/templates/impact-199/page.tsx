@@ -1,529 +1,437 @@
 "use client"
-
-import React, { useState, useEffect, useRef } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
-} from "framer-motion"
+import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
+import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  Zap, Activity, Microscope, 
-  Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, Wifi, BarChart3, 
-  Fingerprint, Scan, Brain, Server, 
-  ShieldCheck, ShieldAlert, Award, 
-  Briefcase, Wind, Thermometer, 
-  Flame, Battery, Radio, Gauge, 
-  Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Satellite, 
-  Milestone, FlaskConical, FlaskRound, 
-  Ghost, Binary, Database, Search, 
-  Cpu, HeartPulse, Sun, Magnet, 
-  CircleDot, Waves, Pickaxe, Mountain, 
-  Gem, Rocket, Drill, PlaneTakeoff, 
-  ZapOff, GhostIcon, RadioReceiver, 
-  CpuIcon, Network, Eye, BrainCircuit, 
-  ZapIcon, Pulse
-} from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { Progress } from "@/components/ui/progress"
+import { Separator } from "@/components/ui/separator"
+import { Pen, Star, Clock, MapPin, Instagram, Menu, Check, Shield, Award, Zap, Eye, Heart, Droplets } from "lucide-react"
 
-/* ==========================================================================
-   THE NEURAL LINK DATASET (ULTRA DENSITY)
-   ========================================================================== */
-
-const COGNITIVE_ASSETS = [
-  {
-    id: "neu-v4-42",
-    name: "Neural-v4 Implant",
-    type: "Cortex Interface",
-    bandwidth: "142 Tbps",
-    latency: "0.2 ms",
-    stability: "99.8%",
-    desc: "Interface neuronale de quatrième génération offrant une fusion totale avec les systèmes d'IA de bord.",
-    status: "Synchronized"
-  },
-  {
-    id: "neu-cor-08",
-    name: "Cortex Link Alpha",
-    type: "Synaptic Bridge",
-    bandwidth: "88 Tbps",
-    latency: "0.5 ms",
-    stability: "99.99%",
-    desc: "Pont synaptique permettant la télépathie synthétique et le partage de mémoire vive entre plusieurs utilisateurs.",
-    status: "Uplink Active"
-  },
-  {
-    id: "neu-min-15",
-    name: "Mind Grid v5",
-    type: "Consciousness Stabilizer",
-    bandwidth: "250 Tbps",
-    latency: "0.1 ms",
-    stability: "99.4%",
-    desc: "Système de stabilisation critique pour les transferts de conscience longue durée vers des serveurs distants.",
-    status: "Locked"
-  }
-]
-
-const BRAIN_METRICS = [
-  { label: "Alpha Waves", value: "8.4 Hz", trend: "Stable" },
-  { label: "Beta Waves", value: "18.2 Hz", trend: "Increasing" },
-  { label: "Gamma Waves", value: "42 Hz", trend: "Peak" },
-  { label: "Neuro-Sync", value: "ACTIVE", trend: "Nominal" }
-]
-
-const NEURAL_LOGS = [
-  { timestamp: "34:14:42", unit: "Implant-Module-01", status: "SYNCING", phase: "Calibration" },
-  { timestamp: "34:14:45", unit: "Synaptic-Buffer", status: "UPLINKING", rate: "12Tb/s" },
-  { timestamp: "34:14:48", unit: "Cortex-Guard", status: "SECURE", drift: "0.001ms" }
-]
-
-/* ==========================================
-   TECHNICAL COMPONENTS
-   ========================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y: 32 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function SynapseFlowVisualizer() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
-  useEffect(() => {
-    const handleMouse = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
-    window.addEventListener("mousemove", handleMouse)
-    return () => window.removeEventListener("mousemove", handleMouse)
-  }, [])
+const STYLES = [
+  { name: "Fine Line", img: "photo-1598300042247-d088f8ab3a91", desc: "Traits fins, détails ultra-précis, élégance minimaliste" },
+  { name: "Black & Grey", img: "photo-1611501275019-9b5cda994e8d", desc: "Ombrés profonds, réalisme, nuances de gris maîtrisées" },
+  { name: "Aquarelle", img: "photo-1562907550-096d3bf9b25c", desc: "Couleurs fluides, dégradés organiques, effet peinture" },
+  { name: "Géométrique", img: "photo-1598300042247-d088f8ab3a91", desc: "Formes précises, symétrie, mandala & dotwork" },
+  { name: "Réalisme", img: "photo-1611501275019-9b5cda994e8d", desc: "Portraits, animaux, nature — rendu photographique" },
+  { name: "Old School", img: "photo-1562907550-096d3bf9b25c", desc: "Boldlines, couleurs saturées, icônes classiques revisités" },
+]
+
+const ARTISTS = [
+  { name: "Kaito Mura", style: "Fine Line & Géométrique", exp: "8 ans", img: "photo-1507003211169-0a1dd7228f2d", bio: "Kaito est spécialisé dans les lignes ultra-fines et les compositions géométriques. Son travail de dotwork est reconnu à l'échelle européenne." },
+  { name: "Sara Venn", style: "Aquarelle & Réalisme", exp: "6 ans", img: "photo-1494790108377-be9c29b29330", bio: "Sara crée des œuvres qui ressemblent à des aquarelles peintes sur la peau. Sa technique de superposition des couleurs est unique." },
+  { name: "Marco Rossi", style: "Black & Grey & Old School", exp: "11 ans", img: "photo-1500648767791-00dcc994a43e", bio: "Marco est l'un des rares artistes maîtrisant aussi bien le réalisme noir et gris que les grands classiques revisités avec sa touche italienne." },
+]
+
+const STATS = [
+  { val: "2 400+", label: "Tatouages réalisés" },
+  { val: "3", label: "Artistes experts" },
+  { val: "100%", label: "Encres vegan certifiées" },
+  { val: "4.9/5", label: "Avis clients" },
+  { val: "0", label: "Infection signalée" },
+]
+
+const TESTIMONIALS = [
+  { name: "Théo Lambert", role: "Client fidèle", rating: 5, text: "Kaito a réalisé un manchon géométrique sur tout mon avant-bras. Le résultat est au-delà de mes espérances — chaque détail est parfait.", avatar: "TL" },
+  { name: "Julie Moreau", role: "1ère expérience tattoo", rating: 5, text: "J'avais peur pour mon premier tatouage. Sara m'a accueillie avec tellement de bienveillance, expliqué chaque étape. Le résultat est magnifique.", avatar: "JM" },
+  { name: "Alexandre Petit", role: "Collection en cours", rating: 5, text: "C'est mon 4ème tatouage ici. Je ne vais nulle part ailleurs. Le studio est propre, les artistes sont des pros, et l'ambiance est vraiment cool.", avatar: "AP" },
+  { name: "Camille Dupont", role: "Portrait réalisé", rating: 5, text: "Marco a reproduit le portrait de ma grand-mère avec un réalisme incroyable. Chaque fois que je le regarde, j'ai les larmes aux yeux.", avatar: "CD" },
+  { name: "Noah Spiegel", role: "Aquarelle japonaise", rating: 5, text: "Sara a transformé mon croquis en une aquarelle japonaise sublissime dans le dos. Je reçois des compliments tous les jours.", avatar: "NS" },
+]
+
+const PRICING = [
+  { name: "Flash", price: "80", unit: "à partir de", desc: "Designs prêts à poser, petits formats", features: ["Motifs flash exclusifs studio", "Petits formats (max 10cm)", "Encres vegan certifiées", "Soin après-tatouage inclus", "Retouche gratuite"] },
+  { name: "Sur Mesure", price: "200", unit: "à partir de", desc: "Votre vision, notre expertise", featured: true, features: ["Consultation design 45 min", "Création originale exclusive", "Toutes tailles et emplacements", "Révisions incluses", "Soin aftercare premium", "Retouche gratuite 3 mois"] },
+  { name: "Grand Projet", price: "Sur devis", unit: "", desc: "Sleeve, dos complet, projets XXL", features: ["Étude de projet détaillée", "Séances multiples planifiées", "Tarif dégressif par session", "Suivi photographique du projet", "Priorité de réservation", "Accès galerie privée"] },
+]
+
+const FAQS = [
+  { q: "Comment se déroule la première consultation ?", a: "La consultation (30–45 min) est gratuite et sans engagement. Vous apportez vos références, on discute du placement, de la taille et du style. L'artiste vous propose un devis et un planning." },
+  { q: "Vos encres sont-elles sûres ?", a: "Absolument. Nous utilisons exclusivement des encres certifiées REACH, vegan et sans métaux lourds. Nos produits sont testés dermatologiquement et conformes aux normes européennes 2023." },
+  { q: "Comment préparer ma séance de tatouage ?", a: "Mangez un bon repas 2h avant, hydratez-vous, portez des vêtements amples sur la zone à tatouer. Évitez l'alcool 48h avant et le soleil intense sur la zone 2 semaines avant." },
+  { q: "Est-ce que les retouches sont gratuites ?", a: "Oui, toute retouche sur un tatouage réalisé dans notre studio est gratuite pendant les 3 premiers mois, à condition d'avoir suivi nos conseils de cicatrisation." },
+  { q: "Quels emplacements peuvent être douloureux ?", a: "Les zones les plus sensibles sont les côtes, les pieds, les mains, l'intérieur des bras et le cou. Nous proposons une crème anesthésiante sur demande pour les zones très sensibles." },
+  { q: "Combien de temps faut-il pour la cicatrisation ?", a: "La cicatrisation superficielle prend 2–4 semaines. La cicatrisation complète (en profondeur) prend 3–6 mois. Nous vous fournissons un guide aftercare complet et un produit cicatrisant." },
+  { q: "Acceptez-vous les mineurs ?", a: "Non. Nous ne tatouous pas les personnes de moins de 18 ans, même avec accord parental — c'est une règle éthique et légale à laquelle nous ne dérogeons pas." },
+]
+
+export default function EncreEtAmePage() {
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [selectedArtist, setSelectedArtist] = useState<number | null>(null)
+  const heroRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"])
+  const textOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20">
-       <svg width="100%" height="100%" className="w-full h-full">
-          {[...Array(40)].map((_, i) => (
-            <motion.line 
-               key={i}
-               x1={Math.random() * 2000}
-               y1={Math.random() * 1000}
-               x2={mousePos.x}
-               y2={mousePos.y}
-               stroke="#3b82f6" 
-               strokeWidth="0.2" 
-               initial={{ opacity: 0 }}
-               animate={{ opacity: [0, 0.5, 0] }}
-               transition={{ duration: 2, repeat: Infinity, delay: i * 0.05 }}
-            />
-          ))}
-          {[...Array(15)].map((_, i) => (
-            <motion.circle 
-               key={`neuron-${i}`}
-               cx={Math.random() * 2000}
-               cy={Math.random() * 1000}
-               r={Math.random() * 5 + 2}
-               fill="#3b82f6"
-               animate={{ 
-                  scale: [1, 1.5, 1],
-                  opacity: [0.1, 0.6, 0.1]
-               }}
-               transition={{ duration: 3, repeat: Infinity, delay: i * 0.2 }}
-            />
-          ))}
-       </svg>
-    </div>
-  )
-}
+    <div style={{ overflowX: "hidden", scrollBehavior: "smooth", background: "#0d0d0d", color: "#f0ece4" }}>
 
-function NeuralLinkModel({ progress }: { progress: any }) {
-  const rotate = useTransform(progress, [0, 1], [0, 360])
-  const scale = useTransform(progress, [0, 0.5, 1], [1, 1.2, 1])
+      {/* NAVBAR */}
+      <motion.nav
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, backdropFilter: "blur(16px)", background: "rgba(13,13,13,0.9)", borderBottom: "1px solid rgba(240,236,228,0.08)" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 70 }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 12, textDecoration: "none" }}>
+            <Pen size={20} color="#e8d5a3" />
+            <span style={{ fontSize: 20, fontWeight: 800, color: "#f0ece4", letterSpacing: "0.06em", fontFamily: "system-ui" }}>ENCRE & ÂME</span>
+          </Link>
 
-  return (
-    <motion.div style={{ rotate, scale }} className="relative w-80 h-80 flex items-center justify-center">
-       <div className="absolute inset-0 border border-blue-500/10 rounded-full animate-spin-slow shadow-[0_0_80px_rgba(59,130,246,0.05)]" />
-       <BrainCircuit className="w-40 h-40 text-blue-500/10 animate-pulse" />
-       <div className="absolute inset-8 border border-blue-500/5 rounded-full" />
-    </motion.div>
-  )
-}
+          <div style={{ display: "flex", gap: 28, alignItems: "center" }} className="hidden md:flex">
+            {["Portfolio", "Artistes", "Tarifs", "Contact"].map(item => (
+              <a key={item} href={`#${item.toLowerCase()}`}
+                style={{ color: "rgba(240,236,228,0.55)", textDecoration: "none", fontSize: 14, fontFamily: "system-ui", letterSpacing: "0.04em", transition: "color 0.2s" }}
+                onMouseEnter={e => (e.currentTarget.style.color = "#e8d5a3")}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(240,236,228,0.55)")}>
+                {item}
+              </a>
+            ))}
+            <motion.button whileHover={{ scale: 1.04, boxShadow: "0 4px 20px rgba(232,213,163,0.3)" }} whileTap={{ scale: 0.97 }}
+              style={{ padding: "10px 22px", background: "#e8d5a3", color: "#0d0d0d", border: "none", borderRadius: 4, fontSize: 13, fontFamily: "system-ui", fontWeight: 700, letterSpacing: "0.06em", cursor: "pointer" }}>
+              RÉSERVER
+            </motion.button>
+          </div>
 
-/* ==========================================
-   THE NEURAL LINK - MAIN INTERFACE
-   ========================================== */
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild>
+              <button style={{ background: "none", border: "none", color: "#f0ece4", cursor: "pointer" }} className="md:hidden block">
+                <Menu size={24} />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" style={{ background: "#0d0d0d", borderLeft: "1px solid rgba(240,236,228,0.08)" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24, paddingTop: 48 }}>
+                {["Portfolio", "Artistes", "Tarifs", "Contact"].map(item => (
+                  <a key={item} href="#" onClick={() => setMobileOpen(false)}
+                    style={{ color: "#f0ece4", textDecoration: "none", fontSize: 18, fontFamily: "system-ui" }}>{item}</a>
+                ))}
+                <button style={{ padding: "14px", background: "#e8d5a3", color: "#0d0d0d", border: "none", borderRadius: 4, fontSize: 14, fontFamily: "system-ui", fontWeight: 700, cursor: "pointer" }}>
+                  RÉSERVER
+                </button>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </motion.nav>
 
-export default function NeuralLinkPremium() {
-  const [activeAsset, setActiveAsset] = useState(0)
-  const [isNeuralStable, setIsNeuralStable] = useState(true)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
+      {/* HERO */}
+      <section ref={heroRef} style={{ position: "relative", height: "100vh", minHeight: 680, display: "flex", alignItems: "center", overflow: "hidden" }}>
+        <motion.div style={{ position: "absolute", inset: 0, y: bgY }}>
+          <Image src="https://images.unsplash.com/photo-1567359781514-81212b4477a3?w=1600&q=80" alt="Studio tatouage" fill style={{ objectFit: "cover" }} priority />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(110deg, rgba(13,13,13,0.92) 45%, rgba(13,13,13,0.5) 100%)" }} />
+        </motion.div>
 
-  // Neural Scroll Effects
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textX = useTransform(scrollYProgress, [0, 0.5], [0, -100])
-
-  return (
-    <div ref={containerRef} className="bg-[#02040c] text-[#e0e8ed] font-mono selection:bg-blue-500/30 selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000">
-      
-      {/* GLOBAL HUD OVERLAY */}
-      <HUD_Overlay isNeuralStable={isNeuralStable} />
-
-      <main>
-        {/* ==========================================
-            1. NEURAL IGNITION (HERO)
-            ========================================== */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-          <SynapseFlowVisualizer />
-          <motion.div style={{ opacity: heroOpacity }} className="absolute z-0 pointer-events-none flex items-center justify-center">
-             <NeuralLinkModel progress={scrollYProgress} />
+        <motion.div style={{ position: "relative", zIndex: 10, padding: "0 10vw", maxWidth: 680, opacity: textOpacity }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <Badge style={{ background: "rgba(232,213,163,0.1)", color: "#e8d5a3", border: "1px solid rgba(232,213,163,0.3)", fontSize: 11, letterSpacing: "0.12em", marginBottom: 28, fontFamily: "system-ui", padding: "6px 14px" }}>
+              STUDIO DE TATOUAGE — PARIS 11ème
+            </Badge>
           </motion.div>
 
-          <div className="relative z-10 text-center max-w-7xl">
-             <Reveal>
-                <div className="inline-flex items-center gap-4 px-6 py-2 border border-blue-500/30 bg-blue-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-12 italic">
-                   <BrainCircuit className="w-4 h-4" /> Link_Sync: NOMINAL // Bandwidth: 142 Tbps
-                </div>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic">
-                   Neural <br/> <span className="text-white/5 italic">Link.</span>
-                </motion.h1>
-                <p className="max-w-3xl mx-auto text-sm md:text-lg text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16 italic">
-                   La synchronisation de la conscience. Nous concevons des interfaces cerveau-machine de haute précision, offrant une fusion directe entre l'intelligence humaine et les systèmes de calcul avancés.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                   <button className="px-12 py-6 bg-blue-800 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(59,130,246,0.2)] flex items-center gap-4 italic">
-                      <Zap className="w-5 h-5" /> Initialize Uplink
-                   </button>
-                   <button className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
-                      <Database className="w-5 h-5" /> Cognitive Registry
-                   </button>
-                </div>
-             </Reveal>
+          <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            style={{ fontSize: "clamp(42px, 6.5vw, 82px)", fontWeight: 900, lineHeight: 1.0, letterSpacing: "-0.03em", marginBottom: 28, fontFamily: "system-ui", color: "#f0ece4" }}>
+            L'art sous<br />la peau,<br /><span style={{ color: "#e8d5a3" }}>pour toujours.</span>
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
+            style={{ fontSize: 17, color: "rgba(240,236,228,0.65)", fontFamily: "system-ui", lineHeight: 1.75, marginBottom: 40, maxWidth: 460 }}>
+            Trois artistes, six styles, une obsession commune : l'excellence. Encres vegan, hygiène irréprochable, créations 100% originales.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.45 }}
+            style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+            <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(232,213,163,0.3)" }} whileTap={{ scale: 0.97 }}
+              style={{ padding: "16px 36px", background: "#e8d5a3", color: "#0d0d0d", border: "none", borderRadius: 4, fontSize: 14, fontFamily: "system-ui", fontWeight: 800, letterSpacing: "0.06em", cursor: "pointer" }}>
+              PRENDRE RDV
+            </motion.button>
+            <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
+              style={{ padding: "16px 36px", background: "transparent", color: "#f0ece4", border: "1px solid rgba(240,236,228,0.25)", borderRadius: 4, fontSize: 14, fontFamily: "system-ui", letterSpacing: "0.06em", cursor: "pointer" }}>
+              VOIR LE PORTFOLIO
+            </motion.button>
+          </motion.div>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.9, duration: 0.7 }}
+          style={{ position: "absolute", right: 48, bottom: 100, background: "rgba(255,255,255,0.05)", backdropFilter: "blur(16px)", border: "1px solid rgba(232,213,163,0.2)", borderRadius: 12, padding: "20px 24px", zIndex: 10 }}>
+          <div style={{ fontSize: 28, fontWeight: 800, color: "#e8d5a3", fontFamily: "system-ui" }}>2 400+</div>
+          <div style={{ fontSize: 12, color: "rgba(240,236,228,0.5)", fontFamily: "system-ui", letterSpacing: "0.06em" }}>œuvres réalisées</div>
+        </motion.div>
+      </section>
+
+      {/* STATS */}
+      <section style={{ padding: "48px 32px", background: "rgba(232,213,163,0.04)", borderTop: "1px solid rgba(232,213,163,0.08)", borderBottom: "1px solid rgba(232,213,163,0.08)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", flexWrap: "wrap", gap: 32, justifyContent: "center" }}>
+          {STATS.map((s, i) => (
+            <Reveal key={i} delay={i * 0.1}>
+              <div style={{ textAlign: "center", minWidth: 140 }}>
+                <div style={{ fontSize: 34, fontWeight: 800, color: "#e8d5a3", fontFamily: "system-ui" }}>{s.val}</div>
+                <div style={{ fontSize: 13, color: "rgba(240,236,228,0.45)", fontFamily: "system-ui", marginTop: 4 }}>{s.label}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* PORTFOLIO STYLES */}
+      <section id="portfolio" style={{ padding: "100px 32px" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 64 }}>
+              <Badge style={{ background: "rgba(232,213,163,0.1)", color: "#e8d5a3", border: "1px solid rgba(232,213,163,0.25)", fontSize: 11, letterSpacing: "0.12em", marginBottom: 16, fontFamily: "system-ui" }}>STYLES</Badge>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 800, fontFamily: "system-ui", letterSpacing: "-0.02em", color: "#f0ece4" }}>Six styles, une passion</h2>
+            </div>
+          </Reveal>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 }}>
+            {STYLES.map((style, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <motion.div whileHover={{ scale: 1.02 }} style={{ position: "relative", aspectRatio: "3/4", borderRadius: 8, overflow: "hidden", cursor: "pointer" }}>
+                  <Image src={`https://images.unsplash.com/${style.img}?w=500&q=80`} alt={style.name} fill style={{ objectFit: "cover" }} />
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, rgba(13,13,13,0.85) 0%, transparent 55%)" }} />
+                  <div style={{ position: "absolute", bottom: 20, left: 20, right: 20 }}>
+                    <h3 style={{ fontSize: 18, fontWeight: 800, fontFamily: "system-ui", marginBottom: 6, letterSpacing: "0.02em" }}>{style.name}</h3>
+                    <p style={{ fontSize: 13, color: "rgba(240,236,228,0.65)", fontFamily: "system-ui", lineHeight: 1.5 }}>{style.desc}</p>
+                  </div>
+                </motion.div>
+              </Reveal>
+            ))}
           </div>
+        </div>
+      </section>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-12">
-             <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Implant_ID: NEURAL-LINK-01
-                </div>
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Status: CORTEX_LOCKED_STABLE
-                </div>
-             </div>
-             <div className="text-right flex flex-col items-end gap-4">
-                <span className="text-[8px] font-black uppercase tracking-[0.5em] text-blue-500">Neural_Data_Transfer_Stream</span>
-                <div className="flex gap-2 h-12 items-end">
-                   {[...Array(16)].map((_, i) => (
-                     <motion.div 
-                        key={i}
-                        animate={{ height: ["10%", "100%", "30%", "80%", "10%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                        className="w-2 bg-blue-500/20"
-                     />
-                   ))}
-                </div>
-             </div>
-          </div>
-        </section>
+      {/* ARTISTES TABS */}
+      <section id="artistes" style={{ padding: "100px 32px", background: "rgba(255,255,255,0.02)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 56 }}>
+              <Badge style={{ background: "rgba(232,213,163,0.1)", color: "#e8d5a3", border: "1px solid rgba(232,213,163,0.25)", fontSize: 11, letterSpacing: "0.12em", marginBottom: 16, fontFamily: "system-ui" }}>ARTISTES</Badge>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 800, fontFamily: "system-ui", color: "#f0ece4" }}>Rencontrez l'équipe</h2>
+            </div>
+          </Reveal>
 
-        {/* ==========================================
-            2. COGNITIVE REGISTRY (DENSE TECHNICAL)
-            ========================================== */}
-        <section className="py-60 bg-[#04081c] relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-              <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-                 <Reveal>
-                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-blue-500 block mb-6 italic underline underline-offset-8 decoration-blue-400/20">Cognitive // Assets</span>
-                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">Archives.</h2>
-                 </Reveal>
-                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Cognitive_Audit</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-500">L'Architecture de la Fusion Neuronale</p>
-                 </div>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 shadow-2xl">
-                 {COGNITIVE_ASSETS.map((asset, i) => (
-                   <Reveal key={asset.id} delay={i * 0.1}>
-                      <div className="bg-[#02040c] p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
-                         <div className="flex justify-between items-start mb-16">
-                            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-blue-800 group-hover:text-white transition-all duration-500">
-                               <Brain className="w-8 h-8" />
-                            </div>
-                            <span className={`px-4 py-2 bg-white/5 text-[9px] font-black uppercase tracking-[0.3em] ${asset.status === "Synchronized" ? "text-blue-500" : "text-white/40"}`}>{asset.status}</span>
-                         </div>
-                         
-                         <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{asset.name}</h3>
-                         <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-12">{asset.type}</div>
-                         
-                         <div className="space-y-8 mb-20 border-l border-blue-500/20 pl-8">
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Bandwidth</span>
-                               <span className="text-white group-hover:text-blue-400 transition-colors">{asset.bandwidth}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Latency</span>
-                               <span className="text-white group-hover:text-blue-400 transition-colors">{asset.latency}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Stability</span>
-                               <span className="text-white group-hover:text-blue-400 transition-colors">{asset.stability}</span>
-                            </div>
-                         </div>
-
-                         <p className="text-[12px] text-white/30 leading-loose uppercase tracking-[0.2em] font-bold italic mb-16">
-                            {asset.desc}
-                         </p>
-
-                         <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center">
-                            <span className="text-[10px] font-black text-white/10 uppercase tracking-widest">Ref: {asset.id}</span>
-                            <button className="text-[10px] font-black uppercase text-white/40 flex items-center gap-4 group-hover:text-white transition-all">
-                               Technical_Specs <ChevronRight className="w-5 h-5" />
-                            </button>
-                         </div>
-                      </div>
-                   </Reveal>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            3. BRAIN MONITOR (INTERACTIVE DATA)
-            ========================================== */}
-        <section className="py-60 bg-black relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div>
-                    <Reveal>
-                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 block mb-12 italic underline underline-offset-8 decoration-blue-500/20">Brain // Performance</span>
-                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">
-                          The <br/> <span className="not-italic font-black text-white/5 italic">Neural_Link.</span>
-                       </h2>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">
-                          Surveillance de l'activité cérébrale en temps réel. Nos capteurs neuronaux analysent les ondes alpha, bêta et gamma pour garantir une synchronisation parfaite entre le cerveau et l'IA.
-                       </p>
-                       <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
-                          {BRAIN_METRICS.map((metric, i) => (
-                            <div key={i} className="p-16 bg-[#0a101c] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
-                               <div className="text-[10px] font-black uppercase text-blue-500 mb-6 tracking-[0.4em]">{metric.label}</div>
-                               <div className="text-5xl font-black text-white italic mb-6 tracking-tighter group-hover:translate-x-4 transition-transform">{metric.value}</div>
-                               <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
-                                  <Activity className="w-4 h-4 text-blue-500" /> {metric.trend}
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                       <button 
-                         onClick={() => setIsNeuralStable(!isNeuralStable)}
-                         className="w-full py-8 bg-blue-950 text-white text-[11px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center gap-6 italic"
-                       >
-                          <Settings className="w-5 h-5" /> Re-Sync Neural Nodes
-                       </button>
-                    </Reveal>
-                 </div>
-                 
-                 <div className="relative">
-                    <Reveal delay={0.3} x={40}>
-                       <div className="aspect-square bg-[#0a101c] border border-white/10 p-20 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 p-80 bg-blue-400 opacity-[0.02] blur-[150px] rounded-full group-hover:opacity-[0.05] transition-opacity" />
-                          
-                          <div className="flex justify-between items-start z-10">
-                             <div className="flex flex-col gap-3">
-                                <span className="text-[10px] font-black text-white/10 uppercase tracking-[0.5em]">Link_Link // NEURAL-SYNC-v42</span>
-                                <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.6em]">Brain_Stability_Telemetry</span>
-                             </div>
-                             <Wifi className="w-6 h-6 text-blue-400" />
-                          </div>
-                          
-                          {/* LINK VISUALIZER (SVG) */}
-                          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                             <div className="w-64 h-64 border border-blue-400/5 rounded-full flex items-center justify-center relative">
-                                <motion.div 
-                                  animate={{ rotate: 360 }}
-                                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-0 border-t-2 border-blue-400/20 rounded-full" 
-                                />
-                                <motion.div 
-                                  animate={{ rotate: -360 }}
-                                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-8 border-b-2 border-blue-400/10 rounded-full" 
-                                />
-                                <Pulse className={`w-24 h-24 transition-colors duration-1000 ${isNeuralStable ? "text-blue-400 animate-pulse" : "text-white/5"}`} />
-                             </div>
-                             <div className="mt-16 text-center space-y-6">
-                                <div className={`text-4xl font-black italic tracking-tighter ${isNeuralStable ? "text-white" : "text-white/20"}`}>
-                                   {isNeuralStable ? "NEURAL_SECURE" : "BRAIN_DISRUPTION"}
-                                </div>
-                                <span className="text-[11px] font-bold text-white/10 uppercase tracking-[0.6em] block">Auth_Node: LINK_UNIT_01</span>
-                             </div>
-                          </div>
-
-                          <div className="relative z-10 flex gap-6">
-                             <div className="flex-1 h-1 bg-white/5 overflow-hidden">
-                                <motion.div 
-                                   animate={isNeuralStable ? { x: ["-100%", "100%"] } : {}}
-                                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-blue-700"
-                                />
-                             </div>
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            4. NEURAL STORY (TECH STORYTELLING)
-            ========================================== */}
-        <section className="py-60 bg-[#02040c] relative overflow-hidden border-t border-white/5">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">
-                    <Image 
-                       src="https://images.unsplash.com/photo-1559757175-5700dde675bc?q=80&w=1200&auto=format&fit=crop" 
-                       alt="Neural Link Infrastructure" 
-                       fill 
-                       className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"
-                    />
-                    <div className="absolute inset-0 bg-blue-900/10 mix-blend-color group-hover:opacity-0 transition-opacity" />
-                    <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                       <div className="text-white">
-                          <span className="text-[11px] font-black uppercase tracking-[0.6em] text-blue-500 mb-8 block italic underline underline-offset-8 decoration-blue-500/20">Atelier // Neural // Unit</span>
-                          <h4 className="text-6xl font-black tracking-tighter uppercase italic mb-12 mix-blend-difference text-white">Brain <br/> Fabric.</h4>
-                          <button className="flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/20 pb-4 hover:border-blue-400 transition-all group">
-                             Uplink Protocols <ExternalLink className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                          </button>
-                       </div>
-                    </div>
-                 </div>
-
-                 <div>
-                    <Reveal>
-                       <div className="mb-24 text-left">
-                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-8 block italic">Chapitre III // Interface Cerveau-Machine</span>
-                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none text-white">Pure_Link.</h2>
-                       </div>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">
-                          La conscience est un signal. Nous utilisons des technologies d'interface cerveau-machine et de synchronisation neuronale pour offrir une fusion directe entre l'intelligence humaine et les systèmes de calcul avancés, ouvrant de nouvelles frontières à l'évolution humaine.
-                       </p>
-                       <div className="space-y-20">
-                          {[
-                            { t: "Neural Mapping", d: "Cartographie chirurgicale du cortex cérébral via des scanners IRM haute résolution pour identifier les zones de synchronisation optimales." },
-                            { t: "Implantation", d: "Insertion automatisée de micro-électrodes biocompatibles et de processeurs neuronaux capables de traduire les signaux électriques en données numériques." },
-                            { t: "Consciousness Uplink", d: "Initialisation du transfert de données bidirectionnel entre le cerveau et le cloud pour assurer une intégration totale et une intelligence augmentée." }
-                          ].map((step, i) => (
-                            <div key={i} className="group flex gap-12 border-b border-white/5 pb-16 hover:border-blue-400/20 transition-all cursor-default">
-                               <div className="text-6xl font-black text-white/5 group-hover:text-blue-400/20 transition-colors italic leading-none">0{i+1}</div>
-                               <div>
-                                  <h5 className="text-3xl font-black uppercase tracking-tight text-white mb-6 italic group-hover:translate-x-4 transition-transform text-white">{step.t}</h5>
-                                  <p className="text-[12px] text-white/20 uppercase tracking-[0.3em] font-bold leading-loose italic">{step.d}</p>
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* MEGA FOOTER */}
-        <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-              <div className="lg:col-span-2">
-                 <div className="flex items-center gap-6 mb-16">
-                    <div className="w-16 h-16 bg-blue-800 flex items-center justify-center">
-                      <BrainCircuit className="w-10 h-10 text-white" />
-                    </div>
-                    <span className="text-4xl font-black uppercase tracking-tighter italic">NEURAL<span className="text-white/20">LINK.</span></span>
-                 </div>
-                 <p className="text-white/20 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
-                    "L'avenir de la conscience est numérique." — Archive Link V.42
-                 </p>
-                 <div className="flex gap-16">
-                    {["LinkLog", "NeuralRegistry", "GitHub", "X_Protocol"].map(s => (
-                      <Link key={s} href="#" className="text-[11px] font-black uppercase tracking-widest text-white/20 hover:text-blue-400 transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
-                    ))}
-                 </div>
-              </div>
-
-              {[
-                { t: "IMPLANTS", l: ["Neural-v4 Implant", "Cortex Link Alpha", "Mind Grid v5", "Signal-Amplifier"] },
-                { t: "TECHNOLOGY", l: ["Neural Mapping", "Implantation Tech", "Uplink Sync", "SLA Reports"] },
-                { t: "ATELIER", l: ["Our Legacy", "Neuro-Ethics Policy", "Locations", "Support"] }
-              ].map((col, i) => (
-                <div key={i} className="flex flex-col gap-12">
-                  <h4 className="text-[11px] font-black text-blue-400 uppercase tracking-[0.6em] italic">{col.t}</h4>
-                  <ul className="flex flex-col gap-8">
-                    {col.l.map(link => (
-                      <li key={link} className="text-[11px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-[0.4em] italic">{link}</li>
-                    ))}
-                  </ul>
-                </div>
+          <Tabs defaultValue="kaito" style={{ width: "100%" }}>
+            <TabsList style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(232,213,163,0.12)", marginBottom: 40, display: "flex", height: "auto", padding: 4, gap: 4 }}>
+              {ARTISTS.map((a, i) => (
+                <TabsTrigger key={i} value={a.name.toLowerCase().split(" ")[0]} style={{ flex: 1, fontSize: 13, fontFamily: "system-ui", color: "rgba(240,236,228,0.55)", letterSpacing: "0.04em" }}>{a.name}</TabsTrigger>
               ))}
-           </div>
+            </TabsList>
 
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 NEURAL LINK COGNITIVE SYSTEMS AG. // ALL_RIGHTS_RESERVED</span>
-              <div className="flex gap-16">
-                 <span>STATUS: OPERATIONAL</span>
-                 <span>BANDWIDTH: 142 Tbps (AVG)</span>
-                 <span>v4.12.0-STABLE</span>
+            {ARTISTS.map((artist, i) => (
+              <TabsContent key={i} value={artist.name.toLowerCase().split(" ")[0]}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
+                  <div style={{ position: "relative", aspectRatio: "3/4", borderRadius: 12, overflow: "hidden" }}>
+                    <Image src={`https://images.unsplash.com/${artist.img}?w=600&q=80`} alt={artist.name} fill style={{ objectFit: "cover" }} />
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: 36, fontWeight: 900, fontFamily: "system-ui", color: "#f0ece4", marginBottom: 8 }}>{artist.name}</h3>
+                    <div style={{ display: "flex", gap: 12, marginBottom: 24, flexWrap: "wrap" }}>
+                      <Badge style={{ background: "rgba(232,213,163,0.1)", color: "#e8d5a3", border: "1px solid rgba(232,213,163,0.25)", fontFamily: "system-ui", fontSize: 12 }}>{artist.style}</Badge>
+                      <Badge style={{ background: "rgba(255,255,255,0.05)", color: "rgba(240,236,228,0.6)", border: "1px solid rgba(255,255,255,0.1)", fontFamily: "system-ui", fontSize: 12 }}>{artist.exp} d'expérience</Badge>
+                    </div>
+                    <p style={{ fontSize: 16, color: "rgba(240,236,228,0.65)", fontFamily: "system-ui", lineHeight: 1.8, marginBottom: 32 }}>{artist.bio}</p>
+                    <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 12, marginBottom: 32 }}>
+                      {["Consultations gratuites", "Designs 100% originaux", "Portfolio Instagram @encre.ame", "Réservation en ligne possible"].map(f => (
+                        <li key={f} style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 14, color: "rgba(240,236,228,0.65)", fontFamily: "system-ui" }}>
+                          <Check size={14} color="#e8d5a3" style={{ flexShrink: 0 }} />{f}
+                        </li>
+                      ))}
+                    </ul>
+                    <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
+                      style={{ padding: "14px 28px", background: "#e8d5a3", color: "#0d0d0d", border: "none", borderRadius: 4, fontSize: 13, fontFamily: "system-ui", fontWeight: 800, letterSpacing: "0.06em", cursor: "pointer" }}>
+                      RÉSERVER AVEC {artist.name.split(" ")[0].toUpperCase()}
+                    </motion.button>
+                  </div>
+                </div>
+              </TabsContent>
+            ))}
+          </Tabs>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section style={{ padding: "100px 32px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 56 }}>
+              <Badge style={{ background: "rgba(232,213,163,0.1)", color: "#e8d5a3", border: "1px solid rgba(232,213,163,0.25)", fontSize: 11, letterSpacing: "0.12em", marginBottom: 16, fontFamily: "system-ui" }}>TÉMOIGNAGES</Badge>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 800, fontFamily: "system-ui", color: "#f0ece4" }}>Ils portent notre art</h2>
+            </div>
+          </Reveal>
+
+          <Carousel opts={{ align: "start", loop: true }}>
+            <CarouselContent style={{ paddingLeft: 8 }}>
+              {TESTIMONIALS.map((t, i) => (
+                <CarouselItem key={i} style={{ paddingLeft: 16, flexBasis: "calc(50% - 8px)" }}>
+                  <Card style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(232,213,163,0.1)", borderRadius: 12 }}>
+                    <CardContent style={{ padding: 28 }}>
+                      <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>
+                        {Array.from({ length: t.rating }).map((_, j) => <Star key={j} size={14} fill="#e8d5a3" color="#e8d5a3" />)}
+                      </div>
+                      <p style={{ fontSize: 15, color: "rgba(240,236,228,0.7)", fontFamily: "system-ui", lineHeight: 1.75, marginBottom: 20 }}>"{t.text}"</p>
+                      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                        <Avatar>
+                          <AvatarFallback style={{ background: "rgba(232,213,163,0.15)", color: "#e8d5a3", fontSize: 13, fontWeight: 700 }}>{t.avatar}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div style={{ fontSize: 14, fontWeight: 700, color: "#f0ece4", fontFamily: "system-ui" }}>{t.name}</div>
+                          <div style={{ fontSize: 12, color: "rgba(240,236,228,0.4)", fontFamily: "system-ui" }}>{t.role}</div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(232,213,163,0.25)", color: "#e8d5a3" }} />
+            <CarouselNext style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(232,213,163,0.25)", color: "#e8d5a3" }} />
+          </Carousel>
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section id="tarifs" style={{ padding: "100px 32px", background: "rgba(255,255,255,0.02)" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 64 }}>
+              <Badge style={{ background: "rgba(232,213,163,0.1)", color: "#e8d5a3", border: "1px solid rgba(232,213,163,0.25)", fontSize: 11, letterSpacing: "0.12em", marginBottom: 16, fontFamily: "system-ui" }}>TARIFS</Badge>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 800, fontFamily: "system-ui", color: "#f0ece4" }}>Des prix transparents</h2>
+            </div>
+          </Reveal>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+            {PRICING.map((plan, i) => (
+              <Reveal key={i} delay={i * 0.12}>
+                <motion.div whileHover={{ y: -6, boxShadow: plan.featured ? "0 20px 50px rgba(232,213,163,0.15)" : "0 8px 32px rgba(0,0,0,0.4)" }}
+                  style={{ borderRadius: 12, border: plan.featured ? "1px solid rgba(232,213,163,0.4)" : "1px solid rgba(255,255,255,0.06)", overflow: "hidden", cursor: "pointer", position: "relative" }}>
+                  {plan.featured && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "#e8d5a3" }} />}
+                  <div style={{ padding: "32px 24px", background: plan.featured ? "rgba(232,213,163,0.04)" : "rgba(255,255,255,0.02)" }}>
+                    {plan.featured && <div style={{ display: "inline-block", background: "rgba(232,213,163,0.15)", color: "#e8d5a3", fontSize: 10, letterSpacing: "0.12em", fontWeight: 700, padding: "3px 10px", borderRadius: 20, marginBottom: 12, fontFamily: "system-ui" }}>POPULAIRE</div>}
+                    <h3 style={{ fontSize: 22, fontWeight: 800, color: "#f0ece4", fontFamily: "system-ui", marginBottom: 6 }}>{plan.name}</h3>
+                    <p style={{ fontSize: 13, color: "rgba(240,236,228,0.4)", fontFamily: "system-ui", marginBottom: 16 }}>{plan.desc}</p>
+                    <div style={{ marginBottom: 28 }}>
+                      {plan.unit && <span style={{ fontSize: 12, color: "rgba(240,236,228,0.4)", fontFamily: "system-ui" }}>{plan.unit} </span>}
+                      <span style={{ fontSize: plan.price === "Sur devis" ? 22 : 38, fontWeight: 800, color: "#e8d5a3", fontFamily: "system-ui" }}>{plan.price}</span>
+                      {plan.price !== "Sur devis" && <span style={{ fontSize: 14, color: "rgba(240,236,228,0.4)", fontFamily: "system-ui" }}> €</span>}
+                    </div>
+                    <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
+                      {plan.features.map(f => (
+                        <li key={f} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 13, color: "rgba(240,236,228,0.65)", fontFamily: "system-ui" }}>
+                          <Check size={13} color="#e8d5a3" style={{ marginTop: 2, flexShrink: 0 }} />{f}
+                        </li>
+                      ))}
+                    </ul>
+                    <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                      style={{ width: "100%", padding: "13px", background: plan.featured ? "#e8d5a3" : "transparent", color: plan.featured ? "#0d0d0d" : "#e8d5a3", border: plan.featured ? "none" : "1px solid rgba(232,213,163,0.35)", borderRadius: 4, fontSize: 13, fontFamily: "system-ui", fontWeight: 700, letterSpacing: "0.06em", cursor: "pointer" }}>
+                      RÉSERVER
+                    </motion.button>
+                  </div>
+                </motion.div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="contact" style={{ padding: "100px 32px" }}>
+        <div style={{ maxWidth: 780, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 52 }}>
+              <Badge style={{ background: "rgba(232,213,163,0.1)", color: "#e8d5a3", border: "1px solid rgba(232,213,163,0.25)", fontSize: 11, letterSpacing: "0.12em", marginBottom: 16, fontFamily: "system-ui" }}>FAQ</Badge>
+              <h2 style={{ fontSize: "clamp(26px, 4vw, 44px)", fontWeight: 800, fontFamily: "system-ui", color: "#f0ece4" }}>Questions fréquentes</h2>
+            </div>
+          </Reveal>
+
+          <Accordion type="single" collapsible style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {FAQS.map((faq, i) => (
+              <AccordionItem key={i} value={`q${i}`} style={{ border: "1px solid rgba(232,213,163,0.1)", borderRadius: 8, overflow: "hidden", background: "rgba(255,255,255,0.02)" }}>
+                <AccordionTrigger style={{ padding: "18px 22px", fontSize: 15, fontWeight: 600, color: "#f0ece4", fontFamily: "system-ui", textAlign: "left" }}>{faq.q}</AccordionTrigger>
+                <AccordionContent style={{ padding: "0 22px 18px", fontSize: 14, color: "rgba(240,236,228,0.55)", fontFamily: "system-ui", lineHeight: 1.8 }}>{faq.a}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section style={{ padding: "80px 32px", background: "linear-gradient(135deg, rgba(232,213,163,0.1) 0%, rgba(232,213,163,0.04) 100%)", borderTop: "1px solid rgba(232,213,163,0.12)" }}>
+        <div style={{ maxWidth: 680, margin: "0 auto", textAlign: "center" }}>
+          <Reveal>
+            <Pen size={40} color="#e8d5a3" style={{ marginBottom: 24 }} />
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 900, fontFamily: "system-ui", color: "#f0ece4", marginBottom: 16 }}>
+              Prêt à porter <span style={{ color: "#e8d5a3" }}>votre histoire</span> ?
+            </h2>
+            <p style={{ fontSize: 16, color: "rgba(240,236,228,0.55)", fontFamily: "system-ui", lineHeight: 1.7, marginBottom: 40 }}>
+              Consultation gratuite — aucun engagement. Amenez vos idées, on crée le reste.
+            </p>
+            <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+              <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(232,213,163,0.25)" }} whileTap={{ scale: 0.97 }}
+                style={{ padding: "16px 36px", background: "#e8d5a3", color: "#0d0d0d", border: "none", borderRadius: 4, fontSize: 14, fontFamily: "system-ui", fontWeight: 800, letterSpacing: "0.06em", cursor: "pointer" }}>
+                PRENDRE RDV EN LIGNE
+              </motion.button>
+              <motion.button whileHover={{ scale: 1.04 }}
+                style={{ padding: "16px 36px", background: "transparent", color: "#e8d5a3", border: "1px solid rgba(232,213,163,0.35)", borderRadius: 4, fontSize: 14, fontFamily: "system-ui", letterSpacing: "0.06em", cursor: "pointer" }}>
+                VOIR L'INSTAGRAM
+              </motion.button>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer style={{ padding: "56px 32px 36px", background: "#070707" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 40, marginBottom: 48 }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
+                <Pen size={18} color="#e8d5a3" />
+                <span style={{ fontSize: 17, fontWeight: 800, color: "#e8d5a3", fontFamily: "system-ui", letterSpacing: "0.06em" }}>ENCRE & ÂME</span>
               </div>
-           </div>
-        </footer>
-      </main>
-    </div>
-  )
-}
-
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
-
-function HUD_Overlay({ isNeuralStable }: { isNeuralStable: boolean }) {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Corner Brackets */}
-       <div className={`absolute top-12 left-12 w-20 h-20 border-t-2 border-l-2 transition-colors duration-1000 ${isNeuralStable ? "border-blue-400" : "border-white/10"}`} />
-       <div className={`absolute top-12 right-12 w-20 h-20 border-t-2 border-r-2 transition-colors duration-1000 ${isNeuralStable ? "border-blue-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 left-12 w-20 h-20 border-b-2 border-l-2 transition-colors duration-1000 ${isNeuralStable ? "border-blue-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 right-12 w-20 h-20 border-b-2 border-r-2 transition-colors duration-1000 ${isNeuralStable ? "border-blue-400" : "border-white/10"}`} />
-
-       {/* Top Status Bar */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-20 bg-black/60 backdrop-blur-2xl px-12 py-4 border border-white/10 rounded-none">
-          <div className="flex items-center gap-6 text-white">
-             <div className={`w-3 h-3 transition-colors duration-500 ${isNeuralStable ? "bg-blue-400 animate-pulse" : "bg-red-500 animate-ping"}`} />
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Link_Sync: {isNeuralStable ? "NOMINAL" : "BRAIN_DISRUPTION"} // Status: ACTIVE</span>
+              <p style={{ fontSize: 13, color: "rgba(240,236,228,0.35)", fontFamily: "system-ui", lineHeight: 1.8, maxWidth: 260, marginBottom: 20 }}>
+                Studio de tatouage artistique. 42 rue Oberkampf, 75011 Paris. Ouvert Mar–Sam 11h–20h.
+              </p>
+              <motion.button whileHover={{ scale: 1.1 }} style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(232,213,163,0.2)", borderRadius: 6, padding: "8px 14px", cursor: "pointer", color: "#e8d5a3" }}>
+                <Instagram size={15} />
+                <span style={{ fontSize: 13, fontFamily: "system-ui" }}>@encre.ame</span>
+              </motion.button>
+            </div>
+            {[
+              { title: "Styles", links: ["Fine Line", "Black & Grey", "Aquarelle", "Géométrique", "Réalisme"] },
+              { title: "Studio", links: ["Portfolio", "Artistes", "Hygiène", "Flash du jour", "Carte cadeau"] },
+              { title: "Infos", links: ["Réserver", "Tarifs", "FAQ", "Contact", "Aftercare"] },
+            ].map(col => (
+              <div key={col.title}>
+                <h4 style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#e8d5a3", marginBottom: 18, fontFamily: "system-ui" }}>{col.title.toUpperCase()}</h4>
+                <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+                  {col.links.map(l => (
+                    <li key={l}><a href="#" style={{ fontSize: 13, color: "rgba(240,236,228,0.35)", textDecoration: "none", fontFamily: "system-ui" }}>{l}</a></li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
-          <div className="h-4 w-px bg-white/20" />
-          <div className="flex items-center gap-6 text-white/20">
-             <Wifi className="w-4 h-4" /> 
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Neural_Grid: SECURE</span>
-          </div>
-       </div>
-
-       {/* Right Rotation Info */}
-       <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-white/5 italic">Unauthorized_Duplication_Of_Neural_Patterns_Is_Strictly_Monitored_By_Global_Neuro_Alliance</span>
-       </div>
+          <Separator style={{ background: "rgba(255,255,255,0.06)", marginBottom: 24 }} />
+          <p style={{ fontSize: 12, color: "rgba(240,236,228,0.2)", fontFamily: "system-ui", textAlign: "center" }}>© 2024 Encre & Âme — Studio de tatouage artistique Paris</p>
+        </div>
+      </footer>
     </div>
   )
 }

@@ -1,536 +1,416 @@
 "use client"
-
-import React, { useState, useEffect, useRef } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
-} from "framer-motion"
+import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
+import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  Anchor, Waves, Activity, Thermometer, 
-  Droplets, Wind, Mountain, Compass, 
-  ArrowRight, Menu, X, Plus, 
-  Maximize2, Share2, Download, ExternalLink, 
-  Archive, Hash, Wifi, BarChart3, 
-  Microscope, Fingerprint, Scan, Brain,
-  Layers, Frame, Box, Database, 
-  Server, Cpu, Target, Orbit, 
-  Atom, Satellite, Milestone, Power, 
-  Settings, AlertTriangle, Info, 
-  ChevronRight, Play, Lock, Key, 
-  BookOpen, Radio, Zap, Dna,
-  CloudSnow, MapPin, Gauge, Ship,
-  Zap as ZapIcon, Shield, Search,
-  Navigation, Code, Command, Grid,
-  Radar, Lightbulb, Fish
-} from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { Progress } from "@/components/ui/progress"
+import { Separator } from "@/components/ui/separator"
+import { Zap, BarChart3, Shield, Code2, Layers, Globe, Check, Star, Menu, ArrowRight, Twitter, Linkedin, Github, ChevronRight, Users, TrendingUp, Lock, RefreshCw } from "lucide-react"
 
-/* ==========================================================================
-   THE DEEP CORE DATASET (ULTRA DENSITY)
-   ========================================================================== */
-
-const MINERALS = [
-  {
-    id: "min-poly-01",
-    name: "Polymetallic Nodules",
-    composition: "Mn, Ni, Cu, Co",
-    depth: "4,500m - 5,500m",
-    density: "3.2 g/cm³",
-    value: "$4,200/t",
-    desc: "Concrétions rocheuses reposant sur le lit océanique, riches en métaux critiques pour les batteries haute performance.",
-    status: "Extraction"
-  },
-  {
-    id: "min-sulf-42",
-    name: "Massive Sulfides",
-    composition: "Cu, Zn, Au, Ag",
-    depth: "1,500m - 3,500m",
-    density: "4.8 g/cm³",
-    value: "$12,800/t",
-    desc: "Dépôts formés par l'activité hydrothermale, contenant des concentrations massives de métaux précieux.",
-    status: "Active"
-  },
-  {
-    id: "min-tell-09",
-    name: "Cobalt-Rich Crusts",
-    composition: "Co, Te, REE",
-    depth: "800m - 2,500m",
-    density: "2.9 g/cm³",
-    value: "$18,500/t",
-    desc: "Croûtes formées sur les flancs des monts sous-marins, cruciales pour les technologies de pointe.",
-    status: "R&D"
-  }
-]
-
-const ABYSS_METRICS = [
-  { label: "External Pressure", value: "58.4 MPa", trend: "Increasing" },
-  { label: "Water Temp", value: "2.4°C", trend: "Stable" },
-  { label: "Oxygen Levels", value: "4.2 mg/L", trend: "Optimal" },
-  { label: "Sonar Clarity", value: "94.2%", trend: "High" }
-]
-
-const MISSION_LOGS = [
-  { time: "04:12:42", event: "ROV-Alpha: Deployment Initiated", level: "INFO" },
-  { time: "04:12:55", event: "Pressure Seal Confirmed", level: "SECURE" },
-  { time: "04:13:12", event: "Hydrothermal Vent Detected", level: "ALERT" }
-]
-
-/* ==========================================================================
-   TECHNICAL COMPONENTS
-   ========================================================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y: 32 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function UnderwaterParticles() {
-  return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20">
-       {[...Array(40)].map((_, i) => (
-         <motion.div 
-           key={i}
-           initial={{ y: 2000, x: Math.random() * 2000, opacity: 0 }}
-           animate={{ 
-              y: -100, 
-              x: (Math.random() * 2000) + (Math.random() * 200 - 100),
-              opacity: [0, 0.8, 0]
-           }}
-           transition={{ 
-              duration: Math.random() * 15 + 10, 
-              repeat: Infinity, 
-              delay: Math.random() * 15 
-           }}
-           className="w-1 h-1 bg-cyan-400 rounded-full absolute blur-[1px]"
-         />
-       ))}
-    </div>
-  )
-}
+const FEATURES = [
+  { icon: Zap, title: "Automatisation intelligente", desc: "Automatisez vos workflows répétitifs avec notre moteur IA — économisez 12h de travail par semaine en moyenne." },
+  { icon: BarChart3, title: "Analytics en temps réel", desc: "Tableaux de bord dynamiques, alertes proactives et rapports automatisés pour des décisions data-driven." },
+  { icon: Shield, title: "Sécurité enterprise", desc: "SOC 2 Type II, chiffrement AES-256, SSO SAML, RBAC granulaire — la sécurité n'est pas une option." },
+  { icon: Code2, title: "API & intégrations", desc: "REST + GraphQL API, webhooks, 200+ intégrations natives (Salesforce, HubSpot, Slack, Jira, etc.)." },
+  { icon: Layers, title: "Multi-tenant & scalable", desc: "Architecture cloud-native conçue pour scaler de 10 à 10 000 utilisateurs sans friction." },
+  { icon: Globe, title: "Collaboration globale", desc: "Workspaces partagés, gestion des permissions, commentaires en contexte — votre équipe en sync 24/7." },
+]
 
-function SonarPulse() {
-  return (
-    <div className="relative w-48 h-48 flex items-center justify-center">
-       {[...Array(3)].map((_, i) => (
-         <motion.div 
-           key={i}
-           initial={{ scale: 0.5, opacity: 0 }}
-           animate={{ scale: 2, opacity: [0, 0.5, 0] }}
-           transition={{ duration: 3, repeat: Infinity, delay: i * 1 }}
-           className="absolute inset-0 border-2 border-cyan-400/30 rounded-full"
-         />
-       ))}
-       <Radar className="w-12 h-12 text-cyan-400" />
-    </div>
-  )
-}
+const STATS = [
+  { val: "8 400+", label: "Entreprises clientes" },
+  { val: "99.98%", label: "Uptime SLA" },
+  { val: "12h", label: "Économisées / semaine" },
+  { val: "4.9/5", label: "G2 & Capterra" },
+  { val: "SOC 2", label: "Type II certifié" },
+]
 
-/* ==========================================================================
-   THE DEEP CORE - MAIN INTERFACE
-   ========================================================================== */
+const TESTIMONIALS = [
+  { name: "Alexandre Dubois", role: "CTO, Spendr", rating: 5, text: "On a réduit notre temps de reporting de 80% en 3 semaines. L'API est propre, la doc est excellente, et le support est réactif. C'est ce qu'on attendait depuis des années.", avatar: "AD" },
+  { name: "Marie Chen", role: "VP Ops, NordX", rating: 5, text: "L'intégration Salesforce + Slack a transformé nos workflows commerciaux. Les alertes automatisées ont réduit notre churn de 23% en un trimestre.", avatar: "MC" },
+  { name: "Thomas Müller", role: "Fondateur, Growthly", rating: 5, text: "Migration depuis notre ancienne solution en 48h chrono. L'équipe support a été présente à chaque étape. On ne reviendra jamais en arrière.", avatar: "TM" },
+  { name: "Sarah Leclerc", role: "Head of Product, Aevia", rating: 5, text: "La scalabilité est impressionnante. On est passé de 50 à 2 400 utilisateurs en 6 mois sans un seul incident. Le pricing était aussi franchement compétitif.", avatar: "SL" },
+  { name: "Kevin Park", role: "CEO, DataNexus", rating: 5, text: "Les dashboards en temps réel ont complètement changé notre relation aux données. Nos investisseurs adorent les rapports automatisés qu'on leur envoie maintenant.", avatar: "KP" },
+]
 
-export default function DeepCorePremium() {
-  const [activeLog, setActiveLog] = useState(0)
-  const [isSealActive, setIsSealActive] = useState(true)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
+const PRICING = [
+  { name: "Starter", price: "49", period: "/mois", desc: "Pour les équipes qui démarrent", features: ["5 utilisateurs inclus", "10 workflows automatisés", "Analytics 30 jours", "API 10K calls/mois", "Support email", "Intégrations de base (20+)"] },
+  { name: "Growth", price: "199", period: "/mois", desc: "Pour les équipes en croissance", featured: true, features: ["25 utilisateurs inclus", "Workflows illimités", "Analytics 12 mois", "API 500K calls/mois", "Support prioritaire 24/7", "200+ intégrations", "SSO & SAML", "Rôles & permissions avancés"] },
+  { name: "Enterprise", price: "Sur mesure", period: "", desc: "Pour les grandes organisations", features: ["Utilisateurs illimités", "Infrastructure dédiée", "SLA 99.99% garanti", "Support dédié + CSM", "Audit logs complets", "RBAC granulaire", "On-premise disponible", "Formation & onboarding inclus"] },
+]
 
-  // Pressure Depth Effects
-  const bgColor = useTransform(scrollYProgress, [0, 0.5, 1], ["#050a14", "#02050a", "#000000"])
-  const depthValue = useTransform(scrollYProgress, [0, 1], [0, 6000])
-  const pressureValue = useTransform(scrollYProgress, [0, 1], [0.1, 60.5])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
+const FAQS = [
+  { q: "Quelle est la durée minimale d'engagement ?", a: "Aucun engagement. Nos plans Starter et Growth sont mensuels, sans frais d'annulation. L'Enterprise inclut un contrat annuel avec des conditions de résiliation transparentes." },
+  { q: "Comment fonctionne l'onboarding ?", a: "Après votre inscription, un Customer Success Manager vous contacte sous 24h pour un call d'onboarding. Notre équipe peut importer vos données existantes et configurer vos premiers workflows." },
+  { q: "Mes données sont-elles sécurisées ?", a: "Absolument. Nous sommes certifiés SOC 2 Type II, RGPD compliant, et toutes les données sont chiffrées en transit et au repos (AES-256). Vos données n'ont jamais accès à nos modèles IA." },
+  { q: "Puis-je migrer depuis un autre outil ?", a: "Oui. Nous proposons des migrations assistées depuis Zapier, Make, Monday, Asana, et Notion. Notre équipe technique s'occupe de tout sans interruption de service." },
+  { q: "L'API est-elle complète ?", a: "Notre API REST + GraphQL expose l'intégralité des fonctionnalités de la plateforme. Documentation OpenAPI interactive, SDK JavaScript/Python/PHP inclus, webhooks temps réel." },
+  { q: "Y a-t-il une version d'essai ?", a: "Oui, 14 jours d'essai gratuit sur le plan Growth, sans carte bancaire requise. Accès complet à toutes les fonctionnalités, données d'essai incluses pour tester rapidement." },
+  { q: "Que se passe-t-il si je dépasse mes limites ?", a: "Vous recevez une alerte à 80% d'utilisation. Si vous dépassez, les services continuent de fonctionner et on vous propose une upgrade — pas de coupure surprise." },
+]
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveLog(prev => (prev + 1) % MISSION_LOGS.length)
-    }, 5000)
-    return () => clearInterval(interval)
-  }, [])
+export default function EssentialSaaSPage() {
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const heroRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"])
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
 
   return (
-    <motion.div 
-      ref={containerRef} 
-      style={{ backgroundColor: bgColor }}
-      className="text-[#d1d9e0] font-mono selection:bg-cyan-500/30 selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000"
-    >
-      
-      {/* GLOBAL HUD OVERLAY */}
-      <HUD_Overlay activeLog={activeLog} isSealActive={isSealActive} />
+    <div style={{ overflowX: "hidden", scrollBehavior: "smooth", background: "#06070f", color: "#e8eaf6", fontFamily: "system-ui, -apple-system, sans-serif" }}>
 
-      <main>
-        {/* ==========================================
-            1. ABYSSAL IGNITION (HERO)
-            ========================================== */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-          <UnderwaterParticles />
-          <motion.div style={{ opacity: heroOpacity }} className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
-             <div className="w-[80vw] h-[80vw] border border-cyan-900/10 rounded-full animate-spin-slow" />
-             <div className="absolute w-[60vw] h-[60vw] border border-cyan-900/5 rounded-full animate-reverse-spin" />
-             <div className="absolute w-1/2 h-1/2 bg-cyan-900/5 blur-[120px] rounded-full animate-pulse" />
+      {/* NAVBAR */}
+      <motion.nav initial={{ y: -80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, backdropFilter: "blur(16px)", background: "rgba(6,7,15,0.9)", borderBottom: "1px solid rgba(99,102,241,0.15)" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+            <div style={{ width: 32, height: 32, borderRadius: 8, background: "linear-gradient(135deg, #6366f1, #818cf8)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Zap size={16} color="white" />
+            </div>
+            <span style={{ fontSize: 18, fontWeight: 700, color: "#e8eaf6", letterSpacing: "-0.01em" }}>FlowSync</span>
+          </Link>
+
+          <div style={{ display: "flex", gap: 28, alignItems: "center" }} className="hidden md:flex">
+            {["Fonctionnalités", "Intégrations", "Tarifs", "Docs"].map(item => (
+              <a key={item} href={`#${item.toLowerCase()}`}
+                style={{ color: "rgba(232,234,246,0.6)", textDecoration: "none", fontSize: 14, fontWeight: 500, transition: "color 0.2s" }}
+                onMouseEnter={e => (e.currentTarget.style.color = "#818cf8")}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(232,234,246,0.6)")}>
+                {item}
+              </a>
+            ))}
+            <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
+              style={{ padding: "9px 20px", background: "transparent", color: "rgba(232,234,246,0.7)", border: "1px solid rgba(99,102,241,0.4)", borderRadius: 8, fontSize: 14, fontWeight: 500, cursor: "pointer" }}>
+              Se connecter
+            </motion.button>
+            <motion.button whileHover={{ scale: 1.04, boxShadow: "0 4px 20px rgba(99,102,241,0.4)" }} whileTap={{ scale: 0.97 }}
+              style={{ padding: "9px 20px", background: "linear-gradient(135deg, #6366f1, #818cf8)", color: "white", border: "none", borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
+              Essai gratuit 14j
+            </motion.button>
+          </div>
+
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild>
+              <button style={{ background: "none", border: "none", color: "#e8eaf6", cursor: "pointer" }} className="md:hidden block"><Menu size={24} /></button>
+            </SheetTrigger>
+            <SheetContent side="right" style={{ background: "#06070f", borderLeft: "1px solid rgba(99,102,241,0.15)" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24, paddingTop: 48 }}>
+                {["Fonctionnalités", "Intégrations", "Tarifs", "Docs"].map(item => (
+                  <a key={item} href="#" onClick={() => setMobileOpen(false)} style={{ color: "#e8eaf6", textDecoration: "none", fontSize: 18, fontWeight: 500 }}>{item}</a>
+                ))}
+                <button style={{ padding: "14px", background: "linear-gradient(135deg, #6366f1, #818cf8)", color: "white", border: "none", borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
+                  Essai gratuit 14j
+                </button>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </motion.nav>
+
+      {/* HERO */}
+      <section ref={heroRef} style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", overflow: "hidden", paddingTop: 68 }}>
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(99,102,241,0.2) 0%, transparent 70%)" }} />
+        <div style={{ position: "absolute", top: "20%", right: "-10%", width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(circle, rgba(129,140,248,0.1) 0%, transparent 70%)", filter: "blur(40px)" }} />
+
+        <motion.div style={{ position: "relative", zIndex: 10, maxWidth: 1100, margin: "0 auto", padding: "80px 32px", textAlign: "center", opacity }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <Badge style={{ background: "rgba(99,102,241,0.12)", color: "#818cf8", border: "1px solid rgba(99,102,241,0.3)", fontSize: 12, marginBottom: 24, padding: "5px 14px" }}>
+              ✦ Nouveau — Automatisation IA disponible
+            </Badge>
           </motion.div>
 
-          <div className="relative z-10 text-center max-w-7xl">
-             <Reveal>
-                <div className="inline-flex items-center gap-4 px-4 py-1 border border-cyan-400/30 bg-cyan-400/5 text-[10px] font-black uppercase tracking-[0.5em] text-cyan-400 mb-12 italic">
-                   <Anchor className="w-3 h-3" /> Mission_Status: Deep_Sync_Active
-                </div>
-                <h1 className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic">
-                   Deep <br/> <span className="text-white/5 italic">Core_Infra.</span>
-                </h1>
-                <p className="max-w-2xl mx-auto text-sm md:text-base text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16 italic">
-                   Ingénierie de l'extrême pour les abysses océaniques. Nous forgeons les technologies qui permettent de récolter les métaux critiques de demain à 6000 mètres sous la surface.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                   <button className="px-12 py-5 bg-cyan-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(8,145,178,0.3)] flex items-center gap-4 italic">
-                      <Waves className="w-4 h-4" /> Start Descent
-                   </button>
-                   <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
-                      <Database className="w-4 h-4" /> Mineral Database
-                   </button>
-                </div>
-             </Reveal>
-          </div>
+          <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            style={{ fontSize: "clamp(40px, 6.5vw, 82px)", fontWeight: 800, lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 24, color: "#e8eaf6" }}>
+            Automatisez votre business.<br /><span style={{ background: "linear-gradient(135deg, #6366f1, #a5b4fc)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Multipliez vos résultats.</span>
+          </motion.h1>
 
-          {/* DEPTH METRICS */}
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-8">
-             <div className="flex flex-col gap-4 text-left">
-                <span className="text-[8px] font-black uppercase tracking-[0.5em] text-white/20 italic">Live_Submarine_Telemetry</span>
-                <div className="flex items-center gap-8">
-                   <div className="flex flex-col">
-                      <motion.span className="text-4xl font-black italic text-cyan-400 leading-none">
-                         {useSpring(depthValue, { stiffness: 40 }).get().toFixed(0)}m
-                      </motion.span>
-                      <span className="text-[8px] font-black uppercase text-white/20 italic">Current Depth</span>
-                   </div>
-                   <div className="w-px h-12 bg-white/10" />
-                   <div className="flex flex-col">
-                      <motion.span className="text-4xl font-black italic text-cyan-400 leading-none">
-                         {useSpring(pressureValue, { stiffness: 40 }).get().toFixed(1)} MPa
-                      </motion.span>
-                      <span className="text-[8px] font-black uppercase text-white/20 italic">External Pressure</span>
-                   </div>
-                </div>
-             </div>
-             <div className="text-right flex flex-col items-end gap-2">
-                <span className="text-[8px] font-black uppercase tracking-[0.5em] text-cyan-400">Sonar_Echo_Registry</span>
-                <div className="flex gap-1 h-10 items-end">
-                   {[...Array(12)].map((_, i) => (
-                     <motion.div 
-                        key={i}
-                        animate={{ height: ["10%", "100%", "30%", "70%", "10%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                        className="w-1.5 bg-cyan-400/20"
-                     />
-                   ))}
-                </div>
-             </div>
-          </div>
-        </section>
+          <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.25 }}
+            style={{ fontSize: 19, color: "rgba(232,234,246,0.65)", lineHeight: 1.7, marginBottom: 44, maxWidth: 580, margin: "0 auto 44px" }}>
+            FlowSync connecte vos outils, automatise vos workflows et vous donne les insights pour prendre de meilleures décisions — sans une ligne de code.
+          </motion.p>
 
-        {/* ==========================================
-            2. MINERAL MATRIX (DENSE GRID)
-            ========================================== */}
-        <section className="py-60 bg-black/40 relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-              <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-                 <Reveal>
-                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-cyan-400 block mb-6 italic underline underline-offset-8 decoration-cyan-400/20">Abyssal // Resources</span>
-                    <h2 className="text-6xl md:text-[9vw] font-black uppercase tracking-tighter italic leading-none text-white">Registry.</h2>
-                 </Reveal>
-                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Deep_Sea_Audit</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-cyan-400">L'Architecture des Abysses</p>
-                 </div>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }}
+            style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", marginBottom: 60 }}>
+            <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(99,102,241,0.4)" }} whileTap={{ scale: 0.97 }}
+              style={{ padding: "16px 36px", background: "linear-gradient(135deg, #6366f1, #818cf8)", color: "white", border: "none", borderRadius: 10, fontSize: 16, fontWeight: 700, cursor: "pointer" }}>
+              Commencer gratuitement
+            </motion.button>
+            <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
+              style={{ padding: "16px 36px", background: "rgba(255,255,255,0.05)", color: "#e8eaf6", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 10, fontSize: 16, cursor: "pointer", backdropFilter: "blur(8px)" }}>
+              Voir la démo ↗
+            </motion.button>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.55 }}
+            style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(99,102,241,0.2)", borderRadius: 16, overflow: "hidden", maxWidth: 900, margin: "0 auto" }}>
+            <Image src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" alt="Dashboard FlowSync" width={900} height={500} style={{ width: "100%", height: "auto", display: "block" }} />
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* STATS */}
+      <section style={{ padding: "48px 32px", background: "rgba(99,102,241,0.04)", borderTop: "1px solid rgba(99,102,241,0.1)", borderBottom: "1px solid rgba(99,102,241,0.1)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", flexWrap: "wrap", gap: 32, justifyContent: "center" }}>
+          {STATS.map((s, i) => (
+            <Reveal key={i} delay={i * 0.1}>
+              <div style={{ textAlign: "center", minWidth: 140 }}>
+                <div style={{ fontSize: 34, fontWeight: 800, color: "#818cf8", letterSpacing: "-0.02em" }}>{s.val}</div>
+                <div style={{ fontSize: 13, color: "rgba(232,234,246,0.45)", marginTop: 4 }}>{s.label}</div>
               </div>
-
-              <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 shadow-2xl">
-                 {MINERALS.map((min, i) => (
-                   <Reveal key={min.id} delay={i * 0.1}>
-                      <div className="bg-[#02050a] p-16 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
-                         <div className="flex justify-between items-start mb-16">
-                            <div className="w-12 h-12 bg-white/5 flex items-center justify-center group-hover:bg-cyan-600 transition-all duration-500">
-                               <Atom className="w-6 h-6 text-cyan-400 group-hover:text-white" />
-                            </div>
-                            <span className="px-3 py-1 bg-cyan-400/10 text-cyan-400 text-[8px] font-black uppercase tracking-widest">{min.status}</span>
-                         </div>
-                         
-                         <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{min.name}</h3>
-                         <div className="text-[10px] font-black text-cyan-400/60 uppercase tracking-widest mb-8">{min.composition}</div>
-                         
-                         <div className="space-y-6 mb-16 border-l border-cyan-400/20 pl-6">
-                            <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Extraction Depth</span>
-                               <span className="text-white group-hover:text-cyan-400 transition-colors">{min.depth}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Molecular Density</span>
-                               <span className="text-white group-hover:text-cyan-400 transition-colors">{min.density}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Market Value</span>
-                               <span className="text-white group-hover:text-cyan-400 transition-colors">{min.value}</span>
-                            </div>
-                         </div>
-
-                         <p className="text-[11px] text-white/20 leading-loose uppercase tracking-[0.2em] font-bold italic mb-12">
-                            {min.desc}
-                         </p>
-
-                         <div className="mt-auto pt-8 border-t border-white/5 flex justify-between items-center">
-                            <span className="text-[9px] font-black text-white/10 uppercase tracking-widest">Ref: {min.id}</span>
-                            <button className="text-[9px] font-black uppercase text-cyan-400 flex items-center gap-2 group-hover:translate-x-2 transition-transform">
-                               Resource Analysis <ChevronRight className="w-4 h-4" />
-                            </button>
-                         </div>
-                      </div>
-                   </Reveal>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            3. TELEMETRY HUD (INTERACTIVE DATA)
-            ========================================== */}
-        <section className="py-60 bg-black/60 relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-32 items-center">
-                 <div>
-                    <Reveal>
-                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-cyan-400 block mb-12 italic underline underline-offset-8 decoration-cyan-400/20">Advanced // Underwater // Telemetry</span>
-                       <h2 className="text-6xl md:text-[8vw] font-light italic leading-none text-white mb-12 uppercase tracking-tighter text-white">
-                          The <br/> <span className="not-italic font-black text-white/5 italic">Pressure_Seal.</span>
-                       </h2>
-                       <p className="text-xl font-light text-white/20 leading-relaxed mb-20 italic uppercase tracking-widest">
-                          Surveillance biométrique et mécanique en temps réel. Nos systèmes de survie sont certifiés pour opérer dans les environnements les plus hostiles de la planète.
-                       </p>
-                       <div className="grid grid-cols-2 gap-8 mb-20">
-                          {ABYSS_METRICS.map((metric, i) => (
-                            <div key={i} className="p-10 bg-[#02050a] border border-cyan-900/20 group hover:border-cyan-400/30 transition-all">
-                               <div className="text-[9px] font-black uppercase text-cyan-400 mb-4 tracking-[0.3em]">{metric.label}</div>
-                               <div className="text-4xl font-light text-white italic">{metric.value}</div>
-                               <div className="flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest text-white/20 italic">
-                                  <Activity className="w-3 h-3" /> {metric.trend}
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                       <button 
-                         onClick={() => setIsSealActive(!isSealActive)}
-                         className="w-full py-6 bg-cyan-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center gap-4 italic"
-                       >
-                          <Power className="w-4 h-4" /> Toggle Pressure Seal
-                       </button>
-                    </Reveal>
-                 </div>
-                 
-                 <div className="relative">
-                    <Reveal delay={0.3} x={40}>
-                       <div className="aspect-square bg-[#02050a] border border-white/10 p-16 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 p-60 bg-cyan-600 opacity-[0.03] blur-[120px] rounded-full group-hover:opacity-[0.1] transition-opacity" />
-                          
-                          <div className="flex justify-between items-start z-10">
-                             <div className="flex flex-col gap-2">
-                                <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">Drone_ID // ABYSS-SYNC-v8</span>
-                                <span className="text-[10px] font-black text-white uppercase tracking-[0.4em]">Sonar_Flow_Analysis</span>
-                             </div>
-                             <Wifi className="w-5 h-5 text-cyan-400" />
-                          </div>
-                          
-                          {/* SONAR VISUALIZER */}
-                          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                             <SonarPulse />
-                             <div className="text-center space-y-4 mt-8">
-                                <div className={`text-4xl font-black italic tracking-tighter ${isSealActive ? "text-cyan-400 animate-pulse" : "text-white/20"}`}>
-                                   {isSealActive ? "SEAL_NOMINAL" : "SEAL_WARNING"}
-                                </div>
-                                <span className="text-[9px] font-bold text-white/10 uppercase tracking-[0.5em]">Auth_Node: CHALLENGER_DEEP_01</span>
-                             </div>
-                          </div>
-
-                          <div className="relative z-10 flex gap-4">
-                             <div className="w-full h-1 bg-white/5 overflow-hidden">
-                                <motion.div 
-                                   animate={isSealActive ? { x: ["-100%", "100%"] } : {}}
-                                   transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-cyan-600"
-                                />
-                             </div>
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            4. BIODIVERSITY LOG (TECH STORYTELLING)
-            ========================================== */}
-        <section className="py-60 bg-black relative overflow-hidden">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-32 items-center">
-                 <div className="relative aspect-[4/5] overflow-hidden group border border-white/5 shadow-2xl">
-                    <Image 
-                       src="https://images.unsplash.com/photo-1544919934-807e47d1217e?q=80&w=1200&auto=format&fit=crop" 
-                       alt="Deep Sea Bioluminescence" 
-                       fill 
-                       className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"
-                    />
-                    <div className="absolute inset-0 bg-cyan-900/20 mix-blend-color group-hover:opacity-0 transition-opacity" />
-                    <div className="absolute inset-0 p-16 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                       <div className="text-white">
-                          <span className="text-[10px] font-black uppercase tracking-[0.6em] text-cyan-400 mb-6 block italic underline underline-offset-8 decoration-cyan-400/20">Ecological // Impact // Unit</span>
-                          <h4 className="text-5xl font-black tracking-tighter uppercase italic mb-8">Abyssal <br/> Heritage.</h4>
-                          <button className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest border-b border-cyan-400 pb-2 hover:border-white transition-all group">
-                             Environment Protocols <ExternalLink className="w-4 h-4 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                          </button>
-                       </div>
-                    </div>
-                 </div>
-
-                 <div>
-                    <Reveal>
-                       <div className="mb-24 text-left">
-                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-cyan-400 mb-8 block italic">Chapitre III // Ecology</span>
-                          <h2 className="text-6xl md:text-[8vw] font-black tracking-tighter uppercase text-white italic leading-none text-white">Blue_Deep.</h2>
-                       </div>
-                       <p className="text-xl font-light text-white/20 leading-relaxed italic mb-16 uppercase tracking-widest">
-                          L'extraction minière sous-marine exige une responsabilité écologique absolue. Nos drones cartographient chaque centimètre carré de l'habitat abyssal pour minimiser notre empreinte physique.
-                       </p>
-                       <div className="space-y-16">
-                          {[
-                            { t: "Plume Containment", d: "Technologie de sédimentation contrôlée pour prévenir la dispersion des particules lors de l'extraction." },
-                            { t: "Bioluminescence Guard", d: "Protocoles d'éclairage à basse intensité pour ne pas perturber les cycles naturels de la faune abyssale." },
-                            { t: "Habitat Restoration", d: "Programmes de réhabilitation post-extraction basés sur l'ensemencement de coraux de profondeur." }
-                          ].map((step, i) => (
-                            <div key={i} className="group flex gap-12 border-b border-white/5 pb-12 hover:border-cyan-400/30 transition-all cursor-default">
-                               <div className="text-5xl font-black text-white/5 group-hover:text-cyan-400/20 transition-colors italic leading-none">0{i+1}</div>
-                               <div>
-                                  <h5 className="text-2xl font-bold uppercase tracking-tight text-white mb-4 italic group-hover:translate-x-2 transition-transform text-white">{step.t}</h5>
-                                  <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] font-bold leading-relaxed italic">{step.d}</p>
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* MEGA FOOTER */}
-        <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-              <div className="lg:col-span-2">
-                 <div className="flex items-center gap-4 mb-12">
-                    <div className="w-12 h-12 bg-cyan-600 flex items-center justify-center">
-                      <Anchor className="w-8 h-8 text-white" />
-                    </div>
-                    <span className="text-3xl font-black uppercase tracking-tighter italic">DEEP<span className="text-cyan-400">_CORE.</span></span>
-                 </div>
-                 <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.4em] leading-loose max-w-sm mb-16 italic">
-                    "Les Abysses sont le dernier bastion de l'inconnu sur Terre." — Archive Core V.8
-                 </p>
-                 <div className="flex gap-12">
-                    {["DiveLog", "MineralRegistry", "GitHub", "X_Protocol"].map(s => (
-                      <Link key={s} href="#" className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-cyan-400 transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
-                    ))}
-                 </div>
-              </div>
-
-              {[
-                { t: "EXPLORATION", l: ["ROV Systems", "Deep Submersibles", "Sonar Mapping", "Thermal Vents"] },
-                { t: "RESOURCES", l: ["Mineral Registry", "Extraction Tech", "Market Index", "Storage"] },
-                { t: "ECOLOGY", l: ["Plume Control", "Biodiversity", "Restoration", "Deep Ethics"] }
-              ].map((col, i) => (
-                <div key={i} className="flex flex-col gap-12">
-                  <h4 className="text-[10px] font-black text-cyan-400 uppercase tracking-[0.5em] italic">{col.t}</h4>
-                  <ul className="flex flex-col gap-6">
-                    {col.l.map(link => (
-                      <li key={link} className="text-[10px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-widest italic">{link}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-           </div>
-
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-12 text-[8px] font-black text-white/10 uppercase tracking-[0.4em] italic">
-              <span>© 2026 DEEP CORE OCEANIC INFRASTRUCTURE AG. // ALL_RIGHTS_RESERVED</span>
-              <div className="flex gap-12">
-                 <span>STATUS: PRESSURE_SECURE</span>
-                 <span>DEPTH: 6,000m (MAX)</span>
-                 <span>v8.4.0-STABLE</span>
-              </div>
-           </div>
-        </footer>
-      </main>
-    </motion.div>
-  )
-}
-
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
-
-function HUD_Overlay({ activeLog, isSealActive }: { activeLog: number, isSealActive: boolean }) {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Corner Brackets */}
-       <div className={`absolute top-12 left-12 w-16 h-16 border-t border-l transition-colors duration-1000 ${isSealActive ? "border-cyan-400/20" : "border-red-500"}`} />
-       <div className={`absolute top-12 right-12 w-16 h-16 border-t border-r transition-colors duration-1000 ${isSealActive ? "border-cyan-400/20" : "border-red-500"}`} />
-       <div className={`absolute bottom-12 left-12 w-16 h-16 border-b border-l transition-colors duration-1000 ${isSealActive ? "border-cyan-400/20" : "border-red-500"}`} />
-       <div className={`absolute bottom-12 right-12 w-16 h-16 border-b border-r transition-colors duration-1000 ${isSealActive ? "border-cyan-400/20" : "border-red-500"}`} />
-
-       {/* Top Status Bar */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-16 bg-black/60 backdrop-blur-md px-10 py-3 border border-white/5 rounded-full">
-          <div className="flex items-center gap-4">
-             <div className={`w-2 h-2 rounded-full transition-colors duration-500 ${isSealActive ? "bg-cyan-400 animate-pulse" : "bg-red-500 animate-ping"}`} />
-             <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${isSealActive ? "text-white/60" : "text-red-500"}`}>
-                {isSealActive ? "Pressure_Status: SEALED" : "CRITICAL_SEAL_FAILURE"}
-             </span>
-          </div>
-          <div className="h-4 w-px bg-white/10" />
-          <div className="flex items-center gap-4 text-[9px] font-black text-white/20 uppercase tracking-[0.2em]">
-             <Wifi className="w-3 h-3" /> Earth_Relay: Secure
-          </div>
-       </div>
-
-       {/* Left Live Logs */}
-       <div className="absolute left-12 top-1/2 -translate-y-1/2 flex flex-col gap-2 hidden lg:flex">
-          {MISSION_LOGS.map((log, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: i === activeLog ? 1 : 0.1, x: i === activeLog ? 0 : -10 }}
-              className={`text-[8px] font-mono font-bold ${i === activeLog ? (log.level === "ALERT" ? "text-red-500" : "text-cyan-400") : "text-white"}`}
-            >
-              [{log.time}] {log.event}
-            </motion.div>
+            </Reveal>
           ))}
-       </div>
+        </div>
+      </section>
 
-       {/* Right Rotation Info */}
-       <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[8px] font-black uppercase tracking-[0.6em] text-white/5 italic">Unauthorized_Dumping_Of_Tailing_Waste_Into_Deep_Ocean_Is_Strictly_Prohibited_By_Maritime_Council_Law</span>
-       </div>
+      {/* FEATURES */}
+      <section id="fonctionnalités" style={{ padding: "100px 32px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 64 }}>
+              <Badge style={{ background: "rgba(99,102,241,0.1)", color: "#818cf8", border: "1px solid rgba(99,102,241,0.25)", fontSize: 12, marginBottom: 16 }}>FONCTIONNALITÉS</Badge>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 800, letterSpacing: "-0.02em", color: "#e8eaf6" }}>Tout ce dont votre équipe a besoin</h2>
+              <p style={{ fontSize: 16, color: "rgba(232,234,246,0.5)", marginTop: 12, maxWidth: 480, margin: "12px auto 0" }}>Une plateforme unifiée pour automatiser, analyser et collaborer — sans multiplier les outils.</p>
+            </div>
+          </Reveal>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 20 }}>
+            {FEATURES.map((f, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <motion.div whileHover={{ y: -4, borderColor: "rgba(99,102,241,0.3)" }}
+                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(99,102,241,0.12)", borderRadius: 14, padding: "28px 24px", cursor: "pointer", transition: "border-color 0.3s" }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(99,102,241,0.12)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 18 }}>
+                    <f.icon size={20} color="#818cf8" />
+                  </div>
+                  <h3 style={{ fontSize: 18, fontWeight: 700, color: "#e8eaf6", marginBottom: 10 }}>{f.title}</h3>
+                  <p style={{ fontSize: 14, color: "rgba(232,234,246,0.55)", lineHeight: 1.7 }}>{f.desc}</p>
+                </motion.div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* INTEGRATIONS TABS */}
+      <section id="intégrations" style={{ padding: "100px 32px", background: "rgba(255,255,255,0.02)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 52 }}>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 800, color: "#e8eaf6", letterSpacing: "-0.02em" }}>200+ intégrations <span style={{ color: "#818cf8" }}>natives</span></h2>
+            </div>
+          </Reveal>
+
+          <Tabs defaultValue="crm" style={{ width: "100%" }}>
+            <TabsList style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(99,102,241,0.15)", marginBottom: 40, display: "flex", height: "auto", padding: 4, gap: 4 }}>
+              <TabsTrigger value="crm" style={{ flex: 1, fontSize: 13, fontWeight: 500, color: "rgba(232,234,246,0.55)" }}>CRM & Sales</TabsTrigger>
+              <TabsTrigger value="dev" style={{ flex: 1, fontSize: 13, fontWeight: 500, color: "rgba(232,234,246,0.55)" }}>Dev & Ops</TabsTrigger>
+              <TabsTrigger value="collab" style={{ flex: 1, fontSize: 13, fontWeight: 500, color: "rgba(232,234,246,0.55)" }}>Collaboration</TabsTrigger>
+            </TabsList>
+
+            {[
+              { id: "crm", title: "Salesforce, HubSpot, Pipedrive, Intercom, Zendesk", desc: "Synchronisez vos contacts, deals et tickets en temps réel. Déclenchez des workflows CRM depuis n'importe quel événement.", items: ["Sync bidirectionnel automatique", "Création de leads depuis formulaires", "Alertes churn prédictif", "Rapports revenue automatisés"] },
+              { id: "dev", title: "GitHub, Jira, Linear, Datadog, PagerDuty", desc: "Automatisez vos pipelines CI/CD, incidents et tickets de développement en connectant vos outils de prod.", items: ["Webhook sur PR, deploy, incident", "Alertes Datadog → Slack", "Sprint planning automatisé", "Release notes générées par IA"] },
+              { id: "collab", title: "Slack, Teams, Notion, Google Workspace, Zoom", desc: "Gardez votre équipe en sync sans effort. Notifications intelligentes, résumés automatiques et mises à jour contextuelles.", items: ["Résumés de réunion IA", "Tâches depuis messages Slack", "Docs Notion synchronisés", "Rapports hebdo automatiques"] },
+            ].map(tab => (
+              <TabsContent key={tab.id} value={tab.id}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
+                  <div>
+                    <h3 style={{ fontSize: 24, fontWeight: 700, color: "#e8eaf6", marginBottom: 8 }}>{tab.title}</h3>
+                    <p style={{ fontSize: 15, color: "rgba(232,234,246,0.6)", lineHeight: 1.75, marginBottom: 24 }}>{tab.desc}</p>
+                    <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 12 }}>
+                      {tab.items.map(item => (
+                        <li key={item} style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 14, color: "rgba(232,234,246,0.7)" }}>
+                          <Check size={15} color="#818cf8" style={{ flexShrink: 0 }} />{item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div style={{ background: "rgba(99,102,241,0.06)", border: "1px solid rgba(99,102,241,0.15)", borderRadius: 16, padding: "40px 32px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Globe size={80} color="rgba(129,140,248,0.3)" />
+                  </div>
+                </div>
+              </TabsContent>
+            ))}
+          </Tabs>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section style={{ padding: "100px 32px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 52 }}>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 800, color: "#e8eaf6", letterSpacing: "-0.02em" }}>Ils ont fait le switch</h2>
+            </div>
+          </Reveal>
+          <Carousel opts={{ align: "start", loop: true }}>
+            <CarouselContent style={{ paddingLeft: 8 }}>
+              {TESTIMONIALS.map((t, i) => (
+                <CarouselItem key={i} style={{ paddingLeft: 16, flexBasis: "calc(50% - 8px)" }}>
+                  <Card style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(99,102,241,0.12)", borderRadius: 14 }}>
+                    <CardContent style={{ padding: 28 }}>
+                      <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>
+                        {Array.from({ length: t.rating }).map((_, j) => <Star key={j} size={13} fill="#818cf8" color="#818cf8" />)}
+                      </div>
+                      <p style={{ fontSize: 15, color: "rgba(232,234,246,0.7)", lineHeight: 1.75, marginBottom: 20 }}>"{t.text}"</p>
+                      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                        <Avatar><AvatarFallback style={{ background: "rgba(99,102,241,0.15)", color: "#818cf8", fontSize: 12, fontWeight: 700 }}>{t.avatar}</AvatarFallback></Avatar>
+                        <div>
+                          <div style={{ fontSize: 14, fontWeight: 700, color: "#e8eaf6" }}>{t.name}</div>
+                          <div style={{ fontSize: 12, color: "rgba(232,234,246,0.4)" }}>{t.role}</div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(99,102,241,0.3)", color: "#818cf8" }} />
+            <CarouselNext style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(99,102,241,0.3)", color: "#818cf8" }} />
+          </Carousel>
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section id="tarifs" style={{ padding: "100px 32px", background: "rgba(255,255,255,0.02)" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 60 }}>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 800, color: "#e8eaf6", letterSpacing: "-0.02em" }}>Tarifs simples et <span style={{ color: "#818cf8" }}>transparents</span></h2>
+              <p style={{ fontSize: 15, color: "rgba(232,234,246,0.45)", marginTop: 12 }}>Annuel : -20%. Pas de frais cachés. Annulation à tout moment.</p>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+            {PRICING.map((plan, i) => (
+              <Reveal key={i} delay={i * 0.12}>
+                <motion.div whileHover={{ y: -6, boxShadow: plan.featured ? "0 20px 50px rgba(99,102,241,0.25)" : "0 8px 32px rgba(0,0,0,0.4)" }}
+                  style={{ borderRadius: 16, border: plan.featured ? "1px solid rgba(99,102,241,0.5)" : "1px solid rgba(255,255,255,0.06)", overflow: "hidden", cursor: "pointer", position: "relative" }}>
+                  {plan.featured && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "linear-gradient(90deg, #6366f1, #818cf8)" }} />}
+                  <div style={{ padding: "32px 24px", background: plan.featured ? "rgba(99,102,241,0.06)" : "rgba(255,255,255,0.02)" }}>
+                    {plan.featured && <div style={{ display: "inline-block", background: "rgba(99,102,241,0.15)", color: "#818cf8", fontSize: 10, letterSpacing: "0.1em", fontWeight: 700, padding: "3px 10px", borderRadius: 20, marginBottom: 12 }}>RECOMMANDÉ</div>}
+                    <h3 style={{ fontSize: 22, fontWeight: 800, color: "#e8eaf6", marginBottom: 4 }}>{plan.name}</h3>
+                    <p style={{ fontSize: 13, color: "rgba(232,234,246,0.4)", marginBottom: 20 }}>{plan.desc}</p>
+                    <div style={{ marginBottom: 24 }}>
+                      {plan.price !== "Sur mesure" ? (
+                        <><span style={{ fontSize: 42, fontWeight: 800, color: "#818cf8" }}>{plan.price}€</span><span style={{ fontSize: 14, color: "rgba(232,234,246,0.4)" }}>{plan.period}</span></>
+                      ) : (
+                        <span style={{ fontSize: 28, fontWeight: 700, color: "#818cf8" }}>{plan.price}</span>
+                      )}
+                    </div>
+                    <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
+                      {plan.features.map(f => (
+                        <li key={f} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 13, color: "rgba(232,234,246,0.65)" }}>
+                          <Check size={13} color="#818cf8" style={{ marginTop: 2, flexShrink: 0 }} />{f}
+                        </li>
+                      ))}
+                    </ul>
+                    <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                      style={{ width: "100%", padding: "13px", background: plan.featured ? "linear-gradient(135deg, #6366f1, #818cf8)" : "transparent", color: plan.featured ? "white" : "#818cf8", border: plan.featured ? "none" : "1px solid rgba(99,102,241,0.4)", borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>
+                      {plan.price === "Sur mesure" ? "Nous contacter" : "Commencer"}
+                    </motion.button>
+                  </div>
+                </motion.div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section style={{ padding: "100px 32px" }}>
+        <div style={{ maxWidth: 780, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 52 }}>
+              <h2 style={{ fontSize: "clamp(26px, 4vw, 44px)", fontWeight: 800, color: "#e8eaf6", letterSpacing: "-0.02em" }}>Questions fréquentes</h2>
+            </div>
+          </Reveal>
+          <Accordion type="single" collapsible style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {FAQS.map((faq, i) => (
+              <AccordionItem key={i} value={`q${i}`} style={{ border: "1px solid rgba(99,102,241,0.12)", borderRadius: 10, overflow: "hidden", background: "rgba(255,255,255,0.02)" }}>
+                <AccordionTrigger style={{ padding: "18px 22px", fontSize: 15, fontWeight: 600, color: "#e8eaf6", textAlign: "left" }}>{faq.q}</AccordionTrigger>
+                <AccordionContent style={{ padding: "0 22px 18px", fontSize: 14, color: "rgba(232,234,246,0.55)", lineHeight: 1.8 }}>{faq.a}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section style={{ padding: "80px 32px", background: "linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(99,102,241,0.05) 100%)", borderTop: "1px solid rgba(99,102,241,0.15)" }}>
+        <div style={{ maxWidth: 680, margin: "0 auto", textAlign: "center" }}>
+          <Reveal>
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 800, color: "#e8eaf6", marginBottom: 16, letterSpacing: "-0.02em" }}>
+              Prêt à automatiser ?<br /><span style={{ color: "#818cf8" }}>Commencez en 2 minutes.</span>
+            </h2>
+            <p style={{ fontSize: 16, color: "rgba(232,234,246,0.55)", lineHeight: 1.7, marginBottom: 40 }}>14 jours gratuits. Aucune carte bancaire requise. Setup en moins de 5 minutes.</p>
+            <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+              <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(99,102,241,0.4)" }} whileTap={{ scale: 0.97 }}
+                style={{ padding: "16px 36px", background: "linear-gradient(135deg, #6366f1, #818cf8)", color: "white", border: "none", borderRadius: 10, fontSize: 16, fontWeight: 700, cursor: "pointer" }}>
+                Démarrer gratuitement
+              </motion.button>
+              <motion.button whileHover={{ scale: 1.04 }}
+                style={{ padding: "16px 36px", background: "rgba(255,255,255,0.06)", color: "#e8eaf6", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 10, fontSize: 16, cursor: "pointer" }}>
+                Voir une démo
+              </motion.button>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer style={{ padding: "56px 32px 36px", background: "#030408" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 40, marginBottom: 48 }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
+                <div style={{ width: 28, height: 28, borderRadius: 7, background: "linear-gradient(135deg, #6366f1, #818cf8)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Zap size={14} color="white" />
+                </div>
+                <span style={{ fontSize: 17, fontWeight: 700, color: "#e8eaf6" }}>FlowSync</span>
+              </div>
+              <p style={{ fontSize: 13, color: "rgba(232,234,246,0.35)", lineHeight: 1.8, maxWidth: 260, marginBottom: 20 }}>Plateforme d'automatisation SaaS pour équipes ambitieuses. SOC 2 Type II · RGPD compliant.</p>
+              <div style={{ display: "flex", gap: 10 }}>
+                {[Twitter, Linkedin, Github].map((Icon, i) => (
+                  <motion.button key={i} whileHover={{ scale: 1.15 }} style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "rgba(232,234,246,0.4)" }}>
+                    <Icon size={14} />
+                  </motion.button>
+                ))}
+              </div>
+            </div>
+            {[
+              { title: "Produit", links: ["Fonctionnalités", "Intégrations", "API", "Changelog", "Statut"] },
+              { title: "Ressources", links: ["Documentation", "Blog", "Tutoriels", "Templates", "Communauté"] },
+              { title: "Société", links: ["À propos", "Carrières", "Presse", "Sécurité", "Contact"] },
+            ].map(col => (
+              <div key={col.title}>
+                <h4 style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "#818cf8", marginBottom: 18 }}>{col.title.toUpperCase()}</h4>
+                <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+                  {col.links.map(l => <li key={l}><a href="#" style={{ fontSize: 13, color: "rgba(232,234,246,0.35)", textDecoration: "none" }}>{l}</a></li>)}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <Separator style={{ background: "rgba(255,255,255,0.06)", marginBottom: 24 }} />
+          <p style={{ fontSize: 12, color: "rgba(232,234,246,0.2)", textAlign: "center" }}>© 2024 FlowSync — Tous droits réservés</p>
+        </div>
+      </footer>
     </div>
   )
 }

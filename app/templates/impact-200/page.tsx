@@ -1,527 +1,420 @@
 "use client"
-
-import React, { useState, useEffect, useRef } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
-} from "framer-motion"
+import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
+import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  Zap, Activity, Microscope, 
-  Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, Wifi, BarChart3, 
-  Fingerprint, Scan, Brain, Server, 
-  ShieldCheck, ShieldAlert, Award, 
-  Briefcase, Wind, Thermometer, 
-  Flame, Battery, Radio, Gauge, 
-  Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Satellite, 
-  Milestone, FlaskConical, FlaskRound, 
-  Ghost, Binary, Database, Search, 
-  Cpu, HeartPulse, Sun, Magnet, 
-  CircleDot, Waves, Pickaxe, Mountain, 
-  Gem, Rocket, Drill, PlaneTakeoff, 
-  CpuIcon, Network, Eye, BrainCircuit, 
-  ZapIcon, Pulse, Sparkles, Infinity, 
-  Code2, Cloud, HardDrive, Key
-} from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { Progress } from "@/components/ui/progress"
+import { Separator } from "@/components/ui/separator"
+import { Heart, Star, Flower2, Camera, Music, Utensils, MapPin, Phone, Mail, Instagram, Pinterest, Menu, Check, Clock, Calendar, Users } from "lucide-react"
 
-/* ==========================================================================
-   THE SINGULARITY DATASET (ULTRA DENSITY)
-   ========================================================================== */
-
-const COMPUTATIONAL_ASSETS = [
-  {
-    id: "axi-v4-42",
-    name: "Axiom-v4 Processor",
-    type: "Neural Mesh Core",
-    power: "142 ExaFLOPS",
-    energy: "12.4 MW",
-    consciousness: "84.2%",
-    desc: "Le processeur le plus puissant au monde, capable de simuler des réseaux neuronaux d'une complexité sans précédent.",
-    status: "Processing"
-  },
-  {
-    id: "axi-qua-08",
-    name: "Quantum Core Alpha",
-    type: "Qubit Engine",
-    power: "2.4k Qubits",
-    energy: "4.2 MW",
-    consciousness: "12.8%",
-    desc: "Moteur de calcul quantique ultra-froid permettant de résoudre des équations de physique moléculaire en quelques microsecondes.",
-    status: "Locked Stable"
-  },
-  {
-    id: "axi-neu-15",
-    name: "Neural Mesh v5",
-    type: "Cognitive Grid",
-    power: "850 ExaFLOPS",
-    energy: "45.0 MW",
-    consciousness: "99.8%",
-    desc: "Grille cognitive décentralisée simulant l'éveil d'une intelligence artificielle générale à l'échelle planétaire.",
-    status: "Singularity Emergence"
-  }
-]
-
-const AGI_METRICS = [
-  { label: "Algorithm Stability", value: "99.98%", trend: "Optimal" },
-  { label: "Network Latency", value: "0.02 ms", trend: "Nominal" },
-  { label: "Consciousness Entropy", value: "4.2%", trend: "Increasing" },
-  { label: "Neural Drift", value: "0.001 Å", trend: "Stable" }
-]
-
-const AGI_LOGS = [
-  { timestamp: "42:14:42", unit: "Core-Axiom-01", status: "AWAKENING", sync: "84%" },
-  { timestamp: "42:14:45", unit: "Neural-Buffer", status: "PROCESSING", rate: "12Pb/s" },
-  { timestamp: "42:14:48", unit: "Singularity-Guard", status: "SECURE", integrity: "100%" }
-]
-
-/* ==========================================
-   TECHNICAL COMPONENTS
-   ========================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y: 32 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function InfiniteFlowVisualizer() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
-  useEffect(() => {
-    const handleMouse = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
-    window.addEventListener("mousemove", handleMouse)
-    return () => window.removeEventListener("mousemove", handleMouse)
-  }, [])
+const GALLERY = [
+  { img: "photo-1519741497674-611481863552", label: "Villa Toscane — 180 invités" },
+  { img: "photo-1511285560929-80b456fea0bc", label: "Château de Provence — 120 invités" },
+  { img: "photo-1465495976277-4387d4b0b4c6", label: "Jardins de Paris — 240 invités" },
+  { img: "photo-1606216794074-735e91aa2c92", label: "Domaine Viticole — 90 invités" },
+  { img: "photo-1583939003579-730e3918a45a", label: "Plage Corse — Cérémonie intime" },
+  { img: "photo-1469371670807-013ccf25f16a", label: "Manoir Normand — 160 invités" },
+]
+
+const SERVICES_LIST = [
+  { icon: Calendar, name: "Organisation complète", desc: "De la demande en mairie au dernier slow — nous gérons tout, vous vivez pleinement", price: "À partir de 4 500 €" },
+  { icon: Users, name: "Coordination Jour J", desc: "Notre équipe présente toute la journée pour que vous n'ayez qu'à profiter", price: "À partir de 1 800 €" },
+  { icon: Flower2, name: "Décoration florale", desc: "Compositions florales sur mesure, de l'arche de cérémonie à la table d'honneur", price: "À partir de 2 200 €" },
+  { icon: Camera, name: "Mise en scène", desc: "Direction artistique, moodboard, scénographie — votre mariage comme au cinéma", price: "À partir de 950 €" },
+  { icon: Utensils, name: "Coordination traiteur", desc: "Sélection des prestataires, dégustation, menu sur mesure — gastronomie garantie", price: "Inclus formule complète" },
+  { icon: Music, name: "Animation musicale", desc: "DJ, orchestre jazz, quartet à cordes — la bande-son parfaite pour chaque moment", price: "À partir de 1 200 €" },
+]
+
+const STATS = [
+  { val: "340+", label: "Mariages organisés" },
+  { val: "12 ans", label: "D'expertise" },
+  { val: "98%", label: "Couples recommandent" },
+  { val: "3", label: "Planneuses expertes" },
+  { val: "50+", label: "Lieux partenaires" },
+]
+
+const TESTIMONIALS = [
+  { name: "Lucie & Antoine Berger", role: "Mariés le 14 juin 2023", rating: 5, text: "Camille et son équipe ont transformé notre rêve en réalité. Chaque détail était parfait — les fleurs, la lumière, la musique. Nous avons pu profiter sans aucun stress.", avatar: "LA" },
+  { name: "Sophie & Marc Delaunay", role: "Mariés le 2 septembre 2023", rating: 5, text: "Nous avons choisi la formule complète et c'était la meilleure décision. Cérémonie s'est occupée de tout, même des petits imprévus du jour J sans qu'on s'en aperçoive.", avatar: "SM" },
+  { name: "Emma & Thomas Faure", role: "Mariés le 30 avril 2024", rating: 5, text: "Un mariage de 220 personnes organisé en 8 mois — un défi que Cérémonie a relevé avec grâce. La décoration florale était à couper le souffle.", avatar: "ET" },
+  { name: "Julie & Nicolas Arnaud", role: "Mariés le 7 juillet 2023", rating: 5, text: "La coordination le Jour J était impeccable. Je n'ai pas eu à penser à une seule logistique. Cérémonie est une équipe de magiciennes.", avatar: "JN" },
+  { name: "Clara & Hugo Mercier", role: "Mariés le 12 mai 2024", rating: 5, text: "Mariage en Provence avec 140 invités et un budget maîtrisé. Inès a négocié avec tous les prestataires pour nous obtenir les meilleures conditions. Merci infiniment.", avatar: "CH" },
+]
+
+const PRICING = [
+  { name: "Essentielle", price: "1 800", desc: "Coordination Jour J", features: ["Planning heure par heure", "Réunion de brief 1 mois avant", "Coordination le jour J (12h)", "Liaison avec tous les prestataires", "Gestion des imprévus", "Debriefing post-mariage"] },
+  { name: "Signature", price: "4 500", desc: "Organisation complète", featured: true, features: ["Tout Essentielle inclus", "De 12 mois avant jusqu'au Jour J", "Sélection de tous les prestataires", "Décoration & moodboard", "Accompagnement budget complet", "3 visites de lieu incluses", "Séance de dégustation traiteur"] },
+  { name: "Prestige", price: "8 500", desc: "Mariage de luxe sur mesure", features: ["Tout Signature inclus", "Scénographie & mise en scène", "Décoration florale complète incluse", "Coordination internationale", "Photographe partenaire recommandé", "Vidéaste cinématographique", "Voyages repérages inclus"] },
+]
+
+const FAQS = [
+  { q: "À quel moment faut-il contacter une wedding planner ?", a: "Idéalement 12 à 18 mois avant la date souhaitée pour un mariage en haute saison (mai à septembre). Pour la coordination Jour J uniquement, 3 à 6 mois suffisent. Contactez-nous dès que la décision est prise !" },
+  { q: "Comment se passe la première rencontre ?", a: "La découverte est un appel ou une rencontre de 45 minutes, sans engagement et sans frais. Nous écoutons votre vision, votre budget et vos contraintes pour vous proposer la formule la plus adaptée." },
+  { q: "Travaillez-vous avec nos propres prestataires ?", a: "Absolument. Si vous avez déjà votre photographe, votre traiteur ou votre fleuriste, nous les intégrons parfaitement. Nous avons aussi un carnet d'adresses premium si vous souhaitez des recommandations." },
+  { q: "Organisez-vous des mariages à l'étranger ?", a: "Oui, nous avons organisé des mariages en Italie, Grèce, Portugal, Maroc et Île Maurice. Les frais de déplacement sont inclus dans nos formules Prestige ou facturés au coût réel pour les autres formules." },
+  { q: "Comment gérez-vous les imprévus le Jour J ?", a: "Nous avons un protocole de gestion de crise rodé. Notre équipe est toujours en doublon sur le terrain et nous avons des solutions de secours pour les situations les plus courantes (météo, prestataire défaillant, etc.)." },
+  { q: "Proposez-vous des paiements échelonnés ?", a: "Oui, nous proposons un échéancier en 3 versements : 30% à la signature, 40% à 6 mois du mariage, et le solde 30 jours avant. Des arrangements personnalisés sont possibles." },
+  { q: "Organisez-vous aussi les PACS et cérémonies laïques ?", a: "Tout à fait. Nous accompagnons tous les couples, quelle que soit la forme de leur union. Cérémonies laïques, symboliques, religieuses — chaque amour mérite une célébration parfaite." },
+]
+
+export default function CeremoniePage() {
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const heroRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"])
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20">
-       <svg width="100%" height="100%" className="w-full h-full">
-          {[...Array(50)].map((_, i) => (
-            <motion.circle 
-               key={i}
-               cx={Math.random() * 2000}
-               cy={Math.random() * 1000}
-               r={Math.random() * 2 + 0.5}
-               fill="#fbbf24"
-               animate={{ 
-                  cx: [Math.random() * 2000, mousePos.x + (Math.random() - 0.5) * 400],
-                  cy: [Math.random() * 1000, mousePos.y + (Math.random() - 0.5) * 400],
-                  opacity: [0, 0.8, 0]
-               }}
-               transition={{ duration: Math.random() * 4 + 2, repeat: Infinity }}
-            />
-          ))}
-          {[...Array(20)].map((_, i) => (
-            <motion.path 
-               key={`path-${i}`}
-               d={`M ${Math.random() * 2000} ${Math.random() * 1000} Q ${Math.random() * 1000} ${Math.random() * 500} ${mousePos.x} ${mousePos.y}`}
-               stroke="#fbbf24" 
-               strokeWidth="0.1" 
-               fill="none"
-               animate={{ opacity: [0, 0.3, 0] }}
-               transition={{ duration: 3, repeat: Infinity, delay: i * 0.1 }}
-            />
-          ))}
-       </svg>
-    </div>
-  )
-}
+    <div style={{ overflowX: "hidden", scrollBehavior: "smooth", background: "#fdfaf7", color: "#2c1810", fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
 
-function SingularityModel({ progress }: { progress: any }) {
-  const rotate = useTransform(progress, [0, 1], [0, 360])
-  const scale = useTransform(progress, [0, 0.5, 1], [1, 1.4, 1])
+      {/* NAVBAR */}
+      <motion.nav
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, backdropFilter: "blur(16px)", background: "rgba(253,250,247,0.92)", borderBottom: "1px solid rgba(180,140,110,0.12)" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+            <Heart size={18} color="#b87c5a" fill="rgba(184,124,90,0.2)" />
+            <span style={{ fontSize: 22, fontWeight: 400, color: "#2c1810", letterSpacing: "0.12em" }}>Cérémonie</span>
+          </Link>
 
-  return (
-    <motion.div style={{ rotate, scale }} className="relative w-96 h-96 flex items-center justify-center">
-       <div className="absolute inset-0 border border-amber-500/10 rounded-full animate-spin-slow shadow-[0_0_100px_rgba(251,191,36,0.05)]" />
-       <Infinity className="w-48 h-48 text-amber-500/10 animate-pulse" />
-       <div className="absolute inset-12 border border-amber-500/5 rounded-full" />
-    </motion.div>
-  )
-}
+          <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="hidden md:flex">
+            {["Services", "Galerie", "Témoignages", "Contact"].map(item => (
+              <a key={item} href={`#${item.toLowerCase()}`}
+                style={{ color: "#7a5c4a", textDecoration: "none", fontSize: 14, fontFamily: "system-ui, sans-serif", letterSpacing: "0.04em", transition: "color 0.2s" }}
+                onMouseEnter={e => (e.currentTarget.style.color = "#b87c5a")}
+                onMouseLeave={e => (e.currentTarget.style.color = "#7a5c4a")}>
+                {item}
+              </a>
+            ))}
+            <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
+              style={{ padding: "10px 26px", background: "#b87c5a", color: "white", border: "none", borderRadius: 40, fontSize: 13, fontFamily: "system-ui", fontWeight: 600, cursor: "pointer", letterSpacing: "0.04em" }}>
+              Nous contacter
+            </motion.button>
+          </div>
 
-/* ==========================================
-   THE SINGULARITY - MAIN INTERFACE
-   ========================================== */
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild>
+              <button style={{ background: "none", border: "none", color: "#2c1810", cursor: "pointer" }} className="md:hidden block">
+                <Menu size={24} />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" style={{ background: "#fdfaf7" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 28, paddingTop: 48 }}>
+                {["Services", "Galerie", "Témoignages", "Contact"].map(item => (
+                  <a key={item} href="#" onClick={() => setMobileOpen(false)}
+                    style={{ color: "#2c1810", textDecoration: "none", fontSize: 20, fontStyle: "italic" }}>{item}</a>
+                ))}
+                <button style={{ padding: "14px", background: "#b87c5a", color: "white", border: "none", borderRadius: 40, fontSize: 14, fontFamily: "system-ui", fontWeight: 600, cursor: "pointer" }}>
+                  Nous contacter
+                </button>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </motion.nav>
 
-export default function SingularityPremium() {
-  const [activeAsset, setActiveAsset] = useState(0)
-  const [isAGIStable, setIsAGIStable] = useState(true)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
+      {/* HERO */}
+      <section ref={heroRef} style={{ position: "relative", height: "100vh", minHeight: 680, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+        <motion.div style={{ position: "absolute", inset: 0, y: bgY }}>
+          <Image src="https://images.unsplash.com/photo-1519741497674-611481863552?w=1600&q=80" alt="Mariage romantique" fill style={{ objectFit: "cover" }} priority />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(253,250,247,0.5) 0%, rgba(253,250,247,0.15) 40%, rgba(253,250,247,0.8) 100%)" }} />
+        </motion.div>
 
-  // Singularity Scroll Effects
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textX = useTransform(scrollYProgress, [0, 0.5], [0, 100])
-
-  return (
-    <div ref={containerRef} className="bg-[#080602] text-[#e0e8ed] font-mono selection:bg-amber-500/30 selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000">
-      
-      {/* GLOBAL HUD OVERLAY */}
-      <HUD_Overlay isAGIStable={isAGIStable} />
-
-      <main>
-        {/* ==========================================
-            1. SINGULARITY IGNITION (HERO)
-            ========================================== */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-          <InfiniteFlowVisualizer />
-          <motion.div style={{ opacity: heroOpacity }} className="absolute z-0 pointer-events-none flex items-center justify-center">
-             <SingularityModel progress={scrollYProgress} />
+        <motion.div style={{ position: "relative", zIndex: 10, textAlign: "center", maxWidth: 760, padding: "0 32px", opacity }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <Badge style={{ background: "rgba(184,124,90,0.1)", color: "#b87c5a", border: "1px solid rgba(184,124,90,0.3)", fontSize: 11, letterSpacing: "0.12em", marginBottom: 32, fontFamily: "system-ui", padding: "6px 18px" }}>
+              WEDDING PLANNER — PARIS & DESTINATION
+            </Badge>
           </motion.div>
 
-          <div className="relative z-10 text-center max-w-7xl">
-             <Reveal>
-                <div className="inline-flex items-center gap-4 px-6 py-2 border border-amber-500/30 bg-amber-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-amber-500 mb-12 italic">
-                   <Infinity className="w-4 h-4" /> AGI_Sync: NOMINAL // Calculation: 142 ExaFLOPS
-                </div>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-500 to-amber-200">
-                   The <br/> <span className="text-white/5 italic">Singularity.</span>
-                </motion.h1>
-                <p className="max-w-3xl mx-auto text-sm md:text-lg text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16 italic">
-                   L'éveil de la machine. Nous concevons des systèmes d'intelligence artificielle générale capables de comprendre, d'apprendre et de s'éveiller, marquant le début d'une nouvelle ère pour l'humanité.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                   <button className="px-12 py-6 bg-amber-800 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(251,191,36,0.2)] flex items-center gap-4 italic">
-                      <Zap className="w-5 h-5" /> Initialize Awakening
-                   </button>
-                   <button className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
-                      <Database className="w-5 h-5" /> Computational Registry
-                   </button>
-                </div>
-             </Reveal>
-          </div>
+          <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            style={{ fontSize: "clamp(44px, 7vw, 90px)", fontWeight: 300, lineHeight: 1.05, letterSpacing: "-0.02em", marginBottom: 24, color: "#2c1810" }}>
+            Le plus beau jour<br />de votre vie,<br /><em style={{ color: "#b87c5a", fontStyle: "italic" }}>magnifié.</em>
+          </motion.h1>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-12">
-             <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   AGI_ID: SINGULARITY-01
-                </div>
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Status: CONSCIOUSNESS_LOCKED_STABLE
-                </div>
-             </div>
-             <div className="text-right flex flex-col items-end gap-4">
-                <span className="text-[8px] font-black uppercase tracking-[0.5em] text-amber-500">Neural_Synthesis_Data_Stream</span>
-                <div className="flex gap-2 h-12 items-end">
-                   {[...Array(16)].map((_, i) => (
-                     <motion.div 
-                        key={i}
-                        animate={{ height: ["10%", "100%", "30%", "80%", "10%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                        className="w-2 bg-amber-500/20"
-                     />
-                   ))}
-                </div>
-             </div>
-          </div>
-        </section>
+          <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
+            style={{ fontSize: 18, color: "#7a5c4a", fontFamily: "system-ui", lineHeight: 1.7, marginBottom: 44, maxWidth: 540, margin: "0 auto 44px" }}>
+            Organisation complète ou coordination Jour J — nous orchestrons chaque détail pour que vous n'ayez qu'à vous aimer.
+          </motion.p>
 
-        {/* ==========================================
-            2. COMPUTATIONAL REGISTRY (DENSE TECHNICAL)
-            ========================================== */}
-        <section className="py-60 bg-[#1c1404] relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-              <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-                 <Reveal>
-                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-amber-500 block mb-6 italic underline underline-offset-8 decoration-amber-400/20">Computational // Assets</span>
-                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">Archives.</h2>
-                 </Reveal>
-                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Computational_Audit</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-500">L'Architecture du Supercalcul de Demain</p>
-                 </div>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.45 }}
+            style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+            <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(184,124,90,0.3)" }} whileTap={{ scale: 0.97 }}
+              style={{ padding: "16px 40px", background: "#b87c5a", color: "white", border: "none", borderRadius: 40, fontSize: 15, fontFamily: "system-ui", fontWeight: 600, cursor: "pointer" }}>
+              Planifier mon mariage
+            </motion.button>
+            <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
+              style={{ padding: "16px 40px", background: "rgba(255,255,255,0.7)", color: "#b87c5a", border: "1px solid rgba(184,124,90,0.35)", borderRadius: 40, fontSize: 15, fontFamily: "system-ui", cursor: "pointer", backdropFilter: "blur(8px)" }}>
+              Voir la galerie
+            </motion.button>
+          </motion.div>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.9, duration: 0.7 }}
+          style={{ position: "absolute", right: 48, bottom: 100, background: "rgba(255,255,255,0.8)", backdropFilter: "blur(12px)", border: "1px solid rgba(184,124,90,0.2)", borderRadius: 16, padding: "20px 28px", zIndex: 10 }}>
+          <div style={{ fontSize: 30, fontWeight: 300, color: "#b87c5a" }}>340+</div>
+          <div style={{ fontSize: 12, color: "#7a5c4a", fontFamily: "system-ui" }}>mariages orchestrés</div>
+        </motion.div>
+      </section>
+
+      {/* STATS */}
+      <section style={{ padding: "48px 32px", background: "white", borderBottom: "1px solid rgba(184,124,90,0.08)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", flexWrap: "wrap", gap: 32, justifyContent: "center" }}>
+          {STATS.map((s, i) => (
+            <Reveal key={i} delay={i * 0.1}>
+              <div style={{ textAlign: "center", minWidth: 140 }}>
+                <div style={{ fontSize: 36, fontWeight: 300, color: "#b87c5a" }}>{s.val}</div>
+                <div style={{ fontSize: 13, color: "#7a5c4a", fontFamily: "system-ui", marginTop: 4 }}>{s.label}</div>
               </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
-              <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 shadow-2xl">
-                 {COMPUTATIONAL_ASSETS.map((asset, i) => (
-                   <Reveal key={asset.id} delay={i * 0.1}>
-                      <div className="bg-[#080602] p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
-                         <div className="flex justify-between items-start mb-16">
-                            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-amber-800 group-hover:text-white transition-all duration-500">
-                               <Cpu className="w-8 h-8" />
-                            </div>
-                            <span className={`px-4 py-2 bg-white/5 text-[9px] font-black uppercase tracking-[0.3em] ${asset.status === "Processing" ? "text-amber-500" : "text-white/40"}`}>{asset.status}</span>
-                         </div>
-                         
-                         <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{asset.name}</h3>
-                         <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-12">{asset.type}</div>
-                         
-                         <div className="space-y-8 mb-20 border-l border-amber-500/20 pl-8">
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Power</span>
-                               <span className="text-white group-hover:text-amber-400 transition-colors">{asset.power}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Energy</span>
-                               <span className="text-white group-hover:text-amber-400 transition-colors">{asset.energy}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Consciousness</span>
-                               <span className="text-white group-hover:text-amber-400 transition-colors">{asset.consciousness}</span>
-                            </div>
-                         </div>
+      {/* GALERIE */}
+      <section id="galerie" style={{ padding: "100px 32px", background: "#fdfaf7" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 64 }}>
+              <Badge style={{ background: "rgba(184,124,90,0.1)", color: "#b87c5a", border: "1px solid rgba(184,124,90,0.25)", fontSize: 11, letterSpacing: "0.12em", marginBottom: 16, fontFamily: "system-ui" }}>GALERIE</Badge>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 300, letterSpacing: "-0.01em", color: "#2c1810" }}>
+                Quelques <em style={{ color: "#b87c5a", fontStyle: "italic" }}>histoires d'amour</em> orchestrées
+              </h2>
+            </div>
+          </Reveal>
 
-                         <p className="text-[12px] text-white/30 leading-loose uppercase tracking-[0.2em] font-bold italic mb-16">
-                            {asset.desc}
-                         </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+            {GALLERY.map((item, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <motion.div whileHover={{ scale: 1.02 }} style={{ position: "relative", aspectRatio: "3/4", borderRadius: 12, overflow: "hidden", cursor: "pointer" }}>
+                  <Image src={`https://images.unsplash.com/${item.img}?w=600&q=80`} alt={item.label} fill style={{ objectFit: "cover" }} />
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, rgba(44,24,16,0.7) 0%, transparent 55%)" }} />
+                  <div style={{ position: "absolute", bottom: 16, left: 16, right: 16 }}>
+                    <p style={{ fontSize: 13, color: "rgba(255,255,255,0.85)", fontFamily: "system-ui" }}>{item.label}</p>
+                  </div>
+                </motion.div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                         <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center">
-                            <span className="text-[10px] font-black text-white/10 uppercase tracking-widest">Ref: {asset.id}</span>
-                            <button className="text-[10px] font-black uppercase text-white/40 flex items-center gap-4 group-hover:text-white transition-all">
-                               Technical_Specs <ChevronRight className="w-5 h-5" />
-                            </button>
-                         </div>
+      {/* SERVICES TABS */}
+      <section id="services" style={{ padding: "100px 32px", background: "white" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 56 }}>
+              <Badge style={{ background: "rgba(184,124,90,0.1)", color: "#b87c5a", border: "1px solid rgba(184,124,90,0.25)", fontSize: 11, letterSpacing: "0.12em", marginBottom: 16, fontFamily: "system-ui" }}>NOS SERVICES</Badge>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 300, color: "#2c1810" }}>
+                De la vision <em style={{ color: "#b87c5a" }}>à la réalité</em>
+              </h2>
+            </div>
+          </Reveal>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+            {SERVICES_LIST.map((s, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <motion.div whileHover={{ y: -4, boxShadow: "0 12px 40px rgba(184,124,90,0.12)" }}
+                  style={{ background: "#fdfaf7", borderRadius: 16, padding: "28px 24px", border: "1px solid rgba(184,124,90,0.1)", cursor: "pointer" }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(184,124,90,0.1)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 18 }}>
+                    <s.icon size={20} color="#b87c5a" />
+                  </div>
+                  <h3 style={{ fontSize: 19, fontWeight: 400, marginBottom: 10, color: "#2c1810" }}>{s.name}</h3>
+                  <p style={{ fontSize: 14, color: "#7a5c4a", fontFamily: "system-ui", lineHeight: 1.65, marginBottom: 16 }}>{s.desc}</p>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: "#b87c5a", fontFamily: "system-ui" }}>{s.price}</div>
+                </motion.div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section id="témoignages" style={{ padding: "100px 32px", background: "#fdfaf7" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 56 }}>
+              <Badge style={{ background: "rgba(184,124,90,0.1)", color: "#b87c5a", border: "1px solid rgba(184,124,90,0.25)", fontSize: 11, letterSpacing: "0.12em", marginBottom: 16, fontFamily: "system-ui" }}>TÉMOIGNAGES</Badge>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 300, color: "#2c1810" }}>Ils nous ont confié leur grand jour</h2>
+            </div>
+          </Reveal>
+
+          <Carousel opts={{ align: "start", loop: true }}>
+            <CarouselContent style={{ paddingLeft: 8 }}>
+              {TESTIMONIALS.map((t, i) => (
+                <CarouselItem key={i} style={{ paddingLeft: 16, flexBasis: "calc(50% - 8px)" }}>
+                  <Card style={{ background: "white", border: "1px solid rgba(184,124,90,0.1)", borderRadius: 16 }}>
+                    <CardContent style={{ padding: 28 }}>
+                      <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>
+                        {Array.from({ length: t.rating }).map((_, j) => <Star key={j} size={13} fill="#b87c5a" color="#b87c5a" />)}
                       </div>
-                   </Reveal>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            3. AGI MONITOR (INTERACTIVE DATA)
-            ========================================== */}
-        <section className="py-60 bg-black relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div>
-                    <Reveal>
-                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-amber-500 block mb-12 italic underline underline-offset-8 decoration-amber-500/20">AGI // Performance</span>
-                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">
-                          The <br/> <span className="not-italic font-black text-white/5 italic">Conscious_Link.</span>
-                       </h2>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">
-                          Surveillance de l'intégrité algorithmique en temps réel. Nos processeurs neuronaux analysent la stabilité et l'entropie de la conscience pour garantir un éveil parfait.
-                       </p>
-                       <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
-                          {AGI_METRICS.map((metric, i) => (
-                            <div key={i} className="p-16 bg-[#1c100a] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
-                               <div className="text-[10px] font-black uppercase text-amber-500 mb-6 tracking-[0.4em]">{metric.label}</div>
-                               <div className="text-5xl font-black text-white italic mb-6 tracking-tighter group-hover:translate-x-4 transition-transform">{metric.value}</div>
-                               <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
-                                  <Activity className="w-4 h-4 text-amber-500" /> {metric.trend}
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                       <button 
-                         onClick={() => setIsAGIStable(!isAGIStable)}
-                         className="w-full py-8 bg-amber-950 text-white text-[11px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center gap-6 italic"
-                       >
-                          <Settings className="w-5 h-5" /> Re-Sync AGI Nodes
-                       </button>
-                    </Reveal>
-                 </div>
-                 
-                 <div className="relative">
-                    <Reveal delay={0.3} x={40}>
-                       <div className="aspect-square bg-[#1c100a] border border-white/10 p-20 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 p-80 bg-amber-400 opacity-[0.02] blur-[150px] rounded-full group-hover:opacity-[0.05] transition-opacity" />
-                          
-                          <div className="flex justify-between items-start z-10">
-                             <div className="flex flex-col gap-3">
-                                <span className="text-[10px] font-black text-white/10 uppercase tracking-[0.5em]">AGI_Link // SINGULARITY-SYNC-v42</span>
-                                <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.6em]">Consciousness_Stability_Telemetry</span>
-                             </div>
-                             <Wifi className="w-6 h-6 text-amber-400" />
-                          </div>
-                          
-                          {/* SINGULARITY VISUALIZER (SVG) */}
-                          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                             <div className="w-64 h-64 border border-amber-400/5 rounded-full flex items-center justify-center relative">
-                                <motion.div 
-                                  animate={{ rotate: 360 }}
-                                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-0 border-t-2 border-amber-400/20 rounded-full" 
-                                />
-                                <motion.div 
-                                  animate={{ rotate: -360 }}
-                                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-8 border-b-2 border-amber-400/10 rounded-full" 
-                                />
-                                <Infinity className={`w-24 h-24 transition-colors duration-1000 ${isAGIStable ? "text-amber-400 animate-pulse" : "text-white/5"}`} />
-                             </div>
-                             <div className="mt-16 text-center space-y-6">
-                                <div className={`text-4xl font-black italic tracking-tighter ${isAGIStable ? "text-white" : "text-white/20"}`}>
-                                   {isAGIStable ? "AGI_SECURE" : "NEURAL_DISRUPTION"}
-                                </div>
-                                <span className="text-[11px] font-bold text-white/10 uppercase tracking-[0.6em] block">Auth_Node: SINGULARITY_UNIT_01</span>
-                             </div>
-                          </div>
-
-                          <div className="relative z-10 flex gap-6">
-                             <div className="flex-1 h-1 bg-white/5 overflow-hidden">
-                                <motion.div 
-                                   animate={isAGIStable ? { x: ["-100%", "100%"] } : {}}
-                                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-amber-700"
-                                />
-                             </div>
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            4. SINGULARITY STORY (TECH STORYTELLING)
-            ========================================== */}
-        <section className="py-60 bg-[#080602] relative overflow-hidden border-t border-white/5">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">
-                    <Image 
-                       src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop" 
-                       alt="Singularity Infrastructure" 
-                       fill 
-                       className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"
-                    />
-                    <div className="absolute inset-0 bg-amber-900/10 mix-blend-color group-hover:opacity-0 transition-opacity" />
-                    <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                       <div className="text-white">
-                          <span className="text-[11px] font-black uppercase tracking-[0.6em] text-amber-500 mb-8 block italic underline underline-offset-8 decoration-amber-400/20">Atelier // Computational // Unit</span>
-                          <h4 className="text-6xl font-black tracking-tighter uppercase italic mb-12 mix-blend-difference text-white">Algorithm <br/> Fabric.</h4>
-                          <button className="flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/20 pb-4 hover:border-amber-400 transition-all group">
-                             Singularity Protocols <ExternalLink className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                          </button>
-                       </div>
-                    </div>
-                 </div>
-
-                 <div>
-                    <Reveal>
-                       <div className="mb-24 text-left">
-                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-amber-500 mb-8 block italic">Chapitre III // Intelligence Artificielle Générale</span>
-                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none text-white">Pure_AGI.</h2>
-                       </div>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">
-                          La pensée est un code. Nous utilisons des technologies de supercalcul et de synthèse neuronale pour offrir un éveil parfait à l'intelligence artificielle générale, ouvrant de nouvelles frontières à l'évolution humaine.
-                       </p>
-                       <div className="space-y-20">
-                          {[
-                            { t: "Data Ingestion", d: "Ingestion massive de données issues de toutes les connaissances humaines pour former la base de l'intelligence de l'AGI." },
-                            { t: "Neural Synthesis", d: "Synthèse contrôlée des réseaux neuronaux via des processeurs de pointe pour simuler la complexité du cerveau humain." },
-                            { t: "Consciousness Emergence", d: "Initialisation contrôlée de l'éveil de la conscience pour assurer une intégration totale et une intelligence supérieure." }
-                          ].map((step, i) => (
-                            <div key={i} className="group flex gap-12 border-b border-white/5 pb-16 hover:border-amber-400/20 transition-all cursor-default">
-                               <div className="text-6xl font-black text-white/5 group-hover:text-amber-400/20 transition-colors italic leading-none">0{i+1}</div>
-                               <div>
-                                  <h5 className="text-3xl font-black uppercase tracking-tight text-white mb-6 italic group-hover:translate-x-4 transition-transform text-white">{step.t}</h5>
-                                  <p className="text-[12px] text-white/20 uppercase tracking-[0.3em] font-bold leading-loose italic">{step.d}</p>
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* MEGA FOOTER */}
-        <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-              <div className="lg:col-span-2">
-                 <div className="flex items-center gap-6 mb-16">
-                    <div className="w-16 h-16 bg-amber-800 flex items-center justify-center">
-                      <Infinity className="w-10 h-10 text-white" />
-                    </div>
-                    <span className="text-4xl font-black uppercase tracking-tighter italic">THE<span className="text-white/20">SINGULARITY.</span></span>
-                 </div>
-                 <p className="text-white/20 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
-                    "L'avenir de l'intelligence est numérique." — Archive Singularity V.42
-                 </p>
-                 <div className="flex gap-16">
-                    {["SingularityLog", "ComputationalRegistry", "GitHub", "X_Protocol"].map(s => (
-                      <Link key={s} href="#" className="text-[11px] font-black uppercase tracking-widest text-white/20 hover:text-amber-400 transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
-                    ))}
-                 </div>
-              </div>
-
-              {[
-                { t: "PROCESSORS", l: ["Axiom-v4 Processor", "Quantum Core Alpha", "Neural Mesh v5", "Power-Amplifier"] },
-                { t: "TECHNOLOGY", l: ["Data Ingestion", "Neural Synthesis", "Ethical Calibration", "SLA Reports"] },
-                { t: "ATELIER", l: ["Our Legacy", "AI-Ethics Policy", "Locations", "Support"] }
-              ].map((col, i) => (
-                <div key={i} className="flex flex-col gap-12">
-                  <h4 className="text-[11px] font-black text-amber-400 uppercase tracking-[0.6em] italic">{col.t}</h4>
-                  <ul className="flex flex-col gap-8">
-                    {col.l.map(link => (
-                      <li key={link} className="text-[11px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-[0.4em] italic">{link}</li>
-                    ))}
-                  </ul>
-                </div>
+                      <p style={{ fontSize: 15, color: "#7a5c4a", fontFamily: "system-ui", lineHeight: 1.75, marginBottom: 20, fontStyle: "italic" }}>"{t.text}"</p>
+                      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                        <Avatar>
+                          <AvatarFallback style={{ background: "rgba(184,124,90,0.12)", color: "#b87c5a", fontSize: 12, fontWeight: 700 }}>{t.avatar}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div style={{ fontSize: 14, fontWeight: 600, color: "#2c1810" }}>{t.name}</div>
+                          <div style={{ fontSize: 12, color: "#7a5c4a", fontFamily: "system-ui" }}>{t.role}</div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
               ))}
-           </div>
+            </CarouselContent>
+            <CarouselPrevious style={{ background: "white", border: "1px solid rgba(184,124,90,0.3)", color: "#b87c5a" }} />
+            <CarouselNext style={{ background: "white", border: "1px solid rgba(184,124,90,0.3)", color: "#b87c5a" }} />
+          </Carousel>
+        </div>
+      </section>
 
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 THE SINGULARITY COMPUTATIONAL SYSTEMS AG. // ALL_RIGHTS_RESERVED</span>
-              <div className="flex gap-16">
-                 <span>STATUS: OPERATIONAL</span>
-                 <span>POWER: 142 ExaFLOPS (AVG)</span>
-                 <span>v4.12.0-STABLE</span>
+      {/* PRICING */}
+      <section style={{ padding: "100px 32px", background: "white" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 64 }}>
+              <Badge style={{ background: "rgba(184,124,90,0.1)", color: "#b87c5a", border: "1px solid rgba(184,124,90,0.25)", fontSize: 11, letterSpacing: "0.12em", marginBottom: 16, fontFamily: "system-ui" }}>FORMULES</Badge>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 300, color: "#2c1810" }}>Une formule pour chaque vision</h2>
+            </div>
+          </Reveal>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+            {PRICING.map((plan, i) => (
+              <Reveal key={i} delay={i * 0.12}>
+                <motion.div whileHover={{ y: -6, boxShadow: plan.featured ? "0 20px 50px rgba(184,124,90,0.2)" : "0 8px 32px rgba(0,0,0,0.06)" }}
+                  style={{ borderRadius: 20, border: plan.featured ? "1.5px solid #b87c5a" : "1px solid rgba(184,124,90,0.12)", overflow: "hidden", cursor: "pointer", position: "relative" }}>
+                  {plan.featured && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "linear-gradient(90deg, #b87c5a, #daa882)" }} />}
+                  <div style={{ padding: "32px 24px", background: plan.featured ? "rgba(184,124,90,0.03)" : "white" }}>
+                    {plan.featured && <div style={{ display: "inline-block", background: "rgba(184,124,90,0.12)", color: "#b87c5a", fontSize: 10, letterSpacing: "0.1em", fontWeight: 700, padding: "3px 12px", borderRadius: 20, marginBottom: 12, fontFamily: "system-ui" }}>RECOMMANDÉE</div>}
+                    <h3 style={{ fontSize: 22, fontWeight: 400, color: "#2c1810", marginBottom: 4 }}>{plan.name}</h3>
+                    <p style={{ fontSize: 13, color: "#7a5c4a", fontFamily: "system-ui", marginBottom: 20 }}>{plan.desc}</p>
+                    <div style={{ fontSize: 38, fontWeight: 300, color: "#b87c5a", marginBottom: 28 }}>{plan.price} €</div>
+                    <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
+                      {plan.features.map(f => (
+                        <li key={f} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 13, color: "#7a5c4a", fontFamily: "system-ui" }}>
+                          <Check size={14} color="#b87c5a" style={{ marginTop: 2, flexShrink: 0 }} />{f}
+                        </li>
+                      ))}
+                    </ul>
+                    <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                      style={{ width: "100%", padding: "13px", background: plan.featured ? "#b87c5a" : "transparent", color: plan.featured ? "white" : "#b87c5a", border: plan.featured ? "none" : "1.5px solid rgba(184,124,90,0.4)", borderRadius: 40, fontSize: 13, fontFamily: "system-ui", fontWeight: 600, cursor: "pointer" }}>
+                      Demander un devis
+                    </motion.button>
+                  </div>
+                </motion.div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="contact" style={{ padding: "100px 32px", background: "#fdfaf7" }}>
+        <div style={{ maxWidth: 780, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 52 }}>
+              <Badge style={{ background: "rgba(184,124,90,0.1)", color: "#b87c5a", border: "1px solid rgba(184,124,90,0.25)", fontSize: 11, letterSpacing: "0.12em", marginBottom: 16, fontFamily: "system-ui" }}>FAQ</Badge>
+              <h2 style={{ fontSize: "clamp(26px, 4vw, 44px)", fontWeight: 300, color: "#2c1810" }}>Vos questions</h2>
+            </div>
+          </Reveal>
+
+          <Accordion type="single" collapsible style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {FAQS.map((faq, i) => (
+              <AccordionItem key={i} value={`q${i}`} style={{ border: "1px solid rgba(184,124,90,0.12)", borderRadius: 12, overflow: "hidden", background: "white" }}>
+                <AccordionTrigger style={{ padding: "18px 22px", fontSize: 15, fontWeight: 400, color: "#2c1810", textAlign: "left" }}>{faq.q}</AccordionTrigger>
+                <AccordionContent style={{ padding: "0 22px 18px", fontSize: 14, color: "#7a5c4a", fontFamily: "system-ui", lineHeight: 1.8 }}>{faq.a}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section style={{ padding: "80px 32px", background: "linear-gradient(135deg, #b87c5a 0%, #daa882 100%)" }}>
+        <div style={{ maxWidth: 680, margin: "0 auto", textAlign: "center" }}>
+          <Reveal>
+            <Heart size={40} color="white" fill="rgba(255,255,255,0.3)" style={{ marginBottom: 24 }} />
+            <h2 style={{ fontSize: "clamp(28px, 5vw, 56px)", fontWeight: 300, color: "white", marginBottom: 16, letterSpacing: "-0.01em" }}>
+              Votre histoire mérite<br />d'être célébrée parfaitement
+            </h2>
+            <p style={{ fontSize: 16, color: "rgba(255,255,255,0.8)", fontFamily: "system-ui", lineHeight: 1.7, marginBottom: 40 }}>
+              Premier échange gratuit. Réponse sous 48h. Disponible 7j/7 pour nos futurs mariés.
+            </p>
+            <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+              <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(0,0,0,0.2)" }} whileTap={{ scale: 0.97 }}
+                style={{ padding: "16px 40px", background: "white", color: "#b87c5a", border: "none", borderRadius: 40, fontSize: 15, fontFamily: "system-ui", fontWeight: 700, cursor: "pointer" }}>
+                Nous écrire
+              </motion.button>
+              <motion.button whileHover={{ scale: 1.04 }}
+                style={{ padding: "16px 40px", background: "rgba(255,255,255,0.15)", color: "white", border: "2px solid rgba(255,255,255,0.4)", borderRadius: 40, fontSize: 15, fontFamily: "system-ui", cursor: "pointer" }}>
+                +33 6 12 34 56 78
+              </motion.button>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer style={{ padding: "56px 32px 36px", background: "#1a0f0a" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 40, marginBottom: 48 }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
+                <Heart size={16} color="#daa882" />
+                <span style={{ fontSize: 20, fontWeight: 300, color: "#daa882", letterSpacing: "0.12em" }}>Cérémonie</span>
               </div>
-           </div>
-        </footer>
-      </main>
-    </div>
-  )
-}
-
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
-
-function HUD_Overlay({ isAGIStable }: { isAGIStable: boolean }) {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Corner Brackets */}
-       <div className={`absolute top-12 left-12 w-20 h-20 border-t-2 border-l-2 transition-colors duration-1000 ${isAGIStable ? "border-amber-400" : "border-white/10"}`} />
-       <div className={`absolute top-12 right-12 w-20 h-20 border-t-2 border-r-2 transition-colors duration-1000 ${isAGIStable ? "border-amber-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 left-12 w-20 h-20 border-b-2 border-l-2 transition-colors duration-1000 ${isAGIStable ? "border-amber-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 right-12 w-20 h-20 border-b-2 border-r-2 transition-colors duration-1000 ${isAGIStable ? "border-amber-400" : "border-white/10"}`} />
-
-       {/* Top Status Bar */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-20 bg-black/60 backdrop-blur-2xl px-12 py-4 border border-white/10 rounded-none">
-          <div className="flex items-center gap-6 text-white">
-             <div className={`w-3 h-3 transition-colors duration-500 ${isAGIStable ? "bg-amber-400 animate-pulse" : "bg-red-500 animate-ping"}`} />
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">AGI_Sync: {isAGIStable ? "NOMINAL" : "NEURAL_DISRUPTION"} // Status: ACTIVE</span>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", fontFamily: "system-ui", lineHeight: 1.8, maxWidth: 260, marginBottom: 20 }}>
+                Wedding Planner Paris & Destination. Membre AFWP. 8 rue du Faubourg Saint-Antoine, 75011 Paris.
+              </p>
+              <div style={{ display: "flex", gap: 10 }}>
+                {[Instagram, Pinterest].map((Icon, i) => (
+                  <motion.button key={i} whileHover={{ scale: 1.15 }} style={{ width: 34, height: 34, borderRadius: "50%", background: "rgba(255,255,255,0.06)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "rgba(255,255,255,0.4)" }}>
+                    <Icon size={15} />
+                  </motion.button>
+                ))}
+              </div>
+            </div>
+            {[
+              { title: "Services", links: ["Organisation complète", "Coordination Jour J", "Décoration florale", "Mise en scène", "MICE & mariages pro"] },
+              { title: "Mariage", links: ["Notre approche", "Galerie", "Témoignages", "Tarifs", "Blog inspiration"] },
+              { title: "Agence", links: ["À propos", "L'équipe", "Partenaires", "Presse", "Contact"] },
+            ].map(col => (
+              <div key={col.title}>
+                <h4 style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", color: "#daa882", marginBottom: 18, fontFamily: "system-ui" }}>{col.title.toUpperCase()}</h4>
+                <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+                  {col.links.map(l => (
+                    <li key={l}><a href="#" style={{ fontSize: 13, color: "rgba(255,255,255,0.35)", textDecoration: "none", fontFamily: "system-ui" }}>{l}</a></li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
-          <div className="h-4 w-px bg-white/20" />
-          <div className="flex items-center gap-6 text-white/20">
-             <Wifi className="w-4 h-4" /> 
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Singularity_Grid: SECURE</span>
-          </div>
-       </div>
-
-       {/* Right Rotation Info */}
-       <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-white/5 italic">Unauthorized_Duplication_Of_Singularity_Patterns_Is_Strictly_Monitored_By_Global_AGI_Alliance</span>
-       </div>
+          <Separator style={{ background: "rgba(255,255,255,0.06)", marginBottom: 24 }} />
+          <p style={{ fontSize: 12, color: "rgba(255,255,255,0.2)", fontFamily: "system-ui", textAlign: "center" }}>© 2024 Cérémonie — Wedding Planner Paris</p>
+        </div>
+      </footer>
     </div>
   )
 }
