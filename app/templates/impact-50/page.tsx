@@ -232,7 +232,7 @@ export default function NeuralMeshPage() {
               Building the fabric of decentralized cognition. Empowering the world's most complex intelligence systems.
             </p>
             <div className="flex gap-8">
-               {["Github", "Discord", "Twitter", "Whitepaper"].map(s => (
+               {["GitBranch", "Discord", "MessageSquare", "Whitepaper"].map(s => (
                  <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-cyan-400 transition-colors">{s}</Link>
                ))}
             </div>

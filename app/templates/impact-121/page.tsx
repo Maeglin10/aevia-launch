@@ -548,8 +548,8 @@ export default function FolioStudioPage() {
               <div>
                 <h4 className="font-bold mb-6 text-zinc-500 uppercase tracking-widest text-xs">Social</h4>
                 <ul className="space-y-3 font-medium text-lg">
-                  <li><Link href="#" className="hover:text-zinc-400 transition-colors">Twitter (X)</Link></li>
-                  <li><Link href="#" className="hover:text-zinc-400 transition-colors">Instagram</Link></li>
+                  <li><Link href="#" className="hover:text-zinc-400 transition-colors">MessageSquare (X)</Link></li>
+                  <li><Link href="#" className="hover:text-zinc-400 transition-colors">Camera</Link></li>
                   <li><Link href="#" className="hover:text-zinc-400 transition-colors">Dribbble</Link></li>
                   <li><Link href="#" className="hover:text-zinc-400 transition-colors">LinkedIn</Link></li>
                 </ul>

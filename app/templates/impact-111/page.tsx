@@ -237,7 +237,7 @@ export default function TerraArchitecturePage() {
               "We believe in architecture that breathes with the world, using the elements of earth to build the dreams of man."
             </p>
             <div className="flex gap-8">
-               {["Instagram", "Pinterest", "Journal", "WeWork"].map(s => (
+               {["Camera", "Bookmark", "Journal", "WeWork"].map(s => (
                  <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-[#3d3a35]/30 hover:text-[#3d3a35] transition-colors">{s}</Link>
                ))}
             </div>

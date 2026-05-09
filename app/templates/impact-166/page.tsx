@@ -259,7 +259,7 @@ export default function Page() {
         <span style={{ fontFamily: C.serif, fontSize: 16, fontStyle: "italic", color: "#333" }}>Iris Studio</span>
         <span style={{ fontSize: 11, color: "#333", letterSpacing: 2 }}>© 2025 — Paris, France</span>
         <div style={{ display: "flex", gap: 24 }}>
-          {["Instagram", "Behance", "LinkedIn"].map(l => (
+          {["Camera", "Behance", "LinkedIn"].map(l => (
             <span key={l} style={{ fontSize: 11, color: "#444", letterSpacing: 2, textTransform: "uppercase", cursor: "pointer" }}>{l}</span>
           ))}
         </div>

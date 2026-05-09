@@ -242,7 +242,7 @@ export default function VulcanMotorsPage() {
               Restoring the past, defining the future. Vulcan Motors is an atelier dedicated to the preservation and evolution of the hypercar.
             </p>
             <div className="flex gap-8">
-               {["Instagram", "YouTube", "LinkedIn", "Registry"].map(s => (
+               {["Camera", "YouTube", "LinkedIn", "Registry"].map(s => (
                  <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-red-600 transition-colors">{s}</Link>
                ))}
             </div>

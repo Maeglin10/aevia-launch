@@ -229,7 +229,7 @@ export default function StudioVersaPage() {
           {[
             { title: "Studio", links: ["Work", "Capabilities", "Awards", "Team"] },
             { title: "Connect", links: ["Contact", "Careers", "Press", "Newsletter"] },
-            { title: "Social", links: ["Instagram", "Behance", "Dribbble", "LinkedIn"] },
+            { title: "Social", links: ["Camera", "Behance", "Dribbble", "LinkedIn"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-orange-400 mb-6">{col.title}</h4>

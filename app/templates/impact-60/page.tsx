@@ -244,7 +244,7 @@ export default function ZenithWatchPage() {
                  "In the silence of the gears, we find the absolute rhythm of existence. Mastered in Geneva since 1892."
               </p>
               <div className="flex gap-10">
-                 {["Instagram", "Journal", "Whitepapers", "Contact"].map(s => (
+                 {["Camera", "Journal", "Whitepapers", "Contact"].map(s => (
                    <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic">{s}</Link>
                  ))}
               </div>

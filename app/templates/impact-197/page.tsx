@@ -13,7 +13,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
-import { Globe, Compass, Star, MapPin, Phone, Mail, Instagram, Twitter, Linkedin, Facebook, Menu, X, ChevronRight, Shield, Clock, Award, Users, Plane, Anchor, Mountain, Heart, Check, ArrowRight } from "lucide-react"
+import { Globe, Compass, Star, MapPin, Phone, Mail, Camera, MessageSquare, Link2, Users2, Menu, X, ChevronRight, Shield, Clock, Award, Users, Plane, Anchor, Mountain, Heart, Check, ArrowRight } from "lucide-react"
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -499,7 +499,7 @@ export default function EvasionDoreePage() {
               </div>
               <p style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.8, maxWidth: 280, marginBottom: 24 }}>Agence de voyages de luxe fondée en 2012. Membre AFTM & Virtuoso. Certifiée ISO 9001.</p>
               <div style={{ display: "flex", gap: 12 }}>
-                {[Instagram, Twitter, Linkedin, Facebook].map((Icon, i) => (
+                {[Camera, MessageSquare, Link2, Users2].map((Icon, i) => (
                   <motion.button key={i} whileHover={{ scale: 1.15, color: "#c9a96e" }} style={{ width: 36, height: 36, borderRadius: "50%", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "rgba(255,255,255,0.5)" }}>
                     <Icon size={15} />
                   </motion.button>

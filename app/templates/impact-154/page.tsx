@@ -418,7 +418,7 @@ export default function IvoryArchivePremium() {
                     "La conservation est l'art de faire taire le temps pour laisser parler l'histoire." — Archive Ivory V.4
                  </p>
                  <div className="flex gap-12">
-                    {["Instagram", "ArtsNet", "UNESCO_Partner", "LinkedIn"].map(s => (
+                    {["Camera", "ArtsNet", "UNESCO_Partner", "LinkedIn"].map(s => (
                        <Link key={s} href="#" className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-[#b4925e] transition-colors italic">{s}</Link>
                     ))}
                  </div>

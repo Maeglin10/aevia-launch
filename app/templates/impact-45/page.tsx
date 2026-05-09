@@ -261,7 +261,7 @@ export default function BlueprintNodePage() {
               "We draft the invisible until it becomes inevitable. Logic is the only aesthetic that endures."
             </p>
             <div className="flex gap-10">
-               {["Github", "LinkedIn", "Archive", "Journal"].map(s => (
+               {["GitBranch", "LinkedIn", "Archive", "Journal"].map(s => (
                  <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-[#2a2a2a]/30 hover:text-black transition-colors underline underline-offset-4">{s}</Link>
                ))}
             </div>

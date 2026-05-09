@@ -268,7 +268,7 @@ export default function NeonPulsePage() {
                  "The pulse is the rhythm of decentralized creation. Own the artifact, own the future."
               </p>
               <div className="flex gap-10">
-                 {["Discord", "Twitter", "GitHub", "Lens"].map(s => (
+                 {["Discord", "MessageSquare", "GitHub", "Lens"].map(s => (
                    <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-cyan-400 transition-colors italic">{s}</Link>
                  ))}
               </div>

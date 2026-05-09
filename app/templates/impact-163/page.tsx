@@ -13,7 +13,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
-import { BookOpen, ArrowRight, Search, Menu, Twitter, Instagram, Linkedin, Rss, Star, Check, TrendingUp, Users, Clock } from "lucide-react"
+import { BookOpen, ArrowRight, Search, Menu, MessageSquare, Camera, Link2, Rss, Star, Check, TrendingUp, Users, Clock } from "lucide-react"
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -341,7 +341,7 @@ export default function EssentialBlogPage() {
               <div style={{ fontSize: 24, fontWeight: 900, color: "#f8f7f4", fontFamily: "system-ui", marginBottom: 12 }}>L'Essentiel</div>
               <p style={{ fontSize: 13, color: "rgba(248,247,244,0.4)", fontFamily: "system-ui", lineHeight: 1.7, maxWidth: 280 }}>Le media indépendant des professionnels du digital — stratégie, product, growth, culture.</p>
               <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
-                {[Twitter, Instagram, Linkedin, Rss].map((Icon, i) => (
+                {[MessageSquare, Camera, Link2, Rss].map((Icon, i) => (
                   <motion.button key={i} whileHover={{ scale: 1.15, color: "#e8d44d" }} style={{ width: 32, height: 32, borderRadius: 4, background: "rgba(255,255,255,0.06)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "rgba(248,247,244,0.45)" }}>
                     <Icon size={14} />
                   </motion.button>

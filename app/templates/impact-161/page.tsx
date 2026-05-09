@@ -13,7 +13,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
-import { Zap, BarChart3, Shield, Code2, Layers, Globe, Check, Star, Menu, ArrowRight, Twitter, Linkedin, Github, ChevronRight, Users, TrendingUp, Lock, RefreshCw } from "lucide-react"
+import { Zap, BarChart3, Shield, Code2, Layers, Globe, Check, Star, Menu, ArrowRight, MessageSquare, Link2, GitBranch, ChevronRight, Users, TrendingUp, Lock, RefreshCw } from "lucide-react"
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -387,7 +387,7 @@ export default function EssentialSaaSPage() {
               </div>
               <p style={{ fontSize: 13, color: "rgba(232,234,246,0.35)", lineHeight: 1.8, maxWidth: 260, marginBottom: 20 }}>Plateforme d'automatisation SaaS pour équipes ambitieuses. SOC 2 Type II · RGPD compliant.</p>
               <div style={{ display: "flex", gap: 10 }}>
-                {[Twitter, Linkedin, Github].map((Icon, i) => (
+                {[MessageSquare, Link2, GitBranch].map((Icon, i) => (
                   <motion.button key={i} whileHover={{ scale: 1.15 }} style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "rgba(232,234,246,0.4)" }}>
                     <Icon size={14} />
                   </motion.button>

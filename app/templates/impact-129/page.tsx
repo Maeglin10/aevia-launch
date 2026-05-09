@@ -269,7 +269,7 @@ export default function WaveFXPage() {
           </div>
           {[
             { title: "Product", links: ["Docs", "Examples", "Plugins", "Changelog"] },
-            { title: "Community", links: ["GitHub", "Discord", "Twitter", "Blog"] },
+            { title: "Community", links: ["GitHub", "Discord", "MessageSquare", "Blog"] },
             { title: "Legal", links: ["MIT License", "Privacy", "Security", "Contact"] },
           ].map((col, i) => (
             <div key={i}>

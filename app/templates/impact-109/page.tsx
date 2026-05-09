@@ -265,7 +265,7 @@ export default function AetherSoundPage() {
               Founded on the belief that perfect audio is not measured in decibels, but in emotional resonance. Engineered for the infinite.
             </p>
             <div className="flex gap-8">
-               {["Instagram", "Journal", "Technical Paper", "Discord"].map(s => (
+               {["Camera", "Journal", "Technical Paper", "Discord"].map(s => (
                  <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors">{s}</Link>
                ))}
             </div>

@@ -317,7 +317,7 @@ export default function Page() {
       <footer style={{ borderTop: `1px solid ${C.border}`, padding: "28px 60px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span style={{ fontSize: 12, color: C.muted }}>~/rafael-moreau · © 2025</span>
         <div style={{ display: "flex", gap: 24 }}>
-          {["GitHub", "LinkedIn", "Twitter"].map(l => (
+          {["GitHub", "LinkedIn", "MessageSquare"].map(l => (
             <span key={l} style={{ fontSize: 11, color: C.muted, letterSpacing: 2, textTransform: "uppercase", cursor: "pointer" }}>{l}</span>
           ))}
         </div>

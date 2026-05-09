@@ -230,7 +230,7 @@ export default function KuroOmakasePage() {
                  "In the silence of the room, the only story told is that of the season." Ginza, Tokyo.
               </p>
               <div className="flex gap-10">
-                 {["Instagram", "Journal", "Technical Paper", "Contact"].map(s => (
+                 {["Camera", "Journal", "Technical Paper", "Contact"].map(s => (
                    <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic">{s}</Link>
                  ))}
               </div>

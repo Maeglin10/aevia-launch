@@ -243,7 +243,7 @@ export default function ChronosLuxuryPage() {
               "Time is the most valuable luxury of all. We simply provide the vessel to measure it."
             </p>
             <div className="flex gap-8">
-               {["Instagram", "Vimeo", "WeChat", "LinkedIn"].map(s => (
+               {["Camera", "Vimeo", "WeChat", "LinkedIn"].map(s => (
                  <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-[#d4af37]/40 hover:text-[#d4af37] transition-colors">{s}</Link>
                ))}
             </div>

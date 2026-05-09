@@ -13,7 +13,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
-import { ChefHat, Star, Clock, Utensils, Leaf, Wine, Users, Instagram, Menu, Check, MapPin, Phone } from "lucide-react"
+import { ChefHat, Star, Clock, Utensils, Leaf, Wine, Users, Camera, Menu, Check, MapPin, Phone } from "lucide-react"
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -359,7 +359,7 @@ export default function MaisonSaveurPage() {
             <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
               {[
                 { title: "Services", links: ["Dîner intime", "Réception privée", "Brunch", "Chef à domicile"] },
-                { title: "Contact", links: ["Réserver", "Devis gratuit", "Instagram", "Mentions légales"] },
+                { title: "Contact", links: ["Réserver", "Devis gratuit", "Camera", "Mentions légales"] },
               ].map(col => (
                 <div key={col.title}>
                   <h4 style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#d4a96a", marginBottom: 16, fontFamily: "system-ui" }}>{col.title.toUpperCase()}</h4>

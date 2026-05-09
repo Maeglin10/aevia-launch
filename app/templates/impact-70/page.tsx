@@ -230,7 +230,7 @@ export default function VelvetNightPage() {
                  "In the shadows of the night, we find the truth of the spirit. Curated for the few who understand the silence."
               </p>
               <div className="flex gap-10">
-                 {["Instagram", "Vimeo", "Soundcloud", "Contact"].map(s => (
+                 {["Camera", "Vimeo", "Soundcloud", "Contact"].map(s => (
                    <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-[#ff00ff] transition-colors italic">{s}</Link>
                  ))}
               </div>

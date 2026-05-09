@@ -297,7 +297,7 @@ export default function Page() {
         <div style={{ fontFamily: C.serif, fontSize: 20, fontStyle: "italic", color: "#f9f5ef" }}>Atlas</div>
         <div style={{ fontSize: 12, color: "#3a5a6a" }}>© 2025 · Journal de voyage indépendant · RGPD · Mentions légales</div>
         <div style={{ display: "flex", gap: 20 }}>
-          {["Instagram", "Pinterest", "YouTube"].map(l => <span key={l} style={{ fontSize: 11, color: "#3a5a6a", letterSpacing: 2, textTransform: "uppercase", cursor: "pointer" }}>{l}</span>)}
+          {["Camera", "Bookmark", "YouTube"].map(l => <span key={l} style={{ fontSize: 11, color: "#3a5a6a", letterSpacing: 2, textTransform: "uppercase", cursor: "pointer" }}>{l}</span>)}
         </div>
       </footer>
     </div>

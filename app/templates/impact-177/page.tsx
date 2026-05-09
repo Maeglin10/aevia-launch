@@ -26,7 +26,7 @@ import {
   Radar, Orbit, Atom, Satellite, 
   Milestone, FlaskConical, FlaskRound, 
   Ghost, Droplets, Leaf, TreePine, 
-  Bug, Database, Search, Codesandbox, 
+  Bug, Database, Search, Code2, 
   Binary, FileText
 } from "lucide-react"
 
@@ -241,7 +241,7 @@ export default function BioDigitalCorePremium() {
                       <div className="bg-[#020804] p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
                          <div className="flex justify-between items-start mb-16">
                             <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-green-800 group-hover:text-white transition-all duration-500">
-                               <Codesandbox className="w-8 h-8" />
+                               <Code2 className="w-8 h-8" />
                             </div>
                             <span className={`px-4 py-2 bg-white/5 text-[9px] font-black uppercase tracking-[0.3em] ${asset.status === "Online" ? "text-green-500" : "text-white/40"}`}>{asset.status}</span>
                          </div>

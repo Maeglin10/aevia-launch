@@ -390,7 +390,7 @@ export default function NeuralFoundryPremium() {
                   "L'intelligence n'est pas un don, c'est une ingénierie de précision." — Archive Foundry V4.0
                </p>
                <div className="flex gap-12">
-                  {["LinkedIn", "GitHub", "Vimeo", "Twitter"].map(s => (
+                  {["LinkedIn", "GitHub", "Vimeo", "MessageSquare"].map(s => (
                     <Link key={s} href="#" className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-cyan-400 transition-colors italic">{s}</Link>
                   ))}
                </div>

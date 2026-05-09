@@ -270,7 +270,7 @@ export default function VeridianBotanicalPage() {
               "Nature is the greatest architect. We are simply its dedicated students and curators."
             </p>
             <div className="flex gap-10">
-               {["Instagram", "Journal", "Botanical Society", "Contact"].map(s => (
+               {["Camera", "Journal", "Botanical Society", "Contact"].map(s => (
                  <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-[#d4af37]/30 hover:text-white transition-colors">{s}</Link>
                ))}
             </div>

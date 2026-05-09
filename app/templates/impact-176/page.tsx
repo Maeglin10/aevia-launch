@@ -201,7 +201,7 @@ export default function Page() {
           {TESTIMONIALS.map((t, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}
               style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "36px" }}>
-              <div style={{ fontSize: 28, color: C.cyan, marginBottom: 16, fontWeight: 900 }}"</div>
+              <div style={{ fontSize: 28, color: C.cyan, marginBottom: 16, fontWeight: 900 }}>&ldquo;</div>
               <p style={{ fontSize: 15, color: "rgba(226,234,245,0.7)", lineHeight: 1.75, marginBottom: 24 }}>{t.quote}</p>
               <div style={{ fontSize: 13, fontWeight: 600, color: "#fff" }}>{t.name}</div>
               <div style={{ fontSize: 12, color: C.muted, marginTop: 4 }}>{t.role}</div>

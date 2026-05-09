@@ -13,7 +13,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
-import { Heart, Star, Flower2, Camera, Music, Utensils, MapPin, Phone, Mail, Instagram, Pinterest, Menu, Check, Clock, Calendar, Users } from "lucide-react"
+import { Heart, Star, Flower2, Camera, Music, Utensils, MapPin, Phone, Mail, Share2, Bookmark, Menu, Check, Clock, Calendar, Users } from "lucide-react"
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -389,7 +389,7 @@ export default function CeremoniePage() {
                 Wedding Planner Paris & Destination. Membre AFWP. 8 rue du Faubourg Saint-Antoine, 75011 Paris.
               </p>
               <div style={{ display: "flex", gap: 10 }}>
-                {[Instagram, Pinterest].map((Icon, i) => (
+                {[Share2, Bookmark].map((Icon, i) => (
                   <motion.button key={i} whileHover={{ scale: 1.15 }} style={{ width: 34, height: 34, borderRadius: "50%", background: "rgba(255,255,255,0.06)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "rgba(255,255,255,0.4)" }}>
                     <Icon size={15} />
                   </motion.button>

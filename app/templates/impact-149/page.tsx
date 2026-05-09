@@ -222,7 +222,7 @@ export default function AetherWellnessPage() {
                  "Presence is the ultimate luxury. We provide the architecture to achieve it."
               </p>
               <div className="flex gap-10">
-                 {["Instagram", "Journal", "Newsletter", "Contact"].map(s => (
+                 {["Camera", "Journal", "Newsletter", "Contact"].map(s => (
                    <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-black/20 hover:text-black transition-colors italic">{s}</Link>
                  ))}
               </div>

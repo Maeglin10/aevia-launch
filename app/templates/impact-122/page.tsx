@@ -482,7 +482,7 @@ export default function ChronicleEditorialPage() {
               A journal of politics, culture, and science. Truth without compromise. Clarity without condescension.
             </p>
             <div className="flex gap-4">
-              {['Twitter', 'Facebook', 'Instagram', 'LinkedIn'].map(social => (
+              {['MessageSquare', 'Users2', 'Camera', 'LinkedIn'].map(social => (
                 <Link key={social} href="#" className="w-10 h-10 border border-[#fcfaf7]/20 rounded-full flex items-center justify-center hover:bg-[#d64000] hover:text-white hover:border-[#d64000] transition-colors text-xs font-bold uppercase">
                   {social.charAt(0)}
                 </Link>

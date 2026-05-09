@@ -275,7 +275,7 @@ export default function ApexFitnessPage() {
           {[
             { title: "Studio", links: ["Programs", "Schedule", "Coaches", "Location"] },
             { title: "Join", links: ["Pricing", "Free Trial", "Corporate", "FAQ"] },
-            { title: "Follow", links: ["Instagram", "TikTok", "YouTube", "Strava"] },
+            { title: "Follow", links: ["Camera", "TikTok", "YouTube", "Strava"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-lime-400 mb-6">{col.title}</h4>

@@ -228,7 +228,7 @@ export default function SymmetryStudioPage() {
                  "Architecture is the learned game, correct and magnificent, of forms assembled in light."
               </p>
               <div className="flex gap-10">
-                 {["Instagram", "Vimeo", "ArchDaily", "Journal"].map(s => (
+                 {["Camera", "Vimeo", "ArchDaily", "Journal"].map(s => (
                    <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-black/20 hover:text-black transition-colors italic">{s}</Link>
                  ))}
               </div>

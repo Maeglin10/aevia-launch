@@ -381,7 +381,7 @@ export default function Page() {
         {[
           { title: "Services", links: ["Branding", "Web & Dev", "Campagnes", "Direction Art"] },
           { title: "Agence", links: ["À propos", "Travaux", "Blog", "Carrières"] },
-          { title: "Contact", links: ["hello@bureau.co", "+33 1 23 45 67 89", "Paris 75011", "Instagram"] },
+          { title: "Contact", links: ["hello@bureau.co", "+33 1 23 45 67 89", "Paris 75011", "Camera"] },
         ].map((col, i) => (
           <div key={i} style={{ padding: "48px 40px", borderRight: i < 2 ? `2px solid #1a1a1a` : undefined }}>
             <div style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: 4, color: C.accent, marginBottom: 20, textTransform: "uppercase" }}>{col.title}</div>

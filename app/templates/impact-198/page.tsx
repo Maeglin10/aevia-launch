@@ -13,7 +13,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
-import { Sparkles, Star, Heart, Clock, MapPin, Phone, Mail, Instagram, Facebook, Menu, Check, ArrowRight, Leaf, Flower2, Smile } from "lucide-react"
+import { Sparkles, Star, Heart, Clock, MapPin, Phone, Mail, Camera, Users2, Menu, Check, ArrowRight, Leaf, Flower2, Smile } from "lucide-react"
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -433,7 +433,7 @@ export default function LumierBeautyPage() {
               </div>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", fontFamily: "system-ui", lineHeight: 1.8, marginBottom: 20, maxWidth: 260 }}>Institut de beauté bio & naturel. 14 rue des Fleurs, 75006 Paris. Ouvert Lun–Sam 9h–19h.</p>
               <div style={{ display: "flex", gap: 10 }}>
-                {[Instagram, Facebook].map((Icon, i) => (
+                {[Camera, Users2].map((Icon, i) => (
                   <motion.button key={i} whileHover={{ scale: 1.15 }} style={{ width: 34, height: 34, borderRadius: "50%", background: "rgba(255,255,255,0.08)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "rgba(255,255,255,0.5)" }}>
                     <Icon size={15} />
                   </motion.button>

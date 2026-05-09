@@ -13,7 +13,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
-import { Gem, Star, Shield, Award, Heart, Package, Instagram, Facebook, Twitter, Menu, Check, ArrowRight, Sparkles, RefreshCw } from "lucide-react"
+import { Gem, Star, Shield, Award, Heart, Package, Camera, Users2, MessageSquare, Menu, Check, ArrowRight, Sparkles, RefreshCw } from "lucide-react"
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -400,7 +400,7 @@ export default function AurumJewelryPage() {
                 Maison de joaillerie artisanale fondée à Paris en 1989. 24 rue des Francs-Bourgeois, 75004 Paris.
               </p>
               <div style={{ display: "flex", gap: 10 }}>
-                {[Instagram, Facebook, Twitter].map((Icon, i) => (
+                {[Camera, Users2, MessageSquare].map((Icon, i) => (
                   <motion.button key={i} whileHover={{ scale: 1.15 }} style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "rgba(244,237,227,0.35)" }}>
                     <Icon size={14} />
                   </motion.button>

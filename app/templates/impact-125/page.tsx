@@ -321,7 +321,7 @@ export default function AstrumReachPage() {
               Empowering the next century of space travel through sustainable, reliable, and frequent orbital access.
             </p>
             <div className="flex gap-8">
-               {["Mission Control", "YouTube", "GitHub", "Twitter"].map(s => (
+               {["Mission Control", "YouTube", "GitHub", "MessageSquare"].map(s => (
                  <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-cyan-400 transition-colors">{s}</Link>
                ))}
             </div>

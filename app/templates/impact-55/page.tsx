@@ -177,7 +177,7 @@ export default function EchoScrollPage() {
            <Reveal>
               <motion.h2 style={{ color: textColor }} className="text-7xl md:text-[15vw] font-black uppercase tracking-tighter leading-[0.8] mb-20">
                  SPEAK <br/> <span className="italic font-light">LOUDER.</span>
-              </h2>
+              </motion.h2>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-12">
                  <motion.button style={{ color: textColor, borderColor: textColor }} className="px-16 py-6 border-2 font-black uppercase text-xl hover:bg-current hover:text-black transition-all italic">
                     Contact Us
@@ -200,7 +200,7 @@ export default function EchoScrollPage() {
               </motion.p>
            </div>
            {[
-             { t: "CONNECT", l: ["Instagram", "Twitter", "LinkedIn", "Vimeo"] },
+             { t: "CONNECT", l: ["Camera", "MessageSquare", "LinkedIn", "Vimeo"] },
              { t: "ATELIER", l: ["Process", "Lab", "Story", "Careers"] }
            ].map((col, i) => (
              <div key={i} className="space-y-12">

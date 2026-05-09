@@ -209,7 +209,7 @@ export default function PulseEventsPage() {
           {[
             { title: "Discover", links: ["All Events", "By Genre", "By City", "Artists"] },
             { title: "Info", links: ["About", "FAQ", "Accessibility", "Press"] },
-            { title: "Follow", links: ["Instagram", "Twitter", "Spotify", "YouTube"] },
+            { title: "Follow", links: ["Camera", "MessageSquare", "Spotify", "YouTube"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-pink-400 mb-6">{col.title}</h4>

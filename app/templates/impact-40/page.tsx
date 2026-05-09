@@ -217,7 +217,7 @@ export default function KineticLensPage() {
               Redefining the digital frontier through physics-driven motion and high-fidelity interaction.
             </p>
             <div className="flex gap-8">
-               {["Vimeo", "Instagram", "Behance", "X"].map(s => (
+               {["Vimeo", "Camera", "Behance", "X"].map(s => (
                  <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors">{s}</Link>
                ))}
             </div>

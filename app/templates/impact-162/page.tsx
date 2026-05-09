@@ -13,7 +13,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
-import { Coffee, Star, Clock, MapPin, Leaf, Heart, Instagram, Facebook, Menu, Check, Wifi, Music } from "lucide-react"
+import { Coffee, Star, Clock, MapPin, Leaf, Heart, Camera, Users2, Menu, Check, Wifi, Music } from "lucide-react"
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -401,7 +401,7 @@ export default function EssentialCafePage() {
                 32 quai de Valmy, 75010 Paris — Ouvert 7h–20h, 7j/7<br />01 42 38 XX XX — hello@brulerieducanal.fr
               </p>
               <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
-                {[Instagram, Facebook].map((Icon, i) => (
+                {[Camera, Users2].map((Icon, i) => (
                   <motion.button key={i} whileHover={{ scale: 1.15 }} style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "rgba(240,232,216,0.35)" }}>
                     <Icon size={14} />
                   </motion.button>

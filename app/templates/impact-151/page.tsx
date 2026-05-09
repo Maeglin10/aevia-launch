@@ -374,7 +374,7 @@ export default function AethelgardEstatePremium() {
                     "Le temps n'est pas un luxe, c'est notre ingrédient secret." — Domaine Aethelgard V.4
                  </p>
                  <div className="flex gap-12">
-                    {["Instagram", "Vogue", "Decanter", "Forbes"].map(s => (
+                    {["Camera", "Vogue", "Decanter", "Forbes"].map(s => (
                        <Link key={s} href="#" className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-[#c4a661] transition-colors italic">{s}</Link>
                     ))}
                  </div>

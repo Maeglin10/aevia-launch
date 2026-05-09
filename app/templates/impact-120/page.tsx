@@ -620,9 +620,9 @@ export default function EclatLuxuryPage() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-8 border-t border-white/10 text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600">
             <div>© 2026 Éclat Parfums. All Rights Reserved.</div>
             <div className="flex items-center gap-8 text-white/50">
-              <Link href="#" className="hover:text-white transition-colors">Instagram</Link>
-              <Link href="#" className="hover:text-white transition-colors">Twitter</Link>
-              <Link href="#" className="hover:text-white transition-colors">Pinterest</Link>
+              <Link href="#" className="hover:text-white transition-colors">Camera</Link>
+              <Link href="#" className="hover:text-white transition-colors">MessageSquare</Link>
+              <Link href="#" className="hover:text-white transition-colors">Bookmark</Link>
             </div>
           </div>
           

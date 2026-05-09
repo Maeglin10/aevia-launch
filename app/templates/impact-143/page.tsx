@@ -238,7 +238,7 @@ export default function AtelierInteriorPage() {
           </div>
           {[
             { title: "Studio", links: ["Projects", "Services", "Process", "Team"] },
-            { title: "Connect", links: ["Contact", "Instagram", "Pinterest", "Press"] },
+            { title: "Connect", links: ["Contact", "Camera", "Bookmark", "Press"] },
             { title: "Info", links: ["Privacy", "Terms", "Cookies", "FAQ"] },
           ].map((col, i) => (
             <div key={i}>

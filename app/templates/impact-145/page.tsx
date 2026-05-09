@@ -109,7 +109,7 @@ export default function ArcaneRealtyPage() {
                 <div className="flex flex-wrap justify-center gap-8">
                   <button className="px-12 py-5 bg-white text-black font-bold uppercase tracking-widest text-[10px] hover:bg-transparent hover:text-white border border-white transition-all duration-700">
                     Explore Collection
-                  </li>
+                  </button>
                   <button className="px-12 py-5 border border-white/20 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/5 transition-all flex items-center gap-3">
                     <Map className="w-3 h-3" /> Digital Roadmap
                   </button>
@@ -239,7 +239,7 @@ export default function ArcaneRealtyPage() {
               "We architecturalize wealth through the acquisition of the world's most rare holdings."
             </p>
             <div className="flex gap-10">
-               {["Instagram", "Journal", "Technical Paper", "Contact"].map(s => (
+               {["Camera", "Journal", "Technical Paper", "Contact"].map(s => (
                  <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors">{s}</Link>
                ))}
             </div>

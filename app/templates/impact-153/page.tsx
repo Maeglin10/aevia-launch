@@ -399,7 +399,7 @@ export default function AtlasExpeditionPremium() {
                   "L'exploration n'est pas une aventure, c'est une science de la préparation." — Archive Atlas V4.2
                </p>
                <div className="flex gap-12">
-                  {["Instagram", "GlobalMap", "SatLink", "ExpeditionData"].map(s => (
+                  {["Camera", "GlobalMap", "SatLink", "ExpeditionData"].map(s => (
                     <Link key={s} href="#" className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-[#ffcf00] transition-colors italic">{s}</Link>
                   ))}
                </div>

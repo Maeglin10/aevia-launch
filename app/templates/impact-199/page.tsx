@@ -13,7 +13,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
-import { Pen, Star, Clock, MapPin, Instagram, Menu, Check, Shield, Award, Zap, Eye, Heart, Droplets } from "lucide-react"
+import { Pen, Star, Clock, MapPin, Camera, Menu, Check, Shield, Award, Zap, Eye, Heart, Droplets } from "lucide-react"
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -248,7 +248,7 @@ export default function EncreEtAmePage() {
                     </div>
                     <p style={{ fontSize: 16, color: "rgba(240,236,228,0.65)", fontFamily: "system-ui", lineHeight: 1.8, marginBottom: 32 }}>{artist.bio}</p>
                     <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 12, marginBottom: 32 }}>
-                      {["Consultations gratuites", "Designs 100% originaux", "Portfolio Instagram @encre.ame", "Réservation en ligne possible"].map(f => (
+                      {["Consultations gratuites", "Designs 100% originaux", "Portfolio Camera @encre.ame", "Réservation en ligne possible"].map(f => (
                         <li key={f} style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 14, color: "rgba(240,236,228,0.65)", fontFamily: "system-ui" }}>
                           <Check size={14} color="#e8d5a3" style={{ flexShrink: 0 }} />{f}
                         </li>
@@ -409,7 +409,7 @@ export default function EncreEtAmePage() {
                 Studio de tatouage artistique. 42 rue Oberkampf, 75011 Paris. Ouvert Mar–Sam 11h–20h.
               </p>
               <motion.button whileHover={{ scale: 1.1 }} style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(232,213,163,0.2)", borderRadius: 6, padding: "8px 14px", cursor: "pointer", color: "#e8d5a3" }}>
-                <Instagram size={15} />
+                <Camera size={15} />
                 <span style={{ fontSize: 13, fontFamily: "system-ui" }}>@encre.ame</span>
               </motion.button>
             </div>

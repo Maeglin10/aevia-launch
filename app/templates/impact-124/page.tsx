@@ -445,7 +445,7 @@ export default function MorphStudioPage() {
               <li><Link href="#" className="hover:text-cyan-400 transition-colors">Documentation</Link></li>
               <li><Link href="#" className="hover:text-cyan-400 transition-colors">API Reference</Link></li>
               <li><Link href="#" className="hover:text-cyan-400 transition-colors">Status</Link></li>
-              <li><Link href="#" className="hover:text-cyan-400 transition-colors">Github</Link></li>
+              <li><Link href="#" className="hover:text-cyan-400 transition-colors">GitBranch</Link></li>
             </ul>
           </div>
 
