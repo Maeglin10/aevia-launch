@@ -7,10 +7,12 @@
  *   2. Start the dev server: npm run dev  (or set BASE_URL to production URL)
  *   3. node scripts/screenshot-templates.js
  *
- * Outputs: public/thumbnails/[id].webp  (1280×800, WebP quality 85)
+ * Outputs: public/thumbnails/[id].webp  (640×400, WebP quality 75)
+ * Screenshots at 1280×800 then downsampled — cwebp must be installed (brew install webp).
  */
 
 const puppeteer = require("puppeteer");
+const { execSync } = require("child_process");
 const path = require("path");
 const fs = require("fs");
 
@@ -18,7 +20,7 @@ const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
 const OUT_DIR = path.join(__dirname, "..", "public", "thumbnails");
 const CONCURRENCY = 4; // parallel tabs
 const VIEWPORT = { width: 1280, height: 800 };
-const QUALITY = 85;
+const QUALITY = 80;
 const TIMEOUT = 20_000;
 
 // ── All visible templates (site builder + quality impact) ─────────────────────
@@ -85,12 +87,16 @@ async function screenshotTemplate(browser, template) {
         .forEach((el) => el.remove());
     });
 
+    const tmpPath = outPath.replace(".webp", "_tmp.webp");
     await page.screenshot({
-      path: outPath,
+      path: tmpPath,
       type: "webp",
       quality: QUALITY,
       clip: { x: 0, y: 0, width: VIEWPORT.width, height: VIEWPORT.height },
     });
+    // Downsample to 640×400 for fast gallery loading (~69% size reduction)
+    execSync(`cwebp -q 75 -resize 640 400 "${tmpPath}" -o "${outPath}" -quiet`);
+    fs.unlinkSync(tmpPath);
 
     console.log(`  ✅  ${template.id}`);
   } catch (err) {

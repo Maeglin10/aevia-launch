@@ -177,6 +177,9 @@ function ThumbCard({ item, index }: { item: ThemeItem; index: number }) {
               <img
                 src={thumbSrc}
                 alt={item.label}
+                loading={index < 8 ? "eager" : "lazy"}
+                decoding="async"
+                fetchPriority={index < 4 ? "high" : "low"}
                 className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-700 z-20 ${thumbLoaded ? "opacity-100" : "opacity-0"}`}
                 onLoad={() => setThumbLoaded(true)}
                 onError={() => setThumbFailed(true)}
