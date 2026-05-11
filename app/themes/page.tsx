@@ -40,32 +40,7 @@ const FEATURED = new Set([
   "impact-112","impact-115","impact-126","impact-131","impact-135",
 ]);
 
-// ─── Site builder themes ──────────────────────────────────────────────────────
-const SITE_THEMES = [
-  { id: "landing",     label: "Landing Page",        desc: "High-conversion single page with bold hero and tight CTA" },
-  { id: "saas",        label: "SaaS Product",         desc: "Dark tech aesthetic with features, pricing and conversion flow" },
-  { id: "agency",      label: "Creative Agency",      desc: "Left-aligned bold typography, portfolio-first layout" },
-  { id: "vitrine",     label: "Business Vitrine",     desc: "Professional multi-page presence for established brands" },
-  { id: "consultant",  label: "Consultant & Coach",   desc: "Authority-building personal brand with trust signals" },
-  { id: "portfolio",   label: "Portfolio",            desc: "Minimal work showcase for creatives and developers" },
-  { id: "ecommerce",   label: "E-commerce Store",     desc: "Full-bleed product hero with gallery and cart CTA" },
-  { id: "restaurant",  label: "Restaurant & Food",    desc: "Warm full-bleed ambiance with menu and reservations" },
-  { id: "hotel",       label: "Hotel & B&B",          desc: "Luxury room gallery with booking CTA and amenities" },
-  { id: "healthcare",  label: "Healthcare & Clinic",  desc: "Trust-first medical practice with clean white layout" },
-  { id: "realestate",  label: "Real Estate",          desc: "Property listings with agent profile and local expertise" },
-  { id: "fitness",     label: "Fitness & Wellness",   desc: "High-energy classes, trainers, transformation stories" },
-  { id: "event",       label: "Event & Conference",   desc: "Dark countdown, speakers, schedule and ticket CTA" },
-  { id: "nonprofit",   label: "Non-profit & NGO",     desc: "Mission-driven, warm, donation-focused impact site" },
-  { id: "startup",     label: "Startup Launch",       desc: "Pre-launch waitlist with social proof and vision" },
-  { id: "luxury",      label: "Luxury & Couture",     desc: "Dark marble texture, gold accents and cinematic parallax" },
-  { id: "brutalist",   label: "Brutalist Editorial",  desc: "Massive raw typography, hard grid, confrontational by design" },
-  { id: "magazine",    label: "Magazine & Editorial", desc: "Grid-based journalistic layout with rich typography hierarchy" },
-  { id: "aurora",      label: "Aurora & Wellness",    desc: "Iridescent aurora gradients, soft glow, botanical wellness" },
-  { id: "3d-tech",     label: "3D Tech & Web3",       desc: "Holographic grid, glitch text effects, cyber-neon palette" },
-  { id: "minimal-pro", label: "Minimal Pro",          desc: "Architecture-grade negative space, Swiss precision typography" },
-  { id: "marketplace", label: "Marketplace",          desc: "Multi-vendor marketplace with listings and seller profiles" },
-  { id: "livestream",  label: "Live & Streaming",     desc: "Live events platform with real-time chat and ticketing" },
-];
+
 
 // ─── Unified category system ──────────────────────────────────────────────────
 const CAT_COLOR: Record<string, string> = {
