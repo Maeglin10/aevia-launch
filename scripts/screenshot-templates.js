@@ -41,6 +41,11 @@ const IMPACT_VISIBLE = [
   "impact-16", "impact-17", "impact-18", "impact-19", "impact-20", "impact-21",
   "impact-22", "impact-23", "impact-24", "impact-25", "impact-26", "impact-27",
   "impact-28", "impact-29",
+  // Round 2 rewrites (800-1808 lines, all premium)
+  "impact-30", "impact-31", "impact-32", "impact-33", "impact-34", "impact-35",
+  "impact-36", "impact-37", "impact-38", "impact-39", "impact-40", "impact-41",
+  "impact-42", "impact-43", "impact-44", "impact-45", "impact-46", "impact-47",
+  "impact-48", "impact-49",
   // Elevated batch (700-1100 lines)
   "impact-57", "impact-58", "impact-61", "impact-63", "impact-64",
   "impact-68", "impact-69", "impact-72",
@@ -55,6 +60,8 @@ const IMPACT_VISIBLE = [
   "impact-161", "impact-162", "impact-163", "impact-164", "impact-165", "impact-166",
   "impact-167", "impact-168", "impact-169", "impact-170", "impact-171",
   "impact-172", "impact-173", "impact-174", "impact-175", "impact-176",
+  // Latest batch
+  "impact-196", "impact-197", "impact-198", "impact-199", "impact-200", "impact-201",
 ];
 
 const ALL_TEMPLATES = [
