@@ -44,23 +44,26 @@ const FEATURED = new Set([
 
 // ─── Unified category system ──────────────────────────────────────────────────
 const CAT_COLOR: Record<string, string> = {
-  Tech:        "#2563eb",
-  Creative:    "#a855f7",
-  Luxury:      "#c9a96e",
-  Minimal:     "#71717a",
-  Editorial:   "#f59e0b",
-  Corporate:   "#0ea5e9",
-  "E-Commerce":"#ec4899",
-  Health:      "#14b8a6",
-  Hospitality: "#f43f5e",
-  Services:    "#8b5cf6",
-  Education:   "#3b82f6",
-  Free:        "#10b981",
+  Tech:          "#2563eb",
+  Creative:      "#a855f7",
+  Luxury:        "#c9a96e",
+  Minimal:       "#71717a",
+  Editorial:     "#f59e0b",
+  Corporate:     "#0ea5e9",
+  "E-Commerce":  "#ec4899",
+  Health:        "#14b8a6",
+  Hospitality:   "#f43f5e",
+  Services:      "#8b5cf6",
+  Education:     "#3b82f6",
+  Finance:       "#22c55e",
+  "Food & Drink":"#fb923c",
+  Free:          "#10b981",
 };
 
 const CATS = [
   "All", "Tech", "Creative", "Luxury", "Minimal", "Editorial",
-  "Corporate", "E-Commerce", "Health", "Hospitality", "Services", "Education", "Free"
+  "Corporate", "Finance", "E-Commerce", "Health", "Hospitality",
+  "Food & Drink", "Services", "Education", "Free"
 ];
 
 // ─── Theme item type ──────────────────────────────────────────────────────────
