@@ -5,766 +5,661 @@ import {
   useScroll,
   useTransform,
   useInView,
-  AnimatePresence,
   useMotionValue,
   useSpring,
+  AnimatePresence,
 } from "framer-motion";
-import { useState, useRef, useEffect, useCallback } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Separator } from "@/components/ui/separator";
-import { Diamond, Sparkles, Heart, Star, Check, Globe, Mail, Phone, ChevronRight, ArrowRight, X, Menu, ShoppingBag, Award, Clock, MapPin, PenTool, Scissors, Zap, Search, Plus } from "lucide-react";
+import { useRef, useState, useEffect, useCallback } from "react";
 
-import "../premium.css";
+/* ─── Design Tokens ─────────────────────────────────────────── */
+const C = {
+  bg:      "#080706",
+  bgCard:  "#120F0C",
+  bgMid:   "#1E1912",
+  gold:    "#C9A86C",
+  goldSoft:"#E8D5A8",
+  copper:  "#A07840",
+  cream:   "#F5EDE0",
+  muted:   "#8A7E6E",
+  border:  "rgba(201,168,108,0.13)",
+};
 
-/* ==========================================================================
-   DATA STRUCTURES
-   ========================================================================= */
+const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap');`;
 
+/* ─── Data ───────────────────────────────────────────────────── */
 const COLLECTIONS = [
   {
-    id: 1,
-    name: "Celestial Silk",
-    year: "2024",
-    img: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80",
-    desc: "Hand-woven gold threads meeting ethical lab-grown diamonds.",
+    name: "Solstice",
+    type: "Ring Collection",
+    pieces: 7,
+    desc: "Seven rings inspired by the turning of light through the seasons. Yellow gold, rose gold, and white gold with hand-selected gemstones.",
+    accent: "#C9A86C",
   },
   {
-    id: 2,
-    name: "Nocturnal Echo",
-    year: "2024",
-    img: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?w=800&q=80",
-    desc: "Black opals and obsidian set in 18k white gold architectural frames.",
+    name: "Nocturn",
+    type: "Necklace Collection",
+    pieces: 5,
+    desc: "Fine chain necklaces with pendant stones set in blackened gold — sapphire, tourmaline, and black diamond.",
+    accent: "#6A8EA8",
   },
   {
-    id: 3,
-    name: "The Alchemist",
-    year: "2023",
-    img: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80",
-    desc: "Raw gems and textured precious metals for the modern visionary.",
+    name: "Halo",
+    type: "Earring Collection",
+    pieces: 9,
+    desc: "Statement earrings with diamond halos and coloured centre stones. From subtle studs to sculptural drops.",
+    accent: "#E8D5A8",
+  },
+  {
+    name: "Celeste",
+    type: "Bracelet Collection",
+    pieces: 4,
+    desc: "Celestial-inspired bracelets and bangles — pavé-set constellations in 18k gold.",
+    accent: "#A8B8C8",
   },
 ];
 
-const SERVICES = [
-  {
-    title: "Bespoke Creation",
-    desc: "A collaborative journey from initial sketch to the final masterwork. Your vision, our artisan expertise.",
-    icon: PenTool,
-  },
-  {
-    title: "Gemological Sourcing",
-    desc: "Direct access to ethical diamond mines and rare colored gemstone cutters worldwide.",
-    icon: Search,
-  },
-  {
-    title: "Heritage Restoration",
-    desc: "Breathing new life into family heirlooms with modern structural integrity and original soul.",
-    icon: Scissors,
-  },
+const PIECES = [
+  { name: "Solstice Ring No. 3", material: "18k Yellow Gold · 0.62ct Oval Sapphire", price: "4,200", tag: "Bestseller" },
+  { name: "Nocturn Drop Pendant", material: "18k Blackened Gold · Black Diamond", price: "2,850", tag: "Limited" },
+  { name: "Halo Cluster Earrings", material: "18k White Gold · Diamond Halo", price: "6,400", tag: "New" },
+  { name: "Celeste Constellation Cuff", material: "18k Yellow Gold · 48 Pavé Diamonds", price: "8,900", tag: "Bespoke" },
 ];
 
-const CRAFT_STATS = [
-  { label: "Hand-Set Stones", value: "100%" },
-  { label: "Master Artisans", value: "12" },
-  { label: "Ethical Sourcing", value: "Certified" },
-  { label: "Hours per Piece", value: "48+" },
+const PROCESS = [
+  { step: "I", title: "Private Consultation", desc: "We meet in our atelier to understand your vision — your style, your story, the occasion. Every bespoke piece begins with listening." },
+  { step: "II", title: "Design & Gemstone Selection", desc: "Our goldsmith presents hand-drawn sketches and curated stones from our network of trusted suppliers in Antwerp and Sri Lanka." },
+  { step: "III", title: "Creation & Delivery", desc: "Your piece is hand-fabricated in our Paris workshop over 6–10 weeks, then presented in a private handover ceremony." },
 ];
 
-/* ==========================================================================
-   UTILITY COMPONENTS
-   ========================================================================= */
+const PRESS = [
+  { source: "Vogue France", quote: "Aurelia Jewels occupies a rare space — intimate enough to feel personal, extraordinary enough to feel timeless." },
+  { source: "Le Figaro Madame", quote: "Each piece tells a story. That is the rarest quality in contemporary fine jewellery." },
+  { source: "Tatler", quote: "The Solstice collection is the finest debut we have seen in Paris this decade." },
+];
 
-function Reveal({
-  children,
-  delay = 0,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-}) {
+const COLLECTION_NAMES = ["Solstice", "Nocturn", "Halo", "Celeste", "Bespoke"];
+
+/* ─── TextReveal ─────────────────────────────────────────────── */
+function TextReveal({ text, delay = 0, style = {} }: { text: string; delay?: number; style?: React.CSSProperties }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
+  const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 1, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {children}
-    </motion.div>
+    <div ref={ref} style={{ overflow: "hidden", ...style }}>
+      <motion.div
+        initial={{ y: "110%" }}
+        animate={inView ? { y: 0 } : { y: "110%" }}
+        transition={{ duration: 1.1, delay, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {text}
+      </motion.div>
+    </div>
   );
 }
 
-function MagneticBtn({
-  children,
-  className = "",
-  onClick,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  onClick?: () => void;
-}) {
-  const ref = useRef<HTMLButtonElement>(null);
+/* ─── MagneticButton ─────────────────────────────────────────── */
+function MagneticButton({ children, style = {}, onClick }: { children: React.ReactNode; style?: React.CSSProperties; onClick?: () => void }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 150, damping: 20 });
-  const sy = useSpring(y, { stiffness: 150, damping: 20 });
-
-  const handleMouse = useCallback(
-    (e: React.MouseEvent) => {
-      const rect = ref.current?.getBoundingClientRect();
-      if (!rect) return;
-      x.set((e.clientX - rect.left - rect.width / 2) * 0.35);
-      y.set((e.clientY - rect.top - rect.height / 2) * 0.35);
-    },
-    [x, y],
-  );
-
+  const sx = useSpring(x, { stiffness: 250, damping: 18 });
+  const sy = useSpring(y, { stiffness: 250, damping: 18 });
+  const ref = useRef<HTMLButtonElement>(null);
+  const onMove = (e: React.MouseEvent) => {
+    const r = ref.current!.getBoundingClientRect();
+    x.set((e.clientX - r.left - r.width / 2) * 0.3);
+    y.set((e.clientY - r.top - r.height / 2) * 0.3);
+  };
   return (
-    <motion.button
-      ref={ref}
-      style={{ x: sx, y: sy }}
-      onMouseMove={handleMouse}
-      onMouseLeave={() => {
-        x.set(0);
-        y.set(0);
-      }}
-      onClick={onClick}
-      className={className}
-    >
+    <motion.button ref={ref} style={{ x: sx, y: sy, cursor: "pointer", background: "none", border: "none", ...style }}
+      onMouseMove={onMove} onMouseLeave={() => { x.set(0); y.set(0); }} onClick={onClick}>
       {children}
     </motion.button>
   );
 }
 
-/* ==========================================================================
-   MAIN PAGE COMPONENT
-   ========================================================================= */
+/* ─── MarqueeStrip ───────────────────────────────────────────── */
+function MarqueeStrip() {
+  const items = [...COLLECTION_NAMES, ...COLLECTION_NAMES, ...COLLECTION_NAMES, ...COLLECTION_NAMES];
+  return (
+    <div style={{ overflow: "hidden", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "10px 0" }}>
+      <motion.div
+        style={{ display: "flex", gap: 64, whiteSpace: "nowrap" }}
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+      >
+        {items.map((name, i) => (
+          <span key={i} style={{ fontFamily: "'Cormorant', serif", fontSize: 14, letterSpacing: "0.3em", color: C.muted, fontStyle: "italic" }}>
+            {name}
+            <span style={{ marginLeft: 64, color: C.gold, fontSize: 8 }}>◆</span>
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
 
-export default function AureliaJewelsPage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [consultOpen, setConsultOpen] = useState(false);
+/* ─── DiamondFacets — Signature Element ─────────────────────── */
+function DiamondFacets() {
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
+  const smx = useSpring(mouseX, { stiffness: 80, damping: 22 });
+  const smy = useSpring(mouseY, { stiffness: 80, damping: 22 });
+
+  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    mouseX.set((e.clientX - r.left) / r.width);
+    mouseY.set((e.clientY - r.top) / r.height);
+  }, [mouseX, mouseY]);
+
+  const onMouseLeave = useCallback(() => {
+    mouseX.set(0.5);
+    mouseY.set(0.5);
+  }, [mouseX, mouseY]);
+
+  // Compute light position from mouse
+  const lightX = useTransform(smx, [0, 1], [80, 320]);
+  const lightY = useTransform(smy, [0, 1], [60, 300]);
+
+  // 16 brillant-cut facets defined as polygon points (simplified top view)
+  const cx = 200, cy = 200, R = 160, r = 80, innerR = 40;
+
+  const facets = Array.from({ length: 8 }, (_, i) => {
+    const a0 = (i * Math.PI * 2) / 8;
+    const a1 = ((i + 1) * Math.PI * 2) / 8;
+    const am = (a0 + a1) / 2;
+    return {
+      // Outer kite
+      outer: [
+        { x: cx + R * Math.cos(a0), y: cy + R * Math.sin(a0) },
+        { x: cx + r * Math.cos(am - 0.15), y: cy + r * Math.sin(am - 0.15) },
+        { x: cx + innerR * Math.cos(am), y: cy + innerR * Math.sin(am) },
+        { x: cx + r * Math.cos(am + 0.15), y: cy + r * Math.sin(am + 0.15) },
+        { x: cx + R * Math.cos(a1), y: cy + R * Math.sin(a1) },
+      ],
+      // Inner triangle
+      inner: [
+        { x: cx + r * Math.cos(am - 0.15), y: cy + r * Math.sin(am - 0.15) },
+        { x: cx + innerR * Math.cos(am), y: cy + innerR * Math.sin(am) },
+        { x: cx + r * Math.cos(am + 0.15), y: cy + r * Math.sin(am + 0.15) },
+        { x: cx, y: cy },
+      ],
+      angle: am,
+    };
+  });
+
+  function toPath(pts: { x: number; y: number }[]) {
+    return pts.map((p, i) => `${i === 0 ? "M" : "L"}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ") + " Z";
+  }
+
+  return (
+    <div style={{ display: "flex", gap: 64, alignItems: "center" }}>
+      {/* Diamond SVG */}
+      <div
+        onMouseMove={onMouseMove}
+        onMouseLeave={onMouseLeave}
+        style={{ position: "relative", flexShrink: 0, cursor: "crosshair" }}
+      >
+        <svg width="400" height="400" viewBox="0 0 400 400" style={{ display: "block" }}>
+          <defs>
+            <motion.radialGradient
+              id="lightSource"
+              cx={useTransform(lightX, v => `${(v / 400) * 100}%`) as any}
+              cy={useTransform(lightY, v => `${(v / 400) * 100}%`) as any}
+              r="60%"
+            >
+              <stop offset="0%" stopColor={C.goldSoft} stopOpacity="0.6" />
+              <stop offset="100%" stopColor="transparent" />
+            </motion.radialGradient>
+
+            <filter id="gemGlow">
+              <feGaussianBlur stdDeviation="2" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          {/* Outer ring / girdle */}
+          <circle cx={cx} cy={cy} r={R} fill="none" stroke={C.gold} strokeWidth="0.5" strokeOpacity="0.3" />
+
+          {/* Outer facets */}
+          {facets.map((f, i) => (
+            <motion.path
+              key={`outer-${i}`}
+              d={toPath(f.outer)}
+              fill={C.bgCard}
+              stroke={C.gold}
+              strokeWidth="0.5"
+              strokeOpacity="0.4"
+              whileHover={{ fill: C.bgMid }}
+              animate={{
+                fillOpacity: [0.7, 0.9, 0.7],
+              }}
+              transition={{
+                duration: 3 + i * 0.4,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i * 0.2,
+              }}
+              style={{ cursor: "crosshair" }}
+            />
+          ))}
+
+          {/* Inner triangles */}
+          {facets.map((f, i) => (
+            <motion.path
+              key={`inner-${i}`}
+              d={toPath(f.inner)}
+              fill={C.bgMid}
+              stroke={C.gold}
+              strokeWidth="0.5"
+              strokeOpacity="0.3"
+              animate={{
+                fillOpacity: [0.5, 0.8, 0.5],
+              }}
+              transition={{
+                duration: 2.5 + i * 0.3,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i * 0.15 + 0.5,
+              }}
+            />
+          ))}
+
+          {/* Table (center octagon) */}
+          <polygon
+            points={Array.from({ length: 8 }, (_, i) => {
+              const a = (i * Math.PI * 2) / 8;
+              return `${(cx + innerR * Math.cos(a)).toFixed(1)},${(cy + innerR * Math.sin(a)).toFixed(1)}`;
+            }).join(" ")}
+            fill={C.bgMid}
+            stroke={C.gold}
+            strokeWidth="0.5"
+            strokeOpacity="0.5"
+          />
+
+          {/* Light refraction overlay — follows mouse */}
+          <rect x="40" y="40" width="320" height="320" rx="160" fill="url(#lightSource)" style={{ mixBlendMode: "screen" } as any} />
+
+          {/* Light rays from center */}
+          {Array.from({ length: 8 }, (_, i) => {
+            const a = (i * Math.PI * 2) / 8 + Math.PI / 8;
+            return (
+              <motion.line
+                key={i}
+                x1={cx}
+                y1={cy}
+                x2={cx + R * Math.cos(a)}
+                y2={cy + R * Math.sin(a)}
+                stroke={C.gold}
+                strokeWidth="0.5"
+                strokeOpacity="0"
+                animate={{ strokeOpacity: [0, 0.25, 0] }}
+                transition={{ duration: 3, delay: i * 0.4, repeat: Infinity, ease: "easeInOut" }}
+              />
+            );
+          })}
+
+          {/* Sparkle points */}
+          {[
+            [cx + R - 10, cy - 20, 3],
+            [cx - R + 15, cy + 30, 2],
+            [cx + 20, cy - R + 10, 2.5],
+            [cx - 30, cy + R - 15, 2],
+          ].map(([x, y, r], i) => (
+            <motion.circle
+              key={i}
+              cx={x}
+              cy={y}
+              r={r}
+              fill={C.goldSoft}
+              animate={{ opacity: [0, 1, 0], scale: [0.5, 1.5, 0.5] }}
+              transition={{ duration: 2.5, delay: i * 0.8, repeat: Infinity, ease: "easeInOut" }}
+            />
+          ))}
+        </svg>
+
+        {/* Glow beneath */}
+        <div style={{ position: "absolute", bottom: -20, left: "50%", transform: "translateX(-50%)", width: 200, height: 24, background: C.gold, opacity: 0.07, borderRadius: "50%", filter: "blur(16px)" }} />
+      </div>
+
+      {/* Description */}
+      <div style={{ flex: 1 }}>
+        <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 10, letterSpacing: "0.4em", color: C.gold, textTransform: "uppercase", marginBottom: 24 }}>The Craft</p>
+        <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 400, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 28, color: C.cream, fontFamily: "'Cormorant', serif" }}>
+          <TextReveal text="Every stone" />
+          <TextReveal text="chosen by hand." delay={0.15} style={{ fontStyle: "italic", color: C.gold }} />
+        </h2>
+        <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.85, marginBottom: 32, fontWeight: 300 }}>
+          Move your cursor across the diamond to discover how light behaves differently in each facet — the same principle guides how we select every stone. We handle each gem in natural light, from multiple angles, until we understand its character.
+        </p>
+        <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.85, marginBottom: 40, fontWeight: 300 }}>
+          All our diamonds are GIA-certified. Coloured stones are sourced directly from ethical suppliers in Sri Lanka, Mozambique, and Colombia.
+        </p>
+        <div style={{ display: "flex", gap: 40 }}>
+          {[
+            { val: "GIA", label: "Certified diamonds" },
+            { val: "18k", label: "All metals" },
+            { val: "100%", label: "Ethical sourcing" },
+          ].map(item => (
+            <div key={item.label} style={{ paddingTop: 16, borderTop: `1px solid ${C.border}` }}>
+              <p style={{ fontFamily: "'Cormorant', serif", fontSize: 26, fontWeight: 600, color: C.gold, letterSpacing: "-0.01em", lineHeight: 1 }}>{item.val}</p>
+              <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 11, color: C.muted, marginTop: 6, letterSpacing: "0.05em" }}>{item.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── CollectionCard ─────────────────────────────────────────── */
+function CollectionCard({ col }: { col: typeof COLLECTIONS[0] }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <motion.div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      whileHover={{ y: -6 }}
+      transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+      style={{ background: C.bgCard, border: `1px solid ${hovered ? col.accent : C.border}`, borderRadius: 4, padding: "32px", cursor: "pointer", transition: "border-color 0.3s" }}
+    >
+      {/* Gem shape indicator */}
+      <div style={{ marginBottom: 24 }}>
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <polygon points="16,4 28,12 28,20 16,28 4,20 4,12" fill="none" stroke={col.accent} strokeWidth="1" strokeOpacity="0.7" />
+          <polygon points="16,9 24,13 24,19 16,23 8,19 8,13" fill={col.accent} fillOpacity="0.1" stroke={col.accent} strokeWidth="0.5" strokeOpacity="0.4" />
+        </svg>
+      </div>
+      <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 10, color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 10 }}>{col.type} · {col.pieces} pièces</p>
+      <h3 style={{ fontFamily: "'Cormorant', serif", fontSize: 24, fontWeight: 600, color: C.cream, marginBottom: 16, letterSpacing: "-0.01em" }}>{col.name}</h3>
+      <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13, color: C.muted, lineHeight: 1.75, fontWeight: 300 }}>{col.desc}</p>
+      <motion.div style={{ marginTop: 24, display: "flex", alignItems: "center", gap: 8, opacity: hovered ? 1 : 0.4 }} animate={{ opacity: hovered ? 1 : 0.4 }} transition={{ duration: 0.2 }}>
+        <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 11, color: col.accent, letterSpacing: "0.15em", textTransform: "uppercase" }}>Découvrir</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={col.accent} strokeWidth="1.5">
+          <path d="M7 17L17 7M17 7H7M17 7v10" />
+        </svg>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ─── Page ───────────────────────────────────────────────────── */
+export default function Page() {
+  const [activePress, setActivePress] = useState(0);
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
 
   useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", h);
-    return () => window.removeEventListener("scroll", h);
+    const style = document.createElement("style");
+    style.textContent = FONTS;
+    document.head.appendChild(style);
+    return () => { document.head.removeChild(style); };
+  }, []);
+
+  useEffect(() => {
+    const t = setInterval(() => setActivePress(p => (p + 1) % PRESS.length), 4000);
+    return () => clearInterval(t);
   }, []);
 
   return (
-    <div className="premium-theme min-h-screen bg-[#fdfcfb] text-[#2a2a2a] font-serif selection:bg-[#c9a96e] selection:text-white overflow-x-hidden">
-      {/* ── NAVIGATION ── */}
-      <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-white/90 backdrop-blur-xl py-4 border-b border-[#c9a96e]/10" : "bg-transparent py-8"}`}
-      >
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex flex-col items-center">
-            <span className="text-2xl font-black tracking-tighter uppercase italic text-[#2a2a2a]">
-              Aurelia
-            </span>
-            <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-[#c9a96e] -mt-1 ml-1">
-              Atelier
-            </span>
-          </Link>
+    <main style={{ background: C.bg, color: C.cream, minHeight: "100vh", fontFamily: "'Montserrat', sans-serif", overflowX: "hidden" }}>
 
-          <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-[#2a2a2a]/40">
-            {[
-              "Collections",
-              "Bespoke",
-              "Artisanship",
-              "Archives",
-              "Ateliers",
-            ].map((link) => (
-              <Link
-                key={link}
-                href={`#${link.toLowerCase()}`}
-                className="hover:text-[#c9a96e] transition-colors cursor-pointer"
-              >
-                {link}
-              </Link>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-8">
-            <button
-              onClick={() => setConsultOpen(true)}
-              className="hidden md:flex items-center gap-3 group"
-            >
-              <span className="text-[10px] font-bold uppercase tracking-widest text-[#2a2a2a]/60 group-hover:text-[#c9a96e] transition-colors">
-                Request_Consult
-              </span>
-              <div className="w-8 h-8 rounded-full border border-[#c9a96e]/20 flex items-center justify-center text-[#c9a96e] group-hover:bg-[#c9a96e] group-hover:text-white transition-all">
-                <ChevronRight className="w-4 h-4" />
-              </div>
+      {/* ── Nav ── */}
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, padding: "0 40px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(8,7,6,0.92)", backdropFilter: "blur(20px)", borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          {/* Gem mark */}
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <polygon points="10,2 18,7 18,13 10,18 2,13 2,7" fill="none" stroke={C.gold} strokeWidth="1" />
+            <polygon points="10,6 15,8.5 15,11.5 10,14 5,11.5 5,8.5" fill={C.gold} fillOpacity="0.25" />
+          </svg>
+          <span style={{ fontFamily: "'Cormorant', serif", fontSize: 16, fontWeight: 600, color: C.cream, letterSpacing: "0.08em" }}>Aurelia Jewels</span>
+        </div>
+        <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
+          {["Collections", "Bespoke", "Atelier", "About"].map(item => (
+            <button key={item} style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 12, color: C.muted, background: "none", border: "none", cursor: "pointer", letterSpacing: "0.06em", transition: "color 0.2s" }}
+              onMouseEnter={e => (e.currentTarget.style.color = C.cream)}
+              onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
+              {item}
             </button>
-            <button
-              onClick={() => setMenuOpen(true)}
-              className="lg:hidden text-[#c9a96e]"
-            >
-              <Menu className="w-6 h-6" />
-            </button>
-          </div>
+          ))}
+          <MagneticButton style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 11, color: C.bg, background: C.gold, padding: "9px 22px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 600 }}>
+            Book Consultation
+          </MagneticButton>
         </div>
       </nav>
 
-      {/* MOBILE MENU */}
-      <AnimatePresence>
-        {menuOpen && (
+      {/* ── Hero ── */}
+      <section ref={heroRef} style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", paddingTop: 64, overflow: "hidden" }}>
+        <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
+          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 60% 50% at 50% 35%, rgba(201,168,108,0.07) 0%, transparent 65%)" }} />
+          {/* Floating gem shapes */}
+          {[
+            { x: "6%", y: "18%", s: 40, delay: 0 },
+            { x: "88%", y: "20%", s: 28, delay: 0.6 },
+            { x: "10%", y: "68%", s: 20, delay: 1.2 },
+            { x: "84%", y: "65%", s: 36, delay: 0.4 },
+          ].map((g, i) => (
+            <motion.div key={i} style={{ position: "absolute", left: g.x, top: g.y }}
+              initial={{ opacity: 0 }} animate={{ opacity: 0.12 }} transition={{ delay: g.delay, duration: 1 }}>
+              <motion.div animate={{ y: [-6, 6, -6], rotate: [0, 10, 0] }} transition={{ duration: 5 + i, repeat: Infinity, ease: "easeInOut" }}>
+                <svg width={g.s} height={g.s} viewBox="0 0 24 24" fill="none">
+                  <polygon points="12,2 22,8 22,16 12,22 2,16 2,8" stroke={C.gold} strokeWidth="1" fill={C.gold} fillOpacity="0.08" />
+                </svg>
+              </motion.div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div style={{ opacity: heroOpacity, position: "relative", zIndex: 1, textAlign: "center", maxWidth: 860, padding: "0 24px" }}>
           <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            className="fixed inset-0 z-[100] bg-[#fdfcfb] p-12 flex flex-col justify-center gap-10"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 36 }}
           >
-            <button
-              onClick={() => setMenuOpen(false)}
-              className="absolute top-10 right-8 text-[#c9a96e]"
-            >
-              <X className="w-8 h-8" />
-            </button>
-            <div className="flex flex-col gap-6 text-5xl font-black italic uppercase text-[#2a2a2a]/20">
-              {[
-                "Collections",
-                "Bespoke",
-                "Artisanship",
-                "Archives",
-                "Contact",
-              ].map((l) => (
-                <Link
-                  key={l}
-                  href="#"
-                  onClick={() => setMenuOpen(false)}
-                  className="hover:text-[#c9a96e] transition-colors"
-                >
-                  {l}
-                </Link>
-              ))}
-            </div>
+            <div style={{ height: "0.5px", width: 48, background: C.gold, opacity: 0.5 }} />
+            <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 10, letterSpacing: "0.4em", color: C.gold, textTransform: "uppercase" }}>Fine Jewellery · Paris</p>
+            <div style={{ height: "0.5px", width: 48, background: C.gold, opacity: 0.5 }} />
           </motion.div>
-        )}
-      </AnimatePresence>
 
-      {/* ── HERO ── */}
-      <section className="relative h-[100svh] flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1600&q=80"
-            alt="Jewelry Masterpiece"
-            fill
-            className="object-cover opacity-90"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#fdfcfb] via-[#fdfcfb]/40 to-transparent" />
-        </div>
+          <h1 style={{ fontSize: "clamp(52px, 9.5vw, 120px)", fontWeight: 400, lineHeight: 0.92, letterSpacing: "-0.03em", marginBottom: 44, fontFamily: "'Cormorant', serif" }}>
+            <TextReveal text="Crafted for" delay={0.3} style={{ display: "block", color: C.cream }} />
+            <TextReveal text="those who" delay={0.5} style={{ display: "block", fontStyle: "italic", color: C.gold }} />
+            <TextReveal text="remember." delay={0.7} style={{ display: "block", color: C.cream }} />
+          </h1>
 
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
-          <Reveal>
-            <Badge className="bg-[#c9a96e]/10 text-[#c9a96e] border border-[#c9a96e]/20 text-[10px] font-bold uppercase tracking-[0.5em] mb-12 px-4 py-1.5 rounded-full">
-              Place Vendôme // Paris
-            </Badge>
-            <h1 className="text-7xl md:text-[9rem] font-black italic leading-[0.85] tracking-tighter mb-12 text-[#2a2a2a]">
-              Sculpting <br />{" "}
-              <span className="text-[#c9a96e] not-italic font-thin font-sans tracking-widest">
-                Eternity.
-              </span>
-            </h1>
-            <p className="max-w-md text-lg text-[#2a2a2a]/60 leading-relaxed font-light italic mb-12">
-              A heritage of artisanal jewelry design where architectural
-              precision meets the organic soul of the world's rarest gemstones.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6">
-              <MagneticBtn
-                onClick={() => setConsultOpen(true)}
-                className="px-12 py-5 bg-[#2a2a2a] text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-[#c9a96e] transition-all cursor-pointer"
-              >
-                The Bespoke Journey
-              </MagneticBtn>
-              <Link
-                href="#collections"
-                className="px-12 py-5 border border-[#2a2a2a]/10 text-[#2a2a2a] text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-white transition-all flex items-center justify-center gap-3"
-              >
-                Examine Collections <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </Reveal>
-        </div>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1.1 }}
+            style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 15, color: C.muted, lineHeight: 1.8, maxWidth: 500, margin: "0 auto 52px", fontWeight: 300 }}
+          >
+            Fine jewellery made in Paris, worn for a lifetime. Bespoke commissions, four seasonal collections, and a gemstone archive like no other.
+          </motion.p>
 
-        <div className="absolute bottom-12 right-12 hidden lg:flex flex-col items-end gap-2 text-[#2a2a2a]/20">
-          <span className="text-[10px] font-bold uppercase tracking-widest font-sans">
-            Crafted with Single-Needle Precision
-          </span>
-          <span className="text-[10px] font-bold uppercase tracking-widest font-sans">
-            Verified GIA Ethics Compliant
-          </span>
-        </div>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.3 }}
+            style={{ display: "flex", gap: 16, justifyContent: "center" }}
+          >
+            <MagneticButton style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 12, color: C.bg, background: C.gold, padding: "16px 40px", borderRadius: 2, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 600 }}>
+              View Collections
+            </MagneticButton>
+            <MagneticButton style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 12, color: C.cream, background: "transparent", padding: "16px 40px", borderRadius: 2, letterSpacing: "0.12em", textTransform: "uppercase", border: `1px solid ${C.border}` }}>
+              Bespoke Enquiry
+            </MagneticButton>
+          </motion.div>
+        </motion.div>
+
+        <motion.div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)" }}
+          animate={{ y: [0, 8, 0] }} transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={C.muted} strokeWidth="1">
+            <path d="M12 5v14M5 12l7 7 7-7" />
+          </svg>
+        </motion.div>
       </section>
 
-      {/* ── CRAFT STATS ── */}
-      <section className="py-20 border-y border-[#c9a96e]/10 bg-white">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
-            {CRAFT_STATS.map((stat, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className="text-center md:text-left">
-                  <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#c9a96e] mb-2">
-                    {stat.label}
-                  </div>
-                  <div className="text-4xl font-black italic text-[#2a2a2a]">
-                    {stat.value}
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
+      {/* ── Marquee ── */}
+      <MarqueeStrip />
+
+      {/* ── Diamond Facets — Signature Element ── */}
+      <section style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
+        <DiamondFacets />
       </section>
 
-      {/* ── COLLECTIONS SECTION ── */}
-      <section id="collections" className="py-32 px-6 md:px-12">
-        <div className="max-w-[1400px] mx-auto">
-          <Reveal>
-            <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
-              <div>
-                <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-none mb-6 text-[#2a2a2a]">
-                  Current <br />{" "}
-                  <span className="text-[#c9a96e]">Chapters.</span>
-                </h2>
-                <p className="text-[#2a2a2a]/30 text-[10px] font-bold uppercase tracking-[0.4em]">
-                  Seasonal Masterworks 2024
-                </p>
-              </div>
-              <Link
-                href="#"
-                className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#c9a96e] border-b border-[#c9a96e] pb-2 hover:text-[#2a2a2a] hover:border-[#2a2a2a] transition-all"
-              >
-                View Full Catalogue
-              </Link>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {COLLECTIONS.map((item, i) => (
-              <Reveal key={item.id} delay={i * 0.1}>
-                <div className="group space-y-8 cursor-pointer">
-                  <div className="relative aspect-[3/4] overflow-hidden rounded-sm">
-                    <Image
-                      src={item.img}
-                      alt={item.name}
-                      fill
-                      className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors" />
-                    <div className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-500 scale-90 group-hover:scale-100">
-                      <Plus className="w-5 h-5" />
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-baseline">
-                      <h3 className="text-3xl font-black italic uppercase text-[#2a2a2a]">
-                        {item.name}
-                      </h3>
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#c9a96e]">
-                        {item.year}
-                      </span>
-                    </div>
-                    <p className="text-sm text-[#2a2a2a]/40 italic font-light leading-relaxed">
-                      {item.desc}
-                    </p>
-                    <button className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-[#c9a96e] group-hover:gap-5 transition-all">
-                      Inspect Collection <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── BESPOKE JOURNEY ── */}
-      <section id="bespoke" className="py-32 bg-[#0d0d0d] text-white">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-          <Reveal>
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a96e] mb-8 block">
-              The Bespoke Journey
-            </span>
-            <h2 className="text-5xl md:text-7xl font-black italic tracking-tighter leading-tight mb-10 uppercase">
-              A Narrative <br />{" "}
-              <span className="text-[#c9a96e]">In Gold.</span>
+      {/* ── Collections ── */}
+      <section style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
+          <div style={{ marginBottom: 56 }}>
+            <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 10, letterSpacing: "0.4em", color: C.gold, textTransform: "uppercase", marginBottom: 20 }}>Collections</p>
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 400, lineHeight: 1.1, letterSpacing: "-0.02em", color: C.cream, fontFamily: "'Cormorant', serif" }}>
+              <TextReveal text="Four collections," />
+              <TextReveal text="one vision." delay={0.15} style={{ fontStyle: "italic", color: C.gold }} />
             </h2>
-            <p className="text-white/40 text-lg leading-relaxed mb-12 italic font-light">
-              We believe jewelry should not just be worn; it should be lived.
-              Every bespoke piece begins with a story, a memory, or an ambition.
-            </p>
-            <div className="space-y-12">
-              {SERVICES.map((s, i) => (
-                <div key={i} className="flex gap-8 group">
-                  <div className="w-16 h-16 shrink-0 rounded-full border border-white/10 flex items-center justify-center text-[#c9a96e] group-hover:bg-[#c9a96e] group-hover:text-black transition-all">
-                    <s.icon className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-black italic uppercase mb-2 text-white/90">
-                      {s.title}
-                    </h3>
-                    <p className="text-sm text-white/30 italic font-light leading-relaxed">
-                      {s.desc}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.2}>
-            <div className="relative aspect-[4/5] rounded-sm overflow-hidden grayscale group">
-              <Image
-                src="https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=800&q=80"
-                alt="Craftsmanship"
-                fill
-                className="object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
-              <div className="absolute bottom-10 left-10">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c9a96e] mb-4 block">
-                  Atelier View
-                </span>
-                <h4 className="text-3xl font-black italic uppercase">
-                  Precision Hand-Setting
-                </h4>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── SAVOIR-FAIRE ── */}
-      <section id="artisanship" className="py-32 px-6 md:px-12 bg-white">
-        <div className="max-w-[1400px] mx-auto">
-          <Reveal>
-            <div className="text-center mb-24">
-              <h2 className="text-5xl md:text-7xl font-black italic tracking-tighter mb-6 uppercase text-[#2a2a2a]">
-                Savoir <span className="text-[#c9a96e]">Faire.</span>
-              </h2>
-              <p className="text-[#2a2a2a]/30 text-[10px] font-bold uppercase tracking-[0.4em]">
-                The Architecture of Adornment
-              </p>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
-            <Reveal>
-              <div className="space-y-12">
-                <div>
-                  <h3 className="text-2xl font-black italic uppercase mb-4 text-[#2a2a2a]">
-                    Ethical Gemology
-                  </h3>
-                  <p className="text-sm text-[#2a2a2a]/40 leading-relaxed font-light italic">
-                    Every diamond exceeding 0.5 carats is laser-inscribed and
-                    tracked via blockchain to ensure its origin is as pure as
-                    its clarity. We partner exclusively with RJC-certified
-                    mines.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-black italic uppercase mb-4 text-[#2a2a2a]">
-                    Micro-Architectural Casting
-                  </h3>
-                  <p className="text-sm text-[#2a2a2a]/40 leading-relaxed font-light italic">
-                    Our casting process involves vacuum-pressure systems that
-                    eliminate all porosity, resulting in gold that is denser,
-                    stronger, and more resilient to the test of time.
-                  </p>
-                </div>
-                <MagneticBtn
-                  onClick={() => setConsultOpen(true)}
-                  className="px-10 py-4 border border-[#c9a96e] text-[#c9a96e] text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-[#c9a96e] hover:text-white transition-all"
-                >
-                  Request Private Viewing
-                </MagneticBtn>
-              </div>
-            </Reveal>
-            <Reveal delay={0.2}>
-              <div className="relative aspect-square">
-                <Image
-                  src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80"
-                  alt="Process"
-                  fill
-                  className="object-cover rounded-full"
-                />
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{
-                    duration: 20,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                  className="absolute inset-0 border border-[#c9a96e]/20 rounded-full scale-110 flex items-start justify-center"
-                >
-                  <div className="w-2 h-2 bg-[#c9a96e] rounded-full -mt-1" />
-                </motion.div>
-              </div>
-            </Reveal>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }}>
+            {COLLECTIONS.map((col, i) => (
+              <motion.div key={col.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.08 }}>
+                <CollectionCard col={col} />
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
-      <footer className="bg-[#fdfcfb] pt-32 pb-12 px-6 md:px-12 border-t border-[#c9a96e]/10">
-        <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-24 mb-32">
-          <div className="lg:col-span-5">
-            <Reveal>
-              <div className="flex flex-col mb-10">
-                <span className="text-3xl font-black tracking-tighter uppercase italic text-[#2a2a2a]">
-                  Aurelia
-                </span>
-                <span className="text-[9px] font-bold uppercase tracking-[0.7em] text-[#c9a96e] -mt-1 ml-1">
-                  Atelier
-                </span>
-              </div>
-              <p className="text-[#2a2a2a]/30 max-w-sm mb-12 text-[11px] font-bold uppercase tracking-widest leading-loose italic">
-                Precision jewelry architecture. Appointment-only viewings.
-                Paris, London & New York.
-              </p>
-              <div className="flex gap-4">
-                {[Globe, Globe, Mail].map((Icon, i) => (
-                  <button
-                    key={i}
-                    className="w-12 h-12 rounded-full border border-[#c9a96e]/20 flex items-center justify-center text-[#c9a96e] hover:bg-[#c9a96e] hover:text-white transition-all"
-                  >
-                    <Icon className="w-4 h-4" />
-                  </button>
-                ))}
-              </div>
-            </Reveal>
+      {/* ── Flagship Pieces ── */}
+      <section style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 56 }}>
+          <div>
+            <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 10, letterSpacing: "0.4em", color: C.gold, textTransform: "uppercase", marginBottom: 20 }}>Flagship Pieces</p>
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 400, lineHeight: 1.1, color: C.cream, fontFamily: "'Cormorant', serif" }}>
+              <TextReveal text="Selected Works" />
+            </h2>
           </div>
+          <MagneticButton style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 11, color: C.gold, background: "transparent", border: `1px solid ${C.gold}`, padding: "10px 24px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+            Full Archive
+          </MagneticButton>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
+          {PIECES.map((piece, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.07 }}
+            >
+              <motion.div
+                whileHover={{ y: -6, borderColor: C.gold }}
+                style={{ background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 4, overflow: "hidden", cursor: "pointer", transition: "border-color 0.3s" }}
+              >
+                {/* Piece visual */}
+                <div style={{ aspectRatio: "3/4", background: C.bgMid, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+                  <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                    <polygon points="40,6 72,22 72,58 40,74 8,58 8,22" fill="none" stroke={C.gold} strokeWidth="0.8" strokeOpacity="0.5" />
+                    <polygon points="40,16 62,26 62,54 40,64 18,54 18,26" fill={C.gold} fillOpacity="0.06" stroke={C.gold} strokeWidth="0.5" strokeOpacity="0.3" />
+                    <polygon points="40,26 54,32 54,48 40,54 26,48 26,32" fill={C.gold} fillOpacity="0.1" />
+                    <circle cx="40" cy="40" r="5" fill={C.gold} fillOpacity="0.35" />
+                  </svg>
+                  <div style={{ position: "absolute", top: 12, left: 12 }}>
+                    <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 9, color: C.gold, background: `${C.gold}18`, padding: "2px 8px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase" }}>{piece.tag}</span>
+                  </div>
+                </div>
+                <div style={{ padding: "16px 20px" }}>
+                  <p style={{ fontFamily: "'Cormorant', serif", fontSize: 15, fontWeight: 600, color: C.cream, marginBottom: 6, lineHeight: 1.3 }}>{piece.name}</p>
+                  <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 11, color: C.muted, lineHeight: 1.5, marginBottom: 12 }}>{piece.material}</p>
+                  <p style={{ fontFamily: "'Cormorant', serif", fontSize: 17, color: C.gold }}>€{piece.price}</p>
+                </div>
+              </motion.div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
 
-          <div className="lg:col-span-2 lg:col-start-7">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#c9a96e] mb-10">
-              Collections
-            </h4>
-            <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-[#2a2a2a]/30">
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9a96e] transition-colors"
-                >
-                  Celestial_Silk
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9a96e] transition-colors"
-                >
-                  Nocturnal_Echo
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9a96e] transition-colors"
-                >
-                  The_Alchemist
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9a96e] transition-colors"
-                >
-                  Heritage_Vault
-                </Link>
-              </li>
-            </ul>
+      {/* ── Bespoke Process ── */}
+      <section style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
+          <div style={{ textAlign: "center", marginBottom: 64 }}>
+            <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 10, letterSpacing: "0.4em", color: C.gold, textTransform: "uppercase", marginBottom: 20 }}>Bespoke</p>
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 400, lineHeight: 1.1, color: C.cream, fontFamily: "'Cormorant', serif" }}>
+              <TextReveal text="A piece made" />
+              <TextReveal text="only for you." delay={0.15} style={{ fontStyle: "italic", color: C.gold } as any} />
+            </h2>
           </div>
-
-          <div className="lg:col-span-2">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#c9a96e] mb-10">
-              The Atelier
-            </h4>
-            <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-[#2a2a2a]/30">
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9a96e] transition-colors"
-                >
-                  Bespoke_Lab
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9a96e] transition-colors"
-                >
-                  Gem_Sourcing
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9a96e] transition-colors"
-                >
-                  Restoration
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9a96e] transition-colors"
-                >
-                  Valuations
-                </Link>
-              </li>
-            </ul>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2, position: "relative" }}>
+            {/* Connecting line */}
+            <div style={{ position: "absolute", top: 28, left: "16%", right: "16%", height: "0.5px", background: `linear-gradient(to right, transparent, ${C.gold}40, transparent)` }} />
+            {PROCESS.map((step, i) => (
+              <motion.div
+                key={step.step}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.12 }}
+                style={{ padding: "0 32px", textAlign: "center" }}
+              >
+                <div style={{ width: 56, height: 56, borderRadius: "50%", border: `1px solid ${C.gold}`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px", background: C.bgCard }}>
+                  <span style={{ fontFamily: "'Cormorant', serif", fontSize: 18, color: C.gold, fontStyle: "italic" }}>{step.step}</span>
+                </div>
+                <h3 style={{ fontFamily: "'Cormorant', serif", fontSize: 20, fontWeight: 600, color: C.cream, marginBottom: 12 }}>{step.title}</h3>
+                <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13, color: C.muted, lineHeight: 1.75, fontWeight: 300 }}>{step.desc}</p>
+              </motion.div>
+            ))}
           </div>
-
-          <div className="lg:col-span-2">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#c9a96e] mb-10">
-              House
-            </h4>
-            <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-[#2a2a2a]/30">
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9a96e] transition-colors"
-                >
-                  Our_Story
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9a96e] transition-colors"
-                >
-                  Appointments
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9a96e] transition-colors"
-                >
-                  Press_Room
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9a96e] transition-colors"
-                >
-                  Institutional
-                </Link>
-              </li>
-            </ul>
+          <div style={{ textAlign: "center", marginTop: 56 }}>
+            <MagneticButton style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 12, color: C.bg, background: C.gold, padding: "16px 48px", borderRadius: 2, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 600 }}>
+              Begin Your Bespoke Journey
+            </MagneticButton>
           </div>
         </div>
+      </section>
 
-        <div className="max-w-[1400px] mx-auto pt-10 border-t border-[#c9a96e]/10 flex flex-col md:flex-row justify-between items-center gap-8 text-[9px] font-bold uppercase tracking-widest text-[#2a2a2a]/20">
-          <div className="flex items-center gap-10">
-            <span>&copy; {new Date().getFullYear()} AURELIA ATELIER.</span>
-            <div className="flex gap-6">
-              <span>Place Vendôme, Paris</span>
-              <span>Bond Street, London</span>
-            </div>
-          </div>
-          <div className="flex gap-10 font-mono">
-            <span>INSTITUTIONAL_SLA_V2.4</span>
-            <span>SECURE_DATA_ARCHIVE</span>
+      {/* ── Press ── */}
+      <section style={{ padding: "80px 0", maxWidth: 800, margin: "0 auto", paddingInline: 40, textAlign: "center" }}>
+        <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 10, letterSpacing: "0.4em", color: C.gold, textTransform: "uppercase", marginBottom: 48 }}>As Seen In</p>
+        <div style={{ position: "relative", minHeight: 160 }}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activePress}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.45 }}
+            >
+              <p style={{ fontFamily: "'Cormorant', serif", fontSize: "clamp(18px, 3vw, 28px)", fontWeight: 400, color: C.cream, lineHeight: 1.55, marginBottom: 28, fontStyle: "italic" }}>
+                "{PRESS[activePress].quote}"
+              </p>
+              <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 12, color: C.gold, letterSpacing: "0.1em" }}>{PRESS[activePress].source}</p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+        <div style={{ display: "flex", justifyContent: "center", gap: 10, marginTop: 36 }}>
+          {PRESS.map((_, i) => (
+            <button key={i} onClick={() => setActivePress(i)} style={{ width: i === activePress ? 28 : 8, height: 8, borderRadius: 4, background: i === activePress ? C.gold : C.bgMid, border: `1px solid ${i === activePress ? C.gold : C.border}`, cursor: "pointer", transition: "all 0.3s", padding: 0 }} />
+          ))}
+        </div>
+      </section>
+
+      {/* ── Footer ── */}
+      <footer style={{ borderTop: `1px solid ${C.border}`, padding: "28px 40px", background: C.bgCard }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <p style={{ fontFamily: "'Cormorant', serif", fontSize: 14, color: C.muted, fontStyle: "italic" }}>Aurelia Jewels · Paris</p>
+          <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 10, color: C.muted, letterSpacing: "0.06em" }}>© 2025 — All pieces reserved</p>
+          <div style={{ display: "flex", gap: 24 }}>
+            {["Instagram", "Appointments", "Press"].map(link => (
+              <button key={link} style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 11, color: C.muted, background: "none", border: "none", cursor: "pointer", transition: "color 0.2s" }}
+                onMouseEnter={e => (e.currentTarget.style.color = C.cream)}
+                onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
+                {link}
+              </button>
+            ))}
           </div>
         </div>
       </footer>
-
-      {/* CONSULTATION MODAL */}
-      <AnimatePresence>
-        {consultOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-white/95 backdrop-blur-xl flex items-center justify-center p-6"
-            onClick={() => setConsultOpen(false)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, y: 30 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 30 }}
-              className="bg-[#fdfcfb] border border-[#c9a96e]/20 max-w-2xl w-full p-16 rounded-sm shadow-2xl relative"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={() => setConsultOpen(false)}
-                className="absolute top-10 right-10 text-[#2a2a2a]/20 hover:text-[#c9a96e] transition-colors"
-              >
-                <X className="w-8 h-8" />
-              </button>
-
-              <div className="space-y-12">
-                <div className="text-center">
-                  <h3 className="text-4xl font-black italic uppercase mb-4 text-[#2a2a2a]">
-                    Private Consultation
-                  </h3>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a96e]">
-                    Our current lead time is 8-12 weeks.
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="space-y-2">
-                    <label className="text-[9px] font-bold uppercase tracking-widest text-[#2a2a2a]/20 ml-2">
-                      Full_Name
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full bg-white border border-[#c9a96e]/10 px-6 py-4 text-xs font-bold uppercase tracking-widest outline-none focus:border-[#c9a96e] transition-all"
-                      placeholder="Enter_Identity"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[9px] font-bold uppercase tracking-widest text-[#2a2a2a]/20 ml-2">
-                      Email_Address
-                    </label>
-                    <input
-                      type="email"
-                      className="w-full bg-white border border-[#c9a96e]/10 px-6 py-4 text-xs font-bold uppercase tracking-widest outline-none focus:border-[#c9a96e] transition-all"
-                      placeholder="Archive_Sync"
-                    />
-                  </div>
-                  <div className="space-y-2 md:col-span-2">
-                    <label className="text-[9px] font-bold uppercase tracking-widest text-[#2a2a2a]/20 ml-2">
-                      Inquiry_Discipline
-                    </label>
-                    <select className="w-full bg-white border border-[#c9a96e]/10 px-6 py-4 text-xs font-bold uppercase tracking-widest outline-none focus:border-[#c9a96e] transition-all appearance-none">
-                      <option>Bespoke_Creation</option>
-                      <option>Gem_Sourcing</option>
-                      <option>Heritage_Restoration</option>
-                      <option>Private_Viewing</option>
-                    </select>
-                  </div>
-                </div>
-
-                <button className="w-full py-6 bg-[#2a2a2a] text-white text-[11px] font-black uppercase tracking-[0.5em] rounded-full hover:bg-[#c9a96e] transition-all shadow-xl">
-                  Request Formal Invitation
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <style>{`
-        ::-webkit-scrollbar{width:4px;background:#fdfcfb}
-        ::-webkit-scrollbar-thumb{background:#c9a96e}
-      `}</style>
-    </div>
+    </main>
   );
 }
