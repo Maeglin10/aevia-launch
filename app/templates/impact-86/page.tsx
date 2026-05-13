@@ -6,846 +6,710 @@ import {
   useTransform,
   useInView,
   AnimatePresence,
-  useMotionValue,
-  useSpring,
 } from "framer-motion";
-import { useState, useRef, useEffect, useCallback } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
-import { Sparkles, Wand2, Zap, Globe, Activity, Terminal, Box, Share2, Layers, Maximize, Monitor, MousePointer2, Navigation, Wifi, Shield, ShoppingBag, Search, Star, Mail, Phone, Check, Menu, X, MapPin, Clock, Lock, Plus, Bell, Settings, ArrowRight, ArrowUpRight, ChevronRight, Eye, PenTool, FlaskConical, Droplets, HeartPulse, Microscope, Wind, Trees, Flower2, Heart, Moon, Sun, Waves } from "lucide-react";
+import { useRef, useState } from "react";
 
-import "../premium.css";
+const C = {
+  bg: "#FAF7F2",
+  bgWarm: "#F5EFE4",
+  bgDark: "#1C1810",
+  text: "#1C1810",
+  textLight: "#FAF7F2",
+  textMuted: "#7A6E60",
+  textDim: "#B8AD9E",
+  border: "#E8E0D0",
+  borderWarm: "#D4C8B0",
+  sand: "#C8A87A",
+  sandLight: "#E8D5A8",
+  sandDark: "#8A6840",
+  sage: "#7A8A70",
+  rose: "#C8907A",
+};
 
-/* ==========================================================================
-   DATA STRUCTURES
-   ========================================================================= */
+const FONT = `
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap');
+`;
 
-const TREATMENTS = [
+const RITUALS = [
   {
-    id: "rituals",
-    label: "Signature Rituals",
-    items: [
-      {
-        name: "Celestial Alignment",
-        duration: "120m",
-        price: "$450",
-        desc: "A full-body rejuvenation combining volcanic stone therapy and sound bath immersion.",
-        img: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80",
-      },
-      {
-        name: "Lumina Detox",
-        duration: "90m",
-        price: "$320",
-        desc: "Infrared thermal wrapping followed by botanical lymph drainage.",
-        img: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=800&q=80",
-      },
-      {
-        name: "Oceanic Stillness",
-        duration: "150m",
-        price: "$580",
-        desc: "Cold-pressed algae wrap and marine collagen facial in our private water suite.",
-        img: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80",
-      },
-    ],
+    id: "hammam",
+    name: "Hammam Doré",
+    duration: "90 min",
+    price: "€ 195",
+    desc: "Bain de vapeur aux huiles de rose centifolia. Gommage au savon noir et kessa. Enveloppement au ghassoul minéral. Massage aux pierres chaudes.",
+    category: "Corps",
+    intensity: "Profond",
   },
   {
-    id: "facials",
-    label: "Advanced Facials",
-    items: [
-      {
-        name: "Molecular Glow",
-        duration: "60m",
-        price: "$280",
-        desc: "High-frequency ultrasound infusion of bio-identical growth factors.",
-        img: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=800&q=80",
-      },
-      {
-        name: "Sculpt & Lift",
-        duration: "75m",
-        price: "$350",
-        desc: "Manual buccal massage and micro-current stimulation for instant structural definition.",
-        img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=800&q=80",
-      },
-      {
-        name: "Oxygen Infusion",
-        duration: "60m",
-        price: "$240",
-        desc: "Hyperbaric oxygen delivery with customized vitamin cocktails.",
-        img: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&q=80",
-      },
-    ],
+    id: "ceremony",
+    name: "Cérémonie de l'Eau",
+    duration: "120 min",
+    price: "€ 280",
+    desc: "Parcours aquatique privatif. Bains de fleurs. Soins visage à la rose musquée. Massage Kobido japonais. Thé aux herbes et miel de manuka.",
+    category: "Signature",
+    intensity: "Sensoriel",
+  },
+  {
+    id: "gold",
+    name: "Fusion Or 24K",
+    duration: "75 min",
+    price: "€ 340",
+    desc: "Sérum à l'or colloïdal 24 carats. Masque liftant aux peptides. Modelage du visage Kobido. Luminosité et fermeté immédiates.",
+    category: "Visage",
+    intensity: "Anti-âge",
+  },
+  {
+    id: "body",
+    name: "Rituel Nuit du Désert",
+    duration: "60 min",
+    price: "€ 165",
+    desc: "Huile de soin à l'argan pur pressé à froid. Massage aux bougies fondantes parfumées. Enveloppement à la boue du Sahara.",
+    category: "Corps",
+    intensity: "Régénérant",
   },
 ];
 
-const AMENITIES = [
+const SPACES = [
+  { name: "Hammam Privé", capacity: "1-2 pers.", available: "6 cabines" },
+  { name: "Piscine Intérieure", capacity: "Jusqu'à 8", available: "Sur réservation" },
+  { name: "Salon de Thé", capacity: "12 pers.", available: "Ouvert 10h-20h" },
+  { name: "Terrasse Jardin", capacity: "Accès libre", available: "Membres uniquement" },
+];
+
+const PACKAGES = [
   {
-    name: "Therapeutic Garden",
-    desc: "Biophilic meditation spaces.",
-    img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&q=80",
+    name: "Découverte",
+    price: "€ 195",
+    period: "journée",
+    features: ["1 soin au choix", "Accès hammam", "Thé & collation", "Espace détente"],
+    highlight: false,
   },
   {
-    name: "Hydro Suite",
-    desc: "Vitality pools and thermal circuits.",
-    img: "https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=800&q=80",
+    name: "Immersion",
+    price: "€ 580",
+    period: "journée privatisée",
+    features: ["2 soins signature", "Hammam privé 2h", "Déjeuner végétalien", "Produits offerts", "Transport aller-retour Paris"],
+    highlight: true,
   },
   {
-    name: "Oxygen Bar",
-    desc: "Refined respiratory rejuvenation.",
-    img: "https://images.unsplash.com/photo-1527515545081-5db817172677?w=800&q=80",
-  },
-  {
-    name: "Tea Lounge",
-    desc: "Hand-blended botanical infusions.",
-    img: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=800&q=80",
+    name: "Abonnement",
+    price: "€ 390",
+    period: "/ mois",
+    features: ["4 visites / mois", "Accès illimité piscine", "10% sur les soins", "Invités à tarif membre"],
+    highlight: false,
   },
 ];
 
-/* ==========================================================================
-   UTILITY COMPONENTS
-   ========================================================================= */
+const TESTIMONIALS = [
+  {
+    text: "Aura Wellness est le seul endroit à Paris où je ressors véritablement régénérée. La Cérémonie de l'Eau est transcendante.",
+    author: "Charlotte M.",
+    role: "Membre depuis 3 ans",
+  },
+  {
+    text: "Le soin Or 24K a transformé l'éclat de ma peau. Je l'offre à chaque anniversaire à celles qui me sont chères.",
+    author: "Isabelle R.",
+    role: "Directrice artistique",
+  },
+  {
+    text: "Un havre de paix en plein cœur de Paris. L'équipe d'Aura comprend le luxe véritable : l'absence de bruit.",
+    author: "Sophie V.",
+    role: "Membre fondatrice",
+  },
+];
 
-function Reveal({
-  children,
-  delay = 0,
-  y = 40,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  y?: number;
-}) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
+// ── Ripple animation (signature element) ─────────────────────────────────────
+function WaterRipple() {
+  return (
+    <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+      {[1, 2, 3, 4, 5].map((i) => (
+        <motion.div
+          key={i}
+          style={{
+            position: "absolute",
+            borderRadius: "50%",
+            border: `1px solid ${C.sand}`,
+            width: `${i * 120}px`,
+            height: `${i * 120}px`,
+            opacity: 0,
+          }}
+          animate={{
+            scale: [1, 1.8],
+            opacity: [0.5, 0],
+          }}
+          transition={{
+            duration: 4,
+            delay: i * 0.8,
+            repeat: Infinity,
+            ease: "easeOut",
+          }}
+        />
+      ))}
+      {/* Center lotus */}
+      <svg viewBox="0 0 80 80" style={{ width: "80px", height: "80px", opacity: 0.7 }}>
+        {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => (
+          <motion.ellipse
+            key={i}
+            cx={40 + 14 * Math.cos((angle * Math.PI) / 180)}
+            cy={40 + 14 * Math.sin((angle * Math.PI) / 180)}
+            rx="10"
+            ry="18"
+            fill="none"
+            stroke={C.sand}
+            strokeWidth="0.8"
+            transform={`rotate(${angle + 90} ${40 + 14 * Math.cos((angle * Math.PI) / 180)} ${40 + 14 * Math.sin((angle * Math.PI) / 180)})`}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 0.6, scale: 1 }}
+            transition={{ duration: 1, delay: i * 0.1 }}
+          />
+        ))}
+        <circle cx="40" cy="40" r="6" fill={C.sand} opacity="0.4" />
+      </svg>
+    </div>
+  );
+}
+
+// ── Ritual card ──────────────────────────────────────────────────────────────
+function RitualCard({ ritual, i }: { ritual: typeof RITUALS[0]; i: number }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y }}
+      initial={{ opacity: 0, y: 25 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.25, 0.1, 0.25, 1] }}
+      transition={{ duration: 0.8, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+      onClick={() => setOpen(!open)}
+      style={{
+        background: open ? C.bgDark : C.bgWarm,
+        border: `1px solid ${open ? "transparent" : C.border}`,
+        padding: "2.5rem",
+        cursor: "pointer",
+        position: "relative",
+        overflow: "hidden",
+        transition: "background 0.5s ease",
+      }}
     >
-      {children}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1rem" }}>
+        <div>
+          <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", letterSpacing: "0.3em", color: open ? C.sand : C.textDim, marginBottom: "0.5rem" }}>
+            {ritual.category} · {ritual.intensity}
+          </div>
+          <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.5rem", fontWeight: 400, color: open ? C.textLight : C.text }}>
+            {ritual.name}
+          </h3>
+        </div>
+        <div style={{ textAlign: "right" }}>
+          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.5rem", fontWeight: 300, color: open ? C.sandLight : C.sand }}>
+            {ritual.price}
+          </div>
+          <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", color: open ? C.textDim : C.textMuted }}>
+            {ritual.duration}
+          </div>
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            style={{ overflow: "hidden" }}
+          >
+            <div style={{ height: "1px", background: C.sandDark, margin: "1rem 0", opacity: 0.3 }} />
+            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.05rem", fontStyle: "italic", color: C.textDim, lineHeight: 1.75, marginBottom: "1.5rem" }}>
+              {ritual.desc}
+            </p>
+            <motion.button
+              whileHover={{ backgroundColor: C.sandLight, color: C.bgDark }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                background: C.sand,
+                color: C.bgDark,
+                border: "none",
+                padding: "0.7rem 1.75rem",
+                fontFamily: "'Jost', sans-serif",
+                fontSize: "0.65rem",
+                letterSpacing: "0.2em",
+                cursor: "pointer",
+                transition: "background 0.3s",
+              }}
+            >
+              RÉSERVER CE SOIN
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Plus/minus icon */}
+      <motion.div
+        style={{ position: "absolute", bottom: "1.5rem", right: "2rem", width: "20px", height: "20px", position: "absolute" }}
+        animate={{ rotate: open ? 45 : 0 }}
+      >
+        <svg viewBox="0 0 20 20" style={{ width: "20px", height: "20px" }}>
+          <line x1="10" y1="2" x2="10" y2="18" stroke={open ? C.sand : C.textDim} strokeWidth="1" />
+          <line x1="2" y1="10" x2="18" y2="10" stroke={open ? C.sand : C.textDim} strokeWidth="1" />
+        </svg>
+      </motion.div>
     </motion.div>
   );
 }
 
-function MagneticBtn({
-  children,
-  className = "",
-  onClick,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  onClick?: () => void;
-}) {
-  const ref = useRef<HTMLButtonElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 150, damping: 15 });
-  const sy = useSpring(y, { stiffness: 150, damping: 15 });
+// ── Page ──────────────────────────────────────────────────────────────────────
+export default function AuraWellness() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [selectedPackage, setSelectedPackage] = useState(1);
+  const [bookingStep, setBookingStep] = useState<"idle" | "date" | "confirm">("idle");
 
-  const handleMouse = useCallback(
-    (e: React.MouseEvent) => {
-      const rect = ref.current?.getBoundingClientRect();
-      if (!rect) return;
-      x.set((e.clientX - rect.left - rect.width / 2) * 0.4);
-      y.set((e.clientY - rect.top - rect.height / 2) * 0.4);
-    },
-    [x, y],
-  );
-
-  const reset = useCallback(() => {
-    x.set(0);
-    y.set(0);
-  }, [x, y]);
+  const { scrollYProgress } = useScroll({ target: containerRef });
+  const navBg = useTransform(scrollYProgress, [0, 0.06], ["rgba(250,247,242,0)", "rgba(250,247,242,0.95)"]);
+  const heroY = useTransform(scrollYProgress, [0, 0.4], [0, 80]);
 
   return (
-    <motion.button
-      ref={ref}
-      style={{ x: sx, y: sy }}
-      onMouseMove={handleMouse}
-      onMouseLeave={reset}
-      onClick={onClick}
-      className={className}
-    >
-      {children}
-    </motion.button>
-  );
-}
+    <div ref={containerRef} style={{ background: C.bg, color: C.text, fontFamily: "'Jost', sans-serif", minHeight: "100vh", overflowX: "hidden" }}>
+      <style>{FONT}</style>
 
-/* ==========================================================================
-   MAIN PAGE COMPONENT
-   ========================================================================= */
-
-export default function AuraWellnessPage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [activeTreatment, setActiveTreatment] = useState<any>(null);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  return (
-    <div className="premium-theme min-h-screen bg-[#fdfcf9] text-[#2a2a2a] font-sans selection:bg-[#c9b7a2] selection:text-white overflow-x-hidden">
-      {/* ==========================================
-          NAVIGATION
-          ========================================== */}
-      <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-1000 ${scrolled ? "bg-white/90 backdrop-blur-xl py-4 border-b border-[#c9b7a2]/20" : "bg-transparent py-10"}`}
+      {/* ── Navigation ─────────────────────────────────────────────────── */}
+      <motion.nav
+        style={{
+          position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+          background: navBg,
+          backdropFilter: "blur(16px)",
+          borderBottom: `1px solid ${C.border}`,
+          padding: "0 2.5rem",
+          height: "64px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
       >
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex flex-col">
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9b7a2] mb-0.5">
-              Sanctuary.
-            </span>
-            <span className="text-xl md:text-2xl font-serif italic tracking-tighter text-[#2a2a2a]">
-              AURA<span className="text-[#c9b7a2]">WELLNESS</span>
-            </span>
-          </Link>
+        <div style={{ display: "flex", gap: "2.5rem" }}>
+          {["Soins & Rituels", "Espaces", "Membership"].map((item) => (
+            <motion.a key={item} href="#" style={{ fontSize: "0.75rem", letterSpacing: "0.1em", color: C.textMuted, textDecoration: "none", cursor: "pointer" }} whileHover={{ color: C.text }}>
+              {item}
+            </motion.a>
+          ))}
+        </div>
 
-          <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-[#2a2a2a]/40">
-            {["The Experience", "Treatments", "Amenities", "About"].map(
-              (link) => (
-                <Link
-                  key={link}
-                  href={`#${link.toLowerCase().replace(" ", "-")}`}
-                  className="hover:text-[#c9b7a2] transition-colors"
-                >
-                  {link}
-                </Link>
-              ),
-            )}
+        <div style={{ textAlign: "center" }}>
+          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.4rem", fontWeight: 400, letterSpacing: "0.2em", color: C.text }}>
+            AURA
           </div>
-
-          <div className="flex items-center gap-8">
-            <MagneticBtn className="px-8 py-3 bg-[#c9b7a2] text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-[#b8a691] transition-all shadow-lg shadow-[#c9b7a2]/20">
-              RESERVE_RITUAL
-            </MagneticBtn>
-            <button
-              onClick={() => setMenuOpen(true)}
-              className="lg:hidden text-[#c9b7a2]"
-            >
-              <Menu className="w-6 h-6" />
-            </button>
+          <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.5rem", letterSpacing: "0.35em", color: C.textDim }}>
+            WELLNESS · PARIS
           </div>
         </div>
-      </nav>
 
-      {/* MOBILE MENU */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            className="fixed inset-0 z-[100] bg-[#fdfcf9] p-12 flex flex-col justify-center"
+        <div style={{ display: "flex", gap: "2.5rem", justifyContent: "flex-end", alignItems: "center" }}>
+          {["Le Spa", "Gift Cards"].map((item) => (
+            <motion.a key={item} href="#" style={{ fontSize: "0.75rem", letterSpacing: "0.1em", color: C.textMuted, textDecoration: "none", cursor: "pointer" }} whileHover={{ color: C.text }}>
+              {item}
+            </motion.a>
+          ))}
+          <motion.button
+            whileHover={{ backgroundColor: C.sandDark }}
+            style={{
+              background: C.sand,
+              color: C.bgDark,
+              border: "none",
+              padding: "0.5rem 1.25rem",
+              fontSize: "0.65rem",
+              letterSpacing: "0.15em",
+              cursor: "pointer",
+              transition: "background 0.3s",
+            }}
           >
-            <button
-              onClick={() => setMenuOpen(false)}
-              className="absolute top-10 right-8 text-[#c9b7a2]"
-            >
-              <X className="w-8 h-8" />
-            </button>
-            <div className="flex flex-col gap-8 text-5xl font-serif italic text-[#c9b7a2]">
-              <Link href="#" onClick={() => setMenuOpen(false)}>
-                Experience
-              </Link>
-              <Link href="#" onClick={() => setMenuOpen(false)}>
-                Treatments
-              </Link>
-              <Link href="#" onClick={() => setMenuOpen(false)}>
-                Amenities
-              </Link>
-              <Link href="#" onClick={() => setMenuOpen(false)}>
-                Contact
-              </Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            RÉSERVER
+          </motion.button>
+        </div>
+      </motion.nav>
 
-      {/* ==========================================
-          1. HERO (Atmospheric)
-          ========================================== */}
-      <section
-        ref={heroRef}
-        className="relative w-full h-[100svh] flex flex-col justify-center overflow-hidden"
-      >
-        <motion.div
-          style={{ scale: heroScale, opacity: heroOpacity }}
-          className="absolute inset-0 z-0"
-        >
-          <Image
-            src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1600&q=80"
-            alt="Spa Sanctuary"
-            fill
-            className="object-cover brightness-95"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-[#fdfcf9]" />
+      {/* ── Hero ───────────────────────────────────────────────────────── */}
+      <section style={{ height: "100vh", background: C.bgDark, position: "relative", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        {/* Ripple signature element */}
+        <WaterRipple />
+
+        {/* Texture overlay */}
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center, rgba(200,168,122,0.08) 0%, transparent 70%)" }} />
+
+        <motion.div style={{ y: heroY, textAlign: "center", position: "relative", zIndex: 1, padding: "0 2rem" }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", letterSpacing: "0.4em", color: C.sand, marginBottom: "2rem" }}
+          >
+            LE SANCTUAIRE DE PARIS
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "clamp(3.5rem, 9vw, 8rem)",
+              fontWeight: 300,
+              color: C.textLight,
+              lineHeight: 0.9,
+              letterSpacing: "0.05em",
+              marginBottom: "2rem",
+            }}
+          >
+            Le Temps<br />
+            <em style={{ color: C.sand, fontStyle: "italic" }}>Suspendu</em>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.15rem", fontStyle: "italic", color: C.textDim, lineHeight: 1.8, maxWidth: "50ch", margin: "0 auto 3rem" }}
+          >
+            Un espace hors du monde, dédié à la régénération profonde du corps et de l'esprit. Rituels ancestraux, soins d'exception, silence absolu.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.2 }}
+            style={{ display: "flex", gap: "1rem", justifyContent: "center" }}
+          >
+            <motion.button
+              whileHover={{ scale: 1.03, backgroundColor: C.sandLight }}
+              whileTap={{ scale: 0.97 }}
+              style={{
+                background: C.sand,
+                color: C.bgDark,
+                border: "none",
+                padding: "0.9rem 2.5rem",
+                fontFamily: "'Jost', sans-serif",
+                fontSize: "0.7rem",
+                letterSpacing: "0.2em",
+                cursor: "pointer",
+                transition: "background 0.3s",
+              }}
+            >
+              DÉCOUVRIR LES RITUELS
+            </motion.button>
+            <motion.button
+              whileHover={{ borderColor: C.sand, color: C.sand }}
+              style={{
+                background: "transparent",
+                color: C.textDim,
+                border: `1px solid rgba(200,168,122,0.3)`,
+                padding: "0.9rem 2.5rem",
+                fontFamily: "'Jost', sans-serif",
+                fontSize: "0.7rem",
+                letterSpacing: "0.2em",
+                cursor: "pointer",
+                transition: "all 0.3s",
+              }}
+            >
+              OFFRIR UN SOIN
+            </motion.button>
+          </motion.div>
         </motion.div>
 
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full text-center">
-          <Reveal>
-            <span className="inline-block px-4 py-1.5 rounded-full border border-white/30 text-white text-[10px] font-bold uppercase tracking-[0.4em] mb-10 backdrop-blur-sm">
-              Quietude // Restoration // Flow
-            </span>
-            <h1 className="text-7xl md:text-9xl lg:text-[10rem] font-serif italic leading-[0.9] tracking-tighter mb-12 text-white">
-              The Art <br />{" "}
-              <span className="not-italic font-sans font-thin tracking-[0.2em] uppercase opacity-80">
-                of Being.
-              </span>
-            </h1>
-            <p className="max-w-2xl mx-auto text-lg md:text-xl text-white/70 leading-relaxed font-light mb-12 italic">
-              A high-fidelity sanctuary designed for the profound restoration of
-              the human spirit. Experience the confluence of botanical
-              intelligence and scientific precision.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <MagneticBtn className="px-12 py-5 bg-white text-[#2a2a2a] text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-[#c9b7a2] hover:text-white transition-all cursor-pointer">
-                Explore Rituals
-              </MagneticBtn>
-            </div>
-          </Reveal>
-        </div>
-
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-white/40">
-          <span className="text-[9px] font-bold uppercase tracking-widest">
-            Discover Stillness
-          </span>
-          <div className="w-[1px] h-12 bg-white/20" />
-        </div>
+        {/* Bottom scroll line */}
+        <motion.div
+          animate={{ scaleY: [0.5, 1, 0.5] }}
+          transition={{ duration: 2.5, repeat: Infinity }}
+          style={{ position: "absolute", bottom: "2rem", left: "50%", width: "1px", height: "3rem", background: `linear-gradient(180deg, transparent, ${C.sand})` }}
+        />
       </section>
 
-      {/* ==========================================
-          2. THE EXPERIENCE (Intro)
-          ========================================== */}
-      <section id="the-experience" className="py-32 bg-[#fdfcf9]">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-            <Reveal>
-              <div className="relative aspect-[4/5] overflow-hidden group">
-                <Image
-                  src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1000&q=80"
-                  alt="Experience"
-                  fill
-                  className="object-cover transition-transform duration-[3s] group-hover:scale-110"
-                />
-                <div className="absolute inset-0 border-[20px] border-[#fdfcf9]/30" />
-              </div>
-            </Reveal>
-
-            <div className="space-y-12">
-              <Reveal delay={0.2}>
-                <h2 className="text-5xl md:text-7xl font-serif italic tracking-tighter leading-[1.1] text-[#2a2a2a]">
-                  A Confluence of <br />{" "}
-                  <span className="not-italic font-sans font-thin text-[#c9b7a2] uppercase tracking-widest">
-                    Earth & Mind.
-                  </span>
-                </h2>
-                <p className="text-lg text-[#2a2a2a]/60 leading-relaxed font-light">
-                  At Aura, we believe wellness is a technical discipline as much
-                  as a spiritual one. Our sanctuary integrates ancient
-                  hydrotherapy circuits with state-of-the-art molecular skincare
-                  protocols.
-                </p>
-              </Reveal>
-
-              <Reveal delay={0.3}>
-                <div className="grid grid-cols-2 gap-12 pt-12 border-t border-[#c9b7a2]/20">
-                  {[
-                    { val: "15+", label: "Ritual Specialists" },
-                    { val: "24k", label: "Monthly Restoration" },
-                    { val: "100%", label: "Botanical Sourcing" },
-                    { val: "3", label: "Michelin Wellness Awards" },
-                  ].map((stat, i) => (
-                    <div key={i} className="flex flex-col">
-                      <span className="text-4xl font-serif italic text-[#c9b7a2] mb-2">
-                        {stat.val}
-                      </span>
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#2a2a2a]/40">
-                        {stat.label}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </Reveal>
-            </div>
+      {/* ── Opening quote ──────────────────────────────────────────────── */}
+      <section style={{ padding: "6rem clamp(2rem, 6vw, 8rem)", background: C.bgWarm, borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
+          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", color: C.sandLight, lineHeight: 1, marginBottom: "1.5rem" }}>"</div>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1.3rem, 2.5vw, 2rem)", fontStyle: "italic", fontWeight: 300, color: C.text, lineHeight: 1.6 }}>
+            Le luxe véritable, c'est le temps qu'on vous rend.
+          </p>
+          <div style={{ width: "40px", height: "1px", background: C.sand, margin: "1.5rem auto 1rem" }} />
+          <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", letterSpacing: "0.25em", color: C.textMuted }}>
+            FONDATRICE, AURA WELLNESS
           </div>
         </div>
       </section>
 
-      {/* ==========================================
-          3. TREATMENT MENU (Interactive Tabs)
-          ========================================== */}
-      <section id="treatments" className="py-32 bg-[#faf7f2]">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <Reveal className="text-center mb-24">
-            <h2 className="text-6xl md:text-8xl font-serif italic tracking-tighter text-[#2a2a2a] mb-6">
-              The Ritual{" "}
-              <span className="not-italic font-sans font-thin text-[#c9b7a2] uppercase tracking-widest">
-                Menu.
-              </span>
-            </h2>
-            <p className="text-[#2a2a2a]/40 text-[11px] font-bold uppercase tracking-[0.4em]">
-              Precision Restorative Protocols
-            </p>
-          </Reveal>
-
-          <Tabs defaultValue="rituals" className="w-full">
-            <div className="flex justify-center mb-16">
-              <TabsList className="bg-transparent border-b border-[#c9b7a2]/20 rounded-none w-full max-w-lg flex justify-center gap-12">
-                {TREATMENTS.map((cat) => (
-                  <TabsTrigger
-                    key={cat.id}
-                    value={cat.id}
-                    className="pb-4 text-[10px] font-bold uppercase tracking-[0.3em] data-[state=active]:text-[#c9b7a2] data-[state=active]:border-b-2 data-[state=active]:border-[#c9b7a2] rounded-none bg-transparent"
-                  >
-                    {cat.label}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
+      {/* ── Rituals ────────────────────────────────────────────────────── */}
+      <section style={{ padding: "7rem clamp(2rem, 5vw, 5rem)" }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "4rem" }}>
+            <div>
+              <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", letterSpacing: "0.3em", color: C.textDim, marginBottom: "0.75rem" }}>
+                NOS SOINS
+              </div>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 300, color: C.text }}>
+                Rituels d'Exception
+              </h2>
             </div>
-
-            {TREATMENTS.map((cat) => (
-              <TabsContent key={cat.id} value={cat.id}>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                  {cat.items.map((item, i) => (
-                    <Reveal key={item.name} delay={i * 0.1}>
-                      <div
-                        onClick={() => setActiveTreatment(item)}
-                        className="group cursor-pointer bg-white p-8 rounded-[2rem] border border-[#c9b7a2]/10 hover:border-[#c9b7a2] transition-all shadow-sm"
-                      >
-                        <div className="relative aspect-video mb-8 rounded-[1.5rem] overflow-hidden">
-                          <Image
-                            src={item.img}
-                            alt={item.name}
-                            fill
-                            className="object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
-                          />
-                          <div className="absolute inset-0 bg-[#c9b7a2]/10 mix-blend-overlay" />
-                        </div>
-                        <div className="flex justify-between items-start mb-4">
-                          <h3 className="text-2xl font-serif italic text-[#2a2a2a]">
-                            {item.name}
-                          </h3>
-                          <span className="text-[10px] font-bold text-[#c9b7a2]">
-                            {item.price}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-[#2a2a2a]/30 mb-6">
-                          <Clock className="w-3.5 h-3.5" /> {item.duration}
-                          <div className="w-1 h-1 rounded-full bg-[#c9b7a2]" />
-                          Protocol_Verified
-                        </div>
-                        <p className="text-xs text-[#2a2a2a]/50 leading-relaxed font-light mb-8 italic">
-                          {item.desc}
-                        </p>
-                        <button className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-widest text-[#c9b7a2] group-hover:gap-5 transition-all">
-                          View_Clinical_Summary{" "}
-                          <ArrowRight className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </Reveal>
-                  ))}
-                </div>
-              </TabsContent>
-            ))}
-          </Tabs>
+            <p style={{ fontSize: "0.85rem", color: C.textMuted, maxWidth: "35ch", lineHeight: 1.65, textAlign: "right" }}>
+              Chaque rituel est une expérience sensorielle complète. Cliquez pour découvrir les détails et réserver.
+            </p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+            {RITUALS.map((r, i) => <RitualCard key={r.id} ritual={r} i={i} />)}
+          </div>
         </div>
       </section>
 
-      {/* ==========================================
-          4. AMENITIES (Carousel)
-          ========================================== */}
-      <section id="amenities" className="py-32 bg-[#fdfcf9] overflow-hidden">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-20">
-          <Reveal>
-            <h2 className="text-5xl md:text-7xl font-serif italic tracking-tighter text-[#2a2a2a]">
-              Institutional <br />{" "}
-              <span className="not-italic font-sans font-thin text-[#c9b7a2] uppercase tracking-widest">
-                Grounds.
-              </span>
+      {/* ── Spaces ─────────────────────────────────────────────────────── */}
+      <section style={{ padding: "7rem clamp(2rem, 5vw, 5rem)", background: C.bgDark }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+          <div style={{ marginBottom: "4rem" }}>
+            <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", letterSpacing: "0.3em", color: C.sand, marginBottom: "0.75rem" }}>
+              LE SPA
+            </div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 300, color: C.textLight }}>
+              Nos Espaces
             </h2>
-          </Reveal>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1px", background: "#2A2820" }}>
+            {SPACES.map((space, i) => {
+              const ref = useRef<HTMLDivElement>(null);
+              const inView = useInView(ref, { once: true });
+              return (
+                <motion.div
+                  key={space.name}
+                  ref={ref}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  style={{ background: C.bgDark, padding: "2.5rem 2rem" }}
+                >
+                  <div style={{ width: "2rem", height: "1px", background: C.sandDark, marginBottom: "1.5rem" }} />
+                  <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.3rem", fontWeight: 400, color: C.textLight, marginBottom: "0.75rem" }}>
+                    {space.name}
+                  </h3>
+                  <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", color: C.sand, marginBottom: "0.4rem" }}>
+                    {space.capacity}
+                  </div>
+                  <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", letterSpacing: "0.1em", color: C.textDim }}>
+                    {space.available}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
+      </section>
 
-        <div className="px-6 md:px-12">
-          <Carousel opts={{ align: "start", loop: true }} className="w-full">
-            <CarouselContent className="-ml-8">
-              {AMENITIES.map((amenity, i) => (
-                <CarouselItem
+      {/* ── Packages ───────────────────────────────────────────────────── */}
+      <section style={{ padding: "7rem clamp(2rem, 5vw, 5rem)" }}>
+        <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+            <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", letterSpacing: "0.3em", color: C.textDim, marginBottom: "0.75rem" }}>
+              OFFRES
+            </div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 300, color: C.text }}>
+              Votre Formule
+            </h2>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2px", background: C.border }}>
+            {PACKAGES.map((pkg, i) => {
+              const ref = useRef<HTMLDivElement>(null);
+              const inView = useInView(ref, { once: true });
+              const active = selectedPackage === i;
+              return (
+                <motion.div
+                  key={pkg.name}
+                  ref={ref}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  onClick={() => setSelectedPackage(i)}
+                  style={{
+                    background: active ? C.bgDark : C.bg,
+                    padding: "3rem 2.5rem",
+                    cursor: "pointer",
+                    position: "relative",
+                    transition: "background 0.4s",
+                  }}
+                >
+                  {pkg.highlight && (
+                    <div style={{ position: "absolute", top: "1rem", right: "1rem", fontFamily: "'Jost', sans-serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.sand, padding: "0.3rem 0.6rem", border: `1px solid ${C.sand}` }}>
+                      SIGNATURE
+                    </div>
+                  )}
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem", color: active ? C.sand : C.textMuted, marginBottom: "0.75rem" }}>
+                    {pkg.name}
+                  </div>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2.5rem", fontWeight: 300, color: active ? C.textLight : C.text, marginBottom: "0.25rem" }}>
+                    {pkg.price}
+                  </div>
+                  <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", letterSpacing: "0.1em", color: active ? C.textDim : C.textMuted, marginBottom: "2rem" }}>
+                    {pkg.period}
+                  </div>
+                  <div style={{ height: "1px", background: active ? "#2A2820" : C.border, marginBottom: "1.5rem" }} />
+                  <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                    {pkg.features.map((f) => (
+                      <div key={f} style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
+                        <div style={{ width: "4px", height: "4px", background: C.sand, borderRadius: "50%", marginTop: "0.45em", flexShrink: 0 }} />
+                        <span style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.8rem", color: active ? C.textDim : C.textMuted, lineHeight: 1.5 }}>
+                          {f}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    onClick={(e) => { e.stopPropagation(); setBookingStep("date"); }}
+                    style={{
+                      width: "100%",
+                      marginTop: "2rem",
+                      background: active ? C.sand : "transparent",
+                      color: active ? C.bgDark : C.textMuted,
+                      border: `1px solid ${active ? C.sand : C.border}`,
+                      padding: "0.75rem",
+                      fontFamily: "'Jost', sans-serif",
+                      fontSize: "0.65rem",
+                      letterSpacing: "0.2em",
+                      cursor: "pointer",
+                      transition: "all 0.3s",
+                    }}
+                  >
+                    RÉSERVER
+                  </motion.button>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Testimonials ──────────────────────────────────────────────── */}
+      <section style={{ padding: "7rem clamp(2rem, 5vw, 5rem)", background: C.bgWarm, borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+            <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", letterSpacing: "0.3em", color: C.textDim, marginBottom: "0.75rem" }}>
+              EXPÉRIENCES
+            </div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 300, color: C.text }}>
+              Ce Que Disent<br />
+              <em style={{ color: C.sand }}>Nos Clientes</em>
+            </h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2px", background: C.border }}>
+            {TESTIMONIALS.map((t, i) => {
+              const ref = useRef<HTMLDivElement>(null);
+              const inView = useInView(ref, { once: true });
+              return (
+                <motion.div
                   key={i}
-                  className="pl-8 basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+                  ref={ref}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.7, delay: i * 0.1 }}
+                  style={{ background: C.bgWarm, padding: "2.5rem" }}
                 >
-                  <Reveal delay={i * 0.1}>
-                    <div className="group relative aspect-[4/5] rounded-[3rem] overflow-hidden">
-                      <Image
-                        src={amenity.img}
-                        alt={amenity.name}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-[4s]"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#2a2a2a]/80 via-transparent to-transparent" />
-                      <div className="absolute bottom-10 left-10 text-white">
-                        <h4 className="text-2xl font-serif italic mb-2">
-                          {amenity.name}
-                        </h4>
-                        <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">
-                          {amenity.desc}
-                        </p>
-                      </div>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", color: C.sand, lineHeight: 1, marginBottom: "1rem" }}>"</div>
+                  <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1rem", color: C.text, lineHeight: 1.75, marginBottom: "1.5rem" }}>
+                    {t.text}
+                  </p>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                    <div style={{ width: "1.5rem", height: "1px", background: C.sandDark, opacity: 0.4 }} />
+                    <div>
+                      <div style={{ fontSize: "0.8rem", fontWeight: 500, color: C.text }}>{t.author}</div>
+                      <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", letterSpacing: "0.1em", color: C.textMuted }}>{t.role}</div>
                     </div>
-                  </Reveal>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div className="flex gap-4 mt-12 justify-center">
-              <CarouselPrevious className="static translate-y-0 border-[#c9b7a2]/30 text-[#c9b7a2]" />
-              <CarouselNext className="static translate-y-0 border-[#c9b7a2]/30 text-[#c9b7a2]" />
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Book CTA ──────────────────────────────────────────────────── */}
+      <section style={{ padding: "8rem clamp(2rem, 5vw, 5rem)", background: C.bgDark, textAlign: "center", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", inset: 0, opacity: 0.04 }}>
+          <WaterRipple />
+        </div>
+        <div style={{ position: "relative", zIndex: 1, maxWidth: "650px", margin: "0 auto" }}>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300, color: C.textLight, lineHeight: 0.95, marginBottom: "1.5rem" }}>
+            Votre Escapade<br />
+            <em style={{ color: C.sand }}>Commence Ici</em>
+          </h2>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1.05rem", color: C.textDim, lineHeight: 1.75, marginBottom: "2.5rem" }}>
+            Le spa est disponible 7j/7, de 9h à 20h. Réservation conseillée 48h à l'avance pour les soins signature.
+          </p>
+          <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
+            <motion.button
+              whileHover={{ scale: 1.02, backgroundColor: C.sandLight }}
+              style={{
+                background: C.sand,
+                color: C.bgDark,
+                border: "none",
+                padding: "1rem 3rem",
+                fontFamily: "'Jost', sans-serif",
+                fontSize: "0.7rem",
+                letterSpacing: "0.2em",
+                cursor: "pointer",
+                transition: "background 0.3s",
+              }}
+            >
+              RÉSERVER UNE EXPÉRIENCE
+            </motion.button>
+          </div>
+          <div style={{ marginTop: "1.5rem", fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", color: C.textDim }}>
+            +33 1 XX XX XX XX · contact@aurawellness.fr
+          </div>
+          <div style={{ marginTop: "0.5rem", fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", color: "#3A3020" }}>
+            12 RUE DE LA PAIX · 75001 PARIS
+          </div>
+        </div>
+      </section>
+
+      {/* ── Footer ─────────────────────────────────────────────────────── */}
+      <footer style={{ borderTop: `1px solid #2A2820`, padding: "3rem clamp(2rem, 5vw, 5rem)", background: C.bgDark }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto", display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "3rem" }}>
+          <div>
+            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.3rem", letterSpacing: "0.2em", color: C.textLight, marginBottom: "0.25rem" }}>
+              AURA
             </div>
-          </Carousel>
-        </div>
-      </section>
-
-      {/* ==========================================
-          5. BOTANICAL AUDIT (FAQ)
-          ========================================== */}
-      <section className="py-32 bg-[#faf7f2]">
-        <div className="max-w-3xl mx-auto px-6">
-          <Reveal className="text-center mb-24">
-            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c9b7a2] mb-6 block">
-              Sourcing & Ethics
-            </span>
-            <h2 className="text-4xl md:text-5xl font-serif italic text-[#2a2a2a]">
-              Botanical_Audit
-            </h2>
-          </Reveal>
-
-          <Accordion type="single" collapsible className="space-y-6">
-            {[
-              {
-                q: "How are your essential oils verified?",
-                a: "Every batch undergoes Gas Chromatography (GC-MS) testing to ensure 100% purity. We source exclusively from high-altitude estates in Grasse and the Bulgarian Valley.",
-              },
-              {
-                q: "What is your water filtration protocol?",
-                a: "Our hydrotherapy circuits utilize a 7-stage proprietary filtration system, including molecular restructuring and crystalline mineralization, replicating high-altitude spring water.",
-              },
-              {
-                q: "Are treatments customized to my skin type?",
-                a: "Yes. Every Aura ritual begins with a molecular dermal analysis. We adjust formulation ratios and mechanical intensity based on your cellular data.",
-              },
-              {
-                q: "What is the Aura noise protocol?",
-                a: "Our sanctuary is a verified 'Zero Decibel' zone. All architectural elements are acoustic-grade, and we utilize active noise neutralization in private suites.",
-              },
-            ].map((faq, i) => (
-              <AccordionItem
-                key={i}
-                value={`item-${i}`}
-                className="border-b border-[#c9b7a2]/20 px-4"
-              >
-                <AccordionTrigger className="text-left font-sans font-bold uppercase tracking-widest text-[11px] text-[#2a2a2a] py-8 hover:text-[#c9b7a2] hover:no-underline">
-                  {faq.q}
-                </AccordionTrigger>
-                <AccordionContent className="text-sm font-light text-[#2a2a2a]/60 leading-relaxed pb-8 italic">
-                  {faq.a}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-      </section>
-
-      {/* ==========================================
-          6. MEGA FOOTER (Luxury Minimal)
-          ========================================== */}
-      <footer className="bg-white pt-32 pb-12 px-6 md:px-12 border-t border-[#c9b7a2]/10 relative">
-        <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-24 mb-32">
-          <div className="lg:col-span-5">
-            <Reveal>
-              <div className="flex flex-col mb-10">
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9b7a2] mb-1">
-                  Sanctuary.
-                </span>
-                <span className="text-3xl font-serif italic text-[#2a2a2a]">
-                  Aura Wellness
-                </span>
+            <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.5rem", letterSpacing: "0.35em", color: "#3A3020", marginBottom: "1.5rem" }}>
+              WELLNESS · PARIS
+            </div>
+            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "0.9rem", color: "#3A3020", lineHeight: 1.65 }}>
+              Le sanctuaire de celles qui savent que le vrai luxe ne se voit pas — il se ressent.
+            </p>
+          </div>
+          {[
+            { title: "SOINS", items: ["Rituels corps", "Soins visage", "Massages", "Hammam privatif"] },
+            { title: "LE SPA", items: ["Nos espaces", "Membership", "Gift cards", "Presse"] },
+            { title: "RÉSERVER", items: ["Réservation en ligne", "Groupes & entreprises", "Mariées", "Contact"] },
+          ].map((col) => (
+            <div key={col.title}>
+              <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.55rem", letterSpacing: "0.3em", color: "#3A3020", marginBottom: "1.5rem" }}>
+                {col.title}
               </div>
-              <p className="text-[#2a2a2a]/40 max-w-sm mb-12 text-[11px] font-bold uppercase tracking-widest leading-loose italic">
-                The intersection of deep botanical wisdom and institutional
-                medical precision. Est. 2026. A global sanctuary for the
-                restored mind.
-              </p>
-              <div className="flex gap-4">
-                {[Globe, Globe, Mail].map((Icon, i) => (
-                  <button
-                    key={i}
-                    className="w-12 h-12 rounded-full border border-[#c9b7a2]/20 flex items-center justify-center text-[#c9b7a2] hover:bg-[#c9b7a2] hover:text-white transition-all"
-                  >
-                    <Icon className="w-4 h-4" />
-                  </button>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                {col.items.map((item) => (
+                  <motion.a key={item} href="#" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "0.9rem", color: "#4A4030", textDecoration: "none", cursor: "pointer" }} whileHover={{ color: C.sand }}>
+                    {item}
+                  </motion.a>
                 ))}
               </div>
-            </Reveal>
-          </div>
-
-          <div className="lg:col-span-2 lg:col-start-7">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#2a2a2a] mb-10">
-              Experience
-            </h4>
-            <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-[#2a2a2a]/30">
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9b7a2] transition-colors"
-                >
-                  The_Sanctuary
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9b7a2] transition-colors"
-                >
-                  Hydro_Circuit
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9b7a2] transition-colors"
-                >
-                  Tea_Library
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9b7a2] transition-colors"
-                >
-                  Garden_Gallery
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="lg:col-span-2">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#2a2a2a] mb-10">
-              Rituals
-            </h4>
-            <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-[#2a2a2a]/30">
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9b7a2] transition-colors"
-                >
-                  Facial_Science
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9b7a2] transition-colors"
-                >
-                  Body_Alchemy
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9b7a2] transition-colors"
-                >
-                  Sound_Baths
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9b7a2] transition-colors"
-                >
-                  Seasonal_Detox
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="lg:col-span-2">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#2a2a2a] mb-10">
-              Legal
-            </h4>
-            <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-[#2a2a2a]/30">
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9b7a2] transition-colors"
-                >
-                  Privacy_Buffer
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9b7a2] transition-colors"
-                >
-                  Terms_of_Being
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9b7a2] transition-colors"
-                >
-                  Medical_Disclaimer
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-[#c9b7a2] transition-colors"
-                >
-                  Institutional_Ops
-                </Link>
-              </li>
-            </ul>
-          </div>
+            </div>
+          ))}
         </div>
-
-        <div className="max-w-[1400px] mx-auto pt-10 border-t border-[#c9b7a2]/10 flex flex-col md:flex-row justify-between items-center gap-8 text-[9px] font-bold uppercase tracking-widest text-[#2a2a2a]/10">
-          <div className="flex items-center gap-10">
-            <span>&copy; {new Date().getFullYear()} AURA WELLNESS GROUP.</span>
-            <span>Geneva // Aspen // Kyoto</span>
+        <div style={{ maxWidth: "1100px", margin: "2.5rem auto 0", paddingTop: "2rem", borderTop: "1px solid #1E1C10", display: "flex", justifyContent: "space-between" }}>
+          <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.55rem", letterSpacing: "0.15em", color: "#2A2820" }}>
+            © 2025 AURA WELLNESS. TOUS DROITS RÉSERVÉS.
           </div>
-          <div className="flex gap-10">
-            <span>Verified Sanctuary</span>
-            <span>Restoration as Standard</span>
+          <div style={{ display: "flex", gap: "2rem" }}>
+            {["Mentions légales", "Confidentialité"].map((item) => (
+              <motion.a key={item} href="#" style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.55rem", color: "#2A2820", textDecoration: "none", cursor: "pointer" }} whileHover={{ color: "#666" }}>
+                {item}
+              </motion.a>
+            ))}
           </div>
         </div>
       </footer>
-
-      {/* TREATMENT DETAIL MODAL */}
-      <AnimatePresence>
-        {activeTreatment && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-[#fdfcf9]/98 backdrop-blur-xl flex items-center justify-center p-6"
-            onClick={() => setActiveTreatment(null)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, y: 30 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 30 }}
-              className="bg-white border border-[#c9b7a2]/20 max-w-5xl w-full grid grid-cols-1 lg:grid-cols-2 overflow-hidden rounded-[3rem] shadow-2xl relative"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={() => setActiveTreatment(null)}
-                className="absolute top-10 right-10 text-[#c9b7a2] hover:text-[#2a2a2a] transition-colors z-10"
-              >
-                <X className="w-8 h-8" />
-              </button>
-
-              <div className="relative aspect-square lg:aspect-auto">
-                <Image
-                  src={activeTreatment.img}
-                  alt={activeTreatment.name}
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                <div className="absolute bottom-12 left-12 text-white">
-                  <h3 className="text-5xl font-serif italic">
-                    {activeTreatment.name}
-                  </h3>
-                </div>
-              </div>
-
-              <div className="p-16 flex flex-col justify-between">
-                <div className="space-y-10">
-                  <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c9b7a2] flex items-center gap-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#c9b7a2]" />
-                    Protocol Specification
-                  </div>
-
-                  <div className="space-y-6">
-                    <div className="flex justify-between items-center border-b border-[#c9b7a2]/10 pb-4">
-                      <span className="text-[10px] font-bold text-[#2a2a2a]/30 uppercase tracking-widest">
-                        Duration
-                      </span>
-                      <span className="text-xl font-serif italic text-[#c9b7a2]">
-                        {activeTreatment.duration}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center border-b border-[#c9b7a2]/10 pb-4">
-                      <span className="text-[10px] font-bold text-[#2a2a2a]/30 uppercase tracking-widest">
-                        Investment
-                      </span>
-                      <span className="text-xl font-serif italic text-[#c9b7a2]">
-                        {activeTreatment.price}
-                      </span>
-                    </div>
-                  </div>
-
-                  <p className="text-sm font-light text-[#2a2a2a]/60 leading-relaxed italic">
-                    {activeTreatment.desc} Our signature protocol includes a
-                    personalized botanical blend and a synchronized vibrational
-                    sound bath for total dermal and cognitive restoration.
-                  </p>
-                </div>
-
-                <MagneticBtn className="w-full py-6 bg-[#c9b7a2] text-white text-[11px] font-bold uppercase tracking-[0.4em] rounded-full hover:bg-[#b8a691] transition-all shadow-xl mt-12">
-                  REQUEST_RITUAL
-                </MagneticBtn>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <style>{`
-        ::-webkit-scrollbar{width:4px;background:#fdfcf9}
-        ::-webkit-scrollbar-thumb{background:#c9b7a2}
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
-        .font-serif { font-family: 'Playfair Display', serif; }
-      `}</style>
     </div>
   );
 }
