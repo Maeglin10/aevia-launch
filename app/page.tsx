@@ -17,7 +17,7 @@ const HERO_T = {
     rotate: ["Landing Page", "Boutique en ligne", "Site vitrine", "Portfolio"],
     sub: "Notre IA rédige votre contenu, vous choisissez un thème, on lance en 2 heures. C'est tout.",
     cta1: "Créer mon site",
-    cta2: "Voir les 216 thèmes",
+    cta2: "Voir les 100 thèmes",
     free: "Aperçu gratuit · sans carte bancaire",
     metrics: ["Live en 2h ⚡", "IA rédige ✦", "SEO optimisé 🔍"],
     how: "Comment ça marche",
@@ -33,7 +33,7 @@ const HERO_T = {
     rotate: ["Landing Page", "Online Store", "Business Site", "Portfolio"],
     sub: "Our AI writes your content, you pick a theme, we launch in 2 hours. That's it.",
     cta1: "Build my site",
-    cta2: "Browse 216 themes",
+    cta2: "Browse 100 themes",
     free: "Free preview · no credit card required",
     metrics: ["Live in 2h ⚡", "AI-written ✦", "SEO optimised 🔍"],
     how: "How it works",
@@ -49,7 +49,7 @@ const HERO_T = {
     rotate: ["Landing Page", "Tienda Online", "Sitio Web", "Portfolio"],
     sub: "Nuestra IA escribe el contenido, tú eliges el tema, lanzamos en 2 horas. Así de simple.",
     cta1: "Crear mi sitio",
-    cta2: "Ver 216 temas",
+    cta2: "Ver 100 temas",
     free: "Vista previa gratis · sin tarjeta",
     metrics: ["Online en 2h ⚡", "IA-escribe ✦", "SEO optimizado 🔍"],
     how: "Cómo funciona",
@@ -65,7 +65,7 @@ const HERO_T = {
     rotate: ["Landing Page", "Online-Shop", "Firmenwebsite", "Portfolio"],
     sub: "Unsere KI schreibt den Inhalt, du wählst ein Theme, wir launchen in 2 Stunden.",
     cta1: "Meine Website erstellen",
-    cta2: "216 Themes ansehen",
+    cta2: "100 Themes ansehen",
     free: "Kostenlose Vorschau · keine Kreditkarte",
     metrics: ["Online in 2h ⚡", "KI-geschrieben ✦", "SEO-optimiert 🔍"],
     how: "So funktioniert es",
@@ -81,7 +81,7 @@ const HERO_T = {
     rotate: ["Landing Page", "Loja Online", "Site Vitrine", "Portfolio"],
     sub: "A nossa IA escreve o conteúdo, você escolhe o tema, lançamos em 2 horas. Simples assim.",
     cta1: "Criar o meu site",
-    cta2: "Ver 216 temas",
+    cta2: "Ver 100 temas",
     free: "Pré-visualização grátis · sem cartão",
     metrics: ["Online em 2h ⚡", "IA-escrito ✦", "SEO otimizado 🔍"],
     how: "Como funciona",
@@ -441,7 +441,7 @@ function ThemesSection() {
               <span className="text-xs font-bold text-violet-400 uppercase tracking-widest">Theme Library</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-black text-white leading-tight" style={{ letterSpacing: "-0.02em" }}>
-              216 themes.<br /><span className="text-zinc-500">One click to preview.</span>
+              100 themes.<br /><span className="text-zinc-500">One click to preview.</span>
             </h2>
           </div>
           <Link href="/themes"
@@ -462,7 +462,7 @@ function ThemesSection() {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: 0.25 }} className="mb-8">
-          <p className="text-[11px] font-bold text-zinc-600 uppercase tracking-widest mb-4">Impact Vault — 195 templates</p>
+          <p className="text-[11px] font-bold text-zinc-600 uppercase tracking-widest mb-4">Impact Vault — 100 templates</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
             {FEATURED_IMPACT.map((t, i) => (
               <motion.div key={t.id} initial={{ opacity: 0, y: 16 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.4, delay: 0.25 + i * 0.05 }}>
@@ -474,7 +474,7 @@ function ThemesSection() {
 
         <motion.div initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ duration: 0.5, delay: 0.5 }}
           className="flex flex-wrap items-center justify-center gap-8 py-6 border-t border-zinc-800">
-          {[{ n: "216", label: "Total themes" }, { n: "6", label: "Style categories" }, { n: "21", label: "Site builder templates" }, { n: "195", label: "Impact vault templates" }].map(({ n, label }) => (
+          {[{ n: "100", label: "Total themes" }, { n: "14", label: "Style categories" }, { n: "23", label: "Site builder templates" }, { n: "77", label: "Impact vault templates" }].map(({ n, label }) => (
             <div key={label} className="text-center">
               <div className="text-2xl font-black text-white">{n}</div>
               <div className="text-xs text-zinc-500 mt-0.5">{label}</div>
