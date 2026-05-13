@@ -5,943 +5,800 @@ import {
   useScroll,
   useTransform,
   useInView,
-  AnimatePresence,
   useMotionValue,
   useSpring,
+  AnimatePresence,
 } from "framer-motion";
-import { useState, useRef, useEffect, useCallback } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
-import { ArrowRight, ArrowUpRight, Star, Check, Menu, X, Globe, Clock, Quote, Search, ShoppingBag, Plus, Droplets, FlaskConical, Microscope, Sparkles, ShieldCheck, Leaf, Recycle, Wind, BarChart3, Activity, Beaker, Zap, Mail, MapPin, Phone } from "lucide-react";
+import { useRef, useState, useEffect, useCallback } from "react";
 
-import "../premium.css";
+/* ─── Design Tokens ─────────────────────────────────────────── */
+const C = {
+  bg:      "#080C06",
+  bgCard:  "#111708",
+  bgMid:   "#1A2112",
+  green:   "#4A6741",
+  moss:    "#8B9E6F",
+  amber:   "#C8943A",
+  cream:   "#F2EAD6",
+  muted:   "#8A8E7A",
+  border:  "rgba(138,158,111,0.15)",
+};
 
-/* ==========================================================================
-   DATA STRUCTURES
-   ========================================================================= */
+const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');`;
 
-const PRODUCTS = [
+/* ─── Data ───────────────────────────────────────────────────── */
+const SERIES = [
   {
     id: 1,
-    name: "Lumière Sérum",
-    tag: "Bio-Active Brightening",
-    price: "€148",
-    img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=1200&q=80",
-    desc: "A cellular-level serum using cold-pressed pomegranate seed oil and botanical Vitamin C.",
+    title: "Boreal Silence",
+    location: "Lapland, Finland",
+    year: "2024",
+    prints: 12,
+    category: "Wilderness",
+    aspect: "3/2",
+    bg: "linear-gradient(160deg, #1C2B0F 0%, #2A3D1A 60%, #3D5228 100%)",
+    accent: "#6B9E42",
   },
   {
     id: 2,
-    name: "Velours Crème",
-    tag: "Lipid Repair",
-    price: "€196",
-    img: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=1200&q=80",
-    desc: "Intensive moisture barrier support with ceramides derived from alpine moss.",
+    title: "After the Rain",
+    location: "Olympic Rainforest, WA",
+    year: "2024",
+    prints: 8,
+    category: "Forest",
+    aspect: "2/3",
+    bg: "linear-gradient(160deg, #0F1E18 0%, #1A3028 60%, #253D30 100%)",
+    accent: "#4A8E7A",
   },
   {
     id: 3,
-    name: "Éclat Oil",
-    tag: "Phyto-Retinol",
-    price: "€124",
-    img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=1200&q=80",
-    desc: "A non-photosensitizing retinol alternative for overnight structural regeneration.",
+    title: "Golden Hour Atlas",
+    location: "Dolomites, Italy",
+    year: "2023",
+    prints: 15,
+    category: "Mountain",
+    aspect: "3/2",
+    bg: "linear-gradient(160deg, #2B1A08 0%, #3D2810 60%, #5C3D18 100%)",
+    accent: "#C8943A",
   },
   {
     id: 4,
-    name: "Doux Masque",
-    tag: "Thermal Cleansing",
-    price: "€88",
-    img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=1200&q=80",
-    desc: "Active volcanic clay mask that self-heats to detoxify dermal pores.",
+    title: "Fog & Fern",
+    location: "Faroe Islands",
+    year: "2023",
+    prints: 6,
+    category: "Coastal",
+    aspect: "2/3",
+    bg: "linear-gradient(160deg, #111820 0%, #1A2530 60%, #253040 100%)",
+    accent: "#6A8EA8",
+  },
+  {
+    id: 5,
+    title: "Root System",
+    location: "Black Forest, Germany",
+    year: "2023",
+    prints: 10,
+    category: "Forest",
+    aspect: "1/1",
+    bg: "linear-gradient(160deg, #120E08 0%, #1E1808 60%, #2A2210 100%)",
+    accent: "#8B7040",
+  },
+  {
+    id: 6,
+    title: "First Light",
+    location: "Yosemite, California",
+    year: "2022",
+    prints: 20,
+    category: "Wilderness",
+    aspect: "3/2",
+    bg: "linear-gradient(160deg, #1A1208 0%, #2B2010 60%, #3D2E18 100%)",
+    accent: "#E0A840",
   },
 ];
 
-const STATS = [
-  {
-    label: "Hydration Retention",
-    val: 98,
-    suffix: "%",
-    desc: "Clinically proven increase in dermal water retention after 14 days.",
-  },
-  {
-    label: "Bio-Active Purity",
-    val: 100,
-    suffix: "%",
-    desc: "Zero synthetic fillers, silicones, or parabens in our formulations.",
-  },
-  {
-    label: "Recycling Loop",
-    val: 100,
-    suffix: "%",
-    desc: "All packaging is made from ocean-bound plastic and fully compostable.",
-  },
+const EXHIBITIONS = [
+  { year: "2025", title: "Primordial", venue: "Galerie Binôme", city: "Paris" },
+  { year: "2024", title: "Undisturbed", venue: "FOAM Photography Museum", city: "Amsterdam" },
+  { year: "2024", title: "Depth of Field", venue: "Aperture Foundation", city: "New York" },
+  { year: "2023", title: "Threshold", venue: "Rencontres d'Arles", city: "Arles" },
 ];
 
-const INGREDIENTS = [
-  {
-    name: "Squalane",
-    source: "Mediterranean Olives",
-    function: "Barrier Support",
-  },
-  { name: "Bakuchiol", source: "Babchi Seeds", function: "Collagen Induction" },
-  {
-    name: "Hyaluronic Acid",
-    source: "Fermented Wheat",
-    function: "Deep Hydration",
-  },
-  {
-    name: "Niacinamide",
-    source: "Isolated Vitamin B3",
-    function: "Tone Correction",
-  },
+const PRESS = [
+  { quote: "Images that breathe — each frame holds the patience of hours, the weight of silence.", source: "Le Monde", author: "Claire Dumont" },
+  { quote: "Léa Rousseau doesn't photograph landscapes. She photographs the feeling of standing inside them.", source: "Aperture Magazine", author: "Mark Tobias" },
+  { quote: "A singular eye. What you see through her lens, you cannot unsee.", source: "British Journal of Photography", author: "Sarah Chen" },
 ];
 
-/* ==========================================================================
-   UTILITY COMPONENTS
-   ========================================================================= */
+const LOCATIONS = [
+  "Finland", "Norway", "Faroe Islands", "Patagonia", "Lapland",
+  "Dolomites", "Black Forest", "Olympic Peninsula", "Yosemite", "Hokkaido",
+];
 
-function Reveal({
-  children,
-  delay = 0,
-  y = 30,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  y?: number;
-}) {
+const CATEGORIES = ["All", "Wilderness", "Forest", "Mountain", "Coastal"];
+
+/* ─── TextReveal ─────────────────────────────────────────────── */
+function TextReveal({ text, delay = 0, style = {} }: { text: string; delay?: number; style?: React.CSSProperties }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
+  const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 1, delay, ease: [0.25, 0.1, 0.25, 1] }}
-    >
-      {children}
-    </motion.div>
+    <div ref={ref} style={{ overflow: "hidden", ...style }}>
+      <motion.div
+        initial={{ y: "110%" }}
+        animate={inView ? { y: 0 } : { y: "110%" }}
+        transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {text}
+      </motion.div>
+    </div>
   );
 }
 
-function Counter({
-  to,
-  prefix = "",
-  suffix = "",
-}: {
-  to: number;
-  prefix?: string;
-  suffix?: string;
-}) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!isInView) return;
-    let cur = 0;
-    const step = to / 70;
-    const t = setInterval(() => {
-      cur += step;
-      if (cur >= to) {
-        setCount(to);
-        clearInterval(t);
-      } else {
-        setCount(Math.floor(cur));
-      }
-    }, 16);
-    return () => clearInterval(t);
-  }, [isInView, to]);
-  return (
-    <span ref={ref}>
-      {prefix}
-      {count.toLocaleString()}
-      {suffix}
-    </span>
-  );
-}
-
-function MagneticBtn({
-  children,
-  className = "",
-  onClick,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  onClick?: () => void;
-}) {
-  const ref = useRef<HTMLButtonElement>(null);
+/* ─── MagneticButton ─────────────────────────────────────────── */
+function MagneticButton({ children, style = {}, onClick }: { children: React.ReactNode; style?: React.CSSProperties; onClick?: () => void }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 200, damping: 20 });
-  const sy = useSpring(y, { stiffness: 200, damping: 20 });
-
-  const handleMouse = useCallback(
-    (e: React.MouseEvent) => {
-      const rect = ref.current?.getBoundingClientRect();
-      if (!rect) return;
-      x.set((e.clientX - rect.left - rect.width / 2) * 0.35);
-      y.set((e.clientY - rect.top - rect.height / 2) * 0.35);
-    },
-    [x, y],
-  );
-
-  const reset = useCallback(() => {
-    x.set(0);
-    y.set(0);
-  }, [x, y]);
-
+  const sx = useSpring(x, { stiffness: 300, damping: 20 });
+  const sy = useSpring(y, { stiffness: 300, damping: 20 });
+  const ref = useRef<HTMLButtonElement>(null);
+  const onMove = (e: React.MouseEvent) => {
+    const r = ref.current!.getBoundingClientRect();
+    x.set((e.clientX - r.left - r.width / 2) * 0.35);
+    y.set((e.clientY - r.top - r.height / 2) * 0.35);
+  };
   return (
     <motion.button
       ref={ref}
-      style={{ x: sx, y: sy }}
-      onMouseMove={handleMouse}
-      onMouseLeave={reset}
+      style={{ x: sx, y: sy, cursor: "pointer", background: "none", border: "none", ...style }}
+      onMouseMove={onMove}
+      onMouseLeave={() => { x.set(0); y.set(0); }}
       onClick={onClick}
-      className={className}
     >
       {children}
     </motion.button>
   );
 }
 
-/* ==========================================================================
-   MAIN PAGE COMPONENT
-   ========================================================================= */
+/* ─── MarqueeStrip ───────────────────────────────────────────── */
+function MarqueeStrip() {
+  const items = [...LOCATIONS, ...LOCATIONS];
+  return (
+    <div style={{ overflow: "hidden", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "12px 0" }}>
+      <motion.div
+        style={{ display: "flex", gap: 64, whiteSpace: "nowrap" }}
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+      >
+        {items.map((loc, i) => (
+          <span key={i} style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, letterSpacing: "0.2em", color: C.muted, textTransform: "uppercase" }}>
+            {loc}
+            <span style={{ marginLeft: 64, color: C.green }}>✦</span>
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
 
-export default function AuraBiotechPage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeProduct, setActiveProduct] = useState<number | null>(null);
+/* ─── DepthLayers — Signature Element ───────────────────────── */
+function DepthLayers() {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const smx = useSpring(mouseX, { stiffness: 60, damping: 18 });
+  const smy = useSpring(mouseY, { stiffness: 60, damping: 18 });
 
-  const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  // Each layer translates at different multiplier (foreground moves more)
+  const l1x = useTransform(smx, [-1, 1], ["-24px", "24px"]);
+  const l1y = useTransform(smy, [-1, 1], ["-16px", "16px"]);
+  const l2x = useTransform(smx, [-1, 1], ["-14px", "14px"]);
+  const l2y = useTransform(smy, [-1, 1], ["-10px", "10px"]);
+  const l3x = useTransform(smx, [-1, 1], ["-6px", "6px"]);
+  const l3y = useTransform(smy, [-1, 1], ["-4px", "4px"]);
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    mouseX.set(((e.clientX - r.left) / r.width) * 2 - 1);
+    mouseY.set(((e.clientY - r.top) / r.height) * 2 - 1);
+  }, [mouseX, mouseY]);
+
+  const onMouseLeave = useCallback(() => {
+    mouseX.set(0);
+    mouseY.set(0);
+  }, [mouseX, mouseY]);
 
   return (
     <div
-      className="premium-theme min-h-screen bg-[#faf9f6] text-[#2c2a26] font-sans selection:bg-[#d4c3b3] selection:text-white overflow-x-hidden"
-      style={{ scrollBehavior: "smooth" }}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      style={{ position: "relative", width: "100%", aspectRatio: "16/9", maxHeight: 560, overflow: "hidden", borderRadius: 4, cursor: "crosshair" }}
     >
-      {/* ==========================================
-          NAVIGATION
-          ========================================== */}
-      <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-1000 ${scrolled ? "bg-[#faf9f6]/95 backdrop-blur-md py-4 border-b border-black/5 shadow-sm" : "bg-transparent py-10"}`}
+      {/* Background layer — sky / distant mountains */}
+      <motion.div style={{ x: l3x, y: l3y, position: "absolute", inset: "-20px", background: "linear-gradient(180deg, #0A1505 0%, #1A2E0A 35%, #243318 60%, #1C2A12 100%)" }} />
+
+      {/* Mid layer — rolling hills */}
+      <motion.div
+        style={{ x: l2x, y: l2y, position: "absolute", inset: "-20px" }}
       >
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex flex-col items-center">
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#2c2a26]/40 mb-1">
-              Ritual.
-            </span>
-            <span className="text-xl md:text-2xl font-light tracking-[0.4em] uppercase text-[#2c2a26]">
-              AURA<span className="text-[#d4c3b3]">.</span>
-            </span>
-          </Link>
+        <svg viewBox="0 0 1440 560" style={{ position: "absolute", bottom: 0, left: 0, width: "120%", height: "60%" }} preserveAspectRatio="none">
+          <path d="M-40,560 L-40,260 Q180,160 360,200 Q540,240 720,180 Q900,120 1080,160 Q1260,200 1480,140 L1480,560 Z" fill="#243318" opacity="0.9" />
+          <path d="M-40,560 L-40,310 Q200,240 440,280 Q680,320 880,260 Q1080,200 1280,240 L1480,220 L1480,560 Z" fill="#1A2C0E" opacity="0.8" />
+        </svg>
+        {/* Distant pine silhouettes */}
+        <svg viewBox="0 0 1440 560" style={{ position: "absolute", bottom: 0, left: 0, width: "120%", height: "50%" }} preserveAspectRatio="none">
+          {[0, 80, 160, 240, 320, 400, 480, 560, 640, 720, 800, 880, 960, 1040, 1120, 1200, 1280, 1360].map((x, i) => (
+            <polygon key={i} points={`${x},560 ${x + 14},${300 + Math.sin(i * 1.3) * 40} ${x + 28},560`} fill="#0F1A08" opacity={0.6 + (i % 3) * 0.1} />
+          ))}
+        </svg>
+      </motion.div>
 
-          <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-[#2c2a26]/30">
-            <Link
-              href="#collection"
-              className="hover:text-[#2c2a26] transition-colors"
-            >
-              Collection
-            </Link>
-            <Link
-              href="#science"
-              className="hover:text-[#2c2a26] transition-colors"
-            >
-              The_Lab
-            </Link>
-            <Link
-              href="#philosophy"
-              className="hover:text-[#2c2a26] transition-colors"
-            >
-              Philosophy
-            </Link>
-            <Link
-              href="#sustainability"
-              className="hover:text-[#2c2a26] transition-colors"
-            >
-              Impact
-            </Link>
+      {/* Foreground layer — close trees */}
+      <motion.div style={{ x: l1x, y: l1y, position: "absolute", inset: "-20px" }}>
+        <svg viewBox="0 0 1440 560" style={{ position: "absolute", bottom: 0, left: 0, width: "120%", height: "70%" }} preserveAspectRatio="none">
+          {[
+            [60, 340, 50], [160, 280, 62], [260, 320, 45], [380, 260, 70],
+            [500, 300, 55], [620, 270, 65], [780, 290, 58], [920, 260, 72],
+            [1060, 300, 50], [1180, 270, 64], [1300, 310, 48], [1400, 280, 60],
+          ].map(([x, y, w], i) => (
+            <g key={i}>
+              <polygon points={`${x},560 ${x + w / 2},${y} ${x + w},560`} fill="#060D04" />
+              <polygon points={`${x + 8},560 ${x + w / 2},${y + 50} ${x + w - 8},560`} fill="#0A1508" />
+            </g>
+          ))}
+        </svg>
+
+        {/* Foreground ferns */}
+        <svg viewBox="0 0 1440 560" style={{ position: "absolute", bottom: 0, left: 0, width: "120%", height: "30%" }} preserveAspectRatio="none">
+          {[0, 100, 220, 360, 500, 660, 820, 980, 1120, 1280].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 420)`}>
+              <ellipse cx={30} cy={60} rx={40} ry={20} fill="#111D09" opacity={0.85} transform={`rotate(${-15 + i * 7})`} />
+              <ellipse cx={50} cy={70} rx={35} ry={18} fill="#0D1807" opacity={0.7} transform={`rotate(${10 + i * 5})`} />
+            </g>
+          ))}
+        </svg>
+      </motion.div>
+
+      {/* Light rays */}
+      <motion.div
+        style={{ x: l3x, y: l3y, position: "absolute", inset: "-20px", background: "radial-gradient(ellipse 60% 40% at 50% 20%, rgba(200,148,58,0.10) 0%, transparent 70%)", mixBlendMode: "screen", pointerEvents: "none" }}
+      />
+
+      {/* Mist effect */}
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "35%", background: "linear-gradient(to top, rgba(8,12,6,0.8) 0%, transparent 100%)", pointerEvents: "none" }} />
+
+      {/* Label */}
+      <div style={{ position: "absolute", bottom: 28, left: 32, pointerEvents: "none" }}>
+        <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.3em", color: C.moss, textTransform: "uppercase", marginBottom: 6 }}>INTERACTIVE DEPTH</p>
+        <p style={{ fontFamily: "'Archivo', sans-serif", fontSize: 13, color: C.muted }}>Move your cursor to reveal layers</p>
+      </div>
+
+      {/* Depth indicator — 3 dots */}
+      <div style={{ position: "absolute", top: 24, right: 24, display: "flex", flexDirection: "column", gap: 6 }}>
+        {["Foreground", "Midground", "Background"].map((label, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div style={{ width: 6, height: 6, borderRadius: "50%", background: i === 0 ? C.amber : i === 1 ? C.moss : C.green, opacity: 1 - i * 0.2 }} />
+            <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 10, letterSpacing: "0.15em", color: C.muted, textTransform: "uppercase" }}>{label}</span>
           </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
-          <div className="flex items-center gap-8">
-            <div className="hidden xl:flex flex-col items-end">
-              <span className="text-[9px] font-bold text-[#2c2a26]/20 uppercase tracking-widest">
-                Biotech Formulation
-              </span>
-              <span className="text-[11px] font-bold text-[#d4c3b3] flex items-center gap-1">
-                COSMOS CERTIFIED <Leaf className="w-3 h-3" />
-              </span>
-            </div>
-            <MagneticBtn className="px-8 py-3 bg-[#2c2a26] text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-[#d4c3b3] transition-all shadow-xl shadow-black/5">
-              SHOP_NOW
-            </MagneticBtn>
-            <button onClick={() => setMenuOpen(true)} className="lg:hidden">
-              <Menu className="w-6 h-6" />
+/* ─── SeriesCard ─────────────────────────────────────────────── */
+function SeriesCard({ series }: { series: typeof SERIES[0] }) {
+  const [hovered, setHovered] = useState(false);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    mouseX.set(e.clientX - r.left);
+    mouseY.set(e.clientY - r.top);
+  };
+
+  const spotBg = useTransform(
+    [mouseX, mouseY],
+    ([x, y]) => `radial-gradient(280px circle at ${x}px ${y}px, rgba(138,158,111,0.12) 0%, transparent 70%), ${series.bg}`
+  );
+
+  return (
+    <motion.div
+      onMouseMove={onMove}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{ background: spotBg as any, borderRadius: 4, overflow: "hidden", cursor: "pointer", border: `1px solid ${C.border}`, position: "relative" }}
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+    >
+      {/* Photo placeholder */}
+      <div style={{ aspectRatio: series.aspect, background: series.bg, position: "relative", overflow: "hidden" }}>
+        {/* Simulated landscape scene */}
+        <svg width="100%" height="100%" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
+          <rect width="400" height="280" fill="transparent" />
+          {/* Sky gradient */}
+          <defs>
+            <linearGradient id={`sky-${series.id}`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={series.accent} stopOpacity="0.15" />
+              <stop offset="100%" stopColor="transparent" />
+            </linearGradient>
+          </defs>
+          <rect width="400" height="140" fill={`url(#sky-${series.id})`} />
+          {/* Terrain */}
+          <path d="M0,280 Q100,180 200,200 Q300,220 400,160 L400,280 Z" fill={series.accent} opacity="0.08" />
+          <path d="M0,280 Q80,220 200,240 Q320,260 400,220 L400,280 Z" fill={series.accent} opacity="0.12" />
+        </svg>
+
+        {/* Hover overlay */}
+        <AnimatePresence>
+          {hovered && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              style={{ position: "absolute", inset: 0, background: "rgba(8,12,6,0.6)", display: "flex", alignItems: "center", justifyContent: "center" }}
+            >
+              <div style={{ width: 48, height: 48, borderRadius: "50%", border: `1px solid ${C.amber}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={C.amber} strokeWidth="1.5">
+                  <path d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Info */}
+      <div style={{ padding: "16px 20px" }}>
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 6 }}>
+          <p style={{ fontFamily: "'Archivo', sans-serif", fontSize: 15, fontWeight: 600, color: C.cream, letterSpacing: "-0.01em" }}>{series.title}</p>
+          <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, color: series.accent, background: `${series.accent}18`, padding: "2px 8px", borderRadius: 2, letterSpacing: "0.1em" }}>{series.category}</span>
+        </div>
+        <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.muted, letterSpacing: "0.05em" }}>{series.location} · {series.year}</p>
+        <div style={{ marginTop: 12, paddingTop: 12, borderTop: `1px solid ${C.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, color: C.muted }}>{series.prints} prints available</span>
+          <motion.div style={{ width: 20, height: 20, x: 0 }} animate={hovered ? { x: 4 } : { x: 0 }} transition={{ duration: 0.2 }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={C.moss} strokeWidth="1.5">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </motion.div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ─── CountUp ────────────────────────────────────────────────── */
+function CountUp({ target, suffix = "", duration = 1800 }: { target: number; suffix?: string; duration?: number }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+  useEffect(() => {
+    if (!inView) return;
+    const start = Date.now();
+    const timer = setInterval(() => {
+      const elapsed = Date.now() - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(ease * target));
+      if (progress >= 1) clearInterval(timer);
+    }, 16);
+    return () => clearInterval(timer);
+  }, [inView, target, duration]);
+  return <span ref={ref}>{count}{suffix}</span>;
+}
+
+/* ─── Page ───────────────────────────────────────────────────── */
+export default function Page() {
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [activePress, setActivePress] = useState(0);
+  const heroRef = useRef(null);
+  const { scrollYProgress: heroProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const heroY = useTransform(heroProgress, [0, 1], ["0%", "40%"]);
+  const heroOpacity = useTransform(heroProgress, [0, 0.7], [1, 0]);
+
+  const filtered = activeCategory === "All" ? SERIES : SERIES.filter(s => s.category === activeCategory);
+
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.textContent = FONTS;
+    document.head.appendChild(style);
+    return () => { document.head.removeChild(style); };
+  }, []);
+
+  return (
+    <main style={{ background: C.bg, color: C.cream, minHeight: "100vh", fontFamily: "'Archivo', sans-serif", overflowX: "hidden" }}>
+
+      {/* ── Nav ── */}
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, padding: "0 32px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(8,12,6,0.85)", backdropFilter: "blur(16px)", borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          {/* Leaf mark */}
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={C.moss} strokeWidth="1.5">
+            <path d="M12 2C6 2 2 8 2 12c0 5.5 4 9 9 9 1 0 2-.2 3-.5C8 19 6 15 6 12c0-4 4-6 8-6s8 2 8 6-2 7-5 8" />
+            <line x1="12" y1="12" x2="12" y2="22" />
+          </svg>
+          <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.15em", color: C.cream, textTransform: "uppercase" }}>Léa Rousseau</span>
+        </div>
+        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+          {["Work", "Exhibitions", "Prints", "About"].map(item => (
+            <button key={item} style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.muted, background: "none", border: "none", cursor: "pointer", letterSpacing: "0.05em", transition: "color 0.2s" }}
+              onMouseEnter={e => (e.currentTarget.style.color = C.cream)}
+              onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
+              {item}
             </button>
-          </div>
+          ))}
+          <MagneticButton style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.bg, background: C.moss, padding: "8px 18px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+            Print Shop
+          </MagneticButton>
         </div>
       </nav>
 
-      {/* MOBILE MENU */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "tween", duration: 0.5 }}
-            className="fixed inset-0 z-[100] bg-[#faf9f6] p-8 pt-32 flex flex-col border-l border-black/5"
+      {/* ── Hero ── */}
+      <section ref={heroRef} style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", paddingTop: 64, overflow: "hidden" }}>
+        {/* Parallax bg */}
+        <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
+          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 60% at 50% 30%, rgba(74,103,65,0.12) 0%, transparent 70%)" }} />
+          {/* Floating particles */}
+          {[...Array(18)].map((_, i) => (
+            <motion.div
+              key={i}
+              style={{
+                position: "absolute",
+                left: `${8 + (i * 53) % 85}%`,
+                top: `${10 + (i * 37) % 75}%`,
+                width: i % 3 === 0 ? 2 : 1,
+                height: i % 3 === 0 ? 2 : 1,
+                borderRadius: "50%",
+                background: i % 4 === 0 ? C.amber : C.moss,
+                opacity: 0.25 + (i % 4) * 0.1,
+              }}
+              animate={{ y: [-8, 8, -8], opacity: [0.2, 0.5, 0.2] }}
+              transition={{ duration: 4 + i * 0.6, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
+            />
+          ))}
+        </motion.div>
+
+        <motion.div style={{ opacity: heroOpacity, position: "relative", zIndex: 1, textAlign: "center", maxWidth: 900, padding: "0 24px" }}>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.4em", color: C.moss, textTransform: "uppercase", marginBottom: 32 }}
           >
-            <button
-              onClick={() => setMenuOpen(false)}
-              className="absolute top-10 right-8"
-            >
-              <X className="w-8 h-8" />
-            </button>
-            <div className="flex flex-col gap-10 text-5xl font-light tracking-tighter uppercase italic">
-              <Link href="#collection" onClick={() => setMenuOpen(false)}>
-                Collection
-              </Link>
-              <Link href="#science" onClick={() => setMenuOpen(false)}>
-                The_Lab
-              </Link>
-              <Link href="#philosophy" onClick={() => setMenuOpen(false)}>
-                Philosophy
-              </Link>
-              <Link href="#sustainability" onClick={() => setMenuOpen(false)}>
-                Impact
-              </Link>
-            </div>
+            Nature Photography · Fine Art Prints
+          </motion.p>
+
+          <h1 style={{ fontSize: "clamp(52px, 9vw, 120px)", fontWeight: 900, lineHeight: 0.92, letterSpacing: "-0.03em", marginBottom: 40, color: C.cream }}>
+            <TextReveal text="Finding" delay={0.3} style={{ display: "block" }} />
+            <TextReveal text="depth" delay={0.5} style={{ display: "block", color: C.amber }} />
+            <TextReveal text="in stillness." delay={0.7} style={{ display: "block", color: C.moss }} />
+          </h1>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1.1 }}
+            style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 17, color: C.muted, lineHeight: 1.7, maxWidth: 540, margin: "0 auto 48px", fontWeight: 300 }}
+          >
+            Documentary and fine art landscapes from the world's most remote wilderness areas. Limited edition prints, each signed and numbered.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.3 }}
+            style={{ display: "flex", gap: 16, justifyContent: "center", alignItems: "center" }}
+          >
+            <MagneticButton style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.bg, background: C.cream, padding: "14px 32px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 600 }}>
+              View Series
+            </MagneticButton>
+            <MagneticButton style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.cream, background: "transparent", padding: "14px 32px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase", border: `1px solid ${C.border}`, fontWeight: 400 }}>
+              Shop Prints
+            </MagneticButton>
           </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ==========================================
-          1. HERO (Luxury Biotech)
-          ========================================== */}
-      <section
-        ref={heroRef}
-        className="relative w-full h-[100svh] flex flex-col justify-center overflow-hidden"
-      >
-        <motion.div
-          style={{ y: heroY, opacity: heroOpacity }}
-          className="absolute inset-0 z-0"
-        >
-          <Image
-            src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=1600&q=80"
-            alt="Aura Hero"
-            fill
-            className="object-cover brightness-95 opacity-40"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#faf9f6] via-transparent to-[#faf9f6]" />
         </motion.div>
 
-        {/* SOFT GLOW */}
-        <div className="absolute top-1/4 left-1/4 w-[800px] h-[800px] bg-[#d4c3b3]/10 rounded-full blur-[150px] pointer-events-none" />
-
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
-          <Reveal>
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/60 backdrop-blur-md rounded-full border border-black/5 text-[#2c2a26]/60 text-[10px] font-bold uppercase tracking-widest mb-10 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-[#d4c3b3]" />
-              L'Excellence du Soin Biotech
-            </div>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-light leading-[0.8] tracking-tighter mb-12 uppercase italic">
-              Skin As <br /> <span className="text-[#d4c3b3]">Ritual.</span>
-            </h1>
-            <p className="max-w-xl text-lg md:text-xl text-[#2c2a26]/40 leading-relaxed font-light mb-12 italic tracking-tight">
-              Des formules bio-actives certifiées COSMOS, conçues pour une
-              régénération structurelle profonde sans aucun compromis
-              synthétique.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6">
-              <MagneticBtn className="px-12 py-5 bg-[#2c2a26] text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-full hover:bg-[#d4c3b3] transition-all cursor-pointer shadow-2xl">
-                Découvrir la Collection
-              </MagneticBtn>
-              <button className="px-12 py-5 border border-black/10 text-[#2c2a26] text-[10px] font-bold uppercase tracking-[0.4em] rounded-full hover:bg-white transition-all cursor-pointer">
-                Notre Manifeste
-              </button>
-            </div>
-          </Reveal>
-        </div>
-
+        {/* Scroll hint */}
         <motion.div
-          style={{ opacity: heroOpacity }}
-          className="absolute bottom-10 right-12 hidden md:block"
+          style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)" }}
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
-          <div className="flex flex-col items-end gap-3 text-right">
-            <span className="text-[9px] font-bold text-[#2c2a26]/20 uppercase tracking-[0.5em]">
-              PARIS // GRASSE // CASABLANCA
-            </span>
-            <div className="w-32 h-[1px] bg-[#d4c3b3]/40" />
-          </div>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={C.muted} strokeWidth="1">
+            <path d="M12 5v14M5 12l7 7 7-7" />
+          </svg>
         </motion.div>
       </section>
 
-      {/* ==========================================
-          2. THE BIO-LAB (Scientific Protocol)
-          ========================================== */}
-      <section
-        id="science"
-        className="py-32 bg-[#faf9f6] border-y border-black/5"
-      >
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-center">
-            <div className="lg:col-span-5">
-              <Reveal>
-                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#d4c3b3] mb-6 block">
-                  Molecular Science
-                </span>
-                <h2 className="text-5xl md:text-7xl font-light tracking-tighter leading-tight mb-12 text-[#2c2a26] uppercase">
-                  Cold <br />{" "}
-                  <span className="italic text-[#d4c3b3]">Processing.</span>
-                </h2>
-                <p className="text-lg text-[#2c2a26]/40 leading-relaxed font-light mb-16 uppercase tracking-tight italic">
-                  Chaque ingrédient est extrait à froid pour préserver
-                  l'intégrité moléculaire des phyto-nutriments, garantissant une
-                  efficacité multipliée par 5.
+      {/* ── Marquee ── */}
+      <MarqueeStrip />
+
+      {/* ── Depth Layers — Signature Element ── */}
+      <section style={{ padding: "80px 0", maxWidth: 1200, margin: "0 auto", paddingInline: 32 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center", marginBottom: 64 }}>
+          <div>
+            <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 20 }}>Depth Perception</p>
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 24, color: C.cream }}>
+              <TextReveal text="Three planes," />
+              <TextReveal text="one frame." delay={0.15} />
+            </h2>
+            <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 15, color: C.muted, lineHeight: 1.75, fontWeight: 300, maxWidth: 380 }}>
+              Every composition is built in layers — the intimate foreground, the story-telling midground, and the expansive background. Move your cursor across the scene to experience how depth creates presence.
+            </p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            {[
+              { label: "Years active", val: 12, suffix: "" },
+              { label: "Countries", val: 34, suffix: "+" },
+              { label: "Limited prints", val: 280, suffix: "" },
+              { label: "Exhibitions", val: 24, suffix: "" },
+            ].map(stat => (
+              <div key={stat.label} style={{ padding: "24px", background: C.bgCard, borderRadius: 4, border: `1px solid ${C.border}` }}>
+                <p style={{ fontFamily: "'Archivo', sans-serif", fontSize: 36, fontWeight: 900, color: C.amber, letterSpacing: "-0.03em", lineHeight: 1 }}>
+                  <CountUp target={stat.val} suffix={stat.suffix} />
                 </p>
-
-                <div className="space-y-10">
-                  {STATS.map((item, i) => (
-                    <div
-                      key={i}
-                      className="group border-l border-[#d4c3b3]/20 pl-8 hover:border-[#d4c3b3] transition-all"
-                    >
-                      <h4 className="text-sm font-bold uppercase tracking-tight mb-2 text-[#2c2a26]/60">
-                        {item.label}
-                      </h4>
-                      <div className="text-3xl font-black text-[#d4c3b3] mb-2 uppercase italic tabular-nums">
-                        <Counter to={item.val} suffix={item.suffix} />
-                      </div>
-                      <p className="text-[10px] text-[#2c2a26]/20 leading-relaxed font-bold uppercase tracking-widest">
-                        {item.desc}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </Reveal>
-            </div>
-
-            <div className="lg:col-span-7">
-              <Reveal className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl border border-black/5 bg-white p-1 group">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,195,179,0.1)_0%,transparent_70%)] animate-pulse" />
-                <div className="relative h-full w-full border border-black/5 bg-[#faf9f6] p-8 flex flex-col justify-between overflow-hidden">
-                  <div className="flex items-center justify-between mb-10 pb-6 border-b border-black/5">
-                    <div className="flex items-center gap-4">
-                      <Microscope className="w-5 h-5 text-[#d4c3b3]" />
-                      <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#d4c3b3]">
-                        Bio-Analysis_Live
-                      </span>
-                    </div>
-                    <div className="flex gap-2">
-                      <div className="w-1.5 h-1.5 bg-[#d4c3b3] rounded-full animate-pulse" />
-                      <div className="w-1.5 h-1.5 bg-[#d4c3b3]/30 rounded-full" />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    {INGREDIENTS.map((ing, i) => (
-                      <div
-                        key={i}
-                        className="p-6 bg-white border border-black/[0.02] rounded-2xl hover:border-[#d4c3b3]/30 transition-all"
-                      >
-                        <h4 className="text-xs font-black uppercase tracking-widest text-[#2c2a26] mb-1">
-                          {ing.name}
-                        </h4>
-                        <span className="text-[9px] font-bold text-[#d4c3b3] uppercase tracking-widest block mb-4">
-                          {ing.source}
-                        </span>
-                        <div className="h-0.5 w-full bg-black/5">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            whileInView={{ width: "100%" }}
-                            transition={{ duration: 1.5, delay: i * 0.1 }}
-                            className="h-full bg-[#d4c3b3]"
-                          />
-                        </div>
-                        <span className="text-[8px] font-bold text-[#2c2a26]/20 uppercase tracking-tighter mt-2 block">
-                          {ing.function}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-12 flex justify-between items-end">
-                    <div className="space-y-1">
-                      <span className="text-[9px] font-bold text-[#2c2a26]/20 uppercase tracking-widest">
-                        Formula Stability
-                      </span>
-                      <div className="text-2xl font-black text-[#2c2a26] italic">
-                        99.9% Alpha
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-6">
-                      <div className="flex flex-col items-end">
-                        <span className="text-[8px] font-bold text-[#d4c3b3] uppercase">
-                          Certified
-                        </span>
-                        <span className="text-[10px] font-black uppercase text-[#2c2a26]">
-                          Ecocert Greenlife
-                        </span>
-                      </div>
-                      <ShieldCheck className="w-10 h-10 text-[#d4c3b3] opacity-20" />
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          3. COLLECTION (Horizontal Scroller)
-          ========================================== */}
-      <section id="collection" className="py-32 bg-[#faf9f6]">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
-            <Reveal>
-              <h2 className="text-5xl md:text-8xl font-light tracking-tighter uppercase leading-[0.9] text-[#2c2a26] italic">
-                The <br /> <span className="text-[#d4c3b3]">Collection.</span>
-              </h2>
-            </Reveal>
-            <p className="max-w-sm text-sm text-[#2c2a26]/30 leading-relaxed font-bold uppercase tracking-widest italic text-right">
-              Une sélection rigoureuse de soins ciblés pour une routine
-              minimaliste mais puissante.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {PRODUCTS.map((p, i) => (
-              <Reveal key={p.id} delay={i * 0.1}>
-                <div
-                  onClick={() => setActiveProduct(i)}
-                  className="group cursor-pointer bg-white border border-black/[0.03] hover:border-[#d4c3b3]/40 transition-all rounded-3xl p-4 shadow-sm overflow-hidden"
-                >
-                  <div className="relative aspect-square rounded-2xl overflow-hidden mb-8">
-                    <Image
-                      src={p.img}
-                      alt={p.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-1000"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                  </div>
-                  <div className="px-4 pb-4">
-                    <span className="text-[10px] uppercase tracking-widest text-[#d4c3b3] font-black mb-2 block">
-                      {p.tag}
-                    </span>
-                    <h3 className="text-xl font-light tracking-tight mb-4 text-[#2c2a26] truncate uppercase italic">
-                      {p.name}
-                    </h3>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xl font-black text-[#2c2a26]/40 italic">
-                        {p.price}
-                      </span>
-                      <button className="p-3 bg-[#2c2a26] text-white rounded-full hover:bg-[#d4c3b3] transition-all">
-                        <Plus className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
+                <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.muted, marginTop: 8, letterSpacing: "0.05em" }}>{stat.label}</p>
+              </div>
             ))}
           </div>
         </div>
+        <DepthLayers />
       </section>
 
-      {/* ==========================================
-          4. SUSTAINABILITY (Impact Track)
-          ========================================== */}
-      <section
-        id="sustainability"
-        className="py-32 bg-[#2c2a26] text-white overflow-hidden relative"
-      >
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
-          <Recycle className="w-full h-full text-white" />
-        </div>
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10 text-center">
-          <Reveal className="max-w-2xl mx-auto mb-24">
-            <span className="text-[10px] uppercase tracking-[0.5em] font-black text-[#d4c3b3] mb-6 block">
-              Our Impact
-            </span>
-            <h2 className="text-5xl md:text-8xl font-light tracking-tighter uppercase italic mb-8 text-white">
-              Ethical <br /> <span className="text-[#d4c3b3]">Loop.</span>
+      {/* ── Series Grid ── */}
+      <section style={{ padding: "80px 0", maxWidth: 1200, margin: "0 auto", paddingInline: 32 }}>
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 48 }}>
+          <div>
+            <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 16 }}>Portfolio</p>
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.02em", color: C.cream }}>
+              <TextReveal text="Selected Series" />
             </h2>
-            <p className="text-white/40 italic font-medium leading-relaxed uppercase tracking-tight">
-              Nous ne prenons à la terre que ce que nous pouvons lui rendre.
-              Packaging 100% compostable, logistique carbone neutre.
-            </p>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-left">
-            {[
-              {
-                title: "Ocean Bound Plastic",
-                val: "100%",
-                desc: "Tous nos flacons sont issus de plastique recyclé collecté dans les zones côtières.",
-              },
-              {
-                title: "Carbon Neutral",
-                val: "Zero",
-                desc: "Nous compensons chaque gramme de CO2 via des projets de reforestation en Amazonie.",
-              },
-              {
-                title: "Traceability",
-                val: "Farm2Face",
-                desc: "Un QR code sur chaque produit permet de tracer chaque ingrédient jusqu'à sa source.",
-              },
-            ].map((item, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className="p-10 bg-white/5 border border-white/10 hover:border-[#d4c3b3]/40 transition-all rounded-3xl">
-                  <div className="text-4xl font-black text-[#d4c3b3] mb-4 italic">
-                    {item.val}
-                  </div>
-                  <h4 className="text-sm font-black uppercase tracking-widest text-white mb-4">
-                    {item.title}
-                  </h4>
-                  <p className="text-[11px] text-white/40 leading-relaxed font-bold uppercase tracking-widest italic">
-                    {item.desc}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
           </div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          5. FAQ (Accordion)
-          ========================================== */}
-      <section className="py-32 bg-[#faf9f6]">
-        <div className="max-w-3xl mx-auto px-6">
-          <Reveal className="text-center mb-24">
-            <h2 className="text-4xl md:text-5xl font-light tracking-tighter leading-none uppercase italic text-[#2c2a26]">
-              Intel_Buffer
-            </h2>
-          </Reveal>
-
-          <Accordion type="single" collapsible className="space-y-4">
-            {[
-              {
-                q: "Quelle est la durée de conservation ?",
-                a: "Grâce à notre extraction à froid et nos conservateurs naturels (radis fermenté), nos produits se conservent 6 mois après ouverture.",
-              },
-              {
-                q: "Vos produits sont-ils testés sur les animaux ?",
-                a: "Jamais. Aura est certifié Leaping Bunny et 100% Vegan. Nous testons nos formules sur des modèles cellulaires en laboratoire.",
-              },
-              {
-                q: "Peut-on utiliser le sérum le matin ?",
-                a: "Oui, notre Lumière Sérum est stable à la lumière. Nous recommandons toutefois l'application d'un SPF30 après votre routine du matin.",
-              },
-              {
-                q: "Où sont fabriqués les produits ?",
-                a: "Toutes nos formules sont développées dans notre laboratoire à Grasse et conditionnées dans notre atelier éco-conçu en Provence.",
-              },
-            ].map((faq, i) => (
-              <AccordionItem
-                key={i}
-                value={`item-${i}`}
-                className="border-b border-black/[0.05]"
+          {/* Category filter */}
+          <div style={{ display: "flex", gap: 8 }}>
+            {CATEGORIES.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: activeCategory === cat ? C.bg : C.muted, background: activeCategory === cat ? C.moss : "transparent", border: `1px solid ${activeCategory === cat ? C.moss : C.border}`, padding: "7px 16px", borderRadius: 2, cursor: "pointer", letterSpacing: "0.08em", transition: "all 0.2s" }}
               >
-                <AccordionTrigger className="text-left text-sm uppercase font-bold tracking-widest py-8 hover:text-[#d4c3b3] hover:no-underline">
-                  {faq.q}
-                </AccordionTrigger>
-                <AccordionContent className="text-sm text-[#2c2a26]/40 leading-relaxed font-bold uppercase tracking-widest pb-8 italic">
-                  {faq.a}
-                </AccordionContent>
-              </AccordionItem>
+                {cat}
+              </button>
             ))}
-          </Accordion>
+          </div>
+        </div>
+
+        {/* Masonry-style grid */}
+        <motion.div layout style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+          <AnimatePresence mode="popLayout">
+            {filtered.map((series, i) => (
+              <motion.div
+                key={series.id}
+                layout
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4, delay: i * 0.06, ease: [0.4, 0, 0.2, 1] }}
+                style={i === 1 || i === 4 ? { gridRow: "span 1", transform: "translateY(32px)" } : {}}
+              >
+                <SeriesCard series={series} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+      </section>
+
+      {/* ── Philosophy ── */}
+      <section style={{ padding: "80px 0", maxWidth: 1200, margin: "0 auto", paddingInline: 32 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+          {/* Large photo mock */}
+          <div style={{ position: "relative" }}>
+            <div style={{ aspectRatio: "3/4", background: "linear-gradient(160deg, #111C08 0%, #1E2E10 50%, #2A3D18 100%)", borderRadius: 4, overflow: "hidden", border: `1px solid ${C.border}` }}>
+              <svg width="100%" height="100%" viewBox="0 0 400 533">
+                <defs>
+                  <radialGradient id="photoGlow" cx="50%" cy="30%" r="60%">
+                    <stop offset="0%" stopColor={C.amber} stopOpacity="0.08" />
+                    <stop offset="100%" stopColor="transparent" />
+                  </radialGradient>
+                </defs>
+                <rect width="400" height="533" fill="url(#photoGlow)" />
+                {/* Stylized tree */}
+                <line x1="200" y1="533" x2="200" y2="160" stroke={C.bgCard} strokeWidth="12" />
+                {[
+                  [200, 280, 120], [200, 240, 100], [200, 320, 140],
+                  [200, 200, 80], [200, 360, 120], [200, 160, 60],
+                ].map(([cx, cy, spread], i) => (
+                  <line key={i} x1={200 - spread} y1={cy + 40} x2={200 + spread} y2={cy + 40}
+                    stroke={C.green} strokeWidth={2} opacity={0.3 + i * 0.05}
+                  />
+                ))}
+                <text x="200" y="490" textAnchor="middle" fill={C.muted} fontSize="11" fontFamily="Space Grotesk" letterSpacing="0.2em">BOREAL SILENCE, 2024</text>
+              </svg>
+            </div>
+            {/* Floating label */}
+            <motion.div
+              style={{ position: "absolute", bottom: -20, right: -20, background: C.bgMid, border: `1px solid ${C.border}`, borderRadius: 4, padding: "16px 20px" }}
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, color: C.moss, letterSpacing: "0.2em", marginBottom: 4 }}>SHOT WITH</p>
+              <p style={{ fontFamily: "'Archivo', sans-serif", fontSize: 14, color: C.cream, fontWeight: 600 }}>Hasselblad X2D 100C</p>
+              <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.muted }}>100MP · XCD 65mm f/2.8</p>
+            </motion.div>
+          </div>
+
+          <div>
+            <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 20 }}>Philosophy</p>
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, lineHeight: 1.15, letterSpacing: "-0.02em", marginBottom: 32, color: C.cream }}>
+              <TextReveal text="The wilderness" />
+              <TextReveal text="doesn't perform." delay={0.15} />
+              <TextReveal text="You wait." delay={0.3} style={{ color: C.amber }} />
+            </h2>
+            <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 15, color: C.muted, lineHeight: 1.8, fontWeight: 300, marginBottom: 24 }}>
+              I spend weeks in each location before making an image. The mountains don't care about my schedule. The fog rolls in when it wants. All I do is be present — technically prepared, emotionally open, and patient enough to let the moment arrive.
+            </p>
+            <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 15, color: C.muted, lineHeight: 1.8, fontWeight: 300, marginBottom: 40 }}>
+              Each print is made in partnership with Atelier Gaspard in Lyon, using archival pigment inks on 300gsm cotton rag paper. Every edition is limited to preserve collector value and my own artistic integrity.
+            </p>
+            <div style={{ display: "flex", gap: 40 }}>
+              {[{ val: "300gsm", label: "Cotton rag paper" }, { val: "50yr", label: "Archive guarantee" }, { val: "≤20", label: "Prints per series" }].map(item => (
+                <div key={item.label}>
+                  <p style={{ fontFamily: "'Archivo', sans-serif", fontSize: 22, fontWeight: 700, color: C.cream }}>{item.val}</p>
+                  <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.muted, marginTop: 4 }}>{item.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ==========================================
-          6. MEGA FOOTER (Premium Minimal)
-          ========================================== */}
-      <footer className="bg-[#1a1814] pt-32 pb-12 px-6 md:px-12 border-t border-white/5 relative overflow-hidden text-white">
-        <div className="max-w-[1600px] mx-auto relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 mb-32">
-            <div className="lg:col-span-5">
-              <Reveal>
-                <div className="flex flex-col mb-10">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-white/20 mb-1">
-                    Ritual.
-                  </span>
-                  <span className="text-2xl font-light tracking-[0.4em] uppercase text-white">
-                    AURA<span className="text-[#d4c3b3]">.</span>
-                  </span>
-                </div>
-                <p className="text-white/20 max-w-sm mb-12 uppercase tracking-widest text-[10px] font-bold leading-relaxed italic">
-                  Luxury skincare for the conscious collector. Cold-processed
-                  biotech formulas designed for permanence.
-                </p>
-                <form
-                  className="relative max-w-md"
-                  onSubmit={(e) => e.preventDefault()}
-                >
-                  <input
-                    type="email"
-                    placeholder="EMAIL_AUTHENTICATION"
-                    className="w-full bg-white/[0.02] border border-white/5 rounded-none px-6 py-4 text-xs font-bold outline-none focus:border-[#d4c3b3] text-white transition-all uppercase tracking-widest"
-                  />
-                  <button
-                    type="submit"
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-[#d4c3b3] hover:text-white transition-colors uppercase tracking-[0.3em]"
-                  >
-                    ENROLL
-                  </button>
-                </form>
-              </Reveal>
-            </div>
-
-            <div className="lg:col-span-2 lg:col-start-7">
-              <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#d4c3b3] mb-10">
-                Collection
-              </h4>
-              <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
-                <li>
-                  <Link
-                    href="#"
-                    className="hover:text-[#d4c3b3] transition-colors"
-                  >
-                    Serums_Bio
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="hover:text-[#d4c3b3] transition-colors"
-                  >
-                    Moisturizers_Lipid
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="hover:text-[#d4c3b3] transition-colors"
-                  >
-                    Oils_Botanical
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="hover:text-[#d4c3b3] transition-colors"
-                  >
-                    Masks_Thermal
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="lg:col-span-2">
-              <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#d4c3b3] mb-10">
-                The_Lab
-              </h4>
-              <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
-                <li>
-                  <Link
-                    href="#"
-                    className="hover:text-[#d4c3b3] transition-colors"
-                  >
-                    Science_Manifesto
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="hover:text-[#d4c3b3] transition-colors"
-                  >
-                    Ingredient_Index
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="hover:text-[#d4c3b3] transition-colors"
-                  >
-                    Clinical_Trials
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="hover:text-[#d4c3b3] transition-colors"
-                  >
-                    Supply_Chain
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="lg:col-span-2">
-              <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#d4c3b3] mb-10">
-                Terminal
-              </h4>
-              <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
-                <li>
-                  <Link
-                    href="#"
-                    className="hover:text-[#d4c3b3] transition-colors flex items-center gap-3"
-                  >
-                    <Globe className="w-3 h-3" /> Globe
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="hover:text-[#d4c3b3] transition-colors flex items-center gap-3"
-                  >
-                    <Globe className="w-3 h-3" /> X_Protocol
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="hover:text-[#d4c3b3] transition-colors flex items-center gap-3"
-                  >
-                    <Mail className="w-3 h-3" /> Contact_IRL
-                  </Link>
-                </li>
-              </ul>
+      {/* ── Exhibitions ── */}
+      <section style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", paddingInline: 32 }}>
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 48 }}>
+            <div>
+              <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 16 }}>Exhibitions</p>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.02em", color: C.cream }}>
+                <TextReveal text="Selected shows" />
+              </h2>
             </div>
           </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
+            {EXHIBITIONS.map((ex, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                style={{ display: "flex", gap: 32, padding: "28px 0", borderBottom: `1px solid ${C.border}`, alignItems: "center", cursor: "pointer" }}
+                whileHover={{ x: 8 }}
+              >
+                <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.moss, letterSpacing: "0.05em", minWidth: 48 }}>{ex.year}</span>
+                <div style={{ flex: 1 }}>
+                  <p style={{ fontFamily: "'Archivo', sans-serif", fontSize: 17, fontWeight: 600, color: C.cream, letterSpacing: "-0.01em", marginBottom: 4 }}>{ex.title}</p>
+                  <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.muted }}>{ex.venue}</p>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.muted }}>{ex.city}</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={C.moss} strokeWidth="1.5">
+                    <path d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-white/5 text-[9px] font-bold uppercase tracking-widest text-white/10">
-            <div className="flex items-center gap-10">
-              <span>&copy; {new Date().getFullYear()} AURA Skincare SAS.</span>
-              <Link href="#" className="hover:text-white transition-colors">
-                Regulatory_Terms
-              </Link>
-              <Link href="#" className="hover:text-white transition-colors">
-                Privacy_Buffer
-              </Link>
+      {/* ── Press ── */}
+      <section style={{ padding: "80px 0", maxWidth: 900, margin: "0 auto", paddingInline: 32 }}>
+        <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 48, textAlign: "center" }}>Press</p>
+
+        <div style={{ position: "relative", minHeight: 200 }}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activePress}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+              style={{ textAlign: "center" }}
+            >
+              <p style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(18px, 3vw, 28px)", fontWeight: 300, lineHeight: 1.5, color: C.cream, marginBottom: 32, fontStyle: "italic" }}>
+                "{PRESS[activePress].quote}"
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.amber, letterSpacing: "0.05em" }}>{PRESS[activePress].author}</p>
+                <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.muted }}>{PRESS[activePress].source}</p>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Dot nav */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 10, marginTop: 40 }}>
+          {PRESS.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActivePress(i)}
+              style={{ width: i === activePress ? 24 : 8, height: 8, borderRadius: 4, background: i === activePress ? C.moss : C.bgMid, border: `1px solid ${i === activePress ? C.moss : C.border}`, cursor: "pointer", transition: "all 0.3s ease", padding: 0 }}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* ── Print Shop CTA ── */}
+      <section style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", paddingInline: 32 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+            <div>
+              <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 20 }}>Fine Art Prints</p>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 700, lineHeight: 1.05, letterSpacing: "-0.02em", marginBottom: 24, color: C.cream }}>
+                <TextReveal text="Bring the wild" />
+                <TextReveal text="inside." delay={0.15} style={{ color: C.amber }} />
+              </h2>
+              <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 15, color: C.muted, lineHeight: 1.75, fontWeight: 300, marginBottom: 40, maxWidth: 440 }}>
+                Museum-quality archival prints, handcrafted in Lyon. Three sizes, three paper surfaces, each signed and numbered. Shipping worldwide with custom framing options.
+              </p>
+              <MagneticButton style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.bg, background: C.cream, padding: "16px 36px", borderRadius: 2, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 600 }}>
+                Shop All Prints
+              </MagneticButton>
             </div>
-            <div className="flex gap-10">
-              <span>Paris // Grasse // Provence</span>
-              <span>Skin as Ritual</span>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              {[
+                { size: "30×40", price: "390", material: "Cotton Rag" },
+                { size: "50×70", price: "590", material: "Fine Art Baryta" },
+                { size: "70×100", price: "890", material: "Cotton Rag" },
+                { size: "100×140", price: "1,490", material: "Cotton Rag Museum" },
+              ].map(print => (
+                <motion.div
+                  key={print.size}
+                  whileHover={{ y: -4, borderColor: C.moss }}
+                  style={{ padding: "20px", background: C.bg, borderRadius: 4, border: `1px solid ${C.border}`, cursor: "pointer", transition: "border-color 0.2s" }}
+                >
+                  <p style={{ fontFamily: "'Archivo', sans-serif", fontSize: 18, fontWeight: 700, color: C.cream, marginBottom: 6 }}>{print.size}cm</p>
+                  <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.muted, marginBottom: 12 }}>{print.material}</p>
+                  <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.amber }}>from €{print.price}</p>
+                </motion.div>
+              ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Contact ── */}
+      <section style={{ padding: "80px 0", maxWidth: 1200, margin: "0 auto", paddingInline: 32, textAlign: "center" }}>
+        <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 24 }}>Let's Talk</p>
+        <h2 style={{ fontSize: "clamp(36px, 6vw, 80px)", fontWeight: 900, letterSpacing: "-0.03em", lineHeight: 0.95, marginBottom: 40 }}>
+          <TextReveal text="Commission." style={{ display: "block", color: C.cream }} />
+          <TextReveal text="License." delay={0.15} style={{ display: "block", color: C.moss }} />
+          <TextReveal text="Collect." delay={0.3} style={{ display: "block", color: C.amber }} />
+        </h2>
+        <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 15, color: C.muted, lineHeight: 1.75, maxWidth: 500, margin: "0 auto 48px", fontWeight: 300 }}>
+          For editorial licensing, commercial usage, or private commissions, get in touch directly. For print enquiries, visit the shop.
+        </p>
+        <MagneticButton style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 14, color: C.bg, background: C.cream, padding: "18px 48px", borderRadius: 2, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700 }}>
+          studio@learousseau.com
+        </MagneticButton>
+      </section>
+
+      {/* ── Footer ── */}
+      <footer style={{ borderTop: `1px solid ${C.border}`, padding: "32px 32px", background: C.bgCard }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.muted }}>© 2025 Léa Rousseau. All prints reserved.</p>
+          <div style={{ display: "flex", gap: 24 }}>
+            {["Instagram", "Newsletter", "Press Kit"].map(link => (
+              <button key={link} style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.muted, background: "none", border: "none", cursor: "pointer", transition: "color 0.2s" }}
+                onMouseEnter={e => (e.currentTarget.style.color = C.cream)}
+                onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
+                {link}
+              </button>
+            ))}
           </div>
         </div>
       </footer>
-
-      {/* PRODUCT MODAL */}
-      <AnimatePresence>
-        {activeProduct !== null && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-black/90 backdrop-blur-xl flex items-center justify-center p-6"
-            onClick={() => setActiveProduct(null)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, y: 30 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 30 }}
-              className="bg-[#faf9f6] border border-black/10 max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 overflow-hidden rounded-3xl shadow-2xl relative text-[#2c2a26]"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={() => setActiveProduct(null)}
-                className="absolute top-8 right-8 text-[#2c2a26]/20 hover:text-[#d4c3b3] transition-colors z-10"
-              >
-                <X className="w-6 h-6" />
-              </button>
-              <div className="relative aspect-square md:aspect-auto">
-                <Image
-                  src={PRODUCTS[activeProduct].img}
-                  alt="Product"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-12 flex flex-col justify-between bg-white">
-                <div>
-                  <div className="text-[10px] uppercase tracking-widest text-[#d4c3b3] font-black mb-4">
-                    Bio-Active Formula // {PRODUCTS[activeProduct].tag}
-                  </div>
-                  <h3 className="text-4xl font-light uppercase tracking-tighter italic text-[#2c2a26] mb-6 leading-none">
-                    {PRODUCTS[activeProduct].name}
-                  </h3>
-                  <p className="text-sm text-[#2c2a26]/40 leading-relaxed font-bold mb-10 italic">
-                    "{PRODUCTS[activeProduct].desc}"
-                  </p>
-
-                  <div className="grid grid-cols-1 gap-4 mb-10">
-                    {[
-                      { label: "Storage", val: "Cold-Pressed" },
-                      { label: "Potency", val: "High-Density" },
-                      { label: "Purity", val: "100% Organic" },
-                    ].map((s, i) => (
-                      <div
-                        key={i}
-                        className="flex justify-between text-[10px] border-b border-black/5 pb-2 font-mono"
-                      >
-                        <span className="uppercase tracking-widest text-[#2c2a26]/20 font-black">
-                          {s.label}
-                        </span>
-                        <span className="font-black text-[#2c2a26]/60 italic">
-                          {s.val}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  <button className="w-full py-5 bg-[#2c2a26] text-white text-[10px] font-bold uppercase tracking-widest hover:bg-[#d4c3b3] transition-all cursor-pointer shadow-xl">
-                    ADD_TO_BAG — {PRODUCTS[activeProduct].price}
-                  </button>
-                  <button className="w-full py-5 border border-black/10 text-[#2c2a26] text-[10px] font-bold uppercase tracking-widest hover:bg-[#2c2a26] hover:text-white transition-all cursor-pointer">
-                    VIEW_CLINICAL_TRIAL
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <style>{`::-webkit-scrollbar{width:4px;background:#faf9f6}::-webkit-scrollbar-thumb{background:rgba(212,195,179,0.2)}`}</style>
-    </div>
+    </main>
   );
 }
