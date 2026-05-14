@@ -7,855 +7,1827 @@ import {
   useScroll,
   useTransform,
   useInView,
+  useMotionValue,
+  useSpring,
 } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, ChevronDown, Grape, Droplets, MapPin, Award, ShieldCheck, Sun, Wind, ChevronRight, X, Menu, ShoppingBag, Plus, Minus } from "lucide-react";
-
-import "../premium.css";
 
 /* ==========================================================================
-   DATA STRUCTURES
+   DESIGN TOKENS
    ========================================================================== */
 
-const WINE_DATA = {
-  name: "Cuvée Prestige",
-  vintage: "2018",
-  appellation: "AOC Margaux, Grand Cru Classé",
-  price: "€240",
-  varietals: "70% Cabernet Sauvignon, 25% Merlot, 5% Petit Verdot",
-  abv: "13.5%",
-  aging: "24 months in new French oak",
-  production: "12,000 bottles",
-  desc: "The pinnacle of our estate. A wine of profound elegance and architectural structure, balancing the power of our oldest Cabernet vines with the silkiness of Merlot. 2018 yielded a vintage of extraordinary concentration, promising decades of graceful evolution.",
+const C = {
+  bg: "#F8F4EE",
+  bgCard: "#EDE6D8",
+  bgDark: "#1A0E08",
+  burgundy: "#7A2535",
+  gold: "#C9A86C",
+  dark: "#1E1208",
+  muted: "#8A7868",
+  border: "rgba(122,37,53,0.14)",
+  white: "#FFFFFF",
+  fontSerif: "'Cormorant Garamond', Georgia, serif",
+  fontSans: "'Montserrat', system-ui, sans-serif",
 };
 
-const TASTING_NOTES = [
-  {
-    phase: "Nose",
-    notes:
-      "Crème de cassis, dried violet, graphite, and subtle hints of humidor and black truffle.",
-    icon: <Droplets className="w-5 h-5 text-[#8b1c31]" />,
-  },
-  {
-    phase: "Palate",
-    notes:
-      "Full-bodied with a velvet texture. Layers of black cherry, espresso, and crushed stone. The tannins are exceptionally fine-grained, coating the mouth without aggression.",
-    icon: <Grape className="w-5 h-5 text-[#8b1c31]" />,
-  },
-  {
-    phase: "Finish",
-    notes:
-      "Minutes-long, oscillating between dark fruit and savory minerality. A hallmark of the terroir.",
-    icon: <Wind className="w-5 h-5 text-[#8b1c31]" />,
-  },
-];
+/* ==========================================================================
+   GOOGLE FONTS
+   ========================================================================== */
 
-const TERROIR = [
-  {
-    title: "Soil",
-    desc: "Deep Günzian gravel over clay-limestone. Excellent drainage forces roots deep into the earth, extracting complex minerality.",
-    icon: <MapPin className="w-6 h-6" />,
-  },
-  {
-    title: "Climate",
-    desc: "Maritime influence from the Gironde estuary moderates extreme temperatures, ensuring a long, slow ripening period.",
-    icon: <Sun className="w-6 h-6" />,
-  },
-  {
-    title: "Farming",
-    desc: "100% biodynamic practices. No synthetic chemicals, horse-plowed rows, and lunar-guided harvest dates.",
-    icon: <ShieldCheck className="w-6 h-6" />,
-  },
-];
+function useFonts() {
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.textContent = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap');`;
+    document.head.appendChild(style);
+    return () => { document.head.removeChild(style); };
+  }, []);
+}
 
-const AWARDS = [
-  {
-    score: "100",
-    critic: "Robert Parker",
-    publication: "Wine Advocate",
-    text: "A monumental achievement. It takes the breath away with its seamless perfection.",
-  },
-  {
-    score: "99",
-    critic: "James Suckling",
-    publication: "JamesSuckling.com",
-    text: "Phenomenal density and yet weightless. The length is eternal.",
-  },
-  {
-    score: "19.5/20",
-    critic: "Jancis Robinson",
-    publication: "JancisRobinson.com",
-    text: "Aristocratic, intellectual, and hedonistic all at once.",
-  },
-];
+/* ==========================================================================
+   WINES DATA
+   ========================================================================== */
 
-const HISTORY = [
+const WINES = [
   {
-    year: "1742",
-    title: "The Foundation",
-    desc: "The estate is established by the Marquis de la Tour, planting the first Cabernet vines on the gravel plateau.",
+    id: "prestige",
+    name: "Cuvée Prestige",
+    vintage: "2020",
+    appellation: "AOC Bordeaux Grand Cru",
+    price: "€240",
+    desc: "Le pinacle de notre domaine. Une robe pourpre intense aux reflets violines, un nez de fruits noirs confits, de cèdre et de réglisse. En bouche, la structure tannique est d'une finesse absolue.",
+    notes: ["Cassis", "Cèdre", "Truffe"],
+    abv: "13.5%",
+    aging: "24 mois en fûts de chêne neuf",
   },
   {
-    year: "1855",
-    title: "Grand Cru Classé",
-    desc: "Recognized in the historic 1855 classification ordered by Napoleon III, sealing its status among the elite.",
+    id: "reserve",
+    name: "Cuvée Réserve",
+    vintage: "2021",
+    appellation: "AOC Bordeaux",
+    price: "€95",
+    desc: "L'expression la plus pure de notre terroir argilo-calcaire. Un vin de gastronomie, d'une élégance discrète et d'une persistance aromatique remarquable.",
+    notes: ["Mûre", "Violette", "Épices"],
+    abv: "13%",
+    aging: "18 mois en fûts de chêne",
   },
   {
-    year: "1988",
-    title: "The Modern Renaissance",
-    desc: "Complete renovation of the cuvier, introducing gravity-fed fermentation tanks to preserve fruit purity.",
+    id: "blanc",
+    name: "Blanc de Grâce",
+    vintage: "2022",
+    appellation: "Bordeaux Blanc",
+    price: "€68",
+    desc: "Notre blanc de caractère issu de vieilles vignes de Sémillon et Sauvignon Blanc. Rond, généreux, avec une minéralité ciselée qui signe l'identité du domaine.",
+    notes: ["Agrumes", "Fleur blanche", "Miel"],
+    abv: "12.5%",
+    aging: "12 mois sur lies fines",
   },
   {
-    year: "2012",
-    title: "Biodynamic Transition",
-    desc: "The entire 45-hectare vineyard is converted to biodynamic viticulture, prioritizing soil health and biodiversity.",
+    id: "rose",
+    name: "Rosé d'Une Nuit",
+    vintage: "2023",
+    appellation: "Bordeaux Rosé",
+    price: "€38",
+    desc: "Macération pelliculaire de 18 heures sur Cabernet Franc et Merlot. Une robe saumonée, un nez de fraise des bois et de grenade, une bouche vive et saline.",
+    notes: ["Fraise", "Grenade", "Pivoine"],
+    abv: "12%",
+    aging: "Sur inox, 4 mois",
   },
 ];
 
 /* ==========================================================================
-   UTILITY COMPONENTS
+   TERROIR TABS DATA
    ========================================================================== */
 
-function Reveal({
+const TERROIR_TABS = [
+  {
+    id: "soil",
+    label: "Sol",
+    title: "Argilo-calcaire d'exception",
+    body: "Notre domaine repose sur un socle géologique unique : des graves garonnaises en surface, révélant un sous-sol calcaire à astéries datant du Stampien (35 millions d'années). Cette double nature confère à nos vins une tension minérale incomparable, gage de grande garde et de finesse.",
+    stat: "35M d'années",
+    statLabel: "Âge du sous-sol",
+  },
+  {
+    id: "climate",
+    label: "Climat",
+    title: "Influences atlantiques tempérées",
+    body: "Protégés par la forêt des Landes à l'ouest, nos vignes bénéficient d'un micro-climat exceptionnel : été chaud et sec, automne long et ensoleillé. La Garonne toute proche régule les températures nocturnes, préservant l'acidité naturelle des raisins et la complexité aromatique.",
+    stat: "2 150h",
+    statLabel: "Ensoleillement annuel",
+  },
+  {
+    id: "farming",
+    label: "Culture",
+    title: "Viticulture en biodynamie",
+    body: "Certifiés en agriculture biologique depuis 2018, en biodynamie depuis 2022. Nous travaillons les sols à cheval, favorisons la biodiversité (150 espèces végétales recensées), pratiquons les vendanges manuelles et sélectives. Notre empreinte carbone est compensée par nos 8 hectares de forêt gérée.",
+    stat: "Bio",
+    statLabel: "Certifié depuis 2018",
+  },
+];
+
+/* ==========================================================================
+   MAGNETIC BUTTON
+   ========================================================================== */
+
+function MagneticButton({
   children,
-  className = "",
-  delay = 0,
-  y = 30,
+  style,
+  onClick,
 }: {
   children: React.ReactNode;
-  className?: string;
-  delay?: number;
-  y?: number;
+  style?: React.CSSProperties;
+  onClick?: () => void;
 }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
+  const ref = useRef<HTMLButtonElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 200, damping: 20 });
+  const sy = useSpring(y, { stiffness: 200, damping: 20 });
+
+  function handleMouseMove(e: React.MouseEvent) {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    x.set((e.clientX - cx) * 0.35);
+    y.set((e.clientY - cy) * 0.35);
+  }
+
+  function handleMouseLeave() {
+    x.set(0);
+    y.set(0);
+  }
+
+  return (
+    <motion.button
+      ref={ref}
+      style={{ x: sx, y: sy, cursor: "pointer", border: "none", background: "transparent", ...style }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={onClick}
+      whileTap={{ scale: 0.96 }}
+    >
+      {children}
+    </motion.button>
+  );
+}
+
+/* ==========================================================================
+   TEXT REVEAL
+   ========================================================================== */
+
+function TextReveal({ text, style, delay = 0 }: { text: string; style?: React.CSSProperties; delay?: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+
+  return (
+    <span ref={ref} style={{ display: "inline-block", overflow: "hidden", ...style }}>
+      <motion.span
+        style={{ display: "inline-block" }}
+        initial={{ y: "110%", opacity: 0 }}
+        animate={inView ? { y: 0, opacity: 1 } : {}}
+        transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay }}
+      >
+        {text}
+      </motion.span>
+    </span>
+  );
+}
+
+/* ==========================================================================
+   MARQUEE STRIP
+   ========================================================================== */
+
+const MARQUEE_ITEMS = [
+  "Cuvée Prestige 2020",
+  "★",
+  "Cuvée Réserve 2021",
+  "★",
+  "Blanc de Grâce 2022",
+  "★",
+  "Rosé d'Une Nuit 2023",
+  "★",
+  "Millésime 2019",
+  "★",
+  "Grand Cru Classé",
+  "★",
+  "4 Générations",
+  "★",
+  "28 Hectares",
+  "★",
+  "6 Cépages",
+  "★",
+];
+
+function MarqueeStrip() {
+  const items = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS];
+  return (
+    <div
+      style={{
+        background: C.bgDark,
+        overflow: "hidden",
+        padding: "18px 0",
+        borderTop: `1px solid rgba(201,168,108,0.18)`,
+        borderBottom: `1px solid rgba(201,168,108,0.18)`,
+      }}
+    >
+      <motion.div
+        style={{ display: "flex", gap: 48, whiteSpace: "nowrap", willChange: "transform" }}
+        animate={{ x: [0, -2400] }}
+        transition={{ duration: 38, ease: "linear", repeat: Infinity }}
+      >
+        {items.map((item, i) => (
+          <span
+            key={i}
+            style={{
+              fontFamily: item === "★" ? "Georgia, serif" : C.fontSans,
+              fontSize: item === "★" ? 14 : 11,
+              fontWeight: item === "★" ? 400 : 500,
+              letterSpacing: item === "★" ? 0 : "0.18em",
+              textTransform: "uppercase",
+              color: item === "★" ? C.gold : "rgba(201,168,108,0.7)",
+              flexShrink: 0,
+            }}
+          >
+            {item}
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+/* ==========================================================================
+   VINE GROWTH SVG — SIGNATURE ELEMENT
+   ========================================================================== */
+
+function VineGrowth() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  // Trunk path
+  const trunkPath = "M 20 200 C 80 190, 140 210, 200 195 C 260 180, 320 215, 380 200 C 420 190, 450 195, 480 200";
+
+  // Branching tendrils (spiral curves) at different trunk positions
+  const tendrils = [
+    { d: "M 80 192 C 80 170, 95 155, 100 140 C 105 125, 95 110, 105 100", delay: 0.6 },
+    { d: "M 150 204 C 140 185, 125 175, 120 155 C 115 135, 130 120, 125 108", delay: 0.75 },
+    { d: "M 220 196 C 230 175, 248 162, 252 145 C 256 128, 240 115, 248 102", delay: 0.9 },
+    { d: "M 300 202 C 295 182, 280 170, 275 152 C 270 134, 285 118, 278 104", delay: 1.05 },
+    { d: "M 370 200 C 378 180, 395 168, 400 150 C 405 132, 388 118, 396 104", delay: 1.2 },
+    { d: "M 440 196 C 450 175, 468 162, 472 145 C 476 128, 460 114, 468 100", delay: 1.35 },
+  ];
+
+  // Grape clusters: each is 7 small circles at staggered positions
+  const grapeClusters = [
+    {
+      cx: 100, cy: 95,
+      circles: [
+        { cx: 0, cy: 0 }, { cx: 8, cy: -6 }, { cx: -8, cy: -6 },
+        { cx: 4, cy: -13 }, { cx: -4, cy: -13 }, { cx: 0, cy: -20 }, { cx: 8, cy: -20 },
+      ],
+      delay: 1.9,
+    },
+    {
+      cx: 248, cy: 97,
+      circles: [
+        { cx: 0, cy: 0 }, { cx: 7, cy: -6 }, { cx: -7, cy: -6 },
+        { cx: 3, cy: -13 }, { cx: -3, cy: -13 }, { cx: 0, cy: -19 }, { cx: 7, cy: -19 },
+      ],
+      delay: 2.1,
+    },
+    {
+      cx: 396, cy: 99,
+      circles: [
+        { cx: 0, cy: 0 }, { cx: 8, cy: -7 }, { cx: -8, cy: -7 },
+        { cx: 4, cy: -14 }, { cx: -4, cy: -14 }, { cx: 0, cy: -21 }, { cx: 8, cy: -21 },
+      ],
+      delay: 2.3,
+    },
+    {
+      cx: 275, cy: 147,
+      circles: [
+        { cx: 0, cy: 0 }, { cx: 7, cy: -6 }, { cx: -7, cy: -6 },
+        { cx: 3, cy: -13 }, { cx: -3, cy: -13 }, { cx: 0, cy: -20 }, { cx: 7, cy: -20 },
+      ],
+      delay: 2.5,
+    },
+  ];
+
+  return (
+    <div ref={ref} style={{ width: "100%", maxWidth: 500, margin: "0 auto" }}>
+      <svg
+        viewBox="0 0 500 260"
+        style={{ width: "100%", height: "auto", overflow: "visible" }}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {/* Trunk */}
+        <motion.path
+          d={trunkPath}
+          fill="none"
+          stroke={C.burgundy}
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+        />
+
+        {/* Tendrils */}
+        {tendrils.map((t, i) => (
+          <motion.path
+            key={i}
+            d={t.d}
+            fill="none"
+            stroke={C.burgundy}
+            strokeWidth={1.4}
+            strokeLinecap="round"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: t.delay }}
+          />
+        ))}
+
+        {/* Leaves — simple ellipses at some tendril tips */}
+        {[{ x: 102, y: 98, rotate: -30 }, { x: 250, y: 100, rotate: 15 }, { x: 398, y: 102, rotate: -20 }].map((leaf, i) => (
+          <motion.ellipse
+            key={i}
+            cx={leaf.x}
+            cy={leaf.y}
+            rx={10}
+            ry={6}
+            fill="none"
+            stroke={C.burgundy}
+            strokeWidth={1}
+            style={{ transformOrigin: `${leaf.x}px ${leaf.y}px`, transform: `rotate(${leaf.rotate}deg)` }}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={inView ? { scale: 1, opacity: 0.55 } : {}}
+            transition={{ duration: 0.5, delay: 1.6 + i * 0.1 }}
+          />
+        ))}
+
+        {/* Grape clusters */}
+        {grapeClusters.map((cluster, ci) => (
+          <g key={ci}>
+            {cluster.circles.map((circle, gi) => (
+              <motion.circle
+                key={gi}
+                cx={cluster.cx + circle.cx}
+                cy={cluster.cy + circle.cy}
+                r={4.5}
+                fill={C.burgundy}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={inView ? { scale: 1, opacity: 0.78 } : {}}
+                transition={{
+                  duration: 0.4,
+                  delay: cluster.delay + gi * 0.07,
+                  ease: "backOut",
+                }}
+                style={{ transformOrigin: `${cluster.cx + circle.cx}px ${cluster.cy + circle.cy}px` }}
+              />
+            ))}
+          </g>
+        ))}
+      </svg>
+    </div>
+  );
+}
+
+/* ==========================================================================
+   WINE CARD
+   ========================================================================== */
+
+function WineCard({ wine, index }: { wine: typeof WINES[0]; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] }}
-      className={className}
+      initial={{ y: 60, opacity: 0 }}
+      animate={inView ? { y: 0, opacity: 1 } : {}}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: index * 0.12 }}
+      style={{
+        background: C.bgCard,
+        border: `1px solid ${C.border}`,
+        padding: "40px 36px",
+        position: "relative",
+        overflow: "hidden",
+      }}
     >
-      {children}
+      {/* Decorative number */}
+      <span
+        style={{
+          position: "absolute",
+          top: 24,
+          right: 28,
+          fontFamily: C.fontSerif,
+          fontSize: 72,
+          fontWeight: 700,
+          color: "rgba(122,37,53,0.06)",
+          lineHeight: 1,
+          userSelect: "none",
+        }}
+      >
+        {String(index + 1).padStart(2, "0")}
+      </span>
+
+      <div
+        style={{
+          display: "inline-block",
+          background: C.burgundy,
+          color: C.bg,
+          fontFamily: C.fontSans,
+          fontSize: 10,
+          fontWeight: 600,
+          letterSpacing: "0.2em",
+          textTransform: "uppercase",
+          padding: "5px 12px",
+          marginBottom: 20,
+        }}
+      >
+        {wine.vintage}
+      </div>
+
+      <h3
+        style={{
+          fontFamily: C.fontSerif,
+          fontSize: 28,
+          fontWeight: 600,
+          color: C.dark,
+          margin: "0 0 6px",
+          lineHeight: 1.2,
+        }}
+      >
+        {wine.name}
+      </h3>
+      <p
+        style={{
+          fontFamily: C.fontSans,
+          fontSize: 11,
+          fontWeight: 500,
+          letterSpacing: "0.16em",
+          textTransform: "uppercase",
+          color: C.muted,
+          margin: "0 0 20px",
+        }}
+      >
+        {wine.appellation}
+      </p>
+      <p
+        style={{
+          fontFamily: C.fontSerif,
+          fontSize: 16,
+          lineHeight: 1.75,
+          color: C.muted,
+          margin: "0 0 24px",
+        }}
+      >
+        {wine.desc}
+      </p>
+
+      {/* Tasting notes */}
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 28 }}>
+        {wine.notes.map((n) => (
+          <span
+            key={n}
+            style={{
+              fontFamily: C.fontSans,
+              fontSize: 10,
+              fontWeight: 500,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: C.burgundy,
+              border: `1px solid ${C.border}`,
+              padding: "4px 10px",
+            }}
+          >
+            {n}
+          </span>
+        ))}
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          borderTop: `1px solid ${C.border}`,
+          paddingTop: 20,
+        }}
+      >
+        <span
+          style={{
+            fontFamily: C.fontSerif,
+            fontSize: 26,
+            fontWeight: 600,
+            color: C.burgundy,
+          }}
+        >
+          {wine.price}
+        </span>
+        <span
+          style={{
+            fontFamily: C.fontSans,
+            fontSize: 10,
+            color: C.muted,
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+          }}
+        >
+          {wine.aging}
+        </span>
+      </div>
     </motion.div>
   );
 }
 
 /* ==========================================================================
-   MAIN PAGE COMPONENT
+   GOLD DIVIDER
    ========================================================================== */
 
-export default function CuveePrestigePage() {
+function GoldDivider() {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 16, margin: "32px 0" }}>
+      <div style={{ flex: 1, height: 1, background: `linear-gradient(to right, transparent, ${C.gold})` }} />
+      <span style={{ color: C.gold, fontSize: 14 }}>✦</span>
+      <div style={{ flex: 1, height: 1, background: `linear-gradient(to left, transparent, ${C.gold})` }} />
+    </div>
+  );
+}
+
+/* ==========================================================================
+   SECTION LABEL
+   ========================================================================== */
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p
+      style={{
+        fontFamily: C.fontSans,
+        fontSize: 10,
+        fontWeight: 600,
+        letterSpacing: "0.28em",
+        textTransform: "uppercase",
+        color: C.gold,
+        margin: "0 0 16px",
+      }}
+    >
+      {children}
+    </p>
+  );
+}
+
+/* ==========================================================================
+   MAIN PAGE
+   ========================================================================== */
+
+export default function WineryTemplate() {
+  useFonts();
+
   const [menuOpen, setMenuOpen] = useState(false);
-  const [cartOpen, setCartOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [qty, setQty] = useState(1);
-  const [format, setFormat] = useState("750ml");
+  const [terroirTab, setTerroirTab] = useState("soil");
+  const [vintageSelected, setVintageSelected] = useState<string | null>(null);
 
-  const { scrollY } = useScroll();
+  const { scrollYProgress } = useScroll();
+  const heroY = useTransform(scrollYProgress, [0, 0.25], [0, -60]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
-  // Parallax effects
-  const heroY = useTransform(scrollY, [0, 1000], [0, 300]);
-  const heroOpacity = useTransform(scrollY, [0, 600], [1, 0]);
-  const bottleY = useTransform(scrollY, [0, 800], [0, -100]);
-  const bottleScale = useTransform(scrollY, [0, 800], [1, 0.9]);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const winesRef = useRef<HTMLDivElement>(null);
+  const terroirRef = useRef<HTMLDivElement>(null);
+  const contactRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const activeTerroir = TERROIR_TABS.find((t) => t.id === terroirTab) ?? TERROIR_TABS[0];
 
-  const priceMultiplier = format === "1.5L" ? 2.1 : format === "3.0L" ? 4.5 : 1;
-  const basePriceNum = parseInt(WINE_DATA.price.replace("€", ""));
-  const currentPrice = `€${Math.floor(basePriceNum * priceMultiplier)}`;
+  const VINTAGES = ["2020", "2019", "2018", "2017", "2016", "2015"];
 
   return (
-    <div className="premium-theme min-h-screen bg-[#0a0607] text-[#f8f5f0] font-serif selection:bg-[#8b1c31]/40 selection:text-white">
-      {/* ==========================================
-          CART SIDEBAR
-          ========================================== */}
-      <AnimatePresence>
-        {cartOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm"
-              onClick={() => setCartOpen(false)}
-            />
-            <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "tween", duration: 0.4 }}
-              className="fixed top-0 right-0 w-full md:w-[450px] h-full bg-[#140b0d] border-l border-white/5 z-[110] flex flex-col shadow-2xl"
-            >
-              <div className="p-8 flex justify-between items-center border-b border-white/5">
-                <span className="text-[10px] font-sans uppercase tracking-[0.2em] font-bold text-[#8b1c31]">
-                  Your Cellar
-                </span>
-                <button
-                  onClick={() => setCartOpen(false)}
-                  className="text-white/50 hover:text-white transition-colors"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
+    <div style={{ background: C.bg, minHeight: "100vh", fontFamily: C.fontSans, overflowX: "hidden" }}>
 
-              <div className="flex-1 overflow-y-auto p-8">
-                <div className="flex gap-6">
-                  <div className="w-24 h-32 relative bg-[#0a0607] rounded-sm overflow-hidden flex-shrink-0">
-                    <Image
-                      src="https://images.unsplash.com/photo-1584916201218-f4242ceb4809?q=80&w=800&auto=format&fit=crop"
-                      alt="Wine bottle silhouette"
-                      fill
-                      className="object-cover opacity-80 mix-blend-screen"
-                    />
-                  </div>
-                  <div className="flex flex-col flex-1">
-                    <h3 className="text-lg font-medium mb-1">
-                      {WINE_DATA.name}
-                    </h3>
-                    <p className="font-sans text-[10px] text-white/50 uppercase tracking-widest mb-2">
-                      Vintage {WINE_DATA.vintage} • {format}
-                    </p>
-                    <div className="mt-auto flex justify-between items-end">
-                      <div className="flex items-center gap-4 border border-white/20 rounded-full px-3 py-1 font-sans">
-                        <button
-                          onClick={() => setQty(Math.max(1, qty - 1))}
-                          className="text-white/50 hover:text-white"
-                        >
-                          <Minus className="w-3 h-3" />
-                        </button>
-                        <span className="text-xs w-4 text-center">{qty}</span>
-                        <button
-                          onClick={() => setQty(qty + 1)}
-                          className="text-white/50 hover:text-white"
-                        >
-                          <Plus className="w-3 h-3" />
-                        </button>
-                      </div>
-                      <span className="text-lg text-[#8b1c31] font-medium">
-                        €{Math.floor(basePriceNum * priceMultiplier * qty)}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-8 bg-[#0a0607] border-t border-white/5">
-                <div className="flex justify-between items-center mb-6 text-xl">
-                  <span>Total</span>
-                  <span className="text-[#8b1c31] font-medium">
-                    €{Math.floor(basePriceNum * priceMultiplier * qty)}
-                  </span>
-                </div>
-                <button className="w-full py-4 bg-[#8b1c31] text-white font-sans text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-[#6b1526] transition-colors">
-                  Proceed to Checkout
-                </button>
-                <p className="text-center font-sans text-[10px] text-white/40 mt-4">
-                  Shipping and taxes calculated at checkout.
-                </p>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-
-      {/* ==========================================
-          NAVIGATION
-          ========================================== */}
+      {/* ====================================================================
+          1. NAV
+          ==================================================================== */}
       <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#0a0607]/90 backdrop-blur-md border-b border-[#8b1c31]/20 py-4" : "bg-transparent py-8"}`}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          background: "rgba(248,244,238,0.94)",
+          backdropFilter: "blur(12px)",
+          borderBottom: `1px solid ${C.border}`,
+          padding: "0 48px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          height: 72,
+        }}
       >
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <button
-              onClick={() => setMenuOpen(true)}
-              className="text-white hover:text-[#8b1c31] transition-colors"
-            >
-              <Menu className="w-6 h-6" />
-            </button>
-            <div className="hidden lg:flex items-center gap-8 font-sans text-[10px] uppercase tracking-[0.2em] font-bold text-white/50">
-              <Link href="#" className="hover:text-white transition-colors">
-                The Estate
-              </Link>
-              <Link href="#" className="hover:text-white transition-colors">
-                Vintages
-              </Link>
-              <Link href="#" className="hover:text-white transition-colors">
-                Terroir
-              </Link>
-            </div>
-          </div>
-
-          <Link
-            href="/"
-            className="absolute left-1/2 -translate-x-1/2 text-2xl md:text-3xl font-medium tracking-widest uppercase"
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C8 2 5 6 5 10c0 3 1.5 5.5 4 7v3h6v-3c2.5-1.5 4-4 4-7 0-4-3-8-7-8z" stroke={C.burgundy} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M9 20h6" stroke={C.burgundy} strokeWidth={1.5} strokeLinecap="round" />
+          </svg>
+          <span
+            style={{
+              fontFamily: C.fontSerif,
+              fontSize: 20,
+              fontWeight: 700,
+              color: C.burgundy,
+              letterSpacing: "0.06em",
+              lineHeight: 1,
+            }}
           >
-            Château <span className="text-[#8b1c31] italic">Lumina</span>
-          </Link>
+            Château de Valroc
+          </span>
+        </div>
 
-          <div className="flex items-center gap-8">
-            <div className="hidden lg:flex items-center gap-6 font-sans text-[10px] uppercase tracking-[0.2em] font-bold text-white/50">
-              <Link href="#" className="hover:text-white transition-colors">
-                Visit
-              </Link>
-              <Link href="#" className="hover:text-white transition-colors">
-                Account
-              </Link>
-            </div>
+        <div style={{ display: "flex", gap: 36, alignItems: "center" }}>
+          {["Vins", "Terroir", "Visites", "Contact"].map((item) => (
             <button
-              onClick={() => setCartOpen(true)}
-              className="relative text-white hover:text-[#8b1c31] transition-colors"
+              key={item}
+              onClick={() => {
+                const map: Record<string, React.RefObject<HTMLDivElement | null>> = {
+                  Vins: winesRef,
+                  Terroir: terroirRef,
+                  Contact: contactRef,
+                };
+                map[item]?.current?.scrollIntoView({ behavior: "smooth" });
+              }}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                fontFamily: C.fontSans,
+                fontSize: 11,
+                fontWeight: 500,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: C.dark,
+                padding: 0,
+              }}
             >
-              <ShoppingBag className="w-5 h-5" />
-              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-[#8b1c31] flex items-center justify-center font-sans text-[9px] font-bold">
-                {qty}
-              </span>
+              {item}
             </button>
-          </div>
+          ))}
+          <MagneticButton
+            style={{
+              background: C.burgundy,
+              color: C.bg,
+              fontFamily: C.fontSans,
+              fontSize: 10,
+              fontWeight: 600,
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              padding: "10px 22px",
+            }}
+          >
+            Commander
+          </MagneticButton>
         </div>
       </nav>
 
-      {/* MOBILE MENU OVERLAY */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
+      {/* ====================================================================
+          2. HERO
+          ==================================================================== */}
+      <section
+        ref={heroRef}
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "relative",
+          overflow: "hidden",
+          paddingTop: 72,
+          background: C.bg,
+        }}
+      >
+        {/* Vine watermark background */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            opacity: 0.04,
+            pointerEvents: "none",
+          }}
+        >
+          <svg viewBox="0 0 800 600" style={{ width: "90%", height: "90%" }}>
+            <path
+              d="M 50 500 C 150 400, 250 450, 350 380 C 450 310, 500 200, 600 160 C 680 130, 750 150, 780 100"
+              fill="none"
+              stroke={C.burgundy}
+              strokeWidth={4}
+            />
+            <path d="M 200 430 C 180 380, 160 340, 170 300 C 180 260, 200 230, 190 200" fill="none" stroke={C.burgundy} strokeWidth={2} />
+            <path d="M 400 360 C 420 310, 440 275, 430 240 C 420 205, 400 180, 410 150" fill="none" stroke={C.burgundy} strokeWidth={2} />
+            <circle cx={192} cy={195} r={12} fill={C.burgundy} />
+            <circle cx={185} cy={182} r={10} fill={C.burgundy} />
+            <circle cx={200} cy={180} r={11} fill={C.burgundy} />
+            <circle cx={412} cy={145} r={12} fill={C.burgundy} />
+            <circle cx={404} cy={133} r={10} fill={C.burgundy} />
+            <circle cx={420} cy={132} r={11} fill={C.burgundy} />
+          </svg>
+        </div>
+
+        <motion.div
+          style={{ y: heroY, opacity: heroOpacity, textAlign: "center", position: "relative", zIndex: 2, padding: "0 24px" }}
+        >
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            style={{
+              fontFamily: C.fontSans,
+              fontSize: 10,
+              fontWeight: 600,
+              letterSpacing: "0.3em",
+              textTransform: "uppercase",
+              color: C.gold,
+              marginBottom: 28,
+            }}
+          >
+            Bordeaux — Depuis 1892
+          </motion.p>
+
+          <h1
+            style={{
+              fontFamily: C.fontSerif,
+              fontSize: "clamp(52px, 9vw, 120px)",
+              fontWeight: 700,
+              color: C.dark,
+              lineHeight: 1,
+              marginBottom: 16,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            <TextReveal text="Château" delay={0.3} />
+            <br />
+            <TextReveal text="de Valroc" delay={0.5} style={{ color: C.burgundy }} />
+          </h1>
+
+          <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-[#0a0607]/98 backdrop-blur-xl flex flex-col p-6"
+            transition={{ duration: 1, delay: 0.9 }}
+            style={{
+              fontFamily: C.fontSerif,
+              fontSize: "clamp(18px, 2.5vw, 28px)",
+              fontStyle: "italic",
+              color: C.muted,
+              marginBottom: 56,
+            }}
+          >
+            Le Terroir Révélé
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.1 }}
+            style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}
+          >
+            <MagneticButton
+              style={{
+                background: C.burgundy,
+                color: C.bg,
+                fontFamily: C.fontSans,
+                fontSize: 11,
+                fontWeight: 600,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                padding: "16px 40px",
+              }}
+              onClick={() => winesRef.current?.scrollIntoView({ behavior: "smooth" })}
+            >
+              Découvrir nos vins
+            </MagneticButton>
+            <MagneticButton
+              style={{
+                background: "transparent",
+                color: C.dark,
+                fontFamily: C.fontSans,
+                fontSize: 11,
+                fontWeight: 600,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                padding: "16px 40px",
+                border: `1px solid ${C.border}`,
+              }}
+            >
+              Visiter le domaine
+            </MagneticButton>
+          </motion.div>
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          style={{ position: "absolute", bottom: 40, left: "50%", translateX: "-50%" }}
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <svg width={20} height={32} viewBox="0 0 20 32" fill="none">
+            <rect x={1} y={1} width={18} height={30} rx={9} stroke={C.muted} strokeWidth={1.5} />
+            <motion.circle
+              cx={10}
+              cy={9}
+              r={3}
+              fill={C.burgundy}
+              animate={{ cy: [9, 18, 9] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </svg>
+        </motion.div>
+      </section>
+
+      {/* ====================================================================
+          3. MARQUEE STRIP
+          ==================================================================== */}
+      <MarqueeStrip />
+
+      {/* ====================================================================
+          4. VINE GROWTH — SIGNATURE ELEMENT
+          ==================================================================== */}
+      <section
+        style={{
+          padding: "120px 48px",
+          maxWidth: 1200,
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 80,
+          alignItems: "center",
+        }}
+      >
+        {/* Left: VineGrowth SVG */}
+        <div>
+          <VineGrowth />
+          <div
+            style={{
+              marginTop: 32,
+              display: "flex",
+              gap: 0,
+              borderTop: `1px solid ${C.border}`,
+            }}
+          >
+            {[
+              { value: "4", label: "Générations" },
+              { value: "28", label: "Hectares" },
+              { value: "6", label: "Cépages" },
+            ].map((stat, i) => {
+              const statRef = useRef<HTMLDivElement>(null);
+              const statInView = useInView(statRef, { once: true });
+              return (
+                <motion.div
+                  key={stat.label}
+                  ref={statRef}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={statInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.7, delay: i * 0.15 }}
+                  style={{
+                    flex: 1,
+                    padding: "28px 20px",
+                    borderRight: i < 2 ? `1px solid ${C.border}` : "none",
+                    textAlign: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: C.fontSerif,
+                      fontSize: 42,
+                      fontWeight: 700,
+                      color: C.burgundy,
+                      lineHeight: 1,
+                      marginBottom: 6,
+                    }}
+                  >
+                    {stat.value}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: C.fontSans,
+                      fontSize: 10,
+                      fontWeight: 500,
+                      letterSpacing: "0.2em",
+                      textTransform: "uppercase",
+                      color: C.muted,
+                    }}
+                  >
+                    {stat.label}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Right: Terroir philosophy */}
+        <div>
+          <SectionLabel>Notre philosophie</SectionLabel>
+          <h2
+            style={{
+              fontFamily: C.fontSerif,
+              fontSize: "clamp(34px, 4vw, 52px)",
+              fontWeight: 600,
+              color: C.dark,
+              lineHeight: 1.15,
+              margin: "0 0 28px",
+            }}
+          >
+            La vigne comme{" "}
+            <em style={{ color: C.burgundy, fontStyle: "italic" }}>expression</em>{" "}
+            d'un lieu
+          </h2>
+          <p
+            style={{
+              fontFamily: C.fontSerif,
+              fontSize: 18,
+              lineHeight: 1.85,
+              color: C.muted,
+              marginBottom: 24,
+            }}
+          >
+            Depuis quatre générations, la famille Valroc cultive la même conviction : un grand vin naît d'abord dans le sol, non dans la cave. Notre domaine de 28 hectares, implanté sur des graves garonnaises et un sous-sol calcaire unique, produit des vins d'une singularité et d'une complexité que seul le temps révèle pleinement.
+          </p>
+          <p
+            style={{
+              fontFamily: C.fontSerif,
+              fontSize: 18,
+              lineHeight: 1.85,
+              color: C.muted,
+              marginBottom: 40,
+            }}
+          >
+            Chaque vendange est un dialogue entre la vigne, le ciel et la main de l'homme. Nous cultivons nos six cépages avec le même respect que celui dû à une longue tradition — en biodynamie, à cheval, vendangés à la main.
+          </p>
+          <GoldDivider />
+          <p
+            style={{
+              fontFamily: C.fontSerif,
+              fontSize: 16,
+              fontStyle: "italic",
+              color: C.burgundy,
+              lineHeight: 1.7,
+            }}
+          >
+            "Le terroir ne se crée pas. Il se révèle, par la patience et le respect."
+            <br />
+            <span style={{ fontStyle: "normal", fontFamily: C.fontSans, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: C.muted }}>
+              — Jean-Pierre Valroc, Chef de cave
+            </span>
+          </p>
+        </div>
+      </section>
+
+      {/* ====================================================================
+          5. WINES SECTION
+          ==================================================================== */}
+      <section
+        ref={winesRef}
+        style={{
+          background: C.bgCard,
+          padding: "120px 48px",
+          borderTop: `1px solid ${C.border}`,
+          borderBottom: `1px solid ${C.border}`,
+        }}
+      >
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 80 }}>
+            <SectionLabel>La collection</SectionLabel>
+            <h2
+              style={{
+                fontFamily: C.fontSerif,
+                fontSize: "clamp(38px, 5vw, 64px)",
+                fontWeight: 600,
+                color: C.dark,
+                lineHeight: 1.1,
+                margin: 0,
+              }}
+            >
+              Nos Grandes Cuvées
+            </h2>
+          </div>
+
+          {/* Vintage selector with AnimatePresence */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: 12,
+              marginBottom: 64,
+              flexWrap: "wrap",
+            }}
           >
             <button
-              onClick={() => setMenuOpen(false)}
-              className="absolute top-6 right-6 text-white/50 hover:text-white"
+              onClick={() => setVintageSelected(null)}
+              style={{
+                background: vintageSelected === null ? C.burgundy : "transparent",
+                color: vintageSelected === null ? C.bg : C.muted,
+                border: `1px solid ${vintageSelected === null ? C.burgundy : C.border}`,
+                fontFamily: C.fontSans,
+                fontSize: 10,
+                fontWeight: 600,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                padding: "8px 18px",
+                cursor: "pointer",
+                transition: "all 0.2s",
+              }}
             >
-              <X className="w-8 h-8" />
+              Tous
             </button>
-            <div className="flex-1 flex flex-col justify-center items-center gap-8 text-4xl font-light">
-              <Link href="#" onClick={() => setMenuOpen(false)}>
-                The Estate
-              </Link>
-              <Link href="#" onClick={() => setMenuOpen(false)}>
-                Vintages
-              </Link>
-              <Link href="#" onClick={() => setMenuOpen(false)}>
-                Terroir
-              </Link>
-              <Link href="#" onClick={() => setMenuOpen(false)}>
-                Visit Us
-              </Link>
-              <Link href="#" onClick={() => setMenuOpen(false)}>
-                Contact
-              </Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ==========================================
-          1. HERO SECTION
-          ========================================== */}
-      <section className="relative w-full h-[100svh] overflow-hidden flex items-center bg-[#0a0607]">
-        {/* Background Image Parallax */}
-        <motion.div
-          style={{ y: heroY, opacity: heroOpacity }}
-          className="absolute inset-0 z-0 w-full lg:w-[60%] lg:left-auto lg:right-0"
-        >
-          <Image
-            src="https://images.unsplash.com/photo-1590453535970-22c6085a6ac1?q=80&w=1600&auto=format&fit=crop"
-            alt="Vineyard"
-            fill
-            className="object-cover opacity-40 mix-blend-luminosity"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0607] via-[#0a0607]/80 to-transparent lg:via-[#0a0607]/50" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0607] via-transparent to-[#0a0607]" />
-        </motion.div>
-
-        {/* Content Container */}
-        <div className="relative z-20 w-full max-w-[1600px] mx-auto px-6 md:px-12 flex flex-col lg:flex-row items-center pt-20 h-full">
-          {/* Text Content */}
-          <div className="flex-1 text-center lg:text-left pt-20 lg:pt-0">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
-            >
-              <span className="font-sans text-[10px] text-[#8b1c31] uppercase tracking-[0.3em] font-bold block mb-4 flex items-center justify-center lg:justify-start gap-3">
-                <Award className="w-4 h-4" /> 100 Points - Robert Parker
-              </span>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="text-6xl md:text-8xl lg:text-[7rem] font-light leading-[0.9] mb-4"
-            >
-              Cuvée <br />
-              <span className="italic font-medium text-[#8b1c31]">
-                Prestige.
-              </span>
-            </motion.h1>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.6 }}
-              className="mb-12"
-            >
-              <span className="font-sans text-xs uppercase tracking-widest text-white/50 block mb-1">
-                Vintage
-              </span>
-              <span className="text-4xl font-light">{WINE_DATA.vintage}</span>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.8 }}
-              className="flex flex-col lg:flex-row items-center gap-6"
-            >
+            {VINTAGES.map((v) => (
               <button
-                onClick={() => setCartOpen(true)}
-                className="w-full lg:w-auto px-10 py-4 bg-[#8b1c31] text-white font-sans text-[10px] uppercase tracking-widest font-bold hover:bg-[#6b1526] transition-colors"
+                key={v}
+                onClick={() => setVintageSelected(v === vintageSelected ? null : v)}
+                style={{
+                  background: vintageSelected === v ? C.burgundy : "transparent",
+                  color: vintageSelected === v ? C.bg : C.muted,
+                  border: `1px solid ${vintageSelected === v ? C.burgundy : C.border}`,
+                  fontFamily: C.fontSans,
+                  fontSize: 10,
+                  fontWeight: 600,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  padding: "8px 18px",
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                }}
               >
-                Acquire Allocation
+                {v}
               </button>
-              <button className="flex items-center gap-3 font-sans text-[10px] uppercase tracking-widest font-bold text-white/60 hover:text-white transition-colors pb-1 border-b border-white/20 hover:border-white">
-                Read Tasting Notes <ArrowRight className="w-3 h-3" />
-              </button>
-            </motion.div>
-          </div>
-
-          {/* Bottle Parallax Element */}
-          <div className="flex-1 w-full h-[60vh] lg:h-full relative flex items-center justify-center mt-12 lg:mt-0 pointer-events-none">
-            {/* Ambient glow behind bottle */}
-            <div className="absolute w-[300px] h-[600px] bg-[#8b1c31]/20 blur-[100px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-
-            <motion.div
-              style={{ y: bottleY, scale: bottleScale }}
-              className="relative w-[150px] md:w-[200px] lg:w-[250px] h-[80%] max-h-[800px] z-30 drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
-            >
-              {/* Note: Using a mockup image for the bottle, styling it to look cut out */}
-              <Image
-                src="https://images.unsplash.com/photo-1584916201218-f4242ceb4809?q=80&w=600&auto=format&fit=crop"
-                alt="Wine Bottle"
-                fill
-                className="object-contain mix-blend-screen opacity-90"
-                priority
-              />
-            </motion.div>
-          </div>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.5 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-white/40 z-20"
-        >
-          <span className="font-sans text-[9px] uppercase tracking-[0.3em]">
-            Discover
-          </span>
-          <div className="w-[1px] h-12 bg-gradient-to-b from-white/40 to-transparent" />
-        </motion.div>
-      </section>
-
-      {/* ==========================================
-          2. E-COMMERCE / WINE DETAILS
-          ========================================== */}
-      <section className="py-24 border-y border-white/5 bg-[#0e080a] relative z-20">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center">
-          <Reveal>
-            <h2 className="text-4xl md:text-5xl font-light mb-8">
-              The Expression of{" "}
-              <span className="italic text-[#8b1c31]">Excellence.</span>
-            </h2>
-            <p className="font-sans text-white/60 text-lg leading-relaxed mb-12">
-              {WINE_DATA.desc}
-            </p>
-
-            <div className="grid grid-cols-2 gap-y-8 gap-x-12 font-sans mb-12 pb-12 border-b border-white/10">
-              <div>
-                <span className="block text-[10px] uppercase tracking-widest text-[#8b1c31] mb-1">
-                  Appellation
-                </span>
-                <span className="block text-sm text-white/80">
-                  {WINE_DATA.appellation}
-                </span>
-              </div>
-              <div>
-                <span className="block text-[10px] uppercase tracking-widest text-[#8b1c31] mb-1">
-                  Blend
-                </span>
-                <span className="block text-sm text-white/80">
-                  {WINE_DATA.varietals}
-                </span>
-              </div>
-              <div>
-                <span className="block text-[10px] uppercase tracking-widest text-[#8b1c31] mb-1">
-                  Aging
-                </span>
-                <span className="block text-sm text-white/80">
-                  {WINE_DATA.aging}
-                </span>
-              </div>
-              <div>
-                <span className="block text-[10px] uppercase tracking-widest text-[#8b1c31] mb-1">
-                  Alcohol
-                </span>
-                <span className="block text-sm text-white/80">
-                  {WINE_DATA.abv}
-                </span>
-              </div>
-            </div>
-
-            {/* Purchase Form */}
-            <div className="flex flex-col sm:flex-row items-end gap-6 font-sans">
-              <div className="w-full sm:w-1/3">
-                <label className="block text-[10px] uppercase tracking-widest text-white/50 mb-3">
-                  Format
-                </label>
-                <div className="relative">
-                  <select
-                    value={format}
-                    onChange={(e) => setFormat(e.target.value)}
-                    className="w-full bg-[#140b0d] border border-white/20 text-white text-sm px-4 py-3.5 focus:outline-none focus:border-[#8b1c31] appearance-none"
-                  >
-                    <option value="750ml">Standard (750ml)</option>
-                    <option value="1.5L">Magnum (1.5L)</option>
-                    <option value="3.0L">Double Mag. (3.0L)</option>
-                  </select>
-                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" />
-                </div>
-              </div>
-
-              <div className="w-full sm:w-1/4">
-                <label className="block text-[10px] uppercase tracking-widest text-white/50 mb-3">
-                  Quantity
-                </label>
-                <div className="flex items-center justify-between border border-white/20 px-4 py-3.5 bg-[#140b0d]">
-                  <button
-                    onClick={() => setQty(Math.max(1, qty - 1))}
-                    className="text-white/50 hover:text-[#8b1c31] transition-colors"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                  <span className="text-sm font-medium">{qty}</span>
-                  <button
-                    onClick={() => setQty(qty + 1)}
-                    className="text-white/50 hover:text-[#8b1c31] transition-colors"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-              <div className="w-full sm:flex-1">
-                <button
-                  onClick={() => setCartOpen(true)}
-                  className="w-full flex items-center justify-center gap-3 bg-[#8b1c31] text-white px-6 py-4 text-[10px] uppercase tracking-widest font-bold hover:bg-[#6b1526] transition-colors"
-                >
-                  Add to Cart — {currentPrice}
-                </button>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* Tasting Notes */}
-          <div className="relative">
-            <div className="absolute -inset-8 bg-[#8b1c31]/5 rounded-3xl border border-[#8b1c31]/10 -z-10" />
-            <Reveal delay={0.2}>
-              <h3 className="font-sans text-[10px] text-[#8b1c31] uppercase tracking-[0.3em] font-bold mb-8">
-                Tasting Profile
-              </h3>
-              <div className="space-y-8">
-                {TASTING_NOTES.map((note, i) => (
-                  <div key={i} className="flex gap-6">
-                    <div className="w-12 h-12 rounded-full border border-white/10 bg-[#0a0607] flex items-center justify-center shrink-0">
-                      {note.icon}
-                    </div>
-                    <div>
-                      <h4 className="text-xl font-medium mb-2">{note.phase}</h4>
-                      <p className="font-sans text-sm text-white/60 leading-relaxed">
-                        {note.notes}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          3. CRITIC AWARDS
-          ========================================== */}
-      <section className="py-24 bg-[#0a0607] border-b border-white/5 overflow-hidden">
-        <div className="max-w-[1600px] mx-auto px-6">
-          <Reveal className="text-center mb-16">
-            <span className="font-sans text-[10px] text-white/40 uppercase tracking-[0.3em] font-bold">
-              Critical Acclaim
-            </span>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {AWARDS.map((award, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className="border border-white/10 bg-white/[0.02] p-10 text-center h-full flex flex-col items-center">
-                  <span className="text-5xl font-light text-[#8b1c31] mb-6 block">
-                    {award.score}
-                  </span>
-                  <p className="text-lg italic text-white/70 mb-8 leading-relaxed flex-1">
-                    "{award.text}"
-                  </p>
-                  <div className="font-sans">
-                    <span className="block text-sm font-bold text-white/90">
-                      {award.critic}
-                    </span>
-                    <span className="block text-[10px] uppercase tracking-widest text-white/40">
-                      {award.publication}
-                    </span>
-                  </div>
-                </div>
-              </Reveal>
             ))}
           </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={vintageSelected ?? "all"}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.45 }}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+                gap: 24,
+              }}
+            >
+              {WINES.filter((w) => !vintageSelected || w.vintage === vintageSelected).map((wine, i) => (
+                <WineCard key={wine.id} wine={wine} index={i} />
+              ))}
+              {WINES.filter((w) => vintageSelected && w.vintage === vintageSelected).length === 0 && (
+                <div
+                  style={{
+                    gridColumn: "1 / -1",
+                    textAlign: "center",
+                    padding: "80px 0",
+                    fontFamily: C.fontSerif,
+                    fontSize: 22,
+                    color: C.muted,
+                    fontStyle: "italic",
+                  }}
+                >
+                  Aucun vin disponible pour ce millésime.
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 
-      {/* ==========================================
-          4. TERROIR & VITICULTURE
-          ========================================== */}
-      <section className="py-32 bg-[#140b0d] relative overflow-hidden">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
-          <Reveal className="mb-20">
-            <h2 className="text-4xl md:text-6xl font-light mb-6">
-              Born from the{" "}
-              <span className="italic text-[#8b1c31]">Gravel.</span>
+      {/* ====================================================================
+          6. TERROIR — SOIL / CLIMATE / FARMING
+          ==================================================================== */}
+      <section
+        ref={terroirRef}
+        style={{ padding: "120px 48px", background: C.bg }}
+      >
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 64 }}>
+            <SectionLabel>Le terroir</SectionLabel>
+            <h2
+              style={{
+                fontFamily: C.fontSerif,
+                fontSize: "clamp(34px, 4.5vw, 58px)",
+                fontWeight: 600,
+                color: C.dark,
+                lineHeight: 1.12,
+                margin: 0,
+              }}
+            >
+              Sol, Climat & Culture
             </h2>
-            <p className="font-sans text-lg text-white/60 max-w-2xl">
-              Great wine is made in the vineyard. Our obsession with soil health
-              and biodiversity creates the canvas upon which the vintage paints
-              its character.
-            </p>
-          </Reveal>
+          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-12">
-              {TERROIR.map((t, i) => (
-                <Reveal key={i} delay={i * 0.1} className="flex gap-6 group">
-                  <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-[#8b1c31] shrink-0 group-hover:bg-[#8b1c31] group-hover:text-white group-hover:border-[#8b1c31] transition-all duration-500">
-                    {t.icon}
+          {/* Tabs */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: 0,
+              borderBottom: `1px solid ${C.border}`,
+              marginBottom: 60,
+            }}
+          >
+            {TERROIR_TABS.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setTerroirTab(tab.id)}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  borderBottom: `2px solid ${terroirTab === tab.id ? C.burgundy : "transparent"}`,
+                  fontFamily: C.fontSans,
+                  fontSize: 11,
+                  fontWeight: 600,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: terroirTab === tab.id ? C.burgundy : C.muted,
+                  padding: "14px 36px",
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  marginBottom: -1,
+                }}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={terroirTab}
+              initial={{ opacity: 0, x: 24 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -24 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "2fr 1fr",
+                gap: 80,
+                alignItems: "center",
+              }}
+            >
+              <div>
+                <h3
+                  style={{
+                    fontFamily: C.fontSerif,
+                    fontSize: "clamp(26px, 3vw, 40px)",
+                    fontWeight: 600,
+                    color: C.dark,
+                    margin: "0 0 24px",
+                    lineHeight: 1.2,
+                  }}
+                >
+                  {activeTerroir.title}
+                </h3>
+                <p
+                  style={{
+                    fontFamily: C.fontSerif,
+                    fontSize: 18,
+                    lineHeight: 1.85,
+                    color: C.muted,
+                    margin: 0,
+                  }}
+                >
+                  {activeTerroir.body}
+                </p>
+              </div>
+              <div
+                style={{
+                  background: C.bgDark,
+                  padding: "48px 36px",
+                  textAlign: "center",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: C.fontSerif,
+                    fontSize: 56,
+                    fontWeight: 700,
+                    color: C.gold,
+                    lineHeight: 1,
+                    marginBottom: 12,
+                  }}
+                >
+                  {activeTerroir.stat}
+                </div>
+                <div
+                  style={{
+                    fontFamily: C.fontSans,
+                    fontSize: 11,
+                    fontWeight: 500,
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase",
+                    color: "rgba(248,244,238,0.5)",
+                  }}
+                >
+                  {activeTerroir.statLabel}
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
+
+      {/* ====================================================================
+          7. TASTING ROOM CTA
+          ==================================================================== */}
+      <section
+        style={{
+          background: C.bgDark,
+          padding: "120px 48px",
+          textAlign: "center",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        {/* Background decoration */}
+        <div style={{ position: "absolute", inset: 0, opacity: 0.04, pointerEvents: "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <svg viewBox="0 0 600 400" style={{ width: "100%", height: "100%" }}>
+            <circle cx={300} cy={200} r={250} fill="none" stroke={C.gold} strokeWidth={1} />
+            <circle cx={300} cy={200} r={180} fill="none" stroke={C.gold} strokeWidth={0.5} />
+            <circle cx={300} cy={200} r={100} fill="none" stroke={C.gold} strokeWidth={0.5} />
+          </svg>
+        </div>
+
+        <div style={{ position: "relative", zIndex: 2, maxWidth: 640, margin: "0 auto" }}>
+          <SectionLabel>Expérience sensorielle</SectionLabel>
+          <h2
+            style={{
+              fontFamily: C.fontSerif,
+              fontSize: "clamp(36px, 5vw, 64px)",
+              fontWeight: 600,
+              color: C.bg,
+              lineHeight: 1.1,
+              margin: "0 0 24px",
+            }}
+          >
+            La Salle de Dégustation
+          </h2>
+          <p
+            style={{
+              fontFamily: C.fontSerif,
+              fontSize: 19,
+              fontStyle: "italic",
+              lineHeight: 1.75,
+              color: "rgba(248,244,238,0.65)",
+              marginBottom: 48,
+            }}
+          >
+            Un espace intime au cœur de nos caves du XIXe siècle. Chaque dégustation est guidée par notre équipe, dans un cadre pensé pour révéler toute la profondeur de nos vins.
+          </p>
+          <MagneticButton
+            style={{
+              background: C.gold,
+              color: C.dark,
+              fontFamily: C.fontSans,
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              padding: "18px 52px",
+            }}
+          >
+            Réserver une dégustation
+          </MagneticButton>
+        </div>
+      </section>
+
+      {/* ====================================================================
+          8. CHEF DE CAVE
+          ==================================================================== */}
+      <section
+        style={{
+          padding: "120px 48px",
+          background: C.bg,
+          borderTop: `1px solid ${C.border}`,
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1100,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "1fr 1.4fr",
+            gap: 80,
+            alignItems: "center",
+          }}
+        >
+          <div>
+            {/* Abstract portrait placeholder */}
+            <div
+              style={{
+                width: "100%",
+                aspectRatio: "3/4",
+                background: C.bgCard,
+                border: `1px solid ${C.border}`,
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                overflow: "hidden",
+              }}
+            >
+              <svg viewBox="0 0 240 320" style={{ width: "60%", height: "60%", opacity: 0.18 }}>
+                <ellipse cx={120} cy={110} rx={55} ry={65} fill={C.burgundy} />
+                <path d="M 50 280 C 50 200, 190 200, 190 280" fill={C.burgundy} />
+              </svg>
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  height: "40%",
+                  background: `linear-gradient(to top, ${C.bgCard}, transparent)`,
+                }}
+              />
+              <span
+                style={{
+                  position: "absolute",
+                  bottom: 24,
+                  left: 28,
+                  fontFamily: C.fontSans,
+                  fontSize: 10,
+                  fontWeight: 600,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: C.muted,
+                }}
+              >
+                Jean-Pierre Valroc
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <SectionLabel>Le vigneron</SectionLabel>
+            <h2
+              style={{
+                fontFamily: C.fontSerif,
+                fontSize: "clamp(32px, 3.8vw, 50px)",
+                fontWeight: 600,
+                color: C.dark,
+                lineHeight: 1.15,
+                margin: "0 0 28px",
+              }}
+            >
+              Jean-Pierre Valroc,{" "}
+              <em style={{ color: C.burgundy }}>Chef de Cave</em>
+            </h2>
+            <p
+              style={{
+                fontFamily: C.fontSerif,
+                fontSize: 18,
+                lineHeight: 1.85,
+                color: C.muted,
+                marginBottom: 24,
+              }}
+            >
+              Quatrième génération du domaine, Jean-Pierre a étudié l'oenologie à Bordeaux et fait ses armes dans la vallée du Rhône avant de reprendre Château de Valroc en 2005. Sa philosophie : laisser parler le terroir, intervenir le moins possible.
+            </p>
+            <p
+              style={{
+                fontFamily: C.fontSerif,
+                fontSize: 18,
+                lineHeight: 1.85,
+                color: C.muted,
+                marginBottom: 40,
+              }}
+            >
+              Sous sa direction, le domaine a obtenu la certification biologique en 2018 et la biodynamie en 2022. Ses cuvées ont été récompensées dans les plus grandes revues internationales, de Decanter au Wine Spectator.
+            </p>
+
+            {/* Awards */}
+            <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+              {[
+                { award: "98/100", source: "Wine Spectator 2022" },
+                { award: "Gold", source: "Decanter 2021" },
+                { award: "5 étoiles", source: "Guide Hachette 2023" },
+              ].map((a) => (
+                <div
+                  key={a.source}
+                  style={{
+                    borderLeft: `2px solid ${C.gold}`,
+                    paddingLeft: 16,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: C.fontSerif,
+                      fontSize: 22,
+                      fontWeight: 700,
+                      color: C.dark,
+                      marginBottom: 2,
+                    }}
+                  >
+                    {a.award}
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-medium mb-3">{t.title}</h3>
-                    <p className="font-sans text-white/50 leading-relaxed text-sm">
-                      {t.desc}
-                    </p>
+                  <div
+                    style={{
+                      fontFamily: C.fontSans,
+                      fontSize: 10,
+                      fontWeight: 500,
+                      letterSpacing: "0.14em",
+                      textTransform: "uppercase",
+                      color: C.muted,
+                    }}
+                  >
+                    {a.source}
                   </div>
-                </Reveal>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================================
+          9. WINE TOURISM / VISITES
+          ==================================================================== */}
+      <section
+        style={{
+          background: C.bgCard,
+          padding: "120px 48px",
+          borderTop: `1px solid ${C.border}`,
+        }}
+      >
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 72 }}>
+            <SectionLabel>Oenotourisme</SectionLabel>
+            <h2
+              style={{
+                fontFamily: C.fontSerif,
+                fontSize: "clamp(34px, 4.5vw, 58px)",
+                fontWeight: 600,
+                color: C.dark,
+                lineHeight: 1.12,
+                margin: "0 0 20px",
+              }}
+            >
+              Vivre le Domaine
+            </h2>
+            <p
+              style={{
+                fontFamily: C.fontSerif,
+                fontSize: 19,
+                fontStyle: "italic",
+                color: C.muted,
+                maxWidth: 560,
+                margin: "0 auto",
+                lineHeight: 1.7,
+              }}
+            >
+              Des expériences immersives pensées pour vous connecter au rythme de la vigne
+            </p>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
+            {[
+              {
+                title: "Balade dans les Vignes",
+                duration: "2h",
+                price: "€35 / pers",
+                desc: "Guidés par notre vigneron, parcourez nos parcelles emblématiques, apprenez à lire le sol et découvrez les secrets de la biodynamie.",
+                icon: "🌿",
+              },
+              {
+                title: "Dégustation Verticale",
+                duration: "3h",
+                price: "€95 / pers",
+                desc: "5 millésimes de notre Cuvée Prestige, de 2015 à 2020. Une exploration du temps, de l'évolution d'un vin et de la mémoire du terroir.",
+                icon: "🍷",
+              },
+              {
+                title: "Séjour Vigneron",
+                duration: "2 jours",
+                price: "€480 / chambre",
+                desc: "Vivez la vendange de l'intérieur. Hébergement dans notre maison de maître, repas avec accord mets-vins, accès libre aux caves.",
+                icon: "🏰",
+              },
+            ].map((exp, i) => {
+              const expRef = useRef<HTMLDivElement>(null);
+              const expInView = useInView(expRef, { once: true, margin: "-40px" });
+              return (
+                <motion.div
+                  key={exp.title}
+                  ref={expRef}
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={expInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.7, delay: i * 0.14 }}
+                  style={{
+                    background: C.bg,
+                    border: `1px solid ${C.border}`,
+                    padding: "40px 32px",
+                  }}
+                >
+                  <div style={{ fontSize: 32, marginBottom: 20 }}>{exp.icon}</div>
+                  <h3
+                    style={{
+                      fontFamily: C.fontSerif,
+                      fontSize: 24,
+                      fontWeight: 600,
+                      color: C.dark,
+                      margin: "0 0 6px",
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {exp.title}
+                  </h3>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: 16,
+                      marginBottom: 20,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: C.fontSans,
+                        fontSize: 10,
+                        fontWeight: 600,
+                        letterSpacing: "0.16em",
+                        textTransform: "uppercase",
+                        color: C.gold,
+                      }}
+                    >
+                      {exp.duration}
+                    </span>
+                    <span style={{ color: C.border, fontSize: 14 }}>|</span>
+                    <span
+                      style={{
+                        fontFamily: C.fontSans,
+                        fontSize: 10,
+                        fontWeight: 600,
+                        letterSpacing: "0.16em",
+                        textTransform: "uppercase",
+                        color: C.muted,
+                      }}
+                    >
+                      {exp.price}
+                    </span>
+                  </div>
+                  <p
+                    style={{
+                      fontFamily: C.fontSerif,
+                      fontSize: 16,
+                      lineHeight: 1.75,
+                      color: C.muted,
+                      margin: "0 0 28px",
+                    }}
+                  >
+                    {exp.desc}
+                  </p>
+                  <button
+                    style={{
+                      background: "transparent",
+                      border: `1px solid ${C.burgundy}`,
+                      color: C.burgundy,
+                      fontFamily: C.fontSans,
+                      fontSize: 10,
+                      fontWeight: 600,
+                      letterSpacing: "0.2em",
+                      textTransform: "uppercase",
+                      padding: "10px 24px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Réserver
+                  </button>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================================
+          10. CONTACT + FOOTER
+          ==================================================================== */}
+      <section
+        ref={contactRef}
+        style={{
+          background: C.bgDark,
+          padding: "100px 48px 0",
+          borderTop: `1px solid rgba(201,168,108,0.12)`,
+        }}
+      >
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1.2fr 1fr",
+              gap: 80,
+              paddingBottom: 80,
+              borderBottom: `1px solid rgba(248,244,238,0.08)`,
+            }}
+          >
+            {/* Left */}
+            <div>
+              <SectionLabel>Nous contacter</SectionLabel>
+              <h2
+                style={{
+                  fontFamily: C.fontSerif,
+                  fontSize: "clamp(32px, 4vw, 52px)",
+                  fontWeight: 600,
+                  color: C.bg,
+                  lineHeight: 1.12,
+                  margin: "0 0 32px",
+                }}
+              >
+                Commandez, visitez,{" "}
+                <em style={{ color: C.gold }}>échangez</em>
+              </h2>
+              <p
+                style={{
+                  fontFamily: C.fontSerif,
+                  fontSize: 18,
+                  lineHeight: 1.8,
+                  color: "rgba(248,244,238,0.55)",
+                  marginBottom: 40,
+                }}
+              >
+                Notre équipe est disponible du lundi au samedi, de 9h à 18h, pour toute commande, question ou réservation de visite.
+              </p>
+
+              {/* Contact details */}
+              {[
+                { label: "Adresse", value: "Château de Valroc, Route des Graves, 33760 Escoussans" },
+                { label: "Téléphone", value: "+33 5 56 23 78 90" },
+                { label: "Email", value: "contact@chateau-valroc.fr" },
+              ].map((c) => (
+                <div key={c.label} style={{ marginBottom: 20 }}>
+                  <p
+                    style={{
+                      fontFamily: C.fontSans,
+                      fontSize: 10,
+                      fontWeight: 600,
+                      letterSpacing: "0.2em",
+                      textTransform: "uppercase",
+                      color: C.gold,
+                      margin: "0 0 4px",
+                    }}
+                  >
+                    {c.label}
+                  </p>
+                  <p
+                    style={{
+                      fontFamily: C.fontSerif,
+                      fontSize: 17,
+                      color: "rgba(248,244,238,0.7)",
+                      margin: 0,
+                    }}
+                  >
+                    {c.value}
+                  </p>
+                </div>
               ))}
             </div>
 
-            <Reveal
-              delay={0.3}
-              className="relative aspect-[3/4] lg:aspect-square overflow-hidden"
-            >
-              <Image
-                src="https://images.unsplash.com/photo-1504279577054-acfeccf8fc52?q=80&w=1200&auto=format&fit=crop"
-                alt="Vineyard soil"
-                fill
-                className="object-cover opacity-80 mix-blend-luminosity"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#140b0d] via-transparent to-[#140b0d]" />
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          5. ESTATE HISTORY
-          ========================================== */}
-      <section className="py-32 bg-[#0a0607] border-t border-white/5">
-        <div className="max-w-[1000px] mx-auto px-6 md:px-12">
-          <Reveal className="text-center mb-20">
-            <span className="font-sans text-[10px] text-[#8b1c31] uppercase tracking-[0.3em] font-bold block mb-4">
-              La Storia
-            </span>
-            <h2 className="text-4xl md:text-5xl font-light">
-              Three Centuries of Craft
-            </h2>
-          </Reveal>
-
-          <div className="relative border-l border-white/10 ml-4 md:ml-1/2">
-            {HISTORY.map((event, i) => (
-              <Reveal
-                key={i}
-                delay={0.1}
-                y={50}
-                className="relative pl-12 md:pl-16 md:w-1/2 mb-16 last:mb-0 even:md:ml-auto even:md:pl-16 odd:md:pl-0 odd:md:pr-16 odd:md:text-right odd:md:-ml-[1px]"
-              >
-                {/* Dot */}
-                <div
-                  className={`absolute top-0 w-3 h-3 rounded-full bg-[#8b1c31] shadow-[0_0_15px_rgba(139,28,49,0.8)] ${i % 2 === 0 ? "left-[-6.5px] md:right-[-6.5px] md:left-auto" : "left-[-6.5px]"}`}
+            {/* Right: Contact form */}
+            <div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {["Nom complet", "Email"].map((placeholder) => (
+                  <input
+                    key={placeholder}
+                    type={placeholder === "Email" ? "email" : "text"}
+                    placeholder={placeholder}
+                    style={{
+                      background: "rgba(248,244,238,0.06)",
+                      border: `1px solid rgba(248,244,238,0.12)`,
+                      borderRadius: 0,
+                      padding: "16px 20px",
+                      fontFamily: C.fontSans,
+                      fontSize: 13,
+                      color: C.bg,
+                      outline: "none",
+                    }}
+                  />
+                ))}
+                <select
+                  style={{
+                    background: "rgba(248,244,238,0.06)",
+                    border: `1px solid rgba(248,244,238,0.12)`,
+                    borderRadius: 0,
+                    padding: "16px 20px",
+                    fontFamily: C.fontSans,
+                    fontSize: 13,
+                    color: "rgba(248,244,238,0.6)",
+                    outline: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  <option value="">Objet de votre message</option>
+                  <option>Commande de vins</option>
+                  <option>Réservation de visite</option>
+                  <option>Renseignement</option>
+                  <option>Autre</option>
+                </select>
+                <textarea
+                  placeholder="Votre message"
+                  rows={5}
+                  style={{
+                    background: "rgba(248,244,238,0.06)",
+                    border: `1px solid rgba(248,244,238,0.12)`,
+                    borderRadius: 0,
+                    padding: "16px 20px",
+                    fontFamily: C.fontSans,
+                    fontSize: 13,
+                    color: C.bg,
+                    outline: "none",
+                    resize: "vertical",
+                  }}
                 />
-
-                <span className="text-4xl md:text-6xl font-light text-white/10 block mb-4 leading-none">
-                  {event.year}
-                </span>
-                <h3 className="text-xl md:text-2xl font-medium mb-4">
-                  {event.title}
-                </h3>
-                <p className="font-sans text-white/50 text-sm leading-relaxed max-w-sm ml-0 odd:md:ml-auto">
-                  {event.desc}
-                </p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          6. MEGA FOOTER
-          ========================================== */}
-      <footer className="bg-[#140b0d] pt-32 pb-12 px-6 md:px-12 border-t border-white/5">
-        <div className="max-w-[1600px] mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-24">
-            <div className="lg:col-span-2">
-              <Link
-                href="/"
-                className="text-3xl font-medium tracking-widest uppercase block mb-8"
-              >
-                Château <span className="text-[#8b1c31] italic">Lumina</span>
-              </Link>
-              <p className="font-sans text-white/40 text-sm leading-relaxed max-w-sm mb-10">
-                Producing wines of uncompromising quality since 1742. A
-                testament to terroir, patience, and passion.
-              </p>
-              <div className="font-sans text-[10px] uppercase tracking-widest text-white/30">
-                L'abus d'alcool est dangereux pour la santé. <br />À consommer
-                avec modération.
+                <MagneticButton
+                  style={{
+                    background: C.burgundy,
+                    color: C.bg,
+                    fontFamily: C.fontSans,
+                    fontSize: 11,
+                    fontWeight: 600,
+                    letterSpacing: "0.22em",
+                    textTransform: "uppercase",
+                    padding: "16px 32px",
+                    alignSelf: "flex-start",
+                  }}
+                >
+                  Envoyer le message
+                </MagneticButton>
               </div>
             </div>
-
-            <div className="font-sans">
-              <h4 className="text-[10px] text-[#8b1c31] uppercase tracking-widest font-bold mb-6">
-                Wines
-              </h4>
-              <ul className="space-y-4 text-sm text-white/60">
-                <li>
-                  <Link href="#" className="hover:text-white transition-colors">
-                    Cuvée Prestige
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition-colors">
-                    Le Second Vin
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition-colors">
-                    Blanc de Blancs
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition-colors">
-                    Large Formats
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition-colors">
-                    Library Vintages
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="font-sans">
-              <h4 className="text-[10px] text-[#8b1c31] uppercase tracking-widest font-bold mb-6">
-                The Estate
-              </h4>
-              <ul className="space-y-4 text-sm text-white/60">
-                <li>
-                  <Link href="#" className="hover:text-white transition-colors">
-                    Our History
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition-colors">
-                    The Terroir
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition-colors">
-                    Sustainability
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition-colors">
-                    Book a Tasting
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition-colors">
-                    Private Events
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="font-sans">
-              <h4 className="text-[10px] text-[#8b1c31] uppercase tracking-widest font-bold mb-6">
-                Newsletter
-              </h4>
-              <p className="text-xs text-white/50 mb-4 leading-relaxed">
-                Join our allocation list for access to rare vintages and private
-                events.
-              </p>
-              <form className="relative" onSubmit={(e) => e.preventDefault()}>
-                <input
-                  type="email"
-                  placeholder="Email address"
-                  className="w-full bg-transparent border-b border-white/20 px-0 py-3 text-sm focus:outline-none focus:border-[#8b1c31] text-white transition-colors"
-                />
-                <button
-                  type="submit"
-                  className="absolute right-0 top-1/2 -translate-y-1/2 text-[#8b1c31] hover:text-white transition-colors"
-                >
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </form>
-            </div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/5 font-sans text-[10px] text-white/30 uppercase tracking-widest">
-            <span>
-              &copy; {new Date().getFullYear()} Château Lumina. All rights
-              reserved.
-            </span>
-            <div className="flex gap-6">
-              <Link href="#" className="hover:text-white transition-colors">
-                Privacy Policy
-              </Link>
-              <Link href="#" className="hover:text-white transition-colors">
-                Terms & Conditions
-              </Link>
-              <Link href="#" className="hover:text-white transition-colors">
-                Shipping Info
-              </Link>
+          {/* Footer bottom */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "32px 0",
+              flexWrap: "wrap",
+              gap: 16,
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <svg width={18} height={18} viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C8 2 5 6 5 10c0 3 1.5 5.5 4 7v3h6v-3c2.5-1.5 4-4 4-7 0-4-3-8-7-8z" stroke={C.gold} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M9 20h6" stroke={C.gold} strokeWidth={1.5} strokeLinecap="round" />
+              </svg>
+              <span
+                style={{
+                  fontFamily: C.fontSerif,
+                  fontSize: 16,
+                  fontWeight: 600,
+                  color: C.bg,
+                  letterSpacing: "0.04em",
+                }}
+              >
+                Château de Valroc
+              </span>
+            </div>
+            <p
+              style={{
+                fontFamily: C.fontSans,
+                fontSize: 10,
+                color: "rgba(248,244,238,0.3)",
+                letterSpacing: "0.12em",
+                margin: 0,
+                textTransform: "uppercase",
+              }}
+            >
+              © 2024 Château de Valroc — Tous droits réservés — L'abus d'alcool est dangereux pour la santé
+            </p>
+            <div style={{ display: "flex", gap: 24 }}>
+              {["Instagram", "LinkedIn", "Newsletter"].map((s) => (
+                <button
+                  key={s}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    fontFamily: C.fontSans,
+                    fontSize: 10,
+                    fontWeight: 500,
+                    letterSpacing: "0.16em",
+                    textTransform: "uppercase",
+                    color: "rgba(248,244,238,0.35)",
+                    padding: 0,
+                  }}
+                >
+                  {s}
+                </button>
+              ))}
             </div>
           </div>
         </div>
-      </footer>
+      </section>
     </div>
   );
 }

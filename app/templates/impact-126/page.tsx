@@ -1,197 +1,395 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import {
   motion,
   AnimatePresence,
   useScroll,
   useTransform,
   useInView,
+  useMotionValue,
+  useSpring,
 } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, Utensils, Clock, MapPin, Phone, Globe, Calendar, ChefHat, Star, ChevronRight, Menu, X, Wine } from "lucide-react";
-
-import "../premium.css";
 
 /* ==========================================================================
-   DATA STRUCTURES
+   DESIGN TOKENS
    ========================================================================== */
 
-const MENU_CATEGORIES = [
-  "Antipasti",
-  "Primi Piatti",
-  "Secondi",
-  "Dolci",
-  "Vini",
-];
+const C = {
+  bg: "#FAF8F3",
+  bgCard: "#F0EBE0",
+  bgDark: "#1A1008",
+  terracotta: "#C8603A",
+  gold: "#C9A86C",
+  dark: "#1E1208",
+  muted: "#8A7868",
+  border: "rgba(200,96,58,0.14)",
+  white: "#FFFFFF",
+  fontDisplay: "'Playfair Display', Georgia, serif",
+  fontSans: "'Inter', system-ui, sans-serif",
+};
 
-const MENU_ITEMS = {
+/* ==========================================================================
+   MENU DATA
+   ========================================================================== */
+
+const MENU_CATEGORIES = ["Antipasti", "Primi", "Secondi", "Dolci"] as const;
+type MenuCategory = (typeof MENU_CATEGORIES)[number];
+
+const MENU_ITEMS: Record<MenuCategory, { name: string; price: string; desc: string; highlight?: boolean }[]> = {
   Antipasti: [
-    {
-      name: "Burrata e Pomodorini",
-      price: "€18",
-      desc: "Fresh Apulian burrata, confit datterini tomatoes, basil emulsion, toasted pine nuts.",
-      highlight: true,
-    },
-    {
-      name: "Carpaccio di Manzo",
-      price: "€22",
-      desc: "Thinly sliced Fassona beef, 24-month Parmigiano Reggiano, wild rocket, white truffle oil.",
-    },
-    {
-      name: "Vitello Tonnato",
-      price: "€20",
-      desc: "Slow-cooked veal loin, traditional tuna and caper sauce, cucunci.",
-    },
-    {
-      name: "Fiori di Zucca",
-      price: "€16",
-      desc: "Crispy zucchini blossoms stuffed with ricotta and smoked provola, anchovy aioli.",
-    },
+    { name: "Burrata e Pomodorini", price: "€18", desc: "Fresh Apulian burrata, confit datterini tomatoes, basil emulsion, toasted pine nuts.", highlight: true },
+    { name: "Carpaccio di Manzo", price: "€22", desc: "Thinly sliced Fassona beef, 24-month Parmigiano Reggiano, wild rocket, white truffle oil." },
+    { name: "Vitello Tonnato", price: "€20", desc: "Slow-cooked veal loin, traditional tuna and caper sauce, cucunci." },
+    { name: "Fiori di Zucca", price: "€16", desc: "Crispy zucchini blossoms stuffed with ricotta and smoked provola, anchovy aioli." },
   ],
-  "Primi Piatti": [
-    {
-      name: "Cacio e Pepe",
-      price: "€22",
-      desc: "Tonnarelli pasta, Pecorino Romano DOP, toasted black pepper. Served from the cheese wheel.",
-      highlight: true,
-    },
-    {
-      name: "Agnolotti del Plin",
-      price: "€26",
-      desc: "Handmade Piedmontese ravioli stuffed with roasted meats, veal reduction, sage butter.",
-    },
-    {
-      name: "Spaghetti alle Vongole",
-      price: "€28",
-      desc: "Artisanal spaghetti, Veraci clams, garlic, chili, parsley, white wine.",
-    },
-    {
-      name: "Risotto allo Zafferano",
-      price: "€30",
-      desc: "Acquerello rice, Milanese saffron, bone marrow, 36-month Parmigiano.",
-    },
+  Primi: [
+    { name: "Cacio e Pepe", price: "€22", desc: "Tonnarelli, Pecorino Romano DOP, toasted black pepper. Served from the cheese wheel.", highlight: true },
+    { name: "Agnolotti del Plin", price: "€26", desc: "Handmade Piedmontese ravioli, roasted meats, veal reduction, sage butter." },
+    { name: "Spaghetti alle Vongole", price: "€28", desc: "Artisanal spaghetti, Veraci clams, garlic, chili, parsley, white wine." },
+    { name: "Risotto allo Zafferano", price: "€30", desc: "Acquerello rice, Milanese saffron, bone marrow, 36-month Parmigiano." },
   ],
   Secondi: [
-    {
-      name: "Ossobuco alla Milanese",
-      price: "€38",
-      desc: "Braised veal shank, traditional gremolata, served with saffron risotto.",
-      highlight: true,
-    },
-    {
-      name: "Branzino al Sale",
-      price: "€42",
-      desc: "Whole Mediterranean sea bass baked in sea salt crust, lemon emulsion, grilled asparagus.",
-    },
-    {
-      name: "Bistecca alla Fiorentina",
-      price: "€85",
-      desc: "1.2kg Chianina beef T-bone, roasted potatoes, rosemary. (For 2 persons)",
-    },
-    {
-      name: "Melanzane alla Parmigiana",
-      price: "€24",
-      desc: "Layered eggplant, San Marzano tomato sauce, mozzarella di bufala, fresh basil.",
-    },
+    { name: "Ossobuco alla Milanese", price: "€38", desc: "Braised veal shank, traditional gremolata, served with saffron risotto.", highlight: true },
+    { name: "Branzino al Sale", price: "€42", desc: "Whole Mediterranean sea bass baked in sea salt crust, lemon emulsion, grilled asparagus." },
+    { name: "Bistecca alla Fiorentina", price: "€85", desc: "1.2 kg Chianina beef T-bone, roasted potatoes, rosemary. Per due persone." },
+    { name: "Melanzane alla Parmigiana", price: "€24", desc: "Layered eggplant, San Marzano tomato, mozzarella di bufala, fresh basil." },
   ],
   Dolci: [
-    {
-      name: "Tiramisù Classico",
-      price: "€12",
-      desc: "Mascarpone cream, savoiardi dipped in espresso, bitter cocoa powder.",
-      highlight: true,
-    },
-    {
-      name: "Panna Cotta",
-      price: "€10",
-      desc: "Vanilla bean panna cotta, wild berry coulis, almond crumble.",
-    },
-    {
-      name: "Cannolo Siciliano",
-      price: "€11",
-      desc: "Crispy pastry shell, sheep's milk ricotta, candied orange peel, pistachios.",
-    },
-  ],
-  Vini: [
-    {
-      name: "Barolo DOCG 'Monfortino' 2013",
-      price: "€450",
-      desc: "Giacomo Conterno. Nebbiolo. Complex, structured, notes of tar and roses.",
-    },
-    {
-      name: "Brunello di Montalcino 2016",
-      price: "€120",
-      desc: "Biondi-Santi. Sangiovese Grosso. Elegant, bright cherry, leather.",
-    },
-    {
-      name: "Franciacorta Cuvée Prestige",
-      price: "€85",
-      desc: "Ca' del Bosco. Chardonnay, Pinot Bianco, Pinot Nero. Fine perlage, citrus notes.",
-      highlight: true,
-    },
+    { name: "Tiramisù Classico", price: "€12", desc: "Mascarpone cream, savoiardi dipped in espresso, bitter cocoa.", highlight: true },
+    { name: "Panna Cotta alla Vaniglia", price: "€10", desc: "Vanilla bean panna cotta, wild berry coulis, almond crumble." },
+    { name: "Cannolo Siciliano", price: "€11", desc: "Crispy pastry shell, sheep's milk ricotta, candied orange peel, pistachios." },
   ],
 };
 
-const REVIEWS = [
-  {
-    text: "The most authentic Cacio e Pepe outside of Rome. The atmosphere is undeniably warm and inviting.",
-    author: "Alexander P.",
-    rating: 5,
-    date: "October 2025",
-  },
-  {
-    text: "Impeccable service and an outstanding wine list. The Ossobuco transported me straight to Milan.",
-    author: "Sophia R.",
-    rating: 5,
-    date: "September 2025",
-  },
-  {
-    text: "A hidden gem. The Burrata was incredibly fresh, and the handmade Agnolotti were to die for.",
-    author: "James M.",
-    rating: 5,
-    date: "August 2025",
-  },
-  {
-    text: "Perfect for an anniversary dinner. They made us feel like family from the moment we walked in.",
-    author: "Elena C.",
-    rating: 5,
-    date: "July 2025",
-  },
+const WINES = [
+  { name: "Barolo DOCG 'Monfortino' 2013", region: "Piedmont", grape: "Nebbiolo", price: "€450", note: "Giacomo Conterno. Complex, tar and roses, infinite length." },
+  { name: "Brunello di Montalcino 2016", region: "Tuscany", grape: "Sangiovese Grosso", price: "€120", note: "Biondi-Santi. Elegant, bright cherry, mineral precision." },
+  { name: "Franciacorta Cuvée Prestige", region: "Lombardy", grape: "Chardonnay · Pinot Noir", price: "€85", note: "Ca' del Bosco. Fine perlage, white flowers, citrus." },
+  { name: "Amarone della Valpolicella 2015", region: "Veneto", grape: "Corvina", price: "€160", note: "Masi Costasera. Dark cherry, chocolate, robust structure." },
 ];
 
-const GALLERY = [
-  "https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1582296726210-67c9c0f99478?q=80&w=800&auto=format&fit=crop",
+const MARQUEE_ITEMS = [
+  "Burrata e Pomodorini",
+  "Cacio e Pepe",
+  "Carpaccio di Manzo",
+  "Ossobuco alla Milanese",
+  "Risotto allo Zafferano",
+  "Agnolotti del Plin",
+  "Branzino al Sale",
+  "Tiramisù Classico",
+  "Vitello Tonnato",
+  "Spaghetti alle Vongole",
+  "Fiori di Zucca",
+  "Bistecca alla Fiorentina",
 ];
 
 /* ==========================================================================
-   UTILITY COMPONENTS
+   GOOGLE FONTS INJECTION
    ========================================================================== */
 
-function Reveal({
+function useFonts() {
+  useEffect(() => {
+    const id = "gfonts-impact126";
+    if (document.getElementById(id)) return;
+    const style = document.createElement("style");
+    style.id = id;
+    style.textContent = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');`;
+    document.head.appendChild(style);
+  }, []);
+}
+
+/* ==========================================================================
+   TEXT REVEAL — overflow hidden + y: "110%" → 0
+   ========================================================================== */
+
+function TextReveal({
   children,
-  className = "",
   delay = 0,
-  y = 30,
+  style,
 }: {
   children: React.ReactNode;
-  className?: string;
   delay?: number;
-  y?: number;
+  style?: React.CSSProperties;
 }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  return (
+    <div ref={ref} style={{ overflow: "hidden", ...style }}>
+      <motion.div
+        initial={{ y: "110%" }}
+        animate={inView ? { y: "0%" } : { y: "110%" }}
+        transition={{ duration: 0.85, delay, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
+}
+
+/* ==========================================================================
+   MAGNETIC BUTTON — useMotionValue + useSpring
+   ========================================================================== */
+
+function MagneticButton({
+  children,
+  onClick,
+  style,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  style?: React.CSSProperties;
+}) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 200, damping: 20 });
+  const springY = useSpring(y, { stiffness: 200, damping: 20 });
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      x.set((e.clientX - cx) * 0.35);
+      y.set((e.clientY - cy) * 0.35);
+    },
+    [x, y]
+  );
+
+  const handleMouseLeave = useCallback(() => {
+    x.set(0);
+    y.set(0);
+  }, [x, y]);
+
+  return (
+    <motion.button
+      style={{ x: springX, y: springY, ...style }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={onClick}
+      whileTap={{ scale: 0.97 }}
+    >
+      {children}
+    </motion.button>
+  );
+}
+
+/* ==========================================================================
+   MARQUEE STRIP — x: "0%" → "-50%" infinite
+   ========================================================================== */
+
+function MarqueeStrip() {
+  const doubled = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS];
+  return (
+    <div
+      style={{
+        background: C.bgDark,
+        borderTop: `1px solid ${C.border}`,
+        borderBottom: `1px solid ${C.border}`,
+        padding: "20px 0",
+        overflow: "hidden",
+        position: "relative",
+      }}
+    >
+      <motion.div
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+        style={{ display: "flex", gap: 0, whiteSpace: "nowrap", willChange: "transform" }}
+      >
+        {doubled.map((item, i) => (
+          <span
+            key={i}
+            style={{
+              fontFamily: C.fontDisplay,
+              fontSize: "clamp(12px, 1.4vw, 16px)",
+              fontStyle: "italic",
+              color: i % 2 === 0 ? C.gold : C.muted,
+              padding: "0 40px",
+              letterSpacing: "0.04em",
+              display: "inline-block",
+              flexShrink: 0,
+            }}
+          >
+            {item}
+            <span style={{ color: C.terracotta, margin: "0 8px", fontStyle: "normal" }}>·</span>
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+/* ==========================================================================
+   PASTA THREAD — SVG plate with animated spaghetti strands
+   ========================================================================== */
+
+const PASTA_STRANDS = [
+  "M 50,140 C 80,100 200,180 230,140",
+  "M 60,155 C 100,110 190,175 225,150",
+  "M 45,165 C 90,125 195,160 235,165",
+  "M 55,175 C 100,140 185,145 235,180",
+  "M 65,185 C 110,150 175,135 225,190",
+  "M 48,130 C 85,95 205,195 235,155",
+  "M 70,145 C 105,115 180,170 220,135",
+  "M 52,160 C 90,130 195,145 230,170",
+  "M 62,120 C 95,90 210,200 238,145",
+  "M 75,170 C 115,145 170,130 215,175",
+];
+
+function PastaThreadSVG() {
+  const ref = useRef<SVGSVGElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+
+  return (
+    <div style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
+      {/* Glow behind plate */}
+      <div
+        style={{
+          position: "absolute",
+          width: 320,
+          height: 320,
+          borderRadius: "50%",
+          background: `radial-gradient(circle, rgba(200,96,58,0.18) 0%, transparent 70%)`,
+          filter: "blur(30px)",
+          pointerEvents: "none",
+        }}
+      />
+      <svg
+        ref={ref}
+        viewBox="0 0 280 280"
+        width={320}
+        height={320}
+        style={{ overflow: "visible" }}
+      >
+        {/* Plate outer rim */}
+        <motion.circle
+          cx="140" cy="140" r="132"
+          fill="none"
+          stroke={C.gold}
+          strokeWidth="2"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+        />
+        {/* Plate inner rim */}
+        <motion.circle
+          cx="140" cy="140" r="118"
+          fill="rgba(240,235,224,0.07)"
+          stroke="rgba(201,168,108,0.25)"
+          strokeWidth="1"
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        />
+        {/* Plate face */}
+        <circle cx="140" cy="140" r="117" fill="rgba(250,248,243,0.06)" />
+
+        {/* Pasta shadow blur */}
+        <motion.ellipse
+          cx="140" cy="155" rx="62" ry="18"
+          fill="rgba(30,18,8,0.22)"
+          initial={{ opacity: 0, scaleX: 0.4 }}
+          animate={inView ? { opacity: 1, scaleX: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          style={{ transformOrigin: "140px 155px" }}
+        />
+
+        {/* Pasta strands */}
+        {PASTA_STRANDS.map((d, i) => (
+          <motion.path
+            key={i}
+            d={d}
+            fill="none"
+            stroke={i % 3 === 0 ? C.terracotta : i % 3 === 1 ? C.gold : "#D4A76A"}
+            strokeWidth={i % 2 === 0 ? 2.5 : 2}
+            strokeLinecap="round"
+            initial={{ pathLength: 0, opacity: 0, rotate: -8 }}
+            animate={inView ? { pathLength: 1, opacity: 1, rotate: 0 } : {}}
+            transition={{
+              pathLength: { duration: 1.1, delay: 0.7 + i * 0.12, ease: [0.16, 1, 0.3, 1] },
+              opacity: { duration: 0.3, delay: 0.7 + i * 0.12 },
+              rotate: { duration: 0.9, delay: 0.7 + i * 0.12, ease: "easeOut" },
+            }}
+            style={{ transformOrigin: "140px 155px" }}
+          />
+        ))}
+
+        {/* Basil leaf group — fades in after strands */}
+        <motion.g
+          initial={{ opacity: 0, scale: 0.3 }}
+          animate={inView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.7, delay: 2.2, ease: "backOut" }}
+          style={{ transformOrigin: "158px 128px" }}
+        >
+          {/* leaf 1 */}
+          <ellipse cx="152" cy="126" rx="10" ry="5" fill="#4A7C4E" transform="rotate(-30, 152, 126)" />
+          {/* leaf 2 */}
+          <ellipse cx="164" cy="122" rx="9" ry="4.5" fill="#3D6B42" transform="rotate(20, 164, 122)" />
+          {/* leaf stem */}
+          <line x1="154" y1="130" x2="160" y2="136" stroke="#3D6B42" strokeWidth="1.5" strokeLinecap="round" />
+          {/* leaf vein 1 */}
+          <line x1="147" y1="124" x2="157" y2="126" stroke="rgba(255,255,255,0.25)" strokeWidth="0.8" />
+        </motion.g>
+
+        {/* Center nest swirl */}
+        <motion.circle
+          cx="140" cy="155" r="22"
+          fill="none"
+          stroke={C.terracotta}
+          strokeWidth="2.5"
+          strokeDasharray="4 6"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={inView ? { pathLength: 1, opacity: 0.6 } : {}}
+          transition={{ duration: 1.2, delay: 1.6, ease: "easeOut" }}
+        />
+
+        {/* Parmesan flecks */}
+        {[
+          { cx: 118, cy: 148 }, { cx: 160, cy: 136 }, { cx: 130, cy: 170 },
+          { cx: 148, cy: 175 }, { cx: 165, cy: 160 }, { cx: 112, cy: 162 },
+        ].map((pt, i) => (
+          <motion.circle
+            key={i}
+            cx={pt.cx} cy={pt.cy} r="2"
+            fill={C.gold}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={inView ? { opacity: 0.7, scale: 1 } : {}}
+            transition={{ duration: 0.4, delay: 2.0 + i * 0.08 }}
+            style={{ transformOrigin: `${pt.cx}px ${pt.cy}px` }}
+          />
+        ))}
+      </svg>
+    </div>
+  );
+}
+
+/* ==========================================================================
+   FADE UP REVEAL
+   ========================================================================== */
+
+function FadeUp({
+  children,
+  delay = 0,
+  style,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  style?: React.CSSProperties;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y }}
+      initial={{ opacity: 0, y: 36 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] }}
-      className={className}
+      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
+      style={style}
     >
       {children}
     </motion.div>
@@ -199,584 +397,1820 @@ function Reveal({
 }
 
 /* ==========================================================================
-   MAIN PAGE COMPONENT
+   MENU ITEM WITH HOVER REVEAL (AnimatePresence)
    ========================================================================== */
 
-export default function TrattoriaMenuPage() {
-  const [activeCategory, setActiveCategory] = useState("Primi Piatti");
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+function MenuItem({
+  item,
+  index,
+}: {
+  item: { name: string; price: string; desc: string; highlight?: boolean };
+  index: number;
+}) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -16 }}
+      transition={{ duration: 0.45, delay: index * 0.07 }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        padding: "24px 0",
+        borderBottom: `1px solid ${C.border}`,
+        cursor: "default",
+        position: "relative",
+      }}
+    >
+      {/* Hover bg reveal */}
+      <AnimatePresence>
+        {hovered && (
+          <motion.div
+            key="hover-bg"
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            exit={{ opacity: 0, scaleX: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: `linear-gradient(90deg, rgba(200,96,58,0.06) 0%, transparent 100%)`,
+              borderRadius: 4,
+              transformOrigin: "left center",
+              pointerEvents: "none",
+            }}
+          />
+        )}
+      </AnimatePresence>
+
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 24, position: "relative" }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+            <span
+              style={{
+                fontFamily: C.fontDisplay,
+                fontSize: "clamp(17px, 1.9vw, 22px)",
+                fontWeight: 500,
+                color: item.highlight ? C.terracotta : C.dark,
+                letterSpacing: "-0.01em",
+              }}
+            >
+              {item.name}
+            </span>
+            {item.highlight && (
+              <span
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 9,
+                  fontWeight: 600,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  color: C.terracotta,
+                  border: `1px solid ${C.terracotta}`,
+                  padding: "2px 8px",
+                  borderRadius: 2,
+                }}
+              >
+                Chef
+              </span>
+            )}
+          </div>
+          <AnimatePresence>
+            {hovered && (
+              <motion.p
+                key="desc"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 4 }}
+                transition={{ duration: 0.3 }}
+                style={{ fontFamily: C.fontSans, fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 480 }}
+              >
+                {item.desc}
+              </motion.p>
+            )}
+          </AnimatePresence>
+          {!hovered && (
+            <p style={{ fontFamily: C.fontSans, fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 480 }}>
+              {item.desc}
+            </p>
+          )}
+        </div>
+        <span
+          style={{
+            fontFamily: C.fontDisplay,
+            fontSize: "clamp(16px, 1.6vw, 20px)",
+            fontWeight: 600,
+            color: C.terracotta,
+            flexShrink: 0,
+            paddingTop: 2,
+          }}
+        >
+          {item.price}
+        </span>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ==========================================================================
+   MAIN PAGE
+   ========================================================================== */
+
+export default function ImpactRestaurantPage() {
+  useFonts();
+
+  const [activeCategory, setActiveCategory] = useState<MenuCategory>("Antipasti");
+  const [navScrolled, setNavScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [reservationOpen, setReservationOpen] = useState(false);
 
-  // Parallax
   const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 1000], [0, 300]);
-  const heroOpacity = useTransform(scrollY, [0, 800], [1, 0]);
+  const heroParallaxY = useTransform(scrollY, [0, 700], [0, 180]);
+  const heroOpacity = useTransform(scrollY, [0, 600], [1, 0]);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const unsub = scrollY.onChange((v) => setNavScrolled(v > 60));
+    return unsub;
+  }, [scrollY]);
 
+  /* ---- NAV ---- */
   return (
-    <div className="premium-theme min-h-screen bg-[#1c1815] text-[#f4ecd8] font-serif selection:bg-[#d97736]/30 selection:text-white">
-      {/* ==========================================
-          RESERVATION MODAL
-          ========================================== */}
+    <div
+      style={{
+        fontFamily: C.fontSans,
+        background: C.bg,
+        color: C.dark,
+        minHeight: "100vh",
+        overflowX: "hidden",
+      }}
+    >
+      {/* ============================================================
+          SECTION 1 — NAVIGATION (fixed)
+          ============================================================ */}
+      <motion.nav
+        animate={{
+          backgroundColor: navScrolled ? "rgba(250,248,243,0.96)" : "rgba(250,248,243,0)",
+          borderBottomColor: navScrolled ? C.border : "transparent",
+          boxShadow: navScrolled ? "0 1px 24px rgba(30,18,8,0.08)" : "none",
+        }}
+        transition={{ duration: 0.4 }}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          borderBottom: `1px solid transparent`,
+          backdropFilter: navScrolled ? "blur(16px)" : "none",
+          WebkitBackdropFilter: navScrolled ? "blur(16px)" : "none",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1360,
+            margin: "0 auto",
+            padding: "0 32px",
+            height: navScrolled ? 68 : 88,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            transition: "height 0.4s ease",
+          }}
+        >
+          {/* Left nav links */}
+          <div
+            style={{
+              display: "flex",
+              gap: 36,
+              fontFamily: C.fontSans,
+              fontSize: 11,
+              fontWeight: 500,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: C.muted,
+            }}
+          >
+            {["Menu", "Chef", "Cantina"].map((link) => (
+              <a
+                key={link}
+                href={`#${link.toLowerCase()}`}
+                style={{
+                  color: C.muted,
+                  textDecoration: "none",
+                  transition: "color 0.2s",
+                }}
+                onMouseEnter={(e) => ((e.target as HTMLAnchorElement).style.color = C.terracotta)}
+                onMouseLeave={(e) => ((e.target as HTMLAnchorElement).style.color = C.muted)}
+              >
+                {link}
+              </a>
+            ))}
+          </div>
+
+          {/* Logo center */}
+          <div
+            style={{
+              position: "absolute",
+              left: "50%",
+              transform: "translateX(-50%)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 2,
+            }}
+          >
+            {/* Terracotta logomark circle */}
+            <div
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                background: C.terracotta,
+                marginBottom: 4,
+              }}
+            />
+            <span
+              style={{
+                fontFamily: C.fontDisplay,
+                fontSize: "clamp(18px, 2vw, 24px)",
+                fontWeight: 600,
+                letterSpacing: "0.28em",
+                textTransform: "uppercase",
+                color: C.dark,
+              }}
+            >
+              Aureliano
+            </span>
+            <span
+              style={{
+                fontFamily: C.fontSans,
+                fontSize: 9,
+                fontWeight: 500,
+                letterSpacing: "0.35em",
+                textTransform: "uppercase",
+                color: C.terracotta,
+              }}
+            >
+              Roma
+            </span>
+          </div>
+
+          {/* Right CTA */}
+          <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+            <span
+              style={{
+                fontFamily: C.fontSans,
+                fontSize: 11,
+                letterSpacing: "0.12em",
+                color: C.muted,
+              }}
+            >
+              +39 06 9876 543
+            </span>
+            <MagneticButton
+              onClick={() => setReservationOpen(true)}
+              style={{
+                fontFamily: C.fontSans,
+                fontSize: 10,
+                fontWeight: 600,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: C.white,
+                background: C.terracotta,
+                border: "none",
+                padding: "12px 24px",
+                cursor: "pointer",
+                borderRadius: 2,
+              }}
+            >
+              Prenota
+            </MagneticButton>
+          </div>
+        </div>
+      </motion.nav>
+
+      {/* Mobile menu overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ x: "-100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "-100%" }}
+            transition={{ type: "tween", duration: 0.38 }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 200,
+              background: C.bgDark,
+              display: "flex",
+              flexDirection: "column",
+              padding: 40,
+            }}
+          >
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              style={{
+                alignSelf: "flex-end",
+                background: "none",
+                border: "none",
+                color: C.gold,
+                fontSize: 28,
+                cursor: "pointer",
+                marginBottom: 60,
+              }}
+            >
+              ×
+            </button>
+            {["Menu", "Chef", "Cantina", "Prenota"].map((item, i) => (
+              <motion.div
+                key={item}
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 + i * 0.08 }}
+                style={{
+                  fontFamily: C.fontDisplay,
+                  fontSize: 36,
+                  fontWeight: 400,
+                  color: C.white,
+                  paddingBottom: 24,
+                  borderBottom: `1px solid rgba(255,255,255,0.08)`,
+                  marginBottom: 24,
+                  cursor: "pointer",
+                }}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {item}
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ============================================================
+          SECTION 2 — HERO
+          ============================================================ */}
+      <section
+        style={{
+          position: "relative",
+          width: "100%",
+          height: "100svh",
+          minHeight: 640,
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {/* Parallax background image */}
+        <motion.div
+          style={{
+            position: "absolute",
+            inset: "-10%",
+            y: heroParallaxY,
+            opacity: heroOpacity,
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2200&auto=format&fit=crop')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+
+        {/* Wheat/pasta watermark pattern */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: `
+              radial-gradient(ellipse at 20% 80%, rgba(200,96,58,0.12) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 20%, rgba(201,168,108,0.10) 0%, transparent 50%),
+              linear-gradient(180deg, rgba(30,18,8,0.28) 0%, rgba(30,18,8,0.65) 60%, rgba(30,18,8,0.92) 100%)
+            `,
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* SVG pasta watermark */}
+        <svg
+          style={{
+            position: "absolute",
+            right: "5%",
+            top: "50%",
+            transform: "translateY(-50%)",
+            opacity: 0.05,
+            width: "min(340px, 40vw)",
+            height: "auto",
+            pointerEvents: "none",
+          }}
+          viewBox="0 0 200 200"
+        >
+          {[0, 30, 60, 90, 120, 150].map((r, i) => (
+            <ellipse key={i} cx="100" cy="100" rx="90" ry="20" fill="none" stroke="#C9A86C" strokeWidth="1.5" transform={`rotate(${r}, 100, 100)`} />
+          ))}
+          <circle cx="100" cy="100" r="92" fill="none" stroke="#C9A86C" strokeWidth="1.5" />
+        </svg>
+
+        {/* Hero content */}
+        <div
+          style={{
+            position: "relative",
+            zIndex: 10,
+            textAlign: "center",
+            padding: "0 24px",
+            maxWidth: 920,
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.1 }}
+            style={{
+              fontFamily: C.fontSans,
+              fontSize: 10,
+              fontWeight: 600,
+              letterSpacing: "0.4em",
+              textTransform: "uppercase",
+              color: C.gold,
+              marginBottom: 28,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 16,
+            }}
+          >
+            <span style={{ display: "block", width: 32, height: 1, background: C.gold }} />
+            Ristorante · Roma, Trastevere
+            <span style={{ display: "block", width: 32, height: 1, background: C.gold }} />
+          </motion.div>
+
+          <div style={{ overflow: "hidden", marginBottom: 12 }}>
+            <motion.h1
+              initial={{ y: "110%" }}
+              animate={{ y: "0%" }}
+              transition={{ duration: 1.1, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                fontFamily: C.fontDisplay,
+                fontSize: "clamp(52px, 9vw, 116px)",
+                fontWeight: 700,
+                lineHeight: 0.92,
+                color: "#FAF8F3",
+                letterSpacing: "-0.02em",
+                margin: 0,
+              }}
+            >
+              Cucina
+            </motion.h1>
+          </div>
+          <div style={{ overflow: "hidden", marginBottom: 36 }}>
+            <motion.h1
+              initial={{ y: "110%" }}
+              animate={{ y: "0%" }}
+              transition={{ duration: 1.1, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                fontFamily: C.fontDisplay,
+                fontStyle: "italic",
+                fontSize: "clamp(52px, 9vw, 116px)",
+                fontWeight: 400,
+                lineHeight: 0.92,
+                color: C.terracotta,
+                letterSpacing: "-0.02em",
+                margin: 0,
+              }}
+            >
+              Autentica.
+            </motion.h1>
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.75 }}
+            style={{
+              fontFamily: C.fontSans,
+              fontSize: "clamp(14px, 1.4vw, 17px)",
+              fontWeight: 300,
+              color: "rgba(250,248,243,0.72)",
+              lineHeight: 1.7,
+              maxWidth: 500,
+              margin: "0 auto 48px",
+            }}
+          >
+            A celebration of Roman culinary heritage — sourced daily from Campo de' Fiori, prepared with the rigor of a centuries-old tradition.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}
+          >
+            <MagneticButton
+              onClick={() => setReservationOpen(true)}
+              style={{
+                fontFamily: C.fontSans,
+                fontSize: 11,
+                fontWeight: 600,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                color: C.white,
+                background: C.terracotta,
+                border: "none",
+                padding: "16px 40px",
+                cursor: "pointer",
+                borderRadius: 2,
+              }}
+            >
+              Prenota un Tavolo
+            </MagneticButton>
+            <MagneticButton
+              style={{
+                fontFamily: C.fontSans,
+                fontSize: 11,
+                fontWeight: 500,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: C.gold,
+                background: "none",
+                border: `1px solid rgba(201,168,108,0.55)`,
+                padding: "16px 36px",
+                cursor: "pointer",
+                borderRadius: 2,
+              }}
+            >
+              Scopri il Menu
+            </MagneticButton>
+          </motion.div>
+        </div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 1 }}
+          style={{
+            position: "absolute",
+            bottom: 36,
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 8,
+          }}
+        >
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+            style={{ width: 1, height: 36, background: `linear-gradient(to bottom, ${C.gold}, transparent)` }}
+          />
+        </motion.div>
+      </section>
+
+      {/* ============================================================
+          SECTION 3 — MARQUEE STRIP
+          ============================================================ */}
+      <MarqueeStrip />
+
+      {/* ============================================================
+          SECTION 4 — PASTA THREAD SIGNATURE
+          ============================================================ */}
+      <section
+        style={{
+          background: C.bgCard,
+          padding: "100px 32px",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1240,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 80,
+            alignItems: "center",
+          }}
+        >
+          {/* Left: text */}
+          <div>
+            <FadeUp>
+              <span
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 10,
+                  fontWeight: 600,
+                  letterSpacing: "0.35em",
+                  textTransform: "uppercase",
+                  color: C.terracotta,
+                  display: "block",
+                  marginBottom: 20,
+                }}
+              >
+                La Tradizione
+              </span>
+            </FadeUp>
+            <TextReveal delay={0.1}>
+              <h2
+                style={{
+                  fontFamily: C.fontDisplay,
+                  fontSize: "clamp(36px, 4.5vw, 58px)",
+                  fontWeight: 600,
+                  lineHeight: 1.1,
+                  color: C.dark,
+                  letterSpacing: "-0.02em",
+                  marginBottom: 8,
+                }}
+              >
+                L'Arte
+              </h2>
+            </TextReveal>
+            <TextReveal delay={0.2}>
+              <h2
+                style={{
+                  fontFamily: C.fontDisplay,
+                  fontStyle: "italic",
+                  fontSize: "clamp(36px, 4.5vw, 58px)",
+                  fontWeight: 400,
+                  lineHeight: 1.1,
+                  color: C.terracotta,
+                  letterSpacing: "-0.02em",
+                  marginBottom: 36,
+                }}
+              >
+                della Pasta
+              </h2>
+            </TextReveal>
+            <FadeUp delay={0.3}>
+              <p
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 15,
+                  fontWeight: 300,
+                  color: C.muted,
+                  lineHeight: 1.8,
+                  maxWidth: 420,
+                  marginBottom: 52,
+                }}
+              >
+                Every strand is rolled by hand each morning. Our tonnarelli for Cacio e Pepe is made with semola di grano duro from a single mill in Molise. No shortcuts. No compromise.
+              </p>
+            </FadeUp>
+
+            {/* Stats */}
+            <FadeUp delay={0.4}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32 }}>
+                {[
+                  { num: "1987", label: "Fondato" },
+                  { num: "12", label: "Pasta fresche" },
+                  { num: "400+", label: "Etichette vino" },
+                ].map((stat) => (
+                  <div key={stat.label}>
+                    <div
+                      style={{
+                        fontFamily: C.fontDisplay,
+                        fontSize: "clamp(28px, 3vw, 40px)",
+                        fontWeight: 600,
+                        color: C.dark,
+                        lineHeight: 1,
+                        marginBottom: 6,
+                      }}
+                    >
+                      {stat.num}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: C.fontSans,
+                        fontSize: 10,
+                        fontWeight: 500,
+                        letterSpacing: "0.22em",
+                        textTransform: "uppercase",
+                        color: C.terracotta,
+                      }}
+                    >
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </FadeUp>
+          </div>
+
+          {/* Right: PastaThread SVG */}
+          <FadeUp delay={0.15} style={{ display: "flex", justifyContent: "center" }}>
+            <PastaThreadSVG />
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* ============================================================
+          SECTION 5 — MENU (filterable with AnimatePresence)
+          ============================================================ */}
+      <section
+        id="menu"
+        style={{ background: C.bg, padding: "100px 32px" }}
+      >
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          {/* Header */}
+          <div style={{ textAlign: "center", marginBottom: 60 }}>
+            <FadeUp>
+              <span
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 10,
+                  fontWeight: 600,
+                  letterSpacing: "0.38em",
+                  textTransform: "uppercase",
+                  color: C.terracotta,
+                  display: "block",
+                  marginBottom: 16,
+                }}
+              >
+                La Carta
+              </span>
+            </FadeUp>
+            <TextReveal delay={0.1}>
+              <h2
+                style={{
+                  fontFamily: C.fontDisplay,
+                  fontSize: "clamp(36px, 5vw, 60px)",
+                  fontWeight: 600,
+                  lineHeight: 1.08,
+                  color: C.dark,
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                Il Menu
+              </h2>
+            </TextReveal>
+          </div>
+
+          {/* Category filter tabs */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: 4,
+              marginBottom: 52,
+              background: C.bgCard,
+              padding: 6,
+              borderRadius: 6,
+            }}
+          >
+            {MENU_CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 11,
+                  fontWeight: 500,
+                  letterSpacing: "0.16em",
+                  textTransform: "uppercase",
+                  padding: "10px 24px",
+                  border: "none",
+                  borderRadius: 4,
+                  cursor: "pointer",
+                  transition: "all 0.25s ease",
+                  background: activeCategory === cat ? C.terracotta : "transparent",
+                  color: activeCategory === cat ? C.white : C.muted,
+                }}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Items */}
+          <AnimatePresence mode="wait">
+            <motion.div key={activeCategory}>
+              {MENU_ITEMS[activeCategory].map((item, i) => (
+                <MenuItem key={item.name} item={item} index={i} />
+              ))}
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Disclaimer */}
+          <FadeUp delay={0.2}>
+            <p
+              style={{
+                fontFamily: C.fontSans,
+                fontSize: 11,
+                color: C.muted,
+                textAlign: "center",
+                marginTop: 40,
+                lineHeight: 1.7,
+              }}
+            >
+              Informate il vostro cameriere di eventuali allergie o intolleranze alimentari.
+              <br />
+              Un supplemento di servizio del 12,5% sarà aggiunto al conto.
+            </p>
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* ============================================================
+          SECTION 6 — WINE CELLAR
+          ============================================================ */}
+      <section
+        id="cantina"
+        style={{ background: C.bgDark, padding: "100px 32px", overflow: "hidden" }}
+      >
+        <div style={{ maxWidth: 1240, margin: "0 auto" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1.4fr",
+              gap: 80,
+              alignItems: "start",
+            }}
+          >
+            {/* Left sticky header */}
+            <div style={{ position: "sticky", top: 120 }}>
+              <FadeUp>
+                <span
+                  style={{
+                    fontFamily: C.fontSans,
+                    fontSize: 10,
+                    fontWeight: 600,
+                    letterSpacing: "0.38em",
+                    textTransform: "uppercase",
+                    color: C.gold,
+                    display: "block",
+                    marginBottom: 20,
+                  }}
+                >
+                  La Vigna
+                </span>
+              </FadeUp>
+              <TextReveal delay={0.1}>
+                <h2
+                  style={{
+                    fontFamily: C.fontDisplay,
+                    fontSize: "clamp(36px, 4vw, 52px)",
+                    fontWeight: 600,
+                    lineHeight: 1.1,
+                    color: "#FAF8F3",
+                    letterSpacing: "-0.02em",
+                    marginBottom: 8,
+                  }}
+                >
+                  La Cantina
+                </h2>
+              </TextReveal>
+              <TextReveal delay={0.2}>
+                <h2
+                  style={{
+                    fontFamily: C.fontDisplay,
+                    fontStyle: "italic",
+                    fontSize: "clamp(36px, 4vw, 52px)",
+                    fontWeight: 400,
+                    lineHeight: 1.1,
+                    color: C.gold,
+                    letterSpacing: "-0.02em",
+                    marginBottom: 36,
+                  }}
+                >
+                  di Aureliano
+                </h2>
+              </TextReveal>
+              <FadeUp delay={0.3}>
+                <p
+                  style={{
+                    fontFamily: C.fontSans,
+                    fontSize: 14,
+                    fontWeight: 300,
+                    color: "rgba(250,248,243,0.6)",
+                    lineHeight: 1.8,
+                    maxWidth: 340,
+                  }}
+                >
+                  Over 400 labels curated over three decades — a journey through Barolo, Brunello, and beyond. Our sommelier guides every table through the finest expressions of Italian terroir.
+                </p>
+              </FadeUp>
+            </div>
+
+            {/* Right: wine cards */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              {WINES.map((wine, i) => (
+                <FadeUp key={wine.name} delay={i * 0.1}>
+                  <div
+                    style={{
+                      borderBottom: `1px solid rgba(201,168,108,0.15)`,
+                      padding: "32px 0",
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLDivElement).style.paddingLeft = "12px";
+                      (e.currentTarget as HTMLDivElement).style.transition = "padding 0.3s ease";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLDivElement).style.paddingLeft = "0px";
+                    }}
+                  >
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 20 }}>
+                      <div>
+                        <div
+                          style={{
+                            fontFamily: C.fontDisplay,
+                            fontSize: "clamp(16px, 1.6vw, 20px)",
+                            fontWeight: 500,
+                            color: "#FAF8F3",
+                            marginBottom: 8,
+                          }}
+                        >
+                          {wine.name}
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: 16,
+                            marginBottom: 10,
+                          }}
+                        >
+                          {[wine.region, wine.grape].map((tag) => (
+                            <span
+                              key={tag}
+                              style={{
+                                fontFamily: C.fontSans,
+                                fontSize: 9,
+                                fontWeight: 500,
+                                letterSpacing: "0.18em",
+                                textTransform: "uppercase",
+                                color: C.gold,
+                                border: `1px solid rgba(201,168,108,0.35)`,
+                                padding: "3px 8px",
+                                borderRadius: 2,
+                              }}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                        <p
+                          style={{
+                            fontFamily: C.fontSans,
+                            fontSize: 13,
+                            color: "rgba(250,248,243,0.5)",
+                            lineHeight: 1.65,
+                          }}
+                        >
+                          {wine.note}
+                        </p>
+                      </div>
+                      <span
+                        style={{
+                          fontFamily: C.fontDisplay,
+                          fontSize: "clamp(18px, 1.8vw, 22px)",
+                          fontWeight: 600,
+                          color: C.gold,
+                          flexShrink: 0,
+                        }}
+                      >
+                        {wine.price}
+                      </span>
+                    </div>
+                  </div>
+                </FadeUp>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================
+          SECTION 7 — CHEF STORY
+          ============================================================ */}
+      <section
+        id="chef"
+        style={{ background: C.bg, padding: "100px 32px" }}
+      >
+        <div
+          style={{
+            maxWidth: 1240,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "1.1fr 1fr",
+            gap: 80,
+            alignItems: "center",
+          }}
+        >
+          {/* Left: image */}
+          <FadeUp style={{ position: "relative", height: 560 }}>
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                backgroundImage:
+                  "url('https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1200&auto=format&fit=crop')",
+                backgroundSize: "cover",
+                backgroundPosition: "center top",
+                borderRadius: 2,
+              }}
+            />
+            {/* Terracotta accent block */}
+            <div
+              style={{
+                position: "absolute",
+                bottom: -24,
+                right: -24,
+                width: 160,
+                height: 160,
+                background: C.terracotta,
+                borderRadius: 2,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 4,
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: C.fontDisplay,
+                  fontSize: 42,
+                  fontWeight: 700,
+                  color: C.white,
+                  lineHeight: 1,
+                }}
+              >
+                37
+              </span>
+              <span
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 9,
+                  fontWeight: 600,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.8)",
+                  textAlign: "center",
+                }}
+              >
+                Anni di cucina
+              </span>
+            </div>
+          </FadeUp>
+
+          {/* Right: text */}
+          <div>
+            <FadeUp>
+              <span
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 10,
+                  fontWeight: 600,
+                  letterSpacing: "0.38em",
+                  textTransform: "uppercase",
+                  color: C.terracotta,
+                  display: "block",
+                  marginBottom: 20,
+                }}
+              >
+                Il Maestro
+              </span>
+            </FadeUp>
+            <TextReveal delay={0.1}>
+              <h2
+                style={{
+                  fontFamily: C.fontDisplay,
+                  fontSize: "clamp(32px, 3.8vw, 48px)",
+                  fontWeight: 600,
+                  lineHeight: 1.1,
+                  color: C.dark,
+                  letterSpacing: "-0.02em",
+                  marginBottom: 6,
+                }}
+              >
+                Marco Aurelio
+              </h2>
+            </TextReveal>
+            <TextReveal delay={0.2}>
+              <h3
+                style={{
+                  fontFamily: C.fontDisplay,
+                  fontStyle: "italic",
+                  fontSize: "clamp(18px, 2vw, 24px)",
+                  fontWeight: 400,
+                  color: C.muted,
+                  marginBottom: 36,
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                Chef Patron & Fondatore
+              </h3>
+            </TextReveal>
+            <FadeUp delay={0.3}>
+              <p
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 15,
+                  fontWeight: 300,
+                  color: C.muted,
+                  lineHeight: 1.85,
+                  marginBottom: 28,
+                }}
+              >
+                Born in Trastevere, Marco apprenticed under three generations of Roman cooks before founding Aureliano in 1987. His philosophy is radical simplicity: the finest ingredients, the most honest preparations.
+              </p>
+              <p
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 15,
+                  fontWeight: 300,
+                  color: C.muted,
+                  lineHeight: 1.85,
+                  marginBottom: 40,
+                }}
+              >
+                "Cooking is not performance," he says. "It is the act of remembering who you are, where you come from — and offering that to a stranger across a table."
+              </p>
+            </FadeUp>
+            <FadeUp delay={0.4}>
+              <div style={{ display: "flex", gap: 40 }}>
+                {[
+                  { n: "2", label: "Stelle Michelin" },
+                  { n: "3", label: "Premi Identità" },
+                ].map((a) => (
+                  <div key={a.label}>
+                    <div
+                      style={{
+                        fontFamily: C.fontDisplay,
+                        fontSize: 38,
+                        fontWeight: 700,
+                        color: C.terracotta,
+                        lineHeight: 1,
+                        marginBottom: 4,
+                      }}
+                    >
+                      {a.n}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: C.fontSans,
+                        fontSize: 10,
+                        fontWeight: 500,
+                        letterSpacing: "0.2em",
+                        textTransform: "uppercase",
+                        color: C.muted,
+                      }}
+                    >
+                      {a.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </FadeUp>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================
+          SECTION 8 — RESERVATIONS CTA
+          ============================================================ */}
+      <section
+        style={{
+          background: C.terracotta,
+          padding: "100px 32px",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        {/* Decorative circles */}
+        <div
+          style={{
+            position: "absolute",
+            top: -100,
+            right: -100,
+            width: 400,
+            height: 400,
+            borderRadius: "50%",
+            border: "1px solid rgba(255,255,255,0.15)",
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: -60,
+            left: -60,
+            width: 280,
+            height: 280,
+            borderRadius: "50%",
+            border: "1px solid rgba(255,255,255,0.12)",
+            pointerEvents: "none",
+          }}
+        />
+
+        <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center", position: "relative", zIndex: 1 }}>
+          <FadeUp>
+            <span
+              style={{
+                fontFamily: C.fontSans,
+                fontSize: 10,
+                fontWeight: 600,
+                letterSpacing: "0.38em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,0.7)",
+                display: "block",
+                marginBottom: 24,
+              }}
+            >
+              Prenotazioni
+            </span>
+          </FadeUp>
+          <TextReveal delay={0.1}>
+            <h2
+              style={{
+                fontFamily: C.fontDisplay,
+                fontSize: "clamp(36px, 5.5vw, 68px)",
+                fontWeight: 600,
+                lineHeight: 1.05,
+                color: C.white,
+                letterSpacing: "-0.02em",
+                marginBottom: 12,
+              }}
+            >
+              Prenota la tua
+            </h2>
+          </TextReveal>
+          <TextReveal delay={0.2}>
+            <h2
+              style={{
+                fontFamily: C.fontDisplay,
+                fontStyle: "italic",
+                fontSize: "clamp(36px, 5.5vw, 68px)",
+                fontWeight: 400,
+                lineHeight: 1.05,
+                color: "rgba(255,255,255,0.85)",
+                letterSpacing: "-0.02em",
+                marginBottom: 36,
+              }}
+            >
+              serata perfetta.
+            </h2>
+          </TextReveal>
+          <FadeUp delay={0.3}>
+            <p
+              style={{
+                fontFamily: C.fontSans,
+                fontSize: 15,
+                fontWeight: 300,
+                color: "rgba(255,255,255,0.75)",
+                lineHeight: 1.75,
+                marginBottom: 48,
+              }}
+            >
+              Lunch Wednesday – Sunday, 12:30 – 14:30<br />
+              Dinner Tuesday – Sunday, 19:30 – 23:00
+            </p>
+          </FadeUp>
+          <FadeUp delay={0.4}>
+            <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+              <MagneticButton
+                onClick={() => setReservationOpen(true)}
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 11,
+                  fontWeight: 600,
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: C.terracotta,
+                  background: C.white,
+                  border: "none",
+                  padding: "18px 44px",
+                  cursor: "pointer",
+                  borderRadius: 2,
+                }}
+              >
+                Prenota Online
+              </MagneticButton>
+              <MagneticButton
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 11,
+                  fontWeight: 500,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  color: C.white,
+                  background: "none",
+                  border: "1px solid rgba(255,255,255,0.55)",
+                  padding: "18px 40px",
+                  cursor: "pointer",
+                  borderRadius: 2,
+                }}
+              >
+                +39 06 9876 543
+              </MagneticButton>
+            </div>
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* ============================================================
+          SECTION 9 — LOCATION + HOURS
+          ============================================================ */}
+      <section
+        style={{ background: C.bgCard, padding: "100px 32px" }}
+      >
+        <div
+          style={{
+            maxWidth: 1240,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gap: 60,
+          }}
+        >
+          {/* Map placeholder */}
+          <FadeUp style={{ gridColumn: "span 1" }}>
+            <div
+              style={{
+                height: 320,
+                background: `linear-gradient(135deg, rgba(200,96,58,0.08) 0%, rgba(201,168,108,0.1) 100%)`,
+                border: `1px solid ${C.border}`,
+                borderRadius: 4,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 12,
+              }}
+            >
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                <circle cx="24" cy="22" r="8" stroke={C.terracotta} strokeWidth="2" fill="none" />
+                <path d="M24 2 C13 2 5 10 5 22 C5 34 24 46 24 46 C24 46 43 34 43 22 C43 10 35 2 24 2Z" stroke={C.terracotta} strokeWidth="2" fill={`rgba(200,96,58,0.08)`} />
+              </svg>
+              <span
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 11,
+                  fontWeight: 500,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  color: C.terracotta,
+                }}
+              >
+                Via della Lungaretta, 82
+              </span>
+              <span
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 12,
+                  color: C.muted,
+                }}
+              >
+                00153 Roma — Trastevere
+              </span>
+            </div>
+          </FadeUp>
+
+          {/* Hours */}
+          <FadeUp delay={0.1}>
+            <span
+              style={{
+                fontFamily: C.fontSans,
+                fontSize: 10,
+                fontWeight: 600,
+                letterSpacing: "0.32em",
+                textTransform: "uppercase",
+                color: C.terracotta,
+                display: "block",
+                marginBottom: 24,
+              }}
+            >
+              Orari
+            </span>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {[
+                { day: "Lun", hours: "Chiuso" },
+                { day: "Mar – Ven", hours: "19:30 – 23:00" },
+                { day: "Sab", hours: "12:30–14:30 · 19:30–23:30" },
+                { day: "Dom", hours: "12:30 – 14:30" },
+              ].map((row) => (
+                <div
+                  key={row.day}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    paddingBottom: 16,
+                    borderBottom: `1px solid ${C.border}`,
+                    fontFamily: C.fontSans,
+                    fontSize: 14,
+                  }}
+                >
+                  <span style={{ color: C.dark, fontWeight: 500 }}>{row.day}</span>
+                  <span style={{ color: row.hours === "Chiuso" ? C.muted : C.terracotta }}>{row.hours}</span>
+                </div>
+              ))}
+            </div>
+          </FadeUp>
+
+          {/* Contact */}
+          <FadeUp delay={0.2}>
+            <span
+              style={{
+                fontFamily: C.fontSans,
+                fontSize: 10,
+                fontWeight: 600,
+                letterSpacing: "0.32em",
+                textTransform: "uppercase",
+                color: C.terracotta,
+                display: "block",
+                marginBottom: 24,
+              }}
+            >
+              Contatti
+            </span>
+            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+              {[
+                { label: "Telefono", value: "+39 06 9876 543" },
+                { label: "Email", value: "info@aureliano.roma" },
+                { label: "Indirizzo", value: "Via della Lungaretta, 82\n00153 Roma" },
+              ].map((c) => (
+                <div key={c.label}>
+                  <div
+                    style={{
+                      fontFamily: C.fontSans,
+                      fontSize: 9,
+                      fontWeight: 600,
+                      letterSpacing: "0.25em",
+                      textTransform: "uppercase",
+                      color: C.muted,
+                      marginBottom: 6,
+                    }}
+                  >
+                    {c.label}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: C.fontSans,
+                      fontSize: 14,
+                      color: C.dark,
+                      lineHeight: 1.6,
+                      whiteSpace: "pre-line",
+                    }}
+                  >
+                    {c.value}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* ============================================================
+          SECTION 10 — FOOTER
+          ============================================================ */}
+      <footer style={{ background: C.bgDark, padding: "64px 32px 40px" }}>
+        <div style={{ maxWidth: 1240, margin: "0 auto" }}>
+          {/* Top row */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              gap: 40,
+              marginBottom: 60,
+              paddingBottom: 60,
+              borderBottom: `1px solid rgba(201,168,108,0.15)`,
+              flexWrap: "wrap",
+            }}
+          >
+            {/* Brand */}
+            <div>
+              <div
+                style={{
+                  fontFamily: C.fontDisplay,
+                  fontSize: 32,
+                  fontWeight: 600,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: "#FAF8F3",
+                  marginBottom: 8,
+                }}
+              >
+                Aureliano
+              </div>
+              <div
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 9,
+                  fontWeight: 500,
+                  letterSpacing: "0.35em",
+                  textTransform: "uppercase",
+                  color: C.gold,
+                  marginBottom: 20,
+                }}
+              >
+                Roma · dal 1987
+              </div>
+              <p
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 13,
+                  color: "rgba(250,248,243,0.45)",
+                  lineHeight: 1.75,
+                  maxWidth: 280,
+                }}
+              >
+                Cucina romana autentica nel cuore di Trastevere. Una storia di famiglia, tradizione e sapori senza tempo.
+              </p>
+            </div>
+
+            {/* Footer nav */}
+            <div style={{ display: "flex", gap: 80, flexWrap: "wrap" }}>
+              {[
+                { title: "Ristorante", links: ["Il Menu", "La Cantina", "Il Chef", "Gallery"] },
+                { title: "Info", links: ["Prenotazioni", "Orari", "Contatti", "Press"] },
+              ].map((col) => (
+                <div key={col.title}>
+                  <div
+                    style={{
+                      fontFamily: C.fontSans,
+                      fontSize: 9,
+                      fontWeight: 600,
+                      letterSpacing: "0.3em",
+                      textTransform: "uppercase",
+                      color: C.gold,
+                      marginBottom: 20,
+                    }}
+                  >
+                    {col.title}
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                    {col.links.map((link) => (
+                      <a
+                        key={link}
+                        href="#"
+                        style={{
+                          fontFamily: C.fontSans,
+                          fontSize: 13,
+                          color: "rgba(250,248,243,0.55)",
+                          textDecoration: "none",
+                          transition: "color 0.2s",
+                        }}
+                        onMouseEnter={(e) => ((e.target as HTMLAnchorElement).style.color = C.gold)}
+                        onMouseLeave={(e) => ((e.target as HTMLAnchorElement).style.color = "rgba(250,248,243,0.55)")}
+                      >
+                        {link}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Bottom row */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: 24,
+              flexWrap: "wrap",
+              fontFamily: C.fontSans,
+              fontSize: 10,
+              color: "rgba(250,248,243,0.3)",
+              letterSpacing: "0.1em",
+            }}
+          >
+            <span>© {new Date().getFullYear()} Ristorante Aureliano. Tutti i diritti riservati.</span>
+            <div style={{ display: "flex", gap: 28 }}>
+              {["Privacy Policy", "Cookie", "Legal"].map((l) => (
+                <a
+                  key={l}
+                  href="#"
+                  style={{
+                    color: "rgba(250,248,243,0.3)",
+                    textDecoration: "none",
+                    transition: "color 0.2s",
+                  }}
+                  onMouseEnter={(e) => ((e.target as HTMLAnchorElement).style.color = C.gold)}
+                  onMouseLeave={(e) => ((e.target as HTMLAnchorElement).style.color = "rgba(250,248,243,0.3)")}
+                >
+                  {l}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      {/* ============================================================
+          RESERVATION MODAL (AnimatePresence)
+          ============================================================ */}
       <AnimatePresence>
         {reservationOpen && (
           <motion.div
+            key="reservation-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-6"
+            transition={{ duration: 0.3 }}
             onClick={() => setReservationOpen(false)}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 300,
+              background: "rgba(30,18,8,0.82)",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 24,
+            }}
           >
             <motion.div
-              initial={{ scale: 0.95, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.95, y: 20 }}
+              key="reservation-panel"
+              initial={{ scale: 0.94, y: 24, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.94, y: 16, opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-lg bg-[#1c1815] border border-[#d97736]/30 p-8 md:p-12 relative overflow-hidden"
+              style={{
+                width: "100%",
+                maxWidth: 520,
+                background: C.bg,
+                borderRadius: 4,
+                padding: "52px 48px",
+                position: "relative",
+                boxShadow: "0 32px 80px rgba(30,18,8,0.4)",
+              }}
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#d97736]/10 blur-[50px] rounded-full pointer-events-none" />
-
+              {/* Close */}
               <button
                 onClick={() => setReservationOpen(false)}
-                className="absolute top-6 right-6 text-white/50 hover:text-white"
+                style={{
+                  position: "absolute",
+                  top: 20,
+                  right: 20,
+                  background: "none",
+                  border: "none",
+                  color: C.muted,
+                  fontSize: 22,
+                  cursor: "pointer",
+                  lineHeight: 1,
+                }}
               >
-                <X className="w-6 h-6" />
+                ×
               </button>
 
-              <h3 className="text-3xl font-medium mb-2 text-[#d97736]">
-                Reserve a Table
+              {/* Header */}
+              <div
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 10,
+                  fontWeight: 600,
+                  letterSpacing: "0.3em",
+                  textTransform: "uppercase",
+                  color: C.terracotta,
+                  marginBottom: 16,
+                }}
+              >
+                Prenotazione
+              </div>
+              <h3
+                style={{
+                  fontFamily: C.fontDisplay,
+                  fontSize: 32,
+                  fontWeight: 600,
+                  color: C.dark,
+                  letterSpacing: "-0.02em",
+                  marginBottom: 32,
+                  lineHeight: 1.1,
+                }}
+              >
+                Riserva il tuo tavolo
               </h3>
-              <p className="text-white/60 font-sans text-sm mb-8">
-                Join us for an unforgettable culinary journey.
-              </p>
 
               <form
-                className="space-y-6 font-sans"
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={(e) => { e.preventDefault(); setReservationOpen(false); }}
+                style={{ display: "flex", flexDirection: "column", gap: 20 }}
               >
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs uppercase tracking-widest text-white/40 mb-2">
-                      Date
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                  {[
+                    { label: "Data", type: "date" },
+                    { label: "Ora", type: "time" },
+                  ].map((f) => (
+                    <label key={f.label} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                      <span
+                        style={{
+                          fontFamily: C.fontSans,
+                          fontSize: 9,
+                          fontWeight: 600,
+                          letterSpacing: "0.25em",
+                          textTransform: "uppercase",
+                          color: C.muted,
+                        }}
+                      >
+                        {f.label}
+                      </span>
+                      <input
+                        type={f.type}
+                        style={{
+                          fontFamily: C.fontSans,
+                          fontSize: 14,
+                          color: C.dark,
+                          background: C.bgCard,
+                          border: `1px solid ${C.border}`,
+                          borderRadius: 2,
+                          padding: "12px 14px",
+                          outline: "none",
+                        }}
+                      />
                     </label>
-                    <input
-                      type="date"
-                      className="w-full bg-[#110e0c] border border-white/10 px-4 py-3 text-white focus:outline-none focus:border-[#d97736] transition-colors"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs uppercase tracking-widest text-white/40 mb-2">
-                      Time
-                    </label>
-                    <select className="w-full bg-[#110e0c] border border-white/10 px-4 py-3 text-white focus:outline-none focus:border-[#d97736] transition-colors appearance-none">
-                      <option>19:00</option>
-                      <option>19:30</option>
-                      <option>20:00</option>
-                      <option>20:30</option>
-                      <option>21:00</option>
-                    </select>
-                  </div>
+                  ))}
                 </div>
 
-                <div>
-                  <label className="block text-xs uppercase tracking-widest text-white/40 mb-2">
-                    Guests
-                  </label>
-                  <select className="w-full bg-[#110e0c] border border-white/10 px-4 py-3 text-white focus:outline-none focus:border-[#d97736] transition-colors appearance-none">
-                    <option>2 Guests</option>
-                    <option>3 Guests</option>
-                    <option>4 Guests</option>
-                    <option>5+ Guests (Call Us)</option>
-                  </select>
-                </div>
-
-                <div className="pt-4">
-                  <button
-                    type="submit"
-                    className="w-full bg-[#d97736] text-white py-4 text-xs font-bold uppercase tracking-widest hover:bg-[#b85b20] transition-colors"
+                <label style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  <span
+                    style={{
+                      fontFamily: C.fontSans,
+                      fontSize: 9,
+                      fontWeight: 600,
+                      letterSpacing: "0.25em",
+                      textTransform: "uppercase",
+                      color: C.muted,
+                    }}
                   >
-                    Confirm Reservation
-                  </button>
-                </div>
+                    Numero di persone
+                  </span>
+                  <select
+                    style={{
+                      fontFamily: C.fontSans,
+                      fontSize: 14,
+                      color: C.dark,
+                      background: C.bgCard,
+                      border: `1px solid ${C.border}`,
+                      borderRadius: 2,
+                      padding: "12px 14px",
+                      outline: "none",
+                      appearance: "none",
+                    }}
+                  >
+                    {[2, 3, 4, 5, 6].map((n) => (
+                      <option key={n}>{n} {n === 1 ? "persona" : "persone"}</option>
+                    ))}
+                  </select>
+                </label>
+
+                <label style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  <span
+                    style={{
+                      fontFamily: C.fontSans,
+                      fontSize: 9,
+                      fontWeight: 600,
+                      letterSpacing: "0.25em",
+                      textTransform: "uppercase",
+                      color: C.muted,
+                    }}
+                  >
+                    Nome
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="Il tuo nome"
+                    style={{
+                      fontFamily: C.fontSans,
+                      fontSize: 14,
+                      color: C.dark,
+                      background: C.bgCard,
+                      border: `1px solid ${C.border}`,
+                      borderRadius: 2,
+                      padding: "12px 14px",
+                      outline: "none",
+                    }}
+                  />
+                </label>
+
+                <MagneticButton
+                  style={{
+                    marginTop: 8,
+                    fontFamily: C.fontSans,
+                    fontSize: 11,
+                    fontWeight: 600,
+                    letterSpacing: "0.22em",
+                    textTransform: "uppercase",
+                    color: C.white,
+                    background: C.terracotta,
+                    border: "none",
+                    padding: "16px 0",
+                    cursor: "pointer",
+                    borderRadius: 2,
+                    width: "100%",
+                  }}
+                >
+                  Conferma Prenotazione
+                </MagneticButton>
               </form>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* ==========================================
-          NAVIGATION
-          ========================================== */}
-      <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#1c1815]/90 backdrop-blur-md border-b border-[#d97736]/20 py-4" : "bg-transparent py-8"}`}
-      >
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <button
-            onClick={() => setMenuOpen(true)}
-            className="md:hidden text-[#f4ecd8]"
-          >
-            <Menu className="w-6 h-6" />
-          </button>
-
-          <div className="hidden md:flex items-center gap-8 text-[11px] font-sans uppercase tracking-[0.2em] font-medium text-[#f4ecd8]/70">
-            <Link href="#" className="hover:text-[#d97736] transition-colors">
-              Il Menu
-            </Link>
-            <Link href="#" className="hover:text-[#d97736] transition-colors">
-              La Storia
-            </Link>
-            <Link href="#" className="hover:text-[#d97736] transition-colors">
-              Gallery
-            </Link>
-          </div>
-
-          <Link
-            href="/"
-            className="absolute left-1/2 -translate-x-1/2 text-2xl md:text-3xl font-medium tracking-widest uppercase text-[#d97736]"
-          >
-            Sartoria
-          </Link>
-
-          <div className="hidden md:flex items-center gap-6">
-            <a
-              href="tel:+39021234567"
-              className="text-[11px] font-sans uppercase tracking-widest text-[#f4ecd8]/70 hover:text-[#d97736] transition-colors hidden lg:block"
-            >
-              +39 02 1234 567
-            </a>
-            <button
-              onClick={() => setReservationOpen(true)}
-              className="px-6 py-2 border border-[#d97736] text-[#d97736] text-[10px] font-sans uppercase tracking-widest hover:bg-[#d97736] hover:text-white transition-colors"
-            >
-              Prenota
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* MOBILE MENU */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: "-100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "-100%" }}
-            transition={{ type: "tween", duration: 0.4 }}
-            className="fixed inset-0 z-[60] bg-[#1c1815] flex flex-col p-6"
-          >
-            <div className="flex justify-end mb-16">
-              <button onClick={() => setMenuOpen(false)}>
-                <X className="w-8 h-8 text-[#d97736]" />
-              </button>
-            </div>
-            <div className="flex flex-col gap-8 text-3xl font-light items-center">
-              <Link href="#" onClick={() => setMenuOpen(false)}>
-                Il Menu
-              </Link>
-              <Link href="#" onClick={() => setMenuOpen(false)}>
-                La Vigna
-              </Link>
-              <Link href="#" onClick={() => setMenuOpen(false)}>
-                La Storia
-              </Link>
-              <Link href="#" onClick={() => setMenuOpen(false)}>
-                Contatti
-              </Link>
-            </div>
-            <button
-              onClick={() => {
-                setMenuOpen(false);
-                setReservationOpen(true);
-              }}
-              className="mt-auto mb-12 w-full py-4 bg-[#d97736] text-white text-xs font-sans font-bold uppercase tracking-widest text-center"
-            >
-              Prenota un Tavolo
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ==========================================
-          1. HERO SECTION
-          ========================================== */}
-      <section className="relative w-full h-[90svh] overflow-hidden flex items-center justify-center">
-        <motion.div
-          style={{ y: heroY, opacity: heroOpacity }}
-          className="absolute inset-0 z-0"
-        >
-          <Image
-            src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=2000&auto=format&fit=crop"
-            alt="Restaurant Interior"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1c1815] via-black/50 to-black/20" />
-        </motion.div>
-
-        <div className="relative z-10 text-center px-6 mt-20 max-w-4xl mx-auto flex flex-col items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-          >
-            <span className="flex items-center justify-center gap-4 text-[#d97736] text-[10px] font-sans uppercase tracking-[0.3em] font-bold mb-6">
-              <div className="w-8 h-[1px] bg-[#d97736]" /> Milano{" "}
-              <div className="w-8 h-[1px] bg-[#d97736]" />
-            </span>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.4 }}
-            className="text-6xl md:text-8xl lg:text-[8rem] font-medium leading-[0.9] mb-8"
-          >
-            Cucina <br />
-            <span className="italic text-[#d97736]">Autentica.</span>
-          </motion.h1>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.8 }}
-          >
-            <p className="text-lg text-white/70 max-w-xl mx-auto font-sans font-light mb-10">
-              A celebration of Italian culinary heritage. Sourced locally,
-              crafted passionately, and served with familial warmth.
-            </p>
-            <button
-              onClick={() => setReservationOpen(true)}
-              className="px-10 py-4 bg-[#d97736] text-white text-[10px] font-sans uppercase tracking-widest font-bold hover:bg-[#b85b20] transition-colors"
-            >
-              Reserve Your Experience
-            </button>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          2. THE CHEF'S MESSAGE
-          ========================================== */}
-      <section className="py-24 md:py-32 px-6 bg-[#1c1815] relative z-10 border-b border-white/5">
-        <div className="max-w-[1000px] mx-auto text-center">
-          <Reveal>
-            <ChefHat className="w-12 h-12 text-[#d97736] mx-auto mb-8" />
-            <h2 className="text-3xl md:text-5xl font-light leading-relaxed mb-8">
-              "We don't cook to impress. We cook to{" "}
-              <span className="italic text-[#d97736]">remember</span>. Every
-              recipe carries the history of our ancestors, passed down from
-              hands to hands."
-            </h2>
-            <span className="font-sans text-[11px] uppercase tracking-widest text-white/50 block mb-2">
-              Marco Rossi
-            </span>
-            <span className="font-sans text-[9px] uppercase tracking-[0.2em] text-[#d97736]">
-              Executive Chef
-            </span>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ==========================================
-          3. THE MENU (Interactive Tabs)
-          ========================================== */}
-      <section className="py-24 md:py-32 bg-[#110e0c] relative">
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#d97736]/5 blur-[120px] rounded-full pointer-events-none" />
-
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12 relative z-10">
-          <Reveal className="text-center mb-16">
-            <span className="font-sans text-[10px] text-[#d97736] uppercase tracking-[0.3em] font-bold block mb-4">
-              La Carta
-            </span>
-            <h2 className="text-4xl md:text-6xl font-medium">Our Menu</h2>
-          </Reveal>
-
-          {/* Category Tabs */}
-          <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-16 font-sans">
-            {MENU_CATEGORIES.map((cat, i) => (
-              <Reveal key={cat} delay={i * 0.1}>
-                <button
-                  onClick={() => setActiveCategory(cat)}
-                  className={`text-[11px] md:text-xs uppercase tracking-widest pb-2 border-b-2 transition-all ${activeCategory === cat ? "border-[#d97736] text-[#d97736] font-bold" : "border-transparent text-white/50 hover:text-white"}`}
-                >
-                  {cat}
-                </button>
-              </Reveal>
-            ))}
-          </div>
-
-          {/* Menu Items List */}
-          <div className="max-w-4xl mx-auto">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeCategory}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="space-y-10"
-              >
-                {MENU_ITEMS[activeCategory as keyof typeof MENU_ITEMS].map(
-                  (item, i) => (
-                    <div
-                      key={i}
-                      className="group flex flex-col sm:flex-row sm:items-end justify-between gap-4"
-                    >
-                      <div className="flex-1 pr-0 sm:pr-8">
-                        <div className="flex items-center gap-4 mb-2">
-                          <h3
-                            className={`text-2xl font-medium ${item.highlight ? "text-[#d97736]" : "text-white"}`}
-                          >
-                            {item.name}
-                          </h3>
-                          {item.highlight && (
-                            <span className="px-2 py-0.5 border border-[#d97736] text-[#d97736] text-[8px] font-sans uppercase tracking-widest rounded-full">
-                              Chef's Pick
-                            </span>
-                          )}
-                        </div>
-                        <p className="font-sans text-sm text-white/60 leading-relaxed max-w-xl">
-                          {item.desc}
-                        </p>
-                      </div>
-
-                      {/* Dotted line for desktop */}
-                      <div className="hidden sm:block flex-1 border-b border-white/10 mb-2 border-dashed group-hover:border-[#d97736]/50 transition-colors" />
-
-                      <span className="text-xl font-medium text-[#d97736] shrink-0 sm:mb-2">
-                        {item.price}
-                      </span>
-                    </div>
-                  ),
-                )}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          <div className="mt-20 text-center flex flex-col items-center">
-            <p className="font-sans text-xs text-white/40 max-w-md mx-auto mb-8">
-              Please inform your server of any allergies or dietary
-              requirements. A 12.5% discretionary service charge will be added
-              to your bill.
-            </p>
-            <button className="flex items-center gap-3 font-sans text-[11px] text-[#d97736] uppercase tracking-widest font-bold hover:text-white transition-colors">
-              Download Full PDF Menu <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          4. GALLERY BENTO GRID
-          ========================================== */}
-      <section className="py-24 bg-[#1c1815] px-6">
-        <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 h-[800px]">
-          <Reveal className="md:col-span-2 h-full relative group overflow-hidden">
-            <Image
-              src={GALLERY[0]}
-              alt="Restaurant"
-              fill
-              className="object-cover group-hover:scale-105 transition-transform duration-[2s]"
-            />
-            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
-            <div className="absolute bottom-8 left-8">
-              <span className="text-[#d97736] font-sans text-[10px] uppercase tracking-widest font-bold mb-2 block">
-                Atmosphere
-              </span>
-              <h3 className="text-3xl">The Main Dining Room</h3>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-rows-2 gap-4 h-full">
-            <Reveal delay={0.1} className="relative group overflow-hidden">
-              <Image
-                src={GALLERY[1]}
-                alt="Wine"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-[2s]"
-              />
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
-            </Reveal>
-            <Reveal
-              delay={0.2}
-              className="relative group overflow-hidden bg-[#d97736] p-8 flex flex-col justify-center text-[#1c1815]"
-            >
-              <Wine className="w-12 h-12 mb-6" />
-              <h3 className="text-3xl font-medium mb-4">La Cantina</h3>
-              <p className="font-sans text-sm font-medium opacity-80 leading-relaxed">
-                Explore our curated selection of over 400 labels, focusing
-                heavily on Piedmont and Tuscany's finest estates.
-              </p>
-              <button className="mt-8 self-start w-10 h-10 border border-[#1c1815] rounded-full flex items-center justify-center hover:bg-[#1c1815] hover:text-[#d97736] transition-colors">
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          5. REVIEWS MARQUEE
-          ========================================== */}
-      <section className="py-32 bg-[#110e0c] border-y border-white/5 overflow-hidden">
-        <div className="max-w-[1400px] mx-auto px-6 mb-16 text-center">
-          <span className="font-sans text-[10px] text-[#d97736] uppercase tracking-[0.3em] font-bold block mb-4">
-            Dicono Di Noi
-          </span>
-          <h2 className="text-4xl md:text-5xl font-medium">
-            Guest Experiences
-          </h2>
-        </div>
-
-        <div className="relative flex whitespace-nowrap">
-          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#110e0c] to-transparent z-10" />
-          <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#110e0c] to-transparent z-10" />
-
-          <motion.div
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-            className="flex gap-8 px-4"
-          >
-            {[...REVIEWS, ...REVIEWS].map((r, i) => (
-              <div
-                key={i}
-                className="w-[350px] md:w-[400px] bg-[#1c1815] border border-white/5 p-8 whitespace-normal shrink-0"
-              >
-                <div className="flex gap-1 mb-6">
-                  {[...Array(r.rating)].map((_, j) => (
-                    <Star
-                      key={j}
-                      className="w-4 h-4 fill-[#d97736] text-[#d97736]"
-                    />
-                  ))}
-                </div>
-                <p className="text-lg italic text-white/80 leading-relaxed mb-8">
-                  "{r.text}"
-                </p>
-                <div className="font-sans">
-                  <div className="text-sm font-bold text-[#d97736]">
-                    {r.author}
-                  </div>
-                  <div className="text-[10px] uppercase tracking-widest text-white/40">
-                    {r.date}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          6. MEGA FOOTER & INFO
-          ========================================== */}
-      <footer className="bg-[#1c1815] pt-32 pb-12 px-6 md:px-12 relative overflow-hidden">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[#d97736]/5 blur-[150px] rounded-t-full pointer-events-none" />
-
-        <div className="max-w-[1400px] mx-auto relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-24">
-            <div className="lg:col-span-2">
-              <h2 className="text-4xl md:text-6xl font-medium mb-8">
-                Sartoria
-              </h2>
-              <p className="font-sans text-sm text-white/60 max-w-sm leading-relaxed mb-8">
-                Bringing the soul of Italian culinary tradition to the heart of
-                the city. A place for family, friends, and unforgettable
-                flavors.
-              </p>
-              <div className="flex gap-4">
-                <a
-                  href="#"
-                  className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:border-[#d97736] hover:text-[#d97736] transition-colors"
-                >
-                  <Globe className="w-4 h-4" />
-                </a>
-                <a
-                  href="#"
-                  className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:border-[#d97736] hover:text-[#d97736] transition-colors"
-                >
-                  <Globe className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-
-            <div className="font-sans">
-              <h4 className="text-[10px] text-[#d97736] uppercase tracking-[0.2em] font-bold mb-6">
-                Orari di Apertura
-              </h4>
-              <ul className="space-y-4 text-sm text-white/70">
-                <li className="flex justify-between border-b border-white/5 pb-2">
-                  <span>Mon - Thu</span>
-                  <span>18:00 - 23:00</span>
-                </li>
-                <li className="flex justify-between border-b border-white/5 pb-2">
-                  <span>Fri - Sat</span>
-                  <span>18:00 - 00:00</span>
-                </li>
-                <li className="flex justify-between border-b border-white/5 pb-2 text-[#d97736]">
-                  <span>Sunday</span>
-                  <span>12:00 - 16:00 (Pranzo)</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="font-sans">
-              <h4 className="text-[10px] text-[#d97736] uppercase tracking-[0.2em] font-bold mb-6">
-                Contatti
-              </h4>
-              <ul className="space-y-4 text-sm text-white/70">
-                <li className="flex items-start gap-3">
-                  <MapPin className="w-4 h-4 text-[#d97736] shrink-0 mt-1" />
-                  <span>
-                    Via Brera, 24
-                    <br />
-                    20121 Milano MI
-                    <br />
-                    Italy
-                  </span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <Phone className="w-4 h-4 text-[#d97736]" />
-                  <span>+39 02 1234 567</span>
-                </li>
-                <li className="pt-4">
-                  <button
-                    onClick={() => setReservationOpen(true)}
-                    className="w-full py-3 bg-[#d97736] text-white text-[10px] uppercase tracking-widest font-bold hover:bg-[#b85b20] transition-colors"
-                  >
-                    Prenota Subito
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/10 font-sans text-[10px] text-white/40 uppercase tracking-widest">
-            <span>
-              &copy; {new Date().getFullYear()} Ristorante Sartoria. All rights
-              reserved.
-            </span>
-            <div className="flex gap-6">
-              <a href="#" className="hover:text-white transition-colors">
-                Privacy
-              </a>
-              <a href="#" className="hover:text-white transition-colors">
-                Terms
-              </a>
-              <a href="#" className="hover:text-white transition-colors">
-                Press
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
