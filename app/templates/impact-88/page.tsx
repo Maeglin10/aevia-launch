@@ -637,7 +637,6 @@ export default function Page() {
           <div style={{ display: "grid", gap: 16 }}>
             {[
               { label: "Location", value: "12 rue de la Victoire, Paris 9e" },
-              { label: "Hours", value: "Tue–Sat, 10:00–19:00" },
               { label: "Booking", value: "Online only — 48hr notice minimum" },
               { label: "Contact", value: "studio@velvetnails.fr" },
             ].map(item => (
@@ -646,6 +645,25 @@ export default function Page() {
                 <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: C.cream }}>{item.value}</p>
               </div>
             ))}
+            {/* Opening Hours — daily schedule */}
+            <div style={{ padding: "20px 24px", background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 4 }}>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: C.rose, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 12 }}>Hours</p>
+              <div style={{ display: "grid", gap: 6 }}>
+                {[
+                  { day: "Tuesday",   time: "10:00 – 19:00" },
+                  { day: "Wednesday", time: "10:00 – 19:00" },
+                  { day: "Thursday",  time: "10:00 – 20:00" },
+                  { day: "Friday",    time: "10:00 – 20:00" },
+                  { day: "Saturday",  time: "09:00 – 18:00" },
+                  { day: "Sun – Mon", time: "Closed" },
+                ].map(({ day, time }) => (
+                  <div key={day} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.muted, fontWeight: 300 }}>{day}</span>
+                    <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: time === "Closed" ? C.muted : C.cream, fontWeight: time === "Closed" ? 300 : 400 }}>{time}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
