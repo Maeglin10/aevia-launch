@@ -592,19 +592,26 @@ export default function ImpactRestaurantPage() {
             }}
           >
             {["Menu", "Chef", "Cantina"].map((link) => (
-              <a
+              <button
                 key={link}
-                href={`#${link.toLowerCase()}`}
+                onClick={() => document.getElementById(link.toLowerCase())?.scrollIntoView({ behavior: "smooth" })}
                 style={{
                   color: C.muted,
-                  textDecoration: "none",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontFamily: C.fontSans,
+                  fontSize: 11,
+                  fontWeight: 500,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
                   transition: "color 0.2s",
                 }}
-                onMouseEnter={(e) => ((e.target as HTMLAnchorElement).style.color = C.terracotta)}
-                onMouseLeave={(e) => ((e.target as HTMLAnchorElement).style.color = C.muted)}
+                onMouseEnter={(e) => ((e.target as HTMLButtonElement).style.color = C.terracotta)}
+                onMouseLeave={(e) => ((e.target as HTMLButtonElement).style.color = C.muted)}
               >
                 {link}
-              </a>
+              </button>
             ))}
           </div>
 
