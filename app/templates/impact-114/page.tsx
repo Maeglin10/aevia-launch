@@ -232,11 +232,18 @@ export default function Page() {
           <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.12em", color: C.snow, textTransform: "uppercase" }}>Terra</span>
         </div>
         <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
-          {["Work", "Series", "Prints", "About"].map(item => (
-            <button key={item} style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.muted, background: "none", border: "none", cursor: "pointer", transition: "color 0.2s" }}
+          {[
+            { label: "Work", id: "series" },
+            { label: "Series", id: "series" },
+            { label: "Prints", id: "prints" },
+            { label: "About", id: "about" },
+          ].map(({ label, id }) => (
+            <button key={label}
+              style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.muted, background: "none", border: "none", cursor: "pointer", transition: "color 0.2s" }}
               onMouseEnter={e => (e.currentTarget.style.color = C.snow)}
-              onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
-              {item}
+              onMouseLeave={e => (e.currentTarget.style.color = C.muted)}
+              onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })}>
+              {label}
             </button>
           ))}
           <MagneticButton style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, color: C.bg, background: C.ice, padding: "8px 20px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase" }}>
@@ -338,7 +345,7 @@ export default function Page() {
       <MarqueeStrip />
 
       {/* ── Series Grid ── */}
-      <section style={{ padding: "80px 0", maxWidth: 1200, margin: "0 auto", paddingInline: 32 }}>
+      <section id="series" style={{ padding: "80px 0", maxWidth: 1200, margin: "0 auto", paddingInline: 32 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 56 }}>
           <div>
             <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.3em", color: C.ice, textTransform: "uppercase", marginBottom: 16 }}>Portfolio</p>
@@ -387,7 +394,7 @@ export default function Page() {
       </section>
 
       {/* ── About / Statement ── */}
-      <section style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
+      <section id="about" style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", paddingInline: 32 }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
             <div>
@@ -432,7 +439,7 @@ export default function Page() {
       </section>
 
       {/* ── Print CTA ── */}
-      <section style={{ padding: "80px 0", maxWidth: 900, margin: "0 auto", paddingInline: 32, textAlign: "center" }}>
+      <section id="prints" style={{ padding: "80px 0", maxWidth: 900, margin: "0 auto", paddingInline: 32, textAlign: "center" }}>
         <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.3em", color: C.ice, textTransform: "uppercase", marginBottom: 24 }}>Fine Art Prints</p>
         <h2 style={{ fontSize: "clamp(36px, 6vw, 80px)", fontWeight: 900, letterSpacing: "-0.03em", lineHeight: 0.92, marginBottom: 36, color: C.snow }}>
           <TextReveal text="Own a" style={{ display: "block" }} />
