@@ -419,11 +419,18 @@ export default function Page() {
           <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.15em", color: C.cream, textTransform: "uppercase" }}>Léa Rousseau</span>
         </div>
         <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
-          {["Work", "Exhibitions", "Prints", "About"].map(item => (
-            <button key={item} style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.muted, background: "none", border: "none", cursor: "pointer", letterSpacing: "0.05em", transition: "color 0.2s" }}
+          {[
+            { label: "Work", id: "work" },
+            { label: "Exhibitions", id: "exhibitions" },
+            { label: "Prints", id: "prints" },
+            { label: "About", id: "about" },
+          ].map(({ label, id }) => (
+            <button key={label}
+              style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.muted, background: "none", border: "none", cursor: "pointer", letterSpacing: "0.05em", transition: "color 0.2s" }}
               onMouseEnter={e => (e.currentTarget.style.color = C.cream)}
-              onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
-              {item}
+              onMouseLeave={e => (e.currentTarget.style.color = C.muted)}
+              onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })}>
+              {label}
             </button>
           ))}
           <MagneticButton style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.bg, background: C.moss, padding: "8px 18px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase" }}>
@@ -545,7 +552,7 @@ export default function Page() {
       </section>
 
       {/* ── Series Grid ── */}
-      <section style={{ padding: "80px 0", maxWidth: 1200, margin: "0 auto", paddingInline: 32 }}>
+      <section id="work" style={{ padding: "80px 0", maxWidth: 1200, margin: "0 auto", paddingInline: 32 }}>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 48 }}>
           <div>
             <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 16 }}>Portfolio</p>
@@ -654,7 +661,7 @@ export default function Page() {
       </section>
 
       {/* ── Exhibitions ── */}
-      <section style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+      <section id="exhibitions" style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", paddingInline: 32 }}>
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 48 }}>
             <div>
@@ -730,7 +737,7 @@ export default function Page() {
       </section>
 
       {/* ── Print Shop CTA ── */}
-      <section style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
+      <section id="prints" style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", paddingInline: 32 }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
             <div>
@@ -769,7 +776,7 @@ export default function Page() {
       </section>
 
       {/* ── Contact ── */}
-      <section style={{ padding: "80px 0", maxWidth: 1200, margin: "0 auto", paddingInline: 32, textAlign: "center" }}>
+      <section id="about" style={{ padding: "80px 0", maxWidth: 1200, margin: "0 auto", paddingInline: 32, textAlign: "center" }}>
         <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 24 }}>Let's Talk</p>
         <h2 style={{ fontSize: "clamp(36px, 6vw, 80px)", fontWeight: 900, letterSpacing: "-0.03em", lineHeight: 0.95, marginBottom: 40 }}>
           <TextReveal text="Commission." style={{ display: "block", color: C.cream }} />
