@@ -512,6 +512,10 @@ export default function Impact132() {
               }}
                 onMouseEnter={e => (e.currentTarget.style.color = C.white)}
                 onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.6)")}
+                onClick={() => {
+                  setActiveTopic(t);
+                  document.getElementById("topics")?.scrollIntoView({ behavior: "smooth" });
+                }}
               >
                 {t}
               </button>
@@ -861,7 +865,7 @@ export default function Impact132() {
       </section>
 
       {/* ── SECTION 6: Topic Filter with AnimatePresence transitions ─────────── */}
-      <section style={{ background: C.bgCard, padding: "72px 80px", borderTop: `1px solid ${C.border}` }}>
+      <section id="topics" style={{ background: C.bgCard, padding: "72px 80px", borderTop: `1px solid ${C.border}` }}>
         <TextReveal>
           <h2 style={{
             fontFamily: C.serif, fontWeight: 700, fontSize: 32,
