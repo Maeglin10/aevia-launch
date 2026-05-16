@@ -1,958 +1,296 @@
-"use client"
+"use client";
 
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
-import Link from "next/link"
+import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Menu, X, ArrowRight, Building2, ChevronRight, MapPin, Mail, Phone, Award, Layers, Users } from "lucide-react";
 
-const C = {
-  bg: "#fafafa",
-  charcoal: "#1a1a1a",
-  grey: "#6b7280",
-  lightGrey: "#e5e7eb",
-  accent: "#c45c3a",
-  white: "#ffffff",
-  card: "#f3f4f6",
-}
-
-const headingFont = '"Cormorant Garamond", serif'
-const bodyFont = "system-ui, sans-serif"
-
-// ─── Blueprint Grid Background ─────────────────────────────────────────────────
-function BlueprintGrid() {
-  return (
-    <div style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
-      <svg width="100%" height="100%" style={{ position: "absolute", inset: 0, opacity: 0.04 }}>
-        <defs>
-          <pattern id="blueprint-grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke={C.charcoal} strokeWidth="0.5" />
-          </pattern>
-          <pattern id="blueprint-grid-large" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
-            <rect width="200" height="200" fill="url(#blueprint-grid)" />
-            <path d="M 200 0 L 0 0 0 200" fill="none" stroke={C.charcoal} strokeWidth="1" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#blueprint-grid-large)" />
-      </svg>
-    </div>
-  )
-}
-
-// ─── Animated Counter ─────────────────────────────────────────────────────────
-function Counter({ target, suffix = "", prefix = "" }: { target: number; suffix?: string; prefix?: string }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
-  const [count, setCount] = useState(0)
+const useFonts = () => {
   useEffect(() => {
-    if (!inView) return
-    let start = 0
-    const duration = 1800
-    const step = 16
-    const increment = target / (duration / step)
-    const timer = setInterval(() => {
-      start += increment
-      if (start >= target) { setCount(target); clearInterval(timer) }
-      else setCount(Math.floor(start))
-    }, step)
-    return () => clearInterval(timer)
-  }, [inView, target])
-  return (
-    <span ref={ref}>{prefix}{count.toLocaleString("fr-FR")}{suffix}</span>
-  )
-}
+    if (document.getElementById("kp-fonts")) return;
+    const s = document.createElement("style");
+    s.id = "kp-fonts";
+    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;1,400&family=Space+Grotesk:wght@400;500;700&display=swap');`;
+    document.head.appendChild(s);
+  }, []);
+};
 
-// ─── Project Row ──────────────────────────────────────────────────────────────
-function ProjectRow({ name, location, year, delay }: { name: string; location: string; year: string; delay: number }) {
-  const [hovered, setHovered] = useState(false)
+const Reveal = ({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
-    <motion.div
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.7, delay }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        padding: "20px 0 20px 24px",
-        borderBottom: `1px solid ${C.lightGrey}`,
-        borderLeft: `3px solid ${hovered ? C.accent : "transparent"}`,
-        transition: "border-color 0.3s, padding-left 0.3s",
-        cursor: "pointer",
-        paddingLeft: hovered ? 28 : 24,
-      }}
-    >
-      <div style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 20, color: C.charcoal, fontWeight: 400 }}>
-        {name}
-      </div>
-      <div style={{ display: "flex", gap: 16, marginTop: 4 }}>
-        <span style={{ fontFamily: bodyFont, fontSize: 12, color: C.grey }}>{location}</span>
-        <span style={{ fontFamily: bodyFont, fontSize: 12, color: C.accent }}>{year}</span>
-      </div>
+    <motion.div ref={ref} className={className} initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay }}>
+      {children}
     </motion.div>
-  )
-}
+  );
+};
 
-// ─── Main Component ───────────────────────────────────────────────────────────
-export default function KeopsCabinet() {
-  const { scrollY } = useScroll()
-  const heroTextY = useTransform(scrollY, [0, 600], [0, -60])
-  const listY = useTransform(scrollY, [0, 600], [0, -30])
+const projects = [
+  { name: "La Maison du Vent", location: "Marseille", type: "Résidentiel", area: "480 m²", year: "2025", src: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80" },
+  { name: "Pavillon Zénith", location: "Lyon", type: "Cultural", area: "2 200 m²", year: "2025", src: "https://images.unsplash.com/photo-1545580658-97698ec5f683?w=600&q=80" },
+  { name: "Ateliers Kéops", location: "Paris XIe", type: "Bureau mixte", area: "1 400 m²", year: "2024", src: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" },
+  { name: "Villa Terracotta", location: "Nice", type: "Résidentiel", area: "320 m²", year: "2024", src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80" },
+  { name: "Cour des Arts", location: "Bordeaux", type: "Mixte culturel", area: "3 800 m²", year: "2023", src: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=600&q=80" },
+  { name: "Bibliothèque Nomade", location: "Nantes", type: "Public", area: "1 900 m²", year: "2023", src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80" },
+];
 
-  const [activeTab, setActiveTab] = useState(0)
-  const [activeTestimonial, setActiveTestimonial] = useState(0)
-  const [testimonialDir, setTestimonialDir] = useState(1)
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
+const filters = ["Tous", "Résidentiel", "Cultural", "Bureau mixte", "Public"];
 
-  const tabs = [
-    {
-      label: "Logement",
-      title: "Habiter avec intention",
-      body: "De la villa individuelle à la résidence collective, nous concevons des espaces résidentiels où chaque décision architecturale sert la qualité de vie. Lumière naturelle, rapport à l'extérieur, circulation intérieure, matériaux durables : notre approche est globale et centrée sur l'habitant.",
-      detail: "Permis de construire, suivi de chantier, réception des travaux. Honoraires : 8 à 12% du coût des travaux HT.",
-      tags: ["Villa", "Résidence", "Rénovation", "Extension"],
-    },
-    {
-      label: "Tertiaire & Commercial",
-      title: "L'espace de travail repensé",
-      body: "Bureaux, commerces, hôtels, restaurants — l'architecture tertiaire est un levier stratégique pour l'attractivité et la performance. Nous concevons des espaces qui reflètent l'identité de marque tout en optimisant les flux, l'acoustique et le bien-être des équipes.",
-      detail: "De l'esquisse à la livraison. Coordination MOE. Mise en conformité ERP. Mission complète ou partielle.",
-      tags: ["Bureaux", "Commerce", "Hôtellerie", "Restauration"],
-    },
-    {
-      label: "Réhabilitation",
-      title: "Révéler le patrimoine",
-      body: "La réhabilitation est notre domaine de prédilection. Transformer un bâtiment existant sans en trahir l'âme, améliorer ses performances thermiques sans effacer son histoire, réinterpréter un espace pour de nouveaux usages — c'est là que notre sensibilité s'exprime pleinement.",
-      detail: "Diagnostic technique et patrimonial inclus. Travaux BIMBY, surélévation, changement de destination.",
-      tags: ["Bâtiment classé", "Patrimoine", "Surélévation", "Changement d'usage"],
-    },
-    {
-      label: "Urbanisme",
-      title: "La ville à l'échelle humaine",
-      body: "Notre département urbanisme accompagne collectivités, aménageurs et promoteurs dans la conception de quartiers, de ZAC et d'espaces publics. Nous sommes convaincus que la ville doit être pensée à l'échelle de ses habitants, et non l'inverse.",
-      detail: "PLU, études préalables, concours publics, maîtrise d'œuvre urbaine. Équipe pluridisciplinaire interne.",
-      tags: ["ZAC", "Espace public", "Concours", "PLU"],
-    },
-  ]
+const services = [
+  { icon: <Building2 className="w-5 h-5" />, title: "Architecture résidentielle", desc: "Villas, maisons individuelles et ensembles résidentiels. Du concept à la livraison." },
+  { icon: <Layers className="w-5 h-5" />, title: "Espaces culturels & publics", desc: "Musées, bibliothèques, espaces éducatifs. Architecture au service du vivre-ensemble." },
+  { icon: <Users className="w-5 h-5" />, title: "Programmes mixtes", desc: "Bureaux, commerces, logements intégrés. Quartiers vivants conçus pour le long terme." },
+  { icon: <Award className="w-5 h-5" />, title: "Réhabilitation & Patrimoine", desc: "Transformation de bâtiments existants. Dialogue entre mémoire architecturale et contemporain." },
+];
 
-  const testimonials = [
-    {
-      name: "Édouard Lemaire",
-      role: "Directeur général, Groupe Lemaire Immobilier",
-      text: "Kéops a livré notre résidence Les Acacias à Bordeaux avec une rigueur et une inventivité que je n'avais pas rencontrées depuis longtemps. Chaque logement est distinct, chaque espace commun est pensé. Les délais ont été tenus, le budget respecté. Nous leur avons confié deux programmes supplémentaires.",
-    },
-    {
-      name: "Nathalie Orcel",
-      role: "Propriétaire, rénovation maison de maître — Lyon",
-      text: "J'avais une maison de maître des années 1890 que je voulais rénover sans la dénaturer. Kéops a compris immédiatement ce que je cherchais — ce dialogue entre passé et présent. Le résultat est saisissant : la maison a retrouvé son élégance tout en étant parfaitement contemporaine dans ses usages.",
-    },
-    {
-      name: "Serge Moatti",
-      role: "Directeur des opérations, Châteauform'",
-      text: "La conversion de notre domaine en centre de séminaires était un projet complexe : patrimoine classé, contraintes PMR, budget serré. Kéops a navigué avec une intelligence rare entre toutes ces contraintes. La livraison a été exemplaire et les retours de nos clients sont unanimement positifs.",
-    },
-    {
-      name: "Florence Dupré",
-      role: "Adjointe à l'urbanisme, Mairie de Villeurbanne",
-      text: "Le cabinet Kéops a remporté notre concours pour la requalification du quartier Gratte-Ciel historique. Leur approche combine une compréhension fine du patrimoine moderniste et une vision prospective des usages. Leur équipe est accessible, réactive et d'une probité intellectuelle rare dans les marchés publics.",
-    },
-  ]
+const team = [
+  { name: "Nadia Kéops", role: "Architecte Fondatrice", years: "22 ans" },
+  { name: "Luc Ferrand", role: "Associé — Construction", years: "16 ans" },
+  { name: "Amina Belkacem", role: "Architecte DPLG", years: "9 ans" },
+];
 
-  const faqs = [
-    {
-      q: "Combien coûtent les honoraires d'architecte en pourcentage ?",
-      a: "Les honoraires varient selon la complexité et la mission : de 8 à 12% du montant HT des travaux pour une maison individuelle neuve, de 10 à 15% pour une réhabilitation (plus complexe techniquement), et de 5 à 8% pour des projets tertiaires d'envergure. Pour les missions partielles (esquisse seule, suivi de chantier seul), nous établissons des forfaits adaptés. Un premier chiffrage indicatif est fourni lors de notre entretien initial.",
-    },
-    {
-      q: "Quelle est la durée typique d'un projet de construction ?",
-      a: "Un projet résidentiel neuf (villa) prend généralement 18 à 24 mois de la première esquisse à la livraison : 3 à 4 mois pour les études, 3 à 6 mois pour l'instruction du permis de construire, puis 12 à 16 mois de chantier. Un projet de réhabilitation peut être plus court (12 à 18 mois) si les fondations et la structure sont saines. Nous établissons un planning détaillé dès la phase ESQ.",
-    },
-    {
-      q: "Est-ce que vous gérez le permis de construire ?",
-      a: "Oui, le dépôt et le suivi du permis de construire font partie intégrante de nos missions standard (phase PC/DCE). Nous constituons le dossier complet, gérons les éventuelles demandes de pièces complémentaires des services instructeurs, et vous informons à chaque étape. Pour les projets en secteur protégé ou ABF, nous avons l'expérience des procédures spécifiques.",
-    },
-    {
-      q: "Intervenez-vous sur des projets de rénovation énergétique ?",
-      a: "C'est l'un de nos axes de développement prioritaires. Nous proposons une mission AMO Rénovation Énergétique complète : audit thermique, définition du programme de travaux, sélection des entreprises, coordination des interventions (isolation, menuiseries, CVC, ENR). Nous vous accompagnons également dans l'accès aux aides (MaPrimeRénov', CEE, prêt éco-PTZ) et la labellisation BBC Rénovation.",
-    },
-    {
-      q: "L'architecte est-il obligatoire pour mon projet ?",
-      a: "En France, le recours à un architecte est obligatoire pour tout projet dont la surface de plancher créée dépasse 150 m² (pour une construction neuve) ou dont les travaux portent la surface totale au-delà de 150 m². Pour les particuliers en dessous de ce seuil, le recours est facultatif mais vivement recommandé : un architecte optimise la conception, sécurise les démarches administratives et coordonne les entreprises pour vous.",
-    },
-    {
-      q: "Travaillez-vous à l'international ?",
-      a: "Oui. Nous intervenons régulièrement en Europe (Belgique, Suisse, Portugal, Maroc) et avons livré des projets sur 12 pays à ce jour. Notre équipe inclut des architectes maîtrisant l'anglais et l'espagnol. Pour les projets hors France, nous travaillons en association avec des cabinets locaux qui gèrent les procédures réglementaires spécifiques à chaque pays.",
-    },
-  ]
+const distinctions = [
+  "Prix de l'Architecture Contemporaine 2025",
+  "Grand Prix Soleil de l'Habitat — Résidentiel Durable",
+  "RIBA Award — Shortlist International 2024",
+  "Label Inventerre — Architecture Bioclimatique",
+];
 
-  const pricingTiers = [
-    {
-      name: "Esquisse Conseil",
-      price: "600€",
-      duration: "Session de 2 heures",
-      features: [
-        "Vision stratégique du projet",
-        "Analyse faisabilité et contraintes",
-        "Orientations architecturales",
-        "Estimation budgétaire indicative",
-        "Compte-rendu écrit sous 5 jours",
-      ],
-      highlight: false,
-      cta: "Prendre rendez-vous",
-    },
-    {
-      name: "Mission Complète",
-      price: "% honoraires",
-      duration: "De l'esquisse au suivi chantier",
-      features: [
-        "Esquisse, APS, APD, PRO",
-        "Permis de construire",
-        "Consultation des entreprises",
-        "Direction des travaux (DET)",
-        "Réception et levée des réserves",
-        "Garantie de parfait achèvement",
-      ],
-      highlight: true,
-      cta: "Discutons de votre projet",
-    },
-    {
-      name: "AMO & Expertise",
-      price: "Sur devis",
-      duration: "Assistance Maîtrise d'Ouvrage",
-      features: [
-        "Audit technique et patrimonial",
-        "Assistance concours et appels d'offres",
-        "Expertises amiables et judiciaires",
-        "Rénovation énergétique (DPE → B)",
-        "Coordination OPC externe",
-      ],
-      highlight: false,
-      cta: "Demander une expertise",
-    },
-  ]
+export default function KeopsPage() {
+  useFonts();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeFilter, setActiveFilter] = useState("Tous");
 
-  const recentProjects = [
-    { name: "Résidence Les Acacias", location: "Bordeaux, France", year: "2024" },
-    { name: "Hôtel Particulier Gambetta", location: "Lyon, France", year: "2023" },
-    { name: "Siège Social Athos Capital", location: "Bruxelles, Belgique", year: "2023" },
-    { name: "ZAC du Vieux-Port Nord", location: "Marseille, France", year: "2022" },
-    { name: "Villa Azurra", location: "Lagos, Portugal", year: "2022" },
-  ]
+  const { scrollYProgress } = useScroll();
+  const heroRef = useRef(null);
+  const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const heroY = useTransform(heroScroll, [0, 1], ["0%", "22%"]);
+  const heroOpacity = useTransform(heroScroll, [0, 0.8], [1, 0]);
 
-  function prevTestimonial() {
-    setTestimonialDir(-1)
-    setActiveTestimonial(i => (i - 1 + testimonials.length) % testimonials.length)
-  }
-  function nextTestimonial() {
-    setTestimonialDir(1)
-    setActiveTestimonial(i => (i + 1) % testimonials.length)
-  }
+  const filtered = activeFilter === "Tous" ? projects : projects.filter(p => p.type === activeFilter);
 
   return (
-    <div style={{ background: C.bg, color: C.charcoal, fontFamily: bodyFont, minHeight: "100vh" }}>
+    <div className="min-h-screen bg-[#F5F2ED]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+      <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#C46A3E] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
-      {/* ── NAVBAR ─────────────────────────────────────────────────────────── */}
-      <nav style={{
-        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "0 56px", height: 72,
-        background: "rgba(250,250,250,0.94)", backdropFilter: "blur(12px)",
-        borderBottom: `1px solid ${C.lightGrey}`,
-      }}>
-        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "baseline", gap: 8 }}>
-          <span style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 26, color: C.charcoal, letterSpacing: 1 }}>
-            Kéops
-          </span>
-          <span style={{ fontFamily: bodyFont, fontSize: 11, color: C.grey, letterSpacing: 3, textTransform: "uppercase" }}>
-            Architecture
-          </span>
-        </Link>
-
-        <div style={{ display: "flex", gap: 40, alignItems: "center" }}>
-          {["Agence", "Projets", "Services", "Réalisations", "Contact"].map(link => (
-            <Link key={link} href={`#${link.toLowerCase()}`} style={{
-              fontFamily: bodyFont, fontSize: 12, color: C.grey,
-              textDecoration: "none", letterSpacing: 1.5, textTransform: "uppercase",
-              transition: "color 0.2s",
-            }}
-              onMouseEnter={e => (e.currentTarget.style.color = C.charcoal)}
-              onMouseLeave={e => (e.currentTarget.style.color = C.grey)}
-            >
-              {link}
-            </Link>
-          ))}
-          <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-            style={{
-              fontFamily: bodyFont, fontSize: 11, letterSpacing: 2, textTransform: "uppercase",
-              background: C.accent, color: C.white, padding: "10px 24px",
-              textDecoration: "none", cursor: "pointer", fontWeight: 600,
-            }}
-          >
-            Projet
+      {/* Nav */}
+      <nav className="fixed top-4 left-4 right-4 z-50">
+        <div className="max-w-6xl mx-auto bg-[#F5F2ED]/92 backdrop-blur-md border border-[#C46A3E]/20 rounded-2xl px-6 py-4 flex items-center justify-between">
+          <Link href="/" className="text-[#1A1510] tracking-wide text-lg font-medium" style={{ fontFamily: "'Libre Baskerville', serif" }}>Kéops</Link>
+          <div className="hidden md:flex items-center gap-8 text-[#1A1510]/60 text-sm">
+            {["Projets", "Services", "L'agence", "Équipe", "Contact"].map(item => (
+              <Link key={item} href="#" className="hover:text-[#C46A3E] transition-colors cursor-pointer">{item}</Link>
+            ))}
+          </div>
+          <button className="hidden md:inline-flex border border-[#C46A3E] text-[#C46A3E] text-sm px-5 py-2.5 rounded-xl hover:bg-[#C46A3E] hover:text-white transition-all cursor-pointer font-medium">
+            Nous contacter
           </button>
+          <button className="md:hidden text-[#1A1510] cursor-pointer" onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5" /></button>
         </div>
       </nav>
 
-      {/* ── HERO ───────────────────────────────────────────────────────────── */}
-      <section style={{
-        position: "relative", height: "100vh", minHeight: 700,
-        display: "flex", alignItems: "center",
-        overflow: "hidden", paddingTop: 72,
-        borderBottom: `1px solid ${C.lightGrey}`,
-      }}>
-        {/* Left: Heading */}
-        <div style={{ flex: "0 0 55%", paddingLeft: 96, paddingRight: 48, zIndex: 2 }}>
-          <motion.div style={{ y: heroTextY }}>
-            <motion.p
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 32 }}
-            >
-              Cabinet fondé en 1996 — Paris & Lyon
-            </motion.p>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.35 }}
-              style={{
-                fontFamily: headingFont, fontStyle: "italic",
-                fontSize: "clamp(64px, 7.5vw, 100px)", fontWeight: 300,
-                lineHeight: 0.95, color: C.charcoal, margin: 0,
-                letterSpacing: -1,
-              }}
-            >
-              Architecture
-            </motion.h1>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.5 }}
-              style={{
-                fontFamily: headingFont, fontStyle: "italic",
-                fontSize: "clamp(64px, 7.5vw, 100px)", fontWeight: 300,
-                lineHeight: 0.95, color: C.charcoal, margin: "8px 0",
-                letterSpacing: -1,
-              }}
-            >
-              du
-            </motion.h1>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.65 }}
-              style={{
-                fontFamily: headingFont, fontStyle: "italic",
-                fontSize: "clamp(64px, 7.5vw, 100px)", fontWeight: 300,
-                lineHeight: 0.95, color: C.charcoal, margin: 0,
-                letterSpacing: -1,
-              }}
-            >
-              Vivant
-            </motion.h1>
-
-            {/* Terracotta underline accent */}
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: 120 }}
-              transition={{ duration: 0.8, delay: 1.1 }}
-              style={{ height: 3, background: C.accent, marginTop: 24, marginBottom: 32 }}
-            />
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 1.0 }}
-              style={{ fontFamily: bodyFont, fontSize: 16, color: C.grey, maxWidth: 400, lineHeight: 1.7, margin: "0 0 40px" }}
-            >
-              Logement, tertiaire, réhabilitation, urbanisme. 28 ans d'exercice. 340 projets livrés sur 12 pays.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.3 }}
-              style={{ display: "flex", gap: 16 }}
-            >
-              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
-                style={{
-                  fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
-                  background: C.accent, color: C.white, padding: "14px 36px",
-                  textDecoration: "none", cursor: "pointer", fontWeight: 600,
-                }}
-              >
-                Discutons de votre projet
-              </button>
-              <button onClick={() => document.getElementById("projets")?.scrollIntoView({behavior:"smooth"})}
-                whileHover={{ borderColor: C.accent, color: C.accent }}
-                style={{
-                  fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
-                  border: `1px solid ${C.lightGrey}`, color: C.grey, padding: "14px 36px",
-                  textDecoration: "none", cursor: "pointer", transition: "all 0.3s",
-                }}
-              >
-                Nos réalisations
-              </button>
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {/* Right: Project list */}
-        <motion.div
-          style={{ flex: "0 0 45%", paddingRight: 80, y: listY, zIndex: 2 }}
-        >
-          <div style={{ borderTop: `1px solid ${C.lightGrey}` }}>
-            {recentProjects.map((project, i) => (
-              <ProjectRow
-                key={project.name}
-                name={project.name}
-                location={project.location}
-                year={project.year}
-                delay={0.5 + i * 0.1}
-              />
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div className="fixed inset-0 z-[100] bg-[#F5F2ED] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
+            <div className="flex items-center justify-between mb-12">
+              <span className="text-[#1A1510] text-xl font-medium" style={{ fontFamily: "'Libre Baskerville', serif" }}>Kéops</span>
+              <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-[#1A1510]" /></button>
+            </div>
+            {["Projets", "Services", "L'agence", "Équipe", "Contact"].map((item, i) => (
+              <motion.div key={item} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
+                <Link href="#" className="block text-[#1A1510] text-3xl mb-6 cursor-pointer" style={{ fontFamily: "'Libre Baskerville', serif" }} onClick={() => setMobileOpen(false)}>{item}</Link>
+              </motion.div>
             ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Hero */}
+      <section ref={heroRef} className="relative h-screen overflow-hidden">
+        <motion.div className="absolute inset-0" style={{ y: heroY }}>
+          <Image src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=1600&q=85" alt="Kéops Architecture" fill className="object-cover" priority />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1A1510]/50 to-[#F5F2ED]/80" />
+        </motion.div>
+        <motion.div className="relative z-10 h-full flex items-end pb-20 px-6" style={{ opacity: heroOpacity }}>
+          <div className="max-w-6xl mx-auto w-full">
+            <Reveal>
+              <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-4">Agence d'architecture · Paris</p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>
+                Kéops
+              </h1>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                <p className="text-white/70 text-lg max-w-md leading-relaxed">Architecture vivante. Espaces pensés pour durer, bâtis avec intention, habités avec plaisir.</p>
+                <button className="shrink-0 bg-[#C46A3E] text-white px-8 py-4 rounded-xl font-medium hover:bg-[#B5593A] transition-colors cursor-pointer flex items-center gap-2">
+                  Voir les projets <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </Reveal>
           </div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2 }}
-            style={{ fontFamily: bodyFont, fontSize: 11, color: C.grey, letterSpacing: 2, textTransform: "uppercase", marginTop: 16 }}
-          >
-            Sélection de projets récents
-          </motion.p>
         </motion.div>
       </section>
 
-      {/* ── STATS BAR ──────────────────────────────────────────────────────── */}
-      <section style={{
-        padding: "80px 96px",
-        display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
-        borderBottom: `1px solid ${C.lightGrey}`,
-        background: C.white,
-      }}>
-        {[
-          { label: "Ans d'exercice", value: 28, suffix: "" },
-          { label: "Projets livrés", value: 340, suffix: "+" },
-          { label: "Pays", value: 12, suffix: "" },
-          { label: "Récompenses nationales", value: 6, suffix: "" },
-        ].map((stat, i) => (
-          <motion.div
-            key={stat.label}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: i * 0.1 }}
-            style={{
-              padding: "0 40px",
-              borderRight: i < 3 ? `1px solid ${C.lightGrey}` : "none",
-              textAlign: "center",
-            }}
-          >
-            <div style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 64, color: C.accent, lineHeight: 1 }}>
-              <Counter target={stat.value} suffix={stat.suffix} />
+      {/* Stats */}
+      <section className="py-12 bg-[#C46A3E]">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6">
+          {[["22 ans", "D'expérience"], ["140+", "Projets réalisés"], ["12", "Prix d'architecture"], ["4", "Villes d'agences"]].map(([n, l]) => (
+            <div key={l} className="text-center">
+              <p className="text-white text-3xl font-bold mb-1">{n}</p>
+              <p className="text-white/60 text-xs uppercase tracking-widest">{l}</p>
             </div>
-            <div style={{ fontFamily: bodyFont, fontSize: 12, color: C.grey, letterSpacing: 1.5, textTransform: "uppercase", marginTop: 8 }}>
-              {stat.label}
-            </div>
-          </motion.div>
-        ))}
-      </section>
-
-      {/* ── FEATURES / TABS ────────────────────────────────────────────────── */}
-      <section id="services" style={{ padding: "120px 96px", position: "relative" }}>
-        <BlueprintGrid />
-        <div style={{ position: "relative", zIndex: 1 }}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            style={{ marginBottom: 64 }}
-          >
-            <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 16 }}>
-              Domaines d'expertise
-            </p>
-            <h2 style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 52, color: C.charcoal, margin: 0, fontWeight: 300 }}>
-              Quatre disciplines, une architecture
-            </h2>
-          </motion.div>
-
-          {/* Tab buttons */}
-          <div style={{ display: "flex", gap: 0, marginBottom: 56, borderBottom: `2px solid ${C.lightGrey}` }}>
-            {tabs.map((tab, i) => (
-              <button
-                key={tab.label}
-                onClick={() => setActiveTab(i)}
-                style={{
-                  background: "none", border: "none",
-                  fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
-                  color: activeTab === i ? C.accent : C.grey,
-                  padding: "16px 32px", cursor: "pointer",
-                  borderBottom: activeTab === i ? `2px solid ${C.accent}` : "2px solid transparent",
-                  marginBottom: -2, transition: "all 0.3s",
-                }}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Tab content */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.4 }}
-              style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}
-            >
-              <div>
-                <h3 style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 40, color: C.charcoal, margin: "0 0 20px", fontWeight: 300 }}>
-                  {tabs[activeTab].title}
-                </h3>
-                <p style={{ fontFamily: bodyFont, fontSize: 16, color: C.grey, lineHeight: 1.8, margin: "0 0 24px" }}>
-                  {tabs[activeTab].body}
-                </p>
-                <p style={{ fontFamily: bodyFont, fontSize: 13, color: C.accent, lineHeight: 1.6, borderLeft: `2px solid ${C.accent}`, paddingLeft: 16, margin: "0 0 32px" }}>
-                  {tabs[activeTab].detail}
-                </p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {tabs[activeTab].tags.map(tag => (
-                    <span key={tag} style={{
-                      fontFamily: bodyFont, fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase",
-                      color: C.grey, border: `1px solid ${C.lightGrey}`, padding: "6px 14px",
-                    }}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <div style={{
-                  background: C.card, border: `1px solid ${C.lightGrey}`,
-                  aspectRatio: "4/3",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  position: "relative", overflow: "hidden",
-                }}>
-                  <span style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 22, color: C.grey, opacity: 0.4 }}>
-                    {tabs[activeTab].label}
-                  </span>
-                  {/* Terracotta corner accent */}
-                  <div style={{
-                    position: "absolute", top: 0, left: 0,
-                    width: 4, height: 64, background: C.accent,
-                  }} />
-                  <div style={{
-                    position: "absolute", top: 0, left: 0,
-                    width: 64, height: 4, background: C.accent,
-                  }} />
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </section>
-
-      {/* ── TESTIMONIALS ───────────────────────────────────────────────────── */}
-      <section style={{
-        background: C.charcoal,
-        padding: "120px 96px",
-      }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          style={{ marginBottom: 64, display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}
-        >
-          <div>
-            <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 16 }}>
-              Ce qu'ils disent
-            </p>
-            <h2 style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 52, color: C.white, margin: 0, fontWeight: 300 }}>
-              Paroles de clients
-            </h2>
-          </div>
-          <div style={{ display: "flex", gap: 12 }}>
-            {[prevTestimonial, nextTestimonial].map((fn, i) => (
-              <button
-                key={i}
-                onClick={fn}
-                style={{
-                  width: 48, height: 48, background: "none",
-                  border: `1px solid rgba(255,255,255,0.15)`, color: "rgba(255,255,255,0.5)",
-                  cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 18, transition: "all 0.2s",
-                }}
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = C.accent; (e.currentTarget as HTMLButtonElement).style.color = C.accent }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,255,255,0.15)"; (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.5)" }}
-              >
-                {i === 0 ? "←" : "→"}
-              </button>
-            ))}
-          </div>
-        </motion.div>
-
-        <AnimatePresence mode="wait" custom={testimonialDir}>
-          <motion.div
-            key={activeTestimonial}
-            custom={testimonialDir}
-            initial={{ opacity: 0, x: testimonialDir * 60 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: testimonialDir * -60 }}
-            transition={{ duration: 0.5 }}
-            style={{ maxWidth: 760 }}
-          >
-            <p style={{
-              fontFamily: headingFont, fontStyle: "italic",
-              fontSize: 26, color: C.white, lineHeight: 1.65, margin: "0 0 36px",
-              fontWeight: 300,
-            }}>
-              "{testimonials[activeTestimonial].text}"
-            </p>
-            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-              <div style={{
-                width: 40, height: 40, borderRadius: "50%",
-                background: C.accent, display: "flex", alignItems: "center", justifyContent: "center",
-                fontFamily: bodyFont, fontWeight: 700, color: C.white, fontSize: 14,
-              }}>
-                {testimonials[activeTestimonial].name[0]}
-              </div>
-              <div>
-                <div style={{ fontFamily: bodyFont, fontWeight: 600, color: C.white, fontSize: 14 }}>
-                  {testimonials[activeTestimonial].name}
-                </div>
-                <div style={{ fontFamily: bodyFont, fontSize: 12, color: "rgba(255,255,255,0.45)", marginTop: 2 }}>
-                  {testimonials[activeTestimonial].role}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-
-        <div style={{ display: "flex", gap: 8, marginTop: 48 }}>
-          {testimonials.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => { setTestimonialDir(i > activeTestimonial ? 1 : -1); setActiveTestimonial(i) }}
-              style={{
-                width: i === activeTestimonial ? 28 : 6, height: 6,
-                background: i === activeTestimonial ? C.accent : "rgba(255,255,255,0.15)",
-                border: "none", cursor: "pointer", padding: 0,
-                transition: "all 0.3s",
-              }}
-            />
           ))}
         </div>
       </section>
 
-      {/* ── PRICING ────────────────────────────────────────────────────────── */}
-      <section id="tarifs" style={{ padding: "120px 96px", background: C.bg }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          style={{ marginBottom: 64 }}
-        >
-          <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 16 }}>
-            Nos missions
-          </p>
-          <h2 style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 52, color: C.charcoal, margin: 0, fontWeight: 300 }}>
-            Trois niveaux d'intervention
-          </h2>
-          <p style={{ fontFamily: bodyFont, fontSize: 16, color: C.grey, marginTop: 16, maxWidth: 540, lineHeight: 1.7 }}>
-            Nous adaptons notre mission à votre besoin : consultation stratégique, mission complète ou assistance à maîtrise d'ouvrage.
-          </p>
-        </motion.div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
-          {pricingTiers.map((tier, i) => (
-            <motion.div
-              key={tier.name}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.12 }}
-              style={{
-                background: tier.highlight ? C.charcoal : C.white,
-                border: tier.highlight ? `1px solid ${C.accent}` : `1px solid ${C.lightGrey}`,
-                padding: "48px 36px",
-                transform: tier.highlight ? "scale(1.03)" : "scale(1)",
-                position: "relative",
-              }}
-            >
-              {tier.highlight && (
-                <div style={{
-                  position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)",
-                  background: C.accent, color: C.white, fontFamily: bodyFont, fontSize: 10,
-                  letterSpacing: 2, textTransform: "uppercase", fontWeight: 700, padding: "4px 16px",
-                }}>
-                  Notre mission phare
-                </div>
-              )}
-              <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 3, color: C.accent, textTransform: "uppercase", margin: "0 0 16px" }}>
-                {tier.name}
-              </p>
-              <div style={{
-                fontFamily: headingFont, fontStyle: "italic",
-                fontSize: tier.price.length > 5 ? 32 : 48,
-                color: tier.highlight ? C.white : C.charcoal,
-                margin: "0 0 4px", lineHeight: 1.1,
-              }}>
-                {tier.price}
+      {/* Projects */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <Reveal>
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
+              <div>
+                <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-3">Réalisations</p>
+                <h2 className="text-[#1A1510] text-4xl md:text-5xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>Nos projets</h2>
               </div>
-              <p style={{ fontFamily: bodyFont, fontSize: 13, color: tier.highlight ? "rgba(255,255,255,0.45)" : C.grey, margin: "0 0 32px" }}>
-                {tier.duration}
-              </p>
-              <div style={{ width: 40, height: 2, background: C.accent, marginBottom: 32 }} />
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 40px", display: "flex", flexDirection: "column", gap: 14 }}>
-                {tier.features.map(f => (
-                  <li key={f} style={{
-                    fontFamily: bodyFont, fontSize: 14,
-                    color: tier.highlight ? "rgba(255,255,255,0.7)" : C.grey,
-                    display: "flex", gap: 10, alignItems: "flex-start",
-                  }}>
-                    <span style={{ color: C.accent, flexShrink: 0 }}>—</span> {f}
-                  </li>
+              <div className="flex gap-2 flex-wrap mt-6 md:mt-0">
+                {filters.map(f => (
+                  <button key={f} onClick={() => setActiveFilter(f)} className={`px-4 py-2 rounded-xl text-sm transition-all cursor-pointer border ${activeFilter === f ? "bg-[#C46A3E] text-white border-[#C46A3E]" : "border-[#1A1510]/15 text-[#1A1510]/60 hover:border-[#C46A3E]"}`}>{f}</button>
                 ))}
-              </ul>
-              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                style={{
-                  display: "block", textAlign: "center", textDecoration: "none",
-                  padding: "14px 0",
-                  background: tier.highlight ? C.accent : "none",
-                  border: tier.highlight ? "none" : `1px solid ${C.lightGrey}`,
-                  color: tier.highlight ? C.white : C.grey,
-                  fontFamily: bodyFont, fontSize: 11, letterSpacing: 2, textTransform: "uppercase",
-                  fontWeight: tier.highlight ? 600 : 400, cursor: "pointer",
-                }}
-              >
-                {tier.cta}
-              </button>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── FAQ ────────────────────────────────────────────────────────────── */}
-      <section style={{
-        background: C.white,
-        borderTop: `1px solid ${C.lightGrey}`,
-        padding: "120px 96px",
-      }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          style={{ marginBottom: 64 }}
-        >
-          <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 16 }}>
-            Questions fréquentes
-          </p>
-          <h2 style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 52, color: C.charcoal, margin: 0, fontWeight: 300 }}>
-            Ce que l'on nous demande
-          </h2>
-        </motion.div>
-
-        <div style={{ maxWidth: 840, display: "flex", flexDirection: "column", gap: 0 }}>
-          {faqs.map((faq, i) => (
-            <div key={i} style={{ borderBottom: `1px solid ${C.lightGrey}` }}>
-              <button
-                onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                style={{
-                  width: "100%", background: "none", border: "none",
-                  padding: "28px 0", display: "flex", justifyContent: "space-between", alignItems: "center",
-                  cursor: "pointer", textAlign: "left",
-                }}
-              >
-                <span style={{ fontFamily: bodyFont, fontSize: 16, color: C.charcoal, fontWeight: 400, paddingRight: 24 }}>
-                  {faq.q}
-                </span>
-                <motion.span
-                  animate={{ rotate: openFaq === i ? 45 : 0 }}
-                  transition={{ duration: 0.25 }}
-                  style={{ color: C.accent, fontSize: 22, flexShrink: 0, lineHeight: 1 }}
-                >
-                  +
-                </motion.span>
-              </button>
-              <AnimatePresence>
-                {openFaq === i && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.35 }}
-                    style={{ overflow: "hidden" }}
-                  >
-                    <p style={{
-                      fontFamily: bodyFont, fontSize: 15, color: C.grey,
-                      lineHeight: 1.8, paddingBottom: 28, margin: 0,
-                    }}>
-                      {faq.a}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              </div>
             </div>
-          ))}
+          </Reveal>
+          <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <AnimatePresence>
+              {filtered.map((p, i) => (
+                <motion.div key={p.name} layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.4 }} className="group cursor-pointer">
+                  <div className="relative overflow-hidden rounded-2xl mb-4" style={{ aspectRatio: "4/3" }}>
+                    <Image src={p.src} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-xs px-2.5 py-1 rounded-full text-[#1A1510]">{p.type}</div>
+                  </div>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-[#1A1510] font-medium mb-1">{p.name}</h3>
+                      <p className="text-[#1A1510]/50 text-sm flex items-center gap-1"><MapPin className="w-3 h-3" />{p.location} · {p.area}</p>
+                    </div>
+                    <span className="text-[#C46A3E] text-sm">{p.year}</span>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         </div>
       </section>
 
-      {/* ── CTA BANNER ─────────────────────────────────────────────────────── */}
-      <section id="contact" style={{
-        padding: "140px 96px",
-        background: C.bg,
-        position: "relative", overflow: "hidden",
-        borderTop: `1px solid ${C.lightGrey}`,
-      }}>
-        {/* Decorative terracotta vertical line */}
-        <div style={{
-          position: "absolute", left: 0, top: 0, bottom: 0,
-          width: 4, background: C.accent, opacity: 0.5,
-        }} />
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          style={{ maxWidth: 700 }}
-        >
-          <p style={{ fontFamily: bodyFont, fontSize: 11, letterSpacing: 4, color: C.accent, textTransform: "uppercase", marginBottom: 24 }}>
-            Parlons de votre projet
-          </p>
-          <h2 style={{
-            fontFamily: headingFont, fontStyle: "italic", fontSize: "clamp(40px, 5vw, 72px)",
-            color: C.charcoal, margin: "0 0 24px", fontWeight: 300, lineHeight: 1.1,
-          }}>
-            Discutons de Votre Projet
-          </h2>
-          <p style={{ fontFamily: bodyFont, fontSize: 16, color: C.grey, maxWidth: 480, margin: "0 0 48px", lineHeight: 1.7 }}>
-            Premier entretien sans engagement. Réponse sous 48h. Agences à Paris (11e) et Lyon (2e).
-          </p>
-          <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-            <motion.a
-              href="mailto:contact@keops-architecture.fr"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              style={{
-                fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
-                background: C.accent, color: C.white, padding: "18px 48px",
-                textDecoration: "none", cursor: "pointer", fontWeight: 600,
-              }}
-            >
-              Envoyer un message
-            </button>
-            <motion.a
-              href="tel:+33145001234"
-              whileHover={{ borderColor: C.accent, color: C.accent }}
-              style={{
-                fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
-                border: `1px solid ${C.lightGrey}`, color: C.grey, padding: "18px 48px",
-                textDecoration: "none", cursor: "pointer", transition: "all 0.3s",
-              }}
-            >
-              +33 1 45 00 12 34
-            </button>
+      {/* Services */}
+      <section className="py-24 px-6 bg-[#F5F2ED]">
+        <div className="max-w-6xl mx-auto">
+          <Reveal>
+            <div className="mb-12">
+              <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-3">Expertise</p>
+              <h2 className="text-[#1A1510] text-4xl md:text-5xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>Services</h2>
+            </div>
+          </Reveal>
+          <div className="grid md:grid-cols-2 gap-5">
+            {services.map((s, i) => (
+              <Reveal key={s.title} delay={i * 0.08}>
+                <div className="bg-white rounded-2xl p-8 border border-[#1A1510]/8 hover:border-[#C46A3E]/30 transition-colors cursor-pointer group">
+                  <div className="w-10 h-10 bg-[#C46A3E]/10 rounded-xl flex items-center justify-center text-[#C46A3E] mb-5 group-hover:bg-[#C46A3E] group-hover:text-white transition-colors">{s.icon}</div>
+                  <h3 className="text-[#1A1510] font-medium text-lg mb-3" style={{ fontFamily: "'Libre Baskerville', serif" }}>{s.title}</h3>
+                  <p className="text-[#1A1510]/50 text-sm leading-relaxed">{s.desc}</p>
+                </div>
+              </Reveal>
+            ))}
           </div>
-        </motion.div>
+        </div>
       </section>
 
-      {/* ── FOOTER ─────────────────────────────────────────────────────────── */}
-      <footer style={{
-        background: C.charcoal,
-        padding: "80px 96px 48px",
-      }}>
-        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 48, marginBottom: 64 }}>
+      {/* Team */}
+      <section className="py-24 px-6 bg-[#1A1510]">
+        <div className="max-w-6xl mx-auto">
+          <Reveal>
+            <div className="mb-12">
+              <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-3">L'équipe</p>
+              <h2 className="text-white text-4xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>Nos architectes</h2>
+            </div>
+          </Reveal>
+          <div className="grid md:grid-cols-3 gap-5">
+            {team.map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.1}>
+                <div className="bg-[#231E17] border border-white/5 rounded-2xl p-8 hover:border-[#C46A3E]/30 transition-colors cursor-pointer">
+                  <div className="w-16 h-16 bg-[#C46A3E] rounded-2xl flex items-center justify-center text-white text-2xl font-medium mb-6" style={{ fontFamily: "'Libre Baskerville', serif" }}>{t.name.charAt(0)}</div>
+                  <h3 className="text-white text-lg mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{t.name}</h3>
+                  <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-3">{t.role}</p>
+                  <p className="text-white/40 text-sm">{t.years} d'expérience</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Distinctions */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <Reveal className="mb-12">
+            <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-3">Reconnaissances</p>
+            <h2 className="text-[#1A1510] text-4xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>Distinctions</h2>
+          </Reveal>
+          <div className="space-y-0">
+            {distinctions.map((d, i) => (
+              <Reveal key={d} delay={i * 0.07}>
+                <div className="flex items-center gap-4 py-5 border-b border-[#1A1510]/10 group cursor-pointer">
+                  <Award className="w-4 h-4 text-[#C46A3E] shrink-0" />
+                  <p className="text-[#1A1510] text-sm group-hover:text-[#C46A3E] transition-colors">{d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section className="py-24 px-6 bg-[#F5F2ED]">
+        <div className="max-w-4xl mx-auto">
+          <Reveal>
+            <div className="bg-[#C46A3E] rounded-3xl p-10 md:p-16 text-center">
+              <h2 className="text-white text-4xl mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>Parlons de votre projet</h2>
+              <p className="text-white/70 max-w-lg mx-auto mb-10">Un projet résidentiel, un programme mixte, une réhabilitation ? Notre équipe est disponible pour un premier échange sans engagement.</p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button className="bg-white text-[#C46A3E] font-bold px-8 py-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">Prendre rendez-vous</button>
+                <button className="border border-white/30 text-white px-8 py-4 rounded-xl hover:bg-white/10 transition-colors cursor-pointer flex items-center justify-center gap-2"><Phone className="w-4 h-4" />+33 1 42 00 00 00</button>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-[#1A1510] py-16 px-6">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10 mb-12">
           <div>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 20 }}>
-              <span style={{ fontFamily: headingFont, fontStyle: "italic", fontSize: 28, color: C.white }}>Kéops</span>
-              <span style={{ fontFamily: bodyFont, fontSize: 10, color: "rgba(255,255,255,0.3)", letterSpacing: 3, textTransform: "uppercase" }}>Architecture</span>
-            </div>
-            <p style={{ fontFamily: bodyFont, fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.75, maxWidth: 280, margin: "0 0 28px" }}>
-              Cabinet d'architecture, d'urbanisme et de design intérieur fondé à Paris en 1996. 28 ans d'exercice, 340 projets livrés.
-            </p>
-            <div style={{ display: "flex", gap: 16 }}>
-              {/* LinkedIn */}
-              <a href="#" style={{ color: "rgba(255,255,255,0.35)", transition: "color 0.2s", cursor: "pointer" }}
-                onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
-                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.35)")}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
-                  <circle cx="4" cy="4" r="2" />
-                </svg>
-              </a>
-              {/* Camera */}
-              <a href="#" style={{ color: "rgba(255,255,255,0.35)", transition: "color 0.2s", cursor: "pointer" }}
-                onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
-                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.35)")}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                  <circle cx="12" cy="12" r="4" />
-                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-                </svg>
-              </a>
-              {/* X / MessageSquare */}
-              <a href="#" style={{ color: "rgba(255,255,255,0.35)", transition: "color 0.2s", cursor: "pointer" }}
-                onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
-                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.35)")}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-              </a>
-              {/* Bookmark */}
-              <a href="#" style={{ color: "rgba(255,255,255,0.35)", transition: "color 0.2s", cursor: "pointer" }}
-                onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
-                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.35)")}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z" />
-                </svg>
-              </a>
-            </div>
+            <p className="text-white text-xl mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>Kéops</p>
+            <p className="text-white/30 text-sm leading-relaxed">Agence d'architecture fondée à Paris. Projets résidentiels, culturels et mixtes.</p>
           </div>
-
           {[
-            { title: "Le Cabinet", links: ["Notre histoire", "L'équipe", "Engagements", "Presse & Distinctions"] },
-            { title: "Expertises", links: ["Logement", "Tertiaire", "Réhabilitation", "Urbanisme"] },
-            { title: "Contact", links: ["Paris 11e", "Lyon 2e", "Consultation", "Mentions légales"] },
+            { title: "Projets", links: ["Résidentiel", "Culturel", "Bureau mixte", "Patrimoine"] },
+            { title: "Agence", links: ["Notre histoire", "L'équipe", "Distinctions", "Presse"] },
+            { title: "Contact", links: ["Paris — 11 Rue de la Paix", "+33 1 42 00 00 00", "contact@keops-archi.fr", "LinkedIn"] },
           ].map(col => (
             <div key={col.title}>
-              <h4 style={{ fontFamily: bodyFont, fontSize: 10, letterSpacing: 3, color: C.accent, textTransform: "uppercase", margin: "0 0 20px" }}>
-                {col.title}
-              </h4>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 12 }}>
-                {col.links.map(link => (
-                  <li key={link}>
-                    <a href="#" style={{
-                      fontFamily: bodyFont, fontSize: 13, color: "rgba(255,255,255,0.4)", textDecoration: "none",
-                      transition: "color 0.2s", cursor: "pointer",
-                    }}
-                      onMouseEnter={e => (e.currentTarget.style.color = C.white)}
-                      onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.4)")}>
-                      {link}
-                    </a>
-                  </li>
-                ))}
+              <h4 className="text-white/40 text-xs tracking-widest uppercase mb-4">{col.title}</h4>
+              <ul className="space-y-2">
+                {col.links.map(l => <li key={l}><span className="text-white/30 text-sm hover:text-[#C46A3E] transition-colors cursor-pointer">{l}</span></li>)}
               </ul>
             </div>
           ))}
         </div>
-
-        <div style={{
-          borderTop: `1px solid rgba(255,255,255,0.08)`, paddingTop: 32,
-          display: "flex", justifyContent: "space-between", alignItems: "center",
-        }}>
-          <p style={{ fontFamily: bodyFont, fontSize: 12, color: "rgba(255,255,255,0.25)", margin: 0 }}>
-            © 2024 Kéops Architecture & Urbanisme. Tous droits réservés.
-          </p>
-          <p style={{ fontFamily: bodyFont, fontSize: 12, color: "rgba(255,255,255,0.25)", margin: 0 }}>
-            DPLG — SIRET 404 872 109 00038 — Inscrit à l'Ordre des Architectes d'Île-de-France
-          </p>
+        <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-white/20">
+          <span>© 2026 Kéops Architecture. Tous droits réservés.</span>
         </div>
       </footer>
     </div>
-  )
+  );
 }
