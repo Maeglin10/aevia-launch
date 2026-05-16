@@ -1,586 +1,1077 @@
-"use client";
+"use client"
 
+import React, { useState, useEffect, useRef } from "react"
 import {
   motion,
+  AnimatePresence,
   useScroll,
   useTransform,
   useInView,
-  useMotionValue,
   useSpring,
-  AnimatePresence,
-} from "framer-motion";
-import React, { useRef, useState, useEffect } from "react";
+} from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
+import {
+  Flower,
+  Leaf,
+  Star,
+  ArrowRight,
+  ChevronRight,
+  Menu,
+  X,
+  Phone,
+  Mail,
+  MapPin,
+  Instagram,
+  Facebook,
+  Twitter,
+  Heart,
+  Clock,
+  Award,
+  Users,
+  Scissors,
+  Sun,
+  Sparkles,
+  CheckCircle,
+} from "lucide-react"
 
-/* ─── Design Tokens ─────────────────────────────────────────── */
-const C = {
-  bg:      "#FAF4F0",
-  bgCard:  "#F5EAE4",
-  bgDark:  "#1C1210",
-  petal:   "#C86878",
-  petalSoft:"#E8A4B0",
-  green:   "#4A6B52",
-  greenSoft:"#8AAE8A",
-  gold:    "#C9A86C",
-  dark:    "#2A1814",
-  muted:   "#8A7068",
-  border:  "rgba(200,104,120,0.14)",
-};
+/* ==========================================================================
+   BOTANICA — LUXURY FLORAL ATELIER — DATA
+   ========================================================================== */
 
-const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap');`;
+const NAV_LINKS = [
+  { label: "Collections", href: "#collections" },
+  { label: "Événements", href: "#evenements" },
+  { label: "Studio", href: "#studio" },
+  { label: "Atelier", href: "#atelier" },
+  { label: "Contact", href: "#contact" },
+]
 
-/* ─── Data ───────────────────────────────────────────────────── */
 const ARRANGEMENTS = [
-  { name: "Seasonal Bouquet", tag: "Bestseller", price: "65", desc: "Hand-tied seasonal flowers, locally sourced. Refreshed weekly based on what's at its peak." },
-  { name: "Event Florals", tag: "Bespoke", price: "From 280", desc: "Full-service floral design for weddings, dinners, galas, and intimate celebrations." },
-  { name: "Pressed & Dried", tag: "Lasting", price: "From 45", desc: "Preserved arrangements that last months. Pampas, lunaria, statice, and dried botanicals." },
-  { name: "Subscription Box", tag: "Monthly", price: "55/mo", desc: "Fresh flowers delivered monthly, hand-selected and arranged. Includes care card and botanicals." },
-  { name: "Table Setting", tag: "Events", price: "From 120", desc: "Complete table floralscapes — individual stems, centrepieces, scattered petal runners." },
-  { name: "Custom Wreath", tag: "Seasonal", price: "85", desc: "Door wreaths and wall installations made with seasonal foliage and dried flowers." },
-];
-
-const FLOWERS = [
-  "Pivoine · Ranunculus · Anemone · Rose · Tulipe · Dahlia · Lilas · Jasmin · Glycine · Muguet"
-];
-
-const PROCESS = [
-  { num: "I", title: "The Harvest", desc: "Every Monday we source directly from the Rungis wholesale market, supplemented by our partner growers in Île-de-France." },
-  { num: "II", title: "The Design", desc: "Each arrangement is built around one hero bloom, supported by secondary florals and complementary foliage — never symmetrical, always alive." },
-  { num: "III", title: "The Delivery", desc: "Wrapped in our signature kraft paper with a care card and a botanical print. Delivered same-day in Paris, next-day nationwide." },
-];
+  {
+    id: "a-01",
+    name: "Mémoire d'Été",
+    season: "Été",
+    price: "195€",
+    description: "Composition estivale aux roses centifolia et pivoines pêche, cueillie au lever du soleil.",
+    image: "https://images.unsplash.com/photo-1487530811015-780780171b65?w=800&q=80",
+    tag: "Exclusif",
+  },
+  {
+    id: "a-02",
+    name: "Pivoine Atlas",
+    season: "Printemps",
+    price: "245€",
+    description: "Bouquet monochrome de pivoines Sarah Bernhardt aux pétales soyeux et au parfum enivrant.",
+    image: "https://images.unsplash.com/photo-1490750967868-88df5691cc17?w=800&q=80",
+    tag: "Best-seller",
+  },
+  {
+    id: "a-03",
+    name: "Automne Ardent",
+    season: "Automne",
+    price: "175€",
+    description: "Composition aux teintes profondes : dahlias café, chrysanthèmes bordeaux et branches de baies.",
+    image: "https://images.unsplash.com/photo-1431209006258-2c92bf9cefca?w=800&q=80",
+    tag: "Saisonnier",
+  },
+  {
+    id: "a-04",
+    name: "Lys du Japon",
+    season: "Été",
+    price: "220€",
+    description: "Élégance orientale : lys Casa Blanca immaculés entre bambous lacqués et orchidées blanches.",
+    image: "https://images.unsplash.com/photo-1487530811015-780780171b65?w=800&q=80",
+    tag: "Signature",
+  },
+  {
+    id: "a-05",
+    name: "Jasmin de Grasse",
+    season: "Printemps",
+    price: "185€",
+    description: "Bouquet aérien de jasmin frais, gardénias et muguet — le souvenir olfactif du sud.",
+    image: "https://images.unsplash.com/photo-1490750967868-88df5691cc17?w=800&q=80",
+    tag: "Parfumé",
+  },
+  {
+    id: "a-06",
+    name: "Anémone Sauvage",
+    season: "Hiver",
+    price: "165€",
+    description: "Anémones sauvages de nos jardins provençaux, iris noirs et renoncules bicolores.",
+    image: "https://images.unsplash.com/photo-1431209006258-2c92bf9cefca?w=800&q=80",
+    tag: "Hivernal",
+  },
+]
 
 const EVENTS = [
-  { name: "Spring Arrangement Workshop", date: "Sat 24 May", time: "10:00–13:00", spots: 5, price: "75" },
-  { name: "Wedding Florals Consultation", date: "By appointment", time: "1h private", spots: null, price: "Free" },
-  { name: "Dried Botanicals Evening", date: "Thu 5 Jun", time: "18:30–20:30", spots: 8, price: "55" },
-];
+  {
+    icon: Heart,
+    title: "Mariage",
+    desc: "De la cérémonie à la réception, nous orchestrons chaque détail floral pour que votre journée transcende l'ordinaire. Bouquets de mariée, arches, centres de table — une symphonie botanique.",
+    features: ["Consultation privée 2h", "Maquette florale", "Installation le jour J", "Équipe dédiée"],
+  },
+  {
+    icon: Award,
+    title: "Corporate",
+    desc: "Votre image de marque mérite des compositions à sa hauteur. Événements d'entreprise, lancements produits, séminaires — nous créons des environnements floraux mémorables.",
+    features: ["Habillage d'espace", "Identité chromatique", "Livraison et reprise", "Devis sous 24h"],
+  },
+  {
+    icon: Sparkles,
+    title: "Réception Privée",
+    desc: "Anniversaires, dîners gastronomiques, soirées de prestige. Chaque occasion mérite une mise en scène florale qui épate et émeut vos invités.",
+    features: ["Thématisation complète", "Fleurs de saison", "Accord olfactif", "Suivi personnalisé"],
+  },
+]
 
-const FLOWER_STRIP = [
-  "Pivoine", "Ranunculus", "Anemone", "Rosa Austine", "Tulipe", "Dahlia", "Lilas",
-  "Jasmin", "Glycine", "Muguet du Val", "Digitale", "Freesia",
-];
+const ATELIER_STEPS = [
+  {
+    step: "01",
+    title: "Sélection",
+    desc: "Chaque matin dès 4h, nous sélectionnons les fleurs auprès de nos 45 producteurs partenaires en France et en Europe.",
+    icon: Leaf,
+  },
+  {
+    step: "02",
+    title: "Hydratation",
+    desc: "Les tiges passent 12h en eau fraîche dans notre cellule réfrigérée pour atteindre leur hydratation optimale.",
+    icon: Flower,
+  },
+  {
+    step: "03",
+    title: "Composition",
+    desc: "Nos artisans assemblent chaque bouquet à la main selon les règles de la botanique artistique traditionnelle.",
+    icon: Scissors,
+  },
+  {
+    step: "04",
+    title: "Livraison",
+    desc: "Emballées dans notre papier de soie signature et livrées dans les 4 heures — fraîcheur garantie.",
+    icon: CheckCircle,
+  },
+]
 
-/* ─── TextReveal ─────────────────────────────────────────────── */
-function TextReveal({ text, delay = 0, style = {} }: { text: string; delay?: number; style?: React.CSSProperties }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  return (
-    <div ref={ref} style={{ overflow: "hidden", ...style }}>
-      <motion.div
-        initial={{ y: "110%" }}
-        animate={inView ? { y: 0 } : { y: "110%" }}
-        transition={{ duration: 1.0, delay, ease: [0.16, 1, 0.3, 1] }}
-      >
-        {text}
-      </motion.div>
-    </div>
-  );
-}
+const STATS = [
+  { value: "15 ans", label: "d'expertise florale" },
+  { value: "2000+", label: "créations réalisées" },
+  { value: "98%", label: "de clients fidèles" },
+  { value: "45", label: "producteurs partenaires" },
+]
 
-/* ─── MagneticButton ─────────────────────────────────────────── */
-function MagneticButton({ children, style = {}, onClick }: { children: React.ReactNode; style?: React.CSSProperties; onClick?: () => void }) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 250, damping: 18 });
-  const sy = useSpring(y, { stiffness: 250, damping: 18 });
-  const ref = useRef<HTMLButtonElement>(null);
-  const onMove = (e: React.MouseEvent) => {
-    const r = ref.current!.getBoundingClientRect();
-    x.set((e.clientX - r.left - r.width / 2) * 0.3);
-    y.set((e.clientY - r.top - r.height / 2) * 0.3);
-  };
-  return (
-    <motion.button ref={ref} style={{ x: sx, y: sy, cursor: "pointer", background: "none", border: "none", ...style }}
-      onMouseMove={onMove} onMouseLeave={() => { x.set(0); y.set(0); }} onClick={onClick}>
-      {children}
-    </motion.button>
-  );
-}
+const TESTIMONIALS = [
+  {
+    name: "Isabelle de Montblanc",
+    role: "Mariée — Château du Vexin",
+    quote:
+      "Botanica a sublimé notre mariage au-delà de mes espérances. Les compositions florales étaient d'une beauté renversante, et l'équipe d'une discrétion et d'un professionnalisme absolus.",
+    rating: 5,
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
+  },
+  {
+    name: "Arnaud Leclercq",
+    role: "Directeur Général — Maison Leclercq",
+    quote:
+      "Pour notre centième anniversaire, Botanica a créé une installation florale qui a ébloui nos 300 invités. Un sens artistique exceptionnel, une exécution parfaite.",
+    rating: 5,
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80",
+  },
+  {
+    name: "Clémentine Faure",
+    role: "Styliste — Paris",
+    quote:
+      "Je commande chez Botanica chaque semaine depuis trois ans. La qualité est invariablement irréprochable, les compositions toujours surprenantes et poétiques.",
+    rating: 5,
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80",
+  },
+]
 
-/* ─── MarqueeStrip ───────────────────────────────────────────── */
-function MarqueeStrip() {
-  const items = [...FLOWER_STRIP, ...FLOWER_STRIP];
-  return (
-    <div style={{ overflow: "hidden", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "11px 0", background: C.bgDark }}>
-      <motion.div
-        style={{ display: "flex", gap: 56, whiteSpace: "nowrap" }}
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
-      >
-        {items.map((name, i) => (
-          <span key={i} style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 14, letterSpacing: "0.1em", color: C.petalSoft, fontStyle: "italic" }}>
-            {name}
-            <span style={{ marginLeft: 56, color: C.petal, fontSize: 10 }}>✿</span>
-          </span>
-        ))}
-      </motion.div>
-    </div>
-  );
-}
+const MARQUEE_ITEMS = [
+  "Rosa Centifolia",
+  "Pivoine de France",
+  "Lys du Japon",
+  "Orchidée Rare",
+  "Anémone Sauvage",
+  "Jasmin de Grasse",
+  "Muguet des Bois",
+  "Tulipe Perroquet",
+  "Dahlia Café",
+  "Gardénia Blanc",
+]
 
-/* ─── BloomingFlower — Signature Element ────────────────────── */
-function BloomingFlower() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [hovered, setHovered] = useState(false);
+/* ==========================================================================
+   HELPER COMPONENTS
+   ========================================================================== */
 
-  // Build 16 petals in two rings (inner 8, outer 8)
-  const innerPetals = Array.from({ length: 8 }, (_, i) => {
-    const angle = (i * Math.PI * 2) / 8;
-    return { angle, r: 55, length: 44, width: 20 };
-  });
-  const outerPetals = Array.from({ length: 8 }, (_, i) => {
-    const angle = (i * Math.PI * 2) / 8 + Math.PI / 8;
-    return { angle, r: 68, length: 58, width: 26 };
-  });
-
-  const petalPath = (cx: number, cy: number, angle: number, rInner: number, length: number, width: number) => {
-    const tipX = cx + (rInner + length) * Math.cos(angle);
-    const tipY = cy + (rInner + length) * Math.sin(angle);
-    const baseL = angle + Math.PI / 2;
-    const baseR = angle - Math.PI / 2;
-    const baseX = cx + rInner * Math.cos(angle);
-    const baseY = cy + rInner * Math.sin(angle);
-    const lx = baseX + (width / 2) * Math.cos(baseL);
-    const ly = baseY + (width / 2) * Math.sin(baseL);
-    const rx = baseX + (width / 2) * Math.cos(baseR);
-    const ry = baseY + (width / 2) * Math.sin(baseR);
-    const cp1x = lx + length * 0.6 * Math.cos(angle) + width * 0.4 * Math.cos(baseL);
-    const cp1y = ly + length * 0.6 * Math.sin(angle) + width * 0.4 * Math.sin(baseL);
-    const cp2x = rx + length * 0.6 * Math.cos(angle) + width * 0.4 * Math.cos(baseR);
-    const cp2y = ry + length * 0.6 * Math.sin(angle) + width * 0.4 * Math.sin(baseR);
-    return `M${lx.toFixed(1)},${ly.toFixed(1)} C${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${tipX.toFixed(1)},${tipY.toFixed(1)} ${tipX.toFixed(1)},${tipY.toFixed(1)} C${tipX.toFixed(1)},${tipY.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${rx.toFixed(1)},${ry.toFixed(1)} Z`;
-  };
-
-  const cx = 200, cy = 210;
-
-  return (
-    <div ref={ref} style={{ display: "flex", gap: 64, alignItems: "center" }}>
-      <div
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        style={{ position: "relative", flexShrink: 0, cursor: "default" }}
-      >
-        <svg width="400" height="420" viewBox="0 0 400 420" style={{ display: "block", overflow: "visible" }}>
-          <defs>
-            <radialGradient id="petalGrad" cx="50%" cy="70%" r="60%">
-              <stop offset="0%" stopColor={C.petal} stopOpacity="0.9" />
-              <stop offset="100%" stopColor={C.petalSoft} stopOpacity="0.6" />
-            </radialGradient>
-            <radialGradient id="innerPetalGrad" cx="50%" cy="70%" r="60%">
-              <stop offset="0%" stopColor={C.petal} stopOpacity="0.75" />
-              <stop offset="100%" stopColor="#F5C0C8" stopOpacity="0.55" />
-            </radialGradient>
-            <radialGradient id="centerGrad" cx="40%" cy="35%" r="65%">
-              <stop offset="0%" stopColor="#F5D080" />
-              <stop offset="100%" stopColor={C.gold} />
-            </radialGradient>
-          </defs>
-
-          {/* Outer petals — bloom outward */}
-          {outerPetals.map((p, i) => (
-            <motion.path
-              key={`op-${i}`}
-              d={petalPath(cx, cy, p.angle, p.r, p.length, p.width)}
-              fill="url(#petalGrad)"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={inView ? {
-                scale: hovered ? 1.08 : 1,
-                opacity: 1,
-                rotate: hovered ? (i % 2 === 0 ? 3 : -3) : 0,
-              } : { scale: 0, opacity: 0 }}
-              style={{ originX: `${cx}px`, originY: `${cy}px` }}
-              transition={{
-                scale: { duration: 0.8, delay: inView ? 0.15 + i * 0.06 : 0, ease: [0.16, 1, 0.3, 1] },
-                opacity: { duration: 0.6, delay: inView ? 0.1 + i * 0.06 : 0 },
-                rotate: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
-              }}
-            />
-          ))}
-
-          {/* Inner petals */}
-          {innerPetals.map((p, i) => (
-            <motion.path
-              key={`ip-${i}`}
-              d={petalPath(cx, cy, p.angle, p.r, p.length, p.width)}
-              fill="url(#innerPetalGrad)"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={inView ? {
-                scale: hovered ? 1.06 : 1,
-                opacity: 1,
-              } : { scale: 0, opacity: 0 }}
-              style={{ originX: `${cx}px`, originY: `${cy}px` }}
-              transition={{
-                scale: { duration: 0.7, delay: inView ? 0.5 + i * 0.05 : 0, ease: [0.16, 1, 0.3, 1] },
-                opacity: { duration: 0.5, delay: inView ? 0.45 + i * 0.05 : 0 },
-              }}
-            />
-          ))}
-
-          {/* Center disc */}
-          <motion.circle
-            cx={cx}
-            cy={cy}
-            r={28}
-            fill="url(#centerGrad)"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={inView ? { scale: 1, opacity: 1 } : {}}
-            style={{ originX: `${cx}px`, originY: `${cy}px` }}
-            transition={{ duration: 0.5, delay: 1, ease: [0.16, 1, 0.3, 1] }}
-          />
-
-          {/* Stamens */}
-          {Array.from({ length: 12 }, (_, i) => {
-            const a = (i * Math.PI * 2) / 12;
-            const r1 = 12, r2 = 24;
-            return (
-              <motion.g key={i}
-                initial={{ opacity: 0 }}
-                animate={inView ? { opacity: 1 } : {}}
-                transition={{ delay: 1.1 + i * 0.04 }}
-              >
-                <line
-                  x1={cx + r1 * Math.cos(a)} y1={cy + r1 * Math.sin(a)}
-                  x2={cx + r2 * Math.cos(a)} y2={cy + r2 * Math.sin(a)}
-                  stroke={C.dark} strokeWidth="0.8" strokeOpacity="0.35"
-                />
-                <circle cx={cx + r2 * Math.cos(a)} cy={cy + r2 * Math.sin(a)} r="1.5" fill={C.dark} fillOpacity="0.4" />
-              </motion.g>
-            );
-          })}
-
-          {/* Stem */}
-          <motion.path
-            d={`M${cx},${cy + 28} Q${cx - 20},${cy + 120} ${cx - 15},${cy + 200}`}
-            fill="none"
-            stroke={C.green}
-            strokeWidth="3"
-            strokeLinecap="round"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={inView ? { pathLength: 1, opacity: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.6, ease: [0.4, 0, 0.2, 1] }}
-          />
-
-          {/* Leaf */}
-          <motion.path
-            d={`M${cx - 10},${cy + 140} Q${cx - 60},${cy + 120} ${cx - 55},${cy + 160} Q${cx - 50},${cy + 180} ${cx - 10},${cy + 155} Z`}
-            fill={C.green}
-            fillOpacity="0.7"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={inView ? { scale: 1, opacity: 1 } : {}}
-            style={{ originX: `${cx - 10}px`, originY: `${cy + 150}px` }}
-            transition={{ duration: 0.6, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          />
-        </svg>
-      </div>
-
-      {/* Description */}
-      <div style={{ flex: 1 }}>
-        <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 11, letterSpacing: "0.4em", color: C.petal, textTransform: "uppercase", marginBottom: 20 }}>Notre Philosophie</p>
-        <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 400, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 28, color: C.dark, fontFamily: "'Cormorant Infant', serif" }}>
-          <TextReveal text="Chaque fleur" />
-          <TextReveal text="a sa saison." delay={0.15} style={{ fontStyle: "italic", color: C.petal }} />
-        </h2>
-        <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 16, color: C.muted, lineHeight: 1.85, marginBottom: 24, fontWeight: 300 }}>
-          Hover the peony to watch it breathe. That's the same sensitivity we bring to every arrangement — reading the flower, understanding its weight, its tension, the way it opens.
-        </p>
-        <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 16, color: C.muted, lineHeight: 1.85, marginBottom: 40, fontWeight: 300 }}>
-          We work exclusively with seasonal and locally-grown stems. No dyed flowers. No imported roses in winter. Just what is naturally extraordinary at this moment of the year.
-        </p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
-          {[
-            { val: "100%", label: "Seasonal blooms" },
-            { val: "48h", label: "Max post-cut" },
-            { val: "8+", label: "Partner growers" },
-          ].map(item => (
-            <div key={item.label} style={{ paddingTop: 16, borderTop: `2px solid ${C.petal}` }}>
-              <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 28, fontWeight: 600, color: C.dark, letterSpacing: "-0.01em", lineHeight: 1 }}>{item.val}</p>
-              <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 13, color: C.muted, marginTop: 6 }}>{item.label}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ─── ArrangementCard ────────────────────────────────────────── */
-function ArrangementCard({ item }: { item: typeof ARRANGEMENTS[0] }) {
-  const [hovered, setHovered] = useState(false);
+function Reveal({
+  children,
+  delay = 0,
+  y = 40,
+  className = "",
+}: {
+  children: React.ReactNode
+  delay?: number
+  y?: number
+  className?: string
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
   return (
     <motion.div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      whileHover={{ y: -5 }}
-      transition={{ duration: 0.3 }}
-      style={{ background: hovered ? C.bgCard : C.bg, border: `1px solid ${hovered ? C.petal : C.border}`, borderRadius: 4, padding: "28px", cursor: "pointer", transition: "background 0.25s, border-color 0.25s" }}
+      ref={ref}
+      initial={{ opacity: 0, y }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
+      className={className}
     >
-      {/* Small botanical mark */}
-      <div style={{ marginBottom: 20 }}>
-        <svg width="28" height="36" viewBox="0 0 28 36" fill="none">
-          <line x1="14" y1="36" x2="14" y2="10" stroke={C.green} strokeWidth="1.5" />
-          {[14, 20, 26].map((y, i) => (
-            <g key={i}>
-              <ellipse cx={8} cy={y} rx={5} ry={3} fill={C.green} opacity={0.55} transform={`rotate(-25,8,${y})`} />
-              <ellipse cx={20} cy={y} rx={5} ry={3} fill={C.green} opacity={0.55} transform={`rotate(25,20,${y})`} />
-            </g>
-          ))}
-          <circle cx={14} cy={9} r={5} fill={C.petal} fillOpacity="0.7" />
-        </svg>
-      </div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
-        <h3 style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 18, fontWeight: 600, color: C.dark, lineHeight: 1.2 }}>{item.name}</h3>
-        <span style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 17, color: C.dark }}>€{item.price}</span>
-      </div>
-      <span style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 11, color: C.petal, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 12, display: "block" }}>{item.tag}</span>
-      <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 14, color: C.muted, lineHeight: 1.7 }}>{item.desc}</p>
-      <motion.div style={{ marginTop: 20, height: 1.5, background: `linear-gradient(to right, ${C.petal}, ${C.petalSoft})`, scaleX: hovered ? 1 : 0, transformOrigin: "left" }} transition={{ duration: 0.35 }} />
+      {children}
     </motion.div>
-  );
+  )
 }
 
-/* ─── Page ───────────────────────────────────────────────────── */
-export default function Page() {
-  const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+function SectionTitle({
+  subtitle,
+  title,
+  alignment = "center",
+  accentColor = "#CA8A04",
+  dark = false,
+}: {
+  subtitle: string
+  title: string
+  alignment?: "center" | "left"
+  accentColor?: string
+  dark?: boolean
+}) {
+  return (
+    <div className={`mb-20 ${alignment === "left" ? "text-left" : "text-center"}`}>
+      <Reveal>
+        <span
+          className="text-[10px] font-black uppercase tracking-[0.6em] block mb-6 italic"
+          style={{ color: accentColor, fontFamily: "'Jost', sans-serif" }}
+        >
+          {subtitle}
+        </span>
+        <h2
+          className={`text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none ${dark ? "text-[#FAFAF9]" : "text-[#0C0A09]"}`}
+          style={{ fontFamily: "'Bodoni Moda', serif" }}
+        >
+          {title}
+        </h2>
+      </Reveal>
+    </div>
+  )
+}
+
+function GoldDivider() {
+  return (
+    <div className="flex items-center gap-4 my-8">
+      <div className="flex-1 h-px bg-[#CA8A04]/30" />
+      <Flower className="w-4 h-4 text-[#CA8A04]" />
+      <div className="flex-1 h-px bg-[#CA8A04]/30" />
+    </div>
+  )
+}
+
+/* ==========================================================================
+   FONT LOADER
+   ========================================================================== */
+
+function useFonts() {
+  useEffect(() => {
+    const id = "botanica-fonts-94"
+    if (document.getElementById(id)) return
+    const style = document.createElement("style")
+    style.id = id
+    style.textContent = `@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap');`
+    document.head.appendChild(style)
+  }, [])
+}
+
+/* ==========================================================================
+   MAIN PAGE COMPONENT
+   ========================================================================== */
+
+export default function Impact94Page() {
+  useFonts()
+
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [activeCollection, setActiveCollection] = useState<string | null>(null)
+
+  const { scrollYProgress } = useScroll()
+  const heroRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress: heroScroll } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  })
+  const heroY = useTransform(heroScroll, [0, 1], ["0%", "30%"])
+  const heroOpacity = useTransform(heroScroll, [0, 0.8], [1, 0])
+
+  const progressWidth = useSpring(useTransform(scrollYProgress, [0, 1], ["0%", "100%"]), {
+    stiffness: 400,
+    damping: 40,
+  })
 
   useEffect(() => {
-    const style = document.createElement("style");
-    style.textContent = FONTS;
-    document.head.appendChild(style);
-    return () => { document.head.removeChild(style); };
-  }, []);
+    const onScroll = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
   return (
-    <main style={{ background: C.bg, color: C.dark, minHeight: "100vh", fontFamily: "'Cormorant Infant', serif", overflowX: "hidden" }}>
+    <div
+      className="bg-[#FAFAF9] text-[#0C0A09] min-h-screen overflow-x-hidden"
+      style={{ fontFamily: "'Jost', sans-serif" }}
+    >
+      {/* ── Scroll Progress Bar ── */}
+      <motion.div
+        className="fixed top-0 left-0 h-[2px] bg-[#CA8A04] z-[1000]"
+        style={{ width: progressWidth }}
+      />
 
-      {/* ── Nav ── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, padding: "0 40px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(250,244,240,0.94)", backdropFilter: "blur(16px)", borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <svg width="20" height="26" viewBox="0 0 20 26" fill="none">
-            <line x1="10" y1="26" x2="10" y2="8" stroke={C.green} strokeWidth="1.5" />
-            {[10, 16].map((y, i) => (
-              <g key={i}>
-                <ellipse cx={5} cy={y} rx={4} ry={2.5} fill={C.green} opacity={0.7} transform={`rotate(-25,5,${y})`} />
-                <ellipse cx={15} cy={y} rx={4} ry={2.5} fill={C.green} opacity={0.7} transform={`rotate(25,15,${y})`} />
-              </g>
-            ))}
-            <circle cx={10} cy={7} r={4} fill={C.petal} fillOpacity="0.8" />
-          </svg>
-          <div>
-            <p style={{ fontFamily: "'Great Vibes', cursive", fontSize: 22, color: C.dark, lineHeight: 1 }}>Botanica</p>
-            <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 9, color: C.muted, letterSpacing: "0.25em", textTransform: "uppercase", lineHeight: 1 }}>Floral Atelier</p>
-          </div>
-        </div>
-        <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
-          {["Boutique", "Événements", "Ateliers", "Notre Histoire"].map(item => (
-            <button key={item} onClick={() => document.getElementById(({"Boutique": "boutique", "Événements": "evenements", "Ateliers": "ateliers", "Notre Histoire": "histoire"})[item] || "")?.scrollIntoView({behavior:"smooth"})}
-              style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 14, color: C.muted, background: "none", border: "none", cursor: "pointer", transition: "color 0.2s" }}
-              onMouseEnter={e => (e.currentTarget.style.color = C.dark)}
-              onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
-              {item}
-            </button>
+      {/* ════════════════════════════════════════════════════════════
+          NAV
+      ════════════════════════════════════════════════════════════ */}
+      <nav
+        className={`fixed top-0 left-0 right-0 z-[200] flex items-center justify-between px-8 md:px-16 transition-all duration-500 ${
+          scrolled
+            ? "py-4 bg-[#FAFAF9]/95 backdrop-blur-lg border-b border-[#CA8A04]/20 shadow-sm"
+            : "py-7 bg-transparent"
+        }`}
+      >
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-3 group">
+          <Flower className="w-5 h-5 text-[#CA8A04] group-hover:rotate-45 transition-transform duration-500" />
+          <span
+            className="text-xl font-normal tracking-[0.25em] uppercase text-[#0C0A09]"
+            style={{ fontFamily: "'Bodoni Moda', serif" }}
+          >
+            Botanica
+          </span>
+        </Link>
+
+        {/* Desktop Nav */}
+        <ul className="hidden md:flex items-center gap-8">
+          {NAV_LINKS.map((link) => (
+            <li key={link.label}>
+              <button
+                onClick={() => document.getElementById(link.href.replace("#", ""))?.scrollIntoView({ behavior: "smooth" })}
+                className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#0C0A09]/70 hover:text-[#CA8A04] transition-colors duration-300"
+              >
+                {link.label}
+              </button>
+            </li>
           ))}
-          <MagneticButton style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 13, color: C.bg, background: C.petal, padding: "9px 22px", borderRadius: 2, letterSpacing: "0.05em" }}>
-            Commander
-          </MagneticButton>
+        </ul>
+
+        {/* CTA */}
+        <div className="hidden md:flex items-center gap-4">
+          <button
+            onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+            className="px-6 py-3 border border-[#CA8A04] text-[#CA8A04] text-[11px] font-medium uppercase tracking-[0.2em] hover:bg-[#CA8A04] hover:text-white transition-all duration-300"
+          >
+            Commande sur-mesure
+          </button>
         </div>
+
+        {/* Mobile Hamburger */}
+        <button
+          className="md:hidden text-[#0C0A09] z-50"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </nav>
 
-      {/* ── Hero ── */}
-      <section ref={heroRef} style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", paddingTop: 64, overflow: "hidden" }}>
-        <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 75% 60% at 50% 30%, rgba(200,104,120,0.09) 0%, transparent 65%)" }} />
-          {/* Floating petal shapes */}
-          {[
-            { x: "5%", y: "20%", delay: 0 }, { x: "88%", y: "15%", delay: 0.5 },
-            { x: "8%", y: "70%", delay: 1 }, { x: "85%", y: "65%", delay: 0.3 },
-            { x: "50%", y: "5%", delay: 0.8 }, { x: "25%", y: "85%", delay: 1.4 },
-          ].map((item, i) => (
-            <motion.div key={i} style={{ position: "absolute", left: item.x, top: item.y }}
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 0.18, y: 0 }}
-              transition={{ delay: item.delay, duration: 1.2 }}>
-              <motion.div animate={{ y: [-8, 8, -8], rotate: [-5, 5, -5] }} transition={{ duration: 5 + i * 0.8, repeat: Infinity, ease: "easeInOut" }}>
-                <svg width={24 + i * 6} height={32 + i * 8} viewBox="0 0 30 40">
-                  <path d="M15,2 C8,4 4,14 5,22 Q6,34 15,38 Q24,34 25,22 C26,14 22,4 15,2 Z" fill={C.petal} />
-                  <path d="M15,38 Q15,28 15,20" stroke={C.green} strokeWidth="1.5" fill="none" />
-                </svg>
-              </motion.div>
-            </motion.div>
-          ))}
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-[150] bg-[#FAFAF9] flex flex-col items-center justify-center gap-8"
+          >
+            <button
+              className="absolute top-6 right-8 text-[#0C0A09]"
+              onClick={() => setMenuOpen(false)}
+            >
+              <X className="w-7 h-7" />
+            </button>
+            {NAV_LINKS.map((link, i) => (
+              <motion.button
+                key={link.label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08 }}
+                onClick={() => {
+                  setMenuOpen(false)
+                  setTimeout(() => document.getElementById(link.href.replace("#", ""))?.scrollIntoView({ behavior: "smooth" }), 300)
+                }}
+                className="text-3xl font-normal uppercase tracking-[0.2em] text-[#0C0A09] hover:text-[#CA8A04] transition-colors"
+                style={{ fontFamily: "'Bodoni Moda', serif" }}
+              >
+                {link.label}
+              </motion.button>
+            ))}
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: NAV_LINKS.length * 0.08 }}
+              onClick={() => {
+                setMenuOpen(false)
+                setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }), 300)
+              }}
+              className="mt-6 px-8 py-4 bg-[#CA8A04] text-white text-sm font-medium uppercase tracking-[0.2em]"
+            >
+              Commande sur-mesure
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ════════════════════════════════════════════════════════════
+          HERO
+      ════════════════════════════════════════════════════════════ */}
+      <section
+        id="hero"
+        ref={heroRef}
+        className="relative h-screen flex flex-col items-center justify-center overflow-hidden"
+      >
+        {/* Parallax Image */}
+        <motion.div className="absolute inset-0" style={{ y: heroY }}>
+          <Image
+            src="https://images.unsplash.com/photo-1487530811015-780780171b65?w=1800&q=90"
+            alt="Bouquet de fleurs botanica"
+            fill
+            className="object-cover"
+            priority
+          />
+          {/* Gold overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0C0A09]/40 via-[#0C0A09]/20 to-[#0C0A09]/60" />
         </motion.div>
 
-        <motion.div style={{ opacity: heroOpacity, position: "relative", zIndex: 1, textAlign: "center", maxWidth: 860, padding: "0 24px" }}>
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
+        {/* Hero Content */}
+        <motion.div
+          className="relative z-10 text-center px-6"
+          style={{ opacity: heroOpacity }}
+        >
+          <motion.span
+            initial={{ opacity: 0, letterSpacing: "0.3em" }}
+            animate={{ opacity: 1, letterSpacing: "0.5em" }}
+            transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[10px] font-medium uppercase text-[#CA8A04] tracking-[0.5em] block mb-8"
+          >
+            Atelier floral de luxe — Paris
+          </motion.span>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 12, letterSpacing: "0.35em", color: C.petal, textTransform: "uppercase", marginBottom: 20 }}
+            transition={{ duration: 1.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="text-7xl md:text-[10rem] lg:text-[13rem] font-normal italic text-[#FAFAF9] leading-none tracking-tight"
+            style={{ fontFamily: "'Bodoni Moda', serif" }}
           >
-            Atelier Floral · Paris 11e
-          </motion.p>
-
-          <h1 style={{ fontSize: "clamp(52px, 9vw, 110px)", lineHeight: 0.9, marginBottom: 16 }}>
-            <TextReveal text="La beauté" delay={0.3} style={{ display: "block", fontFamily: "'Great Vibes', cursive", color: C.dark, fontSize: "clamp(64px, 11vw, 140px)" }} />
-          </h1>
-          <h2 style={{ fontSize: "clamp(28px, 5vw, 68px)", fontWeight: 300, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 40, fontFamily: "'Cormorant Infant', serif" }}>
-            <TextReveal text="qui dure" delay={0.55} style={{ display: "block", fontStyle: "italic", color: C.green }} />
-            <TextReveal text="le temps d'une fleur." delay={0.75} style={{ display: "block", color: C.dark }} />
-          </h2>
+            L&apos;art
+            <br />
+            <span className="text-[#CA8A04]">floral</span>
+          </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.1 }}
-            style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 17, color: C.muted, lineHeight: 1.8, maxWidth: 540, margin: "0 auto 48px", fontWeight: 300 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.4, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-8 text-lg md:text-xl text-[#FAFAF9]/80 font-light max-w-lg mx-auto leading-relaxed"
           >
-            Bouquets saisonniers, créations événementielles et ateliers de composition florale. Chaque arrangement est une histoire racontée avec des fleurs locales, fraîches du marché.
+            Compositions botaniques d&apos;exception, créées à la main pour les moments qui méritent l&apos;extraordinaire.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.3 }}
-            style={{ display: "flex", gap: 16, justifyContent: "center" }}
+            transition={{ duration: 1.2, delay: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <MagneticButton style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 14, color: C.bg, background: C.petal, padding: "15px 40px", borderRadius: 2, letterSpacing: "0.05em" }}>
-              Découvrir la Boutique
-            </MagneticButton>
-            <MagneticButton style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 14, color: C.dark, background: "transparent", padding: "15px 40px", borderRadius: 2, letterSpacing: "0.05em", border: `1px solid ${C.border}` }}>
-              Événements
-            </MagneticButton>
+            <button
+              onClick={() => document.getElementById("collections")?.scrollIntoView({ behavior: "smooth" })}
+              className="px-10 py-4 bg-[#CA8A04] text-white text-[11px] font-medium uppercase tracking-[0.25em] hover:bg-[#A16F03] transition-colors duration-300 flex items-center gap-2"
+            >
+              Découvrir les collections
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+              className="px-10 py-4 border border-[#FAFAF9]/50 text-[#FAFAF9] text-[11px] font-medium uppercase tracking-[0.25em] hover:bg-[#FAFAF9]/10 transition-colors duration-300"
+            >
+              Commande sur-mesure
+            </button>
           </motion.div>
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.8 }}
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        >
+          <span className="text-[9px] uppercase tracking-[0.4em] text-[#FAFAF9]/60">Défiler</span>
+          <motion.div
+            className="w-px h-12 bg-[#CA8A04]"
+            animate={{ scaleY: [0, 1, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            style={{ transformOrigin: "top" }}
+          />
         </motion.div>
       </section>
 
-      {/* ── Marquee ── */}
-      <MarqueeStrip />
-
-      {/* ── Blooming Flower — Signature Element ── */}
-      <section id="boutique" style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
-        <BloomingFlower />
-      </section>
-
-      {/* ── Arrangements ── */}
-      <section id="evenements" style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
-          <div style={{ marginBottom: 56 }}>
-            <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 11, letterSpacing: "0.35em", color: C.petal, textTransform: "uppercase", marginBottom: 16 }}>La Boutique</p>
-            <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 400, lineHeight: 1.1, letterSpacing: "-0.02em", color: C.dark, fontFamily: "'Cormorant Infant', serif" }}>
-              <TextReveal text="Nos créations" />
-              <TextReveal text="du moment." delay={0.15} style={{ fontStyle: "italic" }} />
-            </h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
-            {ARRANGEMENTS.map((item, i) => (
-              <motion.div key={item.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.07 }}>
-                <ArrangementCard item={item} />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Process ── */}
-      <section id="ateliers" style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
-        <div style={{ textAlign: "center", marginBottom: 64 }}>
-          <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 11, letterSpacing: "0.35em", color: C.petal, textTransform: "uppercase", marginBottom: 16 }}>Notre Méthode</p>
-          <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 400, lineHeight: 1.1, letterSpacing: "-0.02em", color: C.dark, fontFamily: "'Great Vibes', cursive" }}>
-            Du marché à vos mains
-          </h2>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 40 }}>
-          {PROCESS.map((step, i) => (
-            <motion.div
-              key={step.num}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              style={{ textAlign: "center" }}
+      {/* ════════════════════════════════════════════════════════════
+          MARQUEE
+      ════════════════════════════════════════════════════════════ */}
+      <section className="bg-[#CA8A04] py-5 overflow-hidden">
+        <motion.div
+          className="flex gap-12 whitespace-nowrap"
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        >
+          {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+            <span
+              key={i}
+              className="text-[11px] font-medium uppercase tracking-[0.4em] text-white/90 flex items-center gap-6"
             >
-              <div style={{ width: 56, height: 56, borderRadius: "50%", border: `1.5px solid ${C.petal}`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px", background: `${C.petal}10` }}>
-                <span style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 18, color: C.petal, fontStyle: "italic" }}>{step.num}</span>
+              {item}
+              <Flower className="w-3 h-3 text-white/60 flex-shrink-0" />
+            </span>
+          ))}
+        </motion.div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════
+          COLLECTIONS
+      ════════════════════════════════════════════════════════════ */}
+      <section id="collections" className="py-40 px-6 md:px-16 bg-[#FAFAF9]">
+        <SectionTitle subtitle="Archives Saisonnières" title="Collections" />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {ARRANGEMENTS.map((item, i) => (
+            <Reveal key={item.id} delay={i * 0.1}>
+              <div
+                className="group relative bg-white border border-[#0C0A09]/8 hover:border-[#CA8A04]/40 transition-all duration-500 cursor-pointer overflow-hidden"
+                onMouseEnter={() => setActiveCollection(item.id)}
+                onMouseLeave={() => setActiveCollection(null)}
+              >
+                {/* Image */}
+                <div className="relative h-80 overflow-hidden">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  {/* Tag */}
+                  <div className="absolute top-4 left-4 bg-[#CA8A04] text-white text-[9px] font-medium uppercase tracking-[0.3em] px-3 py-1">
+                    {item.tag}
+                  </div>
+                  {/* Season badge */}
+                  <div className="absolute top-4 right-4 bg-[#0C0A09]/80 text-[#CA8A04] text-[9px] font-medium uppercase tracking-[0.2em] px-3 py-1 backdrop-blur-sm">
+                    {item.season}
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-8">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3
+                      className="text-2xl font-normal leading-tight"
+                      style={{ fontFamily: "'Bodoni Moda', serif" }}
+                    >
+                      {item.name}
+                    </h3>
+                    <span
+                      className="text-xl font-medium text-[#CA8A04]"
+                      style={{ fontFamily: "'Bodoni Moda', serif" }}
+                    >
+                      {item.price}
+                    </span>
+                  </div>
+                  <p className="text-sm text-[#0C0A09]/60 leading-relaxed font-light">
+                    {item.description}
+                  </p>
+                  <GoldDivider />
+                  <button className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.25em] text-[#CA8A04] hover:gap-4 transition-all duration-300 group/btn">
+                    Commander
+                    <ArrowRight className="w-3 h-3 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                  </button>
+                </div>
               </div>
-              <h3 style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 20, fontWeight: 600, color: C.dark, marginBottom: 12 }}>{step.title}</h3>
-              <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 15, color: C.muted, lineHeight: 1.75, fontWeight: 300 }}>{step.desc}</p>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
       </section>
 
-      {/* ── Events & Workshops ── */}
-      <section id="histoire" style={{ padding: "80px 0", background: C.bgDark }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 56 }}>
-            <div>
-              <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 11, letterSpacing: "0.35em", color: C.petal, textTransform: "uppercase", marginBottom: 20 }}>Ateliers & Événements</p>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 400, lineHeight: 1.1, color: C.bg, fontFamily: "'Cormorant Infant', serif" }}>
-                <TextReveal text="Venez créer" />
-                <TextReveal text="avec nous." delay={0.15} style={{ fontStyle: "italic", color: C.petalSoft }} />
-              </h2>
-            </div>
-            <MagneticButton style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 13, color: C.bg, background: C.petal, padding: "11px 28px", borderRadius: 2, letterSpacing: "0.05em" }}>
-              Tous les Ateliers
-            </MagneticButton>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            {EVENTS.map((event, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                whileHover={{ x: 8 }}
-                style={{ display: "flex", gap: 32, padding: "28px 0", borderBottom: `1px solid rgba(200,104,120,0.14)`, alignItems: "center", cursor: "pointer" }}
+      {/* ════════════════════════════════════════════════════════════
+          STUDIO — Philosophy
+      ════════════════════════════════════════════════════════════ */}
+      <section id="studio" className="py-40 px-6 md:px-16 bg-[#0C0A09] overflow-hidden">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+          {/* Text Side */}
+          <div>
+            <Reveal>
+              <span
+                className="text-[10px] font-black uppercase tracking-[0.6em] text-[#CA8A04] block mb-6 italic"
+                style={{ fontFamily: "'Jost', sans-serif" }}
               >
-                <div style={{ flexShrink: 0, minWidth: 140 }}>
-                  <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 15, color: C.petalSoft }}>{event.date}</p>
-                  <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 13, color: C.muted }}>{event.time}</p>
+                Notre philosophie
+              </span>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <h2
+                className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none text-[#FAFAF9] mb-10"
+                style={{ fontFamily: "'Bodoni Moda', serif" }}
+              >
+                La botanique
+                <br />
+                <span className="italic text-[#CA8A04]">comme art</span>
+              </h2>
+            </Reveal>
+
+            <Reveal delay={0.2}>
+              <div className="h-px w-24 bg-[#CA8A04] mb-10" />
+              <p className="text-lg text-[#FAFAF9]/70 font-light leading-relaxed mb-6">
+                Depuis 2009, Botanica explore la frontière entre nature et architecture. Chaque composition est une oeuvre pensée, où la biologie des végétaux dialogue avec les principes du design.
+              </p>
+              <p className="text-base text-[#FAFAF9]/50 font-light leading-relaxed mb-10">
+                Nous sélectionnons exclusivement des fleurs cultivées dans le respect de la terre, auprès de producteurs engagés dans une démarche durable. L&apos;excellence commence au moment de la cueillette.
+              </p>
+            </Reveal>
+
+            <Reveal delay={0.3}>
+              <div className="grid grid-cols-2 gap-6">
+                {[
+                  { label: "Fleurs françaises", value: "80%" },
+                  { label: "Cultures locales", value: "45 fermes" },
+                  { label: "Délai création", value: "48h" },
+                  { label: "Garantie fraîcheur", value: "7 jours" },
+                ].map((stat) => (
+                  <div key={stat.label} className="border border-[#FAFAF9]/10 p-6">
+                    <div
+                      className="text-3xl font-normal text-[#CA8A04] mb-1"
+                      style={{ fontFamily: "'Bodoni Moda', serif" }}
+                    >
+                      {stat.value}
+                    </div>
+                    <div className="text-[10px] uppercase tracking-[0.2em] text-[#FAFAF9]/40">
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+
+          {/* Image Side */}
+          <Reveal delay={0.15} y={60}>
+            <div className="relative">
+              <div className="relative h-[700px] overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1490750967868-88df5691cc17?w=1000&q=90"
+                  alt="Atelier Botanica — Art botanique"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0C0A09]/50 via-transparent to-transparent" />
+              </div>
+              {/* Gold frame accent */}
+              <div className="absolute -bottom-6 -right-6 w-48 h-48 border border-[#CA8A04]/30" />
+              <div className="absolute -top-6 -left-6 w-24 h-24 border border-[#CA8A04]/20" />
+
+              {/* Floating card */}
+              <div className="absolute bottom-8 left-8 bg-[#0C0A09]/90 backdrop-blur-md border border-[#CA8A04]/20 p-6 max-w-[220px]">
+                <Flower className="w-6 h-6 text-[#CA8A04] mb-3" />
+                <p className="text-sm text-[#FAFAF9]/80 font-light leading-relaxed italic" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+                  &ldquo;La fleur la plus parfaite est celle qui révèle l&apos;âme de celui qui la contemple.&rdquo;
+                </p>
+                <p className="mt-3 text-[9px] uppercase tracking-[0.3em] text-[#CA8A04]">— Sophie Marchand, Fondatrice</p>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════
+          ÉVÉNEMENTS
+      ════════════════════════════════════════════════════════════ */}
+      <section id="evenements" className="py-40 px-6 md:px-16 bg-[#F5F0E8]">
+        <SectionTitle subtitle="Pour chaque occasion" title="Événements" />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {EVENTS.map((event, i) => {
+            const Icon = event.icon
+            return (
+              <Reveal key={event.title} delay={i * 0.15}>
+                <div className="bg-white border border-[#CA8A04]/15 p-10 group hover:border-[#CA8A04]/50 hover:shadow-xl transition-all duration-500">
+                  <div className="w-14 h-14 bg-[#CA8A04]/10 flex items-center justify-center mb-8 group-hover:bg-[#CA8A04]/20 transition-colors">
+                    <Icon className="w-7 h-7 text-[#CA8A04]" />
+                  </div>
+                  <h3
+                    className="text-3xl font-normal mb-6 text-[#0C0A09]"
+                    style={{ fontFamily: "'Bodoni Moda', serif" }}
+                  >
+                    {event.title}
+                  </h3>
+                  <p className="text-sm text-[#0C0A09]/60 leading-relaxed font-light mb-8">
+                    {event.desc}
+                  </p>
+                  <div className="space-y-3">
+                    {event.features.map((f) => (
+                      <div key={f} className="flex items-center gap-3">
+                        <CheckCircle className="w-4 h-4 text-[#CA8A04] flex-shrink-0" />
+                        <span className="text-sm text-[#0C0A09]/70">{f}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <GoldDivider />
+                  <button className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.25em] text-[#CA8A04] hover:gap-4 transition-all duration-300">
+                    Demander un devis
+                    <ChevronRight className="w-3 h-3" />
+                  </button>
                 </div>
-                <div style={{ flex: 1 }}>
-                  <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 18, fontWeight: 600, color: C.bg }}>{event.name}</p>
-                  {event.spots && <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 13, color: C.petal, marginTop: 4 }}>{event.spots} places restantes</p>}
+              </Reveal>
+            )
+          })}
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════
+          ATELIER — Behind the Scenes
+      ════════════════════════════════════════════════════════════ */}
+      <section id="atelier" className="py-40 px-6 md:px-16 bg-[#FAFAF9]">
+        <div className="max-w-7xl mx-auto">
+          <SectionTitle subtitle="Coulisses de l'atelier" title="Notre Savoir-Faire" />
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-32">
+            {/* Image collage */}
+            <Reveal y={50}>
+              <div className="relative">
+                <div className="relative h-[500px] overflow-hidden">
+                  <Image
+                    src="https://images.unsplash.com/photo-1431209006258-2c92bf9cefca?w=1000&q=90"
+                    alt="Atelier Botanica — Savoir-faire artisanal"
+                    fill
+                    className="object-cover"
+                  />
                 </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                  <span style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 18, color: C.petalSoft }}>€{event.price}</span>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={C.petal} strokeWidth="1.5">
-                    <path d="M7 17L17 7M17 7H7M17 7v10" />
-                  </svg>
+                <div className="absolute -bottom-8 -right-8 w-56 h-56 overflow-hidden border-4 border-[#FAFAF9]">
+                  <Image
+                    src="https://images.unsplash.com/photo-1487530811015-780780171b65?w=400&q=80"
+                    alt="Détail floral"
+                    fill
+                    className="object-cover"
+                  />
                 </div>
-              </motion.div>
-            ))}
+              </div>
+            </Reveal>
+
+            {/* Text */}
+            <div>
+              <Reveal>
+                <p className="text-xl text-[#0C0A09]/70 leading-relaxed font-light mb-8">
+                  Notre atelier parisien, niché dans le Marais, est un espace de création où se conjuguent tradition artisanale et sensibilité contemporaine.
+                </p>
+                <p className="text-base text-[#0C0A09]/50 leading-relaxed font-light mb-12">
+                  Chaque arrangement suit un protocole précis, de la sélection des fleurs à la livraison finale. Nous ne composons jamais en série — chaque pièce est unique, portant en elle l&apos;empreinte de la main qui l&apos;a créée.
+                </p>
+              </Reveal>
+            </div>
+          </div>
+
+          {/* Process Steps */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#0C0A09]/10">
+            {ATELIER_STEPS.map((step, i) => {
+              const StepIcon = step.icon
+              return (
+                <Reveal key={step.step} delay={i * 0.12}>
+                  <div className="bg-[#FAFAF9] p-10 group hover:bg-[#CA8A04] transition-colors duration-500">
+                    <span
+                      className="text-6xl font-black text-[#0C0A09]/8 group-hover:text-white/10 transition-colors block mb-6 leading-none"
+                      style={{ fontFamily: "'Bodoni Moda', serif" }}
+                    >
+                      {step.step}
+                    </span>
+                    <StepIcon className="w-7 h-7 text-[#CA8A04] group-hover:text-white transition-colors mb-4" />
+                    <h4
+                      className="text-xl font-normal mb-3 text-[#0C0A09] group-hover:text-white transition-colors"
+                      style={{ fontFamily: "'Bodoni Moda', serif" }}
+                    >
+                      {step.title}
+                    </h4>
+                    <p className="text-sm text-[#0C0A09]/60 group-hover:text-white/80 transition-colors font-light leading-relaxed">
+                      {step.desc}
+                    </p>
+                  </div>
+                </Reveal>
+              )
+            })}
           </div>
         </div>
       </section>
 
-      {/* ── CTA ── */}
-      <section style={{ padding: "80px 0", maxWidth: 700, margin: "0 auto", paddingInline: 40, textAlign: "center" }}>
-        <h2 style={{ fontFamily: "'Great Vibes', cursive", fontSize: "clamp(48px, 8vw, 96px)", color: C.dark, lineHeight: 1, marginBottom: 24 }}>Une fleur pour quelqu'un ?</h2>
-        <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 16, color: C.muted, lineHeight: 1.8, marginBottom: 48, fontWeight: 300 }}>Livraison le jour même à Paris. Commandez avant 12h pour une livraison l'après-midi. Emballage kraft recyclé, carte manuscrite incluse.</p>
-        <MagneticButton style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 15, color: C.bg, background: C.petal, padding: "18px 56px", borderRadius: 2, letterSpacing: "0.05em" }}>
-          Commander un Bouquet
-        </MagneticButton>
+      {/* ════════════════════════════════════════════════════════════
+          STATS
+      ════════════════════════════════════════════════════════════ */}
+      <section className="py-32 px-6 md:px-16 bg-[#CA8A04]">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+          {STATS.map((stat, i) => (
+            <Reveal key={stat.label} delay={i * 0.1}>
+              <div className="text-center">
+                <div
+                  className="text-5xl md:text-7xl font-black text-white leading-none mb-3"
+                  style={{ fontFamily: "'Bodoni Moda', serif" }}
+                >
+                  {stat.value}
+                </div>
+                <div className="text-[10px] font-medium uppercase tracking-[0.3em] text-white/70">
+                  {stat.label}
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer style={{ borderTop: `1px solid ${C.border}`, padding: "28px 40px", background: C.bgCard }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <p style={{ fontFamily: "'Great Vibes', cursive", fontSize: 22, color: C.dark }}>Botanica</p>
-          <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 12, color: C.muted }}>© 2025 — Atelier Floral Paris</p>
-          <div style={{ display: "flex", gap: 24 }}>
-            {["Instagram", "Newsletter", "Contact"].map(link => (
-              <button key={link} style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 13, color: C.muted, background: "none", border: "none", cursor: "pointer", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = C.dark)}
-                onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
-                {link}
+      {/* ════════════════════════════════════════════════════════════
+          TESTIMONIALS
+      ════════════════════════════════════════════════════════════ */}
+      <section className="py-40 px-6 md:px-16 bg-[#0C0A09]">
+        <SectionTitle
+          subtitle="Ils nous font confiance"
+          title="Témoignages"
+          dark
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {TESTIMONIALS.map((t, i) => (
+            <Reveal key={t.name} delay={i * 0.15}>
+              <div className="border border-[#FAFAF9]/10 p-10 hover:border-[#CA8A04]/30 transition-colors duration-500 group">
+                {/* Stars */}
+                <div className="flex gap-1 mb-6">
+                  {Array.from({ length: t.rating }).map((_, j) => (
+                    <Star key={j} className="w-4 h-4 text-[#CA8A04] fill-[#CA8A04]" />
+                  ))}
+                </div>
+
+                <p className="text-lg text-[#FAFAF9]/70 font-light leading-relaxed italic mb-10" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+
+                <div className="flex items-center gap-4">
+                  <div className="relative w-12 h-12 rounded-full overflow-hidden">
+                    <Image src={t.avatar} alt={t.name} fill className="object-cover" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-[#FAFAF9]">{t.name}</div>
+                    <div className="text-[10px] text-[#CA8A04] uppercase tracking-[0.2em]">{t.role}</div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════
+          CONTACT
+      ════════════════════════════════════════════════════════════ */}
+      <section id="contact" className="py-40 px-6 md:px-16 bg-[#FAFAF9]">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
+          {/* Left — Info */}
+          <div>
+            <Reveal>
+              <span
+                className="text-[10px] font-black uppercase tracking-[0.6em] text-[#CA8A04] block mb-6 italic"
+                style={{ fontFamily: "'Jost', sans-serif" }}
+              >
+                Entrer en contact
+              </span>
+              <h2
+                className="text-5xl md:text-6xl font-black uppercase tracking-tighter leading-none text-[#0C0A09] mb-10"
+                style={{ fontFamily: "'Bodoni Moda', serif" }}
+              >
+                Parlons de
+                <br />
+                <span className="italic text-[#CA8A04]">votre projet</span>
+              </h2>
+            </Reveal>
+
+            <Reveal delay={0.1}>
+              <p className="text-base text-[#0C0A09]/60 font-light leading-relaxed mb-12">
+                Chaque commande sur-mesure commence par une conversation. Partagez-nous votre vision — occasion, palette de couleurs, atmosphère souhaitée — et nous créerons pour vous quelque chose d&apos;unique.
+              </p>
+
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 bg-[#CA8A04]/10 flex items-center justify-center">
+                    <MapPin className="w-5 h-5 text-[#CA8A04]" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-[#0C0A09]">Atelier</div>
+                    <div className="text-sm text-[#0C0A09]/60">12, rue des Fleurs, 75004 Paris</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 bg-[#CA8A04]/10 flex items-center justify-center">
+                    <Phone className="w-5 h-5 text-[#CA8A04]" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-[#0C0A09]">Téléphone</div>
+                    <div className="text-sm text-[#0C0A09]/60">+33 (0)1 42 77 58 12</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 bg-[#CA8A04]/10 flex items-center justify-center">
+                    <Mail className="w-5 h-5 text-[#CA8A04]" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-[#0C0A09]">Email</div>
+                    <div className="text-sm text-[#0C0A09]/60">contact@botanica-atelier.fr</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 bg-[#CA8A04]/10 flex items-center justify-center">
+                    <Clock className="w-5 h-5 text-[#CA8A04]" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-[#0C0A09]">Horaires</div>
+                    <div className="text-sm text-[#0C0A09]/60">Lun — Sam, 9h — 19h</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Social */}
+              <div className="flex items-center gap-4 mt-10">
+                <span className="text-[10px] uppercase tracking-[0.3em] text-[#0C0A09]/40">Suivre</span>
+                <div className="h-px flex-1 bg-[#0C0A09]/10" />
+                {[Instagram, Facebook].map((Icon, i) => (
+                  <button
+                    key={i}
+                    className="w-10 h-10 border border-[#0C0A09]/15 flex items-center justify-center hover:border-[#CA8A04] hover:text-[#CA8A04] transition-colors"
+                  >
+                    <Icon className="w-4 h-4" />
+                  </button>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+
+          {/* Right — Form */}
+          <Reveal delay={0.2}>
+            <form className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#0C0A09]/50 mb-2">
+                    Prénom
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[#CA8A04] transition-colors"
+                    placeholder="Sophie"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#0C0A09]/50 mb-2">
+                    Nom
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[#CA8A04] transition-colors"
+                    placeholder="Marchand"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-[10px] uppercase tracking-[0.2em] text-[#0C0A09]/50 mb-2">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[#CA8A04] transition-colors"
+                  placeholder="sophie@exemple.fr"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] uppercase tracking-[0.2em] text-[#0C0A09]/50 mb-2">
+                  Type de commande
+                </label>
+                <select className="w-full border border-[#0C0A09]/15 bg-[#FAFAF9] px-5 py-4 text-sm text-[#0C0A09] focus:outline-none focus:border-[#CA8A04] transition-colors appearance-none">
+                  <option value="">Sélectionner...</option>
+                  <option value="bouquet">Bouquet standard</option>
+                  <option value="mariage">Mariage</option>
+                  <option value="corporate">Corporate</option>
+                  <option value="reception">Réception privée</option>
+                  <option value="abonnement">Abonnement floral</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-[10px] uppercase tracking-[0.2em] text-[#0C0A09]/50 mb-2">
+                  Votre message
+                </label>
+                <textarea
+                  rows={5}
+                  className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[#CA8A04] transition-colors resize-none"
+                  placeholder="Décrivez votre projet, l'occasion, les couleurs souhaitées..."
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full py-5 bg-[#CA8A04] text-white text-[11px] font-medium uppercase tracking-[0.3em] hover:bg-[#A16F03] transition-colors duration-300 flex items-center justify-center gap-2"
+              >
+                Envoyer ma demande
+                <ArrowRight className="w-4 h-4" />
               </button>
+            </form>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════
+          FOOTER
+      ════════════════════════════════════════════════════════════ */}
+      <footer className="py-16 px-6 md:px-16 bg-[#0C0A09] border-t border-[#FAFAF9]/5">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <Flower className="w-5 h-5 text-[#CA8A04]" />
+            <span
+              className="text-xl font-normal tracking-[0.25em] uppercase text-[#FAFAF9]"
+              style={{ fontFamily: "'Bodoni Moda', serif" }}
+            >
+              Botanica
+            </span>
+          </div>
+
+          <p className="text-[10px] text-[#FAFAF9]/30 uppercase tracking-[0.2em] text-center">
+            © 2024 Botanica Atelier Floral — Paris · Marais · 4e arrondissement
+          </p>
+
+          <div className="flex items-center gap-4">
+            {[
+              { label: "Confidentialité", href: "#" },
+              { label: "CGV", href: "#" },
+              { label: "Mentions", href: "#" },
+            ].map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="text-[10px] text-[#FAFAF9]/30 hover:text-[#CA8A04] uppercase tracking-[0.2em] transition-colors"
+              >
+                {link.label}
+              </Link>
             ))}
           </div>
         </div>
       </footer>
-    </main>
-  );
+    </div>
+  )
 }

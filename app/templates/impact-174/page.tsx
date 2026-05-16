@@ -1,281 +1,490 @@
 "use client"
 
-import React, { useState, useRef } from "react"
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import React, { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
+import {
+  Dumbbell, Zap, Target, Timer, Flame, Trophy, Star, ArrowRight,
+  ChevronRight, Menu, X, Users, Activity, Heart, Calendar,
+  CheckCircle, Clock, MapPin, Phone, Mail, Instagram
+} from "lucide-react"
 
-// FORGE GYM — Fitness & strength coaching. Dark almost-black + neon lime (#b5ff00), aggressive condensed type.
-// Unique: full-height split hero, animated progress bars, intensity-based program cards.
+// ─── Data ─────────────────────────────────────────────────────────────────────
 
 const PROGRAMS = [
-  { name: "FORGE STRENGTH", intensity: 5, sessions: "4×/semaine", goal: "Force & hypertrophie", desc: "Programme de musculation périodisé. Squat, bench, deadlift, assistance. Pour ceux qui veulent des résultats mesurables.", tag: "POPULAIRE", accent: "#b5ff00" },
-  { name: "FORGE HIIT", intensity: 4, sessions: "3×/semaine", goal: "Cardio & endurance", desc: "Intervalles haute intensité, circuits fonctionnels. Brûle des calories encore 24h après la séance.", tag: null, accent: "#ff6b35" },
-  { name: "FORGE ATHLETE", intensity: 5, sessions: "5×/semaine", goal: "Performance sportive", desc: "Programmation sport-spécifique. Travail explosif, mobilité, prévention blessures. Réservé niveaux avancés.", tag: "EXPERT", accent: "#00d4ff" },
-  { name: "FORGE START", intensity: 2, sessions: "2×/semaine", goal: "Premiers pas", desc: "Découverte des fondamentaux. Technique parfaite avant tout. Accompagnement renforcé les 4 premières semaines.", tag: "DÉBUTANT", accent: "#a78bfa" },
+  { title: "HIIT Circuit", intensity: "MAX", duration: "45 min", desc: "Intervalles haute intensité conçus pour brûler le maximum de calories et booster votre métabolisme 24h après la séance.", tag: "Bestseller" },
+  { title: "Force Brute", intensity: "HIGH", duration: "60 min", desc: "Programme de musculation progressif orienté hypertrophie et développement de la force fonctionnelle.", tag: "Force" },
+  { title: "CrossFit FORGE", intensity: "MAX", duration: "50 min", desc: "WODs variés combinant haltérophilie, cardio et mouvements gymnastics. La définition de l'effort total.", tag: "Signature" },
+  { title: "Yoga Power", intensity: "MED", duration: "60 min", desc: "Yoga dynamique fusion flow et strength. Flexibilité, équilibre et mental de fer.", tag: "Récupération" },
+  { title: "Cardio Boost", intensity: "HIGH", duration: "40 min", desc: "Entraînement cardiovasculaire mixte : vélo, tapis, rameur et corde à sauter en circuit non-stop.", tag: "Cardio" },
+  { title: "Récup Active", intensity: "LOW", duration: "45 min", desc: "Stretching profond, mobilité articulaire et techniques de récupération musculaire accélérée.", tag: "Recovery" },
 ]
 
 const COACHES = [
-  { name: "Maxime Durand", spec: "Force athlétique · Powerlifting", cert: "BPJEPS + CF-L2", exp: "8 ans", pr: "Squat 220kg" },
-  { name: "Sarah Leclerc", spec: "HIIT · Nutrition sportive", cert: "BPJEPS + PN-L1", exp: "6 ans", pr: "Pull-ups 22 reps" },
-  { name: "Antoine Moreau", spec: "Performance · Récupération", cert: "BPJEPS + NSCA-CSCS", exp: "11 ans", pr: "Ex-athlète national" },
+  {
+    name: "Alexis Romain",
+    role: "Head Coach — Force & Conditioning",
+    certs: "CrossFit L3 · NSCA-CSCS · Olympic Lifting",
+    quote: "La force n'est pas un don. C'est une décision que tu renouvelles chaque jour.",
+    img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    name: "Sofia Marchetti",
+    role: "Coach HIIT & Nutrition",
+    certs: "ACE Certified · Precision Nutrition L2",
+    quote: "Chaque répétition est un choix. Chaque choix te rapproche de ta meilleure version.",
+    img: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    name: "Kenji Watanabe",
+    role: "Coach Mobilité & Récupération",
+    certs: "FRC Certified · ISSA · Yoga Alliance 500h",
+    quote: "La récupération n'est pas de la faiblesse — c'est de la stratégie.",
+    img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop",
+  },
 ]
 
-const TESTIMONIALS = [
-  { quote: "22 kg en 6 mois. Pas de magie — de la méthode et des coachs qui ne te laissent pas déconner avec ta technique.", name: "Romain, 34 ans", result: "+22 kg masse musculaire" },
-  { quote: "Je m'entraînais depuis 5 ans sans progresser. Maxime a identifié mes erreurs en 1 semaine. Résultats en 1 mois.", name: "Julie, 28 ans", result: "Squat +40 kg en 3 mois" },
-  { quote: "FORGE Athlete m'a préparé pour mes championnats régionaux. 3e place après 4 mois de programme. Incroyable.", name: "Thomas, 22 ans", result: "3e championnats régionaux" },
+const SCHEDULE = [
+  { day: "Lun", classes: [{ time: "6h30", name: "HIIT Circuit" }, { time: "12h00", name: "Force Brute" }, { time: "19h00", name: "CrossFit FORGE" }] },
+  { day: "Mar", classes: [{ time: "7h00", name: "Yoga Power" }, { time: "12h30", name: "Cardio Boost" }, { time: "18h30", name: "Force Brute" }] },
+  { day: "Mer", classes: [{ time: "6h30", name: "CrossFit FORGE" }, { time: "12h00", name: "HIIT Circuit" }, { time: "19h00", name: "Récup Active" }] },
+  { day: "Jeu", classes: [{ time: "7h00", name: "Force Brute" }, { time: "12h30", name: "Yoga Power" }, { time: "18h30", name: "HIIT Circuit" }] },
+  { day: "Ven", classes: [{ time: "6h30", name: "Cardio Boost" }, { time: "12h00", name: "CrossFit FORGE" }, { time: "19h00", name: "Force Brute" }] },
+  { day: "Sam", classes: [{ time: "9h00", name: "HIIT Circuit" }, { time: "10h30", name: "Yoga Power" }, { time: "12h00", name: "Récup Active" }] },
+  { day: "Dim", classes: [{ time: "10h00", name: "CrossFit FORGE" }, { time: "11h30", name: "Récup Active" }] },
 ]
 
-const PLANS = [
-  { name: "ACCESS", price: "49 €", note: "/mois", features: ["Accès illimité salle", "Programme de base inclus", "1 bilan mensuel coach", "Application de suivi"] },
-  { name: "COACHED", price: "129 €", note: "/mois", features: ["Tout ACCESS inclus", "Programme personnalisé", "4 séances coach/mois", "Nutrition de base", "Accès communauté FORGE"], highlight: true },
-  { name: "ELITE", price: "299 €", note: "/mois", features: ["Tout COACHED inclus", "Coach dédié illimité", "Nutrition avancée", "Récupération & mobilité", "Accès hors horaires"] },
+const MEMBERSHIPS = [
+  {
+    name: "Découverte",
+    price: "39 €",
+    period: "/mois",
+    desc: "Parfait pour démarrer",
+    features: ["Accès illimité salle", "2 cours collectifs/sem", "Accès vestiaires", "Application FORGE"],
+    highlight: false,
+  },
+  {
+    name: "FORGE",
+    price: "59 €",
+    period: "/mois",
+    desc: "Le plus populaire",
+    features: ["Accès illimité salle", "Cours illimités", "1 coaching/mois inclus", "Programme nutrition", "Application FORGE Premium"],
+    highlight: true,
+  },
+  {
+    name: "Elite",
+    price: "89 €",
+    period: "/mois",
+    desc: "Pour aller au maximum",
+    features: ["Tout FORGE inclus", "4 coachings/mois", "Plan nutrition sur-mesure", "Accès 24h/24 7j/7", "Suivi biométrique mensuel"],
+    highlight: false,
+  },
 ]
 
-const FAQS = [
-  { q: "Dois-je être déjà sportif pour rejoindre FORGE ?", a: "Non. Le programme FORGE START est conçu pour les débutants complets. Votre niveau actuel est notre point de départ, pas un obstacle." },
-  { q: "Comment fonctionne l'abonnement ?", a: "Sans engagement minimum. Prélèvement mensuel. Résiliation à tout moment depuis votre espace membre, avant le 20 du mois." },
-  { q: "Y a-t-il une période d'essai ?", a: "Oui — 7 jours gratuits, accès complet, aucune carte de crédit requise. Venez vous forger votre opinion." },
-  { q: "Les coachs font-ils de la nutrition ?", a: "Oui, en formule COACHED et ELITE. Nos coachs sont certifiés en nutrition sportive de base. Pour les cas médicaux, nous orientons vers un diététicien partenaire." },
-  { q: "Quels sont les horaires ?", a: "Lun–Ven 6h–23h · Sam 7h–21h · Dim 9h–18h. Accès badge 24/7 pour les membres ELITE." },
+const MARQUEE_ITEMS = [
+  "HIIT · FORCE · CROSSFIT · YOGA · CARDIO · RÉCUPÉRATION",
+  "HIIT · FORCE · CROSSFIT · YOGA · CARDIO · RÉCUPÉRATION",
 ]
 
-export default function Page() {
-  const [activeProgram, setActiveProgram] = useState(0)
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
-  const { scrollY } = useScroll()
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 
-  const heroBgY = useTransform(scrollY, [0, 600], [0, 80])
-  const heroTextY = useTransform(scrollY, [0, 600], [0, -40])
+function useFonts() {
+  useEffect(() => {
+    const id = "fonts-forge"
+    if (document.getElementById(id)) return
+    const s = document.createElement("style")
+    s.id = id
+    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');`
+    document.head.appendChild(s)
+  }, [])
+}
 
-  const pricingRef = useRef(null)
-  const pricingInView = useInView(pricingRef, { once: true, margin: "-100px" })
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  )
+}
 
-  const C = {
-    bg: "#090909",
-    lime: "#b5ff00",
-    text: "#f0f0f0",
-    muted: "#555",
-    card: "#111",
-    border: "#1a1a1a",
-    sans: "system-ui, -apple-system, sans-serif",
-  }
+// ─── Main ─────────────────────────────────────────────────────────────────────
+
+export default function Impact174Page() {
+  useFonts()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  const { scrollYProgress } = useScroll()
+  const heroImageY = useTransform(scrollYProgress, [0, 0.4], ["0%", "15%"])
+
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", fn, { passive: true })
+    return () => window.removeEventListener("scroll", fn)
+  }, [])
+
+  const navLinks = ["Programs", "Schedule", "Coaches", "Membership"]
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: C.sans, overflowX: "hidden" }}>
-      {/* NAV */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: "rgba(9,9,9,0.97)", borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 60px", height: 56 }}>
-        <div style={{ fontWeight: 900, fontSize: 22, letterSpacing: -1, color: C.lime }}>FORGE</div>
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
-          {["Programmes", "Coachs", "Tarifs", "Essai"].map(l => (
-            <a key={l} href="#" style={{ fontSize: 12, color: C.muted, letterSpacing: 2, textTransform: "uppercase", textDecoration: "none", transition: "color 0.15s" }}
-              onMouseEnter={e => (e.currentTarget.style.color = C.lime)}
-              onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
-              {l}
-            </a>
-          ))}
-          <motion.button whileHover={{ background: C.lime, color: C.bg }} whileTap={{ scale: 0.97 }}
-            style={{ padding: "8px 24px", background: "transparent", color: C.lime, border: `2px solid ${C.lime}`, fontSize: 12, letterSpacing: 2, textTransform: "uppercase", cursor: "pointer", transition: "all 0.15s", fontFamily: C.sans, fontWeight: 700 }}>
-            7j gratuits
-          </motion.button>
-        </div>
-      </nav>
+    <div className="min-h-screen overflow-x-hidden bg-[#0a0a0a] text-[#f5f5f5]" style={{ fontFamily: "'Inter', sans-serif" }}>
 
-      {/* HERO — split left dark / right lime */}
-      <section style={{ minHeight: "100vh", paddingTop: 56, display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-        <motion.div style={{ y: heroTextY, background: C.bg, padding: "80px 60px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-          <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
-            <div style={{ fontSize: 10, letterSpacing: 5, color: C.lime, textTransform: "uppercase", marginBottom: 32 }}>Lyon · Grenoble · En ligne</div>
-            <h1 style={{ fontSize: "clamp(64px, 9vw, 130px)", fontWeight: 900, letterSpacing: "-3px", lineHeight: 0.88, textTransform: "uppercase", color: C.text, marginBottom: 48 }}>
-              NE<br />CHERCHE<br />PAS<br /><span style={{ color: C.lime }}>FACILE.</span>
-            </h1>
-            <p style={{ fontSize: 17, color: C.muted, lineHeight: 1.7, marginBottom: 48, maxWidth: 420 }}>
-              Programmes de force, HIIT, et coaching personnalisé. Pour ceux qui savent que la progression est un choix quotidien.
-            </p>
-            <div style={{ display: "flex", gap: 16 }}>
-              <motion.button whileHover={{ background: "#a0e600" }} whileTap={{ scale: 0.97 }}
-                style={{ padding: "18px 40px", background: C.lime, color: C.bg, border: "none", fontWeight: 900, fontSize: 14, letterSpacing: 2, textTransform: "uppercase", cursor: "pointer", transition: "all 0.2s", fontFamily: C.sans }}>
-                7 jours gratuits
-              </motion.button>
-              <motion.button whileHover={{ borderColor: C.lime, color: C.lime }} whileTap={{ scale: 0.97 }}
-                style={{ padding: "18px 40px", background: "transparent", color: C.muted, border: `2px solid ${C.border}`, fontWeight: 700, fontSize: 14, letterSpacing: 2, textTransform: "uppercase", cursor: "pointer", transition: "all 0.2s", fontFamily: C.sans }}>
-                Voir les programmes
-              </motion.button>
-            </div>
-          </motion.div>
-        </motion.div>
+      {/* Progress bar */}
+      <motion.div className="fixed top-0 left-0 h-[2px] bg-[#84cc16] z-[1000] origin-left"
+        style={{ scaleX: scrollYProgress }} />
 
-        {/* Right lime panel */}
-        <motion.div style={{ y: heroBgY, background: C.lime, padding: "80px 60px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-          <div style={{ fontSize: 10, letterSpacing: 5, color: "rgba(0,0,0,0.5)", textTransform: "uppercase" }}>Stats membres actifs</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-            {[{ label: "Transformations documentées", val: "1 240+" }, { label: "Séances délivrées en 2024", val: "48 000" }, { label: "Note Google (847 avis)", val: "4.94 ★" }].map((s, i) => (
-              <motion.div key={i} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 + i * 0.15 }}>
-                <div style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 900, color: C.bg, letterSpacing: -2, lineHeight: 1 }}>{s.val}</div>
-                <div style={{ fontSize: 12, color: "rgba(0,0,0,0.5)", letterSpacing: 1, marginTop: 4 }}>{s.label}</div>
-              </motion.div>
-            ))}
+      {/* ── NAV ─────────────────────────────────────────────────────────── */}
+      <nav className={`fixed top-0 left-0 right-0 z-[200] transition-all duration-300 ${scrolled ? "bg-[#0a0a0a]/95 backdrop-blur-lg border-b border-[#84cc16]/10 py-3" : "bg-transparent py-5"}`}>
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Dumbbell className="w-6 h-6 text-[#84cc16]" />
+            <span className="text-2xl font-bold tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>FORGE</span>
           </div>
-          <div style={{ fontSize: 11, color: "rgba(0,0,0,0.4)", letterSpacing: 2, textTransform: "uppercase" }}>Fondé en 2018 · Certifié BPJEPS</div>
-        </motion.div>
-      </section>
 
-      {/* PROGRAMS */}
-      <section style={{ padding: "80px 60px", borderTop: `1px solid ${C.border}` }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 48 }}>
-          <h2 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 900, letterSpacing: -2, textTransform: "uppercase", lineHeight: 1 }}>PROGRAMMES</h2>
-          <div style={{ display: "flex", gap: 8 }}>
-            {PROGRAMS.map((p, i) => (
-              <button key={i} onClick={() => setActiveProgram(i)}
-                style={{ padding: "6px 16px", background: activeProgram === i ? p.accent : "transparent", color: activeProgram === i ? C.bg : C.muted, border: `1px solid ${activeProgram === i ? p.accent : C.border}`, fontSize: 11, letterSpacing: 2, textTransform: "uppercase", cursor: "pointer", transition: "all 0.15s", fontFamily: C.sans, fontWeight: 700 }}>
-                0{i + 1}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map(l => (
+              <button key={l} onClick={() => document.getElementById(l.toLowerCase())?.scrollIntoView({ behavior: "smooth" })}
+                className="text-sm text-[#f5f5f5]/60 hover:text-[#84cc16] transition-colors cursor-pointer uppercase tracking-widest text-xs font-medium">
+                {l}
               </button>
             ))}
-          </div>
-        </div>
-        <AnimatePresence mode="wait">
-          <motion.div key={activeProgram} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}
-            style={{ border: `2px solid ${PROGRAMS[activeProgram].accent}`, padding: "56px 60px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
-            <div>
-              <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 24 }}>
-                {PROGRAMS[activeProgram].tag && (
-                  <span style={{ padding: "4px 12px", background: PROGRAMS[activeProgram].accent, color: C.bg, fontSize: 10, fontWeight: 900, letterSpacing: 2 }}>{PROGRAMS[activeProgram].tag}</span>
-                )}
-                <span style={{ fontSize: 11, color: C.muted, letterSpacing: 2 }}>{PROGRAMS[activeProgram].sessions} · {PROGRAMS[activeProgram].goal}</span>
-              </div>
-              <h3 style={{ fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 900, letterSpacing: -1, textTransform: "uppercase", color: C.text, marginBottom: 20 }}>{PROGRAMS[activeProgram].name}</h3>
-              <p style={{ fontSize: 16, color: C.muted, lineHeight: 1.75, marginBottom: 36 }}>{PROGRAMS[activeProgram].desc}</p>
-              <motion.button whileHover={{ background: PROGRAMS[activeProgram].accent, color: C.bg }} whileTap={{ scale: 0.97 }}
-                style={{ padding: "14px 32px", background: "transparent", color: PROGRAMS[activeProgram].accent, border: `2px solid ${PROGRAMS[activeProgram].accent}`, fontWeight: 900, fontSize: 13, letterSpacing: 2, textTransform: "uppercase", cursor: "pointer", transition: "all 0.2s", fontFamily: C.sans }}>
-                Commencer ce programme
-              </motion.button>
-            </div>
-            <div>
-              <div style={{ fontSize: 11, color: C.muted, letterSpacing: 3, textTransform: "uppercase", marginBottom: 28 }}>Intensité</div>
-              {["Force", "Cardio", "Technique", "Récupération"].map((dim, j) => {
-                const vals = [[5, 2, 4, 2], [2, 5, 2, 3], [5, 4, 5, 4], [1, 2, 2, 4]]
-                const val = vals[activeProgram][j]
-                return (
-                  <div key={dim} style={{ marginBottom: 20 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8, fontSize: 12, color: C.muted }}>
-                      <span>{dim}</span><span style={{ color: PROGRAMS[activeProgram].accent }}>{val}/5</span>
-                    </div>
-                    <div style={{ height: 4, background: C.border }}>
-                      <motion.div initial={{ width: 0 }} animate={{ width: `${(val / 5) * 100}%` }} transition={{ duration: 0.8, ease: "easeOut" }}
-                        style={{ height: "100%", background: PROGRAMS[activeProgram].accent }} />
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </section>
-
-      {/* COACHES */}
-      <section style={{ padding: "80px 60px", borderTop: `1px solid ${C.border}` }}>
-        <h2 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 900, letterSpacing: -2, textTransform: "uppercase", marginBottom: 48, lineHeight: 1 }}>LES COACHS</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
-          {COACHES.map((c, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-              whileHover={{ borderColor: C.lime }}
-              style={{ border: `1px solid ${C.border}`, padding: "40px", transition: "border-color 0.2s", cursor: "pointer" }}>
-              <div style={{ width: 60, height: 60, background: C.lime + "22", border: `2px solid ${C.lime}40`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, fontWeight: 900, color: C.lime, marginBottom: 24 }}>
-                {c.name.split(" ").map(w => w[0]).join("")}
-              </div>
-              <div style={{ fontSize: 18, fontWeight: 800, color: C.text, marginBottom: 4, letterSpacing: -0.3 }}>{c.name}</div>
-              <div style={{ fontSize: 13, color: C.lime, marginBottom: 16, letterSpacing: 0.5 }}>{c.spec}</div>
-              <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.7 }}>
-                {c.cert}<br />{c.exp} d'expérience<br />Record : {c.pr}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section style={{ padding: "80px 60px", background: "#050505", borderTop: `1px solid ${C.border}` }}>
-        <h2 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 900, letterSpacing: -2, textTransform: "uppercase", marginBottom: 56, lineHeight: 1, color: C.lime }}>RÉSULTATS RÉELS</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
-          {TESTIMONIALS.map((t, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}
-              style={{ background: C.card, border: `1px solid ${C.border}`, padding: "36px" }}>
-              <div style={{ fontSize: 11, fontWeight: 900, color: C.lime, letterSpacing: 2, textTransform: "uppercase", marginBottom: 16 }}>{t.result}</div>
-              <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.75, marginBottom: 24 }}>« {t.quote} »</p>
-              <div style={{ fontSize: 13, fontWeight: 700, color: C.text }}>{t.name}</div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* PRICING */}
-      <section ref={pricingRef} style={{ padding: "80px 60px", borderTop: `1px solid ${C.border}` }}>
-        <h2 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 900, letterSpacing: -2, textTransform: "uppercase", marginBottom: 56, lineHeight: 1 }}>ABONNEMENTS</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
-          {PLANS.map((p, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 36 }} animate={pricingInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: i * 0.15 }}
-              style={{ background: p.highlight ? "#0f1a00" : C.card, border: `2px solid ${p.highlight ? C.lime : C.border}`, padding: "48px 40px", position: "relative" }}>
-              {p.highlight && <div style={{ position: "absolute", top: -2, left: 0, right: 0, height: 3, background: C.lime }} />}
-              <div style={{ fontSize: 11, color: p.highlight ? C.lime : C.muted, letterSpacing: 4, textTransform: "uppercase", marginBottom: 20 }}>{p.name}</div>
-              <div style={{ fontSize: 48, fontWeight: 900, color: C.text, letterSpacing: -2, lineHeight: 1, marginBottom: 4 }}>{p.price}</div>
-              <div style={{ fontSize: 13, color: C.muted, marginBottom: 36 }}>{p.note}</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 40 }}>
-                {p.features.map((f, j) => (
-                  <div key={j} style={{ display: "flex", gap: 10, fontSize: 13, color: p.highlight ? "rgba(240,240,240,0.8)" : C.muted, alignItems: "flex-start" }}>
-                    <span style={{ color: C.lime, fontWeight: 900, marginTop: 1 }}>→</span> {f}
-                  </div>
-                ))}
-              </div>
-              <motion.button whileHover={{ background: C.lime, color: C.bg, borderColor: C.lime }} whileTap={{ scale: 0.97 }}
-                style={{ width: "100%", padding: "16px", background: p.highlight ? C.lime : "transparent", color: p.highlight ? C.bg : C.lime, border: `2px solid ${p.highlight ? C.lime : C.border}`, fontWeight: 900, fontSize: 13, letterSpacing: 2, textTransform: "uppercase", cursor: "pointer", transition: "all 0.2s", fontFamily: C.sans }}>
-                Commencer
-              </motion.button>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section style={{ maxWidth: 800, margin: "0 auto", padding: "0 60px 80px" }}>
-        <h2 style={{ fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, letterSpacing: -2, textTransform: "uppercase", marginBottom: 48 }}>FAQ</h2>
-        {FAQS.map((f, i) => (
-          <div key={i} style={{ borderBottom: `1px solid ${C.border}` }}>
-            <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
-              style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 0", background: "none", border: "none", color: C.text, cursor: "pointer", textAlign: "left" }}>
-              <span style={{ fontSize: 15, fontWeight: 700 }}>{f.q}</span>
-              <motion.span animate={{ rotate: openFaq === i ? 45 : 0 }} style={{ fontSize: 24, color: C.lime, minWidth: 24 }}>+</motion.span>
+            <button className="px-6 py-2.5 bg-[#84cc16] text-[#0a0a0a] text-sm font-bold uppercase tracking-widest hover:bg-[#a3e635] transition-colors cursor-pointer" style={{ fontFamily: "'Oswald', sans-serif" }}>
+              Start Today
             </button>
-            <AnimatePresence>
-              {openFaq === i && (
-                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }}>
-                  <p style={{ paddingBottom: 20, fontSize: 14, color: C.muted, lineHeight: 1.8 }}>{f.a}</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
-        ))}
+
+          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-[#f5f5f5] cursor-pointer">
+            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-[#111] border-t border-[#84cc16]/10 px-6 py-4 flex flex-col gap-4">
+              {navLinks.map(l => (
+                <button key={l} onClick={() => { setMenuOpen(false); document.getElementById(l.toLowerCase())?.scrollIntoView({ behavior: "smooth" }) }}
+                  className="text-left text-sm text-[#f5f5f5]/60 py-2 uppercase tracking-widest cursor-pointer hover:text-[#84cc16] transition-colors">
+                  {l}
+                </button>
+              ))}
+              <button className="px-5 py-3 bg-[#84cc16] text-[#0a0a0a] text-sm font-bold uppercase tracking-widest cursor-pointer">
+                Start Today
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+
+      {/* ── HERO — 50/50 split ─────────────────────────────────────────── */}
+      <section id="hero" className="relative h-screen flex overflow-hidden">
+        {/* Left — text */}
+        <div className="relative z-10 w-full lg:w-1/2 flex flex-col justify-center px-10 md:px-16 bg-[#0a0a0a]">
+          <Reveal>
+            <span className="text-xs font-bold uppercase tracking-[0.5em] text-[#84cc16] block mb-6">Paris · Hautes-Performances</span>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-none text-white mb-8 uppercase tracking-tighter" style={{ fontFamily: "'Oswald', sans-serif" }}>
+              FORGEZ<br />
+              <span className="text-[#84cc16]">VOTRE</span><br />
+              CORPS.
+            </h1>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="text-[#f5f5f5]/50 text-lg leading-relaxed mb-10 max-w-md">
+              L'entraînement haute intensité rencontre la précision scientifique. Programmes sur-mesure, coachs d'élite, résultats mesurables.
+            </p>
+          </Reveal>
+          <Reveal delay={0.3}>
+            <div className="flex flex-wrap gap-4">
+              <button className="px-8 py-4 bg-[#84cc16] text-[#0a0a0a] font-bold uppercase tracking-widest hover:bg-[#a3e635] transition-colors cursor-pointer flex items-center gap-3" style={{ fontFamily: "'Oswald', sans-serif" }}>
+                Commencer <ArrowRight className="w-5 h-5" />
+              </button>
+              <button className="px-8 py-4 border border-[#f5f5f5]/20 text-[#f5f5f5]/60 font-medium uppercase tracking-widest hover:border-[#84cc16] hover:text-[#84cc16] transition-all cursor-pointer text-sm">
+                Voir les programs
+              </button>
+            </div>
+          </Reveal>
+
+          {/* Stats row */}
+          <Reveal delay={0.4}>
+            <div className="flex gap-8 mt-12 pt-8 border-t border-[#f5f5f5]/5">
+              {[["2000+", "Membres"], ["15", "Programs"], ["7j/7", "Ouvert"]].map(([v, l]) => (
+                <div key={l}>
+                  <div className="text-2xl font-bold text-[#84cc16]" style={{ fontFamily: "'Oswald', sans-serif" }}>{v}</div>
+                  <div className="text-xs text-[#f5f5f5]/40 uppercase tracking-widest">{l}</div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+
+        {/* Right — athlete image */}
+        <div className="hidden lg:block w-1/2 relative overflow-hidden">
+          <motion.div style={{ y: heroImageY }} className="absolute inset-0">
+            <Image src="https://images.unsplash.com/photo-1581009137042-c552e485697a?q=80&w=1200&auto=format&fit=crop"
+              alt="FORGE athlete" fill className="object-cover" />
+          </motion.div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10" />
+          <div className="absolute inset-0 bg-[#84cc16]/5 mix-blend-screen z-20" />
+          {/* Lime corner accent */}
+          <div className="absolute bottom-0 right-0 w-32 h-1 bg-[#84cc16] z-30" />
+          <div className="absolute bottom-0 right-0 w-1 h-32 bg-[#84cc16] z-30" />
+        </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ background: C.lime, padding: "80px 60px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <h2 style={{ fontSize: "clamp(48px, 7vw, 96px)", fontWeight: 900, letterSpacing: -3, textTransform: "uppercase", color: C.bg, lineHeight: 0.92 }}>
-          7 JOURS.<br />GRATUIT.<br />SANS BS.
-        </h2>
-        <div>
-          <div style={{ fontSize: 18, color: "rgba(0,0,0,0.5)", marginBottom: 24 }}>Commencez maintenant. Annulez à tout moment.</div>
-          <div style={{ display: "flex", gap: 0 }}>
-            <input placeholder="Email" style={{ padding: "18px 24px", background: "rgba(0,0,0,0.1)", border: "2px solid rgba(0,0,0,0.2)", color: C.bg, fontSize: 15, outline: "none", minWidth: 260, fontFamily: C.sans }} />
-            <motion.button whileHover={{ background: C.bg, color: C.lime }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "18px 32px", background: C.bg, color: C.lime, border: "none", fontWeight: 900, fontSize: 14, letterSpacing: 1, textTransform: "uppercase", cursor: "pointer", transition: "all 0.2s", fontFamily: C.sans }}>
-              GO →
-            </motion.button>
+      {/* ── MARQUEE ─────────────────────────────────────────────────────── */}
+      <div className="overflow-hidden bg-[#84cc16] py-4">
+        <motion.div animate={{ x: ["0%", "-50%"] }} transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+          className="flex whitespace-nowrap w-max">
+          {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+            <span key={i} className="inline-flex items-center gap-8 px-10 text-[#0a0a0a] text-xs font-bold uppercase tracking-[0.4em]" style={{ fontFamily: "'Oswald', sans-serif" }}>
+              {item}
+            </span>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* ── PROGRAMS ────────────────────────────────────────────────────── */}
+      <section id="programs" className="py-28 bg-[#0a0a0a]">
+        <div className="max-w-7xl mx-auto px-6">
+          <Reveal>
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.5em] text-[#84cc16] block mb-4">Training</span>
+                <h2 className="text-5xl md:text-6xl font-bold uppercase tracking-tighter text-white leading-none" style={{ fontFamily: "'Oswald', sans-serif" }}>
+                  6 Programs.<br />1 Mission.
+                </h2>
+              </div>
+              <p className="text-[#f5f5f5]/40 max-w-xs text-sm leading-relaxed">
+                Chaque programme est conçu par nos coachs certifiés pour des résultats mesurables en 8 semaines.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#f5f5f5]/5">
+            {PROGRAMS.map((prog, i) => (
+              <Reveal key={prog.title} delay={i * 0.08}>
+                <div className="bg-[#0a0a0a] p-8 flex flex-col h-full group hover:bg-[#111] transition-all cursor-pointer border-b border-[#f5f5f5]/5">
+                  <div className="flex items-start justify-between mb-6">
+                    <span className={`text-xs font-bold uppercase tracking-widest px-3 py-1 ${prog.intensity === "MAX" ? "bg-[#84cc16] text-[#0a0a0a]" : prog.intensity === "HIGH" ? "bg-[#f5f5f5]/10 text-[#f5f5f5]/60" : "bg-[#f5f5f5]/5 text-[#f5f5f5]/40"}`} style={{ fontFamily: "'Oswald', sans-serif" }}>
+                      {prog.intensity}
+                    </span>
+                    <span className="text-xs text-[#84cc16] font-medium">{prog.tag}</span>
+                  </div>
+                  <h3 className="text-2xl font-bold uppercase tracking-tighter text-white mb-4 group-hover:text-[#84cc16] transition-colors" style={{ fontFamily: "'Oswald', sans-serif" }}>
+                    {prog.title}
+                  </h3>
+                  <p className="text-sm text-[#f5f5f5]/40 leading-relaxed mb-8 flex-1">{prog.desc}</p>
+                  <div className="flex items-center justify-between pt-6 border-t border-[#f5f5f5]/5">
+                    <div className="flex items-center gap-2 text-xs text-[#f5f5f5]/30">
+                      <Clock className="w-3.5 h-3.5" />{prog.duration}
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-[#f5f5f5]/20 group-hover:text-[#84cc16] group-hover:translate-x-1 transition-all" />
+                  </div>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer style={{ background: C.bg, padding: "36px 60px", borderTop: `1px solid ${C.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ fontSize: 20, fontWeight: 900, color: C.lime }}>FORGE</div>
-        <div style={{ fontSize: 12, color: C.muted }}>© 2025 · Lyon & Grenoble · Mentions légales</div>
+      {/* ── SCHEDULE ────────────────────────────────────────────────────── */}
+      <section id="schedule" className="py-28 bg-[#111]">
+        <div className="max-w-7xl mx-auto px-6">
+          <Reveal>
+            <div className="text-center mb-14">
+              <span className="text-xs font-bold uppercase tracking-[0.5em] text-[#84cc16] block mb-4">Planning</span>
+              <h2 className="text-5xl md:text-6xl font-bold uppercase tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>
+                Cette semaine
+              </h2>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-7 gap-px bg-[#f5f5f5]/5 border border-[#f5f5f5]/5">
+            {SCHEDULE.map((day, i) => (
+              <Reveal key={day.day} delay={i * 0.05}>
+                <div className="bg-[#111] p-4">
+                  <div className="text-xs font-bold uppercase tracking-widest text-[#84cc16] mb-4" style={{ fontFamily: "'Oswald', sans-serif" }}>{day.day}</div>
+                  <div className="space-y-3">
+                    {day.classes.map(cls => (
+                      <div key={cls.time} className="group cursor-pointer">
+                        <div className="text-[10px] text-[#f5f5f5]/30 mb-0.5">{cls.time}</div>
+                        <div className="text-xs text-[#f5f5f5]/60 group-hover:text-[#84cc16] transition-colors font-medium">{cls.name}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.3}>
+            <p className="text-center text-xs text-[#f5f5f5]/30 mt-6 uppercase tracking-widest">Planning complet disponible sur l'app FORGE · Inscription requise</p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── COACHES ─────────────────────────────────────────────────────── */}
+      <section id="coaches" className="py-28 bg-[#0a0a0a]">
+        <div className="max-w-7xl mx-auto px-6">
+          <Reveal>
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.5em] text-[#84cc16] block mb-4">L'Équipe</span>
+                <h2 className="text-5xl md:text-6xl font-bold uppercase tracking-tighter text-white leading-none" style={{ fontFamily: "'Oswald', sans-serif" }}>
+                  Vos Coachs.
+                </h2>
+              </div>
+            </div>
+          </Reveal>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {COACHES.map((coach, i) => (
+              <Reveal key={coach.name} delay={i * 0.1}>
+                <div className="group cursor-pointer">
+                  <div className="relative h-80 overflow-hidden mb-6">
+                    <Image src={coach.img} alt={coach.name} fill className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <div className="text-[#84cc16] text-xs font-bold uppercase tracking-widest mb-1">{coach.certs}</div>
+                    </div>
+                    {/* Lime corner */}
+                    <div className="absolute bottom-0 right-0 w-8 h-0.5 bg-[#84cc16] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                  <h3 className="text-xl font-bold uppercase tracking-tighter text-white mb-1" style={{ fontFamily: "'Oswald', sans-serif" }}>{coach.name}</h3>
+                  <p className="text-xs text-[#84cc16] uppercase tracking-widest mb-4">{coach.role}</p>
+                  <p className="text-sm text-[#f5f5f5]/40 italic">"{coach.quote}"</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── STATS ───────────────────────────────────────────────────────── */}
+      <section className="py-20 bg-[#84cc16]">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[
+              { v: "2 000+", l: "Membres actifs" },
+              { v: "98%", l: "Satisfaction" },
+              { v: "15", l: "Programmes" },
+              { v: "7j/7", l: "Disponibilité" },
+            ].map((stat, i) => (
+              <Reveal key={stat.l} delay={i * 0.1}>
+                <div>
+                  <div className="text-4xl md:text-5xl font-bold text-[#0a0a0a] mb-2" style={{ fontFamily: "'Oswald', sans-serif" }}>{stat.v}</div>
+                  <div className="text-[#0a0a0a]/60 text-xs uppercase tracking-widest">{stat.l}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── MEMBERSHIP ──────────────────────────────────────────────────── */}
+      <section id="membership" className="py-28 bg-[#0a0a0a]">
+        <div className="max-w-5xl mx-auto px-6">
+          <Reveal>
+            <div className="text-center mb-14">
+              <span className="text-xs font-bold uppercase tracking-[0.5em] text-[#84cc16] block mb-4">Adhésion</span>
+              <h2 className="text-5xl md:text-6xl font-bold uppercase tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>
+                Choisissez votre niveau
+              </h2>
+              <p className="text-[#f5f5f5]/40 mt-4 text-sm">Sans engagement. Résiliable à tout moment.</p>
+            </div>
+          </Reveal>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {MEMBERSHIPS.map((m, i) => (
+              <Reveal key={m.name} delay={i * 0.1}>
+                <div className={`p-8 border-2 flex flex-col transition-all duration-300 ${m.highlight ? "border-[#84cc16] bg-[#84cc16]/5" : "border-[#f5f5f5]/10 bg-[#111] hover:border-[#84cc16]/30"}`}>
+                  <div className="flex items-start justify-between mb-6">
+                    <div>
+                      <h3 className="text-2xl font-bold uppercase tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{m.name}</h3>
+                      <p className="text-xs text-[#f5f5f5]/40 mt-1">{m.desc}</p>
+                    </div>
+                    {m.highlight && <span className="text-xs bg-[#84cc16] text-[#0a0a0a] px-3 py-1 font-bold uppercase tracking-widest">Populaire</span>}
+                  </div>
+                  <div className="flex items-baseline gap-1 mb-8">
+                    <span className="text-4xl font-bold text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{m.price}</span>
+                    <span className="text-[#f5f5f5]/40 text-sm">{m.period}</span>
+                  </div>
+                  <ul className="space-y-3 mb-8 flex-1">
+                    {m.features.map(f => (
+                      <li key={f} className="flex items-center gap-3 text-sm text-[#f5f5f5]/60">
+                        <CheckCircle className={`w-4 h-4 flex-shrink-0 ${m.highlight ? "text-[#84cc16]" : "text-[#84cc16]/50"}`} />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <button className={`w-full py-4 font-bold uppercase tracking-widest text-sm cursor-pointer transition-all ${m.highlight ? "bg-[#84cc16] text-[#0a0a0a] hover:bg-[#a3e635]" : "border border-[#f5f5f5]/20 text-[#f5f5f5]/60 hover:border-[#84cc16] hover:text-[#84cc16]"}`} style={{ fontFamily: "'Oswald', sans-serif" }}>
+                    Rejoindre FORGE
+                  </button>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CONTACT ─────────────────────────────────────────────────────── */}
+      <section id="contact" className="py-28 bg-[#111]">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <Reveal>
+            <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter text-white mb-6" style={{ fontFamily: "'Oswald', sans-serif" }}>
+              Prêt à<br /><span className="text-[#84cc16]">Forger</span> ?
+            </h2>
+            <p className="text-[#f5f5f5]/40 mb-10 max-w-md mx-auto">Première séance découverte offerte. Venez rencontrer l'équipe et tester nos installations.</p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+              <button className="px-10 py-5 bg-[#84cc16] text-[#0a0a0a] font-bold uppercase tracking-widest hover:bg-[#a3e635] transition-colors cursor-pointer flex items-center gap-3 justify-center" style={{ fontFamily: "'Oswald', sans-serif" }}>
+                Séance offerte <ArrowRight className="w-5 h-5" />
+              </button>
+              <button className="px-10 py-5 border border-[#f5f5f5]/20 text-[#f5f5f5]/60 font-medium uppercase tracking-widest hover:border-[#84cc16] hover:text-[#84cc16] transition-all cursor-pointer text-sm">
+                Nous appeler
+              </button>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.3}>
+            <div className="flex flex-col sm:flex-row gap-8 justify-center text-sm text-[#f5f5f5]/30">
+              <div className="flex items-center gap-2 justify-center">
+                <MapPin className="w-4 h-4 text-[#84cc16]" />
+                <span>8 rue Oberkampf, 75011 Paris</span>
+              </div>
+              <div className="flex items-center gap-2 justify-center">
+                <Clock className="w-4 h-4 text-[#84cc16]" />
+                <span>Lun–Ven 6h–22h · Sam–Dim 8h–20h</span>
+              </div>
+              <div className="flex items-center gap-2 justify-center">
+                <Phone className="w-4 h-4 text-[#84cc16]" />
+                <span>01 43 57 82 14</span>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── FOOTER ──────────────────────────────────────────────────────── */}
+      <footer className="bg-[#0a0a0a] border-t border-[#84cc16]/10 py-12">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-2">
+            <Dumbbell className="w-5 h-5 text-[#84cc16]" />
+            <span className="text-xl font-bold uppercase tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>FORGE</span>
+          </div>
+          <p className="text-xs text-[#f5f5f5]/30 uppercase tracking-widest">© 2026 FORGE Performance · Paris 11ème</p>
+          <div className="flex gap-6">
+            {["Instagram", "TikTok", "YouTube"].map(s => (
+              <span key={s} className="text-xs text-[#f5f5f5]/30 hover:text-[#84cc16] transition-colors cursor-pointer uppercase tracking-widest">{s}</span>
+            ))}
+          </div>
+        </div>
       </footer>
     </div>
   )

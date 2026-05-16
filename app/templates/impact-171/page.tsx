@@ -1,310 +1,722 @@
 "use client"
 
-import React, { useState, useRef } from "react"
-import { motion, useInView, AnimatePresence } from "framer-motion"
+import React, { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
+import {
+  Heart, Activity, Stethoscope, Calendar, Clock, Phone, Mail, MapPin,
+  Star, ArrowRight, ChevronRight, Menu, X, Shield, Award, Users,
+  CheckCircle, Microscope, Brain, Zap
+} from "lucide-react"
 
-// VITALITÉ MÉDICAL — Health clinic. Light mode, teal accent, clean trustworthy layout.
-// Unique: floating card hero with doctor credentials, specialty tabs, appointment booking CTA.
+// ─── Data ─────────────────────────────────────────────────────────────────────
 
 const SPECIALTIES = [
-  { label: "Médecine Générale", desc: "Consultations, bilans annuels, suivi chronique, prescriptions. Prise en charge Sécu 100%.", duration: "20 min", price: "Secteur 1 · 26 €" },
-  { label: "Cardiologie", desc: "ECG, holter, écho doppler, suivi tensionnel. Cardiologue diplômé de Paris VI.", duration: "45 min", price: "Secteur 2 · 80 €" },
-  { label: "Dermatologie", desc: "Consultations acné, eczéma, psoriasis, naevi. Cryothérapie en cabinet.", duration: "30 min", price: "Secteur 2 · 65 €" },
-  { label: "Nutrition", desc: "Bilan nutritionnel, plan alimentaire personnalisé, suivi mensuel inclus.", duration: "60 min", price: "Non remboursé · 90 €" },
+  {
+    id: "generale",
+    label: "Médecine Générale",
+    icon: Stethoscope,
+    desc: "Suivi global de votre santé avec une approche préventive et personnalisée. Bilans annuels, vaccinations et orientation vers les spécialistes.",
+    doctor: "Dr. Claire Fontaine",
+    duration: "30 min",
+  },
+  {
+    id: "cardio",
+    label: "Cardiologie",
+    icon: Heart,
+    desc: "Diagnostic et traitement des maladies cardiovasculaires. ECG, échocardiographie, holter et suivi de l'hypertension artérielle.",
+    doctor: "Dr. Marc Leclerc",
+    duration: "45 min",
+  },
+  {
+    id: "dermato",
+    label: "Dermatologie",
+    icon: Shield,
+    desc: "Soins de la peau, acné, eczéma, psoriasis et dépistage des cancers cutanés. Dermoscopie numérique haute résolution.",
+    doctor: "Dr. Sophie Renard",
+    duration: "30 min",
+  },
+  {
+    id: "nutrition",
+    label: "Nutrition Médicale",
+    icon: Activity,
+    desc: "Bilan nutritionnel complet, gestion du poids, diabète et troubles alimentaires. Accompagnement personnalisé sur 6 mois.",
+    doctor: "Dr. Antoine Moreau",
+    duration: "60 min",
+  },
+  {
+    id: "sport",
+    label: "Médecine du Sport",
+    icon: Zap,
+    desc: "Suivi des sportifs, prévention des blessures, aptitude à la compétition et optimisation des performances.",
+    doctor: "Dr. Lucie Bernard",
+    duration: "45 min",
+  },
+  {
+    id: "antiage",
+    label: "Médecine Anti-Âge",
+    icon: Brain,
+    desc: "Bilan hormonal, micronutrition, thérapies régénératives et programmes de prévention du vieillissement cellulaire.",
+    doctor: "Dr. Pierre Durand",
+    duration: "60 min",
+  },
 ]
 
 const DOCTORS = [
-  { name: "Dr. Claire Moreau", title: "Médecin généraliste", exp: "18 ans", univ: "Faculté Paris V", initials: "CM", accent: "#0d9488" },
-  { name: "Dr. Antoine Berger", title: "Cardiologue", exp: "12 ans", univ: "Faculté Paris VI", initials: "AB", accent: "#6366f1" },
-  { name: "Dr. Sophie Renaud", title: "Dermatologue", exp: "9 ans", univ: "Faculté Lyon I", initials: "SR", accent: "#f59e0b" },
+  {
+    name: "Dr. Claire Fontaine",
+    role: "Médecin Généraliste & Directrice Médicale",
+    formation: "Faculté Paris VI · Diplôme de médecine fonctionnelle",
+    years: "18 ans",
+    img: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    name: "Dr. Marc Leclerc",
+    role: "Cardiologue Interventionnel",
+    formation: "Hôpital Européen Georges-Pompidou · Fellowship Johns Hopkins",
+    years: "22 ans",
+    img: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    name: "Dr. Sophie Renard",
+    role: "Dermatologue & Vénérologue",
+    formation: "Hôpital Saint-Louis · DU Dermatologie esthétique",
+    years: "14 ans",
+    img: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    name: "Dr. Antoine Moreau",
+    role: "Nutritionniste & Endocrinologue",
+    formation: "Faculté Paris VII · Diplôme de Nutri-thérapie",
+    years: "12 ans",
+    img: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=800&auto=format&fit=crop",
+  },
+]
+
+const STEPS = [
+  { n: "01", title: "Évaluation", desc: "Entretien approfondi de 45 minutes pour comprendre votre historique médical et vos objectifs santé." },
+  { n: "02", title: "Bilan Approfondi", desc: "Analyses biologiques complètes, imagerie si nécessaire et évaluation des facteurs de risque." },
+  { n: "03", title: "Protocole", desc: "Élaboration d'un plan de soins personnalisé avec objectifs mesurables à 3, 6 et 12 mois." },
+  { n: "04", title: "Séances", desc: "Suivi régulier avec ajustements en temps réel selon les résultats obtenus." },
+  { n: "05", title: "Optimisation", desc: "Révision annuelle du protocole et intégration des nouvelles avancées médicales." },
+]
+
+const SCIENCE = [
+  { icon: Microscope, title: "Diagnostic Précis", desc: "Analyses biologiques avancées avec équipements de dernière génération. Résultats en 24h." },
+  { icon: Brain, title: "Protocoles Validés", desc: "Chaque traitement repose sur des études cliniques randomisées et les recommandations HAS." },
+  { icon: Activity, title: "Suivi Continu", desc: "Dossier médical numérique partagé, alertes proactives et téléconsultation 7j/7." },
+  { icon: Award, title: "Innovation Médicale", desc: "Intégration des thérapies émergentes : microbiome, génomique nutritionnelle et médecine régénérative." },
 ]
 
 const TESTIMONIALS = [
-  { quote: "Enfin un cabinet qui répond le jour même et qui ne vous fait pas attendre 45 min en salle d'attente. Révolutionnaire.", name: "Pierre M.", service: "Médecine générale" },
-  { quote: "Dr. Berger m'a diagnostiqué une arythmie que mon cardiologue précédent avait manquée pendant 3 ans.", name: "Marie-Hélène F.", service: "Cardiologie" },
-  { quote: "Le suivi nutritionnel a changé ma vie. 14 kg en 8 mois, sans régime draconien.", name: "Thomas L.", service: "Nutrition" },
+  {
+    name: "Marie-Laure D.",
+    age: 52,
+    result: "Cholestérol normalisé en 4 mois sans statines",
+    quote: "Le Dr Moreau a réussi là où trois autres médecins avaient échoué. Un suivi exceptionnel, des résultats bluffants.",
+    stars: 5,
+  },
+  {
+    name: "Thomas K.",
+    age: 38,
+    result: "Perte de 18kg sur protocole nutrition sport",
+    quote: "Pour la première fois, un médecin a pris le temps de comprendre mes habitudes. Le programme sur-mesure a tout changé.",
+    stars: 5,
+  },
+  {
+    name: "Isabelle V.",
+    age: 61,
+    result: "Tension artérielle stabilisée, arrêt d'un médicament",
+    quote: "Vitalité Médical m'a offert une approche que je n'avais jamais connue : la médecine préventive vraiment appliquée.",
+    stars: 5,
+  },
+  {
+    name: "Julien R.",
+    age: 29,
+    result: "Diagnostic précis après 2 ans d'errance médicale",
+    quote: "En une consultation et un bilan complet, ils ont identifié ce que personne n'avait vu. Je leur dois ma qualité de vie.",
+    stars: 5,
+  },
 ]
 
-const FAQS = [
-  { q: "Prenez-vous les nouveaux patients ?", a: "Oui — en médecine générale et nutrition. Cardiologie et dermatologie sur liste d'attente (2–4 semaines)." },
-  { q: "Les consultations sont-elles remboursées ?", a: "Médecine générale secteur 1 : 100% Sécu. Cardiologie et dermatologie secteur 2 : remboursement partiel selon mutuelle." },
-  { q: "Proposez-vous des consultations en ligne ?", a: "Oui — téléconsultation disponible pour les patients déjà suivis au cabinet. Via la plateforme sécurisée Doctolib." },
-  { q: "Quelle est votre politique de rendez-vous urgents ?", a: "Créneaux urgents réservés chaque matin de 8h à 9h. Pas de tri téléphonique pour les urgences réelles." },
-  { q: "Y a-t-il un parking ?", a: "Oui — parking gratuit 2h juste en face du cabinet. Accès PMR par l'entrée latérale rue Lamartine." },
+const MARQUEE_ITEMS = [
+  "Médecine Préventive", "Bilan Complet", "Cardiologie", "Nutrition Médicale",
+  "Dermatologie", "Médecine du Sport", "Anti-Âge", "Téléconsultation",
+  "Médecine Préventive", "Bilan Complet", "Cardiologie", "Nutrition Médicale",
+  "Dermatologie", "Médecine du Sport", "Anti-Âge", "Téléconsultation",
 ]
 
-const PLANS = [
-  { name: "Ponctuel", price: "Acte unique", note: "sans engagement", features: ["Consultation classique", "Ordonnance e-prescrite", "Compte-rendu PDF 48h", "Prise en charge habituelle"] },
-  { name: "Suivi Annuel", price: "149 €/an", note: "sans CB à chaque visite", features: ["Bilan santé annuel complet", "Accès prioritaire créneaux", "Consultation téléphonique incluse", "Carnet de santé numérique", "Rappels préventifs personnalisés"], highlight: true },
-  { name: "Famille", price: "299 €/an", note: "jusqu'à 4 personnes", features: ["Tout Suivi Annuel ×4", "Pédiatre en réseau", "Urgences nuit coordinées", "Dossier famille centralisé"] },
-]
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 
-export default function Page() {
-  const [activeSpec, setActiveSpec] = useState(0)
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
+function useFonts() {
+  useEffect(() => {
+    const id = "fonts-vitalite"
+    if (document.getElementById(id)) return
+    const s = document.createElement("style")
+    s.id = id
+    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&family=Noto+Sans:wght@300;400;500;700&display=swap');`
+    document.head.appendChild(s)
+  }, [])
+}
 
-  const statsRef = useRef(null)
-  const pricingRef = useRef(null)
-  const statsInView = useInView(statsRef, { once: true, margin: "-100px" })
-  const pricingInView = useInView(pricingRef, { once: true, margin: "-100px" })
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  )
+}
 
-  const C = {
-    bg: "#f8fffe",
-    teal: "#0d9488",
-    tealLight: "#ccfbf1",
-    text: "#0f2820",
-    muted: "#6b7280",
-    card: "#ffffff",
-    border: "#e2f0ee",
-    sans: "system-ui, -apple-system, sans-serif",
-    serif: "'Cormorant Garamond', Georgia, serif",
-  }
+function StatCard({ value, label, delay }: { value: string; label: string; delay: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true })
+  return (
+    <motion.div ref={ref}
+      initial={{ opacity: 0, y: 20, scale: 0.9 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
+      className="bg-white rounded-2xl shadow-lg px-6 py-4 flex flex-col items-center text-center border border-[#0891B2]/10">
+      <span className="text-2xl font-bold text-[#0891B2]" style={{ fontFamily: "'Figtree', sans-serif" }}>{value}</span>
+      <span className="text-xs text-[#134E4A]/60 mt-1" style={{ fontFamily: "'Noto Sans', sans-serif" }}>{label}</span>
+    </motion.div>
+  )
+}
 
-  const STATS = [
-    { val: "4 200+", label: "Patients suivis" },
-    { val: "48h", label: "Délai moyen RDV" },
-    { val: "97%", label: "Satisfaction patients" },
-    { val: "2009", label: "Ouverture du cabinet" },
-  ]
+// ─── Main ─────────────────────────────────────────────────────────────────────
+
+export default function Impact171Page() {
+  useFonts()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [activeSpec, setActiveSpec] = useState("generale")
+
+  const { scrollYProgress } = useScroll()
+  const heroY = useTransform(scrollYProgress, [0, 0.4], ["0%", "20%"])
+
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", fn, { passive: true })
+    return () => window.removeEventListener("scroll", fn)
+  }, [])
+
+  const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs", "Contact"]
+  const activeSpecData = SPECIALTIES.find(s => s.id === activeSpec)!
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: C.sans, overflowX: "hidden" }}>
-      {/* NAV */}
-      <nav style={{
-        position: "sticky", top: 0, zIndex: 100,
-        background: "rgba(248,255,254,0.95)", backdropFilter: "blur(12px)",
-        borderBottom: `1px solid ${C.border}`,
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "0 60px", height: 68,
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ width: 36, height: 36, background: C.teal, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    <div className="min-h-screen overflow-x-hidden bg-[#F0FDFA] text-[#134E4A]" style={{ fontFamily: "'Noto Sans', sans-serif" }}>
+
+      {/* Progress bar */}
+      <motion.div className="fixed top-0 left-0 h-[2px] bg-[#0891B2] z-[1000] origin-left"
+        style={{ scaleX: scrollYProgress }} />
+
+      {/* ── NAV ─────────────────────────────────────────────────────────── */}
+      <nav className={`fixed top-0 left-0 right-0 z-[200] transition-all duration-300 ${scrolled ? "bg-white/90 backdrop-blur-lg shadow-sm py-3" : "bg-transparent py-5"}`}>
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2">
+            <Heart className="w-5 h-5 text-[#0891B2]" />
+            <span className="text-xl font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>VITALITÉ</span>
+            <span className="text-xs font-medium text-[#0891B2] uppercase tracking-widest">Médical</span>
+          </Link>
+
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map(l => (
+              <button key={l} onClick={() => document.getElementById(l.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""))?.scrollIntoView({ behavior: "smooth" })}
+                className="text-sm text-[#134E4A]/70 hover:text-[#0891B2] transition-colors cursor-pointer">
+                {l}
+              </button>
+            ))}
+            <button className="px-5 py-2 bg-[#0891B2] text-white text-sm font-medium rounded-full hover:bg-[#0e7490] transition-colors cursor-pointer">
+              Prendre RDV
+            </button>
           </div>
-          <div>
-            <div style={{ fontSize: 16, fontWeight: 700, color: C.text, letterSpacing: -0.3 }}>Vitalité Médical</div>
-            <div style={{ fontSize: 10, color: C.muted, letterSpacing: 1 }}>Cabinet pluridisciplinaire</div>
-          </div>
+
+          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-[#134E4A] cursor-pointer">
+            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
-        <div style={{ display: "flex", gap: 36, alignItems: "center" }}>
-          {["Spécialités", "Médecins", "Tarifs", "Contact"].map(l => (
-            <a key={l} href="#" style={{ fontSize: 14, color: C.muted, textDecoration: "none", fontWeight: 500 }}>{l}</a>
-          ))}
-          <motion.a href="tel:+33123456789" whileHover={{ background: "#0a7a70" }} whileTap={{ scale: 0.97 }}
-            style={{ padding: "10px 24px", background: C.teal, color: "#fff", borderRadius: 8, fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.9 1.18 2 2 0 012.88 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-            Prendre RDV
-          </motion.a>
-        </div>
+
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-white border-t border-[#0891B2]/10 px-6 py-4 flex flex-col gap-4">
+              {navLinks.map(l => (
+                <button key={l} onClick={() => { setMenuOpen(false); document.getElementById(l.toLowerCase())?.scrollIntoView({ behavior: "smooth" }) }}
+                  className="text-left text-sm text-[#134E4A]/70 py-2 cursor-pointer">
+                  {l}
+                </button>
+              ))}
+              <button className="px-5 py-3 bg-[#0891B2] text-white text-sm font-medium rounded-full cursor-pointer">
+                Prendre RDV
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
-      {/* HERO */}
-      <section style={{ maxWidth: 1280, margin: "0 auto", padding: "80px 60px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center", minHeight: "calc(100vh - 68px)" }}>
-        <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.tealLight, color: C.teal, padding: "6px 16px", borderRadius: 50, fontSize: 12, fontWeight: 600, marginBottom: 32 }}>
-            <div style={{ width: 6, height: 6, background: C.teal, borderRadius: "50%" }} /> Cabinet ouvert — RDV disponibles
-          </div>
-          <h1 style={{ fontSize: "clamp(44px, 5.5vw, 72px)", fontWeight: 800, letterSpacing: -2, lineHeight: 1.05, marginBottom: 24, color: C.text }}>
-            Votre santé,<br />
-            <span style={{ color: C.teal }}>prise en charge</span><br />
-            avec soin.
-          </h1>
-          <p style={{ fontSize: 18, color: C.muted, lineHeight: 1.75, marginBottom: 48, maxWidth: 440 }}>
-            Cabinet pluridisciplinaire au cœur de Lyon. Médecins généralistes, cardiologues et dermatologues disponibles sous 48h.
-          </p>
-          <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-            <motion.a href="#" whileHover={{ background: "#0a7a70" }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "16px 36px", background: C.teal, color: "#fff", borderRadius: 10, fontSize: 16, fontWeight: 700, textDecoration: "none", display: "inline-block", transition: "background 0.2s" }}>
-              Prendre rendez-vous
-            </motion.a>
-            <motion.a href="tel:+33123456789" whileHover={{ borderColor: C.teal, color: C.teal }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "16px 36px", background: "transparent", color: C.text, border: `2px solid ${C.border}`, borderRadius: 10, fontSize: 16, fontWeight: 600, textDecoration: "none", transition: "all 0.2s" }}>
-              04 XX XX XX XX
-            </motion.a>
-          </div>
-          <div style={{ display: "flex", gap: 24, marginTop: 40, flexWrap: "wrap" }}>
-            {["Secteur 1 disponible", "Accès PMR", "Parking gratuit", "Téléconsultation"].map(t => (
-              <div key={t} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: C.muted }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={C.teal} strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                {t}
+      {/* ── HERO ────────────────────────────────────────────────────────── */}
+      <section id="hero" className="relative min-h-screen pt-24 pb-16 flex items-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#F0FDFA] via-[#ccfbf1] to-[#F0FDFA] z-0" />
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
+          {/* Left */}
+          <div>
+            <Reveal>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#0891B2]/10 rounded-full mb-6">
+                <div className="w-2 h-2 bg-[#22C55E] rounded-full animate-pulse" />
+                <span className="text-xs font-medium text-[#0891B2] uppercase tracking-widest">Consultations disponibles</span>
               </div>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <h1 className="text-5xl md:text-6xl font-black leading-tight text-[#134E4A] mb-6" style={{ fontFamily: "'Figtree', sans-serif" }}>
+                Votre Santé.<br />
+                <span className="text-[#0891B2]">Notre Engagement.</span>
+              </h1>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <p className="text-lg text-[#134E4A]/70 leading-relaxed mb-8 max-w-lg">
+                Médecine evidence-based, suivi personnalisé et technologies de diagnostic avancées.
+                Vitalité Médical place la prévention au cœur de votre santé.
+              </p>
+            </Reveal>
+            <Reveal delay={0.3}>
+              <div className="flex flex-wrap gap-4 mb-10">
+                <button className="px-7 py-3.5 bg-[#0891B2] text-white font-semibold rounded-full hover:bg-[#0e7490] transition-all shadow-lg shadow-[#0891B2]/25 cursor-pointer flex items-center gap-2">
+                  Prendre RDV <ArrowRight className="w-4 h-4" />
+                </button>
+                <button className="px-7 py-3.5 border-2 border-[#0891B2]/30 text-[#0891B2] font-semibold rounded-full hover:bg-[#0891B2]/5 transition-all cursor-pointer">
+                  Découvrir la clinique
+                </button>
+              </div>
+            </Reveal>
+            <Reveal delay={0.4}>
+              <div className="flex items-center gap-3">
+                <div className="flex -space-x-2">
+                  {[1,2,3,4].map(i => (
+                    <div key={i} className="w-9 h-9 rounded-full bg-[#0891B2]/20 border-2 border-white flex items-center justify-center text-xs font-bold text-[#0891B2]">{i}</div>
+                  ))}
+                </div>
+                <div>
+                  <div className="flex items-center gap-1">
+                    {[1,2,3,4,5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />)}
+                  </div>
+                  <span className="text-xs text-[#134E4A]/60">4.9/5 — 3 200+ patients</span>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+
+          {/* Right — image + floating stat cards */}
+          <div className="relative">
+            <Reveal delay={0.2}>
+              <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
+                <motion.div style={{ y: heroY }} className="absolute inset-0">
+                  <Image src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1200&auto=format&fit=crop"
+                    alt="Cabinet médical" fill className="object-cover" />
+                </motion.div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/40 to-transparent" />
+              </div>
+            </Reveal>
+
+            {/* Floating stat cards */}
+            <div className="absolute -left-6 top-16 flex flex-col gap-3">
+              <StatCard value="4.9★" label="Satisfaction" delay={0.5} />
+              <StatCard value="98%" label="Résultats" delay={0.65} />
+            </div>
+            <div className="absolute -right-4 bottom-20">
+              <StatCard value="3 200+" label="Patients suivis" delay={0.8} />
+            </div>
+            <div className="absolute right-8 top-8">
+              <StatCard value="12 ans" label="D'expertise" delay={0.7} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── MARQUEE ─────────────────────────────────────────────────────── */}
+      <div className="overflow-hidden bg-[#0891B2] py-4">
+        <motion.div animate={{ x: ["0%", "-50%"] }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          className="flex whitespace-nowrap w-max">
+          {MARQUEE_ITEMS.map((item, i) => (
+            <span key={i} className="inline-flex items-center gap-6 px-10 text-white/80 text-xs font-medium uppercase tracking-widest">
+              {item}
+              <span className="w-1.5 h-1.5 rounded-full bg-white/40 inline-block flex-shrink-0" />
+            </span>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* ── SPÉCIALITÉS ─────────────────────────────────────────────────── */}
+      <section id="specialites" className="py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <Reveal>
+            <div className="text-center mb-14">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#0891B2] block mb-4">Nos Spécialités</span>
+              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
+                Une médecine complète
+              </h2>
+            </div>
+          </Reveal>
+
+          {/* Tabs */}
+          <div className="flex flex-wrap gap-3 justify-center mb-10">
+            {SPECIALTIES.map(s => (
+              <button key={s.id} onClick={() => setActiveSpec(s.id)}
+                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all cursor-pointer ${activeSpec === s.id ? "bg-[#0891B2] text-white shadow-md shadow-[#0891B2]/30" : "bg-[#F0FDFA] text-[#134E4A]/70 hover:bg-[#ccfbf1]"}`}>
+                {s.label}
+              </button>
             ))}
           </div>
-        </motion.div>
 
-        {/* Doctor cards */}
-        <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
-          style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          {DOCTORS.map((doc, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 + i * 0.12 }}
-              whileHover={{ y: -3, boxShadow: "0 8px 32px rgba(13,148,136,0.12)" }}
-              style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 16, padding: "24px 28px", display: "flex", alignItems: "center", gap: 20, cursor: "pointer", transition: "all 0.2s" }}>
-              <div style={{ width: 52, height: 52, background: doc.accent + "22", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 700, color: doc.accent, flexShrink: 0 }}>
-                {doc.initials}
-              </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 700, fontSize: 16, color: C.text, marginBottom: 2 }}>{doc.name}</div>
-                <div style={{ fontSize: 13, color: C.muted }}>{doc.title} · {doc.exp} d'expérience</div>
-              </div>
-              <div style={{ fontSize: 12, color: C.teal, fontWeight: 600 }}>RDV →</div>
-            </motion.div>
-          ))}
-          {/* Appointment urgency */}
-          <div style={{ background: C.tealLight, borderRadius: 16, padding: "20px 24px", border: `1px solid ${C.teal}30` }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: C.teal, marginBottom: 4 }}>Créneaux urgents disponibles</div>
-            <div style={{ fontSize: 12, color: "#047a70" }}>Lun-Ven 8h–9h · Sans rendez-vous · Salle d'attente prioritaire</div>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* STATS */}
-      <section ref={statsRef} style={{ background: C.teal }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: 1280, margin: "0 auto" }}>
-          {STATS.map((s, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={statsInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: i * 0.1 }}
-              style={{ padding: "52px 40px", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.15)" : undefined, textAlign: "center" }}>
-              <div style={{ fontSize: 44, fontWeight: 900, color: "#fff", letterSpacing: -1, lineHeight: 1 }}>{s.val}</div>
-              <div style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", marginTop: 10 }}>{s.label}</div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* SPECIALTIES */}
-      <section style={{ maxWidth: 1280, margin: "0 auto", padding: "100px 60px" }}>
-        <div style={{ textAlign: "center", marginBottom: 56 }}>
-          <h2 style={{ fontSize: "clamp(36px, 4vw, 54px)", fontWeight: 800, letterSpacing: -1.5, color: C.text }}>Nos spécialités</h2>
-          <p style={{ fontSize: 17, color: C.muted, marginTop: 16 }}>Prise en charge pluridisciplinaire dans un seul et même cabinet.</p>
-        </div>
-        <div style={{ display: "flex", gap: 8, justifyContent: "center", marginBottom: 48, flexWrap: "wrap" }}>
-          {SPECIALTIES.map((s, i) => (
-            <button key={i} onClick={() => setActiveSpec(i)}
-              style={{ padding: "10px 24px", borderRadius: 50, border: `1.5px solid ${activeSpec === i ? C.teal : C.border}`, background: activeSpec === i ? C.teal : "transparent", color: activeSpec === i ? "#fff" : C.muted, fontSize: 14, fontWeight: 500, cursor: "pointer", transition: "all 0.2s", fontFamily: C.sans }}>
-              {s.label}
-            </button>
-          ))}
-        </div>
-        <AnimatePresence mode="wait">
-          <motion.div key={activeSpec} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }} transition={{ duration: 0.3 }}
-            style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 20, padding: "48px 60px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center" }}>
-            <div>
-              <h3 style={{ fontSize: "clamp(28px, 3vw, 40px)", fontWeight: 700, letterSpacing: -1, marginBottom: 16, color: C.text }}>{SPECIALTIES[activeSpec].label}</h3>
-              <p style={{ fontSize: 17, color: C.muted, lineHeight: 1.75, marginBottom: 32 }}>{SPECIALTIES[activeSpec].desc}</p>
-              <motion.a href="#" whileHover={{ background: "#0a7a70" }} whileTap={{ scale: 0.97 }}
-                style={{ display: "inline-block", padding: "14px 32px", background: C.teal, color: "#fff", borderRadius: 10, fontSize: 15, fontWeight: 700, textDecoration: "none", transition: "background 0.2s" }}>
-                Prendre rendez-vous
-              </motion.a>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-              {[{ label: "Durée consultation", val: SPECIALTIES[activeSpec].duration }, { label: "Tarif", val: SPECIALTIES[activeSpec].price }].map((info, j) => (
-                <div key={j} style={{ background: C.bg, border: `1px solid ${C.border}`, borderRadius: 12, padding: "24px 28px" }}>
-                  <div style={{ fontSize: 12, color: C.muted, marginBottom: 6, fontWeight: 500, letterSpacing: 0.5 }}>{info.label}</div>
-                  <div style={{ fontSize: 22, fontWeight: 700, color: C.text }}>{info.val}</div>
+          <AnimatePresence mode="wait">
+            <motion.div key={activeSpec} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
+              className="bg-[#F0FDFA] rounded-3xl p-10 grid md:grid-cols-2 gap-10 items-center">
+              <div>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-14 h-14 bg-[#0891B2]/10 rounded-2xl flex items-center justify-center">
+                    <activeSpecData.icon className="w-7 h-7 text-[#0891B2]" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>{activeSpecData.label}</h3>
+                    <span className="text-sm text-[#0891B2]">{activeSpecData.doctor}</span>
+                  </div>
                 </div>
+                <p className="text-[#134E4A]/70 leading-relaxed mb-8">{activeSpecData.desc}</p>
+                <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-2 text-sm text-[#134E4A]/60">
+                    <Clock className="w-4 h-4" />
+                    <span>{activeSpecData.duration}</span>
+                  </div>
+                  <button className="px-5 py-2.5 bg-[#0891B2] text-white text-sm font-medium rounded-full hover:bg-[#0e7490] transition-colors cursor-pointer flex items-center gap-2">
+                    Réserver <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+              <div className="relative h-64 rounded-2xl overflow-hidden">
+                <Image src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop"
+                  alt={activeSpecData.label} fill className="object-cover" />
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
+
+      {/* ── MÉDECINS ────────────────────────────────────────────────────── */}
+      <section id="medecins" className="py-28 bg-[#F0FDFA]">
+        <div className="max-w-7xl mx-auto px-6">
+          <Reveal>
+            <div className="text-center mb-14">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#0891B2] block mb-4">Notre Équipe</span>
+              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
+                Des médecins d'exception
+              </h2>
+            </div>
+          </Reveal>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {DOCTORS.map((doc, i) => (
+              <Reveal key={doc.name} delay={i * 0.1}>
+                <div className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group cursor-pointer">
+                  <div className="relative h-56 overflow-hidden">
+                    <Image src={doc.img} alt={doc.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#134E4A]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="font-bold text-[#134E4A] mb-1" style={{ fontFamily: "'Figtree', sans-serif" }}>{doc.name}</h3>
+                    <p className="text-xs text-[#0891B2] font-medium mb-3">{doc.role}</p>
+                    <p className="text-xs text-[#134E4A]/60 leading-relaxed mb-3">{doc.formation}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-[#134E4A]/50">{doc.years} d'expérience</span>
+                      <button className="text-xs text-[#0891B2] font-medium flex items-center gap-1 cursor-pointer hover:gap-2 transition-all">
+                        RDV <ArrowRight className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PROTOCOLES ──────────────────────────────────────────────────── */}
+      <section id="protocoles" className="py-28 bg-white">
+        <div className="max-w-5xl mx-auto px-6">
+          <Reveal>
+            <div className="text-center mb-14">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#0891B2] block mb-4">Parcours Patient</span>
+              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
+                5 étapes vers votre mieux-être
+              </h2>
+            </div>
+          </Reveal>
+
+          <div className="relative">
+            <div className="absolute left-8 top-0 bottom-0 w-px bg-[#0891B2]/20 hidden md:block" />
+            <div className="flex flex-col gap-8">
+              {STEPS.map((step, i) => (
+                <Reveal key={step.n} delay={i * 0.1}>
+                  <div className="flex gap-8 items-start group">
+                    <div className="relative flex-shrink-0">
+                      <div className="w-16 h-16 rounded-2xl bg-[#0891B2] text-white flex items-center justify-center font-black text-lg shadow-lg shadow-[#0891B2]/25 group-hover:scale-105 transition-transform" style={{ fontFamily: "'Figtree', sans-serif" }}>
+                        {step.n}
+                      </div>
+                    </div>
+                    <div className="bg-[#F0FDFA] rounded-2xl p-6 flex-1 group-hover:shadow-md transition-shadow">
+                      <h3 className="font-bold text-xl text-[#134E4A] mb-2" style={{ fontFamily: "'Figtree', sans-serif" }}>{step.title}</h3>
+                      <p className="text-[#134E4A]/70 leading-relaxed">{step.desc}</p>
+                    </div>
+                  </div>
+                </Reveal>
               ))}
             </div>
-          </motion.div>
-        </AnimatePresence>
+          </div>
+        </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section style={{ background: C.tealLight, padding: "80px 60px", borderTop: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <h2 style={{ fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 800, letterSpacing: -1, textAlign: "center", marginBottom: 56, color: C.text }}>Ce que nos patients disent.</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }}>
-            {TESTIMONIALS.map((t, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}
-                style={{ background: C.card, borderRadius: 16, padding: "32px", border: `1px solid ${C.border}` }}>
-                <div style={{ display: "flex", gap: 2, marginBottom: 16 }}>
-                  {[...Array(5)].map((_, j) => <span key={j} style={{ fontSize: 14, color: C.teal }}>★</span>)}
+      {/* ── SCIENCE ─────────────────────────────────────────────────────── */}
+      <section id="science" className="py-28 bg-[#F0FDFA]">
+        <div className="max-w-7xl mx-auto px-6">
+          <Reveal>
+            <div className="text-center mb-14">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#0891B2] block mb-4">Approche Médicale</span>
+              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
+                La science au service<br />de votre santé
+              </h2>
+            </div>
+          </Reveal>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {SCIENCE.map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.1}>
+                <div className="bg-white rounded-3xl p-8 hover:shadow-xl transition-all duration-500 group cursor-pointer border border-[#0891B2]/5">
+                  <div className="w-12 h-12 bg-[#0891B2]/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#0891B2] transition-colors">
+                    <item.icon className="w-6 h-6 text-[#0891B2] group-hover:text-white transition-colors" />
+                  </div>
+                  <h3 className="font-bold text-lg text-[#134E4A] mb-3" style={{ fontFamily: "'Figtree', sans-serif" }}>{item.title}</h3>
+                  <p className="text-sm text-[#134E4A]/60 leading-relaxed">{item.desc}</p>
                 </div>
-                <p style={{ fontSize: 15, color: C.text, lineHeight: 1.75, marginBottom: 20 }}>« {t.quote} »</p>
-                <div style={{ fontSize: 12, color: C.muted, fontWeight: 600 }}>{t.name} · <span style={{ color: C.teal }}>{t.service}</span></div>
-              </motion.div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* PRICING */}
-      <section ref={pricingRef} style={{ maxWidth: 1280, margin: "0 auto", padding: "100px 60px" }}>
-        <div style={{ textAlign: "center", marginBottom: 56 }}>
-          <h2 style={{ fontSize: "clamp(36px, 4vw, 54px)", fontWeight: 800, letterSpacing: -1.5, color: C.text }}>Nos formules de suivi</h2>
-          <p style={{ fontSize: 17, color: C.muted, marginTop: 16 }}>Soins ponctuels ou suivi annuel — à vous de choisir.</p>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
-          {PLANS.map((p, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 36 }} animate={pricingInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: i * 0.15 }}
-              style={{ background: p.highlight ? C.teal : C.card, borderRadius: 20, padding: "40px 36px", border: p.highlight ? "none" : `1px solid ${C.border}`, boxShadow: p.highlight ? "0 16px 48px rgba(13,148,136,0.3)" : "none", transform: p.highlight ? "scale(1.03)" : "none" }}>
-              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, color: p.highlight ? "rgba(255,255,255,0.7)" : C.muted, textTransform: "uppercase", marginBottom: 16 }}>{p.name}</div>
-              <div style={{ fontSize: 36, fontWeight: 900, color: p.highlight ? "#fff" : C.text, letterSpacing: -1, lineHeight: 1, marginBottom: 4 }}>{p.price}</div>
-              <div style={{ fontSize: 13, color: p.highlight ? "rgba(255,255,255,0.6)" : C.muted, marginBottom: 32 }}>{p.note}</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 32 }}>
-                {p.features.map((f, j) => (
-                  <div key={j} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, color: p.highlight ? "rgba(255,255,255,0.9)" : C.text }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={p.highlight ? "#fff" : C.teal} strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                    {f}
-                  </div>
-                ))}
-              </div>
-              <motion.button whileHover={{ opacity: 0.85 }} whileTap={{ scale: 0.97 }}
-                style={{ width: "100%", padding: "14px", background: p.highlight ? "#fff" : C.teal, color: p.highlight ? C.teal : "#fff", border: "none", borderRadius: 10, fontWeight: 700, fontSize: 15, cursor: "pointer", fontFamily: C.sans }}>
-                Choisir cette formule
-              </motion.button>
-            </motion.div>
-          ))}
+      {/* ── STATS (teal bg) ──────────────────────────────────────────────── */}
+      <section className="py-24 bg-[#0891B2]">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[
+              { v: "4.9★", l: "Satisfaction" },
+              { v: "98%", l: "Taux de résultats" },
+              { v: "12 ans", l: "D'expertise clinique" },
+              { v: "3 200+", l: "Patients suivis" },
+            ].map((stat, i) => (
+              <Reveal key={stat.l} delay={i * 0.1}>
+                <div>
+                  <div className="text-4xl md:text-5xl font-black text-white mb-2" style={{ fontFamily: "'Figtree', sans-serif" }}>{stat.v}</div>
+                  <div className="text-white/70 text-sm uppercase tracking-widest">{stat.l}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section style={{ maxWidth: 800, margin: "0 auto", padding: "0 60px 100px" }}>
-        <h2 style={{ fontSize: 40, fontWeight: 800, letterSpacing: -1.5, textAlign: "center", marginBottom: 48, color: C.text }}>Questions fréquentes</h2>
-        {FAQS.map((f, i) => (
-          <div key={i} style={{ borderBottom: `1px solid ${C.border}` }}>
-            <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
-              style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 0", background: "none", border: "none", color: C.text, cursor: "pointer", textAlign: "left" }}>
-              <span style={{ fontSize: 15, fontWeight: 600 }}>{f.q}</span>
-              <motion.span animate={{ rotate: openFaq === i ? 45 : 0 }} style={{ fontSize: 22, color: C.teal, minWidth: 22 }}>+</motion.span>
-            </button>
-            <AnimatePresence>
-              {openFaq === i && (
-                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }}>
-                  <p style={{ paddingBottom: 20, fontSize: 14, color: C.muted, lineHeight: 1.8 }}>{f.a}</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        ))}
-      </section>
-
-      {/* CTA */}
-      <section style={{ background: C.teal, padding: "80px 60px", textAlign: "center" }}>
-        <h2 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 800, letterSpacing: -2, color: "#fff", marginBottom: 20 }}>Prendre soin de vous<br />commence ici.</h2>
-        <p style={{ fontSize: 17, color: "rgba(255,255,255,0.7)", marginBottom: 40 }}>Rendez-vous disponibles sous 48h. Sans dépassement d'honoraires en médecine générale.</p>
-        <motion.a href="#" whileHover={{ background: C.text }} whileTap={{ scale: 0.97 }}
-          style={{ display: "inline-block", padding: "18px 48px", background: "#fff", color: C.teal, borderRadius: 10, fontSize: 17, fontWeight: 700, textDecoration: "none", transition: "background 0.2s" }}>
-          Réserver une consultation
-        </motion.a>
-      </section>
-
-      {/* FOOTER */}
-      <footer style={{ background: C.text, padding: "60px 60px 36px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 60, marginBottom: 48 }}>
-          <div>
-            <div style={{ fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 12 }}>Vitalité Médical</div>
-            <div style={{ fontSize: 13, color: "#6b7280", lineHeight: 1.8 }}>12 avenue des Fleurs, 69002 Lyon<br />Lun–Ven 8h–19h · Sam 9h–13h</div>
-          </div>
-          {[{ t: "Spécialités", ls: ["Médecine générale", "Cardiologie", "Dermatologie", "Nutrition"] },
-            { t: "Cabinet", ls: ["Notre équipe", "Accès & parking", "Urgences", "Téléconsultation"] },
-            { t: "Contact", ls: ["04 XX XX XX XX", "contact@vitalite.fr", "Doctolib", "Urgences : 15"] }].map((col, i) => (
-            <div key={i}>
-              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, color: "#4b5563", textTransform: "uppercase", marginBottom: 16 }}>{col.t}</div>
-              {col.ls.map(l => <div key={l} style={{ fontSize: 13, color: "#6b7280", marginBottom: 10 }}>{l}</div>)}
+      {/* ── TÉMOIGNAGES ─────────────────────────────────────────────────── */}
+      <section id="temoignages" className="py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <Reveal>
+            <div className="text-center mb-14">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#0891B2] block mb-4">Témoignages</span>
+              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
+                Ils ont retrouvé leur vitalité
+              </h2>
             </div>
-          ))}
+          </Reveal>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {TESTIMONIALS.map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.1}>
+                <div className="bg-[#F0FDFA] rounded-3xl p-8 border border-[#0891B2]/10">
+                  <div className="flex items-center gap-1 mb-4">
+                    {[1,2,3,4,5].map(s => <Star key={s} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
+                  </div>
+                  <p className="text-[#134E4A]/80 leading-relaxed mb-6 italic">"{t.quote}"</p>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>{t.name}</span>
+                      <span className="text-xs text-[#134E4A]/50 ml-2">{t.age} ans</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-[#22C55E]/10 rounded-full px-3 py-1">
+                      <CheckCircle className="w-3.5 h-3.5 text-[#22C55E]" />
+                      <span className="text-xs text-[#22C55E] font-medium">{t.result}</span>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
-        <div style={{ borderTop: "1px solid #1f2937", paddingTop: 24, fontSize: 12, color: "#374151", textAlign: "center" }}>
-          © 2025 Vitalité Médical — Mentions légales · RGPD · Ordre des médecins
+      </section>
+
+      {/* ── TARIFS ──────────────────────────────────────────────────────── */}
+      <section id="tarifs" className="py-28 bg-[#F0FDFA]">
+        <div className="max-w-5xl mx-auto px-6">
+          <Reveal>
+            <div className="text-center mb-14">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#0891B2] block mb-4">Honoraires</span>
+              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
+                Transparence tarifaire
+              </h2>
+              <p className="text-[#134E4A]/60 mt-4 max-w-2xl mx-auto">Secteur 2 avec dépassements d'honoraires maîtrisés. Remboursement Sécurité Sociale + complémentaire santé.</p>
+            </div>
+          </Reveal>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { name: "Consultation", price: "120 €", desc: "Consultation médicale complète avec dossier médical personnalisé", features: ["Anamnèse approfondie", "Examen clinique complet", "Ordonnances si nécessaire", "Compte-rendu numérique"], color: false },
+              { name: "Bilan Complet", price: "280 €", desc: "Bilan de santé global avec analyses biologiques et imagerie si nécessaire", features: ["Consultation 1h", "Analyses biologiques étendues", "Bilan cardiovasculaire", "Programme préventif personnalisé"], color: true },
+              { name: "Programme", price: "Sur devis", desc: "Accompagnement sur-mesure sur 3, 6 ou 12 mois avec suivi continu", features: ["Consultations illimitées", "Téléconsultation 7j/7", "Accès dossier médical", "Alertes proactives"], color: false },
+            ].map((plan, i) => (
+              <Reveal key={plan.name} delay={i * 0.1}>
+                <div className={`rounded-3xl p-8 border-2 transition-all duration-300 ${plan.color ? "bg-[#0891B2] border-[#0891B2] text-white" : "bg-white border-[#0891B2]/10 text-[#134E4A] hover:border-[#0891B2]/30"}`}>
+                  <h3 className="font-bold text-xl mb-2" style={{ fontFamily: "'Figtree', sans-serif" }}>{plan.name}</h3>
+                  <div className="text-3xl font-black mb-4" style={{ fontFamily: "'Figtree', sans-serif" }}>{plan.price}</div>
+                  <p className={`text-sm mb-6 leading-relaxed ${plan.color ? "text-white/80" : "text-[#134E4A]/60"}`}>{plan.desc}</p>
+                  <ul className="space-y-3 mb-8">
+                    {plan.features.map(f => (
+                      <li key={f} className="flex items-center gap-3 text-sm">
+                        <CheckCircle className={`w-4 h-4 flex-shrink-0 ${plan.color ? "text-white" : "text-[#22C55E]"}`} />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <button className={`w-full py-3 rounded-full font-medium text-sm cursor-pointer transition-all ${plan.color ? "bg-white text-[#0891B2] hover:bg-white/90" : "bg-[#0891B2] text-white hover:bg-[#0e7490]"}`}>
+                    Réserver une consultation
+                  </button>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CONTACT ─────────────────────────────────────────────────────── */}
+      <section id="contact" className="py-28 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <Reveal>
+            <div className="text-center mb-14">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#0891B2] block mb-4">Prendre RDV</span>
+              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
+                Commencez votre parcours
+              </h2>
+            </div>
+          </Reveal>
+
+          <div className="grid lg:grid-cols-2 gap-12">
+            <Reveal>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-[#0891B2]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-5 h-5 text-[#0891B2]" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>Adresse</p>
+                    <p className="text-[#134E4A]/60 text-sm">14 rue de Rivoli, 75004 Paris</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-[#0891B2]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-5 h-5 text-[#0891B2]" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>Horaires</p>
+                    <p className="text-[#134E4A]/60 text-sm">Lun–Ven 8h–19h · Sam 9h–13h</p>
+                    <p className="text-[#134E4A]/60 text-sm">Téléconsultation 7j/7</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-[#0891B2]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-5 h-5 text-[#0891B2]" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>Téléphone</p>
+                    <p className="text-[#134E4A]/60 text-sm">01 42 36 78 90</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-[#0891B2]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-5 h-5 text-[#0891B2]" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>Email</p>
+                    <p className="text-[#134E4A]/60 text-sm">contact@vitalite-medical.fr</p>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.2}>
+              <form className="space-y-4" onSubmit={e => e.preventDefault()}>
+                <div className="grid grid-cols-2 gap-4">
+                  <input type="text" placeholder="Prénom" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[#0891B2]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[#0891B2] text-sm" />
+                  <input type="text" placeholder="Nom" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[#0891B2]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[#0891B2] text-sm" />
+                </div>
+                <input type="email" placeholder="Email" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[#0891B2]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[#0891B2] text-sm" />
+                <select className="w-full px-4 py-3 bg-[#F0FDFA] border border-[#0891B2]/20 rounded-xl text-[#134E4A] focus:outline-none focus:border-[#0891B2] text-sm cursor-pointer">
+                  <option value="">Spécialité souhaitée</option>
+                  {SPECIALTIES.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}
+                </select>
+                <textarea rows={4} placeholder="Votre message (motif de consultation...)" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[#0891B2]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[#0891B2] text-sm resize-none" />
+                <button type="submit" className="w-full py-3.5 bg-[#0891B2] text-white font-semibold rounded-xl hover:bg-[#0e7490] transition-colors cursor-pointer flex items-center justify-center gap-2">
+                  Envoyer ma demande <ArrowRight className="w-4 h-4" />
+                </button>
+              </form>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FOOTER ──────────────────────────────────────────────────────── */}
+      <footer className="bg-[#134E4A] text-white py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-4 gap-10 mb-12">
+            <div className="md:col-span-2">
+              <div className="flex items-center gap-2 mb-4">
+                <Heart className="w-5 h-5 text-[#22C55E]" />
+                <span className="text-xl font-bold" style={{ fontFamily: "'Figtree', sans-serif" }}>VITALITÉ Médical</span>
+              </div>
+              <p className="text-white/60 text-sm leading-relaxed max-w-xs">
+                Médecine evidence-based et suivi personnalisé pour une santé optimale. Paris 4ème.
+              </p>
+            </div>
+            {[
+              { title: "Spécialités", links: ["Médecine Générale", "Cardiologie", "Dermatologie", "Nutrition", "Sport", "Anti-Âge"] },
+              { title: "Clinique", links: ["Notre équipe", "Nos protocoles", "Tarifs", "Témoignages", "Contact"] },
+            ].map(col => (
+              <div key={col.title}>
+                <h4 className="font-bold text-sm uppercase tracking-widest text-[#0891B2] mb-4" style={{ fontFamily: "'Figtree', sans-serif" }}>{col.title}</h4>
+                <ul className="space-y-2">
+                  {col.links.map(l => (
+                    <li key={l}><span className="text-white/50 text-sm hover:text-white/80 transition-colors cursor-pointer">{l}</span></li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/40">
+            <span>© 2026 Vitalité Médical — Tous droits réservés</span>
+            <div className="flex gap-6">
+              <span className="hover:text-white/70 cursor-pointer">Mentions légales</span>
+              <span className="hover:text-white/70 cursor-pointer">RGPD</span>
+              <span className="hover:text-white/70 cursor-pointer">Politique de confidentialité</span>
+            </div>
+          </div>
         </div>
       </footer>
     </div>

@@ -1,278 +1,1490 @@
-"use client"
+"use client";
 
-import React, { useState, useRef } from "react"
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  useMotionValue,
+  useSpring,
+  AnimatePresence,
+} from "framer-motion";
 
-// CONFLUENCE EVENTS — Event agency. Warm terracotta + champagne + deep plum. Elegant serif.
-// Unique: timeline-based service flow, event type selector, gallery masonry hover effect.
+const C = {
+  bg: "#0f0e0d",
+  champagne: "#e8d5a3",
+  ivory: "#faf8f3",
+  terracotta: "#c4622d",
+  terracottaLight: "#e08060",
+  champagneLight: "#f5ecd4",
+  warm: "#1c1a17",
+  text: "#faf8f3",
+  textMuted: "rgba(250,248,243,0.5)",
+  font: "'Playfair Display', Georgia, serif",
+  fontSans: "'Jost', system-ui, sans-serif",
+};
 
 const EVENT_TYPES = [
-  { name: "Mariages", icon: "◇", desc: "De la recherche de salle à la coordination jour J. Planning complet, gestion prestataires, direction artistique.", badge: "Notre spécialité", accent: "#b87c5a" },
-  { name: "Séminaires", icon: "◈", desc: "Teambuilding, conventions, incentives. Lieux insolites, animations sur mesure, traiteur d'exception.", badge: null, accent: "#6b5a8a" },
-  { name: "Galas & Soirées", icon: "◆", desc: "Dîners de gala, cérémonies de remise de prix, soirées de fin d'année. Scénographie complète.", badge: "Premium", accent: "#c4a96a" },
-  { name: "Événements Privés", icon: "◉", desc: "Anniversaires, baptêmes, fêtes de famille. Du cocktail intime à la réception de 300 personnes.", badge: null, accent: "#7a9a6a" },
-]
+  {
+    id: "corporate",
+    label: "Corporate",
+    icon: "◈",
+    title: "Événements d'Entreprise",
+    description:
+      "Séminaires de direction, team buildings d'exception, soirées gala annuelles. Nous orchestrons chaque moment pour refléter l'âme de votre marque.",
+    capacity: "20 – 2 000 personnes",
+    img: "photo-1540575467063-178a50c2df87",
+    examples: ["Séminaire annuel", "Lancement produit", "Soirée collaborateurs", "Conférence internationale"],
+  },
+  {
+    id: "gala",
+    label: "Gala",
+    icon: "✦",
+    title: "Galas & Soirées de Prestige",
+    description:
+      "Des soirées inoubliables pensées dans les moindres détails — décors somptueux, gastronomie étoilée, divertissements d'exception.",
+    capacity: "50 – 800 personnes",
+    img: "photo-1492684223066-81342ee5ff30",
+    examples: ["Gala de charité", "Dîner de prestige", "Remise de prix", "Soirée thématique"],
+  },
+  {
+    id: "wedding",
+    label: "Mariage",
+    icon: "◇",
+    title: "Mariages d'Exception",
+    description:
+      "De la déclaration à la dernière danse, nous transformons votre union en un récit de beauté et d'émotion. Chaque mariage est une première mondiale.",
+    capacity: "30 – 500 personnes",
+    img: "photo-1530103862676-de8c9debad1d",
+    examples: ["Cérémonie laïque", "Mariage château", "Destination wedding", "Elopement luxe"],
+  },
+  {
+    id: "launch",
+    label: "Lancement",
+    icon: "⌘",
+    title: "Lancements & Activations",
+    description:
+      "Créer l'événement autour d'un produit ou d'une marque, générer l'enthousiasme, faire de votre lancement un moment culturel.",
+    capacity: "100 – 1 500 personnes",
+    img: "photo-1492684223066-81342ee5ff30",
+    examples: ["Lancement de collection", "Opening store", "Activation marque", "Pop-up premium"],
+  },
+];
 
-const STEPS = [
-  { num: "01", title: "Découverte", desc: "Un premier appel de 30 min pour comprendre votre vision, vos contraintes et votre budget. Gratuit et sans engagement.", duration: "J-6 à 12 mois" },
-  { num: "02", title: "Conception", desc: "Proposition créative détaillée : concept, scénographie, sélection de prestataires référencés et budget précis.", duration: "J-5 à 9 mois" },
-  { num: "03", title: "Organisation", desc: "Négociation et coordination de tous les prestataires. Planning détaillé, rétro-planning, gestion administrative.", duration: "J-2 à 5 mois" },
-  { num: "04", title: "Jour J", desc: "Direction artistique et coordination en temps réel. Vous profitez, on gère. Un interlocuteur sur place du début à la fin.", duration: "J-0" },
-]
+const PAST_EVENTS = [
+  { title: "Gala Fondation Lumière", location: "Paris, France", year: "2024", img: "photo-1530103862676-de8c9debad1d", guests: "420" },
+  { title: "Mariage Château Margaux", location: "Bordeaux, France", year: "2024", img: "photo-1540575467063-178a50c2df87", guests: "180" },
+  { title: "Conférence TechEurope", location: "Monaco", year: "2024", img: "photo-1492684223066-81342ee5ff30", guests: "1200" },
+  { title: "Lancement Maison Riviera", location: "Cannes, France", year: "2023", img: "photo-1530103862676-de8c9debad1d", guests: "350" },
+  { title: "Séminaire LuxGroup", location: "Biarritz, France", year: "2023", img: "photo-1540575467063-178a50c2df87", guests: "85" },
+  { title: "Gala Prestige Awards", location: "Paris, France", year: "2023", img: "photo-1492684223066-81342ee5ff30", guests: "600" },
+];
+
+const SERVICES = [
+  {
+    icon: "✦",
+    title: "Conception Créative",
+    description: "Direction artistique complète : concept, moodboard, identité visuelle de l'événement, scénographie.",
+  },
+  {
+    icon: "◈",
+    title: "Coordination Terrain",
+    description: "Chef de projet dédié le jour J, équipe de 15+ prestataires coordonnés au millimètre.",
+  },
+  {
+    icon: "◇",
+    title: "Gastronomie & Traiteur",
+    description: "Partenariats avec chefs étoilés et maisons de renom. Menus signature adaptés à chaque événement.",
+  },
+  {
+    icon: "⌘",
+    title: "Décor & Scénographie",
+    description: "Floraux extraordinaires, mobilier exclusif, éclairages architecturaux, installations artistiques.",
+  },
+];
+
+const CLIENT_LOGOS = [
+  "Hermès", "LVMH", "Cartier", "Dior", "Chanel", "Moët Hennessy",
+  "Kering", "L'Oréal", "Richemont", "Baccarat", "Bulgari", "Van Cleef",
+];
+
+const PROCESS = [
+  { step: "01", title: "Écoute & Vision", description: "Une rencontre pour comprendre vos aspirations, votre histoire, et définir ensemble la vision de votre événement." },
+  { step: "02", title: "Conception", description: "Notre équipe créative élabore le concept, la direction artistique et le programme détaillé." },
+  { step: "03", title: "Sélection des Prestataires", description: "Accès à notre carnet d'adresses exclusif : chefs étoilés, fleuristes, orchestres, DJs, lieux d'exception." },
+  { step: "04", title: "Production", description: "Coordination de toutes les équipes, répétitions, logistique millimétrée et plans de contingence." },
+  { step: "05", title: "Le Grand Soir", description: "Notre équipe est présente du début à la fin. Vous profitez, nous orchestrons." },
+];
 
 const TESTIMONIALS = [
-  { quote: "Notre mariage était exactement ce qu'on avait imaginé — mais en mieux. Confluence a su aller au-delà de nos attentes sur chaque détail.", name: "Emma & Nicolas", event: "Mariage · 120 invités · Château de la Loire" },
-  { quote: "Le séminaire annuel de notre groupe a enfin l'image qu'il mérite. Lieu bluffant, programme millimétré, retours unanimes.", name: "Marie-Claire Dupont", event: "Séminaire · 85 collaborateurs · Provence" },
-  { quote: "Gala de prestige coordonné en 8 semaines. Impossible selon tout le monde — sauf Confluence.", name: "Laurent Tissier", event: "Gala · 240 convives · Paris 8e" },
-]
+  {
+    text: "Confluence a transformé notre gala annuel en un moment légendaire. Chaque détail témoignait d'une maîtrise et d'une élégance rares.",
+    author: "François de B.",
+    role: "DG, Fondation Lumière",
+    rating: 5,
+  },
+  {
+    text: "Notre mariage au château était le rêve absolu. L'équipe Confluence a su anticiper chaque besoin sans que nous ayons à y penser une seule seconde.",
+    author: "Camille & Thomas R.",
+    role: "Mariés en Juin 2024",
+    rating: 5,
+  },
+  {
+    text: "Du brief au jour J, une synchronisation parfaite. Nos 1200 invités sont repartis émerveillés. C'est la quatrième fois que nous leur confions notre conférence.",
+    author: "Alexandra M.",
+    role: "Directrice Communication, TechEurope",
+    rating: 5,
+  },
+];
 
-const FAQS = [
-  { q: "Quelle est votre zone d'intervention ?", a: "France entière. Principalement Île-de-France, Auvergne-Rhône-Alpes, et PACA. Destinations internationales sur demande (Europe, Méditerranée)." },
-  { q: "Quel est votre budget minimum ?", a: "Nous travaillons à partir de 15 000 € pour les mariages et 8 000 € pour les événements d'entreprise. En dessous, nous proposons un accompagnement partiel." },
-  { q: "Comment calculez-vous vos honoraires ?", a: "Forfait fixe pour la coordination complète (10–15% du budget événement) ou forfait à la carte pour des missions ponctuelles (recherche de lieu, direction artistique, jour J)." },
-  { q: "Travaillez-vous avec vos propres prestataires ?", a: "Nous avons un réseau de partenaires sélectionnés, mais nous travaillons volontiers avec vos prestataires existants. Pas de commission cachée sur les fournisseurs." },
-  { q: "Que se passe-t-il si un prestataire fait défaut le jour J ?", a: "Nous avons toujours des solutions de secours identifiées en amont. Notre réseau permet des remplacements en 24–48h dans presque tous les cas." },
-]
+const MARQUEE_ITEMS = [
+  "Événements sur Mesure",
+  "Depuis 2010",
+  "14 Années d'Excellence",
+  "200+ Événements",
+  "Chef de Projet Dédié",
+  "Carnet d'Adresses Exclusif",
+];
 
-const PLANS = [
-  { name: "Essentiel", price: "À partir de 1 800 €", note: "mission partielle", features: ["Recherche & réservation du lieu", "Sélection 3 prestataires clés", "Budget et rétro-planning", "Assistance email J-6 à J-1"] },
-  { name: "Confluent", price: "10–15%", note: "du budget événement", features: ["Mission complète clé en main", "Direction artistique incluse", "Coordination tous prestataires", "Présence jour J full-day", "Bilan post-événement"], highlight: true },
-  { name: "Signature", price: "Sur devis", note: "événements de prestige", features: ["Tout Confluent inclus", "Déplacements internationaux", "Relations presse & influence", "Scénographie exclusive", "Support 24/7 J-30 à J+7"] },
-]
+function useFonts() {
+  useEffect(() => {
+    const id = "fonts-impact-175";
+    if (document.getElementById(id)) return;
+    const style = document.createElement("style");
+    style.id = id;
+    style.textContent = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap');`;
+    document.head.appendChild(style);
+  }, []);
+}
 
-export default function Page() {
-  const [activeType, setActiveType] = useState(0)
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
-  const { scrollY } = useScroll()
+function TextReveal({
+  children,
+  delay = 0,
+  style: externalStyle,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <div style={{ overflow: "hidden", ...externalStyle }}>
+      <motion.div
+        initial={{ y: "110%", opacity: 0 }}
+        whileInView={{ y: "0%", opacity: 1 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.9, delay, ease: [0.76, 0, 0.24, 1] }}
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
+}
 
-  const heroY = useTransform(scrollY, [0, 500], [0, -60])
+function MagneticButton({
+  children,
+  style: externalStyle,
+  onClick,
+}: {
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+  onClick?: () => void;
+}) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 300, damping: 25 });
+  const springY = useSpring(y, { stiffness: 300, damping: 25 });
+  const ref = useRef<HTMLButtonElement>(null);
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      x.set((e.clientX - (rect.left + rect.width / 2)) * 0.35);
+      y.set((e.clientY - (rect.top + rect.height / 2)) * 0.35);
+    },
+    [x, y]
+  );
+  const handleMouseLeave = useCallback(() => {
+    x.set(0);
+    y.set(0);
+  }, [x, y]);
+  return (
+    <motion.button
+      ref={ref}
+      style={{ ...externalStyle, x: springX, y: springY }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={onClick}
+      whileTap={{ scale: 0.96 }}
+    >
+      {children}
+    </motion.button>
+  );
+}
 
-  const stepsRef = useRef(null)
-  const pricingRef = useRef(null)
-  const stepsInView = useInView(stepsRef, { once: true, margin: "-100px" })
-  const pricingInView = useInView(pricingRef, { once: true, margin: "-100px" })
+function SpotlightCard({
+  children,
+  style: externalStyle,
+  accentRgb,
+}: {
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+  accentRgb?: string;
+}) {
+  const [spotlight, setSpotlight] = useState({ x: 50, y: 50, active: false });
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setSpotlight({
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
+      active: true,
+    });
+  }, []);
+  const handleMouseLeave = useCallback(
+    () => setSpotlight((s) => ({ ...s, active: false })),
+    []
+  );
+  const rgb = accentRgb || "232,213,163";
+  const baseBg = externalStyle?.background || "#1c1a17";
+  return (
+    <div
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        ...externalStyle,
+        background: spotlight.active
+          ? `radial-gradient(circle at ${spotlight.x}% ${spotlight.y}%, rgba(${rgb},0.12) 0%, ${baseBg} 65%)`
+          : baseBg,
+        transition: "background 0.15s ease",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
 
-  const C = {
-    bg: "#faf6f0",
-    plum: "#3d2645",
-    terracotta: "#b87c5a",
-    champagne: "#e8d4b8",
-    text: "#1a1208",
-    muted: "#8b7a6b",
-    card: "#ffffff",
-    border: "#e8ddd0",
-    serif: "'Cormorant Garamond', Georgia, serif",
-    sans: "system-ui, -apple-system, sans-serif",
-  }
+function MarqueeStrip({
+  items,
+  bg,
+  color,
+}: {
+  items: string[];
+  bg: string;
+  color: string;
+}) {
+  const doubled = [...items, ...items];
+  return (
+    <div style={{ overflow: "hidden", background: bg, paddingTop: 18, paddingBottom: 18 }}>
+      <motion.div
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
+        style={{ display: "flex", whiteSpace: "nowrap", width: "max-content" }}
+      >
+        {doubled.map((item, i) => (
+          <span
+            key={i}
+            style={{
+              fontSize: 11,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color,
+              paddingLeft: 48,
+              paddingRight: 48,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 24,
+              fontFamily: C.fontSans,
+              fontWeight: 500,
+            }}
+          >
+            {item}
+            <span
+              style={{
+                width: 4,
+                height: 4,
+                borderRadius: "50%",
+                background: color,
+                opacity: 0.4,
+                display: "inline-block",
+              }}
+            />
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+function GalleryCard({ event, index }: { event: (typeof PAST_EVENTS)[0]; index: number }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        cursor: "pointer",
+        borderRadius: 2,
+        aspectRatio: index % 3 === 0 ? "4/5" : "3/2",
+      }}
+    >
+      <motion.img
+        src={`https://images.unsplash.com/${event.img}?q=80&w=1000&auto=format&fit=crop`}
+        alt={event.title}
+        animate={{ scale: hovered ? 1.08 : 1 }}
+        transition={{ duration: 0.6 }}
+        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+      />
+      <motion.div
+        animate={{ opacity: hovered ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "linear-gradient(to top, rgba(15,14,13,0.95) 0%, rgba(15,14,13,0.3) 60%, transparent 100%)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-end",
+          padding: 24,
+        }}
+      >
+        <div
+          style={{
+            fontFamily: C.fontSans,
+            fontSize: 10,
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            color: C.champagne,
+            marginBottom: 6,
+          }}
+        >
+          {event.location} · {event.year} · {event.guests} invités
+        </div>
+        <div
+          style={{
+            fontFamily: C.font,
+            fontSize: 20,
+            color: "#fff",
+            fontWeight: 400,
+          }}
+        >
+          {event.title}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function ProcessStep({ step, index }: { step: (typeof PROCESS)[0]; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, x: -30 }}
+      animate={inView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 0.6, delay: index * 0.15 }}
+      style={{
+        display: "grid",
+        gridTemplateColumns: "80px 1fr",
+        gap: 28,
+        alignItems: "flex-start",
+        paddingBottom: 40,
+        borderBottom: index < PROCESS.length - 1 ? `1px solid rgba(250,248,243,0.08)` : "none",
+        marginBottom: index < PROCESS.length - 1 ? 40 : 0,
+      }}
+    >
+      <div
+        style={{
+          fontFamily: C.font,
+          fontSize: 48,
+          fontWeight: 400,
+          color: "rgba(232,213,163,0.2)",
+          lineHeight: 1,
+          letterSpacing: "-0.02em",
+        }}
+      >
+        {step.step}
+      </div>
+      <div>
+        <div
+          style={{
+            fontFamily: C.font,
+            fontSize: 22,
+            color: C.champagne,
+            marginBottom: 10,
+            fontWeight: 500,
+          }}
+        >
+          {step.title}
+        </div>
+        <div
+          style={{
+            fontFamily: C.fontSans,
+            fontSize: 14,
+            color: C.textMuted,
+            lineHeight: 1.75,
+          }}
+        >
+          {step.description}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+export default function Impact175Page() {
+  useFonts();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeEventType, setActiveEventType] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 700], [0, 180]);
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.2]);
+  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
+  useEffect(() => {
+    const unsub = scrollY.on("change", (v) => setScrolled(v > 60));
+    return () => unsub();
+  }, [scrollY]);
+
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setMenuOpen(false);
+  };
+
+  const navLinks = [
+    { label: "Types", id: "event-types" },
+    { label: "Réalisations", id: "gallery" },
+    { label: "Services", id: "services" },
+    { label: "Processus", id: "process" },
+    { label: "Contact", id: "contact" },
+  ];
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: C.sans, overflowX: "hidden" }}>
-      {/* NAV */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: "rgba(250,246,240,0.97)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 60px", height: 68 }}>
-        <div>
-          <div style={{ fontFamily: C.serif, fontSize: 20, letterSpacing: 2, fontStyle: "italic", color: C.plum }}>Confluence</div>
-          <div style={{ fontSize: 9, letterSpacing: 4, color: C.muted, textTransform: "uppercase" }}>Agence Événementielle</div>
+    <div
+      style={{
+        background: C.bg,
+        color: C.text,
+        fontFamily: C.fontSans,
+        minHeight: "100vh",
+        overflowX: "hidden",
+      }}
+    >
+      {/* Scroll progress */}
+      <motion.div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          height: 2,
+          background: `linear-gradient(90deg, ${C.terracotta}, ${C.champagne})`,
+          width: progressWidth,
+          zIndex: 1000,
+          transformOrigin: "0%",
+        }}
+      />
+
+      {/* Navigation */}
+      <motion.nav
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          padding: "0 clamp(20px, 5vw, 80px)",
+          height: 76,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          background: scrolled ? "rgba(15,14,13,0.95)" : "transparent",
+          backdropFilter: scrolled ? "blur(16px)" : "none",
+          borderBottom: scrolled ? "1px solid rgba(232,213,163,0.1)" : "none",
+          transition: "all 0.4s ease",
+        }}
+      >
+        <div
+          style={{
+            fontFamily: C.font,
+            fontSize: 20,
+            fontWeight: 400,
+            color: C.champagne,
+            letterSpacing: "0.08em",
+            cursor: "pointer",
+          }}
+          onClick={() => scrollTo("hero")}
+        >
+          Confluence
         </div>
-        <div style={{ display: "flex", gap: 40, alignItems: "center" }}>
-          {["Événements", "Notre approche", "Réalisations", "Contact"].map(l => (
-            <a key={l} href="#" style={{ fontSize: 12, color: C.muted, letterSpacing: 1, textDecoration: "none", fontWeight: 500 }}>{l}</a>
+
+        <div style={{ display: "flex", gap: 36, alignItems: "center" }} className="desktop-nav">
+          {navLinks.map((link) => (
+            <button
+              key={link.id}
+              onClick={() => scrollTo(link.id)}
+              style={{
+                background: "none",
+                border: "none",
+                fontFamily: C.fontSans,
+                fontSize: 13,
+                color: C.textMuted,
+                cursor: "pointer",
+                letterSpacing: "0.06em",
+                padding: 0,
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => ((e.target as HTMLElement).style.color = C.champagne)}
+              onMouseLeave={(e) => ((e.target as HTMLElement).style.color = C.textMuted)}
+            >
+              {link.label}
+            </button>
           ))}
-          <motion.button whileHover={{ background: C.plum }} whileTap={{ scale: 0.97 }}
-            style={{ padding: "10px 28px", background: C.terracotta, color: "#fff", border: "none", fontSize: 12, letterSpacing: 1, cursor: "pointer", fontFamily: C.sans, fontWeight: 600, transition: "background 0.2s" }}>
-            Nous contacter
-          </motion.button>
+          <MagneticButton
+            onClick={() => scrollTo("contact")}
+            style={{
+              background: C.terracotta,
+              color: "#fff",
+              border: "none",
+              padding: "10px 24px",
+              fontFamily: C.fontSans,
+              fontSize: 12,
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              fontWeight: 600,
+              cursor: "pointer",
+              borderRadius: 1,
+            }}
+          >
+            Nous Contacter
+          </MagneticButton>
         </div>
-      </nav>
 
-      {/* HERO — centered serif, warm gradient */}
-      <section style={{ minHeight: "100vh", paddingTop: 68, background: `linear-gradient(to bottom, ${C.bg}, #f0e8d8)`, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", position: "relative", overflow: "hidden" }}>
-        {/* Decorative circles */}
-        <div style={{ position: "absolute", top: "15%", left: "8%", width: 200, height: 200, border: `1px solid ${C.champagne}`, borderRadius: "50%", opacity: 0.5 }} />
-        <div style={{ position: "absolute", bottom: "20%", right: "6%", width: 300, height: 300, border: `1px solid ${C.champagne}`, borderRadius: "50%", opacity: 0.3 }} />
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          style={{
+            display: "none",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            flexDirection: "column",
+            gap: 5,
+            padding: 4,
+          }}
+          className="hamburger"
+          aria-label="Menu"
+        >
+          {[0, 1, 2].map((i) => (
+            <motion.span
+              key={i}
+              animate={
+                menuOpen
+                  ? i === 0
+                    ? { rotate: 45, y: 7 }
+                    : i === 1
+                    ? { opacity: 0 }
+                    : { rotate: -45, y: -7 }
+                  : { rotate: 0, y: 0, opacity: 1 }
+              }
+              style={{
+                display: "block",
+                width: 24,
+                height: 1.5,
+                background: C.champagne,
+                borderRadius: 2,
+              }}
+            />
+          ))}
+        </button>
+      </motion.nav>
 
-        <motion.div style={{ y: heroY, position: "relative", zIndex: 1, maxWidth: 900, padding: "0 60px" }}>
-          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
-            <div style={{ fontFamily: C.serif, fontSize: 12, letterSpacing: 6, color: C.terracotta, textTransform: "uppercase", marginBottom: 36, fontStyle: "italic" }}>
-              Vos instants. Notre expertise.
-            </div>
-            <h1 style={{ fontFamily: C.serif, fontSize: "clamp(56px, 9vw, 130px)", fontWeight: 400, letterSpacing: -2, lineHeight: 0.95, color: C.plum, fontStyle: "italic", marginBottom: 40 }}>
-              Chaque<br />
-              événement<br />
-              <span style={{ color: C.terracotta }}>mérite</span><br />
-              l'exceptionnel.
-            </h1>
-            <p style={{ fontSize: 18, color: C.muted, lineHeight: 1.75, maxWidth: 560, margin: "0 auto 56px" }}>
-              Mariages, séminaires, galas et fêtes privées. Nous orchestrons vos moments les plus importants avec précision et passion.
-            </p>
-            <div style={{ display: "flex", gap: 20, justifyContent: "center" }}>
-              <motion.button whileHover={{ background: C.plum }} whileTap={{ scale: 0.97 }}
-                style={{ padding: "18px 48px", background: C.terracotta, color: "#fff", border: "none", fontSize: 15, fontWeight: 600, letterSpacing: 0.5, cursor: "pointer", transition: "background 0.2s" }}>
-                Parler de mon projet
-              </motion.button>
-              <motion.button whileHover={{ borderColor: C.terracotta, color: C.terracotta }} whileTap={{ scale: 0.97 }}
-                style={{ padding: "18px 48px", background: "transparent", color: C.muted, border: `1.5px solid ${C.border}`, fontSize: 15, cursor: "pointer", transition: "all 0.2s" }}>
-                Voir nos réalisations
-              </motion.button>
-            </div>
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              position: "fixed",
+              top: 76,
+              left: 0,
+              right: 0,
+              background: "rgba(15,14,13,0.98)",
+              backdropFilter: "blur(20px)",
+              zIndex: 99,
+              padding: "28px 32px",
+              display: "flex",
+              flexDirection: "column",
+              gap: 20,
+              borderBottom: "1px solid rgba(232,213,163,0.1)",
+            }}
+          >
+            {navLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => scrollTo(link.id)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  fontFamily: C.font,
+                  fontSize: 22,
+                  color: C.champagne,
+                  cursor: "pointer",
+                  textAlign: "left",
+                  padding: 0,
+                }}
+              >
+                {link.label}
+              </button>
+            ))}
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .desktop-nav { display: none !important; }
+          .hamburger { display: flex !important; }
+        }
+      `}</style>
+
+      {/* Hero — Centered with decorative SVG circles */}
+      <section
+        id="hero"
+        style={{
+          position: "relative",
+          height: "100vh",
+          minHeight: 700,
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {/* Parallax background */}
+        <motion.div
+          style={{
+            position: "absolute",
+            inset: "-20% 0",
+            y: heroY,
+          }}
+        >
+          <img
+            src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?q=80&w=1400&auto=format&fit=crop"
+            alt="Confluence Events"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(to bottom, rgba(15,14,13,0.5) 0%, rgba(15,14,13,0.75) 100%)",
+            }}
+          />
+        </motion.div>
+
+        {/* Decorative SVG circles */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            pointerEvents: "none",
+            zIndex: 2,
+          }}
+        >
+          {[
+            { cx: "50%", cy: "50%", r: 240, delay: 0, opacity: 0.12 },
+            { cx: "50%", cy: "50%", r: 360, delay: 0.3, opacity: 0.08 },
+            { cx: "50%", cy: "50%", r: 480, delay: 0.6, opacity: 0.05 },
+          ].map((circle, i) => (
+            <motion.svg
+              key={i}
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: circle.opacity, scale: 1 }}
+              transition={{ duration: 1.4, delay: circle.delay, ease: "easeOut" }}
+            >
+              <circle
+                cx={circle.cx}
+                cy={circle.cy}
+                r={circle.r}
+                fill="none"
+                stroke={C.champagne}
+                strokeWidth={1}
+              />
+            </motion.svg>
+          ))}
+        </div>
+
+        <motion.div
+          style={{
+            position: "relative",
+            zIndex: 3,
+            textAlign: "center",
+            padding: "0 clamp(24px, 8vw, 140px)",
+            opacity: heroOpacity,
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            style={{
+              fontFamily: C.fontSans,
+              fontSize: 11,
+              letterSpacing: "0.3em",
+              textTransform: "uppercase",
+              color: C.champagne,
+              marginBottom: 24,
+              fontWeight: 500,
+            }}
+          >
+            Agence d'Événementiel · Paris · Monte-Carlo
+          </motion.div>
+
+          <TextReveal delay={0.5}>
+            <h1
+              style={{
+                fontFamily: C.font,
+                fontSize: "clamp(54px, 9vw, 128px)",
+                fontWeight: 400,
+                color: "#fff",
+                lineHeight: 0.95,
+                letterSpacing: "-0.01em",
+              }}
+            >
+              Chaque instant
+            </h1>
+          </TextReveal>
+          <TextReveal delay={0.65}>
+            <h1
+              style={{
+                fontFamily: C.font,
+                fontStyle: "italic",
+                fontSize: "clamp(54px, 9vw, 128px)",
+                fontWeight: 400,
+                color: C.champagne,
+                lineHeight: 0.95,
+                marginBottom: 32,
+              }}
+            >
+              devient légende
+            </h1>
+          </TextReveal>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.9 }}
+            style={{
+              fontFamily: C.fontSans,
+              fontSize: 16,
+              color: "rgba(255,255,255,0.6)",
+              maxWidth: 520,
+              margin: "0 auto 44px",
+              lineHeight: 1.75,
+            }}
+          >
+            Nous créons des événements d'exception pour les maisons de prestige, les institutions et les particuliers exigeants.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.1 }}
+            style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}
+          >
+            <MagneticButton
+              onClick={() => scrollTo("contact")}
+              style={{
+                background: C.terracotta,
+                color: "#fff",
+                border: "none",
+                padding: "18px 48px",
+                fontFamily: C.fontSans,
+                fontSize: 12,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                fontWeight: 600,
+                cursor: "pointer",
+                borderRadius: 1,
+              }}
+            >
+              Planifier votre événement
+            </MagneticButton>
+            <MagneticButton
+              onClick={() => scrollTo("gallery")}
+              style={{
+                background: "transparent",
+                color: "rgba(255,255,255,0.7)",
+                border: "1.5px solid rgba(232,213,163,0.3)",
+                padding: "18px 48px",
+                fontFamily: C.fontSans,
+                fontSize: 12,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                fontWeight: 600,
+                cursor: "pointer",
+                borderRadius: 1,
+              }}
+            >
+              Voir nos réalisations
+            </MagneticButton>
+          </motion.div>
+        </motion.div>
+
+        {/* Stats bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.3 }}
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 3,
+            background: "rgba(15,14,13,0.8)",
+            backdropFilter: "blur(16px)",
+            borderTop: "1px solid rgba(232,213,163,0.1)",
+            display: "flex",
+            justifyContent: "center",
+            gap: 0,
+          }}
+        >
+          {[
+            { value: "200+", label: "Événements réalisés" },
+            { value: "14 ans", label: "D'expertise" },
+            { value: "98%", label: "Satisfaction client" },
+            { value: "40+", label: "Prestataires d'excellence" },
+          ].map((stat, i) => (
+            <div
+              key={i}
+              style={{
+                padding: "22px 40px",
+                textAlign: "center",
+                borderRight: i < 3 ? "1px solid rgba(232,213,163,0.1)" : "none",
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: C.font,
+                  fontSize: 28,
+                  color: C.champagne,
+                  lineHeight: 1,
+                  marginBottom: 4,
+                }}
+              >
+                {stat.value}
+              </div>
+              <div
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 10,
+                  color: C.textMuted,
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                }}
+              >
+                {stat.label}
+              </div>
+            </div>
+          ))}
         </motion.div>
       </section>
 
-      {/* STATS */}
-      <section style={{ background: C.plum }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: 1280, margin: "0 auto" }}>
-          {[{ val: "340+", label: "Événements réalisés" }, { val: "98%", label: "Clients satisfaits" }, { val: "12 ans", label: "D'expérience" }, { val: "France & Europe", label: "Zone d'intervention" }].map((s, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-              style={{ padding: "52px 40px", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.1)" : undefined, textAlign: "center" }}>
-              <div style={{ fontFamily: C.serif, fontSize: 48, fontStyle: "italic", color: C.champagne, lineHeight: 1 }}>{s.val}</div>
-              <div style={{ fontSize: 12, color: "rgba(232,212,184,0.5)", marginTop: 10, letterSpacing: 1 }}>{s.label}</div>
+      {/* Event Type Selector */}
+      <section
+        id="event-types"
+        style={{
+          padding: "clamp(80px, 12vw, 140px) clamp(24px, 8vw, 120px)",
+        }}
+      >
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ marginBottom: 56 }}>
+            <TextReveal>
+              <div
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 11,
+                  letterSpacing: "0.25em",
+                  textTransform: "uppercase",
+                  color: C.champagne,
+                  marginBottom: 16,
+                  fontWeight: 500,
+                }}
+              >
+                Notre Expertise
+              </div>
+            </TextReveal>
+            <TextReveal delay={0.1}>
+              <h2
+                style={{
+                  fontFamily: C.font,
+                  fontSize: "clamp(36px, 5vw, 64px)",
+                  fontWeight: 400,
+                  color: C.ivory,
+                  lineHeight: 1.05,
+                }}
+              >
+                Quel événement
+                <br />
+                <em>pouvons-nous créer ?</em>
+              </h2>
+            </TextReveal>
+          </div>
+
+          {/* Type selector tabs */}
+          <div
+            style={{
+              display: "flex",
+              gap: 0,
+              marginBottom: 48,
+              borderBottom: "1px solid rgba(232,213,163,0.12)",
+              overflowX: "auto",
+            }}
+          >
+            {EVENT_TYPES.map((type, i) => (
+              <button
+                key={type.id}
+                onClick={() => setActiveEventType(i)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  borderBottom: `2px solid ${activeEventType === i ? C.champagne : "transparent"}`,
+                  padding: "14px 28px",
+                  fontFamily: C.fontSans,
+                  fontSize: 13,
+                  color: activeEventType === i ? C.champagne : C.textMuted,
+                  cursor: "pointer",
+                  transition: "all 0.25s",
+                  fontWeight: activeEventType === i ? 600 : 400,
+                  marginBottom: -1,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <span style={{ marginRight: 8 }}>{type.icon}</span>
+                {type.label}
+              </button>
+            ))}
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeEventType}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 64,
+                alignItems: "center",
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    fontFamily: C.fontSans,
+                    fontSize: 10,
+                    letterSpacing: "0.22em",
+                    textTransform: "uppercase",
+                    color: C.terracotta,
+                    marginBottom: 16,
+                    fontWeight: 600,
+                  }}
+                >
+                  Capacité · {EVENT_TYPES[activeEventType].capacity}
+                </div>
+                <h3
+                  style={{
+                    fontFamily: C.font,
+                    fontSize: "clamp(28px, 3.5vw, 46px)",
+                    fontWeight: 400,
+                    color: C.ivory,
+                    marginBottom: 20,
+                    lineHeight: 1.1,
+                  }}
+                >
+                  {EVENT_TYPES[activeEventType].title}
+                </h3>
+                <p
+                  style={{
+                    fontFamily: C.fontSans,
+                    fontSize: 15,
+                    color: C.textMuted,
+                    lineHeight: 1.8,
+                    marginBottom: 32,
+                  }}
+                >
+                  {EVENT_TYPES[activeEventType].description}
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {EVENT_TYPES[activeEventType].examples.map((ex) => (
+                    <div
+                      key={ex}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 12,
+                        fontFamily: C.fontSans,
+                        fontSize: 14,
+                        color: C.champagne,
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 5,
+                          height: 5,
+                          borderRadius: "50%",
+                          background: C.terracotta,
+                          flexShrink: 0,
+                        }}
+                      />
+                      {ex}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div
+                style={{
+                  borderRadius: 2,
+                  overflow: "hidden",
+                  aspectRatio: "4/3",
+                }}
+              >
+                <img
+                  src={`https://images.unsplash.com/${EVENT_TYPES[activeEventType].img}?q=80&w=1200&auto=format&fit=crop`}
+                  alt={EVENT_TYPES[activeEventType].title}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+              </div>
             </motion.div>
-          ))}
+          </AnimatePresence>
         </div>
       </section>
 
-      {/* EVENT TYPES */}
-      <section style={{ padding: "100px 60px", borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ textAlign: "center", marginBottom: 56 }}>
-          <h2 style={{ fontFamily: C.serif, fontSize: "clamp(36px, 4vw, 56px)", fontStyle: "italic", fontWeight: 400, color: C.plum }}>Nos événements</h2>
+      {/* Past Events Gallery */}
+      <section
+        id="gallery"
+        style={{
+          padding: "clamp(80px, 12vw, 140px) clamp(24px, 8vw, 120px)",
+          background: C.warm,
+        }}
+      >
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ marginBottom: 56 }}>
+            <TextReveal>
+              <div
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 11,
+                  letterSpacing: "0.25em",
+                  textTransform: "uppercase",
+                  color: C.champagne,
+                  marginBottom: 16,
+                  fontWeight: 500,
+                }}
+              >
+                Nos Réalisations
+              </div>
+            </TextReveal>
+            <TextReveal delay={0.1}>
+              <h2
+                style={{
+                  fontFamily: C.font,
+                  fontSize: "clamp(36px, 5vw, 64px)",
+                  fontWeight: 400,
+                  color: C.ivory,
+                }}
+              >
+                Moments <em>créés par Confluence</em>
+              </h2>
+            </TextReveal>
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: 20,
+            }}
+          >
+            {PAST_EVENTS.map((event, i) => (
+              <GalleryCard key={event.title} event={event} index={i} />
+            ))}
+          </div>
         </div>
-        <div style={{ display: "flex", gap: 8, justifyContent: "center", marginBottom: 56, flexWrap: "wrap" }}>
-          {EVENT_TYPES.map((t, i) => (
-            <button key={i} onClick={() => setActiveType(i)}
-              style={{ padding: "10px 28px", border: `1.5px solid ${activeType === i ? t.accent : C.border}`, background: activeType === i ? t.accent : "transparent", color: activeType === i ? "#fff" : C.muted, fontSize: 14, cursor: "pointer", transition: "all 0.2s", fontFamily: C.sans, fontWeight: activeType === i ? 600 : 400 }}>
-              {t.name}
-            </button>
-          ))}
+      </section>
+
+      {/* Services */}
+      <section
+        id="services"
+        style={{
+          padding: "clamp(80px, 12vw, 140px) clamp(24px, 8vw, 120px)",
+        }}
+      >
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ marginBottom: 64 }}>
+            <TextReveal>
+              <div
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 11,
+                  letterSpacing: "0.25em",
+                  textTransform: "uppercase",
+                  color: C.champagne,
+                  marginBottom: 16,
+                  fontWeight: 500,
+                }}
+              >
+                Nos Services
+              </div>
+            </TextReveal>
+            <TextReveal delay={0.1}>
+              <h2
+                style={{
+                  fontFamily: C.font,
+                  fontSize: "clamp(36px, 5vw, 64px)",
+                  fontWeight: 400,
+                  color: C.ivory,
+                }}
+              >
+                Ce que nous <em>apportons</em>
+              </h2>
+            </TextReveal>
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+              gap: 24,
+            }}
+          >
+            {SERVICES.map((svc, i) => (
+              <SpotlightCard
+                key={i}
+                accentRgb="232,213,163"
+                style={{
+                  background: C.warm,
+                  border: "1px solid rgba(232,213,163,0.1)",
+                  borderRadius: 2,
+                  padding: "40px 32px",
+                }}
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                >
+                  <div
+                    style={{
+                      fontSize: 26,
+                      color: C.champagne,
+                      marginBottom: 20,
+                    }}
+                  >
+                    {svc.icon}
+                  </div>
+                  <h3
+                    style={{
+                      fontFamily: C.font,
+                      fontSize: 22,
+                      color: C.ivory,
+                      marginBottom: 12,
+                      fontWeight: 400,
+                    }}
+                  >
+                    {svc.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: C.fontSans,
+                      fontSize: 14,
+                      color: C.textMuted,
+                      lineHeight: 1.75,
+                    }}
+                  >
+                    {svc.description}
+                  </p>
+                </motion.div>
+              </SpotlightCard>
+            ))}
+          </div>
         </div>
-        <AnimatePresence mode="wait">
-          <motion.div key={activeType} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}
-            style={{ background: C.card, border: `1px solid ${C.border}`, padding: "56px 80px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center", maxWidth: 1100, margin: "0 auto" }}>
+      </section>
+
+      {/* Client Logos Marquee */}
+      <div style={{ padding: "0" }}>
+        <MarqueeStrip items={CLIENT_LOGOS} bg="rgba(232,213,163,0.06)" color={C.champagne} />
+      </div>
+
+      {/* Process */}
+      <section
+        id="process"
+        style={{
+          padding: "clamp(80px, 12vw, 140px) clamp(24px, 8vw, 120px)",
+          background: C.warm,
+        }}
+      >
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 100,
+              alignItems: "flex-start",
+            }}
+          >
             <div>
-              {EVENT_TYPES[activeType].badge && (
-                <div style={{ display: "inline-block", background: EVENT_TYPES[activeType].accent + "22", color: EVENT_TYPES[activeType].accent, padding: "4px 16px", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", marginBottom: 24, fontWeight: 600 }}>
-                  {EVENT_TYPES[activeType].badge}
+              <TextReveal>
+                <div
+                  style={{
+                    fontFamily: C.fontSans,
+                    fontSize: 11,
+                    letterSpacing: "0.25em",
+                    textTransform: "uppercase",
+                    color: C.champagne,
+                    marginBottom: 16,
+                    fontWeight: 500,
+                  }}
+                >
+                  Notre Processus
                 </div>
-              )}
-              <h3 style={{ fontFamily: C.serif, fontSize: "clamp(32px, 4vw, 52px)", fontStyle: "italic", fontWeight: 400, color: C.plum, marginBottom: 24 }}>{EVENT_TYPES[activeType].name}</h3>
-              <p style={{ fontSize: 17, color: C.muted, lineHeight: 1.8, marginBottom: 40 }}>{EVENT_TYPES[activeType].desc}</p>
-              <motion.button whileHover={{ background: EVENT_TYPES[activeType].accent, color: "#fff", borderColor: EVENT_TYPES[activeType].accent }} whileTap={{ scale: 0.97 }}
-                style={{ padding: "14px 36px", background: "transparent", color: EVENT_TYPES[activeType].accent, border: `1.5px solid ${EVENT_TYPES[activeType].accent}`, fontSize: 13, letterSpacing: 1, cursor: "pointer", transition: "all 0.2s", fontFamily: C.sans, fontWeight: 600 }}>
-                En savoir plus →
-              </motion.button>
+              </TextReveal>
+              <TextReveal delay={0.1}>
+                <h2
+                  style={{
+                    fontFamily: C.font,
+                    fontSize: "clamp(36px, 4vw, 56px)",
+                    fontWeight: 400,
+                    color: C.ivory,
+                    lineHeight: 1.1,
+                    marginBottom: 24,
+                  }}
+                >
+                  La méthode
+                  <br />
+                  <em>Confluence</em>
+                </h2>
+              </TextReveal>
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 15,
+                  color: C.textMuted,
+                  lineHeight: 1.8,
+                }}
+              >
+                14 années d'expérience ont forgé une méthode rodée qui garantit l'excellence à chaque étape — de la conception jusqu'au dernier verre.
+              </motion.p>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-              {["Sélection du lieu", "Scénographie", "Gestion prestataires", "Coordination jour J"].map((feat, j) => (
-                <div key={j} style={{ background: C.bg, border: `1px solid ${C.border}`, padding: "20px 20px", textAlign: "center" }}>
-                  <div style={{ fontSize: 20, color: EVENT_TYPES[activeType].accent, marginBottom: 8, fontFamily: C.serif, fontStyle: "italic" }}>{EVENT_TYPES[activeType].icon}</div>
-                  <div style={{ fontSize: 12, color: C.muted, fontWeight: 500 }}>{feat}</div>
-                </div>
+            <div>
+              {PROCESS.map((step, i) => (
+                <ProcessStep key={i} step={step} index={i} />
               ))}
             </div>
-          </motion.div>
-        </AnimatePresence>
-      </section>
-
-      {/* TIMELINE / PROCESS */}
-      <section ref={stepsRef} style={{ padding: "100px 60px", background: "#f5ede2", borderBottom: `1px solid ${C.border}` }}>
-        <h2 style={{ fontFamily: C.serif, fontSize: "clamp(36px, 4vw, 56px)", fontStyle: "italic", fontWeight: 400, color: C.plum, textAlign: "center", marginBottom: 80 }}>Notre méthode.</h2>
-        <div style={{ position: "relative", maxWidth: 900, margin: "0 auto" }}>
-          <div style={{ position: "absolute", left: 48, top: 0, bottom: 0, width: 1, background: C.border }} />
-          {STEPS.map((step, i) => (
-            <motion.div key={i} initial={{ opacity: 0, x: -30 }} animate={stepsInView ? { opacity: 1, x: 0 } : {}} transition={{ delay: i * 0.15, duration: 0.6 }}
-              style={{ display: "grid", gridTemplateColumns: "100px 1fr", gap: 40, marginBottom: 56, position: "relative" }}>
-              <div style={{ textAlign: "center", position: "relative", zIndex: 1 }}>
-                <div style={{ width: 40, height: 40, background: C.terracotta, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: C.serif, fontSize: 16, fontStyle: "italic", color: "#fff", margin: "0 auto 12px" }}>{step.num}</div>
-                <div style={{ fontSize: 10, color: C.muted, letterSpacing: 1, lineHeight: 1.4 }}>{step.duration}</div>
-              </div>
-              <div style={{ paddingTop: 8 }}>
-                <div style={{ fontFamily: C.serif, fontSize: 24, fontStyle: "italic", color: C.plum, marginBottom: 12 }}>{step.title}</div>
-                <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.75 }}>{step.desc}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section style={{ padding: "100px 60px", borderBottom: `1px solid ${C.border}` }}>
-        <h2 style={{ fontFamily: C.serif, fontSize: "clamp(36px, 4vw, 56px)", fontStyle: "italic", fontWeight: 400, color: C.plum, textAlign: "center", marginBottom: 64 }}>Ils nous ont fait confiance.</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 40, maxWidth: 1280, margin: "0 auto" }}>
-          {TESTIMONIALS.map((t, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}>
-              <div style={{ fontFamily: C.serif, fontSize: 48, color: C.terracotta, lineHeight: 0.8, marginBottom: 20, fontStyle: "italic" }}>"</div>
-              <p style={{ fontFamily: C.serif, fontSize: 18, fontStyle: "italic", color: C.plum, lineHeight: 1.7, marginBottom: 24 }}>{t.quote}</p>
-              <div style={{ fontSize: 12, color: C.muted, letterSpacing: 0.5 }}>{t.name} · {t.event}</div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* PRICING */}
-      <section ref={pricingRef} style={{ padding: "100px 60px", background: "#f5ede2", borderBottom: `1px solid ${C.border}` }}>
-        <h2 style={{ fontFamily: C.serif, fontSize: "clamp(36px, 4vw, 56px)", fontStyle: "italic", fontWeight: 400, color: C.plum, textAlign: "center", marginBottom: 64 }}>Formules & honoraires.</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24, maxWidth: 1100, margin: "0 auto" }}>
-          {PLANS.map((p, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 36 }} animate={pricingInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: i * 0.15 }}
-              style={{ background: p.highlight ? C.plum : C.card, border: p.highlight ? "none" : `1px solid ${C.border}`, padding: "48px 40px", boxShadow: p.highlight ? "0 20px 60px rgba(61,38,69,0.25)" : "none", transform: p.highlight ? "scale(1.03)" : "none" }}>
-              <div style={{ fontSize: 11, letterSpacing: 3, color: p.highlight ? "rgba(232,212,184,0.7)" : C.muted, textTransform: "uppercase", marginBottom: 20 }}>{p.name}</div>
-              <div style={{ fontFamily: C.serif, fontSize: 32, fontStyle: "italic", color: p.highlight ? C.champagne : C.plum, lineHeight: 1, marginBottom: 6 }}>{p.price}</div>
-              <div style={{ fontSize: 13, color: p.highlight ? "rgba(232,212,184,0.5)" : C.muted, marginBottom: 40 }}>{p.note}</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 40 }}>
-                {p.features.map((f, j) => (
-                  <div key={j} style={{ display: "flex", gap: 10, fontSize: 14, color: p.highlight ? "rgba(232,212,184,0.8)" : C.text, alignItems: "flex-start" }}>
-                    <span style={{ color: C.terracotta, marginTop: 1 }}>—</span> {f}
-                  </div>
-                ))}
-              </div>
-              <motion.button whileHover={{ background: p.highlight ? C.champagne : C.terracotta, color: C.plum }} whileTap={{ scale: 0.97 }}
-                style={{ width: "100%", padding: "14px", background: p.highlight ? C.terracotta : "transparent", color: p.highlight ? "#fff" : C.terracotta, border: `1.5px solid ${p.highlight ? C.terracotta : C.border}`, fontSize: 12, letterSpacing: 2, textTransform: "uppercase", cursor: "pointer", transition: "all 0.2s", fontFamily: C.sans, fontWeight: 600 }}>
-                Nous contacter
-              </motion.button>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section style={{ maxWidth: 800, margin: "0 auto", padding: "100px 60px" }}>
-        <h2 style={{ fontFamily: C.serif, fontSize: 48, fontStyle: "italic", fontWeight: 400, color: C.plum, textAlign: "center", marginBottom: 56 }}>Questions fréquentes.</h2>
-        {FAQS.map((f, i) => (
-          <div key={i} style={{ borderBottom: `1px solid ${C.border}` }}>
-            <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
-              style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "22px 0", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}>
-              <span style={{ fontFamily: C.serif, fontSize: 17, fontStyle: "italic", color: C.plum }}>{f.q}</span>
-              <motion.span animate={{ rotate: openFaq === i ? 45 : 0 }} style={{ fontSize: 22, color: C.terracotta, minWidth: 22 }}>+</motion.span>
-            </button>
-            <AnimatePresence>
-              {openFaq === i && (
-                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }}>
-                  <p style={{ paddingBottom: 22, fontSize: 14, color: C.muted, lineHeight: 1.85 }}>{f.a}</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
-        ))}
-      </section>
-
-      {/* CTA */}
-      <section style={{ background: C.plum, padding: "100px 60px", textAlign: "center" }}>
-        <div style={{ fontFamily: C.serif, fontSize: 12, letterSpacing: 6, color: "rgba(232,212,184,0.6)", textTransform: "uppercase", marginBottom: 32 }}>Parlons de votre projet</div>
-        <h2 style={{ fontFamily: C.serif, fontSize: "clamp(48px, 7vw, 96px)", fontStyle: "italic", fontWeight: 300, color: "#faf6f0", lineHeight: 1.0, marginBottom: 48 }}>
-          Votre grand jour<br />commence ici.
-        </h2>
-        <div style={{ display: "flex", gap: 16, justifyContent: "center" }}>
-          <motion.button whileHover={{ background: "#fff", color: C.plum }} whileTap={{ scale: 0.97 }}
-            style={{ padding: "18px 48px", background: C.terracotta, color: "#fff", border: "none", fontSize: 15, fontWeight: 600, cursor: "pointer", transition: "all 0.2s" }}>
-            Premier appel gratuit →
-          </motion.button>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer style={{ background: "#1a0f22", padding: "48px 60px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ fontFamily: C.serif, fontSize: 18, fontStyle: "italic", color: C.champagne }}>Confluence Events</div>
-        <div style={{ fontSize: 12, color: "#4a3a5a" }}>© 2025 · Paris, France · SIRET 123 456 789 00010</div>
+      {/* Testimonials */}
+      <section
+        style={{
+          padding: "clamp(80px, 12vw, 140px) clamp(24px, 8vw, 120px)",
+        }}
+      >
+        <div style={{ maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
+          <TextReveal>
+            <h2
+              style={{
+                fontFamily: C.font,
+                fontSize: "clamp(36px, 5vw, 60px)",
+                fontWeight: 400,
+                color: C.ivory,
+                marginBottom: 64,
+              }}
+            >
+              Ce que disent <em style={{ color: C.champagne }}>nos clients</em>
+            </h2>
+          </TextReveal>
+          <div style={{ display: "flex", flexDirection: "column", gap: 48 }}>
+            {TESTIMONIALS.map((t, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.15 }}
+                style={{
+                  padding: "40px 48px",
+                  background: C.warm,
+                  border: "1px solid rgba(232,213,163,0.1)",
+                  borderRadius: 2,
+                  textAlign: "left",
+                  position: "relative",
+                }}
+              >
+                <div style={{ display: "flex", gap: 4, marginBottom: 20 }}>
+                  {Array.from({ length: t.rating }).map((_, j) => (
+                    <span key={j} style={{ color: C.champagne, fontSize: 14 }}>★</span>
+                  ))}
+                </div>
+                <blockquote
+                  style={{
+                    fontFamily: C.font,
+                    fontSize: "clamp(16px, 2vw, 22px)",
+                    fontStyle: "italic",
+                    color: C.ivory,
+                    lineHeight: 1.65,
+                    marginBottom: 24,
+                  }}
+                >
+                  "{t.text}"
+                </blockquote>
+                <div style={{ fontFamily: C.fontSans, fontWeight: 600, color: C.champagne, fontSize: 13 }}>
+                  {t.author}
+                </div>
+                <div
+                  style={{
+                    fontFamily: C.fontSans,
+                    color: C.textMuted,
+                    fontSize: 12,
+                    marginTop: 3,
+                    letterSpacing: "0.08em",
+                  }}
+                >
+                  {t.role}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact CTA */}
+      <section
+        id="contact"
+        style={{
+          padding: "clamp(100px, 14vw, 180px) clamp(24px, 8vw, 120px)",
+          background: C.terracotta,
+          position: "relative",
+          overflow: "hidden",
+          textAlign: "center",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            right: "-15%",
+            transform: "translateY(-50%)",
+            width: 600,
+            height: 600,
+            borderRadius: "50%",
+            border: "1px solid rgba(255,255,255,0.15)",
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: "-20%",
+            left: "-10%",
+            width: 400,
+            height: 400,
+            borderRadius: "50%",
+            border: "1px solid rgba(255,255,255,0.1)",
+            pointerEvents: "none",
+          }}
+        />
+        <div style={{ position: "relative", zIndex: 2, maxWidth: 680, margin: "0 auto" }}>
+          <TextReveal>
+            <h2
+              style={{
+                fontFamily: C.font,
+                fontSize: "clamp(42px, 7vw, 90px)",
+                fontWeight: 400,
+                color: "#fff",
+                lineHeight: 1,
+                marginBottom: 24,
+              }}
+            >
+              Créons ensemble
+              <br />
+              <em>l'inoubliable</em>
+            </h2>
+          </TextReveal>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            style={{
+              fontFamily: C.fontSans,
+              fontSize: 16,
+              color: "rgba(255,255,255,0.75)",
+              lineHeight: 1.75,
+              marginBottom: 44,
+            }}
+          >
+            Partagez votre vision avec nous. Notre équipe vous contactera sous 24h pour un échange confidentiel et sans engagement.
+          </motion.p>
+          <MagneticButton
+            style={{
+              background: "#fff",
+              color: C.terracotta,
+              border: "none",
+              padding: "20px 56px",
+              fontFamily: C.fontSans,
+              fontSize: 13,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              fontWeight: 700,
+              cursor: "pointer",
+              borderRadius: 1,
+            }}
+          >
+            Démarrer la conversation
+          </MagneticButton>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer
+        style={{
+          background: "#080706",
+          color: C.textMuted,
+          padding: "40px clamp(24px, 8vw, 120px)",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: 16,
+        }}
+      >
+        <div style={{ fontFamily: C.font, fontSize: 18, color: C.champagne }}>
+          Confluence Events
+        </div>
+        <div style={{ fontFamily: C.fontSans, fontSize: 12, letterSpacing: "0.05em" }}>
+          © 2025 Confluence · Paris · Monte-Carlo · info@confluence-events.fr
+        </div>
       </footer>
     </div>
-  )
+  );
 }

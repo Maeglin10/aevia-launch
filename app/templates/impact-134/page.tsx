@@ -1,459 +1,581 @@
 "use client"
 
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useEffect, useRef, useCallback } from "react"
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  useInView,
+} from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
+import {
+  Sparkles,
+  Droplets,
+  Leaf,
+  Heart,
+  Star,
+  ShoppingBag,
+  Package,
+  ArrowRight,
+  ChevronRight,
+  Menu,
+  X,
+  Phone,
+  Mail,
+  Instagram,
+  Award,
+  Clock,
+  Sun,
+  Moon,
+} from "lucide-react"
 
-// ─── Design Tokens ────────────────────────────────────────────────────────────
+/* ==========================================================================
+   LUMIÈRE BEAUTY — Design Tokens
+   ========================================================================== */
 const C = {
-  bg: "#050708",
-  bgCard: "#0C1014",
-  bgMid: "#141C20",
-  sky: "#3AA8C8",
-  orange: "#E07B3F",
-  snow: "#E8F4F8",
-  muted: "#7A8E9A",
-  border: "rgba(58,168,200,0.15)",
-  borderOrange: "rgba(224,123,63,0.25)",
-  skyDim: "rgba(58,168,200,0.08)",
-  skyFill: "rgba(58,168,200,0.15)",
-  snowDim: "rgba(232,244,248,0.07)",
-  fontBody: "'Archivo', sans-serif",
-  fontMono: "'Space Grotesk', sans-serif",
+  pink:        "#FDF2F8",
+  pinkMid:     "#FCE7F3",
+  pinkDeep:    "#FBCFE8",
+  primary:     "#EC4899",
+  primaryDim:  "rgba(236,72,153,0.12)",
+  primaryBorder:"rgba(236,72,153,0.20)",
+  lavender:    "#8B5CF6",
+  lavenderDim: "rgba(139,92,246,0.12)",
+  lavenderBorder:"rgba(139,92,246,0.20)",
+  text:        "#831843",
+  textMid:     "#9D174D",
+  textMuted:   "#BE185D",
+  textLight:   "#F9A8D4",
+  white:       "#FFFFFF",
+  border:      "rgba(131,24,67,0.08)",
+  roseGold:    "#E8929F",
 }
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
-const EXPEDITIONS = [
+const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');`
+
+/* ==========================================================================
+   DATA
+   ========================================================================== */
+const NAV_LINKS = [
+  { label: "Collections", href: "#collections" },
+  { label: "Rituels", href: "#rituels" },
+  { label: "Ingrédients", href: "#ingredients" },
+  { label: "Atelier", href: "#atelier" },
+  { label: "Presse", href: "#presse" },
+]
+
+const PRODUCTS = [
   {
-    id: 1,
-    title: "Everest Base Camp Trek",
-    type: "High Altitude",
-    difficulty: "Expert",
-    duration: "14 days",
-    price: "$3,490",
-    altitude: "5,364m",
-    continent: "Asia",
-    img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=800",
-    desc: "The world's most iconic trek. Cross suspension bridges, traverse glacial moraines, and stand at the foot of the greatest mountain on Earth.",
-    includes: ["Expert Sherpa guides", "Altitude acclimatization plan", "Teahouse accommodation", "All meals on trail"],
+    id: "serum",
+    name: "Sérum Éclat",
+    subtitle: "Sérum concentré anti-taches",
+    price: "79€",
+    tag: "Bestseller",
+    tagColor: C.primary,
+    ingredient: "Rose de Damas & Vitamine C",
+    desc: "Notre sérum phare, concentré en actifs puissants pour un teint lumineux et uniformisé en 14 jours.",
+    img: "photo-1596462502278-27bfdc403348",
+    stars: 4.9,
+    reviews: 342,
+    icon: Sparkles,
   },
   {
-    id: 2,
-    title: "Hawaiian Wave Mastery",
-    type: "Ocean Surf",
-    difficulty: "Intermediate",
-    duration: "7 days",
-    price: "$2,190",
-    altitude: "Sea level",
-    continent: "Pacific",
-    img: "https://images.unsplash.com/photo-1470171485859-f5a85bcc69e3?q=80&w=800",
-    desc: "Ride the legendary swells of the North Shore. Morning sessions, afternoon coaching, and evenings under a Hawaiian sky.",
-    includes: ["Daily surf coaching", "Board & wetsuit rental", "Oceanfront villa", "Video analysis sessions"],
+    id: "creme-nuit",
+    name: "Crème Nuit",
+    subtitle: "Soin réparateur nocturne",
+    price: "89€",
+    tag: "Nouveau",
+    tagColor: C.lavender,
+    ingredient: "Squalane & Acide Hyaluronique",
+    desc: "Régénère intensément pendant le sommeil. Texture fondante qui nourrit sans alourdir.",
+    img: "photo-1522337360788-8b13dee7a37e",
+    stars: 4.8,
+    reviews: 198,
+    icon: Moon,
   },
   {
-    id: 3,
-    title: "Chamonix Ski Expedition",
-    type: "Alpine Ski",
-    difficulty: "Advanced",
-    duration: "10 days",
-    price: "$4,100",
-    altitude: "3,842m",
-    continent: "Europe",
-    img: "https://images.unsplash.com/photo-1551632786-91b9ed0b88b1?q=80&w=800",
-    desc: "Descend the legendary Vallée Blanche. Heli-drops, off-piste powder fields, and the highest cable car in the Alps.",
-    includes: ["IFMGA-certified mountain guide", "Ski equipment package", "Chalet accommodation", "Avalanche safety course"],
+    id: "huile",
+    name: "Huile Précieuse",
+    subtitle: "Huile végétale multi-usage",
+    price: "59€",
+    tag: "Vegan",
+    tagColor: "#16A34A",
+    ingredient: "Huile d'Argan & Rosehip",
+    desc: "Visage, corps, cheveux. Une huile précieuse aux 7 huiles botaniques certifiées bio.",
+    img: "photo-1598452963314-b09f397a5c48",
+    stars: 4.7,
+    reviews: 276,
+    icon: Droplets,
   },
   {
-    id: 4,
-    title: "Great Barrier Reef Dive",
-    type: "Open Water",
-    difficulty: "Beginner-Friendly",
-    duration: "5 days",
-    price: "$1,890",
-    altitude: "−15m",
-    continent: "Oceania",
-    img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=800",
-    desc: "Explore the world's largest living structure. Dive vibrant coral gardens, encounter sea turtles, and witness marine biodiversity at scale.",
-    includes: ["PADI-certified dive master", "3 dives daily", "Liveaboard vessel", "Marine biologist briefings"],
+    id: "tonique",
+    name: "Tonique Floral",
+    subtitle: "Eau de soin à la rose",
+    price: "34€",
+    tag: "Incontournable",
+    tagColor: C.primary,
+    ingredient: "Eau Florale de Rose & Pivoine",
+    desc: "Tonique apaisant et hydratant. À utiliser matin et soir après le nettoyage.",
+    img: "photo-1596462502278-27bfdc403348",
+    stars: 4.9,
+    reviews: 521,
+    icon: Heart,
   },
   {
-    id: 5,
-    title: "Serengeti Safari Adventure",
-    type: "Wildlife Safari",
-    difficulty: "Accessible",
-    duration: "8 days",
-    price: "$5,200",
-    altitude: "1,500m",
-    continent: "Africa",
-    img: "https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=800",
-    desc: "Witness the Great Migration — two million wildebeest moving across the plains. Sundowners on the Serengeti. This is raw Africa.",
-    includes: ["Expert Masai guide", "Private 4×4 game drive", "Luxury tented camp", "Bush breakfast & dinner"],
+    id: "masque",
+    name: "Masque Argile",
+    subtitle: "Masque purifiant hebdomadaire",
+    price: "44€",
+    tag: "Purifiant",
+    tagColor: "#92400E",
+    ingredient: "Argile Blanche & Aloe Vera",
+    desc: "Nettoie en profondeur les pores, réduit les imperfections. 10 minutes pour une peau nette.",
+    img: "photo-1522337360788-8b13dee7a37e",
+    stars: 4.6,
+    reviews: 183,
+    icon: Leaf,
+  },
+  {
+    id: "contour",
+    name: "Contour Yeux",
+    subtitle: "Soin spécifique regard",
+    price: "64€",
+    tag: "Anti-âge",
+    tagColor: C.lavender,
+    ingredient: "Peptides & Caféine",
+    desc: "Cernes, poches, ridules : ce soin complet transforme le regard en 4 semaines.",
+    img: "photo-1598452963314-b09f397a5c48",
+    stars: 4.8,
+    reviews: 147,
+    icon: Sun,
+  },
+]
+
+const RITUELS = [
+  {
+    step: "01",
+    label: "Purifier",
+    desc: "Commencez par nettoyer votre peau en douceur avec notre Gel Nettoyant Micellair au calendula. Il élimine impuretés et pollution sans altérer le film hydrolipidique.",
+    product: "Gel Nettoyant Micellair",
+    icon: Droplets,
+  },
+  {
+    step: "02",
+    label: "Hydrater",
+    desc: "Appliquez le Tonique Floral sur coton ou directement sur la peau pour préparer et hydrater. La peau devient réceptive aux soins suivants.",
+    product: "Tonique Floral",
+    icon: Heart,
+  },
+  {
+    step: "03",
+    label: "Illuminer",
+    desc: "Appliquez 3 à 4 gouttes du Sérum Éclat par petits tapotements sur le visage et le cou. La Vitamine C illumine, la Rose de Damas régénère.",
+    product: "Sérum Éclat",
+    icon: Sparkles,
+  },
+  {
+    step: "04",
+    label: "Protéger",
+    desc: "Terminez avec la Crème Jour pour sceller les actifs et protéger votre peau tout au long de la journée. SPF 20 inclus.",
+    product: "Crème Jour SPF 20",
+    icon: Sun,
+  },
+]
+
+const INGREDIENTS = [
+  {
+    name: "Rose de Damas",
+    scientific: "Rosa damascena",
+    benefit: "Régénération cellulaire, anti-oxydant puissant",
+    origin: "Bulgarie",
+    desc: "Récoltée à l'aube en mai, distillée dans les 6h. 5 tonnes de roses pour 1kg d'huile essentielle pure.",
+    icon: Sparkles,
+    color: C.primary,
+  },
+  {
+    name: "Acide Hyaluronique",
+    scientific: "Sodium Hyaluronate",
+    benefit: "Hydratation profonde, repulpant immédiat",
+    origin: "Synthèse fermentative",
+    desc: "Capacité à retenir jusqu'à 1000x son poids en eau. 3 poids moléculaires pour agir à toutes les profondeurs.",
+    icon: Droplets,
+    color: "#3B82F6",
+  },
+  {
+    name: "Huile d'Argan",
+    scientific: "Argania spinosa kernel oil",
+    benefit: "Nutrition intense, anti-âge naturel",
+    origin: "Maroc (certifié bio)",
+    desc: "Extraite à froid de l'Arganier. Riche en acides gras oméga-6 et en vitamine E. Peau velours garantie.",
+    icon: Leaf,
+    color: "#D97706",
+  },
+  {
+    name: "Extrait de Pivoine",
+    scientific: "Paeonia suffruticosa",
+    benefit: "Anti-taches, éclat immédiat",
+    origin: "Chine · Agriculture raisonnée",
+    desc: "L'actif star de notre sérum. Inhibe la mélanine en surface et prévient l'apparition de nouvelles taches brunes.",
+    icon: Heart,
+    color: C.primary,
+  },
+  {
+    name: "Vitamines C+E",
+    scientific: "Ascorbyl Glucoside · Tocopherol",
+    benefit: "Anti-oxydant double action",
+    origin: "Source végétale",
+    desc: "La synergie C+E multiplie par 4 l'efficacité anti-oxydante. Protège contre le vieillissement prématuré.",
+    icon: Sun,
+    color: "#F59E0B",
+  },
+  {
+    name: "Squalane",
+    scientific: "Squalane (olive-derived)",
+    benefit: "Hydratation légère, film protecteur",
+    origin: "Olive · Portugal",
+    desc: "Identique au squalane naturellement produit par notre peau. Ultra-léger, non comédogène, convient à toutes peaux.",
+    icon: Award,
+    color: C.lavender,
+  },
+]
+
+const REVIEWS = [
+  {
+    text: "Le Sérum Éclat a complètement transformé mon teint en 3 semaines. Mes taches de grossesse ont nettement diminué. Je recommande les yeux fermés.",
+    author: "Camille D.",
+    age: 34,
+    skin: "Peau mixte, post-grossesse",
+    result: "Taches -60% en 3 semaines",
+    stars: 5,
+  },
+  {
+    text: "Enfin une marque vegan et cruelty-free dont les produits fonctionnent vraiment ! La Crème Nuit sent le paradis et ma peau est incroyablement douce au réveil.",
+    author: "Sophie M.",
+    age: 28,
+    skin: "Peau sèche sensible",
+    result: "Hydratation +80% en 48h",
+    stars: 5,
+  },
+  {
+    text: "J'ai testé des dizaines de sérums à 100€+. Lumière est la seule marque où j'ai vu des résultats concrets et mesurables. Les formules sont d'une efficacité rare.",
+    author: "Isabelle P.",
+    age: 45,
+    skin: "Peau mature, rides d'expression",
+    result: "Ridules lissées visiblement",
+    stars: 5,
+  },
+  {
+    text: "L'Huile Précieuse est mon must-have absolu. Je l'utilise sur le visage, les pointes et les ongles. La texture est sublime, aucun film gras.",
+    author: "Léa F.",
+    age: 31,
+    skin: "Peau normale à tendance sèche",
+    result: "Peau satinée dès J1",
+    stars: 5,
+  },
+]
+
+const PRESS_ITEMS = [
+  { name: "Vogue France", issue: "Beauté Naturelle 2025", quote: "Lumière redéfinit le luxe skincare accessible." },
+  { name: "Elle France", issue: "Clean Beauty Edit", quote: "Les formules les plus efficaces de notre sélection vegan." },
+  { name: "Marie Claire", issue: "Prix Beauté Or", quote: "Coup de cœur absolu : le Sérum Éclat mérite son nom." },
+  { name: "Cosmopolitan", issue: "Top 10 Serums 2025", quote: "Le sérum qui tient toutes ses promesses anti-taches." },
+  { name: "Le Figaro Madame", issue: "Luxe & Naturalité", quote: "L'atelier Lumière, où naît la beauté de demain." },
+]
+
+const SETS = [
+  {
+    name: "Essentiel",
+    price: "89€",
+    original: "127€",
+    saving: "Économisez 38€",
+    items: ["Tonique Floral 150ml", "Sérum Éclat 30ml (mini)", "Crème Jour 50ml"],
+    badge: "Idéal pour commencer",
+    badgeColor: C.primary,
+    highlight: false,
+    cta: "Choisir",
+  },
+  {
+    name: "Rituel",
+    price: "159€",
+    original: "226€",
+    saving: "Économisez 67€",
+    items: ["Gel Nettoyant 150ml", "Tonique Floral 150ml", "Sérum Éclat 50ml", "Crème Nuit 50ml"],
+    badge: "Le plus populaire",
+    badgeColor: C.lavender,
+    highlight: true,
+    cta: "Commander",
+  },
+  {
+    name: "Prestige",
+    price: "249€",
+    original: "370€",
+    saving: "Économisez 121€",
+    items: ["Routine complète 7 produits", "Huile Précieuse 30ml", "Masque Argile 75ml", "Contour Yeux 15ml", "Pochette Lumière offerte"],
+    badge: "L'expérience totale",
+    badgeColor: "#D97706",
+    highlight: false,
+    cta: "Choisir",
   },
 ]
 
 const MARQUEE_ITEMS = [
-  "Everest Base Camp", "North Shore Hawaii", "Chamonix Mont-Blanc", "Great Barrier Reef",
-  "Serengeti Plains", "Patagonia", "Dolomites", "Maldives Atolls", "Atacama Desert",
-  "Norwegian Fjords", "Kilimanjaro", "Raja Ampat",
+  "Sérum Rose",
+  "Crème Lumière",
+  "Huile Précieuse",
+  "Gommage Perle",
+  "Eau Florale",
+  "Masque Or",
+  "Baume Lèvres",
+  "Contour Yeux",
+  "Tonique Pivoine",
+  "Brume Éclat",
 ]
 
-const TESTIMONIALS = [
-  {
-    quote: "Standing at Everest Base Camp, I cried. Not from exhaustion — from the realization that I had actually done it. Summit Wilds made it possible.",
-    name: "Marcus D.",
-    trip: "Everest Base Camp Trek",
-    location: "Munich, Germany",
-  },
-  {
-    quote: "I had never surfed in my life. Seven days later I was catching head-high sets on the North Shore. The coaching is just exceptional.",
-    name: "Camille R.",
-    trip: "Hawaiian Wave Mastery",
-    location: "Lyon, France",
-  },
-  {
-    quote: "The Serengeti at dawn, a cheetah sprinting fifty meters from the jeep. Nothing prepares you for that. Summit Wilds' guides are in a class of their own.",
-    name: "James O.",
-    trip: "Serengeti Safari",
-    location: "Cape Town, South Africa",
-  },
-]
-
-const DEPARTURES = [
-  { expedition: "Everest Base Camp Trek", date: "Sep 15, 2026", spots: 3, difficulty: "Expert" },
-  { expedition: "Chamonix Ski Expedition", date: "Jan 08, 2027", spots: 5, difficulty: "Advanced" },
-  { expedition: "Hawaiian Wave Mastery", date: "Oct 03, 2026", spots: 6, difficulty: "Intermediate" },
-  { expedition: "Serengeti Safari Adventure", date: "Aug 22, 2026", spots: 2, difficulty: "Accessible" },
-  { expedition: "Great Barrier Reef Dive", date: "Nov 12, 2026", spots: 4, difficulty: "Beginner" },
-]
-
-// ─── Utility: TextReveal ──────────────────────────────────────────────────────
-function TextReveal({ text, delay = 0, style = {} }: { text: string; delay?: number; style?: React.CSSProperties }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-80px" })
-  const words = text.split(" ")
-  return (
-    <span ref={ref} style={{ display: "inline-block", ...style }}>
-      {words.map((word, i) => (
-        <motion.span
-          key={i}
-          initial={{ opacity: 0, y: 32, rotateX: -20 }}
-          animate={inView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
-          transition={{ duration: 0.55, delay: delay + i * 0.07, ease: [0.16, 1, 0.3, 1] }}
-          style={{ display: "inline-block", marginRight: "0.28em", transformOrigin: "bottom" }}
-        >
-          {word}
-        </motion.span>
-      ))}
-    </span>
-  )
+/* ==========================================================================
+   HOOKS
+   ========================================================================== */
+function useFonts() {
+  useEffect(() => {
+    const id = "lumiere-fonts"
+    if (!document.getElementById(id)) {
+      const style = document.createElement("style")
+      style.id = id
+      style.innerHTML = FONTS
+      document.head.appendChild(style)
+    }
+  }, [])
 }
 
-// ─── Utility: MagneticButton ──────────────────────────────────────────────────
-function MagneticButton({
+function useScrollProgress() {
+  const [progress, setProgress] = useState(0)
+  useEffect(() => {
+    const onScroll = () => {
+      const total = document.documentElement.scrollHeight - window.innerHeight
+      setProgress(total > 0 ? (window.scrollY / total) * 100 : 0)
+    }
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+  return progress
+}
+
+/* ==========================================================================
+   REVEAL COMPONENT
+   ========================================================================== */
+function Reveal({
   children,
-  onClick,
-  style = {},
+  delay = 0,
+  y = 40,
+  x = 0,
+  className = "",
 }: {
   children: React.ReactNode
-  onClick?: () => void
-  style?: React.CSSProperties
+  delay?: number
+  y?: number
+  x?: number
+  className?: string
 }) {
-  const x = useMotionValue(0)
-  const y = useMotionValue(0)
-  const sx = useSpring(x, { stiffness: 600, damping: 28 })
-  const sy = useSpring(y, { stiffness: 600, damping: 28 })
   const ref = useRef<HTMLDivElement>(null)
-
-  const onMove = (e: React.MouseEvent) => {
-    const r = ref.current!.getBoundingClientRect()
-    x.set((e.clientX - r.left - r.width / 2) * 0.38)
-    y.set((e.clientY - r.top - r.height / 2) * 0.38)
-  }
-  const onLeave = () => { x.set(0); y.set(0) }
-
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
   return (
     <motion.div
       ref={ref}
-      style={{ x: sx, y: sy, display: "inline-block", cursor: "pointer", ...style }}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
-      onClick={onClick}
-      whileTap={{ scale: 0.96 }}
+      initial={{ opacity: 0, y, x }}
+      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
+      transition={{ duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
     >
       {children}
     </motion.div>
   )
 }
 
-// ─── Utility: FadeIn ──────────────────────────────────────────────────────────
-function FadeIn({ children, delay = 0, y = 24 }: { children: React.ReactNode; delay?: number; y?: number }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
+/* ==========================================================================
+   SCROLL PROGRESS BAR
+   ========================================================================== */
+function ScrollProgressBar() {
+  const progress = useScrollProgress()
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
-      {children}
-    </motion.div>
+    <div className="fixed top-0 left-0 right-0 z-[100] h-[2px]">
+      <motion.div
+        className="h-full origin-left"
+        style={{ background: `linear-gradient(to right, ${C.primary}, ${C.lavender})`, scaleX: progress / 100, transformOrigin: "left" }}
+      />
+    </div>
   )
 }
 
-// ─── Section 1: Nav ───────────────────────────────────────────────────────────
-function Nav({ onBook }: { onBook: () => void }) {
-  const { scrollY } = useScroll()
-  const bg = useTransform(scrollY, [0, 80], ["rgba(5,7,8,0)", "rgba(5,7,8,0.97)"])
-  const borderOp = useTransform(scrollY, [0, 80], [0, 1])
+/* ==========================================================================
+   NAVIGATION
+   ========================================================================== */
+function Nav({ scrolled }: { scrolled: boolean }) {
   const [open, setOpen] = useState(false)
 
   return (
-    <motion.nav
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 100,
-        background: bg,
-        borderBottom: `1px solid rgba(58,168,200,${borderOp})`,
-        padding: "0 40px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        height: 68,
-        fontFamily: C.fontBody,
-        backdropFilter: "blur(12px)",
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <div style={{
-          width: 8, height: 8, borderRadius: "50%",
-          background: C.sky, boxShadow: `0 0 10px ${C.sky}`,
-        }} />
-        <span style={{ color: C.snow, fontWeight: 700, fontSize: 17, letterSpacing: "0.04em" }}>
-          SUMMIT WILDS
-        </span>
-      </div>
-      <div style={{ display: "flex", gap: 36, alignItems: "center" }}>
-        {["Expeditions", "Philosophy", "Why Us", "Contact"].map((item) => (
-          <motion.a
-            key={item}
-            onClick={() => document.getElementById(item.toLowerCase().replace(" ", "-"))?.scrollIntoView({behavior:"smooth"})}
-            whileHover={{ color: C.sky }}
-            style={{ color: C.muted, fontSize: 13, fontWeight: 500, letterSpacing: "0.08em", textDecoration: "none", transition: "color 0.2s" }}
-          >
-            {item.toUpperCase()}
-          </motion.a>
-        ))}
-        <MagneticButton onClick={onBook}>
-          <div style={{
-            padding: "9px 22px",
-            background: C.orange,
-            color: "#fff",
-            borderRadius: 6,
-            fontSize: 13,
-            fontWeight: 600,
-            letterSpacing: "0.06em",
-          }}>
-            BOOK NOW
-          </div>
-        </MagneticButton>
-      </div>
-    </motion.nav>
-  )
-}
-
-// ─── Section 2: Hero ──────────────────────────────────────────────────────────
-function Hero({ onBook }: { onBook: () => void }) {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] })
-  const y = useTransform(scrollYProgress, [0, 1], [0, 120])
-  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
-
-  return (
-    <section ref={ref} style={{
-      position: "relative",
-      height: "100vh",
-      minHeight: 700,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      overflow: "hidden",
-      background: C.bg,
-      fontFamily: C.fontBody,
-    }}>
-      {/* Parallax background image */}
-      <motion.div style={{ position: "absolute", inset: 0, y }}>
-        <div style={{
-          position: "absolute", inset: 0,
-          backgroundImage: "url(https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1600)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          opacity: 0.35,
-        }} />
-        <div style={{
-          position: "absolute", inset: 0,
-          background: `linear-gradient(to bottom, rgba(5,7,8,0.4) 0%, rgba(5,7,8,0.7) 60%, ${C.bg} 100%)`,
-        }} />
-      </motion.div>
-
-      {/* Floating particles */}
-      {[...Array(10)].map((_, i) => (
-        <motion.div
-          key={i}
-          style={{
-            position: "absolute",
-            width: i % 3 === 0 ? 3 : 2,
-            height: i % 3 === 0 ? 3 : 2,
-            borderRadius: "50%",
-            background: i % 2 === 0 ? C.sky : C.orange,
-            left: `${10 + i * 9}%`,
-            top: `${20 + (i % 4) * 20}%`,
-            opacity: 0.5,
-          }}
-          animate={{
-            y: [0, -18, 0],
-            opacity: [0.3, 0.7, 0.3],
-          }}
-          transition={{ duration: 3 + i * 0.4, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
-        />
-      ))}
-
-      <motion.div style={{ position: "relative", zIndex: 2, textAlign: "center", padding: "0 24px", opacity }}>
-        {/* Floating badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            padding: "7px 18px",
-            border: `1px solid ${C.border}`,
-            borderRadius: 100,
-            background: "rgba(58,168,200,0.08)",
-            backdropFilter: "blur(8px)",
-            marginBottom: 32,
-          }}
-        >
-          <div style={{ width: 6, height: 6, borderRadius: "50%", background: C.sky, boxShadow: `0 0 8px ${C.sky}` }} />
-          <span style={{ color: C.sky, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", fontFamily: C.fontMono }}>
-            5 CONTINENTS · 12 EXPEDITIONS · 180+ CLIENTS
-          </span>
-        </motion.div>
-
-        <h1 style={{
-          color: C.snow,
-          fontSize: "clamp(52px, 9vw, 104px)",
-          fontWeight: 900,
-          lineHeight: 0.95,
-          letterSpacing: "-0.02em",
-          marginBottom: 28,
-          fontFamily: C.fontBody,
-        }}>
-          <TextReveal text="Your next" delay={0.3} />
-          <br />
-          <span style={{ color: C.sky, display: "block" }}>
-            <TextReveal text="expedition" delay={0.5} />
-          </span>
-          <TextReveal text="awaits." delay={0.7} />
-        </h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 1.0 }}
-          style={{ color: C.muted, fontSize: 18, maxWidth: 520, margin: "0 auto 44px", lineHeight: 1.65, fontFamily: C.fontMono }}
-        >
-          Expert-guided adventures to the most extraordinary places on Earth.
-          Small groups. Zero compromises.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 1.2 }}
-          style={{ display: "flex", gap: 16, justifyContent: "center", alignItems: "center" }}
-        >
-          <MagneticButton onClick={onBook}>
-            <div style={{
-              padding: "15px 38px",
-              background: C.orange,
-              color: "#fff",
-              borderRadius: 8,
-              fontSize: 14,
-              fontWeight: 700,
-              letterSpacing: "0.08em",
-              boxShadow: `0 0 32px rgba(224,123,63,0.35)`,
-            }}>
-              VIEW EXPEDITIONS
-            </div>
-          </MagneticButton>
-          <MagneticButton>
-            <div style={{
-              padding: "15px 38px",
-              border: `1px solid ${C.border}`,
-              color: C.snow,
-              borderRadius: 8,
-              fontSize: 14,
-              fontWeight: 500,
-              letterSpacing: "0.08em",
-              background: "rgba(255,255,255,0.03)",
-            }}>
-              OUR PHILOSOPHY
-            </div>
-          </MagneticButton>
-        </motion.div>
-      </motion.div>
-
-      {/* Scroll cue */}
-      <motion.div
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 1.8, repeat: Infinity }}
+    <>
+      <motion.nav
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         style={{
-          position: "absolute",
-          bottom: 36,
-          left: "50%",
-          transform: "translateX(-50%)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 6,
+          backgroundColor: scrolled ? "rgba(253,242,248,0.92)" : "transparent",
+          backdropFilter: scrolled ? "blur(24px)" : "none",
+          borderBottom: scrolled ? `1px solid ${C.primaryBorder}` : "1px solid transparent",
         }}
       >
-        <div style={{ width: 1, height: 40, background: `linear-gradient(to bottom, transparent, ${C.sky})` }} />
-        <span style={{ color: C.muted, fontSize: 10, letterSpacing: "0.15em", fontFamily: C.fontMono }}>SCROLL</span>
-      </motion.div>
-    </section>
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 flex items-center justify-between h-[72px]">
+          {/* Logo */}
+          <Link href="#" className="flex items-center gap-2">
+            <Sparkles size={18} color={C.primary} />
+            <span
+              className="text-[26px] tracking-[0.06em]"
+              style={{
+                fontFamily: "'Playfair Display', serif",
+                fontStyle: "italic",
+                fontWeight: 600,
+                color: scrolled ? C.text : C.text,
+              }}
+            >
+              LUMIÈRE
+            </span>
+          </Link>
+
+          {/* Desktop links */}
+          <div className="hidden lg:flex items-center gap-10">
+            {NAV_LINKS.map((l) => (
+              <Link
+                key={l.label}
+                href={l.href}
+                className="text-[12px] tracking-[0.14em] font-[500] transition-colors duration-300 hover:text-[#EC4899]"
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  color: C.textMuted,
+                  textTransform: "uppercase",
+                }}
+              >
+                {l.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* CTA + hamburger */}
+          <div className="flex items-center gap-4">
+            <Link
+              href="#sets"
+              className="hidden lg:flex items-center gap-2 px-6 py-2.5 text-[11px] tracking-[0.14em] uppercase transition-all duration-300 hover:opacity-90 rounded-full"
+              style={{
+                fontFamily: "'Inter', sans-serif",
+                fontWeight: 500,
+                background: `linear-gradient(135deg, ${C.primary}, ${C.lavender})`,
+                color: "#fff",
+              }}
+            >
+              Boutique
+              <ShoppingBag size={13} />
+            </Link>
+            <button
+              onClick={() => setOpen(true)}
+              className="lg:hidden p-2 transition-opacity hover:opacity-60"
+              aria-label="Menu"
+            >
+              <Menu size={22} color={C.text} />
+            </button>
+          </div>
+        </div>
+      </motion.nav>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-[60] flex flex-col"
+            style={{ backgroundColor: C.pink }}
+          >
+            <div className="flex items-center justify-between px-6 h-[72px]" style={{ borderBottom: `1px solid ${C.primaryBorder}` }}>
+              <span
+                className="text-[24px] tracking-[0.06em] italic flex items-center gap-2"
+                style={{ fontFamily: "'Playfair Display', serif", color: C.text, fontWeight: 600 }}
+              >
+                <Sparkles size={16} color={C.primary} />
+                LUMIÈRE
+              </span>
+              <button onClick={() => setOpen(false)} className="p-2 transition-opacity hover:opacity-60" style={{ color: C.text }}>
+                <X size={22} />
+              </button>
+            </div>
+            <div className="flex-1 flex flex-col justify-center px-10 gap-8">
+              {NAV_LINKS.map((l, i) => (
+                <motion.div
+                  key={l.label}
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.07 + 0.1 }}
+                >
+                  <Link
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    className="text-[32px] italic hover:opacity-60 transition-opacity"
+                    style={{ fontFamily: "'Playfair Display', serif", color: C.text, fontWeight: 500 }}
+                  >
+                    {l.label}
+                  </Link>
+                </motion.div>
+              ))}
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
+                <Link
+                  href="#sets"
+                  onClick={() => setOpen(false)}
+                  className="inline-flex items-center gap-2 px-8 py-3 rounded-full text-[11px] tracking-[0.14em] uppercase mt-4"
+                  style={{
+                    background: `linear-gradient(135deg, ${C.primary}, ${C.lavender})`,
+                    color: "#fff",
+                    fontFamily: "'Inter', sans-serif",
+                    fontWeight: 500,
+                  }}
+                >
+                  <ShoppingBag size={14} />
+                  Boutique
+                </Link>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   )
 }
 
-// ─── Section 3: MarqueeStrip ──────────────────────────────────────────────────
-function MarqueeStrip() {
-  const doubled = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS]
+/* ==========================================================================
+   MARQUEE
+   ========================================================================== */
+function Marquee() {
+  const items = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS]
   return (
-    <div style={{
-      background: C.bgMid,
-      borderTop: `1px solid ${C.border}`,
-      borderBottom: `1px solid ${C.border}`,
-      padding: "16px 0",
-      overflow: "hidden",
-      position: "relative",
-      fontFamily: C.fontMono,
-    }}>
+    <div
+      className="overflow-hidden py-5 relative"
+      style={{ background: `linear-gradient(135deg, ${C.primary}, ${C.lavender})` }}
+    >
       <motion.div
+        className="flex gap-12 whitespace-nowrap"
         animate={{ x: ["0%", "-50%"] }}
-        transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-        style={{ display: "flex", gap: 0, whiteSpace: "nowrap" }}
+        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
       >
-        {doubled.map((item, i) => (
-          <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 0 }}>
-            <span style={{ color: C.muted, fontSize: 12, fontWeight: 500, letterSpacing: "0.12em", padding: "0 28px" }}>
-              {item.toUpperCase()}
+        {items.map((item, i) => (
+          <span key={i} className="flex items-center gap-4 flex-shrink-0">
+            <span
+              className="text-[11px] tracking-[0.22em] uppercase"
+              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, color: "#fff" }}
+            >
+              {item}
             </span>
-            <span style={{ color: C.sky, fontSize: 10, opacity: 0.6 }}>✦</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-white/40 flex-shrink-0" />
           </span>
         ))}
       </motion.div>
@@ -461,1104 +583,1285 @@ function MarqueeStrip() {
   )
 }
 
-// ─── Section 4 SIGNATURE: AltitudeChart ──────────────────────────────────────
-function AltitudeChart() {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-100px" })
-
-  // SVG path for Everest-style elevation profile
-  const mainPath = "M0,180 L40,168 L80,155 L110,138 L140,115 L165,90 L185,62 L200,38 L220,22 L240,30 L258,52 L275,80 L295,108 L320,128 L355,142 L395,152 L440,158 L500,162"
-  const areaPath = `${mainPath} L500,200 L0,200 Z`
-
-  // Key points for labels
-  const labelPoints = [
-    { x: 220, y: 22, label: "8,849m", sub: "Summit", align: "center" as const },
-    { x: 165, y: 90, label: "6,500m", sub: "Camp III", align: "center" as const },
-    { x: 110, y: 138, label: "5,364m", sub: "Base Camp", align: "center" as const },
-    { x: 395, y: 152, label: "4,200m", sub: "Descent", align: "center" as const },
-  ]
-
-  // Dot animation: moves along path after drawing completes
-  const dotProgress = useMotionValue(0)
-  const dotSpring = useSpring(dotProgress, { stiffness: 30, damping: 20 })
-
-  useEffect(() => {
-    if (!inView) return
-    const timer = setTimeout(() => {
-      dotProgress.set(1)
-    }, 2200)
-    return () => clearTimeout(timer)
-  }, [inView, dotProgress])
-
-  // We'll animate dot via offsetDistance on a motion path
-  const dotOffset = useTransform(dotSpring, [0, 1], ["0%", "100%"])
+/* ==========================================================================
+   HERO SECTION — SPLIT LAYOUT
+   ========================================================================== */
+function Hero() {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] })
+  const yImg = useTransform(scrollYProgress, [0, 1], ["0%", "18%"])
+  const yText = useTransform(scrollYProgress, [0, 1], ["0%", "10%"])
 
   return (
-    <section id="philosophy" style={{
-      background: C.bg,
-      borderTop: `1px solid ${C.border}`,
-      borderBottom: `1px solid ${C.border}`,
-      padding: "100px 40px",
-      fontFamily: C.fontBody,
-    }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        {/* Header */}
-        <div style={{ display: "flex", gap: 80, alignItems: "flex-start", marginBottom: 64, flexWrap: "wrap" }}>
-          <div style={{ flex: "1 1 320px" }}>
-            <FadeIn>
-              <div style={{ color: C.sky, fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", fontFamily: C.fontMono, marginBottom: 16 }}>
-                ELEVATION PROFILE
-              </div>
-              <h2 style={{ color: C.snow, fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.02em", marginBottom: 20 }}>
-                The altitude<br />
-                <span style={{ color: C.sky }}>shapes the soul.</span>
-              </h2>
-              <p style={{ color: C.muted, fontSize: 15, lineHeight: 1.75, maxWidth: 360, fontFamily: C.fontMono }}>
-                Every summit tells a story of perseverance. We map each expedition
-                from approach to peak — so you know exactly what awaits.
-              </p>
-            </FadeIn>
-          </div>
-          <div style={{ flex: "1 1 220px", display: "flex", gap: 40 }}>
-            {[
-              { value: "5", label: "Continents" },
-              { value: "12", label: "Expeditions" },
-              { value: "180+", label: "Clients" },
-            ].map((stat) => (
-              <FadeIn key={stat.label} delay={0.15}>
-                <div style={{ textAlign: "center" }}>
-                  <div style={{ color: C.snow, fontSize: 40, fontWeight: 900, letterSpacing: "-0.03em", lineHeight: 1 }}>
-                    {stat.value}
-                  </div>
-                  <div style={{ color: C.muted, fontSize: 12, fontFamily: C.fontMono, marginTop: 6, letterSpacing: "0.08em" }}>
-                    {stat.label.toUpperCase()}
-                  </div>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
+    <section
+      ref={ref}
+      className="relative min-h-screen flex items-center overflow-hidden"
+      style={{ backgroundColor: C.pink }}
+    >
+      {/* Left: content */}
+      <motion.div
+        className="relative z-[2] w-full lg:w-[45%] px-6 md:px-12 lg:pl-16 lg:pr-12 pt-28 pb-20 flex flex-col justify-center"
+        style={{ y: yText }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.7 }}
+          className="flex items-center gap-3 mb-8"
+        >
+          <div className="h-[1px] w-10" style={{ backgroundColor: C.primary }} />
+          <span
+            className="text-[10px] tracking-[0.28em] uppercase"
+            style={{ fontFamily: "'Inter', sans-serif", color: C.primary, fontWeight: 500 }}
+          >
+            Soins d'exception · 100% vegan
+          </span>
+        </motion.div>
 
-        {/* SVG Chart */}
-        <FadeIn delay={0.2}>
-          <div ref={ref} style={{
-            position: "relative",
-            background: C.bgCard,
-            border: `1px solid ${C.border}`,
-            borderRadius: 16,
-            padding: "40px 40px 32px",
-            overflow: "hidden",
-          }}>
-            {/* Background grid lines */}
-            <svg
-              viewBox="0 0 500 200"
-              style={{ position: "absolute", inset: "40px 40px 32px", width: "calc(100% - 80px)", height: "calc(100% - 72px)", pointerEvents: "none" }}
-              preserveAspectRatio="none"
-            >
-              {[0.2, 0.4, 0.6, 0.8].map((t, i) => (
-                <line
-                  key={i}
-                  x1="0" y1={200 * t}
-                  x2="500" y2={200 * t}
-                  stroke={C.border}
-                  strokeWidth="0.5"
-                  strokeDasharray="4 6"
-                />
-              ))}
-            </svg>
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-7 leading-[1.1]"
+          style={{
+            fontFamily: "'Playfair Display', serif",
+            fontStyle: "italic",
+            fontWeight: 600,
+            fontSize: "clamp(42px, 5.5vw, 80px)",
+            color: C.text,
+          }}
+        >
+          La Beauté
+          <br />
+          Authentique
+          <br />
+          <span style={{ color: C.primary }}>de la Nature</span>
+        </motion.h1>
 
-            {/* Main chart SVG */}
-            <svg
-              viewBox="0 0 500 200"
-              style={{ width: "100%", height: "auto", maxHeight: 260, display: "block" }}
-              preserveAspectRatio="xMidYMid meet"
-            >
-              <defs>
-                <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor={C.sky} stopOpacity="0.3" />
-                  <stop offset="100%" stopColor={C.sky} stopOpacity="0.0" />
-                </linearGradient>
-                <filter id="glow">
-                  <feGaussianBlur stdDeviation="2" result="blur" />
-                  <feMerge>
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.75, duration: 0.8 }}
+          className="text-[15px] leading-[1.8] mb-10 max-w-[400px]"
+          style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.textMuted }}
+        >
+          Formulés en petits lots dans notre atelier parisien, nos soins unissent la puissance de la botanique et la précision de la cosmétologie moderne.
+        </motion.p>
 
-              {/* Area fill — fades in after path draws */}
-              <motion.path
-                d={areaPath}
-                fill="url(#skyGrad)"
-                initial={{ opacity: 0 }}
-                animate={inView ? { opacity: 1 } : { opacity: 0 }}
-                transition={{ duration: 1.2, delay: 1.6 }}
-              />
-
-              {/* Animated stroke path */}
-              <motion.path
-                d={mainPath}
-                fill="none"
-                stroke={C.sky}
-                strokeWidth="2.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                filter="url(#glow)"
-                initial={{ pathLength: 0, opacity: 1 }}
-                animate={inView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 1 }}
-                transition={{ duration: 2.0, ease: [0.4, 0, 0.2, 1], delay: 0.3 }}
-                style={{ pathLength: undefined }}
-              />
-
-              {/* Altitude label vertical lines */}
-              {labelPoints.map((pt, i) => (
-                <motion.g
-                  key={i}
-                  initial={{ opacity: 0 }}
-                  animate={inView ? { opacity: 1 } : { opacity: 0 }}
-                  transition={{ delay: 2.2 + i * 0.1, duration: 0.4 }}
-                >
-                  <line
-                    x1={pt.x} y1={pt.y}
-                    x2={pt.x} y2={pt.y - 22}
-                    stroke={C.orange}
-                    strokeWidth="0.8"
-                    strokeDasharray="3 3"
-                  />
-                  <circle cx={pt.x} cy={pt.y} r="3" fill={C.orange} />
-                  <text
-                    x={pt.x}
-                    y={pt.y - 30}
-                    textAnchor="middle"
-                    fill={C.snow}
-                    fontSize="8"
-                    fontFamily={C.fontMono}
-                    fontWeight="600"
-                  >
-                    {pt.label}
-                  </text>
-                  <text
-                    x={pt.x}
-                    y={pt.y - 20}
-                    textAnchor="middle"
-                    fill={C.muted}
-                    fontSize="6.5"
-                    fontFamily={C.fontMono}
-                  >
-                    {pt.sub}
-                  </text>
-                </motion.g>
-              ))}
-
-              {/* Animated climber dot — travels along path after drawing */}
-              <motion.circle
-                r="5"
-                fill={C.sky}
-                stroke={C.snow}
-                strokeWidth="1.5"
-                filter="url(#glow)"
-                style={{
-                  offsetPath: `path("${mainPath}")`,
-                  offsetDistance: dotOffset,
-                } as React.CSSProperties}
-                initial={{ opacity: 0 }}
-                animate={inView ? { opacity: 1 } : { opacity: 0 }}
-                transition={{ delay: 2.1, duration: 0.3 }}
-              />
-            </svg>
-
-            {/* X-axis labels */}
-            <div style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginTop: 12,
-              padding: "0 2px",
-            }}>
-              {["Lukla", "Namche Bazaar", "Base Camp", "Khumbu Icefall", "Summit", "Return", "Kathmandu"].map((label) => (
-                <span key={label} style={{
-                  color: C.muted,
-                  fontSize: 9,
-                  fontFamily: C.fontMono,
-                  letterSpacing: "0.06em",
-                }}>
-                  {label}
-                </span>
-              ))}
-            </div>
-
-            {/* Legend */}
-            <div style={{
-              position: "absolute",
-              top: 16,
-              right: 24,
-              display: "flex",
-              alignItems: "center",
-              gap: 20,
-            }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <div style={{ width: 20, height: 2, background: C.sky, borderRadius: 2 }} />
-                <span style={{ color: C.muted, fontSize: 10, fontFamily: C.fontMono }}>Elevation profile</span>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <div style={{ width: 8, height: 8, borderRadius: "50%", background: C.orange }} />
-                <span style={{ color: C.muted, fontSize: 10, fontFamily: C.fontMono }}>Key waypoints</span>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <div style={{ width: 8, height: 8, borderRadius: "50%", background: C.sky, border: `1px solid ${C.snow}` }} />
-                <span style={{ color: C.muted, fontSize: 10, fontFamily: C.fontMono }}>Your position</span>
-              </div>
-            </div>
-          </div>
-        </FadeIn>
-      </div>
-    </section>
-  )
-}
-
-// ─── Section 5: Expeditions ───────────────────────────────────────────────────
-function Expeditions({ onBook }: { onBook: (exp: (typeof EXPEDITIONS)[0]) => void }) {
-  const [hovered, setHovered] = useState<number | null>(null)
-
-  return (
-    <section id="expeditions" style={{
-      background: C.bgMid,
-      padding: "100px 40px",
-      fontFamily: C.fontBody,
-    }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <FadeIn>
-          <div style={{ color: C.sky, fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", fontFamily: C.fontMono, marginBottom: 12 }}>
-            OUR EXPEDITIONS
-          </div>
-          <h2 style={{ color: C.snow, fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.02em", marginBottom: 56 }}>
-            Five worlds.<br />One outfitter.
-          </h2>
-        </FadeIn>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
-          {EXPEDITIONS.map((exp, i) => (
-            <FadeIn key={exp.id} delay={i * 0.09}>
-              <motion.div
-                onHoverStart={() => setHovered(exp.id)}
-                onHoverEnd={() => setHovered(null)}
-                style={{
-                  position: "relative",
-                  background: C.bgCard,
-                  border: `1px solid ${hovered === exp.id ? C.sky : C.border}`,
-                  borderRadius: 12,
-                  overflow: "hidden",
-                  cursor: "pointer",
-                  transition: "border-color 0.3s",
-                }}
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.25 }}
-              >
-                {/* Image */}
-                <div style={{ position: "relative", height: 200, overflow: "hidden" }}>
-                  <motion.div
-                    animate={{ scale: hovered === exp.id ? 1.06 : 1 }}
-                    transition={{ duration: 0.5 }}
-                    style={{
-                      position: "absolute", inset: 0,
-                      backgroundImage: `url(${exp.img})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                  />
-                  <div style={{
-                    position: "absolute", inset: 0,
-                    background: "linear-gradient(to bottom, transparent 40%, rgba(12,16,20,0.9) 100%)",
-                  }} />
-                  {/* Difficulty badge */}
-                  <div style={{
-                    position: "absolute", top: 14, left: 14,
-                    padding: "4px 12px",
-                    background: "rgba(12,16,20,0.75)",
-                    backdropFilter: "blur(8px)",
-                    border: `1px solid ${C.border}`,
-                    borderRadius: 100,
-                    color: C.sky,
-                    fontSize: 10,
-                    fontWeight: 600,
-                    letterSpacing: "0.1em",
-                    fontFamily: C.fontMono,
-                  }}>
-                    {exp.difficulty.toUpperCase()}
-                  </div>
-                  {/* Altitude badge */}
-                  <div style={{
-                    position: "absolute", top: 14, right: 14,
-                    padding: "4px 10px",
-                    background: "rgba(224,123,63,0.15)",
-                    border: `1px solid ${C.borderOrange}`,
-                    borderRadius: 100,
-                    color: C.orange,
-                    fontSize: 10,
-                    fontWeight: 600,
-                    letterSpacing: "0.08em",
-                    fontFamily: C.fontMono,
-                  }}>
-                    {exp.altitude}
-                  </div>
-                </div>
-
-                {/* Card body */}
-                <div style={{ padding: "20px 22px 22px" }}>
-                  <div style={{ color: C.muted, fontSize: 10, fontFamily: C.fontMono, letterSpacing: "0.1em", marginBottom: 8 }}>
-                    {exp.type.toUpperCase()} · {exp.continent.toUpperCase()}
-                  </div>
-                  <h3 style={{ color: C.snow, fontSize: 18, fontWeight: 700, letterSpacing: "-0.01em", marginBottom: 10 }}>
-                    {exp.title}
-                  </h3>
-                  <p style={{ color: C.muted, fontSize: 13, lineHeight: 1.65, fontFamily: C.fontMono, marginBottom: 18 }}>
-                    {exp.desc}
-                  </p>
-
-                  {/* AnimatePresence hover reveal */}
-                  <AnimatePresence>
-                    {hovered === exp.id && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
-                        style={{ overflow: "hidden", marginBottom: 16 }}
-                      >
-                        <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 14, display: "flex", flexDirection: "column", gap: 6 }}>
-                          {exp.includes.map((item) => (
-                            <div key={item} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                              <div style={{ width: 4, height: 4, borderRadius: "50%", background: C.sky, flexShrink: 0 }} />
-                              <span style={{ color: C.muted, fontSize: 12, fontFamily: C.fontMono }}>{item}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <div>
-                      <div style={{ color: C.snow, fontSize: 22, fontWeight: 800 }}>{exp.price}</div>
-                      <div style={{ color: C.muted, fontSize: 10, fontFamily: C.fontMono }}>{exp.duration} / per person</div>
-                    </div>
-                    <motion.div
-                      onClick={() => onBook(exp)}
-                      whileHover={{ scale: 1.04 }}
-                      whileTap={{ scale: 0.97 }}
-                      style={{
-                        padding: "9px 20px",
-                        background: hovered === exp.id ? C.orange : "transparent",
-                        border: `1px solid ${hovered === exp.id ? C.orange : C.border}`,
-                        borderRadius: 6,
-                        color: hovered === exp.id ? "#fff" : C.muted,
-                        fontSize: 12,
-                        fontWeight: 600,
-                        letterSpacing: "0.08em",
-                        cursor: "pointer",
-                        transition: "all 0.25s",
-                        fontFamily: C.fontMono,
-                      }}
-                    >
-                      RESERVE
-                    </motion.div>
-                  </div>
-                </div>
-              </motion.div>
-            </FadeIn>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── Section 6: Why Us ────────────────────────────────────────────────────────
-function WhyUs() {
-  const pillars = [
-    {
-      icon: "⛰",
-      title: "Expert Guides",
-      desc: "Every guide holds IFMGA, PADI, or equivalent certification. They've summited, surfed, and survived — and they'll get you there safely.",
-    },
-    {
-      icon: "◉",
-      title: "Small Groups",
-      desc: "Maximum 12 people per expedition. You're not a number. You're a climber, a surfer, a safari traveler. We know your name on day one.",
-    },
-    {
-      icon: "♺",
-      title: "Leave No Trace",
-      desc: "Certified carbon-offset programs, porter welfare standards, and reef-safe protocols. We protect the places we love.",
-    },
-  ]
-
-  return (
-    <section id="why-us" style={{
-      background: C.bg,
-      padding: "100px 40px",
-      fontFamily: C.fontBody,
-    }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <FadeIn>
-          <div style={{ color: C.sky, fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", fontFamily: C.fontMono, marginBottom: 12 }}>
-            WHY SUMMIT WILDS
-          </div>
-          <h2 style={{ color: C.snow, fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.02em", marginBottom: 64 }}>
-            Three pillars.<br />
-            <span style={{ color: C.muted, fontWeight: 300 }}>No shortcuts.</span>
-          </h2>
-        </FadeIn>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 24 }}>
-          {pillars.map((pillar, i) => (
-            <FadeIn key={pillar.title} delay={i * 0.12}>
-              <motion.div
-                whileHover={{ borderColor: C.sky, y: -4 }}
-                style={{
-                  background: C.bgCard,
-                  border: `1px solid ${C.border}`,
-                  borderRadius: 14,
-                  padding: "40px 36px",
-                  transition: "border-color 0.3s",
-                }}
-              >
-                <div style={{ fontSize: 32, marginBottom: 20 }}>{pillar.icon}</div>
-                <h3 style={{ color: C.snow, fontSize: 20, fontWeight: 700, letterSpacing: "-0.01em", marginBottom: 14 }}>
-                  {pillar.title}
-                </h3>
-                <p style={{ color: C.muted, fontSize: 14, lineHeight: 1.75, fontFamily: C.fontMono }}>
-                  {pillar.desc}
-                </p>
-              </motion.div>
-            </FadeIn>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── Section 7: Booking Process ───────────────────────────────────────────────
-function BookingProcess({ onBook }: { onBook: () => void }) {
-  const steps = [
-    {
-      num: "01",
-      title: "Choose Your Expedition",
-      desc: "Browse our 12 expeditions across 5 continents. Filter by difficulty, duration, and season to find your perfect match.",
-    },
-    {
-      num: "02",
-      title: "Reserve Your Spot",
-      desc: "Secure your place with a 30% deposit. Your reservation is confirmed instantly. Remaining balance due 90 days before departure.",
-    },
-    {
-      num: "03",
-      title: "Prepare & Depart",
-      desc: "Receive your custom preparation plan, gear checklist, and pre-expedition briefing call. Then show up ready — we handle the rest.",
-    },
-  ]
-
-  return (
-    <section style={{
-      background: C.bgMid,
-      padding: "100px 40px",
-      fontFamily: C.fontBody,
-    }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <FadeIn>
-          <div style={{ color: C.sky, fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", fontFamily: C.fontMono, marginBottom: 12 }}>
-            HOW IT WORKS
-          </div>
-          <h2 style={{ color: C.snow, fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.02em", marginBottom: 64 }}>
-            Three steps to<br />your expedition.
-          </h2>
-        </FadeIn>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 2 }}>
-          {steps.map((step, i) => (
-            <FadeIn key={step.num} delay={i * 0.12}>
-              <div style={{
-                padding: "40px 36px",
-                borderTop: `2px solid ${i === 0 ? C.sky : C.border}`,
-                position: "relative",
-              }}>
-                <div style={{
-                  color: C.border,
-                  fontSize: 64,
-                  fontWeight: 900,
-                  lineHeight: 1,
-                  letterSpacing: "-0.04em",
-                  marginBottom: 24,
-                  fontFamily: C.fontBody,
-                }}>
-                  {step.num}
-                </div>
-                <h3 style={{ color: C.snow, fontSize: 18, fontWeight: 700, letterSpacing: "-0.01em", marginBottom: 14 }}>
-                  {step.title}
-                </h3>
-                <p style={{ color: C.muted, fontSize: 14, lineHeight: 1.75, fontFamily: C.fontMono }}>
-                  {step.desc}
-                </p>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-
-        <FadeIn delay={0.3}>
-          <div style={{ textAlign: "center", marginTop: 56 }}>
-            <MagneticButton onClick={onBook}>
-              <div style={{
-                display: "inline-block",
-                padding: "16px 48px",
-                background: C.orange,
-                color: "#fff",
-                borderRadius: 8,
-                fontSize: 14,
-                fontWeight: 700,
-                letterSpacing: "0.08em",
-                boxShadow: `0 0 40px rgba(224,123,63,0.3)`,
-              }}>
-                START YOUR JOURNEY
-              </div>
-            </MagneticButton>
-          </div>
-        </FadeIn>
-      </div>
-    </section>
-  )
-}
-
-// ─── Section 8: Testimonials ──────────────────────────────────────────────────
-function Testimonials() {
-  const [active, setActive] = useState(0)
-
-  useEffect(() => {
-    const t = setInterval(() => setActive((a) => (a + 1) % TESTIMONIALS.length), 5000)
-    return () => clearInterval(t)
-  }, [])
-
-  return (
-    <section style={{
-      background: C.bg,
-      padding: "100px 40px",
-      fontFamily: C.fontBody,
-    }}>
-      <div style={{ maxWidth: 860, margin: "0 auto" }}>
-        <FadeIn>
-          <div style={{ color: C.sky, fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", fontFamily: C.fontMono, marginBottom: 12, textAlign: "center" }}>
-            CLIENT STORIES
-          </div>
-          <h2 style={{ color: C.snow, fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 900, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 56, textAlign: "center" }}>
-            They went. They came back changed.
-          </h2>
-        </FadeIn>
-
-        <div style={{ position: "relative", minHeight: 260 }}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={active}
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -24 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                background: C.bgCard,
-                border: `1px solid ${C.border}`,
-                borderRadius: 16,
-                padding: "48px 52px",
-                textAlign: "center",
-              }}
-            >
-              <div style={{ color: C.sky, fontSize: 48, lineHeight: 1, marginBottom: 24, opacity: 0.4 }}>"</div>
-              <p style={{
-                color: C.snow,
-                fontSize: 20,
-                lineHeight: 1.65,
-                fontStyle: "italic",
-                fontWeight: 300,
-                marginBottom: 36,
-                maxWidth: 640,
-                margin: "0 auto 36px",
-              }}>
-                {TESTIMONIALS[active].quote}
-              </p>
-              <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 24 }}>
-                <div style={{ color: C.snow, fontWeight: 700, fontSize: 15 }}>{TESTIMONIALS[active].name}</div>
-                <div style={{ color: C.sky, fontSize: 12, fontFamily: C.fontMono, marginTop: 4 }}>
-                  {TESTIMONIALS[active].trip} · {TESTIMONIALS[active].location}
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Dot navigation */}
-        <div style={{ display: "flex", justifyContent: "center", gap: 10, marginTop: 28 }}>
-          {TESTIMONIALS.map((_, i) => (
-            <motion.button
-              key={i}
-              onClick={() => setActive(i)}
-              animate={{ width: i === active ? 24 : 8, background: i === active ? C.sky : C.muted }}
-              transition={{ duration: 0.3 }}
-              style={{
-                height: 8,
-                borderRadius: 100,
-                border: "none",
-                cursor: "pointer",
-                padding: 0,
-              }}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── Section 9: Upcoming Departures ──────────────────────────────────────────
-function Departures({ onBook }: { onBook: () => void }) {
-  const difficultyColor: Record<string, string> = {
-    Expert: C.orange,
-    Advanced: "#C8773A",
-    Intermediate: C.sky,
-    Accessible: "#5ABF8C",
-    Beginner: "#5ABF8C",
-  }
-
-  return (
-    <section style={{
-      background: C.bgMid,
-      padding: "100px 40px",
-      fontFamily: C.fontBody,
-    }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <FadeIn>
-          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 56, flexWrap: "wrap", gap: 24 }}>
-            <div>
-              <div style={{ color: C.sky, fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", fontFamily: C.fontMono, marginBottom: 12 }}>
-                UPCOMING DEPARTURES
-              </div>
-              <h2 style={{ color: C.snow, fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 900, lineHeight: 1.1, letterSpacing: "-0.02em" }}>
-                Next windows closing fast.
-              </h2>
-            </div>
-            <MagneticButton onClick={onBook}>
-              <div style={{
-                padding: "12px 28px",
-                border: `1px solid ${C.border}`,
-                borderRadius: 6,
-                color: C.snow,
-                fontSize: 12,
-                fontWeight: 600,
-                letterSpacing: "0.08em",
-                fontFamily: C.fontMono,
-              }}>
-                VIEW ALL DATES
-              </div>
-            </MagneticButton>
-          </div>
-        </FadeIn>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          {DEPARTURES.map((dep, i) => (
-            <FadeIn key={dep.expedition} delay={i * 0.07}>
-              <motion.div
-                whileHover={{ backgroundColor: "rgba(58,168,200,0.04)", x: 4 }}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "22px 28px",
-                  border: `1px solid ${C.border}`,
-                  borderRadius: 10,
-                  background: C.bgCard,
-                  gap: 16,
-                  flexWrap: "wrap",
-                  cursor: "pointer",
-                  transition: "background 0.2s",
-                }}
-              >
-                <div style={{ flex: "1 1 220px" }}>
-                  <div style={{ color: C.snow, fontWeight: 700, fontSize: 16 }}>{dep.expedition}</div>
-                </div>
-                <div style={{ color: C.muted, fontSize: 14, fontFamily: C.fontMono, minWidth: 120 }}>{dep.date}</div>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 120 }}>
-                  <div style={{
-                    width: 8, height: 8, borderRadius: "50%",
-                    background: dep.spots <= 3 ? C.orange : "#5ABF8C",
-                  }} />
-                  <span style={{ color: dep.spots <= 3 ? C.orange : "#5ABF8C", fontSize: 13, fontFamily: C.fontMono, fontWeight: 600 }}>
-                    {dep.spots} spot{dep.spots !== 1 ? "s" : ""} left
-                  </span>
-                </div>
-                <div style={{
-                  padding: "4px 14px",
-                  borderRadius: 100,
-                  background: `${difficultyColor[dep.difficulty] ?? C.sky}18`,
-                  border: `1px solid ${difficultyColor[dep.difficulty] ?? C.sky}40`,
-                  color: difficultyColor[dep.difficulty] ?? C.sky,
-                  fontSize: 11,
-                  fontWeight: 600,
-                  letterSpacing: "0.08em",
-                  fontFamily: C.fontMono,
-                }}>
-                  {dep.difficulty.toUpperCase()}
-                </div>
-                <motion.div
-                  whileHover={{ scale: 1.04 }}
-                  onClick={onBook}
-                  style={{
-                    padding: "9px 20px",
-                    background: C.orange,
-                    borderRadius: 6,
-                    color: "#fff",
-                    fontSize: 12,
-                    fontWeight: 700,
-                    letterSpacing: "0.08em",
-                    cursor: "pointer",
-                    fontFamily: C.fontMono,
-                  }}
-                >
-                  BOOK
-                </motion.div>
-              </motion.div>
-            </FadeIn>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── Section 10: Contact + Footer ─────────────────────────────────────────────
-function ContactFooter() {
-  const [submitted, setSubmitted] = useState(false)
-
-  return (
-    <section id="contact" style={{
-      background: C.bg,
-      borderTop: `1px solid ${C.border}`,
-      padding: "100px 40px 60px",
-      fontFamily: C.fontBody,
-    }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, marginBottom: 80, flexWrap: "wrap" } as React.CSSProperties}>
-          {/* Contact form */}
-          <FadeIn>
-            <div>
-              <div style={{ color: C.sky, fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", fontFamily: C.fontMono, marginBottom: 12 }}>
-                GET IN TOUCH
-              </div>
-              <h2 style={{ color: C.snow, fontSize: "clamp(28px, 3vw, 40px)", fontWeight: 900, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 32 }}>
-                Ready to start<br />planning your trip?
-              </h2>
-
-              <AnimatePresence mode="wait">
-                {!submitted ? (
-                  <motion.div key="form" exit={{ opacity: 0, y: -10 }} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                    {[
-                      { placeholder: "Full name", type: "text" },
-                      { placeholder: "Email address", type: "email" },
-                      { placeholder: "Expedition of interest", type: "text" },
-                    ].map((field) => (
-                      <input
-                        key={field.placeholder}
-                        type={field.type}
-                        placeholder={field.placeholder}
-                        style={{
-                          background: C.bgCard,
-                          border: `1px solid ${C.border}`,
-                          borderRadius: 8,
-                          padding: "13px 16px",
-                          color: C.snow,
-                          fontSize: 14,
-                          fontFamily: C.fontMono,
-                          outline: "none",
-                          width: "100%",
-                          boxSizing: "border-box" as const,
-                        }}
-                      />
-                    ))}
-                    <textarea
-                      placeholder="Tell us about your adventure goals..."
-                      rows={4}
-                      style={{
-                        background: C.bgCard,
-                        border: `1px solid ${C.border}`,
-                        borderRadius: 8,
-                        padding: "13px 16px",
-                        color: C.snow,
-                        fontSize: 14,
-                        fontFamily: C.fontMono,
-                        outline: "none",
-                        resize: "vertical",
-                        width: "100%",
-                        boxSizing: "border-box" as const,
-                      }}
-                    />
-                    <MagneticButton onClick={() => setSubmitted(true)}>
-                      <div style={{
-                        padding: "14px 32px",
-                        background: C.orange,
-                        color: "#fff",
-                        borderRadius: 8,
-                        fontSize: 13,
-                        fontWeight: 700,
-                        letterSpacing: "0.08em",
-                        display: "inline-block",
-                      }}>
-                        SEND MESSAGE
-                      </div>
-                    </MagneticButton>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="success"
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    style={{
-                      background: C.bgCard,
-                      border: `1px solid rgba(90,191,140,0.3)`,
-                      borderRadius: 12,
-                      padding: "36px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <div style={{ color: "#5ABF8C", fontSize: 28, marginBottom: 16 }}>✓</div>
-                    <div style={{ color: C.snow, fontWeight: 700, fontSize: 18, marginBottom: 8 }}>Message received.</div>
-                    <div style={{ color: C.muted, fontSize: 14, fontFamily: C.fontMono }}>Our team will reach out within 24 hours.</div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </FadeIn>
-
-          {/* Info */}
-          <FadeIn delay={0.15}>
-            <div style={{ paddingTop: 60 }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-                {[
-                  { label: "Email", value: "expeditions@summitwild.co" },
-                  { label: "Phone", value: "+1 (415) 902-7840" },
-                  { label: "Headquarters", value: "San Francisco, CA" },
-                  { label: "Operating since", value: "2016" },
-                ].map((item) => (
-                  <div key={item.label}>
-                    <div style={{ color: C.muted, fontSize: 11, fontFamily: C.fontMono, letterSpacing: "0.12em", marginBottom: 6 }}>
-                      {item.label.toUpperCase()}
-                    </div>
-                    <div style={{ color: C.snow, fontSize: 15, fontWeight: 500 }}>{item.value}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </FadeIn>
-        </div>
-
-        {/* Footer bar */}
-        <div style={{
-          borderTop: `1px solid ${C.border}`,
-          paddingTop: 32,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: 16,
-        }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 7, height: 7, borderRadius: "50%", background: C.sky }} />
-            <span style={{ color: C.snow, fontWeight: 700, fontSize: 15, letterSpacing: "0.04em" }}>SUMMIT WILDS</span>
-          </div>
-          <div style={{ color: C.muted, fontSize: 12, fontFamily: C.fontMono }}>
-            © 2026 Summit Wilds Expeditions. All rights reserved.
-          </div>
-          <div style={{ display: "flex", gap: 24 }}>
-            {["Privacy", "Terms", "Safety"].map((link) => (
-              <span key={link} style={{ color: C.muted, fontSize: 12, fontFamily: C.fontMono, cursor: "pointer" }}>
-                {link}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── Booking Modal ─────────────────────────────────────────────────────────────
-function BookingModal({
-  open,
-  onClose,
-  expedition,
-}: {
-  open: boolean
-  onClose: () => void
-  expedition: (typeof EXPEDITIONS)[0] | null
-}) {
-  return (
-    <AnimatePresence>
-      {open && (
-        <>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.95, duration: 0.8 }}
+          className="flex flex-col sm:flex-row gap-4 mb-12"
+        >
+          <Link
+            href="#collections"
+            className="flex items-center justify-center gap-3 px-8 py-4 text-[12px] tracking-[0.14em] uppercase rounded-full transition-all duration-300 hover:shadow-[0_8px_30px_rgba(236,72,153,0.35)]"
             style={{
-              position: "fixed", inset: 0, zIndex: 200,
-              background: "rgba(5,7,8,0.85)",
-              backdropFilter: "blur(6px)",
-            }}
-          />
-          <motion.div
-            initial={{ opacity: 0, y: 40, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 40, scale: 0.96 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              position: "fixed",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              zIndex: 201,
-              background: C.bgCard,
-              border: `1px solid ${C.border}`,
-              borderRadius: 16,
-              padding: "44px 48px",
-              width: "100%",
-              maxWidth: 480,
-              fontFamily: C.fontBody,
+              background: `linear-gradient(135deg, ${C.primary}, ${C.lavender})`,
+              color: "#fff",
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 500,
             }}
           >
-            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 28 }}>
-              <div>
-                <div style={{ color: C.sky, fontSize: 11, fontFamily: C.fontMono, letterSpacing: "0.12em", marginBottom: 8 }}>
-                  SECURE YOUR SPOT
-                </div>
-                <h3 style={{ color: C.snow, fontSize: 22, fontWeight: 800 }}>
-                  {expedition ? expedition.title : "Reserve an Expedition"}
-                </h3>
-              </div>
-              <motion.div
-                onClick={onClose}
-                whileHover={{ rotate: 90 }}
-                style={{ color: C.muted, fontSize: 20, cursor: "pointer", lineHeight: 1 }}
+            Découvrir les soins
+            <ArrowRight size={14} />
+          </Link>
+          <Link
+            href="#rituels"
+            className="flex items-center justify-center gap-2 px-8 py-4 text-[12px] tracking-[0.14em] uppercase rounded-full transition-all duration-300 hover:bg-[#FBCFE8]"
+            style={{
+              border: `1px solid ${C.primaryBorder}`,
+              color: C.text,
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 500,
+              backgroundColor: C.white,
+            }}
+          >
+            Mon rituel beauté
+          </Link>
+        </motion.div>
+
+        {/* Trust badges */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          className="flex flex-wrap gap-5"
+        >
+          {["Vegan & Cruelty-Free", "Sans Parabènes", "Formulé en France"].map((badge) => (
+            <div key={badge} className="flex items-center gap-2">
+              <Leaf size={13} color={C.primary} />
+              <span
+                className="text-[11px] tracking-[0.06em]"
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: C.textMuted }}
               >
-                ×
-              </motion.div>
+                {badge}
+              </span>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {[
-                { placeholder: "Full name", type: "text" },
-                { placeholder: "Email address", type: "email" },
-                { placeholder: "Phone number", type: "tel" },
-              ].map((f) => (
-                <input
-                  key={f.placeholder}
-                  type={f.type}
-                  placeholder={f.placeholder}
-                  style={{
-                    background: C.bgMid,
-                    border: `1px solid ${C.border}`,
-                    borderRadius: 8,
-                    padding: "12px 16px",
-                    color: C.snow,
-                    fontSize: 14,
-                    fontFamily: C.fontMono,
-                    outline: "none",
-                    width: "100%",
-                    boxSizing: "border-box" as const,
-                  }}
-                />
-              ))}
-              <select
-                style={{
-                  background: C.bgMid,
-                  border: `1px solid ${C.border}`,
-                  borderRadius: 8,
-                  padding: "12px 16px",
-                  color: C.snow,
-                  fontSize: 14,
-                  fontFamily: C.fontMono,
-                  outline: "none",
-                  width: "100%",
-                }}
-              >
-                <option value="">Select preferred departure date</option>
-                {DEPARTURES.map((d) => (
-                  <option key={d.date} value={d.date}>{d.expedition} — {d.date}</option>
-                ))}
-              </select>
-              <MagneticButton style={{ marginTop: 8, width: "100%" }}>
-                <div style={{
-                  padding: "14px",
-                  background: C.orange,
-                  color: "#fff",
-                  borderRadius: 8,
-                  fontSize: 14,
-                  fontWeight: 700,
-                  letterSpacing: "0.08em",
-                  textAlign: "center",
-                  boxShadow: `0 0 32px rgba(224,123,63,0.35)`,
-                }}>
-                  REQUEST RESERVATION
-                </div>
-              </MagneticButton>
-              <p style={{ color: C.muted, fontSize: 11, fontFamily: C.fontMono, textAlign: "center", marginTop: 4 }}>
-                30% deposit to confirm · Full refund up to 60 days before
-              </p>
-            </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+          ))}
+        </motion.div>
+      </motion.div>
+
+      {/* Right: image — 55% width on desktop, full height */}
+      <motion.div
+        className="hidden lg:block absolute top-0 right-0 w-[58%] h-full z-[1]"
+        style={{ y: yImg }}
+      >
+        <Image
+          src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop"
+          alt="Lumière Beauty — Soins premium"
+          fill
+          className="object-cover"
+          priority
+          unoptimized
+        />
+        {/* Fade left */}
+        <div
+          className="absolute inset-0"
+          style={{ background: `linear-gradient(to right, ${C.pink} 0%, transparent 40%)` }}
+        />
+        {/* Float badge */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 1.3, type: "spring" }}
+          className="absolute bottom-20 left-10 p-5 rounded-2xl backdrop-blur-xl"
+          style={{ backgroundColor: "rgba(255,255,255,0.75)", border: `1px solid ${C.primaryBorder}` }}
+        >
+          <div className="flex items-center gap-3 mb-2">
+            <Star size={14} fill={C.primary} color={C.primary} />
+            <Star size={14} fill={C.primary} color={C.primary} />
+            <Star size={14} fill={C.primary} color={C.primary} />
+            <Star size={14} fill={C.primary} color={C.primary} />
+            <Star size={14} fill={C.primary} color={C.primary} />
+          </div>
+          <p className="text-[15px] font-semibold mb-0.5" style={{ color: C.text, fontFamily: "'Playfair Display', serif" }}>4.9 / 5</p>
+          <p className="text-[11px]" style={{ color: C.textMuted, fontFamily: "'Inter', sans-serif" }}>+1 200 avis clients</p>
+        </motion.div>
+      </motion.div>
+    </section>
   )
 }
 
-// ─── Root Page ────────────────────────────────────────────────────────────────
-export default function SummitWildsPage() {
-  const [bookingOpen, setBookingOpen] = useState(false)
-  const [selectedExp, setSelectedExp] = useState<(typeof EXPEDITIONS)[0] | null>(null)
-
-  // Inject Google Fonts
-  useEffect(() => {
-    const id = "summit-wilds-fonts"
-    if (document.getElementById(id)) return
-    const style = document.createElement("style")
-    style.id = id
-    style.textContent = `@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@300;400;500;600&display=swap');`
-    document.head.appendChild(style)
-  }, [])
-
-  const openBook = (exp?: (typeof EXPEDITIONS)[0]) => {
-    if (exp) setSelectedExp(exp)
-    setBookingOpen(true)
-  }
+/* ==========================================================================
+   COLLECTIONS SECTION
+   ========================================================================== */
+function CollectionsSection() {
+  const [hovered, setHovered] = useState<string | null>(null)
 
   return (
-    <div style={{
-      background: C.bg,
-      color: C.snow,
-      minHeight: "100vh",
-      overflowX: "hidden",
-      fontFamily: C.fontBody,
-    }}>
-      <Nav onBook={() => openBook()} />
-      <Hero onBook={() => openBook()} />
-      <MarqueeStrip />
-      <AltitudeChart />
-      <Expeditions onBook={(exp) => openBook(exp)} />
-      <WhyUs />
-      <BookingProcess onBook={() => openBook()} />
-      <Testimonials />
-      <Departures onBook={() => openBook()} />
-      <ContactFooter />
-      <BookingModal
-        open={bookingOpen}
-        onClose={() => { setBookingOpen(false); setSelectedExp(null) }}
-        expedition={selectedExp}
-      />
+    <section id="collections" className="py-24 lg:py-32" style={{ backgroundColor: C.white }}>
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
+        <Reveal className="text-center mb-16">
+          <p
+            className="text-[10px] tracking-[0.28em] uppercase mb-4"
+            style={{ fontFamily: "'Inter', sans-serif", color: C.primary, fontWeight: 500 }}
+          >
+            Nos Produits
+          </p>
+          <h2
+            className="mb-4"
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              fontStyle: "italic",
+              fontWeight: 600,
+              fontSize: "clamp(36px, 5vw, 64px)",
+              color: C.text,
+              lineHeight: 1.1,
+            }}
+          >
+            La Collection
+            <span style={{ color: C.primary }}> Lumière</span>
+          </h2>
+          <p
+            className="text-[14px] leading-[1.8] max-w-[480px] mx-auto"
+            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.textMuted }}
+          >
+            6 produits conçus pour se compléter parfaitement. Utilisez-les ensemble pour un rituel beauté complet.
+          </p>
+        </Reveal>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {PRODUCTS.map((product, i) => {
+            const Icon = product.icon
+            return (
+              <Reveal key={product.id} delay={i * 0.1}>
+                <div
+                  className="group relative cursor-pointer transition-all duration-500"
+                  onMouseEnter={() => setHovered(product.id)}
+                  onMouseLeave={() => setHovered(null)}
+                  style={{
+                    boxShadow: hovered === product.id
+                      ? `0 20px 60px ${C.primaryDim}, 0 0 0 1px ${C.primaryBorder}`
+                      : `0 2px 20px rgba(131,24,67,0.04)`,
+                  }}
+                >
+                  {/* Image */}
+                  <div
+                    className="relative aspect-square overflow-hidden"
+                    style={{ backgroundColor: C.pink }}
+                  >
+                    <Image
+                      src={`https://images.unsplash.com/${product.img}?q=80&w=600&auto=format&fit=crop`}
+                      alt={product.name}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      unoptimized
+                    />
+                    {/* Tag */}
+                    <div
+                      className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] tracking-[0.10em] uppercase"
+                      style={{ backgroundColor: product.tagColor, color: "#fff", fontFamily: "'Inter', sans-serif", fontWeight: 500 }}
+                    >
+                      {product.tag}
+                    </div>
+                    {/* Hover overlay */}
+                    <div
+                      className="absolute inset-0 flex items-end p-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      style={{ background: `linear-gradient(to top, ${C.text}E0 0%, transparent 55%)` }}
+                    >
+                      <Link
+                        href="#sets"
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] tracking-[0.12em] uppercase w-full justify-center"
+                        style={{ backgroundColor: "#fff", color: C.text, fontFamily: "'Inter', sans-serif", fontWeight: 500 }}
+                      >
+                        <ShoppingBag size={13} />
+                        Ajouter au panier
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Info */}
+                  <div className="p-6" style={{ backgroundColor: C.white }}>
+                    <div className="flex items-start justify-between mb-2">
+                      <div>
+                        <h3
+                          className="text-[20px] mb-1"
+                          style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 600, color: C.text }}
+                        >
+                          {product.name}
+                        </h3>
+                        <p
+                          className="text-[11px] tracking-[0.06em]"
+                          style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: C.textMuted }}
+                        >
+                          {product.subtitle}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p
+                          className="text-[20px]"
+                          style={{ fontFamily: "'Playfair Display', serif", fontWeight: 600, color: C.primary }}
+                        >
+                          {product.price}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Stars */}
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="flex gap-0.5">
+                        {Array.from({ length: 5 }).map((_, j) => (
+                          <Star key={j} size={11} fill={C.primary} color={C.primary} />
+                        ))}
+                      </div>
+                      <span
+                        className="text-[11px]"
+                        style={{ fontFamily: "'Inter', sans-serif", color: C.textMuted }}
+                      >
+                        {product.stars} ({product.reviews} avis)
+                      </span>
+                    </div>
+
+                    <p
+                      className="text-[12px] leading-[1.7]"
+                      style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.textMuted }}
+                    >
+                      {product.desc}
+                    </p>
+
+                    {/* Key ingredient */}
+                    <div
+                      className="mt-4 flex items-center gap-2 px-3 py-2 rounded-full"
+                      style={{ backgroundColor: C.pink }}
+                    >
+                      <Icon size={12} color={C.primary} />
+                      <span
+                        className="text-[10px] tracking-[0.06em]"
+                        style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: C.textMuted }}
+                      >
+                        {product.ingredient}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ==========================================================================
+   RITUELS SECTION
+   ========================================================================== */
+function RituelsSection() {
+  const [activeStep, setActiveStep] = useState(0)
+
+  return (
+    <section id="rituels" className="py-24 lg:py-32" style={{ backgroundColor: C.pink }}>
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
+        <Reveal className="text-center mb-16">
+          <p
+            className="text-[10px] tracking-[0.28em] uppercase mb-4"
+            style={{ fontFamily: "'Inter', sans-serif", color: C.primary, fontWeight: 500 }}
+          >
+            Mon Rituel
+          </p>
+          <h2
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              fontStyle: "italic",
+              fontWeight: 600,
+              fontSize: "clamp(36px, 5vw, 64px)",
+              color: C.text,
+              lineHeight: 1.1,
+            }}
+          >
+            4 Étapes pour une
+            <br />
+            <span style={{ color: C.primary }}>Peau Parfaite</span>
+          </h2>
+        </Reveal>
+
+        {/* Step selector */}
+        <div className="flex flex-col lg:flex-row gap-12 items-start">
+          {/* Steps list */}
+          <div className="lg:w-[45%] space-y-4">
+            {RITUELS.map((r, i) => {
+              const Icon = r.icon
+              return (
+                <Reveal key={r.step} delay={i * 0.08}>
+                  <button
+                    onClick={() => setActiveStep(i)}
+                    className="w-full text-left p-6 rounded-2xl transition-all duration-300"
+                    style={{
+                      backgroundColor: activeStep === i ? C.white : "transparent",
+                      border: `1px solid ${activeStep === i ? C.primaryBorder : "transparent"}`,
+                      boxShadow: activeStep === i ? `0 8px 30px ${C.primaryDim}` : "none",
+                    }}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div
+                        className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center"
+                        style={{
+                          background: activeStep === i
+                            ? `linear-gradient(135deg, ${C.primary}, ${C.lavender})`
+                            : C.pinkDeep,
+                        }}
+                      >
+                        <Icon size={18} color={activeStep === i ? "#fff" : C.textMuted} />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-1">
+                          <span
+                            className="text-[10px] tracking-[0.20em]"
+                            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, color: C.primary }}
+                          >
+                            Étape {r.step}
+                          </span>
+                        </div>
+                        <h3
+                          className="text-[20px] mb-2"
+                          style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 600, color: C.text }}
+                        >
+                          {r.label}
+                        </h3>
+                        {activeStep === i && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            transition={{ duration: 0.4 }}
+                          >
+                            <p
+                              className="text-[13px] leading-[1.75] mb-3"
+                              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.textMuted }}
+                            >
+                              {r.desc}
+                            </p>
+                            <div
+                              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[10px] tracking-[0.10em] uppercase"
+                              style={{ backgroundColor: C.primaryDim, color: C.primary, fontFamily: "'Inter', sans-serif", fontWeight: 500 }}
+                            >
+                              <Package size={11} />
+                              {r.product}
+                            </div>
+                          </motion.div>
+                        )}
+                      </div>
+                    </div>
+                  </button>
+                </Reveal>
+              )
+            })}
+          </div>
+
+          {/* Right: image */}
+          <Reveal x={40} y={0} className="lg:w-[55%] lg:sticky lg:top-28">
+            <div className="relative aspect-[4/5] rounded-3xl overflow-hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=800&auto=format&fit=crop"
+                alt="Rituel beauté Lumière"
+                fill
+                className="object-cover"
+                unoptimized
+              />
+              <div
+                className="absolute inset-0 rounded-3xl"
+                style={{ background: `linear-gradient(to top, ${C.text}60 0%, transparent 50%)` }}
+              />
+              {/* Overlay text */}
+              <div className="absolute bottom-8 left-8 right-8">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeStep}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.4 }}
+                    className="p-5 rounded-2xl backdrop-blur-xl"
+                    style={{ backgroundColor: "rgba(255,255,255,0.85)" }}
+                  >
+                    <p
+                      className="text-[10px] tracking-[0.18em] uppercase mb-1"
+                      style={{ fontFamily: "'Inter', sans-serif", color: C.primary, fontWeight: 500 }}
+                    >
+                      Étape {RITUELS[activeStep].step}
+                    </p>
+                    <p
+                      className="text-[18px]"
+                      style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 600, color: C.text }}
+                    >
+                      {RITUELS[activeStep].label}
+                    </p>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ==========================================================================
+   INGRÉDIENTS SECTION
+   ========================================================================== */
+function IngredientsSection() {
+  return (
+    <section id="ingredients" className="py-24 lg:py-32" style={{ backgroundColor: C.white }}>
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
+        <Reveal className="text-center mb-16">
+          <p
+            className="text-[10px] tracking-[0.28em] uppercase mb-4"
+            style={{ fontFamily: "'Inter', sans-serif", color: C.primary, fontWeight: 500 }}
+          >
+            La Formulation
+          </p>
+          <h2
+            className="mb-5"
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              fontStyle: "italic",
+              fontWeight: 600,
+              fontSize: "clamp(36px, 5vw, 64px)",
+              color: C.text,
+              lineHeight: 1.1,
+            }}
+          >
+            Nos Ingrédients
+            <span style={{ color: C.primary }}> d'Exception</span>
+          </h2>
+          <p
+            className="text-[14px] leading-[1.8] max-w-[480px] mx-auto"
+            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.textMuted }}
+          >
+            Chaque actif est sélectionné pour son efficacité prouvée et sa compatibilité avec les formules véganes.
+          </p>
+        </Reveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {INGREDIENTS.map((ing, i) => {
+            const Icon = ing.icon
+            return (
+              <Reveal key={ing.name} delay={i * 0.09}>
+                <div
+                  className="p-7 rounded-2xl group transition-all duration-300 hover:shadow-[0_12px_40px_rgba(236,72,153,0.10)] cursor-default h-full"
+                  style={{ backgroundColor: C.pink, border: `1px solid transparent` }}
+                >
+                  {/* Icon */}
+                  <div
+                    className="inline-flex items-center justify-center w-12 h-12 rounded-full mb-5 group-hover:scale-110 transition-transform duration-300"
+                    style={{ backgroundColor: `${ing.color}18` }}
+                  >
+                    <Icon size={22} color={ing.color} />
+                  </div>
+
+                  {/* Name + scientific */}
+                  <h3
+                    className="text-[20px] mb-1"
+                    style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 600, color: C.text }}
+                  >
+                    {ing.name}
+                  </h3>
+                  <p
+                    className="text-[11px] italic mb-1"
+                    style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.textMuted }}
+                  >
+                    {ing.scientific}
+                  </p>
+                  <p
+                    className="text-[10px] tracking-[0.08em] uppercase mb-4"
+                    style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, color: ing.color }}
+                  >
+                    {ing.origin}
+                  </p>
+
+                  {/* Benefit chip */}
+                  <div
+                    className="inline-flex items-center px-3 py-1.5 rounded-full mb-4 text-[10px] tracking-[0.06em]"
+                    style={{ backgroundColor: `${ing.color}15`, color: ing.color, fontFamily: "'Inter', sans-serif", fontWeight: 500 }}
+                  >
+                    {ing.benefit}
+                  </div>
+
+                  <p
+                    className="text-[13px] leading-[1.75]"
+                    style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.textMuted }}
+                  >
+                    {ing.desc}
+                  </p>
+                </div>
+              </Reveal>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ==========================================================================
+   ATELIER / BRAND STORY SECTION
+   ========================================================================== */
+function AtelierSection() {
+  return (
+    <section id="atelier" className="py-24 lg:py-32" style={{ backgroundColor: C.pink }}>
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          {/* Image */}
+          <Reveal x={-40} y={0}>
+            <div className="relative aspect-[3/4] rounded-3xl overflow-hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1598452963314-b09f397a5c48?q=80&w=800&auto=format&fit=crop"
+                alt="Atelier Lumière Beauty"
+                fill
+                className="object-cover"
+                unoptimized
+              />
+              {/* Floating badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5, type: "spring" }}
+                className="absolute top-8 right-8 p-5 rounded-2xl backdrop-blur-xl"
+                style={{ backgroundColor: "rgba(255,255,255,0.88)", border: `1px solid ${C.primaryBorder}` }}
+              >
+                <Leaf size={24} color={C.primary} className="mb-2" />
+                <p className="text-[13px] font-semibold" style={{ color: C.text, fontFamily: "'Playfair Display', serif" }}>
+                  100% Vegan
+                </p>
+                <p className="text-[11px]" style={{ color: C.textMuted, fontFamily: "'Inter', sans-serif" }}>
+                  Cruelty-Free certifié
+                </p>
+              </motion.div>
+            </div>
+          </Reveal>
+
+          {/* Content */}
+          <div>
+            <Reveal delay={0.1}>
+              <p
+                className="text-[10px] tracking-[0.28em] uppercase mb-5"
+                style={{ fontFamily: "'Inter', sans-serif", color: C.primary, fontWeight: 500 }}
+              >
+                Notre Histoire
+              </p>
+              <h2
+                className="mb-6"
+                style={{
+                  fontFamily: "'Playfair Display', serif",
+                  fontStyle: "italic",
+                  fontWeight: 600,
+                  fontSize: "clamp(32px, 4vw, 56px)",
+                  color: C.text,
+                  lineHeight: 1.15,
+                }}
+              >
+                Formulé avec Amour
+                <br />
+                <span style={{ color: C.primary }}>par des Passionnées</span>
+              </h2>
+            </Reveal>
+
+            <Reveal delay={0.2}>
+              <p
+                className="text-[15px] leading-[1.9] mb-6"
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.textMuted }}
+              >
+                Lumière est née en 2019 dans une cuisine parisienne. Clara et Sophie, deux chimistes passionnées de botanique, ont voulu créer une alternative aux soins industriels : des formules courtes, traçables, d'une efficacité remarquable.
+              </p>
+              <p
+                className="text-[15px] leading-[1.9] mb-8"
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.textMuted }}
+              >
+                Chaque lot est fabriqué en 200 unités maximum dans notre atelier du 11ème arrondissement. Nos formules évoluent avec la science — et avec vous.
+              </p>
+            </Reveal>
+
+            {/* Certifications */}
+            <Reveal delay={0.3}>
+              <div
+                className="p-6 rounded-2xl mb-8"
+                style={{ backgroundColor: C.white, border: `1px solid ${C.primaryBorder}` }}
+              >
+                <p
+                  className="text-[11px] tracking-[0.15em] uppercase mb-4"
+                  style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, color: C.primary }}
+                >
+                  Nos engagements
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {[
+                    "Formulé sans parabènes",
+                    "Sans silicones",
+                    "Vegan & cruelty-free",
+                    "Packaging recyclable",
+                    "Ingrédients traçables",
+                    "Fabriqué en France",
+                  ].map((item) => (
+                    <div key={item} className="flex items-center gap-2">
+                      <div
+                        className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                        style={{ backgroundColor: C.primary }}
+                      />
+                      <span
+                        className="text-[12px]"
+                        style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: C.textMuted }}
+                      >
+                        {item}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.4}>
+              <Link
+                href="#sets"
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-[12px] tracking-[0.14em] uppercase transition-all duration-300 hover:shadow-[0_8px_30px_rgba(236,72,153,0.30)]"
+                style={{
+                  background: `linear-gradient(135deg, ${C.primary}, ${C.lavender})`,
+                  color: "#fff",
+                  fontFamily: "'Inter', sans-serif",
+                  fontWeight: 500,
+                }}
+              >
+                Découvrir nos coffrets
+                <ArrowRight size={14} />
+              </Link>
+            </Reveal>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ==========================================================================
+   REVIEWS SECTION
+   ========================================================================== */
+function ReviewsSection() {
+  return (
+    <section className="py-24 lg:py-32" style={{ backgroundColor: C.white }}>
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
+        <Reveal className="text-center mb-16">
+          <p
+            className="text-[10px] tracking-[0.28em] uppercase mb-4"
+            style={{ fontFamily: "'Inter', sans-serif", color: C.primary, fontWeight: 500 }}
+          >
+            Témoignages
+          </p>
+          <h2
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              fontStyle: "italic",
+              fontWeight: 600,
+              fontSize: "clamp(36px, 5vw, 64px)",
+              color: C.text,
+              lineHeight: 1.1,
+            }}
+          >
+            Elles Ont Testé,
+            <span style={{ color: C.primary }}> Elles Adorent</span>
+          </h2>
+        </Reveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {REVIEWS.map((review, i) => (
+            <Reveal key={review.author} delay={i * 0.1}>
+              <div
+                className="p-8 rounded-2xl relative transition-all duration-300 hover:shadow-[0_12px_40px_rgba(236,72,153,0.10)]"
+                style={{ backgroundColor: C.pink, border: `1px solid ${C.primaryBorder}` }}
+              >
+                {/* Stars */}
+                <div className="flex gap-1 mb-5">
+                  {Array.from({ length: review.stars }).map((_, j) => (
+                    <Star key={j} size={14} fill={C.primary} color={C.primary} />
+                  ))}
+                </div>
+
+                {/* Quote */}
+                <p
+                  className="text-[16px] leading-[1.75] mb-6"
+                  style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 500, color: C.text }}
+                >
+                  "{review.text}"
+                </p>
+
+                {/* Author + result */}
+                <div className="flex items-center justify-between flex-wrap gap-4">
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="w-10 h-10 rounded-full flex items-center justify-center text-[15px] font-bold"
+                      style={{
+                        background: `linear-gradient(135deg, ${C.primary}, ${C.lavender})`,
+                        color: "#fff",
+                        fontFamily: "'Playfair Display', serif",
+                      }}
+                    >
+                      {review.author[0]}
+                    </div>
+                    <div>
+                      <p
+                        className="text-[14px] font-semibold mb-0.5"
+                        style={{ fontFamily: "'Playfair Display', serif", color: C.text }}
+                      >
+                        {review.author}, {review.age} ans
+                      </p>
+                      <p
+                        className="text-[11px]"
+                        style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.textMuted }}
+                      >
+                        {review.skin}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Result badge */}
+                  <div
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] tracking-[0.06em]"
+                    style={{ backgroundColor: C.primaryDim, color: C.primary, fontFamily: "'Inter', sans-serif", fontWeight: 500 }}
+                  >
+                    <Award size={11} />
+                    {review.result}
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* Overall rating bar */}
+        <Reveal delay={0.3} className="mt-12 text-center">
+          <div
+            className="inline-flex flex-col sm:flex-row items-center gap-6 px-10 py-6 rounded-2xl"
+            style={{ backgroundColor: C.pink, border: `1px solid ${C.primaryBorder}` }}
+          >
+            <div>
+              <span
+                className="text-[56px] leading-none"
+                style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 700, color: C.primary }}
+              >
+                4.9
+              </span>
+              <span
+                className="text-[18px] ml-1"
+                style={{ fontFamily: "'Inter', sans-serif", color: C.textMuted }}
+              >
+                /5
+              </span>
+            </div>
+            <div className="text-left">
+              <div className="flex gap-1 mb-1">
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <Star key={s} size={18} fill={C.primary} color={C.primary} />
+                ))}
+              </div>
+              <p
+                className="text-[13px]"
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: C.textMuted }}
+              >
+                Basé sur 1 247 avis clients vérifiés
+              </p>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+/* ==========================================================================
+   PRESSE SECTION
+   ========================================================================== */
+function PressSection() {
+  return (
+    <section id="presse" className="py-20 lg:py-28" style={{ backgroundColor: C.text }}>
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
+        <Reveal className="text-center mb-12">
+          <p
+            className="text-[10px] tracking-[0.28em] uppercase mb-3"
+            style={{ fontFamily: "'Inter', sans-serif", color: C.primary, fontWeight: 500 }}
+          >
+            Ils en Parlent
+          </p>
+          <h2
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              fontStyle: "italic",
+              fontWeight: 600,
+              fontSize: "clamp(28px, 4vw, 52px)",
+              color: "#fff",
+              lineHeight: 1.1,
+            }}
+          >
+            Presse & Médias
+          </h2>
+        </Reveal>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+          {PRESS_ITEMS.map((item, i) => (
+            <Reveal key={item.name} delay={i * 0.08}>
+              <div
+                className="p-6 rounded-xl flex flex-col gap-3 transition-all duration-300 hover:border-[#EC4899]/40 h-full"
+                style={{ border: `1px solid ${C.primaryBorder}`, backgroundColor: `${C.primary}08` }}
+              >
+                <p
+                  className="text-[17px]"
+                  style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 600, color: C.primary }}
+                >
+                  {item.name}
+                </p>
+                <p
+                  className="text-[10px] tracking-[0.10em] uppercase"
+                  style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.40)", fontWeight: 400 }}
+                >
+                  {item.issue}
+                </p>
+                <p
+                  className="text-[12px] leading-[1.7] flex-1 italic"
+                  style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.65)", fontWeight: 300 }}
+                >
+                  "{item.quote}"
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ==========================================================================
+   SETS / PRICING SECTION
+   ========================================================================== */
+function SetsSection() {
+  return (
+    <section id="sets" className="py-24 lg:py-32" style={{ backgroundColor: C.pink }}>
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
+        <Reveal className="text-center mb-16">
+          <p
+            className="text-[10px] tracking-[0.28em] uppercase mb-4"
+            style={{ fontFamily: "'Inter', sans-serif", color: C.primary, fontWeight: 500 }}
+          >
+            Coffrets Découverte
+          </p>
+          <h2
+            className="mb-5"
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              fontStyle: "italic",
+              fontWeight: 600,
+              fontSize: "clamp(36px, 5vw, 64px)",
+              color: C.text,
+              lineHeight: 1.1,
+            }}
+          >
+            Commencez votre
+            <span style={{ color: C.primary }}> Rituel</span>
+          </h2>
+          <p
+            className="text-[14px] leading-[1.8] max-w-[440px] mx-auto"
+            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.textMuted }}
+          >
+            Trois coffrets pour découvrir Lumière à votre rythme. Expédition offerte sur toutes les commandes.
+          </p>
+        </Reveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-[1000px] mx-auto">
+          {SETS.map((set, i) => (
+            <Reveal key={set.name} delay={i * 0.1}>
+              <div
+                className="relative rounded-3xl overflow-hidden flex flex-col h-full transition-all duration-300 hover:shadow-[0_20px_60px_rgba(236,72,153,0.18)]"
+                style={{
+                  backgroundColor: set.highlight ? C.text : C.white,
+                  border: `1px solid ${set.highlight ? C.primary : C.primaryBorder}`,
+                  transform: set.highlight ? "scale(1.04)" : "scale(1)",
+                }}
+              >
+                {/* Popular badge */}
+                {set.highlight && (
+                  <div
+                    className="absolute top-0 left-0 right-0 py-2 text-center text-[10px] tracking-[0.18em] uppercase"
+                    style={{
+                      background: `linear-gradient(135deg, ${C.primary}, ${C.lavender})`,
+                      color: "#fff",
+                      fontFamily: "'Inter', sans-serif",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Le plus populaire
+                  </div>
+                )}
+
+                <div className={`p-8 flex flex-col flex-1 ${set.highlight ? "pt-14" : ""}`}>
+                  {/* Badge */}
+                  <div
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] tracking-[0.10em] uppercase mb-6 self-start"
+                    style={{ backgroundColor: `${set.badgeColor}18`, color: set.badgeColor, fontFamily: "'Inter', sans-serif", fontWeight: 500 }}
+                  >
+                    <Sparkles size={10} />
+                    {set.badge}
+                  </div>
+
+                  {/* Name & Price */}
+                  <h3
+                    className="text-[30px] mb-1"
+                    style={{
+                      fontFamily: "'Playfair Display', serif",
+                      fontStyle: "italic",
+                      fontWeight: 700,
+                      color: set.highlight ? "#fff" : C.text,
+                    }}
+                  >
+                    {set.name}
+                  </h3>
+
+                  <div className="flex items-end gap-3 mb-2">
+                    <span
+                      className="text-[40px] leading-none"
+                      style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, color: set.highlight ? C.primary : C.primary }}
+                    >
+                      {set.price}
+                    </span>
+                    <span
+                      className="text-[16px] line-through mb-1"
+                      style={{ fontFamily: "'Inter', sans-serif", color: set.highlight ? "rgba(255,255,255,0.35)" : C.textLight }}
+                    >
+                      {set.original}
+                    </span>
+                  </div>
+                  <p
+                    className="text-[11px] tracking-[0.08em] uppercase mb-8"
+                    style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, color: set.highlight ? C.lavender : C.lavender }}
+                  >
+                    {set.saving}
+                  </p>
+
+                  {/* Items */}
+                  <ul className="space-y-3 flex-1 mb-8">
+                    {set.items.map((item) => (
+                      <li key={item} className="flex items-start gap-3">
+                        <div
+                          className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-[6px]"
+                          style={{ backgroundColor: set.highlight ? C.primary : C.primary }}
+                        />
+                        <span
+                          className="text-[13px]"
+                          style={{
+                            fontFamily: "'Inter', sans-serif",
+                            fontWeight: 300,
+                            color: set.highlight ? "rgba(255,255,255,0.75)" : C.textMuted,
+                          }}
+                        >
+                          {item}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Expédition badge */}
+                  <div
+                    className="flex items-center gap-2 mb-6 text-[11px]"
+                    style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: set.highlight ? "rgba(255,255,255,0.55)" : C.textMuted }}
+                  >
+                    <Package size={13} color={set.highlight ? C.primary : C.primary} />
+                    Expédition offerte
+                  </div>
+
+                  {/* CTA */}
+                  <button
+                    className="w-full py-4 rounded-full text-[12px] tracking-[0.14em] uppercase transition-all duration-300 hover:opacity-90 font-medium"
+                    style={{
+                      background: set.highlight
+                        ? `linear-gradient(135deg, ${C.primary}, ${C.lavender})`
+                        : `transparent`,
+                      border: set.highlight ? "none" : `1px solid ${C.primaryBorder}`,
+                      color: set.highlight ? "#fff" : C.text,
+                      fontFamily: "'Inter', sans-serif",
+                    }}
+                  >
+                    {set.cta}
+                  </button>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+function Footer() {
+  const [email, setEmail] = useState("")
+  const [subscribed, setSubscribed] = useState(false)
+
+  return (
+    <footer style={{ backgroundColor: C.text, borderTop: `1px solid ${C.primaryBorder}` }}>
+      {/* Newsletter */}
+      <div
+        className="py-16"
+        style={{ backgroundColor: C.pinkMid, borderBottom: `1px solid ${C.primaryBorder}` }}
+      >
+        <div className="max-w-[600px] mx-auto text-center px-6">
+          <Sparkles size={28} color={C.primary} className="mx-auto mb-4" />
+          <h3
+            className="text-[28px] mb-3"
+            style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 600, color: C.text }}
+          >
+            Rejoignez la communauté
+          </h3>
+          <p
+            className="text-[14px] mb-8"
+            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.textMuted }}
+          >
+            Rituels beauté, conseils experts, offres exclusives — 2 emails par mois, pas plus.
+          </p>
+          {subscribed ? (
+            <div
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full"
+              style={{ backgroundColor: C.primaryDim, color: C.primary, fontFamily: "'Inter', sans-serif", fontWeight: 500 }}
+            >
+              <Heart size={16} />
+              Bienvenue dans l'univers Lumière !
+            </div>
+          ) : (
+            <form
+              onSubmit={(e) => { e.preventDefault(); setSubscribed(true) }}
+              className="flex gap-3 max-w-[440px] mx-auto"
+            >
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="votre@email.fr"
+                className="flex-1 px-5 py-3.5 rounded-full text-[13px] outline-none"
+                style={{
+                  border: `1px solid ${C.primaryBorder}`,
+                  backgroundColor: C.white,
+                  color: C.text,
+                  fontFamily: "'Inter', sans-serif",
+                }}
+              />
+              <button
+                type="submit"
+                className="px-6 py-3.5 rounded-full text-[12px] tracking-[0.12em] uppercase transition-all duration-300 hover:opacity-90 flex-shrink-0"
+                style={{
+                  background: `linear-gradient(135deg, ${C.primary}, ${C.lavender})`,
+                  color: "#fff",
+                  fontFamily: "'Inter', sans-serif",
+                  fontWeight: 500,
+                }}
+              >
+                S'inscrire
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+
+      {/* Main footer */}
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          {/* Brand */}
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-2 mb-5">
+              <Sparkles size={16} color={C.primary} />
+              <span
+                className="text-[26px] italic"
+                style={{ fontFamily: "'Playfair Display', serif", fontWeight: 600, color: "#fff" }}
+              >
+                LUMIÈRE
+              </span>
+            </div>
+            <p
+              className="text-[13px] leading-[2] mb-6 max-w-[300px]"
+              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.55)" }}
+            >
+              Soins premium formulés en France. Vegan, cruelty-free, efficaces. La beauté authentique de la nature.
+            </p>
+            <div className="flex gap-4">
+              {[Instagram, Mail, Phone].map((Icon, i) => (
+                <a
+                  key={i}
+                  href="#"
+                  className="w-9 h-9 flex items-center justify-center rounded-full transition-all duration-300 hover:border-[#EC4899]/50"
+                  style={{ border: `1px solid ${C.primaryBorder}` }}
+                >
+                  <Icon size={16} color="rgba(255,255,255,0.60)" />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Produits */}
+          <div>
+            <p
+              className="text-[10px] tracking-[0.20em] uppercase mb-5"
+              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, color: C.primary }}
+            >
+              Produits
+            </p>
+            <ul className="space-y-3">
+              {["Sérum Éclat", "Crème Nuit", "Huile Précieuse", "Tonique Floral", "Masque Argile", "Contour Yeux"].map((item) => (
+                <li key={item}>
+                  <Link
+                    href="#"
+                    className="text-[12px] hover:opacity-100 transition-opacity"
+                    style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.55)" }}
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Aide */}
+          <div>
+            <p
+              className="text-[10px] tracking-[0.20em] uppercase mb-5"
+              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, color: C.primary }}
+            >
+              Aide & Infos
+            </p>
+            <ul className="space-y-3">
+              {["Mon compte", "Suivre ma commande", "Retours & remboursements", "FAQ beauté", "Nous contacter", "Programme fidélité"].map((item) => (
+                <li key={item}>
+                  <Link
+                    href="#"
+                    className="text-[12px] hover:opacity-100 transition-opacity"
+                    style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.55)" }}
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div
+          className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4"
+          style={{ borderTop: `1px solid ${C.primaryBorder}` }}
+        >
+          <p
+            className="text-[11px]"
+            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.35)" }}
+          >
+            © 2025 Lumière Beauty. Tous droits réservés. Formulé & fabriqué en France.
+          </p>
+          <div className="flex gap-6">
+            {["Mentions légales", "Confidentialité", "CGV"].map((item) => (
+              <Link
+                key={item}
+                href="#"
+                className="text-[10px] tracking-[0.10em] uppercase hover:opacity-80 transition-opacity"
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "rgba(255,255,255,0.35)" }}
+              >
+                {item}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
+}
+
+/* ==========================================================================
+   PAGE COMPONENT
+   ========================================================================== */
+export default function Impact134Page() {
+  useFonts()
+  const [scrolled, setScrolled] = useState(false)
+
+  const handleScroll = useCallback(() => {
+    setScrolled(window.scrollY > 60)
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [handleScroll])
+
+  return (
+    <div style={{ backgroundColor: C.pink, fontFamily: "'Inter', sans-serif" }}>
+      <ScrollProgressBar />
+      <Nav scrolled={scrolled} />
+      <Hero />
+      <Marquee />
+      <CollectionsSection />
+      <RituelsSection />
+      <IngredientsSection />
+      <AtelierSection />
+      <ReviewsSection />
+      <PressSection />
+      <SetsSection />
+      <Footer />
     </div>
   )
 }

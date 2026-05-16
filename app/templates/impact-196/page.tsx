@@ -1,531 +1,1500 @@
 "use client"
 
 import React, { useState, useEffect, useRef } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  useInView,
+  useSpring,
 } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  Zap, Activity, Microscope, 
-  Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, Wifi, BarChart3, 
-  Fingerprint, Scan, Brain, Server, 
-  ShieldCheck, ShieldAlert, Award, 
-  Briefcase, Wind, Thermometer, 
-  Flame, Battery, Radio, Gauge, 
-  Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Satellite, 
-  Milestone, FlaskConical, FlaskRound, 
-  Ghost, Binary, Database, Search, 
-  Cpu, HeartPulse, Sun, Magnet, 
-  CircleDot, Waves, Pickaxe, Mountain, 
-  Gem, Rocket, Drill, PlaneTakeoff, 
-  CpuIcon, Network, Eye, ZapOff, 
-  GhostIcon, RadioReceiver, 
-  Wrench, Hammer, Cog, Hand, 
-  Accessibility, Bot
+import {
+  Cpu,
+  Zap,
+  Activity,
+  Radio,
+  Shield,
+  Eye,
+  Network,
+  Brain,
+  Crosshair,
+  Terminal,
+  Database,
+  Server,
+  ArrowRight,
+  ChevronRight,
+  Menu,
+  X,
+  Wifi,
+  BarChart3,
+  Scan,
 } from "lucide-react"
 
 /* ==========================================================================
-   THE BIO-ROBOT DATASET (ULTRA DENSITY)
+   FONTS — Rajdhani + Space Mono
    ========================================================================== */
 
-const CYBERNETIC_ASSETS = [
+function useFonts() {
+  useEffect(() => {
+    const id = "bio-robot-fonts"
+    if (document.getElementById(id)) return
+    const link = document.createElement("link")
+    link.id = id
+    link.rel = "stylesheet"
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    document.head.appendChild(link)
+
+    const style = document.createElement("style")
+    style.innerHTML = `
+      .font-rajdhani { font-family: 'Rajdhani', sans-serif; }
+      .font-mono-space { font-family: 'Space Mono', monospace; }
+      @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+      .cursor-blink::after { content:'_'; animation: blink 1s step-end infinite; }
+      @keyframes scan-line {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100vh); }
+      }
+      @keyframes pulse-ring {
+        0% { transform: scale(0.8); opacity: 1; }
+        100% { transform: scale(2); opacity: 0; }
+      }
+      .scan-line { animation: scan-line 8s linear infinite; }
+      .pulse-ring { animation: pulse-ring 2s ease-out infinite; }
+      @keyframes grid-move {
+        0% { background-position: 0 0; }
+        100% { background-position: 60px 60px; }
+      }
+      .bg-grid-animate {
+        background-image:
+          radial-gradient(circle, rgba(0,255,255,0.12) 1px, transparent 1px),
+          linear-gradient(rgba(124,58,237,0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(124,58,237,0.04) 1px, transparent 1px);
+        background-size: 60px 60px, 60px 60px, 60px 60px;
+        animation: grid-move 20s linear infinite;
+      }
+      @keyframes glitch {
+        0%,100% { clip-path: inset(0 0 100% 0); }
+        5% { clip-path: inset(30% 0 50% 0); transform: translateX(-4px); }
+        10% { clip-path: inset(60% 0 10% 0); transform: translateX(4px); }
+        15% { clip-path: inset(0 0 100% 0); }
+        20% { clip-path: inset(80% 0 5% 0); transform: translateX(-2px); }
+        25% { clip-path: inset(0 0 100% 0); }
+      }
+      .glitch-overlay { animation: glitch 6s steps(1) infinite; }
+      @keyframes hud-flicker {
+        0%,100%{opacity:1} 92%{opacity:1} 93%{opacity:0.6} 94%{opacity:1} 97%{opacity:0.8} 98%{opacity:1}
+      }
+      .hud-flicker { animation: hud-flicker 4s ease-in-out infinite; }
+      @keyframes data-stream {
+        0% { transform: translateY(0); opacity: 1; }
+        100% { transform: translateY(-100%); opacity: 0; }
+      }
+    `
+    document.head.appendChild(style)
+  }, [])
+}
+
+/* ==========================================================================
+   DATA
+   ========================================================================== */
+
+const NAV_LINKS = ["Systems", "Metrics", "Enhance", "Specs", "Protocol"]
+
+const ENHANCEMENTS = [
   {
-    id: "cyb-v4-42",
-    name: "Cyber-v4 Arm",
-    type: "Biomimetic Limb",
-    force: "1400 N",
-    latency: "1.2 ms",
-    integration: "99.8%",
-    desc: "Bras bionique haute performance utilisant des muscles synthétiques en polymère électro-actif pour une fluidité de mouvement naturelle.",
-    status: "Calibrated"
+    id: "NRL-01",
+    name: "Neural Interface",
+    icon: Brain,
+    status: "ONLINE",
+    desc: "Direct neural-digital bridge enabling thought-speed command execution and real-time data overlay integration.",
+    power: "4.2W",
+    latency: "0.3ms",
+    compat: "99.8%",
+    color: "#00ffff",
   },
   {
-    id: "cyb-neu-08",
-    name: "Neural Link Alpha",
-    type: "Synaptic Interface",
-    force: "N/A",
-    latency: "0.2 ms",
-    integration: "99.99%",
-    desc: "Interface neuronale permettant un contrôle direct par la pensée, traduisant les signaux corticaux en commandes motrices instantanées.",
-    status: "Linked"
+    id: "EXO-02",
+    name: "Exo-Skeleton",
+    icon: Zap,
+    status: "ONLINE",
+    desc: "Carbon-fiber exoskeletal augmentation delivering 8x baseline force amplification with haptic feedback grid.",
+    power: "380W",
+    latency: "2.1ms",
+    compat: "97.2%",
+    color: "#7C3AED",
   },
   {
-    id: "cyb-bio-15",
-    name: "Bionic Grid v5",
-    type: "Exoskeleton Suit",
-    force: "8500 N",
-    latency: "5.0 ms",
-    integration: "99.4%",
-    desc: "Exosquelette complet offrant une force surhumaine et une endurance illimitée pour les environnements de travail extrêmes.",
-    status: "Powered"
-  }
+    id: "OCU-03",
+    name: "Ocular Implant",
+    icon: Eye,
+    status: "STANDBY",
+    desc: "Retinal display overlay with 16K resolution, UV/IR spectrum switching, and 400x optical magnification.",
+    power: "1.8W",
+    latency: "0.1ms",
+    compat: "99.9%",
+    color: "#00ffff",
+  },
+  {
+    id: "COC-04",
+    name: "Cochlear Enhancer",
+    icon: Radio,
+    status: "ONLINE",
+    desc: "Full-spectrum audio processing: 0–200kHz range, directional isolation, real-time language translation.",
+    power: "0.9W",
+    latency: "0.05ms",
+    compat: "99.7%",
+    color: "#7C3AED",
+  },
+  {
+    id: "HAP-05",
+    name: "Haptic Feedback",
+    icon: Activity,
+    status: "CALIBRATING",
+    desc: "Sub-dermal haptic array with 4,096 individual actuators for remote touch simulation and environmental sensing.",
+    power: "12W",
+    latency: "1.4ms",
+    compat: "98.1%",
+    color: "#00ffff",
+  },
+  {
+    id: "MEM-06",
+    name: "Memory Module",
+    icon: Database,
+    status: "ONLINE",
+    desc: "512TB compressed memory core with photographic recall, instant search, and cross-reference AI indexing.",
+    power: "6.1W",
+    latency: "0.02ms",
+    compat: "99.95%",
+    color: "#7C3AED",
+  },
 ]
 
-const MOTOR_METRICS = [
-  { label: "Servo Tension", value: "42.4%", trend: "Stable" },
-  { label: "Signal Latency", value: "1.2 ms", trend: "Optimal" },
-  { label: "Battery Eff.", value: "94.2%", trend: "Peak" },
-  { label: "Nerve Sync", value: "ACTIVE", trend: "Nominal" }
+const METRICS = [
+  { label: "Neural Latency", value: 0.4, unit: "ms", max: 5, icon: Brain, color: "#00ffff" },
+  { label: "Force Output", value: 847, unit: "%", max: 1000, icon: Zap, color: "#7C3AED" },
+  { label: "Sensory Acuity", value: 99.7, unit: "%", max: 100, icon: Eye, color: "#00ffff" },
+  { label: "Memory Index", value: 512, unit: "TB", max: 512, icon: Database, color: "#7C3AED" },
 ]
 
-const CYBER_LOGS = [
-  { timestamp: "28:14:42", unit: "Arm-Module-01", status: "CALIBRATING", axis: "X-Y-Z" },
-  { timestamp: "28:14:45", unit: "Neural-Buffer", status: "SYNCING", signal: "RAW_MOTOR" },
-  { timestamp: "28:14:48", unit: "Power-Core", status: "SECURE", voltage: "48.2V" }
+const MARQUEE_ITEMS = [
+  "NEURAL_LINK_ACTIVE",
+  "FORCE_AMPLIFIER_ONLINE",
+  "SENSORY_BOOST_ENGAGED",
+  "MEMORY_MODULE_SYNC",
+  "THERMAL_REGULATOR_OK",
+  "EXOSKELETON_CALIBRATED",
+  "OCULAR_HUD_ACTIVE",
+  "COCHLEAR_FILTER_ONLINE",
 ]
 
-/* ==========================================
-   TECHNICAL COMPONENTS
-   ========================================== */
+const PROTOCOL_STEPS = [
+  {
+    step: "01",
+    name: "Evaluation",
+    icon: Scan,
+    desc: "Complete biometric scan and neural compatibility assessment. Full genomic sequencing to determine augmentation viability and contraindications.",
+    duration: "72h",
+  },
+  {
+    step: "02",
+    name: "Neural Mapping",
+    icon: Brain,
+    desc: "High-resolution 3D neural cartography of target integration zones. AI-assisted pathway optimization for minimal signal interference.",
+    duration: "48h",
+  },
+  {
+    step: "03",
+    name: "Integration",
+    icon: Cpu,
+    desc: "Precision microsurgical implantation under full neuro-monitoring. Nanotube interface anchoring with bio-compatible polymer sealing.",
+    duration: "12h",
+  },
+  {
+    step: "04",
+    name: "Calibration",
+    icon: Crosshair,
+    desc: "Adaptive firmware tuning and neural pathway reinforcement. Progressive load testing with real-time biometric feedback monitoring.",
+    duration: "30d",
+  },
+]
 
-function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+const CASE_STUDIES = [
+  {
+    subject: "SUBJECT_7734-ALPHA",
+    name: "Marcus Chen",
+    role: "Combat Operator",
+    package: "ELITE",
+    stats: [
+      "reaction_time: 0.08s (-91%)",
+      "force_output: 8.4kN (+840%)",
+      "visual_range: 4.2km (+6000%)",
+      "memory_precision: 99.97%",
+    ],
+    note: "// Full-stack augmentation. Field-deployed 18 months.",
+  },
+  {
+    subject: "SUBJECT_4421-BETA",
+    name: "Dr. Yuki Tanaka",
+    role: "Neuroscience Lead",
+    package: "ADVANCED",
+    stats: [
+      "cognitive_speed: +340%",
+      "recall_accuracy: 99.99%",
+      "focus_duration: 36h_sustained",
+      "neural_latency: 0.12ms",
+    ],
+    note: "// Neural + Memory stack. Research output +870%.",
+  },
+  {
+    subject: "SUBJECT_9901-GAMMA",
+    name: "Elena Voss",
+    role: "Intelligence Operative",
+    package: "ADVANCED",
+    stats: [
+      "threat_detection: +520%",
+      "language_modules: 47_loaded",
+      "sensory_range: +400%",
+      "uptime: 99.94%_24mo",
+    ],
+    note: "// Sensory + Cochlear + Neural. Zero adverse events.",
+  },
+]
+
+const PRICING = [
+  {
+    tier: "CORE",
+    price: "29,900",
+    tag: "Entry Protocol",
+    desc: "Single-system cybernetic enhancement for targeted capability augmentation.",
+    features: [
+      "1 enhancement system",
+      "Neural Interface OR Ocular Implant",
+      "24/7 remote monitoring",
+      "Annual calibration",
+      "5-year hardware warranty",
+      "Encrypted biolink",
+    ],
+    cta: "Initialize Core",
+    featured: false,
+  },
+  {
+    tier: "ADVANCED",
+    price: "89,900",
+    tag: "Dual Integration",
+    desc: "Multi-system augmentation stack for comprehensive bio-digital enhancement.",
+    features: [
+      "3 enhancement systems",
+      "Neural + Memory + Sensory",
+      "Priority 4h field support",
+      "Quarterly calibration",
+      "10-year hardware warranty",
+      "Secure uplink channel",
+      "Custom firmware profiles",
+    ],
+    cta: "Initialize Advanced",
+    featured: true,
+  },
+  {
+    tier: "ELITE",
+    price: "199,900",
+    tag: "Full Stack",
+    desc: "Complete human augmentation suite — every system, maximum capability.",
+    features: [
+      "All 6 enhancement systems",
+      "Neural + Exo + Ocular + Cochlear + Haptic + Memory",
+      "Dedicated biotech agent",
+      "Monthly calibration + upgrades",
+      "Lifetime hardware warranty",
+      "Military-grade encryption",
+      "Priority surgical scheduling",
+      "Custom AI personality core",
+    ],
+    cta: "Initialize Elite",
+    featured: false,
+  },
+]
+
+const SPECS_TABLE = [
+  { spec: "Neural Interface Bandwidth", value: "42 Gbps" },
+  { spec: "Operating Frequency", value: "2.4 / 5 / 60 GHz" },
+  { spec: "Power Source", value: "Bio-kinetic + Wireless" },
+  { spec: "Battery Life (passive)", value: "72 hours" },
+  { spec: "Biocompatibility Rating", value: "ISO 10993-1 Class III" },
+  { spec: "Operating Temperature", value: "-40°C to +85°C" },
+  { spec: "Encryption Standard", value: "AES-512 + Quantum-resistant" },
+  { spec: "Firmware OTA Updates", value: "Encrypted air-gap tunnel" },
+  { spec: "Maintenance Interval", value: "90 days standard" },
+  { spec: "Warranty Duration", value: "5–lifetime (tier)" },
+  { spec: "Regulatory Approval", value: "CE, FDA Class III, ISO 13485" },
+  { spec: "Integration Protocol", value: "BNCI-v4.2 standard" },
+]
+
+/* ==========================================================================
+   COMPONENTS
+   ========================================================================== */
+
+function Reveal({
+  children,
+  delay = 0,
+  y = 40,
+  x = 0,
+}: {
+  children: React.ReactNode
+  delay?: number
+  y?: number
+  x?: number
+}) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y, x }}
       animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 1.1, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </motion.div>
   )
 }
 
-function BionicFlowVisualizer() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+function HUDCorner({ position }: { position: "tl" | "tr" | "bl" | "br" }) {
+  const styles = {
+    tl: "top-0 left-0 border-t border-l",
+    tr: "top-0 right-0 border-t border-r",
+    bl: "bottom-0 left-0 border-b border-l",
+    br: "bottom-0 right-0 border-b border-r",
+  }
+  return (
+    <div
+      className={`absolute w-5 h-5 border-[#00ffff]/40 ${styles[position]}`}
+    />
+  )
+}
+
+function BlinkDot({ color = "#00ffff" }: { color?: string }) {
+  return (
+    <motion.span
+      animate={{ opacity: [1, 0, 1] }}
+      transition={{ duration: 1, repeat: Infinity }}
+      className="inline-block w-2 h-2 rounded-full mr-2"
+      style={{ backgroundColor: color }}
+    />
+  )
+}
+
+function ArcGauge({
+  value,
+  max,
+  color,
+  size = 120,
+}: {
+  value: number
+  max: number
+  color: string
+  size?: number
+}) {
+  const pct = value / max
+  const r = 48
+  const circ = 2 * Math.PI * r
+  const dash = pct * circ * 0.75
+  const gap = circ - dash
+  const offset = circ * 0.125
+
+  return (
+    <svg width={size} height={size} viewBox="0 0 120 120">
+      <circle
+        cx="60"
+        cy="60"
+        r={r}
+        fill="none"
+        stroke="rgba(255,255,255,0.06)"
+        strokeWidth="6"
+        strokeDasharray={`${circ * 0.75} ${circ * 0.25}`}
+        strokeDashoffset={-offset}
+        strokeLinecap="round"
+      />
+      <motion.circle
+        cx="60"
+        cy="60"
+        r={r}
+        fill="none"
+        stroke={color}
+        strokeWidth="6"
+        strokeDasharray={`${dash} ${gap + circ * 0.25}`}
+        strokeDashoffset={-offset}
+        strokeLinecap="round"
+        initial={{ strokeDasharray: `0 ${circ}` }}
+        animate={{ strokeDasharray: `${dash} ${gap + circ * 0.25}` }}
+        transition={{ duration: 2, ease: "easeOut", delay: 0.5 }}
+        style={{ filter: `drop-shadow(0 0 6px ${color})` }}
+      />
+    </svg>
+  )
+}
+
+function StatusBadge({ status }: { status: string }) {
+  const colors: Record<string, string> = {
+    ONLINE: "#00ffff",
+    STANDBY: "#7C3AED",
+    CALIBRATING: "#f59e0b",
+  }
+  return (
+    <span
+      className="text-[9px] font-bold tracking-widest px-2 py-0.5 border font-mono-space"
+      style={{ color: colors[status], borderColor: `${colors[status]}40`, backgroundColor: `${colors[status]}10` }}
+    >
+      {status}
+    </span>
+  )
+}
+
+/* ==========================================================================
+   MAIN PAGE
+   ========================================================================== */
+
+export default function Impact196Page() {
+  useFonts()
+
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [activeEnhancement, setActiveEnhancement] = useState(0)
+  const [counters, setCounters] = useState({ packets: 0, latency: 0, sync: 0 })
+  const [formData, setFormData] = useState({ name: "", email: "", tier: "CORE", notes: "" })
+  const [formSent, setFormSent] = useState(false)
+  const [hoveredSpec, setHoveredSpec] = useState<number | null>(null)
+
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: containerRef })
+  const heroY = useTransform(scrollYProgress, [0, 0.35], [0, -140])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0])
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 })
+
   useEffect(() => {
-    const handleMouse = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
-    window.addEventListener("mousemove", handleMouse)
-    return () => window.removeEventListener("mousemove", handleMouse)
+    const onScroll = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", onScroll)
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
+  // Animated counters
+  useEffect(() => {
+    const targets = { packets: 14.2, latency: 0.4, sync: 99.99 }
+    const duration = 2200
+    const steps = 60
+    const interval = duration / steps
+    let step = 0
+    const timer = setInterval(() => {
+      step++
+      const p = Math.min(step / steps, 1)
+      setCounters({
+        packets: parseFloat((targets.packets * p).toFixed(1)),
+        latency: parseFloat((targets.latency * p).toFixed(2)),
+        sync: parseFloat((targets.sync * p).toFixed(2)),
+      })
+      if (step >= steps) clearInterval(timer)
+    }, interval)
+    return () => clearInterval(timer)
+  }, [])
+
+  // Auto-cycle enhancements
+  useEffect(() => {
+    const t = setInterval(() => setActiveEnhancement(p => (p + 1) % ENHANCEMENTS.length), 4000)
+    return () => clearInterval(t)
   }, [])
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20">
-       <svg width="100%" height="100%" className="w-full h-full">
-          {[...Array(15)].map((_, i) => (
-            <motion.rect 
-               key={i}
-               x={i * 150}
-               y={300}
-               width="20"
-               height="100"
-               fill="#facc15"
-               animate={{ 
-                  rotate: [0, mousePos.y / 20, 0],
-                  scaleY: [1, 1 + mousePos.x / 1000, 1]
-               }}
-               transition={{ type: "spring", damping: 10, stiffness: 100 }}
-            />
-          ))}
-          {[...Array(8)].map((_, i) => (
-            <motion.circle 
-               key={`joint-${i}`}
-               cx={i * 250 + 100}
-               cy={500}
-               r={10}
-               fill="#facc15"
-               animate={{ 
-                  opacity: [0.2, 1, 0.2],
-                  scale: [1, 1.5, 1]
-               }}
-               transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
-            />
-          ))}
-       </svg>
-    </div>
-  )
-}
+    <div
+      ref={containerRef}
+      className="bg-[#000000] text-[#E2E8F0] font-rajdhani overflow-x-hidden min-h-screen selection:bg-[#7C3AED]/30 selection:text-[#00ffff]"
+      style={{ fontFamily: "'Rajdhani', sans-serif" }}
+    >
+      {/* SCROLL PROGRESS BAR */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-[2px] z-[100] origin-left"
+        style={{
+          scaleX,
+          background: "linear-gradient(90deg, #7C3AED, #00ffff)",
+          boxShadow: "0 0 10px rgba(0,255,255,0.6)",
+        }}
+      />
 
-function BioRobotModel({ progress }: { progress: any }) {
-  const rotate = useTransform(progress, [0, 1], [0, 360])
-  const scale = useTransform(progress, [0, 0.5, 1], [1, 1.2, 1])
+      {/* ================================================================
+          1. NAVIGATION
+          ================================================================ */}
+      <motion.nav
+        className="fixed top-[2px] left-0 right-0 z-50 transition-all duration-500"
+        animate={{
+          backgroundColor: scrolled ? "rgba(0,0,0,0.95)" : "transparent",
+          borderBottomColor: scrolled ? "rgba(0,255,255,0.1)" : "transparent",
+          borderBottomWidth: "1px",
+        }}
+        style={{ backdropFilter: scrolled ? "blur(20px)" : "none" }}
+      >
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="relative">
+              <div className="w-8 h-8 border border-[#00ffff]/60 flex items-center justify-center group-hover:border-[#00ffff] transition-colors">
+                <Cpu className="w-4 h-4 text-[#00ffff]" />
+              </div>
+              <div className="absolute -top-0.5 -left-0.5 w-2 h-2 border-t border-l border-[#00ffff]" />
+              <div className="absolute -bottom-0.5 -right-0.5 w-2 h-2 border-b border-r border-[#00ffff]" />
+            </div>
+            <span
+              className="text-xl font-bold tracking-[0.3em] text-[#E2E8F0] uppercase"
+              style={{ fontFamily: "'Rajdhani', sans-serif" }}
+            >
+              BIO<span className="text-[#00ffff]">-</span>ROBOT
+            </span>
+          </Link>
 
-  return (
-    <motion.div style={{ rotate, scale }} className="relative w-80 h-80 flex items-center justify-center">
-       <div className="absolute inset-0 border border-yellow-500/10 rounded-full animate-spin-slow shadow-[0_0_80px_rgba(250,204,21,0.05)]" />
-       <Bot className="w-40 h-40 text-yellow-500/10 animate-pulse" />
-       <div className="absolute inset-8 border border-yellow-500/5 rounded-full" />
-    </motion.div>
-  )
-}
-
-/* ==========================================
-   THE BIO-ROBOT - MAIN INTERFACE
-   ========================================== */
-
-export default function BioRobotPremium() {
-  const [activeAsset, setActiveAsset] = useState(0)
-  const [isMotorStable, setIsMotorStable] = useState(true)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Bionic Scroll Effects
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textX = useTransform(scrollYProgress, [0, 0.5], [0, 100])
-
-  return (
-    <div ref={containerRef} className="bg-[#0c0c0c] text-[#e0e8ed] font-mono selection:bg-yellow-500/30 selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000">
-      
-      {/* GLOBAL HUD OVERLAY */}
-      <HUD_Overlay isMotorStable={isMotorStable} />
-
-      <main>
-        {/* ==========================================
-            1. BIONIC IGNITION (HERO)
-            ========================================== */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-          <BionicFlowVisualizer />
-          <motion.div style={{ opacity: heroOpacity }} className="absolute z-0 pointer-events-none flex items-center justify-center">
-             <BioRobotModel progress={scrollYProgress} />
-          </motion.div>
-
-          <div className="relative z-10 text-center max-w-7xl">
-             <Reveal>
-                <div className="inline-flex items-center gap-4 px-6 py-2 border border-yellow-500/30 bg-yellow-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-yellow-500 mb-12 italic">
-                   <Bot className="w-4 h-4" /> Bionic_Sync: NOMINAL // Tension: 42.4%
-                </div>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic">
-                   Bio <br/> <span className="text-white/5 italic">Robot.</span>
-                </motion.h1>
-                <p className="max-w-3xl mx-auto text-sm md:text-lg text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16 italic">
-                   La convergence homme-machine. Nous concevons des membres bioniques et des systèmes cybernétiques biomimétiques, offrant une mobilité et une force augmentées avec une précision chirurgicale.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                   <button className="px-12 py-6 bg-yellow-800 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(250,204,21,0.2)] flex items-center gap-4 italic">
-                      <Zap className="w-5 h-5" /> Initialize Motor
-                   </button>
-                   <button className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
-                      <Database className="w-5 h-5" /> Cybernetic Registry
-                   </button>
-                </div>
-             </Reveal>
+          {/* Desktop Links */}
+          <div className="hidden md:flex items-center gap-8">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link}
+                href={`#${link.toLowerCase()}`}
+                className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#E2E8F0]/50 hover:text-[#00ffff] transition-colors"
+              >
+                {link}
+              </Link>
+            ))}
           </div>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-12">
-             <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Bionic_ID: BIO-ROBOT-01
-                </div>
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Status: NEURAL_LINK_ACTIVE
-                </div>
-             </div>
-             <div className="text-right flex flex-col items-end gap-4">
-                <span className="text-[8px] font-black uppercase tracking-[0.5em] text-yellow-500">Cyber_Motor_Data_Stream</span>
-                <div className="flex gap-2 h-12 items-end">
-                   {[...Array(16)].map((_, i) => (
-                     <motion.div 
-                        key={i}
-                        animate={{ height: ["10%", "100%", "30%", "80%", "10%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                        className="w-2 bg-yellow-500/20"
-                     />
-                   ))}
-                </div>
-             </div>
+          {/* CTA + Hamburger */}
+          <div className="flex items-center gap-4">
+            <button className="hidden md:flex items-center gap-2 px-5 py-2 border border-[#7C3AED]/60 text-[10px] font-bold tracking-widest uppercase text-[#7C3AED] hover:bg-[#7C3AED]/10 hover:border-[#7C3AED] transition-all">
+              <Zap className="w-3 h-3" />
+              Initialize
+            </button>
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="md:hidden w-10 h-10 border border-[#00ffff]/20 flex items-center justify-center text-[#00ffff] hover:border-[#00ffff]/60 transition-colors"
+            >
+              {menuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            </button>
           </div>
-        </section>
+        </div>
 
-        {/* ==========================================
-            2. CYBERNETIC REGISTRY (DENSE TECHNICAL)
-            ========================================== */}
-        <section className="py-60 bg-[#14140c] relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-              <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-                 <Reveal>
-                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-yellow-500 block mb-6 italic underline underline-offset-8 decoration-yellow-400/20">Cybernetic // Assets</span>
-                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">Archives.</h2>
-                 </Reveal>
-                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Cyber_Audit</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-yellow-500">L'Architecture de la Bionique Avancée</p>
-                 </div>
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-[#000000]/98 border-t border-[#00ffff]/10 overflow-hidden"
+            >
+              <div className="px-6 py-6 flex flex-col gap-4">
+                {NAV_LINKS.map((link) => (
+                  <Link
+                    key={link}
+                    href={`#${link.toLowerCase()}`}
+                    onClick={() => setMenuOpen(false)}
+                    className="text-sm font-bold tracking-[0.2em] uppercase text-[#E2E8F0]/60 hover:text-[#00ffff] transition-colors py-2 border-b border-[#ffffff]/5"
+                  >
+                    <ChevronRight className="inline w-3 h-3 mr-2 text-[#7C3AED]" />
+                    {link}
+                  </Link>
+                ))}
+                <button className="mt-2 flex items-center justify-center gap-2 px-5 py-3 bg-[#7C3AED]/10 border border-[#7C3AED]/60 text-sm font-bold tracking-widest uppercase text-[#7C3AED]">
+                  <Zap className="w-4 h-4" />
+                  Initialize
+                </button>
               </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.nav>
 
-              <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 shadow-2xl">
-                 {CYBERNETIC_ASSETS.map((asset, i) => (
-                   <Reveal key={asset.id} delay={i * 0.1}>
-                      <div className="bg-[#0c0c0c] p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
-                         <div className="flex justify-between items-start mb-16">
-                            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-yellow-800 group-hover:text-white transition-all duration-500">
-                               <CpuIcon className="w-8 h-8" />
-                            </div>
-                            <span className={`px-4 py-2 bg-white/5 text-[9px] font-black uppercase tracking-[0.3em] ${asset.status === "Calibrated" ? "text-yellow-500" : "text-white/40"}`}>{asset.status}</span>
-                         </div>
-                         
-                         <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{asset.name}</h3>
-                         <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-12">{asset.type}</div>
-                         
-                         <div className="space-y-8 mb-20 border-l border-yellow-500/20 pl-8">
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Grip Force</span>
-                               <span className="text-white group-hover:text-yellow-400 transition-colors">{asset.force}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Latency</span>
-                               <span className="text-white group-hover:text-yellow-400 transition-colors">{asset.latency}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Integration</span>
-                               <span className="text-white group-hover:text-yellow-400 transition-colors">{asset.integration}</span>
-                            </div>
-                         </div>
+      {/* ================================================================
+          2. HERO — OLED BLACK HUD
+          ================================================================ */}
+      <section className="relative h-screen flex flex-col justify-center items-center overflow-hidden">
+        {/* Animated grid background */}
+        <div className="absolute inset-0 bg-grid-animate opacity-60" />
 
-                         <p className="text-[12px] text-white/30 leading-loose uppercase tracking-[0.2em] font-bold italic mb-16">
-                            {asset.desc}
-                         </p>
+        {/* HUD scan line */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="scan-line absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#00ffff]/20 to-transparent" />
+        </div>
 
-                         <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center">
-                            <span className="text-[10px] font-black text-white/10 uppercase tracking-widest">Ref: {asset.id}</span>
-                            <button className="text-[10px] font-black uppercase text-white/40 flex items-center gap-4 group-hover:text-white transition-all">
-                               Technical_Specs <ChevronRight className="w-5 h-5" />
-                            </button>
-                         </div>
-                      </div>
-                   </Reveal>
-                 ))}
+        {/* Corner brackets */}
+        <div className="absolute top-24 left-8 md:left-16 w-16 h-16 border-t-2 border-l-2 border-[#00ffff]/30" />
+        <div className="absolute top-24 right-8 md:right-16 w-16 h-16 border-t-2 border-r-2 border-[#00ffff]/30" />
+        <div className="absolute bottom-24 left-8 md:left-16 w-16 h-16 border-b-2 border-l-2 border-[#7C3AED]/30" />
+        <div className="absolute bottom-24 right-8 md:right-16 w-16 h-16 border-b-2 border-r-2 border-[#7C3AED]/30" />
+
+        {/* Pulse rings */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="pulse-ring absolute w-96 h-96 rounded-full border border-[#7C3AED]/10" />
+          <div
+            className="pulse-ring absolute w-64 h-64 rounded-full border border-[#00ffff]/10"
+            style={{ animationDelay: "1s" }}
+          />
+        </div>
+
+        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="relative z-10 text-center px-6 max-w-6xl mx-auto">
+          {/* System tag */}
+          <Reveal>
+            <div className="inline-flex items-center gap-3 px-4 py-2 border border-[#00ffff]/20 bg-[#00ffff]/5 mb-8">
+              <BlinkDot color="#00ffff" />
+              <span
+                className="text-[9px] font-bold tracking-[0.5em] uppercase text-[#00ffff]/80"
+                style={{ fontFamily: "'Space Mono', monospace" }}
+              >
+                SYSTEM_STATUS: OPERATIONAL // BIO-ROBOT_v4.2
+              </span>
+            </div>
+          </Reveal>
+
+          {/* Headline with glitch */}
+          <Reveal delay={0.1}>
+            <div className="relative inline-block">
+              <h1
+                className="text-[13vw] md:text-[10vw] font-bold leading-[0.85] uppercase tracking-tight text-[#E2E8F0] mb-4"
+                style={{ fontFamily: "'Rajdhani', sans-serif" }}
+              >
+                AUGMENT
+                <br />
+                <span className="text-transparent" style={{ WebkitTextStroke: "1px rgba(124,58,237,0.5)" }}>
+                  YOUR
+                </span>
+                <br />
+                <span className="text-[#00ffff]">HUMANITY</span>
+              </h1>
+              {/* Glitch overlay */}
+              <div
+                className="glitch-overlay absolute inset-0 pointer-events-none text-[13vw] md:text-[10vw] font-bold leading-[0.85] uppercase tracking-tight text-[#00ffff] opacity-30"
+                style={{ fontFamily: "'Rajdhani', sans-serif" }}
+                aria-hidden
+              >
+                AUGMENT
+                <br />
+                YOUR
+                <br />
+                HUMANITY
               </div>
-           </div>
-        </section>
+            </div>
+          </Reveal>
 
-        {/* ==========================================
-            3. MOTOR MONITOR (INTERACTIVE DATA)
-            ========================================== */}
-        <section className="py-60 bg-black relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div>
-                    <Reveal>
-                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-yellow-500 block mb-12 italic underline underline-offset-8 decoration-yellow-500/20">Motor // Performance</span>
-                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">
-                          The <br/> <span className="not-italic font-black text-white/5 italic">Cyber_Link.</span>
-                       </h2>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">
-                          Surveillance de l'intégrité motrice en temps réel. Nos capteurs cybernétiques analysent la tension des servomoteurs et la latence du signal neuronal pour garantir une fluidité de mouvement parfaite.
-                       </p>
-                       <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
-                          {MOTOR_METRICS.map((metric, i) => (
-                            <div key={i} className="p-16 bg-[#1c1c0a] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
-                               <div className="text-[10px] font-black uppercase text-yellow-500 mb-6 tracking-[0.4em]">{metric.label}</div>
-                               <div className="text-5xl font-black text-white italic mb-6 tracking-tighter group-hover:translate-x-4 transition-transform">{metric.value}</div>
-                               <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
-                                  <Activity className="w-4 h-4 text-yellow-500" /> {metric.trend}
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                       <button 
-                         onClick={() => setIsMotorStable(!isMotorStable)}
-                         className="w-full py-8 bg-yellow-950 text-white text-[11px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center gap-6 italic"
-                       >
-                          <Settings className="w-5 h-5" /> Re-Sync Motor Nodes
-                       </button>
-                    </Reveal>
-                 </div>
-                 
-                 <div className="relative">
-                    <Reveal delay={0.3} x={40}>
-                       <div className="aspect-square bg-[#1c1c0a] border border-white/10 p-20 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 p-80 bg-yellow-400 opacity-[0.02] blur-[150px] rounded-full group-hover:opacity-[0.05] transition-opacity" />
-                          
-                          <div className="flex justify-between items-start z-10">
-                             <div className="flex flex-col gap-3">
-                                <span className="text-[10px] font-black text-white/10 uppercase tracking-[0.5em]">Motor_Link // SYNC-v42</span>
-                                <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.6em]">Cyber_Stability_Telemetry</span>
-                             </div>
-                             <Wifi className="w-6 h-6 text-yellow-400" />
-                          </div>
-                          
-                          {/* BIONIC VISUALIZER (SVG) */}
-                          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                             <div className="w-64 h-64 border border-yellow-400/5 rounded-full flex items-center justify-center relative">
-                                <motion.div 
-                                  animate={{ rotate: 360 }}
-                                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-0 border-t-2 border-yellow-400/20 rounded-full" 
-                                />
-                                <motion.div 
-                                  animate={{ rotate: -360 }}
-                                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-8 border-b-2 border-yellow-400/10 rounded-full" 
-                                />
-                                <Hand className={`w-24 h-24 transition-colors duration-1000 ${isMotorStable ? "text-yellow-400 animate-pulse" : "text-white/5"}`} />
-                             </div>
-                             <div className="mt-16 text-center space-y-6">
-                                <div className={`text-4xl font-black italic tracking-tighter ${isMotorStable ? "text-white" : "text-white/20"}`}>
-                                   {isMotorStable ? "MOTOR_SECURE" : "SIGNAL_DISRUPTION"}
-                                </div>
-                                <span className="text-[11px] font-bold text-white/10 uppercase tracking-[0.6em] block">Auth_Node: BIONIC_UNIT_01</span>
-                             </div>
-                          </div>
+          <Reveal delay={0.2}>
+            <p
+              className="text-sm md:text-base text-[#E2E8F0]/40 tracking-[0.2em] uppercase max-w-2xl mx-auto mb-12"
+              style={{ fontFamily: "'Space Mono', monospace" }}
+            >
+              Bio-digital integration systems for the next stage of human evolution.
+              <br />
+              Precision engineering. Military-grade. Clinically certified.
+            </p>
+          </Reveal>
 
-                          <div className="relative z-10 flex gap-6">
-                             <div className="flex-1 h-1 bg-white/5 overflow-hidden">
-                                <motion.div 
-                                   animate={isMotorStable ? { x: ["-100%", "100%"] } : {}}
-                                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-yellow-700"
-                                />
-                             </div>
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
+          <Reveal delay={0.3}>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button className="flex items-center justify-center gap-2 px-8 py-4 bg-[#7C3AED] text-white text-[11px] font-bold tracking-widest uppercase hover:bg-[#6d28d9] transition-all" style={{ boxShadow: "0 0 30px rgba(124,58,237,0.4)" }}>
+                <Zap className="w-4 h-4" />
+                Initialize Enhancement
+              </button>
+              <button className="flex items-center justify-center gap-2 px-8 py-4 border border-[#00ffff]/30 text-[#00ffff] text-[11px] font-bold tracking-widest uppercase hover:bg-[#00ffff]/5 hover:border-[#00ffff]/60 transition-all">
+                <Scan className="w-4 h-4" />
+                System Overview
+              </button>
+            </div>
+          </Reveal>
 
-        {/* ==========================================
-            4. CYBER STORY (TECH STORYTELLING)
-            ========================================== */}
-        <section className="py-60 bg-[#0c0c0c] relative overflow-hidden border-t border-white/5">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">
-                    <Image 
-                       src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=1200&auto=format&fit=crop" 
-                       alt="Bio Robot Infrastructure" 
-                       fill 
-                       className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"
-                    />
-                    <div className="absolute inset-0 bg-yellow-900/10 mix-blend-color group-hover:opacity-0 transition-opacity" />
-                    <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                       <div className="text-white">
-                          <span className="text-[11px] font-black uppercase tracking-[0.6em] text-yellow-500 mb-8 block italic underline underline-offset-8 decoration-yellow-500/20">Atelier // Cybernetic // Unit</span>
-                          <h4 className="text-6xl font-black tracking-tighter uppercase italic mb-12 mix-blend-difference text-white">Bionic <br/> Fabric.</h4>
-                          <button className="flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/20 pb-4 hover:border-yellow-400 transition-all group">
-                             Bionic Protocols <ExternalLink className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                          </button>
-                       </div>
-                    </div>
-                 </div>
-
-                 <div>
-                    <Reveal>
-                       <div className="mb-24 text-left">
-                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-yellow-500 mb-8 block italic">Chapitre III // Robotique Biomimétique</span>
-                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none text-white">Pure_Bionic.</h2>
-                       </div>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">
-                          Le mouvement est une symphonie. Nous utilisons des technologies de robotique biomimétique et d'interface neuronale pour construire des membres cybernétiques d'une complexité sans précédent, offrant une nouvelle autonomie à l'être humain.
-                       </p>
-                       <div className="space-y-20">
-                          {[
-                            { t: "Skeletal Printing", d: "Impression 3D de structures osseuses en titane-carbone pour une robustesse et une légèreté optimales, servant de base au membre bionique." },
-                            { t: "Synthetic Muscle Layering", d: "Superposition de fibres musculaires en polymère électro-actif capables de contractions fluides et puissantes simulant le muscle humain." },
-                            { t: "Neural Signal Calibration", d: "Calibrage chirurgical du signal nerveux pour assurer une latence minimale entre la pensée et l'exécution du mouvement moteur." }
-                          ].map((step, i) => (
-                            <div key={i} className="group flex gap-12 border-b border-white/5 pb-16 hover:border-yellow-400/20 transition-all cursor-default">
-                               <div className="text-6xl font-black text-white/5 group-hover:text-yellow-400/20 transition-colors italic leading-none">0{i+1}</div>
-                               <div>
-                                  <h5 className="text-3xl font-black uppercase tracking-tight text-white mb-6 italic group-hover:translate-x-4 transition-transform text-white">{step.t}</h5>
-                                  <p className="text-[12px] text-white/20 uppercase tracking-[0.3em] font-bold leading-loose italic">{step.d}</p>
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* MEGA FOOTER */}
-        <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-              <div className="lg:col-span-2">
-                 <div className="flex items-center gap-6 mb-16">
-                    <div className="w-16 h-16 bg-yellow-800 flex items-center justify-center">
-                      <Bot className="w-10 h-10 text-white" />
-                    </div>
-                    <span className="text-4xl font-black uppercase tracking-tighter italic">BIO<span className="text-white/20">ROBOT.</span></span>
-                 </div>
-                 <p className="text-white/20 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
-                    "L'avenir de l'homme est bionique." — Archive Robot V.42
-                 </p>
-                 <div className="flex gap-16">
-                    {["RobotLog", "CyberRegistry", "GitHub", "X_Protocol"].map(s => (
-                      <Link key={s} href="#" className="text-[11px] font-black uppercase tracking-widest text-white/20 hover:text-yellow-400 transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
-                    ))}
-                 </div>
-              </div>
-
+          {/* Live metrics */}
+          <Reveal delay={0.5}>
+            <div className="mt-16 grid grid-cols-3 gap-0 border border-[#ffffff]/5 max-w-2xl mx-auto">
               {[
-                { t: "BIONICS", l: ["Cyber-v4 Arm", "Neural Link Alpha", "Bionic Grid v5", "Signal-Amplifier"] },
-                { t: "TECHNOLOGY", l: ["Skeletal Printing", "Muscle Layering", "Signal Sync", "SLA Reports"] },
-                { t: "ATELIER", l: ["Our Legacy", "Robot-Ethics Policy", "Locations", "Support"] }
-              ].map((col, i) => (
-                <div key={i} className="flex flex-col gap-12">
-                  <h4 className="text-[11px] font-black text-yellow-400 uppercase tracking-[0.6em] italic">{col.t}</h4>
-                  <ul className="flex flex-col gap-8">
-                    {col.l.map(link => (
-                      <li key={link} className="text-[11px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-[0.4em] italic">{link}</li>
-                    ))}
-                  </ul>
+                { label: "PACKETS/SEC", value: `${counters.packets}B`, icon: Wifi },
+                { label: "LATENCY", value: `${counters.latency}ms`, icon: Activity },
+                { label: "SYNC RATE", value: `${counters.sync}%`, icon: Network },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="flex flex-col items-center py-4 px-4 border-r border-[#ffffff]/5 last:border-r-0"
+                >
+                  <item.icon className="w-4 h-4 text-[#00ffff]/50 mb-2" />
+                  <span
+                    className="text-xl font-bold text-[#00ffff]"
+                    style={{ fontFamily: "'Space Mono', monospace", textShadow: "0 0 20px rgba(0,255,255,0.5)" }}
+                  >
+                    {item.value}
+                  </span>
+                  <span className="text-[8px] tracking-widest uppercase text-[#E2E8F0]/30 mt-1" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    {item.label}
+                  </span>
                 </div>
               ))}
-           </div>
+            </div>
+          </Reveal>
+        </motion.div>
+      </section>
 
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 BIO ROBOT CYBERNETIC SYSTEMS AG. // ALL_RIGHTS_RESERVED</span>
-              <div className="flex gap-16">
-                 <span>STATUS: OPERATIONAL</span>
-                 <span>LATENCY: 1.2 ms (AVG)</span>
-                 <span>v4.12.0-STABLE</span>
+      {/* ================================================================
+          3. MARQUEE
+          ================================================================ */}
+      <div className="border-y border-[#00ffff]/10 bg-[#0F0F23]/80 overflow-hidden py-3 hud-flicker">
+        <motion.div
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          className="flex whitespace-nowrap"
+        >
+          {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+            <span
+              key={i}
+              className="inline-flex items-center gap-3 mx-8 text-[10px] font-bold tracking-widest uppercase"
+              style={{ fontFamily: "'Space Mono', monospace" }}
+            >
+              <span className="text-[#00ffff]/30">▶</span>
+              <span className="text-[#E2E8F0]/40">[{item}]</span>
+            </span>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* ================================================================
+          4. SYSTEMS — 6 ENHANCEMENTS
+          ================================================================ */}
+      <section id="systems" className="py-28 px-6 md:px-12 max-w-[1400px] mx-auto">
+        <Reveal>
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-8 h-px bg-[#00ffff]/60" />
+            <span className="text-[9px] font-bold tracking-[0.5em] uppercase text-[#00ffff]/60" style={{ fontFamily: "'Space Mono', monospace" }}>
+              SYS_MODULE // 006 UNITS AVAILABLE
+            </span>
+          </div>
+          <h2
+            className="text-5xl md:text-7xl font-bold uppercase tracking-tight text-[#E2E8F0] mb-4"
+            style={{ fontFamily: "'Rajdhani', sans-serif" }}
+          >
+            Enhancement
+            <br />
+            <span className="text-[#7C3AED]">Systems</span>
+          </h2>
+          <p className="text-[#E2E8F0]/40 max-w-xl text-sm tracking-wider mb-16" style={{ fontFamily: "'Space Mono', monospace" }}>
+            Select a module below to review technical specifications and activation parameters.
+          </p>
+        </Reveal>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#ffffff]/5">
+          {ENHANCEMENTS.map((enh, i) => {
+            const Icon = enh.icon
+            const isActive = activeEnhancement === i
+            return (
+              <Reveal key={enh.id} delay={i * 0.08}>
+                <motion.div
+                  onClick={() => setActiveEnhancement(i)}
+                  whileHover={{ backgroundColor: "rgba(15,15,35,1)" }}
+                  className="relative bg-[#000000] p-8 cursor-pointer group transition-all"
+                  animate={{ borderColor: isActive ? enh.color : "transparent" }}
+                  style={{ border: `1px solid ${isActive ? `${enh.color}40` : "transparent"}` }}
+                >
+                  {/* Corner brackets */}
+                  <HUDCorner position="tl" />
+                  <HUDCorner position="br" />
+
+                  {/* Active glow */}
+                  {isActive && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="absolute inset-0 pointer-events-none"
+                      style={{ background: `radial-gradient(ellipse at 20% 20%, ${enh.color}08, transparent 70%)` }}
+                    />
+                  )}
+
+                  <div className="flex items-start justify-between mb-6">
+                    <div
+                      className="w-10 h-10 border flex items-center justify-center"
+                      style={{ borderColor: `${enh.color}40`, backgroundColor: `${enh.color}08` }}
+                    >
+                      <Icon className="w-5 h-5" style={{ color: enh.color }} />
+                    </div>
+                    <StatusBadge status={enh.status} />
+                  </div>
+
+                  <div className="mb-1">
+                    <span className="text-[9px] text-[#E2E8F0]/30 tracking-widest" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      {enh.id}
+                    </span>
+                  </div>
+                  <h3
+                    className="text-xl font-bold uppercase tracking-wide text-[#E2E8F0] mb-3 group-hover:text-[#00ffff] transition-colors"
+                    style={{ fontFamily: "'Rajdhani', sans-serif" }}
+                  >
+                    {enh.name}
+                  </h3>
+                  <p className="text-[#E2E8F0]/40 text-xs leading-relaxed mb-6" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    {enh.desc}
+                  </p>
+
+                  <div className="grid grid-cols-3 gap-2 border-t border-[#ffffff]/5 pt-4">
+                    {[
+                      { k: "POWER", v: enh.power },
+                      { k: "LATENCY", v: enh.latency },
+                      { k: "COMPAT", v: enh.compat },
+                    ].map((d) => (
+                      <div key={d.k}>
+                        <div className="text-[8px] text-[#E2E8F0]/20 tracking-widest mb-1" style={{ fontFamily: "'Space Mono', monospace" }}>
+                          {d.k}
+                        </div>
+                        <div className="text-xs font-bold" style={{ color: enh.color, fontFamily: "'Space Mono', monospace" }}>
+                          {d.v}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              </Reveal>
+            )
+          })}
+        </div>
+      </section>
+
+      {/* ================================================================
+          5. METRICS — LIVE GAUGES
+          ================================================================ */}
+      <section id="metrics" className="py-28 px-6 md:px-12 bg-[#0F0F23] border-y border-[#ffffff]/5">
+        <div className="max-w-[1400px] mx-auto">
+          <Reveal>
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-8 h-px bg-[#7C3AED]/60" />
+              <span className="text-[9px] font-bold tracking-[0.5em] uppercase text-[#7C3AED]/60" style={{ fontFamily: "'Space Mono', monospace" }}>
+                LIVE_METRICS // REAL_TIME_BIOMETRIC_FEED
+              </span>
+            </div>
+            <h2
+              className="text-5xl md:text-7xl font-bold uppercase tracking-tight text-[#E2E8F0] mb-16"
+              style={{ fontFamily: "'Rajdhani', sans-serif" }}
+            >
+              Neural <span className="text-[#00ffff]">Performance</span>
+            </h2>
+          </Reveal>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#ffffff]/5">
+            {METRICS.map((metric, i) => {
+              const Icon = metric.icon
+              return (
+                <Reveal key={metric.label} delay={i * 0.1}>
+                  <div className="bg-[#0F0F23] p-8 relative">
+                    <HUDCorner position="tl" />
+                    <HUDCorner position="br" />
+
+                    <div className="flex flex-col items-center text-center">
+                      <div className="relative mb-4">
+                        <ArcGauge value={metric.value} max={metric.max} color={metric.color} />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Icon className="w-6 h-6" style={{ color: metric.color }} />
+                        </div>
+                      </div>
+
+                      <motion.div
+                        className="text-3xl font-bold mb-1"
+                        style={{ color: metric.color, fontFamily: "'Space Mono', monospace", textShadow: `0 0 20px ${metric.color}60` }}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ duration: 0.5, delay: i * 0.1 + 1 }}
+                      >
+                        {metric.value}
+                        <span className="text-lg ml-1">{metric.unit}</span>
+                      </motion.div>
+
+                      <span className="text-[10px] font-bold tracking-widest uppercase text-[#E2E8F0]/50" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
+                        {metric.label}
+                      </span>
+
+                      <div className="mt-4 w-full bg-[#ffffff]/5 h-px relative overflow-hidden">
+                        <motion.div
+                          className="absolute left-0 top-0 h-full"
+                          initial={{ width: "0%" }}
+                          whileInView={{ width: `${(metric.value / metric.max) * 100}%` }}
+                          transition={{ duration: 2, ease: "easeOut", delay: 0.5 }}
+                          style={{ background: `linear-gradient(90deg, ${metric.color}, transparent)` }}
+                        />
+                      </div>
+                      <div className="mt-1 text-[8px] text-[#E2E8F0]/20" style={{ fontFamily: "'Space Mono', monospace" }}>
+                        {((metric.value / metric.max) * 100).toFixed(1)}% CAPACITY
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
+              )
+            })}
+          </div>
+
+          {/* Additional live chart */}
+          <Reveal delay={0.3}>
+            <div className="mt-px bg-[#0F0F23] border border-[#ffffff]/5 p-8">
+              <div className="flex items-center justify-between mb-6">
+                <span className="text-xs font-bold tracking-widest uppercase text-[#E2E8F0]/40" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  NEURAL_SIGNAL_WAVE // LIVE
+                </span>
+                <div className="flex items-center gap-2">
+                  <BlinkDot color="#00ffff" />
+                  <span className="text-[9px] text-[#00ffff]/60" style={{ fontFamily: "'Space Mono', monospace" }}>RECORDING</span>
+                </div>
               </div>
-           </div>
-        </footer>
-      </main>
-    </div>
-  )
-}
+              <div className="flex items-end gap-1 h-16">
+                {[...Array(48)].map((_, i) => {
+                  const h = Math.sin(i * 0.4) * 40 + Math.sin(i * 0.8) * 20 + 50
+                  return (
+                    <motion.div
+                      key={i}
+                      className="flex-1"
+                      animate={{ height: [`${h}%`, `${Math.random() * 60 + 20}%`, `${h}%`] }}
+                      transition={{ duration: 1.5 + Math.random(), repeat: Infinity, delay: i * 0.04 }}
+                      style={{ background: i % 2 === 0 ? "#00ffff20" : "#7C3AED20", minWidth: "2px" }}
+                    />
+                  )
+                })}
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
+      {/* ================================================================
+          6. TECHNICAL SPECS
+          ================================================================ */}
+      <section id="specs" className="py-28 px-6 md:px-12 max-w-[1400px] mx-auto">
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          <Reveal>
+            <div>
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-8 h-px bg-[#00ffff]/60" />
+                <span className="text-[9px] font-bold tracking-[0.5em] uppercase text-[#00ffff]/60" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  TECHNICAL // SPECIFICATIONS
+                </span>
+              </div>
+              <h2
+                className="text-5xl md:text-6xl font-bold uppercase tracking-tight text-[#E2E8F0] mb-8"
+                style={{ fontFamily: "'Rajdhani', sans-serif" }}
+              >
+                System
+                <br />
+                <span className="text-[#7C3AED]">Architecture</span>
+              </h2>
+              <p className="text-[#E2E8F0]/40 text-xs leading-relaxed max-w-md" style={{ fontFamily: "'Space Mono', monospace" }}>
+                Every BIO-ROBOT enhancement system is engineered to ISO Class III medical device standards with military-grade encryption and quantum-resistant communication protocols.
+              </p>
 
-function HUD_Overlay({ isMotorStable }: { isMotorStable: boolean }) {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Corner Brackets */}
-       <div className={`absolute top-12 left-12 w-20 h-20 border-t-2 border-l-2 transition-colors duration-1000 ${isMotorStable ? "border-yellow-400" : "border-white/10"}`} />
-       <div className={`absolute top-12 right-12 w-20 h-20 border-t-2 border-r-2 transition-colors duration-1000 ${isMotorStable ? "border-yellow-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 left-12 w-20 h-20 border-b-2 border-l-2 transition-colors duration-1000 ${isMotorStable ? "border-yellow-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 right-12 w-20 h-20 border-b-2 border-r-2 transition-colors duration-1000 ${isMotorStable ? "border-yellow-400" : "border-white/10"}`} />
+              <div className="mt-12 border border-[#00ffff]/10 p-6 bg-[#0F0F23]/50 relative">
+                <HUDCorner position="tl" />
+                <HUDCorner position="br" />
+                <div className="text-[9px] font-bold tracking-widest text-[#00ffff]/40 mb-4 uppercase" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  // CORE SYSTEM STATUS
+                </div>
+                {["Neural Bus: ACTIVE", "Bio-Link: ENCRYPTED", "OTA Channel: SECURE", "Power Cell: 94.2%"].map((line, i) => (
+                  <div key={i} className="flex items-center gap-3 py-2 border-b border-[#ffffff]/5 last:border-0">
+                    <BlinkDot color={i === 3 ? "#7C3AED" : "#00ffff"} />
+                    <span className="text-[10px] text-[#E2E8F0]/50" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      {line}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
 
-       {/* Top Status Bar */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-20 bg-black/60 backdrop-blur-2xl px-12 py-4 border border-white/10 rounded-none">
-          <div className="flex items-center gap-6 text-white">
-             <div className={`w-3 h-3 transition-colors duration-500 ${isMotorStable ? "bg-yellow-400 animate-pulse" : "bg-red-500 animate-ping"}`} />
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Bionic_Sync: {isMotorStable ? "NOMINAL" : "SIGNAL_DISRUPTION"} // Status: ACTIVE</span>
+          <Reveal delay={0.2}>
+            <div className="border border-[#ffffff]/5 relative">
+              <HUDCorner position="tl" />
+              <HUDCorner position="br" />
+              <div className="px-6 py-4 border-b border-[#ffffff]/5 flex items-center gap-3">
+                <Terminal className="w-3 h-3 text-[#00ffff]/60" />
+                <span className="text-[9px] font-bold tracking-widest uppercase text-[#E2E8F0]/40" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  SPEC_TABLE // v4.2.1
+                </span>
+              </div>
+              <div>
+                {SPECS_TABLE.map((row, i) => (
+                  <motion.div
+                    key={i}
+                    onHoverStart={() => setHoveredSpec(i)}
+                    onHoverEnd={() => setHoveredSpec(null)}
+                    className="grid grid-cols-2 border-b border-[#ffffff]/5 last:border-0 transition-colors"
+                    animate={{ backgroundColor: hoveredSpec === i ? "rgba(0,255,255,0.03)" : "transparent" }}
+                  >
+                    <div className="px-6 py-3 border-r border-[#ffffff]/5">
+                      <span className="text-[10px] text-[#E2E8F0]/40" style={{ fontFamily: "'Space Mono', monospace" }}>
+                        {row.spec}
+                      </span>
+                    </div>
+                    <div className="px-6 py-3">
+                      <span
+                        className="text-[10px] font-bold"
+                        style={{
+                          color: hoveredSpec === i ? "#00ffff" : "#E2E8F0",
+                          fontFamily: "'Space Mono', monospace",
+                        }}
+                      >
+                        {row.value}
+                      </span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ================================================================
+          7. PROTOCOL — 4 STEPS
+          ================================================================ */}
+      <section id="protocol" className="py-28 px-6 md:px-12 bg-[#0F0F23] border-y border-[#ffffff]/5">
+        <div className="max-w-[1400px] mx-auto">
+          <Reveal>
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-8 h-px bg-[#7C3AED]/60" />
+              <span className="text-[9px] font-bold tracking-[0.5em] uppercase text-[#7C3AED]/60" style={{ fontFamily: "'Space Mono', monospace" }}>
+                ENHANCEMENT_PROTOCOL // SEQUENCE_4
+              </span>
+            </div>
+            <h2
+              className="text-5xl md:text-7xl font-bold uppercase tracking-tight text-[#E2E8F0] mb-16"
+              style={{ fontFamily: "'Rajdhani', sans-serif" }}
+            >
+              Integration
+              <br />
+              <span className="text-[#00ffff]">Protocol</span>
+            </h2>
+          </Reveal>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-[#ffffff]/5">
+            {PROTOCOL_STEPS.map((step, i) => {
+              const Icon = step.icon
+              return (
+                <Reveal key={step.step} delay={i * 0.12}>
+                  <div className="bg-[#0F0F23] p-8 relative group">
+                    <HUDCorner position="tl" />
+
+                    {/* Step number */}
+                    <div
+                      className="text-[80px] font-bold leading-none mb-4 select-none"
+                      style={{
+                        color: "transparent",
+                        WebkitTextStroke: "1px rgba(124,58,237,0.15)",
+                        fontFamily: "'Rajdhani', sans-serif",
+                      }}
+                    >
+                      {step.step}
+                    </div>
+
+                    <div
+                      className="w-10 h-10 border border-[#00ffff]/20 flex items-center justify-center mb-6 group-hover:border-[#00ffff]/60 transition-colors"
+                      style={{ backgroundColor: "rgba(0,255,255,0.05)" }}
+                    >
+                      <Icon className="w-5 h-5 text-[#00ffff]" />
+                    </div>
+
+                    <h3
+                      className="text-xl font-bold uppercase tracking-wide text-[#E2E8F0] mb-3 group-hover:text-[#00ffff] transition-colors"
+                      style={{ fontFamily: "'Rajdhani', sans-serif" }}
+                    >
+                      {step.name}
+                    </h3>
+                    <p className="text-[#E2E8F0]/40 text-xs leading-relaxed mb-6" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      {step.desc}
+                    </p>
+
+                    <div className="flex items-center gap-2 border-t border-[#ffffff]/5 pt-4">
+                      <Server className="w-3 h-3 text-[#7C3AED]/60" />
+                      <span className="text-[9px] text-[#7C3AED]/60" style={{ fontFamily: "'Space Mono', monospace" }}>
+                        DURATION: {step.duration}
+                      </span>
+                    </div>
+
+                    {/* Connector line */}
+                    {i < PROTOCOL_STEPS.length - 1 && (
+                      <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10">
+                        <ArrowRight className="w-4 h-4 text-[#00ffff]/20" />
+                      </div>
+                    )}
+                  </div>
+                </Reveal>
+              )
+            })}
           </div>
-          <div className="h-4 w-px bg-white/20" />
-          <div className="flex items-center gap-6 text-white/20">
-             <Wifi className="w-4 h-4" /> 
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Cybernetic_Grid: SECURE</span>
-          </div>
-       </div>
+        </div>
+      </section>
 
-       {/* Right Rotation Info */}
-       <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-white/5 italic">Unauthorized_Duplication_Of_Cybernetic_Patterns_Is_Strictly_Monitored_By_Global_Cyber_Alliance</span>
-       </div>
+      {/* ================================================================
+          8. CASE STUDIES
+          ================================================================ */}
+      <section className="py-28 px-6 md:px-12 max-w-[1400px] mx-auto">
+        <Reveal>
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-8 h-px bg-[#00ffff]/60" />
+            <span className="text-[9px] font-bold tracking-[0.5em] uppercase text-[#00ffff]/60" style={{ fontFamily: "'Space Mono', monospace" }}>
+              CASE_STUDIES // CLASSIFIED_DATA
+            </span>
+          </div>
+          <h2
+            className="text-5xl md:text-7xl font-bold uppercase tracking-tight text-[#E2E8F0] mb-16"
+            style={{ fontFamily: "'Rajdhani', sans-serif" }}
+          >
+            Subject
+            <br />
+            <span className="text-[#7C3AED]">Reports</span>
+          </h2>
+        </Reveal>
+
+        <div className="grid md:grid-cols-3 gap-px bg-[#ffffff]/5">
+          {CASE_STUDIES.map((cs, i) => (
+            <Reveal key={cs.subject} delay={i * 0.12}>
+              <div className="bg-[#000000] p-8 relative group border border-transparent hover:border-[#7C3AED]/20 transition-all">
+                <HUDCorner position="tl" />
+                <HUDCorner position="br" />
+
+                <div className="mb-6">
+                  <span className="text-[8px] text-[#7C3AED]/60 block mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    {cs.subject}
+                  </span>
+                  <h3
+                    className="text-xl font-bold uppercase text-[#E2E8F0]"
+                    style={{ fontFamily: "'Rajdhani', sans-serif" }}
+                  >
+                    {cs.name}
+                  </h3>
+                  <p className="text-[10px] text-[#E2E8F0]/40" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    {cs.role} // PACKAGE: {cs.package}
+                  </p>
+                </div>
+
+                <div
+                  className="bg-[#0F0F23] border border-[#00ffff]/10 p-4 font-mono-space text-[10px] leading-loose"
+                  style={{ fontFamily: "'Space Mono', monospace" }}
+                >
+                  <div className="text-[#00ffff]/40 mb-2">{"// PERFORMANCE_DELTA"}</div>
+                  {cs.stats.map((stat, j) => (
+                    <div key={j} className="text-[#00ffff]/70">
+                      <span className="text-[#7C3AED]/60">{`[${String(j + 1).padStart(2, "0")}] `}</span>
+                      {stat}
+                    </div>
+                  ))}
+                  <div className="text-[#E2E8F0]/20 mt-2">{cs.note}</div>
+                </div>
+
+                <div className="mt-4 flex items-center gap-2">
+                  <Shield className="w-3 h-3 text-[#00ffff]/40" />
+                  <span className="text-[8px] text-[#E2E8F0]/30 tracking-widest" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    VERIFIED // NO ADVERSE EVENTS
+                  </span>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ================================================================
+          9. PRICING
+          ================================================================ */}
+      <section id="enhance" className="py-28 px-6 md:px-12 bg-[#0F0F23] border-y border-[#ffffff]/5">
+        <div className="max-w-[1400px] mx-auto">
+          <Reveal>
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center gap-3 mb-4">
+                <div className="w-8 h-px bg-[#00ffff]/60" />
+                <span className="text-[9px] font-bold tracking-[0.5em] uppercase text-[#00ffff]/60" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  PACKAGES // ENHANCEMENT_TIERS
+                </span>
+                <div className="w-8 h-px bg-[#00ffff]/60" />
+              </div>
+              <h2
+                className="text-5xl md:text-7xl font-bold uppercase tracking-tight text-[#E2E8F0]"
+                style={{ fontFamily: "'Rajdhani', sans-serif" }}
+              >
+                Select Your
+                <br />
+                <span className="text-[#7C3AED]">Protocol</span>
+              </h2>
+            </div>
+          </Reveal>
+
+          <div className="grid md:grid-cols-3 gap-px bg-[#ffffff]/5">
+            {PRICING.map((pkg, i) => (
+              <Reveal key={pkg.tier} delay={i * 0.12}>
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  className="relative bg-[#0F0F23] p-8 flex flex-col"
+                  style={{
+                    border: pkg.featured ? "1px solid rgba(124,58,237,0.4)" : "1px solid transparent",
+                    boxShadow: pkg.featured ? "0 0 40px rgba(124,58,237,0.1), inset 0 0 40px rgba(124,58,237,0.02)" : "none",
+                  }}
+                >
+                  {pkg.featured && (
+                    <div className="absolute -top-px left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#7C3AED] to-transparent" />
+                  )}
+                  <HUDCorner position="tl" />
+                  <HUDCorner position="br" />
+
+                  {pkg.featured && (
+                    <div className="absolute top-4 right-4">
+                      <span className="text-[8px] font-bold tracking-widest px-2 py-1 bg-[#7C3AED]/20 border border-[#7C3AED]/40 text-[#7C3AED]" style={{ fontFamily: "'Space Mono', monospace" }}>
+                        RECOMMENDED
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="mb-8">
+                    <div className="text-[9px] text-[#E2E8F0]/30 tracking-widest mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      TIER_{pkg.tier}
+                    </div>
+                    <h3
+                      className="text-3xl font-bold uppercase tracking-wide text-[#E2E8F0] mb-1"
+                      style={{ fontFamily: "'Rajdhani', sans-serif" }}
+                    >
+                      {pkg.tier}
+                    </h3>
+                    <p className="text-[10px] text-[#E2E8F0]/40" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      {pkg.tag}
+                    </p>
+                  </div>
+
+                  <div className="mb-6">
+                    <span
+                      className="text-5xl font-bold"
+                      style={{
+                        fontFamily: "'Rajdhani', sans-serif",
+                        color: pkg.featured ? "#7C3AED" : "#E2E8F0",
+                        textShadow: pkg.featured ? "0 0 30px rgba(124,58,237,0.5)" : "none",
+                      }}
+                    >
+                      {pkg.price}€
+                    </span>
+                    <div className="text-[9px] text-[#E2E8F0]/30 mt-1" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      one-time integration fee
+                    </div>
+                  </div>
+
+                  <p className="text-[#E2E8F0]/40 text-xs mb-8" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    {pkg.desc}
+                  </p>
+
+                  <div className="space-y-3 flex-1 mb-8">
+                    {pkg.features.map((f, j) => (
+                      <div key={j} className="flex items-start gap-3">
+                        <ChevronRight className="w-3 h-3 text-[#00ffff]/60 mt-0.5 flex-shrink-0" />
+                        <span className="text-[10px] text-[#E2E8F0]/60" style={{ fontFamily: "'Space Mono', monospace" }}>
+                          {f}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    className="w-full py-3 text-[11px] font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-2"
+                    style={{
+                      backgroundColor: pkg.featured ? "#7C3AED" : "transparent",
+                      border: pkg.featured ? "none" : "1px solid rgba(0,255,255,0.3)",
+                      color: pkg.featured ? "#ffffff" : "#00ffff",
+                    }}
+                  >
+                    <Zap className="w-3 h-3" />
+                    {pkg.cta}
+                  </button>
+                </motion.div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================
+          10. CONTACT / INITIALIZE
+          ================================================================ */}
+      <section id="initialize" className="py-28 px-6 md:px-12 max-w-[1400px] mx-auto">
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          {/* Left: Info */}
+          <Reveal>
+            <div>
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-8 h-px bg-[#00ffff]/60" />
+                <span className="text-[9px] font-bold tracking-[0.5em] uppercase text-[#00ffff]/60" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  SECURE_CHANNEL // AES-512
+                </span>
+              </div>
+              <h2
+                className="text-5xl md:text-6xl font-bold uppercase tracking-tight text-[#E2E8F0] mb-8"
+                style={{ fontFamily: "'Rajdhani', sans-serif" }}
+              >
+                Begin
+                <br />
+                <span className="text-[#7C3AED]">Initialization</span>
+              </h2>
+              <p className="text-[#E2E8F0]/40 text-xs leading-relaxed max-w-md mb-12" style={{ fontFamily: "'Space Mono', monospace" }}>
+                Transmission encrypted end-to-end. A BIO-ROBOT integration specialist will contact you within 24 hours to begin the evaluation protocol.
+              </p>
+
+              <div className="space-y-6">
+                {[
+                  { icon: Terminal, label: "COMMS", value: "secure@bio-robot.tech" },
+                  { icon: Shield, label: "CLEARANCE", value: "TOP_SECRET // AUTHORIZED" },
+                  { icon: Network, label: "UPLINK", value: "+33 1 00 00 00 00" },
+                  { icon: Server, label: "NODE", value: "Paris // Berlin // Tokyo" },
+                ].map((item) => {
+                  const Icon = item.icon
+                  return (
+                    <div key={item.label} className="flex items-center gap-4">
+                      <div className="w-8 h-8 border border-[#00ffff]/20 flex items-center justify-center">
+                        <Icon className="w-4 h-4 text-[#00ffff]/60" />
+                      </div>
+                      <div>
+                        <div className="text-[8px] text-[#E2E8F0]/20 tracking-widest" style={{ fontFamily: "'Space Mono', monospace" }}>
+                          {item.label}
+                        </div>
+                        <div className="text-xs text-[#E2E8F0]/60" style={{ fontFamily: "'Space Mono', monospace" }}>
+                          {item.value}
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Right: Form */}
+          <Reveal delay={0.2}>
+            <div className="border border-[#ffffff]/5 relative">
+              <HUDCorner position="tl" />
+              <HUDCorner position="br" />
+
+              <div className="px-6 py-4 border-b border-[#ffffff]/5 flex items-center gap-3">
+                <BlinkDot color="#00ffff" />
+                <span className="text-[9px] font-bold tracking-widest uppercase text-[#E2E8F0]/40" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  INITIALIZATION_FORM // ENCRYPTED_CHANNEL_READY
+                </span>
+              </div>
+
+              <AnimatePresence mode="wait">
+                {!formSent ? (
+                  <motion.form
+                    key="form"
+                    initial={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onSubmit={(e) => { e.preventDefault(); setFormSent(true) }}
+                    className="p-8 space-y-6"
+                  >
+                    {[
+                      { label: "SUBJECT_ID", placeholder: "Full name", type: "text", key: "name" },
+                      { label: "COMMS_ADDRESS", placeholder: "Email address", type: "email", key: "email" },
+                    ].map((field) => (
+                      <div key={field.key}>
+                        <label className="block text-[8px] font-bold tracking-widest uppercase text-[#E2E8F0]/30 mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                          {field.label}
+                        </label>
+                        <input
+                          type={field.type}
+                          placeholder={field.placeholder}
+                          value={formData[field.key as keyof typeof formData]}
+                          onChange={(e) => setFormData(p => ({ ...p, [field.key]: e.target.value }))}
+                          className="w-full bg-[#0F0F23] border border-[#ffffff]/10 px-4 py-3 text-xs text-[#E2E8F0] placeholder-[#E2E8F0]/20 focus:border-[#00ffff]/40 focus:outline-none transition-colors"
+                          style={{ fontFamily: "'Space Mono', monospace" }}
+                        />
+                      </div>
+                    ))}
+
+                    <div>
+                      <label className="block text-[8px] font-bold tracking-widest uppercase text-[#E2E8F0]/30 mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                        PACKAGE_SELECTION
+                      </label>
+                      <select
+                        value={formData.tier}
+                        onChange={(e) => setFormData(p => ({ ...p, tier: e.target.value }))}
+                        className="w-full bg-[#0F0F23] border border-[#ffffff]/10 px-4 py-3 text-xs text-[#E2E8F0] focus:border-[#00ffff]/40 focus:outline-none transition-colors"
+                        style={{ fontFamily: "'Space Mono', monospace" }}
+                      >
+                        <option value="CORE">CORE — 29,900€</option>
+                        <option value="ADVANCED">ADVANCED — 89,900€</option>
+                        <option value="ELITE">ELITE — 199,900€</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-[8px] font-bold tracking-widest uppercase text-[#E2E8F0]/30 mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                        NOTES // OPTIONAL
+                      </label>
+                      <textarea
+                        placeholder="Additional requirements or medical history..."
+                        value={formData.notes}
+                        onChange={(e) => setFormData(p => ({ ...p, notes: e.target.value }))}
+                        rows={4}
+                        className="w-full bg-[#0F0F23] border border-[#ffffff]/10 px-4 py-3 text-xs text-[#E2E8F0] placeholder-[#E2E8F0]/20 focus:border-[#00ffff]/40 focus:outline-none transition-colors resize-none"
+                        style={{ fontFamily: "'Space Mono', monospace" }}
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full py-4 bg-[#7C3AED] text-white text-[11px] font-bold tracking-widest uppercase hover:bg-[#6d28d9] transition-all flex items-center justify-center gap-2"
+                      style={{ boxShadow: "0 0 30px rgba(124,58,237,0.3)" }}
+                    >
+                      <Terminal className="w-4 h-4" />
+                      Transmit Request
+                    </button>
+                  </motion.form>
+                ) : (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-12 text-center"
+                  >
+                    <div className="w-12 h-12 border border-[#00ffff]/40 flex items-center justify-center mx-auto mb-6">
+                      <Shield className="w-6 h-6 text-[#00ffff]" />
+                    </div>
+                    <h3 className="text-2xl font-bold uppercase text-[#00ffff] mb-3" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
+                      Request Transmitted
+                    </h3>
+                    <p className="text-[10px] text-[#E2E8F0]/40" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      ENCRYPTED_CHANNEL: OPEN
+                      <br />
+                      RESPONSE_ETA: 24H
+                      <br />
+                      STATUS: AWAITING_CLEARANCE
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ================================================================
+          FOOTER
+          ================================================================ */}
+      <footer className="border-t border-[#ffffff]/5 bg-[#000000] py-12 px-6 md:px-12">
+        <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          <div className="flex items-center gap-3">
+            <div className="w-6 h-6 border border-[#00ffff]/30 flex items-center justify-center">
+              <Cpu className="w-3 h-3 text-[#00ffff]/60" />
+            </div>
+            <span className="text-sm font-bold tracking-[0.3em] uppercase text-[#E2E8F0]/40" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
+              BIO<span className="text-[#00ffff]/40">-</span>ROBOT
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <BlinkDot color="#00ffff" />
+            <span className="text-[8px] text-[#E2E8F0]/20 tracking-widest" style={{ fontFamily: "'Space Mono', monospace" }}>
+              ALL_SYSTEMS_NOMINAL // UPTIME: 99.99%
+            </span>
+          </div>
+
+          <span className="text-[9px] text-[#E2E8F0]/20" style={{ fontFamily: "'Space Mono', monospace" }}>
+            © 2026 BIO-ROBOT Corp. Classified.
+          </span>
+        </div>
+      </footer>
     </div>
   )
 }

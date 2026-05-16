@@ -1,612 +1,516 @@
-"use client";
+"use client"
 
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  useMotionValue,
-  useSpring,
-  AnimatePresence,
-} from "framer-motion";
-import React, { useRef, useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
+import { Menu, X, ArrowRight, CheckCircle, ChevronRight, Phone, Mail, MapPin, Clock, Award, Microscope, Shield, FlaskConical, Stethoscope, Sparkles } from "lucide-react"
 
-/* ─── Design Tokens ─────────────────────────────────────────── */
-const C = {
-  bg:      "#FAFAF8",
-  bgCard:  "#F4F1EC",
-  bgDark:  "#0E100E",
-  gold:    "#C9A86C",
-  goldSoft:"#E8D5A8",
-  platinum:"#D8D4CE",
-  dark:    "#181410",
-  muted:   "#8A8278",
-  border:  "rgba(201,168,108,0.16)",
-  teal:    "#3A8080",
-};
-
-const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');`;
-
-/* ─── Data ───────────────────────────────────────────────────── */
-const TREATMENTS = [
-  { id: 1, cat: "Injectables", name: "Hyaluronic Acid Filler", desc: "Precise volume restoration and contour refinement using premium French-manufactured HA fillers. Results immediate, lasting 12–18 months.", duration: "30–45 min", price: "From €350" },
-  { id: 2, cat: "Injectables", name: "Botulinum Toxin", desc: "Targeted relaxation of dynamic wrinkles — frown lines, crow's feet, forehead. Natural-looking result with zero downtime.", duration: "20 min", price: "From €200" },
-  { id: 3, cat: "Laser", name: "Fraxel Dual Resurfacing", desc: "Fractional laser for skin texture, pigmentation and fine lines. Clinically proven with 3–5 day social downtime.", duration: "60 min", price: "From €480" },
-  { id: 4, cat: "Laser", name: "Alexandrite Laser", desc: "Permanent hair reduction on all skin types. Course of 6 sessions. Fast, comfortable, and precise.", duration: "20–60 min", price: "From €150" },
-  { id: 5, cat: "Skin", name: "HydraFacial MD", desc: "Medical-grade deep cleanse, exfoliation, extraction and serum infusion. Immediate glow, no downtime. Monthly maintenance recommended.", duration: "45 min", price: "From €190" },
-  { id: 6, cat: "Skin", name: "Chemical Peel Protocol", desc: "Customised acid peel (AHA/BHA/TCA) tailored to your skin concern — hyperpigmentation, acne, aging. Series of 3 recommended.", duration: "30 min", price: "From €120" },
-];
-
-const TEAM = [
-  { name: "Dr. Sophie Lemaire", role: "Aesthetic Medicine Physician", bio: "15 years of experience. Former resident at Hôpital Lariboisière. Specialist in facial anatomy and injection techniques.", cert: "DIU Médecine Esthétique" },
-  { name: "Dr. Martin Delacroix", role: "Dermatologist & Laser Specialist", bio: "Board-certified dermatologist with a subspeciality in cutaneous lasers. Published author in Journal of Dermatology.", cert: "DES Dermatologie" },
-];
-
-const TESTIMONIALS = [
-  { name: "Amélie R.", treatment: "Hyaluronic Acid Filler", text: "Dr Lemaire has an exceptional eye. The result looked completely natural — exactly what I wanted. I've been her patient for three years." },
-  { name: "Charlotte B.", treatment: "Fraxel Resurfacing", text: "I was nervous about lasers. The team explained everything, the downtime was minimal, and my skin texture is noticeably better three months on." },
-  { name: "Isabelle M.", treatment: "HydraFacial MD", text: "I come every month. It's become part of my routine. My skin has never been this consistent and healthy-looking." },
-];
-
-const TREATMENT_NAMES = [
-  "Hyaluronic Filler", "Botulinum Toxin", "Fraxel Dual", "HydraFacial MD",
-  "Chemical Peel", "Alexandrite Laser", "Mesotherapy", "Profhilo",
-];
-
-const CATEGORIES = ["All", "Injectables", "Laser", "Skin"];
-
-/* ─── TextReveal ─────────────────────────────────────────────── */
-function TextReveal({ text, delay = 0, style = {} }: { text: string; delay?: number; style?: React.CSSProperties }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  return (
-    <div ref={ref} style={{ overflow: "hidden", ...style }}>
-      <motion.div
-        initial={{ y: "110%" }}
-        animate={inView ? { y: 0 } : { y: "110%" }}
-        transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}
-      >
-        {text}
-      </motion.div>
-    </div>
-  );
+function useFonts() {
+  useEffect(() => {
+    const id = "fonts-lumiere-clinic"
+    if (document.getElementById(id)) return
+    const s = document.createElement("style")
+    s.id = id
+    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap');`
+    document.head.appendChild(s)
+  }, [])
 }
 
-/* ─── MagneticButton ─────────────────────────────────────────── */
-function MagneticButton({ children, style = {}, onClick }: { children: React.ReactNode; style?: React.CSSProperties; onClick?: () => void }) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 250, damping: 18 });
-  const sy = useSpring(y, { stiffness: 250, damping: 18 });
-  const ref = useRef<HTMLButtonElement>(null);
-  const onMove = (e: React.MouseEvent) => {
-    const r = ref.current!.getBoundingClientRect();
-    x.set((e.clientX - r.left - r.width / 2) * 0.3);
-    y.set((e.clientY - r.top - r.height / 2) * 0.3);
-  };
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
   return (
-    <motion.button ref={ref} style={{ x: sx, y: sy, cursor: "pointer", background: "none", border: "none", ...style }}
-      onMouseMove={onMove} onMouseLeave={() => { x.set(0); y.set(0); }} onClick={onClick}>
+    <motion.div ref={ref} initial={{ opacity: 0, y }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}>
       {children}
-    </motion.button>
-  );
-}
-
-/* ─── MarqueeStrip ───────────────────────────────────────────── */
-function MarqueeStrip() {
-  const items = [...TREATMENT_NAMES, ...TREATMENT_NAMES, ...TREATMENT_NAMES];
-  return (
-    <div style={{ overflow: "hidden", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "10px 0", background: C.bgCard }}>
-      <motion.div
-        style={{ display: "flex", gap: 56, whiteSpace: "nowrap" }}
-        animate={{ x: ["0%", "-33.33%"] }}
-        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-      >
-        {items.map((name, i) => (
-          <span key={i} style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: "0.2em", color: C.muted, textTransform: "uppercase" }}>
-            {name}
-            <span style={{ marginLeft: 56, color: C.gold, fontSize: 8 }}>◇</span>
-          </span>
-        ))}
-      </motion.div>
-    </div>
-  );
-}
-
-/* ─── LightRing — Signature Element ─────────────────────────── */
-function LightRing() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  const mouseX = useMotionValue(0.5);
-  const mouseY = useMotionValue(0.5);
-  const smx = useSpring(mouseX, { stiffness: 100, damping: 24 });
-  const smy = useSpring(mouseY, { stiffness: 100, damping: 24 });
-
-  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    mouseX.set((e.clientX - r.left) / r.width);
-    mouseY.set((e.clientY - r.top) / r.height);
-  }, [mouseX, mouseY]);
-
-  const onMouseLeave = useCallback(() => {
-    mouseX.set(0.5);
-    mouseY.set(0.5);
-  }, [mouseX, mouseY]);
-
-  const cx = 200, cy = 200;
-  const R_outer = 160, R_inner = 120, n = 24;
-
-  // Polar-coordinate arc helpers
-  const polarX = (angle: number, r: number) => cx + r * Math.cos(angle);
-  const polarY = (angle: number, r: number) => cy + r * Math.sin(angle);
-
-  // Ring segments
-  const segments = Array.from({ length: n }, (_, i) => {
-    const a0 = (i * Math.PI * 2) / n - 0.05;
-    const a1 = ((i + 1) * Math.PI * 2) / n + 0.05;
-    const d = [
-      `M${polarX(a0, R_inner).toFixed(1)},${polarY(a0, R_inner).toFixed(1)}`,
-      `A${R_inner},${R_inner} 0 0 1 ${polarX(a1, R_inner).toFixed(1)},${polarY(a1, R_inner).toFixed(1)}`,
-      `L${polarX(a1, R_outer).toFixed(1)},${polarY(a1, R_outer).toFixed(1)}`,
-      `A${R_outer},${R_outer} 0 0 0 ${polarX(a0, R_outer).toFixed(1)},${polarY(a0, R_outer).toFixed(1)}`,
-      "Z",
-    ].join(" ");
-    return { d, angle: (a0 + a1) / 2 };
-  });
-
-  // Computed light angle from mouse
-  const lightAngle = useTransform([smx, smy], ([x, y]: number[]) =>
-    Math.atan2(y - 0.5, x - 0.5)
-  );
-
-  return (
-    <div style={{ display: "flex", gap: 64, alignItems: "center" }}>
-      <div
-        ref={ref}
-        onMouseMove={onMouseMove}
-        onMouseLeave={onMouseLeave}
-        style={{ position: "relative", flexShrink: 0, cursor: "crosshair" }}
-      >
-        <svg width="400" height="400" viewBox="0 0 400 400" style={{ display: "block" }}>
-          <defs>
-            <radialGradient id="ringGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor={C.gold} stopOpacity="0.06" />
-              <stop offset="100%" stopColor="transparent" />
-            </radialGradient>
-            <filter id="segGlow">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-
-          {/* Ambient glow */}
-          <circle cx={cx} cy={cy} r={R_outer + 20} fill="url(#ringGlow)" />
-
-          {/* Ring segments */}
-          {segments.map((seg, i) => (
-            <motion.path
-              key={i}
-              d={seg.d}
-              fill={C.bgCard}
-              stroke={C.bg}
-              strokeWidth="2"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={inView ? {
-                opacity: 1,
-                scale: 1,
-                fill: C.bgCard,
-              } : { opacity: 0, scale: 0.9 }}
-              style={{ originX: `${cx}px`, originY: `${cy}px` }}
-              transition={{
-                opacity: { duration: 0.3, delay: 0.03 * i },
-                scale: { duration: 0.6, delay: 0.03 * i, ease: [0.16, 1, 0.3, 1] },
-              }}
-              whileHover={{ fill: C.goldSoft }}
-            />
-          ))}
-
-          {/* Illuminated arc that follows mouse */}
-          <motion.g>
-            {segments.map((seg, i) => {
-              const segAngle = seg.angle;
-              return (
-                <motion.path
-                  key={`lit-${i}`}
-                  d={seg.d}
-                  style={{
-                    fill: C.gold,
-                    opacity: useTransform(lightAngle, (la: number) => {
-                      const diff = Math.abs(((segAngle - la + Math.PI * 3) % (Math.PI * 2)) - Math.PI);
-                      return Math.max(0, 0.65 - diff * 0.55);
-                    }) as any,
-                  }}
-                  filter="url(#segGlow)"
-                />
-              );
-            })}
-          </motion.g>
-
-          {/* Center area — subtle face profile suggestion */}
-          <motion.g
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.8, duration: 0.8 }}
-          >
-            {/* Abstract face oval */}
-            <ellipse cx={cx} cy={cy - 5} rx={52} ry={64} fill="none" stroke={C.platinum} strokeWidth="0.8" strokeOpacity="0.7" />
-            {/* Brow line */}
-            <path d={`M${cx - 22},${cy - 30} Q${cx - 8},${cy - 36} ${cx},${cy - 34} Q${cx + 8},${cy - 36} ${cx + 22},${cy - 30}`} fill="none" stroke={C.platinum} strokeWidth="0.8" strokeOpacity="0.5" />
-            <path d={`M${cx - 22},${cy - 30} Q${cx - 36},${cy - 24} ${cx - 32},${cy - 18}`} fill="none" stroke={C.platinum} strokeWidth="0.8" strokeOpacity="0.5" />
-            <path d={`M${cx + 22},${cy - 30} Q${cx + 36},${cy - 24} ${cx + 32},${cy - 18}`} fill="none" stroke={C.platinum} strokeWidth="0.8" strokeOpacity="0.5" />
-            {/* Nose bridge */}
-            <path d={`M${cx - 6},${cy - 18} Q${cx - 8},${cy + 4} ${cx - 4},${cy + 12} Q${cx},${cy + 16} ${cx + 4},${cy + 12} Q${cx + 8},${cy + 4} ${cx + 6},${cy - 18}`} fill="none" stroke={C.platinum} strokeWidth="0.8" strokeOpacity="0.4" />
-            {/* Lips */}
-            <path d={`M${cx - 16},${cy + 28} Q${cx - 8},${cy + 24} ${cx},${cy + 26} Q${cx + 8},${cy + 24} ${cx + 16},${cy + 28}`} fill="none" stroke={C.platinum} strokeWidth="0.8" strokeOpacity="0.4" />
-            {/* Golden ratio guide point */}
-            <circle cx={cx} cy={cy} r={2} fill={C.gold} fillOpacity="0.35" />
-          </motion.g>
-
-          {/* Rotating outer ring decoration */}
-          <motion.g
-            animate={{ rotate: 360 }}
-            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-            style={{ originX: `${cx}px`, originY: `${cy}px` }}
-          >
-            {Array.from({ length: 8 }, (_, i) => {
-              const a = (i * Math.PI * 2) / 8;
-              const rx = cx + (R_outer + 12) * Math.cos(a);
-              const ry = cy + (R_outer + 12) * Math.sin(a);
-              return <circle key={i} cx={rx} cy={ry} r={2} fill={C.gold} fillOpacity="0.4" />;
-            })}
-          </motion.g>
-        </svg>
-      </div>
-
-      {/* Description */}
-      <div style={{ flex: 1 }}>
-        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: "0.4em", color: C.gold, textTransform: "uppercase", marginBottom: 24 }}>The Lumière Method</p>
-        <h2 style={{ fontSize: "clamp(26px, 4vw, 48px)", fontWeight: 400, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 28, color: C.dark, fontFamily: "'Playfair Display', serif" }}>
-          <TextReveal text="Precision in" />
-          <TextReveal text="every treatment." delay={0.15} style={{ fontStyle: "italic", color: C.gold }} />
-        </h2>
-        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.85, marginBottom: 28, fontWeight: 300 }}>
-          Move your cursor around the ring to illuminate different segments — the same precision guides how we approach each treatment area. Every zone of the face has different tissue depth, different vascular anatomy, different aesthetic goals.
-        </p>
-        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.85, marginBottom: 40, fontWeight: 300 }}>
-          All treatments at Lumière are performed exclusively by board-certified physicians using only CE-marked and FDA-cleared devices and medical-grade injectables.
-        </p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
-          {[
-            { val: "2 MD", label: "Medical physicians" },
-            { val: "15+", label: "Years combined" },
-            { val: "CE/FDA", label: "All devices certified" },
-          ].map(item => (
-            <div key={item.label} style={{ paddingTop: 16, borderTop: `1px solid ${C.border}` }}>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 600, color: C.dark, lineHeight: 1 }}>{item.val}</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: C.muted, marginTop: 6, letterSpacing: "0.04em" }}>{item.label}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ─── TreatmentCard ──────────────────────────────────────────── */
-function TreatmentCard({ t }: { t: typeof TREATMENTS[0] }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <motion.div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.3 }}
-      style={{ background: hovered ? C.bgCard : C.bg, border: `1px solid ${hovered ? C.gold : C.border}`, borderRadius: 4, padding: "28px", cursor: "pointer", transition: "background 0.25s, border-color 0.25s" }}
-    >
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
-        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, color: C.gold, background: `${C.gold}16`, padding: "3px 10px", borderRadius: 2, letterSpacing: "0.12em", textTransform: "uppercase" }}>{t.cat}</span>
-        <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 15, color: C.dark, fontStyle: "italic" }}>{t.price}</span>
-      </div>
-      <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, fontWeight: 600, color: C.dark, marginBottom: 10, lineHeight: 1.3 }}>{t.name}</h3>
-      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.muted, lineHeight: 1.7, marginBottom: 16, fontWeight: 300 }}>{t.desc}</p>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, paddingTop: 14, borderTop: `1px solid ${C.border}` }}>
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={C.gold} strokeWidth="1.5">
-          <circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" />
-        </svg>
-        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: C.muted }}>{t.duration}</span>
-      </div>
     </motion.div>
-  );
+  )
 }
 
-/* ─── Page ───────────────────────────────────────────────────── */
-export default function Page() {
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+const TREATMENTS = [
+  {
+    id: "botox",
+    icon: Sparkles,
+    label: "Toxine botulique",
+    title: "Relaxation musculaire de précision",
+    desc: "Traitement des rides d'expression par injection de toxine botulique de grade médical. Protocole personnalisé selon l'anatomie faciale, résultats naturels préservant l'expressivité.",
+    duration: "30 min",
+    results: "3–6 mois",
+    detail: ["Rides du front", "Pattes d'oie", "Rides du lion", "Transpiration excessive (hyperhidrose)"],
+  },
+  {
+    id: "filler",
+    icon: FlaskConical,
+    label: "Acide hyaluronique",
+    title: "Restauration volumétrique ciblée",
+    desc: "Comblement des rides profondes, restauration des volumes faciaux et traitement des cernes. Produits réversibles et biodégradables, techniques d'injection cannule.",
+    duration: "45 min",
+    results: "12–18 mois",
+    detail: ["Lèvres & contour buccal", "Sillons naso-géniens", "Cernes & joues", "Remodelage mandibulaire"],
+  },
+  {
+    id: "laser",
+    icon: Microscope,
+    label: "Lasers médicaux",
+    title: "Photobiostimulation & resurfaçage",
+    desc: "Gamme de lasers Nd:YAG, CO2 fractionné et IPL pour le traitement des taches pigmentaires, du vieillissement cutané, de la rosacée et des cicatrices.",
+    duration: "20–60 min",
+    results: "Permanent",
+    detail: ["Taches pigmentaires", "Rosacée & couperose", "Resurfaçage cutané", "Épilation définitive"],
+  },
+  {
+    id: "bio",
+    icon: Shield,
+    label: "Biostimulation",
+    title: "Régénération cellulaire profonde",
+    desc: "PRP (Plasma Riche en Plaquettes), Skinbooster Restylane Vital, polynucléotides. Traitements de fond pour améliorer la qualité de peau en profondeur.",
+    duration: "60 min",
+    results: "6–12 mois",
+    detail: ["PRP & mesothérapie", "Skinboosters", "Polynucléotides PDRN", "Radicaux libres & antioxydants"],
+  },
+  {
+    id: "lifting",
+    icon: Stethoscope,
+    label: "Fils tenseurs",
+    title: "Remodelage par traction tissulaire",
+    desc: "Fils résorbables PDO et PLLA pour lifting non-chirurgical. Repositionnement des tissus ptosés et stimulation naturelle de la néocollagénèse.",
+    duration: "60–90 min",
+    results: "18–24 mois",
+    detail: ["Lifting ovale visage", "Lifting du cou", "Repositionnement jugal", "Stimulation collagène"],
+  },
+]
 
-  const filtered = activeCategory === "All" ? TREATMENTS : TREATMENTS.filter(t => t.cat === activeCategory);
+const DOCTORS = [
+  { name: "Dr. Sophie Marchand", spec: "Médecine esthétique", diploma: "DESC Médecine esthétique — Paris VI", exp: "18 ans d'expérience", image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=80" },
+  { name: "Dr. Laurent Faure", spec: "Dermatologie & Lasers", diploma: "DES Dermatologie — Paris Descartes", exp: "14 ans d'expérience", image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&q=80" },
+  { name: "Dr. Isabelle Roux", spec: "Chirurgie réparatrice", diploma: "DESC Chirurgie plastique — Lyon", exp: "22 ans d'expérience", image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&q=80" },
+]
+
+const SCIENCE = [
+  { icon: FlaskConical, title: "Protocoles validés", desc: "Tous nos traitements reposent sur des études cliniques de niveau 1 et des recommandations de sociétés savantes (SFML, SFD)." },
+  { icon: Shield, title: "Produits CE médical", desc: "Nous utilisons exclusivement des produits homologués CE et FDA, approvisionnés directement auprès des laboratoires." },
+  { icon: Microscope, title: "Matériel de pointe", desc: "Lasers médicaux Alma, Quanta et Cynosure. Maintenance certifiée, calibrage semestriel par les constructeurs." },
+  { icon: Award, title: "Formation continue", desc: "Nos praticiens se forment chaque année aux congrès IMCAS (Paris), AMWC (Monaco) et AAD (USA)." },
+]
+
+export default function LumiereCliniquePage() {
+  useFonts()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [activeTreatment, setActiveTreatment] = useState(0)
+  const { scrollYProgress } = useScroll()
+  const heroRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(heroScroll, [0, 1], ["0%", "30%"])
 
   useEffect(() => {
-    const style = document.createElement("style");
-    style.textContent = FONTS;
-    document.head.appendChild(style);
-    return () => { document.head.removeChild(style); };
-  }, []);
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
-  useEffect(() => {
-    const t = setInterval(() => setActiveTestimonial(p => (p + 1) % TESTIMONIALS.length), 4500);
-    return () => clearInterval(t);
-  }, []);
+  const ActiveIcon = TREATMENTS[activeTreatment].icon
 
   return (
-    <main style={{ background: C.bg, color: C.dark, minHeight: "100vh", fontFamily: "'Inter', sans-serif", overflowX: "hidden" }}>
+    <div className="min-h-screen bg-[#FAFAF8] text-[#181410]" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <motion.div className="fixed top-0 left-0 h-[2px] bg-[#3A8080] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
-      {/* ── Nav ── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, padding: "0 40px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(250,250,248,0.95)", backdropFilter: "blur(16px)", borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          {/* Ring mark */}
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="8" fill="none" stroke={C.gold} strokeWidth="1.2" />
-            <circle cx="12" cy="12" r="4.5" fill="none" stroke={C.gold} strokeWidth="0.8" strokeOpacity="0.5" />
-            <circle cx="12" cy="12" r="1.5" fill={C.gold} fillOpacity="0.6" />
-          </svg>
-          <div>
-            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, fontWeight: 600, color: C.dark, lineHeight: 1 }}>Lumière Clinic</p>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 9, color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase", lineHeight: 1 }}>Aesthetic Medicine</p>
-          </div>
-        </div>
-        <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
-          {[
-            { label: "Treatments", id: "treatments" },
-            { label: "Medical Team", id: "team" },
-            { label: "Technology", id: "technology" },
-            { label: "About", id: "about" },
-          ].map(({ label, id }) => (
-            <button key={label}
-              style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.muted, background: "none", border: "none", cursor: "pointer", letterSpacing: "0.02em", transition: "color 0.2s" }}
-              onMouseEnter={e => (e.currentTarget.style.color = C.dark)}
-              onMouseLeave={e => (e.currentTarget.style.color = C.muted)}
-              onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })}>
-              {label}
-            </button>
-          ))}
-          <MagneticButton style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: C.bg, background: C.dark, padding: "9px 22px", borderRadius: 2, letterSpacing: "0.06em", textTransform: "uppercase", fontWeight: 500 }}>
-            Book Consultation
-          </MagneticButton>
-        </div>
-      </nav>
-
-      {/* ── Hero ── */}
-      <section ref={heroRef} style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", paddingTop: 64, overflow: "hidden" }}>
-        <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(160deg, #f7f2ec 0%, #faf8f4 40%, #f0ebe3 100%)" }} />
-          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 70% 55% at 50% 30%, rgba(201,168,108,0.12) 0%, transparent 65%)" }} />
-          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 40% 40% at 80% 70%, rgba(180,160,130,0.08) 0%, transparent 60%)" }} />
-          {/* Subtle ring watermark */}
-          <motion.div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)" }}
-            animate={{ rotate: 360 }} transition={{ duration: 120, repeat: Infinity, ease: "linear" }}>
-            <svg width="800" height="800" viewBox="0 0 800 800" opacity="0.025">
-              <circle cx="400" cy="400" r="320" fill="none" stroke={C.gold} strokeWidth="1" />
-              <circle cx="400" cy="400" r="240" fill="none" stroke={C.gold} strokeWidth="0.5" />
-              {Array.from({ length: 24 }, (_, i) => {
-                const a = (i * Math.PI * 2) / 24;
-                return <line key={i} x1={400 + 240 * Math.cos(a)} y1={400 + 240 * Math.sin(a)} x2={400 + 320 * Math.cos(a)} y2={400 + 320 * Math.sin(a)} stroke={C.gold} strokeWidth="0.8" />;
-              })}
-            </svg>
-          </motion.div>
-        </motion.div>
-
-        <motion.div style={{ opacity: heroOpacity, position: "relative", zIndex: 1, textAlign: "center", maxWidth: 860, padding: "0 24px" }}>
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 36 }}
-          >
-            <div style={{ height: "0.5px", width: 48, background: C.gold, opacity: 0.6 }} />
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: "0.4em", color: C.gold, textTransform: "uppercase" }}>Medical Aesthetic Clinic · Paris 8e</p>
-            <div style={{ height: "0.5px", width: 48, background: C.gold, opacity: 0.6 }} />
-          </motion.div>
-
-          <h1 style={{ fontSize: "clamp(52px, 9.5vw, 120px)", fontWeight: 400, lineHeight: 0.92, letterSpacing: "-0.03em", marginBottom: 44, fontFamily: "'Playfair Display', serif" }}>
-            <TextReveal text="The science" delay={0.3} style={{ display: "block", color: C.dark }} />
-            <TextReveal text="of beauty," delay={0.5} style={{ display: "block", fontStyle: "italic", color: C.gold }} />
-            <TextReveal text="illuminated." delay={0.7} style={{ display: "block", color: C.dark }} />
-          </h1>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.1 }}
-            style={{ fontFamily: "'Inter', sans-serif", fontSize: 16, color: C.muted, lineHeight: 1.8, maxWidth: 540, margin: "0 auto 52px", fontWeight: 300 }}
-          >
-            Medical-grade aesthetic treatments delivered by board-certified physicians. Injectables, laser therapy, and advanced skincare — results you can see, safety you can trust.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.3 }}
-            style={{ display: "flex", gap: 16, justifyContent: "center" }}
-          >
-            <MagneticButton
-              onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
-              style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.bg, background: C.dark, padding: "16px 40px", borderRadius: 2, letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 500 }}>
-              Book Free Consultation
-            </MagneticButton>
-            <MagneticButton
-              onClick={() => document.getElementById("treatments")?.scrollIntoView({ behavior: "smooth" })}
-              style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.dark, background: "transparent", padding: "16px 40px", borderRadius: 2, letterSpacing: "0.08em", textTransform: "uppercase", border: `1px solid ${C.border}` }}>
-              View Treatments
-            </MagneticButton>
-          </motion.div>
-
-          {/* Trust signal */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.6 }}
-            style={{ marginTop: 56, display: "flex", justifyContent: "center", gap: 40 }}
-          >
-            {[{ val: "2,000+", label: "Patients treated" }, { val: "4.9/5", label: "Average rating" }, { val: "100%", label: "Board-certified MDs" }].map(item => (
-              <div key={item.label} style={{ textAlign: "center" }}>
-                <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, fontWeight: 600, color: C.dark }}>{item.val}</p>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: C.muted, marginTop: 4, letterSpacing: "0.04em" }}>{item.label}</p>
-              </div>
+      {/* Nav */}
+      <motion.nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#FAFAF8]/95 backdrop-blur-md border-b border-[#E8E4DE]" : "bg-transparent"}`}
+        initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+          <Link href="#" className="flex flex-col">
+            <span className="text-xl tracking-widest font-light" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.1em" }}>Lumière Clinic</span>
+            <span className="text-[9px] tracking-[0.25em] uppercase text-[#3A8080]">Médecine esthétique médicale</span>
+          </Link>
+          <div className="hidden md:flex items-center gap-8 text-sm font-light text-[#6B6560]">
+            {["Traitements", "Praticiens", "Science", "Contact"].map(l => (
+              <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#181410] transition-colors duration-200">{l}</Link>
             ))}
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* ── Marquee ── */}
-      <MarqueeStrip />
-
-      {/* ── Light Ring — Signature Element ── */}
-      <section id="technology" style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
-        <LightRing />
-      </section>
-
-      {/* ── Treatments ── */}
-      <section id="treatments" style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 56 }}>
-            <div>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: "0.4em", color: C.gold, textTransform: "uppercase", marginBottom: 20 }}>Our Treatments</p>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 400, lineHeight: 1.1, letterSpacing: "-0.02em", color: C.dark, fontFamily: "'Playfair Display', serif" }}>
-                <TextReveal text="Evidence-based" />
-                <TextReveal text="aesthetic medicine." delay={0.15} style={{ fontStyle: "italic", color: C.gold }} />
-              </h2>
-            </div>
-            <div style={{ display: "flex", gap: 8 }}>
-              {CATEGORIES.map(cat => (
-                <button key={cat} onClick={() => setActiveCategory(cat)}
-                  style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: activeCategory === cat ? C.bg : C.muted, background: activeCategory === cat ? C.dark : "transparent", border: `1px solid ${activeCategory === cat ? C.dark : C.border}`, padding: "7px 18px", borderRadius: 2, cursor: "pointer", letterSpacing: "0.05em", transition: "all 0.2s" }}>
-                  {cat}
-                </button>
-              ))}
-            </div>
+            <Link href="#contact" className="ml-2 px-5 py-2.5 bg-[#181410] text-[#FAFAF8] text-xs tracking-widest uppercase hover:bg-[#3A8080] transition-colors duration-300 cursor-pointer">
+              Prendre RDV
+            </Link>
           </div>
-          <motion.div layout style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
-            <AnimatePresence mode="popLayout">
-              {filtered.map((t, i) => (
-                <motion.div key={t.id} layout initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.96 }} transition={{ duration: 0.35, delay: i * 0.05 }}>
-                  <TreatmentCard t={t} />
+          <button className="md:hidden p-2 cursor-pointer" onClick={() => setMenuOpen(true)} aria-label="Menu">
+            <Menu className="w-5 h-5" />
+          </button>
+        </div>
+      </motion.nav>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div className="fixed inset-0 z-[200] bg-[#FAFAF8] flex flex-col"
+            initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 280, damping: 28 }}>
+            <div className="flex items-center justify-between px-6 py-5 border-b border-[#E8E4DE]">
+              <span style={{ fontFamily: "'Cormorant Garamond', serif" }} className="text-xl">Lumière Clinic</span>
+              <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
+            </div>
+            <div className="flex flex-col gap-8 p-10">
+              {["Traitements", "Praticiens", "Science", "Contact"].map((l, i) => (
+                <motion.div key={l} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
+                  <Link href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)}
+                    className="text-3xl font-light hover:text-[#3A8080] transition-colors cursor-pointer"
+                    style={{ fontFamily: "'Cormorant Garamond', serif" }}>{l}</Link>
                 </motion.div>
               ))}
-            </AnimatePresence>
+            </div>
           </motion.div>
-        </div>
-      </section>
+        )}
+      </AnimatePresence>
 
-      {/* ── Medical Team ── */}
-      <section id="team" style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
-        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: "0.4em", color: C.gold, textTransform: "uppercase", marginBottom: 20 }}>Medical Team</p>
-        <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 400, lineHeight: 1.1, letterSpacing: "-0.02em", color: C.dark, fontFamily: "'Playfair Display', serif", marginBottom: 56 }}>
-          <TextReveal text="Your safety," />
-          <TextReveal text="their expertise." delay={0.15} style={{ fontStyle: "italic", color: C.gold }} />
-        </h2>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
-          {TEAM.map((member, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}
-              style={{ padding: "32px", background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 4 }}>
-              <div style={{ width: 64, height: 64, borderRadius: "50%", border: `1px solid ${C.border}`, background: C.bg, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={C.gold} strokeWidth="1">
-                  <circle cx="12" cy="8" r="4" />
-                  <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-                </svg>
-              </div>
-              <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, fontWeight: 600, color: C.dark, marginBottom: 4 }}>{member.name}</h3>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: C.gold, letterSpacing: "0.05em", marginBottom: 16 }}>{member.role}</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.muted, lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>{member.bio}</p>
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: `${C.gold}12`, border: `1px solid ${C.border}`, borderRadius: 2, padding: "5px 12px" }}>
-                <svg width="10" height="10" viewBox="0 0 24 24" fill={C.gold}>
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
-                </svg>
-                <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: C.gold, letterSpacing: "0.06em" }}>{member.cert}</span>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Testimonials ── */}
-      <section style={{ padding: "80px 0", background: C.bgDark }}>
-        <div style={{ maxWidth: 800, margin: "0 auto", paddingInline: 40, textAlign: "center" }}>
-          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: "0.4em", color: C.gold, textTransform: "uppercase", marginBottom: 48 }}>Patient Reviews</p>
-          <div style={{ position: "relative", minHeight: 180 }}>
-            <AnimatePresence mode="wait">
-              <motion.div key={activeTestimonial} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }} transition={{ duration: 0.45 }}>
-                <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(17px, 2.5vw, 24px)", fontWeight: 400, color: C.bg, lineHeight: 1.6, marginBottom: 32, fontStyle: "italic" }}>
-                  "{TESTIMONIALS[activeTestimonial].text}"
-                </p>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.gold }}>{TESTIMONIALS[activeTestimonial].name}</p>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "rgba(250,250,248,0.45)", marginTop: 4 }}>{TESTIMONIALS[activeTestimonial].treatment}</p>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-          <div style={{ display: "flex", justifyContent: "center", gap: 10, marginTop: 40 }}>
-            {TESTIMONIALS.map((_, i) => (
-              <button key={i} onClick={() => setActiveTestimonial(i)} style={{ width: i === activeTestimonial ? 28 : 8, height: 8, borderRadius: 4, background: i === activeTestimonial ? C.gold : "#2A2620", border: `1px solid ${i === activeTestimonial ? C.gold : "#3A3530"}`, cursor: "pointer", transition: "all 0.3s", padding: 0 }} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Book CTA ── */}
-      <section id="about" style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
-          <div>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: "0.4em", color: C.gold, textTransform: "uppercase", marginBottom: 20 }}>Your Consultation</p>
-            <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 400, lineHeight: 1.05, letterSpacing: "-0.02em", marginBottom: 24, fontFamily: "'Playfair Display', serif", color: C.dark }}>
-              <TextReveal text="Start with" />
-              <TextReveal text="a conversation." delay={0.15} style={{ fontStyle: "italic", color: C.gold }} />
-            </h2>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.8, marginBottom: 40, fontWeight: 300 }}>
-              All treatments begin with a 30-minute consultation — no charge, no obligation. We take the time to understand your concerns, examine your skin, and propose a personalised treatment plan.
+      {/* Hero */}
+      <section ref={heroRef} className="relative min-h-screen overflow-hidden">
+        <motion.div className="absolute inset-0" style={{ y: heroY }}>
+          <Image src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&q=85" alt="Lumière Clinic" fill className="object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#FAFAF8]/95 via-[#FAFAF8]/70 to-[#FAFAF8]/20" />
+        </motion.div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-36 pb-24 min-h-screen flex flex-col justify-center">
+          <Reveal>
+            <p className="text-xs tracking-[0.3em] uppercase text-[#3A8080] mb-8">Médecine esthétique de précision</p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h1 className="text-5xl md:text-7xl font-light leading-[1.0] mb-8 max-w-2xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              La beauté<br /><em>comme résultat</em><br />de la science
+            </h1>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="text-[#6B6560] text-lg leading-relaxed max-w-lg mb-12">
+              Lumière Clinic allie rigueur médicale et approche esthétique personnalisée. Chaque protocole est co-construit avec le patient, fondé sur des preuves scientifiques et exécuté avec précision.
             </p>
-            <MagneticButton style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.bg, background: C.dark, padding: "16px 44px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 500 }}>
-              Book Consultation
-            </MagneticButton>
-          </div>
-          <div style={{ display: "grid", gap: 16 }}>
-            {[
-              { label: "Location", value: "24 Avenue George V, Paris 8e" },
-              { label: "Hours", value: "Mon–Fri 9:00–19:00 · Sat 9:00–14:00" },
-              { label: "Phone", value: "+33 1 42 00 00 00" },
-              { label: "Email", value: "contact@lumiere-clinic.fr" },
-            ].map(item => (
-              <div key={item.label} style={{ padding: "18px 24px", background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 4 }}>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 6 }}>{item.label}</p>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: C.dark }}>{item.value}</p>
+          </Reveal>
+          <Reveal delay={0.3}>
+            <div className="flex flex-col sm:flex-row gap-5">
+              <Link href="#contact" className="inline-flex items-center gap-3 px-8 py-4 bg-[#181410] text-[#FAFAF8] text-sm uppercase tracking-widest hover:bg-[#3A8080] transition-colors cursor-pointer">
+                Consultation médicale <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link href="#traitements" className="inline-flex items-center gap-3 px-8 py-4 border border-[#C9C0B0] text-[#181410] text-sm uppercase tracking-widest hover:border-[#181410] transition-colors cursor-pointer">
+                Nos traitements
+              </Link>
+            </div>
+          </Reveal>
+          <div className="mt-20 pt-10 border-t border-[#E8E4DE] grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl">
+            {[["3 médecins", "Spécialistes"], ["18 ans", "D'expertise"], ["4 800+", "Patients suivis"], ["97%", "Satisfaction"]].map(([val, label]) => (
+              <div key={label}>
+                <div className="text-2xl font-light text-[#3A8080] mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{val}</div>
+                <div className="text-xs text-[#8A8278] uppercase tracking-wide">{label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer style={{ borderTop: `1px solid ${C.border}`, padding: "28px 40px", background: C.bgCard }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 14, color: C.dark, fontStyle: "italic" }}>Lumière Clinic · Paris 8e</p>
-          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: C.muted }}>© 2025 — All rights reserved. Medical Disclaimer applies.</p>
-          <div style={{ display: "flex", gap: 24 }}>
-            {["Instagram", "Appointments", "Privacy"].map(link => (
-              <button key={link} style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: C.muted, background: "none", border: "none", cursor: "pointer", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = C.dark)}
-                onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
-                {link}
-              </button>
+      {/* Treatments */}
+      <section id="traitements" className="py-28 bg-[#FAFAF8]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-5 gap-10 mb-16">
+            <div className="md:col-span-2">
+              <Reveal>
+                <p className="text-xs tracking-[0.25em] uppercase text-[#3A8080] mb-4">Traitements</p>
+                <h2 className="text-4xl md:text-5xl font-light leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                  Protocoles<br />médicaux de<br /><em>référence</em>
+                </h2>
+              </Reveal>
+            </div>
+            <div className="md:col-span-3">
+              <Reveal delay={0.1}>
+                <p className="text-[#6B6560] leading-relaxed">
+                  Chaque traitement est précédé d&apos;une consultation médicale approfondie (30 min). Nous établissons un bilan complet, définissons les objectifs et proposons un protocole adapté. Aucun geste sans accord éclairé.
+                </p>
+              </Reveal>
+            </div>
+          </div>
+
+          <div className="grid lg:grid-cols-5 gap-0 border border-[#E8E4DE]">
+            <div className="lg:col-span-2 border-r border-[#E8E4DE]">
+              {TREATMENTS.map((t, i) => {
+                const Icon = t.icon
+                return (
+                  <button key={t.id} onClick={() => setActiveTreatment(i)}
+                    className={`w-full text-left p-5 border-b border-[#E8E4DE] last:border-b-0 flex items-center gap-4 transition-all duration-200 cursor-pointer group ${activeTreatment === i ? "bg-[#181410] text-[#FAFAF8]" : "hover:bg-[#F0EDE8]"}`}>
+                    <div className={`w-9 h-9 flex items-center justify-center flex-shrink-0 ${activeTreatment === i ? "text-[#3A8080]" : "text-[#3A8080]"}`}>
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className={`text-sm font-medium ${activeTreatment === i ? "text-[#FAFAF8]" : "text-[#181410]"}`}>{t.label}</div>
+                    </div>
+                    <ChevronRight className={`w-4 h-4 ml-auto transition-colors ${activeTreatment === i ? "text-[#3A8080]" : "text-[#3A8080] opacity-0 group-hover:opacity-100"}`} />
+                  </button>
+                )
+              })}
+            </div>
+
+            <div className="lg:col-span-3">
+              <AnimatePresence mode="wait">
+                <motion.div key={activeTreatment} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}
+                  className="p-8 md:p-12">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-12 border border-[#3A8080] flex items-center justify-center">
+                      <ActiveIcon className="w-6 h-6 text-[#3A8080]" />
+                    </div>
+                    <div className="flex gap-4 text-xs">
+                      <span className="bg-[#EEF4F4] text-[#3A8080] px-3 py-1.5 flex items-center gap-1.5"><Clock className="w-3 h-3" />{TREATMENTS[activeTreatment].duration}</span>
+                      <span className="bg-[#EEF4F4] text-[#3A8080] px-3 py-1.5">Résultats : {TREATMENTS[activeTreatment].results}</span>
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-light mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                    {TREATMENTS[activeTreatment].title}
+                  </h3>
+                  <p className="text-[#6B6560] leading-relaxed mb-8">{TREATMENTS[activeTreatment].desc}</p>
+                  <div className="space-y-3">
+                    <p className="text-xs tracking-[0.2em] uppercase text-[#3A8080] mb-4">Indications traitées</p>
+                    {TREATMENTS[activeTreatment].detail.map(d => (
+                      <div key={d} className="flex items-center gap-3 text-sm">
+                        <CheckCircle className="w-4 h-4 text-[#3A8080] flex-shrink-0" />
+                        <span className="text-[#3A3028]">{d}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <Link href="#contact" className="mt-10 inline-flex items-center gap-2 text-sm text-[#3A8080] border-b border-[#3A8080] pb-0.5 hover:text-[#181410] hover:border-[#181410] transition-colors cursor-pointer">
+                    Prendre rendez-vous <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Doctors */}
+      <section id="praticiens" className="py-28 bg-[#F0EDE8]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="mb-14">
+            <Reveal>
+              <p className="text-xs tracking-[0.25em] uppercase text-[#3A8080] mb-4">L&apos;équipe médicale</p>
+              <h2 className="text-4xl md:text-5xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                Nos <em>praticiens</em>
+              </h2>
+            </Reveal>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {DOCTORS.map((doc, i) => (
+              <Reveal key={doc.name} delay={i * 0.1}>
+                <div className="bg-[#FAFAF8] group">
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <Image src={doc.image} alt={doc.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700 grayscale" />
+                    <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#3A8080] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{doc.name}</h3>
+                    <p className="text-[#3A8080] text-xs tracking-wide uppercase mb-3">{doc.spec}</p>
+                    <p className="text-xs text-[#8A8278] mb-1">{doc.diploma}</p>
+                    <p className="text-xs text-[#8A8278]">{doc.exp}</p>
+                  </div>
+                </div>
+              </Reveal>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Science pillars */}
+      <section id="science" className="py-28 bg-[#181410] text-[#FAFAF8]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-2 gap-16 mb-16">
+            <Reveal>
+              <p className="text-xs tracking-[0.25em] uppercase text-[#3A8080] mb-4">Notre approche scientifique</p>
+              <h2 className="text-4xl md:text-5xl font-light leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                La rigueur médicale<br />au service de<br /><em>l&apos;esthétique</em>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="text-[#8A8278] leading-relaxed mt-8 md:mt-0">
+                Nous refusons les traitements « tendance » sans fondement clinique. Chaque technique que nous pratiquons est validée par la communauté scientifique internationale. Notre réputation repose sur des résultats durables, pas sur des promesses.
+              </p>
+            </Reveal>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-[#3A3020]">
+            {SCIENCE.map((s, i) => {
+              const Icon = s.icon
+              return (
+                <Reveal key={s.title} delay={i * 0.08}>
+                  <div className="bg-[#181410] p-8 group hover:bg-[#231E14] transition-colors duration-300">
+                    <div className="w-10 h-10 border border-[#3A8080] flex items-center justify-center mb-6 group-hover:bg-[#3A8080] transition-colors duration-300">
+                      <Icon className="w-5 h-5 text-[#3A8080] group-hover:text-white transition-colors duration-300" />
+                    </div>
+                    <h3 className="text-lg font-light mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{s.title}</h3>
+                    <p className="text-sm text-[#8A8278] leading-relaxed">{s.desc}</p>
+                  </div>
+                </Reveal>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-28 bg-[#FAFAF8]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-xs tracking-[0.25em] uppercase text-[#3A8080] mb-4 text-center">Témoignages patients</p>
+            <h2 className="text-4xl font-light text-center mb-16" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Des résultats qui <em>parlent</em>
+            </h2>
+          </Reveal>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { name: "Claire M.", age: "47 ans", treatment: "Toxine botulique + AH", text: "J'appréhendais depuis des années. Le Dr. Marchand a pris le temps de m'expliquer chaque geste. Le résultat est exactement ce que je voulais : naturel. On ne voit pas que j'ai été traitée, on dit seulement que j'ai l'air reposée.", stars: 5 },
+              { name: "Sophie L.", age: "38 ans", treatment: "Laser pigmentaire", text: "Trois séances pour des taches que j'avais depuis ma grossesse. Le Dr. Faure a été d'une précision chirurgicale. Six mois plus tard, les taches ont complètement disparu. Incroyable.", stars: 5 },
+              { name: "Marie-Anne P.", age: "54 ans", treatment: "Fils tenseurs PDO", text: "L'ovale de mon visage s'était relâché après une perte de poids. Les fils ont repositionné les tissus de manière subtile. Résultat progressif sur 3 mois, naturel et durable. Je recommande sans réserve.", stars: 5 },
+            ].map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.1}>
+                <div className="bg-[#F0EDE8] p-8">
+                  <div className="flex gap-1 mb-5">
+                    {[...Array(t.stars)].map((_, i) => (
+                      <div key={i} className="w-3 h-3 bg-[#C9A86C] rounded-full" />
+                    ))}
+                  </div>
+                  <p className="text-[#3A3028] leading-relaxed mb-8 italic" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "18px" }}>
+                    &ldquo;{t.text}&rdquo;
+                  </p>
+                  <div>
+                    <div className="font-medium text-sm">{t.name} · {t.age}</div>
+                    <div className="text-xs text-[#8A8278] mt-0.5">{t.treatment}</div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Tarifs */}
+      <section className="py-24 bg-[#F0EDE8]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-xs tracking-[0.25em] uppercase text-[#3A8080] mb-4">Honoraires</p>
+            <h2 className="text-3xl font-light mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Transparence tarifaire
+            </h2>
+          </Reveal>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-0 border border-[#D8D0C8]">
+            {[
+              { label: "Consultation médicale initiale", price: "80 €", note: "Offerte si traitement réalisé le jour même" },
+              { label: "Toxine botulique — 1 zone", price: "À partir de 180 €", note: "3 zones : à partir de 420 €" },
+              { label: "Acide hyaluronique — 1 ml", price: "À partir de 350 €", note: "Tarif variable selon zone et produit" },
+              { label: "Séance laser pigmentaire", price: "À partir de 150 €", note: "Forfait 3 séances disponible (−15%)" },
+              { label: "Skinbooster — séance", price: "À partir de 380 €", note: "Protocole 3 séances recommandé" },
+              { label: "Fils tenseurs PDO", price: "À partir de 900 €", note: "Selon nombre de fils et zone" },
+            ].map((tarif, i) => (
+              <Reveal key={tarif.label} delay={i * 0.05}>
+                <div className="bg-[#FAFAF8] p-6 border-b border-r border-[#D8D0C8] last:border-r-0">
+                  <div className="text-sm font-medium mb-2">{tarif.label}</div>
+                  <div className="text-lg font-light text-[#3A8080] mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{tarif.price}</div>
+                  <div className="text-xs text-[#8A8278]">{tarif.note}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.1}>
+            <p className="text-xs text-[#8A8278] mt-6">* Les honoraires sont fixés après consultation médicale individuelle. Devis détaillé remis systématiquement avant tout acte.</p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="py-28 bg-[#FAFAF8]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-2 gap-20">
+            <div>
+              <Reveal>
+                <p className="text-xs tracking-[0.25em] uppercase text-[#3A8080] mb-4">Rendez-vous</p>
+                <h2 className="text-4xl md:text-5xl font-light leading-tight mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                  Prenez rendez-vous<br />pour une consultation<br /><em>médicale</em>
+                </h2>
+                <p className="text-[#6B6560] leading-relaxed mb-10">
+                  La première consultation (30 min) est un bilan médical complet. Aucun geste n&apos;est pratiqué sans votre accord éclairé. Nous pouvons réaliser les soins le même jour si vous le souhaitez.
+                </p>
+              </Reveal>
+              <Reveal delay={0.1}>
+                <div className="space-y-5">
+                  {[{ Icon: MapPin, text: "24 avenue de la Grande Armée, 75017 Paris" }, { Icon: Phone, text: "+33 1 45 72 98 30" }, { Icon: Mail, text: "rdv@lumiere-clinic.fr" }, { Icon: Clock, text: "Lun–Ven 9h–19h · Sam 9h–14h" }].map(({ Icon, text }) => (
+                    <div key={text} className="flex items-center gap-4 text-sm text-[#6B6560]">
+                      <Icon className="w-4 h-4 text-[#3A8080] flex-shrink-0" />
+                      {text}
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+            <Reveal delay={0.1}>
+              <form className="space-y-5" onSubmit={e => e.preventDefault()}>
+                <div className="grid grid-cols-2 gap-4">
+                  {["Prénom", "Nom"].map(f => (
+                    <div key={f}>
+                      <label className="block text-xs tracking-widest uppercase text-[#8A8278] mb-2">{f}</label>
+                      <input className="w-full bg-transparent border border-[#D8D0C8] px-4 py-3 text-sm focus:outline-none focus:border-[#181410] transition-colors" placeholder={f} />
+                    </div>
+                  ))}
+                </div>
+                {[["Email", "email", "votre@email.fr"], ["Téléphone", "tel", "+33 6..."]].map(([label, type, ph]) => (
+                  <div key={label}>
+                    <label className="block text-xs tracking-widest uppercase text-[#8A8278] mb-2">{label}</label>
+                    <input type={type} className="w-full bg-transparent border border-[#D8D0C8] px-4 py-3 text-sm focus:outline-none focus:border-[#181410] transition-colors" placeholder={ph} />
+                  </div>
+                ))}
+                <div>
+                  <label className="block text-xs tracking-widest uppercase text-[#8A8278] mb-2">Traitement souhaité</label>
+                  <select className="w-full bg-[#FAFAF8] border border-[#D8D0C8] px-4 py-3 text-sm focus:outline-none focus:border-[#181410] transition-colors">
+                    <option>Consultation initiale (bilan complet)</option>
+                    {TREATMENTS.map(t => <option key={t.id}>{t.label}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs tracking-widest uppercase text-[#8A8278] mb-2">Message (optionnel)</label>
+                  <textarea rows={3} className="w-full bg-transparent border border-[#D8D0C8] px-4 py-3 text-sm focus:outline-none focus:border-[#181410] transition-colors resize-none" placeholder="Précisions sur votre demande..." />
+                </div>
+                <button type="submit" className="w-full bg-[#181410] text-[#FAFAF8] py-4 text-xs tracking-widest uppercase hover:bg-[#3A8080] transition-colors duration-300 cursor-pointer">
+                  Demander un rendez-vous
+                </button>
+                <p className="text-xs text-[#8A8278] text-center">Nous vous rappelons sous 24h pour confirmer le créneau.</p>
+              </form>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-[#0E0A06] text-[#6B6560] py-16 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-10 mb-12">
+            <div className="md:col-span-2">
+              <div className="text-[#FAFAF8] text-xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Lumière Clinic</div>
+              <div className="text-[#3A8080] text-xs tracking-widest uppercase mb-4">Médecine esthétique médicale</div>
+              <p className="text-sm leading-relaxed max-w-xs">Rigueur médicale, résultats naturels. Traitements validés cliniquement, pratiqués par des médecins diplômés.</p>
+            </div>
+            <div>
+              <p className="text-[#FAFAF8] text-xs tracking-widest uppercase mb-5">Navigation</p>
+              {["Traitements", "Praticiens", "Science", "Contact"].map(l => (
+                <Link key={l} href={`#${l.toLowerCase()}`} className="block text-sm hover:text-[#FAFAF8] mb-3 transition-colors cursor-pointer">{l}</Link>
+              ))}
+            </div>
+            <div>
+              <p className="text-[#FAFAF8] text-xs tracking-widest uppercase mb-5">Contact</p>
+              <p className="text-sm mb-2">24 av. de la Grande Armée</p>
+              <p className="text-sm mb-2">75017 Paris</p>
+              <p className="text-sm mb-2">+33 1 45 72 98 30</p>
+              <p className="text-sm text-[#3A8080] mt-4 text-xs">Lun–Ven 9h–19h · Sam 9h–14h</p>
+            </div>
+          </div>
+          <div className="pt-8 border-t border-[#2A1E12] flex flex-col md:flex-row justify-between gap-4 text-xs">
+            <span>© 2024 Lumière Clinic — Tous droits réservés · Ordre National des Médecins</span>
+            <div className="flex gap-6">
+              {["Mentions légales", "Politique de confidentialité", "RGPD"].map(l => (
+                <Link key={l} href="#" className="hover:text-[#FAFAF8] transition-colors cursor-pointer">{l}</Link>
+              ))}
+            </div>
           </div>
         </div>
       </footer>
-    </main>
-  );
+    </div>
+  )
 }

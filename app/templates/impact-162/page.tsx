@@ -1,429 +1,485 @@
 "use client"
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
-import React, { useState, useRef, useEffect } from "react"
+
+import React, { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Progress } from "@/components/ui/progress"
-import { Separator } from "@/components/ui/separator"
-import { Coffee, Star, Clock, MapPin, Leaf, Heart, Camera, Users2, Menu, Check, Wifi, Music } from "lucide-react"
+import { Menu, X, ArrowRight, Coffee, Clock, MapPin, Phone, Mail, Star, Instagram, Heart, ChevronRight } from "lucide-react"
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+function useFonts() {
+  useEffect(() => {
+    const id = "fonts-essential-cafe"
+    if (document.getElementById(id)) return
+    const s = document.createElement("style")
+    s.id = id
+    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap');`
+    document.head.appendChild(s)
+  }, [])
+}
+
+function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  const isInView = useInView(ref, { once: true, margin: "-60px" })
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 32 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}>
+    <motion.div ref={ref} initial={{ opacity: 0, y }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}>
       {children}
     </motion.div>
   )
 }
 
 const MENU_ITEMS = [
-  { cat: "Cafés", items: [
-    { name: "Espresso Signature", desc: "Blend maison torréfié sur place — notes de chocolat noir et noisette grillée", price: "3.20 €" },
-    { name: "Flat White", desc: "Double ristretto, lait entier micromoussé — velours en tasse", price: "4.50 €" },
-    { name: "Latte à la Rose", desc: "Espresso, mousse de lait, sirop rose maison — notre signature florale", price: "5.00 €" },
-    { name: "Cold Brew Nitro", desc: "Infusion froide 18h, service au robinet azote — crémeux et naturellement sucré", price: "5.50 €" },
+  { category: "Cafés signature", items: [
+    { name: "Le Matin Doré", desc: "Espresso, lait entier vapeur, miel de fleurs sauvages, une touche de cannelle", price: "4,80 €" },
+    { name: "Velours Noir", desc: "Double espresso, crème de cacao, lait végétal d'avoine, poudre de fève", price: "5,20 €" },
+    { name: "Cardamome & Rose", desc: "Espresso, cardamome moulue, lait entier, eau de rose, sucre de canne brut", price: "5,50 €" },
   ]},
-  { cat: "Douceurs", items: [
-    { name: "Banana Bread", desc: "Bananes mûres, noix de pécan, caramel beurre salé maison", price: "4.50 €" },
-    { name: "Croissant au beurre", desc: "Feuilletage AOP beurre de la Manche — livraison 7h du matin", price: "3.00 €" },
-    { name: "Cookie Tahini", desc: "Sesame, pépites de chocolat 70%, fleur de sel — sans gluten", price: "3.50 €" },
-    { name: "Cheesecake Matcha", desc: "Fromage blanc fermier, thé matcha cérémonie, biscuit sésame", price: "6.00 €" },
+  { category: "Pâtisseries maison", items: [
+    { name: "Brioche aux agrumes", desc: "Brioche feuilletée, crème pâtissière, zestes d'orange et citron bergamote", price: "4,20 €" },
+    { name: "Financier aux noisettes", desc: "Beurre noisette, noisettes du Piémont, amandes effilées, miel de châtaigner", price: "3,50 €" },
+    { name: "Kouign-amann du dimanche", desc: "Pâte feuilletée caramélisée, beurre de Bretagne demi-sel, sucre blond", price: "4,50 €" },
   ]},
-]
-
-const AMBIANCE = [
-  { icon: Wifi, title: "WiFi haut débit", desc: "Connexion fibre 500 Mbps symétrique — code sur ardoise à l'accueil" },
-  { icon: Music, title: "Playlist curatée", desc: "Jazz lo-fi le matin, indie le midi, ambient le soir — ambiance garantie" },
-  { icon: Leaf, title: "Produits locaux", desc: "Cafés en grain de 6 origines, lait bio Île-de-France, pâtisseries du quartier" },
-  { icon: Heart, title: "Pet-friendly", desc: "Votre compagnon est le bienvenu — gamelle d'eau toujours disponible" },
-]
-
-const STATS = [
-  { val: "6", label: "Origines de café" },
-  { val: "4.9/5", label: "Avis Google" },
-  { val: "2013", label: "Fondé en" },
-  { val: "7j/7", label: "Ouvert" },
-  { val: "100%", label: "Ingrédients locaux" },
+  { category: "Petite restauration", items: [
+    { name: "Tartine du marché", desc: "Pain au levain, ricotta, légumes de saison rôtis, huile d'olive vierge extra", price: "8,50 €" },
+    { name: "Bowl du moment", desc: "Céréales anciennes, légumineuses, légumes crus et cuits, vinaigrette maison", price: "12,00 €" },
+    { name: "Œufs bénédictine", desc: "Muffin anglais maison, jambon artisanal, œufs pochés, sauce hollandaise", price: "13,50 €" },
+  ]},
 ]
 
 const TESTIMONIALS = [
-  { name: "Sophie Marchand", role: "Cliente quotidienne", rating: 5, text: "Mon café du matin depuis 4 ans. Le flat white est le meilleur de Paris, sans discussion. L'équipe me connaît par mon prénom et mon lait d'avoine arrive automatiquement.", avatar: "SM" },
-  { name: "Théo Dupuis", role: "Freelance & habitué", rating: 5, text: "Le meilleur spot de travail du 11ème. WiFi stable, bruit ambiant idéal pour se concentrer, et le banana bread me donne l'énergie pour tenir jusqu'au soir.", avatar: "TD" },
-  { name: "Camille Aubert", role: "Food blogger", rating: 5, text: "Le latte à la rose est une vraie création artistique. La présentation, l'équilibre sucré-floral, la qualité du lait... c'est ce genre de détails qui font un grand café.", avatar: "CA" },
-  { name: "Marc Renard", role: "Architecte", rating: 5, text: "J'y tiens mes réunions informelles. L'ambiance est parfaite — assez animée pour être stimulante, assez zen pour discuter tranquillement. La terrasse l'été est magique.", avatar: "MR" },
-  { name: "Julie Petit", role: "Voisine de quartier", rating: 5, text: "Le cold brew nitro a changé ma vie l'été dernier. On en parle encore avec mon copain. Et les cookies tahini... je ne mange plus que ça au goûter.", avatar: "JP" },
+  { name: "Élise M.", text: "Le café idéal pour travailler le matin. La lumière, la musique, le café... Tout est parfait.", rating: 5 },
+  { name: "Thomas B.", text: "La brioche aux agrumes est un chef-d'œuvre. Je fais un détour de 20 minutes pour en avoir une le week-end.", rating: 5 },
+  { name: "Pauline R.", text: "Accueil chaleureux, cadre magnifique. On s'y sent comme à la maison, mais en beaucoup mieux.", rating: 5 },
 ]
 
-const PRICING = [
-  { name: "Fidèle", price: "15", desc: "La carte de fidélité", features: ["10 cafés achetés = 1 offert", "Viennoiserie offerte le jour de votre anniversaire", "Priorité sur les nouveautés saisonnières", "Newsletter mensuelle recettes & actualités", "Accès dégustation producteurs"] },
-  { name: "Nomade", price: "49", desc: "Abonnement mensuel café illimité", featured: true, features: ["Espresso, allongé & filtre illimités", "1 spécialité/jour (flat white, latte...)", "Accès réservation table premium", "Réduction 15% sur pâtisseries", "Invitez un ami 1x/mois", "Code WiFi prioritaire"] },
-  { name: "Entreprise", price: "Sur devis", desc: "Pour vos équipes et événements", features: ["Commandes régulières livrées", "Privatisation soirée ou weekend", "Atelier dégustation café", "Branding co-organisé possible", "Facturation mensuelle", "Account manager dédié"] },
-]
-
-const FAQS = [
-  { q: "Proposez-vous des options véganes et sans gluten ?", a: "Oui. Nos laits végétaux (avoine, soja, amande, coco) sont disponibles pour tous les cafés. La plupart de nos pâtisseries ont une option sans gluten. Consultez notre ardoise quotidienne pour les spécialités du jour." },
-  { q: "Peut-on réserver une table ?", a: "Oui, les tables du fond et la terrasse sont réservables via notre application ou par téléphone, minimum 2h à l'avance. Les comptoirs et banquettes sont en libre-accès." },
-  { q: "D'où viennent vos cafés ?", a: "Nous sourceons nos grains directement chez 6 producteurs partenaires en Éthiopie, Colombie, Guatemala, Rwanda, Yemen et Indonésie. Nous visitons chaque exploitation tous les 18 mois." },
-  { q: "Proposez-vous des formations barista ?", a: "Oui, nous organisons des ateliers barista le samedi matin (2h, maximum 8 participants). Inscription sur notre site. Nous proposons aussi des ateliers café pour entreprises sur demande." },
-  { q: "Peut-on acheter vos cafés en grain ?", a: "Absolument. Nos 6 origines sont disponibles à la vente en boutique (250g et 1kg) et sur notre boutique en ligne. Nous proposons aussi un abonnement mensuel avec un blend différent chaque mois." },
-  { q: "Les chiens sont-ils acceptés ?", a: "Oui, vos compagnons sont les bienvenus sur la terrasse et dans la salle basse. Une gamelle d'eau fraîche est toujours disponible à l'entrée." },
+const HOURS = [
+  { days: "Lundi — Vendredi", hours: "7h00 — 19h00" },
+  { days: "Samedi", hours: "8h00 — 20h00" },
+  { days: "Dimanche", hours: "9h00 — 17h00" },
 ]
 
 export default function EssentialCafePage() {
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const [activeMenuCat, setActiveMenuCat] = useState(0)
-  const heroRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"])
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+  useFonts()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [activeCategory, setActiveCategory] = useState(0)
+  const { scrollYProgress } = useScroll()
+  const heroRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(heroScroll, [0, 1], ["0%", "30%"])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
   return (
-    <div style={{ overflowX: "hidden", scrollBehavior: "smooth", background: "#1a1208", color: "#f0e8d8", fontFamily: "'Playfair Display', Georgia, serif" }}>
+    <div className="min-h-screen bg-[#FDFAF5] text-[#2A1F0E]" style={{ fontFamily: "'Lato', sans-serif" }}>
+      <motion.div className="fixed top-0 left-0 h-[2px] bg-[#8B5E3C] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
-      {/* NAVBAR */}
-      <motion.nav initial={{ y: -80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, backdropFilter: "blur(16px)", background: "rgba(26,18,8,0.92)", borderBottom: "1px solid rgba(200,160,80,0.12)" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
-          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-            <Coffee size={20} color="#c8a050" />
-            <span style={{ fontSize: 20, fontWeight: 700, color: "#f0e8d8", letterSpacing: "0.04em" }}>Brûlerie du Canal</span>
+      {/* Nav */}
+      <motion.nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#FDFAF5]/95 backdrop-blur-md border-b border-[#E8DED0]" : "bg-transparent"}`}
+        initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <Link href="#" className="flex items-center gap-2.5">
+            <Coffee className="w-5 h-5 text-[#8B5E3C]" />
+            <span className="text-xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>Le Matin Doré</span>
           </Link>
-          <div style={{ display: "flex", gap: 28, alignItems: "center" }} className="hidden md:flex">
-            {["Menu", "Nos cafés", "Ambiance", "Contact"].map(item => (
-              <a key={item} href={`#${item.toLowerCase().replace("nos ", "")}`}
-                style={{ color: "rgba(240,232,216,0.55)", textDecoration: "none", fontSize: 14, fontFamily: "system-ui", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = "#c8a050")}
-                onMouseLeave={e => (e.currentTarget.style.color = "rgba(240,232,216,0.55)")}>
-                {item}
-              </a>
+          <div className="hidden md:flex items-center gap-8 text-sm text-[#6B5A40] font-light">
+            {["Menu", "Notre histoire", "Galerie", "Nous trouver"].map(l => (
+              <Link key={l} href={`#${l.toLowerCase().replace(/ /g, "-")}`} className="hover:text-[#2A1F0E] transition-colors">{l}</Link>
             ))}
-            <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "9px 20px", background: "#c8a050", color: "#1a1208", border: "none", borderRadius: 6, fontSize: 13, fontFamily: "system-ui", fontWeight: 700, cursor: "pointer" }}>
-              Réserver
-            </motion.button>
+            <Link href="#nous-trouver" className="px-5 py-2.5 bg-[#8B5E3C] text-white text-sm hover:bg-[#6B4830] transition-colors cursor-pointer rounded-sm">
+              Réserver une table
+            </Link>
           </div>
-          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetTrigger asChild>
-              <button style={{ background: "none", border: "none", color: "#f0e8d8", cursor: "pointer" }} className="md:hidden block"><Menu size={24} /></button>
-            </SheetTrigger>
-            <SheetContent side="right" style={{ background: "#1a1208" }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 24, paddingTop: 48 }}>
-                {["Menu", "Nos cafés", "Ambiance", "Contact"].map(item => (
-                  <a key={item} href="#" onClick={() => setMobileOpen(false)} style={{ color: "#f0e8d8", textDecoration: "none", fontSize: 18, fontFamily: "system-ui" }}>{item}</a>
-                ))}
-              </div>
-            </SheetContent>
-          </Sheet>
+          <button className="md:hidden p-2 cursor-pointer" onClick={() => setMenuOpen(true)} aria-label="Menu">
+            <Menu className="w-5 h-5" />
+          </button>
         </div>
       </motion.nav>
 
-      {/* HERO */}
-      <section ref={heroRef} style={{ position: "relative", height: "100vh", minHeight: 680, display: "flex", alignItems: "center", overflow: "hidden" }}>
-        <motion.div style={{ position: "absolute", inset: 0, y: bgY }}>
-          <Image src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&q=80" alt="Café" fill style={{ objectFit: "cover" }} priority />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(110deg, rgba(26,18,8,0.88) 40%, rgba(26,18,8,0.45) 100%)" }} />
-        </motion.div>
-
-        <motion.div style={{ position: "relative", zIndex: 10, padding: "0 10vw", maxWidth: 680, opacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <Badge style={{ background: "rgba(200,160,80,0.1)", color: "#c8a050", border: "1px solid rgba(200,160,80,0.3)", fontSize: 11, letterSpacing: "0.1em", marginBottom: 28, fontFamily: "system-ui" }}>
-              CAFÉ DE SPÉCIALITÉ — PARIS 10ème
-            </Badge>
-          </motion.div>
-
-          <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            style={{ fontSize: "clamp(40px, 6vw, 76px)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 24, color: "#f0e8d8" }}>
-            Le café qui<br />mérite votre <em style={{ color: "#c8a050", fontStyle: "italic" }}>matin.</em>
-          </motion.h1>
-
-          <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
-            style={{ fontSize: 17, color: "rgba(240,232,216,0.65)", fontFamily: "system-ui", lineHeight: 1.75, marginBottom: 40, maxWidth: 460 }}>
-            Torréfaction artisanale, 6 origines directes, pâtisseries maison. Un café de quartier qui prend son métier au sérieux depuis 2013.
-          </motion.p>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.45 }}
-            style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-            <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(200,160,80,0.3)" }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "16px 32px", background: "#c8a050", color: "#1a1208", border: "none", borderRadius: 6, fontSize: 14, fontFamily: "system-ui", fontWeight: 700, cursor: "pointer" }}>
-              Voir la carte
-            </motion.button>
-            <motion.button whileHover={{ scale: 1.04 }}
-              style={{ padding: "16px 32px", background: "transparent", color: "#f0e8d8", border: "1px solid rgba(240,232,216,0.2)", borderRadius: 6, fontSize: 14, fontFamily: "system-ui", cursor: "pointer" }}>
-              Réserver une table
-            </motion.button>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.6 }}
-            style={{ display: "flex", gap: 24, marginTop: 40, flexWrap: "wrap" }}>
-            {[{ icon: Clock, text: "7h – 20h, 7j/7" }, { icon: MapPin, text: "32 quai de Valmy, Paris 10" }, { icon: Wifi, text: "WiFi 500 Mbps" }].map((item, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "rgba(240,232,216,0.55)", fontFamily: "system-ui" }}>
-                <item.icon size={14} color="#c8a050" />{item.text}
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div className="fixed inset-0 z-[200] bg-[#2A1F0E] text-[#FDFAF5] flex flex-col"
+            initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 280, damping: 28 }}>
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#4A3520]">
+              <div className="flex items-center gap-2">
+                <Coffee className="w-5 h-5 text-[#C9A86C]" />
+                <span style={{ fontFamily: "'Playfair Display', serif" }}>Le Matin Doré</span>
               </div>
-            ))}
-          </motion.div>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.9, duration: 0.7 }}
-          style={{ position: "absolute", right: 48, bottom: 100, background: "rgba(255,255,255,0.05)", backdropFilter: "blur(16px)", border: "1px solid rgba(200,160,80,0.2)", borderRadius: 12, padding: "20px 24px", zIndex: 10 }}>
-          <div style={{ display: "flex", gap: 3, marginBottom: 6 }}>
-            {[1,2,3,4,5].map(i => <Star key={i} size={12} fill="#c8a050" color="#c8a050" />)}
-          </div>
-          <div style={{ fontSize: 24, fontWeight: 700, color: "#c8a050", fontFamily: "system-ui" }}>4.9/5</div>
-          <div style={{ fontSize: 12, color: "rgba(240,232,216,0.45)", fontFamily: "system-ui" }}>+520 avis Google</div>
-        </motion.div>
-      </section>
-
-      {/* STATS */}
-      <section style={{ padding: "44px 32px", background: "rgba(200,160,80,0.05)", borderTop: "1px solid rgba(200,160,80,0.1)", borderBottom: "1px solid rgba(200,160,80,0.1)" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", flexWrap: "wrap", gap: 32, justifyContent: "center" }}>
-          {STATS.map((s, i) => (
-            <Reveal key={i} delay={i * 0.1}>
-              <div style={{ textAlign: "center", minWidth: 120 }}>
-                <div style={{ fontSize: 32, fontWeight: 700, color: "#c8a050", fontFamily: "system-ui" }}>{s.val}</div>
-                <div style={{ fontSize: 13, color: "rgba(240,232,216,0.45)", fontFamily: "system-ui", marginTop: 4 }}>{s.label}</div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* MENU */}
-      <section id="menu" style={{ padding: "100px 32px" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 52 }}>
-              <Badge style={{ background: "rgba(200,160,80,0.1)", color: "#c8a050", border: "1px solid rgba(200,160,80,0.25)", fontSize: 11, letterSpacing: "0.1em", marginBottom: 16, fontFamily: "system-ui" }}>NOTRE CARTE</Badge>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, color: "#f0e8d8" }}>Sélection du <em style={{ color: "#c8a050" }}>moment</em></h2>
+              <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
-          </Reveal>
-
-          <Tabs defaultValue="Cafés" style={{ width: "100%" }}>
-            <TabsList style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(200,160,80,0.12)", marginBottom: 36, display: "flex", height: "auto", padding: 4, gap: 4 }}>
-              {MENU_ITEMS.map(cat => (
-                <TabsTrigger key={cat.cat} value={cat.cat} style={{ flex: 1, fontSize: 14, fontFamily: "system-ui", fontWeight: 600, color: "rgba(240,232,216,0.55)" }}>{cat.cat}</TabsTrigger>
+            <div className="flex flex-col gap-8 p-10">
+              {["Menu", "Notre histoire", "Galerie", "Nous trouver"].map((l, i) => (
+                <motion.div key={l} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
+                  <Link href={`#${l.toLowerCase().replace(/ /g, "-")}`} onClick={() => setMenuOpen(false)}
+                    className="text-3xl font-light hover:text-[#C9A86C] transition-colors cursor-pointer"
+                    style={{ fontFamily: "'Playfair Display', serif" }}>{l}</Link>
+                </motion.div>
               ))}
-            </TabsList>
-            {MENU_ITEMS.map(cat => (
-              <TabsContent key={cat.cat} value={cat.cat}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-                  {cat.items.map((item, i) => (
-                    <Reveal key={i} delay={i * 0.08}>
-                      <motion.div whileHover={{ borderColor: "rgba(200,160,80,0.3)" }}
-                        style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(200,160,80,0.1)", borderRadius: 12, padding: "22px 20px", transition: "border-color 0.3s" }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
-                          <h3 style={{ fontSize: 17, fontWeight: 700, color: "#f0e8d8" }}>{item.name}</h3>
-                          <span style={{ fontSize: 16, fontWeight: 700, color: "#c8a050", fontFamily: "system-ui", flexShrink: 0, marginLeft: 12 }}>{item.price}</span>
-                        </div>
-                        <p style={{ fontSize: 13, color: "rgba(240,232,216,0.55)", fontFamily: "system-ui", lineHeight: 1.65 }}>{item.desc}</p>
-                      </motion.div>
-                    </Reveal>
-                  ))}
-                </div>
-              </TabsContent>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Hero */}
+      <section ref={heroRef} className="relative min-h-screen overflow-hidden flex items-end">
+        <motion.div className="absolute inset-0" style={{ y: heroY }}>
+          <Image src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1600&q=85" alt="Le Matin Doré" fill className="object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1A0E05]/90 via-[#1A0E05]/30 to-transparent" />
+        </motion.div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pb-24 pt-32 w-full">
+          <Reveal>
+            <p className="text-[#C9A86C] text-xs tracking-[0.3em] uppercase mb-6">Torréfaction artisanale · Paris 11e</p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h1 className="text-5xl md:text-7xl font-light text-white leading-[1.0] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+              Un café<br /><em>comme un rituel</em>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="text-[#D4C9B0] text-lg max-w-md mb-10 leading-relaxed">
+              Chaque tasse est une promesse — de qualité, de soin, de présence. Bienvenue au Matin Doré.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-5">
+              <Link href="#menu" className="inline-flex items-center gap-3 px-8 py-4 bg-[#8B5E3C] text-white text-sm uppercase tracking-widest hover:bg-[#6B4830] transition-colors cursor-pointer">
+                Découvrir la carte <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link href="#nous-trouver" className="inline-flex items-center gap-3 px-8 py-4 border border-[#D4C9B0]/50 text-white text-sm uppercase tracking-widest hover:border-[#D4C9B0] transition-colors cursor-pointer">
+                Nous trouver
+              </Link>
+            </div>
+          </Reveal>
+          <div className="mt-20 pt-10 border-t border-[#4A3520] flex flex-wrap gap-10">
+            {[["Depuis 2018", "Ouvert"], ["100%", "Café de spécialité"], ["Bio & Local", "Nos pâtisseries"]].map(([val, label]) => (
+              <div key={label}>
+                <div className="text-[#C9A86C] text-xl font-light mb-0.5" style={{ fontFamily: "'Playfair Display', serif" }}>{val}</div>
+                <div className="text-xs text-[#8A7560] uppercase tracking-wide">{label}</div>
+              </div>
             ))}
-          </Tabs>
+          </div>
         </div>
       </section>
 
-      {/* AMBIANCE */}
-      <section id="ambiance" style={{ padding: "100px 32px", background: "rgba(255,255,255,0.02)" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 56 }}>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, color: "#f0e8d8" }}>Plus qu'un café, <em style={{ color: "#c8a050" }}>un lieu de vie</em></h2>
-            </div>
-          </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "center" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-              {AMBIANCE.map((a, i) => (
-                <Reveal key={i} delay={i * 0.1}>
-                  <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(200,160,80,0.1)", borderRadius: 12, padding: "24px 20px" }}>
-                    <div style={{ width: 40, height: 40, borderRadius: 10, background: "rgba(200,160,80,0.1)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}>
-                      <a.icon size={18} color="#c8a050" />
+      {/* Philosophy */}
+      <section className="py-24 bg-[#FDFAF5]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { icon: Coffee, title: "Café de spécialité", desc: "Grains sourcés directement auprès de producteurs partenaires. Torréfaction légère pour préserver les arômes d'origine." },
+              { icon: Heart, title: "Fait maison chaque jour", desc: "Toutes nos pâtisseries sont préparées chaque matin à l'aide de recettes de saison et de produits locaux de qualité." },
+              { icon: Star, title: "Un lieu vivant", desc: "Expositions temporaires, musique live le dimanche, ateliers café. Le Matin Doré est aussi un espace de culture." },
+            ].map((p, i) => {
+              const Icon = p.icon
+              return (
+                <Reveal key={p.title} delay={i * 0.1}>
+                  <div className="text-center p-8">
+                    <div className="w-14 h-14 border border-[#C9A86C] flex items-center justify-center mx-auto mb-6">
+                      <Icon className="w-6 h-6 text-[#8B5E3C]" />
                     </div>
-                    <h3 style={{ fontSize: 15, fontWeight: 700, color: "#f0e8d8", marginBottom: 8 }}>{a.title}</h3>
-                    <p style={{ fontSize: 13, color: "rgba(240,232,216,0.55)", fontFamily: "system-ui", lineHeight: 1.65 }}>{a.desc}</p>
+                    <h3 className="text-xl font-normal mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>{p.title}</h3>
+                    <p className="text-[#6B5A40] leading-relaxed text-sm">{p.desc}</p>
                   </div>
                 </Reveal>
-              ))}
-            </div>
-            <Reveal delay={0.2}>
-              <div style={{ position: "relative", aspectRatio: "4/5", borderRadius: 20, overflow: "hidden" }}>
-                <Image src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&q=80" alt="Ambiance café" fill style={{ objectFit: "cover" }} />
-              </div>
-            </Reveal>
+              )
+            })}
           </div>
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section style={{ padding: "100px 32px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 52 }}>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, color: "#f0e8d8" }}>Nos <em style={{ color: "#c8a050" }}>habitués</em> parlent</h2>
-            </div>
-          </Reveal>
-          <Carousel opts={{ align: "start", loop: true }}>
-            <CarouselContent style={{ paddingLeft: 8 }}>
-              {TESTIMONIALS.map((t, i) => (
-                <CarouselItem key={i} style={{ paddingLeft: 16, flexBasis: "calc(50% - 8px)" }}>
-                  <Card style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(200,160,80,0.1)", borderRadius: 12 }}>
-                    <CardContent style={{ padding: 28 }}>
-                      <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>
-                        {Array.from({ length: t.rating }).map((_, j) => <Star key={j} size={13} fill="#c8a050" color="#c8a050" />)}
-                      </div>
-                      <p style={{ fontSize: 15, color: "rgba(240,232,216,0.7)", fontFamily: "system-ui", lineHeight: 1.75, marginBottom: 20, fontStyle: "italic" }}>"{t.text}"</p>
-                      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                        <Avatar><AvatarFallback style={{ background: "rgba(200,160,80,0.15)", color: "#c8a050", fontSize: 12, fontWeight: 700 }}>{t.avatar}</AvatarFallback></Avatar>
-                        <div>
-                          <div style={{ fontSize: 14, fontWeight: 700, color: "#f0e8d8" }}>{t.name}</div>
-                          <div style={{ fontSize: 12, color: "rgba(240,232,216,0.4)", fontFamily: "system-ui" }}>{t.role}</div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </CarouselItem>
+      {/* Menu */}
+      <section id="menu" className="py-28 bg-[#F0EBE0]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="text-center mb-14">
+            <Reveal>
+              <p className="text-xs tracking-[0.25em] uppercase text-[#8B5E3C] mb-4">La carte</p>
+              <h2 className="text-4xl md:text-5xl font-light" style={{ fontFamily: "'Playfair Display', serif" }}>
+                Ce que nous vous <em>proposons</em>
+              </h2>
+            </Reveal>
+          </div>
+
+          <div className="flex justify-center gap-2 mb-12">
+            {MENU_ITEMS.map((cat, i) => (
+              <button key={cat.category} onClick={() => setActiveCategory(i)}
+                className={`px-6 py-2.5 text-sm transition-all duration-200 cursor-pointer ${activeCategory === i ? "bg-[#2A1F0E] text-white" : "bg-transparent text-[#6B5A40] border border-[#D4C9B0] hover:border-[#2A1F0E]"}`}>
+                {cat.category}
+              </button>
+            ))}
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div key={activeCategory} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}
+              className="space-y-0 border-t border-[#D4C9B0]">
+              {MENU_ITEMS[activeCategory].items.map((item, i) => (
+                <div key={item.name} className="flex items-start justify-between py-7 border-b border-[#D4C9B0] gap-6">
+                  <div className="flex-1">
+                    <h3 className="text-xl font-normal mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>{item.name}</h3>
+                    <p className="text-sm text-[#6B5A40] leading-relaxed">{item.desc}</p>
+                  </div>
+                  <div className="text-xl font-light text-[#8B5E3C] whitespace-nowrap" style={{ fontFamily: "'Playfair Display', serif" }}>{item.price}</div>
+                </div>
               ))}
-            </CarouselContent>
-            <CarouselPrevious style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(200,160,80,0.25)", color: "#c8a050" }} />
-            <CarouselNext style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(200,160,80,0.25)", color: "#c8a050" }} />
-          </Carousel>
+            </motion.div>
+          </AnimatePresence>
+          <Reveal delay={0.2}>
+            <p className="text-xs text-[#8A7560] mt-6 text-center">Tous nos plats peuvent être adaptés aux régimes alimentaires spécifiques — n&apos;hésitez pas à demander.</p>
+          </Reveal>
         </div>
       </section>
 
-      {/* PRICING */}
-      <section style={{ padding: "100px 32px", background: "rgba(255,255,255,0.02)" }}>
-        <div style={{ maxWidth: 950, margin: "0 auto" }}>
+      {/* About */}
+      <section id="notre-histoire" className="py-28 bg-[#FDFAF5]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div className="relative">
+              <Reveal>
+                <div className="aspect-[4/5] relative overflow-hidden">
+                  <Image src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80" alt="Notre histoire" fill className="object-cover" />
+                </div>
+                <div className="absolute -bottom-6 -right-6 bg-[#8B5E3C] text-white p-6">
+                  <div className="text-3xl font-light mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>2018</div>
+                  <div className="text-xs uppercase tracking-wide">Fondé à Paris</div>
+                </div>
+              </Reveal>
+            </div>
+            <div>
+              <Reveal delay={0.1}>
+                <p className="text-xs tracking-[0.25em] uppercase text-[#8B5E3C] mb-4">Notre histoire</p>
+                <h2 className="text-4xl md:text-5xl font-light leading-tight mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Un rêve de<br /><em>café parfait</em><br />devenu réalité
+                </h2>
+                <p className="text-[#6B5A40] leading-relaxed mb-6">
+                  Le Matin Doré est né de l&apos;obsession de Sarah Morin pour le café de spécialité. Après des années à voyager de plantation en plantation, elle a voulu créer un lieu où chaque tasse serait une invitation au ralentissement.
+                </p>
+                <p className="text-[#6B5A40] leading-relaxed mb-10">
+                  Nous torréfions nous-mêmes nos grains, sélectionnés auprès de producteurs engagés dans une agriculture durable et juste. Nos pâtisseries changent selon les saisons et l&apos;humeur du chef.
+                </p>
+              </Reveal>
+              <Reveal delay={0.2}>
+                <div className="flex flex-wrap gap-4">
+                  {[["12 origines", "de café"], ["100%", "bio & local"], ["0 déchet", "objectif 2025"]].map(([val, label]) => (
+                    <div key={label} className="bg-[#F0EBE0] px-5 py-4">
+                      <div className="text-lg font-medium" style={{ fontFamily: "'Playfair Display', serif" }}>{val}</div>
+                      <div className="text-xs text-[#8A7560]">{label}</div>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery */}
+      <section id="galerie" className="py-16 bg-[#F0EBE0]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 56 }}>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, color: "#f0e8d8" }}>Nos offres <em style={{ color: "#c8a050" }}>fidélité</em></h2>
+            <div className="flex items-center justify-between mb-10">
+              <h2 className="text-3xl font-light" style={{ fontFamily: "'Playfair Display', serif" }}>L&apos;ambiance du lieu</h2>
+              <Link href="#" className="flex items-center gap-2 text-sm text-[#8B5E3C] cursor-pointer hover:gap-3 transition-all duration-200">
+                <Instagram className="w-4 h-4" /> @lematindore
+              </Link>
             </div>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
-            {PRICING.map((plan, i) => (
-              <Reveal key={i} delay={i * 0.12}>
-                <motion.div whileHover={{ y: -6, boxShadow: plan.featured ? "0 20px 50px rgba(200,160,80,0.15)" : "0 8px 32px rgba(0,0,0,0.4)" }}
-                  style={{ borderRadius: 16, border: plan.featured ? "1px solid rgba(200,160,80,0.4)" : "1px solid rgba(255,255,255,0.06)", overflow: "hidden", cursor: "pointer", position: "relative" }}>
-                  {plan.featured && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "#c8a050" }} />}
-                  <div style={{ padding: "28px 22px", background: plan.featured ? "rgba(200,160,80,0.04)" : "rgba(255,255,255,0.02)" }}>
-                    {plan.featured && <div style={{ display: "inline-block", background: "rgba(200,160,80,0.15)", color: "#c8a050", fontSize: 10, letterSpacing: "0.1em", fontWeight: 700, padding: "3px 10px", borderRadius: 20, marginBottom: 12, fontFamily: "system-ui" }}>POPULAIRE</div>}
-                    <h3 style={{ fontSize: 20, fontWeight: 700, color: "#f0e8d8", marginBottom: 4 }}>{plan.name}</h3>
-                    <p style={{ fontSize: 13, color: "rgba(240,232,216,0.4)", fontFamily: "system-ui", marginBottom: 16 }}>{plan.desc}</p>
-                    <div style={{ marginBottom: 20 }}>
-                      {plan.price !== "Sur devis" ? (
-                        <><span style={{ fontSize: 36, fontWeight: 700, color: "#c8a050", fontFamily: "system-ui" }}>{plan.price}€</span><span style={{ fontSize: 13, color: "rgba(240,232,216,0.4)", fontFamily: "system-ui" }}>/mois</span></>
-                      ) : (
-                        <span style={{ fontSize: 22, fontWeight: 700, color: "#c8a050", fontFamily: "system-ui" }}>Sur devis</span>
-                      )}
-                    </div>
-                    <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
-                      {plan.features.map(f => (
-                        <li key={f} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 13, color: "rgba(240,232,216,0.6)", fontFamily: "system-ui" }}>
-                          <Check size={13} color="#c8a050" style={{ marginTop: 2, flexShrink: 0 }} />{f}
-                        </li>
-                      ))}
-                    </ul>
-                    <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                      style={{ width: "100%", padding: "12px", background: plan.featured ? "#c8a050" : "transparent", color: plan.featured ? "#1a1208" : "#c8a050", border: plan.featured ? "none" : "1px solid rgba(200,160,80,0.35)", borderRadius: 8, fontSize: 13, fontFamily: "system-ui", fontWeight: 700, cursor: "pointer" }}>
-                      {plan.price === "Sur devis" ? "Nous contacter" : "S'abonner"}
-                    </motion.button>
-                  </div>
-                </motion.div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[
+              "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80",
+              "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80",
+              "https://images.unsplash.com/photo-1464979681340-bdd28a61699e?w=400&q=80",
+              "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80",
+              "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80",
+              "https://images.unsplash.com/photo-1498804103079-a6351b050096?w=400&q=80",
+              "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400&q=80",
+              "https://images.unsplash.com/photo-1516743619420-154b70a65fea?w=400&q=80",
+            ].map((src, i) => (
+              <Reveal key={i} delay={i * 0.04}>
+                <div className="relative aspect-square overflow-hidden group cursor-pointer">
+                  <Image src={src} alt={`Galerie ${i + 1}`} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-[#2A1F0E]/0 group-hover:bg-[#2A1F0E]/30 transition-all duration-300" />
+                </div>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section id="contact" style={{ padding: "100px 32px" }}>
-        <div style={{ maxWidth: 760, margin: "0 auto" }}>
+      {/* Testimonials */}
+      <section className="py-24 bg-[#2A1F0E] text-[#FDFAF5]">
+        <div className="max-w-5xl mx-auto px-6 md:px-12">
           <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 48 }}>
-              <h2 style={{ fontSize: "clamp(26px, 4vw, 44px)", fontWeight: 700, color: "#f0e8d8" }}>Questions fréquentes</h2>
-            </div>
-          </Reveal>
-          <Accordion type="single" collapsible style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {FAQS.map((faq, i) => (
-              <AccordionItem key={i} value={`q${i}`} style={{ border: "1px solid rgba(200,160,80,0.1)", borderRadius: 10, overflow: "hidden", background: "rgba(255,255,255,0.02)" }}>
-                <AccordionTrigger style={{ padding: "16px 20px", fontSize: 15, fontWeight: 600, color: "#f0e8d8", fontFamily: "system-ui", textAlign: "left" }}>{faq.q}</AccordionTrigger>
-                <AccordionContent style={{ padding: "0 20px 16px", fontSize: 14, color: "rgba(240,232,216,0.55)", fontFamily: "system-ui", lineHeight: 1.8 }}>{faq.a}</AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section style={{ padding: "80px 32px", background: "linear-gradient(135deg, rgba(200,160,80,0.12) 0%, rgba(200,160,80,0.04) 100%)", borderTop: "1px solid rgba(200,160,80,0.12)" }}>
-        <div style={{ maxWidth: 600, margin: "0 auto", textAlign: "center" }}>
-          <Reveal>
-            <Coffee size={40} color="#c8a050" style={{ marginBottom: 24 }} />
-            <h2 style={{ fontSize: "clamp(26px, 4vw, 48px)", fontWeight: 700, color: "#f0e8d8", marginBottom: 16 }}>
-              On vous attend <em style={{ color: "#c8a050" }}>demain matin.</em>
+            <p className="text-xs tracking-[0.25em] uppercase text-[#C9A86C] mb-4 text-center">Avis</p>
+            <h2 className="text-3xl font-light text-center mb-14" style={{ fontFamily: "'Playfair Display', serif" }}>
+              Ce qu&apos;ils <em>disent</em>
             </h2>
-            <p style={{ fontSize: 16, color: "rgba(240,232,216,0.5)", fontFamily: "system-ui", lineHeight: 1.7, marginBottom: 36 }}>Ouvert 7j/7 de 7h à 20h. 32 quai de Valmy, Paris 10ème.</p>
-            <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-              <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(200,160,80,0.25)" }} whileTap={{ scale: 0.97 }}
-                style={{ padding: "16px 32px", background: "#c8a050", color: "#1a1208", border: "none", borderRadius: 6, fontSize: 14, fontFamily: "system-ui", fontWeight: 700, cursor: "pointer" }}>
-                Réserver une table
-              </motion.button>
-              <motion.button whileHover={{ scale: 1.04 }}
-                style={{ padding: "16px 32px", background: "transparent", color: "#c8a050", border: "1px solid rgba(200,160,80,0.35)", borderRadius: 6, fontSize: 14, fontFamily: "system-ui", cursor: "pointer" }}>
-                Commander en ligne
-              </motion.button>
-            </div>
           </Reveal>
+          <div className="grid md:grid-cols-3 gap-8">
+            {TESTIMONIALS.map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.1}>
+                <div className="bg-[#3A2A18] p-8">
+                  <div className="flex gap-1 mb-5">
+                    {[...Array(t.rating)].map((_, i) => <Star key={i} className="w-4 h-4 fill-[#C9A86C] text-[#C9A86C]" />)}
+                  </div>
+                  <p className="text-[#D4C9B0] leading-relaxed mb-6 italic" style={{ fontFamily: "'Playfair Display', serif", fontSize: "16px" }}>
+                    &ldquo;{t.text}&rdquo;
+                  </p>
+                  <div className="font-medium text-sm text-[#C9A86C]">{t.name}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer style={{ padding: "48px 32px 32px", background: "#0d0904" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 40, marginBottom: 40 }}>
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-                <Coffee size={18} color="#c8a050" />
-                <span style={{ fontSize: 18, fontWeight: 700, color: "#c8a050", fontFamily: "system-ui" }}>Brûlerie du Canal</span>
-              </div>
-              <p style={{ fontSize: 13, color: "rgba(240,232,216,0.35)", fontFamily: "system-ui", lineHeight: 1.8, maxWidth: 280 }}>
-                32 quai de Valmy, 75010 Paris — Ouvert 7h–20h, 7j/7<br />01 42 38 XX XX — hello@brulerieducanal.fr
-              </p>
-              <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
-                {[Camera, Users2].map((Icon, i) => (
-                  <motion.button key={i} whileHover={{ scale: 1.15 }} style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "rgba(240,232,216,0.35)" }}>
-                    <Icon size={14} />
-                  </motion.button>
-                ))}
-              </div>
-            </div>
-            <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
-              {[
-                { title: "Carte", links: ["Cafés", "Thés & infusions", "Douceurs", "Boissons froides", "Brunch"] },
-                { title: "Infos", links: ["Notre histoire", "Nos cafés", "Ateliers", "Abonnements", "Contact"] },
-              ].map(col => (
-                <div key={col.title}>
-                  <h4 style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "#c8a050", marginBottom: 16, fontFamily: "system-ui" }}>{col.title.toUpperCase()}</h4>
-                  <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-                    {col.links.map(l => <li key={l}><a href="#" style={{ fontSize: 13, color: "rgba(240,232,216,0.35)", textDecoration: "none", fontFamily: "system-ui" }}>{l}</a></li>)}
-                  </ul>
+      {/* Events */}
+      <section className="py-24 bg-[#FDFAF5]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-xs tracking-[0.25em] uppercase text-[#8B5E3C] mb-4">Agenda</p>
+            <h2 className="text-3xl font-light mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>
+              À venir au café
+            </h2>
+          </Reveal>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { date: "Sam 18 jan", title: "Atelier dégustation café", desc: "Apprenez à distinguer les origines et les modes d'extraction. Max 8 personnes.", time: "10h – 12h", spots: "3 places restantes" },
+              { date: "Dim 19 jan", title: "Jazz acoustique live", desc: "Le trio Fontaine joue chaque dernier dimanche du mois. Entrée libre.", time: "11h – 14h", spots: "Accès libre" },
+              { date: "Sam 25 jan", title: "Vernissage : Clara Morin", desc: "Exposition de photographies argentiques sur le thème des marchés parisiens.", time: "18h – 21h", spots: "Sur invitation" },
+            ].map((ev, i) => (
+              <Reveal key={ev.title} delay={i * 0.08}>
+                <div className="border border-[#E8DED0] p-6 hover:border-[#8B5E3C] transition-colors duration-300 cursor-pointer group">
+                  <div className="text-xs tracking-widest uppercase text-[#8B5E3C] mb-3">{ev.date}</div>
+                  <h3 className="text-lg font-normal mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>{ev.title}</h3>
+                  <p className="text-sm text-[#6B5A40] leading-relaxed mb-4">{ev.desc}</p>
+                  <div className="flex items-center justify-between text-xs text-[#8A7560]">
+                    <span className="flex items-center gap-1.5"><Clock className="w-3 h-3" />{ev.time}</span>
+                    <span>{ev.spots}</span>
+                  </div>
                 </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Location */}
+      <section id="nous-trouver" className="py-28 bg-[#F0EBE0]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-2 gap-20">
+            <div>
+              <Reveal>
+                <p className="text-xs tracking-[0.25em] uppercase text-[#8B5E3C] mb-4">Nous trouver</p>
+                <h2 className="text-4xl md:text-5xl font-light leading-tight mb-8" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Venez nous <em>rendre visite</em>
+                </h2>
+                <div className="space-y-5 mb-10">
+                  {[{ Icon: MapPin, text: "34 rue de la Roquette, 75011 Paris" }, { Icon: Phone, text: "+33 1 43 48 22 10" }, { Icon: Mail, text: "bonjour@lematindore.fr" }, { Icon: Instagram, text: "@lematindore" }].map(({ Icon, text }) => (
+                    <div key={text} className="flex items-center gap-4 text-sm text-[#6B5A40]">
+                      <Icon className="w-4 h-4 text-[#8B5E3C] flex-shrink-0" />
+                      {text}
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+              <Reveal delay={0.1}>
+                <div className="bg-[#FDFAF5] p-6 border border-[#E8DED0]">
+                  <p className="text-xs tracking-widest uppercase text-[#8A7560] mb-4">Horaires d&apos;ouverture</p>
+                  {HOURS.map(h => (
+                    <div key={h.days} className="flex justify-between py-3 border-b border-[#E8DED0] last:border-b-0 text-sm">
+                      <span className="text-[#6B5A40]">{h.days}</span>
+                      <span className="font-medium text-[#2A1F0E]">{h.hours}</span>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+            <Reveal delay={0.1}>
+              <div className="bg-white p-8 border border-[#E8DED0]">
+                <p className="text-xs tracking-widest uppercase text-[#8A7560] mb-6">Réserver une table</p>
+                <form className="space-y-4" onSubmit={e => e.preventDefault()}>
+                  <div className="grid grid-cols-2 gap-4">
+                    {["Prénom", "Nom"].map(f => (
+                      <div key={f}>
+                        <label className="block text-xs text-[#8A7560] mb-2">{f}</label>
+                        <input className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[#8B5E3C] transition-colors" placeholder={f} />
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    <label className="block text-xs text-[#8A7560] mb-2">Email</label>
+                    <input type="email" className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[#8B5E3C] transition-colors" placeholder="votre@email.fr" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs text-[#8A7560] mb-2">Date</label>
+                      <input type="date" className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[#8B5E3C] transition-colors" />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-[#8A7560] mb-2">Heure</label>
+                      <select className="w-full bg-[#FDFAF5] border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[#8B5E3C] transition-colors">
+                        {["9h00", "10h00", "11h00", "12h00", "13h00", "14h00", "17h00", "18h00"].map(h => <option key={h}>{h}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs text-[#8A7560] mb-2">Nombre de personnes</label>
+                    <select className="w-full bg-[#FDFAF5] border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[#8B5E3C] transition-colors">
+                      {["1 personne", "2 personnes", "3 personnes", "4 personnes", "5+ personnes"].map(n => <option key={n}>{n}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs text-[#8A7560] mb-2">Message (optionnel)</label>
+                    <textarea rows={3} className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[#8B5E3C] transition-colors resize-none" placeholder="Allergies, occasion particulière..." />
+                  </div>
+                  <button type="submit" className="w-full bg-[#8B5E3C] text-white py-4 text-sm uppercase tracking-widest hover:bg-[#6B4830] transition-colors cursor-pointer">
+                    Confirmer la réservation
+                  </button>
+                </form>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-[#2A1F0E] text-[#8A7560] py-14 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-10 mb-10">
+            <div className="md:col-span-2">
+              <div className="flex items-center gap-2 mb-4">
+                <Coffee className="w-5 h-5 text-[#C9A86C]" />
+                <span className="text-[#FDFAF5] text-xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>Le Matin Doré</span>
+              </div>
+              <p className="text-sm leading-relaxed max-w-xs">Café de spécialité, pâtisseries maison, et un accueil chaleureux. Depuis 2018 au cœur du 11e.</p>
+            </div>
+            <div>
+              <p className="text-[#FDFAF5] text-xs tracking-widest uppercase mb-5">Navigation</p>
+              {["Menu", "Notre histoire", "Galerie", "Nous trouver"].map(l => (
+                <Link key={l} href={`#${l.toLowerCase().replace(/ /g, "-")}`} className="block text-sm hover:text-[#FDFAF5] mb-3 transition-colors cursor-pointer">{l}</Link>
+              ))}
+            </div>
+            <div>
+              <p className="text-[#FDFAF5] text-xs tracking-widest uppercase mb-5">Contact</p>
+              <p className="text-sm mb-2">34 rue de la Roquette</p>
+              <p className="text-sm mb-2">75011 Paris</p>
+              <p className="text-sm mb-4">+33 1 43 48 22 10</p>
+              <Link href="#" className="flex items-center gap-2 text-sm hover:text-[#C9A86C] transition-colors cursor-pointer"><Instagram className="w-4 h-4" /> @lematindore</Link>
+            </div>
+          </div>
+          <div className="pt-8 border-t border-[#4A3520] flex flex-col md:flex-row justify-between gap-4 text-xs">
+            <span>© 2024 Le Matin Doré · Tous droits réservés</span>
+            <div className="flex gap-6">
+              {["Mentions légales", "Confidentialité"].map(l => (
+                <Link key={l} href="#" className="hover:text-[#FDFAF5] transition-colors cursor-pointer">{l}</Link>
               ))}
             </div>
           </div>
-          <Separator style={{ background: "rgba(255,255,255,0.05)", marginBottom: 20 }} />
-          <p style={{ fontSize: 12, color: "rgba(240,232,216,0.2)", fontFamily: "system-ui", textAlign: "center" }}>© 2024 Brûlerie du Canal — Café de spécialité Paris</p>
         </div>
       </footer>
     </div>

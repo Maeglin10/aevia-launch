@@ -1,291 +1,484 @@
 "use client"
 
-import React, { useState, useRef } from "react"
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import React, { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
+import { Menu, X, ArrowRight, Scale, Shield, Briefcase, Users, Building, FileText, Phone, Mail, MapPin, ChevronRight, Award, Globe } from "lucide-react"
 
-// LEGRAND & ASSOCIÉS — Law firm. Dark charcoal + gold, authoritative serif, formal column layout.
-// Unique: sticky numbered sections, diagonal gold dividers, dense editorial feel.
+function useFonts() {
+  useEffect(() => {
+    const id = "fonts-legrand"
+    if (document.getElementById(id)) return
+    const s = document.createElement("style")
+    s.id = id
+    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');`
+    document.head.appendChild(s)
+  }, [])
+}
 
-const PRACTICES = [
-  { num: "I", name: "Droit des Affaires", desc: "Fusions-acquisitions, due diligence, pactes d'associés, cessions de fonds de commerce. Conseils aux PME et ETI.", scope: ["M&A", "Contrats", "Sociétés", "Gouvernance"] },
-  { num: "II", name: "Droit Social & RH", desc: "Relations individuelles et collectives, licenciements, accords d'entreprise, contentieux prud'homal.", scope: ["Licenciement", "CSE", "Accords", "Contentieux"] },
-  { num: "III", name: "Droit Immobilier", desc: "Baux commerciaux, VEFA, copropriété, contentieux locatif, due diligence immobilière.", scope: ["Baux", "VEFA", "Copro", "Contentieux"] },
-  { num: "IV", name: "Propriété Intellectuelle", desc: "Marques, brevets, droits d'auteur, contrats de licence, cybersécurité et protection des données.", scope: ["Marques", "Brevets", "RGPD", "Licences"] },
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  )
+}
+
+const DOMAINS = [
+  {
+    id: "corporate",
+    icon: Building,
+    label: "Droit des affaires",
+    desc: "Fusions-acquisitions, due diligences, structuration d'opérations complexes, capital-investissement et gouvernance d'entreprise. Notre équipe accompagne les groupes dans leurs opérations stratégiques.",
+    expertise: ["Fusions & Acquisitions", "Droit des sociétés", "Capital-investissement", "Joint-ventures"],
+  },
+  {
+    id: "litigation",
+    icon: Scale,
+    label: "Contentieux",
+    desc: "Gestion des litiges commerciaux, arbitrages internationaux, procédures collectives et contentieux réglementaires devant l'ensemble des juridictions françaises et européennes.",
+    expertise: ["Arbitrage international", "Litiges commerciaux", "Procédures collectives", "Contentieux pénal des affaires"],
+  },
+  {
+    id: "tax",
+    icon: FileText,
+    label: "Fiscalité",
+    desc: "Conseil fiscal des entreprises et des particuliers fortunés, structuration patrimoniale, prix de transfert, fiscalité internationale et contentieux fiscal.",
+    expertise: ["Fiscalité internationale", "Prix de transfert", "Structuration patrimoniale", "Contentieux fiscal"],
+  },
+  {
+    id: "employment",
+    icon: Users,
+    label: "Droit social",
+    desc: "Droit individuel et collectif du travail, négociations collectives, restructurations sociales, contentieux prud'homal et accompagnement des dirigeants.",
+    expertise: ["Relations collectives", "Restructurations", "Contentieux prud'homal", "Protection des dirigeants"],
+  },
+  {
+    id: "ip",
+    icon: Shield,
+    label: "Propriété intellectuelle",
+    desc: "Stratégies de protection et de valorisation des actifs immatériels, contentieux en contrefaçon, licences et transferts de technologie.",
+    expertise: ["Marques & Brevets", "Contentieux contrefaçon", "Licences & transferts", "Droit du numérique"],
+  },
 ]
 
-const ASSOCIATES = [
-  { name: "Maître Henri Legrand", title: "Associé fondateur", bar: "Barreau de Paris", exp: "28 ans", spec: "Droit des affaires, M&A" },
-  { name: "Maître Sophie Aubert", title: "Associée senior", bar: "Barreau de Lyon", exp: "16 ans", spec: "Droit social, RH" },
-  { name: "Maître Thomas Villiers", title: "Collaborateur senior", bar: "Barreau de Paris", exp: "9 ans", spec: "Immobilier, Copropriété" },
+const PARTNERS = [
+  { name: "Philippe Legrand", title: "Associé Fondateur", domain: "Droit des affaires", bar: "Paris, 1991", image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" },
+  { name: "Marie-Sophie Renault", title: "Associée", domain: "Contentieux & Arbitrage", bar: "Paris, 1998", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80" },
+  { name: "Thomas Vigneron", title: "Associé", domain: "Fiscalité internationale", bar: "Paris, 2003", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" },
+  { name: "Claire Bourgeois", title: "Associée", domain: "Droit social", bar: "Paris & Bruxelles, 2005", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80" },
 ]
 
-const TESTIMONIALS = [
-  { quote: "Legrand & Associés a géré l'acquisition de notre concurrent en 6 semaines. Une rigueur et une réactivité que je n'avais jamais vues.", name: "Laurent Bonneau", role: "PDG, Groupe Bonneau Industries" },
-  { quote: "Nous avons fait face à un contentieux prud'homal complexe. Le cabinet a obtenu le classement de l'affaire en première instance.", name: "Isabelle Roux", role: "DRH, Retail Group SA" },
-  { quote: "La rédaction de nos contrats de licence internationale est d'une précision qui nous protège efficacement depuis 5 ans.", name: "Marc Duhamel", role: "Directeur Juridique, SaaS Corp." },
+const REFERENCES = [
+  { sector: "Énergie & Environnement", ops: "12 opérations M&A", years: "15 ans de relation" },
+  { sector: "Technologies & Digital", ops: "8 litiges arbitraux", years: "10 ans de relation" },
+  { sector: "Private Equity", ops: "30+ LBO conseillés", years: "18 ans de relation" },
+  { sector: "Luxe & Distribution", ops: "20 restructurations", years: "12 ans de relation" },
 ]
 
-const FAQS = [
-  { q: "Comment se déroule une première consultation ?", a: "Consultation initiale de 45 minutes (250 € HT). Analyse de votre dossier, premier avis juridique et présentation de notre proposition d'honoraires." },
-  { q: "Quels sont vos modes de facturation ?", a: "Honoraires au taux horaire (250–450 € HT/h selon l'avocat), forfait pour les actes standards, ou abonnement mensuel pour les entreprises en besoin récurrent." },
-  { q: "Intervenez-vous en dehors de Paris et Lyon ?", a: "Oui, France entière. Présence physique à Paris (8e) et Lyon (2e). Audiences devant toutes les juridictions françaises." },
-  { q: "Proposez-vous un abonnement pour les entreprises ?", a: "Oui — formule Conseil Permanent : accès illimité aux avis juridiques, revue mensuelle des contrats, alerte légale mensuelle. À partir de 1 500 € HT/mois." },
-  { q: "Quel délai pour obtenir un avis juridique ?", a: "Avis express sous 48h (majoration 30%). Avis standard sous 5 jours ouvrés. Urgences traitées le jour même sur accord préalable." },
-]
+export default function LegrandPage() {
+  useFonts()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [activeDomain, setActiveDomain] = useState(0)
+  const { scrollYProgress } = useScroll()
+  const heroRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(heroScroll, [0, 1], ["0%", "30%"])
 
-const PLANS = [
-  { name: "Ponctuel", price: "Taux horaire", note: "250–450 € HT/h", features: ["Consultation initiale 45 min", "Rédaction d'actes à l'acte", "Représentation en justice", "Avis juridiques circonstanciés"] },
-  { name: "Conseil Permanent", price: "À partir de 1 500 €", note: "HT / mois", features: ["Avis juridiques illimités", "Revue mensuelle des contrats", "Veille légale et alertes", "Interlocuteur dédié", "Tarif préférentiel contentieux"], highlight: true },
-  { name: "Sur Mesure", price: "Forfait", note: "à définir ensemble", features: ["Due diligence M&A", "Projets complexes multi-phases", "Équipe dédiée", "Reporting régulier dirigeants"] },
-]
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
-export default function Page() {
-  const [activePractice, setActivePractice] = useState(0)
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
-  const { scrollY } = useScroll()
-
-  const heroTitleY = useTransform(scrollY, [0, 500], [0, -50])
-
-  const assocRef = useRef(null)
-  const pricingRef = useRef(null)
-  const assocInView = useInView(assocRef, { once: true, margin: "-100px" })
-  const pricingInView = useInView(pricingRef, { once: true, margin: "-100px" })
-
-  const C = {
-    bg: "#0f0e0c",
-    cream: "#f0ece4",
-    gold: "#c4a96a",
-    goldDim: "#8a7245",
-    text: "#e8e4dc",
-    muted: "#6b6454",
-    card: "#141210",
-    border: "#1f1c18",
-    serif: "'Cormorant Garamond', 'Garamond', Georgia, serif",
-    sans: "system-ui, -apple-system, sans-serif",
-  }
+  const ActiveDomainIcon = DOMAINS[activeDomain].icon
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: C.sans, overflowX: "hidden" }}>
-      {/* NAV */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: "rgba(15,14,12,0.97)", borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 60px", height: 64 }}>
-        <div>
-          <div style={{ fontFamily: C.serif, fontSize: 17, letterSpacing: 2, color: C.gold, fontStyle: "italic" }}>Legrand & Associés</div>
-          <div style={{ fontSize: 9, letterSpacing: 4, color: C.muted, textTransform: "uppercase" }}>Avocats · Paris · Lyon</div>
-        </div>
-        <div style={{ display: "flex", gap: 36, alignItems: "center" }}>
-          {["Expertises", "Équipe", "Honoraires", "Contact"].map(l => (
-            <a key={l} href="#" style={{ fontSize: 11, color: C.muted, letterSpacing: 3, textTransform: "uppercase", textDecoration: "none", transition: "color 0.2s" }}
-              onMouseEnter={e => (e.currentTarget.style.color = C.gold)}
-              onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
-              {l}
-            </a>
-          ))}
-          <motion.button whileHover={{ background: C.gold, color: C.bg }} whileTap={{ scale: 0.97 }}
-            style={{ padding: "10px 24px", background: "transparent", color: C.gold, border: `1px solid ${C.gold}`, fontSize: 11, letterSpacing: 2, textTransform: "uppercase", cursor: "pointer", transition: "all 0.2s", fontFamily: C.sans }}>
-            Consultation
-          </motion.button>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-[#F9F6F0] text-[#1A1510]" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <motion.div className="fixed top-0 left-0 h-[2px] bg-[#C9A855] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
-      {/* HERO — full width, left-heavy editorial */}
-      <section style={{ minHeight: "100vh", paddingTop: 64, display: "grid", gridTemplateColumns: "3fr 2fr" }}>
-        <motion.div style={{ y: heroTitleY, padding: "100px 80px", display: "flex", flexDirection: "column", justifyContent: "flex-end", borderRight: `1px solid ${C.border}` }}>
-          <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: "easeOut" }}>
-            <div style={{ fontFamily: C.serif, fontSize: 11, letterSpacing: 6, color: C.gold, textTransform: "uppercase", marginBottom: 48 }}>
-              Fondé en 1997 · Barreau de Paris
+      {/* Nav */}
+      <motion.nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#F9F6F0]/95 backdrop-blur-md border-b border-[#E8E0D0]" : "bg-transparent"}`}
+        initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+          <Link href="#" className="flex flex-col">
+            <span className="text-lg font-bold tracking-wide" style={{ fontFamily: "'Libre Baskerville', serif" }}>Legrand & Associés</span>
+            <span className="text-[10px] tracking-[0.2em] uppercase text-[#C9A855]">Avocats au Barreau de Paris</span>
+          </Link>
+          <div className="hidden md:flex items-center gap-10 text-sm text-[#5A5040]">
+            {["Domaines", "Associés", "Cabinet", "Références", "Contact"].map(l => (
+              <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#1A1510] transition-colors duration-200 font-light">{l}</Link>
+            ))}
+            <Link href="#contact" className="ml-2 px-5 py-2.5 bg-[#1A1510] text-[#F9F6F0] text-xs tracking-widest uppercase hover:bg-[#C9A855] transition-colors duration-300 cursor-pointer">
+              Nous contacter
+            </Link>
+          </div>
+          <button className="md:hidden p-2 cursor-pointer" onClick={() => setMenuOpen(true)} aria-label="Menu">
+            <Menu className="w-5 h-5" />
+          </button>
+        </div>
+      </motion.nav>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div className="fixed inset-0 z-[200] bg-[#1A1510] text-[#F9F6F0] flex flex-col"
+            initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 280, damping: 28 }}>
+            <div className="flex items-center justify-between px-6 py-5 border-b border-[#3A3020]">
+              <span style={{ fontFamily: "'Libre Baskerville', serif" }}>Legrand & Associés</span>
+              <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
-            <h1 style={{ fontFamily: C.serif, fontSize: "clamp(60px, 9vw, 140px)", fontWeight: 400, letterSpacing: "-2px", lineHeight: 0.92, color: C.cream, fontStyle: "italic", marginBottom: 56 }}>
-              La loi<br />
-              comme<br />
-              <span style={{ color: C.gold }}>bouclier.</span>
-            </h1>
-            <div style={{ display: "flex", gap: 48, alignItems: "center" }}>
-              <motion.button whileHover={{ background: C.cream, color: C.bg }} whileTap={{ scale: 0.97 }}
-                style={{ padding: "18px 48px", background: C.gold, color: C.bg, border: "none", fontSize: 12, letterSpacing: 2, textTransform: "uppercase", cursor: "pointer", fontFamily: C.sans, fontWeight: 600, transition: "all 0.25s" }}>
-                Prendre rendez-vous
-              </motion.button>
-              <div style={{ fontFamily: C.serif, fontSize: 14, color: C.muted, fontStyle: "italic" }}>
-                Première consultation · 250 € HT
-              </div>
+            <div className="flex flex-col gap-8 p-10">
+              {["Domaines", "Associés", "Cabinet", "Références", "Contact"].map((l, i) => (
+                <motion.div key={l} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
+                  <Link href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)}
+                    className="text-3xl font-light hover:text-[#C9A855] transition-colors cursor-pointer"
+                    style={{ fontFamily: "'Libre Baskerville', serif" }}>{l}</Link>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Hero */}
+      <section ref={heroRef} className="relative min-h-screen overflow-hidden flex items-end">
+        <motion.div className="absolute inset-0" style={{ y: heroY }}>
+          <Image src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1600&q=85" alt="Palais de justice" fill className="object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0E0A06] via-[#0E0A06]/60 to-transparent" />
         </motion.div>
-
-        {/* Right column — vertical list */}
-        <div style={{ padding: "100px 60px", display: "flex", flexDirection: "column", justifyContent: "flex-end", gap: 40 }}>
-          {[
-            { val: "28", label: "années d'exercice" },
-            { val: "1 400+", label: "dossiers traités" },
-            { val: "94%", label: "taux de succès contentieux" },
-          ].map((s, i) => (
-            <motion.div key={i} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 + i * 0.15 }}
-              style={{ borderLeft: `2px solid ${C.gold}`, paddingLeft: 28 }}>
-              <div style={{ fontFamily: C.serif, fontSize: 52, fontStyle: "italic", color: C.gold, lineHeight: 1 }}>{s.val}</div>
-              <div style={{ fontSize: 12, color: C.muted, letterSpacing: 2, textTransform: "uppercase", marginTop: 6 }}>{s.label}</div>
-            </motion.div>
-          ))}
-          <div style={{ width: "100%", height: 1, background: C.border, marginTop: 20 }} />
-          <div style={{ fontFamily: C.serif, fontSize: 14, color: C.muted, fontStyle: "italic", lineHeight: 1.7 }}>
-            "La précision du droit est notre première obligation envers le client."<br />
-            — Maître Henri Legrand
-          </div>
-        </div>
-      </section>
-
-      {/* PRACTICES */}
-      <section style={{ borderTop: `1px solid ${C.border}` }}>
-        <div style={{ padding: "80px 60px 0", display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 48 }}>
-          <h2 style={{ fontFamily: C.serif, fontSize: "clamp(36px, 4vw, 56px)", fontStyle: "italic", fontWeight: 400, color: C.cream }}>Domaines d'expertise</h2>
-          <span style={{ fontSize: 11, color: C.muted, letterSpacing: 3, textTransform: "uppercase" }}>4 pôles</span>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "280px 1fr" }}>
-          <div style={{ borderRight: `1px solid ${C.border}` }}>
-            {PRACTICES.map((p, i) => (
-              <button key={i} onClick={() => setActivePractice(i)}
-                style={{ width: "100%", display: "flex", alignItems: "center", gap: 20, padding: "28px 40px", background: activePractice === i ? C.card : "transparent", borderBottom: `1px solid ${C.border}`, borderLeft: activePractice === i ? `3px solid ${C.gold}` : "3px solid transparent", cursor: "pointer", textAlign: "left", transition: "all 0.2s", border: "none" }}>
-                <span style={{ fontFamily: C.serif, fontSize: 18, fontStyle: "italic", color: C.gold, minWidth: 20 }}>{p.num}</span>
-                <span style={{ fontSize: 14, color: activePractice === i ? C.cream : C.muted, fontWeight: activePractice === i ? 600 : 400, transition: "color 0.2s" }}>{p.name}</span>
-              </button>
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-24 pt-32">
+          <Reveal>
+            <p className="text-[#C9A855] text-xs tracking-[0.3em] uppercase mb-8">Fondé en 1991 · Paris · Bruxelles · Luxembourg</p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-normal leading-[1.0] text-[#F9F6F0] mb-8 max-w-4xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+              <em>L&apos;excellence</em><br />juridique au service<br />de vos ambitions
+            </h1>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 font-light leading-relaxed">
+              Cabinet d&apos;avocats d&apos;affaires indépendant, Legrand & Associés conseille les entreprises et les institutions dans leurs opérations les plus complexes depuis plus de trente ans.
+            </p>
+          </Reveal>
+          <Reveal delay={0.3}>
+            <div className="flex flex-col sm:flex-row gap-5">
+              <Link href="#domaines" className="inline-flex items-center gap-3 px-8 py-4 bg-[#C9A855] text-[#1A1510] font-medium text-sm tracking-wide uppercase hover:bg-[#E0BC70] transition-colors cursor-pointer">
+                Nos domaines <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link href="#contact" className="inline-flex items-center gap-3 px-8 py-4 border border-[#C9A855]/50 text-[#F9F6F0] font-light text-sm tracking-wide uppercase hover:border-[#C9A855] transition-colors cursor-pointer">
+                Prendre contact
+              </Link>
+            </div>
+          </Reveal>
+          {/* Stats bar */}
+          <div className="mt-20 pt-10 border-t border-[#3A3020] grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[["33 ans", "D'exercice"], ["6 associés", "Experts"], ["15 pays", "Couverture"], ["Top 50", "Classements"]].map(([val, label]) => (
+              <Reveal key={label} delay={0.1}>
+                <div>
+                  <div className="text-[#C9A855] text-2xl font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{val}</div>
+                  <div className="text-xs text-[#8A7860] tracking-wide uppercase">{label}</div>
+                </div>
+              </Reveal>
             ))}
           </div>
-          <AnimatePresence mode="wait">
-            <motion.div key={activePractice} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}
-              style={{ padding: "60px 80px" }}>
-              <div style={{ fontFamily: C.serif, fontSize: 11, letterSpacing: 5, color: C.gold, textTransform: "uppercase", marginBottom: 20 }}>Pôle {PRACTICES[activePractice].num}</div>
-              <h3 style={{ fontFamily: C.serif, fontSize: "clamp(32px, 4vw, 52px)", fontStyle: "italic", fontWeight: 400, color: C.cream, marginBottom: 24, letterSpacing: -1 }}>{PRACTICES[activePractice].name}</h3>
-              <p style={{ fontSize: 16, color: C.muted, lineHeight: 1.85, marginBottom: 40, maxWidth: 560 }}>{PRACTICES[activePractice].desc}</p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 48 }}>
-                {PRACTICES[activePractice].scope.map(s => (
-                  <span key={s} style={{ padding: "6px 16px", border: `1px solid ${C.gold}40`, fontSize: 12, color: C.gold, letterSpacing: 1 }}>{s}</span>
-                ))}
-              </div>
-              <motion.button whileHover={{ background: C.gold, color: C.bg }} whileTap={{ scale: 0.97 }}
-                style={{ padding: "14px 32px", background: "transparent", color: C.gold, border: `1px solid ${C.gold}`, fontSize: 11, letterSpacing: 3, textTransform: "uppercase", cursor: "pointer", transition: "all 0.2s", fontFamily: C.sans }}>
-                Consulter un avocat →
-              </motion.button>
-            </motion.div>
-          </AnimatePresence>
         </div>
       </section>
 
-      {/* ASSOCIATES */}
-      <section ref={assocRef} style={{ padding: "80px 60px", borderTop: `1px solid ${C.border}` }}>
-        <h2 style={{ fontFamily: C.serif, fontSize: "clamp(36px, 4vw, 56px)", fontStyle: "italic", fontWeight: 400, color: C.cream, marginBottom: 56 }}>L'équipe.</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
-          {ASSOCIATES.map((a, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 30 }} animate={assocInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: i * 0.15 }}
-              style={{ border: `1px solid ${C.border}`, padding: "48px 40px", position: "relative" }}>
-              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: C.gold, opacity: 0.4 }} />
-              <div style={{ width: 56, height: 56, background: C.card, border: `1px solid ${C.gold}40`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: C.serif, fontSize: 20, fontStyle: "italic", color: C.gold, marginBottom: 28 }}>
-                {a.name.split(" ").filter(w => w.length > 2).slice(0, 2).map(w => w[0]).join("")}
-              </div>
-              <div style={{ fontFamily: C.serif, fontSize: 20, fontStyle: "italic", color: C.cream, marginBottom: 6 }}>{a.name}</div>
-              <div style={{ fontSize: 12, color: C.gold, letterSpacing: 1, marginBottom: 16 }}>{a.title}</div>
-              <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.7 }}>
-                {a.bar} · {a.exp} d'exercice<br />{a.spec}
-              </div>
-            </motion.div>
-          ))}
+      {/* Domains */}
+      <section id="domaines" className="py-28 bg-[#F9F6F0]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-5 gap-10 mb-16">
+            <div className="md:col-span-2">
+              <Reveal>
+                <p className="text-xs tracking-[0.25em] uppercase text-[#C9A855] mb-4">Expertise</p>
+                <h2 className="text-4xl md:text-5xl font-light leading-tight" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                  Nos domaines<br />d&apos;<em>intervention</em>
+                </h2>
+              </Reveal>
+            </div>
+            <div className="md:col-span-3">
+              <Reveal delay={0.1}>
+                <p className="text-[#5A5040] leading-relaxed">
+                  Notre cabinet offre une couverture complète du droit des affaires, avec une approche pluridisciplinaire qui permet de traiter les situations les plus complexes en mobilisant les compétences appropriées.
+                </p>
+              </Reveal>
+            </div>
+          </div>
+
+          <div className="grid lg:grid-cols-5 gap-0 border border-[#E8E0D0]">
+            {/* Sidebar tabs */}
+            <div className="lg:col-span-2 border-r border-[#E8E0D0]">
+              {DOMAINS.map((d, i) => {
+                const Icon = d.icon
+                return (
+                  <button key={d.id} onClick={() => setActiveDomain(i)}
+                    className={`w-full text-left p-6 border-b border-[#E8E0D0] last:border-b-0 flex items-center gap-4 transition-all duration-200 cursor-pointer group ${activeDomain === i ? "bg-[#1A1510] text-[#F9F6F0]" : "hover:bg-[#F0EAE0]"}`}>
+                    <div className={`w-10 h-10 flex items-center justify-center flex-shrink-0 ${activeDomain === i ? "text-[#C9A855]" : "text-[#C9A855]"}`}>
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className={`font-medium text-sm ${activeDomain === i ? "text-[#F9F6F0]" : "text-[#1A1510]"}`}>{d.label}</div>
+                    </div>
+                    <ChevronRight className={`w-4 h-4 ml-auto transition-colors ${activeDomain === i ? "text-[#C9A855]" : "text-[#C9A855] opacity-0 group-hover:opacity-100"}`} />
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Content panel */}
+            <div className="lg:col-span-3">
+              <AnimatePresence mode="wait">
+                <motion.div key={activeDomain} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}
+                  className="p-8 md:p-12 h-full">
+                  <div className="w-12 h-12 border border-[#C9A855] flex items-center justify-center mb-8">
+                    <ActiveDomainIcon className="w-6 h-6 text-[#C9A855]" />
+                  </div>
+                  <h3 className="text-2xl font-light mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                    {DOMAINS[activeDomain].label}
+                  </h3>
+                  <p className="text-[#5A5040] leading-relaxed mb-10">{DOMAINS[activeDomain].desc}</p>
+                  <div className="space-y-3">
+                    <p className="text-xs tracking-[0.2em] uppercase text-[#C9A855] mb-4">Domaines d&apos;expertise</p>
+                    {DOMAINS[activeDomain].expertise.map(e => (
+                      <div key={e} className="flex items-center gap-3 text-sm">
+                        <div className="w-4 h-[1px] bg-[#C9A855]" />
+                        <span className="text-[#3A3020]">{e}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <Link href="#contact" className="mt-10 inline-flex items-center gap-2 text-sm text-[#C9A855] border-b border-[#C9A855] pb-0.5 hover:text-[#1A1510] hover:border-[#1A1510] transition-colors cursor-pointer">
+                    Consulter nos équipes <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section style={{ padding: "80px 60px", borderTop: `1px solid ${C.border}`, background: "#0a0908" }}>
-        <h2 style={{ fontFamily: C.serif, fontSize: "clamp(36px, 4vw, 56px)", fontStyle: "italic", fontWeight: 400, color: C.cream, textAlign: "center", marginBottom: 64 }}>Ils nous font confiance.</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 40, maxWidth: 1280, margin: "0 auto" }}>
-          {TESTIMONIALS.map((t, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}>
-              <div style={{ fontFamily: C.serif, fontSize: 48, color: C.gold, lineHeight: 0.8, marginBottom: 24, fontStyle: "italic" }}>"</div>
-              <p style={{ fontFamily: C.serif, fontSize: 17, fontStyle: "italic", color: "rgba(232,228,220,0.7)", lineHeight: 1.8, marginBottom: 28 }}>{t.quote}</p>
-              <div style={{ width: 32, height: 1, background: C.gold, marginBottom: 16 }} />
-              <div style={{ fontSize: 12, color: C.muted, letterSpacing: 1 }}>{t.name}<br /><span style={{ color: C.goldDim }}>{t.role}</span></div>
-            </motion.div>
-          ))}
+      {/* Partners */}
+      <section id="associés" className="py-28 bg-[#1A1510] text-[#F9F6F0]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="mb-16">
+            <Reveal>
+              <p className="text-xs tracking-[0.25em] uppercase text-[#C9A855] mb-4">L&apos;équipe dirigeante</p>
+              <h2 className="text-4xl md:text-5xl font-light leading-tight" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                Les <em>associés</em>
+              </h2>
+            </Reveal>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-[#3A3020]">
+            {PARTNERS.map((p, i) => (
+              <Reveal key={p.name} delay={i * 0.08}>
+                <div className="bg-[#1A1510] group cursor-pointer hover:bg-[#231E14] transition-colors duration-300">
+                  {/* Gold line top */}
+                  <div className="h-[2px] bg-[#C9A855] relative">
+                    <motion.div className="absolute top-0 left-0 h-full bg-[#E0BC70]" initial={{ width: 0 }} whileInView={{ width: "100%" }} transition={{ duration: 0.8, delay: i * 0.1 }} />
+                  </div>
+                  <div className="p-6">
+                    <div className="relative aspect-square overflow-hidden mb-6">
+                      <Image src={p.image} alt={p.name} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                    </div>
+                    <h3 className="text-lg font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{p.name}</h3>
+                    <p className="text-[#C9A855] text-xs tracking-wide uppercase mb-2">{p.title}</p>
+                    <p className="text-sm text-[#8A7860] mb-1">{p.domain}</p>
+                    <p className="text-xs text-[#5A5040]">Barreau de {p.bar}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* PRICING */}
-      <section ref={pricingRef} style={{ borderTop: `1px solid ${C.border}` }}>
-        <div style={{ padding: "80px 60px 56px", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
-          <h2 style={{ fontFamily: C.serif, fontSize: "clamp(36px, 4vw, 56px)", fontStyle: "italic", fontWeight: 400, color: C.cream }}>Honoraires</h2>
-          <div style={{ fontSize: 11, color: C.muted, letterSpacing: 3, textTransform: "uppercase" }}>Transparents & justifiés</div>
+      {/* Cabinet */}
+      <section id="cabinet" className="py-28 bg-[#F9F6F0]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-2 gap-20 items-center">
+            <div>
+              <Reveal>
+                <p className="text-xs tracking-[0.25em] uppercase text-[#C9A855] mb-4">Le cabinet</p>
+                <h2 className="text-4xl md:text-5xl font-light leading-tight mb-8" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                  Trente ans de<br /><em>confiance</em><br />construite
+                </h2>
+                <p className="text-[#5A5040] leading-relaxed mb-6">
+                  Fondé en 1991 par Philippe Legrand, le cabinet s&apos;est construit sur des valeurs d&apos;indépendance, d&apos;excellence et de disponibilité. Nous refusons le gigantisme qui dilue la relation client et préférons une structure à taille humaine, où chaque associé s&apos;engage personnellement.
+                </p>
+                <p className="text-[#5A5040] leading-relaxed mb-10">
+                  Notre indépendance nous permet de défendre avec intégrité les intérêts de nos clients, sans conflit d&apos;intérêt. Nous privilégions des relations durables : nos clients les plus anciens nous font confiance depuis plus de vingt ans.
+                </p>
+              </Reveal>
+              <Reveal delay={0.1}>
+                <div className="grid grid-cols-3 gap-6 pt-8 border-t border-[#E8E0D0]">
+                  {[{ Icon: Award, text: "Tier 1 Legal 500" }, { Icon: Globe, text: "15 pays couverts" }, { Icon: Briefcase, text: "500+ dossiers/an" }].map(({ Icon, text }) => (
+                    <div key={text} className="text-center">
+                      <Icon className="w-6 h-6 text-[#C9A855] mx-auto mb-2" />
+                      <p className="text-xs text-[#5A5040]">{text}</p>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+            <Reveal delay={0.1}>
+              <div className="relative">
+                <div className="aspect-[4/5] relative overflow-hidden">
+                  <Image src="https://images.unsplash.com/photo-1521791055366-0d553872952f?w=800&q=80" alt="Cabinet Legrand" fill className="object-cover" />
+                </div>
+                <div className="absolute -bottom-6 -left-6 bg-[#C9A855] text-[#1A1510] p-6">
+                  <div className="text-3xl font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>1991</div>
+                  <div className="text-xs uppercase tracking-wide">Fondé à Paris</div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", borderTop: `1px solid ${C.border}` }}>
-          {PLANS.map((p, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 30 }} animate={pricingInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: i * 0.15 }}
-              style={{ borderRight: i < 2 ? `1px solid ${C.border}` : undefined, padding: "56px 48px", background: p.highlight ? "#141008" : "transparent", position: "relative" }}>
-              {p.highlight && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: C.gold }} />}
-              <div style={{ fontSize: 10, letterSpacing: 4, color: p.highlight ? C.gold : C.muted, textTransform: "uppercase", marginBottom: 24 }}>{p.name}</div>
-              <div style={{ fontFamily: C.serif, fontSize: 36, fontStyle: "italic", color: C.cream, marginBottom: 4, lineHeight: 1 }}>{p.price}</div>
-              <div style={{ fontSize: 12, color: C.muted, marginBottom: 40 }}>{p.note}</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 44 }}>
-                {p.features.map((f, j) => (
-                  <div key={j} style={{ display: "flex", gap: 10, fontSize: 13, color: p.highlight ? "rgba(232,228,220,0.7)" : C.muted, alignItems: "flex-start" }}>
-                    <span style={{ color: C.gold, marginTop: 1 }}>—</span> {f}
+      </section>
+
+      {/* References */}
+      <section id="références" className="py-20 bg-[#E8E0D0]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-xs tracking-[0.25em] uppercase text-[#C9A855] mb-4 text-center">Références sectorielles</p>
+            <h2 className="text-3xl font-light text-center mb-12" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+              Des relations au long cours
+            </h2>
+          </Reveal>
+          <div className="grid md:grid-cols-4 gap-px bg-[#D0C8B8]">
+            {REFERENCES.map((r, i) => (
+              <Reveal key={r.sector} delay={i * 0.08}>
+                <div className="bg-[#E8E0D0] p-8 hover:bg-[#F9F6F0] transition-colors duration-300">
+                  <p className="text-xs tracking-widest uppercase text-[#C9A855] mb-3">{r.sector}</p>
+                  <p className="text-lg font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{r.ops}</p>
+                  <p className="text-xs text-[#8A7860]">{r.years}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Publications */}
+      <section className="py-24 bg-[#F9F6F0]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-xs tracking-[0.25em] uppercase text-[#C9A855] mb-4">Actualités & Publications</p>
+            <h2 className="text-3xl font-light mb-12" style={{ fontFamily: "'Libre Baskerville', serif" }}>Dernières analyses</h2>
+          </Reveal>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { cat: "Droit des affaires", title: "Les nouvelles obligations de transparence des sociétés cotées — analyse de la directive CSRD", date: "Novembre 2024" },
+              { cat: "Fiscalité", title: "Réforme du régime des prix de transfert : implications pratiques pour les groupes multinationaux", date: "Octobre 2024" },
+              { cat: "Contentieux", title: "L'arbitrage international en matière d'investissement : tendances récentes et perspectives", date: "Septembre 2024" },
+            ].map((pub, i) => (
+              <Reveal key={pub.title} delay={i * 0.08}>
+                <div className="border border-[#E8E0D0] p-8 hover:border-[#C9A855] transition-colors duration-300 cursor-pointer group">
+                  <p className="text-xs tracking-widest uppercase text-[#C9A855] mb-4">{pub.cat}</p>
+                  <h3 className="text-base font-light leading-snug mb-6 group-hover:text-[#C9A855] transition-colors duration-200" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                    {pub.title}
+                  </h3>
+                  <div className="flex items-center justify-between text-xs text-[#8A7860]">
+                    <span>{pub.date}</span>
+                    <ArrowRight className="w-4 h-4 text-[#C9A855] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="py-28 bg-[#1A1510] text-[#F9F6F0]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-2 gap-20">
+            <div>
+              <Reveal>
+                <p className="text-xs tracking-[0.25em] uppercase text-[#C9A855] mb-4">Nous contacter</p>
+                <h2 className="text-4xl md:text-5xl font-light leading-tight mb-8" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                  Votre dossier<br />mérite notre<br /><em>attention</em>
+                </h2>
+                <p className="text-[#8A7860] leading-relaxed mb-12">
+                  Nous répondons à toute demande de premier contact sous 24 heures ouvrées. La confidentialité de vos échanges est garantie dès le premier contact.
+                </p>
+              </Reveal>
+              <Reveal delay={0.1}>
+                <div className="space-y-5">
+                  {[{ Icon: MapPin, text: "14 avenue Montaigne, 75008 Paris" }, { Icon: Phone, text: "+33 1 44 20 00 00" }, { Icon: Mail, text: "contact@legrand-associes.fr" }, { Icon: Globe, text: "Également à Bruxelles & Luxembourg" }].map(({ Icon, text }) => (
+                    <div key={text} className="flex items-center gap-4 text-sm text-[#8A7860]">
+                      <Icon className="w-4 h-4 text-[#C9A855] flex-shrink-0" />
+                      {text}
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+            <Reveal delay={0.1}>
+              <form className="space-y-6" onSubmit={e => e.preventDefault()}>
+                <div className="grid grid-cols-2 gap-4">
+                  {["Prénom", "Nom"].map(f => (
+                    <div key={f}>
+                      <label className="block text-xs tracking-widest uppercase text-[#5A5040] mb-2">{f}</label>
+                      <input className="w-full bg-transparent border border-[#3A3020] px-4 py-3 text-sm text-[#F9F6F0] focus:outline-none focus:border-[#C9A855] transition-colors" placeholder={f} />
+                    </div>
+                  ))}
+                </div>
+                {[["Société / Organisation", "text", "Votre société"], ["Email professionnel", "email", "votre@societe.fr"], ["Téléphone", "tel", "+33 1..."]].map(([label, type, ph]) => (
+                  <div key={label}>
+                    <label className="block text-xs tracking-widest uppercase text-[#5A5040] mb-2">{label}</label>
+                    <input type={type} className="w-full bg-transparent border border-[#3A3020] px-4 py-3 text-sm text-[#F9F6F0] focus:outline-none focus:border-[#C9A855] transition-colors" placeholder={ph} />
                   </div>
                 ))}
-              </div>
-              <motion.button whileHover={{ background: C.gold, color: C.bg, borderColor: C.gold }} whileTap={{ scale: 0.97 }}
-                style={{ width: "100%", padding: "14px", background: "transparent", color: p.highlight ? C.gold : C.muted, border: `1px solid ${p.highlight ? C.gold : C.border}`, fontSize: 11, letterSpacing: 3, textTransform: "uppercase", cursor: "pointer", transition: "all 0.2s", fontFamily: C.sans }}>
-                Nous contacter
-              </motion.button>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section style={{ maxWidth: 800, margin: "0 auto", padding: "80px 60px", borderTop: `1px solid ${C.border}` }}>
-        <h2 style={{ fontFamily: C.serif, fontSize: 48, fontStyle: "italic", fontWeight: 400, color: C.cream, marginBottom: 48 }}>Questions.</h2>
-        {FAQS.map((f, i) => (
-          <div key={i} style={{ borderBottom: `1px solid ${C.border}` }}>
-            <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
-              style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "24px 0", background: "none", border: "none", color: C.text, cursor: "pointer", textAlign: "left" }}>
-              <span style={{ fontFamily: C.serif, fontSize: 17, fontStyle: "italic", color: C.cream }}>{f.q}</span>
-              <motion.span animate={{ rotate: openFaq === i ? 45 : 0 }} style={{ fontSize: 22, color: C.gold, minWidth: 22 }}>+</motion.span>
-            </button>
-            <AnimatePresence>
-              {openFaq === i && (
-                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }}>
-                  <p style={{ paddingBottom: 24, fontSize: 14, color: C.muted, lineHeight: 1.85 }}>{f.a}</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                <div>
+                  <label className="block text-xs tracking-widest uppercase text-[#5A5040] mb-2">Nature de la demande</label>
+                  <select className="w-full bg-[#231E14] border border-[#3A3020] px-4 py-3 text-sm text-[#F9F6F0] focus:outline-none focus:border-[#C9A855] transition-colors">
+                    <option>Droit des affaires</option>
+                    <option>Contentieux & Arbitrage</option>
+                    <option>Fiscalité</option>
+                    <option>Droit social</option>
+                    <option>Propriété intellectuelle</option>
+                    <option>Autre</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs tracking-widest uppercase text-[#5A5040] mb-2">Description du dossier</label>
+                  <textarea rows={4} className="w-full bg-transparent border border-[#3A3020] px-4 py-3 text-sm text-[#F9F6F0] focus:outline-none focus:border-[#C9A855] transition-colors resize-none" placeholder="Décrivez succinctement votre situation et vos besoins..." />
+                </div>
+                <button type="submit" className="w-full bg-[#C9A855] text-[#1A1510] py-4 text-xs tracking-widest uppercase font-medium hover:bg-[#E0BC70] transition-colors duration-300 cursor-pointer">
+                  Envoyer la demande
+                </button>
+                <p className="text-xs text-[#5A5040] text-center">Vos informations sont strictement confidentielles et protégées par le secret professionnel.</p>
+              </form>
+            </Reveal>
           </div>
-        ))}
-      </section>
-
-      {/* CTA */}
-      <section style={{ background: "#0a0908", borderTop: `1px solid ${C.border}`, display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-        <div style={{ borderRight: `1px solid ${C.border}`, padding: "80px 80px" }}>
-          <h2 style={{ fontFamily: C.serif, fontSize: "clamp(40px, 6vw, 80px)", fontStyle: "italic", fontWeight: 300, color: C.cream, lineHeight: 1.05, marginBottom: 32 }}>
-            Votre dossier<br />mérite les<br /><span style={{ color: C.gold }}>meilleurs.</span>
-          </h2>
-          <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.8 }}>Cabinet Legrand & Associés<br />12 rue du Faubourg Saint-Honoré, Paris 8e<br />+33 1 XX XX XX XX</div>
-        </div>
-        <div style={{ padding: "80px 60px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 16 }}>
-          {[{ ph: "Nom & Prénom", type: "text" }, { ph: "Email professionnel", type: "email" }, { ph: "Société / Organisation", type: "text" }].map((inp, i) => (
-            <input key={i} placeholder={inp.ph} type={inp.type}
-              style={{ padding: "16px 20px", background: C.card, border: `1px solid ${C.border}`, color: C.text, fontFamily: C.sans, fontSize: 14, outline: "none", transition: "border-color 0.2s" }}
-              onFocus={e => (e.currentTarget.style.borderColor = C.gold)}
-              onBlur={e => (e.currentTarget.style.borderColor = C.border)} />
-          ))}
-          <textarea placeholder="Décrivez brièvement votre situation juridique…" rows={4}
-            style={{ padding: "16px 20px", background: C.card, border: `1px solid ${C.border}`, color: C.text, fontFamily: C.sans, fontSize: 14, outline: "none", resize: "none", transition: "border-color 0.2s" }}
-            onFocus={e => (e.currentTarget.style.borderColor = C.gold)}
-            onBlur={e => (e.currentTarget.style.borderColor = C.border)} />
-          <motion.button whileHover={{ background: C.cream, color: C.bg, borderColor: C.cream }} whileTap={{ scale: 0.97 }}
-            style={{ padding: "16px", background: C.gold, color: C.bg, border: `1px solid ${C.gold}`, fontSize: 12, letterSpacing: 3, textTransform: "uppercase", cursor: "pointer", transition: "all 0.2s", fontFamily: C.sans, fontWeight: 700 }}>
-            Demander une consultation
-          </motion.button>
-          <div style={{ fontSize: 11, color: C.muted, textAlign: "center" }}>Première consultation · 250 € HT · Réponse sous 24h</div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer style={{ padding: "36px 60px", borderTop: `1px solid ${C.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ fontFamily: C.serif, fontSize: 15, fontStyle: "italic", color: C.goldDim }}>Legrand & Associés</div>
-        <div style={{ fontSize: 11, color: C.muted, letterSpacing: 2 }}>© 2025 · Barreaux de Paris et Lyon · Mentions légales · RGPD</div>
+      {/* Footer */}
+      <footer className="bg-[#0E0A06] text-[#5A5040] py-12 px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-8">
+          <div>
+            <div className="text-[#F9F6F0] font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>Legrand & Associés</div>
+            <div className="text-xs text-[#C9A855] tracking-widest uppercase">Avocats au Barreau de Paris</div>
+          </div>
+          <div className="flex flex-wrap gap-8 text-xs">
+            {["Domaines", "Associés", "Cabinet", "Publications", "Contact"].map(l => (
+              <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#F9F6F0] transition-colors cursor-pointer">{l}</Link>
+            ))}
+          </div>
+          <div className="text-xs">
+            <p>© 2024 Legrand & Associés · Tous droits réservés</p>
+            <p className="mt-1">Barreau de Paris · SIRET 382 912 847 00025</p>
+          </div>
+        </div>
       </footer>
     </div>
   )

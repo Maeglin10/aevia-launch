@@ -1,379 +1,2553 @@
-"use client"
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
-import React, { useState, useRef, useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Progress } from "@/components/ui/progress"
-import { Separator } from "@/components/ui/separator"
-import { ChefHat, Star, Clock, Utensils, Leaf, Wine, Users, Camera, Menu, Check, MapPin, Phone } from "lucide-react"
+"use client";
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-80px" })
-  return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 32 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}>
-      {children}
-    </motion.div>
-  )
-}
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  useSpring,
+  AnimatePresence,
+} from "framer-motion";
 
-const MENUS = [
-  { name: "Dîner en amoureux", desc: "Apéritif, 5 plats, accord mets-vins, dessert — pour 2 personnes en intimité totale", guests: "2 pers.", price: "320 €", img: "photo-1414235077428-338989a2e8c0" },
-  { name: "Réception privée", desc: "Cocktail dînatoire ou dîner assis pour votre soirée exceptionnelle", guests: "8–30 pers.", price: "À partir de 85 €/pers.", img: "photo-1530103862676-de8c9debad1d" },
-  { name: "Brunch dominical", desc: "Sélection salée et sucrée de saison, viennoiseries maison, jus frais", guests: "4–20 pers.", price: "À partir de 45 €/pers.", img: "photo-1504674900247-0877df9cc836" },
-  { name: "Chef à domicile", desc: "Votre chef en cuisine le temps d'un repas — préparation devant vos invités", guests: "2–12 pers.", price: "À partir de 180 €", img: "photo-1546069901-ba9599a7e63c" },
-]
+// ─── Design tokens ────────────────────────────────────────────────────────────
+const C = {
+  bg: "#0c0a08",
+  bgAlt: "#100e0b",
+  cream: "#faf8f4",
+  creamDim: "rgba(250,248,244,0.55)",
+  creamMuted: "rgba(250,248,244,0.25)",
+  gold: "#c9a855",
+  goldDim: "rgba(201,168,85,0.55)",
+  goldBorder: "rgba(201,168,85,0.18)",
+  amber: "#8b5e2a",
+  card: "rgba(255,255,255,0.03)",
+  border: "rgba(255,255,255,0.07)",
+  font: "'Cormorant Garamond', Georgia, serif",
+  fontSans: "'Jost', system-ui, sans-serif",
+};
+
+// ─── Data ─────────────────────────────────────────────────────────────────────
+const NAV_LINKS = ["Menus", "Chef", "Expériences", "Savoir-faire", "Contact"];
+
+const MARQUEE_ITEMS = [
+  "Homard bleu breton",
+  "Ris de veau & morilles",
+  "Saint-Jacques de Bretagne",
+  "Pigeon en croûte dorée",
+  "Foie gras mi-cuit maison",
+  "Soufflé au Grand Marnier",
+  "Truffe noire du Périgord",
+  "Turbot sauvage à l'unilatérale",
+];
+
+const SEASON_MENUS: Record<
+  string,
+  { name: string; price: string; dishes: string[]; wine: string }[]
+> = {
+  Printemps: [
+    {
+      name: "Éveil",
+      price: "95 €",
+      dishes: [
+        "Velouté de petits pois · menthe fraîche · huile de truffe",
+        "Filet de turbot · beurre blanc au citron · asperges vertes",
+        "Agneau de lait · jus au romarin · légumes printaniers",
+        "Fraises Gariguette · crème mascarpone · tuile amande",
+      ],
+      wine: "Chablis Premier Cru 2021",
+    },
+    {
+      name: "Jardin",
+      price: "75 €",
+      dishes: [
+        "Tartare de daurade · yuzu · concombre",
+        "Risotto d'épeautre · morilles · parmesan 36 mois",
+        "Pavé de cabillaud · chorizo · purée céleri",
+        "Tarte citron revisitée · meringue italienne",
+      ],
+      wine: "Sancerre Blanc 2022",
+    },
+  ],
+  Été: [
+    {
+      name: "Solstice",
+      price: "110 €",
+      dishes: [
+        "Gaspacho tomate · burrata · basilic grand vert",
+        "Homard bleu · bisque légère · fenouil confit",
+        "Pigeonneau rôti · jus au miel · polenta crémeuse",
+        "Pêche blanche pochée · sorbet lavande · amandes",
+      ],
+      wine: "Bandol Rosé 2023",
+    },
+    {
+      name: "Mistral",
+      price: "85 €",
+      dishes: [
+        "Vitello tonnato · câpres · roquette sauvage",
+        "Dorade royale · ratatouille confite · tapenade",
+        "Magret de canard · cerises · sauce poivre vert",
+        "Tarte fine abricot · crème d'amande",
+      ],
+      wine: "Provence Blanc 2022",
+    },
+  ],
+  Automne: [
+    {
+      name: "Cueillette",
+      price: "105 €",
+      dishes: [
+        "Velouté de châtaignes · lardons fumés · crème fouettée",
+        "Saint-Jacques poêlées · potimarron · noisettes torréfiées",
+        "Ris de veau · morilles · jus madère · pommes dauphines",
+        "Soufflé au chocolat · glace caramel beurre salé",
+      ],
+      wine: "Pomerol 2018",
+    },
+    {
+      name: "Forêt",
+      price: "85 €",
+      dishes: [
+        "Velouté de champignons sauvages · huile de noisette",
+        "Pavé de boeuf Charolais · béarnaise maison · frites",
+        "Filet de sanglier · sauce grand veneur · chou rouge",
+        "Tarte Tatin · crème fraîche",
+      ],
+      wine: "Bourgogne Rouge 2020",
+    },
+  ],
+  Hiver: [
+    {
+      name: "Nuit Blanche",
+      price: "130 €",
+      dishes: [
+        "Foie gras mi-cuit · brioche toastée · chutney figue",
+        "Truffe noire du Périgord · oeuf parfait · mouillettes",
+        "Filet de boeuf Wagyu · sauce Périgueux · gratin dauphinois",
+        "Soufflé chaud au Grand Marnier · sorbet mandarine",
+      ],
+      wine: "Gevrey-Chambertin 2017",
+    },
+    {
+      name: "Solstice d'Hiver",
+      price: "95 €",
+      dishes: [
+        "Royale de foie gras · consommé truffe",
+        "Saint-Jacques · crème de topinambour · chips de jambon",
+        "Canard à l'orange · sauce bigarade · purée maison",
+        "Bûche glacée · marrons · chocolat noir 72%",
+      ],
+      wine: "Meursault 2019",
+    },
+  ],
+};
+
+const EXPERIENCES = [
+  {
+    img: "photo-1414235077428-338989a2e8c0",
+    title: "Dîner en amoureux",
+    sub: "2 personnes · 5 plats · accord mets-vins",
+    price: "À partir de 320 €",
+  },
+  {
+    img: "photo-1546069901-ba9599a7e63c",
+    title: "Chef à domicile",
+    sub: "2–12 personnes · préparation en live",
+    price: "À partir de 180 €",
+  },
+  {
+    img: "photo-1504674900247-0877df9cc836",
+    title: "Brunch dominical",
+    sub: "4–20 personnes · produits de saison",
+    price: "À partir de 45 €/pers.",
+  },
+  {
+    img: "photo-1551218808-94e220e084d2",
+    title: "Réception privée",
+    sub: "8–60 personnes · cocktail ou dîner assis",
+    price: "Sur devis",
+  },
+];
 
 const SAVOIR_FAIRE = [
-  { icon: Leaf, title: "Produits locaux & de saison", desc: "Chaque menu est construit autour des meilleurs producteurs locaux — légumes bio du Val-de-Loire, poissons de la criée de Concarneau." },
-  { icon: Wine, title: "Accords mets & vins", desc: "Sélection de vins naturels et biodynamiques en accord avec chaque plat — du Champagne à l'apéro au Sauternes sur le dessert." },
-  { icon: ChefHat, title: "Formation étoilée", desc: "Formé chez Alain Passard (L'Arpège, 3★) et Anne-Sophie Pic (Maison Pic, 3★) — une technique irréprochable au service de vos papilles." },
-  { icon: Users, title: "Service blanc-gant", desc: "Serveur(s) inclus dans toutes les formules groupe — mise en place de la table, service, débarrassage et nettoyage complets." },
-]
-
-const STATS = [
-  { val: "850+", label: "Repas créés" },
-  { val: "12 ans", label: "En cuisine pro" },
-  { val: "4.9/5", label: "Note clients" },
-  { val: "100%", label: "Produits sourcés" },
-  { val: "3★", label: "Formation étoilée" },
-]
+  {
+    icon: "🌱",
+    title: "Produits locaux & de saison",
+    desc: "Chaque menu est construit autour des meilleurs producteurs locaux — légumes bio du Val-de-Loire, poissons de la criée de Concarneau, volailles Label Rouge.",
+  },
+  {
+    icon: "🍷",
+    title: "Accords mets & vins",
+    desc: "Sélection de vins naturels et biodynamiques en accord avec chaque plat. Du Champagne à l'apéritif au Sauternes sur le dessert — chaque bouteille est choisie.",
+  },
+  {
+    icon: "👨‍🍳",
+    title: "Formation étoilée",
+    desc: "Formé chez Alain Passard (L'Arpège, 3★) et Anne-Sophie Pic (Maison Pic, 3★) — une technique irréprochable au service de vos papilles et de vos émotions.",
+  },
+  {
+    icon: "🤍",
+    title: "Service blanc-gant",
+    desc: "Serveur(s) inclus dans toutes les formules groupe — mise en place de la table, service à l'assiette, débarrassage et nettoyage complets. Vous profitez.",
+  },
+];
 
 const TESTIMONIALS = [
-  { name: "Isabelle & Frédéric Morel", role: "Dîner anniversaire", rating: 5, text: "Antoine a transformé notre salle à manger en restaurant étoilé. Le menu 5 plats était un voyage gustatif inoubliable. On ne mange plus jamais aussi bien au restaurant !", avatar: "IF" },
-  { name: "Caroline Dupuis", role: "Réception 15 personnes", rating: 5, text: "La qualité des produits est exceptionnelle. Antoine est arrivé 3h avant, a tout géré seul, et nous a laissé une cuisine impeccable. Nos invités sont encore sous le charme.", avatar: "CD" },
-  { name: "Pierre Beaumont", role: "Client fidèle", rating: 5, text: "Je fais appel à Maison Saveur pour tous mes dîners d'affaires. La présentation est digne d'un grand restaurant, et l'accord mets-vins est toujours une révélation.", avatar: "PB" },
-  { name: "Sophie & Marc Aubert", role: "Brunch dominical", rating: 5, text: "Le brunch était d'une générosité et d'une fraîcheur incroyables. Les viennoiseries et le granola maison... on en parle encore 2 mois plus tard.", avatar: "SA" },
-  { name: "Thomas Legrand", role: "Chef à domicile", rating: 5, text: "Voir Antoine travailler en direct dans ma cuisine, expliquer ses techniques, partager ses sources... c'était presque aussi bon que de manger !", avatar: "TL" },
-]
+  {
+    name: "Isabelle & Frédéric M.",
+    role: "Dîner anniversaire",
+    text: "Antoine a transformé notre salle à manger en restaurant étoilé. Le menu 5 plats était un voyage gustatif inoubliable. On ne mange plus jamais aussi bien au restaurant !",
+    initials: "IF",
+  },
+  {
+    name: "Caroline D.",
+    role: "Réception 15 personnes",
+    text: "La qualité des produits est exceptionnelle. Antoine est arrivé 3h avant, a tout géré seul, et nous a laissé une cuisine impeccable. Nos invités sont encore sous le charme.",
+    initials: "CD",
+  },
+  {
+    name: "Pierre B.",
+    role: "Client fidèle — 12 dîners",
+    text: "Je fais appel à Maison Saveur pour tous mes dîners d'affaires. La présentation est digne d'un grand restaurant, et l'accord mets-vins est toujours une révélation.",
+    initials: "PB",
+  },
+  {
+    name: "Sophie & Marc A.",
+    role: "Brunch dominical",
+    text: "Le brunch était d'une générosité et d'une fraîcheur incroyables. Les viennoiseries et le granola maison... on en parle encore 2 mois plus tard.",
+    initials: "SA",
+  },
+  {
+    name: "Thomas L.",
+    role: "Chef à domicile",
+    text: "Voir Antoine travailler en direct dans ma cuisine, expliquer ses techniques, partager ses sources... c'était presque aussi bon que de manger !",
+    initials: "TL",
+  },
+];
 
-const PRICING = [
-  { name: "Solo / Duo", price: "180", unit: "à partir de", desc: "Repas intime 1 à 2 personnes", features: ["Menu 4 plats personnalisé", "Ingrédients premium inclus", "2h de prestation chef", "Service à table", "Nettoyage inclus"] },
-  { name: "Groupe", price: "75", unit: "par personne", desc: "De 6 à 30 convives", featured: true, features: ["Menu 4–6 plats sur mesure", "Consultation menu offerte", "Chef + serveur inclus", "Vaisselle & nappage fournis", "Accord vins disponible", "Nettoyage complet inclus"] },
-  { name: "Événement", price: "Sur devis", unit: "", desc: "Cocktail, séminaire, mariage", features: ["Équipe complète dédiée", "Menu cocréé avec vous", "Dégustation préliminaire", "Logistique & matériel", "Service professionnel 5h+", "Traiteur & pièce montée"] },
-]
+const FORM_FIELDS = [
+  { placeholder: "Votre prénom & nom", type: "text" },
+  { placeholder: "Adresse email", type: "email" },
+  { placeholder: "Numéro de téléphone", type: "tel" },
+  { placeholder: "Date souhaitée", type: "date" },
+];
 
-const FAQS = [
-  { q: "Quels sont vos délais de réservation ?", a: "Pour un dîner en semaine, 3–5 jours suffisent. Pour les weekends et grandes occasions, réservez 2 à 4 semaines à l'avance. Pour les événements de plus de 20 personnes, 1 mois minimum." },
-  { q: "Êtes-vous autonome en matériel ?", a: "Oui, j'arrive avec tout le matériel nécessaire : ustensiles, couteaux, équipement de cuisson si besoin. Pour les groupes, je fournis également vaisselle, verres et nappage sur demande." },
-  { q: "Comment fonctionne la commande des produits ?", a: "Je me charge de tout. Vous validez le menu, je commande chez mes producteurs partenaires. Le coût des ingrédients est inclus dans le tarif affiché, sans surprise." },
-  { q: "Gérez-vous les allergies et régimes spéciaux ?", a: "Absolument. Intolérance au gluten, allergies aux noix, régime végétarien, vegan, halal — il suffit de me le signaler lors de la réservation. Je crée des menus adaptés sans jamais sacrifier la gourmandise." },
-  { q: "Puis-je voir le menu à l'avance ?", a: "Oui, je vous envoie le menu proposé 5 jours avant. Vous pouvez demander des ajustements. Le menu final est validé ensemble 48h avant la prestation." },
-  { q: "Travaillez-vous en dehors de Paris ?", a: "Je travaille dans tout l'Île-de-France sans supplément. Pour les destinations plus éloignées (week-end en Normandie, villa côte d'Azur...), des frais de déplacement s'appliquent — devis sur demande." },
-]
+// ─── Reusable components ─────────────────────────────────────────────────────
 
-export default function MaisonSaveurPage() {
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const heroRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"])
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+function useFonts() {
+  useEffect(() => {
+    const id = "template-fonts-201";
+    if (document.getElementById(id)) return;
+    const style = document.createElement("style");
+    style.id = id;
+    style.textContent = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500;600;700&display=swap');`;
+    document.head.appendChild(style);
+  }, []);
+}
+
+function TextReveal({
+  children,
+  delay = 0,
+  style: externalStyle,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <div style={{ overflow: "hidden", ...externalStyle }}>
+      <motion.div
+        initial={{ y: "110%", opacity: 0 }}
+        whileInView={{ y: "0%", opacity: 1 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.9, delay, ease: [0.76, 0, 0.24, 1] }}
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
+}
+
+function MagneticButton({
+  children,
+  style: externalStyle,
+  onClick,
+}: {
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+  onClick?: () => void;
+}) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 300, damping: 25 });
+  const springY = useSpring(y, { stiffness: 300, damping: 25 });
+  const ref = useRef<HTMLButtonElement>(null);
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      x.set((e.clientX - (rect.left + rect.width / 2)) * 0.35);
+      y.set((e.clientY - (rect.top + rect.height / 2)) * 0.35);
+    },
+    [x, y]
+  );
+  const handleMouseLeave = useCallback(() => {
+    x.set(0);
+    y.set(0);
+  }, [x, y]);
+  return (
+    <motion.button
+      ref={ref}
+      style={{ ...externalStyle, x: springX, y: springY }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={onClick}
+      whileTap={{ scale: 0.96 }}
+    >
+      {children}
+    </motion.button>
+  );
+}
+
+function SpotlightCard({
+  children,
+  style: externalStyle,
+  accentRgb,
+}: {
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+  accentRgb?: string;
+}) {
+  const [spotlight, setSpotlight] = useState({
+    x: 50,
+    y: 50,
+    active: false,
+  });
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      setSpotlight({
+        x: ((e.clientX - rect.left) / rect.width) * 100,
+        y: ((e.clientY - rect.top) / rect.height) * 100,
+        active: true,
+      });
+    },
+    []
+  );
+  const handleMouseLeave = useCallback(
+    () => setSpotlight((s) => ({ ...s, active: false })),
+    []
+  );
+  const rgb = accentRgb || "201,168,85";
+  const base = externalStyle?.background || C.card;
+  return (
+    <div
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        ...externalStyle,
+        background: spotlight.active
+          ? `radial-gradient(circle at ${spotlight.x}% ${spotlight.y}%, rgba(${rgb},0.13) 0%, ${base} 60%)`
+          : base,
+        transition: "background 0.12s ease",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function MarqueeStrip({
+  items,
+  bg,
+  color,
+}: {
+  items: string[];
+  bg: string;
+  color: string;
+}) {
+  const doubled = [...items, ...items];
+  return (
+    <div
+      style={{
+        overflow: "hidden",
+        background: bg,
+        paddingTop: 18,
+        paddingBottom: 18,
+      }}
+    >
+      <motion.div
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        style={{
+          display: "flex",
+          whiteSpace: "nowrap",
+          width: "max-content",
+        }}
+      >
+        {doubled.map((item, i) => (
+          <span
+            key={i}
+            style={{
+              fontSize: 11,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color,
+              fontFamily: C.fontSans,
+              paddingLeft: 48,
+              paddingRight: 48,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 24,
+            }}
+          >
+            {item}
+            <span
+              style={{
+                width: 4,
+                height: 4,
+                borderRadius: "50%",
+                background: color,
+                opacity: 0.4,
+                display: "inline-block",
+              }}
+            />
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+function ScrollProgressBar() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  return (
+    <motion.div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 2,
+        background: C.gold,
+        scaleX,
+        transformOrigin: "0%",
+        zIndex: 9999,
+      }}
+    />
+  );
+}
+
+// ─── TestimonialCard extracted to avoid hook-in-map ───────────────────────────
+function TestimonialCard({
+  t,
+  index,
+  active,
+  onSelect,
+}: {
+  t: (typeof TESTIMONIALS)[0];
+  index: number;
+  active: boolean;
+  onSelect: (i: number) => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ delay: index * 0.1, duration: 0.7 }}
+      onClick={() => onSelect(index)}
+      style={{
+        cursor: "pointer",
+        padding: "32px 28px",
+        border: `1px solid ${active ? C.gold : C.border}`,
+        borderRadius: 16,
+        background: active ? "rgba(201,168,85,0.05)" : C.card,
+        transition: "all 0.3s ease",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {active && (
+        <motion.div
+          layoutId="testimonial-accent"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 2,
+            background: C.gold,
+          }}
+        />
+      )}
+      <div style={{ display: "flex", gap: 4, marginBottom: 16 }}>
+        {[0, 1, 2, 3, 4].map((s) => (
+          <span key={s} style={{ fontSize: 12, color: C.gold }}>
+            ★
+          </span>
+        ))}
+      </div>
+      <p
+        style={{
+          fontFamily: C.font,
+          fontSize: 16,
+          fontStyle: "italic",
+          color: C.creamDim,
+          lineHeight: 1.8,
+          marginBottom: 24,
+        }}
+      >
+        &ldquo;{t.text}&rdquo;
+      </p>
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <div
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: "50%",
+            background: "rgba(201,168,85,0.12)",
+            border: `1px solid ${C.goldBorder}`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 12,
+            fontWeight: 600,
+            color: C.gold,
+            fontFamily: C.fontSans,
+            flexShrink: 0,
+          }}
+        >
+          {t.initials}
+        </div>
+        <div>
+          <div
+            style={{
+              fontSize: 14,
+              fontWeight: 600,
+              color: C.cream,
+              fontFamily: C.fontSans,
+            }}
+          >
+            {t.name}
+          </div>
+          <div
+            style={{
+              fontSize: 12,
+              color: C.creamMuted,
+              fontFamily: C.fontSans,
+            }}
+          >
+            {t.role}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── ExperienceCard extracted ─────────────────────────────────────────────────
+function ExperienceCard({
+  exp,
+  index,
+}: {
+  exp: (typeof EXPERIENCES)[0];
+  index: number;
+}) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ delay: index * 0.12, duration: 0.7 }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{ position: "relative", overflow: "hidden", borderRadius: 16, cursor: "pointer" }}
+    >
+      <div style={{ position: "relative", aspectRatio: "4/5", overflow: "hidden" }}>
+        <motion.img
+          src={`https://images.unsplash.com/${exp.img}?q=80&w=700&auto=format&fit=crop`}
+          alt={exp.title}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            display: "block",
+          }}
+          animate={{ scale: hovered ? 1.06 : 1 }}
+          transition={{ duration: 0.7, ease: [0.25, 0, 0, 1] }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(to top, rgba(12,10,8,0.95) 0%, rgba(12,10,8,0.3) 50%, transparent 100%)",
+          }}
+        />
+        <motion.div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: `linear-gradient(135deg, rgba(201,168,85,0.15) 0%, transparent 60%)`,
+            opacity: hovered ? 1 : 0,
+            transition: "opacity 0.4s ease",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            padding: "28px 24px",
+          }}
+        >
+          <div
+            style={{
+              fontSize: 22,
+              fontWeight: 400,
+              fontFamily: C.font,
+              color: C.cream,
+              marginBottom: 6,
+            }}
+          >
+            {exp.title}
+          </div>
+          <div
+            style={{
+              fontSize: 12,
+              color: C.creamDim,
+              fontFamily: C.fontSans,
+              marginBottom: 12,
+              letterSpacing: "0.04em",
+            }}
+          >
+            {exp.sub}
+          </div>
+          <div
+            style={{
+              fontSize: 14,
+              color: C.gold,
+              fontFamily: C.fontSans,
+              fontWeight: 500,
+            }}
+          >
+            {exp.price}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Main Page ─────────────────────────────────────────────────────────────────
+export default function Impact201Page() {
+  useFonts();
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSeason, setActiveSeason] = useState("Automne");
+  const [activeMenuIdx, setActiveMenuIdx] = useState(0);
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
+
+  const scrollTo = useCallback((id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setMenuOpen(false);
+  }, []);
+
+  const seasons = Object.keys(SEASON_MENUS);
+  const currentMenus = SEASON_MENUS[activeSeason] ?? [];
 
   return (
-    <div style={{ overflowX: "hidden", scrollBehavior: "smooth", background: "#0e0b08", color: "#f5f0e8", fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+    <div
+      style={{
+        overflowX: "hidden",
+        background: C.bg,
+        color: C.cream,
+        fontFamily: C.fontSans,
+      }}
+    >
+      <ScrollProgressBar />
 
-      {/* NAVBAR */}
-      <motion.nav initial={{ y: -80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, backdropFilter: "blur(16px)", background: "rgba(14,11,8,0.9)", borderBottom: "1px solid rgba(245,240,232,0.08)" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 70 }}>
-          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-            <ChefHat size={22} color="#d4a96a" />
-            <span style={{ fontSize: 20, fontWeight: 400, color: "#f5f0e8", letterSpacing: "0.1em" }}>Maison Saveur</span>
-          </Link>
-          <div style={{ display: "flex", gap: 28, alignItems: "center" }} className="hidden md:flex">
-            {["Menus", "Savoir-faire", "Avis", "Contact"].map(item => (
-              <a key={item} href={`#${item.toLowerCase().replace("savoir-faire", "savoirfaire")}`}
-                style={{ color: "rgba(245,240,232,0.55)", textDecoration: "none", fontSize: 14, fontFamily: "system-ui", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = "#d4a96a")}
-                onMouseLeave={e => (e.currentTarget.style.color = "rgba(245,240,232,0.55)")}>
-                {item}
-              </a>
+      {/* ─── NAV ─────────────────────────────────────────────────────────── */}
+      <motion.nav
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 200,
+          backdropFilter: "blur(20px)",
+          background: "rgba(12,10,8,0.88)",
+          borderBottom: `1px solid ${C.border}`,
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1280,
+            margin: "0 auto",
+            padding: "0 40px",
+            height: 72,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          {/* Logo */}
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+            }}
+          >
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: "50%",
+                border: `1px solid ${C.gold}`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <span style={{ fontSize: 14 }}>✦</span>
+            </div>
+            <span
+              style={{
+                fontFamily: C.font,
+                fontSize: 20,
+                fontWeight: 400,
+                color: C.cream,
+                letterSpacing: "0.08em",
+              }}
+            >
+              Maison Saveur
+            </span>
+          </button>
+
+          {/* Desktop links */}
+          <div
+            style={{
+              display: "flex",
+              gap: 36,
+              alignItems: "center",
+            }}
+          >
+            {NAV_LINKS.map((link) => (
+              <button
+                key={link}
+                onClick={() => scrollTo(link.toLowerCase().replace("é", "e"))}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: 13,
+                  letterSpacing: "0.1em",
+                  color: C.creamDim,
+                  fontFamily: C.fontSans,
+                  transition: "color 0.2s",
+                  padding: 0,
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.color = C.gold)
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.color = C.creamDim)
+                }
+              >
+                {link}
+              </button>
             ))}
-            <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "10px 24px", background: "#d4a96a", color: "#0e0b08", border: "none", borderRadius: 4, fontSize: 13, fontFamily: "system-ui", fontWeight: 700, letterSpacing: "0.06em", cursor: "pointer" }}>
-              RÉSERVER
-            </motion.button>
+            <MagneticButton
+              onClick={() => scrollTo("contact")}
+              style={{
+                padding: "11px 28px",
+                background: C.gold,
+                color: C.bg,
+                border: "none",
+                borderRadius: 4,
+                fontSize: 12,
+                fontFamily: C.fontSans,
+                fontWeight: 700,
+                letterSpacing: "0.1em",
+                cursor: "pointer",
+                textTransform: "uppercase" as const,
+              }}
+            >
+              Réserver
+            </MagneticButton>
           </div>
-          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetTrigger asChild>
-              <button style={{ background: "none", border: "none", color: "#f5f0e8", cursor: "pointer" }} className="md:hidden block"><Menu size={24} /></button>
-            </SheetTrigger>
-            <SheetContent side="right" style={{ background: "#0e0b08" }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 24, paddingTop: 48 }}>
-                {["Menus", "Savoir-faire", "Avis", "Contact"].map(item => (
-                  <a key={item} href="#" onClick={() => setMobileOpen(false)} style={{ color: "#f5f0e8", textDecoration: "none", fontSize: 18, fontFamily: "system-ui" }}>{item}</a>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMenuOpen((o) => !o)}
+            style={{
+              display: "none",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              color: C.cream,
+              padding: 4,
+            }}
+            aria-label="Menu"
+            className="mobile-menu-btn"
+          >
+            <div
+              style={{
+                width: 24,
+                height: 2,
+                background: menuOpen ? C.gold : C.cream,
+                marginBottom: 5,
+                transition: "all 0.3s",
+                transform: menuOpen ? "translateY(7px) rotate(45deg)" : "none",
+              }}
+            />
+            <div
+              style={{
+                width: 24,
+                height: 2,
+                background: C.cream,
+                marginBottom: 5,
+                opacity: menuOpen ? 0 : 1,
+                transition: "opacity 0.3s",
+              }}
+            />
+            <div
+              style={{
+                width: 24,
+                height: 2,
+                background: menuOpen ? C.gold : C.cream,
+                transition: "all 0.3s",
+                transform: menuOpen ? "translateY(-7px) rotate(-45deg)" : "none",
+              }}
+            />
+          </button>
+        </div>
+
+        {/* Mobile drawer */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              style={{
+                background: "rgba(12,10,8,0.98)",
+                borderTop: `1px solid ${C.border}`,
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  padding: "32px 40px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 24,
+                }}
+              >
+                {NAV_LINKS.map((link) => (
+                  <button
+                    key={link}
+                    onClick={() =>
+                      scrollTo(link.toLowerCase().replace("é", "e"))
+                    }
+                    style={{
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      fontSize: 22,
+                      fontFamily: C.font,
+                      fontStyle: "italic",
+                      color: C.cream,
+                      textAlign: "left",
+                      padding: 0,
+                    }}
+                  >
+                    {link}
+                  </button>
                 ))}
               </div>
-            </SheetContent>
-          </Sheet>
-        </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.nav>
 
-      {/* HERO */}
-      <section ref={heroRef} style={{ position: "relative", height: "100vh", minHeight: 680, display: "flex", alignItems: "center", overflow: "hidden" }}>
-        <motion.div style={{ position: "absolute", inset: 0, y: bgY }}>
-          <Image src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80" alt="Cuisine gastronomique" fill style={{ objectFit: "cover" }} priority />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(110deg, rgba(14,11,8,0.9) 45%, rgba(14,11,8,0.4) 100%)" }} />
+      {/* ─── HERO ─────────────────────────────────────────────────────────── */}
+      <section
+        id="hero"
+        ref={heroRef}
+        style={{
+          position: "relative",
+          height: "100vh",
+          minHeight: 700,
+          display: "flex",
+          alignItems: "center",
+          overflow: "hidden",
+        }}
+      >
+        {/* Parallax image */}
+        <motion.div
+          style={{
+            position: "absolute",
+            inset: "-20% 0 -20%",
+            y: heroY,
+          }}
+        >
+          <img
+            src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1400&auto=format&fit=crop"
+            alt="Gastronomie"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              display: "block",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "linear-gradient(105deg, rgba(12,10,8,0.92) 40%, rgba(12,10,8,0.5) 100%)",
+            }}
+          />
         </motion.div>
-        <motion.div style={{ position: "relative", zIndex: 10, padding: "0 10vw", maxWidth: 680, opacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <Badge style={{ background: "rgba(212,169,106,0.1)", color: "#d4a96a", border: "1px solid rgba(212,169,106,0.3)", fontSize: 11, letterSpacing: "0.12em", marginBottom: 28, fontFamily: "system-ui", padding: "6px 14px" }}>
-              CHEF PRIVÉ — FORMATION ÉTOILÉE
-            </Badge>
-          </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            style={{ fontSize: "clamp(42px, 6.5vw, 82px)", fontWeight: 300, lineHeight: 1.05, letterSpacing: "-0.02em", marginBottom: 28, color: "#f5f0e8" }}>
-            La grande cuisine<br />dans votre <em style={{ color: "#d4a96a" }}>maison.</em>
-          </motion.h1>
-          <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
-            style={{ fontSize: 17, color: "rgba(245,240,232,0.65)", fontFamily: "system-ui", lineHeight: 1.75, marginBottom: 40, maxWidth: 480 }}>
-            Antoine Lefèvre, chef formé chez Alain Passard et Anne-Sophie Pic, compose pour vous des menus d'exception à domicile — produits locaux, technique étoilée.
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.45 }}
-            style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-            <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(212,169,106,0.3)" }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "16px 36px", background: "#d4a96a", color: "#0e0b08", border: "none", borderRadius: 4, fontSize: 14, fontFamily: "system-ui", fontWeight: 700, letterSpacing: "0.06em", cursor: "pointer" }}>
-              RÉSERVER UNE PRESTATION
-            </motion.button>
-            <motion.button whileHover={{ scale: 1.04 }}
-              style={{ padding: "16px 36px", background: "transparent", color: "#f5f0e8", border: "1px solid rgba(245,240,232,0.2)", borderRadius: 4, fontSize: 14, fontFamily: "system-ui", cursor: "pointer" }}>
-              VOIR LES MENUS
-            </motion.button>
-          </motion.div>
+
+        {/* Decorative gold line */}
+        <motion.div
+          initial={{ scaleY: 0 }}
+          animate={{ scaleY: 1 }}
+          transition={{ duration: 1.2, delay: 0.5, ease: [0.76, 0, 0.24, 1] }}
+          style={{
+            position: "absolute",
+            left: "10vw",
+            top: "15%",
+            bottom: "15%",
+            width: 1,
+            background: `linear-gradient(to bottom, transparent, ${C.gold}, transparent)`,
+            transformOrigin: "top",
+          }}
+        />
+
+        <motion.div
+          style={{
+            position: "relative",
+            zIndex: 10,
+            padding: "0 calc(10vw + 28px)",
+            maxWidth: 720,
+            opacity: heroOpacity,
+          }}
+        >
+          <TextReveal delay={0.1}>
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 10,
+                marginBottom: 32,
+              }}
+            >
+              <div
+                style={{
+                  width: 32,
+                  height: 1,
+                  background: C.gold,
+                }}
+              />
+              <span
+                style={{
+                  fontSize: 11,
+                  letterSpacing: "0.25em",
+                  textTransform: "uppercase" as const,
+                  color: C.gold,
+                  fontFamily: C.fontSans,
+                }}
+              >
+                Chef privé · Formation étoilée
+              </span>
+            </div>
+          </TextReveal>
+
+          <TextReveal delay={0.2}>
+            <h1
+              style={{
+                fontFamily: C.font,
+                fontSize: "clamp(48px, 7vw, 96px)",
+                fontWeight: 300,
+                lineHeight: 1.0,
+                letterSpacing: "-0.02em",
+                color: C.cream,
+                marginBottom: 8,
+              }}
+            >
+              La grande cuisine
+            </h1>
+          </TextReveal>
+          <TextReveal delay={0.3}>
+            <h1
+              style={{
+                fontFamily: C.font,
+                fontSize: "clamp(48px, 7vw, 96px)",
+                fontWeight: 300,
+                lineHeight: 1.0,
+                letterSpacing: "-0.02em",
+                fontStyle: "italic" as const,
+                color: C.gold,
+                marginBottom: 40,
+              }}
+            >
+              dans votre maison.
+            </h1>
+          </TextReveal>
+
+          <TextReveal delay={0.4}>
+            <p
+              style={{
+                fontSize: 17,
+                color: C.creamDim,
+                lineHeight: 1.8,
+                marginBottom: 48,
+                maxWidth: 500,
+                fontWeight: 300,
+              }}
+            >
+              Antoine Lefèvre, formé chez Alain Passard et Anne-Sophie Pic,
+              compose pour vous des menus d&apos;exception à domicile —
+              produits locaux, technique irréprochable, émotions garanties.
+            </p>
+          </TextReveal>
+
+          <TextReveal delay={0.5}>
+            <div style={{ display: "flex", gap: 16, flexWrap: "wrap" as const }}>
+              <MagneticButton
+                onClick={() => scrollTo("contact")}
+                style={{
+                  padding: "18px 44px",
+                  background: C.gold,
+                  color: C.bg,
+                  border: "none",
+                  borderRadius: 4,
+                  fontSize: 13,
+                  fontFamily: C.fontSans,
+                  fontWeight: 700,
+                  letterSpacing: "0.1em",
+                  cursor: "pointer",
+                  textTransform: "uppercase" as const,
+                }}
+              >
+                Réserver une prestation
+              </MagneticButton>
+              <MagneticButton
+                onClick={() => scrollTo("menus")}
+                style={{
+                  padding: "18px 44px",
+                  background: "transparent",
+                  color: C.cream,
+                  border: `1px solid ${C.border}`,
+                  borderRadius: 4,
+                  fontSize: 13,
+                  fontFamily: C.fontSans,
+                  cursor: "pointer",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase" as const,
+                }}
+              >
+                Voir les menus
+              </MagneticButton>
+            </div>
+          </TextReveal>
         </motion.div>
-        <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.9, duration: 0.7 }}
-          style={{ position: "absolute", right: 48, bottom: 100, background: "rgba(255,255,255,0.05)", backdropFilter: "blur(16px)", border: "1px solid rgba(212,169,106,0.2)", borderRadius: 12, padding: "20px 24px", zIndex: 10 }}>
-          <div style={{ fontSize: 28, fontWeight: 300, color: "#d4a96a" }}>850+</div>
-          <div style={{ fontSize: 12, color: "rgba(245,240,232,0.5)", fontFamily: "system-ui" }}>repas d'exception</div>
+
+        {/* Floating stats card */}
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 1.0, duration: 0.8 }}
+          style={{
+            position: "absolute",
+            right: 60,
+            bottom: 100,
+            background: "rgba(255,255,255,0.04)",
+            backdropFilter: "blur(20px)",
+            border: `1px solid ${C.goldBorder}`,
+            borderRadius: 16,
+            padding: "28px 32px",
+            zIndex: 10,
+          }}
+        >
+          {[
+            { val: "850+", label: "Repas créés" },
+            { val: "4.9/5", label: "Note clients" },
+            { val: "3★", label: "Formation" },
+          ].map((s) => (
+            <div key={s.label} style={{ marginBottom: 20 }}>
+              <div
+                style={{
+                  fontSize: 28,
+                  fontWeight: 300,
+                  color: C.gold,
+                  fontFamily: C.font,
+                  lineHeight: 1,
+                }}
+              >
+                {s.val}
+              </div>
+              <div
+                style={{
+                  fontSize: 11,
+                  color: C.creamMuted,
+                  fontFamily: C.fontSans,
+                  letterSpacing: "0.06em",
+                  marginTop: 2,
+                }}
+              >
+                {s.label}
+              </div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+          style={{
+            position: "absolute",
+            bottom: 40,
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 8,
+          }}
+        >
+          <span
+            style={{
+              fontSize: 10,
+              letterSpacing: "0.2em",
+              color: C.creamMuted,
+              fontFamily: C.fontSans,
+              textTransform: "uppercase" as const,
+            }}
+          >
+            Découvrir
+          </span>
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            style={{ width: 1, height: 40, background: C.goldDim }}
+          />
         </motion.div>
       </section>
 
-      {/* STATS */}
-      <section style={{ padding: "48px 32px", background: "rgba(212,169,106,0.05)", borderTop: "1px solid rgba(212,169,106,0.1)", borderBottom: "1px solid rgba(212,169,106,0.1)" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", flexWrap: "wrap", gap: 32, justifyContent: "center" }}>
-          {STATS.map((s, i) => (
-            <Reveal key={i} delay={i * 0.1}>
-              <div style={{ textAlign: "center", minWidth: 130 }}>
-                <div style={{ fontSize: 34, fontWeight: 300, color: "#d4a96a" }}>{s.val}</div>
-                <div style={{ fontSize: 13, color: "rgba(245,240,232,0.45)", fontFamily: "system-ui", marginTop: 4 }}>{s.label}</div>
+      {/* ─── MARQUEE ─────────────────────────────────────────────────────── */}
+      <MarqueeStrip
+        items={MARQUEE_ITEMS}
+        bg={C.gold}
+        color={C.bg}
+      />
+
+      {/* ─── CHEF / ABOUT ─────────────────────────────────────────────────── */}
+      <section
+        id="chef"
+        style={{
+          maxWidth: 1280,
+          margin: "0 auto",
+          padding: "120px 60px",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 80,
+          alignItems: "center",
+        }}
+      >
+        {/* Image side */}
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.9, ease: [0.25, 0, 0, 1] }}
+          style={{ position: "relative" }}
+        >
+          <div
+            style={{
+              position: "relative",
+              aspectRatio: "3/4",
+              borderRadius: 16,
+              overflow: "hidden",
+            }}
+          >
+            <img
+              src="https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=800&auto=format&fit=crop"
+              alt="Chef Antoine Lefèvre"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                display: "block",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background:
+                  "linear-gradient(to top, rgba(12,10,8,0.6) 0%, transparent 50%)",
+              }}
+            />
+          </div>
+          {/* Floating credential */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            style={{
+              position: "absolute",
+              bottom: -24,
+              right: -24,
+              background: C.bgAlt,
+              border: `1px solid ${C.goldBorder}`,
+              borderRadius: 12,
+              padding: "20px 24px",
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                fontSize: 11,
+                letterSpacing: "0.15em",
+                color: C.gold,
+                fontFamily: C.fontSans,
+                textTransform: "uppercase" as const,
+                marginBottom: 8,
+              }}
+            >
+              Formation
+            </div>
+            <div
+              style={{
+                fontSize: 14,
+                color: C.cream,
+                fontFamily: C.fontSans,
+                fontWeight: 500,
+                lineHeight: 1.6,
+              }}
+            >
+              L&apos;Arpège ★★★
+              <br />
+              Maison Pic ★★★
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Text side */}
+        <div>
+          <TextReveal delay={0.1}>
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 10,
+                marginBottom: 24,
+              }}
+            >
+              <div style={{ width: 32, height: 1, background: C.gold }} />
+              <span
+                style={{
+                  fontSize: 11,
+                  letterSpacing: "0.25em",
+                  textTransform: "uppercase" as const,
+                  color: C.gold,
+                  fontFamily: C.fontSans,
+                }}
+              >
+                Le chef
+              </span>
+            </div>
+          </TextReveal>
+          <TextReveal delay={0.2}>
+            <h2
+              style={{
+                fontFamily: C.font,
+                fontSize: "clamp(36px, 4vw, 58px)",
+                fontWeight: 300,
+                lineHeight: 1.15,
+                color: C.cream,
+                marginBottom: 28,
+              }}
+            >
+              Antoine Lefèvre,
+              <br />
+              <em style={{ color: C.gold }}>chef étoilé à domicile.</em>
+            </h2>
+          </TextReveal>
+          <TextReveal delay={0.3}>
+            <p
+              style={{
+                fontSize: 16,
+                color: C.creamDim,
+                lineHeight: 1.9,
+                marginBottom: 20,
+                fontWeight: 300,
+              }}
+            >
+              Après dix ans en brigade — chez Alain Passard à L&apos;Arpège
+              puis Anne-Sophie Pic à Valence — Antoine a choisi d&apos;apporter
+              la gastronomie là où elle crée les plus beaux souvenirs : chez
+              vous.
+            </p>
+          </TextReveal>
+          <TextReveal delay={0.35}>
+            <p
+              style={{
+                fontSize: 16,
+                color: C.creamDim,
+                lineHeight: 1.9,
+                marginBottom: 40,
+                fontWeight: 300,
+              }}
+            >
+              Chaque prestation est une création singulière. Les produits sont
+              sourcés chez ses producteurs partenaires, les accords mets-vins
+              sélectionnés avec soin, et chaque assiette est le reflet
+              d&apos;une exigence absolue.
+            </p>
+          </TextReveal>
+          <TextReveal delay={0.4}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 20,
+                marginBottom: 40,
+              }}
+            >
+              {[
+                { val: "12 ans", label: "En cuisine professionnelle" },
+                { val: "850+", label: "Repas d&apos;exception créés" },
+                { val: "100%", label: "Produits sourcés localement" },
+                { val: "4.9/5", label: "Satisfaction clients" },
+              ].map((s) => (
+                <div
+                  key={s.label}
+                  style={{
+                    padding: "20px",
+                    border: `1px solid ${C.border}`,
+                    borderRadius: 12,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: C.font,
+                      fontSize: 28,
+                      fontWeight: 300,
+                      color: C.gold,
+                      lineHeight: 1,
+                      marginBottom: 6,
+                    }}
+                  >
+                    {s.val}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 12,
+                      color: C.creamMuted,
+                      fontFamily: C.fontSans,
+                    }}
+                    dangerouslySetInnerHTML={{ __html: s.label }}
+                  />
+                </div>
+              ))}
+            </div>
+          </TextReveal>
+          <TextReveal delay={0.5}>
+            <MagneticButton
+              onClick={() => scrollTo("contact")}
+              style={{
+                padding: "16px 40px",
+                background: "transparent",
+                color: C.gold,
+                border: `1px solid ${C.gold}`,
+                borderRadius: 4,
+                fontSize: 12,
+                fontFamily: C.fontSans,
+                fontWeight: 600,
+                letterSpacing: "0.12em",
+                cursor: "pointer",
+                textTransform: "uppercase" as const,
+              }}
+            >
+              Prendre contact avec Antoine
+            </MagneticButton>
+          </TextReveal>
+        </div>
+      </section>
+
+      {/* ─── MENUS (Season tabs + AnimatePresence) ────────────────────────── */}
+      <section
+        id="menus"
+        style={{
+          background: C.bgAlt,
+          padding: "120px 60px",
+          borderTop: `1px solid ${C.border}`,
+          borderBottom: `1px solid ${C.border}`,
+        }}
+      >
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <TextReveal>
+            <div style={{ marginBottom: 16 }}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 10,
+                  marginBottom: 24,
+                }}
+              >
+                <div style={{ width: 32, height: 1, background: C.gold }} />
+                <span
+                  style={{
+                    fontSize: 11,
+                    letterSpacing: "0.25em",
+                    textTransform: "uppercase" as const,
+                    color: C.gold,
+                    fontFamily: C.fontSans,
+                  }}
+                >
+                  Carte saisonnière
+                </span>
               </div>
-            </Reveal>
+            </div>
+          </TextReveal>
+          <TextReveal delay={0.1}>
+            <h2
+              style={{
+                fontFamily: C.font,
+                fontSize: "clamp(36px, 5vw, 64px)",
+                fontWeight: 300,
+                color: C.cream,
+                marginBottom: 48,
+                lineHeight: 1.1,
+              }}
+            >
+              Des menus qui racontent{" "}
+              <em style={{ color: C.gold }}>chaque saison.</em>
+            </h2>
+          </TextReveal>
+
+          {/* Season tabs */}
+          <div
+            style={{
+              display: "flex",
+              gap: 4,
+              marginBottom: 56,
+              flexWrap: "wrap" as const,
+            }}
+          >
+            {seasons.map((season) => (
+              <button
+                key={season}
+                onClick={() => {
+                  setActiveSeason(season);
+                  setActiveMenuIdx(0);
+                }}
+                style={{
+                  padding: "10px 28px",
+                  borderRadius: 50,
+                  border: `1px solid ${
+                    activeSeason === season ? C.gold : C.border
+                  }`,
+                  background:
+                    activeSeason === season
+                      ? "rgba(201,168,85,0.12)"
+                      : "transparent",
+                  color: activeSeason === season ? C.gold : C.creamMuted,
+                  fontSize: 13,
+                  fontFamily: C.fontSans,
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                  letterSpacing: "0.06em",
+                }}
+              >
+                {season}
+              </button>
+            ))}
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeSeason}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4, ease: [0.25, 0, 0, 1] }}
+            >
+              {/* Sub menu selector */}
+              <div style={{ display: "flex", gap: 4, marginBottom: 40 }}>
+                {currentMenus.map((m, i) => (
+                  <button
+                    key={m.name}
+                    onClick={() => setActiveMenuIdx(i)}
+                    style={{
+                      padding: "8px 20px",
+                      border: `1px solid ${
+                        activeMenuIdx === i ? C.goldDim : C.border
+                      }`,
+                      borderRadius: 4,
+                      background:
+                        activeMenuIdx === i
+                          ? "rgba(201,168,85,0.06)"
+                          : "transparent",
+                      color:
+                        activeMenuIdx === i ? C.cream : C.creamMuted,
+                      fontSize: 13,
+                      fontFamily: C.fontSans,
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                    }}
+                  >
+                    Menu {m.name}
+                  </button>
+                ))}
+              </div>
+
+              {currentMenus[activeMenuIdx] && (
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 48,
+                    border: `1px solid ${C.border}`,
+                    borderRadius: 20,
+                    overflow: "hidden",
+                  }}
+                >
+                  {/* Dishes */}
+                  <div style={{ padding: "56px 52px" }}>
+                    <div
+                      style={{
+                        fontFamily: C.font,
+                        fontSize: 36,
+                        fontWeight: 300,
+                        fontStyle: "italic",
+                        color: C.cream,
+                        marginBottom: 8,
+                      }}
+                    >
+                      {currentMenus[activeMenuIdx].name}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 24,
+                        fontFamily: C.font,
+                        color: C.gold,
+                        fontWeight: 300,
+                        marginBottom: 40,
+                      }}
+                    >
+                      {currentMenus[activeMenuIdx].price}{" "}
+                      <span
+                        style={{
+                          fontSize: 13,
+                          color: C.creamMuted,
+                          fontFamily: C.fontSans,
+                          fontWeight: 400,
+                        }}
+                      >
+                        par personne
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 20,
+                      }}
+                    >
+                      {currentMenus[activeMenuIdx].dishes.map((dish, di) => (
+                        <motion.div
+                          key={di}
+                          initial={{ opacity: 0, x: -16 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: di * 0.08, duration: 0.4 }}
+                          style={{
+                            display: "flex",
+                            gap: 16,
+                            alignItems: "flex-start",
+                            paddingBottom: 20,
+                            borderBottom:
+                              di < currentMenus[activeMenuIdx].dishes.length - 1
+                                ? `1px solid ${C.border}`
+                                : "none",
+                          }}
+                        >
+                          <span
+                            style={{
+                              fontFamily: C.font,
+                              fontSize: 22,
+                              color: C.gold,
+                              opacity: 0.4,
+                              lineHeight: 1,
+                              flexShrink: 0,
+                              minWidth: 20,
+                            }}
+                          >
+                            {di + 1}
+                          </span>
+                          <span
+                            style={{
+                              fontFamily: C.font,
+                              fontSize: 17,
+                              fontStyle: "italic",
+                              color: C.creamDim,
+                              lineHeight: 1.6,
+                            }}
+                          >
+                            {dish}
+                          </span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Info + image */}
+                  <div
+                    style={{
+                      background: "rgba(255,255,255,0.02)",
+                      borderLeft: `1px solid ${C.border}`,
+                      padding: "56px 48px",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          letterSpacing: "0.2em",
+                          color: C.gold,
+                          fontFamily: C.fontSans,
+                          textTransform: "uppercase" as const,
+                          marginBottom: 12,
+                        }}
+                      >
+                        Accord mets & vins suggéré
+                      </div>
+                      <div
+                        style={{
+                          fontFamily: C.font,
+                          fontSize: 20,
+                          fontStyle: "italic",
+                          color: C.cream,
+                          marginBottom: 40,
+                        }}
+                      >
+                        {currentMenus[activeMenuIdx].wine}
+                      </div>
+                      <div
+                        style={{
+                          padding: "20px 24px",
+                          border: `1px solid ${C.goldBorder}`,
+                          borderRadius: 12,
+                          marginBottom: 40,
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontSize: 11,
+                            color: C.creamMuted,
+                            fontFamily: C.fontSans,
+                            letterSpacing: "0.1em",
+                            marginBottom: 8,
+                          }}
+                        >
+                          Inclus dans le menu
+                        </div>
+                        {[
+                          "Ingrédients premium sourcés",
+                          "Préparation & cuisson sur place",
+                          "Service à table inclus",
+                          "Nettoyage cuisine complet",
+                        ].map((feat) => (
+                          <div
+                            key={feat}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 8,
+                              fontSize: 13,
+                              color: C.creamDim,
+                              fontFamily: C.fontSans,
+                              marginBottom: 6,
+                            }}
+                          >
+                            <span style={{ color: C.gold, fontSize: 10 }}>
+                              ✦
+                            </span>
+                            {feat}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <MagneticButton
+                      onClick={() => scrollTo("contact")}
+                      style={{
+                        width: "100%",
+                        padding: "16px",
+                        background: C.gold,
+                        color: C.bg,
+                        border: "none",
+                        borderRadius: 8,
+                        fontSize: 13,
+                        fontFamily: C.fontSans,
+                        fontWeight: 700,
+                        letterSpacing: "0.1em",
+                        cursor: "pointer",
+                        textTransform: "uppercase" as const,
+                      }}
+                    >
+                      Réserver ce menu
+                    </MagneticButton>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
+
+      {/* ─── EXPERIENCES ──────────────────────────────────────────────────── */}
+      <section
+        id="exp&#233;riences"
+        style={{ padding: "120px 60px", maxWidth: 1280, margin: "0 auto" }}
+      >
+        <TextReveal>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              marginBottom: 24,
+            }}
+          >
+            <div style={{ width: 32, height: 1, background: C.gold }} />
+            <span
+              style={{
+                fontSize: 11,
+                letterSpacing: "0.25em",
+                textTransform: "uppercase" as const,
+                color: C.gold,
+                fontFamily: C.fontSans,
+              }}
+            >
+              Formules
+            </span>
+          </div>
+        </TextReveal>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            marginBottom: 56,
+            flexWrap: "wrap" as const,
+            gap: 20,
+          }}
+        >
+          <TextReveal>
+            <h2
+              style={{
+                fontFamily: C.font,
+                fontSize: "clamp(36px, 5vw, 64px)",
+                fontWeight: 300,
+                color: C.cream,
+                lineHeight: 1.1,
+              }}
+            >
+              Une occasion,
+              <br />
+              <em style={{ color: C.gold }}>une expérience unique.</em>
+            </h2>
+          </TextReveal>
+        </div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: 20,
+          }}
+        >
+          {EXPERIENCES.map((exp, i) => (
+            <ExperienceCard key={exp.title} exp={exp} index={i} />
           ))}
         </div>
       </section>
 
-      {/* MENUS */}
-      <section id="menus" style={{ padding: "100px 32px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 64 }}>
-              <Badge style={{ background: "rgba(212,169,106,0.1)", color: "#d4a96a", border: "1px solid rgba(212,169,106,0.25)", fontSize: 11, letterSpacing: "0.12em", marginBottom: 16, fontFamily: "system-ui" }}>FORMULES</Badge>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 300, letterSpacing: "-0.01em", color: "#f5f0e8" }}>Une occasion, un menu <em style={{ color: "#d4a96a", fontStyle: "italic" }}>sur mesure</em></h2>
-            </div>
-          </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 20 }}>
-            {MENUS.map((menu, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <motion.div whileHover={{ y: -4, boxShadow: "0 12px 40px rgba(0,0,0,0.5)" }}
-                  style={{ borderRadius: 12, overflow: "hidden", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(212,169,106,0.1)", cursor: "pointer" }}>
-                  <div style={{ position: "relative", aspectRatio: "4/3" }}>
-                    <Image src={`https://images.unsplash.com/${menu.img}?w=500&q=80`} alt={menu.name} fill style={{ objectFit: "cover" }} />
-                  </div>
-                  <div style={{ padding: "22px 20px" }}>
-                    <h3 style={{ fontSize: 20, fontWeight: 400, marginBottom: 8, color: "#f5f0e8" }}>{menu.name}</h3>
-                    <p style={{ fontSize: 14, color: "rgba(245,240,232,0.55)", fontFamily: "system-ui", lineHeight: 1.65, marginBottom: 16 }}>{menu.desc}</p>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <span style={{ fontSize: 13, color: "rgba(245,240,232,0.45)", fontFamily: "system-ui" }}><Users size={12} style={{ display: "inline", marginRight: 4 }} />{menu.guests}</span>
-                      <span style={{ fontSize: 15, fontWeight: 600, color: "#d4a96a", fontFamily: "system-ui" }}>{menu.price}</span>
-                    </div>
-                  </div>
-                </motion.div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SAVOIR-FAIRE TABS */}
-      <section id="savoirfaire" style={{ padding: "100px 32px", background: "rgba(255,255,255,0.02)" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 56 }}>
-              <Badge style={{ background: "rgba(212,169,106,0.1)", color: "#d4a96a", border: "1px solid rgba(212,169,106,0.25)", fontSize: 11, letterSpacing: "0.12em", marginBottom: 16, fontFamily: "system-ui" }}>SAVOIR-FAIRE</Badge>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 300, color: "#f5f0e8" }}>Ce qui rend chaque repas <em style={{ color: "#d4a96a", fontStyle: "italic" }}>unique</em></h2>
-            </div>
-          </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-            {SAVOIR_FAIRE.map((sf, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <motion.div whileHover={{ borderColor: "rgba(212,169,106,0.35)" }}
-                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(212,169,106,0.1)", borderRadius: 16, padding: "28px 24px", transition: "border-color 0.3s" }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(212,169,106,0.1)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 18 }}>
-                    <sf.icon size={20} color="#d4a96a" />
-                  </div>
-                  <h3 style={{ fontSize: 19, fontWeight: 400, marginBottom: 10, color: "#f5f0e8" }}>{sf.title}</h3>
-                  <p style={{ fontSize: 14, color: "rgba(245,240,232,0.55)", fontFamily: "system-ui", lineHeight: 1.7 }}>{sf.desc}</p>
-                </motion.div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section id="avis" style={{ padding: "100px 32px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 52 }}>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 300, color: "#f5f0e8" }}>Ils ont dîné <em style={{ color: "#d4a96a", fontStyle: "italic" }}>avec Antoine</em></h2>
-            </div>
-          </Reveal>
-          <Carousel opts={{ align: "start", loop: true }}>
-            <CarouselContent style={{ paddingLeft: 8 }}>
-              {TESTIMONIALS.map((t, i) => (
-                <CarouselItem key={i} style={{ paddingLeft: 16, flexBasis: "calc(50% - 8px)" }}>
-                  <Card style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(212,169,106,0.1)", borderRadius: 12 }}>
-                    <CardContent style={{ padding: 28 }}>
-                      <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>
-                        {Array.from({ length: t.rating }).map((_, j) => <Star key={j} size={13} fill="#d4a96a" color="#d4a96a" />)}
-                      </div>
-                      <p style={{ fontSize: 15, color: "rgba(245,240,232,0.7)", fontFamily: "system-ui", lineHeight: 1.75, marginBottom: 20, fontStyle: "italic" }}>"{t.text}"</p>
-                      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                        <Avatar><AvatarFallback style={{ background: "rgba(212,169,106,0.15)", color: "#d4a96a", fontSize: 12, fontWeight: 700 }}>{t.avatar}</AvatarFallback></Avatar>
-                        <div>
-                          <div style={{ fontSize: 14, fontWeight: 600, color: "#f5f0e8" }}>{t.name}</div>
-                          <div style={{ fontSize: 12, color: "rgba(245,240,232,0.4)", fontFamily: "system-ui" }}>{t.role}</div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(212,169,106,0.25)", color: "#d4a96a" }} />
-            <CarouselNext style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(212,169,106,0.25)", color: "#d4a96a" }} />
-          </Carousel>
-        </div>
-      </section>
-
-      {/* PRICING */}
-      <section style={{ padding: "100px 32px", background: "rgba(255,255,255,0.02)" }}>
-        <div style={{ maxWidth: 950, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 60 }}>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 300, color: "#f5f0e8" }}>Tarifs transparents</h2>
-            </div>
-          </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
-            {PRICING.map((plan, i) => (
-              <Reveal key={i} delay={i * 0.12}>
-                <motion.div whileHover={{ y: -6, boxShadow: plan.featured ? "0 20px 50px rgba(212,169,106,0.15)" : "0 8px 32px rgba(0,0,0,0.4)" }}
-                  style={{ borderRadius: 12, border: plan.featured ? "1px solid rgba(212,169,106,0.4)" : "1px solid rgba(255,255,255,0.06)", overflow: "hidden", cursor: "pointer", position: "relative" }}>
-                  {plan.featured && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "#d4a96a" }} />}
-                  <div style={{ padding: "28px 22px", background: plan.featured ? "rgba(212,169,106,0.04)" : "rgba(255,255,255,0.02)" }}>
-                    {plan.featured && <div style={{ display: "inline-block", background: "rgba(212,169,106,0.15)", color: "#d4a96a", fontSize: 10, letterSpacing: "0.12em", fontWeight: 700, padding: "3px 10px", borderRadius: 20, marginBottom: 12, fontFamily: "system-ui" }}>POPULAIRE</div>}
-                    <h3 style={{ fontSize: 20, fontWeight: 400, color: "#f5f0e8", marginBottom: 4 }}>{plan.name}</h3>
-                    <p style={{ fontSize: 13, color: "rgba(245,240,232,0.4)", fontFamily: "system-ui", marginBottom: 18 }}>{plan.desc}</p>
-                    <div style={{ marginBottom: 24 }}>
-                      {plan.unit && <span style={{ fontSize: 12, color: "rgba(245,240,232,0.4)", fontFamily: "system-ui" }}>{plan.unit} </span>}
-                      <span style={{ fontSize: plan.price === "Sur devis" ? 20 : 36, fontWeight: 300, color: "#d4a96a" }}>{plan.price}</span>
-                      {plan.price !== "Sur devis" && <span style={{ fontSize: 14, color: "rgba(245,240,232,0.4)", fontFamily: "system-ui" }}> €</span>}
-                    </div>
-                    <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
-                      {plan.features.map(f => (
-                        <li key={f} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 13, color: "rgba(245,240,232,0.6)", fontFamily: "system-ui" }}>
-                          <Check size={13} color="#d4a96a" style={{ marginTop: 2, flexShrink: 0 }} />{f}
-                        </li>
-                      ))}
-                    </ul>
-                    <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                      style={{ width: "100%", padding: "12px", background: plan.featured ? "#d4a96a" : "transparent", color: plan.featured ? "#0e0b08" : "#d4a96a", border: plan.featured ? "none" : "1px solid rgba(212,169,106,0.35)", borderRadius: 4, fontSize: 13, fontFamily: "system-ui", fontWeight: 700, cursor: "pointer" }}>
-                      RÉSERVER
-                    </motion.button>
-                  </div>
-                </motion.div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section id="contact" style={{ padding: "100px 32px" }}>
-        <div style={{ maxWidth: 780, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 48 }}>
-              <h2 style={{ fontSize: "clamp(26px, 4vw, 44px)", fontWeight: 300, color: "#f5f0e8" }}>Questions fréquentes</h2>
-            </div>
-          </Reveal>
-          <Accordion type="single" collapsible style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {FAQS.map((faq, i) => (
-              <AccordionItem key={i} value={`q${i}`} style={{ border: "1px solid rgba(212,169,106,0.1)", borderRadius: 8, overflow: "hidden", background: "rgba(255,255,255,0.02)" }}>
-                <AccordionTrigger style={{ padding: "18px 22px", fontSize: 15, fontWeight: 400, color: "#f5f0e8", textAlign: "left" }}>{faq.q}</AccordionTrigger>
-                <AccordionContent style={{ padding: "0 22px 18px", fontSize: 14, color: "rgba(245,240,232,0.55)", fontFamily: "system-ui", lineHeight: 1.8 }}>{faq.a}</AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section style={{ padding: "80px 32px", background: "linear-gradient(135deg, rgba(212,169,106,0.1) 0%, rgba(212,169,106,0.04) 100%)", borderTop: "1px solid rgba(212,169,106,0.15)" }}>
-        <div style={{ maxWidth: 640, margin: "0 auto", textAlign: "center" }}>
-          <Reveal>
-            <ChefHat size={40} color="#d4a96a" style={{ marginBottom: 24 }} />
-            <h2 style={{ fontSize: "clamp(26px, 4vw, 50px)", fontWeight: 300, color: "#f5f0e8", marginBottom: 16 }}>
-              Votre prochain repas sera <em style={{ color: "#d4a96a" }}>inoubliable</em>
-            </h2>
-            <p style={{ fontSize: 16, color: "rgba(245,240,232,0.55)", fontFamily: "system-ui", lineHeight: 1.7, marginBottom: 36 }}>
-              Devis gratuit sous 24h. Disponible 7j/7 en Île-de-France et sur destination.
-            </p>
-            <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(212,169,106,0.3)" }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "16px 40px", background: "#d4a96a", color: "#0e0b08", border: "none", borderRadius: 4, fontSize: 14, fontFamily: "system-ui", fontWeight: 700, letterSpacing: "0.06em", cursor: "pointer" }}>
-              DEMANDER UN DEVIS GRATUIT
-            </motion.button>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer style={{ padding: "48px 32px 32px", background: "#060402" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 40, marginBottom: 40 }}>
+      {/* ─── SAVOIR-FAIRE (SpotlightCards) ────────────────────────────────── */}
+      <section
+        id="savoir-faire"
+        style={{
+          background: C.bgAlt,
+          padding: "120px 60px",
+          borderTop: `1px solid ${C.border}`,
+          borderBottom: `1px solid ${C.border}`,
+        }}
+      >
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 80,
+              alignItems: "center",
+              marginBottom: 80,
+            }}
+          >
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-                <ChefHat size={18} color="#d4a96a" />
-                <span style={{ fontSize: 18, fontWeight: 400, color: "#d4a96a", letterSpacing: "0.1em" }}>Maison Saveur</span>
-              </div>
-              <p style={{ fontSize: 13, color: "rgba(245,240,232,0.35)", fontFamily: "system-ui", lineHeight: 1.8, maxWidth: 280 }}>Chef Antoine Lefèvre — Prestation culinaire à domicile. Paris & Île-de-France. SIRET 842 571 234 00018</p>
-            </div>
-            <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
-              {[
-                { title: "Services", links: ["Dîner intime", "Réception privée", "Brunch", "Chef à domicile"] },
-                { title: "Contact", links: ["Réserver", "Devis gratuit", "Camera", "Mentions légales"] },
-              ].map(col => (
-                <div key={col.title}>
-                  <h4 style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#d4a96a", marginBottom: 16, fontFamily: "system-ui" }}>{col.title.toUpperCase()}</h4>
-                  <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-                    {col.links.map(l => <li key={l}><a href="#" style={{ fontSize: 13, color: "rgba(245,240,232,0.35)", textDecoration: "none", fontFamily: "system-ui" }}>{l}</a></li>)}
-                  </ul>
+              <TextReveal>
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 10,
+                    marginBottom: 24,
+                  }}
+                >
+                  <div style={{ width: 32, height: 1, background: C.gold }} />
+                  <span
+                    style={{
+                      fontSize: 11,
+                      letterSpacing: "0.25em",
+                      textTransform: "uppercase" as const,
+                      color: C.gold,
+                      fontFamily: C.fontSans,
+                    }}
+                  >
+                    Savoir-faire
+                  </span>
                 </div>
-              ))}
+              </TextReveal>
+              <TextReveal delay={0.1}>
+                <h2
+                  style={{
+                    fontFamily: C.font,
+                    fontSize: "clamp(36px, 5vw, 64px)",
+                    fontWeight: 300,
+                    color: C.cream,
+                    lineHeight: 1.1,
+                  }}
+                >
+                  Ce qui rend chaque repas{" "}
+                  <em style={{ color: C.gold }}>unique.</em>
+                </h2>
+              </TextReveal>
+            </div>
+            <TextReveal delay={0.2}>
+              <p
+                style={{
+                  fontSize: 17,
+                  color: C.creamDim,
+                  lineHeight: 1.9,
+                  fontWeight: 300,
+                }}
+              >
+                Chez Maison Saveur, rien n&apos;est laissé au hasard. Du choix
+                des producteurs à la mise en place finale, chaque détail est
+                pensé pour que vous et vos convives viviez un moment
+                d&apos;exception.
+              </p>
+            </TextReveal>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: 20,
+            }}
+          >
+            {SAVOIR_FAIRE.map((sf, i) => (
+              <motion.div
+                key={sf.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ delay: i * 0.1, duration: 0.7 }}
+              >
+                <SpotlightCard
+                  accentRgb="201,168,85"
+                  style={{
+                    background: C.card,
+                    border: `1px solid ${C.border}`,
+                    borderRadius: 16,
+                    padding: "36px 28px",
+                    height: "100%",
+                    cursor: "default",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: 32,
+                      marginBottom: 24,
+                      lineHeight: 1,
+                    }}
+                  >
+                    {sf.icon}
+                  </div>
+                  <h3
+                    style={{
+                      fontFamily: C.font,
+                      fontSize: 22,
+                      fontWeight: 400,
+                      color: C.cream,
+                      marginBottom: 16,
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {sf.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontSize: 14,
+                      color: C.creamDim,
+                      fontFamily: C.fontSans,
+                      lineHeight: 1.8,
+                      fontWeight: 300,
+                    }}
+                  >
+                    {sf.desc}
+                  </p>
+                  <div
+                    style={{
+                      marginTop: 28,
+                      width: 32,
+                      height: 1,
+                      background: C.goldBorder,
+                    }}
+                  />
+                </SpotlightCard>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── TESTIMONIALS ─────────────────────────────────────────────────── */}
+      <section
+        id="avis"
+        style={{ padding: "120px 60px", maxWidth: 1280, margin: "0 auto" }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            marginBottom: 64,
+            flexWrap: "wrap" as const,
+            gap: 24,
+          }}
+        >
+          <div>
+            <TextReveal>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 10,
+                  marginBottom: 24,
+                }}
+              >
+                <div style={{ width: 32, height: 1, background: C.gold }} />
+                <span
+                  style={{
+                    fontSize: 11,
+                    letterSpacing: "0.25em",
+                    textTransform: "uppercase" as const,
+                    color: C.gold,
+                    fontFamily: C.fontSans,
+                  }}
+                >
+                  Témoignages
+                </span>
+              </div>
+            </TextReveal>
+            <TextReveal delay={0.1}>
+              <h2
+                style={{
+                  fontFamily: C.font,
+                  fontSize: "clamp(36px, 5vw, 64px)",
+                  fontWeight: 300,
+                  color: C.cream,
+                  lineHeight: 1.1,
+                }}
+              >
+                Ils ont dîné{" "}
+                <em style={{ color: C.gold }}>avec Antoine.</em>
+              </h2>
+            </TextReveal>
+          </div>
+          <TextReveal delay={0.2}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                padding: "16px 24px",
+                border: `1px solid ${C.border}`,
+                borderRadius: 50,
+              }}
+            >
+              <div style={{ display: "flex", gap: 2 }}>
+                {[0, 1, 2, 3, 4].map((s) => (
+                  <span key={s} style={{ fontSize: 14, color: C.gold }}>
+                    ★
+                  </span>
+                ))}
+              </div>
+              <span
+                style={{
+                  fontSize: 14,
+                  color: C.creamDim,
+                  fontFamily: C.fontSans,
+                }}
+              >
+                4.9 · 140 avis Google
+              </span>
+            </div>
+          </TextReveal>
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 20,
+            marginBottom: 16,
+          }}
+        >
+          {TESTIMONIALS.slice(0, 3).map((t, i) => (
+            <TestimonialCard
+              key={t.name}
+              t={t}
+              index={i}
+              active={activeTestimonial === i}
+              onSelect={setActiveTestimonial}
+            />
+          ))}
+        </div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gap: 20,
+            maxWidth: 760,
+          }}
+        >
+          {TESTIMONIALS.slice(3).map((t, i) => (
+            <TestimonialCard
+              key={t.name}
+              t={t}
+              index={i + 3}
+              active={activeTestimonial === i + 3}
+              onSelect={setActiveTestimonial}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* ─── CONTACT / BOOKING ───────────────────────────────────────────── */}
+      <section
+        id="contact"
+        style={{
+          background: C.bgAlt,
+          borderTop: `1px solid ${C.border}`,
+          padding: "120px 60px",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1280,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 100,
+          }}
+        >
+          {/* Left */}
+          <div>
+            <TextReveal>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 10,
+                  marginBottom: 24,
+                }}
+              >
+                <div style={{ width: 32, height: 1, background: C.gold }} />
+                <span
+                  style={{
+                    fontSize: 11,
+                    letterSpacing: "0.25em",
+                    textTransform: "uppercase" as const,
+                    color: C.gold,
+                    fontFamily: C.fontSans,
+                  }}
+                >
+                  Réservation
+                </span>
+              </div>
+            </TextReveal>
+            <TextReveal delay={0.1}>
+              <h2
+                style={{
+                  fontFamily: C.font,
+                  fontSize: "clamp(36px, 5vw, 60px)",
+                  fontWeight: 300,
+                  color: C.cream,
+                  lineHeight: 1.1,
+                  marginBottom: 32,
+                }}
+              >
+                Votre prochain repas sera{" "}
+                <em style={{ color: C.gold }}>inoubliable.</em>
+              </h2>
+            </TextReveal>
+            <TextReveal delay={0.2}>
+              <p
+                style={{
+                  fontSize: 16,
+                  color: C.creamDim,
+                  lineHeight: 1.9,
+                  marginBottom: 48,
+                  fontWeight: 300,
+                }}
+              >
+                Devis gratuit sous 24h. Disponible 7j/7 en Île-de-France et
+                sur destination. Réponse personnalisée garantie.
+              </p>
+            </TextReveal>
+            <TextReveal delay={0.3}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 20,
+                }}
+              >
+                {[
+                  { icon: "📍", label: "Zone d&apos;intervention", val: "Paris & Île-de-France · Sur demande ailleurs" },
+                  { icon: "🕐", label: "Délai de réservation", val: "3 jours minimum · 3–4 semaines pour grandes occasions" },
+                  { icon: "📞", label: "Contact direct", val: "+33 6 XX XX XX XX" },
+                  { icon: "✦", label: "Devis", val: "Gratuit · Réponse sous 24h · Sans engagement" },
+                ].map((info) => (
+                  <div
+                    key={info.label}
+                    style={{
+                      display: "flex",
+                      gap: 16,
+                      alignItems: "flex-start",
+                      padding: "16px 0",
+                      borderBottom: `1px solid ${C.border}`,
+                    }}
+                  >
+                    <span style={{ fontSize: 18, flexShrink: 0 }}>
+                      {info.icon}
+                    </span>
+                    <div>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          letterSpacing: "0.12em",
+                          color: C.creamMuted,
+                          fontFamily: C.fontSans,
+                          textTransform: "uppercase" as const,
+                          marginBottom: 4,
+                        }}
+                        dangerouslySetInnerHTML={{ __html: info.label }}
+                      />
+                      <div
+                        style={{
+                          fontSize: 14,
+                          color: C.cream,
+                          fontFamily: C.fontSans,
+                          fontWeight: 500,
+                        }}
+                        dangerouslySetInnerHTML={{ __html: info.val }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </TextReveal>
+          </div>
+
+          {/* Right — form */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.25, 0, 0, 1] }}
+          >
+            <div
+              style={{
+                border: `1px solid ${C.border}`,
+                borderRadius: 20,
+                padding: "48px",
+                background: C.card,
+              }}
+            >
+              <h3
+                style={{
+                  fontFamily: C.font,
+                  fontSize: 28,
+                  fontWeight: 300,
+                  fontStyle: "italic",
+                  color: C.cream,
+                  marginBottom: 32,
+                }}
+              >
+                Demander un devis
+              </h3>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 16,
+                }}
+              >
+                {FORM_FIELDS.map((field) => (
+                  <input
+                    key={field.placeholder}
+                    type={field.type}
+                    placeholder={field.placeholder}
+                    style={{
+                      padding: "16px 20px",
+                      background: "rgba(255,255,255,0.03)",
+                      border: `1px solid ${C.border}`,
+                      borderRadius: 8,
+                      color: C.cream,
+                      fontFamily: C.fontSans,
+                      fontSize: 14,
+                      outline: "none",
+                      transition: "border-color 0.2s",
+                      width: "100%",
+                      boxSizing: "border-box" as const,
+                    }}
+                    onFocus={(e) =>
+                      (e.currentTarget.style.borderColor = C.gold)
+                    }
+                    onBlur={(e) =>
+                      (e.currentTarget.style.borderColor = C.border)
+                    }
+                  />
+                ))}
+                <select
+                  style={{
+                    padding: "16px 20px",
+                    background: C.bgAlt,
+                    border: `1px solid ${C.border}`,
+                    borderRadius: 8,
+                    color: C.creamDim,
+                    fontFamily: C.fontSans,
+                    fontSize: 14,
+                    outline: "none",
+                    transition: "border-color 0.2s",
+                    width: "100%",
+                    boxSizing: "border-box" as const,
+                    cursor: "pointer",
+                  }}
+                  onFocus={(e) =>
+                    (e.currentTarget.style.borderColor = C.gold)
+                  }
+                  onBlur={(e) =>
+                    (e.currentTarget.style.borderColor = C.border)
+                  }
+                >
+                  <option value="">Type de prestation</option>
+                  <option>Dîner en amoureux</option>
+                  <option>Réception privée</option>
+                  <option>Brunch dominical</option>
+                  <option>Chef à domicile</option>
+                  <option>Événement professionnel</option>
+                </select>
+                <textarea
+                  placeholder="Nombre de convives, occasion, régimes alimentaires à prendre en compte..."
+                  rows={4}
+                  style={{
+                    padding: "16px 20px",
+                    background: "rgba(255,255,255,0.03)",
+                    border: `1px solid ${C.border}`,
+                    borderRadius: 8,
+                    color: C.cream,
+                    fontFamily: C.fontSans,
+                    fontSize: 14,
+                    outline: "none",
+                    transition: "border-color 0.2s",
+                    resize: "none" as const,
+                    width: "100%",
+                    boxSizing: "border-box" as const,
+                  }}
+                  onFocus={(e) =>
+                    (e.currentTarget.style.borderColor = C.gold)
+                  }
+                  onBlur={(e) =>
+                    (e.currentTarget.style.borderColor = C.border)
+                  }
+                />
+                <MagneticButton
+                  style={{
+                    width: "100%",
+                    padding: "18px",
+                    background: C.gold,
+                    color: C.bg,
+                    border: "none",
+                    borderRadius: 8,
+                    fontSize: 13,
+                    fontFamily: C.fontSans,
+                    fontWeight: 700,
+                    letterSpacing: "0.1em",
+                    cursor: "pointer",
+                    textTransform: "uppercase" as const,
+                  }}
+                >
+                  Envoyer ma demande
+                </MagneticButton>
+                <p
+                  style={{
+                    fontSize: 12,
+                    color: C.creamMuted,
+                    textAlign: "center",
+                    fontFamily: C.fontSans,
+                  }}
+                >
+                  Devis gratuit · Réponse sous 24h · Sans engagement
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ─── FOOTER ──────────────────────────────────────────────────────── */}
+      <footer
+        style={{
+          background: "#060402",
+          padding: "64px 60px 32px",
+          borderTop: `1px solid ${C.border}`,
+        }}
+      >
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "2fr 1fr 1fr 1fr",
+              gap: 60,
+              marginBottom: 64,
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  marginBottom: 20,
+                }}
+              >
+                <div
+                  style={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: "50%",
+                    border: `1px solid ${C.gold}`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 12,
+                  }}
+                >
+                  ✦
+                </div>
+                <span
+                  style={{
+                    fontFamily: C.font,
+                    fontSize: 18,
+                    color: C.cream,
+                    letterSpacing: "0.08em",
+                  }}
+                >
+                  Maison Saveur
+                </span>
+              </div>
+              <p
+                style={{
+                  fontSize: 13,
+                  color: C.creamMuted,
+                  fontFamily: C.fontSans,
+                  lineHeight: 1.9,
+                  maxWidth: 280,
+                  fontWeight: 300,
+                }}
+              >
+                Chef Antoine Lefèvre — Prestation culinaire à domicile. Paris
+                & Île-de-France. Disponible sur destination.
+              </p>
+              <div
+                style={{
+                  marginTop: 24,
+                  fontSize: 12,
+                  color: "rgba(250,248,244,0.2)",
+                  fontFamily: C.fontSans,
+                }}
+              >
+                SIRET 842 571 234 00018
+              </div>
+            </div>
+            {[
+              {
+                title: "Services",
+                links: [
+                  "Dîner en amoureux",
+                  "Réception privée",
+                  "Brunch dominical",
+                  "Chef à domicile",
+                ],
+              },
+              {
+                title: "Menus",
+                links: [
+                  "Menu Printemps",
+                  "Menu Été",
+                  "Menu Automne",
+                  "Menu Hiver",
+                ],
+              },
+              {
+                title: "Contact",
+                links: [
+                  "Demander un devis",
+                  "Disponibilités",
+                  "Zone d'intervention",
+                  "Mentions légales",
+                ],
+              },
+            ].map((col) => (
+              <div key={col.title}>
+                <div
+                  style={{
+                    fontSize: 10,
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase" as const,
+                    color: C.gold,
+                    fontFamily: C.fontSans,
+                    fontWeight: 600,
+                    marginBottom: 20,
+                  }}
+                >
+                  {col.title}
+                </div>
+                <ul
+                  style={{
+                    listStyle: "none",
+                    padding: 0,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 12,
+                  }}
+                >
+                  {col.links.map((l) => (
+                    <li key={l}>
+                      <a
+                        href="#"
+                        style={{
+                          fontSize: 13,
+                          color: C.creamMuted,
+                          textDecoration: "none",
+                          fontFamily: C.fontSans,
+                          transition: "color 0.2s",
+                          fontWeight: 300,
+                        }}
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.color = C.cream)
+                        }
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.color = C.creamMuted)
+                        }
+                      >
+                        {l}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div
+            style={{
+              borderTop: `1px solid ${C.border}`,
+              paddingTop: 24,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexWrap: "wrap" as const,
+              gap: 12,
+            }}
+          >
+            <p
+              style={{
+                fontSize: 12,
+                color: "rgba(250,248,244,0.2)",
+                fontFamily: C.fontSans,
+              }}
+            >
+              © 2025 Maison Saveur — Chef Antoine Lefèvre
+            </p>
+            <div style={{ display: "flex", gap: 24 }}>
+              {["Mentions légales", "Politique de confidentialité", "CGV"].map(
+                (l) => (
+                  <a
+                    key={l}
+                    href="#"
+                    style={{
+                      fontSize: 12,
+                      color: "rgba(250,248,244,0.2)",
+                      textDecoration: "none",
+                      fontFamily: C.fontSans,
+                    }}
+                  >
+                    {l}
+                  </a>
+                )
+              )}
             </div>
           </div>
-          <Separator style={{ background: "rgba(255,255,255,0.05)", marginBottom: 20 }} />
-          <p style={{ fontSize: 12, color: "rgba(245,240,232,0.2)", fontFamily: "system-ui", textAlign: "center" }}>© 2024 Maison Saveur — Chef Antoine Lefèvre</p>
         </div>
       </footer>
     </div>
-  )
+  );
 }

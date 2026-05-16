@@ -1,343 +1,510 @@
 "use client"
 
-import React, { useState, useRef } from "react"
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import React, { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
+import { Menu, X, ArrowRight, Check, Star, Zap, Shield, BarChart2, Bell, MessageSquare, Users, Smartphone, Apple, Play, ChevronRight } from "lucide-react"
 
-// PULSE APP — Mobile SaaS productivity. Light mode, violet accent, split hero with phone mockup, scale scroll on UI preview.
+function useFonts() {
+  useEffect(() => {
+    const id = "fonts-pulse-app"
+    if (document.getElementById(id)) return
+    const s = document.createElement("style")
+    s.id = id
+    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');`
+    document.head.appendChild(s)
+  }, [])
+}
 
-const FEATURES_TABS = [
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  )
+}
+
+const FEATURES = [
   {
-    label: "Focus Mode",
-    headline: "Éliminez les distractions, pas votre élan.",
-    body: "Un seul objectif à l'écran. Timer Pomodoro intégré. Notifications bloquées automatiquement pendant vos sessions.",
-    points: ["Deep Work Timer", "Blocage apps distrayantes", "Rapport de concentration quotidien"],
+    id: "analytics",
+    icon: BarChart2,
+    label: "Analytics temps réel",
+    title: "Toutes vos métriques en un coup d'œil",
+    desc: "Dashboards interactifs, graphiques de tendances, rapports automatiques. Visualisez vos KPIs clés sans quitter l'app.",
+    bullets: ["Graphiques live actualisés toutes les 30s", "Alertes automatiques sur seuils", "Export PDF/CSV en un tap"],
   },
   {
-    label: "Équipe",
-    headline: "Synchronisez sans réunions inutiles.",
-    body: "Statuts asynchrones, check-ins automatiques et tableau de bord partagé pour garder tout le monde aligné sans Slack frénétique.",
-    points: ["Check-ins asynchrones", "Objectifs d'équipe partagés", "Dashboard en temps réel"],
+    id: "notifications",
+    icon: Bell,
+    label: "Notifications intelligentes",
+    title: "Les bonnes alertes au bon moment",
+    desc: "Notre moteur IA filtre le bruit et vous envoie uniquement les notifications qui comptent pour votre activité.",
+    bullets: ["Regroupement intelligent par priorité", "Mode focus sans distraction", "Résumé quotidien à 8h"],
   },
   {
-    label: "Analytics",
-    headline: "Comprenez où va votre temps.",
-    body: "Rapports hebdomadaires automatiques, patterns de productivité et suggestions personnalisées basées sur vos habitudes réelles.",
-    points: ["Graphiques hebdomadaires", "Score de productivité", "Recommandations IA"],
+    id: "team",
+    icon: Users,
+    label: "Collaboration",
+    title: "Votre équipe toujours alignée",
+    desc: "Partagez des vues, assignez des tâches, commentez en contexte. La collaboration native sans jongler entre les apps.",
+    bullets: ["Espaces de travail partagés", "Mentions et threads contextuels", "Historique complet des actions"],
+  },
+  {
+    id: "security",
+    icon: Shield,
+    label: "Sécurité",
+    title: "Données chiffrées, conformité garantie",
+    desc: "Chiffrement AES-256, authentification biométrique, conformité RGPD. Vos données restent les vôtres.",
+    bullets: ["Chiffrement bout-en-bout", "SSO et 2FA obligatoires", "SOC2 Type II certifié"],
+  },
+]
+
+const PRICING = [
+  {
+    name: "Starter",
+    price: "0",
+    desc: "Pour tester sans limite de temps",
+    features: ["Jusqu'à 3 utilisateurs", "5 projets actifs", "Analytics 30 jours", "Support communauté"],
+    cta: "Commencer gratuitement",
+    highlight: false,
+  },
+  {
+    name: "Growth",
+    price: "29",
+    desc: "Pour les équipes en pleine expansion",
+    features: ["Jusqu'à 25 utilisateurs", "Projets illimités", "Analytics 12 mois", "Notifications IA", "Support prioritaire"],
+    cta: "Essai gratuit 14 jours",
+    highlight: true,
+  },
+  {
+    name: "Scale",
+    price: "89",
+    desc: "Pour les organisations ambitieuses",
+    features: ["Utilisateurs illimités", "Tout Growth inclus", "SSO & SAML", "API complète", "SLA 99.9%", "CSM dédié"],
+    cta: "Contacter les ventes",
+    highlight: false,
   },
 ]
 
 const TESTIMONIALS = [
-  { quote: "J'ai récupéré 2h par jour. Littéralement. Pulse m'a rendu compte que je perdais mes matinées sur Slack.", name: "Antoine D.", role: "Product Manager, Scale-up Paris" },
-  { quote: "Notre équipe de 12 a arrêté les daily standups. Les check-ins asynchrones font le travail en 3 min.", name: "Marianne L.", role: "CTO, Remote-first startup" },
-  { quote: "Le Focus Mode seul vaut l'abonnement. Je n'avais pas écrit autant de code en une journée depuis 3 ans.", name: "Sébastien R.", role: "Fullstack Developer, Freelance" },
+  { name: "Mathieu Garnier", role: "CEO — Flowly", text: "En 3 semaines, Pulse a remplacé 4 outils différents. Notre équipe gagne 2h par jour.", rating: 5, avatar: "MG" },
+  { name: "Laura Bertrand", role: "Head of Ops — Nimble", text: "Les analytics temps réel ont transformé notre façon de prendre des décisions. On voit tout, instantanément.", rating: 5, avatar: "LB" },
+  { name: "Antoine Perrin", role: "CTO — DataBrick", text: "L'API est propre, la doc est excellente, l'intégration nous a pris 2 jours. Rare pour ce type d'outil.", rating: 5, avatar: "AP" },
+  { name: "Camille Dumont", role: "Product — Kynda", text: "La collaboration contextuelle est une révélation. Fini les mails, fini les Slack perdus.", rating: 5, avatar: "CD" },
 ]
 
-const PLANS = [
-  { name: "Solo", price: "0 €", note: "pour toujours", features: ["1 utilisateur", "Focus Mode basique", "7 jours d'historique", "App mobile iOS + Android"] },
-  { name: "Pro", price: "12 €", note: "/mois par utilisateur", features: ["Tout Solo inclus", "Analytics avancées", "Blocage apps personnalisé", "Intégrations (Notion, Linear, Jira)", "Support prioritaire"], highlight: true },
-  { name: "Équipe", price: "9 €", note: "/mois par utilisateur · min 5", features: ["Tout Pro inclus", "Dashboard équipe", "Check-ins asynchrones", "Rapports managers", "SSO + Administration"] },
-]
+export default function PulseAppPage() {
+  useFonts()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [activeFeature, setActiveFeature] = useState(0)
+  const [billingAnnual, setBillingAnnual] = useState(true)
+  const { scrollYProgress } = useScroll()
 
-const FAQS = [
-  { q: "Y a-t-il une version gratuite ?", a: "Oui — Pulse Solo est gratuit à vie pour un utilisateur. Aucune carte de crédit requise pour commencer." },
-  { q: "Fonctionne-t-il sur Android et iOS ?", a: "Oui. Applications natives iOS 16+ et Android 12+. L'extension Chrome est incluse dans Pro." },
-  { q: "Puis-je annuler à tout moment ?", a: "Oui. Pas d'engagement minimum sur le plan mensuel. Pro annuel économise 20%." },
-  { q: "Comment fonctionne le blocage d'applications ?", a: "Via l'extension Chrome + les permissions Focus sur mobile. Vous choisissez quelles apps bloquer pendant vos sessions." },
-  { q: "Mes données sont-elles privées ?", a: "Vos données ne sont jamais vendues. Stockage EU (RGPD), chiffrement AES-256, export JSON à tout moment." },
-]
+  const phoneRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress: phoneScroll } = useScroll({ target: phoneRef, offset: ["start end", "end start"] })
+  const phoneScale = useTransform(phoneScroll, [0, 0.5], [0.85, 1])
+  const phoneY = useTransform(phoneScroll, [0, 1], ["60px", "-60px"])
 
-export default function Page() {
-  const [activeTab, setActiveTab] = useState(0)
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
-  const { scrollY } = useScroll()
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
-  const phoneScale = useTransform(scrollY, [0, 600], [1, 0.88])
-  const phoneY = useTransform(scrollY, [0, 600], [0, 40])
-
-  const featRef = useRef(null)
-  const pricingRef = useRef(null)
-  const featInView = useInView(featRef, { once: true, margin: "-100px" })
-  const pricingInView = useInView(pricingRef, { once: true, margin: "-100px" })
-
-  const C = {
-    bg: "#f8f7ff",
-    dark: "#0f0a2e",
-    violet: "#6d28d9",
-    violet2: "#a78bfa",
-    muted: "#6b7280",
-    card: "#ffffff",
-    border: "#e5e7eb",
-    mono: "'JetBrains Mono', monospace",
-    sans: "system-ui, -apple-system, sans-serif",
-  }
-
-  const STATS = [
-    { val: "47K+", label: "Utilisateurs actifs" },
-    { val: "2.1h", label: "Économisées/jour en moy." },
-    { val: "98%", label: "Satisfaction client" },
-    { val: "4.9", label: "Note App Store" },
-  ]
+  const ActiveIcon = FEATURES[activeFeature].icon
 
   return (
-    <div style={{ background: C.bg, color: C.dark, fontFamily: C.sans, overflowX: "hidden" }}>
-      {/* NAV — floating pill */}
-      <nav style={{
-        position: "fixed", top: 20, left: "50%", transform: "translateX(-50%)", zIndex: 100,
-        background: "rgba(255,255,255,0.9)", backdropFilter: "blur(16px)",
-        border: `1px solid ${C.border}`,
-        borderRadius: 50, padding: "12px 32px",
-        display: "flex", alignItems: "center", gap: 40,
-        boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
-        whiteSpace: "nowrap",
-      }}>
-        <span style={{ fontWeight: 800, fontSize: 16, color: C.violet, letterSpacing: -0.5 }}>Pulse</span>
-        <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
-          {["Fonctionnalités", "Tarifs", "Blog"].map(l => (
-            <a key={l} href="#" style={{ fontSize: 14, color: C.muted, textDecoration: "none", fontWeight: 500 }}>{l}</a>
-          ))}
-        </div>
-        <motion.button whileHover={{ background: C.violet, color: "#fff" }} whileTap={{ scale: 0.96 }}
-          style={{ padding: "8px 20px", background: C.violet, color: "#fff", border: "none", borderRadius: 50, fontSize: 14, fontWeight: 600, cursor: "pointer", transition: "all 0.2s" }}>
-          Essayer gratuitement
-        </motion.button>
-      </nav>
+    <div className="min-h-screen bg-[#F8F7FF] text-[#0F0B2D]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <motion.div className="fixed top-0 left-0 h-[3px] bg-[#6366F1] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
-      {/* HERO — left text + right floating phone */}
-      <section style={{ minHeight: "100vh", display: "grid", gridTemplateColumns: "1fr 1fr", alignItems: "center", maxWidth: 1280, margin: "0 auto", padding: "120px 60px 80px", gap: 80 }}>
-        <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#ede9fe", color: C.violet, padding: "6px 16px", borderRadius: 50, fontSize: 12, fontWeight: 600, marginBottom: 32, letterSpacing: 1 }}>
-            v2.4 — Maintenant avec Focus IA
-          </div>
-          <h1 style={{ fontSize: "clamp(44px, 5.5vw, 76px)", fontWeight: 900, letterSpacing: "-2px", lineHeight: 1.05, marginBottom: 24, color: C.dark }}>
-            Travaillez moins.<br />
-            <span style={{ color: C.violet }}>Accomplissez plus.</span>
-          </h1>
-          <p style={{ fontSize: 18, color: C.muted, lineHeight: 1.7, marginBottom: 48, maxWidth: 460 }}>
-            Pulse est l'app de productivité qui comprend comment votre cerveau fonctionne réellement — pas comment vous pensez qu'il fonctionne.
-          </p>
-          <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
-            <motion.button whileHover={{ background: "#5b21b6" }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "16px 36px", background: C.violet, color: "#fff", border: "none", borderRadius: 50, fontSize: 16, fontWeight: 700, cursor: "pointer", transition: "background 0.2s" }}>
-              Démarrer gratuitement
-            </motion.button>
-            <motion.button whileHover={{ borderColor: C.violet, color: C.violet }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "16px 36px", background: "transparent", color: C.dark, border: `2px solid ${C.border}`, borderRadius: 50, fontSize: 16, fontWeight: 600, cursor: "pointer", transition: "all 0.2s" }}>
-              Voir la démo →
-            </motion.button>
-          </div>
-          <div style={{ display: "flex", gap: 32, marginTop: 48 }}>
-            {["App Store 4.9", "RGPD", "No credit card"].map(t => (
-              <div key={t} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: C.muted, fontWeight: 500 }}>
-                <div style={{ width: 6, height: 6, background: "#10b981", borderRadius: "50%" }} />
-                {t}
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Phone mockup */}
-        <motion.div style={{ scale: phoneScale, y: phoneY, display: "flex", justifyContent: "center" }}
-          initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2 }}>
-          <div style={{
-            width: 300, height: 600,
-            background: C.dark,
-            borderRadius: 44,
-            border: "8px solid #1a1040",
-            boxShadow: "0 40px 80px rgba(109,40,217,0.25), 0 0 0 1px rgba(255,255,255,0.05)",
-            overflow: "hidden",
-            position: "relative",
-          }}>
-            {/* Status bar */}
-            <div style={{ height: 40, background: "#1a1040", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 20px", fontSize: 11, color: "#fff", fontFamily: C.mono }}>
-              <span>9:41</span><span>●●●●</span>
+      {/* Nav */}
+      <motion.nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#F8F7FF]/95 backdrop-blur-md shadow-sm" : "bg-transparent"}`}
+        initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-[#6366F1] rounded-lg flex items-center justify-center">
+              <Zap className="w-4 h-4 text-white" />
             </div>
-            {/* App content */}
-            <div style={{ padding: 20, background: "#13102a" }}>
-              <div style={{ fontSize: 12, color: C.violet2, fontFamily: C.mono, marginBottom: 4 }}>Focus Session</div>
-              <div style={{ fontSize: 32, fontWeight: 900, color: "#fff", letterSpacing: -1, marginBottom: 16 }}>25:00</div>
-              <div style={{ height: 4, background: "#2d2a4a", borderRadius: 2, marginBottom: 20 }}>
-                <motion.div animate={{ width: ["0%", "68%"] }} transition={{ duration: 2, delay: 0.8 }}
-                  style={{ height: "100%", background: `linear-gradient(90deg, ${C.violet}, ${C.violet2})`, borderRadius: 2 }} />
+            <span className="text-lg font-700 font-bold">Pulse</span>
+          </div>
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-[#4B4570]">
+            {["Fonctionnalités", "Tarifs", "Blog", "Docs"].map(l => (
+              <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#6366F1] transition-colors duration-200">{l}</Link>
+            ))}
+            <Link href="#" className="text-[#6366F1] hover:text-[#4F46E5] transition-colors">Se connecter</Link>
+            <Link href="#tarifs" className="px-5 py-2.5 bg-[#6366F1] text-white text-sm font-semibold rounded-xl hover:bg-[#4F46E5] transition-colors cursor-pointer">
+              Essai gratuit
+            </Link>
+          </div>
+          <button className="md:hidden p-2 cursor-pointer" onClick={() => setMenuOpen(true)} aria-label="Menu">
+            <Menu className="w-5 h-5" />
+          </button>
+        </div>
+      </motion.nav>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div className="fixed inset-0 z-[200] bg-[#F8F7FF] flex flex-col"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#E8E5FF]">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-[#6366F1] rounded-lg flex items-center justify-center"><Zap className="w-4 h-4 text-white" /></div>
+                <span className="text-lg font-bold">Pulse</span>
               </div>
-              {["Finaliser rapport Q2", "Revue code PR #47", "Email équipe"].map((task, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 0", borderBottom: "1px solid #2d2a4a" }}>
-                  <div style={{ width: 16, height: 16, borderRadius: 4, border: i === 0 ? "none" : "2px solid #4a4670", background: i === 0 ? C.violet : "transparent", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "#fff" }}>
-                    {i === 0 && "✓"}
-                  </div>
-                  <span style={{ fontSize: 12, color: i === 0 ? "#6b7280" : "#c4b5fd", textDecoration: i === 0 ? "line-through" : "none" }}>{task}</span>
-                </div>
+              <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
+            </div>
+            <div className="flex flex-col gap-6 p-8">
+              {["Fonctionnalités", "Tarifs", "Blog", "Docs"].map((l, i) => (
+                <motion.div key={l} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}>
+                  <Link href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)} className="text-2xl font-semibold hover:text-[#6366F1] transition-colors cursor-pointer">{l}</Link>
+                </motion.div>
               ))}
-              <motion.div animate={{ scale: [1, 1.02, 1] }} transition={{ repeat: Infinity, duration: 2.5 }}
-                style={{ marginTop: 20, padding: "14px", background: C.violet, borderRadius: 12, textAlign: "center", fontSize: 13, fontWeight: 700, color: "#fff", cursor: "pointer" }}>
-                En session — 42 min restantes
-              </motion.div>
+              <Link href="#tarifs" className="mt-4 w-full py-4 bg-[#6366F1] text-white text-center font-semibold rounded-xl cursor-pointer">Essai gratuit 14 jours</Link>
             </div>
-          </div>
-        </motion.div>
-      </section>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* STATS */}
-      <section style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, background: C.card }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
-          {STATS.map((s, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-              style={{ padding: "48px 40px", borderRight: i < 3 ? `1px solid ${C.border}` : undefined, textAlign: "center" }}>
-              <div style={{ fontSize: 44, fontWeight: 900, color: C.violet, letterSpacing: -1 }}>{s.val}</div>
-              <div style={{ fontSize: 13, color: C.muted, marginTop: 8, fontWeight: 500 }}>{s.label}</div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* FEATURES — tabs */}
-      <section ref={featRef} style={{ maxWidth: 1280, margin: "0 auto", padding: "120px 60px" }}>
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={featInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }}>
-          <div style={{ textAlign: "center", marginBottom: 60 }}>
-            <div style={{ display: "inline-block", background: "#ede9fe", color: C.violet, padding: "6px 18px", borderRadius: 50, fontSize: 12, fontWeight: 600, marginBottom: 20 }}>Fonctionnalités</div>
-            <h2 style={{ fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 900, letterSpacing: -1.5, color: C.dark }}>Tout ce dont vous avez besoin.</h2>
-          </div>
-          {/* Tab buttons */}
-          <div style={{ display: "flex", gap: 8, justifyContent: "center", marginBottom: 60, background: "#f3f4f6", borderRadius: 50, padding: 6, width: "fit-content", margin: "0 auto 60px" }}>
-            {FEATURES_TABS.map((t, i) => (
-              <motion.button key={i} onClick={() => setActiveTab(i)}
-                style={{ padding: "10px 28px", borderRadius: 50, border: "none", fontWeight: 600, fontSize: 14, cursor: "pointer", transition: "all 0.2s", background: activeTab === i ? C.violet : "transparent", color: activeTab === i ? "#fff" : C.muted }}>
-                {t.label}
-              </motion.button>
-            ))}
-          </div>
-          <AnimatePresence mode="wait">
-            <motion.div key={activeTab} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}
-              style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
-              <div>
-                <h3 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, letterSpacing: -1, lineHeight: 1.2, marginBottom: 20, color: C.dark }}>
-                  {FEATURES_TABS[activeTab].headline}
-                </h3>
-                <p style={{ fontSize: 17, color: C.muted, lineHeight: 1.75, marginBottom: 36 }}>{FEATURES_TABS[activeTab].body}</p>
-                <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                  {FEATURES_TABS[activeTab].points.map((pt, j) => (
-                    <div key={j} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                      <div style={{ width: 20, height: 20, background: "#ede9fe", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: C.violet, fontWeight: 700 }}>✓</div>
-                      <span style={{ fontSize: 15, color: C.dark, fontWeight: 500 }}>{pt}</span>
-                    </div>
+      {/* Hero */}
+      <section className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <Reveal>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#EEF2FF] rounded-full text-[#6366F1] text-sm font-semibold mb-8">
+                <Zap className="w-3.5 h-3.5" />
+                Nouveau — Analytics IA en bêta
+              </div>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight mb-6">
+                L&apos;app qui fait<br />travailler votre<br /><span className="text-[#6366F1]">équipe mieux</span>
+              </h1>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <p className="text-lg text-[#4B4570] leading-relaxed mb-8 max-w-lg">
+                Analytics temps réel, notifications intelligentes, collaboration native. Pulse connecte votre équipe et vos données dans une seule application mobile.
+              </p>
+            </Reveal>
+            <Reveal delay={0.3}>
+              <div className="flex flex-col sm:flex-row gap-4 mb-12">
+                <Link href="#tarifs" className="flex items-center justify-center gap-2 px-7 py-4 bg-[#6366F1] text-white font-semibold rounded-xl hover:bg-[#4F46E5] transition-colors cursor-pointer">
+                  Démarrer gratuitement <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link href="#fonctionnalités" className="flex items-center justify-center gap-2 px-7 py-4 bg-white text-[#0F0B2D] font-semibold rounded-xl border border-[#E8E5FF] hover:border-[#6366F1] transition-colors cursor-pointer">
+                  <Play className="w-4 h-4 text-[#6366F1]" /> Voir la démo
+                </Link>
+              </div>
+            </Reveal>
+            <Reveal delay={0.4}>
+              <div className="flex items-center gap-6">
+                <div className="flex -space-x-2">
+                  {["MG", "LB", "AP", "CD"].map(av => (
+                    <div key={av} className="w-9 h-9 rounded-full bg-[#6366F1] border-2 border-[#F8F7FF] flex items-center justify-center text-xs text-white font-semibold">{av}</div>
                   ))}
                 </div>
-              </div>
-              <div style={{ background: C.dark, borderRadius: 24, padding: 40, minHeight: 280, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <div style={{ textAlign: "center", color: C.violet2, fontFamily: C.mono, fontSize: 13 }}>
-                  [Aperçu {FEATURES_TABS[activeTab].label}]
+                <div>
+                  <div className="flex items-center gap-1">
+                    {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]" />)}
+                    <span className="text-sm font-semibold ml-1">4.9</span>
+                  </div>
+                  <p className="text-xs text-[#4B4570]">+2 400 équipes actives</p>
                 </div>
               </div>
-            </motion.div>
-          </AnimatePresence>
-        </motion.div>
-      </section>
+            </Reveal>
+          </div>
 
-      {/* TESTIMONIALS */}
-      <section style={{ background: C.dark, padding: "100px 60px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <h2 style={{ fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 900, letterSpacing: -1.5, color: "#fff", textAlign: "center", marginBottom: 64 }}>
-            Ils ont repris le contrôle.
-          </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32 }}>
-            {TESTIMONIALS.map((t, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ delay: i * 0.15 }}
-                style={{ background: "#1a1040", borderRadius: 20, padding: 36, border: "1px solid #2d2a4a" }}>
-                <div style={{ fontSize: 32, color: C.violet, fontWeight: 900, marginBottom: 16 }}>"</div>
-                <p style={{ fontSize: 15, color: "#c4b5fd", lineHeight: 1.75, marginBottom: 28 }}>{t.quote}</p>
-                <div style={{ fontSize: 13, color: "#6b7280", fontWeight: 500 }}>— {t.name}<br /><span style={{ color: "#4a4670" }}>{t.role}</span></div>
+          {/* Phone mockup */}
+          <div ref={phoneRef} className="relative flex justify-center">
+            <motion.div className="relative" style={{ scale: phoneScale, y: phoneY }}>
+              <div className="relative w-[300px] md:w-[340px] bg-[#0F0B2D] rounded-[48px] p-3 shadow-2xl">
+                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-5 bg-[#1a1740] rounded-full z-10" />
+                <div className="bg-[#1a1740] rounded-[40px] overflow-hidden" style={{ aspectRatio: "9/19.5" }}>
+                  {/* App screen */}
+                  <div className="p-5 pt-10">
+                    <div className="flex items-center justify-between mb-6">
+                      <div>
+                        <p className="text-xs text-[#8B87B0]">Bonjour, Mathieu</p>
+                        <p className="text-white font-semibold">Tableau de bord</p>
+                      </div>
+                      <div className="w-8 h-8 bg-[#6366F1] rounded-full flex items-center justify-center">
+                        <Bell className="w-4 h-4 text-white" />
+                      </div>
+                    </div>
+                    {/* Metric cards */}
+                    <div className="grid grid-cols-2 gap-3 mb-5">
+                      {[["Revenus", "€48.2k", "+12.4%", true], ["Utilisateurs", "2,847", "+8.1%", false]].map(([label, val, change, green]) => (
+                        <div key={label as string} className="bg-[#252150] rounded-2xl p-3">
+                          <p className="text-[10px] text-[#8B87B0] mb-1">{label as string}</p>
+                          <p className="text-white text-base font-bold mb-1">{val as string}</p>
+                          <span className={`text-[10px] font-semibold ${green ? "text-[#22C55E]" : "text-[#6366F1]"}`}>{change as string}</span>
+                        </div>
+                      ))}
+                    </div>
+                    {/* Mini chart */}
+                    <div className="bg-[#252150] rounded-2xl p-4 mb-4">
+                      <p className="text-[11px] text-[#8B87B0] mb-3">Activité 7 jours</p>
+                      <div className="flex items-end gap-1.5 h-16">
+                        {[40, 65, 45, 80, 70, 90, 75].map((h, i) => (
+                          <div key={i} className="flex-1 rounded-t-sm" style={{ height: `${h}%`, background: i === 5 ? "#6366F1" : "#3D3770" }} />
+                        ))}
+                      </div>
+                    </div>
+                    {/* Notifications */}
+                    <div className="space-y-2">
+                      {["Rapport hebdomadaire prêt", "3 tâches en retard", "Objectif atteint — 🎯"].map(notif => (
+                        <div key={notif} className="bg-[#252150] rounded-xl p-3 flex items-center gap-3">
+                          <div className="w-2 h-2 rounded-full bg-[#6366F1] flex-shrink-0" />
+                          <span className="text-[11px] text-[#C8C4E8]">{notif}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Floating badges */}
+              <motion.div className="absolute -left-12 top-1/4 bg-white rounded-2xl shadow-xl p-3 flex items-center gap-2.5"
+                animate={{ y: [0, -6, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}>
+                <div className="w-8 h-8 bg-[#EEF2FF] rounded-xl flex items-center justify-center"><BarChart2 className="w-4 h-4 text-[#6366F1]" /></div>
+                <div><p className="text-[10px] text-gray-500">Conversion</p><p className="text-sm font-bold">+23.6%</p></div>
               </motion.div>
+              <motion.div className="absolute -right-10 bottom-1/3 bg-white rounded-2xl shadow-xl p-3 flex items-center gap-2.5"
+                animate={{ y: [0, 6, 0] }} transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}>
+                <div className="w-8 h-8 bg-[#F0FDF4] rounded-xl flex items-center justify-center"><Check className="w-4 h-4 text-[#22C55E]" /></div>
+                <div><p className="text-[10px] text-gray-500">Uptime</p><p className="text-sm font-bold">99.97%</p></div>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Social proof logos */}
+        <div className="mt-20 pt-10 border-t border-[#E8E5FF]">
+          <p className="text-xs tracking-widest uppercase text-[#8B87B0] text-center mb-8">Ils utilisent Pulse</p>
+          <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16 opacity-40">
+            {["Flowly", "Nimble", "DataBrick", "Kynda", "Axiom", "Serenity"].map(brand => (
+              <span key={brand} className="text-sm font-bold tracking-wide">{brand}</span>
             ))}
           </div>
         </div>
       </section>
 
-      {/* PRICING */}
-      <section ref={pricingRef} style={{ maxWidth: 1280, margin: "0 auto", padding: "120px 60px" }}>
-        <div style={{ textAlign: "center", marginBottom: 64 }}>
-          <h2 style={{ fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 900, letterSpacing: -1.5, color: C.dark, marginBottom: 16 }}>
-            Simple. Transparent. Juste.
-          </h2>
-          <p style={{ fontSize: 18, color: C.muted }}>Commencez gratuitement. Scalez quand vous êtes prêt.</p>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
-          {PLANS.map((p, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 40 }} animate={pricingInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.15 }}
-              style={{ background: p.highlight ? C.violet : C.card, borderRadius: 24, padding: 40, border: p.highlight ? "none" : `1px solid ${C.border}`, boxShadow: p.highlight ? "0 20px 60px rgba(109,40,217,0.3)" : "none", transform: p.highlight ? "scale(1.04)" : "none" }}>
-              <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: 2, color: p.highlight ? "rgba(255,255,255,0.7)" : C.muted, textTransform: "uppercase", marginBottom: 16 }}>{p.name}</div>
-              <div style={{ fontSize: 48, fontWeight: 900, color: p.highlight ? "#fff" : C.dark, letterSpacing: -2, lineHeight: 1 }}>{p.price}</div>
-              <div style={{ fontSize: 13, color: p.highlight ? "rgba(255,255,255,0.6)" : C.muted, marginBottom: 36, marginTop: 6 }}>{p.note}</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 36 }}>
-                {p.features.map((f, j) => (
-                  <div key={j} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, color: p.highlight ? "rgba(255,255,255,0.9)" : C.dark }}>
-                    <span style={{ color: p.highlight ? "#c4b5fd" : C.violet, fontWeight: 700 }}>✓</span> {f}
-                  </div>
-                ))}
-              </div>
-              <motion.button whileHover={{ opacity: 0.9 }} whileTap={{ scale: 0.97 }}
-                style={{ width: "100%", padding: "14px", background: p.highlight ? "#fff" : C.violet, color: p.highlight ? C.violet : "#fff", border: "none", borderRadius: 50, fontWeight: 700, fontSize: 15, cursor: "pointer" }}>
-                {p.price === "0 €" ? "Créer un compte" : "Commencer"}
-              </motion.button>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section style={{ maxWidth: 800, margin: "0 auto", padding: "0 60px 120px" }}>
-        <h2 style={{ fontSize: 40, fontWeight: 900, letterSpacing: -1.5, color: C.dark, marginBottom: 48, textAlign: "center" }}>Questions fréquentes</h2>
-        {FAQS.map((f, i) => (
-          <div key={i} style={{ borderBottom: `1px solid ${C.border}` }}>
-            <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
-              style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "22px 0", background: "none", border: "none", color: C.dark, cursor: "pointer", textAlign: "left", fontSize: 16, fontWeight: 600 }}>
-              {f.q}
-              <motion.span animate={{ rotate: openFaq === i ? 45 : 0 }} style={{ fontSize: 22, color: C.violet, minWidth: 22 }}>+</motion.span>
-            </button>
-            <AnimatePresence>
-              {openFaq === i && (
-                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }}>
-                  <p style={{ paddingBottom: 22, fontSize: 15, color: C.muted, lineHeight: 1.75 }}>{f.a}</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+      {/* Features */}
+      <section id="fonctionnalités" className="py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="text-center mb-16">
+            <Reveal>
+              <p className="text-[#6366F1] font-semibold text-sm mb-3">Fonctionnalités</p>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Tout ce dont votre équipe a besoin</h2>
+              <p className="text-[#4B4570] text-lg max-w-2xl mx-auto">Une plateforme unifiée qui remplace votre stack d&apos;outils fragmentés.</p>
+            </Reveal>
           </div>
-        ))}
-      </section>
 
-      {/* CTA */}
-      <section style={{ background: C.violet, padding: "100px 60px", textAlign: "center" }}>
-        <h2 style={{ fontSize: "clamp(40px, 5vw, 72px)", fontWeight: 900, letterSpacing: -2, color: "#fff", marginBottom: 24 }}>
-          Prêt à reprendre le contrôle ?
-        </h2>
-        <p style={{ fontSize: 18, color: "rgba(255,255,255,0.7)", marginBottom: 48 }}>Rejoignez 47 000 professionnels qui ont repris 2 heures par jour.</p>
-        <motion.button whileHover={{ background: "#fff", color: C.violet }} whileTap={{ scale: 0.97 }}
-          style={{ padding: "18px 48px", background: C.dark, color: "#fff", border: "2px solid transparent", borderRadius: 50, fontSize: 17, fontWeight: 700, cursor: "pointer", transition: "all 0.2s" }}>
-          Commencer gratuitement — sans CB
-        </motion.button>
-      </section>
-
-      {/* FOOTER */}
-      <footer style={{ background: C.dark, padding: "60px 60px 40px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 60, marginBottom: 48 }}>
-          <div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: C.violet2, marginBottom: 16 }}>Pulse</div>
-            <div style={{ fontSize: 14, color: "#6b7280", lineHeight: 1.8 }}>L'application de productivité qui s'adapte à votre façon de travailler.</div>
-          </div>
-          {[
-            { title: "Produit", links: ["Fonctionnalités", "Tarifs", "Changelog", "Roadmap"] },
-            { title: "Entreprise", links: ["À propos", "Blog", "Presse", "Carrières"] },
-            { title: "Support", links: ["Documentation", "Status", "Contact", "RGPD"] },
-          ].map((col, i) => (
-            <div key={i}>
-              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, color: "#4b5563", textTransform: "uppercase", marginBottom: 16 }}>{col.title}</div>
-              {col.links.map(l => <div key={l} style={{ fontSize: 14, color: "#6b7280", marginBottom: 10 }}>{l}</div>)}
+          <div className="grid lg:grid-cols-5 gap-8 items-start">
+            <div className="lg:col-span-2 space-y-2">
+              {FEATURES.map((f, i) => {
+                const Icon = f.icon
+                return (
+                  <button key={f.id} onClick={() => setActiveFeature(i)} className={`w-full text-left p-5 rounded-2xl transition-all duration-300 cursor-pointer ${activeFeature === i ? "bg-[#6366F1] text-white shadow-lg shadow-indigo-200" : "bg-[#F8F7FF] hover:bg-[#EEF2FF] text-[#4B4570]"}`}>
+                    <div className="flex items-center gap-4">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${activeFeature === i ? "bg-white/20" : "bg-white"}`}>
+                        <Icon className={`w-5 h-5 ${activeFeature === i ? "text-white" : "text-[#6366F1]"}`} />
+                      </div>
+                      <span className="font-semibold">{f.label}</span>
+                    </div>
+                  </button>
+                )
+              })}
             </div>
-          ))}
+
+            <div className="lg:col-span-3">
+              <AnimatePresence mode="wait">
+                <motion.div key={activeFeature} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}
+                  className="bg-[#F8F7FF] rounded-3xl p-8 md:p-10">
+                  <div className="w-14 h-14 bg-[#EEF2FF] rounded-2xl flex items-center justify-center mb-6">
+                    <ActiveIcon className="w-7 h-7 text-[#6366F1]" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4">{FEATURES[activeFeature].title}</h3>
+                  <p className="text-[#4B4570] leading-relaxed mb-8">{FEATURES[activeFeature].desc}</p>
+                  <ul className="space-y-3">
+                    {FEATURES[activeFeature].bullets.map(b => (
+                      <li key={b} className="flex items-center gap-3 text-sm font-medium">
+                        <div className="w-5 h-5 rounded-full bg-[#6366F1] flex items-center justify-center flex-shrink-0">
+                          <Check className="w-3 h-3 text-white" />
+                        </div>
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
-        <div style={{ borderTop: "1px solid #1f2937", paddingTop: 24, fontSize: 13, color: "#374151", textAlign: "center" }}>
-          © 2025 Pulse App — Tous droits réservés
+      </section>
+
+      {/* Stats */}
+      <section className="py-20 bg-[#6366F1] text-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[["2 400+", "Équipes actives"], ["99.97%", "Uptime garanti"], ["4.9/5", "Note App Store"], ["2h/jour", "Temps économisé"]].map(([val, label]) => (
+              <Reveal key={label}>
+                <div className="text-4xl font-extrabold mb-2">{val}</div>
+                <div className="text-sm text-indigo-200">{label}</div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-28 bg-[#0F0B2D] text-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="text-center mb-16">
+            <Reveal>
+              <p className="text-[#6366F1] font-semibold text-sm mb-3">Témoignages</p>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">Ils en parlent mieux que nous</h2>
+            </Reveal>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {TESTIMONIALS.map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.08}>
+                <div className="bg-[#1a1740] rounded-2xl p-6 hover:bg-[#252150] transition-colors duration-300">
+                  <div className="flex items-center gap-1 mb-4">
+                    {[...Array(t.rating)].map((_, i) => <Star key={i} className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]" />)}
+                  </div>
+                  <p className="text-[#C8C4E8] text-sm leading-relaxed mb-6">&ldquo;{t.text}&rdquo;</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-[#6366F1] flex items-center justify-center text-xs font-bold">{t.avatar}</div>
+                    <div>
+                      <div className="font-semibold text-sm">{t.name}</div>
+                      <div className="text-xs text-[#8B87B0]">{t.role}</div>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="tarifs" className="py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="text-center mb-12">
+            <Reveal>
+              <p className="text-[#6366F1] font-semibold text-sm mb-3">Tarifs</p>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Simple, transparent, sans surprise</h2>
+              <div className="inline-flex items-center gap-3 bg-[#F8F7FF] rounded-full p-1.5">
+                <button onClick={() => setBillingAnnual(false)} className={`px-5 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer ${!billingAnnual ? "bg-white shadow text-[#0F0B2D]" : "text-[#4B4570]"}`}>Mensuel</button>
+                <button onClick={() => setBillingAnnual(true)} className={`px-5 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer ${billingAnnual ? "bg-white shadow text-[#0F0B2D]" : "text-[#4B4570]"}`}>
+                  Annuel <span className="text-[#6366F1] text-xs ml-1">-20%</span>
+                </button>
+              </div>
+            </Reveal>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {PRICING.map((plan, i) => {
+              const price = billingAnnual && plan.price !== "0" ? Math.round(parseInt(plan.price) * 0.8) : plan.price
+              return (
+                <Reveal key={plan.name} delay={i * 0.1}>
+                  <div className={`rounded-3xl p-8 relative ${plan.highlight ? "bg-[#6366F1] text-white shadow-2xl shadow-indigo-200 scale-105" : "bg-[#F8F7FF]"}`}>
+                    {plan.highlight && (
+                      <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#F59E0B] text-[#0F0B2D] text-xs font-bold px-4 py-1.5 rounded-full">
+                        Le plus populaire
+                      </div>
+                    )}
+                    <div className="mb-6">
+                      <div className={`text-sm font-semibold mb-1 ${plan.highlight ? "text-indigo-200" : "text-[#6366F1]"}`}>{plan.name}</div>
+                      <div className="text-4xl font-extrabold mb-1">
+                        {price === "0" ? "Gratuit" : `€${price}`}
+                        {price !== "0" && <span className={`text-base font-normal ml-1 ${plan.highlight ? "text-indigo-200" : "text-[#4B4570]"}`}>/mois</span>}
+                      </div>
+                      <p className={`text-sm ${plan.highlight ? "text-indigo-200" : "text-[#4B4570]"}`}>{plan.desc}</p>
+                    </div>
+                    <ul className="space-y-3 mb-8">
+                      {plan.features.map(f => (
+                        <li key={f} className="flex items-center gap-3 text-sm">
+                          <Check className={`w-4 h-4 flex-shrink-0 ${plan.highlight ? "text-white" : "text-[#6366F1]"}`} />
+                          <span className={plan.highlight ? "text-indigo-100" : "text-[#4B4570]"}>{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <button className={`w-full py-3.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${plan.highlight ? "bg-white text-[#6366F1] hover:bg-indigo-50" : "bg-[#6366F1] text-white hover:bg-[#4F46E5]"}`}>
+                      {plan.cta}
+                    </button>
+                  </div>
+                </Reveal>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* App Store CTA */}
+      <section className="py-24 bg-[#EEF2FF]">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <Reveal>
+            <Smartphone className="w-12 h-12 text-[#6366F1] mx-auto mb-6" />
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Téléchargez l&apos;app</h2>
+            <p className="text-[#4B4570] text-lg mb-10">Disponible sur iOS et Android. Synchronisez-vous avec votre équipe partout, à tout moment.</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link href="#" className="flex items-center gap-3 px-7 py-4 bg-[#0F0B2D] text-white rounded-xl hover:bg-[#1a1740] transition-colors cursor-pointer">
+                <Apple className="w-5 h-5" />
+                <div className="text-left"><div className="text-[10px] opacity-70">Télécharger sur l&apos;</div><div className="text-sm font-semibold">App Store</div></div>
+              </Link>
+              <Link href="#" className="flex items-center gap-3 px-7 py-4 bg-[#0F0B2D] text-white rounded-xl hover:bg-[#1a1740] transition-colors cursor-pointer">
+                <Play className="w-5 h-5" />
+                <div className="text-left"><div className="text-[10px] opacity-70">Disponible sur</div><div className="text-sm font-semibold">Google Play</div></div>
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-24 bg-[#6366F1] text-white text-center px-6">
+        <Reveal>
+          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Prêt à passer à Pulse ?</h2>
+          <p className="text-indigo-200 text-lg mb-10">14 jours gratuits. Pas de carte bancaire requise. Annulez à tout moment.</p>
+          <Link href="#tarifs" className="inline-flex items-center gap-2 px-10 py-5 bg-white text-[#6366F1] font-bold rounded-xl hover:bg-indigo-50 transition-colors cursor-pointer text-lg">
+            Commencer maintenant <ArrowRight className="w-5 h-5" />
+          </Link>
+        </Reveal>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-[#0F0B2D] text-[#8B87B0] py-16 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-5 gap-10 mb-12">
+            <div className="md:col-span-2">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 bg-[#6366F1] rounded-lg flex items-center justify-center"><Zap className="w-4 h-4 text-white" /></div>
+                <span className="text-white font-bold text-lg">Pulse</span>
+              </div>
+              <p className="text-sm leading-relaxed max-w-xs">La plateforme mobile qui connecte votre équipe, vos données et vos décisions.</p>
+            </div>
+            {[["Produit", ["Fonctionnalités", "Tarifs", "Changelog", "Roadmap"]], ["Ressources", ["Documentation", "API", "Blog", "Status"]], ["Société", ["À propos", "Carrières", "Presse", "Contact"]]].map(([title, links]) => (
+              <div key={title as string}>
+                <p className="text-white font-semibold text-sm mb-4">{title as string}</p>
+                {(links as string[]).map(l => <Link key={l} href="#" className="block text-sm hover:text-white mb-3 transition-colors cursor-pointer">{l}</Link>)}
+              </div>
+            ))}
+          </div>
+          <div className="pt-8 border-t border-[#1a1740] flex flex-col md:flex-row justify-between gap-4 text-xs">
+            <span>© 2024 Pulse · Tous droits réservés</span>
+            <div className="flex gap-6">
+              {["Confidentialité", "CGU", "Cookies"].map(l => <Link key={l} href="#" className="hover:text-white transition-colors cursor-pointer">{l}</Link>)}
+            </div>
+          </div>
         </div>
       </footer>
     </div>

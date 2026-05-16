@@ -1,690 +1,1300 @@
-"use client";
+"use client"
 
+import React, { useState, useEffect, useRef, useCallback } from "react"
+import Image from "next/image"
+import Link from "next/link"
 import {
   motion,
+  AnimatePresence,
   useScroll,
   useTransform,
   useInView,
-  useMotionValue,
   useSpring,
-  AnimatePresence,
-} from "framer-motion";
-import React, { useRef, useState, useEffect, useCallback } from "react";
+  useMotionValue,
+} from "framer-motion"
+import {
+  Sparkles,
+  Star,
+  Clock,
+  Calendar,
+  Phone,
+  Mail,
+  MapPin,
+  Instagram,
+  Heart,
+  ArrowRight,
+  ChevronRight,
+  Menu,
+  X,
+  Award,
+  Users,
+  Check,
+} from "lucide-react"
 
-/* ─── Design Tokens ─────────────────────────────────────────── */
+/* ==========================================================================
+   FONTS
+   ========================================================================== */
+const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');`
+
+function useFonts() {
+  useEffect(() => {
+    if (typeof document === "undefined") return
+    const existing = document.querySelector('style[data-impact88-fonts]')
+    if (existing) return
+    const el = document.createElement("style")
+    el.setAttribute("data-impact88-fonts", "1")
+    el.textContent = FONTS
+    document.head.appendChild(el)
+    return () => { document.head.removeChild(el) }
+  }, [])
+}
+
+/* ==========================================================================
+   DESIGN TOKENS
+   ========================================================================== */
 const C = {
-  bg:      "#0B080C",
-  bgCard:  "#150F18",
-  velvet:  "#1E1422",
-  rose:    "#D4889A",
-  roseDeep:"#A85A72",
-  gold:    "#C9A86C",
-  goldSoft:"#E8CFA8",
-  cream:   "#F5EAE8",
-  muted:   "#8A7A80",
-  border:  "rgba(212,136,154,0.12)",
-};
+  bg:        "#FDF2F8",
+  bgCard:    "#FFF0F6",
+  bgDeep:    "#FCE7F3",
+  primary:   "#EC4899",
+  secondary: "#8B5CF6",
+  text:      "#831843",
+  textSoft:  "#9D174D",
+  textMuted: "#BE185D",
+  textLight: "#F9A8D4",
+  border:    "rgba(236,72,153,0.15)",
+  borderSoft:"rgba(139,92,246,0.12)",
+  white:     "#FFFFFF",
+  shadow:    "rgba(236,72,153,0.12)",
+}
 
-const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');`;
+/* ==========================================================================
+   DATA
+   ========================================================================== */
+const NAV_LINKS = ["Portfolio", "Services", "Artistes", "Soins", "Tarifs", "Contact"]
 
-/* ─── Data ───────────────────────────────────────────────────── */
+const PORTFOLIO_FILTERS = ["Tout", "Gel", "Nail Art", "French", "Extensions", "Seasonal"]
+
+const PORTFOLIO_ITEMS = [
+  { id: 1, category: "Nail Art", title: "Fleurs de Cerisier", desc: "Aquarelle sur base nude rosée", accent: "#FBCFE8", img: "photo-1604654894610-df63bc536371" },
+  { id: 2, category: "Gel",      title: "Rose Velours",       desc: "Gel couleur longue tenue",      accent: "#EC4899", img: "photo-1522337360788-8b13dee7a37e" },
+  { id: 3, category: "French",   title: "French Classique",   desc: "Pointe blanche parfaite",       accent: "#FDF4FF", img: "photo-1604654894610-df63bc536371" },
+  { id: 4, category: "Extensions","title": "Extensions Stiletto","desc": "Forme pointue couture",    accent: "#A855F7", img: "photo-1522337360788-8b13dee7a37e" },
+  { id: 5, category: "Seasonal", title: "Collection Printemps","desc": "Fleurs & pastel",            accent: "#F9A8D4", img: "photo-1604654894610-df63bc536371" },
+  { id: 6, category: "Nail Art", title: "Géométrie Lavande",  desc: "Lignes précises, violet doux", accent: "#8B5CF6", img: "photo-1522337360788-8b13dee7a37e" },
+  { id: 7, category: "Gel",      title: "Bordeaux Intense",   desc: "Gel semi-permanent vibrant",   accent: "#BE185D", img: "photo-1604654894610-df63bc536371" },
+  { id: 8, category: "French",   title: "French Ombré",       desc: "Fondu rose à ivoire",          accent: "#F0ABFC", img: "photo-1522337360788-8b13dee7a37e" },
+  { id: 9, category: "Seasonal", title: "Hiver Nacré",        desc: "Nacre & paillettes fines",     accent: "#C084FC", img: "photo-1604654894610-df63bc536371" },
+]
+
 const SERVICES = [
-  { id: 1, name: "Gel Manicure", duration: "60 min", price: "55", desc: "Long-lasting gel formula with UV curing. Perfect finish, chip-resistant for 3 weeks.", icon: "💅" },
-  { id: 2, name: "Nail Art Session", duration: "90–120 min", price: "95+", desc: "Custom hand-painted designs, from minimalist lines to intricate florals and 3D elements.", icon: "✦" },
-  { id: 3, name: "Full Set Acrylics", duration: "90 min", price: "75", desc: "Strong acrylic extensions sculpted to your desired length and shape.", icon: "◆" },
-  { id: 4, name: "Nail Extensions", duration: "75 min", price: "65", desc: "Press-on or gel extensions for instant length with a natural, flexible feel.", icon: "▲" },
-  { id: 5, name: "Luxury Spa Mani", duration: "75 min", price: "70", desc: "Deep hydration treatment with hot towels, cuticle care, and premium polish.", icon: "◇" },
-  { id: 6, name: "Removal + Prep", duration: "30 min", price: "25", desc: "Safe removal of old product with nail health assessment and cuticle prep.", icon: "○" },
-];
+  { id: 1, name: "Pose Gel Couleur",    price: "45€",  duration: "60 min",  desc: "Application longue tenue avec finition brillante ou mate. Tient 3 semaines sans éclats." },
+  { id: 2, name: "Nail Art Complet",    price: "85€",  duration: "90 min",  desc: "Création sur-mesure : aquarelle, géométrie, 3D, floraux. Consultation design incluse." },
+  { id: 3, name: "French Manucure",     price: "35€",  duration: "45 min",  desc: "La French classique ou revisitée avec notre signature pointe couleur." },
+  { id: 4, name: "Soin Japonais",       price: "55€",  duration: "75 min",  desc: "Traitement kératine premium : ongles renforcés, cuticules nourries, brillance naturelle." },
+  { id: 5, name: "Extensions Résine",   price: "75€",  duration: "90 min",  desc: "Extensions légères et naturelles, sculpteées à la forme de votre choix." },
+  { id: 6, name: "Dépose + Soin",       price: "40€",  duration: "45 min",  desc: "Dépose soignée du produit + bain nourrissant + évaluation santé de l'ongle." },
+]
 
-const SHADES = [
-  { name: "Velvet Noir",     gradient: "linear-gradient(135deg, #1C0F1A 0%, #2D1530 100%)", shimmer: "#D4889A" },
-  { name: "Dust Rose",       gradient: "linear-gradient(135deg, #C27080 0%, #E8A0B0 100%)", shimmer: "#FFD4E0" },
-  { name: "Antique Gold",    gradient: "linear-gradient(135deg, #C9A86C 0%, #E8CFA8 100%)", shimmer: "#FFF5E0" },
-  { name: "Midnight Plum",   gradient: "linear-gradient(135deg, #2D0B3A 0%, #4A1550 100%)", shimmer: "#C880F0" },
-  { name: "Ballet Blush",    gradient: "linear-gradient(135deg, #E8C8C0 0%, #F5E0DC 100%)", shimmer: "#FFFFFF" },
-  { name: "Bordeaux",        gradient: "linear-gradient(135deg, #5C1520 0%, #8A2030 100%)", shimmer: "#FF8090" },
-  { name: "Chrome Rose",     gradient: "linear-gradient(135deg, #B8829A 0%, #D4B0C0 100%)", shimmer: "#FFE8F0" },
-  { name: "Obsidian",        gradient: "linear-gradient(135deg, #080608 0%, #1A1418 100%)", shimmer: "#808080" },
-];
+const ARTISTS = [
+  {
+    id: 1,
+    name: "Sophie Leroux",
+    title: "Fondatrice & Nail Artist",
+    specialty: "Nail Art Artistique",
+    certs: ["CND Shellac Expert", "OPI Pro", "Nail Art Avancé"],
+    bio: "10 ans de passion pour l'ongle parfait. Spécialiste des créations complexes et des styles uniques.",
+    color: C.primary,
+    img: "photo-1522337360788-8b13dee7a37e",
+  },
+  {
+    id: 2,
+    name: "Clara Dubois",
+    title: "Technicienne Gel & Extensions",
+    specialty: "Gel & Extensions Résine",
+    certs: ["Bio Sculpture Certified", "Gelish Master", "Hygiène Pro"],
+    bio: "Experte en pose gel et extensions. Ses poses tiennent 4 semaines et restent parfaitement lisses.",
+    color: C.secondary,
+    img: "photo-1604654894610-df63bc536371",
+  },
+  {
+    id: 3,
+    name: "Amélie Martin",
+    title: "Spécialiste Soins & French",
+    specialty: "Soins & French Signature",
+    certs: ["Japonais Kératine", "CND Vinylux", "Aromathérapie"],
+    bio: "Passionnée de soins de l'ongle naturel. Chaque consultation commence par un diagnostic précis.",
+    color: "#EC4899",
+    img: "photo-1522337360788-8b13dee7a37e",
+  },
+]
 
-const GALLERY = [
-  { id: 1, style: "Floral", desc: "Delicate cherry blossoms on nude base", accent: "#FFB8C8" },
-  { id: 2, style: "Minimalist", desc: "Single gold line on dusty rose", accent: C.gold },
-  { id: 3, style: "Abstract", desc: "Marble swirl, rose quartz palette", accent: "#D4B0C0" },
-  { id: 4, style: "3D Gems", desc: "Crystal Swarovski, dark velvet base", accent: "#C880F0" },
-  { id: 5, style: "French Ombré", desc: "Blush to ivory, barely-there tip", accent: "#F5E8E4" },
-  { id: 6, style: "Glitter Fade", desc: "Rose gold glitter ombré on black", accent: C.rose },
-];
+const BOOKING_STEPS = [
+  { icon: Sparkles,  label: "Choisir service",    desc: "Sélectionnez parmi 6 prestations" },
+  { icon: Users,     label: "Artiste",             desc: "Choisissez votre nail artist" },
+  { icon: Calendar,  label: "Date & Heure",        desc: "Créneaux disponibles en temps réel" },
+  { icon: Check,     label: "Confirmer",           desc: "Confirmation SMS + email instantanée" },
+]
+
+const BRANDS = [
+  { name: "OPI",          detail: "Vernis professionnels" },
+  { name: "CND Shellac",  detail: "Gel longue tenue #1 mondial" },
+  { name: "Bio Sculpture","detail": "Extensions gel naturel" },
+  { name: "Gelish",       detail: "Gel premium UV/LED" },
+]
 
 const TESTIMONIALS = [
-  { name: "Camille R.", text: "The nail art session was a full luxury experience. My nails looked like wearable art for three weeks straight.", service: "Nail Art Session" },
-  { name: "Sofia M.", text: "I've been to many nail salons — Velvet Nails is in a completely different category. The attention to detail is unreal.", service: "Gel Manicure" },
-  { name: "Léonie B.", text: "Absolutely stunning acrylics. Strong, beautiful, and the consultation beforehand made all the difference.", service: "Full Set Acrylics" },
-];
+  { name: "Marie-Claire B.", avatar: "M", stars: 5, service: "Nail Art Complet", quote: "Un véritable atelier d'art sur mes ongles. Sophie a recréé exactement ce que j'avais en tête. Je n'irai jamais ailleurs." },
+  { name: "Juliette P.",     avatar: "J", stars: 5, service: "Pose Gel Couleur", quote: "3 semaines plus tard, pas une seule petite éclat. La qualité est incomparable à tout ce que j'ai connu." },
+  { name: "Océane R.",       avatar: "O", stars: 5, service: "Soin Japonais",    quote: "Mes ongles naturels n'ont jamais été aussi forts. Le soin japonais est un must absolu !" },
+  { name: "Camille T.",      avatar: "C", stars: 5, service: "Extensions Résine","quote": "Extensions ultra-légères, forme parfaite. Tout le monde me demande si c'est mes vrais ongles." },
+]
 
-const SHADE_NAMES = SHADES.map(s => s.name);
+const FULL_PRICES = [
+  {
+    category: "Manucures & Soins",
+    items: [
+      { name: "Manucure Express",       price: "25€" },
+      { name: "Manucure Complète",      price: "35€" },
+      { name: "Soin Japonais",          price: "55€" },
+      { name: "Soin Paraffine",         price: "45€" },
+      { name: "Dépose + Soin",          price: "40€" },
+    ],
+  },
+  {
+    category: "Gel & Semi-permanent",
+    items: [
+      { name: "Pose Gel Couleur",       price: "45€" },
+      { name: "Remplissage Gel",        price: "35€" },
+      { name: "French Gel",             price: "55€" },
+      { name: "Gel + Nail Art Simple",  price: "65€" },
+    ],
+  },
+  {
+    category: "Extensions",
+    items: [
+      { name: "Extensions Résine",      price: "75€" },
+      { name: "Extensions Gel dur",     price: "80€" },
+      { name: "Remplissage Extensions", price: "55€" },
+      { name: "Forme + Sculpture",      price: "90€" },
+    ],
+  },
+  {
+    category: "Nail Art",
+    items: [
+      { name: "Nail Art Simple (2 ongles)", price: "15€" },
+      { name: "Nail Art Complet",           price: "85€" },
+      { name: "3D & Reliefs",               price: "95€+" },
+      { name: "Aquarelle Full Design",      price: "100€+" },
+    ],
+  },
+]
 
-/* ─── TextReveal ─────────────────────────────────────────────── */
-function TextReveal({ text, delay = 0, style = {} }: { text: string; delay?: number; style?: React.CSSProperties }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+/* ==========================================================================
+   HELPER COMPONENTS
+   ========================================================================== */
+
+function Reveal({
+  children,
+  delay = 0,
+  y = 32,
+  x = 0,
+  className = "",
+}: {
+  children: React.ReactNode
+  delay?: number
+  y?: number
+  x?: number
+  className?: string
+}) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
   return (
-    <div ref={ref} style={{ overflow: "hidden", ...style }}>
-      <motion.div
-        initial={{ y: "110%" }}
-        animate={inView ? { y: 0 } : { y: "110%" }}
-        transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}
-      >
-        {text}
-      </motion.div>
-    </div>
-  );
-}
-
-/* ─── MagneticButton ─────────────────────────────────────────── */
-function MagneticButton({ children, style = {}, onClick }: { children: React.ReactNode; style?: React.CSSProperties; onClick?: () => void }) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 250, damping: 18 });
-  const sy = useSpring(y, { stiffness: 250, damping: 18 });
-  const ref = useRef<HTMLButtonElement>(null);
-  const onMove = (e: React.MouseEvent) => {
-    const r = ref.current!.getBoundingClientRect();
-    x.set((e.clientX - r.left - r.width / 2) * 0.3);
-    y.set((e.clientY - r.top - r.height / 2) * 0.3);
-  };
-  return (
-    <motion.button ref={ref} style={{ x: sx, y: sy, cursor: "pointer", background: "none", border: "none", ...style }}
-      onMouseMove={onMove} onMouseLeave={() => { x.set(0); y.set(0); }} onClick={onClick}>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y, x }}
+      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
+      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
+      className={className}
+    >
       {children}
-    </motion.button>
-  );
+    </motion.div>
+  )
 }
 
-/* ─── MarqueeStrip ───────────────────────────────────────────── */
-function MarqueeStrip() {
-  const items = [...SHADE_NAMES, ...SHADE_NAMES];
+function StarRating({ count = 5 }: { count?: number }) {
   return (
-    <div style={{ overflow: "hidden", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "10px 0", background: C.bgCard }}>
-      <motion.div
-        style={{ display: "flex", gap: 56, whiteSpace: "nowrap" }}
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
-      >
-        {items.map((name, i) => (
-          <span key={i} style={{ fontFamily: "'Playfair Display', serif", fontSize: 13, letterSpacing: "0.15em", color: C.muted, fontStyle: "italic" }}>
-            {name}
-            <span style={{ marginLeft: 56, color: C.rose, fontSize: 8 }}>✦</span>
-          </span>
-        ))}
-      </motion.div>
+    <div className="flex gap-[3px]">
+      {Array.from({ length: count }).map((_, i) => (
+        <Star key={i} className="w-3.5 h-3.5 fill-[#EC4899] text-[#EC4899]" />
+      ))}
     </div>
-  );
+  )
 }
 
-/* ─── IridescentNail — Signature Element ─────────────────────── */
-function IridescentNail() {
-  const mouseX = useMotionValue(0.5);
-  const mouseY = useMotionValue(0.5);
-  const smx = useSpring(mouseX, { stiffness: 80, damping: 20 });
-  const smy = useSpring(mouseY, { stiffness: 80, damping: 20 });
-  const [activeShade, setActiveShade] = useState(0);
+/* ==========================================================================
+   SCROLL PROGRESS BAR
+   ========================================================================== */
+function ScrollProgressBar() {
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 })
+  return (
+    <motion.div
+      style={{ scaleX, transformOrigin: "left" }}
+      className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] z-[100]"
+    />
+  )
+}
 
-  const shimmerX = useTransform(smx, [0, 1], ["20%", "80%"]);
-  const shimmerY = useTransform(smy, [0, 1], ["20%", "80%"]);
-
-  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    mouseX.set((e.clientX - r.left) / r.width);
-    mouseY.set((e.clientY - r.top) / r.height);
-  }, [mouseX, mouseY]);
+/* ==========================================================================
+   NAV
+   ========================================================================== */
+function Nav() {
+  const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
-    const timer = setInterval(() => setActiveShade(p => (p + 1) % SHADES.length), 3200);
-    return () => clearInterval(timer);
-  }, []);
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
-  const shade = SHADES[activeShade];
+  const navBg = scrolled
+    ? "bg-white/90 backdrop-blur-xl shadow-[0_2px_24px_rgba(236,72,153,0.08)]"
+    : "bg-transparent"
 
   return (
-    <div style={{ display: "flex", gap: 48, alignItems: "center" }}>
-      {/* Giant nail SVG */}
-      <div
-        onMouseMove={onMouseMove}
-        onMouseLeave={() => { mouseX.set(0.5); mouseY.set(0.5); }}
-        style={{ position: "relative", flexShrink: 0, cursor: "crosshair" }}
+    <>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${navBg}`}
+        style={{ paddingTop: scrolled ? 0 : 0 }}
       >
-        <svg width="220" height="320" viewBox="0 0 220 320" style={{ display: "block" }}>
-          <defs>
-            <clipPath id="nailClip">
-              <path d="M110,8 C60,8 24,52 24,110 L24,260 C24,286 44,306 70,306 L150,306 C176,306 196,286 196,260 L196,110 C196,52 160,8 110,8 Z" />
-            </clipPath>
-            <radialGradient id="shadeGrad" cx="50%" cy="50%" r="70%">
-              <stop offset="0%" stopColor={shade.shimmer} stopOpacity="0.35" />
-              <stop offset="100%" stopColor="transparent" />
-            </radialGradient>
-          </defs>
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-10 h-[68px] flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2.5">
+            <Sparkles className="w-5 h-5 text-[#EC4899]" />
+            <span
+              className="text-[22px] font-[500] italic text-[#831843] tracking-wide"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              VELVET
+            </span>
+            <span
+              className="text-[10px] font-[600] uppercase tracking-[0.3em] text-[#BE185D] mt-1"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Nails
+            </span>
+          </Link>
 
-          {/* Nail body */}
-          <motion.path
-            d="M110,8 C60,8 24,52 24,110 L24,260 C24,286 44,306 70,306 L150,306 C176,306 196,286 196,260 L196,110 C196,52 160,8 110,8 Z"
-            animate={{ fill: shade.gradient.includes("linear") ? undefined : shade.gradient }}
-            style={{ fill: "url(#shadeGradFill)" as any }}
-            transition={{ duration: 1.4, ease: "easeInOut" }}
-          />
+          {/* Desktop links */}
+          <div className="hidden lg:flex items-center gap-8">
+            {NAV_LINKS.map((link) => (
+              <button
+                key={link}
+                className="text-[13px] font-[400] text-[#9D174D] hover:text-[#EC4899] transition-colors duration-200 tracking-wide"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                {link}
+              </button>
+            ))}
+            <button className="ml-2 px-6 py-2.5 bg-[#EC4899] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all duration-200 shadow-[0_4px_16px_rgba(236,72,153,0.35)]"
+              style={{ fontFamily: "'Inter', sans-serif" }}>
+              Réserver
+            </button>
+          </div>
 
-          {/* Animated gradient fill */}
-          <defs>
-            <linearGradient id="shadeGradFill" x1="0" y1="0" x2="1" y2="1">
-              <motion.stop
-                offset="0%"
-                animate={{ stopColor: shade.gradient.match(/#[0-9A-Fa-f]+/g)?.[0] ?? "#1C0F1A" }}
-                transition={{ duration: 1.4 }}
-              />
-              <motion.stop
-                offset="100%"
-                animate={{ stopColor: shade.gradient.match(/#[0-9A-Fa-f]+/g)?.[1] ?? "#2D1530" }}
-                transition={{ duration: 1.4 }}
-              />
-            </linearGradient>
-          </defs>
-
-          <path d="M110,8 C60,8 24,52 24,110 L24,260 C24,286 44,306 70,306 L150,306 C176,306 196,286 196,260 L196,110 C196,52 160,8 110,8 Z" fill="url(#shadeGradFill)" />
-
-          {/* Iridescent shimmer layer — follows mouse */}
-          <g clipPath="url(#nailClip)">
-            <motion.circle
-              style={{ cx: useTransform(smx, [0, 1], [60, 160]), cy: useTransform(smy, [0, 1], [80, 240]) }}
-              r="80"
-              fill="url(#shadeGrad)"
-            />
-            {/* Highlight streak */}
-            <motion.ellipse
-              cx={70}
-              cy={100}
-              rx={24}
-              ry={60}
-              fill="white"
-              opacity={0.08}
-              style={{ rotate: -20 }}
-            />
-          </g>
-
-          {/* Nail cuticle edge */}
-          <path d="M110,8 C60,8 24,52 24,110" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-          <path d="M110,8 C160,8 196,52 196,110" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-
-          {/* Subtle sparkle dots */}
-          {[
-            [140, 80], [155, 120], [130, 60], [160, 100],
-          ].map(([cx, cy], i) => (
-            <motion.circle key={i} cx={cx} cy={cy} r={1.5} fill={shade.shimmer}
-              animate={{ opacity: [0, 0.8, 0], scale: [0.5, 1.5, 0.5] }}
-              transition={{ duration: 2, delay: i * 0.5, repeat: Infinity, ease: "easeInOut" }}
-            />
-          ))}
-        </svg>
-
-        {/* Reflection blur */}
-        <div style={{ position: "absolute", bottom: -24, left: "50%", transform: "translateX(-50%)", width: 120, height: 20, background: shade.shimmer, opacity: 0.08, borderRadius: "50%", filter: "blur(12px)" }} />
-      </div>
-
-      {/* Shade selector */}
-      <div style={{ flex: 1 }}>
-        <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 12, letterSpacing: "0.3em", color: C.rose, textTransform: "uppercase", marginBottom: 20 }}>Current Shade</p>
-        <AnimatePresence mode="wait">
-          <motion.h3
-            key={activeShade}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.4 }}
-            style={{ fontFamily: "'Playfair Display', serif", fontSize: 28, fontWeight: 600, color: C.cream, marginBottom: 32, fontStyle: "italic" }}
+          {/* Mobile burger */}
+          <button
+            className="lg:hidden p-2 text-[#831843]"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label="Menu"
           >
-            {shade.name}
-          </motion.h3>
-        </AnimatePresence>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
-          {SHADES.map((s, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveShade(i)}
-              style={{ cursor: "pointer", background: "none", border: "none", padding: 0 }}
-            >
-              <motion.div
-                whileHover={{ scale: 1.12 }}
-                style={{
-                  width: "100%",
-                  aspectRatio: "1/2",
-                  borderRadius: "50px",
-                  background: s.gradient,
-                  border: i === activeShade ? `2px solid ${C.rose}` : `2px solid transparent`,
-                  boxShadow: i === activeShade ? `0 0 16px ${s.shimmer}40` : "none",
-                  transition: "box-shadow 0.3s, border-color 0.3s",
-                }}
-              />
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, color: i === activeShade ? C.cream : C.muted, marginTop: 6, textAlign: "center", letterSpacing: "0.05em" }}>
-                {s.name.split(" ")[0]}
-              </p>
-            </button>
-          ))}
-        </div>
-
-        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.muted, marginTop: 24, lineHeight: 1.65 }}>
-          Each shade is curated from our seasonal collection. Hover the nail to see the iridescent shimmer effect.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/* ─── ServiceCard ────────────────────────────────────────────── */
-function ServiceCard({ service }: { service: typeof SERVICES[0] }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <motion.div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-      style={{ padding: "28px", background: C.bgCard, border: `1px solid ${hovered ? C.rose : C.border}`, borderRadius: 4, cursor: "pointer", transition: "border-color 0.3s" }}
-    >
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
-        <div style={{ width: 36, height: 36, borderRadius: "50%", background: `${C.rose}18`, border: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={C.rose} strokeWidth="1.5">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
-          </svg>
-        </div>
-        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 20, fontWeight: 700, color: C.cream, letterSpacing: "-0.02em" }}>€{service.price}</span>
-      </div>
-      <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, fontWeight: 600, color: C.cream, marginBottom: 8, lineHeight: 1.3 }}>{service.name}</h3>
-      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: C.muted, marginBottom: 16, letterSpacing: "0.05em" }}>{service.duration}</p>
-      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.muted, lineHeight: 1.65 }}>{service.desc}</p>
-      <motion.div style={{ marginTop: 20, height: 1, background: C.rose, scaleX: hovered ? 1 : 0, transformOrigin: "left" }} transition={{ duration: 0.3 }} />
-    </motion.div>
-  );
-}
-
-/* ─── GalleryCard ────────────────────────────────────────────── */
-function GalleryCard({ item }: { item: typeof GALLERY[0] }) {
-  const [hovered, setHovered] = useState(false);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const spotBg = useTransform([mouseX, mouseY], ([x, y]) =>
-    `radial-gradient(200px circle at ${x}px ${y}px, ${item.accent}20 0%, transparent 70%)`
-  );
-  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    mouseX.set(e.clientX - r.left);
-    mouseY.set(e.clientY - r.top);
-  };
-  return (
-    <motion.div
-      onMouseMove={onMove}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{ position: "relative", background: spotBg as any, overflow: "hidden", borderRadius: 4, border: `1px solid ${C.border}`, cursor: "pointer" }}
-      whileHover={{ y: -6 }}
-      transition={{ duration: 0.35 }}
-    >
-      {/* Simulated nail art preview */}
-      <div style={{ aspectRatio: "4/5", display: "flex", alignItems: "center", justifyContent: "center", background: C.bgCard, position: "relative", overflow: "hidden" }}>
-        <svg width="80%" height="80%" viewBox="0 0 200 240">
-          <defs>
-            <linearGradient id={`g-${item.id}`} x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor={C.velvet} />
-              <stop offset="100%" stopColor={C.bgCard} />
-            </linearGradient>
-          </defs>
-          {/* Nail shape */}
-          <path d="M100,6 C56,6 20,46 20,96 L20,200 C20,222 38,240 60,240 L140,240 C162,240 180,222 180,200 L180,96 C180,46 144,6 100,6 Z" fill={`url(#g-${item.id})`} stroke={item.accent} strokeWidth="0.5" strokeOpacity="0.5" />
-          {/* Art decoration based on style */}
-          {item.style === "Floral" && (
-            <>
-              {[100, 80, 120, 90, 110].map((cx, i) => (
-                <circle key={i} cx={cx} cy={120 + i * 15} r={4 + i % 2 * 2} fill={item.accent} opacity={0.6} />
-              ))}
-            </>
-          )}
-          {item.style === "Minimalist" && (
-            <line x1="60" y1="180" x2="140" y2="100" stroke={item.accent} strokeWidth="1.5" opacity="0.8" />
-          )}
-          {item.style === "Abstract" && (
-            <path d="M60,80 Q120,140 80,200 Q140,160 140,100" fill="none" stroke={item.accent} strokeWidth="2" opacity="0.6" />
-          )}
-          {item.style === "3D Gems" && (
-            <>
-              {[[100, 120], [85, 145], [115, 145], [100, 170]].map(([cx, cy], i) => (
-                <polygon key={i} points={`${cx},${cy - 8} ${cx + 7},${cy} ${cx},${cy + 8} ${cx - 7},${cy}`} fill={item.accent} opacity={0.7} />
-              ))}
-            </>
-          )}
-          {item.style === "French Ombré" && (
-            <path d="M40,200 Q100,180 160,200 L180,200 L180,220 L20,220 L20,200 Z" fill={item.accent} opacity="0.3" />
-          )}
-          {item.style === "Glitter Fade" && (
-            <>
-              {Array.from({ length: 14 }, (_, i) => (
-                <circle key={i} cx={50 + (i * 23) % 100} cy={100 + i * 10} r={1.5} fill={item.accent} opacity={0.5 + (i % 3) * 0.15} />
-              ))}
-            </>
-          )}
-          {/* Shimmer */}
-          <ellipse cx={65} cy={90} rx={18} ry={40} fill="white" opacity="0.05" transform="rotate(-15,65,90)" />
-        </svg>
-
-        <AnimatePresence>
-          {hovered && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              style={{ position: "absolute", inset: 0, background: "rgba(11,8,12,0.65)", display: "flex", alignItems: "center", justifyContent: "center" }}
-            >
-              <div style={{ textAlign: "center", padding: 16 }}>
-                <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 14, color: C.cream, fontStyle: "italic", marginBottom: 8 }}>{item.style}</p>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: C.muted }}>{item.desc}</p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-      <div style={{ padding: "14px 16px" }}>
-        <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 14, fontStyle: "italic", color: C.cream }}>{item.style}</p>
-      </div>
-    </motion.div>
-  );
-}
-
-/* ─── Page ───────────────────────────────────────────────────── */
-export default function Page() {
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
-
-  useEffect(() => {
-    const style = document.createElement("style");
-    style.textContent = FONTS;
-    document.head.appendChild(style);
-    return () => { document.head.removeChild(style); };
-  }, []);
-
-  useEffect(() => {
-    const t = setInterval(() => setActiveTestimonial(p => (p + 1) % TESTIMONIALS.length), 4500);
-    return () => clearInterval(t);
-  }, []);
-
-  return (
-    <main style={{ background: C.bg, color: C.cream, minHeight: "100vh", fontFamily: "'Inter', sans-serif", overflowX: "hidden" }}>
-
-      {/* ── Nav ── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, padding: "0 32px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(11,8,12,0.88)", backdropFilter: "blur(20px)", borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          {/* Velvet Nails logomark */}
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2C8 2 5 6 5 10 L5 18 C5 20.2 6.8 22 9 22 L15 22 C17.2 22 19 20.2 19 18 L19 10 C19 6 16 2 12 2 Z" fill={C.rose} fillOpacity="0.9" />
-            <ellipse cx="9" cy="8" rx="2" ry="3" fill="white" fillOpacity="0.12" />
-          </svg>
-          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 15, fontWeight: 600, color: C.cream, letterSpacing: "0.05em" }}>Velvet Nails</span>
-        </div>
-        <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
-          {["Services", "Gallery", "Shades", "Book"].map(item => (
-            <button key={item} onClick={() => document.getElementById(({"Services": "services", "Gallery": "gallery", "Shades": "shades", "Book": "book"})[item] || "")?.scrollIntoView({behavior:"smooth"})}
-              style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.muted, background: "none", border: "none", cursor: "pointer", letterSpacing: "0.03em", transition: "color 0.2s" }}
-              onMouseEnter={e => (e.currentTarget.style.color = C.cream)}
-              onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
-              {item}
-            </button>
-          ))}
-          <MagneticButton style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: C.bg, background: C.rose, padding: "8px 20px", borderRadius: 2, letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 600 }}>
-            Book Now
-          </MagneticButton>
+            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
       </nav>
 
-      {/* ── Hero ── */}
-      <section ref={heroRef} style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", paddingTop: 64, overflow: "hidden" }}>
-        <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          {/* Velvet texture ambient */}
-          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 70% 50% at 50% 40%, rgba(212,136,154,0.08) 0%, transparent 65%)" }} />
-          {/* Floating nail shapes */}
-          {[
-            { x: "8%", y: "20%", size: 48, delay: 0 },
-            { x: "85%", y: "15%", size: 36, delay: 0.6 },
-            { x: "12%", y: "65%", size: 28, delay: 1.1 },
-            { x: "88%", y: "70%", size: 52, delay: 0.3 },
-            { x: "50%", y: "8%", size: 20, delay: 0.9 },
-          ].map((item, i) => (
-            <motion.div
-              key={i}
-              style={{ position: "absolute", left: item.x, top: item.y }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 0.18, y: 0 }}
-              transition={{ duration: 1, delay: item.delay }}
+      {/* Mobile drawer */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+            className="fixed inset-0 z-40 bg-white flex flex-col pt-[80px] px-8 pb-12"
+          >
+            <div className="flex flex-col gap-6 flex-1">
+              {NAV_LINKS.map((link, i) => (
+                <motion.button
+                  key={link}
+                  initial={{ opacity: 0, x: 24 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.06 }}
+                  className="text-left text-[28px] font-[500] italic text-[#831843] hover:text-[#EC4899] transition-colors"
+                  style={{ fontFamily: "'Playfair Display', serif" }}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link}
+                </motion.button>
+              ))}
+            </div>
+            <button
+              className="w-full py-4 bg-[#EC4899] text-white text-[14px] font-[600] uppercase tracking-[0.15em] rounded-full shadow-[0_4px_20px_rgba(236,72,153,0.35)]"
+              style={{ fontFamily: "'Inter', sans-serif" }}
             >
-              <motion.div
-                animate={{ y: [-8, 8, -8] }}
-                transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <svg width={item.size} height={item.size * 1.4} viewBox="0 0 24 34">
-                  <path d="M12 2C7 2 3 7 3 12 L3 26 C3 29 5.6 32 9 32 L15 32 C18.4 32 21 29 21 26 L21 12 C21 7 17 2 12 2 Z" fill={C.rose} />
-                </svg>
-              </motion.div>
-            </motion.div>
-          ))}
-        </motion.div>
+              Réserver en ligne
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  )
+}
 
-        <motion.div style={{ opacity: heroOpacity, position: "relative", zIndex: 1, textAlign: "center", maxWidth: 860, padding: "0 24px" }}>
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ fontFamily: "'Playfair Display', serif", fontSize: 12, letterSpacing: "0.35em", color: C.rose, textTransform: "uppercase", marginBottom: 28, fontStyle: "italic" }}
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+function Hero() {
+  const heroRef = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  })
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
+
+  return (
+    <section
+      ref={heroRef}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+    >
+      {/* Parallax gradient bg */}
+      <motion.div
+        style={{ y: bgY }}
+        className="absolute inset-0 z-0"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-[#FDF2F8] via-[#FCE7F3] to-[#F5D0FE]" />
+        {/* Radial petal accents */}
+        <div className="absolute top-[10%] left-[8%] w-[420px] h-[420px] bg-[#EC4899]/8 rounded-full blur-[80px]" />
+        <div className="absolute bottom-[15%] right-[10%] w-[380px] h-[380px] bg-[#8B5CF6]/10 rounded-full blur-[90px]" />
+        <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#F9A8D4]/12 rounded-full blur-[120px]" />
+      </motion.div>
+
+      {/* Floating nail art blobs */}
+      {[
+        { left: "6%",  top: "18%", size: 56, delay: 0,   duration: 5 },
+        { left: "88%", top: "14%", size: 40, delay: 0.8, duration: 4.5 },
+        { left: "4%",  top: "70%", size: 32, delay: 1.2, duration: 6 },
+        { left: "90%", top: "65%", size: 48, delay: 0.4, duration: 5.5 },
+        { left: "48%", top: "6%",  size: 24, delay: 1,   duration: 7 },
+      ].map((blob, i) => (
+        <motion.div
+          key={i}
+          className="absolute z-[1] pointer-events-none"
+          style={{ left: blob.left, top: blob.top }}
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 0.22, scale: 1 }}
+          transition={{ duration: 1, delay: blob.delay }}
+        >
+          <motion.div
+            animate={{ y: [-10, 10, -10] }}
+            transition={{ duration: blob.duration, repeat: Infinity, ease: "easeInOut" }}
           >
-            Nail Atelier · Paris 9e
-          </motion.p>
-          <h1 style={{ fontSize: "clamp(52px, 10vw, 118px)", fontWeight: 700, lineHeight: 0.9, letterSpacing: "-0.03em", marginBottom: 40, fontFamily: "'Playfair Display', serif" }}>
-            <TextReveal text="Nails as" delay={0.3} style={{ display: "block", color: C.cream }} />
-            <TextReveal text="wearable" delay={0.5} style={{ display: "block", fontStyle: "italic", color: C.rose }} />
-            <TextReveal text="art." delay={0.7} style={{ display: "block", color: C.goldSoft }} />
-          </h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.1 }}
-            style={{ fontFamily: "'Inter', sans-serif", fontSize: 16, color: C.muted, lineHeight: 1.75, maxWidth: 520, margin: "0 auto 48px", fontWeight: 300 }}
-          >
-            Bespoke gel, acrylic and hand-painted nail art crafted in a private atelier setting. Seasonal collections, premium materials, and a finish that lasts.
-          </motion.p>
+            <svg width={blob.size} height={blob.size * 1.4} viewBox="0 0 24 34" fill="none">
+              <path
+                d="M12 2C7 2 3 7 3 12 L3 26 C3 29 5.6 32 9 32 L15 32 C18.4 32 21 29 21 26 L21 12 C21 7 17 2 12 2 Z"
+                fill="#EC4899"
+              />
+              <ellipse cx="8.5" cy="9" rx="2.5" ry="4" fill="white" fillOpacity="0.15" />
+            </svg>
+          </motion.div>
+        </motion.div>
+      ))}
+
+      {/* Parallax hero image overlay */}
+      <motion.div style={{ y: bgY, opacity: heroOpacity }} className="absolute inset-0 z-[2] pointer-events-none">
+        <div className="absolute right-0 top-0 bottom-0 w-1/2 hidden lg:block overflow-hidden">
+          <div className="relative h-full w-full">
+            <Image
+              src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=900&q=80"
+              alt="Nail art salon photography"
+              fill
+              className="object-cover object-center opacity-30"
+              sizes="50vw"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#FDF2F8] via-[#FDF2F8]/60 to-transparent" />
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Hero content */}
+      <motion.div
+        style={{ opacity: heroOpacity }}
+        className="relative z-10 max-w-[1280px] mx-auto px-6 lg:px-10 pt-[80px] w-full"
+      >
+        <div className="max-w-[640px]">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.3 }}
-            style={{ display: "flex", gap: 16, justifyContent: "center" }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#EC4899]/10 rounded-full mb-8"
           >
-            <MagneticButton style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.bg, background: C.cream, padding: "15px 36px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 600 }}>
-              Book a Session
-            </MagneticButton>
-            <MagneticButton style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.cream, background: "transparent", padding: "15px 36px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase", border: `1px solid ${C.border}` }}>
-              View Gallery
-            </MagneticButton>
+            <Sparkles className="w-3.5 h-3.5 text-[#EC4899]" />
+            <span
+              className="text-[11px] font-[600] uppercase tracking-[0.3em] text-[#EC4899]"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Nail Atelier · Paris 9e
+            </span>
           </motion.div>
-        </motion.div>
 
-        <motion.div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)" }}
-          animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={C.muted} strokeWidth="1.5">
-            <path d="M12 5v14M5 12l7 7 7-7" />
-          </svg>
-        </motion.div>
-      </section>
+          <h1
+            className="text-[clamp(52px,8vw,96px)] font-[700] italic leading-[0.92] tracking-[-0.02em] text-[#831843] mb-8"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            <motion.span
+              className="block"
+              initial={{ opacity: 0, y: 32 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            >
+              L'Art de
+            </motion.span>
+            <motion.span
+              className="block text-[#EC4899]"
+              initial={{ opacity: 0, y: 32 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            >
+              l'Ongle
+            </motion.span>
+            <motion.span
+              className="block not-italic font-[400] text-[#8B5CF6]"
+              initial={{ opacity: 0, y: 32 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Parfait.
+            </motion.span>
+          </h1>
 
-      {/* ── Marquee ── */}
-      <MarqueeStrip />
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            className="text-[16px] font-[300] text-[#9D174D] leading-[1.75] max-w-[460px] mb-10"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Pose gel, nail art sur-mesure et extensions résine dans un salon premium au cœur de Paris. Des mains qui racontent votre style.
+          </motion.p>
 
-      {/* ── Iridescent Nail — Signature Element ── */}
-      <section id="services" style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
-        <div style={{ marginBottom: 56 }}>
-          <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.4em", color: C.rose, textTransform: "uppercase", marginBottom: 16 }}>Shade Collection</p>
-          <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 600, lineHeight: 1.1, letterSpacing: "-0.02em", color: C.cream, fontFamily: "'Playfair Display', serif" }}>
-            <TextReveal text="Curated palettes," />
-            <TextReveal text="iridescent finishes." delay={0.15} style={{ fontStyle: "italic", color: C.rose }} />
-          </h2>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.2 }}
+            className="flex flex-wrap gap-4"
+          >
+            <button className="px-8 py-4 bg-[#EC4899] text-white text-[13px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all duration-200 shadow-[0_8px_28px_rgba(236,72,153,0.4)] flex items-center gap-2"
+              style={{ fontFamily: "'Inter', sans-serif" }}>
+              <Calendar className="w-4 h-4" /> Réserver ma séance
+            </button>
+            <button className="px-8 py-4 bg-white/80 backdrop-blur text-[#831843] text-[13px] font-[500] uppercase tracking-[0.12em] rounded-full border border-[rgba(236,72,153,0.2)] hover:border-[#EC4899] transition-all duration-200 flex items-center gap-2"
+              style={{ fontFamily: "'Inter', sans-serif" }}>
+              <Heart className="w-4 h-4 text-[#EC4899]" /> Voir le Portfolio
+            </button>
+          </motion.div>
+
+          {/* Trust row */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 1.5 }}
+            className="mt-12 flex flex-wrap items-center gap-6"
+          >
+            {[
+              { icon: Star, label: "4.9/5 — 280+ avis" },
+              { icon: Users, label: "3 artistes expertes" },
+              { icon: Award, label: "10 ans d'expertise" },
+            ].map(({ icon: Icon, label }, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <Icon className="w-4 h-4 text-[#EC4899]" />
+                <span className="text-[12px] text-[#9D174D] font-[400]" style={{ fontFamily: "'Inter', sans-serif" }}>{label}</span>
+              </div>
+            ))}
+          </motion.div>
         </div>
-        <IridescentNail />
-      </section>
+      </motion.div>
 
-      {/* ── Services ── */}
-      <section id="gallery" style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
-          <div style={{ marginBottom: 56 }}>
-            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.4em", color: C.rose, textTransform: "uppercase", marginBottom: 16 }}>Services</p>
-            <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 600, lineHeight: 1.1, letterSpacing: "-0.02em", color: C.cream, fontFamily: "'Playfair Display', serif" }}>
-              <TextReveal text="Every service," />
-              <TextReveal text="a ritual." delay={0.15} style={{ fontStyle: "italic" }} />
-            </h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
-            {SERVICES.map((s, i) => (
-              <motion.div key={s.id} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.07 }}>
-                <ServiceCard service={s} />
-              </motion.div>
+      {/* Scroll indicator */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      >
+        <div className="w-6 h-10 rounded-full border-2 border-[#EC4899]/30 flex justify-center pt-2">
+          <motion.div
+            className="w-1 h-2 rounded-full bg-[#EC4899]"
+            animate={{ opacity: [1, 0, 1], y: [0, 4, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+        </div>
+      </motion.div>
+    </section>
+  )
+}
+
+/* ==========================================================================
+   SECTION 3: PORTFOLIO FILTERABLE
+   ========================================================================== */
+function PortfolioSection() {
+  const [activeFilter, setActiveFilter] = useState("Tout")
+
+  const filtered = activeFilter === "Tout"
+    ? PORTFOLIO_ITEMS
+    : PORTFOLIO_ITEMS.filter((p) => p.category === activeFilter)
+
+  return (
+    <section className="py-[100px] bg-[#FFF0F6]" id="portfolio">
+      <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+        <Reveal>
+          <p
+            className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-4"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Portfolio
+          </p>
+          <h2
+            className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[#831843] leading-[1.05] mb-12"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            Nos créations <span className="not-italic font-[400] text-[#8B5CF6]">en images</span>
+          </h2>
+        </Reveal>
+
+        {/* Filter tabs */}
+        <Reveal delay={0.1}>
+          <div className="flex flex-wrap gap-3 mb-12">
+            {PORTFOLIO_FILTERS.map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`px-5 py-2 rounded-full text-[12px] font-[500] uppercase tracking-[0.1em] transition-all duration-300 ${
+                  activeFilter === filter
+                    ? "bg-[#EC4899] text-white shadow-[0_4px_16px_rgba(236,72,153,0.35)]"
+                    : "bg-white text-[#9D174D] border border-[rgba(236,72,153,0.2)] hover:border-[#EC4899]"
+                }`}
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                {filter}
+              </button>
             ))}
           </div>
-        </div>
-      </section>
+        </Reveal>
 
-      {/* ── Gallery ── */}
-      <section id="shades" style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 56 }}>
-          <div>
-            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.4em", color: C.rose, textTransform: "uppercase", marginBottom: 16 }}>Nail Art Gallery</p>
-            <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 600, lineHeight: 1.1, letterSpacing: "-0.02em", color: C.cream, fontFamily: "'Playfair Display', serif" }}>
-              <TextReveal text="Styles & Designs" />
+        {/* Grid with AnimatePresence */}
+        <motion.div layout className="grid grid-cols-2 md:grid-cols-3 gap-5">
+          <AnimatePresence mode="popLayout">
+            {filtered.map((item, i) => (
+              <motion.div
+                key={item.id}
+                layout
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.85 }}
+                transition={{ duration: 0.4, delay: i * 0.04 }}
+                className="group relative overflow-hidden rounded-[16px] bg-white shadow-[0_2px_20px_rgba(236,72,153,0.06)] hover:shadow-[0_8px_40px_rgba(236,72,153,0.15)] transition-all duration-400 cursor-pointer"
+              >
+                <div className="relative aspect-[4/5] overflow-hidden">
+                  <Image
+                    src={`https://images.unsplash.com/${item.img}?w=500&q=75`}
+                    alt={item.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width: 768px) 50vw, 33vw"
+                  />
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex items-end p-5"
+                    style={{ background: "linear-gradient(to top, rgba(131,24,67,0.85) 0%, transparent 55%)" }}
+                  >
+                    <div>
+                      <p className="text-white text-[15px] font-[600] italic mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>{item.title}</p>
+                      <p className="text-white/70 text-[11px] font-[400]" style={{ fontFamily: "'Inter', sans-serif" }}>{item.desc}</p>
+                    </div>
+                  </div>
+                  {/* Category badge */}
+                  <div className="absolute top-4 left-4">
+                    <span
+                      className="px-3 py-1 rounded-full text-[10px] font-[600] uppercase tracking-[0.1em] text-white"
+                      style={{ background: item.accent, fontFamily: "'Inter', sans-serif" }}
+                    >
+                      {item.category}
+                    </span>
+                  </div>
+                </div>
+                <div className="p-4">
+                  <p className="text-[15px] font-[500] italic text-[#831843]" style={{ fontFamily: "'Playfair Display', serif" }}>{item.title}</p>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+/* ==========================================================================
+   SECTION 4: SERVICES
+   ========================================================================== */
+function ServicesSection() {
+  return (
+    <section className="py-[100px] bg-white" id="services">
+      <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 gap-8">
+          <Reveal>
+            <p
+              className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-4"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Services
+            </p>
+            <h2
+              className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[#831843] leading-[1.05]"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              Chaque soin,
+              <br />
+              <span className="not-italic font-[400] text-[#8B5CF6]">un rituel.</span>
             </h2>
-          </div>
-          <MagneticButton style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: C.rose, background: "transparent", border: `1px solid ${C.rose}`, padding: "10px 24px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase" }}>
-            All Looks
-          </MagneticButton>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <p
+              className="text-[14px] text-[#9D174D] max-w-[360px] leading-[1.75] font-[300]"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              6 prestations conçues pour sublimer vos ongles avec des produits professionnels et un savoir-faire d'exception.
+            </p>
+          </Reveal>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
-          {GALLERY.map((item, i) => (
-            <motion.div key={item.id} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.06 }}>
-              <GalleryCard item={item} />
-            </motion.div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {SERVICES.map((service, i) => (
+            <Reveal key={service.id} delay={i * 0.07}>
+              <div className="group p-7 bg-[#FDF2F8] border border-[rgba(236,72,153,0.1)] rounded-[20px] hover:border-[#EC4899]/40 hover:shadow-[0_8px_40px_rgba(236,72,153,0.12)] transition-all duration-400 cursor-pointer relative overflow-hidden">
+                {/* Pink bloom on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#EC4899]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 rounded-[20px]" />
+
+                <div className="relative z-10">
+                  <div className="flex items-start justify-between mb-5">
+                    <div className="w-11 h-11 rounded-xl bg-[#EC4899]/10 flex items-center justify-center group-hover:bg-[#EC4899]/20 transition-colors duration-300">
+                      <Sparkles className="w-5 h-5 text-[#EC4899]" />
+                    </div>
+                    <span
+                      className="text-[28px] font-[700] text-[#831843] leading-none"
+                      style={{ fontFamily: "'Playfair Display', serif" }}
+                    >
+                      {service.price}
+                    </span>
+                  </div>
+                  <h3
+                    className="text-[20px] font-[600] italic text-[#831843] mb-1.5 leading-[1.2]"
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                  >
+                    {service.name}
+                  </h3>
+                  <div className="flex items-center gap-1.5 mb-4">
+                    <Clock className="w-3.5 h-3.5 text-[#EC4899]" />
+                    <span className="text-[11px] text-[#BE185D] font-[500] uppercase tracking-[0.1em]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                      {service.duration}
+                    </span>
+                  </div>
+                  <p className="text-[13px] text-[#9D174D] leading-[1.7] font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    {service.desc}
+                  </p>
+                  <div className="mt-5 flex items-center gap-2 text-[#EC4899] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span className="text-[12px] font-[600] uppercase tracking-[0.12em]" style={{ fontFamily: "'Inter', sans-serif" }}>Réserver</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </div>
+                </div>
+              </div>
+            </Reveal>
           ))}
         </div>
-      </section>
+      </div>
+    </section>
+  )
+}
 
-      {/* ── Testimonials ── */}
-      <section id="book" style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: 800, margin: "0 auto", paddingInline: 40, textAlign: "center" }}>
-          <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.4em", color: C.rose, textTransform: "uppercase", marginBottom: 48 }}>Client Reviews</p>
+/* ==========================================================================
+   SECTION 5: ARTISTES
+   ========================================================================== */
+function ArtistesSection() {
+  return (
+    <section className="py-[100px] bg-gradient-to-b from-[#FCE7F3] to-[#FDF2F8]" id="artistes">
+      <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+        <Reveal className="text-center mb-16">
+          <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
+            Notre Équipe
+          </p>
+          <h2 className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[#831843] leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Les <span className="not-italic text-[#8B5CF6]">Artistes</span>
+          </h2>
+          <p className="text-[15px] text-[#9D174D] max-w-[520px] mx-auto mt-5 leading-[1.75] font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
+            Trois expertes passionnées, chacune avec sa spécialité, unies par l'amour du détail et la recherche de la perfection.
+          </p>
+        </Reveal>
 
-          <div style={{ position: "relative", minHeight: 180 }}>
+        <div className="grid md:grid-cols-3 gap-8">
+          {ARTISTS.map((artist, i) => (
+            <Reveal key={artist.id} delay={i * 0.1}>
+              <div className="bg-white rounded-[24px] overflow-hidden shadow-[0_2px_24px_rgba(236,72,153,0.06)] hover:shadow-[0_12px_48px_rgba(236,72,153,0.14)] transition-all duration-500 group">
+                {/* Photo area */}
+                <div className="relative h-[260px] overflow-hidden">
+                  <Image
+                    src={`https://images.unsplash.com/${artist.img}?w=600&q=80`}
+                    alt={artist.name}
+                    fill
+                    className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#831843]/60 to-transparent" />
+                  <div className="absolute bottom-4 left-5 right-5">
+                    <p className="text-white text-[18px] font-[600] italic" style={{ fontFamily: "'Playfair Display', serif" }}>{artist.name}</p>
+                    <p className="text-white/80 text-[11px] font-[400] uppercase tracking-[0.1em] mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>{artist.title}</p>
+                  </div>
+                </div>
+
+                {/* Info area */}
+                <div className="p-6">
+                  <div
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-[600] uppercase tracking-[0.1em] mb-5"
+                    style={{ background: `${artist.color}14`, color: artist.color, fontFamily: "'Inter', sans-serif" }}
+                  >
+                    <Award className="w-3 h-3" />
+                    {artist.specialty}
+                  </div>
+                  <p className="text-[13px] text-[#9D174D] leading-[1.7] mb-5 font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    {artist.bio}
+                  </p>
+                  {/* Certifications */}
+                  <div className="space-y-2 mb-6">
+                    {artist.certs.map((cert, ci) => (
+                      <div key={ci} className="flex items-center gap-2">
+                        <Check className="w-3.5 h-3.5 text-[#EC4899] flex-shrink-0" />
+                        <span className="text-[12px] text-[#BE185D]" style={{ fontFamily: "'Inter', sans-serif" }}>{cert}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    className="w-full py-3 text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full border-2 text-[#EC4899] border-[#EC4899] hover:bg-[#EC4899] hover:text-white transition-all duration-300"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    Réserver avec {artist.name.split(" ")[0]}
+                  </button>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ==========================================================================
+   SECTION 6: BOOKING PROCESS
+   ========================================================================== */
+function BookingProcess() {
+  return (
+    <section className="py-[100px] bg-[#831843]" id="soins">
+      <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+        <Reveal className="text-center mb-16">
+          <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#F9A8D4] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
+            Comment réserver
+          </p>
+          <h2 className="text-[clamp(36px,5vw,60px)] font-[700] italic text-white leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Simple comme <span className="not-italic font-[400] text-[#F9A8D4]">un clic.</span>
+          </h2>
+        </Reveal>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {BOOKING_STEPS.map((step, i) => {
+            const Icon = step.icon
+            return (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="text-center">
+                  {/* Number + connector */}
+                  <div className="flex items-center mb-8">
+                    <div className="w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mx-auto relative">
+                      <Icon className="w-6 h-6 text-white" />
+                      <span
+                        className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-[#EC4899] text-white text-[11px] font-[700] flex items-center justify-center"
+                        style={{ fontFamily: "'Inter', sans-serif" }}
+                      >
+                        {i + 1}
+                      </span>
+                    </div>
+                    {i < BOOKING_STEPS.length - 1 && (
+                      <div className="flex-1 h-[1px] bg-white/15 ml-4 hidden lg:block" />
+                    )}
+                  </div>
+                  <h3
+                    className="text-[18px] font-[600] italic text-white mb-2"
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                  >
+                    {step.label}
+                  </h3>
+                  <p
+                    className="text-[13px] text-white/60 font-[300] leading-[1.65]"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    {step.desc}
+                  </p>
+                </div>
+              </Reveal>
+            )
+          })}
+        </div>
+
+        <Reveal delay={0.4} className="text-center mt-14">
+          <button className="px-10 py-4 bg-white text-[#831843] text-[13px] font-[600] uppercase tracking-[0.14em] rounded-full hover:bg-[#F9A8D4] transition-all duration-300 shadow-[0_8px_28px_rgba(0,0,0,0.2)] flex items-center gap-2 mx-auto"
+            style={{ fontFamily: "'Inter', sans-serif" }}>
+            <Calendar className="w-4 h-4" /> Prendre rendez-vous maintenant
+          </button>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+/* ==========================================================================
+   SECTION 7: BRANDS
+   ========================================================================== */
+function BrandsSection() {
+  return (
+    <section className="py-[80px] bg-white border-t border-b border-[rgba(236,72,153,0.08)]">
+      <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+        <Reveal className="text-center mb-12">
+          <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-3" style={{ fontFamily: "'Inter', sans-serif" }}>
+            Produits professionnels
+          </p>
+          <h2 className="text-[28px] font-[500] italic text-[#831843]" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Nous travaillons exclusivement avec les meilleures marques
+          </h2>
+        </Reveal>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+          {BRANDS.map((brand, i) => (
+            <Reveal key={i} delay={i * 0.08}>
+              <div className="group p-7 bg-[#FDF2F8] rounded-[20px] border border-[rgba(236,72,153,0.1)] text-center hover:border-[#EC4899]/40 hover:shadow-[0_6px_28px_rgba(236,72,153,0.1)] transition-all duration-300">
+                <div className="w-12 h-12 rounded-full bg-[#EC4899]/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-[#EC4899]/20 transition-colors duration-300">
+                  <Award className="w-5 h-5 text-[#EC4899]" />
+                </div>
+                <p
+                  className="text-[18px] font-[700] italic text-[#831843] mb-1"
+                  style={{ fontFamily: "'Playfair Display', serif" }}
+                >
+                  {brand.name}
+                </p>
+                <p
+                  className="text-[11px] text-[#BE185D] font-[400]"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {brand.detail}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ==========================================================================
+   SECTION 8: TÉMOIGNAGES
+   ========================================================================== */
+function TestimonialsSection() {
+  const [active, setActive] = useState(0)
+
+  useEffect(() => {
+    const t = setInterval(() => setActive((p) => (p + 1) % TESTIMONIALS.length), 5000)
+    return () => clearInterval(t)
+  }, [])
+
+  return (
+    <section className="py-[100px] bg-gradient-to-br from-[#FDF2F8] to-[#F5D0FE]/30" id="temoignages">
+      <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+        <Reveal className="text-center mb-16">
+          <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
+            Témoignages
+          </p>
+          <h2 className="text-[clamp(36px,5vw,60px)] font-[700] italic text-[#831843] leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Ce qu'elles <span className="not-italic text-[#8B5CF6]">disent</span>
+          </h2>
+        </Reveal>
+
+        {/* Featured testimonial */}
+        <div className="max-w-[820px] mx-auto mb-12">
+          <div className="relative bg-white rounded-[28px] shadow-[0_4px_40px_rgba(236,72,153,0.08)] p-10 text-center min-h-[220px] flex flex-col justify-center">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+              <div className="w-8 h-8 rounded-full bg-[#EC4899] flex items-center justify-center">
+                <Heart className="w-4 h-4 text-white fill-white" />
+              </div>
+            </div>
             <AnimatePresence mode="wait">
               <motion.div
-                key={activeTestimonial}
-                initial={{ opacity: 0, y: 20 }}
+                key={active}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.45 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.4 }}
               >
-                <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(16px, 2.5vw, 24px)", fontWeight: 400, color: C.cream, lineHeight: 1.6, marginBottom: 32, fontStyle: "italic" }}>
-                  "{TESTIMONIALS[activeTestimonial].text}"
+                <StarRating />
+                <div className="flex justify-center mb-5 mt-3" />
+                <p
+                  className="text-[18px] md:text-[22px] font-[400] italic text-[#831843] leading-[1.55] mb-6"
+                  style={{ fontFamily: "'Playfair Display', serif" }}
+                >
+                  &ldquo;{TESTIMONIALS[active].quote}&rdquo;
                 </p>
-                <div>
-                  <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.rose, fontWeight: 500 }}>{TESTIMONIALS[activeTestimonial].name}</p>
-                  <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: C.muted, marginTop: 4 }}>{TESTIMONIALS[activeTestimonial].service}</p>
+                <div className="flex items-center justify-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#EC4899] to-[#8B5CF6] flex items-center justify-center text-white text-[14px] font-[700]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    {TESTIMONIALS[active].avatar}
+                  </div>
+                  <div className="text-left">
+                    <p className="text-[14px] font-[600] text-[#831843]" style={{ fontFamily: "'Inter', sans-serif" }}>{TESTIMONIALS[active].name}</p>
+                    <p className="text-[12px] text-[#EC4899]" style={{ fontFamily: "'Inter', sans-serif" }}>{TESTIMONIALS[active].service}</p>
+                  </div>
                 </div>
               </motion.div>
             </AnimatePresence>
           </div>
-
-          <div style={{ display: "flex", justifyContent: "center", gap: 10, marginTop: 36 }}>
-            {TESTIMONIALS.map((_, i) => (
-              <button key={i} onClick={() => setActiveTestimonial(i)} style={{ width: i === activeTestimonial ? 28 : 8, height: 8, borderRadius: 4, background: i === activeTestimonial ? C.rose : C.bgCard, border: `1px solid ${i === activeTestimonial ? C.rose : C.border}`, cursor: "pointer", transition: "all 0.3s", padding: 0 }} />
-            ))}
-          </div>
         </div>
-      </section>
 
-      {/* ── CTA / Booking ── */}
-      <section style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
-          <div>
-            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.4em", color: C.rose, textTransform: "uppercase", marginBottom: 20 }}>Atelier</p>
-            <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 600, lineHeight: 1.05, letterSpacing: "-0.02em", marginBottom: 24, fontFamily: "'Playfair Display', serif", color: C.cream }}>
-              <TextReveal text="Your nails," />
-              <TextReveal text="our obsession." delay={0.15} style={{ fontStyle: "italic", color: C.rose }} />
-            </h2>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.8, marginBottom: 40, fontWeight: 300 }}>
-              Private appointments only. Located in a quiet studio in Paris 9e, a short walk from Pigalle. Consultations are always included — we take the time to understand what you want before we begin.
-            </p>
-            <div style={{ display: "flex", gap: 16 }}>
-              <MagneticButton style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.bg, background: C.rose, padding: "15px 32px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 600 }}>
-                Book Now
-              </MagneticButton>
-              <MagneticButton style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.cream, background: "transparent", border: `1px solid ${C.border}`, padding: "15px 32px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                View Availability
-              </MagneticButton>
-            </div>
-          </div>
+        {/* Pagination dots */}
+        <div className="flex justify-center gap-2 mb-16">
+          {TESTIMONIALS.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActive(i)}
+              className={`rounded-full transition-all duration-300 ${
+                i === active ? "w-8 h-2.5 bg-[#EC4899]" : "w-2.5 h-2.5 bg-[#EC4899]/25"
+              }`}
+            />
+          ))}
+        </div>
 
-          <div style={{ display: "grid", gap: 16 }}>
-            {[
-              { label: "Location", value: "12 rue de la Victoire, Paris 9e" },
-              { label: "Booking", value: "Online only — 48hr notice minimum" },
-              { label: "Contact", value: "studio@velvetnails.fr" },
-            ].map(item => (
-              <div key={item.label} style={{ padding: "20px 24px", background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 4 }}>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: C.rose, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 6 }}>{item.label}</p>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: C.cream }}>{item.value}</p>
-              </div>
-            ))}
-            {/* Opening Hours — daily schedule */}
-            <div style={{ padding: "20px 24px", background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 4 }}>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: C.rose, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 12 }}>Hours</p>
-              <div style={{ display: "grid", gap: 6 }}>
-                {[
-                  { day: "Tuesday",   time: "10:00 – 19:00" },
-                  { day: "Wednesday", time: "10:00 – 19:00" },
-                  { day: "Thursday",  time: "10:00 – 20:00" },
-                  { day: "Friday",    time: "10:00 – 20:00" },
-                  { day: "Saturday",  time: "09:00 – 18:00" },
-                  { day: "Sun – Mon", time: "Closed" },
-                ].map(({ day, time }) => (
-                  <div key={day} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.muted, fontWeight: 300 }}>{day}</span>
-                    <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: time === "Closed" ? C.muted : C.cream, fontWeight: time === "Closed" ? 300 : 400 }}>{time}</span>
+        {/* All cards grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+          {TESTIMONIALS.map((t, i) => (
+            <Reveal key={i} delay={i * 0.08}>
+              <div
+                onClick={() => setActive(i)}
+                className={`p-6 rounded-[20px] border cursor-pointer transition-all duration-300 ${
+                  i === active
+                    ? "bg-white border-[#EC4899]/40 shadow-[0_4px_24px_rgba(236,72,153,0.12)]"
+                    : "bg-white/50 border-[rgba(236,72,153,0.1)] hover:border-[#EC4899]/30"
+                }`}
+              >
+                <div className="flex items-center gap-1 mb-3">
+                  {Array.from({ length: t.stars }).map((_, si) => (
+                    <Star key={si} className="w-3 h-3 fill-[#EC4899] text-[#EC4899]" />
+                  ))}
+                </div>
+                <p className="text-[13px] italic text-[#9D174D] leading-[1.65] mb-4 font-[400]" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  &ldquo;{t.quote.slice(0, 80)}…&rdquo;
+                </p>
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#EC4899] to-[#8B5CF6] flex items-center justify-center text-white text-[11px] font-[700]">
+                    {t.avatar}
                   </div>
-                ))}
+                  <div>
+                    <p className="text-[12px] font-[600] text-[#831843]" style={{ fontFamily: "'Inter', sans-serif" }}>{t.name}</p>
+                    <p className="text-[10px] text-[#EC4899]" style={{ fontFamily: "'Inter', sans-serif" }}>{t.service}</p>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ==========================================================================
+   SECTION 9: TARIFS COMPLETS
+   ========================================================================== */
+function TarifsSection() {
+  return (
+    <section className="py-[100px] bg-white" id="tarifs">
+      <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+        <Reveal className="text-center mb-16">
+          <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
+            Tarifs
+          </p>
+          <h2 className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[#831843] leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Grille tarifaire <span className="not-italic font-[400] text-[#8B5CF6]">complète</span>
+          </h2>
+          <p className="text-[15px] text-[#9D174D] mt-5 font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
+            Tous nos prix incluent la consultation initiale et les produits de qualité professionnelle.
+          </p>
+        </Reveal>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {FULL_PRICES.map((cat, ci) => (
+            <Reveal key={ci} delay={ci * 0.08}>
+              <div className="bg-[#FDF2F8] rounded-[20px] p-6 border border-[rgba(236,72,153,0.1)] hover:border-[#EC4899]/30 transition-all duration-300">
+                <div className="flex items-center gap-2 mb-6">
+                  <div className="w-2 h-2 rounded-full bg-[#EC4899]" />
+                  <h3
+                    className="text-[14px] font-[600] uppercase tracking-[0.1em] text-[#831843]"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    {cat.category}
+                  </h3>
+                </div>
+                <div className="space-y-3">
+                  {cat.items.map((item, ii) => (
+                    <div key={ii} className="flex items-center justify-between py-2 border-b border-[rgba(236,72,153,0.08)] last:border-0">
+                      <span
+                        className="text-[13px] text-[#9D174D] font-[300]"
+                        style={{ fontFamily: "'Inter', sans-serif" }}
+                      >
+                        {item.name}
+                      </span>
+                      <span
+                        className="text-[14px] font-[700] text-[#EC4899]"
+                        style={{ fontFamily: "'Playfair Display', serif" }}
+                      >
+                        {item.price}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal delay={0.3} className="mt-10 text-center">
+          <div className="inline-flex items-center gap-2 px-5 py-3 bg-[#FCE7F3] rounded-full">
+            <Sparkles className="w-4 h-4 text-[#EC4899]" />
+            <p className="text-[12px] text-[#831843] font-[400]" style={{ fontFamily: "'Inter', sans-serif" }}>
+              Forfaits mariée & groupe sur devis — Contactez-nous pour un rendez-vous personnalisé
+            </p>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+/* ==========================================================================
+   SECTION 10: CONTACT + FOOTER MEGA
+   ========================================================================== */
+function ContactFooter() {
+  const [email, setEmail] = useState("")
+  const [sent, setSent] = useState(false)
+
+  const handleNewsletter = (e: React.FormEvent) => {
+    e.preventDefault()
+    setSent(true)
+    setEmail("")
+  }
+
+  return (
+    <footer className="bg-[#831843]" id="contact">
+      {/* Contact info band */}
+      <div className="py-[80px] border-b border-white/10">
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+            {/* Address */}
+            <Reveal>
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <MapPin className="w-4 h-4 text-[#F9A8D4]" />
+                  <span className="text-[11px] font-[600] uppercase tracking-[0.2em] text-[#F9A8D4]" style={{ fontFamily: "'Inter', sans-serif" }}>Adresse</span>
+                </div>
+                <p className="text-white text-[14px] font-[300] leading-[1.7]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  24 rue des Petites Écuries<br />
+                  75009 Paris<br />
+                  Métro Bonne Nouvelle (L8/9)
+                </p>
+              </div>
+            </Reveal>
+
+            {/* Hours */}
+            <Reveal delay={0.1}>
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <Clock className="w-4 h-4 text-[#F9A8D4]" />
+                  <span className="text-[11px] font-[600] uppercase tracking-[0.2em] text-[#F9A8D4]" style={{ fontFamily: "'Inter', sans-serif" }}>Horaires</span>
+                </div>
+                <div className="space-y-2">
+                  {[
+                    { j: "Lun", h: "Fermé" },
+                    { j: "Mar – Ven", h: "9h – 19h" },
+                    { j: "Samedi", h: "9h – 18h" },
+                    { j: "Dimanche", h: "Fermé" },
+                  ].map(({ j, h }) => (
+                    <div key={j} className="flex justify-between items-center">
+                      <span className="text-[13px] text-white/60 font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>{j}</span>
+                      <span className={`text-[13px] font-[400] ${h === "Fermé" ? "text-white/40" : "text-white"}`} style={{ fontFamily: "'Inter', sans-serif" }}>{h}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Contact */}
+            <Reveal delay={0.15}>
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <Phone className="w-4 h-4 text-[#F9A8D4]" />
+                  <span className="text-[11px] font-[600] uppercase tracking-[0.2em] text-[#F9A8D4]" style={{ fontFamily: "'Inter', sans-serif" }}>Contact</span>
+                </div>
+                <div className="space-y-3">
+                  <a href="tel:+33123456789" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <Phone className="w-3.5 h-3.5" />
+                    +33 1 23 45 67 89
+                  </a>
+                  <a href="mailto:bonjour@velvetnails.fr" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <Mail className="w-3.5 h-3.5" />
+                    bonjour@velvetnails.fr
+                  </a>
+                  <a href="#" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <Instagram className="w-3.5 h-3.5" />
+                    @velvetnails.paris
+                  </a>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Newsletter */}
+            <Reveal delay={0.2}>
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <Heart className="w-4 h-4 text-[#F9A8D4]" />
+                  <span className="text-[11px] font-[600] uppercase tracking-[0.2em] text-[#F9A8D4]" style={{ fontFamily: "'Inter', sans-serif" }}>Newsletter</span>
+                </div>
+                <p className="text-[13px] text-white/60 mb-4 font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  Collections saisonnières, offres exclusives & conseils beauté.
+                </p>
+                {sent ? (
+                  <div className="flex items-center gap-2 text-[#F9A8D4] text-[13px]">
+                    <Check className="w-4 h-4" />
+                    <span style={{ fontFamily: "'Inter', sans-serif" }}>Merci, vous êtes inscrite !</span>
+                  </div>
+                ) : (
+                  <form onSubmit={handleNewsletter} className="space-y-2">
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="votre@email.fr"
+                      required
+                      className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/40 text-[13px] focus:outline-none focus:border-[#F9A8D4] transition-colors"
+                      style={{ fontFamily: "'Inter', sans-serif" }}
+                    />
+                    <button
+                      type="submit"
+                      className="w-full py-2.5 bg-[#EC4899] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-lg hover:bg-[#DB2777] transition-colors"
+                      style={{ fontFamily: "'Inter', sans-serif" }}
+                    >
+                      S'abonner
+                    </button>
+                  </form>
+                )}
+              </div>
+            </Reveal>
+          </div>
+
+          {/* Google Maps embed placeholder */}
+          <Reveal delay={0.25} className="mt-14">
+            <div className="w-full h-[200px] rounded-[16px] overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center">
+              <div className="text-center">
+                <MapPin className="w-8 h-8 text-[#F9A8D4] mx-auto mb-2" />
+                <p className="text-white/60 text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  24 rue des Petites Écuries, 75009 Paris
+                </p>
+                <a
+                  href="https://maps.google.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 mt-2 text-[#F9A8D4] text-[12px] hover:text-white transition-colors"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  Voir sur Google Maps <ArrowRight className="w-3.5 h-3.5" />
+                </a>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
-      </section>
+      </div>
 
-      {/* ── Footer ── */}
-      <footer style={{ borderTop: `1px solid ${C.border}`, padding: "28px 40px", background: C.bgCard }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 13, color: C.muted, fontStyle: "italic" }}>Velvet Nails · Paris</p>
-          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: C.muted, letterSpacing: "0.05em" }}>© 2025 — All rights reserved</p>
-          <div style={{ display: "flex", gap: 20 }}>
-            {["Instagram", "Pinterest", "Contact"].map(link => (
-              <button key={link} style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: C.muted, background: "none", border: "none", cursor: "pointer", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = C.cream)}
-                onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
+      {/* Bottom footer */}
+      <div className="py-6">
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-[#F9A8D4]" />
+            <span className="text-[15px] font-[500] italic text-white" style={{ fontFamily: "'Playfair Display', serif" }}>Velvet Nails</span>
+            <span className="text-white/40 text-[12px]" style={{ fontFamily: "'Inter', sans-serif" }}>· Paris 9e</span>
+          </div>
+          <p className="text-[11px] text-white/40 font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
+            © 2025 Velvet Nails — Tous droits réservés
+          </p>
+          <div className="flex gap-5">
+            {["Mentions légales", "Confidentialité", "Instagram"].map((link) => (
+              <button key={link} className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
                 {link}
               </button>
             ))}
           </div>
         </div>
-      </footer>
+      </div>
+    </footer>
+  )
+}
+
+/* ==========================================================================
+   PAGE EXPORT
+   ========================================================================== */
+export default function Impact88Page() {
+  useFonts()
+
+  return (
+    <main className="bg-[#FDF2F8] text-[#831843] min-h-screen overflow-x-hidden">
+      <ScrollProgressBar />
+      <Nav />
+      <Hero />
+
+      {/* Section 3: Portfolio */}
+      <PortfolioSection />
+
+      {/* Section 4: Services */}
+      <ServicesSection />
+
+      {/* Section 5: Artistes */}
+      <ArtistesSection />
+
+      {/* Section 6: Booking Process */}
+      <BookingProcess />
+
+      {/* Section 7: Brands */}
+      <BrandsSection />
+
+      {/* Section 8: Témoignages */}
+      <TestimonialsSection />
+
+      {/* Section 9: Tarifs complets */}
+      <TarifsSection />
+
+      {/* Section 10: Contact + Footer mega */}
+      <ContactFooter />
     </main>
-  );
+  )
 }

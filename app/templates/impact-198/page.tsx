@@ -1,464 +1,1715 @@
-"use client"
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
-import React, { useState, useRef, useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Progress } from "@/components/ui/progress"
-import { Separator } from "@/components/ui/separator"
-import { Sparkles, Star, Heart, Clock, MapPin, Phone, Mail, Camera, Users2, Menu, Check, ArrowRight, Leaf, Flower2, Smile } from "lucide-react"
+"use client";
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-80px" })
-  return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 32 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}>
-      {children}
-    </motion.div>
-  )
-}
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  useMotionValue,
+  useSpring,
+  AnimatePresence,
+} from "framer-motion";
+
+const C = {
+  bg: "#fdfaf5",
+  blush: "#f5e6da",
+  dark: "#1a1412",
+  rose: "#c4847a",
+  roseLight: "#e8b4ad",
+  roseDark: "#9d5f56",
+  ivory: "#f7f2ea",
+  ivoryDark: "#ede4d6",
+  text: "#2d2220",
+  textMuted: "#8a7570",
+  font: "'Cormorant Garamond', Georgia, serif",
+  fontSans: "'DM Sans', system-ui, sans-serif",
+};
 
 const SERVICES = [
-  { icon: Sparkles, name: "Soin du visage", desc: "Hydratation profonde, anti-âge, éclat — adaptés à votre peau", duration: "60 min", price: "89 €" },
-  { icon: Heart, name: "Épilation à la cire", desc: "Cires douces biologiques, résultats durables 4 semaines", duration: "30–60 min", price: "25–65 €" },
-  { icon: Flower2, name: "Manucure & Pédicure", desc: "Semi-permanent, gel, nail art — pose et entretien", duration: "45–90 min", price: "35–75 €" },
-  { icon: Leaf, name: "Massage relaxant", desc: "Californien, suédois, aux pierres chaudes — détente totale", duration: "60–90 min", price: "75–110 €" },
-  { icon: Smile, name: "Maquillage", desc: "Jour, soirée, mariée — maquillage longue tenue professionnel", duration: "60–90 min", price: "55–120 €" },
-  { icon: Sparkles, name: "Extension de cils", desc: "Volume russe, effet naturel, hybride — tenue 3-4 semaines", duration: "90–150 min", price: "95–165 €" },
-]
+  {
+    id: 1,
+    title: "Soin Visage Signature",
+    subtitle: "90 min — 145€",
+    description:
+      "Un soin sur-mesure à base d'huiles botaniques rares. Modelage du visage, drainage lymphatique et masque à l'argile rose pour un éclat immédiat.",
+    icon: "✦",
+    tag: "Best-seller",
+  },
+  {
+    id: 2,
+    title: "Rituel Corps Doré",
+    subtitle: "75 min — 120€",
+    description:
+      "Gommage au sucre de canne et beurre de karité, enveloppement à l'or 24 carats, massage aux pierres chaudes. Un cocon de douceur absolue.",
+    icon: "◈",
+    tag: "Luxe",
+  },
+  {
+    id: 3,
+    title: "Coiffure & Styling",
+    subtitle: "60 min — 95€",
+    description:
+      "Coupe créative, balayage naturel ou coloration végétale. Chaque séance débute par un diagnostic capillaire personnalisé.",
+    icon: "❋",
+    tag: "Populaire",
+  },
+  {
+    id: 4,
+    title: "Maquillage Artiste",
+    subtitle: "45 min — 80€",
+    description:
+      "Du naturel lumineux au glamour sophistiqué. Techniques de contouring, smoky et no-makeup look par nos artistes certifiées.",
+    icon: "◇",
+    tag: "Événement",
+  },
+  {
+    id: 5,
+    title: "Manucure Japonaise",
+    subtitle: "60 min — 75€",
+    description:
+      "Technique de limage traditionnel, soin à la poudre de perle, pose de vernis longue durée et massage main à l'huile de rose.",
+    icon: "✿",
+    tag: "Nouveau",
+  },
+  {
+    id: 6,
+    title: "Sourcils Architecture",
+    subtitle: "45 min — 65€",
+    description:
+      "Design et restructuration complète, lamination sourcils, teinture végétale. Le regard transformé en une séance.",
+    icon: "⌘",
+    tag: "Tendance",
+  },
+];
 
-const STATS = [
-  { val: "1 800+", label: "Clientes fidèles" },
-  { val: "9 ans", label: "D'expertise beauté" },
-  { val: "4.9/5", label: "Note Google" },
-  { val: "98%", label: "Satisfaction clients" },
-  { val: "100%", label: "Produits bio certifiés" },
-]
+const INGREDIENTS = [
+  { name: "Rose de Damas", origin: "Bulgarie", benefit: "Éclat & Hydratation", img: "photo-1490750967868-88df5691cc2c" },
+  { name: "Huile d'Argan", origin: "Maroc", benefit: "Nutrition profonde", img: "photo-1608248597279-f99d160bfcbc" },
+  { name: "Argile Rose", origin: "France", benefit: "Purification douce", img: "photo-1556228578-8c89e6adf883" },
+  { name: "Beurre de Karité", origin: "Ghana", benefit: "Protection & Douceur", img: "photo-1620916566398-39f1143ab7be" },
+];
+
+const TEAM = [
+  {
+    name: "Camille Rousseau",
+    role: "Fondatrice & Esthéticienne",
+    bio: "15 ans d'expérience, formée à Paris et Tokyo. Spécialiste des soins visage et techniques de drainage lymphatique. Camille a révolutionné l'approche holistique du soin chez Lumière.",
+    img: "photo-1487412947147-5cebf100ffc2",
+    specialties: ["Soins visage", "Drainage", "Anti-âge"],
+  },
+  {
+    name: "Sophie Leblanc",
+    role: "Coiffeuse Senior",
+    bio: "Diplômée de l'École Française de Coiffure, Sophie maîtrise les techniques de balayage naturel et coloration végétale. Ses créations allient tendance et durabilité.",
+    img: "photo-1522337360788-8b13dee7a37e",
+    specialties: ["Balayage", "Coloration végétale", "Coupe créative"],
+  },
+  {
+    name: "Marie Chen",
+    role: "Artiste Maquillage",
+    bio: "Ancienne maquilleuse de plateau pour les maisons de couture parisiennes, Marie apporte son savoir-faire cinématographique au quotidien.",
+    img: "photo-1457972729786-0411a3b2b626",
+    specialties: ["Mariages", "Shooting", "Cours maquillage"],
+  },
+  {
+    name: "Isabelle Martin",
+    role: "Thérapeute Corps",
+    bio: "Certifiée en ayurveda et phytothérapie, Isabelle conçoit des rituels corps sur-mesure en harmonie avec les cycles naturels.",
+    img: "photo-1531746020798-e6953c6e8e04",
+    specialties: ["Rituels corps", "Ayurveda", "Massages"],
+  },
+];
 
 const TESTIMONIALS = [
-  { name: "Amélie Chartier", role: "Cliente depuis 3 ans", rating: 5, text: "Le soin signature Lumière est tout simplement incroyable. Ma peau n'a jamais été aussi lumineuse. Léa est une magicienne !", avatar: "AC" },
-  { name: "Sophie Marchand", role: "Mariée de l'été 2023", rating: 5, text: "J'ai choisi Lumière Beauty pour mon maquillage de mariage — un coup de génie. Charlotte a sublimé mon regard exactement comme je le voulais.", avatar: "SM" },
-  { name: "Clara Vidal", role: "Cliente régulière", rating: 5, text: "Enfin un institut qui utilise uniquement des produits naturels ! Mes ongles sont magnifiques et les soins ne sont jamais agressifs.", avatar: "CV" },
-  { name: "Lucie Perrin", role: "Cliente VIP", rating: 5, text: "L'ambiance est tellement apaisante. On se sent entre de bonnes mains dès l'accueil. Je viens toutes les 3 semaines pour mes extensions.", avatar: "LP" },
-  { name: "Marie-Claire Aubert", role: "Cliente depuis 5 ans", rating: 5, text: "Je recommande Lumière à toutes mes amies. Les masseuses sont expertes et l'on repart vraiment ressourcée. Un vrai havre de paix en ville.", avatar: "MA" },
-]
+  {
+    text: "Un moment hors du temps. Le soin visage signature a transformé ma peau en une seule séance. Camille est une véritable artiste du soin.",
+    author: "Léa M.",
+    role: "Cliente fidèle depuis 3 ans",
+    rating: 5,
+  },
+  {
+    text: "Je ne confie mes cheveux qu'à Sophie. Son talent pour le balayage naturel est incomparable — elle comprend exactement ce dont vos cheveux ont besoin.",
+    author: "Charlotte B.",
+    role: "Cliente depuis 2 ans",
+    rating: 5,
+  },
+  {
+    text: "Le rituel corps doré est une expérience de luxe pur. Je repars chaque fois transformée, apaisée, et avec une peau de bébé.",
+    author: "Mathilde D.",
+    role: "Cliente VIP",
+    rating: 5,
+  },
+  {
+    text: "Marie a réalisé mon maquillage de mariée. Résultat parfait du matin au soir — des larmes de bonheur n'ont rien abîmé !",
+    author: "Amélie R.",
+    role: "Mariée, Juin 2024",
+    rating: 5,
+  },
+];
 
-const PRICING = [
-  { name: "Découverte", price: "89", desc: "Idéal pour votre première visite", features: ["1 soin du visage hydratant", "Consultation beauté offerte", "Produits d'entretien conseillés", "Accès vestiaire & espace détente", "Thé & infusions bio offerts"] },
-  { name: "Sérénité", price: "199", desc: "Notre formule la plus populaire", featured: true, features: ["Soin visage anti-âge premium", "Massage relaxant 60 min", "Manucure semi-permanent", "Gommage corps aux sels de mer", "Accueil champagne", "Produit offert (valeur 35€)"] },
-  { name: "Prestige", price: "349", desc: "Une journée entièrement dédiée à vous", features: ["Tout Sérénité inclus", "Massage aux pierres chaudes", "Extension de cils", "Maquillage personnalisé", "Déjeuner végétalien inclus", "Kit beauté maison offert (valeur 80€)"] },
-]
+const PACKAGES = [
+  {
+    name: "Évasion Dorée",
+    duration: "3h30",
+    price: "285€",
+    tag: "Automne / Hiver",
+    includes: ["Soin visage signature", "Rituel corps doré", "Manucure japonaise", "Tisane & encas bio"],
+    color: C.rose,
+    highlight: false,
+  },
+  {
+    name: "Jour de Noces",
+    duration: "5h",
+    price: "450€",
+    tag: "Événement Spécial",
+    includes: ["Soin visage éclat", "Coiffure mariée", "Maquillage artiste", "Manucure gel", "Champagne & traiteur"],
+    color: C.dark,
+    highlight: true,
+  },
+  {
+    name: "Détox Printanière",
+    duration: "2h",
+    price: "175€",
+    tag: "Printemps / Été",
+    includes: ["Soin corps exfoliant", "Masque purifiant", "Modelage relaxant", "Infusion detox"],
+    color: C.rose,
+    highlight: false,
+  },
+];
 
-const FAQS = [
-  { q: "Faut-il réserver à l'avance ?", a: "Oui, la réservation est recommandée, surtout le week-end. Vous pouvez réserver en ligne 24h/24 ou par téléphone. Des créneaux de dernière minute sont parfois disponibles." },
-  { q: "Quels produits utilisez-vous ?", a: "Nous travaillons exclusivement avec des produits certifiés biologiques et cruelty-free : Thalgo, Phytomer, et notre propre gamme Lumière Naturals. Aucun parabène ni sulfate." },
-  { q: "Proposez-vous des forfaits cadeau ?", a: "Absolument. Nos cartes cadeaux sont disponibles pour tous les montants et toutes les prestations. Elles sont valables 12 mois et se commandent en boutique ou en ligne." },
-  { q: "Y a-t-il un âge minimum pour les soins ?", a: "Les soins sont accessibles dès 16 ans. Pour les mineures, l'accord parental est requis. Nous proposons des soins adaptés pour les ados (peaux mixtes, grasses)." },
-  { q: "Comment préparer ma peau avant un soin ?", a: "Venez sans maquillage si possible. Pour les soins corps, évitez l'épilation la veille. Pour les massages, n'hésitez pas à boire suffisamment d'eau avant et après." },
-  { q: "Pratiquez-vous des soins pendant la grossesse ?", a: "Oui, nous proposons des soins spécialement adaptés aux femmes enceintes (massages prénatal, soins doux sans huiles essentielles contre-indiquées) dès le 2ème trimestre." },
-  { q: "Quelle est votre politique d'annulation ?", a: "Annulation gratuite jusqu'à 24h avant votre rendez-vous. En deçà, des frais de 50% de la prestation peuvent s'appliquer. En cas de no-show, la prestation est facturée intégralement." },
-]
+const MARQUEE_ITEMS = [
+  "Soins Bio Certifiés",
+  "Produits Naturels",
+  "Expertise Parisienne",
+  "Éco-Responsable",
+  "Formules Exclusives",
+  "Résultats Garantis",
+];
 
-export default function LumierBeautyPage() {
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const heroRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"])
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+function useFonts() {
+  useEffect(() => {
+    const id = "fonts-impact-198";
+    if (document.getElementById(id)) return;
+    const style = document.createElement("style");
+    style.id = id;
+    style.textContent = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap');`;
+    document.head.appendChild(style);
+  }, []);
+}
+
+function TextReveal({
+  children,
+  delay = 0,
+  style: externalStyle,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <div style={{ overflow: "hidden", ...externalStyle }}>
+      <motion.div
+        initial={{ y: "110%", opacity: 0 }}
+        whileInView={{ y: "0%", opacity: 1 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.9, delay, ease: [0.76, 0, 0.24, 1] }}
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
+}
+
+function MagneticButton({
+  children,
+  style: externalStyle,
+  onClick,
+}: {
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+  onClick?: () => void;
+}) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 300, damping: 25 });
+  const springY = useSpring(y, { stiffness: 300, damping: 25 });
+  const ref = useRef<HTMLButtonElement>(null);
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      x.set((e.clientX - (rect.left + rect.width / 2)) * 0.35);
+      y.set((e.clientY - (rect.top + rect.height / 2)) * 0.35);
+    },
+    [x, y]
+  );
+  const handleMouseLeave = useCallback(() => {
+    x.set(0);
+    y.set(0);
+  }, [x, y]);
+  return (
+    <motion.button
+      ref={ref}
+      style={{ ...externalStyle, x: springX, y: springY }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={onClick}
+      whileTap={{ scale: 0.96 }}
+    >
+      {children}
+    </motion.button>
+  );
+}
+
+function SpotlightCard({
+  children,
+  style: externalStyle,
+  accentRgb,
+}: {
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+  accentRgb?: string;
+}) {
+  const [spotlight, setSpotlight] = useState({ x: 50, y: 50, active: false });
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setSpotlight({
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
+      active: true,
+    });
+  }, []);
+  const handleMouseLeave = useCallback(
+    () => setSpotlight((s) => ({ ...s, active: false })),
+    []
+  );
+  const rgb = accentRgb || "196,132,122";
+  const baseBg = externalStyle?.background || "#fff8f6";
+  return (
+    <div
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        ...externalStyle,
+        background: spotlight.active
+          ? `radial-gradient(circle at ${spotlight.x}% ${spotlight.y}%, rgba(${rgb},0.15) 0%, ${baseBg} 65%)`
+          : baseBg,
+        transition: "background 0.15s ease",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function MarqueeStrip({
+  items,
+  bg,
+  color,
+}: {
+  items: string[];
+  bg: string;
+  color: string;
+}) {
+  const doubled = [...items, ...items];
+  return (
+    <div style={{ overflow: "hidden", background: bg, paddingTop: 18, paddingBottom: 18 }}>
+      <motion.div
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+        style={{ display: "flex", whiteSpace: "nowrap", width: "max-content" }}
+      >
+        {doubled.map((item, i) => (
+          <span
+            key={i}
+            style={{
+              fontSize: 11,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color,
+              paddingLeft: 48,
+              paddingRight: 48,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 24,
+              fontFamily: C.fontSans,
+              fontWeight: 500,
+            }}
+          >
+            {item}
+            <span
+              style={{
+                width: 4,
+                height: 4,
+                borderRadius: "50%",
+                background: color,
+                opacity: 0.5,
+                display: "inline-block",
+              }}
+            />
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+function ServiceCard({ service }: { service: (typeof SERVICES)[0] }) {
+  return (
+    <SpotlightCard
+      accentRgb="196,132,122"
+      style={{
+        background: "#fff8f6",
+        border: `1px solid ${C.ivoryDark}`,
+        borderRadius: 2,
+        padding: "40px 36px",
+        cursor: "default",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7 }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: 20,
+            right: 20,
+            fontSize: 10,
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            background: C.blush,
+            color: C.roseDark,
+            padding: "4px 10px",
+            fontFamily: C.fontSans,
+            fontWeight: 500,
+          }}
+        >
+          {service.tag}
+        </div>
+        <div
+          style={{
+            fontSize: 28,
+            marginBottom: 20,
+            color: C.rose,
+          }}
+        >
+          {service.icon}
+        </div>
+        <h3
+          style={{
+            fontFamily: C.font,
+            fontWeight: 500,
+            fontSize: 22,
+            color: C.dark,
+            marginBottom: 4,
+            lineHeight: 1.2,
+          }}
+        >
+          {service.title}
+        </h3>
+        <div
+          style={{
+            fontFamily: C.fontSans,
+            fontSize: 13,
+            color: C.rose,
+            marginBottom: 16,
+            fontWeight: 500,
+            letterSpacing: "0.05em",
+          }}
+        >
+          {service.subtitle}
+        </div>
+        <p
+          style={{
+            fontFamily: C.fontSans,
+            fontSize: 14,
+            color: C.textMuted,
+            lineHeight: 1.75,
+            marginBottom: 24,
+          }}
+        >
+          {service.description}
+        </p>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            fontFamily: C.fontSans,
+            fontSize: 12,
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            color: C.rose,
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          Réserver
+          <span style={{ fontSize: 16 }}>→</span>
+        </div>
+      </motion.div>
+    </SpotlightCard>
+  );
+}
+
+function IngredientCard({ ing }: { ing: (typeof INGREDIENTS)[0] }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.96 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      whileHover={{ y: -6 }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 0,
+        overflow: "hidden",
+        borderRadius: 2,
+      }}
+    >
+      <div style={{ height: 200, overflow: "hidden" }}>
+        <img
+          src={`https://images.unsplash.com/${ing.img}?q=80&w=800&auto=format&fit=crop`}
+          alt={ing.name}
+          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+        />
+      </div>
+      <div style={{ background: C.ivory, padding: "20px 24px", border: `1px solid ${C.ivoryDark}`, borderTop: "none" }}>
+        <div style={{ fontFamily: C.font, fontSize: 18, fontWeight: 500, color: C.dark, marginBottom: 2 }}>
+          {ing.name}
+        </div>
+        <div style={{ fontFamily: C.fontSans, fontSize: 11, color: C.textMuted, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 8 }}>
+          Origine · {ing.origin}
+        </div>
+        <div style={{ fontFamily: C.fontSans, fontSize: 13, color: C.rose, fontWeight: 500 }}>
+          {ing.benefit}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function TestimonialCarousel() {
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setActive((a) => (a + 1) % TESTIMONIALS.length), 5000);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <div style={{ position: "relative", maxWidth: 700, margin: "0 auto" }}>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={active}
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -40 }}
+          transition={{ duration: 0.5 }}
+          style={{ textAlign: "center" }}
+        >
+          <div style={{ display: "flex", justifyContent: "center", gap: 4, marginBottom: 24 }}>
+            {Array.from({ length: TESTIMONIALS[active].rating }).map((_, i) => (
+              <span key={i} style={{ color: C.rose, fontSize: 16 }}>★</span>
+            ))}
+          </div>
+          <blockquote
+            style={{
+              fontFamily: C.font,
+              fontSize: "clamp(18px, 2.5vw, 26px)",
+              fontStyle: "italic",
+              color: C.dark,
+              lineHeight: 1.6,
+              marginBottom: 28,
+            }}
+          >
+            "{TESTIMONIALS[active].text}"
+          </blockquote>
+          <div style={{ fontFamily: C.fontSans, fontWeight: 600, color: C.dark, fontSize: 14 }}>
+            {TESTIMONIALS[active].author}
+          </div>
+          <div style={{ fontFamily: C.fontSans, color: C.textMuted, fontSize: 12, letterSpacing: "0.1em", marginTop: 4 }}>
+            {TESTIMONIALS[active].role}
+          </div>
+        </motion.div>
+      </AnimatePresence>
+      <div style={{ display: "flex", justifyContent: "center", gap: 8, marginTop: 36 }}>
+        {TESTIMONIALS.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setActive(i)}
+            style={{
+              width: i === active ? 24 : 8,
+              height: 8,
+              borderRadius: 4,
+              background: i === active ? C.rose : C.ivoryDark,
+              border: "none",
+              cursor: "pointer",
+              transition: "all 0.3s ease",
+              padding: 0,
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function PackageCard({ pkg }: { pkg: (typeof PACKAGES)[0] }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      whileHover={{ y: -8 }}
+      style={{
+        background: pkg.highlight ? C.dark : "#fff",
+        border: `2px solid ${pkg.highlight ? C.dark : C.ivoryDark}`,
+        borderRadius: 2,
+        padding: "40px 36px",
+        position: "relative",
+        overflow: "hidden",
+        flex: "1 1 280px",
+        minWidth: 260,
+        maxWidth: 380,
+      }}
+    >
+      {pkg.highlight && (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 3,
+            background: `linear-gradient(90deg, ${C.rose}, ${C.roseLight})`,
+          }}
+        />
+      )}
+      <div
+        style={{
+          fontFamily: C.fontSans,
+          fontSize: 10,
+          letterSpacing: "0.2em",
+          textTransform: "uppercase",
+          color: pkg.highlight ? C.roseLight : C.rose,
+          marginBottom: 12,
+          fontWeight: 600,
+        }}
+      >
+        {pkg.tag}
+      </div>
+      <h3
+        style={{
+          fontFamily: C.font,
+          fontSize: 28,
+          fontWeight: 500,
+          color: pkg.highlight ? "#fff" : C.dark,
+          marginBottom: 4,
+        }}
+      >
+        {pkg.name}
+      </h3>
+      <div
+        style={{
+          fontFamily: C.fontSans,
+          fontSize: 13,
+          color: pkg.highlight ? "rgba(255,255,255,0.5)" : C.textMuted,
+          marginBottom: 24,
+        }}
+      >
+        Durée : {pkg.duration}
+      </div>
+      <div
+        style={{
+          fontFamily: C.font,
+          fontSize: 42,
+          fontWeight: 300,
+          color: pkg.highlight ? "#fff" : C.dark,
+          marginBottom: 28,
+          lineHeight: 1,
+        }}
+      >
+        {pkg.price}
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 32 }}>
+        {pkg.includes.map((item, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div
+              style={{
+                width: 16,
+                height: 16,
+                borderRadius: "50%",
+                background: pkg.highlight ? C.rose : C.blush,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
+            >
+              <span style={{ fontSize: 8, color: pkg.highlight ? "#fff" : C.rose }}>✓</span>
+            </div>
+            <span
+              style={{
+                fontFamily: C.fontSans,
+                fontSize: 13,
+                color: pkg.highlight ? "rgba(255,255,255,0.8)" : C.text,
+              }}
+            >
+              {item}
+            </span>
+          </div>
+        ))}
+      </div>
+      <button
+        style={{
+          width: "100%",
+          padding: "14px 24px",
+          background: pkg.highlight ? C.rose : "transparent",
+          border: `1.5px solid ${pkg.highlight ? C.rose : C.dark}`,
+          color: pkg.highlight ? "#fff" : C.dark,
+          fontFamily: C.fontSans,
+          fontSize: 12,
+          letterSpacing: "0.15em",
+          textTransform: "uppercase",
+          fontWeight: 600,
+          cursor: "pointer",
+          transition: "all 0.25s ease",
+        }}
+      >
+        Réserver ce package
+      </button>
+    </motion.div>
+  );
+}
+
+export default function Impact198Page() {
+  useFonts();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeTeam, setActiveTeam] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll();
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 600], [0, 160]);
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.3]);
+  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
+  useEffect(() => {
+    const unsub = scrollY.on("change", (v) => setScrolled(v > 60));
+    return () => unsub();
+  }, [scrollY]);
+
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setMenuOpen(false);
+  };
+
+  const navLinks = [
+    { label: "Services", id: "services" },
+    { label: "Ingrédients", id: "ingredients" },
+    { label: "L'Équipe", id: "team" },
+    { label: "Avis", id: "testimonials" },
+    { label: "Packages", id: "packages" },
+  ];
 
   return (
-    <div style={{ overflowX: "hidden", scrollBehavior: "smooth", background: "#faf8f5", color: "#2d1f17", fontFamily: "'Playfair Display', Georgia, serif" }}>
+    <div
+      style={{
+        background: C.bg,
+        color: C.dark,
+        fontFamily: C.fontSans,
+        minHeight: "100vh",
+        overflowX: "hidden",
+      }}
+    >
+      {/* Scroll progress */}
+      <motion.div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          height: 2,
+          background: `linear-gradient(90deg, ${C.rose}, ${C.roseLight})`,
+          width: progressWidth,
+          zIndex: 1000,
+          transformOrigin: "0%",
+        }}
+      />
 
-      {/* NAVBAR */}
+      {/* Navigation */}
       <motion.nav
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, backdropFilter: "blur(16px)", background: "rgba(250,248,245,0.9)", borderBottom: "1px solid rgba(180,130,90,0.15)" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 70 }}>
-          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-            <div style={{ width: 34, height: 34, borderRadius: "50%", background: "linear-gradient(135deg, #c4855a, #e8a97e)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Sparkles size={16} color="white" />
-            </div>
-            <span style={{ fontSize: 19, fontWeight: 700, color: "#8b4513", letterSpacing: "0.04em" }}>Lumière Beauty</span>
-          </Link>
-
-          <div style={{ display: "flex", gap: 28, alignItems: "center" }} className="hidden md:flex">
-            {["Services", "À propos", "Avis", "Contact"].map(item => (
-              <a key={item} href={`#${item.toLowerCase().replace("à ", "")}`}
-                style={{ color: "#6b4c3b", textDecoration: "none", fontSize: 14, fontFamily: "system-ui, sans-serif", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = "#c4855a")}
-                onMouseLeave={e => (e.currentTarget.style.color = "#6b4c3b")}>
-                {item}
-              </a>
-            ))}
-            <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "10px 24px", background: "linear-gradient(135deg, #c4855a, #e8a97e)", color: "white", border: "none", borderRadius: 40, fontSize: 13, fontFamily: "system-ui, sans-serif", fontWeight: 600, cursor: "pointer" }}>
-              Réserver
-            </motion.button>
-          </div>
-
-          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetTrigger asChild>
-              <button style={{ background: "none", border: "none", color: "#2d1f17", cursor: "pointer" }} className="md:hidden block">
-                <Menu size={24} />
-              </button>
-            </SheetTrigger>
-            <SheetContent side="right" style={{ background: "#faf8f5" }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 24, paddingTop: 48 }}>
-                {["Services", "À propos", "Avis", "Contact"].map(item => (
-                  <a key={item} href="#" onClick={() => setMobileOpen(false)}
-                    style={{ color: "#2d1f17", textDecoration: "none", fontSize: 18 }}>{item}</a>
-                ))}
-                <button style={{ padding: "14px 24px", background: "linear-gradient(135deg, #c4855a, #e8a97e)", color: "white", border: "none", borderRadius: 40, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
-                  Réserver
-                </button>
-              </div>
-            </SheetContent>
-          </Sheet>
+        transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          padding: "0 clamp(20px, 5vw, 80px)",
+          height: 72,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          background: scrolled ? "rgba(253,250,245,0.95)" : "transparent",
+          backdropFilter: scrolled ? "blur(12px)" : "none",
+          borderBottom: scrolled ? `1px solid ${C.ivoryDark}` : "none",
+          transition: "all 0.4s ease",
+        }}
+      >
+        <div
+          style={{
+            fontFamily: C.font,
+            fontSize: 22,
+            fontWeight: 500,
+            color: C.dark,
+            letterSpacing: "0.05em",
+            cursor: "pointer",
+          }}
+          onClick={() => scrollTo("hero")}
+        >
+          Lumière Beauty
         </div>
+
+        {/* Desktop links */}
+        <div
+          style={{
+            display: "flex",
+            gap: 36,
+            alignItems: "center",
+          }}
+          className="desktop-nav"
+        >
+          {navLinks.map((link) => (
+            <button
+              key={link.id}
+              onClick={() => scrollTo(link.id)}
+              style={{
+                background: "none",
+                border: "none",
+                fontFamily: C.fontSans,
+                fontSize: 13,
+                color: C.textMuted,
+                cursor: "pointer",
+                letterSpacing: "0.05em",
+                padding: 0,
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => ((e.target as HTMLElement).style.color = C.rose)}
+              onMouseLeave={(e) => ((e.target as HTMLElement).style.color = C.textMuted)}
+            >
+              {link.label}
+            </button>
+          ))}
+          <MagneticButton
+            onClick={() => scrollTo("booking")}
+            style={{
+              background: C.rose,
+              color: "#fff",
+              border: "none",
+              padding: "10px 24px",
+              fontFamily: C.fontSans,
+              fontSize: 12,
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              fontWeight: 600,
+              cursor: "pointer",
+              borderRadius: 1,
+            }}
+          >
+            Réserver
+          </MagneticButton>
+        </div>
+
+        {/* Hamburger */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          style={{
+            display: "none",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            flexDirection: "column",
+            gap: 5,
+            padding: 4,
+          }}
+          className="hamburger"
+          aria-label="Menu"
+        >
+          {[0, 1, 2].map((i) => (
+            <motion.span
+              key={i}
+              animate={
+                menuOpen
+                  ? i === 0
+                    ? { rotate: 45, y: 7 }
+                    : i === 1
+                    ? { opacity: 0 }
+                    : { rotate: -45, y: -7 }
+                  : { rotate: 0, y: 0, opacity: 1 }
+              }
+              style={{
+                display: "block",
+                width: 24,
+                height: 1.5,
+                background: C.dark,
+                borderRadius: 2,
+              }}
+            />
+          ))}
+        </button>
       </motion.nav>
 
-      {/* HERO */}
-      <section ref={heroRef} style={{ position: "relative", height: "100vh", minHeight: 680, display: "flex", alignItems: "center", overflow: "hidden" }}>
-        <motion.div style={{ position: "absolute", inset: 0, y: bgY }}>
-          <Image src="https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=1600&q=80" alt="Institut de beauté" fill style={{ objectFit: "cover" }} priority />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(110deg, rgba(250,248,245,0.92) 45%, rgba(250,248,245,0.4) 100%)" }} />
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              position: "fixed",
+              top: 72,
+              left: 0,
+              right: 0,
+              background: "rgba(253,250,245,0.98)",
+              backdropFilter: "blur(16px)",
+              zIndex: 99,
+              padding: "24px 32px",
+              display: "flex",
+              flexDirection: "column",
+              gap: 20,
+              borderBottom: `1px solid ${C.ivoryDark}`,
+            }}
+          >
+            {navLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => scrollTo(link.id)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  fontFamily: C.font,
+                  fontSize: 22,
+                  color: C.dark,
+                  cursor: "pointer",
+                  textAlign: "left",
+                  padding: 0,
+                }}
+              >
+                {link.label}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .desktop-nav { display: none !important; }
+          .hamburger { display: flex !important; }
+        }
+      `}</style>
+
+      {/* Hero */}
+      <section
+        id="hero"
+        ref={heroRef}
+        style={{
+          position: "relative",
+          height: "100vh",
+          minHeight: 700,
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {/* Parallax background */}
+        <motion.div
+          style={{
+            position: "absolute",
+            inset: "-20% 0",
+            y: heroY,
+          }}
+        >
+          <img
+            src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1400&auto=format&fit=crop"
+            alt="Lumière Beauty salon"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(to bottom, rgba(253,250,245,0.3) 0%, rgba(253,250,245,0.6) 60%, rgba(253,250,245,0.9) 100%)",
+            }}
+          />
         </motion.div>
 
-        <motion.div style={{ position: "relative", zIndex: 10, padding: "0 10vw", maxWidth: 680, opacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <Badge style={{ background: "rgba(196,133,90,0.12)", color: "#c4855a", border: "1px solid rgba(196,133,90,0.3)", fontSize: 11, letterSpacing: "0.1em", marginBottom: 24, fontFamily: "system-ui, sans-serif" }}>
-              INSTITUT DE BEAUTÉ — PRODUITS BIO CERTIFIÉS
-            </Badge>
+        <motion.div
+          style={{
+            position: "relative",
+            zIndex: 2,
+            textAlign: "center",
+            padding: "0 clamp(24px, 6vw, 100px)",
+            opacity: heroOpacity,
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0, letterSpacing: "0.5em" }}
+            animate={{ opacity: 1, letterSpacing: "0.25em" }}
+            transition={{ duration: 1.2, delay: 0.2 }}
+            style={{
+              fontFamily: C.fontSans,
+              fontSize: 11,
+              textTransform: "uppercase",
+              color: C.rose,
+              marginBottom: 20,
+              fontWeight: 500,
+            }}
+          >
+            Institut de Beauté · Paris 7ème
           </motion.div>
 
-          <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            style={{ fontSize: "clamp(38px, 6vw, 72px)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 24, color: "#2d1f17" }}>
-            Révélez votre <em style={{ color: "#c4855a", fontStyle: "italic" }}>éclat naturel</em>
-          </motion.h1>
+          <TextReveal delay={0.3}>
+            <h1
+              style={{
+                fontFamily: C.font,
+                fontSize: "clamp(52px, 9vw, 120px)",
+                fontWeight: 300,
+                color: C.dark,
+                lineHeight: 0.95,
+                marginBottom: 0,
+              }}
+            >
+              L'art du soin
+            </h1>
+          </TextReveal>
+          <TextReveal delay={0.45}>
+            <h1
+              style={{
+                fontFamily: C.font,
+                fontStyle: "italic",
+                fontSize: "clamp(52px, 9vw, 120px)",
+                fontWeight: 300,
+                color: C.rose,
+                lineHeight: 0.95,
+                marginBottom: 28,
+              }}
+            >
+              à votre service
+            </h1>
+          </TextReveal>
 
-          <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
-            style={{ fontSize: 17, color: "#6b4c3b", lineHeight: 1.75, marginBottom: 40, fontFamily: "system-ui, sans-serif", maxWidth: 480 }}>
-            Soins du visage, massages, manucure et maquillage — des rituels beauté haut de gamme dans un cocon de douceur, avec des produits 100% naturels.
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+            style={{
+              fontFamily: C.fontSans,
+              fontSize: 16,
+              color: C.textMuted,
+              maxWidth: 480,
+              margin: "0 auto 40px",
+              lineHeight: 1.7,
+            }}
+          >
+            Formules exclusives, ingrédients naturels certifiés et expertise parisienne au service de votre beauté naturelle.
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.45 }}
-            style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-            <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(196,133,90,0.35)" }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "16px 36px", background: "linear-gradient(135deg, #c4855a, #e8a97e)", color: "white", border: "none", borderRadius: 40, fontSize: 15, fontFamily: "system-ui, sans-serif", fontWeight: 600, cursor: "pointer" }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.9 }}
+            style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}
+          >
+            <MagneticButton
+              onClick={() => scrollTo("booking")}
+              style={{
+                background: C.dark,
+                color: "#fff",
+                border: "none",
+                padding: "16px 40px",
+                fontFamily: C.fontSans,
+                fontSize: 12,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                fontWeight: 600,
+                cursor: "pointer",
+                borderRadius: 1,
+              }}
+            >
               Prendre rendez-vous
-            </motion.button>
-            <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "16px 36px", background: "transparent", color: "#8b4513", border: "2px solid rgba(196,133,90,0.4)", borderRadius: 40, fontSize: 15, fontFamily: "system-ui, sans-serif", cursor: "pointer" }}>
-              Nos soins
-            </motion.button>
+            </MagneticButton>
+            <MagneticButton
+              onClick={() => scrollTo("services")}
+              style={{
+                background: "transparent",
+                color: C.dark,
+                border: `1.5px solid ${C.dark}`,
+                padding: "16px 40px",
+                fontFamily: C.fontSans,
+                fontSize: 12,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                fontWeight: 600,
+                cursor: "pointer",
+                borderRadius: 1,
+              }}
+            >
+              Découvrir
+            </MagneticButton>
           </motion.div>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.9, duration: 0.7 }}
-          style={{ position: "absolute", right: 60, bottom: 100, background: "rgba(255,255,255,0.85)", backdropFilter: "blur(12px)", border: "1px solid rgba(196,133,90,0.2)", borderRadius: 16, padding: "20px 28px", zIndex: 10 }}>
-          <div style={{ display: "flex", gap: 4, marginBottom: 6 }}>
-            {[1,2,3,4,5].map(i => <Star key={i} size={14} fill="#c4855a" color="#c4855a" />)}
+        {/* Scroll indicator */}
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          style={{
+            position: "absolute",
+            bottom: 36,
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 8,
+            zIndex: 2,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: C.fontSans,
+              fontSize: 9,
+              letterSpacing: "0.25em",
+              textTransform: "uppercase",
+              color: C.textMuted,
+            }}
+          >
+            Défiler
           </div>
-          <div style={{ fontSize: 22, fontWeight: 700, color: "#2d1f17", fontFamily: "system-ui" }}>4.9 / 5</div>
-          <div style={{ fontSize: 12, color: "#6b4c3b", fontFamily: "system-ui" }}>+340 avis Google</div>
+          <div
+            style={{
+              width: 1,
+              height: 40,
+              background: `linear-gradient(to bottom, ${C.rose}, transparent)`,
+            }}
+          />
         </motion.div>
       </section>
 
-      {/* STATS */}
-      <section style={{ padding: "48px 32px", background: "white", borderBottom: "1px solid rgba(196,133,90,0.1)" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", flexWrap: "wrap", gap: 32, justifyContent: "center" }}>
-          {STATS.map((s, i) => (
-            <Reveal key={i} delay={i * 0.1}>
-              <div style={{ textAlign: "center", minWidth: 130 }}>
-                <div style={{ fontSize: 34, fontWeight: 700, color: "#c4855a" }}>{s.val}</div>
-                <div style={{ fontSize: 13, color: "#8b7355", fontFamily: "system-ui", marginTop: 4 }}>{s.label}</div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
+      {/* Marquee */}
+      <MarqueeStrip items={MARQUEE_ITEMS} bg={C.rose} color="#fff" />
 
-      {/* SERVICES */}
-      <section id="services" style={{ padding: "100px 32px", background: "#faf8f5" }}>
+      {/* Services */}
+      <section
+        id="services"
+        style={{
+          padding: "clamp(80px, 12vw, 140px) clamp(24px, 8vw, 120px)",
+        }}
+      >
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 64 }}>
-              <Badge style={{ background: "rgba(196,133,90,0.1)", color: "#c4855a", border: "1px solid rgba(196,133,90,0.25)", fontSize: 11, letterSpacing: "0.1em", marginBottom: 16, fontFamily: "system-ui" }}>NOS SOINS</Badge>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, letterSpacing: "-0.02em", color: "#2d1f17", marginBottom: 16 }}>Des soins <em style={{ color: "#c4855a" }}>pensés pour vous</em></h2>
-              <p style={{ fontSize: 16, color: "#6b4c3b", fontFamily: "system-ui", maxWidth: 480, margin: "0 auto" }}>Chaque prestation est personnalisée selon votre peau, vos envies et votre rythme de vie.</p>
-            </div>
-          </Reveal>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
-            {SERVICES.map((s, i) => (
-              <Reveal key={i} delay={i * 0.08}>
-                <motion.div whileHover={{ y: -4, boxShadow: "0 12px 40px rgba(196,133,90,0.15)" }}
-                  style={{ background: "white", borderRadius: 16, padding: "28px 24px", border: "1px solid rgba(196,133,90,0.12)", cursor: "pointer" }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(196,133,90,0.1)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 18 }}>
-                    <s.icon size={20} color="#c4855a" />
-                  </div>
-                  <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 8, color: "#2d1f17" }}>{s.name}</h3>
-                  <p style={{ fontSize: 14, color: "#8b7355", fontFamily: "system-ui", lineHeight: 1.65, marginBottom: 20 }}>{s.desc}</p>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 16, borderTop: "1px solid rgba(196,133,90,0.1)" }}>
-                    <span style={{ fontSize: 13, color: "#8b7355", fontFamily: "system-ui" }}><Clock size={12} style={{ display: "inline", marginRight: 4 }} />{s.duration}</span>
-                    <span style={{ fontSize: 16, fontWeight: 700, color: "#c4855a" }}>{s.price}</span>
-                  </div>
-                </motion.div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FEATURES TABS */}
-      <section id="propos" style={{ padding: "100px 32px", background: "white" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 52 }}>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, color: "#2d1f17", letterSpacing: "-0.02em" }}>
-                L'excellence <em style={{ color: "#c4855a" }}>Lumière</em>
+          <div style={{ marginBottom: 64 }}>
+            <TextReveal>
+              <div
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 11,
+                  letterSpacing: "0.25em",
+                  textTransform: "uppercase",
+                  color: C.rose,
+                  marginBottom: 16,
+                  fontWeight: 500,
+                }}
+              >
+                Nos Soins
+              </div>
+            </TextReveal>
+            <TextReveal delay={0.1}>
+              <h2
+                style={{
+                  fontFamily: C.font,
+                  fontSize: "clamp(38px, 5vw, 68px)",
+                  fontWeight: 400,
+                  color: C.dark,
+                  lineHeight: 1.05,
+                }}
+              >
+                Des soins pensés
+                <br />
+                <em>pour vous sublimer</em>
               </h2>
-            </div>
-          </Reveal>
-
-          <Tabs defaultValue="approche" style={{ width: "100%" }}>
-            <TabsList style={{ background: "rgba(196,133,90,0.06)", marginBottom: 40, display: "flex", height: "auto", gap: 4, padding: 4, borderRadius: 40, border: "1px solid rgba(196,133,90,0.15)" }}>
-              <TabsTrigger value="approche" style={{ flex: 1, borderRadius: 36, fontSize: 13, fontFamily: "system-ui", color: "#8b7355" }}>Notre approche</TabsTrigger>
-              <TabsTrigger value="produits" style={{ flex: 1, borderRadius: 36, fontSize: 13, fontFamily: "system-ui", color: "#8b7355" }}>Nos produits</TabsTrigger>
-              <TabsTrigger value="equipe" style={{ flex: 1, borderRadius: 36, fontSize: 13, fontFamily: "system-ui", color: "#8b7355" }}>L'équipe</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="approche">
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
-                <div style={{ position: "relative", aspectRatio: "4/3", borderRadius: 20, overflow: "hidden" }}>
-                  <Image src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80" alt="Soin visage" fill style={{ objectFit: "cover" }} />
-                </div>
-                <div>
-                  <h3 style={{ fontSize: 28, fontWeight: 700, color: "#2d1f17", marginBottom: 16 }}>Un regard holistique sur votre beauté</h3>
-                  <p style={{ fontSize: 15, color: "#8b7355", fontFamily: "system-ui", lineHeight: 1.8, marginBottom: 24 }}>Chez Lumière, nous croyons que la beauté extérieure rayonne depuis le bien-être intérieur. Chaque soin est un moment de reconnexion avec vous-même.</p>
-                  <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 12 }}>
-                    {["Diagnostic personnalisé avant chaque soin", "Protocoles adaptés à chaque type de peau", "Ambiance zen et musique apaisante", "Confidentialité et respect absolu"].map(f => (
-                      <li key={f} style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 14, color: "#6b4c3b", fontFamily: "system-ui" }}>
-                        <Check size={15} color="#c4855a" style={{ flexShrink: 0 }} />{f}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="produits">
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
-                <div>
-                  <h3 style={{ fontSize: 28, fontWeight: 700, color: "#2d1f17", marginBottom: 16 }}>100% naturel, 100% éthique</h3>
-                  <p style={{ fontSize: 15, color: "#8b7355", fontFamily: "system-ui", lineHeight: 1.8, marginBottom: 24 }}>Nous sélectionnons chaque produit avec soin : certifications COSMOS Organic, sans parabènes, sans silicones, cruelty-free et fabriqués en France.</p>
-                  <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 12 }}>
-                    {["Gamme Thalgo Marine certifiée bio", "Phytomer — soins marins bretons", "Lumière Naturals — notre propre gamme", "Produits disponibles à l'achat en boutique"].map(f => (
-                      <li key={f} style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 14, color: "#6b4c3b", fontFamily: "system-ui" }}>
-                        <Leaf size={15} color="#c4855a" style={{ flexShrink: 0 }} />{f}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div style={{ position: "relative", aspectRatio: "4/3", borderRadius: 20, overflow: "hidden" }}>
-                  <Image src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&q=80" alt="Produits bio" fill style={{ objectFit: "cover" }} />
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="equipe">
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
-                <div style={{ position: "relative", aspectRatio: "4/3", borderRadius: 20, overflow: "hidden" }}>
-                  <Image src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80" alt="Équipe" fill style={{ objectFit: "cover" }} />
-                </div>
-                <div>
-                  <h3 style={{ fontSize: 28, fontWeight: 700, color: "#2d1f17", marginBottom: 16 }}>Des expertes passionnées</h3>
-                  <p style={{ fontSize: 15, color: "#8b7355", fontFamily: "system-ui", lineHeight: 1.8, marginBottom: 24 }}>Notre équipe de 6 esthéticiennes est certifiée CAP Esthétique, formée aux dernières techniques et passionnée par leur métier.</p>
-                  <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 12 }}>
-                    {["Léa Moreau — fondatrice, 12 ans d'expérience", "Charlotte Viel — spécialiste maquillage & cils", "Emma Faure — experte massages & bien-être", "Formation continue chaque année"].map(f => (
-                      <li key={f} style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 14, color: "#6b4c3b", fontFamily: "system-ui" }}>
-                        <Sparkles size={14} color="#c4855a" style={{ flexShrink: 0 }} />{f}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </TabsContent>
-          </Tabs>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section id="avis" style={{ padding: "100px 32px", background: "#faf8f5" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 56 }}>
-              <Badge style={{ background: "rgba(196,133,90,0.1)", color: "#c4855a", border: "1px solid rgba(196,133,90,0.25)", fontSize: 11, letterSpacing: "0.1em", marginBottom: 16, fontFamily: "system-ui" }}>TÉMOIGNAGES</Badge>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, color: "#2d1f17" }}>Ce que disent <em style={{ color: "#c4855a" }}>nos clientes</em></h2>
-            </div>
-          </Reveal>
-
-          <Carousel opts={{ align: "start", loop: true }}>
-            <CarouselContent style={{ paddingLeft: 8 }}>
-              {TESTIMONIALS.map((t, i) => (
-                <CarouselItem key={i} style={{ paddingLeft: 16, flexBasis: "calc(50% - 8px)" }}>
-                  <Card style={{ background: "white", border: "1px solid rgba(196,133,90,0.12)", borderRadius: 16, height: "100%" }}>
-                    <CardContent style={{ padding: 28 }}>
-                      <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>
-                        {Array.from({ length: t.rating }).map((_, j) => <Star key={j} size={14} fill="#c4855a" color="#c4855a" />)}
-                      </div>
-                      <p style={{ fontSize: 15, color: "#6b4c3b", fontFamily: "system-ui", lineHeight: 1.75, marginBottom: 20, fontStyle: "italic" }}>"{t.text}"</p>
-                      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                        <Avatar>
-                          <AvatarFallback style={{ background: "rgba(196,133,90,0.15)", color: "#c4855a", fontSize: 13, fontWeight: 700 }}>{t.avatar}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <div style={{ fontSize: 14, fontWeight: 700, color: "#2d1f17" }}>{t.name}</div>
-                          <div style={{ fontSize: 12, color: "#8b7355", fontFamily: "system-ui" }}>{t.role}</div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious style={{ background: "white", border: "1px solid rgba(196,133,90,0.3)", color: "#c4855a" }} />
-            <CarouselNext style={{ background: "white", border: "1px solid rgba(196,133,90,0.3)", color: "#c4855a" }} />
-          </Carousel>
-        </div>
-      </section>
-
-      {/* PRICING */}
-      <section style={{ padding: "100px 32px", background: "white" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 64 }}>
-              <Badge style={{ background: "rgba(196,133,90,0.1)", color: "#c4855a", border: "1px solid rgba(196,133,90,0.25)", fontSize: 11, letterSpacing: "0.1em", marginBottom: 16, fontFamily: "system-ui" }}>FORFAITS</Badge>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, color: "#2d1f17" }}>Des offres pour chaque moment</h2>
-            </div>
-          </Reveal>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
-            {PRICING.map((plan, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <motion.div whileHover={{ y: -6, boxShadow: plan.featured ? "0 16px 50px rgba(196,133,90,0.25)" : "0 8px 32px rgba(0,0,0,0.08)" }}
-                  style={{ borderRadius: 20, border: plan.featured ? "2px solid #c4855a" : "1px solid rgba(196,133,90,0.15)", overflow: "hidden", cursor: "pointer", position: "relative" }}>
-                  {plan.featured && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "linear-gradient(90deg, #c4855a, #e8a97e)" }} />}
-                  <div style={{ padding: "32px 24px", background: plan.featured ? "rgba(196,133,90,0.04)" : "white" }}>
-                    {plan.featured && <div style={{ display: "inline-block", background: "rgba(196,133,90,0.15)", color: "#c4855a", fontSize: 10, letterSpacing: "0.1em", fontWeight: 700, padding: "4px 12px", borderRadius: 20, marginBottom: 12, fontFamily: "system-ui" }}>LE PLUS POPULAIRE</div>}
-                    <h3 style={{ fontSize: 20, fontWeight: 700, color: "#2d1f17", marginBottom: 6 }}>{plan.name}</h3>
-                    <p style={{ fontSize: 13, color: "#8b7355", fontFamily: "system-ui", marginBottom: 16 }}>{plan.desc}</p>
-                    <div style={{ fontSize: 40, fontWeight: 700, color: "#c4855a", marginBottom: 24 }}>{plan.price} €</div>
-                    <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
-                      {plan.features.map(f => (
-                        <li key={f} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 13, color: "#6b4c3b", fontFamily: "system-ui" }}>
-                          <Check size={14} color="#c4855a" style={{ marginTop: 2, flexShrink: 0 }} />{f}
-                        </li>
-                      ))}
-                    </ul>
-                    <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                      style={{ width: "100%", padding: "13px", background: plan.featured ? "linear-gradient(135deg, #c4855a, #e8a97e)" : "transparent", color: plan.featured ? "white" : "#c4855a", border: plan.featured ? "none" : "2px solid rgba(196,133,90,0.4)", borderRadius: 40, fontSize: 13, fontFamily: "system-ui", fontWeight: 600, cursor: "pointer" }}>
-                      Réserver ce forfait
-                    </motion.button>
-                  </div>
-                </motion.div>
-              </Reveal>
+            </TextReveal>
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+              gap: 24,
+            }}
+          >
+            {SERVICES.map((service) => (
+              <ServiceCard key={service.id} service={service} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section id="contact" style={{ padding: "100px 32px", background: "#faf8f5" }}>
-        <div style={{ maxWidth: 780, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 52 }}>
-              <Badge style={{ background: "rgba(196,133,90,0.1)", color: "#c4855a", border: "1px solid rgba(196,133,90,0.25)", fontSize: 11, letterSpacing: "0.1em", marginBottom: 16, fontFamily: "system-ui" }}>FAQ</Badge>
-              <h2 style={{ fontSize: "clamp(26px, 4vw, 44px)", fontWeight: 700, color: "#2d1f17" }}>Vos questions, nos réponses</h2>
-            </div>
-          </Reveal>
-
-          <Accordion type="single" collapsible style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {FAQS.map((faq, i) => (
-              <AccordionItem key={i} value={`q${i}`} style={{ border: "1px solid rgba(196,133,90,0.15)", borderRadius: 12, overflow: "hidden", background: "white" }}>
-                <AccordionTrigger style={{ padding: "18px 22px", fontSize: 15, fontWeight: 600, color: "#2d1f17", fontFamily: "system-ui", textAlign: "left" }}>{faq.q}</AccordionTrigger>
-                <AccordionContent style={{ padding: "0 22px 18px", fontSize: 14, color: "#8b7355", fontFamily: "system-ui", lineHeight: 1.8 }}>{faq.a}</AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section style={{ padding: "80px 32px", background: "linear-gradient(135deg, #c4855a 0%, #e8a97e 100%)" }}>
-        <div style={{ maxWidth: 680, margin: "0 auto", textAlign: "center" }}>
-          <Reveal>
-            <Sparkles size={36} color="white" style={{ marginBottom: 20 }} />
-            <h2 style={{ fontSize: "clamp(26px, 4vw, 48px)", fontWeight: 700, color: "white", marginBottom: 16 }}>Offrez-vous un moment rien que pour vous</h2>
-            <p style={{ fontSize: 16, color: "rgba(255,255,255,0.85)", fontFamily: "system-ui", lineHeight: 1.7, marginBottom: 36 }}>Réservez en ligne en 2 minutes. Premier soin ? Consultation gratuite offerte.</p>
-            <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-              <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(0,0,0,0.25)" }} whileTap={{ scale: 0.97 }}
-                style={{ padding: "16px 36px", background: "white", color: "#c4855a", border: "none", borderRadius: 40, fontSize: 15, fontFamily: "system-ui", fontWeight: 700, cursor: "pointer" }}>
-                Réserver maintenant
-              </motion.button>
-              <motion.button whileHover={{ scale: 1.04 }}
-                style={{ padding: "16px 36px", background: "rgba(255,255,255,0.15)", color: "white", border: "2px solid rgba(255,255,255,0.4)", borderRadius: 40, fontSize: 15, fontFamily: "system-ui", cursor: "pointer" }}>
-                Offrir un bon cadeau
-              </motion.button>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer style={{ padding: "56px 32px 36px", background: "#2d1f17" }}>
+      {/* Ingredients / Bio Products */}
+      <section
+        id="ingredients"
+        style={{
+          padding: "clamp(80px, 12vw, 140px) clamp(24px, 8vw, 120px)",
+          background: C.ivory,
+        }}
+      >
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 40, marginBottom: 48 }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 80,
+              alignItems: "center",
+              marginBottom: 64,
+            }}
+          >
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
-                <div style={{ width: 30, height: 30, borderRadius: "50%", background: "linear-gradient(135deg, #c4855a, #e8a97e)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <Sparkles size={14} color="white" />
+              <TextReveal>
+                <div
+                  style={{
+                    fontFamily: C.fontSans,
+                    fontSize: 11,
+                    letterSpacing: "0.25em",
+                    textTransform: "uppercase",
+                    color: C.rose,
+                    marginBottom: 16,
+                    fontWeight: 500,
+                  }}
+                >
+                  Formules Bio
                 </div>
-                <span style={{ fontSize: 17, fontWeight: 700, color: "#e8a97e" }}>Lumière Beauty</span>
-              </div>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", fontFamily: "system-ui", lineHeight: 1.8, marginBottom: 20, maxWidth: 260 }}>Institut de beauté bio & naturel. 14 rue des Fleurs, 75006 Paris. Ouvert Lun–Sam 9h–19h.</p>
-              <div style={{ display: "flex", gap: 10 }}>
-                {[Camera, Users2].map((Icon, i) => (
-                  <motion.button key={i} whileHover={{ scale: 1.15 }} style={{ width: 34, height: 34, borderRadius: "50%", background: "rgba(255,255,255,0.08)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "rgba(255,255,255,0.5)" }}>
-                    <Icon size={15} />
-                  </motion.button>
-                ))}
-              </div>
+              </TextReveal>
+              <TextReveal delay={0.1}>
+                <h2
+                  style={{
+                    fontFamily: C.font,
+                    fontSize: "clamp(34px, 4vw, 56px)",
+                    fontWeight: 400,
+                    color: C.dark,
+                    lineHeight: 1.1,
+                  }}
+                >
+                  La nature comme
+                  <br />
+                  <em>alliée beauté</em>
+                </h2>
+              </TextReveal>
             </div>
-            {[
-              { title: "Soins", links: ["Visage", "Corps", "Ongles", "Massages", "Maquillage"] },
-              { title: "Institut", links: ["À propos", "Notre équipe", "Produits", "Carte cadeau"] },
-              { title: "Pratique", links: ["Réserver", "Tarifs", "Horaires", "Contact", "FAQ"] },
-            ].map(col => (
-              <div key={col.title}>
-                <h4 style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#e8a97e", marginBottom: 18, fontFamily: "system-ui" }}>{col.title.toUpperCase()}</h4>
-                <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-                  {col.links.map(l => (
-                    <li key={l}><a href="#" style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", textDecoration: "none", fontFamily: "system-ui", cursor: "pointer" }}>{l}</a></li>
-                  ))}
-                </ul>
-              </div>
+            <motion.p
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              style={{
+                fontFamily: C.fontSans,
+                fontSize: 16,
+                color: C.textMuted,
+                lineHeight: 1.8,
+              }}
+            >
+              Tous nos soins sont formulés à partir d'ingrédients naturels, sélectionnés pour leur efficacité prouvée et leur provenance éthique. Nous travaillons en direct avec des producteurs certifiés biologiques dans 12 pays.
+            </motion.p>
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+              gap: 24,
+            }}
+          >
+            {INGREDIENTS.map((ing) => (
+              <IngredientCard key={ing.name} ing={ing} />
             ))}
           </div>
-          <Separator style={{ background: "rgba(255,255,255,0.08)", marginBottom: 24 }} />
-          <p style={{ fontSize: 12, color: "rgba(255,255,255,0.25)", fontFamily: "system-ui", textAlign: "center" }}>© 2024 Lumière Beauty — Tous droits réservés</p>
+        </div>
+      </section>
+
+      {/* Team */}
+      <section
+        id="team"
+        style={{
+          padding: "clamp(80px, 12vw, 140px) clamp(24px, 8vw, 120px)",
+        }}
+      >
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <TextReveal>
+              <div
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 11,
+                  letterSpacing: "0.25em",
+                  textTransform: "uppercase",
+                  color: C.rose,
+                  marginBottom: 16,
+                  fontWeight: 500,
+                }}
+              >
+                Notre Équipe
+              </div>
+            </TextReveal>
+            <TextReveal delay={0.1}>
+              <h2
+                style={{
+                  fontFamily: C.font,
+                  fontSize: "clamp(36px, 5vw, 60px)",
+                  fontWeight: 400,
+                  color: C.dark,
+                }}
+              >
+                Des expertes <em>passionnées</em>
+              </h2>
+            </TextReveal>
+          </div>
+
+          {/* Team tabs */}
+          <div
+            style={{
+              display: "flex",
+              gap: 0,
+              justifyContent: "center",
+              marginBottom: 48,
+              borderBottom: `1px solid ${C.ivoryDark}`,
+            }}
+          >
+            {TEAM.map((member, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveTeam(i)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  borderBottom: `2px solid ${activeTeam === i ? C.rose : "transparent"}`,
+                  padding: "12px 24px",
+                  fontFamily: C.fontSans,
+                  fontSize: 13,
+                  color: activeTeam === i ? C.rose : C.textMuted,
+                  cursor: "pointer",
+                  transition: "all 0.25s",
+                  fontWeight: activeTeam === i ? 600 : 400,
+                  marginBottom: -1,
+                }}
+              >
+                {member.name.split(" ")[0]}
+              </button>
+            ))}
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTeam}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.45 }}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "400px 1fr",
+                gap: 64,
+                alignItems: "center",
+              }}
+            >
+              <div style={{ position: "relative" }}>
+                <img
+                  src={`https://images.unsplash.com/${TEAM[activeTeam].img}?q=80&w=800&auto=format&fit=crop`}
+                  alt={TEAM[activeTeam].name}
+                  style={{
+                    width: "100%",
+                    aspectRatio: "4/5",
+                    objectFit: "cover",
+                    display: "block",
+                    borderRadius: 2,
+                  }}
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: -16,
+                    right: -16,
+                    width: 80,
+                    height: 80,
+                    background: C.blush,
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 28,
+                    color: C.rose,
+                  }}
+                >
+                  ✦
+                </div>
+              </div>
+              <div>
+                <div
+                  style={{
+                    fontFamily: C.fontSans,
+                    fontSize: 11,
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase",
+                    color: C.rose,
+                    marginBottom: 12,
+                    fontWeight: 500,
+                  }}
+                >
+                  {TEAM[activeTeam].role}
+                </div>
+                <h3
+                  style={{
+                    fontFamily: C.font,
+                    fontSize: 44,
+                    fontWeight: 400,
+                    color: C.dark,
+                    marginBottom: 20,
+                    lineHeight: 1.1,
+                  }}
+                >
+                  {TEAM[activeTeam].name}
+                </h3>
+                <p
+                  style={{
+                    fontFamily: C.fontSans,
+                    fontSize: 15,
+                    color: C.textMuted,
+                    lineHeight: 1.8,
+                    marginBottom: 32,
+                  }}
+                >
+                  {TEAM[activeTeam].bio}
+                </p>
+                <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                  {TEAM[activeTeam].specialties.map((s) => (
+                    <span
+                      key={s}
+                      style={{
+                        fontFamily: C.fontSans,
+                        fontSize: 12,
+                        color: C.roseDark,
+                        background: C.blush,
+                        padding: "6px 14px",
+                        borderRadius: 20,
+                        fontWeight: 500,
+                      }}
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section
+        id="testimonials"
+        style={{
+          padding: "clamp(80px, 12vw, 140px) clamp(24px, 8vw, 120px)",
+          background: C.blush,
+        }}
+      >
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <TextReveal>
+              <div
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 11,
+                  letterSpacing: "0.25em",
+                  textTransform: "uppercase",
+                  color: C.roseDark,
+                  marginBottom: 16,
+                  fontWeight: 500,
+                }}
+              >
+                Témoignages
+              </div>
+            </TextReveal>
+            <TextReveal delay={0.1}>
+              <h2
+                style={{
+                  fontFamily: C.font,
+                  fontSize: "clamp(36px, 5vw, 60px)",
+                  fontWeight: 400,
+                  color: C.dark,
+                }}
+              >
+                Elles nous font <em>confiance</em>
+              </h2>
+            </TextReveal>
+          </div>
+          <TestimonialCarousel />
+        </div>
+      </section>
+
+      {/* Seasonal packages */}
+      <section
+        id="packages"
+        style={{
+          padding: "clamp(80px, 12vw, 140px) clamp(24px, 8vw, 120px)",
+        }}
+      >
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 64 }}>
+            <TextReveal>
+              <div
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 11,
+                  letterSpacing: "0.25em",
+                  textTransform: "uppercase",
+                  color: C.rose,
+                  marginBottom: 16,
+                  fontWeight: 500,
+                }}
+              >
+                Packages Saisonniers
+              </div>
+            </TextReveal>
+            <TextReveal delay={0.1}>
+              <h2
+                style={{
+                  fontFamily: C.font,
+                  fontSize: "clamp(36px, 5vw, 60px)",
+                  fontWeight: 400,
+                  color: C.dark,
+                }}
+              >
+                Des expériences <em>complètes</em>
+              </h2>
+            </TextReveal>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              gap: 24,
+              justifyContent: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            {PACKAGES.map((pkg) => (
+              <PackageCard key={pkg.name} pkg={pkg} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Booking CTA */}
+      <section
+        id="booking"
+        style={{
+          padding: "clamp(80px, 12vw, 140px) clamp(24px, 8vw, 120px)",
+          background: C.dark,
+          position: "relative",
+          overflow: "hidden",
+          textAlign: "center",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "60vw",
+            height: "60vw",
+            maxWidth: 600,
+            maxHeight: 600,
+            borderRadius: "50%",
+            background: `radial-gradient(circle, rgba(196,132,122,0.12) 0%, transparent 70%)`,
+            pointerEvents: "none",
+          }}
+        />
+        <div style={{ position: "relative", zIndex: 2, maxWidth: 640, margin: "0 auto" }}>
+          <TextReveal>
+            <div
+              style={{
+                fontFamily: C.fontSans,
+                fontSize: 11,
+                letterSpacing: "0.25em",
+                textTransform: "uppercase",
+                color: C.roseLight,
+                marginBottom: 20,
+                fontWeight: 500,
+              }}
+            >
+              Réservation
+            </div>
+          </TextReveal>
+          <TextReveal delay={0.1}>
+            <h2
+              style={{
+                fontFamily: C.font,
+                fontSize: "clamp(40px, 6vw, 80px)",
+                fontWeight: 300,
+                color: "#fff",
+                lineHeight: 1.05,
+                marginBottom: 20,
+              }}
+            >
+              Votre moment
+              <br />
+              <em style={{ color: C.roseLight }}>de beauté vous attend</em>
+            </h2>
+          </TextReveal>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            style={{
+              fontFamily: C.fontSans,
+              fontSize: 15,
+              color: "rgba(255,255,255,0.55)",
+              lineHeight: 1.7,
+              marginBottom: 44,
+            }}
+          >
+            Réservez en ligne en 2 minutes. Consultations disponibles du mardi au samedi, de 9h à 19h.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}
+          >
+            <MagneticButton
+              style={{
+                background: C.rose,
+                color: "#fff",
+                border: "none",
+                padding: "18px 48px",
+                fontFamily: C.fontSans,
+                fontSize: 13,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                fontWeight: 600,
+                cursor: "pointer",
+                borderRadius: 1,
+              }}
+            >
+              Prendre rendez-vous
+            </MagneticButton>
+            <MagneticButton
+              style={{
+                background: "transparent",
+                color: "rgba(255,255,255,0.7)",
+                border: "1.5px solid rgba(255,255,255,0.2)",
+                padding: "18px 48px",
+                fontFamily: C.fontSans,
+                fontSize: 13,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                fontWeight: 600,
+                cursor: "pointer",
+                borderRadius: 1,
+              }}
+            >
+              Nous appeler
+            </MagneticButton>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.6 }}
+            style={{
+              marginTop: 48,
+              display: "flex",
+              gap: 40,
+              justifyContent: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            {[
+              { label: "Clientes satisfaites", value: "3 400+" },
+              { label: "Années d'expertise", value: "12" },
+              { label: "Soins certifiés bio", value: "100%" },
+            ].map((stat) => (
+              <div key={stat.label} style={{ textAlign: "center" }}>
+                <div
+                  style={{
+                    fontFamily: C.font,
+                    fontSize: 40,
+                    fontWeight: 300,
+                    color: "#fff",
+                    lineHeight: 1,
+                  }}
+                >
+                  {stat.value}
+                </div>
+                <div
+                  style={{
+                    fontFamily: C.fontSans,
+                    fontSize: 11,
+                    color: "rgba(255,255,255,0.4)",
+                    letterSpacing: "0.1em",
+                    marginTop: 4,
+                  }}
+                >
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer
+        style={{
+          background: "#120e0c",
+          color: "rgba(255,255,255,0.5)",
+          padding: "40px clamp(24px, 8vw, 120px)",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: 16,
+        }}
+      >
+        <div
+          style={{
+            fontFamily: C.font,
+            fontSize: 18,
+            color: "rgba(255,255,255,0.8)",
+          }}
+        >
+          Lumière Beauty
+        </div>
+        <div
+          style={{
+            fontFamily: C.fontSans,
+            fontSize: 12,
+            letterSpacing: "0.05em",
+          }}
+        >
+          © 2025 Lumière Beauty · 12 Rue de Grenelle, Paris 7ème · Institut certifié bio
         </div>
       </footer>
     </div>
-  )
+  );
 }

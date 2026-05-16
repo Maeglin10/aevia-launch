@@ -1,332 +1,378 @@
 "use client"
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
-import React, { useState, useRef, useEffect } from "react"
+
+import React, { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence, useScroll, useInView } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Progress } from "@/components/ui/progress"
-import { Separator } from "@/components/ui/separator"
-import { Zap, BarChart3, Shield, Code2, Layers, Globe, Check, Star, Menu, ArrowRight, MessageSquare, Link2, GitBranch, ChevronRight, Users, TrendingUp, Lock, RefreshCw } from "lucide-react"
+import { Menu, X, ArrowRight, Check, Star, Zap, BarChart2, Shield, Users, Clock, Globe, ChevronRight, Play, Sparkles } from "lucide-react"
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+function useFonts() {
+  useEffect(() => {
+    const id = "fonts-essential-saas"
+    if (document.getElementById(id)) return
+    const s = document.createElement("style")
+    s.id = id
+    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');`
+    document.head.appendChild(s)
+  }, [])
+}
+
+function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  const isInView = useInView(ref, { once: true, margin: "-60px" })
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 32 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}>
+    <motion.div ref={ref} initial={{ opacity: 0, y }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}>
       {children}
     </motion.div>
   )
 }
 
 const FEATURES = [
-  { icon: Zap, title: "Automatisation intelligente", desc: "Automatisez vos workflows répétitifs avec notre moteur IA — économisez 12h de travail par semaine en moyenne." },
-  { icon: BarChart3, title: "Analytics en temps réel", desc: "Tableaux de bord dynamiques, alertes proactives et rapports automatisés pour des décisions data-driven." },
-  { icon: Shield, title: "Sécurité enterprise", desc: "SOC 2 Type II, chiffrement AES-256, SSO SAML, RBAC granulaire — la sécurité n'est pas une option." },
-  { icon: Code2, title: "API & intégrations", desc: "REST + GraphQL API, webhooks, 200+ intégrations natives (Salesforce, HubSpot, Slack, Jira, etc.)." },
-  { icon: Layers, title: "Multi-tenant & scalable", desc: "Architecture cloud-native conçue pour scaler de 10 à 10 000 utilisateurs sans friction." },
-  { icon: Globe, title: "Collaboration globale", desc: "Workspaces partagés, gestion des permissions, commentaires en contexte — votre équipe en sync 24/7." },
-]
-
-const STATS = [
-  { val: "8 400+", label: "Entreprises clientes" },
-  { val: "99.98%", label: "Uptime SLA" },
-  { val: "12h", label: "Économisées / semaine" },
-  { val: "4.9/5", label: "G2 & Capterra" },
-  { val: "SOC 2", label: "Type II certifié" },
-]
-
-const TESTIMONIALS = [
-  { name: "Alexandre Dubois", role: "CTO, Spendr", rating: 5, text: "On a réduit notre temps de reporting de 80% en 3 semaines. L'API est propre, la doc est excellente, et le support est réactif. C'est ce qu'on attendait depuis des années.", avatar: "AD" },
-  { name: "Marie Chen", role: "VP Ops, NordX", rating: 5, text: "L'intégration Salesforce + Slack a transformé nos workflows commerciaux. Les alertes automatisées ont réduit notre churn de 23% en un trimestre.", avatar: "MC" },
-  { name: "Thomas Müller", role: "Fondateur, Growthly", rating: 5, text: "Migration depuis notre ancienne solution en 48h chrono. L'équipe support a été présente à chaque étape. On ne reviendra jamais en arrière.", avatar: "TM" },
-  { name: "Sarah Leclerc", role: "Head of Product, Aevia", rating: 5, text: "La scalabilité est impressionnante. On est passé de 50 à 2 400 utilisateurs en 6 mois sans un seul incident. Le pricing était aussi franchement compétitif.", avatar: "SL" },
-  { name: "Kevin Park", role: "CEO, DataNexus", rating: 5, text: "Les dashboards en temps réel ont complètement changé notre relation aux données. Nos investisseurs adorent les rapports automatisés qu'on leur envoie maintenant.", avatar: "KP" },
+  { icon: BarChart2, title: "Analytics avancés", desc: "Tableaux de bord en temps réel avec métriques personnalisables. Exportez vos données en un clic." },
+  { icon: Shield, title: "Sécurité enterprise", desc: "Chiffrement AES-256, SSO, 2FA et conformité SOC2. Vos données sont protégées par défaut." },
+  { icon: Users, title: "Collaboration d'équipe", desc: "Invitez votre équipe, gérez les rôles et permissions. Travaillez ensemble en temps réel." },
+  { icon: Zap, title: "Automatisations", desc: "Créez des workflows automatisés en quelques clics. Connectez 200+ outils populaires." },
+  { icon: Globe, title: "API complète", desc: "API REST et GraphQL documentée. SDKs disponibles pour Python, JavaScript, Ruby et Go." },
+  { icon: Clock, title: "Support 24/7", desc: "Équipe de support dédiée, disponible à tout moment. Temps de réponse moyen : 2 heures." },
 ]
 
 const PRICING = [
-  { name: "Starter", price: "49", period: "/mois", desc: "Pour les équipes qui démarrent", features: ["5 utilisateurs inclus", "10 workflows automatisés", "Analytics 30 jours", "API 10K calls/mois", "Support email", "Intégrations de base (20+)"] },
-  { name: "Growth", price: "199", period: "/mois", desc: "Pour les équipes en croissance", featured: true, features: ["25 utilisateurs inclus", "Workflows illimités", "Analytics 12 mois", "API 500K calls/mois", "Support prioritaire 24/7", "200+ intégrations", "SSO & SAML", "Rôles & permissions avancés"] },
-  { name: "Enterprise", price: "Sur mesure", period: "", desc: "Pour les grandes organisations", features: ["Utilisateurs illimités", "Infrastructure dédiée", "SLA 99.99% garanti", "Support dédié + CSM", "Audit logs complets", "RBAC granulaire", "On-premise disponible", "Formation & onboarding inclus"] },
+  {
+    name: "Gratuit",
+    price: "0",
+    period: "pour toujours",
+    desc: "Pour démarrer et explorer",
+    features: ["Jusqu'à 3 utilisateurs", "5 projets", "1 Go de stockage", "Support communauté", "API (100 req/jour)"],
+    cta: "Commencer gratuitement",
+    highlight: false,
+  },
+  {
+    name: "Pro",
+    price: "29",
+    period: "/ mois / utilisateur",
+    desc: "Pour les équipes en croissance",
+    features: ["Utilisateurs illimités", "Projets illimités", "100 Go de stockage", "Support prioritaire (4h)", "API illimitée", "Analytics avancés", "Automations (500/mois)"],
+    cta: "Essai gratuit 14 jours",
+    highlight: true,
+  },
+  {
+    name: "Entreprise",
+    price: "Sur devis",
+    period: "",
+    desc: "Pour les grandes organisations",
+    features: ["Tout Pro inclus", "SSO & SAML", "Audit logs complets", "SLA 99.99%", "Stockage illimité", "Onboarding dédié", "CSM attitré"],
+    cta: "Contacter les ventes",
+    highlight: false,
+  },
 ]
 
-const FAQS = [
-  { q: "Quelle est la durée minimale d'engagement ?", a: "Aucun engagement. Nos plans Starter et Growth sont mensuels, sans frais d'annulation. L'Enterprise inclut un contrat annuel avec des conditions de résiliation transparentes." },
-  { q: "Comment fonctionne l'onboarding ?", a: "Après votre inscription, un Customer Success Manager vous contacte sous 24h pour un call d'onboarding. Notre équipe peut importer vos données existantes et configurer vos premiers workflows." },
-  { q: "Mes données sont-elles sécurisées ?", a: "Absolument. Nous sommes certifiés SOC 2 Type II, RGPD compliant, et toutes les données sont chiffrées en transit et au repos (AES-256). Vos données n'ont jamais accès à nos modèles IA." },
-  { q: "Puis-je migrer depuis un autre outil ?", a: "Oui. Nous proposons des migrations assistées depuis Zapier, Make, Monday, Asana, et Notion. Notre équipe technique s'occupe de tout sans interruption de service." },
-  { q: "L'API est-elle complète ?", a: "Notre API REST + GraphQL expose l'intégralité des fonctionnalités de la plateforme. Documentation OpenAPI interactive, SDK JavaScript/Python/PHP inclus, webhooks temps réel." },
-  { q: "Y a-t-il une version d'essai ?", a: "Oui, 14 jours d'essai gratuit sur le plan Growth, sans carte bancaire requise. Accès complet à toutes les fonctionnalités, données d'essai incluses pour tester rapidement." },
-  { q: "Que se passe-t-il si je dépasse mes limites ?", a: "Vous recevez une alerte à 80% d'utilisation. Si vous dépassez, les services continuent de fonctionner et on vous propose une upgrade — pas de coupure surprise." },
+const TESTIMONIALS = [
+  { name: "Alice Dupont", role: "CTO — StartupX", text: "On a migré en 2 jours. L'API est propre, la doc claire. On n'a jamais regardé en arrière.", avatar: "AD" },
+  { name: "Thomas Leroy", role: "CEO — Agence Nova", text: "Nos clients adorent les dashboards partagés. Ça a changé notre façon de livrer des projets.", avatar: "TL" },
+  { name: "Camille Martin", role: "Product Manager", text: "Les automations nous ont économisé 15h par semaine. En 3 mois, le ROI était déjà là.", avatar: "CM" },
 ]
 
 export default function EssentialSaaSPage() {
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const heroRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"])
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+  useFonts()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll()
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
   return (
-    <div style={{ overflowX: "hidden", scrollBehavior: "smooth", background: "#06070f", color: "#e8eaf6", fontFamily: "system-ui, -apple-system, sans-serif" }}>
+    <div className="min-h-screen bg-white text-[#0F172A]" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <motion.div className="fixed top-0 left-0 h-[3px] bg-[#6366F1] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
-      {/* NAVBAR */}
-      <motion.nav initial={{ y: -80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, backdropFilter: "blur(16px)", background: "rgba(6,7,15,0.9)", borderBottom: "1px solid rgba(99,102,241,0.15)" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
-          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: "linear-gradient(135deg, #6366f1, #818cf8)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Zap size={16} color="white" />
+      {/* Nav */}
+      <motion.nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-white/95 backdrop-blur-md shadow-sm" : "bg-transparent"}`}
+        initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 bg-[#6366F1] rounded-lg flex items-center justify-center">
+              <Sparkles className="w-4 h-4 text-white" />
             </div>
-            <span style={{ fontSize: 18, fontWeight: 700, color: "#e8eaf6", letterSpacing: "-0.01em" }}>FlowSync</span>
-          </Link>
-
-          <div style={{ display: "flex", gap: 28, alignItems: "center" }} className="hidden md:flex">
-            {["Fonctionnalités", "Intégrations", "Tarifs", "Docs"].map(item => (
-              <a key={item} href={`#${item.toLowerCase()}`}
-                style={{ color: "rgba(232,234,246,0.6)", textDecoration: "none", fontSize: 14, fontWeight: 500, transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = "#818cf8")}
-                onMouseLeave={e => (e.currentTarget.style.color = "rgba(232,234,246,0.6)")}>
-                {item}
-              </a>
-            ))}
-            <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "9px 20px", background: "transparent", color: "rgba(232,234,246,0.7)", border: "1px solid rgba(99,102,241,0.4)", borderRadius: 8, fontSize: 14, fontWeight: 500, cursor: "pointer" }}>
-              Se connecter
-            </motion.button>
-            <motion.button whileHover={{ scale: 1.04, boxShadow: "0 4px 20px rgba(99,102,241,0.4)" }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "9px 20px", background: "linear-gradient(135deg, #6366f1, #818cf8)", color: "white", border: "none", borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
-              Essai gratuit 14j
-            </motion.button>
+            <span className="text-lg font-bold">Flowbase</span>
           </div>
-
-          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetTrigger asChild>
-              <button style={{ background: "none", border: "none", color: "#e8eaf6", cursor: "pointer" }} className="md:hidden block"><Menu size={24} /></button>
-            </SheetTrigger>
-            <SheetContent side="right" style={{ background: "#06070f", borderLeft: "1px solid rgba(99,102,241,0.15)" }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 24, paddingTop: 48 }}>
-                {["Fonctionnalités", "Intégrations", "Tarifs", "Docs"].map(item => (
-                  <a key={item} href="#" onClick={() => setMobileOpen(false)} style={{ color: "#e8eaf6", textDecoration: "none", fontSize: 18, fontWeight: 500 }}>{item}</a>
-                ))}
-                <button style={{ padding: "14px", background: "linear-gradient(135deg, #6366f1, #818cf8)", color: "white", border: "none", borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
-                  Essai gratuit 14j
-                </button>
-              </div>
-            </SheetContent>
-          </Sheet>
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+            {["Fonctionnalités", "Tarifs", "Docs", "Blog"].map(l => (
+              <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#6366F1] transition-colors">{l}</Link>
+            ))}
+            <Link href="#" className="text-[#6366F1]">Connexion</Link>
+            <Link href="#tarifs" className="px-5 py-2.5 bg-[#6366F1] text-white rounded-xl font-semibold hover:bg-[#4F46E5] transition-colors cursor-pointer">
+              Essai gratuit
+            </Link>
+          </div>
+          <button className="md:hidden p-2 cursor-pointer" onClick={() => setMenuOpen(true)} aria-label="Menu">
+            <Menu className="w-5 h-5" />
+          </button>
         </div>
       </motion.nav>
 
-      {/* HERO */}
-      <section ref={heroRef} style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", overflow: "hidden", paddingTop: 68 }}>
-        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(99,102,241,0.2) 0%, transparent 70%)" }} />
-        <div style={{ position: "absolute", top: "20%", right: "-10%", width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(circle, rgba(129,140,248,0.1) 0%, transparent 70%)", filter: "blur(40px)" }} />
-
-        <motion.div style={{ position: "relative", zIndex: 10, maxWidth: 1100, margin: "0 auto", padding: "80px 32px", textAlign: "center", opacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <Badge style={{ background: "rgba(99,102,241,0.12)", color: "#818cf8", border: "1px solid rgba(99,102,241,0.3)", fontSize: 12, marginBottom: 24, padding: "5px 14px" }}>
-              ✦ Nouveau — Automatisation IA disponible
-            </Badge>
-          </motion.div>
-
-          <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            style={{ fontSize: "clamp(40px, 6.5vw, 82px)", fontWeight: 800, lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 24, color: "#e8eaf6" }}>
-            Automatisez votre business.<br /><span style={{ background: "linear-gradient(135deg, #6366f1, #a5b4fc)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Multipliez vos résultats.</span>
-          </motion.h1>
-
-          <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.25 }}
-            style={{ fontSize: 19, color: "rgba(232,234,246,0.65)", lineHeight: 1.7, marginBottom: 44, maxWidth: 580, margin: "0 auto 44px" }}>
-            FlowSync connecte vos outils, automatise vos workflows et vous donne les insights pour prendre de meilleures décisions — sans une ligne de code.
-          </motion.p>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }}
-            style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", marginBottom: 60 }}>
-            <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(99,102,241,0.4)" }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "16px 36px", background: "linear-gradient(135deg, #6366f1, #818cf8)", color: "white", border: "none", borderRadius: 10, fontSize: 16, fontWeight: 700, cursor: "pointer" }}>
-              Commencer gratuitement
-            </motion.button>
-            <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "16px 36px", background: "rgba(255,255,255,0.05)", color: "#e8eaf6", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 10, fontSize: 16, cursor: "pointer", backdropFilter: "blur(8px)" }}>
-              Voir la démo ↗
-            </motion.button>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.55 }}
-            style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(99,102,241,0.2)", borderRadius: 16, overflow: "hidden", maxWidth: 900, margin: "0 auto" }}>
-            <Image src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" alt="Dashboard FlowSync" width={900} height={500} style={{ width: "100%", height: "auto", display: "block" }} />
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* STATS */}
-      <section style={{ padding: "48px 32px", background: "rgba(99,102,241,0.04)", borderTop: "1px solid rgba(99,102,241,0.1)", borderBottom: "1px solid rgba(99,102,241,0.1)" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", flexWrap: "wrap", gap: 32, justifyContent: "center" }}>
-          {STATS.map((s, i) => (
-            <Reveal key={i} delay={i * 0.1}>
-              <div style={{ textAlign: "center", minWidth: 140 }}>
-                <div style={{ fontSize: 34, fontWeight: 800, color: "#818cf8", letterSpacing: "-0.02em" }}>{s.val}</div>
-                <div style={{ fontSize: 13, color: "rgba(232,234,246,0.45)", marginTop: 4 }}>{s.label}</div>
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div className="fixed inset-0 z-[200] bg-white flex flex-col"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <div className="flex items-center justify-between px-6 py-4 border-b">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 bg-[#6366F1] rounded-lg flex items-center justify-center"><Sparkles className="w-4 h-4 text-white" /></div>
+                <span className="font-bold">Flowbase</span>
               </div>
-            </Reveal>
-          ))}
+              <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
+            </div>
+            <div className="flex flex-col gap-6 p-8">
+              {["Fonctionnalités", "Tarifs", "Docs", "Blog"].map((l, i) => (
+                <motion.div key={l} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}>
+                  <Link href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)} className="text-2xl font-semibold hover:text-[#6366F1] transition-colors cursor-pointer">{l}</Link>
+                </motion.div>
+              ))}
+              <Link href="#tarifs" className="mt-4 py-4 bg-[#6366F1] text-white text-center font-semibold rounded-xl cursor-pointer">Essai gratuit</Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Hero */}
+      <section className="pt-28 pb-20 px-6 max-w-7xl mx-auto text-center">
+        <Reveal>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#EEF2FF] rounded-full text-[#6366F1] text-sm font-semibold mb-8">
+            <Zap className="w-3.5 h-3.5" />
+            Nouveau — Intégration IA disponible
+          </div>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.05] mb-6 max-w-4xl mx-auto">
+            Gérez votre business<br />avec <span className="text-[#6366F1]">clarté et vitesse</span>
+          </h1>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed">
+            Flowbase réunit vos projets, votre équipe et vos analytics dans une plateforme unique. Moins d&apos;outils, plus d&apos;impact.
+          </p>
+        </Reveal>
+        <Reveal delay={0.3}>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
+            <Link href="#tarifs" className="flex items-center gap-2 px-8 py-4 bg-[#6366F1] text-white font-bold rounded-xl hover:bg-[#4F46E5] transition-colors cursor-pointer text-lg">
+              Démarrer gratuitement <ArrowRight className="w-5 h-5" />
+            </Link>
+            <Link href="#" className="flex items-center gap-2 px-8 py-4 border border-slate-200 rounded-xl font-semibold hover:border-[#6366F1] transition-colors cursor-pointer">
+              <Play className="w-4 h-4 text-[#6366F1]" /> Voir la démo (2 min)
+            </Link>
+          </div>
+        </Reveal>
+
+        {/* Dashboard preview */}
+        <Reveal delay={0.4}>
+          <div className="relative max-w-5xl mx-auto">
+            <div className="rounded-2xl overflow-hidden shadow-2xl border border-slate-200">
+              <div className="bg-slate-800 px-4 py-3 flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-500" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                <div className="w-3 h-3 rounded-full bg-green-500" />
+                <div className="flex-1 mx-4 bg-slate-700 rounded-md py-1 px-3 text-xs text-slate-400">app.flowbase.io/dashboard</div>
+              </div>
+              <div className="bg-[#F8F9FF] p-6">
+                {/* Mock dashboard */}
+                <div className="grid grid-cols-4 gap-4 mb-6">
+                  {[["€128k", "Revenus ce mois", "+14%"], ["2,847", "Utilisateurs actifs", "+8%"], ["98.7%", "Uptime", ""], ["4.2h", "Temps moyen session", "+12%"]].map(([val, label, change]) => (
+                    <div key={label} className="bg-white rounded-xl p-4 shadow-sm">
+                      <div className="text-2xl font-bold mb-1">{val}</div>
+                      <div className="text-xs text-slate-500 mb-1">{label}</div>
+                      {change && <div className="text-xs text-green-600 font-semibold">{change}</div>}
+                    </div>
+                  ))}
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="col-span-2 bg-white rounded-xl p-4 shadow-sm">
+                    <div className="text-sm font-semibold mb-4">Croissance mensuelle</div>
+                    <div className="flex items-end gap-2 h-24">
+                      {[30, 50, 40, 70, 60, 85, 75, 90, 80, 95, 88, 100].map((h, i) => (
+                        <div key={i} className="flex-1 rounded-t" style={{ height: `${h}%`, background: i === 11 ? "#6366F1" : "#E0E7FF" }} />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="bg-white rounded-xl p-4 shadow-sm">
+                    <div className="text-sm font-semibold mb-3">Projets actifs</div>
+                    {[["Refonte site", 80, "#6366F1"], ["App mobile", 55, "#10B981"], ["API v3", 35, "#F59E0B"]].map(([name, pct, color]) => (
+                      <div key={name as string} className="mb-3">
+                        <div className="flex justify-between text-xs mb-1"><span>{name as string}</span><span>{pct}%</span></div>
+                        <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                          <div className="h-full rounded-full" style={{ width: `${pct}%`, background: color as string }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
+        {/* Logos */}
+        <div className="mt-16 pt-10 border-t border-slate-100">
+          <p className="text-sm text-slate-400 mb-6">Utilisé par +2 400 équipes dans 45 pays</p>
+          <div className="flex flex-wrap items-center justify-center gap-10 opacity-30">
+            {["Flowly", "Nimble", "DataBrick", "Kynda", "Axiom", "Serenity"].map(b => (
+              <span key={b} className="text-sm font-bold tracking-wide">{b}</span>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* FEATURES */}
-      <section id="fonctionnalités" style={{ padding: "100px 32px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 64 }}>
-              <Badge style={{ background: "rgba(99,102,241,0.1)", color: "#818cf8", border: "1px solid rgba(99,102,241,0.25)", fontSize: 12, marginBottom: 16 }}>FONCTIONNALITÉS</Badge>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 800, letterSpacing: "-0.02em", color: "#e8eaf6" }}>Tout ce dont votre équipe a besoin</h2>
-              <p style={{ fontSize: 16, color: "rgba(232,234,246,0.5)", marginTop: 12, maxWidth: 480, margin: "12px auto 0" }}>Une plateforme unifiée pour automatiser, analyser et collaborer — sans multiplier les outils.</p>
-            </div>
-          </Reveal>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 20 }}>
-            {FEATURES.map((f, i) => (
-              <Reveal key={i} delay={i * 0.08}>
-                <motion.div whileHover={{ y: -4, borderColor: "rgba(99,102,241,0.3)" }}
-                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(99,102,241,0.12)", borderRadius: 14, padding: "28px 24px", cursor: "pointer", transition: "border-color 0.3s" }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(99,102,241,0.12)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 18 }}>
-                    <f.icon size={20} color="#818cf8" />
+      {/* Features */}
+      <section id="fonctionnalités" className="py-28 bg-[#F8F9FF]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="text-center mb-16">
+            <Reveal>
+              <p className="text-[#6366F1] font-semibold text-sm mb-3">Fonctionnalités</p>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Tout ce dont vous avez besoin</h2>
+              <p className="text-slate-500 text-lg max-w-2xl mx-auto">Une plateforme qui grandit avec vous. Pas de configuration complexe, pas de modules cachés.</p>
+            </Reveal>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {FEATURES.map((f, i) => {
+              const Icon = f.icon
+              return (
+                <Reveal key={f.title} delay={i * 0.07}>
+                  <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:border-[#6366F1]/30 hover:shadow-md transition-all duration-300 group cursor-pointer">
+                    <div className="w-12 h-12 bg-[#EEF2FF] rounded-xl flex items-center justify-center mb-5 group-hover:bg-[#6366F1] transition-colors duration-300">
+                      <Icon className="w-6 h-6 text-[#6366F1] group-hover:text-white transition-colors duration-300" />
+                    </div>
+                    <h3 className="text-lg font-bold mb-3">{f.title}</h3>
+                    <p className="text-slate-500 text-sm leading-relaxed">{f.desc}</p>
                   </div>
-                  <h3 style={{ fontSize: 18, fontWeight: 700, color: "#e8eaf6", marginBottom: 10 }}>{f.title}</h3>
-                  <p style={{ fontSize: 14, color: "rgba(232,234,246,0.55)", lineHeight: 1.7 }}>{f.desc}</p>
-                </motion.div>
+                </Reveal>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="text-center mb-16">
+            <Reveal>
+              <p className="text-[#6366F1] font-semibold text-sm mb-3">Prise en main</p>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Opérationnel en 5 minutes</h2>
+            </Reveal>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8 relative">
+            <div className="hidden md:block absolute top-8 left-1/3 right-1/3 h-[2px] bg-[#EEF2FF]" />
+            {[
+              { step: "1", title: "Créez votre compte", desc: "Inscription en 30 secondes. Pas de carte bancaire requise. Commencez immédiatement avec le plan gratuit." },
+              { step: "2", title: "Invitez votre équipe", desc: "Envoyez des invitations par email. Les membres rejoignent en un clic et trouvent leurs outils prêts à l'emploi." },
+              { step: "3", title: "Connectez vos outils", desc: "200+ intégrations en un clic. Slack, Notion, GitHub, Jira, HubSpot... Votre stack existant reste en place." },
+            ].map((s, i) => (
+              <Reveal key={s.step} delay={i * 0.1}>
+                <div className="text-center relative">
+                  <div className="w-16 h-16 bg-[#6366F1] rounded-2xl flex items-center justify-center text-white text-2xl font-extrabold mx-auto mb-6 relative z-10">
+                    {s.step}
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">{s.title}</h3>
+                  <p className="text-slate-500 leading-relaxed">{s.desc}</p>
+                </div>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* INTEGRATIONS TABS */}
-      <section id="intégrations" style={{ padding: "100px 32px", background: "rgba(255,255,255,0.02)" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 52 }}>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 800, color: "#e8eaf6", letterSpacing: "-0.02em" }}>200+ intégrations <span style={{ color: "#818cf8" }}>natives</span></h2>
-            </div>
-          </Reveal>
+      {/* Stats */}
+      <section className="py-20 bg-[#6366F1] text-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[["2 400+", "Équipes actives"], ["99.99%", "Uptime garanti"], ["4.9/5", "Note moyenne"], ["15h/sem", "Temps économisé"]].map(([val, label]) => (
+              <Reveal key={label}>
+                <div>
+                  <div className="text-4xl font-extrabold mb-2">{val}</div>
+                  <div className="text-indigo-200 text-sm">{label}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          <Tabs defaultValue="crm" style={{ width: "100%" }}>
-            <TabsList style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(99,102,241,0.15)", marginBottom: 40, display: "flex", height: "auto", padding: 4, gap: 4 }}>
-              <TabsTrigger value="crm" style={{ flex: 1, fontSize: 13, fontWeight: 500, color: "rgba(232,234,246,0.55)" }}>CRM & Sales</TabsTrigger>
-              <TabsTrigger value="dev" style={{ flex: 1, fontSize: 13, fontWeight: 500, color: "rgba(232,234,246,0.55)" }}>Dev & Ops</TabsTrigger>
-              <TabsTrigger value="collab" style={{ flex: 1, fontSize: 13, fontWeight: 500, color: "rgba(232,234,246,0.55)" }}>Collaboration</TabsTrigger>
-            </TabsList>
-
-            {[
-              { id: "crm", title: "Salesforce, HubSpot, Pipedrive, Intercom, Zendesk", desc: "Synchronisez vos contacts, deals et tickets en temps réel. Déclenchez des workflows CRM depuis n'importe quel événement.", items: ["Sync bidirectionnel automatique", "Création de leads depuis formulaires", "Alertes churn prédictif", "Rapports revenue automatisés"] },
-              { id: "dev", title: "GitHub, Jira, Linear, Datadog, PagerDuty", desc: "Automatisez vos pipelines CI/CD, incidents et tickets de développement en connectant vos outils de prod.", items: ["Webhook sur PR, deploy, incident", "Alertes Datadog → Slack", "Sprint planning automatisé", "Release notes générées par IA"] },
-              { id: "collab", title: "Slack, Teams, Notion, Google Workspace, Zoom", desc: "Gardez votre équipe en sync sans effort. Notifications intelligentes, résumés automatiques et mises à jour contextuelles.", items: ["Résumés de réunion IA", "Tâches depuis messages Slack", "Docs Notion synchronisés", "Rapports hebdo automatiques"] },
-            ].map(tab => (
-              <TabsContent key={tab.id} value={tab.id}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
-                  <div>
-                    <h3 style={{ fontSize: 24, fontWeight: 700, color: "#e8eaf6", marginBottom: 8 }}>{tab.title}</h3>
-                    <p style={{ fontSize: 15, color: "rgba(232,234,246,0.6)", lineHeight: 1.75, marginBottom: 24 }}>{tab.desc}</p>
-                    <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 12 }}>
-                      {tab.items.map(item => (
-                        <li key={item} style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 14, color: "rgba(232,234,246,0.7)" }}>
-                          <Check size={15} color="#818cf8" style={{ flexShrink: 0 }} />{item}
-                        </li>
-                      ))}
-                    </ul>
+      {/* Testimonials */}
+      <section className="py-28 bg-[#F8F9FF]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="text-center mb-14">
+            <Reveal>
+              <p className="text-[#6366F1] font-semibold text-sm mb-3">Témoignages</p>
+              <h2 className="text-4xl font-extrabold tracking-tight">Ils nous font confiance</h2>
+            </Reveal>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {TESTIMONIALS.map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.1}>
+                <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
+                  <div className="flex gap-1 mb-5">
+                    {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]" />)}
                   </div>
-                  <div style={{ background: "rgba(99,102,241,0.06)", border: "1px solid rgba(99,102,241,0.15)", borderRadius: 16, padding: "40px 32px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Globe size={80} color="rgba(129,140,248,0.3)" />
+                  <p className="text-slate-600 leading-relaxed mb-6">&ldquo;{t.text}&rdquo;</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-[#6366F1] rounded-full flex items-center justify-center text-white text-xs font-bold">{t.avatar}</div>
+                    <div>
+                      <div className="font-semibold text-sm">{t.name}</div>
+                      <div className="text-xs text-slate-500">{t.role}</div>
+                    </div>
                   </div>
                 </div>
-              </TabsContent>
+              </Reveal>
             ))}
-          </Tabs>
+          </div>
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section style={{ padding: "100px 32px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 52 }}>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 800, color: "#e8eaf6", letterSpacing: "-0.02em" }}>Ils ont fait le switch</h2>
-            </div>
-          </Reveal>
-          <Carousel opts={{ align: "start", loop: true }}>
-            <CarouselContent style={{ paddingLeft: 8 }}>
-              {TESTIMONIALS.map((t, i) => (
-                <CarouselItem key={i} style={{ paddingLeft: 16, flexBasis: "calc(50% - 8px)" }}>
-                  <Card style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(99,102,241,0.12)", borderRadius: 14 }}>
-                    <CardContent style={{ padding: 28 }}>
-                      <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>
-                        {Array.from({ length: t.rating }).map((_, j) => <Star key={j} size={13} fill="#818cf8" color="#818cf8" />)}
-                      </div>
-                      <p style={{ fontSize: 15, color: "rgba(232,234,246,0.7)", lineHeight: 1.75, marginBottom: 20 }}>"{t.text}"</p>
-                      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                        <Avatar><AvatarFallback style={{ background: "rgba(99,102,241,0.15)", color: "#818cf8", fontSize: 12, fontWeight: 700 }}>{t.avatar}</AvatarFallback></Avatar>
-                        <div>
-                          <div style={{ fontSize: 14, fontWeight: 700, color: "#e8eaf6" }}>{t.name}</div>
-                          <div style={{ fontSize: 12, color: "rgba(232,234,246,0.4)" }}>{t.role}</div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(99,102,241,0.3)", color: "#818cf8" }} />
-            <CarouselNext style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(99,102,241,0.3)", color: "#818cf8" }} />
-          </Carousel>
-        </div>
-      </section>
-
-      {/* PRICING */}
-      <section id="tarifs" style={{ padding: "100px 32px", background: "rgba(255,255,255,0.02)" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 60 }}>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 800, color: "#e8eaf6", letterSpacing: "-0.02em" }}>Tarifs simples et <span style={{ color: "#818cf8" }}>transparents</span></h2>
-              <p style={{ fontSize: 15, color: "rgba(232,234,246,0.45)", marginTop: 12 }}>Annuel : -20%. Pas de frais cachés. Annulation à tout moment.</p>
-            </div>
-          </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+      {/* Pricing */}
+      <section id="tarifs" className="py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="text-center mb-14">
+            <Reveal>
+              <p className="text-[#6366F1] font-semibold text-sm mb-3">Tarifs</p>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Simple et transparent</h2>
+              <p className="text-slate-500 text-lg">Commencez gratuitement, évoluez quand vous en avez besoin.</p>
+            </Reveal>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {PRICING.map((plan, i) => (
-              <Reveal key={i} delay={i * 0.12}>
-                <motion.div whileHover={{ y: -6, boxShadow: plan.featured ? "0 20px 50px rgba(99,102,241,0.25)" : "0 8px 32px rgba(0,0,0,0.4)" }}
-                  style={{ borderRadius: 16, border: plan.featured ? "1px solid rgba(99,102,241,0.5)" : "1px solid rgba(255,255,255,0.06)", overflow: "hidden", cursor: "pointer", position: "relative" }}>
-                  {plan.featured && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "linear-gradient(90deg, #6366f1, #818cf8)" }} />}
-                  <div style={{ padding: "32px 24px", background: plan.featured ? "rgba(99,102,241,0.06)" : "rgba(255,255,255,0.02)" }}>
-                    {plan.featured && <div style={{ display: "inline-block", background: "rgba(99,102,241,0.15)", color: "#818cf8", fontSize: 10, letterSpacing: "0.1em", fontWeight: 700, padding: "3px 10px", borderRadius: 20, marginBottom: 12 }}>RECOMMANDÉ</div>}
-                    <h3 style={{ fontSize: 22, fontWeight: 800, color: "#e8eaf6", marginBottom: 4 }}>{plan.name}</h3>
-                    <p style={{ fontSize: 13, color: "rgba(232,234,246,0.4)", marginBottom: 20 }}>{plan.desc}</p>
-                    <div style={{ marginBottom: 24 }}>
-                      {plan.price !== "Sur mesure" ? (
-                        <><span style={{ fontSize: 42, fontWeight: 800, color: "#818cf8" }}>{plan.price}€</span><span style={{ fontSize: 14, color: "rgba(232,234,246,0.4)" }}>{plan.period}</span></>
-                      ) : (
-                        <span style={{ fontSize: 28, fontWeight: 700, color: "#818cf8" }}>{plan.price}</span>
-                      )}
+              <Reveal key={plan.name} delay={i * 0.1}>
+                <div className={`rounded-2xl p-8 relative ${plan.highlight ? "bg-[#6366F1] text-white shadow-2xl shadow-indigo-200 scale-105" : "bg-[#F8F9FF] border border-slate-100"}`}>
+                  {plan.highlight && (
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#F59E0B] text-[#0F172A] text-xs font-bold px-4 py-1.5 rounded-full">
+                      Recommandé
                     </div>
-                    <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
-                      {plan.features.map(f => (
-                        <li key={f} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 13, color: "rgba(232,234,246,0.65)" }}>
-                          <Check size={13} color="#818cf8" style={{ marginTop: 2, flexShrink: 0 }} />{f}
-                        </li>
-                      ))}
-                    </ul>
-                    <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                      style={{ width: "100%", padding: "13px", background: plan.featured ? "linear-gradient(135deg, #6366f1, #818cf8)" : "transparent", color: plan.featured ? "white" : "#818cf8", border: plan.featured ? "none" : "1px solid rgba(99,102,241,0.4)", borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>
-                      {plan.price === "Sur mesure" ? "Nous contacter" : "Commencer"}
-                    </motion.button>
+                  )}
+                  <div className="mb-6">
+                    <div className={`font-semibold text-sm mb-2 ${plan.highlight ? "text-indigo-200" : "text-[#6366F1]"}`}>{plan.name}</div>
+                    <div className="text-3xl font-extrabold mb-1">
+                      {plan.price === "Sur devis" ? plan.price : plan.price === "0" ? "Gratuit" : `€${plan.price}`}
+                    </div>
+                    {plan.period && <div className={`text-sm ${plan.highlight ? "text-indigo-200" : "text-slate-500"}`}>{plan.period}</div>}
+                    <p className={`text-sm mt-2 ${plan.highlight ? "text-indigo-200" : "text-slate-500"}`}>{plan.desc}</p>
                   </div>
-                </motion.div>
+                  <ul className="space-y-3 mb-8">
+                    {plan.features.map(f => (
+                      <li key={f} className="flex items-center gap-2.5 text-sm">
+                        <Check className={`w-4 h-4 flex-shrink-0 ${plan.highlight ? "text-white" : "text-[#6366F1]"}`} />
+                        <span className={plan.highlight ? "text-indigo-100" : "text-slate-600"}>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <button className={`w-full py-3.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${plan.highlight ? "bg-white text-[#6366F1] hover:bg-indigo-50" : "bg-[#6366F1] text-white hover:bg-[#4F46E5]"}`}>
+                    {plan.cta}
+                  </button>
+                </div>
               </Reveal>
             ))}
           </div>
@@ -334,81 +380,67 @@ export default function EssentialSaaSPage() {
       </section>
 
       {/* FAQ */}
-      <section style={{ padding: "100px 32px" }}>
-        <div style={{ maxWidth: 780, margin: "0 auto" }}>
+      <section className="py-24 bg-[#F8F9FF]">
+        <div className="max-w-3xl mx-auto px-6">
           <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 52 }}>
-              <h2 style={{ fontSize: "clamp(26px, 4vw, 44px)", fontWeight: 800, color: "#e8eaf6", letterSpacing: "-0.02em" }}>Questions fréquentes</h2>
-            </div>
+            <h2 className="text-3xl font-extrabold text-center mb-12">Questions fréquentes</h2>
           </Reveal>
-          <Accordion type="single" collapsible style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {FAQS.map((faq, i) => (
-              <AccordionItem key={i} value={`q${i}`} style={{ border: "1px solid rgba(99,102,241,0.12)", borderRadius: 10, overflow: "hidden", background: "rgba(255,255,255,0.02)" }}>
-                <AccordionTrigger style={{ padding: "18px 22px", fontSize: 15, fontWeight: 600, color: "#e8eaf6", textAlign: "left" }}>{faq.q}</AccordionTrigger>
-                <AccordionContent style={{ padding: "0 22px 18px", fontSize: 14, color: "rgba(232,234,246,0.55)", lineHeight: 1.8 }}>{faq.a}</AccordionContent>
-              </AccordionItem>
+          <div className="space-y-4">
+            {[
+              ["Puis-je annuler à tout moment ?", "Oui. Aucun engagement, aucun frais de résiliation. Vous pouvez annuler depuis votre tableau de bord en un clic."],
+              ["La migration depuis mon outil actuel est-elle simple ?", "Nous proposons des imports depuis Notion, Asana, Monday, Jira et 40+ outils. Notre équipe vous accompagne gratuitement."],
+              ["Mes données sont-elles sécurisées ?", "Vos données sont chiffrées en transit (TLS) et au repos (AES-256). Nous sommes conformes RGPD et SOC2 Type II."],
+              ["Puis-je inviter des clients en lecture seule ?", "Oui. Le plan Pro inclut des accès invités illimités en mode visualisation."],
+            ].map(([q, a], i) => (
+              <Reveal key={q} delay={i * 0.05}>
+                <details className="bg-white border border-slate-100 rounded-xl group">
+                  <summary className="flex items-center justify-between px-6 py-5 cursor-pointer font-semibold">
+                    {q}
+                    <ChevronRight className="w-5 h-5 text-slate-400 group-open:rotate-90 transition-transform" />
+                  </summary>
+                  <div className="px-6 pb-5 text-slate-500 leading-relaxed">{a}</div>
+                </details>
+              </Reveal>
             ))}
-          </Accordion>
+          </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section style={{ padding: "80px 32px", background: "linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(99,102,241,0.05) 100%)", borderTop: "1px solid rgba(99,102,241,0.15)" }}>
-        <div style={{ maxWidth: 680, margin: "0 auto", textAlign: "center" }}>
-          <Reveal>
-            <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 800, color: "#e8eaf6", marginBottom: 16, letterSpacing: "-0.02em" }}>
-              Prêt à automatiser ?<br /><span style={{ color: "#818cf8" }}>Commencez en 2 minutes.</span>
-            </h2>
-            <p style={{ fontSize: 16, color: "rgba(232,234,246,0.55)", lineHeight: 1.7, marginBottom: 40 }}>14 jours gratuits. Aucune carte bancaire requise. Setup en moins de 5 minutes.</p>
-            <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-              <motion.button whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(99,102,241,0.4)" }} whileTap={{ scale: 0.97 }}
-                style={{ padding: "16px 36px", background: "linear-gradient(135deg, #6366f1, #818cf8)", color: "white", border: "none", borderRadius: 10, fontSize: 16, fontWeight: 700, cursor: "pointer" }}>
-                Démarrer gratuitement
-              </motion.button>
-              <motion.button whileHover={{ scale: 1.04 }}
-                style={{ padding: "16px 36px", background: "rgba(255,255,255,0.06)", color: "#e8eaf6", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 10, fontSize: 16, cursor: "pointer" }}>
-                Voir une démo
-              </motion.button>
-            </div>
-          </Reveal>
-        </div>
+      <section className="py-24 bg-[#6366F1] text-white text-center px-6">
+        <Reveal>
+          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Prêt à simplifier votre workflow ?</h2>
+          <p className="text-indigo-200 text-lg mb-10">14 jours d&apos;essai gratuit. Pas de carte bancaire. Annulable à tout moment.</p>
+          <Link href="#tarifs" className="inline-flex items-center gap-2 px-10 py-5 bg-white text-[#6366F1] font-bold rounded-xl hover:bg-indigo-50 transition-colors cursor-pointer text-lg">
+            Commencer maintenant <ArrowRight className="w-5 h-5" />
+          </Link>
+        </Reveal>
       </section>
 
-      {/* FOOTER */}
-      <footer style={{ padding: "56px 32px 36px", background: "#030408" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 40, marginBottom: 48 }}>
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
-                <div style={{ width: 28, height: 28, borderRadius: 7, background: "linear-gradient(135deg, #6366f1, #818cf8)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <Zap size={14} color="white" />
-                </div>
-                <span style={{ fontSize: 17, fontWeight: 700, color: "#e8eaf6" }}>FlowSync</span>
+      {/* Footer */}
+      <footer className="bg-[#0F172A] text-slate-500 py-16 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-5 gap-10 mb-12">
+            <div className="md:col-span-2">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-7 h-7 bg-[#6366F1] rounded-lg flex items-center justify-center"><Sparkles className="w-4 h-4 text-white" /></div>
+                <span className="text-white font-bold">Flowbase</span>
               </div>
-              <p style={{ fontSize: 13, color: "rgba(232,234,246,0.35)", lineHeight: 1.8, maxWidth: 260, marginBottom: 20 }}>Plateforme d'automatisation SaaS pour équipes ambitieuses. SOC 2 Type II · RGPD compliant.</p>
-              <div style={{ display: "flex", gap: 10 }}>
-                {[MessageSquare, Link2, GitBranch].map((Icon, i) => (
-                  <motion.button key={i} whileHover={{ scale: 1.15 }} style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "rgba(232,234,246,0.4)" }}>
-                    <Icon size={14} />
-                  </motion.button>
-                ))}
-              </div>
+              <p className="text-sm leading-relaxed max-w-xs">La plateforme SaaS qui connecte votre équipe, vos projets et vos données.</p>
             </div>
-            {[
-              { title: "Produit", links: ["Fonctionnalités", "Intégrations", "API", "Changelog", "Statut"] },
-              { title: "Ressources", links: ["Documentation", "Blog", "Tutoriels", "Templates", "Communauté"] },
-              { title: "Société", links: ["À propos", "Carrières", "Presse", "Sécurité", "Contact"] },
-            ].map(col => (
-              <div key={col.title}>
-                <h4 style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "#818cf8", marginBottom: 18 }}>{col.title.toUpperCase()}</h4>
-                <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-                  {col.links.map(l => <li key={l}><a href="#" style={{ fontSize: 13, color: "rgba(232,234,246,0.35)", textDecoration: "none" }}>{l}</a></li>)}
-                </ul>
+            {[["Produit", ["Fonctionnalités", "Tarifs", "Changelog", "Roadmap"]], ["Ressources", ["Docs", "API", "Blog", "Status"]], ["Société", ["À propos", "Carrières", "Contact"]]].map(([title, links]) => (
+              <div key={title as string}>
+                <p className="text-white font-semibold text-sm mb-4">{title as string}</p>
+                {(links as string[]).map(l => <Link key={l} href="#" className="block text-sm hover:text-white mb-3 transition-colors cursor-pointer">{l}</Link>)}
               </div>
             ))}
           </div>
-          <Separator style={{ background: "rgba(255,255,255,0.06)", marginBottom: 24 }} />
-          <p style={{ fontSize: 12, color: "rgba(232,234,246,0.2)", textAlign: "center" }}>© 2024 FlowSync — Tous droits réservés</p>
+          <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between gap-4 text-xs">
+            <span>© 2024 Flowbase · Tous droits réservés</span>
+            <div className="flex gap-6">
+              {["Confidentialité", "CGU", "Cookies"].map(l => <Link key={l} href="#" className="hover:text-white transition-colors cursor-pointer">{l}</Link>)}
+            </div>
+          </div>
         </div>
       </footer>
     </div>

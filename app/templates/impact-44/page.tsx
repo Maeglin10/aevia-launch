@@ -1,319 +1,471 @@
 "use client"
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
-import React, { useRef, useState, useEffect } from "react"
-import Link from "next/link"
-import { ArrowRight, ChevronDown, Star, MapPin, Clock, CheckCircle, MoveRight, Eye, Layers, Home, Building2, Hotel, ChevronRight } from "lucide-react"
 
-const C = {
-  bg: "#faf9f6",
-  surface: "#f2ede4",
-  card: "#ffffff",
-  dark: "#1e1e1e",
-  mid: "#3a3530",
-  terra: "#c4703a",
-  terraLight: "#d4906a",
-  beige: "#e8ddd0",
-  text: "#1e1e1e",
-  muted: "#6b5f55",
-  subtle: "#9b8e84",
-  border: "#ddd5c8",
+import React, { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
+import { Menu, X, ArrowRight, Quote, Mail, Phone, MapPin, Instagram, Linkedin, ChevronRight } from "lucide-react"
+
+function useFonts() {
+  useEffect(() => {
+    const id = "fonts-espace-studio"
+    if (document.getElementById(id)) return
+    const s = document.createElement("style")
+    s.id = id
+    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&display=swap');`
+    document.head.appendChild(s)
+  }, [])
 }
 
-type ProjectFilter = "All" | "Residential" | "Commercial" | "Hospitality"
-const FILTERS: ProjectFilter[] = ["All", "Residential", "Commercial", "Hospitality"]
-
-const PROJECTS = [
-  { title: "Villa Montagne", type: "Residential" as ProjectFilter, location: "Megève", year: "2025", desc: "6-bedroom chalet with panoramic Alpine views and integrated wellness suite." },
-  { title: "Hôtel Lumière", type: "Hospitality" as ProjectFilter, location: "Paris 8ème", year: "2024", desc: "45-room boutique hotel redesign with French art deco revival." },
-  { title: "Bureau Haussmann", type: "Commercial" as ProjectFilter, location: "Paris 9ème", year: "2024", desc: "Open-plan creative offices for a media agency across 3 Haussmann floors." },
-  { title: "Maison Arles", type: "Residential" as ProjectFilter, location: "Arles", year: "2023", desc: "Restored 18th-century townhouse with contemporary interiors and original beams." },
-  { title: "Spa Thermal Royat", type: "Hospitality" as ProjectFilter, location: "Royat", year: "2023", desc: "Full interior design of a thermal spa including treatment rooms and thermal circuit." },
-  { title: "Loft République", type: "Commercial" as ProjectFilter, location: "Paris 11ème", year: "2022", desc: "Industrial loft conversion to co-working and event space for a tech startup." },
-]
-
-const SERVICES = [
-  { icon: Home, title: "Residential Design", desc: "From Parisian apartments to country estates — we create homes that reflect who you are and how you live." },
-  { icon: Building2, title: "Commercial Spaces", desc: "Offices, retail, and creative studios designed for productivity, brand identity, and human comfort." },
-  { icon: Hotel, title: "Hospitality", desc: "Restaurants, hotels, and spas where every detail contributes to a memorable guest experience." },
-  { icon: Layers, title: "Renovation & Heritage", desc: "Breathing new life into historic properties with contemporary sensibility and structural respect." },
-]
-
-const PROCESS = [
-  { step: "01", title: "Discovery", desc: "We start with a deep conversation about your vision, lifestyle, and aspirations for the space." },
-  { step: "02", title: "Concept", desc: "Mood boards, material palettes, and spatial plans that define the unique identity of your project." },
-  { step: "03", title: "Execution", desc: "Precision project management — coordinating artisans, suppliers, and contractors to your schedule." },
-  { step: "04", title: "Reveal", desc: "Your space, fully realised. We document every detail and remain available for any follow-up." },
-]
-
-const TESTIMONIALS = [
-  { name: "Charlotte & Julien M.", type: "Residential client", quote: "Espace Studio transformed our Paris apartment into something we could never have imagined alone. The attention to detail is extraordinary.", rating: 5 },
-  { name: "Marc Lefèvre", type: "CEO, Lefèvre Group", quote: "Our new offices have become a genuine recruitment tool. Talent wants to work in this space. ROI in 6 months.", rating: 5 },
-  { name: "Hôtel Lumière Management", type: "Hospitality client", quote: "Since the redesign, our average review score went from 4.1 to 4.8. Guests mention the interior in every review.", rating: 5 },
-]
-
-const FAQS = [
-  { q: "What is your minimum project size?", a: "We typically work on projects from €25,000 upward. For smaller spaces like a single room, we offer a focused consultation package starting at €3,500." },
-  { q: "How long does an interior design project take?", a: "Residential projects typically take 3-8 months from first brief to completion. Commercial projects vary from 4-18 months depending on scale." },
-  { q: "Do you work outside of France?", a: "Yes — we have completed projects in Switzerland, Belgium, Morocco, and the UAE. We are comfortable managing remote and international projects." },
-  { q: "What is included in your fees?", a: "Our fees cover concept design, technical plans, supplier sourcing, project management, and site supervision. Material and artisan costs are separate." },
-  { q: "Can I be involved in the design process?", a: "Absolutely — your input is essential at every stage. We offer a collaborative process with regular review sessions and clear approval milestones." },
-]
-
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-80px" })
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}>
+    <motion.div ref={ref} initial={{ opacity: 0, y }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-export default function EspaceStudioPage() {
-  const [activeFilter, setActiveFilter] = useState<ProjectFilter>("All")
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
-  const [scrolled, setScrolled] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-  const heroTextX = useTransform(scrollYProgress, [0, 0.3], [0, -40])
-  const heroImageX = useTransform(scrollYProgress, [0, 0.3], [0, 40])
+const PROJECTS = [
+  { id: 1, category: "Résidentiel", name: "Villa Provence", location: "Aix-en-Provence", year: "2024", image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80", tag: "Rénovation" },
+  { id: 2, category: "Commercial", name: "Boutique Marais", location: "Paris 3e", year: "2024", image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80", tag: "Concept store" },
+  { id: 3, category: "Résidentiel", name: "Penthouse Hausmann", location: "Paris 8e", year: "2023", image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80", tag: "Design intérieur" },
+  { id: 4, category: "Commercial", name: "Hôtel Particulier", location: "Lyon", year: "2023", image: "https://images.unsplash.com/photo-1600210492493-0946911123ea?w=800&q=80", tag: "Hospitalité" },
+  { id: 5, category: "Résidentiel", name: "Mas Luberon", location: "Gordes", year: "2023", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80", tag: "Architecture" },
+  { id: 6, category: "Commercial", name: "Restaurant Sève", location: "Bordeaux", year: "2022", image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80", tag: "Restauration" },
+]
 
-  const filtered = activeFilter === "All" ? PROJECTS : PROJECTS.filter(p => p.type === activeFilter)
+const PROCESS = [
+  { num: "01", title: "Écoute & Vision", desc: "Une rencontre approfondie pour cerner vos usages, vos goûts et vos aspirations. Nous construisons ensemble la vision du projet avant de tracer la première ligne." },
+  { num: "02", title: "Concept & Moodboard", desc: "Sélection des matières, des teintes et des mobiliers. Présentation d'un concept board complet avec planches d'atmosphère, coupes transversales et palette chromatique." },
+  { num: "03", title: "Plans & Coordination", desc: "Plans techniques, suivi des corps de métier, sélection des artisans. Nous pilotons chaque intervenant pour garantir la cohérence et les délais." },
+  { num: "04", title: "Livraison & Styling", desc: "Installation du mobilier, accessoirisation, mise en lumière. Votre espace est livré clé en main, prêt à être habité." },
+]
+
+const TESTIMONIALS = [
+  { name: "Isabelle Fontaine", role: "Propriétaire — Villa Provence", text: "Espace Studio a transformé notre maison en un véritable havre de paix. Leur sensibilité aux matières naturelles et leur attention aux détails sont sans égal.", avatar: "IF" },
+  { name: "Marc Delacroix", role: "Directeur — Boutique Marais", text: "Un travail d'orfèvre. L'espace reflète exactement l'identité de notre marque tout en étant parfaitement fonctionnel. Nos clients adorent.", avatar: "MD" },
+  { name: "Sophie Renard", role: "Hôtellerie — Lyon", text: "Professionnalisme exemplaire du concept à la livraison. Chaque choix était justifié, chaque délai respecté. Un partenariat que je recommande sans réserve.", avatar: "SR" },
+]
+
+const FILTERS = ["Tous", "Résidentiel", "Commercial"]
+
+export default function EspaceStudioPage() {
+  useFonts()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [activeFilter, setActiveFilter] = useState("Tous")
+  const [activeTestimonial, setActiveTestimonial] = useState(0)
+  const { scrollYProgress } = useScroll()
+  const heroRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress: heroScroll } = useScroll({ target: heroRef })
+  const heroY = useTransform(heroScroll, [0, 1], ["0%", "25%"])
 
   useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 60)
-    window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
+  const filtered = activeFilter === "Tous" ? PROJECTS : PROJECTS.filter(p => p.category === activeFilter)
+
   return (
-    <div ref={containerRef} style={{ background: C.bg, color: C.text, fontFamily: "'DM Sans', system-ui, sans-serif", minHeight: "100vh" }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap'); * { box-sizing: border-box; margin: 0; padding: 0; }`}</style>
+    <div className="min-h-screen bg-[#FDFAF6] text-[#1C1C1C]" style={{ fontFamily: "'Inter', sans-serif" }}>
+      {/* Scroll progress */}
+      <motion.div className="fixed top-0 left-0 h-[2px] bg-[#C4674A] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
-      {/* NAVBAR */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, padding: "0 40px", height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", background: scrolled ? `${C.card}f0` : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "none", transition: "all 0.3s" }}>
-        <Link href="/" style={{ textDecoration: "none" }}>
-          <span style={{ fontFamily: "'DM Serif Display', serif", fontSize: 20, color: C.dark, letterSpacing: "0.02em" }}>Espace Studio</span>
-        </Link>
-        <div style={{ display: "flex", gap: 40, alignItems: "center" }}>
-          {["Projects", "Services", "Studio", "Contact"].map(l => (
-            <Link key={l} href="#" style={{ color: C.muted, textDecoration: "none", fontSize: 14, fontWeight: 500, transition: "color 0.2s" }}
-              onMouseEnter={e => (e.currentTarget.style.color = C.dark)}
-              onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>{l}</Link>
-          ))}
-          <Link href="#" style={{ padding: "10px 24px", background: C.dark, color: "#fff", borderRadius: 2, textDecoration: "none", fontSize: 13, fontWeight: 500, letterSpacing: "0.05em" }}>Book a consultation</Link>
-        </div>
-      </nav>
-
-      {/* HERO — editorial split */}
-      <section style={{ minHeight: "100vh", display: "grid", gridTemplateColumns: "1fr 1fr", overflow: "hidden" }}>
-        <motion.div style={{ x: heroTextX, display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "180px 60px 80px 60px", background: C.bg }}>
-          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }}>
-            <div style={{ fontSize: 11, color: C.terra, letterSpacing: "0.35em", textTransform: "uppercase", marginBottom: 24 }}>Interior Architecture & Design</div>
-            <h1 style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(44px, 6vw, 72px)", fontWeight: 400, lineHeight: 1.08, color: C.dark, marginBottom: 32 }}>
-              Spaces that tell<br /><em>your story</em>
-            </h1>
-            <p style={{ fontSize: 17, color: C.muted, lineHeight: 1.7, maxWidth: 360, marginBottom: 48 }}>
-              We design interiors for the way you actually live — blending beauty, function, and identity in every detail.
-            </p>
-            <div style={{ display: "flex", gap: 16 }}>
-              <Link href="#" style={{ display: "flex", alignItems: "center", gap: 8, padding: "14px 32px", background: C.terra, color: "#fff", borderRadius: 2, textDecoration: "none", fontSize: 14, fontWeight: 500 }}>
-                See our work <ArrowRight size={16} />
-              </Link>
-              <Link href="#" style={{ display: "flex", alignItems: "center", gap: 8, padding: "14px 32px", border: `1px solid ${C.border}`, color: C.dark, borderRadius: 2, textDecoration: "none", fontSize: 14 }}>
-                Our process <MoveRight size={16} />
-              </Link>
-            </div>
-          </motion.div>
-        </motion.div>
-
-        <motion.div style={{ x: heroImageX, background: C.surface, position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <div style={{ position: "absolute", inset: 0, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4, padding: 4 }}>
-            {[C.beige, C.terra + "44", C.mid + "22", C.border].map((bg, i) => (
-              <div key={i} style={{ background: bg, borderRadius: 2 }} />
+      {/* Nav */}
+      <motion.nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#FDFAF6]/95 backdrop-blur-md shadow-sm" : "bg-transparent"}`}
+        initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+          <Link href="#" className="text-xl tracking-widest uppercase font-light" style={{ fontFamily: "'DM Serif Display', serif", letterSpacing: "0.15em" }}>
+            Espace Studio
+          </Link>
+          <div className="hidden md:flex items-center gap-10 text-sm font-light text-[#5A5550] tracking-wide">
+            {["Projets", "Approche", "Studio", "Contact"].map(l => (
+              <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#C4674A] transition-colors duration-200">{l}</Link>
             ))}
+            <Link href="#contact" className="ml-4 px-5 py-2.5 bg-[#1C1C1C] text-[#FDFAF6] text-xs tracking-widest uppercase hover:bg-[#C4674A] transition-colors duration-300 cursor-pointer">
+              Estimer mon projet
+            </Link>
           </div>
-          <div style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
-            <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: 80, color: C.terra, opacity: 0.15, lineHeight: 1 }}>ES</div>
-          </div>
-          <div style={{ position: "absolute", bottom: 40, right: 40, padding: "16px 24px", background: C.card, borderRadius: 2, border: `1px solid ${C.border}` }}>
-            <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: 28, color: C.dark }}>+120</div>
-            <div style={{ fontSize: 12, color: C.muted, letterSpacing: "0.08em" }}>projects delivered</div>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* SERVICES */}
-      <section style={{ padding: "100px 60px", background: C.surface }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 64, flexWrap: "wrap", gap: 24 }}>
-              <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 400, color: C.dark }}>What we do</h2>
-              <Link href="#" style={{ color: C.terra, textDecoration: "none", fontSize: 14, fontWeight: 500, display: "flex", alignItems: "center", gap: 6 }}>
-                All services <ChevronRight size={16} />
-              </Link>
-            </div>
-          </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 2 }}>
-            {SERVICES.map((s, i) => (
-              <Reveal key={s.title} delay={i * 0.08}>
-                <div style={{ padding: "40px 32px", background: C.card, cursor: "default", transition: "background 0.3s" }}
-                  onMouseEnter={e => (e.currentTarget.style.background = C.bg)}
-                  onMouseLeave={e => (e.currentTarget.style.background = C.card)}>
-                  <s.icon size={28} color={C.terra} style={{ marginBottom: 24 }} />
-                  <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 22, fontWeight: 400, color: C.dark, marginBottom: 12 }}>{s.title}</h3>
-                  <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.7 }}>{s.desc}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <button className="md:hidden p-2 cursor-pointer" onClick={() => setMenuOpen(true)} aria-label="Menu">
+            <Menu className="w-5 h-5" />
+          </button>
         </div>
-      </section>
+      </motion.nav>
 
-      {/* PROJECTS */}
-      <section style={{ padding: "100px 60px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 48, flexWrap: "wrap", gap: 24 }}>
-              <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 400, color: C.dark }}>Our projects</h2>
-              <div style={{ display: "flex", gap: 8 }}>
-                {FILTERS.map(f => (
-                  <button key={f} onClick={() => setActiveFilter(f)}
-                    style={{ padding: "8px 20px", border: `1px solid ${activeFilter === f ? C.terra : C.border}`, background: activeFilter === f ? C.terra : "transparent", color: activeFilter === f ? "#fff" : C.muted, borderRadius: 2, fontSize: 13, fontWeight: 500, cursor: "pointer", transition: "all 0.2s" }}>
-                    {f}
-                  </button>
-                ))}
-              </div>
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div className="fixed inset-0 z-[200] bg-[#FDFAF6] flex flex-col"
+            initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
+            <div className="flex items-center justify-between px-6 py-5 border-b border-[#E8E2DA]">
+              <span className="text-xl" style={{ fontFamily: "'DM Serif Display', serif" }}>Espace Studio</span>
+              <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
-          </Reveal>
-          <motion.div layout style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 20 }}>
-            <AnimatePresence mode="wait">
-              {filtered.map((p, i) => (
-                <motion.div key={p.title} layout initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.96 }} transition={{ duration: 0.3, delay: i * 0.06 }}>
-                  <div style={{ background: C.card, border: `1px solid ${C.border}`, overflow: "hidden", cursor: "pointer", position: "relative", transition: "transform 0.3s" }}
-                    onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-4px)")}
-                    onMouseLeave={e => (e.currentTarget.style.transform = "translateY(0)")}>
-                    <div style={{ height: 200, background: C.surface, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
-                      <div style={{ width: 80, height: 80, background: C.beige, borderRadius: 2, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <Eye size={32} color={C.terra} />
-                      </div>
-                      <div style={{ position: "absolute", top: 12, right: 12, padding: "4px 10px", background: C.terra, color: "#fff", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>{p.type}</div>
-                    </div>
-                    <div style={{ padding: 24 }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                        <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 20, fontWeight: 400, color: C.dark }}>{p.title}</h3>
-                        <span style={{ fontSize: 12, color: C.subtle }}>{p.year}</span>
-                      </div>
-                      <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 12, color: C.subtle, marginBottom: 12 }}>
-                        <MapPin size={11} />{p.location}
-                      </div>
-                      <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.6 }}>{p.desc}</p>
-                    </div>
-                  </div>
+            <div className="flex flex-col gap-8 p-10">
+              {["Projets", "Approche", "Studio", "Contact"].map((l, i) => (
+                <motion.div key={l} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
+                  <Link href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)}
+                    className="text-4xl font-light text-[#1C1C1C] hover:text-[#C4674A] transition-colors cursor-pointer"
+                    style={{ fontFamily: "'DM Serif Display', serif" }}>{l}</Link>
                 </motion.div>
               ))}
-            </AnimatePresence>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Hero — Split editorial */}
+      <section ref={heroRef} className="min-h-screen grid md:grid-cols-2 pt-20">
+        <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 py-16 md:py-0">
+          <Reveal>
+            <p className="text-xs tracking-[0.25em] uppercase text-[#C4674A] mb-8">Architecture d&apos;intérieur · Depuis 2010</p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light leading-[1.05] mb-8" style={{ fontFamily: "'DM Serif Display', serif" }}>
+              Des espaces qui<br /><em>racontent</em><br />une histoire
+            </h1>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="text-base text-[#6B6560] leading-relaxed max-w-md mb-10">
+              Espace Studio conçoit des intérieurs d&apos;exception pour des clients exigeants. Du résidentiel de prestige aux espaces commerciaux signature, nous transformons chaque lieu en une expérience singulière.
+            </p>
+          </Reveal>
+          <Reveal delay={0.3}>
+            <div className="flex items-center gap-6">
+              <Link href="#projets" className="flex items-center gap-3 text-sm tracking-wide uppercase border-b border-[#1C1C1C] pb-1 hover:text-[#C4674A] hover:border-[#C4674A] transition-colors duration-200 cursor-pointer">
+                Découvrir nos projets <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link href="#approche" className="text-sm text-[#8A8580] hover:text-[#1C1C1C] transition-colors cursor-pointer">Notre approche</Link>
+            </div>
+          </Reveal>
+          <Reveal delay={0.4}>
+            <div className="flex items-center gap-12 mt-16 pt-16 border-t border-[#E8E2DA]">
+              {[["120+", "Projets livrés"], ["14", "Années d'expérience"], ["8", "Prix de design"]].map(([num, label]) => (
+                <div key={label}>
+                  <div className="text-3xl font-light" style={{ fontFamily: "'DM Serif Display', serif" }}>{num}</div>
+                  <div className="text-xs text-[#8A8580] mt-1">{label}</div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+        <div className="relative overflow-hidden min-h-[50vh] md:min-h-0">
+          <motion.div className="absolute inset-0" style={{ y: heroY }}>
+            <Image src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1200&q=85" alt="Intérieur Espace Studio" fill className="object-cover" />
+          </motion.div>
+          <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#FDFAF6]/10" />
+          <motion.div className="absolute bottom-8 left-8 bg-[#FDFAF6]/90 backdrop-blur-sm p-5 max-w-xs"
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}>
+            <p className="text-xs tracking-widest uppercase text-[#C4674A] mb-1">Projet récent</p>
+            <p className="text-sm font-medium" style={{ fontFamily: "'DM Serif Display', serif" }}>Villa Provence — Aix-en-Provence</p>
           </motion.div>
         </div>
       </section>
 
-      {/* PROCESS */}
-      <section style={{ padding: "100px 60px", background: C.dark }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+      {/* Projects */}
+      <section id="projets" className="py-28 px-6 md:px-12 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
           <Reveal>
-            <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 400, color: C.card, textAlign: "center", marginBottom: 64 }}>Our process</h2>
+            <h2 className="text-4xl md:text-5xl font-light" style={{ fontFamily: "'DM Serif Display', serif" }}>
+              Nos <em>réalisations</em>
+            </h2>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 0 }}>
-            {PROCESS.map((s, i) => (
-              <Reveal key={s.step} delay={i * 0.1}>
-                <div style={{ padding: 40, borderLeft: i > 0 ? `1px solid ${C.mid}` : "none" }}>
-                  <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: 48, color: C.terra, opacity: 0.6, marginBottom: 16 }}>{s.step}</div>
-                  <h3 style={{ fontSize: 18, fontWeight: 600, color: C.card, marginBottom: 12 }}>{s.title}</h3>
-                  <p style={{ fontSize: 14, color: "#94a3b8", lineHeight: 1.7 }}>{s.desc}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section style={{ padding: "100px 60px" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <Reveal><h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 400, textAlign: "center", marginBottom: 64, color: C.dark }}>Client stories</h2></Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24 }}>
-            {TESTIMONIALS.map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.1}>
-                <div style={{ padding: 36, background: C.card, border: `1px solid ${C.border}` }}>
-                  <div style={{ display: "flex", gap: 4, marginBottom: 20 }}>
-                    {[1,2,3,4,5].map(s => <Star key={s} size={14} color={C.terra} fill={C.terra} />)}
-                  </div>
-                  <p style={{ fontFamily: "'DM Serif Display', serif", fontSize: 17, color: C.dark, lineHeight: 1.7, marginBottom: 28, fontStyle: "italic" }}>"{t.quote}"</p>
-                  <div>
-                    <div style={{ fontSize: 14, fontWeight: 600, color: C.dark }}>{t.name}</div>
-                    <div style={{ fontSize: 12, color: C.subtle }}>{t.type}</div>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section style={{ padding: "100px 60px", background: C.surface }}>
-        <div style={{ maxWidth: 720, margin: "0 auto" }}>
-          <Reveal><h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(28px, 5vw, 48px)", fontWeight: 400, textAlign: "center", marginBottom: 64, color: C.dark }}>Frequently asked</h2></Reveal>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            {FAQS.map((faq, i) => (
-              <div key={i} style={{ borderBottom: `1px solid ${C.border}` }}>
-                <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  style={{ width: "100%", padding: "22px 0", background: "none", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", fontSize: 15, fontWeight: 500, color: C.dark, textAlign: "left", fontFamily: "'DM Sans', sans-serif" }}>
-                  {faq.q}
-                  <motion.div animate={{ rotate: openFaq === i ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                    <ChevronDown size={18} color={C.muted} />
-                  </motion.div>
+          <Reveal delay={0.1}>
+            <div className="flex gap-2">
+              {FILTERS.map(f => (
+                <button key={f} onClick={() => setActiveFilter(f)} className={`px-5 py-2 text-xs tracking-widest uppercase border transition-all duration-200 cursor-pointer ${activeFilter === f ? "bg-[#1C1C1C] text-[#FDFAF6] border-[#1C1C1C]" : "bg-transparent text-[#6B6560] border-[#D8D2CA] hover:border-[#1C1C1C]"}`}>
+                  {f}
                 </button>
-                <AnimatePresence>
-                  {openFaq === i && (
-                    <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} style={{ overflow: "hidden" }}>
-                      <div style={{ paddingBottom: 22, fontSize: 14, color: C.muted, lineHeight: 1.8 }}>{faq.a}</div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+
+        <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <AnimatePresence mode="popLayout">
+            {filtered.map((project, i) => (
+              <motion.div key={project.id} layout initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
+                className="group cursor-pointer">
+                <div className="relative overflow-hidden aspect-[4/3] mb-5">
+                  <Image src={project.image} alt={project.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-[#1C1C1C]/0 group-hover:bg-[#1C1C1C]/20 transition-all duration-500" />
+                  <div className="absolute top-4 left-4 bg-[#FDFAF6]/90 backdrop-blur-sm px-3 py-1.5">
+                    <span className="text-xs tracking-widest uppercase text-[#C4674A]">{project.tag}</span>
+                  </div>
+                  <div className="absolute bottom-4 right-4 w-10 h-10 bg-[#FDFAF6] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
+                </div>
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h3 className="text-lg font-light mb-1" style={{ fontFamily: "'DM Serif Display', serif" }}>{project.name}</h3>
+                    <p className="text-sm text-[#8A8580] flex items-center gap-1.5"><MapPin className="w-3 h-3" />{project.location}</p>
+                  </div>
+                  <span className="text-sm text-[#8A8580]">{project.year}</span>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+      </section>
+
+      {/* Process */}
+      <section id="approche" className="py-28 bg-[#F4F0EA]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-2 gap-20 items-center mb-20">
+            <Reveal>
+              <p className="text-xs tracking-[0.25em] uppercase text-[#C4674A] mb-4">Notre méthode</p>
+              <h2 className="text-4xl md:text-5xl font-light leading-tight" style={{ fontFamily: "'DM Serif Display', serif" }}>
+                Un processus<br /><em>rigoureux</em> au service<br />de votre vision
+              </h2>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <p className="text-[#6B6560] leading-relaxed">
+                Chaque projet est unique. Notre processus s&apos;adapte à vos contraintes tout en maintenant les plus hauts standards de qualité. De la première esquisse à la livraison finale, nous vous accompagnons à chaque étape.
+              </p>
+              <Link href="#contact" className="mt-8 inline-flex items-center gap-3 text-sm tracking-wide uppercase border-b border-[#1C1C1C] pb-1 hover:text-[#C4674A] hover:border-[#C4674A] transition-colors cursor-pointer">
+                Démarrer un projet <ArrowRight className="w-4 h-4" />
+              </Link>
+            </Reveal>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-[#D8D2CA]">
+            {PROCESS.map((step, i) => (
+              <Reveal key={step.num} delay={i * 0.1}>
+                <div className="bg-[#F4F0EA] p-8 lg:p-10 group hover:bg-[#FDFAF6] transition-colors duration-300">
+                  <div className="text-5xl font-light text-[#D8D2CA] group-hover:text-[#C4674A] transition-colors duration-300 mb-8" style={{ fontFamily: "'DM Serif Display', serif" }}>
+                    {step.num}
+                  </div>
+                  <h3 className="text-lg font-light mb-4" style={{ fontFamily: "'DM Serif Display', serif" }}>{step.title}</h3>
+                  <p className="text-sm text-[#6B6560] leading-relaxed">{step.desc}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer style={{ background: C.mid, padding: "60px 60px 32px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
-            <div>
-              <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: 22, color: C.card, marginBottom: 16 }}>Espace Studio</div>
-              <p style={{ fontSize: 14, color: "#94a3b8", lineHeight: 1.7, maxWidth: 240 }}>Interior architecture and design for those who know that beauty and function are never opposites.</p>
-            </div>
-            {[
-              { title: "Studio", links: ["Projects", "Services", "Process", "Awards"] },
-              { title: "Contact", links: ["Book a consultation", "Press", "Careers", "Paris Studio"] },
-              { title: "Legal", links: ["Privacy", "Terms", "Cookies", "RGPD"] },
-            ].map(col => (
-              <div key={col.title}>
-                <h4 style={{ fontSize: 10, color: C.terra, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 20 }}>{col.title}</h4>
-                <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 12 }}>
-                  {col.links.map(l => <li key={l}><Link href="#" style={{ color: "#94a3b8", textDecoration: "none", fontSize: 14 }}
-                    onMouseEnter={e => (e.currentTarget.style.color = C.card)}
-                    onMouseLeave={e => (e.currentTarget.style.color = "#94a3b8")}>{l}</Link></li>)}
-                </ul>
+      {/* About / Studio */}
+      <section id="studio" className="py-28 max-w-7xl mx-auto px-6 md:px-12">
+        <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div className="relative">
+            <Reveal>
+              <div className="relative aspect-[3/4] overflow-hidden">
+                <Image src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80" alt="Studio" fill className="object-cover" />
               </div>
+              <div className="absolute -bottom-8 -right-8 bg-[#C4674A] text-[#FDFAF6] p-8 max-w-[200px]">
+                <div className="text-3xl font-light mb-1" style={{ fontFamily: "'DM Serif Display', serif" }}>2010</div>
+                <div className="text-xs tracking-wide">Fondé à Paris</div>
+              </div>
+            </Reveal>
+          </div>
+          <div>
+            <Reveal>
+              <p className="text-xs tracking-[0.25em] uppercase text-[#C4674A] mb-4">Le studio</p>
+              <h2 className="text-4xl md:text-5xl font-light leading-tight mb-6" style={{ fontFamily: "'DM Serif Display', serif" }}>
+                L&apos;excellence comme<br /><em>philosophie</em>
+              </h2>
+              <p className="text-[#6B6560] leading-relaxed mb-6">
+                Fondé par Claire Beaumont en 2010, Espace Studio s&apos;est imposé comme une référence dans le design d&apos;intérieur de prestige. Notre équipe de huit designers et architectes partage une même conviction : chaque espace mérite une attention singulière.
+              </p>
+              <p className="text-[#6B6560] leading-relaxed mb-10">
+                Nous travaillons avec des artisans d&apos;exception, des matières nobles et un réseau de fournisseurs triés sur le volet. Nos créations allient fonctionnalité et beauté intemporelle.
+              </p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-[#E8E2DA]">
+                {[["Claire Beaumont", "Fondatrice & Directrice artistique"], ["Thomas Vidal", "Architecte principal"], ["Marie Chen", "Designer senior"]].map(([name, role]) => (
+                  <div key={name}>
+                    <div className="w-12 h-12 rounded-full bg-[#E8E2DA] flex items-center justify-center text-xs font-medium mb-3">
+                      {name.split(" ").map((n: string) => n[0]).join("")}
+                    </div>
+                    <div className="text-sm font-medium">{name}</div>
+                    <div className="text-xs text-[#8A8580] mt-0.5">{role}</div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-24 bg-[#1C1C1C] text-[#FDFAF6]">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <Reveal>
+            <p className="text-xs tracking-[0.25em] uppercase text-[#C4674A] mb-4">Témoignages</p>
+            <h2 className="text-4xl md:text-5xl font-light mb-16" style={{ fontFamily: "'DM Serif Display', serif" }}>
+              Ce qu&apos;ils <em>disent</em>
+            </h2>
+          </Reveal>
+          <AnimatePresence mode="wait">
+            <motion.div key={activeTestimonial} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.5 }}>
+              <Quote className="w-8 h-8 text-[#C4674A] mx-auto mb-8" />
+              <p className="text-xl md:text-2xl font-light leading-relaxed text-[#D8D2CA] italic mb-10" style={{ fontFamily: "'DM Serif Display', serif" }}>
+                &ldquo;{TESTIMONIALS[activeTestimonial].text}&rdquo;
+              </p>
+              <div className="flex items-center justify-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-[#C4674A] flex items-center justify-center text-sm font-medium text-[#FDFAF6]">
+                  {TESTIMONIALS[activeTestimonial].avatar}
+                </div>
+                <div className="text-left">
+                  <div className="font-medium">{TESTIMONIALS[activeTestimonial].name}</div>
+                  <div className="text-sm text-[#8A8580]">{TESTIMONIALS[activeTestimonial].role}</div>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+          <div className="flex justify-center gap-2 mt-10">
+            {TESTIMONIALS.map((_, i) => (
+              <button key={i} onClick={() => setActiveTestimonial(i)} className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${i === activeTestimonial ? "bg-[#C4674A] w-6" : "bg-[#5A5550] w-2"}`} />
             ))}
           </div>
-          <div style={{ borderTop: `1px solid #ffffff15`, paddingTop: 24, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-            <span style={{ fontSize: 12, color: "#64748b" }}>© 2026 Espace Studio SAS. All rights reserved.</span>
-            <span style={{ fontSize: 12, color: "#64748b" }}>Paris · Lyon · Geneva</span>
+        </div>
+      </section>
+
+      {/* Services */}
+      <section className="py-28 max-w-7xl mx-auto px-6 md:px-12">
+        <div className="grid md:grid-cols-2 gap-16">
+          <Reveal>
+            <p className="text-xs tracking-[0.25em] uppercase text-[#C4674A] mb-4">Prestations</p>
+            <h2 className="text-4xl md:text-5xl font-light leading-tight" style={{ fontFamily: "'DM Serif Display', serif" }}>
+              Nos <em>services</em>
+            </h2>
+          </Reveal>
+          <div className="space-y-0">
+            {[
+              { title: "Architecture intérieure", desc: "Restructuration complète, suivi de chantier, coordination des corps de métier" },
+              { title: "Design d'intérieur", desc: "Sélection mobilier, matières, couleurs et luminaires. Clé en main ou conseil" },
+              { title: "Architecture commerciale", desc: "Boutiques, restaurants, hôtels — des espaces qui incarnent votre marque" },
+              { title: "Scénographie & Styling", desc: "Mise en scène événementielle, shooting photo, ouvertures de lieux" },
+            ].map((service, i) => (
+              <Reveal key={service.title} delay={i * 0.05}>
+                <div className="py-8 border-b border-[#E8E2DA] group flex items-start justify-between gap-4 cursor-pointer hover:pl-4 transition-all duration-300">
+                  <div>
+                    <h3 className="text-lg font-light mb-2" style={{ fontFamily: "'DM Serif Display', serif" }}>{service.title}</h3>
+                    <p className="text-sm text-[#8A8580]">{service.desc}</p>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-[#C4674A] opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0 mt-1" />
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Press */}
+      <section className="py-16 bg-[#F4F0EA] border-y border-[#E8E2DA]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-xs tracking-[0.25em] uppercase text-[#8A8580] text-center mb-12">Vus dans</p>
+          </Reveal>
+          <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16 opacity-50">
+            {["AD France", "Elle Décoration", "Côté Maison", "Architectural Digest", "Marie Claire Maison"].map(press => (
+              <span key={press} className="text-sm tracking-widest uppercase font-light text-[#1C1C1C]">{press}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="py-28 max-w-7xl mx-auto px-6 md:px-12">
+        <div className="grid md:grid-cols-2 gap-20">
+          <div>
+            <Reveal>
+              <p className="text-xs tracking-[0.25em] uppercase text-[#C4674A] mb-4">Contact</p>
+              <h2 className="text-4xl md:text-5xl font-light leading-tight mb-8" style={{ fontFamily: "'DM Serif Display', serif" }}>
+                Votre projet<br /><em>commence ici</em>
+              </h2>
+              <p className="text-[#6B6560] leading-relaxed mb-10">
+                Partagez-nous votre projet. Nous vous répondons sous 48 heures avec une première analyse de faisabilité.
+              </p>
+              <div className="space-y-5">
+                {[{ Icon: MapPin, text: "12 rue du Faubourg Saint-Antoine, 75012 Paris" }, { Icon: Phone, text: "+33 1 42 58 74 90" }, { Icon: Mail, text: "contact@espace-studio.fr" }].map(({ Icon, text }) => (
+                  <div key={text} className="flex items-center gap-4 text-sm text-[#6B6560]">
+                    <Icon className="w-4 h-4 text-[#C4674A] flex-shrink-0" />
+                    {text}
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+          <Reveal delay={0.1}>
+            <form className="space-y-5" onSubmit={e => e.preventDefault()}>
+              <div className="grid grid-cols-2 gap-4">
+                {["Prénom", "Nom"].map(f => (
+                  <div key={f}>
+                    <label className="block text-xs tracking-widest uppercase text-[#8A8580] mb-2">{f}</label>
+                    <input className="w-full bg-transparent border border-[#D8D2CA] px-4 py-3 text-sm focus:outline-none focus:border-[#1C1C1C] transition-colors" placeholder={f} />
+                  </div>
+                ))}
+              </div>
+              {[["Email", "email", "votre@email.fr"], ["Téléphone", "tel", "+33 6..."]].map(([label, type, ph]) => (
+                <div key={label}>
+                  <label className="block text-xs tracking-widest uppercase text-[#8A8580] mb-2">{label}</label>
+                  <input type={type} className="w-full bg-transparent border border-[#D8D2CA] px-4 py-3 text-sm focus:outline-none focus:border-[#1C1C1C] transition-colors" placeholder={ph} />
+                </div>
+              ))}
+              <div>
+                <label className="block text-xs tracking-widest uppercase text-[#8A8580] mb-2">Type de projet</label>
+                <select className="w-full bg-[#FDFAF6] border border-[#D8D2CA] px-4 py-3 text-sm focus:outline-none focus:border-[#1C1C1C] transition-colors">
+                  <option>Résidentiel — appartement ou maison</option>
+                  <option>Commercial — boutique ou restaurant</option>
+                  <option>Hôtellerie — hôtel ou chambre d&apos;hôtes</option>
+                  <option>Autre</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs tracking-widest uppercase text-[#8A8580] mb-2">Description du projet</label>
+                <textarea rows={4} className="w-full bg-transparent border border-[#D8D2CA] px-4 py-3 text-sm focus:outline-none focus:border-[#1C1C1C] transition-colors resize-none" placeholder="Décrivez votre projet, vos ambitions et votre calendrier..." />
+              </div>
+              <button type="submit" className="w-full bg-[#1C1C1C] text-[#FDFAF6] py-4 text-xs tracking-widest uppercase hover:bg-[#C4674A] transition-colors duration-300 cursor-pointer">
+                Envoyer la demande
+              </button>
+            </form>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-[#1C1C1C] text-[#FDFAF6] py-16 px-6 md:px-12">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-10 mb-12">
+            <div className="md:col-span-2">
+              <div className="text-2xl font-light mb-4" style={{ fontFamily: "'DM Serif Display', serif" }}>Espace Studio</div>
+              <p className="text-sm text-[#8A8580] leading-relaxed max-w-sm">Architecture d&apos;intérieur de prestige. Des espaces qui racontent une histoire, conçus avec rigueur et sensibilité.</p>
+              <div className="flex gap-4 mt-6">
+                <Link href="#" className="w-9 h-9 border border-[#5A5550] flex items-center justify-center hover:border-[#C4674A] hover:text-[#C4674A] transition-colors cursor-pointer"><Instagram className="w-4 h-4" /></Link>
+                <Link href="#" className="w-9 h-9 border border-[#5A5550] flex items-center justify-center hover:border-[#C4674A] hover:text-[#C4674A] transition-colors cursor-pointer"><Linkedin className="w-4 h-4" /></Link>
+              </div>
+            </div>
+            <div>
+              <p className="text-xs tracking-widest uppercase text-[#8A8580] mb-5">Navigation</p>
+              {["Projets", "Approche", "Studio", "Contact"].map(l => (
+                <Link key={l} href={`#${l.toLowerCase()}`} className="block text-sm text-[#D8D2CA] hover:text-[#C4674A] mb-3 transition-colors cursor-pointer">{l}</Link>
+              ))}
+            </div>
+            <div>
+              <p className="text-xs tracking-widest uppercase text-[#8A8580] mb-5">Prestations</p>
+              {["Architecture intérieure", "Design d'intérieur", "Architecture commerciale", "Scénographie"].map(s => (
+                <p key={s} className="text-sm text-[#D8D2CA] mb-3">{s}</p>
+              ))}
+            </div>
+          </div>
+          <div className="pt-8 border-t border-[#3A3A3A] flex flex-col md:flex-row justify-between gap-4 text-xs text-[#5A5550]">
+            <span>© 2024 Espace Studio — Tous droits réservés</span>
+            <div className="flex gap-6">
+              <Link href="#" className="hover:text-[#FDFAF6] transition-colors cursor-pointer">Mentions légales</Link>
+              <Link href="#" className="hover:text-[#FDFAF6] transition-colors cursor-pointer">Politique de confidentialité</Link>
+            </div>
           </div>
         </div>
       </footer>
