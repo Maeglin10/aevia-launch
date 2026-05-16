@@ -1,505 +1,219 @@
-"use client";
+"use client"
 
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-} from "framer-motion";
-import { useRef, useState } from "react";
+import React, { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
+import { Menu, X, ArrowRight, FlaskConical, Microscope, Leaf, Shield, Star, ChevronRight, Search } from "lucide-react"
 
-const C = {
-  bg: "#FAFAF8",
-  bgAlt: "#F4F3EF",
-  bgDark: "#1C1E1A",
-  text: "#1C1E1A",
-  textLight: "#FAFAF8",
-  textMuted: "#6A6D65",
-  textDim: "#BABDB5",
-  border: "#E2E4DC",
-  borderDark: "#2C2E28",
-  khaki: "#8A8D70",
-  khakiLight: "#C0C3A8",
-  khakiDark: "#5A5D44",
-  molecule: "#4A7A5A",
-  accent: "#2A4A3A",
-};
-
-const FONT = `
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
-`;
-
-const PRODUCTS = [
-  {
-    code: "AE-001",
-    name: "Sérum Biomimétique",
-    tagline: "Reconstitution barrière cutanée",
-    volume: "30ml",
-    price: "€ 145",
-    key_ingredient: "Palmitoyl Pentapeptide-4 3%",
-    full_formula: ["Niacinamide 5%", "Palmitoyl Pentapeptide-4 3%", "Acide hyaluronique multi-poids", "Extrait de Centella Asiatica"],
-    texture: "Sérum aqueux non gras",
-    target: "Peaux matures, ridules, manque de tonicité",
-    clinical: "+38% de fermeté après 8 semaines — étude clinique double-aveugle n=62",
-  },
-  {
-    code: "AE-002",
-    name: "Émulsion Régénérante",
-    tagline: "Renouvellement cellulaire accéléré",
-    volume: "50ml",
-    price: "€ 98",
-    key_ingredient: "Rétinal 0.05%",
-    full_formula: ["Rétinal (Rétinaldéhyde) 0.05%", "Bakuchiol 0.8%", "Bisabolol", "Squalane végétal"],
-    texture: "Émulsion légère",
-    target: "Peaux ternes, texture irrégulière, cicatrices légères",
-    clinical: "+52% de renouvellement cellulaire en 4 semaines — étude VISIA",
-  },
-  {
-    code: "AE-003",
-    name: "Concentré Éclat C15",
-    tagline: "Vitamine C stabilisée haute concentration",
-    volume: "20ml",
-    price: "€ 125",
-    key_ingredient: "Acide L-ascorbique 15%",
-    full_formula: ["Acide L-ascorbique 15%", "Acide férulique", "Vitamine E", "Acide glycolique 3%"],
-    texture: "Sérum légèrement acide",
-    target: "Taches pigmentaires, teint terne, oxydation cutanée",
-    clinical: "-34% de taches en 12 semaines — spectrocolorimétrie",
-  },
-];
-
-const SCIENCE_POINTS = [
-  {
-    title: "Formulation sans compromis",
-    desc: "Chaque formule Aether Labs est développée avec des concentrations actives cliniquement significatives. Nous n'utilisons pas les actifs à des doses symboliques.",
-  },
-  {
-    title: "Tests cliniques obligatoires",
-    desc: "Aucun produit ne sort sans étude d'efficacité. Études en double-aveugle, mesures instrumentales, panels consommateurs. Les chiffres sont vérifiables.",
-  },
-  {
-    title: "Formulation minimale",
-    desc: "Le moins d'ingrédients possible. Le plus d'efficacité possible. Chaque composant a une raison d'être. Rien n'est là pour l'esthétique de la liste INCI.",
-  },
-  {
-    title: "Transparence totale",
-    desc: "Toutes nos études cliniques sont disponibles sur demande. Les concentrations exactes sont indiquées. Aucun secret de formulation — la science parle d'elle-même.",
-  },
-];
-
-const ROUTINE = [
-  { step: "AM", name: "Matin", products: ["Nettoyant léger", "Concentré Éclat C15", "SPF 50+"] },
-  { step: "PM", name: "Soir", products: ["Double nettoyage", "Émulsion Régénérante", "Sérum Biomimétique"] },
-];
-
-// ── Molecular structure (signature element) ──────────────────────────────────
-function MolecularDiagram({ inView }: { inView: boolean }) {
-  const atoms = [
-    { id: "C1", x: 200, y: 150, label: "C", color: C.text },
-    { id: "C2", x: 260, y: 115, label: "C", color: C.text },
-    { id: "C3", x: 320, y: 150, label: "C", color: C.text },
-    { id: "C4", x: 320, y: 210, label: "C", color: C.text },
-    { id: "C5", x: 260, y: 245, label: "C", color: C.text },
-    { id: "C6", x: 200, y: 210, label: "C", color: C.text },
-    { id: "O1", x: 150, y: 120, label: "O", color: C.molecule },
-    { id: "N1", x: 360, y: 115, label: "N", color: "#4A6A8A" },
-    { id: "H1", x: 150, y: 240, label: "H", color: C.textDim },
-    { id: "H2", x: 260, y: 60, label: "H", color: C.textDim },
-    { id: "C7", x: 420, y: 150, label: "C", color: C.text },
-    { id: "O2", x: 420, y: 210, label: "O", color: C.molecule },
-  ];
-
-  const bonds = [
-    ["C1", "C2"], ["C2", "C3"], ["C3", "C4"], ["C4", "C5"], ["C5", "C6"], ["C6", "C1"],
-    ["C1", "O1"], ["C3", "N1"], ["C2", "H2"], ["C6", "H1"], ["N1", "C7"], ["C7", "O2"],
-  ];
-
-  const atomMap = Object.fromEntries(atoms.map((a) => [a.id, a]));
-
-  return (
-    <svg viewBox="0 80 480 240" style={{ width: "100%", height: "100%" }}>
-      {/* Background grid */}
-      {Array.from({ length: 12 }).map((_, i) => (
-        <line key={`h${i}`} x1="100" y1={60 + i * 25} x2="460" y2={60 + i * 25} stroke={C.border} strokeWidth="0.4" />
-      ))}
-      {Array.from({ length: 16 }).map((_, i) => (
-        <line key={`v${i}`} x1={100 + i * 24} y1="60" x2={100 + i * 24} y2="340" stroke={C.border} strokeWidth="0.4" />
-      ))}
-
-      {/* Bonds */}
-      {bonds.map(([from, to], i) => {
-        const a = atomMap[from];
-        const b = atomMap[to];
-        if (!a || !b) return null;
-        return (
-          <motion.line
-            key={`${from}-${to}`}
-            x1={a.x} y1={a.y} x2={b.x} y2={b.y}
-            stroke={C.khaki} strokeWidth="1.5"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={inView ? { pathLength: 1, opacity: 0.7 } : {}}
-            transition={{ duration: 0.5, delay: 0.3 + i * 0.06 }}
-          />
-        );
-      })}
-
-      {/* Atoms */}
-      {atoms.map((atom, i) => (
-        <motion.g key={atom.id}
-          initial={{ scale: 0, opacity: 0 }}
-          animate={inView ? { scale: 1, opacity: 1 } : {}}
-          transition={{ duration: 0.3, delay: 0.8 + i * 0.05 }}
-          style={{ transformOrigin: `${atom.x}px ${atom.y}px` }}
-        >
-          <circle cx={atom.x} cy={atom.y} r="14" fill={C.bg} stroke={atom.color} strokeWidth="1.5" />
-          <text x={atom.x} y={atom.y + 4} textAnchor="middle" fill={atom.color} fontSize="9" fontFamily="DM Mono, monospace" fontWeight="500">
-            {atom.label}
-          </text>
-        </motion.g>
-      ))}
-
-      {/* Label */}
-      {inView && (
-        <text x="280" y="345" textAnchor="middle" fill={C.textDim} fontSize="7" fontFamily="DM Mono, monospace" letterSpacing="4">
-          PALMITOYL PENTAPEPTIDE-4
-        </text>
-      )}
-    </svg>
-  );
+function useFonts() {
+  useEffect(() => {
+    const id = "fonts-aether-labs"
+    if (document.getElementById(id)) return
+    const s = document.createElement("style")
+    s.id = id
+    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap');`
+    document.head.appendChild(s)
+  }, [])
 }
 
-// ── Page ─────────────────────────────────────────────────────────────────────
-export default function AetherLabs() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const molRef = useRef<HTMLDivElement>(null);
-  const [activeProduct, setActiveProduct] = useState(0);
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  )
+}
 
-  const { scrollYProgress } = useScroll({ target: containerRef });
-  const molInView = useInView(molRef, { once: true, margin: "-80px" });
-  const navBg = useTransform(scrollYProgress, [0, 0.05], ["rgba(250,250,248,0)", "rgba(250,250,248,0.97)"]);
+const PRODUCTS = [
+  { id: "serum", name: "Luminos Sérum", tagline: "L'essence luminosité", desc: "Complexe Vita-C 15% encapsulé, niacinamide 5%, acide férulique et Bakuchiol certifié. La formule anti-âge cliniquement prouvée.", price: "148 €", volume: "30 ml", score: 98, image: "https://images.unsplash.com/photo-1556228852-6d35a585d566?w=600&q=80", badges: ["Cliniquement testé", "Végan"] },
+  { id: "moisture", name: "Cellulaire Crème", tagline: "Régénération nocturne", desc: "Rétinol 0,5% encapsulé, peptides de cuivre EGF-like, céramides NP et probiotiques lactobacillus. Régénération intensive nocturne.", price: "124 €", volume: "50 ml", score: 96, image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80", badges: ["Dermatologiquement testé", "Sans parfum"] },
+  { id: "mask", name: "Kaolin Masque", tagline: "Pureté enzymatique", desc: "Kaolin, enzymes de papaye et ananas, zinc PCA et acide salicylique 1%. Purification douce et régulation du sébum.", price: "68 €", volume: "75 ml", score: 94, image: "https://images.unsplash.com/photo-1585651374645-5f2b87d06a5e?w=600&q=80", badges: ["Naturel", "Sensory"] },
+  { id: "protect", name: "Photon SPF 50+", tagline: "Protection ultime", desc: "SPF 50+ UVA/UVB, filtres minéraux nano, niacinamide 4%, vitamine E. Fini invisible, compatible sous le maquillage.", price: "58 €", volume: "50 ml", score: 99, image: "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=600&q=80", badges: ["SPF 50+", "Reef safe"] },
+]
+
+const INGREDIENTS = [
+  { name: "Vita-C encapsulé", origin: "Synthèse biotechnologique", icon: FlaskConical, desc: "Vitamine C stable à 15%, délivrée en microcapsules pour une efficacité maximale et une oxydation nulle." },
+  { name: "Bakuchiol certifié", origin: "Psoralea corylifolia · Inde", icon: Leaf, desc: "Alternative botanique au rétinol cliniquement prouvée. Anti-âge sans irritation, compatible grossesse." },
+  { name: "Peptides EGF-like", origin: "Biotechnologie blanc", icon: Microscope, desc: "Séquences peptidiques mimant le facteur de croissance épidermique pour stimuler la synthèse de collagène." },
+  { name: "Probiotiques lactobacillus", origin: "Fermentation contrôlée", icon: Shield, desc: "Microbiome skin-safe. Renforcement de la barrière cutanée et réduction de l'inflammation de bas grade." },
+]
+
+export default function AetherLabsPage() {
+  useFonts()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [activeProduct, setActiveProduct] = useState(0)
+  const { scrollYProgress } = useScroll()
+  const heroRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(heroScroll, [0, 1], ["0%", "25%"])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
   return (
-    <div ref={containerRef} style={{ background: C.bg, color: C.text, fontFamily: "'Inter', sans-serif", minHeight: "100vh", overflowX: "hidden" }}>
-      <style>{FONT}</style>
+    <div className="min-h-screen bg-[#F8F6F2] text-[#1C1814]" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <motion.div className="fixed top-0 left-0 h-[2px] bg-[#8B7355] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
-      {/* ── Navigation ─────────────────────────────────────────────────── */}
+      {/* Nav */}
       <motion.nav
-        style={{
-          position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-          background: navBg,
-          backdropFilter: "blur(12px)",
-          borderBottom: `1px solid ${C.border}`,
-          padding: "0 2.5rem",
-          height: "60px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#F8F6F2]/95 backdrop-blur-md border-b border-[#E4DDD4]" : "bg-transparent"}`}
+        initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.8rem", fontWeight: 500, color: C.text, letterSpacing: "0.08em" }}>
-          AETHER<span style={{ color: C.khaki }}>_</span>LABS
+        <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+          <Link href="#" className="flex flex-col">
+            <span className="text-xl font-light tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.15em" }}>Aether Labs</span>
+            <span className="text-[9px] tracking-[0.2em] uppercase text-[#8B7355]">Cosmétique scientifique</span>
+          </Link>
+          <div className="hidden md:flex items-center gap-8 text-sm font-light text-[#6B5A40]">
+            {["Formules", "Science", "Rituels", "Journal"].map(l => (
+              <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#1C1814] transition-colors">{l}</Link>
+            ))}
+            <button className="cursor-pointer"><Search className="w-4 h-4 text-[#6B5A40] hover:text-[#1C1814] transition-colors" /></button>
+            <Link href="#formules" className="ml-2 px-5 py-2.5 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widest uppercase hover:bg-[#8B7355] transition-colors cursor-pointer">
+              Découvrir
+            </Link>
+          </div>
+          <button className="md:hidden p-2 cursor-pointer" onClick={() => setMenuOpen(true)} aria-label="Menu">
+            <Menu className="w-5 h-5" />
+          </button>
         </div>
-        <div style={{ display: "flex", gap: "2.5rem" }}>
-          {["Formules", "Science", "Routine", "À propos"].map((item) => (
-            <motion.button key={item} onClick={() => document.getElementById(({"Formules": "formules", "Science": "science", "Routine": "routine", "À propos": "a-propos"})[item] || "")?.scrollIntoView({behavior:"smooth"})}
-              
-              
-              style={{ fontSize: "0.75rem", color: C.textMuted, textDecoration: "none", cursor: "pointer" }}
-              whileHover={{ color: C.text }}
-            >
-              {item}
-            </motion.button>
-          ))}
-        </div>
-        <motion.button
-          whileHover={{ backgroundColor: C.accent, color: C.textLight, borderColor: C.accent }}
-          style={{
-            background: "transparent",
-            border: `1px solid ${C.border}`,
-            color: C.textMuted,
-            padding: "0.5rem 1.25rem",
-            fontSize: "0.7rem",
-            cursor: "pointer",
-            transition: "all 0.3s",
-          }}
-        >
-          Commander
-        </motion.button>
       </motion.nav>
 
-      {/* ── Hero ───────────────────────────────────────────────────────── */}
-      <section style={{ minHeight: "100vh", display: "grid", gridTemplateColumns: "1fr 1fr", position: "relative" }}>
-        {/* Left */}
-        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", padding: "8rem 3rem 5rem 4rem" }}>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.khaki, marginBottom: "1.5rem" }}
-          >
-            SKINCARE CLINIQUE · PARIS
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div className="fixed inset-0 z-[200] bg-[#F8F6F2] flex flex-col"
+            initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 280, damping: 28 }}>
+            <div className="flex items-center justify-between px-6 py-5 border-b border-[#E4DDD4]">
+              <span style={{ fontFamily: "'Cormorant Garamond', serif" }} className="text-xl">Aether Labs</span>
+              <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
+            </div>
+            <div className="flex flex-col gap-8 p-10">
+              {["Formules", "Science", "Rituels", "Journal"].map((l, i) => (
+                <motion.div key={l} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
+                  <Link href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)}
+                    className="text-3xl font-light hover:text-[#8B7355] transition-colors cursor-pointer"
+                    style={{ fontFamily: "'Cormorant Garamond', serif" }}>{l}</Link>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            style={{
-              fontFamily: "'Libre Baskerville', serif",
-              fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
-              fontWeight: 700,
-              color: C.text,
-              lineHeight: 1.05,
-              letterSpacing: "-0.02em",
-              marginBottom: "2rem",
-            }}
-          >
-            La Science<br />
-            Au Service<br />
-            <em style={{ color: C.khaki, fontStyle: "italic", fontWeight: 400 }}>de Votre Peau</em>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.8 }}
-            style={{ fontSize: "0.95rem", color: C.textMuted, lineHeight: 1.8, maxWidth: "45ch", marginBottom: "2.5rem" }}
-          >
-            Des formules développées en laboratoire, testées cliniquement, documentées scientifiquement. Aether Labs refuse le marketing. Seuls les résultats prouvés comptent.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1 }}
-            style={{ display: "flex", gap: "1rem" }}
-          >
-            <motion.button
-              whileHover={{ scale: 1.02, backgroundColor: C.accent }}
-              style={{
-                background: C.bgDark,
-                color: C.textLight,
-                border: "none",
-                padding: "0.85rem 2rem",
-                fontFamily: "'DM Mono', monospace",
-                fontSize: "0.65rem",
-                letterSpacing: "0.15em",
-                cursor: "pointer",
-                transition: "background 0.3s",
-              }}
-            >
-              VOIR LES FORMULES
-            </motion.button>
-            <motion.button
-              whileHover={{ borderColor: C.khaki, color: C.khaki }}
-              style={{
-                background: "transparent",
-                border: `1px solid ${C.border}`,
-                color: C.textMuted,
-                padding: "0.85rem 2rem",
-                fontFamily: "'DM Mono', monospace",
-                fontSize: "0.65rem",
-                letterSpacing: "0.15em",
-                cursor: "pointer",
-                transition: "all 0.3s",
-              }}
-            >
-              LIRE LES ÉTUDES
-            </motion.button>
-          </motion.div>
-        </div>
+        )}
+      </AnimatePresence>
 
-        {/* Right: molecular diagram */}
-        <div
-          ref={molRef}
-          style={{
-            background: C.bgAlt,
-            borderLeft: `1px solid ${C.border}`,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "4rem 3rem",
-          }}
-        >
-          <div style={{ width: "100%", maxWidth: "480px", aspectRatio: "2/1" }}>
-            <MolecularDiagram inView={molInView} />
-          </div>
+      {/* Hero */}
+      <section ref={heroRef} className="relative min-h-screen overflow-hidden grid md:grid-cols-2">
+        <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-28 pb-16 md:py-0">
+          <Reveal>
+            <p className="text-xs tracking-[0.3em] uppercase text-[#8B7355] mb-8">Laboratoire cosmétique — Grasse, France</p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light leading-[1.0] mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              La peau<br />révélée par la<br /><em>science pure</em>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="text-[#6B5A40] leading-relaxed max-w-md mb-10">
+              Aether Labs formule des soins à l&apos;intersection de la chimie organique et de la cosmétique clinique. Chaque produit est développé en laboratoire, testé sous contrôle dermatologique.
+            </p>
+          </Reveal>
+          <Reveal delay={0.3}>
+            <div className="flex gap-5">
+              <Link href="#formules" className="px-8 py-4 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widest uppercase hover:bg-[#8B7355] transition-colors cursor-pointer">
+                Nos formules
+              </Link>
+              <Link href="#science" className="px-8 py-4 border border-[#D4C9B0] text-[#1C1814] text-xs tracking-widests uppercase hover:border-[#1C1814] transition-colors cursor-pointer">
+                La science
+              </Link>
+            </div>
+          </Reveal>
+          <Reveal delay={0.4}>
+            <div className="flex items-center gap-10 mt-16 pt-10 border-t border-[#E4DDD4]">
+              {[["12 ans", "De R&D"], ["0 parabène", "0 silicone"], ["Dermatologiquement", "Testé"]].map(([val, label]) => (
+                <div key={val}>
+                  <div className="text-xl font-light mb-0.5" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{val}</div>
+                  <div className="text-xs text-[#8A7860]">{label}</div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+        <div className="relative overflow-hidden min-h-[50vh] md:min-h-0">
+          <motion.div className="absolute inset-0" style={{ y: heroY }}>
+            <Image src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&q=85" alt="Aether Labs" fill className="object-cover" />
+          </motion.div>
         </div>
       </section>
 
-      {/* ── Products ──────────────────────────────────────────────────── */}
-      <section id="formules" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", borderTop: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3rem" }}>
-            <div>
-              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.khaki, marginBottom: "0.5rem" }}>
-                FORMULES
-              </div>
-              <h2 style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 700, color: C.text }}>
-                Notre Gamme
+      {/* Products */}
+      <section id="formules" className="py-28 bg-[#F8F6F2]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="mb-14">
+            <Reveal>
+              <p className="text-xs tracking-[0.25em] uppercase text-[#8B7355] mb-4">Formules signatures</p>
+              <h2 className="text-4xl md:text-5xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                La collection <em>Aether</em>
               </h2>
-            </div>
+            </Reveal>
           </div>
 
-          {/* Product tabs */}
-          <div style={{ display: "flex", gap: "0", borderBottom: `1px solid ${C.border}`, marginBottom: "3rem" }}>
+          {/* Tabs */}
+          <div className="flex gap-0 border border-[#E4DDD4] mb-12 overflow-x-auto">
             {PRODUCTS.map((p, i) => (
-              <motion.button
-                key={p.code}
-                onClick={() => setActiveProduct(i)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  padding: "0.85rem 2rem",
-                  fontFamily: "'DM Mono', monospace",
-                  fontSize: "0.65rem",
-                  letterSpacing: "0.1em",
-                  color: i === activeProduct ? C.text : C.textMuted,
-                  cursor: "pointer",
-                  position: "relative",
-                }}
-                whileHover={{ color: C.text }}
-              >
-                {p.code}
-                {i === activeProduct && (
-                  <motion.div layoutId="prod-indicator" style={{ position: "absolute", bottom: "-1px", left: 0, right: 0, height: "2px", background: C.khaki }} />
-                )}
-              </motion.button>
+              <button key={p.id} onClick={() => setActiveProduct(i)}
+                className={`flex-1 min-w-[140px] px-6 py-4 text-xs tracking-widests uppercase border-r border-[#E4DDD4] last:border-r-0 transition-all duration-200 cursor-pointer whitespace-nowrap ${activeProduct === i ? "bg-[#1C1814] text-[#F8F6F2]" : "hover:bg-[#F0EBE0] text-[#6B5A40]"}`}>
+                {p.name}
+              </button>
             ))}
           </div>
 
           <AnimatePresence mode="wait">
-            <motion.div
-              key={activeProduct}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.4 }}
-              style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem" }}
-            >
-              <div>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.15em", color: C.khaki, marginBottom: "0.75rem" }}>
-                  {PRODUCTS[activeProduct].code}
-                </div>
-                <h3 style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "2rem", fontWeight: 700, color: C.text, marginBottom: "0.5rem" }}>
-                  {PRODUCTS[activeProduct].name}
-                </h3>
-                <div style={{ fontSize: "0.9rem", fontStyle: "italic", color: C.textMuted, marginBottom: "2rem" }}>
-                  {PRODUCTS[activeProduct].tagline}
-                </div>
-
-                <div style={{ background: C.bgAlt, padding: "1.5rem", borderLeft: `3px solid ${C.khaki}`, marginBottom: "2rem" }}>
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.khaki, marginBottom: "0.5rem" }}>
-                    ACTIF CLÉ
-                  </div>
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.85rem", color: C.text, fontWeight: 500 }}>
-                    {PRODUCTS[activeProduct].key_ingredient}
-                  </div>
-                </div>
-
-                <div style={{ marginBottom: "1.5rem" }}>
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.75rem" }}>
-                    FORMULE COMPLÈTE
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
-                    {PRODUCTS[activeProduct].full_formula.map((ingredient) => (
-                      <div key={ingredient} style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
-                        <div style={{ width: "4px", height: "4px", background: C.khaki, borderRadius: "50%", flexShrink: 0 }} />
-                        <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.75rem", color: C.textMuted }}>
-                          {ingredient}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div style={{ background: C.bgAlt, padding: "1.25rem", border: `1px solid ${C.border}`, marginBottom: "2rem" }}>
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.15em", color: C.molecule, marginBottom: "0.4rem" }}>
-                    ÉTUDE CLINIQUE
-                  </div>
-                  <div style={{ fontSize: "0.82rem", color: C.textMuted, lineHeight: 1.6 }}>
-                    {PRODUCTS[activeProduct].clinical}
-                  </div>
-                </div>
-
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div>
-                    <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", color: C.textDim }}>
-                      {PRODUCTS[activeProduct].volume}
-                    </div>
-                    <div style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1.5rem", fontWeight: 700, color: C.text }}>
-                      {PRODUCTS[activeProduct].price}
-                    </div>
-                  </div>
-                  <motion.button
-                    whileHover={{ scale: 1.02, backgroundColor: C.accent }}
-                    style={{
-                      background: C.bgDark,
-                      color: C.textLight,
-                      border: "none",
-                      padding: "0.75rem 1.75rem",
-                      fontFamily: "'DM Mono', monospace",
-                      fontSize: "0.65rem",
-                      letterSpacing: "0.15em",
-                      cursor: "pointer",
-                      transition: "background 0.3s",
-                    }}
-                  >
-                    AJOUTER AU PANIER
-                  </motion.button>
+            <motion.div key={activeProduct} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.4 }}
+              className="grid md:grid-cols-2 gap-16 items-center">
+              <div className="relative aspect-square overflow-hidden bg-[#F0EBE0]">
+                <Image src={PRODUCTS[activeProduct].image} alt={PRODUCTS[activeProduct].name} fill className="object-cover" />
+                <div className="absolute top-4 right-4 flex flex-col gap-2">
+                  {PRODUCTS[activeProduct].badges.map(b => (
+                    <span key={b} className="bg-[#F8F6F2]/90 backdrop-blur-sm text-[#1C1814] text-[10px] tracking-widests uppercase px-2.5 py-1">{b}</span>
+                  ))}
                 </div>
               </div>
-
               <div>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.75rem" }}>
-                  TEXTURE
-                </div>
-                <div style={{ fontSize: "0.9rem", color: C.textMuted, marginBottom: "2rem" }}>
-                  {PRODUCTS[activeProduct].texture}
-                </div>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.75rem" }}>
-                  INDIQUÉ POUR
-                </div>
-                <div style={{ fontSize: "0.9rem", color: C.text, marginBottom: "2.5rem", lineHeight: 1.65 }}>
-                  {PRODUCTS[activeProduct].target}
-                </div>
-
-                {/* Visual: product bottle placeholder */}
-                <div style={{
-                  background: C.bgAlt,
-                  border: `1px solid ${C.border}`,
-                  aspectRatio: "3/4",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  position: "relative",
-                  overflow: "hidden",
-                }}>
-                  {/* Molecule watermark */}
-                  <svg viewBox="0 0 200 200" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.04 }}>
-                    <circle cx="100" cy="100" r="80" fill="none" stroke={C.khaki} strokeWidth="1" />
-                    <circle cx="100" cy="100" r="50" fill="none" stroke={C.khaki} strokeWidth="0.5" />
-                    <circle cx="100" cy="100" r="20" fill={C.khaki} />
-                    {[0, 60, 120, 180, 240, 300].map((angle) => (
-                      <line
-                        key={angle}
-                        x1={100 + 20 * Math.cos((angle * Math.PI) / 180)}
-                        y1={100 + 20 * Math.sin((angle * Math.PI) / 180)}
-                        x2={100 + 50 * Math.cos((angle * Math.PI) / 180)}
-                        y2={100 + 50 * Math.sin((angle * Math.PI) / 180)}
-                        stroke={C.khaki} strokeWidth="1"
-                      />
-                    ))}
-                  </svg>
-                  <div style={{ textAlign: "center", position: "relative", zIndex: 1 }}>
-                    <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.5rem" }}>
-                      {PRODUCTS[activeProduct].code}
-                    </div>
-                    <div style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1.2rem", fontWeight: 700, color: C.text }}>
-                      {PRODUCTS[activeProduct].name}
-                    </div>
-                    <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", color: C.textDim, marginTop: "0.5rem" }}>
-                      {PRODUCTS[activeProduct].volume}
-                    </div>
+                <p className="text-xs tracking-[0.2em] uppercase text-[#8B7355] mb-3">{PRODUCTS[activeProduct].tagline}</p>
+                <h3 className="text-3xl font-light mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{PRODUCTS[activeProduct].name}</h3>
+                <p className="text-[#6B5A40] leading-relaxed mb-6">{PRODUCTS[activeProduct].desc}</p>
+                <div className="flex items-center gap-6 mb-8 p-4 bg-[#F0EBE0]">
+                  <div>
+                    <div className="text-2xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{PRODUCTS[activeProduct].score}<span className="text-base text-[#8B7355]">/100</span></div>
+                    <div className="text-xs text-[#8A7860]">Score formule INCI</div>
                   </div>
+                  <div className="h-12 w-[1px] bg-[#D4C9B0]" />
+                  <div>
+                    <div className="text-2xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{PRODUCTS[activeProduct].volume}</div>
+                    <div className="text-xs text-[#8A7860]">Contenance</div>
+                  </div>
+                  <div className="h-12 w-[1px] bg-[#D4C9B0]" />
+                  <div>
+                    <div className="text-2xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{PRODUCTS[activeProduct].price}</div>
+                    <div className="text-xs text-[#8A7860]">Prix TTC</div>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <button className="flex-1 py-4 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widests uppercase hover:bg-[#8B7355] transition-colors cursor-pointer">
+                    Ajouter au panier
+                  </button>
+                  <button className="px-6 py-4 border border-[#E4DDD4] text-[#1C1814] text-xs tracking-widests uppercase hover:border-[#1C1814] transition-colors cursor-pointer">
+                    Diagnostic peau
+                  </button>
                 </div>
               </div>
             </motion.div>
@@ -507,160 +221,190 @@ export default function AetherLabs() {
         </div>
       </section>
 
-      {/* ── Science pillars ──────────────────────────────────────────── */}
-      <section id="science" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgDark }}>
-        <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-          <div style={{ marginBottom: "4rem" }}>
-            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.khaki, marginBottom: "0.5rem" }}>
-              NOTRE PHILOSOPHIE
-            </div>
-            <h2 style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 700, color: C.textLight }}>
-              Science Sans Concession
-            </h2>
+      {/* Ingredients */}
+      <section id="science" className="py-28 bg-[#1C1814] text-[#F8F6F2]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-2 gap-20 mb-16">
+            <Reveal>
+              <p className="text-xs tracking-[0.25em] uppercase text-[#8B7355] mb-4">Ingrédients actifs</p>
+              <h2 className="text-4xl md:text-5xl font-light leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                La transparence<br />comme <em>éthique</em>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="text-[#6B5A40] leading-relaxed mt-8 md:mt-0">
+                Nous publions l&apos;origine de chaque ingrédient, sa concentration et les études cliniques qui le soutiennent. Notre liste INCI complète est disponible pour chaque produit.
+              </p>
+            </Reveal>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1px", background: C.borderDark }}>
-            {SCIENCE_POINTS.map((point, i) => {
-              const ref = useRef<HTMLDivElement>(null);
-              const inView = useInView(ref, { once: true });
+          <div className="grid md:grid-cols-2 gap-px bg-[#3A3020]">
+            {INGREDIENTS.map((ing, i) => {
+              const Icon = ing.icon
               return (
-                <motion.div
-                  key={point.title}
-                  ref={ref}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: (i % 2) * 0.1 }}
-                  style={{ background: C.bgDark, padding: "3rem" }}
-                >
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", color: C.khaki, marginBottom: "1.5rem" }}>
-                    {String(i + 1).padStart(2, "0")}
+                <Reveal key={ing.name} delay={i * 0.08}>
+                  <div className="bg-[#1C1814] p-8 group hover:bg-[#231E14] transition-colors duration-300">
+                    <div className="flex items-start gap-5">
+                      <div className="w-10 h-10 border border-[#3A3020] flex items-center justify-center flex-shrink-0 group-hover:border-[#8B7355] transition-colors duration-300">
+                        <Icon className="w-5 h-5 text-[#8B7355]" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{ing.name}</h3>
+                        <p className="text-xs text-[#8B7355] mb-3">{ing.origin}</p>
+                        <p className="text-sm text-[#6A6058] leading-relaxed">{ing.desc}</p>
+                      </div>
+                    </div>
                   </div>
-                  <h3 style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1.2rem", fontWeight: 700, color: C.textLight, marginBottom: "0.75rem" }}>
-                    {point.title}
-                  </h3>
-                  <p style={{ fontSize: "0.88rem", color: "#6A6D65", lineHeight: 1.75 }}>
-                    {point.desc}
-                  </p>
-                </motion.div>
-              );
+                </Reveal>
+              )
             })}
           </div>
         </div>
       </section>
 
-      {/* ── Routine builder ──────────────────────────────────────────── */}
-      <section id="routine" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", borderTop: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: "900px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.khaki, marginBottom: "0.5rem" }}>
-              ROUTINE RECOMMANDÉE
-            </div>
-            <h2 style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 700, color: C.text }}>
-              Le Programme Aether
+      {/* Ritual */}
+      <section id="rituels" className="py-28 bg-[#F0EBE0]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="text-center mb-14">
+            <Reveal>
+              <p className="text-xs tracking-[0.25em] uppercase text-[#8B7355] mb-4">Protocole</p>
+              <h2 className="text-4xl md:text-5xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                Le rituel <em>Aether</em>
+              </h2>
+            </Reveal>
+          </div>
+          <div className="grid md:grid-cols-4 gap-px bg-[#D4C9B0]">
+            {[
+              { step: "01", time: "Matin", name: "Luminos Sérum", action: "2–3 gouttes en tapotant délicatement sur peau propre et humide" },
+              { step: "02", time: "Matin", name: "Photon SPF 50+", action: "2,5 mg/cm² en couche uniforme sur visage et cou" },
+              { step: "03", time: "Soir", name: "Cellulaire Crème", action: "Noisette en massage ascendant sur peau nettoyée" },
+              { step: "04", time: "1× / semaine", name: "Kaolin Masque", action: "Couche épaisse 15 min, rincer à l'eau fraîche" },
+            ].map((r, i) => (
+              <Reveal key={r.step} delay={i * 0.08}>
+                <div className="bg-[#F0EBE0] p-8 hover:bg-[#F8F6F2] transition-colors duration-300">
+                  <div className="text-4xl font-light text-[#D4C9B0] mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{r.step}</div>
+                  <p className="text-xs tracking-widests uppercase text-[#8B7355] mb-2">{r.time}</p>
+                  <h3 className="text-lg font-light mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{r.name}</h3>
+                  <p className="text-sm text-[#6B5A40] leading-relaxed">{r.action}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-24 bg-[#F8F6F2]">
+        <div className="max-w-5xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-xs tracking-[0.25em] uppercase text-[#8B7355] mb-4 text-center">Témoignages</p>
+            <h2 className="text-3xl font-light text-center mb-14" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Ce que la peau <em>nous dit</em>
             </h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px", background: C.border }}>
-            {ROUTINE.map((r, i) => (
-              <div key={r.step} style={{ background: C.bg, padding: "2.5rem" }}>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.7rem", fontWeight: 500, color: C.text, marginBottom: "0.25rem" }}>
-                  {r.step}
-                </div>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "1.5rem" }}>
-                  {r.name}
-                </div>
-                {r.products.map((p, j) => (
-                  <div key={p} style={{ display: "flex", gap: "1rem", alignItems: "center", padding: "0.75rem 0", borderBottom: j < r.products.length - 1 ? `1px solid ${C.border}` : "none" }}>
-                    <div style={{ width: "1.5rem", height: "1.5rem", background: C.bgAlt, border: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                      <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.5rem", color: C.textDim }}>
-                        {j + 1}
-                      </span>
-                    </div>
-                    <span style={{ fontSize: "0.85rem", color: C.textMuted }}>{p}</span>
+          </Reveal>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { name: "Claire M.", skin: "Peau mixte, 38 ans", text: "Le Luminos Sérum a effacé mes taches de grossesse en 6 semaines. J'ai essayé des dizaines de produits. Aucun n'avait été aussi précis.", rating: 5 },
+              { name: "Anaïs B.", skin: "Peau sensible, 29 ans", text: "Le Bakuchiol était ma seule option rétinol-free. Les résultats en 4 semaines ont dépassé mes attentes. Et aucune irritation.", rating: 5 },
+              { name: "Sophie T.", skin: "Peau mature, 52 ans", text: "La Cellulaire Crème a transformé la texture de ma peau. Ma dermatologue a demandé ce que j'utilisais. Elle commande maintenant pour sa clinique.", rating: 5 },
+            ].map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.08}>
+                <div className="bg-[#F0EBE0] p-8">
+                  <div className="flex gap-1 mb-5">
+                    {[...Array(t.rating)].map((_, i) => <Star key={i} className="w-3 h-3 fill-[#8B7355] text-[#8B7355]" />)}
                   </div>
-                ))}
-              </div>
+                  <p className="text-[#3A3028] leading-relaxed mb-5 italic" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "17px" }}>
+                    &ldquo;{t.text}&rdquo;
+                  </p>
+                  <div className="text-sm font-medium">{t.name}</div>
+                  <div className="text-xs text-[#8A7860] mt-0.5">{t.skin}</div>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── CTA ──────────────────────────────────────────────────────── */}
-      <section id="a-propos" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgAlt, borderTop: `1px solid ${C.border}`, textAlign: "center" }}>
-        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
-          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.khaki, marginBottom: "1.5rem" }}>
-            DIAGNOSTIC PEAU GRATUIT
+      {/* Journal */}
+      <section id="journal" className="py-24 bg-[#F0EBE0]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="flex items-end justify-between mb-10">
+            <Reveal>
+              <p className="text-xs tracking-[0.25em] uppercase text-[#8B7355] mb-3">Le journal scientifique</p>
+              <h2 className="text-3xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Nos dernières publications</h2>
+            </Reveal>
           </div>
-          <h2 style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, color: C.text, marginBottom: "1rem" }}>
-            Trouvez Votre<br />
-            <em style={{ color: C.khaki }}>Formule Exacte</em>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { cat: "Ingrédients", title: "Le Bakuchiol : revue de la littérature scientifique 2020–2024", date: "Décembre 2024" },
+              { cat: "Formulation", title: "pH optimal et stabilité des vitamines C dans les formules cosmétiques", date: "Octobre 2024" },
+              { cat: "Microbiome", title: "Probiotiques topiques et fonction barrière cutanée : état de l'art", date: "Septembre 2024" },
+            ].map((article, i) => (
+              <Reveal key={article.title} delay={i * 0.08}>
+                <div className="border border-[#D4C9B0] p-6 hover:border-[#8B7355] transition-colors duration-300 cursor-pointer group">
+                  <p className="text-xs tracking-widests uppercase text-[#8B7355] mb-3">{article.cat}</p>
+                  <h3 className="text-base font-light leading-snug mb-4 group-hover:text-[#8B7355] transition-colors" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                    {article.title}
+                  </h3>
+                  <div className="flex items-center justify-between text-xs text-[#8A7860]">
+                    <span>{article.date}</span>
+                    <ArrowRight className="w-4 h-4 text-[#8B7355] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter */}
+      <section className="py-20 bg-[#1C1814] text-[#F8F6F2] text-center px-6">
+        <Reveal>
+          <p className="text-xs tracking-[0.25em] uppercase text-[#8B7355] mb-4">Laboratoire ouvert</p>
+          <h2 className="text-3xl font-light mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Restez informés de nos <em>recherches</em>
           </h2>
-          <p style={{ fontSize: "0.95rem", color: C.textMuted, lineHeight: 1.75, marginBottom: "2.5rem" }}>
-            Répondez à 8 questions sur votre peau. Nous analysons votre profil cutané et vous recommandons le protocole adapté, avec les études cliniques à l'appui.
-          </p>
-          <motion.button
-            whileHover={{ scale: 1.02, backgroundColor: C.accent }}
-            style={{
-              background: C.bgDark,
-              color: C.textLight,
-              border: "none",
-              padding: "0.9rem 2.5rem",
-              fontFamily: "'DM Mono', monospace",
-              fontSize: "0.7rem",
-              letterSpacing: "0.15em",
-              cursor: "pointer",
-              transition: "background 0.3s",
-            }}
-          >
-            DÉMARRER LE DIAGNOSTIC
-          </motion.button>
-        </div>
+          <p className="text-[#6A6058] text-sm mb-8 max-w-md mx-auto">Formulations exclusives, études cliniques, nouveaux actifs. Notre lettre mensuelle sans compromis.</p>
+          <form className="flex flex-col sm:flex-row gap-3 max-w-sm mx-auto" onSubmit={e => e.preventDefault()}>
+            <input type="email" placeholder="Votre email" className="flex-1 bg-transparent border border-[#3A3020] px-5 py-3.5 text-sm text-[#F8F6F2] focus:outline-none focus:border-[#8B7355] transition-colors" />
+            <button type="submit" className="px-8 py-3.5 bg-[#8B7355] text-[#F8F6F2] text-xs tracking-widests uppercase hover:bg-[#A08B6A] transition-colors cursor-pointer">
+              Suivre
+            </button>
+          </form>
+        </Reveal>
       </section>
 
-      {/* ── Footer ───────────────────────────────────────────────────── */}
-      <footer style={{ borderTop: `1px solid ${C.border}`, padding: "3rem clamp(2rem, 5vw, 4rem)" }}>
-        <div style={{ maxWidth: "1100px", margin: "0 auto", display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "3rem" }}>
-          <div>
-            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.85rem", fontWeight: 500, color: C.text, letterSpacing: "0.08em", marginBottom: "0.5rem" }}>
-              AETHER<span style={{ color: C.khaki }}>_</span>LABS
+      {/* Footer */}
+      <footer className="bg-[#0E0B08] text-[#5A5040] py-14 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-10 mb-10">
+            <div className="md:col-span-2">
+              <div className="text-[#F8F6F2] text-xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Aether Labs</div>
+              <div className="text-xs text-[#8B7355] tracking-widests uppercase mb-4">Cosmétique scientifique · Grasse</div>
+              <p className="text-sm leading-relaxed max-w-xs">Laboratoire fondé en 2012. Chaque formule est développée en interne, testée sous contrôle dermatologique et sourcée de façon éthique.</p>
             </div>
-            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.5rem", letterSpacing: "0.25em", color: C.textDim, marginBottom: "1.5rem" }}>
-              SKINCARE · PARIS
+            <div>
+              <p className="text-[#F8F6F2] text-xs tracking-widests uppercase mb-5">Navigation</p>
+              {["Formules", "Science", "Rituels", "Journal"].map(l => (
+                <Link key={l} href={`#${l.toLowerCase()}`} className="block text-sm hover:text-[#F8F6F2] mb-3 transition-colors cursor-pointer">{l}</Link>
+              ))}
             </div>
-            <p style={{ fontSize: "0.8rem", color: C.textDim, lineHeight: 1.65 }}>
-              Formules développées en laboratoire, testées cliniquement. Efficacité prouvée, transparence totale.
-            </p>
+            <div>
+              <p className="text-[#F8F6F2] text-xs tracking-widests uppercase mb-5">Certifications</p>
+              {["COSMOS Natural", "Cruelty-free PETA", "Végan Society", "ISO 22716 GMP"].map(c => (
+                <p key={c} className="text-sm mb-2">{c}</p>
+              ))}
+            </div>
           </div>
-          {[
-            { title: "PRODUITS", items: ["Sérum Biomimétique", "Émulsion Régénérante", "Concentré C15", "Nouveautés"] },
-            { title: "SCIENCE", items: ["Études cliniques", "Ingrédients", "Notre labo", "Publications"] },
-            { title: "AIDE", items: ["Diagnostic peau", "FAQ", "Retours", "Contact"] },
-          ].map((col) => (
-            <div key={col.title}>
-              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.25em", color: C.textDim, marginBottom: "1.5rem" }}>
-                {col.title}
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-                {col.items.map((item) => (
-                  <motion.a key={item} href="#" style={{ fontSize: "0.8rem", color: C.textMuted, textDecoration: "none", cursor: "pointer" }} whileHover={{ color: C.text }}>
-                    {item}
-                  </motion.a>
-                ))}
-              </div>
+          <div className="pt-8 border-t border-[#1C1814] flex flex-col md:flex-row justify-between gap-4 text-xs">
+            <span>© 2024 Aether Labs — Tous droits réservés</span>
+            <div className="flex gap-6">
+              {["Mentions légales", "CGV", "Confidentialité"].map(l => (
+                <Link key={l} href="#" className="hover:text-[#F8F6F2] transition-colors cursor-pointer">{l}</Link>
+              ))}
             </div>
-          ))}
-        </div>
-        <div style={{ maxWidth: "1100px", margin: "2rem auto 0", paddingTop: "1.5rem", borderTop: `1px solid ${C.border}`, display: "flex", justifyContent: "space-between" }}>
-          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", color: C.textDim }}>
-            © 2025 AETHER LABS. TOUS DROITS RÉSERVÉS.
-          </div>
-          <div style={{ display: "flex", gap: "2rem" }}>
-            {["Mentions légales", "Confidentialité"].map((item) => (
-              <motion.a key={item} href="#" style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", color: C.textDim, textDecoration: "none", cursor: "pointer" }} whileHover={{ color: C.textMuted }}>
-                {item}
-              </motion.a>
-            ))}
           </div>
         </div>
       </footer>
     </div>
-  );
+  )
 }

@@ -1,693 +1,406 @@
-"use client";
+"use client"
 
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-} from "framer-motion";
-import { useRef, useState } from "react";
+import React, { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
+import { Menu, X, ArrowRight, MapPin, TrendingUp, Building, Users, Award, ChevronRight, Mail, Phone } from "lucide-react"
 
-const C = {
-  bg: "#F4F2EF",
-  bgDark: "#1A1C1E",
-  bgCard: "#ECEAE6",
-  text: "#1A1C1E",
-  textLight: "#F4F2EF",
-  textMuted: "#6B6E72",
-  textDim: "#A8AAAD",
-  border: "#D8D5D0",
-  borderDark: "#2E3033",
-  steel: "#5B6B7A",
-  concrete: "#8A8F95",
-  accent: "#2A4A6B",
-  accentLight: "#4A7FAA",
-};
-
-const FONT = `
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&family=Playfair+Display:wght@400;700&display=swap');
-`;
-
-const PROJECTS = [
-  {
-    id: "P-2401",
-    name: "Tour Séquoia",
-    type: "Tour de bureaux",
-    location: "La Défense, Paris",
-    surface: "48 200 m²",
-    floors: "32 étages",
-    delivery: "Q2 2026",
-    status: "En construction",
-    statusColor: "#E8A020",
-    budget: "€ 380M",
-    cert: ["HQE Exceptionnel", "BREEAM Outstanding", "Wiredscore Platinum"],
-  },
-  {
-    id: "P-2312",
-    name: "Archipel",
-    type: "Campus mixte",
-    location: "Lyon Confluence",
-    surface: "31 500 m²",
-    floors: "6 bâtiments",
-    delivery: "Q4 2025",
-    status: "Commercialisation",
-    statusColor: "#2A8A4A",
-    budget: "€ 220M",
-    cert: ["LEED Platinum", "Well Building Gold"],
-  },
-  {
-    id: "P-2308",
-    name: "Le Granite",
-    type: "Immeuble de bureaux",
-    location: "Euronantes",
-    surface: "22 800 m²",
-    floors: "18 étages",
-    delivery: "Livré Q1 2025",
-    status: "Livré",
-    statusColor: "#5B6B7A",
-    budget: "€ 145M",
-    cert: ["HQE Excellent", "E+C-"],
-  },
-];
-
-const SPECS = [
-  { label: "Projets développés", value: "2.8M m²" },
-  { label: "Volume traité", value: "€ 4.2 Md" },
-  { label: "Actifs en gestion", value: "62" },
-  { label: "Certifications obtenues", value: "140+" },
-];
-
-const EXPERTISE = [
-  {
-    code: "01",
-    title: "Développement",
-    desc: "De l'acquisition foncière à la livraison clé en main. Montage, permis, maîtrise d'ouvrage déléguée pour bureaux, logistique et résidentiel premium.",
-  },
-  {
-    code: "02",
-    title: "Gestion d'Actifs",
-    desc: "Asset management actif. Optimisation des revenus, plans de valorisation, arbitrages stratégiques sur un portefeuille de 62 actifs pan-européens.",
-  },
-  {
-    code: "03",
-    title: "Investissement",
-    desc: "Club-deals institutionnels et OPCI dédiés. Sélection rigoureuse, due diligence complète, accompagnement jusqu'à la sortie.",
-  },
-  {
-    code: "04",
-    title: "Durabilité",
-    desc: "Net Zéro Carbon 2040. Intégration systématique des standards BREEAM, LEED, HQE et Well Building dès la conception.",
-  },
-];
-
-const TENANTS = ["Société Générale", "EDF", "Capgemini", "Accenture", "Bouygues Energies", "Total Energies", "Orange Business", "BNP Paribas"];
-
-// ── Architectural floor plan SVG (signature element) ──────────────────────────
-function FloorPlanSVG({ animated }: { animated: boolean }) {
-  return (
-    <svg viewBox="0 0 480 360" style={{ width: "100%", height: "100%", opacity: 0.9 }}>
-      {/* Outer building footprint */}
-      <motion.rect
-        x="40" y="30" width="400" height="300"
-        fill="none" stroke={C.accent} strokeWidth="1.5"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={animated ? { pathLength: 1, opacity: 1 } : {}}
-        transition={{ duration: 1.5, ease: "easeInOut" }}
-      />
-      {/* Core walls */}
-      <motion.rect
-        x="180" y="120" width="120" height="120"
-        fill={C.bgCard} stroke={C.accent} strokeWidth="1"
-        initial={{ opacity: 0 }}
-        animate={animated ? { opacity: 1 } : {}}
-        transition={{ duration: 0.5, delay: 0.8 }}
-      />
-      {/* Core label */}
-      {animated && (
-        <text x="240" y="185" textAnchor="middle" fill={C.concrete} fontSize="8" fontFamily="DM Mono, monospace" letterSpacing="2">
-          CORE
-        </text>
-      )}
-
-      {/* Structural columns */}
-      {[
-        [40, 30], [240, 30], [440, 30],
-        [40, 180], [440, 180],
-        [40, 330], [240, 330], [440, 330],
-      ].map(([cx, cy], i) => (
-        <motion.rect
-          key={i}
-          x={cx - 5} y={cy - 5} width="10" height="10"
-          fill={C.accent}
-          initial={{ scale: 0, opacity: 0 }}
-          animate={animated ? { scale: 1, opacity: 1 } : {}}
-          transition={{ duration: 0.3, delay: 1.2 + i * 0.05 }}
-          style={{ transformOrigin: `${cx}px ${cy}px` }}
-        />
-      ))}
-
-      {/* Interior grid lines */}
-      {animated && (
-        <>
-          <line x1="140" y1="30" x2="140" y2="330" stroke={C.border} strokeWidth="0.5" strokeDasharray="4 8" />
-          <line x1="340" y1="30" x2="340" y2="330" stroke={C.border} strokeWidth="0.5" strokeDasharray="4 8" />
-          <line x1="40" y1="120" x2="440" y2="120" stroke={C.border} strokeWidth="0.5" strokeDasharray="4 8" />
-          <line x1="40" y1="240" x2="440" y2="240" stroke={C.border} strokeWidth="0.5" strokeDasharray="4 8" />
-          {/* Bay lines */}
-          <line x1="90" y1="30" x2="90" y2="120" stroke={C.border} strokeWidth="0.3" strokeDasharray="2 6" />
-          <line x1="390" y1="30" x2="390" y2="120" stroke={C.border} strokeWidth="0.3" strokeDasharray="2 6" />
-        </>
-      )}
-
-      {/* Dimension arrows */}
-      {animated && (
-        <>
-          <motion.line
-            x1="40" y1="350" x2="440" y2="350"
-            stroke={C.concrete} strokeWidth="0.5"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 0.8, delay: 1.8 }}
-          />
-          <text x="240" y="358" textAnchor="middle" fill={C.concrete} fontSize="7" fontFamily="DM Mono, monospace">
-            48.5 m
-          </text>
-          <line x1="20" y1="30" x2="20" y2="330" stroke={C.concrete} strokeWidth="0.5" />
-          <text x="8" y="185" textAnchor="middle" fill={C.concrete} fontSize="7" fontFamily="DM Mono, monospace" transform="rotate(-90 8 185)">
-            36.2 m
-          </text>
-        </>
-      )}
-
-      {/* Floor label */}
-      {animated && (
-        <text x="440" y="22" textAnchor="end" fill={C.steel} fontSize="7" fontFamily="DM Mono, monospace" letterSpacing="2">
-          NIVEAU TYPE · TOUR SÉQUOIA
-        </text>
-      )}
-    </svg>
-  );
+function useFonts() {
+  useEffect(() => {
+    const id = "fonts-blueprint"
+    if (document.getElementById(id)) return
+    const s = document.createElement("style")
+    s.id = id
+    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');`
+    document.head.appendChild(s)
+  }, [])
 }
 
-// ── Page ─────────────────────────────────────────────────────────────────────
-export default function BlueprintDev() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const planRef = useRef<HTMLDivElement>(null);
-  const [activeProject, setActiveProject] = useState(0);
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  )
+}
 
-  const { scrollYProgress } = useScroll({ target: containerRef });
-  const planInView = useInView(planRef, { once: true, margin: "-100px" });
+const PROJECTS = [
+  { name: "Résidence Le Marais", type: "Résidentiel prestige", location: "Paris 4e", size: "42 appartements", status: "Livraison 2026", image: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80", progress: 78 },
+  { name: "Tour Verre & Acier", type: "Bureau premium", location: "La Défense", size: "18 000 m²", status: "En cours", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80", progress: 45 },
+  { name: "Domaine Bois-Fleuri", type: "Résidentiel luxe", location: "Neuilly-sur-Seine", size: "8 villas", status: "Livraison 2025", image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=80", progress: 92 },
+  { name: "Le Carré Saint-Cloud", type: "Mixte", location: "Saint-Cloud", size: "120 logements + commerces", status: "Permis obtenu", image: "https://images.unsplash.com/photo-1460317442991-0ec209397118?w=800&q=80", progress: 20 },
+  { name: "Athéna Bureaux", type: "Tertiaire", location: "Paris 8e", size: "6 500 m²", status: "Livré 2024", image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80", progress: 100 },
+  { name: "Villeneuve Parc", type: "Résidentiel senior", location: "Lyon", size: "96 logements", status: "En cours", image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80", progress: 60 },
+]
 
-  const navBg = useTransform(scrollYProgress, [0, 0.05], ["rgba(244,242,239,0)", "rgba(244,242,239,0.96)"]);
-  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, 60]);
+const TEAM = [
+  { name: "Édouard Marchand", title: "Président Directeur Général", exp: "32 ans d'expérience", image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" },
+  { name: "Sophie Renault", title: "Directrice de programmes", exp: "18 ans d'expérience", image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" },
+  { name: "Luc Vigneron", title: "Directeur financier", exp: "24 ans d'expérience", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" },
+]
+
+export default function BlueprintPage() {
+  useFonts()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [activeProject, setActiveProject] = useState<number | null>(null)
+  const { scrollYProgress } = useScroll()
+  const heroRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(heroScroll, [0, 1], ["0%", "35%"])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
   return (
-    <div ref={containerRef} style={{ background: C.bg, color: C.text, fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", overflowX: "hidden" }}>
-      <style>{FONT}</style>
+    <div className="min-h-screen bg-[#F7F5F2] text-[#1A1612]" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <motion.div className="fixed top-0 left-0 h-[2px] bg-[#C9A86C] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
-      {/* ── Navigation ─────────────────────────────────────────────────── */}
+      {/* Nav */}
       <motion.nav
-        style={{
-          position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-          background: navBg,
-          backdropFilter: "blur(12px)",
-          borderBottom: `1px solid ${C.border}`,
-          padding: "0 2.5rem",
-          height: "64px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#F7F5F2]/95 backdrop-blur-md border-b border-[#E0D8CC]" : "bg-transparent"}`}
+        initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div>
-          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.8rem", fontWeight: 500, color: C.text, letterSpacing: "0.05em" }}>
-            SÉQUOIA
+        <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+          <Link href="#" className="flex flex-col">
+            <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Libre Baskerville', serif" }}>Blueprint</span>
+            <span className="text-[9px] tracking-[0.2em] uppercase text-[#C9A86C]">Développements Immobiliers</span>
+          </Link>
+          <div className="hidden md:flex items-center gap-10 text-sm font-light text-[#6B5A40]">
+            {["Programmes", "Réalisations", "L'entreprise", "Investisseurs", "Contact"].map(l => (
+              <Link key={l} href={`#${l.toLowerCase().replace("l'", "").replace(/ /g, "-")}`} className="hover:text-[#1A1612] transition-colors duration-200">{l}</Link>
+            ))}
+            <Link href="#contact" className="ml-2 px-5 py-2.5 bg-[#1A1612] text-[#F7F5F2] text-xs tracking-widest uppercase hover:bg-[#C9A86C] transition-colors duration-300 cursor-pointer">
+              Nous contacter
+            </Link>
           </div>
-          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.5rem", letterSpacing: "0.2em", color: C.textMuted }}>
-            DÉVELOPPEMENT IMMOBILIER
-          </div>
+          <button className="md:hidden p-2 cursor-pointer" onClick={() => setMenuOpen(true)} aria-label="Menu">
+            <Menu className="w-5 h-5" />
+          </button>
         </div>
-        <div style={{ display: "flex", gap: "2.5rem" }}>
-          {["Projets", "Expertise", "Investisseurs", "ESG", "Contact"].map((item) => (
-            <motion.button key={item} onClick={() => document.getElementById(({"Projets": "projets", "Expertise": "expertise", "Investisseurs": "investisseurs", "ESG": "esg", "Contact": "contact"})[item] || "")?.scrollIntoView({behavior:"smooth"})}
-              
-              
-              style={{ fontSize: "0.75rem", color: C.textMuted, textDecoration: "none", cursor: "pointer" }}
-              whileHover={{ color: C.text }}
-            >
-              {item}
-            </motion.button>
-          ))}
-        </div>
-        <motion.button
-          whileHover={{ backgroundColor: C.accent, borderColor: C.accent, color: C.textLight }}
-          style={{
-            background: "transparent",
-            border: `1px solid ${C.border}`,
-            color: C.textMuted,
-            padding: "0.5rem 1.25rem",
-            fontSize: "0.7rem",
-            cursor: "pointer",
-            transition: "all 0.3s",
-          }}
-        >
-          Espace Investisseurs
-        </motion.button>
       </motion.nav>
 
-      {/* ── Hero ───────────────────────────────────────────────────────── */}
-      <section style={{ height: "100vh", background: C.bgDark, position: "relative", overflow: "hidden", display: "flex", alignItems: "flex-end", padding: "0 3rem 5rem" }}>
-        {/* Blueprint background lines */}
-        <div style={{ position: "absolute", inset: 0, opacity: 0.04 }}>
-          <svg width="100%" height="100%" viewBox="0 0 1400 900">
-            {Array.from({ length: 30 }).map((_, i) => (
-              <g key={i}>
-                <line x1={i * 46.7} y1="0" x2={i * 46.7} y2="900" stroke="#4A7FAA" strokeWidth="0.5" />
-                <line x1="0" y1={i * 30} x2="1400" y2={i * 30} stroke="#4A7FAA" strokeWidth="0.5" />
-              </g>
-            ))}
-          </svg>
-        </div>
-
-        {/* Building silhouette */}
-        <motion.div
-          style={{ position: "absolute", right: "5%", bottom: 0, y: heroY }}
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 0.15, y: 0 }}
-          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <svg viewBox="0 0 300 600" style={{ width: "240px", height: "480px" }}>
-            <rect x="60" y="0" width="180" height="600" fill={C.accentLight} />
-            {Array.from({ length: 30 }).map((_, i) => (
-              <rect key={i} x="65" y={i * 20} width="170" height="12" fill={C.bgDark} />
-            ))}
-            <rect x="100" y="540" width="100" height="60" fill={C.bgDark} />
-          </svg>
-        </motion.div>
-
-        <div style={{ position: "relative", zIndex: 1, maxWidth: "800px" }}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.65rem", letterSpacing: "0.3em", color: C.steel, marginBottom: "1.5rem" }}
-          >
-            PROMOTEUR · DÉVELOPPEUR · GESTIONNAIRE
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: "clamp(2.5rem, 6vw, 5.5rem)",
-              fontWeight: 700,
-              color: C.textLight,
-              lineHeight: 0.95,
-              letterSpacing: "-0.02em",
-              marginBottom: "2rem",
-            }}
-          >
-            L'Immobilier<br />
-            <span style={{ color: C.accentLight }}>Institutionnel</span><br />
-            Réinventé
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-            style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1rem", color: "#8A9AA8", lineHeight: 1.75, maxWidth: "55ch", marginBottom: "2.5rem" }}
-          >
-            Séquoia développe et gère des actifs immobiliers de premier rang pour les investisseurs institutionnels. 2.8 millions de m² développés, €4.2 milliards de volume traité.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.1 }}
-            style={{ display: "flex", gap: "1rem" }}
-          >
-            <motion.button
-              whileHover={{ backgroundColor: C.accentLight }}
-              style={{
-                background: C.accent,
-                color: C.textLight,
-                border: "none",
-                padding: "0.85rem 2rem",
-                fontSize: "0.75rem",
-                letterSpacing: "0.1em",
-                cursor: "pointer",
-                transition: "background 0.3s",
-              }}
-            >
-              VOIR LES PROJETS
-            </motion.button>
-            <motion.button
-              whileHover={{ borderColor: C.accentLight, color: C.accentLight }}
-              style={{
-                background: "transparent",
-                color: C.steel,
-                border: `1px solid #3A4A5A`,
-                padding: "0.85rem 2rem",
-                fontSize: "0.75rem",
-                letterSpacing: "0.1em",
-                cursor: "pointer",
-                transition: "all 0.3s",
-              }}
-            >
-              RAPPORT ANNUEL
-            </motion.button>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── Key figures ─────────────────────────────────────────────────── */}
-      <section id="projets" style={{ background: C.bgDark, borderTop: `1px solid ${C.borderDark}`, borderBottom: `1px solid ${C.borderDark}` }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
-          {SPECS.map((spec, i) => {
-            const ref = useRef<HTMLDivElement>(null);
-            const inView = useInView(ref, { once: true });
-            return (
-              <motion.div
-                key={spec.label}
-                ref={ref}
-                initial={{ opacity: 0 }}
-                animate={inView ? { opacity: 1 } : {}}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                style={{
-                  padding: "3rem 2rem",
-                  borderRight: i < 3 ? `1px solid ${C.borderDark}` : "none",
-                  textAlign: "center",
-                }}
-              >
-                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.5rem", fontWeight: 700, color: C.textLight }}>
-                  {spec.value}
-                </div>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.15em", color: C.steel, marginTop: "0.5rem" }}>
-                  {spec.label}
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ── Projects ─────────────────────────────────────────────────────── */}
-      <section id="expertise" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3rem" }}>
-            <div>
-              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.textMuted, marginBottom: "0.5rem" }}>
-                PIPELINE
-              </div>
-              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 3.5vw, 3rem)", fontWeight: 700, color: C.text }}>
-                Projets en Cours
-              </h2>
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div className="fixed inset-0 z-[200] bg-[#1A1612] text-[#F7F5F2] flex flex-col"
+            initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 280, damping: 28 }}>
+            <div className="flex items-center justify-between px-6 py-5 border-b border-[#3A3020]">
+              <span style={{ fontFamily: "'Libre Baskerville', serif" }}>Blueprint</span>
+              <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
-          </div>
-
-          {/* Project tabs */}
-          <div style={{ display: "flex", gap: "0", borderBottom: `1px solid ${C.border}`, marginBottom: "3rem" }}>
-            {PROJECTS.map((p, i) => (
-              <motion.button
-                key={p.id}
-                onClick={() => setActiveProject(i)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  padding: "0.85rem 2rem",
-                  fontSize: "0.75rem",
-                  color: i === activeProject ? C.text : C.textMuted,
-                  cursor: "pointer",
-                  position: "relative",
-                  fontFamily: "'DM Mono', monospace",
-                  letterSpacing: "0.05em",
-                }}
-                whileHover={{ color: C.text }}
-              >
-                {p.id}
-                {i === activeProject && (
-                  <motion.div
-                    layoutId="project-indicator"
-                    style={{ position: "absolute", bottom: "-1px", left: 0, right: 0, height: "2px", background: C.accent }}
-                  />
-                )}
-              </motion.button>
-            ))}
-          </div>
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeProject}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.4 }}
-              style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "start" }}
-            >
-              <div>
-                <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem" }}>
-                  <span style={{
-                    fontFamily: "'DM Mono', monospace",
-                    fontSize: "0.6rem",
-                    padding: "0.3rem 0.75rem",
-                    background: PROJECTS[activeProject].statusColor + "20",
-                    color: PROJECTS[activeProject].statusColor,
-                    border: `1px solid ${PROJECTS[activeProject].statusColor}40`,
-                  }}>
-                    {PROJECTS[activeProject].status}
-                  </span>
-                  <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", color: C.textDim }}>
-                    {PROJECTS[activeProject].id}
-                  </span>
-                </div>
-                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.5rem", fontWeight: 700, color: C.text, marginBottom: "0.5rem" }}>
-                  {PROJECTS[activeProject].name}
-                </h3>
-                <div style={{ fontSize: "0.9rem", color: C.textMuted, marginBottom: "2rem" }}>
-                  {PROJECTS[activeProject].type} · {PROJECTS[activeProject].location}
-                </div>
-
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem", marginBottom: "2rem" }}>
-                  {[
-                    { label: "Surface totale", val: PROJECTS[activeProject].surface },
-                    { label: "Programme", val: PROJECTS[activeProject].floors },
-                    { label: "Livraison", val: PROJECTS[activeProject].delivery },
-                    { label: "Volume", val: PROJECTS[activeProject].budget },
-                  ].map((spec) => (
-                    <div key={spec.label} style={{ paddingTop: "1rem", borderTop: `1px solid ${C.border}` }}>
-                      <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.35rem" }}>
-                        {spec.label}
-                      </div>
-                      <div style={{ fontSize: "1rem", fontWeight: 500, color: C.text }}>{spec.val}</div>
-                    </div>
-                  ))}
-                </div>
-
-                <div style={{ marginBottom: "1.5rem" }}>
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.75rem" }}>
-                    CERTIFICATIONS
-                  </div>
-                  <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-                    {PROJECTS[activeProject].cert.map((c) => (
-                      <span key={c} style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", padding: "0.3rem 0.75rem", border: `1px solid ${C.border}`, color: C.textMuted }}>
-                        {c}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <motion.button
-                  whileHover={{ backgroundColor: C.accent, color: C.textLight, borderColor: C.accent }}
-                  style={{
-                    background: "transparent",
-                    border: `1px solid ${C.border}`,
-                    color: C.textMuted,
-                    padding: "0.75rem 1.75rem",
-                    fontSize: "0.7rem",
-                    cursor: "pointer",
-                    transition: "all 0.3s",
-                    fontFamily: "'DM Mono', monospace",
-                    letterSpacing: "0.1em",
-                  }}
-                >
-                  DOSSIER INVESTISSEUR →
-                </motion.button>
-              </div>
-
-              {/* Floor plan */}
-              <div ref={planRef} style={{ background: C.bgCard, padding: "3rem", border: `1px solid ${C.border}` }}>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "1.5rem" }}>
-                  PLAN DE NIVEAU TYPE
-                </div>
-                <div style={{ aspectRatio: "4/3" }}>
-                  <FloorPlanSVG animated={planInView} />
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </section>
-
-      {/* ── Expertise ────────────────────────────────────────────────────── */}
-      <section id="investisseurs" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ marginBottom: "4rem" }}>
-            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.textMuted, marginBottom: "0.5rem" }}>
-              MÉTIERS
-            </div>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 3.5vw, 3rem)", fontWeight: 700, color: C.text }}>
-              Notre Expertise
-            </h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1px", background: C.border }}>
-            {EXPERTISE.map((exp, i) => {
-              const ref = useRef<HTMLDivElement>(null);
-              const inView = useInView(ref, { once: true, margin: "-60px" });
-              return (
-                <motion.div
-                  key={exp.code}
-                  ref={ref}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: (i % 2) * 0.1 }}
-                  style={{ background: C.bgCard, padding: "3rem" }}
-                >
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.65rem", color: C.accent, marginBottom: "1.5rem" }}>
-                    {exp.code}
-                  </div>
-                  <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", fontWeight: 700, color: C.text, marginBottom: "0.75rem" }}>
-                    {exp.title}
-                  </h3>
-                  <p style={{ fontSize: "0.9rem", color: C.textMuted, lineHeight: 1.75 }}>
-                    {exp.desc}
-                  </p>
+            <div className="flex flex-col gap-8 p-10">
+              {["Programmes", "Réalisations", "L'entreprise", "Investisseurs", "Contact"].map((l, i) => (
+                <motion.div key={l} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
+                  <Link href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)}
+                    className="text-3xl font-light hover:text-[#C9A86C] transition-colors cursor-pointer"
+                    style={{ fontFamily: "'Libre Baskerville', serif" }}>{l}</Link>
                 </motion.div>
-              );
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Hero */}
+      <section ref={heroRef} className="relative min-h-screen overflow-hidden">
+        <motion.div className="absolute inset-0" style={{ y: heroY }}>
+          <Image src="https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?w=1600&q=85" alt="Blueprint Developments" fill className="object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1A1612]/90 via-[#1A1612]/60 to-[#1A1612]/10" />
+        </motion.div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-36 pb-24 min-h-screen flex flex-col justify-center">
+          <Reveal>
+            <p className="text-xs tracking-[0.3em] uppercase text-[#C9A86C] mb-8">Promoteur immobilier — Fondé en 1989</p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h1 className="text-5xl md:text-7xl font-normal text-[#F7F5F2] leading-[1.0] mb-8 max-w-3xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+              Construire<br /><em>l&apos;excellence</em><br />durable
+            </h1>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 leading-relaxed">
+              Depuis 35 ans, Blueprint réalise des programmes immobiliers d&apos;exception. Résidentiel haut de gamme, bureaux premium, opérations mixtes — nous concevons des lieux qui durent.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-5">
+              <Link href="#programmes" className="inline-flex items-center gap-3 px-8 py-4 bg-[#C9A86C] text-[#1A1612] font-medium text-sm tracking-wide uppercase hover:bg-[#E0BC70] transition-colors cursor-pointer">
+                Nos programmes <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link href="#investisseurs" className="inline-flex items-center gap-3 px-8 py-4 border border-[#C9A86C]/50 text-[#F7F5F2] font-light text-sm tracking-wide uppercase hover:border-[#C9A86C] transition-colors cursor-pointer">
+                Espace investisseurs
+              </Link>
+            </div>
+          </Reveal>
+          <div className="mt-20 pt-10 border-t border-[#3A3020] grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[["35 ans", "D'expérience"], ["4 200+", "Logements livrés"], ["2,4 Md€", "Volume réalisé"], ["A+", "Notation ESG"]].map(([val, label]) => (
+              <Reveal key={label} delay={0.05}>
+                <div>
+                  <div className="text-[#C9A86C] text-2xl font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{val}</div>
+                  <div className="text-xs text-[#8A7860] uppercase tracking-wide">{label}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Programs */}
+      <section id="programmes" className="py-28 bg-[#F7F5F2]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14">
+            <Reveal>
+              <p className="text-xs tracking-[0.25em] uppercase text-[#C9A86C] mb-4">Programmes en cours</p>
+              <h2 className="text-4xl md:text-5xl font-normal" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                Nos <em>réalisations</em>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <Link href="#réalisations" className="text-sm text-[#C9A86C] flex items-center gap-2 hover:gap-4 transition-all cursor-pointer">
+                Voir toutes nos réalisations <ArrowRight className="w-4 h-4" />
+              </Link>
+            </Reveal>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {PROJECTS.map((project, i) => (
+              <Reveal key={project.name} delay={i * 0.08}>
+                <div className="group cursor-pointer" onMouseEnter={() => setActiveProject(i)} onMouseLeave={() => setActiveProject(null)}>
+                  <div className="relative overflow-hidden aspect-[4/3] mb-5">
+                    <Image src={project.image} alt={project.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute inset-0 bg-[#1A1612]/30 group-hover:bg-[#1A1612]/10 transition-all duration-500" />
+                    <div className="absolute top-4 left-4">
+                      <span className="bg-[#C9A86C] text-[#1A1612] text-[10px] tracking-widest uppercase px-2.5 py-1">{project.status}</span>
+                    </div>
+                  </div>
+                  <div className="mb-4">
+                    <h3 className="text-xl font-normal mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{project.name}</h3>
+                    <p className="text-sm text-[#C9A86C] mb-1">{project.type}</p>
+                    <p className="text-sm text-[#6B5A40] flex items-center gap-1.5"><MapPin className="w-3 h-3" />{project.location} · {project.size}</p>
+                  </div>
+                  {/* Progress bar */}
+                  <div>
+                    <div className="flex justify-between text-xs text-[#8A7860] mb-2">
+                      <span>Avancement</span>
+                      <span>{project.progress}%</span>
+                    </div>
+                    <div className="h-1 bg-[#E0D8CC] rounded-full overflow-hidden">
+                      <motion.div className="h-full bg-[#C9A86C] rounded-full"
+                        initial={{ width: 0 }} whileInView={{ width: `${project.progress}%` }}
+                        transition={{ duration: 1.2, ease: "easeOut" }} />
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About / Enterprise */}
+      <section id="lentreprise" className="py-28 bg-[#1A1612] text-[#F7F5F2]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-2 gap-20 items-center mb-20">
+            <Reveal>
+              <p className="text-xs tracking-[0.25em] uppercase text-[#C9A86C] mb-4">Notre ADN</p>
+              <h2 className="text-4xl md:text-5xl font-normal leading-tight" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                35 ans de<br /><em>savoir-faire</em><br />institutionnel
+              </h2>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="text-[#8A7860] leading-relaxed mb-6">
+                Blueprint a été fondé en 1989 par Édouard Marchand avec une conviction : le développement immobilier de qualité ne se résume pas à construire des murs. Il s&apos;agit de créer des lieux de vie, de travail, de rencontre.
+              </p>
+              <p className="text-[#8A7860] leading-relaxed">
+                Cette vision nous a conduit à développer une expertise multidisciplinaire : architecture, ingénierie, environnement, finance. Chaque programme Blueprint est une réponse globale à des besoins spécifiques.
+              </p>
+            </Reveal>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-px bg-[#3A3020]">
+            {[{ Icon: Building, title: "Architecture durable", desc: "Certifications HQE, BREEAM et E+C- sur tous nos programmes depuis 2018." }, { Icon: Users, title: "Engagement humain", desc: "Concertation systématique avec riverains et collectivités avant chaque projet." }, { Icon: TrendingUp, title: "Performance financière", desc: "18 ans de rendement continu pour nos partenaires institutionnels." }, { Icon: Award, title: "Excellence reconnue", desc: "Prix de l'Immobilier Durable 2023, Trophée Constructeur 2022." }].map((p, i) => {
+              const Icon = p.Icon
+              return (
+                <Reveal key={p.title} delay={i * 0.08}>
+                  <div className="bg-[#1A1612] p-8 group hover:bg-[#231E14] transition-colors duration-300">
+                    <Icon className="w-8 h-8 text-[#C9A86C] mb-6" />
+                    <h3 className="text-lg font-normal mb-3" style={{ fontFamily: "'Libre Baskerville', serif" }}>{p.title}</h3>
+                    <p className="text-sm text-[#6A6058] leading-relaxed">{p.desc}</p>
+                  </div>
+                </Reveal>
+              )
             })}
           </div>
         </div>
       </section>
 
-      {/* ── Tenants ──────────────────────────────────────────────────────── */}
-      <section id="esg" style={{ padding: "5rem clamp(2rem, 5vw, 4rem)", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.textMuted, marginBottom: "2.5rem" }}>
-            LOCATAIRES DE RÉFÉRENCE
-          </div>
-          <div style={{ display: "flex", gap: "0", flexWrap: "wrap" }}>
-            {TENANTS.map((tenant, i) => (
-              <motion.div
-                key={tenant}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
-                style={{
-                  padding: "1.25rem 2rem",
-                  border: `1px solid ${C.border}`,
-                  marginRight: "-1px",
-                  marginBottom: "-1px",
-                  fontSize: "0.8rem",
-                  color: C.textMuted,
-                  fontWeight: 500,
-                  cursor: "default",
-                }}
-              >
-                {tenant}
-              </motion.div>
+      {/* Team */}
+      <section className="py-28 bg-[#F0EBE0]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-xs tracking-[0.25em] uppercase text-[#C9A86C] mb-4">Direction</p>
+            <h2 className="text-4xl md:text-5xl font-normal mb-14" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+              Notre <em>équipe dirigeante</em>
+            </h2>
+          </Reveal>
+          <div className="grid md:grid-cols-3 gap-8">
+            {TEAM.map((member, i) => (
+              <Reveal key={member.name} delay={i * 0.1}>
+                <div className="group cursor-pointer">
+                  <div className="relative aspect-[4/5] overflow-hidden mb-6">
+                    <Image src={member.image} alt={member.name} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
+                    <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#C9A86C] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                  </div>
+                  <h3 className="text-xl font-normal mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{member.name}</h3>
+                  <p className="text-sm text-[#C9A86C] mb-1">{member.title}</p>
+                  <p className="text-xs text-[#8A7860]">{member.exp}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── CTA ──────────────────────────────────────────────────────────── */}
-      <section id="contact" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgDark, textAlign: "center" }}>
-        <div style={{ maxWidth: "700px", margin: "0 auto" }}>
-          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.steel, marginBottom: "1.5rem" }}>
-            INVESTISSEURS INSTITUTIONNELS
-          </div>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 700, color: C.textLight, marginBottom: "1.5rem" }}>
-            Accéder à Notre Pipeline
-          </h2>
-          <p style={{ fontSize: "1rem", color: "#6A7A88", lineHeight: 1.75, marginBottom: "2.5rem" }}>
-            Séquoia travaille avec un cercle restreint d'investisseurs institutionnels sur des transactions off-market. Demandez un accès à notre espace dédié.
-          </p>
-          <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
-            <motion.button
-              whileHover={{ backgroundColor: C.accentLight }}
-              style={{
-                background: C.accent,
-                color: C.textLight,
-                border: "none",
-                padding: "0.9rem 2.5rem",
-                fontSize: "0.75rem",
-                letterSpacing: "0.1em",
-                cursor: "pointer",
-                transition: "background 0.3s",
-                fontFamily: "'DM Mono', monospace",
-              }}
-            >
-              DEMANDER UN ACCÈS
-            </motion.button>
-          </div>
-          <div style={{ marginTop: "1.5rem", fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", color: C.steel }}>
-            relations.investisseurs@sequoia-immo.fr · +33 1 XX XX XX XX
+      {/* Investors */}
+      <section id="investisseurs" className="py-28 bg-[#F7F5F2]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-2 gap-20 items-center">
+            <div>
+              <Reveal>
+                <p className="text-xs tracking-[0.25em] uppercase text-[#C9A86C] mb-4">Espace investisseurs</p>
+                <h2 className="text-4xl md:text-5xl font-normal leading-tight mb-8" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                  Investir dans<br />l&apos;immobilier<br /><em>d&apos;exception</em>
+                </h2>
+                <p className="text-[#6B5A40] leading-relaxed mb-10">
+                  Blueprint propose des opportunités d&apos;investissement à des partenaires institutionnels et familles d&apos;investisseurs. Nos programmes présentent des caractéristiques de risque maîtrisées et des perspectives de rendement attractives.
+                </p>
+                <div className="space-y-4 mb-10">
+                  {[["Rendement net annualisé", "6,2% – 8,5%"], ["Horizon d'investissement", "24 – 60 mois"], ["Ticket minimum", "200 000 €"], ["Structures disponibles", "Club Deal, SCPI, Foncière"]].map(([label, value]) => (
+                    <div key={label} className="flex items-center justify-between py-3 border-b border-[#E0D8CC]">
+                      <span className="text-sm text-[#6B5A40]">{label}</span>
+                      <span className="text-sm font-medium text-[#1A1612]">{value}</span>
+                    </div>
+                  ))}
+                </div>
+                <Link href="#contact" className="inline-flex items-center gap-3 px-8 py-4 bg-[#C9A86C] text-[#1A1612] font-medium text-sm tracking-wide uppercase hover:bg-[#E0BC70] transition-colors cursor-pointer">
+                  Contacter notre équipe <ArrowRight className="w-4 h-4" />
+                </Link>
+              </Reveal>
+            </div>
+            <Reveal delay={0.1}>
+              <div className="relative aspect-[4/5] overflow-hidden">
+                <Image src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80" alt="Investissement" fill className="object-cover" />
+                <div className="absolute bottom-6 right-6 bg-[#C9A86C] text-[#1A1612] p-6">
+                  <div className="text-3xl font-normal mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>Aa</div>
+                  <div className="text-xs uppercase tracking-wide">Notation Moody&apos;s</div>
+                </div>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* ── Footer ───────────────────────────────────────────────────────── */}
-      <footer style={{ borderTop: `1px solid ${C.borderDark}`, padding: "3rem clamp(2rem, 5vw, 4rem)", background: C.bgDark }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "3rem" }}>
-          <div>
-            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.9rem", fontWeight: 500, color: C.textLight, letterSpacing: "0.1em", marginBottom: "0.5rem" }}>
-              SÉQUOIA
+      {/* Contact */}
+      <section id="contact" className="py-28 bg-[#1A1612] text-[#F7F5F2]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-2 gap-20">
+            <div>
+              <Reveal>
+                <p className="text-xs tracking-[0.25em] uppercase text-[#C9A86C] mb-4">Contact</p>
+                <h2 className="text-4xl md:text-5xl font-normal leading-tight mb-8" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                  Parlons de<br />votre <em>projet</em>
+                </h2>
+                <p className="text-[#8A7860] leading-relaxed mb-10">
+                  Qu&apos;il s&apos;agisse d&apos;un projet de développement, d&apos;une opportunité foncière ou d&apos;une démarche d&apos;investissement, notre équipe vous répondra sous 48 heures.
+                </p>
+                <div className="space-y-5">
+                  {[{ Icon: MapPin, text: "8 avenue Hoche, 75008 Paris" }, { Icon: Phone, text: "+33 1 44 15 62 00" }, { Icon: Mail, text: "contact@blueprint-dev.fr" }].map(({ Icon, text }) => (
+                    <div key={text} className="flex items-center gap-4 text-sm text-[#8A7860]">
+                      <Icon className="w-4 h-4 text-[#C9A86C] flex-shrink-0" />
+                      {text}
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
             </div>
-            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.5rem", letterSpacing: "0.2em", color: C.steel, marginBottom: "1.5rem" }}>
-              IMMOBILIER INSTITUTIONNEL
-            </div>
-            <p style={{ fontSize: "0.8rem", color: C.steel, lineHeight: 1.65 }}>
-              Société de développement immobilier agréée AMF. SIREN 448 123 456 — Paris (75008).
-            </p>
-          </div>
-          {[
-            { title: "PROJETS", items: ["Pipeline en cours", "Projets livrés", "Portfolio", "Rapport ESG"] },
-            { title: "SERVICES", items: ["Développement", "Gestion d'actifs", "Investissement", "Conseil"] },
-            { title: "GROUPE", items: ["À propos", "Équipe", "Presse", "Carrières"] },
-          ].map((col) => (
-            <div key={col.title}>
-              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.25em", color: C.steel, marginBottom: "1.5rem" }}>
-                {col.title}
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-                {col.items.map((item) => (
-                  <motion.a
-                    key={item}
-                    href="#"
-                    style={{ fontSize: "0.8rem", color: C.steel, textDecoration: "none", cursor: "pointer" }}
-                    whileHover={{ color: C.textLight }}
-                  >
-                    {item}
-                  </motion.a>
+            <Reveal delay={0.1}>
+              <form className="space-y-5" onSubmit={e => e.preventDefault()}>
+                <div className="grid grid-cols-2 gap-4">
+                  {["Prénom", "Nom"].map(f => (
+                    <div key={f}>
+                      <label className="block text-xs tracking-widest uppercase text-[#5A5040] mb-2">{f}</label>
+                      <input className="w-full bg-transparent border border-[#3A3020] px-4 py-3 text-sm text-[#F7F5F2] focus:outline-none focus:border-[#C9A86C] transition-colors" placeholder={f} />
+                    </div>
+                  ))}
+                </div>
+                {[["Société", "text", "Votre société"], ["Email", "email", "contact@societe.fr"], ["Téléphone", "tel", "+33..."]].map(([label, type, ph]) => (
+                  <div key={label}>
+                    <label className="block text-xs tracking-widest uppercase text-[#5A5040] mb-2">{label}</label>
+                    <input type={type} className="w-full bg-transparent border border-[#3A3020] px-4 py-3 text-sm text-[#F7F5F2] focus:outline-none focus:border-[#C9A86C] transition-colors" placeholder={ph} />
+                  </div>
                 ))}
-              </div>
-            </div>
-          ))}
-        </div>
-        <div style={{ maxWidth: "1200px", margin: "2.5rem auto 0", paddingTop: "2rem", borderTop: `1px solid ${C.borderDark}`, display: "flex", justifyContent: "space-between" }}>
-          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", color: "#333" }}>
-            © 2025 SÉQUOIA DÉVELOPPEMENT. TOUS DROITS RÉSERVÉS.
+                <div>
+                  <label className="block text-xs tracking-widest uppercase text-[#5A5040] mb-2">Objet de la demande</label>
+                  <select className="w-full bg-[#231E14] border border-[#3A3020] px-4 py-3 text-sm text-[#F7F5F2] focus:outline-none focus:border-[#C9A86C] transition-colors">
+                    <option>Projet de développement</option>
+                    <option>Opportunité foncière</option>
+                    <option>Investissement</option>
+                    <option>Partenariat</option>
+                    <option>Autre</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs tracking-widest uppercase text-[#5A5040] mb-2">Message</label>
+                  <textarea rows={4} className="w-full bg-transparent border border-[#3A3020] px-4 py-3 text-sm text-[#F7F5F2] focus:outline-none focus:border-[#C9A86C] transition-colors resize-none" placeholder="Décrivez votre projet ou votre demande..." />
+                </div>
+                <button type="submit" className="w-full bg-[#C9A86C] text-[#1A1612] py-4 text-xs tracking-widest uppercase font-medium hover:bg-[#E0BC70] transition-colors duration-300 cursor-pointer">
+                  Envoyer le message
+                </button>
+              </form>
+            </Reveal>
           </div>
-          <div style={{ display: "flex", gap: "2rem" }}>
-            {["Mentions légales", "Politique de confidentialité", "CGU"].map((item) => (
-              <motion.a key={item} href="#" style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", color: "#333", textDecoration: "none", cursor: "pointer" }} whileHover={{ color: "#666" }}>
-                {item}
-              </motion.a>
-            ))}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-[#0E0A06] text-[#5A5040] py-14 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-10 mb-10">
+            <div className="md:col-span-2">
+              <div className="text-[#F7F5F2] font-normal text-xl mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>Blueprint Developments</div>
+              <div className="text-xs text-[#C9A86C] tracking-widest uppercase mb-4">Promoteur Immobilier depuis 1989</div>
+              <p className="text-sm leading-relaxed max-w-xs">Conception, réalisation et valorisation de programmes immobiliers d&apos;exception en France et en Europe.</p>
+            </div>
+            <div>
+              <p className="text-[#F7F5F2] text-xs tracking-widest uppercase mb-5">Navigation</p>
+              {["Programmes", "Réalisations", "L'entreprise", "Investisseurs", "Contact"].map(l => (
+                <Link key={l} href={`#${l.toLowerCase()}`} className="block text-sm hover:text-[#F7F5F2] mb-3 transition-colors cursor-pointer">{l}</Link>
+              ))}
+            </div>
+            <div>
+              <p className="text-[#F7F5F2] text-xs tracking-widest uppercase mb-5">Siège social</p>
+              <p className="text-sm mb-2">8 avenue Hoche</p>
+              <p className="text-sm mb-2">75008 Paris, France</p>
+              <p className="text-sm mb-4">+33 1 44 15 62 00</p>
+              <p className="text-xs text-[#C9A86C]">SIREN : 342 789 001 · RCS Paris</p>
+            </div>
+          </div>
+          <div className="pt-8 border-t border-[#2A1E12] flex flex-col md:flex-row justify-between gap-4 text-xs">
+            <span>© 2024 Blueprint Developments — Tous droits réservés</span>
+            <div className="flex gap-6">
+              {["Mentions légales", "Politique de confidentialité", "Données personnelles"].map(l => (
+                <Link key={l} href="#" className="hover:text-[#F7F5F2] transition-colors cursor-pointer">{l}</Link>
+              ))}
+            </div>
           </div>
         </div>
       </footer>
     </div>
-  );
+  )
 }

@@ -1,722 +1,311 @@
-"use client"
+"use client";
 
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
-import Link from "next/link"
+import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Menu, X, ArrowRight, Wind, Anchor, Navigation, Users, Calendar, ChevronRight, Award, MapPin, Phone, Mail } from "lucide-react";
 
-const C = {
-  bg: "#0a1628",
-  teal: "#0e7490",
-  tealLight: "#22d3ee",
-  white: "#ffffff",
-  sandy: "#f0e6d3",
-  sandyDim: "#c8b49a",
-  navBg: "rgba(10, 22, 40, 0.95)",
-  cardBg: "rgba(14, 116, 144, 0.12)",
-  cardBorder: "rgba(14, 116, 144, 0.35)",
-}
-
-const font = { heading: "system-ui, -apple-system, sans-serif", body: "system-ui, -apple-system, sans-serif" }
-
-function useCounter(target: number, active: boolean, duration = 1800) {
-  const [count, setCount] = useState(0)
+const useFonts = () => {
   useEffect(() => {
-    if (!active) return
-    let start = 0
-    const step = target / (duration / 16)
-    const timer = setInterval(() => {
-      start += step
-      if (start >= target) { setCount(target); clearInterval(timer) }
-      else setCount(Math.floor(start))
-    }, 16)
-    return () => clearInterval(timer)
-  }, [active, target, duration])
-  return count
-}
+    if (document.getElementById("az-fonts")) return;
+    const s = document.createElement("style");
+    s.id = "az-fonts";
+    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');`;
+    document.head.appendChild(s);
+  }, []);
+};
 
-// ─── NAVBAR ──────────────────────────────────────────────────────────────────
-function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
+const Reveal = ({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div ref={ref} className={className} initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay }}>
+      {children}
+    </motion.div>
+  );
+};
+
+const courses = [
+  { name: "Permis Côtier", duration: "5 jours", level: "Débutant", price: "490€", spots: 6, icon: <Anchor className="w-5 h-5" /> },
+  { name: "Côtier Confirmé", duration: "7 jours", level: "Intermédiaire", price: "690€", spots: 4, icon: <Navigation className="w-5 h-5" /> },
+  { name: "Hauturier", duration: "12 jours", level: "Avancé", price: "1 190€", spots: 3, icon: <Wind className="w-5 h-5" /> },
+  { name: "Croisière Méditerranée", duration: "10 jours", level: "Tous niveaux", price: "890€", spots: 8, icon: <MapPin className="w-5 h-5" /> },
+];
+
+const instructors = [
+  { name: "Capt. Marc Leblanc", license: "Capitaine 200", experience: "22 ans", specialty: "Hauturier & Régates" },
+  { name: "Sophie Navarro", license: "Monitrice FFVL", experience: "14 ans", specialty: "Initiation & Côtier" },
+  { name: "Pierre Dumont", license: "Chef de bord offshore", experience: "18 ans", specialty: "Navigation hauturière" },
+];
+
+const testimonials = [
+  { name: "Antoine M.", text: "Le meilleur investissement de ma vie. En 7 jours j'ai obtenu mon côtier et surtout la confiance en mer. Équipe extraordinaire.", course: "Côtier Confirmé" },
+  { name: "Lisa R.", text: "Atmosphère incroyable, instructeurs passionnés. J'ai découvert une passion que je n'aurais jamais imaginée. Merci Azimut!", course: "Permis Côtier" },
+  { name: "François D.", text: "Formation hauturière de très haute qualité. Théorie solide, pratique intensive. Je suis maintenant autonome pour traverser la Méditerranée.", course: "Hauturier" },
+];
+
+const sessions = [
+  { date: "12–19 Juin", course: "Permis Côtier", spots: 2, status: "Presque complet" },
+  { date: "24 Juin – 1er Juil.", course: "Côtier Confirmé", spots: 4, status: "Disponible" },
+  { date: "10–21 Juillet", course: "Hauturier", spots: 1, status: "Dernière place" },
+  { date: "1–11 Août", course: "Croisière Méditerranée", spots: 6, status: "Disponible" },
+];
+
+export default function AzimutPage() {
+  useFonts();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeCourse, setActiveCourse] = useState(0);
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+
+  const { scrollYProgress } = useScroll();
+  const heroRef = useRef(null);
+  const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const heroY = useTransform(heroScroll, [0, 1], ["0%", "25%"]);
+  const heroOpacity = useTransform(heroScroll, [0, 0.7], [1, 0]);
 
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 40)
-    window.addEventListener("scroll", fn)
-    return () => window.removeEventListener("scroll", fn)
-  }, [])
-
-  const links = [
-  { label: "Formations", id: "formations" },
-  { label: "Location", id: "activites" },
-  { label: "Croisières", id: "activites" },
-  { label: "Bases", id: "activites" },
-  { label: "Contact", id: "contact" },
-]
+    const t = setInterval(() => setActiveTestimonial(p => (p + 1) % testimonials.length), 4500);
+    return () => clearInterval(t);
+  }, []);
 
   return (
-    <motion.nav
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 100,
-        background: scrolled ? C.navBg : "transparent",
-        backdropFilter: scrolled ? "blur(12px)" : "none",
-        borderBottom: scrolled ? `1px solid ${C.cardBorder}` : "none",
-        transition: "background 0.3s, backdrop-filter 0.3s, border-bottom 0.3s",
-        padding: "0 2rem",
-        height: "72px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
-    >
-      {/* Logo */}
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-          <circle cx="18" cy="18" r="17" stroke={C.tealLight} strokeWidth="2" />
-          <path d="M8 22 L18 8 L28 22" stroke={C.sandy} strokeWidth="2.5" fill="none" strokeLinecap="round" />
-          <path d="M18 8 L18 28" stroke={C.tealLight} strokeWidth="1.5" strokeDasharray="2 2" />
-          <path d="M8 22 Q18 30 28 22" stroke={C.teal} strokeWidth="2" fill="none" />
-        </svg>
-        <span style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "1.35rem", color: C.white, letterSpacing: "0.06em", textTransform: "uppercase" }}>
-          AZIMUT
-        </span>
-      </div>
+    <div className="min-h-screen bg-[#F0F4F8]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+      <motion.div className="fixed top-0 left-0 right-0 h-[3px] bg-[#0F4C6E] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
-      {/* Desktop links */}
-      <div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
-        {links.map(l => (
-          <button key={l.label} onClick={() => document.getElementById(l.id)?.scrollIntoView({ behavior: "smooth" })} style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.04em", textDecoration: "none", transition: "color 0.2s", background: "none", border: "none", cursor: "pointer", padding: 0 }}
-            onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.color = C.white)}
-            onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.color = C.sandyDim)}>
-            {l.label}
+      {/* Nav */}
+      <nav className="fixed top-4 left-4 right-4 z-50">
+        <div className="max-w-6xl mx-auto bg-white/90 backdrop-blur-md border border-gray-200 shadow-sm rounded-2xl px-6 py-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-[#0F4C6E] rounded-lg flex items-center justify-center"><Wind className="w-4 h-4 text-white" /></div>
+            <span className="text-[#0F4C6E] font-bold text-lg">Azimut</span>
+          </Link>
+          <div className="hidden md:flex items-center gap-8 text-gray-600 text-sm font-medium">
+            {["Formations", "Agenda", "Flotte", "Instructeurs", "Contact"].map(item => (
+              <Link key={item} href="#" className="hover:text-[#0F4C6E] transition-colors cursor-pointer">{item}</Link>
+            ))}
+          </div>
+          <button className="hidden md:inline-flex bg-[#0F4C6E] text-white text-sm px-5 py-2.5 rounded-xl hover:bg-[#0A3B56] transition-colors cursor-pointer font-medium">
+            Réserver
           </button>
-        ))}
-        <motion.button
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.97 }}
-          style={{ cursor: "pointer", background: C.teal, color: C.white, border: "none", borderRadius: "8px", padding: "0.6rem 1.4rem", fontFamily: font.heading, fontWeight: 700, fontSize: "0.88rem", letterSpacing: "0.06em", textTransform: "uppercase" }}>
-          Réserver
-        </motion.button>
-      </div>
-    </motion.nav>
-  )
-}
+          <button className="md:hidden text-gray-900 cursor-pointer" onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5" /></button>
+        </div>
+      </nav>
 
-// ─── HERO ─────────────────────────────────────────────────────────────────────
-function Hero() {
-  const { scrollY } = useScroll()
-  const heroTextY = useTransform(scrollY, [0, 500], [0, -50])
-  const waveY = useTransform(scrollY, [0, 400], [0, -20])
-
-  const cards = [
-    { icon: "⚓", title: "Formations Voile", desc: "Du débutant au capitaine hauturier, programmes certifiants FFV" },
-    { icon: "🚤", title: "Location de Bateaux", desc: "120 voiliers & catamarans, sans ou avec équipage" },
-    { icon: "🌊", title: "Croisières Méditerranée", desc: "Itinéraires Côte d'Azur, Corse, Sardaigne & Baléares" },
-  ]
-
-  return (
-    <section style={{ position: "relative", minHeight: "100vh", background: C.bg, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", paddingTop: "72px" }}>
-      {/* Radial glow */}
-      <div style={{ position: "absolute", top: "30%", left: "50%", transform: "translate(-50%,-50%)", width: "700px", height: "500px", background: "radial-gradient(ellipse, rgba(14,116,144,0.22) 0%, transparent 70%)", pointerEvents: "none" }} />
-
-      {/* Heading */}
-      <motion.div style={{ y: heroTextY, textAlign: "center", position: "relative", zIndex: 2, padding: "0 1rem" }}>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          style={{ fontFamily: font.body, color: C.tealLight, fontWeight: 600, fontSize: "0.85rem", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "1.2rem" }}>
-          École de Voile &amp; Location — Méditerranée
-        </motion.p>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.7 }}
-          style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "clamp(3.5rem, 8vw, 6.5rem)", color: C.white, lineHeight: 1.0, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: "1.5rem" }}>
-          Prenez<br />
-          <span style={{ color: C.tealLight }}>le Large</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-          style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "1.15rem", maxWidth: "520px", margin: "0 auto 2.5rem", lineHeight: 1.7 }}>
-          25 ans de passion nautique. Des formations reconnues, une flotte d'exception, et la Méditerranée pour terrain de jeu.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.65, duration: 0.6 }}
-          style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-          <motion.button
-            whileHover={{ scale: 1.05, background: C.tealLight }}
-            whileTap={{ scale: 0.97 }}
-            style={{ cursor: "pointer", background: C.teal, color: C.white, border: "none", borderRadius: "10px", padding: "0.85rem 2rem", fontFamily: font.heading, fontWeight: 700, fontSize: "0.95rem", letterSpacing: "0.06em", textTransform: "uppercase", transition: "background 0.2s" }}>
-            Voir les Formations
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05, borderColor: C.tealLight, color: C.tealLight }}
-            whileTap={{ scale: 0.97 }}
-            style={{ cursor: "pointer", background: "transparent", color: C.sandy, border: `2px solid ${C.cardBorder}`, borderRadius: "10px", padding: "0.85rem 2rem", fontFamily: font.heading, fontWeight: 700, fontSize: "0.95rem", letterSpacing: "0.06em", textTransform: "uppercase", transition: "border-color 0.2s, color 0.2s" }}>
-            Nos Bateaux
-          </motion.button>
-        </motion.div>
-      </motion.div>
-
-      {/* Boat cards */}
-      <div style={{ display: "flex", gap: "1.25rem", justifyContent: "center", flexWrap: "wrap", marginTop: "4rem", padding: "0 1.5rem", position: "relative", zIndex: 2 }}>
-        {cards.map((card, i) => (
-          <motion.div
-            key={card.title}
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 + i * 0.15, duration: 0.65, ease: "easeOut" }}
-            whileHover={{ y: -6, borderColor: C.teal }}
-            style={{ background: C.cardBg, border: `1px solid ${C.cardBorder}`, borderRadius: "14px", padding: "1.5rem 1.75rem", width: "220px", textAlign: "center", cursor: "pointer", transition: "border-color 0.2s" }}>
-            <div style={{ fontSize: "2.2rem", marginBottom: "0.75rem" }}>{card.icon}</div>
-            <div style={{ fontFamily: font.heading, fontWeight: 700, fontSize: "0.95rem", color: C.white, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.5rem" }}>{card.title}</div>
-            <div style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.82rem", lineHeight: 1.6 }}>{card.desc}</div>
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div className="fixed inset-0 z-[100] bg-[#0F4C6E] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
+            <div className="flex items-center justify-between mb-12">
+              <span className="text-white font-bold text-xl">Azimut</span>
+              <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
+            </div>
+            {["Formations", "Agenda", "Flotte", "Instructeurs", "Contact"].map((item, i) => (
+              <motion.div key={item} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
+                <Link href="#" className="block text-white text-2xl font-medium mb-6 cursor-pointer" onClick={() => setMobileOpen(false)}>{item}</Link>
+              </motion.div>
+            ))}
           </motion.div>
-        ))}
-      </div>
+        )}
+      </AnimatePresence>
 
-      {/* Animated wave SVG */}
-      <motion.div style={{ y: waveY, position: "absolute", bottom: 0, left: 0, right: 0, pointerEvents: "none" }}>
-        <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style={{ width: "100%", height: "120px", display: "block" }}>
-          <motion.path
-            d="M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 L1440,120 L0,120 Z"
-            fill="rgba(14,116,144,0.18)"
-            animate={{ d: ["M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 L1440,120 L0,120 Z", "M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,120 L0,120 Z", "M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 L1440,120 L0,120 Z"] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.path
-            d="M0,80 C360,40 720,100 1080,60 C1260,40 1380,80 1440,80 L1440,120 L0,120 Z"
-            fill="rgba(14,116,144,0.10)"
-            animate={{ d: ["M0,80 C360,40 720,100 1080,60 C1260,40 1380,80 1440,80 L1440,120 L0,120 Z", "M0,60 C360,20 720,80 1080,40 C1260,20 1380,60 1440,60 L1440,120 L0,120 Z", "M0,80 C360,40 720,100 1080,60 C1260,40 1380,80 1440,80 L1440,120 L0,120 Z"] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          />
-        </svg>
-      </motion.div>
-    </section>
-  )
-}
-
-// ─── STATS BAR ────────────────────────────────────────────────────────────────
-function StatItem({ value, suffix, label, active }: { value: number; suffix: string; label: string; active: boolean }) {
-  const count = useCounter(value, active)
-  return (
-    <div style={{ textAlign: "center", flex: "1 1 160px" }}>
-      <div style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "clamp(2.2rem, 4vw, 3rem)", color: C.tealLight, lineHeight: 1, letterSpacing: "-0.02em" }}>
-        {count}{suffix}
-      </div>
-      <div style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.88rem", marginTop: "0.4rem", letterSpacing: "0.04em" }}>{label}</div>
-    </div>
-  )
-}
-
-function StatsBar() {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-80px" })
-
-  const stats = [
-    { value: 25, suffix: " ans", label: "D'expérience en voile" },
-    { value: 120, suffix: "", label: "Bateaux disponibles" },
-    { value: 8500, suffix: "+", label: "Élèves formés" },
-    { value: 6, suffix: "", label: "Bases nautiques" },
-  ]
-
-  return (
-    <section ref={ref} style={{ background: `linear-gradient(135deg, #061020 0%, #0a1628 100%)`, borderTop: `1px solid ${C.cardBorder}`, borderBottom: `1px solid ${C.cardBorder}`, padding: "4.5rem 2rem" }}>
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7 }}
-        style={{ maxWidth: "960px", margin: "0 auto", display: "flex", flexWrap: "wrap", gap: "3rem", justifyContent: "space-around", alignItems: "center" }}>
-        {stats.map((s, i) => (
-          <motion.div
-            key={s.label}
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: i * 0.12, duration: 0.6 }}
-            key={s.label}>
-            <StatItem value={s.value} suffix={s.suffix} label={s.label} active={inView} />
-          </motion.div>
-        ))}
-      </motion.div>
-    </section>
-  )
-}
-
-// ─── FEATURES / TABS ──────────────────────────────────────────────────────────
-function Features() {
-  const [active, setActive] = useState(0)
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
-
-  const tabs = [
-    {
-      label: "Formations",
-      headline: "Devenez Skipper Certifié FFV",
-      body: "Nos formations couvrent tous les niveaux, du débutant curieux au futur capitaine hauturier. Pédagogie pratique, encadrement par des moniteurs brevetés d'État, et programmes validés par la Fédération Française de Voile. En fin de cursus, vous repartez avec un brevet reconnu dans toute l'Europe.",
-      points: ["Initiation Week-end — 2 jours en baie", "Permis Côtier officiel — 4 jours", "Voile Hauturière — certification internationale", "Cours collectifs & stages intensifs"],
-    },
-    {
-      label: "Location",
-      headline: "120 Bateaux à Votre Disposition",
-      body: "Voiliers monocoques, catamarans grand confort, day-boats : notre flotte est renouvelée chaque saison. Location à la journée, au week-end ou à la semaine, avec ou sans skipper. Tous nos bateaux sont équipés GPS, VHF, gilets et kit de sécurité complet.",
-      points: ["Voiliers 7m à 15m de longueur", "Catamarans 38–50 pieds", "Option skipper professionnel incluse", "Assistance 24h disponible en mer"],
-    },
-    {
-      label: "Croisières",
-      headline: "La Méditerranée Comme Terrain de Jeu",
-      body: "Partez explorer la Côte d'Azur, la Corse sauvage, la Sardaigne ensoleillée ou les Baléares. Nos croisières guidées partent chaque semaine de mai à octobre. Groupes de 4 à 8 personnes maximum, ambiance conviviale garantie et itinéraires flexibles selon la météo.",
-      points: ["Nice → Corse : 7 jours", "Tour de Sardaigne : 10 jours", "Méditerranée Ouest : Ibiza & Majorque", "Croisières thématiques œnotourisme"],
-    },
-    {
-      label: "Stages Enfants",
-      headline: "La Voile Dès 7 Ans",
-      body: "Nos stages enfants et ados transforment les jeunes en marins passionnés. Cadre sécurisé, petits groupes de 6 maximum, moniteurs spécialisés en pédagogie jeunesse. Une semaine sur l'eau pour décrocher le sourire et les bases de la navigation.",
-      points: ["Stages 7–12 ans & 13–17 ans", "Mini-voiliers optimist & dériveurs", "Semaines thématiques été & vacances", "Groupes scolaires sur devis"],
-    },
-  ]
-
-  const tab = tabs[active]
-
-  return (
-    <section id="activites" ref={ref} style={{ background: C.bg, padding: "6rem 2rem" }}>
-      <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <p style={{ fontFamily: font.body, color: C.tealLight, fontWeight: 600, fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.75rem" }}>Nos Activités</p>
-          <h2 style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "clamp(2rem, 4vw, 3rem)", color: C.white, textTransform: "uppercase", letterSpacing: "0.04em", lineHeight: 1.1 }}>
-            Choisissez Votre<br /><span style={{ color: C.tealLight }}>Aventure</span>
-          </h2>
+      {/* Hero */}
+      <section ref={heroRef} className="relative h-screen overflow-hidden">
+        <motion.div className="absolute inset-0" style={{ y: heroY }}>
+          <Image src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1600&q=85" alt="École de voile Azimut" fill className="object-cover" priority />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0F4C6E]/80 via-[#0F4C6E]/40 to-transparent" />
         </motion.div>
+        <motion.div className="relative z-10 h-full flex items-center px-6" style={{ opacity: heroOpacity }}>
+          <div className="max-w-6xl mx-auto">
+            <Reveal>
+              <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-xs px-4 py-1.5 rounded-full mb-8">
+                <Anchor className="w-3 h-3" /> École de voile — Marseille
+              </div>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <h1 className="text-white text-5xl md:text-7xl font-bold leading-tight mb-6">
+                Apprenez à<br />naviguer avec<br />
+                <span className="text-[#4AB8E8]">confiance</span>
+              </h1>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <p className="text-white/80 text-xl leading-relaxed max-w-xl mb-10">
+                Formations certifiantes en voile côtière et hauturière. Instructeurs FFVoile, flotte moderne, Méditerranée toute l'année.
+              </p>
+            </Reveal>
+            <Reveal delay={0.3}>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button className="bg-white text-[#0F4C6E] font-bold px-8 py-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">
+                  Voir les formations
+                </button>
+                <button className="border border-white/40 text-white font-medium px-8 py-4 rounded-xl hover:bg-white/10 transition-colors cursor-pointer flex items-center gap-2">
+                  <Wind className="w-4 h-4" /> Prochaines sessions
+                </button>
+              </div>
+            </Reveal>
+          </div>
+        </motion.div>
+      </section>
 
-        {/* Tab buttons */}
-        <div style={{ display: "flex", gap: "0.5rem", justifyContent: "center", flexWrap: "wrap", marginBottom: "2.5rem" }}>
-          {tabs.map((t, i) => (
-            <motion.button
-              key={t.label}
-              onClick={() => setActive(i)}
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              style={{ cursor: "pointer", background: active === i ? C.teal : "transparent", color: active === i ? C.white : C.sandyDim, border: `1.5px solid ${active === i ? C.teal : C.cardBorder}`, borderRadius: "8px", padding: "0.55rem 1.25rem", fontFamily: font.heading, fontWeight: 700, fontSize: "0.85rem", letterSpacing: "0.06em", textTransform: "uppercase", transition: "all 0.25s" }}>
-              {t.label}
-            </motion.button>
+      {/* Stats */}
+      <section className="py-12 bg-[#0F4C6E]">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6">
+          {[["2 800+", "Stagiaires formés"], ["98%", "Taux de réussite"], ["12", "Voiliers en flotte"], ["15 ans", "D'expérience"]].map(([n, l]) => (
+            <div key={l} className="text-center">
+              <p className="text-white text-3xl font-bold mb-1">{n}</p>
+              <p className="text-white/50 text-xs">{l}</p>
+            </div>
           ))}
         </div>
+      </section>
 
-        {/* Tab content */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active}
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -18 }}
-            transition={{ duration: 0.38 }}
-            style={{ background: C.cardBg, border: `1px solid ${C.cardBorder}`, borderRadius: "16px", padding: "2.5rem", display: "flex", gap: "3rem", flexWrap: "wrap" }}>
-            <div style={{ flex: "1 1 280px" }}>
-              <h3 style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "1.5rem", color: C.white, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: "1rem", lineHeight: 1.2 }}>{tab.headline}</h3>
-              <p style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.95rem", lineHeight: 1.75 }}>{tab.body}</p>
+      {/* Courses */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <Reveal>
+            <div className="mb-12">
+              <p className="text-[#0F4C6E] text-sm font-semibold mb-3">Nos formations</p>
+              <h2 className="text-gray-900 text-4xl md:text-5xl font-bold">Choisissez votre niveau</h2>
             </div>
-            <div style={{ flex: "1 1 200px" }}>
-              <p style={{ fontFamily: font.heading, fontWeight: 700, fontSize: "0.8rem", color: C.tealLight, textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "1rem" }}>Ce qui est inclus</p>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-                {tab.points.map(p => (
-                  <li key={p} style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", fontFamily: font.body, color: C.sandy, fontSize: "0.9rem", lineHeight: 1.55 }}>
-                    <span style={{ color: C.tealLight, fontWeight: 700, flexShrink: 0, marginTop: "2px" }}>—</span>
-                    {p}
-                  </li>
-                ))}
-              </ul>
-              <motion.button
-                whileHover={{ scale: 1.04, background: C.tealLight }}
-                whileTap={{ scale: 0.97 }}
-                style={{ cursor: "pointer", marginTop: "1.5rem", background: C.teal, color: C.white, border: "none", borderRadius: "8px", padding: "0.7rem 1.5rem", fontFamily: font.heading, fontWeight: 700, fontSize: "0.85rem", letterSpacing: "0.06em", textTransform: "uppercase", transition: "background 0.2s" }}>
-                En savoir plus →
-              </motion.button>
+          </Reveal>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+            {courses.map((c, i) => (
+              <Reveal key={c.name} delay={i * 0.08}>
+                <div onClick={() => setActiveCourse(i)} className={`rounded-2xl p-6 cursor-pointer transition-all border ${i === activeCourse ? "bg-[#0F4C6E] border-[#0F4C6E] text-white" : "bg-gray-50 border-gray-100 hover:border-[#0F4C6E]/20"}`}>
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 ${i === activeCourse ? "bg-white/20" : "bg-[#0F4C6E]/10 text-[#0F4C6E]"}`}>{c.icon}</div>
+                  <h3 className={`font-bold mb-1 ${i === activeCourse ? "text-white" : "text-gray-900"}`}>{c.name}</h3>
+                  <p className={`text-sm mb-4 ${i === activeCourse ? "text-white/70" : "text-gray-500"}`}>{c.level} · {c.duration}</p>
+                  <div className="flex items-center justify-between">
+                    <span className={`font-bold text-lg ${i === activeCourse ? "text-white" : "text-[#0F4C6E]"}`}>{c.price}</span>
+                    <span className={`text-xs ${i === activeCourse ? "text-white/60" : "text-gray-400"}`}>{c.spots} places</span>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Agenda */}
+      <section className="py-24 px-6 bg-[#F0F4F8]">
+        <div className="max-w-6xl mx-auto">
+          <Reveal>
+            <div className="mb-12">
+              <p className="text-[#0F4C6E] text-sm font-semibold mb-3">Calendrier 2026</p>
+              <h2 className="text-gray-900 text-4xl font-bold">Prochaines sessions</h2>
             </div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
-    </section>
-  )
-}
+          </Reveal>
+          <div className="space-y-3">
+            {sessions.map((s, i) => (
+              <Reveal key={s.date} delay={i * 0.07}>
+                <div className="bg-white rounded-2xl p-6 flex items-center justify-between border border-gray-100 hover:border-[#0F4C6E]/20 transition-colors cursor-pointer group">
+                  <div className="flex items-center gap-6">
+                    <div className="text-center">
+                      <Calendar className="w-5 h-5 text-[#0F4C6E] mb-1 mx-auto" />
+                      <p className="text-gray-900 font-medium text-sm">{s.date}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-900 font-semibold">{s.course}</p>
+                      <p className="text-gray-400 text-sm">{s.spots} place{s.spots > 1 ? "s" : ""} disponible{s.spots > 1 ? "s" : ""}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <span className={`text-xs px-3 py-1 rounded-full font-medium ${s.spots <= 1 ? "bg-red-50 text-red-600" : s.spots <= 2 ? "bg-orange-50 text-orange-600" : "bg-green-50 text-green-700"}`}>{s.status}</span>
+                    <button className="bg-[#0F4C6E] text-white text-xs font-medium px-4 py-2 rounded-lg hover:bg-[#0A3B56] transition-colors cursor-pointer">Réserver</button>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
-// ─── TESTIMONIALS CAROUSEL ────────────────────────────────────────────────────
-function Testimonials() {
-  const [active, setActive] = useState(0)
-  const [direction, setDirection] = useState(1)
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
+      {/* Instructors */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <Reveal>
+            <div className="mb-12">
+              <p className="text-[#0F4C6E] text-sm font-semibold mb-3">L'équipe</p>
+              <h2 className="text-gray-900 text-4xl font-bold">Vos instructeurs</h2>
+            </div>
+          </Reveal>
+          <div className="grid md:grid-cols-3 gap-6">
+            {instructors.map((inst, i) => (
+              <Reveal key={inst.name} delay={i * 0.1}>
+                <div className="bg-gray-50 rounded-2xl p-6 hover:shadow-md transition-shadow cursor-pointer">
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#0F4C6E] to-[#4AB8E8] rounded-2xl mb-4 flex items-center justify-center text-white text-xl font-bold">{inst.name.charAt(0)}</div>
+                  <h3 className="text-gray-900 font-bold mb-1">{inst.name}</h3>
+                  <p className="text-[#0F4C6E] text-sm font-medium mb-3">{inst.specialty}</p>
+                  <div className="flex items-center gap-4 text-xs text-gray-400">
+                    <span className="flex items-center gap-1"><Award className="w-3 h-3" />{inst.license}</span>
+                    <span>{inst.experience}</span>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
-  const testimonials = [
-    { name: "Camille D.", role: "Élève Permis Côtier", text: "J'ai passé mon permis côtier en 4 jours avec Azimut. Les moniteurs sont pédagogues, patients et vraiment passionnés. Je suis repartie avec mon brevet ET l'envie de continuer en hauturier !", stars: 5 },
-    { name: "Marc L.", role: "Locataire — Corse 10 jours", text: "Deuxième location avec Azimut, toujours aussi pro. Le catamaran était impeccable, l'assistance répondait en moins d'une heure. On reviendra l'année prochaine pour les Baléares.", stars: 5 },
-    { name: "Sophie & Pierre", role: "Croisière Côte d'Azur", text: "Notre première croisière en couple. Le skipper Azimut nous a appris les bases pendant 7 jours. Magique, nous sommes complètement conquis. Hyères, Porquerolles, Saint-Tropez… inoubliable.", stars: 5 },
-    { name: "Thomas B.", role: "Stage enfant (fils de 10 ans)", text: "Mon fils est revenu du stage transformé. En une semaine, il sait gouverner un optimist et rêve déjà de naviguer autour du monde. Encadrement top, sécurité irréprochable.", stars: 5 },
-  ]
-
-  const prev = () => { setDirection(-1); setActive(a => (a - 1 + testimonials.length) % testimonials.length) }
-  const next = () => { setDirection(1); setActive(a => (a + 1) % testimonials.length) }
-
-  const t = testimonials[active]
-
-  return (
-    <section ref={ref} style={{ background: `linear-gradient(180deg, #061020 0%, ${C.bg} 100%)`, padding: "6rem 2rem" }}>
-      <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-          <p style={{ fontFamily: font.body, color: C.tealLight, fontWeight: 600, fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.75rem" }}>Ils Ont Navigué Avec Nous</p>
-          <h2 style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "clamp(2rem, 4vw, 2.8rem)", color: C.white, textTransform: "uppercase", letterSpacing: "0.04em", lineHeight: 1.1 }}>
-            Ce Qu'ils <span style={{ color: C.tealLight }}>Disent</span>
-          </h2>
-        </motion.div>
-
-        <div style={{ position: "relative", overflow: "hidden", borderRadius: "18px" }}>
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.div
-              key={active}
-              custom={direction}
-              initial={{ opacity: 0, x: direction * 60 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -direction * 60 }}
-              transition={{ duration: 0.4, ease: "easeInOut" }}
-              style={{ background: C.cardBg, border: `1px solid ${C.cardBorder}`, borderRadius: "18px", padding: "2.5rem 3rem", textAlign: "center" }}>
-              <div style={{ fontSize: "1.4rem", letterSpacing: "0.1em", color: "#f59e0b", marginBottom: "1.2rem" }}>{"★".repeat(t.stars)}</div>
-              <p style={{ fontFamily: font.body, color: C.sandy, fontSize: "1.05rem", lineHeight: 1.8, fontStyle: "italic", marginBottom: "1.8rem" }}>"{t.text}"</p>
-              <div style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "1rem", color: C.white, letterSpacing: "0.05em", textTransform: "uppercase" }}>{t.name}</div>
-              <div style={{ fontFamily: font.body, color: C.tealLight, fontSize: "0.82rem", marginTop: "0.3rem" }}>{t.role}</div>
+      {/* Testimonials */}
+      <section className="py-24 px-6 bg-[#0F4C6E]">
+        <div className="max-w-3xl mx-auto text-center">
+          <Reveal><p className="text-white/40 text-xs uppercase tracking-widest mb-12">Témoignages</p></Reveal>
+          <AnimatePresence mode="wait">
+            <motion.div key={activeTestimonial} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }} transition={{ duration: 0.5 }}>
+              <p className="text-white text-2xl md:text-3xl font-medium leading-relaxed mb-6">"{testimonials[activeTestimonial].text}"</p>
+              <p className="text-white/80 font-semibold text-sm">{testimonials[activeTestimonial].name}</p>
+              <p className="text-white/40 text-xs mt-1">{testimonials[activeTestimonial].course}</p>
             </motion.div>
           </AnimatePresence>
-        </div>
-
-        {/* Controls */}
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "1.5rem", marginTop: "2rem" }}>
-          <motion.button onClick={prev} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} style={{ cursor: "pointer", background: "transparent", border: `1.5px solid ${C.cardBorder}`, borderRadius: "50%", width: "44px", height: "44px", color: C.white, fontSize: "1.1rem", display: "flex", alignItems: "center", justifyContent: "center", transition: "border-color 0.2s" }}>‹</motion.button>
-          <div style={{ display: "flex", gap: "0.5rem" }}>
+          <div className="flex justify-center gap-2 mt-10">
             {testimonials.map((_, i) => (
-              <button key={i} onClick={() => { setDirection(i > active ? 1 : -1); setActive(i) }} style={{ cursor: "pointer", width: i === active ? "24px" : "8px", height: "8px", borderRadius: "4px", background: i === active ? C.teal : C.cardBorder, border: "none", transition: "all 0.3s" }} />
+              <button key={i} onClick={() => setActiveTestimonial(i)} className={`rounded-full transition-all cursor-pointer ${i === activeTestimonial ? "w-6 h-2 bg-white" : "w-2 h-2 bg-white/30"}`} />
             ))}
           </div>
-          <motion.button onClick={next} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} style={{ cursor: "pointer", background: "transparent", border: `1.5px solid ${C.cardBorder}`, borderRadius: "50%", width: "44px", height: "44px", color: C.white, fontSize: "1.1rem", display: "flex", alignItems: "center", justifyContent: "center", transition: "border-color 0.2s" }}>›</motion.button>
         </div>
-      </div>
-    </section>
-  )
-}
+      </section>
 
-// ─── PRICING ──────────────────────────────────────────────────────────────────
-function Pricing() {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
-
-  const plans = [
-    {
-      name: "Initiation",
-      price: "390",
-      duration: "Week-end 2 jours",
-      tag: null,
-      features: ["2 jours en baie protégée", "Théorie + pratique à bord", "Matériel & gilets inclus", "Groupe max 6 personnes", "Attestation de formation"],
-      cta: "Réserver",
-      highlight: false,
-    },
-    {
-      name: "Permis Côtier",
-      price: "690",
-      duration: "Stage 4 jours",
-      tag: "Le plus populaire",
-      features: ["4 jours de formation intensive", "Préparation examen officiel", "Passage du permis inclus", "Théorie navigation & météo", "Règles COLREG & manœuvres", "Groupe max 4 personnes"],
-      cta: "Réserver ma place",
-      highlight: true,
-    },
-    {
-      name: "Capitaine Large",
-      price: "1 290",
-      duration: "Formation 8 jours",
-      tag: null,
-      features: ["8 jours hauturier offshore", "Navigation de nuit incluse", "Certificat offshore FFV", "Utilisation GPS / VHF / radar", "Météorologie avancée", "Logbook personnel offert"],
-      cta: "Réserver",
-      highlight: false,
-    },
-  ]
-
-  return (
-    <section id="formations" ref={ref} style={{ background: C.bg, padding: "6rem 2rem" }}>
-      <div style={{ maxWidth: "1040px", margin: "0 auto" }}>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-          <p style={{ fontFamily: font.body, color: C.tealLight, fontWeight: 600, fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.75rem" }}>Nos Formations</p>
-          <h2 style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "clamp(2rem, 4vw, 3rem)", color: C.white, textTransform: "uppercase", letterSpacing: "0.04em", lineHeight: 1.1 }}>
-            Formules <span style={{ color: C.tealLight }}>et Tarifs</span>
-          </h2>
-          <p style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.95rem", maxWidth: "480px", margin: "1rem auto 0" }}>Tous les tarifs incluent l'encadrement par moniteur breveté, le matériel pédagogique et la taxe de séjour.</p>
-        </motion.div>
-
-        <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap", justifyContent: "center" }}>
-          {plans.map((plan, i) => (
-            <motion.div
-              key={plan.name}
-              initial={{ opacity: 0, y: 40 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.14, duration: 0.6 }}
-              whileHover={{ y: -6 }}
-              style={{ flex: "1 1 280px", maxWidth: "320px", background: plan.highlight ? `linear-gradient(145deg, ${C.teal}, #0891b2)` : C.cardBg, border: `1px solid ${plan.highlight ? C.teal : C.cardBorder}`, borderRadius: "18px", padding: "2rem 1.75rem", position: "relative", boxShadow: plan.highlight ? `0 20px 60px rgba(14,116,144,0.4)` : "none" }}>
-              {plan.tag && (
-                <div style={{ position: "absolute", top: "-13px", left: "50%", transform: "translateX(-50%)", background: C.sandy, color: C.bg, fontFamily: font.heading, fontWeight: 700, fontSize: "0.72rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "0.3rem 1rem", borderRadius: "20px", whiteSpace: "nowrap" }}>{plan.tag}</div>
-              )}
-              <div style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "0.9rem", color: plan.highlight ? "rgba(255,255,255,0.75)" : C.tealLight, textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: "0.75rem" }}>{plan.name}</div>
-              <div style={{ display: "flex", alignItems: "baseline", gap: "0.25rem", marginBottom: "0.35rem" }}>
-                <span style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "2.8rem", color: C.white, lineHeight: 1 }}>{plan.price}€</span>
+      {/* CTA + Contact */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <Reveal>
+            <div className="bg-gradient-to-br from-[#0F4C6E] to-[#1A7AAF] rounded-3xl p-10 md:p-16 text-center text-white">
+              <Wind className="w-10 h-10 mx-auto mb-6 opacity-70" />
+              <h2 className="text-4xl font-bold mb-4">Prêt à prendre le large ?</h2>
+              <p className="text-white/70 max-w-md mx-auto mb-10">Réservez votre formation dès maintenant. Places limitées, saison chargée.</p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button className="bg-white text-[#0F4C6E] font-bold px-8 py-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">Réserver une formation</button>
+                <button className="border border-white/30 text-white font-medium px-8 py-4 rounded-xl hover:bg-white/10 transition-colors cursor-pointer flex items-center justify-center gap-2"><Phone className="w-4 h-4" />04 91 00 00 00</button>
               </div>
-              <div style={{ fontFamily: font.body, color: plan.highlight ? "rgba(255,255,255,0.7)" : C.sandyDim, fontSize: "0.82rem", marginBottom: "1.5rem" }}>{plan.duration}</div>
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 1.75rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-                {plan.features.map(f => (
-                  <li key={f} style={{ display: "flex", alignItems: "center", gap: "0.6rem", fontFamily: font.body, color: plan.highlight ? "rgba(255,255,255,0.85)" : C.sandy, fontSize: "0.87rem" }}>
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}><circle cx="7" cy="7" r="7" fill={plan.highlight ? "rgba(255,255,255,0.25)" : "rgba(14,116,144,0.3)"} /><path d="M4 7l2 2 4-4" stroke={plan.highlight ? C.white : C.tealLight} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <motion.button
-                whileHover={{ scale: 1.04, background: plan.highlight ? C.white : C.teal }}
-                whileTap={{ scale: 0.97 }}
-                style={{ cursor: "pointer", width: "100%", background: plan.highlight ? "rgba(255,255,255,0.15)" : "transparent", color: plan.highlight ? C.white : C.tealLight, border: `2px solid ${plan.highlight ? "rgba(255,255,255,0.5)" : C.teal}`, borderRadius: "10px", padding: "0.75rem", fontFamily: font.heading, fontWeight: 700, fontSize: "0.85rem", letterSpacing: "0.06em", textTransform: "uppercase", transition: "all 0.2s" }}>
-                {plan.cta}
-              </motion.button>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── FAQ ──────────────────────────────────────────────────────────────────────
-function FAQ() {
-  const [open, setOpen] = useState<number | null>(null)
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
-
-  const items = [
-    { q: "Quel niveau est requis pour nos formations ?", a: "Aucun prérequis pour les stages Initiation et Permis Côtier. Pour la formation Capitaine Large, nous recommandons d'avoir déjà navigué quelques jours ou d'avoir obtenu le Permis Côtier au préalable. Un test de niveau est toujours proposé à l'inscription." },
-    { q: "L'assurance est-elle incluse dans le prix ?", a: "Oui. Toutes nos formations incluent une assurance responsabilité civile et une garantie accident pour les stagiaires pendant la durée de la formation. Pour les locations, une assurance tous risques est proposée en option au tarif de 45€/jour." },
-    { q: "Quel est l'âge minimum pour naviguer ?", a: "Les stages Enfants accueillent les 7-17 ans. Pour les formations Permis Côtier et adultes, l'âge minimum est 16 ans (avec autorisation parentale pour les mineurs). Les locations sont réservées aux personnes majeures titulaires d'un permis valide." },
-    { q: "Le permis obtenu est-il reconnu en dehors de France ?", a: "Le Permis Côtier français est reconnu en Méditerranée, Adriatique et en mer du Nord selon les accords bilatéraux. Pour naviguer dans certains pays (Grèce, Croatie, Turquie), nous conseillons d'ajouter le certificat ICC, que nous pouvons faire passer sur demande." },
-    { q: "Que se passe-t-il en cas de mauvaise météo ?", a: "La sécurité prime toujours. En cas de conditions défavorables, nous proposons un report de stage sur une autre date sans frais supplémentaires, ou un avoir valable 18 mois. Certaines sessions peuvent être adaptées en navigation en baie protégée si la météo le permet." },
-    { q: "Peut-on payer en plusieurs fois ?", a: "Oui, nous proposons un paiement en 3 fois sans frais pour les formations supérieures à 500€. Un acompte de 30% est demandé à l'inscription, le solde étant dû 10 jours avant le début du stage." },
-  ]
-
-  return (
-    <section ref={ref} style={{ background: `linear-gradient(180deg, ${C.bg} 0%, #061020 100%)`, padding: "6rem 2rem" }}>
-      <div style={{ maxWidth: "760px", margin: "0 auto" }}>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <p style={{ fontFamily: font.body, color: C.tealLight, fontWeight: 600, fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.75rem" }}>Questions Fréquentes</p>
-          <h2 style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "clamp(2rem, 4vw, 2.8rem)", color: C.white, textTransform: "uppercase", letterSpacing: "0.04em", lineHeight: 1.1 }}>
-            Tout Ce Que<br /><span style={{ color: C.tealLight }}>Vous Voulez Savoir</span>
-          </h2>
-        </motion.div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-          {items.map((item, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.08, duration: 0.5 }}>
-              <button
-                onClick={() => setOpen(open === i ? null : i)}
-                style={{ cursor: "pointer", width: "100%", background: C.cardBg, border: `1px solid ${open === i ? C.teal : C.cardBorder}`, borderRadius: "12px", padding: "1.25rem 1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem", textAlign: "left", transition: "border-color 0.2s" }}>
-                <span style={{ fontFamily: font.heading, fontWeight: 700, fontSize: "0.95rem", color: C.white, textTransform: "uppercase", letterSpacing: "0.04em", lineHeight: 1.4 }}>{item.q}</span>
-                <motion.span
-                  animate={{ rotate: open === i ? 45 : 0 }}
-                  transition={{ duration: 0.25 }}
-                  style={{ color: C.tealLight, fontSize: "1.5rem", fontWeight: 300, flexShrink: 0, lineHeight: 1 }}>+</motion.span>
-              </button>
-              <AnimatePresence>
-                {open === i && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.35, ease: "easeInOut" }}
-                    style={{ overflow: "hidden" }}>
-                    <div style={{ padding: "1rem 1.5rem 1.5rem", fontFamily: font.body, color: C.sandyDim, fontSize: "0.92rem", lineHeight: 1.75, background: "rgba(14,116,144,0.05)", borderLeft: `3px solid ${C.teal}`, marginTop: "4px", borderRadius: "0 0 10px 10px" }}>
-                      {item.a}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── CTA BANNER ───────────────────────────────────────────────────────────────
-function CTABanner() {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
-
-  return (
-    <section id="contact" ref={ref} style={{ background: `linear-gradient(135deg, ${C.teal} 0%, #0891b2 50%, #0e7490 100%)`, padding: "5rem 2rem", position: "relative", overflow: "hidden" }}>
-      {/* Decorative waves */}
-      <svg style={{ position: "absolute", top: 0, left: 0, right: 0, opacity: 0.12 }} viewBox="0 0 1440 80" preserveAspectRatio="none" height="80">
-        <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,20 1440,40 L1440,0 L0,0 Z" fill="white" />
-      </svg>
-      <svg style={{ position: "absolute", bottom: 0, left: 0, right: 0, opacity: 0.12 }} viewBox="0 0 1440 80" preserveAspectRatio="none" height="80">
-        <path d="M0,40 C360,0 720,80 1080,40 C1260,20 1380,60 1440,40 L1440,80 L0,80 Z" fill="white" />
-      </svg>
-
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7 }}
-        style={{ textAlign: "center", maxWidth: "700px", margin: "0 auto", position: "relative", zIndex: 1 }}>
-        <h2 style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "clamp(2rem, 4vw, 3rem)", color: C.white, textTransform: "uppercase", letterSpacing: "0.04em", lineHeight: 1.1, marginBottom: "1.2rem" }}>
-          Réservez Votre<br />Formation
-        </h2>
-        <p style={{ fontFamily: font.body, color: "rgba(255,255,255,0.8)", fontSize: "1.05rem", lineHeight: 1.7, marginBottom: "2.5rem" }}>
-          Les places sont limitées. Assurez la vôtre dès aujourd'hui et partez naviguer avec les meilleurs moniteurs de Méditerranée.
-        </p>
-        <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-          <motion.button
-            whileHover={{ scale: 1.05, background: C.sandy }}
-            whileTap={{ scale: 0.97 }}
-            style={{ cursor: "pointer", background: C.white, color: C.teal, border: "none", borderRadius: "10px", padding: "0.9rem 2.2rem", fontFamily: font.heading, fontWeight: 800, fontSize: "0.95rem", letterSpacing: "0.07em", textTransform: "uppercase", transition: "background 0.2s" }}>
-            Réserver Maintenant
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05, background: "rgba(255,255,255,0.2)" }}
-            whileTap={{ scale: 0.97 }}
-            style={{ cursor: "pointer", background: "transparent", color: C.white, border: "2px solid rgba(255,255,255,0.6)", borderRadius: "10px", padding: "0.9rem 2.2rem", fontFamily: font.heading, fontWeight: 700, fontSize: "0.95rem", letterSpacing: "0.07em", textTransform: "uppercase", transition: "background 0.2s" }}>
-            Nous Contacter
-          </motion.button>
-        </div>
-      </motion.div>
-    </section>
-  )
-}
-
-// ─── FOOTER ───────────────────────────────────────────────────────────────────
-function Footer() {
-  const links = {
-    "Formations": ["Initiation", "Permis Côtier", "Capitaine Large", "Stages Enfants"],
-    "Location": ["Voiliers", "Catamarans", "Avec Skipper", "Tarifs"],
-    "Bases": ["Nice", "Marseille", "Ajaccio", "Toulon", "Barcelone", "Palma"],
-  }
-
-  const socials = [
-    { label: "Users2", href: "#", icon: <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" /></svg> },
-    { label: "Camera", href: "#", icon: <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></svg> },
-    { label: "YouTube", href: "#", icon: <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z" /><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white" /></svg> },
-  ]
-
-  return (
-    <footer style={{ background: "#040d1a", borderTop: `1px solid ${C.cardBorder}`, padding: "4rem 2rem 2rem" }}>
-      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-        <div style={{ display: "flex", gap: "3rem", flexWrap: "wrap", marginBottom: "3rem" }}>
-          {/* Brand */}
-          <div style={{ flex: "1 1 220px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "1rem" }}>
-              <svg width="30" height="30" viewBox="0 0 36 36" fill="none">
-                <circle cx="18" cy="18" r="17" stroke={C.tealLight} strokeWidth="2" />
-                <path d="M8 22 L18 8 L28 22" stroke={C.sandy} strokeWidth="2.5" fill="none" strokeLinecap="round" />
-                <path d="M8 22 Q18 30 28 22" stroke={C.teal} strokeWidth="2" fill="none" />
-              </svg>
-              <span style={{ fontFamily: font.heading, fontWeight: 800, fontSize: "1.2rem", color: C.white, letterSpacing: "0.08em", textTransform: "uppercase" }}>AZIMUT</span>
             </div>
-            <p style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.87rem", lineHeight: 1.7, maxWidth: "220px" }}>École de voile et location de bateaux en Méditerranée depuis 1999.</p>
-            <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.25rem" }}>
-              {socials.map(s => (
-                <motion.a key={s.label} href={s.href} whileHover={{ scale: 1.15, color: C.tealLight }} style={{ color: C.sandyDim, transition: "color 0.2s", cursor: "pointer" }} aria-label={s.label}>{s.icon}</motion.a>
-              ))}
-            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 py-16 px-6">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10 mb-12">
+          <div>
+            <div className="flex items-center gap-2 mb-4"><div className="w-8 h-8 bg-[#0F4C6E] rounded-lg flex items-center justify-center"><Wind className="w-4 h-4 text-white" /></div><span className="text-white font-bold">Azimut</span></div>
+            <p className="text-gray-400 text-sm leading-relaxed">École de voile certifiée FFVoile à Marseille depuis 2011.</p>
           </div>
-
-          {/* Links */}
-          {Object.entries(links).map(([category, items]) => (
-            <div key={category} style={{ flex: "1 1 130px" }}>
-              <h4 style={{ fontFamily: font.heading, fontWeight: 700, fontSize: "0.75rem", color: C.tealLight, textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "1rem" }}>{category}</h4>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                {items.map(item => (
-                  <li key={item}>
-                    <Link href="#" style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.87rem", textDecoration: "none", transition: "color 0.2s" }}
-                      onMouseEnter={e => (e.currentTarget.style.color = C.white)}
-                      onMouseLeave={e => (e.currentTarget.style.color = C.sandyDim)}>
-                      {item}
-                    </Link>
-                  </li>
-                ))}
+          {[
+            { title: "Formations", links: ["Permis côtier", "Côtier confirmé", "Hauturier", "Croisières"] },
+            { title: "L'école", links: ["Notre flotte", "Nos instructeurs", "Certifications", "Blog"] },
+            { title: "Contact", links: ["Marseille Marina", "04 91 00 00 00", "contact@azimut-voile.fr", "FAQ"] },
+          ].map(col => (
+            <div key={col.title}>
+              <h4 className="text-white font-semibold text-sm mb-4">{col.title}</h4>
+              <ul className="space-y-2">
+                {col.links.map(l => <li key={l}><span className="text-gray-400 text-sm hover:text-white transition-colors cursor-pointer">{l}</span></li>)}
               </ul>
             </div>
           ))}
-
-          {/* Contact */}
-          <div style={{ flex: "1 1 180px" }}>
-            <h4 style={{ fontFamily: font.heading, fontWeight: 700, fontSize: "0.75rem", color: C.tealLight, textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "1rem" }}>Contact</h4>
-            <div style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.87rem", lineHeight: 1.85 }}>
-              <div>📍 Port Lympia, Nice 06300</div>
-              <div>📞 +33 4 93 12 34 56</div>
-              <div>✉️ contact@azimut-voile.fr</div>
-              <div style={{ marginTop: "0.75rem", color: C.sandyDim }}>Ouvert 7j/7 — 8h à 19h</div>
-            </div>
-          </div>
         </div>
-
-        <div style={{ borderTop: `1px solid ${C.cardBorder}`, paddingTop: "1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
-          <p style={{ fontFamily: font.body, color: "rgba(200,180,154,0.45)", fontSize: "0.8rem" }}>© 2024 Azimut Voile Méditerranée. Tous droits réservés.</p>
-          <div style={{ display: "flex", gap: "1.5rem" }}>
-            {["Mentions légales", "CGV", "Politique de confidentialité"].map(l => (
-              <Link key={l} href="#" style={{ fontFamily: font.body, color: "rgba(200,180,154,0.45)", fontSize: "0.8rem", textDecoration: "none", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = C.sandyDim)}
-                onMouseLeave={e => (e.currentTarget.style.color = "rgba(200,180,154,0.45)")}>{l}</Link>
-            ))}
-          </div>
+        <div className="max-w-6xl mx-auto border-t border-gray-800 pt-8 flex justify-between text-xs text-gray-500">
+          <span>© 2026 Azimut École de Voile. Tous droits réservés.</span>
         </div>
-      </div>
-    </footer>
-  )
-}
-
-// ─── PAGE ─────────────────────────────────────────────────────────────────────
-export default function AzimutPage() {
-  return (
-    <main style={{ background: C.bg, fontFamily: font.body }}>
-      <Navbar />
-      <Hero />
-      <StatsBar />
-      <Features />
-      <Testimonials />
-      <Pricing />
-      <FAQ />
-      <CTABanner />
-      <Footer />
-    </main>
-  )
+      </footer>
+    </div>
+  );
 }

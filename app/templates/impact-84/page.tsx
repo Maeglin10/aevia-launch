@@ -1,703 +1,389 @@
-"use client";
+"use client"
 
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-} from "framer-motion";
-import { useRef, useState } from "react";
+import React, { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
+import { Menu, X, ArrowRight, Sparkles, FlaskConical, Shield, Microscope, Clock, MapPin, Phone, Mail, ChevronRight, CheckCircle } from "lucide-react"
 
-const C = {
-  bg: "#0A0C0E",
-  bgCard: "#111418",
-  bgLight: "#161A1F",
-  text: "#E8EAF0",
-  textMuted: "#8A8FA0",
-  textDim: "#3A3F4A",
-  border: "#1E242C",
-  borderGold: "#3A3020",
-  gold: "#C8A87A",
-  goldLight: "#E8D5A8",
-  goldDark: "#7A6040",
-  white: "#F0F4FF",
-  clinical: "#4A8A9A",
-};
-
-const FONT = `
-  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap');
-`;
-
-const PROTOCOLS = [
-  {
-    id: "genesis",
-    code: "CX-001",
-    name: "Protocole Genèse",
-    tagline: "La jeunesse comme état fondamental",
-    price: "À partir de € 2,800",
-    sessions: "3 séances",
-    technology: "RF Microneedling + Exosomes",
-    result: "Régénération cellulaire profonde, fermeté, éclat durable",
-    targets: ["Relâchement cutané", "Taches pigmentaires", "Texture irrégulière"],
-  },
-  {
-    id: "architect",
-    code: "CX-002",
-    name: "Protocole Architecte",
-    tagline: "Redessiner les volumes avec précision",
-    price: "À partir de € 1,900",
-    sessions: "2 séances",
-    technology: "Acide hyaluronique haute densité + Fils tenseurs",
-    result: "Repositionnement volumique, correction de l'ovale, projection des pommettes",
-    targets: ["Affaissement des volumes", "Perte de définition", "Fatigue structurelle"],
-  },
-  {
-    id: "cipher",
-    code: "CX-003",
-    name: "Protocole Cipher",
-    tagline: "Effacer sans laisser de traces",
-    price: "À partir de € 1,200",
-    sessions: "1 séance",
-    technology: "Laser CO2 fractionnel + Plasma Pen",
-    result: "Lissage des ridules, fermeté immédiate, peau neuve",
-    targets: ["Ridules", "Cicatrices", "Relâchement léger"],
-  },
-  {
-    id: "oracle",
-    code: "CX-004",
-    name: "Protocole Oracle",
-    tagline: "Le diagnostic absolu, personnalisé",
-    price: "€ 490",
-    sessions: "Consultation + bilan 3D",
-    technology: "Scanner Visia + Analyse cutimétrique",
-    result: "Cartographie complète de votre peau, programme sur 12 mois",
-    targets: ["Nouveau patient", "Évaluation globale", "Suivi longitudinal"],
-  },
-];
-
-const EXPERTISE = [
-  { code: "DR. A.V.", name: "Dr. Amira Valentin", spec: "Médecine esthétique · Anti-aging", credential: "AFME · DIU Lyon" },
-  { code: "DR. L.M.", name: "Dr. Luca Moreno", spec: "Médecine régénérative · Laser", credential: "AFME · Harvard CME" },
-  { code: "DR. C.N.", name: "Dr. Clara Nkemdirim", spec: "Dermatologie · Traitements pigmentaires", credential: "DESC Dermatologie" },
-];
-
-const PROCESS = [
-  { step: "01", title: "Bilan Complet", desc: "Scanner 3D Visia, photographies standardisées, analyse cutimétrique. 90 minutes pour tout comprendre." },
-  { step: "02", title: "Protocole Sur Mesure", desc: "Votre programme personnalisé sur 6 à 12 mois. Chaque décision médicale est expliquée, motivée, documentée." },
-  { step: "03", title: "Traitement", desc: "Chaque séance est réalisée par le médecin référent, dans notre bloc technique certifié. Zéro délégation." },
-  { step: "04", title: "Suivi Longitudinal", desc: "Contrôle photographique systématique. Ajustements en temps réel. Votre peau est suivie comme un investissement." },
-];
-
-// ── Biometric scan animation (signature element) ──────────────────────────────
-function BiometricScan({ active }: { active: boolean }) {
-  return (
-    <svg viewBox="0 0 280 280" style={{ width: "100%", height: "100%" }}>
-      {/* Outer circle */}
-      <circle cx="140" cy="140" r="130" fill="none" stroke={C.border} strokeWidth="1" />
-
-      {/* Rotating arc */}
-      <motion.circle
-        cx="140" cy="140" r="130"
-        fill="none"
-        stroke={C.gold}
-        strokeWidth="1.5"
-        strokeDasharray="60 750"
-        animate={active ? { rotate: 360 } : {}}
-        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-        style={{ transformOrigin: "140px 140px" }}
-      />
-
-      {/* Inner rings */}
-      <circle cx="140" cy="140" r="100" fill="none" stroke={C.border} strokeWidth="0.5" />
-      <circle cx="140" cy="140" r="70" fill="none" stroke={C.borderGold} strokeWidth="0.8" />
-
-      {/* Scan line */}
-      <motion.line
-        x1="10" y1="140" x2="270" y2="140"
-        stroke={C.gold} strokeWidth="0.5" opacity="0.4"
-        animate={active ? { y1: [10, 270, 10], y2: [10, 270, 10] } : {}}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Face outline dots */}
-      {[
-        [140, 95], [110, 115], [170, 115],
-        [125, 125], [155, 125],
-        [140, 155], [118, 175], [162, 175],
-        [140, 185],
-      ].map(([cx, cy], i) => (
-        <motion.circle
-          key={i}
-          cx={cx} cy={cy} r="2.5"
-          fill={C.gold}
-          initial={{ opacity: 0, scale: 0 }}
-          animate={active ? { opacity: [0, 1, 0.5], scale: 1 } : {}}
-          transition={{ duration: 0.4, delay: 0.8 + i * 0.08, repeat: Infinity, repeatDelay: 2.5 }}
-          style={{ transformOrigin: `${cx}px ${cy}px` }}
-        />
-      ))}
-
-      {/* Corner marks */}
-      {[[20, 20], [260, 20], [20, 260], [260, 260]].map(([x, y], i) => (
-        <g key={i}>
-          <line
-            x1={x + (x < 140 ? 0 : -12)} y1={y}
-            x2={x + (x < 140 ? 12 : 0)} y2={y}
-            stroke={C.gold} strokeWidth="1.5"
-          />
-          <line
-            x1={x} y1={y + (y < 140 ? 0 : -12)}
-            x2={x} y2={y + (y < 140 ? 12 : 0)}
-            stroke={C.gold} strokeWidth="1.5"
-          />
-        </g>
-      ))}
-
-      {/* Center crosshair */}
-      <line x1="135" y1="140" x2="145" y2="140" stroke={C.gold} strokeWidth="0.8" />
-      <line x1="140" y1="135" x2="140" y2="145" stroke={C.gold} strokeWidth="0.8" />
-
-      {/* Labels */}
-      {active && (
-        <>
-          <text x="140" y="250" textAnchor="middle" fill={C.textDim} fontSize="6" fontFamily="DM Mono, monospace" letterSpacing="3">
-            ANALYSE EN COURS
-          </text>
-          <text x="20" y="16" fill={C.goldDark} fontSize="5.5" fontFamily="DM Mono, monospace" letterSpacing="2">
-            VISIA 3D
-          </text>
-        </>
-      )}
-    </svg>
-  );
+function useFonts() {
+  useEffect(() => {
+    const id = "fonts-cypher-clinic"
+    if (document.getElementById(id)) return
+    const s = document.createElement("style")
+    s.id = id
+    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap');`
+    document.head.appendChild(s)
+  }, [])
 }
 
-// ── Page ─────────────────────────────────────────────────────────────────────
-export default function CypherClinic() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const scanRef = useRef<HTMLDivElement>(null);
-  const [activeProtocol, setActiveProtocol] = useState(0);
-  const scanInView = useInView(scanRef, { once: true, margin: "-100px" });
+function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  )
+}
 
-  const { scrollYProgress } = useScroll({ target: containerRef });
-  const navBg = useTransform(scrollYProgress, [0, 0.05], ["rgba(10,12,14,0)", "rgba(10,12,14,0.96)"]);
+const PROTOCOLS = [
+  { id: "sculpt", icon: Sparkles, label: "Sculpture faciale", title: "Redéfinition volumétrique avancée", desc: "Protocole combinant acide hyaluronique rhéologique, toxine botulique graduée et micro-canules de précision pour un remodelage facial complet aux résultats naturels et durables.", duration: "90 min", recovery: "48h", detail: ["Remodelage mandibulaire", "Restauration pommettes", "Correction cernes", "Redéfinition ovale"] },
+  { id: "bio", icon: FlaskConical, label: "Bioregénération", desc: "Protocole de régénération cellulaire profonde : PRP autologue, polynucléotides PDRN et mésothérapie à base de vitamines liposomales. Amélioration mesurable de la qualité cutanée.", title: "Régénération cellulaire de quatrième génération", duration: "75 min", recovery: "24h", detail: ["PRP lymphocytaire", "Polynucléotides PDRN", "Vitamines liposomales", "Enzyme complex"] },
+  { id: "laser", icon: Microscope, label: "Lasers médicaux", title: "Photothérapie et resurfaçage de précision", desc: "Gamme Quanta System Q-YAG 5 et CO2 fractionné Acupulse. Traitement des lésions pigmentaires, rosacée, cicatrices et resurfaçage anti-âge avec résultats permanents.", duration: "45 – 90 min", recovery: "3 – 7 jours", detail: ["Q-switched Nd:YAG", "CO2 fractionné", "IPL M22 Lumenis", "LLLT biostimulation"] },
+  { id: "cyber", icon: Shield, label: "CypherSkin", title: "Notre protocole signature exclusif", desc: "Développé en 2021 avec l&apos;Institut de Biochimie de Paris, CypherSkin combine 6 technologies en une séance pour obtenir des résultats visibles dès J+7 et durables 18 mois.", duration: "120 min", recovery: "72h", detail: ["Radiofréquence fractionnée", "Ultrasons focalisés", "LED thérapeutique", "Cryolifting"] },
+]
+
+const SPECIALISTS = [
+  { name: "Dr. Alexandre Noir", spec: "Médecine esthétique & Lasers", formation: "Interne médecine — AP-HP · DU Médecine esthétique Paris VI", image: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&q=80" },
+  { name: "Dr. Valentine Huang", spec: "Dermatologue spécialisée", formation: "DES Dermatologie — Paris V · Fellowship IMCAS Singapore", image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=80" },
+  { name: "Dr. Marc Duval", spec: "Chirurgien plasticien", formation: "DESC Chirurgie plastique — Pitié-Salpêtrière · FMH Lausanne", image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&q=80" },
+]
+
+export default function CypherClinicPage() {
+  useFonts()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [activeProtocol, setActiveProtocol] = useState(0)
+  const { scrollYProgress } = useScroll()
+  const heroRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(heroScroll, [0, 1], ["0%", "30%"])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
+  const ActiveIcon = PROTOCOLS[activeProtocol].icon
 
   return (
-    <div ref={containerRef} style={{ background: C.bg, color: C.text, fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", overflowX: "hidden" }}>
-      <style>{FONT}</style>
+    <div className="min-h-screen bg-[#0C0C0A] text-[#F0EBE0]" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <motion.div className="fixed top-0 left-0 h-[1px] bg-[#C9A86C] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
-      {/* ── Navigation ─────────────────────────────────────────────────── */}
+      {/* Nav */}
       <motion.nav
-        style={{
-          position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-          background: navBg,
-          backdropFilter: "blur(16px)",
-          borderBottom: `1px solid ${C.border}`,
-          padding: "0 2.5rem",
-          height: "64px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#0C0C0A]/95 backdrop-blur-md border-b border-[#2A2520]" : "bg-transparent"}`}
+        initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div>
-          <div style={{ fontFamily: "'Syne', sans-serif", fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.12em", color: C.text }}>
-            CYPHER
+        <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+          <Link href="#" className="flex flex-col">
+            <span className="text-xl tracking-widest font-light" style={{ fontFamily: "'Bodoni Moda', serif", letterSpacing: "0.12em" }}>Cypher Clinic</span>
+            <span className="text-[9px] tracking-[0.2em] uppercase text-[#C9A86C]">Médecine esthétique d&apos;élite</span>
+          </Link>
+          <div className="hidden md:flex items-center gap-8 text-sm font-light text-[#8A8278]">
+            {["Protocoles", "Équipe", "Science", "Contact"].map(l => (
+              <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#F0EBE0] transition-colors duration-200">{l}</Link>
+            ))}
+            <Link href="#contact" className="ml-2 px-5 py-2.5 border border-[#C9A86C] text-[#C9A86C] text-xs tracking-widest uppercase hover:bg-[#C9A86C] hover:text-[#0C0C0A] transition-all duration-300 cursor-pointer">
+              Consultation
+            </Link>
           </div>
-          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.45rem", letterSpacing: "0.3em", color: C.textDim }}>
-            CLINIQUE MÉDICALE
-          </div>
+          <button className="md:hidden p-2 cursor-pointer" onClick={() => setMenuOpen(true)} aria-label="Menu">
+            <Menu className="w-5 h-5" />
+          </button>
         </div>
-        <div style={{ display: "flex", gap: "2.5rem" }}>
-          {["Protocoles", "Médecins", "Résultats", "Contact"].map((item) => (
-            <motion.button key={item} onClick={() => document.getElementById(({"Protocoles": "protocoles", "Médecins": "medecins", "Résultats": "resultats", "Contact": "contact"})[item] || "")?.scrollIntoView({behavior:"smooth"})}
-              
-              
-              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", color: C.textMuted, textDecoration: "none", cursor: "pointer" }}
-              whileHover={{ color: C.text }}
-            >
-              {item}
-            </motion.button>
-          ))}
-        </div>
-        <motion.button
-          whileHover={{ borderColor: C.gold, color: C.gold }}
-          style={{
-            background: "transparent",
-            border: `1px solid ${C.border}`,
-            color: C.textMuted,
-            padding: "0.5rem 1.5rem",
-            fontFamily: "'DM Mono', monospace",
-            fontSize: "0.6rem",
-            letterSpacing: "0.1em",
-            cursor: "pointer",
-            transition: "all 0.3s",
-          }}
-        >
-          CONSULTATION
-        </motion.button>
       </motion.nav>
 
-      {/* ── Hero ───────────────────────────────────────────────────────── */}
-      <section style={{ minHeight: "100vh", display: "grid", gridTemplateColumns: "1fr 1fr", position: "relative" }}>
-        {/* Left: text */}
-        <div style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          padding: "8rem 3rem 5rem 4rem",
-          background: C.bg,
-        }}>
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "2rem" }}
-          >
-            <div style={{ width: "2rem", height: "1px", background: C.gold }} />
-            <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.gold }}>
-              MÉDECINE ESTHÉTIQUE CLINIQUE
-            </span>
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div className="fixed inset-0 z-[200] bg-[#0C0C0A] flex flex-col"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <div className="flex items-center justify-between px-6 py-5 border-b border-[#2A2520]">
+              <span style={{ fontFamily: "'Bodoni Moda', serif" }} className="text-xl">Cypher Clinic</span>
+              <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
+            </div>
+            <div className="flex flex-col gap-8 p-10">
+              {["Protocoles", "Équipe", "Science", "Contact"].map((l, i) => (
+                <motion.div key={l} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
+                  <Link href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)}
+                    className="text-3xl font-light text-[#F0EBE0] hover:text-[#C9A86C] transition-colors cursor-pointer"
+                    style={{ fontFamily: "'Bodoni Moda', serif" }}>{l}</Link>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            style={{
-              fontFamily: "'Syne', sans-serif",
-              fontSize: "clamp(2.5rem, 5.5vw, 5rem)",
-              fontWeight: 800,
-              color: C.text,
-              lineHeight: 0.95,
-              letterSpacing: "-0.02em",
-              marginBottom: "2rem",
-            }}
-          >
-            La Médecine<br />
-            Esthétique<br />
-            <span style={{ color: C.gold }}>Sans Compromis</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-            style={{ fontSize: "1rem", color: C.textMuted, lineHeight: 1.8, maxWidth: "45ch", marginBottom: "3rem" }}
-          >
-            Cypher Clinic est une clinique médicale privée dédiée aux traitements esthétiques d'excellence. Chaque protocole est conçu et réalisé par des médecins certifiés. Aucun compromis sur la sécurité ou les résultats.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.1 }}
-            style={{ display: "flex", gap: "1rem" }}
-          >
-            <motion.button
-              whileHover={{ scale: 1.02, backgroundColor: C.goldLight }}
-              style={{
-                background: C.gold,
-                color: C.bg,
-                border: "none",
-                padding: "0.9rem 2rem",
-                fontFamily: "'DM Mono', monospace",
-                fontSize: "0.65rem",
-                letterSpacing: "0.15em",
-                cursor: "pointer",
-                transition: "background 0.3s",
-              }}
-            >
-              BILAN GRATUIT →
-            </motion.button>
-            <motion.button
-              whileHover={{ borderColor: C.gold, color: C.gold }}
-              style={{
-                background: "transparent",
-                border: `1px solid ${C.border}`,
-                color: C.textMuted,
-                padding: "0.9rem 2rem",
-                fontFamily: "'DM Mono', monospace",
-                fontSize: "0.65rem",
-                letterSpacing: "0.15em",
-                cursor: "pointer",
-                transition: "all 0.3s",
-              }}
-            >
-              VOIR LES PROTOCOLES
-            </motion.button>
-          </motion.div>
+        )}
+      </AnimatePresence>
 
-          {/* Trust indicators */}
-          <div style={{ display: "flex", gap: "2rem", marginTop: "3rem", paddingTop: "2rem", borderTop: `1px solid ${C.border}` }}>
-            {[
-              { n: "3", label: "Médecins experts" },
-              { n: "8 ans", label: "D'exercice exclusif" },
-              { n: "100%", label: "Actes médicaux certifiés" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <div style={{ fontFamily: "'Syne', sans-serif", fontSize: "1.2rem", fontWeight: 700, color: C.gold }}>{stat.n}</div>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.1em", color: C.textDim, marginTop: "0.2rem" }}>{stat.label}</div>
-              </div>
+      {/* Hero */}
+      <section ref={heroRef} className="relative min-h-screen overflow-hidden">
+        <motion.div className="absolute inset-0" style={{ y: heroY }}>
+          <Image src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&q=85" alt="Cypher Clinic" fill className="object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0C0C0A]/95 via-[#0C0C0A]/70 to-[#0C0C0A]/20" />
+        </motion.div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-36 pb-24 min-h-screen flex flex-col justify-center">
+          <Reveal>
+            <p className="text-[10px] tracking-[0.4em] uppercase text-[#C9A86C] mb-8">Médecine esthétique de précision · Paris 16e</p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h1 className="text-5xl md:text-7xl font-light leading-[1.0] mb-8 max-w-3xl" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+              La beauté<br />par la <em>science</em><br />de précision
+            </h1>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="text-[#8A8278] text-lg max-w-lg mb-12 leading-relaxed">
+              Cypher Clinic réunit chirurgiens plasticiens, dermatologues et médecins esthétiques autour de protocoles exclusifs développés avec des chercheurs universitaires.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-5">
+              <Link href="#contact" className="inline-flex items-center gap-3 px-8 py-4 border border-[#C9A86C] text-[#C9A86C] text-sm uppercase tracking-widest hover:bg-[#C9A86C] hover:text-[#0C0C0A] transition-all cursor-pointer">
+                Consultation médicale <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link href="#protocoles" className="inline-flex items-center gap-3 px-8 py-4 border border-[#2A2520] text-[#F0EBE0] text-sm uppercase tracking-widest hover:border-[#F0EBE0] transition-colors cursor-pointer">
+                Nos protocoles
+              </Link>
+            </div>
+          </Reveal>
+          <div className="mt-20 pt-10 border-t border-[#2A2520] grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[["3 experts", "Spécialistes"], ["CypherSkin™", "Protocole exclusif"], ["98%", "Satisfaction"], ["12 ans", "D'expertise"]].map(([val, label]) => (
+              <Reveal key={label} delay={0.05}>
+                <div>
+                  <div className="text-[#C9A86C] text-xl font-light mb-1" style={{ fontFamily: "'Bodoni Moda', serif" }}>{val}</div>
+                  <div className="text-xs text-[#5A5248] uppercase tracking-wide">{label}</div>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Right: biometric scan */}
-        <div ref={scanRef} style={{
-          background: C.bgCard,
-          borderLeft: `1px solid ${C.border}`,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "4rem",
-          position: "relative",
-          overflow: "hidden",
-        }}>
-          {/* Grid background */}
-          <div style={{ position: "absolute", inset: 0, opacity: 0.03 }}>
-            <svg width="100%" height="100%" viewBox="0 0 500 700">
-              {Array.from({ length: 25 }).map((_, i) => (
-                <g key={i}>
-                  <line x1={i * 20} y1="0" x2={i * 20} y2="700" stroke={C.clinical} strokeWidth="0.5" />
-                  <line x1="0" y1={i * 28} x2="500" y2={i * 28} stroke={C.clinical} strokeWidth="0.5" />
-                </g>
-              ))}
-            </svg>
+      {/* Protocols */}
+      <section id="protocoles" className="py-28 bg-[#0C0C0A]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="mb-16">
+            <Reveal>
+              <p className="text-[10px] tracking-[0.4em] uppercase text-[#C9A86C] mb-4">Expertise médicale</p>
+              <h2 className="text-4xl md:text-5xl font-light" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+                Protocoles de <em>référence</em>
+              </h2>
+            </Reveal>
           </div>
 
-          <div style={{ width: "min(320px, 100%)", aspectRatio: "1", position: "relative", zIndex: 1 }}>
-            <BiometricScan active={scanInView} />
-          </div>
-
-          <div style={{ position: "relative", zIndex: 1, textAlign: "center", marginTop: "2rem" }}>
-            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.textDim, marginBottom: "0.5rem" }}>
-              SCANNER VISIA GEN7
+          <div className="grid lg:grid-cols-5 gap-0 border border-[#2A2520]">
+            <div className="lg:col-span-2 border-r border-[#2A2520]">
+              {PROTOCOLS.map((p, i) => {
+                const Icon = p.icon
+                return (
+                  <button key={p.id} onClick={() => setActiveProtocol(i)}
+                    className={`w-full text-left p-6 border-b border-[#2A2520] last:border-b-0 flex items-center gap-4 transition-all duration-200 cursor-pointer group ${activeProtocol === i ? "bg-[#1A1714]" : "hover:bg-[#141210]"}`}>
+                    <div className={`w-9 h-9 border flex items-center justify-center flex-shrink-0 ${activeProtocol === i ? "border-[#C9A86C] text-[#C9A86C]" : "border-[#2A2520] text-[#5A5248]"}`}>
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <span className={`text-sm font-light ${activeProtocol === i ? "text-[#C9A86C]" : "text-[#8A8278]"}`}>{p.label}</span>
+                  </button>
+                )
+              })}
             </div>
-            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", color: C.textMuted }}>
-              Analyse cutanée 3D complète
+
+            <div className="lg:col-span-3">
+              <AnimatePresence mode="wait">
+                <motion.div key={activeProtocol} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}
+                  className="p-8 md:p-12">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-12 border border-[#C9A86C] flex items-center justify-center">
+                      <ActiveIcon className="w-6 h-6 text-[#C9A86C]" />
+                    </div>
+                    <div className="flex gap-3 text-xs">
+                      <span className="border border-[#2A2520] text-[#8A8278] px-3 py-1.5 flex items-center gap-1.5"><Clock className="w-3 h-3" />{PROTOCOLS[activeProtocol].duration}</span>
+                      <span className="border border-[#2A2520] text-[#8A8278] px-3 py-1.5">Reprise : {PROTOCOLS[activeProtocol].recovery}</span>
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-light mb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>{PROTOCOLS[activeProtocol].title}</h3>
+                  <p className="text-[#6A6058] leading-relaxed mb-8">{PROTOCOLS[activeProtocol].desc}</p>
+                  <div>
+                    <p className="text-[10px] tracking-[0.2em] uppercase text-[#C9A86C] mb-4">Technologies utilisées</p>
+                    {PROTOCOLS[activeProtocol].detail.map(d => (
+                      <div key={d} className="flex items-center gap-3 text-sm py-2 border-b border-[#1A1714]">
+                        <div className="w-4 h-[1px] bg-[#C9A86C]" />
+                        <span className="text-[#8A8278]">{d}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <Link href="#contact" className="mt-8 inline-flex items-center gap-2 text-xs text-[#C9A86C] border-b border-[#C9A86C] pb-0.5 hover:text-[#F0EBE0] hover:border-[#F0EBE0] transition-colors cursor-pointer uppercase tracking-widest">
+                    Prendre rendez-vous <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Protocols ─────────────────────────────────────────────────── */}
-      <section id="protocoles" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ marginBottom: "4rem" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "0.75rem" }}>
-              <div style={{ width: "2rem", height: "1px", background: C.gold }} />
-              <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.gold }}>PROTOCOLES</span>
-            </div>
-            <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(1.8rem, 3.5vw, 3rem)", fontWeight: 700, color: C.text }}>
-              Nos Programmes Médicaux
+      {/* Specialists */}
+      <section id="équipe" className="py-28 bg-[#141210]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-[10px] tracking-[0.4em] uppercase text-[#C9A86C] mb-4">L&apos;équipe médicale</p>
+            <h2 className="text-4xl md:text-5xl font-light mb-14" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+              Nos <em>spécialistes</em>
             </h2>
-          </div>
-
-          {/* Protocol tabs */}
-          <div style={{ display: "flex", gap: "0", borderBottom: `1px solid ${C.border}`, marginBottom: "3rem" }}>
-            {PROTOCOLS.map((p, i) => (
-              <motion.button
-                key={p.id}
-                onClick={() => setActiveProtocol(i)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  padding: "0.85rem 1.5rem",
-                  fontFamily: "'DM Mono', monospace",
-                  fontSize: "0.6rem",
-                  letterSpacing: "0.15em",
-                  color: i === activeProtocol ? C.gold : C.textMuted,
-                  cursor: "pointer",
-                  position: "relative",
-                }}
-                whileHover={{ color: C.text }}
-              >
-                {p.code}
-                {i === activeProtocol && (
-                  <motion.div layoutId="protocol-indicator" style={{ position: "absolute", bottom: "-1px", left: 0, right: 0, height: "1px", background: C.gold }} />
-                )}
-              </motion.button>
+          </Reveal>
+          <div className="grid md:grid-cols-3 gap-px bg-[#2A2520]">
+            {SPECIALISTS.map((spec, i) => (
+              <Reveal key={spec.name} delay={i * 0.1}>
+                <div className="bg-[#141210] group cursor-pointer p-0">
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <Image src={spec.image} alt={spec.name} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                    <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#C9A86C] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
+                  </div>
+                  <div className="p-8">
+                    <h3 className="text-xl font-light mb-1" style={{ fontFamily: "'Bodoni Moda', serif" }}>{spec.name}</h3>
+                    <p className="text-[#C9A86C] text-xs tracking-wide uppercase mb-3">{spec.spec}</p>
+                    <p className="text-xs text-[#5A5248] leading-relaxed">{spec.formation}</p>
+                  </div>
+                </div>
+              </Reveal>
             ))}
           </div>
+        </div>
+      </section>
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeProtocol}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.4 }}
-              style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "start" }}
-            >
-              <div>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.75rem" }}>
-                  {PROTOCOLS[activeProtocol].code}
+      {/* Science */}
+      <section id="science" className="py-28 bg-[#0C0C0A]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-2 gap-20 items-center mb-20">
+            <Reveal>
+              <p className="text-[10px] tracking-[0.4em] uppercase text-[#C9A86C] mb-4">Notre approche</p>
+              <h2 className="text-4xl md:text-5xl font-light leading-tight" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+                La médecine<br />esthétique fondée<br />sur les <em>preuves</em>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="text-[#6A6058] leading-relaxed mb-6">
+                Cypher Clinic a établi des partenariats formels avec l&apos;Institut de Biochimie de l&apos;Université Paris-Saclay et le laboratoire de dermatologie computationnelle de l&apos;INSERM.
+              </p>
+              <p className="text-[#6A6058] leading-relaxed">
+                Tous nos protocoles sont évalués selon des indicateurs objectifs : analyse 3D de la peau, mesure de l&apos;élasticité dermique, photographie standardisée à 6 mois. Nous publions nos résultats.
+              </p>
+            </Reveal>
+          </div>
+          <div className="grid md:grid-cols-3 gap-px bg-[#2A2520]">
+            {[{ title: "Protocole CypherSkin™", stat: "J+7", desc: "Résultats visibles dès 7 jours" }, { title: "Acide hyaluronique", stat: "+18 mois", desc: "Durée moyenne observée en clinique" }, { title: "Satisfaction globale", stat: "98%", desc: "Sur 1 200 patients suivis 2020–2024" }].map((s, i) => (
+              <Reveal key={s.title} delay={i * 0.08}>
+                <div className="bg-[#0C0C0A] p-10 text-center">
+                  <div className="text-4xl font-light text-[#C9A86C] mb-2" style={{ fontFamily: "'Bodoni Moda', serif" }}>{s.stat}</div>
+                  <div className="text-xs text-[#8A8278] mb-1">{s.desc}</div>
+                  <div className="text-[10px] text-[#3A3028] uppercase tracking-widest mt-3">{s.title}</div>
                 </div>
-                <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: "2rem", fontWeight: 700, color: C.text, marginBottom: "0.5rem" }}>
-                  {PROTOCOLS[activeProtocol].name}
-                </h3>
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontStyle: "italic", fontSize: "1rem", color: C.textMuted, marginBottom: "2rem" }}>
-                  {PROTOCOLS[activeProtocol].tagline}
-                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem", marginBottom: "2rem" }}>
-                  {[
-                    { label: "Technologie", val: PROTOCOLS[activeProtocol].technology },
-                    { label: "Programme", val: PROTOCOLS[activeProtocol].sessions },
-                  ].map((spec) => (
-                    <div key={spec.label} style={{ paddingTop: "1rem", borderTop: `1px solid ${C.border}` }}>
-                      <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.4rem" }}>
-                        {spec.label}
-                      </div>
-                      <div style={{ fontSize: "0.85rem", color: C.textMuted, lineHeight: 1.5 }}>{spec.val}</div>
+      {/* Testimonials */}
+      <section className="py-24 bg-[#141210]">
+        <div className="max-w-5xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-[10px] tracking-[0.4em] uppercase text-[#C9A86C] mb-4 text-center">Retours patients</p>
+            <h2 className="text-3xl font-light text-center mb-14" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+              Des résultats qui <em>parlent</em>
+            </h2>
+          </Reveal>
+          <div className="grid md:grid-cols-3 gap-px bg-[#2A2520]">
+            {[
+              { name: "C. M.", age: "44 ans", protocol: "Sculpture faciale", text: "Résultat d'une naturalité absolue. Mon entourage me demande si j'ai changé de coupe. C'est exactement ce que je souhaitais." },
+              { name: "S. T.", age: "38 ans", protocol: "CypherSkin™", text: "Après 3 séances de lasers et 2 CypherSkin, ma peau a une texture que je n'avais pas à 25 ans. Protocole rigoureux, équipe exceptionnelle." },
+              { name: "E. B.", age: "51 ans", protocol: "Bioregénération", text: "La qualité du suivi est remarquable. Chaque séance commence par une analyse objective. On voit les résultats se construire.", },
+            ].map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.08}>
+                <div className="bg-[#141210] p-8">
+                  <p className="text-[#6A6058] leading-relaxed mb-6 italic" style={{ fontFamily: "'Bodoni Moda', serif", fontSize: "16px" }}>
+                    &ldquo;{t.text}&rdquo;
+                  </p>
+                  <div className="text-sm text-[#C9A86C]">{t.name} · {t.age}</div>
+                  <div className="text-xs text-[#3A3028] mt-0.5">{t.protocol}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="py-28 bg-[#0C0C0A]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-2 gap-20">
+            <div>
+              <Reveal>
+                <p className="text-[10px] tracking-[0.4em] uppercase text-[#C9A86C] mb-4">Consultation</p>
+                <h2 className="text-4xl md:text-5xl font-light leading-tight mb-8" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+                  Commencez votre<br /><em>parcours</em>
+                </h2>
+                <p className="text-[#6A6058] leading-relaxed mb-10">
+                  Toute prise en charge débute par une consultation médicale de 45 minutes. Bilan complet, diagnostic objectif, proposition de protocole personnalisé. Aucun geste sans accord éclairé.
+                </p>
+              </Reveal>
+              <Reveal delay={0.1}>
+                <div className="space-y-5">
+                  {[{ Icon: MapPin, text: "8 avenue Foch, 75116 Paris" }, { Icon: Phone, text: "+33 1 45 01 82 00" }, { Icon: Mail, text: "rdv@cypherclinic.fr" }, { Icon: Clock, text: "Lun–Sam : 9h – 19h" }].map(({ Icon, text }) => (
+                    <div key={text} className="flex items-center gap-4 text-sm text-[#6A6058]">
+                      <Icon className="w-4 h-4 text-[#C9A86C] flex-shrink-0" />
+                      {text}
                     </div>
                   ))}
                 </div>
-
-                <div style={{ padding: "1.5rem", background: C.bg, border: `1px solid ${C.border}`, marginBottom: "2rem" }}>
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.gold, marginBottom: "0.75rem" }}>
-                    RÉSULTAT ATTENDU
-                  </div>
-                  <p style={{ fontSize: "0.9rem", color: C.textMuted, lineHeight: 1.65 }}>
-                    {PROTOCOLS[activeProtocol].result}
-                  </p>
-                </div>
-
-                <div style={{ marginBottom: "2rem" }}>
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.75rem" }}>
-                    INDICATIONS
-                  </div>
-                  <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-                    {PROTOCOLS[activeProtocol].targets.map((t) => (
-                      <span key={t} style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", padding: "0.3rem 0.75rem", border: `1px solid ${C.border}`, color: C.textMuted }}>
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div>
-                    <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", color: C.textDim }}>TARIF</div>
-                    <div style={{ fontFamily: "'Syne', sans-serif", fontSize: "1.4rem", fontWeight: 700, color: C.gold }}>
-                      {PROTOCOLS[activeProtocol].price}
+              </Reveal>
+            </div>
+            <Reveal delay={0.1}>
+              <form className="space-y-5" onSubmit={e => e.preventDefault()}>
+                <div className="grid grid-cols-2 gap-4">
+                  {["Prénom", "Nom"].map(f => (
+                    <div key={f}>
+                      <label className="block text-[10px] tracking-widest uppercase text-[#3A3028] mb-2">{f}</label>
+                      <input className="w-full bg-transparent border border-[#2A2520] px-4 py-3 text-sm text-[#F0EBE0] focus:outline-none focus:border-[#C9A86C] transition-colors" placeholder={f} />
                     </div>
-                  </div>
-                  <motion.button
-                    whileHover={{ scale: 1.02, backgroundColor: C.goldLight }}
-                    style={{
-                      background: C.gold,
-                      color: C.bg,
-                      border: "none",
-                      padding: "0.75rem 1.75rem",
-                      fontFamily: "'DM Mono', monospace",
-                      fontSize: "0.65rem",
-                      letterSpacing: "0.15em",
-                      cursor: "pointer",
-                      transition: "background 0.3s",
-                    }}
-                  >
-                    DEMANDER CE PROTOCOLE
-                  </motion.button>
+                  ))}
                 </div>
-              </div>
-
-              {/* Visual: protocol steps */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
-                {["Consultation médicale initiale", "Bilan photographique standardisé", "Réalisation par le médecin référent", "Contrôle post-traitement J+7", "Suivi photographique M+1"].map((step, i) => (
-                  <motion.div
-                    key={step}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: i * 0.08 }}
-                    style={{ display: "flex", gap: "1.5rem", alignItems: "flex-start", padding: "1.25rem", background: C.bg, border: `1px solid ${C.border}` }}
-                  >
-                    <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", color: C.gold, flexShrink: 0 }}>
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span style={{ fontSize: "0.85rem", color: C.textMuted, lineHeight: 1.5 }}>
-                      {step}
-                    </span>
-                  </motion.div>
+                {[["Email", "email", "votre@email.fr"], ["Téléphone", "tel", "+33 6..."]].map(([label, type, ph]) => (
+                  <div key={label}>
+                    <label className="block text-[10px] tracking-widest uppercase text-[#3A3028] mb-2">{label}</label>
+                    <input type={type} className="w-full bg-transparent border border-[#2A2520] px-4 py-3 text-sm text-[#F0EBE0] focus:outline-none focus:border-[#C9A86C] transition-colors" placeholder={ph} />
+                  </div>
                 ))}
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </section>
-
-      {/* ── Medical team ─────────────────────────────────────────────── */}
-      <section id="medecins" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)" }}>
-        <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-          <div style={{ marginBottom: "4rem" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "0.75rem" }}>
-              <div style={{ width: "2rem", height: "1px", background: C.gold }} />
-              <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.gold }}>ÉQUIPE MÉDICALE</span>
-            </div>
-            <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(1.8rem, 3.5vw, 3rem)", fontWeight: 700, color: C.text }}>
-              Nos Médecins
-            </h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2px", background: C.border }}>
-            {EXPERTISE.map((dr, i) => {
-              const ref = useRef<HTMLDivElement>(null);
-              const inView = useInView(ref, { once: true });
-              return (
-                <motion.div
-                  key={dr.code}
-                  ref={ref}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
-                  style={{ background: C.bgCard, padding: "2.5rem" }}
-                >
-                  <div style={{ width: "60px", height: "60px", background: C.bg, border: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1.5rem" }}>
-                    <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.1em", color: C.gold }}>
-                      {dr.code}
-                    </span>
-                  </div>
-                  <div style={{ fontFamily: "'Syne', sans-serif", fontSize: "1rem", fontWeight: 600, color: C.text, marginBottom: "0.4rem" }}>
-                    {dr.name}
-                  </div>
-                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: C.textMuted, marginBottom: "0.75rem", lineHeight: 1.5 }}>
-                    {dr.spec}
-                  </div>
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.1em", color: C.textDim, padding: "0.35rem 0.65rem", border: `1px solid ${C.border}`, display: "inline-block" }}>
-                    {dr.credential}
-                  </div>
-                </motion.div>
-              );
-            })}
+                <div>
+                  <label className="block text-[10px] tracking-widests uppercase text-[#3A3028] mb-2">Protocole d&apos;intérêt</label>
+                  <select className="w-full bg-[#141210] border border-[#2A2520] px-4 py-3 text-sm text-[#F0EBE0] focus:outline-none focus:border-[#C9A86C] transition-colors">
+                    <option>Consultation initiale (bilan complet)</option>
+                    {PROTOCOLS.map(p => <option key={p.id}>{p.label}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-[10px] tracking-widests uppercase text-[#3A3028] mb-2">Message</label>
+                  <textarea rows={3} className="w-full bg-transparent border border-[#2A2520] px-4 py-3 text-sm text-[#F0EBE0] focus:outline-none focus:border-[#C9A86C] transition-colors resize-none" placeholder="Décrivez votre demande..." />
+                </div>
+                <button type="submit" className="w-full border border-[#C9A86C] text-[#C9A86C] py-4 text-xs tracking-widests uppercase hover:bg-[#C9A86C] hover:text-[#0C0C0A] transition-all duration-300 cursor-pointer">
+                  Demander une consultation
+                </button>
+              </form>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* ── Process ──────────────────────────────────────────────────── */}
-      <section id="resultats" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
-          <div style={{ marginBottom: "4rem", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "0.75rem" }}>
-                <div style={{ width: "2rem", height: "1px", background: C.gold }} />
-                <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.gold }}>MÉTHODE</span>
-              </div>
-              <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(1.8rem, 3.5vw, 3rem)", fontWeight: 700, color: C.text }}>
-                Le Protocole Cypher
-              </h2>
-            </div>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1px", background: C.border }}>
-            {PROCESS.map((step, i) => {
-              const ref = useRef<HTMLDivElement>(null);
-              const inView = useInView(ref, { once: true });
-              return (
-                <motion.div
-                  key={step.step}
-                  ref={ref}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: i * 0.08 }}
-                  style={{ background: C.bgCard, padding: "2.5rem 2rem" }}
-                >
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.65rem", color: C.gold, marginBottom: "1.5rem" }}>
-                    {step.step}
-                  </div>
-                  <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: "1rem", fontWeight: 600, color: C.text, marginBottom: "0.75rem" }}>
-                    {step.title}
-                  </h3>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.82rem", color: C.textMuted, lineHeight: 1.7 }}>
-                    {step.desc}
-                  </p>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ── CTA ──────────────────────────────────────────────────────── */}
-      <section id="contact" style={{ padding: "8rem clamp(2rem, 5vw, 4rem)", borderTop: `1px solid ${C.border}`, textAlign: "center" }}>
-        <div style={{ maxWidth: "650px", margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", marginBottom: "1.5rem" }}>
-            <div style={{ width: "2rem", height: "1px", background: C.gold }} />
-            <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.gold }}>CONSULTATION GRATUITE</span>
-            <div style={{ width: "2rem", height: "1px", background: C.gold }} />
-          </div>
-          <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 800, color: C.text, marginBottom: "1rem", lineHeight: 1.1 }}>
-            Commençons par<br />
-            <span style={{ color: C.gold }}>Votre Bilan</span>
-          </h2>
-          <p style={{ fontSize: "1rem", color: C.textMuted, lineHeight: 1.75, marginBottom: "2.5rem" }}>
-            La première consultation est offerte. 60 minutes avec votre médecin référent pour analyser votre peau, comprendre vos attentes, et concevoir votre programme.
-          </p>
-          <motion.button
-            whileHover={{ scale: 1.02, backgroundColor: C.goldLight }}
-            style={{
-              background: C.gold,
-              color: C.bg,
-              border: "none",
-              padding: "1rem 3rem",
-              fontFamily: "'DM Mono', monospace",
-              fontSize: "0.7rem",
-              letterSpacing: "0.15em",
-              cursor: "pointer",
-              transition: "background 0.3s",
-            }}
-          >
-            PRENDRE RENDEZ-VOUS →
-          </motion.button>
-          <div style={{ marginTop: "1.5rem", fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.1em", color: C.textDim }}>
-            hello@cypher-clinic.fr · 01 XX XX XX XX
-          </div>
-        </div>
-      </section>
-
-      {/* ── Footer ───────────────────────────────────────────────────── */}
-      <footer style={{ borderTop: `1px solid ${C.border}`, padding: "3rem clamp(2rem, 5vw, 4rem)", background: C.bgCard }}>
-        <div style={{ maxWidth: "1100px", margin: "0 auto", display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "3rem" }}>
+      {/* Footer */}
+      <footer className="bg-[#080806] border-t border-[#1A1714] py-14 px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-10">
           <div>
-            <div style={{ fontFamily: "'Syne', sans-serif", fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.12em", color: C.text, marginBottom: "0.5rem" }}>
-              CYPHER
-            </div>
-            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.5rem", letterSpacing: "0.25em", color: C.textDim, marginBottom: "1.5rem" }}>
-              CLINIQUE MÉDICALE
-            </div>
-            <p style={{ fontSize: "0.8rem", color: C.textDim, lineHeight: 1.65 }}>
-              Clinique médicale privée. Actes réalisés par des médecins. RPPS disponible sur demande.
-            </p>
+            <div className="text-[#F0EBE0] text-xl font-light mb-1" style={{ fontFamily: "'Bodoni Moda', serif" }}>Cypher Clinic</div>
+            <div className="text-[10px] text-[#C9A86C] tracking-widests uppercase mb-4">Médecine esthétique d&apos;élite · Paris</div>
+            <p className="text-xs text-[#3A3028] max-w-xs">8 avenue Foch, 75116 Paris · Praticiens inscrits à l&apos;Ordre National des Médecins</p>
           </div>
-          {[
-            { title: "SOINS", items: ["Protocoles médicaux", "Résultats avant/après", "Tarifs", "FAQ"] },
-            { title: "CLINIQUE", items: ["Notre équipe", "Nos engagements", "Accréditations", "Presse"] },
-            { title: "CONTACT", items: ["Consultation", "Urgences post-soin", "Paris 8e", "+33 1 XX XX XX XX"] },
-          ].map((col) => (
-            <div key={col.title}>
-              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.25em", color: C.textDim, marginBottom: "1.5rem" }}>
-                {col.title}
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-                {col.items.map((item) => (
-                  <motion.a key={item} href="#" style={{ fontSize: "0.8rem", color: C.textDim, textDecoration: "none", cursor: "pointer" }} whileHover={{ color: C.text }}>
-                    {item}
-                  </motion.a>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-        <div style={{ maxWidth: "1100px", margin: "2rem auto 0", paddingTop: "1.5rem", borderTop: `1px solid ${C.border}`, display: "flex", justifyContent: "space-between" }}>
-          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", color: C.textDim }}>
-            © 2025 CYPHER CLINIC. TOUS DROITS RÉSERVÉS.
-          </div>
-          <div style={{ display: "flex", gap: "2rem" }}>
-            {["Mentions légales", "Confidentialité", "CGU"].map((item) => (
-              <motion.a key={item} href="#" style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.55rem", color: C.textDim, textDecoration: "none", cursor: "pointer" }} whileHover={{ color: C.textMuted }}>
-                {item}
-              </motion.a>
+          <div className="flex flex-wrap gap-8 text-xs text-[#3A3028]">
+            {["Protocoles", "Équipe", "Science", "Contact"].map(l => (
+              <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#F0EBE0] transition-colors cursor-pointer">{l}</Link>
             ))}
+          </div>
+          <div className="text-xs text-[#3A3028]">
+            <p>© 2024 Cypher Clinic</p>
+            <p className="mt-1">Tous droits réservés</p>
           </div>
         </div>
       </footer>
     </div>
-  );
+  )
 }
