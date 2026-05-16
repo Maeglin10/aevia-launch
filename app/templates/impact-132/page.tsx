@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
-import { useState, useRef, useEffect, useCallback } from "react"
+import React, { useState, useRef, useEffect, useCallback } from "react"
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 const C = {

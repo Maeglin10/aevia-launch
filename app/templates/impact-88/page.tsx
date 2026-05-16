@@ -9,7 +9,7 @@ import {
   useSpring,
   AnimatePresence,
 } from "framer-motion";
-import { useRef, useState, useEffect, useCallback } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 
 /* ─── Design Tokens ─────────────────────────────────────────── */
 const C = {

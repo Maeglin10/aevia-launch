@@ -1,6 +1,6 @@
 "use client"
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
-import { useRef, useState, useEffect } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import { Mic, Headphones, Play, Pause, Radio, BarChart2, Users, Star, ChevronDown, ChevronRight, Rss, Globe, Zap, Shield, Upload, TrendingUp, CheckCircle, ArrowRight } from "lucide-react"
 

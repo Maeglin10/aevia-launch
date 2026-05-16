@@ -18,10 +18,10 @@ const fs = require("fs");
 
 const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
 const OUT_DIR = path.join(__dirname, "..", "public", "thumbnails");
-const CONCURRENCY = 4; // parallel tabs
+const CONCURRENCY = 2; // parallel tabs (keep low for remote URLs)
 const VIEWPORT = { width: 1280, height: 800 };
 const QUALITY = 80;
-const TIMEOUT = 20_000;
+const TIMEOUT = 30_000;
 
 // ── All visible templates (site builder + quality impact) ─────────────────────
 const SITE_BUILDER = [
@@ -71,7 +71,7 @@ const ALL_TEMPLATES = [
 // ── Helpers ────────────────────────────────────────────────────────────────────
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-async function screenshotTemplate(browser, template) {
+async function screenshotTemplate(browser, template, attempt = 1) {
   const outPath = path.join(OUT_DIR, `${template.id}.webp`);
 
   // Skip if already exists (re-run is additive; use --force to regenerate all)
@@ -90,7 +90,7 @@ async function screenshotTemplate(browser, template) {
     });
 
     // Wait for images + animations to settle
-    await sleep(1800);
+    await sleep(2000);
 
     // Hide scrollbar + fixed elements that bleed (chat widgets etc.)
     await page.evaluate(() => {
@@ -112,9 +112,14 @@ async function screenshotTemplate(browser, template) {
 
     console.log(`  ✅  ${template.id}`);
   } catch (err) {
-    console.error(`  ❌  ${template.id}: ${err.message}`);
+    console.error(`  ❌  ${template.id} (attempt ${attempt}): ${err.message}`);
+    if (attempt < 3) {
+      await page.close().catch(() => {});
+      await sleep(3000);
+      return screenshotTemplate(browser, template, attempt + 1);
+    }
   } finally {
-    await page.close();
+    await page.close().catch(() => {});
   }
 }
 
@@ -137,6 +142,7 @@ async function main() {
     const batch = ALL_TEMPLATES.slice(i, i + CONCURRENCY);
     await Promise.all(batch.map((t) => screenshotTemplate(browser, t)));
     process.stdout.write(`  [${Math.min(i + CONCURRENCY, ALL_TEMPLATES.length)}/${ALL_TEMPLATES.length}]\n`);
+    await sleep(1000); // brief pause between batches to avoid rate limiting
   }
 
   await browser.close();

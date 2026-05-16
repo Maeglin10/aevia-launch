@@ -7,7 +7,7 @@ import {
   useInView,
   AnimatePresence,
 } from "framer-motion";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 const C = {
   bg: "#0E0C0A",

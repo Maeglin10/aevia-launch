@@ -9,7 +9,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 // ── Design System (ui-ux-pro-max: Exaggerated Minimalism, Archivo/Space Grotesk) ──
 const C = {

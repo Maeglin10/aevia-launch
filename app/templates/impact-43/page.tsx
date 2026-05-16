@@ -1,6 +1,6 @@
 "use client"
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
-import { useRef, useState, useEffect } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import { Droplets, Wind, Leaf, Star, ChevronDown, ArrowRight, Clock, MapPin, Phone, CheckCircle, Heart, Sunrise, Moon, Sparkles, Users } from "lucide-react"
 

@@ -10,7 +10,7 @@ import {
   useSpring,
   useVelocity,
 } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 // ── Design System: Dark Mode OLED, Archivo/Space Grotesk (ui-ux-pro-max) ──
 const C = {

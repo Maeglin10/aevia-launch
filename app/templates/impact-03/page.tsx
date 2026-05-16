@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence, useScroll, useTransform, useInView, useMotionValue, useSpring } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ShoppingBag, Heart, Search, Menu, X, ChevronDown, ArrowRight, ArrowLeft, Star, Plus, Minus, Filter, Grid3X3, LayoutList, Truck, RotateCcw, Shield, Sparkles } from "lucide-react";

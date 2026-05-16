@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import Link from "next/link";
 import { Globe, Compass, Star, MapPin, Phone, Mail, MessageSquare, Users2, Menu, X, ChevronRight, Shield, Clock, Award, Users, Plane, Anchor, Mountain, Heart, Check, ArrowRight, ChevronDown, Calendar, Headphones, Gem, Leaf } from "lucide-react";

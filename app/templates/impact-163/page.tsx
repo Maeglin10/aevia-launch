@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Search, Menu, X, Clock, BookOpen, TrendingUp, Users, Star, Check, Rss, MessageSquare, Camera, Link2, ChevronRight, Calendar } from "lucide-react";

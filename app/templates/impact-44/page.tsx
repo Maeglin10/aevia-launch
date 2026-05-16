@@ -1,6 +1,6 @@
 "use client"
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
-import { useRef, useState, useEffect } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import { ArrowRight, ChevronDown, Star, MapPin, Clock, CheckCircle, MoveRight, Eye, Layers, Home, Building2, Hotel, ChevronRight } from "lucide-react"
 

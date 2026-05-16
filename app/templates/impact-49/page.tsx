@@ -1,6 +1,6 @@
 "use client"
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
-import { useRef, useState, useEffect } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import { Search, Play, Star, Users, Clock, ChevronDown, ArrowRight, CheckCircle, BookOpen, Zap, Award, BarChart2, Globe, ChevronRight, TrendingUp, Video } from "lucide-react"
 
