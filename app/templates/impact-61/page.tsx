@@ -285,14 +285,13 @@ export default function SegmentOS() {
         </div>
         <div style={{ display: "flex", gap: "3rem" }}>
           {["Projets", "Studio", "Contact"].map((item) => (
-            <motion.a
-              key={item}
-              href="#"
+            <motion.button
+              key={item} onClick={() => document.getElementById(({"Projets": "projets", "Studio": "studio", "Contact": "contact"})[item] || "")?.scrollIntoView({behavior:"smooth"})}
               style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.8rem", color: C.textMuted, textDecoration: "none", cursor: "pointer" }}
               whileHover={{ color: C.text }}
             >
               {item}
-            </motion.a>
+            </motion.button>
           ))}
         </div>
         <MagneticButton
@@ -414,7 +413,7 @@ export default function SegmentOS() {
       </section>
 
       {/* ── Stats strip ─────────────────────────────────────────────────── */}
-      <section style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+      <section id="projets" style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
           {[
             { n: 23, suffix: "", label: "années d'exercice" },
@@ -442,7 +441,7 @@ export default function SegmentOS() {
       </section>
 
       {/* ── Projects ──────────────────────────────────────────────────── */}
-      <section style={{ padding: "7rem 3rem" }}>
+      <section id="studio" style={{ padding: "7rem 3rem" }}>
         <div style={{ maxWidth: "1300px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "4rem" }}>
             <div>
@@ -548,7 +547,7 @@ export default function SegmentOS() {
       </section>
 
       {/* ── Philosophy ──────────────────────────────────────────────────── */}
-      <section style={{ padding: "8rem 3rem", background: C.bgDark, overflow: "hidden", position: "relative" }}>
+      <section id="contact" style={{ padding: "8rem 3rem", background: C.bgDark, overflow: "hidden", position: "relative" }}>
         {/* Decorative line */}
         <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "1px", background: C.gold, opacity: 0.3 }} />
 

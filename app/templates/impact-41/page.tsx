@@ -364,8 +364,7 @@ export default function LumiereEspoirPage() {
               {l.label}
             </a>
           ))}
-          <a
-            href="#dons"
+          <button onClick={() => document.getElementById("dons")?.scrollIntoView({behavior:"smooth"})}
             style={{
               backgroundColor: C.accent,
               color: C.bgDeep,
@@ -514,8 +513,7 @@ export default function LumiereEspoirPage() {
             transition={{ duration: 0.85, delay: 0.42 }}
             style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}
           >
-            <a
-              href="#dons"
+            <button onClick={() => document.getElementById("dons")?.scrollIntoView({behavior:"smooth"})}
               style={{
                 backgroundColor: C.accent,
                 color: C.bgDeep,
@@ -533,8 +531,7 @@ export default function LumiereEspoirPage() {
             >
               <Heart size={18} fill={C.bgDeep} /> Faire un don maintenant
             </a>
-            <a
-              href="#programmes"
+            <button onClick={() => document.getElementById("programmes")?.scrollIntoView({behavior:"smooth"})}
               style={{
                 border: `2px solid rgba(255,255,255,0.28)`,
                 color: C.white,

@@ -283,8 +283,7 @@ export default function ZeroToOnePage() {
               {link}
             </a>
           ))}
-          <motion.a
-            href="#candidater"
+          <button onClick={() => document.getElementById("candidater")?.scrollIntoView({behavior:"smooth"})}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
             style={{
@@ -294,7 +293,7 @@ export default function ZeroToOnePage() {
             }}
           >
             Candidater
-          </motion.a>
+          </button>
         </div>
       </motion.nav>
 
@@ -342,21 +341,19 @@ export default function ZeroToOnePage() {
               transition={{ duration: 0.8, delay: 0.6 }}
               style={{ display: "flex", gap: "1rem", marginTop: "2.5rem", flexWrap: "wrap" }}
             >
-              <motion.a
-                href="#candidater"
+              <button onClick={() => document.getElementById("candidater")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.04, boxShadow: `0 0 32px rgba(181,255,0,0.4)` }}
                 whileTap={{ scale: 0.97 }}
                 style={{ background: C.lime, color: "#0a0a0a", padding: "1rem 2rem", borderRadius: "8px", fontWeight: 800, fontSize: "1rem", textDecoration: "none", cursor: "pointer", display: "inline-block" }}
               >
                 Candidater à la Promo #8
-              </motion.a>
-              <motion.a
-                href="#programme"
+              </button>
+              <button onClick={() => document.getElementById("programme")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ borderColor: C.lime, color: C.lime }}
                 style={{ border: `1px solid ${C.faint}`, color: C.muted, padding: "1rem 2rem", borderRadius: "8px", fontWeight: 600, fontSize: "1rem", textDecoration: "none", cursor: "pointer", display: "inline-block", transition: "border-color 0.2s, color 0.2s" }}
               >
                 Voir le programme
-              </motion.a>
+              </button>
             </motion.div>
           </motion.div>
 
@@ -742,7 +739,7 @@ export default function ZeroToOnePage() {
               style={{ display: "inline-block", background: "#0a0a0a", color: C.lime, padding: "1.1rem 2.75rem", borderRadius: "10px", fontWeight: 900, fontSize: "1.1rem", textDecoration: "none", cursor: "pointer" }}
             >
               Déposer ma candidature →
-            </motion.a>
+            </button>
             <div style={{ marginTop: "1.5rem", color: "rgba(0,0,0,0.5)", fontSize: "0.85rem" }}>
               Résultats communiqués mi-juillet · Début programme septembre 2026
             </div>

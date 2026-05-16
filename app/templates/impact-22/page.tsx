@@ -222,8 +222,7 @@ export default function NimbusAIPage() {
               {link}
             </a>
           ))}
-          <motion.a
-            href="#poc"
+          <button onClick={() => document.getElementById("poc")?.scrollIntoView({behavior:"smooth"})}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             style={{
@@ -233,7 +232,7 @@ export default function NimbusAIPage() {
             }}
           >
             Démarrer le POC
-          </motion.a>
+          </button>
         </div>
       </motion.nav>
 
@@ -313,8 +312,7 @@ export default function NimbusAIPage() {
               transition={{ delay: 0.75, duration: 0.6 }}
               style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}
             >
-              <motion.a
-                href="#poc"
+              <button onClick={() => document.getElementById("poc")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.03, boxShadow: `0 0 32px rgba(0,212,255,0.3)` }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -324,9 +322,8 @@ export default function NimbusAIPage() {
                 }}
               >
                 Démarrer votre POC gratuit
-              </motion.a>
-              <motion.a
-                href="#demo"
+              </button>
+              <button onClick={() => document.getElementById("demo")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.02 }}
                 style={{
                   display: "inline-flex", alignItems: "center", gap: "8px",
@@ -340,7 +337,7 @@ export default function NimbusAIPage() {
                   <path d="M10 8l6 4-6 4V8z" fill={C.accent}/>
                 </svg>
                 Voir la démo
-              </motion.a>
+              </button>
             </motion.div>
           </motion.div>
 
@@ -521,8 +518,7 @@ export default function NimbusAIPage() {
               <p style={{ color: C.muted, lineHeight: 1.7, fontSize: "1rem", marginBottom: "28px" }}>
                 {features[activeTab].body}
               </p>
-              <motion.a
-                href="#demo"
+              <button onClick={() => document.getElementById("demo")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.02 }}
                 style={{
                   display: "inline-flex", alignItems: "center", gap: "8px",
@@ -534,7 +530,7 @@ export default function NimbusAIPage() {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                   <path d="M5 12h14M12 5l7 7-7 7" stroke={C.accent} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-              </motion.a>
+              </button>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
               {features[activeTab].points.map((point, i) => (
@@ -823,7 +819,7 @@ export default function NimbusAIPage() {
                 }}
               >
                 Démarrer votre POC gratuit
-              </motion.a>
+              </button>
               <motion.a
                 href="/contact"
                 whileHover={{ scale: 1.02 }}
@@ -834,7 +830,7 @@ export default function NimbusAIPage() {
                 }}
               >
                 Parler aux ventes
-              </motion.a>
+              </button>
             </div>
             <div style={{ display: "flex", justifyContent: "center", gap: "32px", marginTop: "40px", flexWrap: "wrap" }}>
               {["RGPD conforme", "Hébergement EU", "SLA contractuel", "Support dédié"].map(badge => (

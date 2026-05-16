@@ -578,7 +578,7 @@ export default function Impact64Page() {
       </section>
 
       {/* ── TICKER ──────────────────────────────────────────────────── */}
-      <section style={{ padding: "1.5rem 0", borderTop: `1px solid ${C.greenBorder}`, borderBottom: `1px solid ${C.greenBorder}`, overflow: "hidden", background: C.bgAlt }}>
+      <section id="solutions" style={{ padding: "1.5rem 0", borderTop: `1px solid ${C.greenBorder}`, borderBottom: `1px solid ${C.greenBorder}`, overflow: "hidden", background: C.bgAlt }}>
         <motion.div
           animate={{ x: ["0%", "-50%"] }}
           transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
@@ -595,7 +595,7 @@ export default function Impact64Page() {
       </section>
 
       {/* ── STATS ─────────────────────────────────────────────────────── */}
-      <section ref={statsRef} style={{ padding: "8rem 2.5rem", background: C.bg }}>
+      <section id="soc" ref={statsRef} style={{ padding: "8rem 2.5rem", background: C.bg }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "2px" }}>
           {STATS.map((stat, i) => (
             <motion.div
@@ -620,7 +620,7 @@ export default function Impact64Page() {
       </section>
 
       {/* ── SERVICES ──────────────────────────────────────────────────── */}
-      <section ref={servicesRef} style={{ padding: "8rem 2.5rem", background: C.bgAlt }}>
+      <section id="conformite" ref={servicesRef} style={{ padding: "8rem 2.5rem", background: C.bgAlt }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -695,7 +695,7 @@ export default function Impact64Page() {
       </section>
 
       {/* ── PROCESS ───────────────────────────────────────────────────── */}
-      <section style={{ padding: "8rem 2.5rem", background: C.bg }}>
+      <section id="red-team" style={{ padding: "8rem 2.5rem", background: C.bg }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -744,7 +744,7 @@ export default function Impact64Page() {
       </section>
 
       {/* ── LIVE THREAT SECTION ───────────────────────────────────────── */}
-      <section ref={terminalRef} style={{ padding: "8rem 2.5rem", background: C.bgAlt }}>
+      <section id="tarifs" ref={terminalRef} style={{ padding: "8rem 2.5rem", background: C.bgAlt }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "center" }}>
           <motion.div
             initial={{ opacity: 0, x: -40 }}

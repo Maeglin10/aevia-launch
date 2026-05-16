@@ -632,8 +632,7 @@ export default function ArtisanMinimalPage() {
               {l}
             </a>
           ))}
-          <motion.a
-            href="#boutique"
+          <button onClick={() => document.getElementById("boutique")?.scrollIntoView({behavior:"smooth"})}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             style={{
@@ -652,7 +651,7 @@ export default function ArtisanMinimalPage() {
           >
             <ShoppingCart size={14} />
             Boutique
-          </motion.a>
+          </button>
         </div>
       </motion.nav>
 
@@ -791,8 +790,7 @@ export default function ArtisanMinimalPage() {
                 transition={{ delay: 0.9, duration: 0.6 }}
                 style={{ display: "flex", gap: 14, flexWrap: "wrap" }}
               >
-                <motion.a
-                  href="#boutique"
+                <button onClick={() => document.getElementById("boutique")?.scrollIntoView({behavior:"smooth"})}
                   whileHover={{
                     scale: 1.03,
                     boxShadow: "0 8px 32px rgba(155,74,40,0.25)",
@@ -814,9 +812,8 @@ export default function ArtisanMinimalPage() {
                 >
                   <ShoppingCart size={16} />
                   Découvrir la boutique
-                </motion.a>
-                <motion.a
-                  href="#atelier"
+                </button>
+                <button onClick={() => document.getElementById("atelier")?.scrollIntoView({behavior:"smooth"})}
                   whileHover={{ scale: 1.02 }}
                   style={{
                     display: "inline-flex",
@@ -842,7 +839,7 @@ export default function ArtisanMinimalPage() {
                 >
                   Notre atelier
                   <ArrowRight size={15} />
-                </motion.a>
+                </button>
               </motion.div>
             </div>
 
@@ -1187,8 +1184,7 @@ export default function ArtisanMinimalPage() {
             </p>
           </motion.div>
 
-          <motion.a
-            href="#contact"
+          <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
             whileHover={{ scale: 1.04, background: C.white, color: C.terracotta }}
             whileTap={{ scale: 0.97 }}
             initial={{ opacity: 0, x: 24 }}
@@ -1214,7 +1210,7 @@ export default function ArtisanMinimalPage() {
           >
             Rejoindre la liste d'attente
             <ArrowRight size={16} />
-          </motion.a>
+          </button>
         </div>
       </section>
 
@@ -2045,9 +2041,8 @@ export default function ArtisanMinimalPage() {
               >
                 <Mail size={15} />
                 Écrire à Julie
-              </motion.a>
-              <motion.a
-                href="#boutique"
+              </button>
+              <button onClick={() => document.getElementById("boutique")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.02 }}
                 style={{
                   display: "inline-flex",
@@ -2065,7 +2060,7 @@ export default function ArtisanMinimalPage() {
                 }}
               >
                 Voir la boutique
-              </motion.a>
+              </button>
             </div>
 
             <div

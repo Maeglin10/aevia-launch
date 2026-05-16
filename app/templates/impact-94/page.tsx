@@ -375,7 +375,8 @@ export default function Page() {
         </div>
         <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
           {["Boutique", "Événements", "Ateliers", "Notre Histoire"].map(item => (
-            <button key={item} style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 14, color: C.muted, background: "none", border: "none", cursor: "pointer", transition: "color 0.2s" }}
+            <button key={item} onClick={() => document.getElementById(({"Boutique": "boutique", "Événements": "evenements", "Ateliers": "ateliers", "Notre Histoire": "histoire"})[item] || "")?.scrollIntoView({behavior:"smooth"})}
+              style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 14, color: C.muted, background: "none", border: "none", cursor: "pointer", transition: "color 0.2s" }}
               onMouseEnter={e => (e.currentTarget.style.color = C.dark)}
               onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
               {item}
@@ -457,12 +458,12 @@ export default function Page() {
       <MarqueeStrip />
 
       {/* ── Blooming Flower — Signature Element ── */}
-      <section style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
+      <section id="boutique" style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
         <BloomingFlower />
       </section>
 
       {/* ── Arrangements ── */}
-      <section style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+      <section id="evenements" style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
           <div style={{ marginBottom: 56 }}>
             <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 11, letterSpacing: "0.35em", color: C.petal, textTransform: "uppercase", marginBottom: 16 }}>La Boutique</p>
@@ -482,7 +483,7 @@ export default function Page() {
       </section>
 
       {/* ── Process ── */}
-      <section style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
+      <section id="ateliers" style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
         <div style={{ textAlign: "center", marginBottom: 64 }}>
           <p style={{ fontFamily: "'Cormorant Infant', serif", fontSize: 11, letterSpacing: "0.35em", color: C.petal, textTransform: "uppercase", marginBottom: 16 }}>Notre Méthode</p>
           <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 400, lineHeight: 1.1, letterSpacing: "-0.02em", color: C.dark, fontFamily: "'Great Vibes', cursive" }}>
@@ -510,7 +511,7 @@ export default function Page() {
       </section>
 
       {/* ── Events & Workshops ── */}
-      <section style={{ padding: "80px 0", background: C.bgDark }}>
+      <section id="histoire" style={{ padding: "80px 0", background: C.bgDark }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 56 }}>
             <div>

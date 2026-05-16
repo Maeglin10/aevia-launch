@@ -249,7 +249,7 @@ export default function LEtoileRestaurant() {
             <button onClick={() => setReservationOpen(true)} className="px-10 py-4 bg-amber-700 hover:bg-amber-600 text-[11px] uppercase tracking-[0.3em] font-sans font-bold transition-all duration-200 flex items-center gap-3 cursor-pointer">
               <CalendarDays className="w-4 h-4" /> Reserve Your Table
             </button>
-            <a href="#menu" className="px-10 py-4 border border-[#f5efe6]/15 text-[11px] uppercase tracking-[0.3em] font-sans font-semibold hover:border-amber-600 hover:text-amber-500 transition-all duration-200 cursor-pointer">
+            <button onClick={() => document.getElementById("menu")?.scrollIntoView({behavior:"smooth"})} className="px-10 py-4 border border-[#f5efe6]/15 text-[11px] uppercase tracking-[0.3em] font-sans font-semibold hover:border-amber-600 hover:text-amber-500 transition-all duration-200 cursor-pointer">
               View Menu
             </a>
           </motion.div>

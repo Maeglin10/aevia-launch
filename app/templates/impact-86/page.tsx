@@ -289,9 +289,9 @@ export default function AuraWellness() {
       >
         <div style={{ display: "flex", gap: "2.5rem" }}>
           {["Soins & Rituels", "Espaces", "Membership"].map((item) => (
-            <motion.a key={item} href="#" style={{ fontSize: "0.75rem", letterSpacing: "0.1em", color: C.textMuted, textDecoration: "none", cursor: "pointer" }} whileHover={{ color: C.text }}>
+            <motion.button key={item} onClick={() => document.getElementById(({"Soins & Rituels": "soins", "Espaces": "espaces", "Membership": "membership"})[item] || "")?.scrollIntoView({behavior:"smooth"})}   style={{ fontSize: "0.75rem", letterSpacing: "0.1em", color: C.textMuted, textDecoration: "none", cursor: "pointer" }} whileHover={{ color: C.text }}>
               {item}
-            </motion.a>
+            </motion.button>
           ))}
         </div>
 
@@ -306,9 +306,9 @@ export default function AuraWellness() {
 
         <div style={{ display: "flex", gap: "2.5rem", justifyContent: "flex-end", alignItems: "center" }}>
           {["Le Spa", "Gift Cards"].map((item) => (
-            <motion.a key={item} href="#" style={{ fontSize: "0.75rem", letterSpacing: "0.1em", color: C.textMuted, textDecoration: "none", cursor: "pointer" }} whileHover={{ color: C.text }}>
+            <motion.button key={item} onClick={() => document.getElementById(({"Soins & Rituels": "soins", "Espaces": "espaces", "Membership": "membership"})[item] || "")?.scrollIntoView({behavior:"smooth"})}   style={{ fontSize: "0.75rem", letterSpacing: "0.1em", color: C.textMuted, textDecoration: "none", cursor: "pointer" }} whileHover={{ color: C.text }}>
               {item}
-            </motion.a>
+            </motion.button>
           ))}
           <motion.button
             whileHover={{ backgroundColor: C.sandDark }}
@@ -421,7 +421,7 @@ export default function AuraWellness() {
       </section>
 
       {/* ── Opening quote ──────────────────────────────────────────────── */}
-      <section style={{ padding: "6rem clamp(2rem, 6vw, 8rem)", background: C.bgWarm, borderBottom: `1px solid ${C.border}` }}>
+      <section id="soins" style={{ padding: "6rem clamp(2rem, 6vw, 8rem)", background: C.bgWarm, borderBottom: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", color: C.sandLight, lineHeight: 1, marginBottom: "1.5rem" }}>"</div>
           <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1.3rem, 2.5vw, 2rem)", fontStyle: "italic", fontWeight: 300, color: C.text, lineHeight: 1.6 }}>
@@ -435,7 +435,7 @@ export default function AuraWellness() {
       </section>
 
       {/* ── Rituals ────────────────────────────────────────────────────── */}
-      <section style={{ padding: "7rem clamp(2rem, 5vw, 5rem)" }}>
+      <section id="espaces" style={{ padding: "7rem clamp(2rem, 5vw, 5rem)" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "4rem" }}>
             <div>
@@ -457,7 +457,7 @@ export default function AuraWellness() {
       </section>
 
       {/* ── Spaces ─────────────────────────────────────────────────────── */}
-      <section style={{ padding: "7rem clamp(2rem, 5vw, 5rem)", background: C.bgDark }}>
+      <section id="membership" style={{ padding: "7rem clamp(2rem, 5vw, 5rem)", background: C.bgDark }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
           <div style={{ marginBottom: "4rem" }}>
             <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", letterSpacing: "0.3em", color: C.sand, marginBottom: "0.75rem" }}>

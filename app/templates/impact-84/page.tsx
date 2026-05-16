@@ -211,14 +211,14 @@ export default function CypherClinic() {
         </div>
         <div style={{ display: "flex", gap: "2.5rem" }}>
           {["Protocoles", "Médecins", "Résultats", "Contact"].map((item) => (
-            <motion.a
-              key={item}
-              href="#"
+            <motion.button key={item} onClick={() => document.getElementById(({"Protocoles": "protocoles", "Médecins": "medecins", "Résultats": "resultats", "Contact": "contact"})[item] || "")?.scrollIntoView({behavior:"smooth"})}
+              
+              
               style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", color: C.textMuted, textDecoration: "none", cursor: "pointer" }}
               whileHover={{ color: C.text }}
             >
               {item}
-            </motion.a>
+            </motion.button>
           ))}
         </div>
         <motion.button
@@ -381,7 +381,7 @@ export default function CypherClinic() {
       </section>
 
       {/* ── Protocols ─────────────────────────────────────────────────── */}
-      <section style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
+      <section id="protocoles" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ marginBottom: "4rem" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "0.75rem" }}>
@@ -527,7 +527,7 @@ export default function CypherClinic() {
       </section>
 
       {/* ── Medical team ─────────────────────────────────────────────── */}
-      <section style={{ padding: "7rem clamp(2rem, 5vw, 4rem)" }}>
+      <section id="medecins" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
           <div style={{ marginBottom: "4rem" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "0.75rem" }}>
@@ -573,7 +573,7 @@ export default function CypherClinic() {
       </section>
 
       {/* ── Process ──────────────────────────────────────────────────── */}
-      <section style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
+      <section id="resultats" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
           <div style={{ marginBottom: "4rem", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
             <div>
@@ -616,7 +616,7 @@ export default function CypherClinic() {
       </section>
 
       {/* ── CTA ──────────────────────────────────────────────────────── */}
-      <section style={{ padding: "8rem clamp(2rem, 5vw, 4rem)", borderTop: `1px solid ${C.border}`, textAlign: "center" }}>
+      <section id="contact" style={{ padding: "8rem clamp(2rem, 5vw, 4rem)", borderTop: `1px solid ${C.border}`, textAlign: "center" }}>
         <div style={{ maxWidth: "650px", margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", marginBottom: "1.5rem" }}>
             <div style={{ width: "2rem", height: "1px", background: C.gold }} />

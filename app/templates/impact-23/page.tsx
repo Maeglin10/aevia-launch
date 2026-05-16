@@ -270,8 +270,7 @@ export default function StudioPelikanPage() {
               {link}
             </a>
           ))}
-          <motion.a
-            href="#contact"
+          <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             style={{
@@ -285,7 +284,7 @@ export default function StudioPelikanPage() {
             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent" }}
           >
             Votre Projet
-          </motion.a>
+          </button>
         </div>
       </motion.nav>
 
@@ -349,8 +348,7 @@ export default function StudioPelikanPage() {
             transition={{ delay: 1.0, duration: 0.6 }}
             style={{ display: "flex", gap: "20px", justifyContent: "center", flexWrap: "wrap" }}
           >
-            <motion.a
-              href="#contact"
+            <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
               whileHover={{ scale: 1.03, backgroundColor: C.amber }}
               style={{
                 display: "inline-block", background: C.amber, color: "#080808",
@@ -360,9 +358,8 @@ export default function StudioPelikanPage() {
               }}
             >
               Parlons de votre projet
-            </motion.a>
-            <motion.a
-              href="#productions"
+            </button>
+            <button onClick={() => document.getElementById("productions")?.scrollIntoView({behavior:"smooth"})}
               whileHover={{ scale: 1.02, borderColor: C.text }}
               style={{
                 display: "inline-block", color: C.text, border: `1px solid rgba(245,240,232,0.3)`,
@@ -373,7 +370,7 @@ export default function StudioPelikanPage() {
               }}
             >
               Voir nos productions
-            </motion.a>
+            </button>
           </motion.div>
         </motion.div>
 
@@ -515,8 +512,7 @@ export default function StudioPelikanPage() {
               <p style={{ color: C.muted, lineHeight: 1.8, fontSize: "0.95rem", marginBottom: "32px" }}>
                 {features[activeTab].body}
               </p>
-              <motion.a
-                href="#contact"
+              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.02, color: C.amber }}
                 style={{
                   display: "inline-flex", alignItems: "center", gap: "10px",
@@ -529,7 +525,7 @@ export default function StudioPelikanPage() {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                   <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-              </motion.a>
+              </button>
             </div>
 
             {/* Hover-reveal production list */}
@@ -879,9 +875,8 @@ export default function StudioPelikanPage() {
                 }}
               >
                 Écrire à l'équipe
-              </motion.a>
-              <motion.a
-                href="#productions"
+              </button>
+              <button onClick={() => document.getElementById("productions")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.02, borderColor: "rgba(245,240,232,0.5)" }}
                 style={{
                   display: "inline-block", color: C.text, border: `1px solid rgba(245,240,232,0.2)`,
@@ -892,7 +887,7 @@ export default function StudioPelikanPage() {
                 }}
               >
                 Voir nos productions
-              </motion.a>
+              </button>
             </div>
 
             <div style={{ display: "flex", justifyContent: "center", gap: "40px", marginTop: "52px", flexWrap: "wrap" }}>

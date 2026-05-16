@@ -375,8 +375,7 @@ export default function FormeStudioPage() {
               {l}
             </Link>
           ))}
-          <a
-            href="#contact"
+          <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
             style={{
               fontFamily: FONT,
               fontSize: 14,

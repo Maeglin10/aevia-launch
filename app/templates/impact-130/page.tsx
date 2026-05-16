@@ -463,8 +463,7 @@ function SplitRevealHero() {
           </p>
 
           <div style={{ display: "flex", gap: 16 }}>
-            <motion.a
-              href="#contact"
+            <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               style={{
@@ -483,9 +482,8 @@ function SplitRevealHero() {
               }}
             >
               Démarrer un projet <ArrowRight size={16} />
-            </motion.a>
-            <motion.a
-              href="#projets"
+            </button>
+            <button onClick={() => document.getElementById("projets")?.scrollIntoView({behavior:"smooth"})}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               style={{
@@ -504,7 +502,7 @@ function SplitRevealHero() {
               }}
             >
               Voir nos projets
-            </motion.a>
+            </button>
           </div>
 
           {/* Mini stats */}
@@ -605,8 +603,7 @@ export default function Impact130Page() {
               {item}
             </a>
           ))}
-          <motion.a
-            href="#contact"
+          <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             style={{
@@ -621,7 +618,7 @@ export default function Impact130Page() {
             }}
           >
             Nouveau projet
-          </motion.a>
+          </button>
         </div>
       </motion.nav>
 
@@ -678,7 +675,7 @@ export default function Impact130Page() {
                 Projets récents
               </motion.h2>
             </div>
-            <a href="#contact" style={{ color: C.textMuted, fontSize: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }}>
+            <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} style={{ color: C.textMuted, fontSize: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }}>
               Voir tout <ArrowUpRight size={14} />
             </a>
           </div>
@@ -1080,7 +1077,7 @@ export default function Impact130Page() {
                 style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.emeraldGlow, color: C.bg, padding: "16px 32px", borderRadius: 4, fontFamily: "'DM Sans', system-ui, sans-serif", fontWeight: 700, fontSize: 16, textDecoration: "none" }}
               >
                 <Mail size={18} /> hello@verso-studio.ch
-              </motion.a>
+              </button>
               <motion.a
                 href="tel:+41225000000"
                 whileHover={{ scale: 1.04 }}
@@ -1088,7 +1085,7 @@ export default function Impact130Page() {
                 style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "transparent", color: C.text, padding: "16px 32px", borderRadius: 4, fontFamily: "'DM Sans', system-ui, sans-serif", fontWeight: 600, fontSize: 16, textDecoration: "none", border: `1px solid ${C.borderLight}` }}
               >
                 <Phone size={18} /> +41 22 500 00 00
-              </motion.a>
+              </button>
             </div>
             <div style={{ display: "flex", justifyContent: "center", gap: 32, marginTop: 48, paddingTop: 40, borderTop: `1px solid ${C.borderLight}` }}>
               {[{ icon: <MapPin size={15} />, text: "Rue du Rhône 24, 1204 Genève" }, { icon: <Clock size={15} />, text: "Lun–Ven 9h–18h" }].map((item, i) => (

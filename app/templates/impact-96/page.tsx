@@ -546,8 +546,7 @@ export default function UrbanPulsePage() {
               {l}
             </a>
           ))}
-          <motion.a
-            href="#contact"
+          <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             style={{
@@ -570,7 +569,7 @@ export default function UrbanPulsePage() {
             }
           >
             Votre Projet
-          </motion.a>
+          </button>
           {/* Burger mobile */}
           <button
             onClick={() => setMenuOpen(true)}
@@ -654,7 +653,7 @@ export default function UrbanPulsePage() {
                 onMouseLeave={(e) => (e.currentTarget.style.color = C.muted)}
               >
                 {l}
-              </motion.a>
+              </button>
             ))}
           </motion.div>
         )}
@@ -815,8 +814,7 @@ export default function UrbanPulsePage() {
               transition={{ delay: 0.95, duration: 0.6 }}
               style={{ display: "flex", gap: 16, flexWrap: "wrap" }}
             >
-              <motion.a
-                href="#productions"
+              <button onClick={() => document.getElementById("productions")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.03, boxShadow: `0 0 40px ${C.amberGlow}` }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -836,9 +834,8 @@ export default function UrbanPulsePage() {
               >
                 <Play size={15} />
                 Voir les productions
-              </motion.a>
-              <motion.a
-                href="#contact"
+              </button>
+              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -866,7 +863,7 @@ export default function UrbanPulsePage() {
               >
                 Votre projet
                 <ArrowRight size={15} />
-              </motion.a>
+              </button>
             </motion.div>
           </div>
 
@@ -1348,8 +1345,7 @@ export default function UrbanPulsePage() {
                   </motion.div>
                 ))}
 
-                <motion.a
-                  href="#contact"
+                <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
                   whileHover={{ scale: 1.02, color: C.amber }}
                   style={{
                     display: "inline-flex",
@@ -1368,7 +1364,7 @@ export default function UrbanPulsePage() {
                 >
                   En savoir plus
                   <ArrowRight size={14} />
-                </motion.a>
+                </button>
               </div>
             </motion.div>
           </AnimatePresence>
@@ -2208,9 +2204,8 @@ export default function UrbanPulsePage() {
               >
                 <Mail size={15} />
                 Écrire à l'équipe
-              </motion.a>
-              <motion.a
-                href="#productions"
+              </button>
+              <button onClick={() => document.getElementById("productions")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.02 }}
                 style={{
                   display: "inline-flex",
@@ -2229,7 +2224,7 @@ export default function UrbanPulsePage() {
                 }}
               >
                 Voir les productions
-              </motion.a>
+              </button>
             </div>
 
             <div

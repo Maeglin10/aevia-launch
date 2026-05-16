@@ -273,7 +273,7 @@ function Navbar() {
               onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
             >{l.label}</Link>
           ))}
-          <Link href="#subscribe"
+          <button onClick={() => document.getElementById("subscribe")?.scrollIntoView({behavior:"smooth"})}
             style={{ background: C.accent, color: C.white, padding: "10px 24px", fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase" as const, textDecoration: "none", fontFamily: "'Poppins', system-ui", fontWeight: 600, borderRadius: 2 }}
             onMouseEnter={e => (e.currentTarget.style.background = C.accentHover)}
             onMouseLeave={e => (e.currentTarget.style.background = C.accent)}
@@ -337,12 +337,12 @@ function HeroSection() {
           transition={{ duration: 0.8, delay: 0.9 }}
           style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" as const }}
         >
-          <Link href="#subscribe"
+          <button onClick={() => document.getElementById("subscribe")?.scrollIntoView({behavior:"smooth"})}
             style={{ background: C.accent, color: C.white, padding: "16px 40px", fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase" as const, textDecoration: "none", fontFamily: "'Poppins', system-ui", fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}
             onMouseEnter={e => (e.currentTarget.style.background = C.accentHover)}
             onMouseLeave={e => (e.currentTarget.style.background = C.accent)}
           >Shop Subscriptions <ArrowRight size={15} /></Link>
-          <Link href="#occasions"
+          <button onClick={() => document.getElementById("occasions")?.scrollIntoView({behavior:"smooth"})}
             style={{ border: `1.5px solid ${C.borderAccent}`, color: C.accent, padding: "16px 40px", fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase" as const, textDecoration: "none", fontFamily: "'Poppins', system-ui", fontWeight: 600, background: "rgba(255,255,255,0.6)" }}
             onMouseEnter={e => { e.currentTarget.style.background = C.accent; e.currentTarget.style.color = C.white; }}
             onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.6)"; e.currentTarget.style.color = C.accent; }}

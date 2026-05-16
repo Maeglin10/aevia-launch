@@ -45,7 +45,13 @@ function Navbar() {
     return () => window.removeEventListener("scroll", fn)
   }, [])
 
-  const links = ["Formations", "Location", "Croisières", "Bases", "Contact"]
+  const links = [
+  { label: "Formations", id: "formations" },
+  { label: "Location", id: "activites" },
+  { label: "Croisières", id: "activites" },
+  { label: "Bases", id: "activites" },
+  { label: "Contact", id: "contact" },
+]
 
   return (
     <motion.nav
@@ -85,11 +91,11 @@ function Navbar() {
       {/* Desktop links */}
       <div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
         {links.map(l => (
-          <Link key={l} href="#" style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.04em", textDecoration: "none", transition: "color 0.2s" }}
-            onMouseEnter={e => (e.currentTarget.style.color = C.white)}
-            onMouseLeave={e => (e.currentTarget.style.color = C.sandyDim)}>
-            {l}
-          </Link>
+          <button key={l.label} onClick={() => document.getElementById(l.id)?.scrollIntoView({ behavior: "smooth" })} style={{ fontFamily: font.body, color: C.sandyDim, fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.04em", textDecoration: "none", transition: "color 0.2s", background: "none", border: "none", cursor: "pointer", padding: 0 }}
+            onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.color = C.white)}
+            onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.color = C.sandyDim)}>
+            {l.label}
+          </button>
         ))}
         <motion.button
           whileHover={{ scale: 1.04 }}
@@ -286,7 +292,7 @@ function Features() {
   const tab = tabs[active]
 
   return (
-    <section ref={ref} style={{ background: C.bg, padding: "6rem 2rem" }}>
+    <section id="activites" ref={ref} style={{ background: C.bg, padding: "6rem 2rem" }}>
       <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -452,7 +458,7 @@ function Pricing() {
   ]
 
   return (
-    <section ref={ref} style={{ background: C.bg, padding: "6rem 2rem" }}>
+    <section id="formations" ref={ref} style={{ background: C.bg, padding: "6rem 2rem" }}>
       <div style={{ maxWidth: "1040px", margin: "0 auto" }}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -578,7 +584,7 @@ function CTABanner() {
   const inView = useInView(ref, { once: true, margin: "-60px" })
 
   return (
-    <section ref={ref} style={{ background: `linear-gradient(135deg, ${C.teal} 0%, #0891b2 50%, #0e7490 100%)`, padding: "5rem 2rem", position: "relative", overflow: "hidden" }}>
+    <section id="contact" ref={ref} style={{ background: `linear-gradient(135deg, ${C.teal} 0%, #0891b2 50%, #0e7490 100%)`, padding: "5rem 2rem", position: "relative", overflow: "hidden" }}>
       {/* Decorative waves */}
       <svg style={{ position: "absolute", top: 0, left: 0, right: 0, opacity: 0.12 }} viewBox="0 0 1440 80" preserveAspectRatio="none" height="80">
         <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,20 1440,40 L1440,0 L0,0 Z" fill="white" />

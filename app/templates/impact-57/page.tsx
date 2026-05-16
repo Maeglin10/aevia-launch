@@ -315,14 +315,13 @@ export default function MaskUnit() {
         </div>
         <div style={{ display: "flex", gap: "3rem" }}>
           {["Work", "Studio", "Services", "Contact"].map((item) => (
-            <motion.a
-              key={item}
-              href="#"
+            <motion.button
+              key={item} onClick={() => document.getElementById(({"Work": "work", "Studio": "studio", "Services": "services", "Contact": "contact"})[item] || "")?.scrollIntoView({behavior:"smooth"})}
               style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.7rem", color: C.textMuted, textDecoration: "none", cursor: "pointer" }}
               whileHover={{ color: C.accent }}
             >
               {item}
-            </motion.a>
+            </motion.button>
           ))}
         </div>
         <motion.button
@@ -461,7 +460,7 @@ export default function MaskUnit() {
       </section>
 
       {/* ── Stats strip ─────────────────────────────────────────────────── */}
-      <section style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "0" }}>
+      <section id="work" style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "0" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
           {STATS.map((stat, i) => {
             const ref = useRef<HTMLDivElement>(null);
@@ -492,7 +491,7 @@ export default function MaskUnit() {
       </section>
 
       {/* ── Selected Work ──────────────────────────────────────────────── */}
-      <section style={{ padding: "6rem 3rem" }}>
+      <section id="studio" style={{ padding: "6rem 3rem" }}>
         <div style={{ maxWidth: "1300px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3rem" }}>
             <div>
@@ -523,7 +522,7 @@ export default function MaskUnit() {
       </section>
 
       {/* ── Services ───────────────────────────────────────────────────── */}
-      <section style={{ padding: "6rem 3rem", background: C.bgLight, borderTop: `1px solid ${C.border}` }}>
+      <section id="services" style={{ padding: "6rem 3rem", background: C.bgLight, borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: "1300px", margin: "0 auto" }}>
           <div style={{ marginBottom: "4rem" }}>
             <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.textDim, marginBottom: "0.75rem" }}>
@@ -564,7 +563,7 @@ export default function MaskUnit() {
       </section>
 
       {/* ── Team ───────────────────────────────────────────────────────── */}
-      <section style={{ padding: "6rem 3rem" }}>
+      <section id="contact" style={{ padding: "6rem 3rem" }}>
         <div style={{ maxWidth: "1300px", margin: "0 auto" }}>
           <div style={{ marginBottom: "4rem" }}>
             <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.textDim, marginBottom: "0.75rem" }}>

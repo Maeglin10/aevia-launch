@@ -458,8 +458,7 @@ export default function NexusHubPage() {
             ))}
           </div>
 
-          <a
-            href="#pricing"
+          <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})}
             style={{
               background: C.accent,
               color: C.white,
@@ -599,8 +598,7 @@ export default function NexusHubPage() {
                 transition={{ duration: 0.6, delay: 0.35 }}
                 style={{ display: "flex", gap: 16, flexWrap: "wrap" }}
               >
-                <a
-                  href="#pricing"
+                <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})}
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -616,8 +614,7 @@ export default function NexusHubPage() {
                 >
                   Day Pass — 29 EUR <ArrowRight size={18} />
                 </a>
-                <a
-                  href="#spaces"
+                <button onClick={() => document.getElementById("spaces")?.scrollIntoView({behavior:"smooth"})}
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -878,8 +875,7 @@ export default function NexusHubPage() {
                         EUR/{space.perDay ? "day" : "mo"}
                       </span>
                     </div>
-                    <a
-                      href="#pricing"
+                    <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})}
                       style={{
                         display: "inline-flex",
                         alignItems: "center",
@@ -1322,8 +1318,7 @@ export default function NexusHubPage() {
                       </div>
                     ))}
                   </div>
-                  <a
-                    href="#contact"
+                  <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
                     style={{
                       display: "block",
                       textAlign: "center",

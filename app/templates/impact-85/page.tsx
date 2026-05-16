@@ -202,14 +202,14 @@ export default function AetherLabs() {
         </div>
         <div style={{ display: "flex", gap: "2.5rem" }}>
           {["Formules", "Science", "Routine", "À propos"].map((item) => (
-            <motion.a
-              key={item}
-              href="#"
+            <motion.button key={item} onClick={() => document.getElementById(({"Formules": "formules", "Science": "science", "Routine": "routine", "À propos": "a-propos"})[item] || "")?.scrollIntoView({behavior:"smooth"})}
+              
+              
               style={{ fontSize: "0.75rem", color: C.textMuted, textDecoration: "none", cursor: "pointer" }}
               whileHover={{ color: C.text }}
             >
               {item}
-            </motion.a>
+            </motion.button>
           ))}
         </div>
         <motion.button
@@ -326,7 +326,7 @@ export default function AetherLabs() {
       </section>
 
       {/* ── Products ──────────────────────────────────────────────────── */}
-      <section style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", borderTop: `1px solid ${C.border}` }}>
+      <section id="formules" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3rem" }}>
             <div>
@@ -508,7 +508,7 @@ export default function AetherLabs() {
       </section>
 
       {/* ── Science pillars ──────────────────────────────────────────── */}
-      <section style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgDark }}>
+      <section id="science" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgDark }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
           <div style={{ marginBottom: "4rem" }}>
             <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.khaki, marginBottom: "0.5rem" }}>
@@ -548,7 +548,7 @@ export default function AetherLabs() {
       </section>
 
       {/* ── Routine builder ──────────────────────────────────────────── */}
-      <section style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", borderTop: `1px solid ${C.border}` }}>
+      <section id="routine" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: "900px", margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: "4rem" }}>
             <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.khaki, marginBottom: "0.5rem" }}>
@@ -584,7 +584,7 @@ export default function AetherLabs() {
       </section>
 
       {/* ── CTA ──────────────────────────────────────────────────────── */}
-      <section style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgAlt, borderTop: `1px solid ${C.border}`, textAlign: "center" }}>
+      <section id="a-propos" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgAlt, borderTop: `1px solid ${C.border}`, textAlign: "center" }}>
         <div style={{ maxWidth: "600px", margin: "0 auto" }}>
           <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.khaki, marginBottom: "1.5rem" }}>
             DIAGNOSTIC PEAU GRATUIT

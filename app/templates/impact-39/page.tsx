@@ -370,7 +370,7 @@ export default function SwiftMovePage() {
               <Phone size={15} color={C.orange} />
               (888) 555-0100
             </a>
-            <a href="#quote" style={{ background: C.orange, color: C.white, padding: "10px 22px", borderRadius: 8, fontWeight: 800, fontSize: 14, textDecoration: "none" }}>
+            <button onClick={() => document.getElementById("quote")?.scrollIntoView({behavior:"smooth"})} style={{ background: C.orange, color: C.white, padding: "10px 22px", borderRadius: 8, fontWeight: 800, fontSize: 14, textDecoration: "none" }}>
               Free Quote
             </a>
           </div>
@@ -426,7 +426,7 @@ export default function SwiftMovePage() {
 
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }}
                 style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-                <a href="#quote" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.orange, color: C.white, padding: "16px 32px", borderRadius: 10, fontWeight: 800, fontSize: 16, textDecoration: "none" }}>
+                <button onClick={() => document.getElementById("quote")?.scrollIntoView({behavior:"smooth"})} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.orange, color: C.white, padding: "16px 32px", borderRadius: 10, fontWeight: 800, fontSize: 16, textDecoration: "none" }}>
                   Get Free Quote <ArrowRight size={18} />
                 </a>
                 <a href="tel:+18885550100" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: C.white, padding: "16px 32px", borderRadius: 10, fontWeight: 700, fontSize: 16, textDecoration: "none", border: "1.5px solid rgba(255,255,255,0.25)" }}>
@@ -691,7 +691,7 @@ export default function SwiftMovePage() {
                       </div>
                     ))}
                   </div>
-                  <a href="#quote" style={{ display: "block", textAlign: "center", background: plan.highlight ? C.orange : C.orangeLight, color: plan.highlight ? C.white : C.orange, padding: "14px 24px", borderRadius: 10, fontWeight: 800, fontSize: 15, textDecoration: "none" }}>
+                  <button onClick={() => document.getElementById("quote")?.scrollIntoView({behavior:"smooth"})} style={{ display: "block", textAlign: "center", background: plan.highlight ? C.orange : C.orangeLight, color: plan.highlight ? C.white : C.orange, padding: "14px 24px", borderRadius: 10, fontWeight: 800, fontSize: 15, textDecoration: "none" }}>
                     Get Quote
                   </a>
                 </div>

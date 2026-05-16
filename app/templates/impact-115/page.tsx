@@ -631,7 +631,7 @@ export default function Impact115Page() {
           {["Projects", "Philosophy", "Services", "Studio"].map((link) => (
             <motion.a
               key={link}
-              href={`#${link.toLowerCase()}`}
+              onClick={() => document.getElementById(link.toLowerCase())?.scrollIntoView({behavior:"smooth"})}
               style={{ color: C.muted, textDecoration: "none" }}
               whileHover={{ color: C.green }}
               transition={{ duration: 0.2 }}
@@ -712,7 +712,7 @@ export default function Impact115Page() {
             {["Projects", "Philosophy", "Services", "Studio", "Contact"].map((link, i) => (
               <motion.a
                 key={link}
-                href={`#${link.toLowerCase()}`}
+                onClick={() => document.getElementById(link.toLowerCase())?.scrollIntoView({behavior:"smooth"})}
                 onClick={() => setMenuOpen(false)}
                 initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}

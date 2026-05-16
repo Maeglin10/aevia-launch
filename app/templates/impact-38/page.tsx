@@ -456,7 +456,7 @@ export default function OriginRoastPage() {
             ))}
           </div>
 
-          <a href="#subscribe" style={{ background: C.caramel, color: C.espresso, padding: "10px 22px", borderRadius: 8, fontWeight: 700, fontSize: 14, textDecoration: "none" }}>
+          <button onClick={() => document.getElementById("subscribe")?.scrollIntoView({behavior:"smooth"})} style={{ background: C.caramel, color: C.espresso, padding: "10px 22px", borderRadius: 8, fontWeight: 700, fontSize: 14, textDecoration: "none" }}>
             Subscribe
           </a>
         </div>
@@ -501,10 +501,10 @@ export default function OriginRoastPage() {
 
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }}
                 style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-                <a href="#subscribe" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.caramel, color: C.espresso, padding: "16px 32px", borderRadius: 8, fontWeight: 700, fontSize: 16, textDecoration: "none" }}>
+                <button onClick={() => document.getElementById("subscribe")?.scrollIntoView({behavior:"smooth"})} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.caramel, color: C.espresso, padding: "16px 32px", borderRadius: 8, fontWeight: 700, fontSize: 16, textDecoration: "none" }}>
                   Start Subscription <ArrowRight size={18} />
                 </a>
-                <a href="#origins" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: C.cream, padding: "16px 32px", borderRadius: 8, fontWeight: 600, fontSize: 16, textDecoration: "none", border: "1.5px solid rgba(255,255,255,0.2)" }}>
+                <button onClick={() => document.getElementById("origins")?.scrollIntoView({behavior:"smooth"})} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: C.cream, padding: "16px 32px", borderRadius: 8, fontWeight: 600, fontSize: 16, textDecoration: "none", border: "1.5px solid rgba(255,255,255,0.2)" }}>
                   Explore Origins
                 </a>
               </motion.div>
@@ -654,7 +654,7 @@ export default function OriginRoastPage() {
                     </div>
                   </div>
 
-                  <a href="#subscribe" style={{ display: "inline-flex", alignItems: "center", gap: 6, background: C.caramelLight, color: C.caramel, padding: "10px 18px", borderRadius: 8, fontWeight: 700, fontSize: 14, textDecoration: "none", alignSelf: "flex-start" }}>
+                  <button onClick={() => document.getElementById("subscribe")?.scrollIntoView({behavior:"smooth"})} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: C.caramelLight, color: C.caramel, padding: "10px 18px", borderRadius: 8, fontWeight: 700, fontSize: 14, textDecoration: "none", alignSelf: "flex-start" }}>
                     Add to subscription <ArrowRight size={14} />
                   </a>
                 </div>
@@ -758,7 +758,7 @@ export default function OriginRoastPage() {
                       </div>
                     ))}
                   </div>
-                  <a href="#contact" style={{ display: "block", textAlign: "center", background: plan.highlight ? C.caramel : C.caramelLight, color: plan.highlight ? C.espresso : C.caramel, padding: "14px 24px", borderRadius: 8, fontWeight: 700, fontSize: 15, textDecoration: "none" }}>
+                  <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} style={{ display: "block", textAlign: "center", background: plan.highlight ? C.caramel : C.caramelLight, color: plan.highlight ? C.espresso : C.caramel, padding: "14px 24px", borderRadius: 8, fontWeight: 700, fontSize: 15, textDecoration: "none" }}>
                     Start {plan.name}
                   </a>
                 </div>

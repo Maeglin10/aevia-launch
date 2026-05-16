@@ -705,8 +705,7 @@ export default function Impact68Page() {
               {item}
             </a>
           ))}
-          <a
-            href="#contact"
+          <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
             style={{
               fontFamily: "'Space Grotesk', sans-serif",
               fontSize: "13px",
@@ -874,8 +873,7 @@ export default function Impact68Page() {
                 transition={{ duration: 0.6, delay: 0.5 }}
                 style={{ display: "flex", gap: "16px", alignItems: "center", flexWrap: "wrap" }}
               >
-                <a
-                  href="#work"
+                <button onClick={() => document.getElementById("work")?.scrollIntoView({behavior:"smooth"})}
                   style={{
                     fontFamily: "'Space Grotesk', sans-serif",
                     fontSize: "14px",
@@ -903,8 +901,7 @@ export default function Impact68Page() {
                   View Our Work
                   <ArrowRight size={16} />
                 </a>
-                <a
-                  href="#contact"
+                <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
                   style={{
                     fontFamily: "'Space Grotesk', sans-serif",
                     fontSize: "14px",

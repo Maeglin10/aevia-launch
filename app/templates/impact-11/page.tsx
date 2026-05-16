@@ -426,8 +426,7 @@ export default function Page() {
               {link.label}
             </Link>
           ))}
-          <a
-            href="#auth"
+          <button onClick={() => document.getElementById("auth")?.scrollIntoView({behavior:"smooth"})}
             style={{
               fontSize: "0.85rem",
               fontWeight: 500,
@@ -438,8 +437,7 @@ export default function Page() {
           >
             Connexion
           </a>
-          <a
-            href="#tarifs"
+          <button onClick={() => document.getElementById("tarifs")?.scrollIntoView({behavior:"smooth"})}
             style={{
               fontSize: "0.85rem",
               fontWeight: 700,
@@ -594,8 +592,7 @@ export default function Page() {
           transition={{ duration: 0.7, delay: 0.6 }}
           style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap", marginBottom: "72px" }}
         >
-          <a
-            href="#tarifs"
+          <button onClick={() => document.getElementById("tarifs")?.scrollIntoView({behavior:"smooth"})}
             style={{
               fontSize: "0.95rem",
               fontWeight: 700,
@@ -611,8 +608,7 @@ export default function Page() {
           >
             Commencer Gratuitement
           </a>
-          <a
-            href="#courses"
+          <button onClick={() => document.getElementById("courses")?.scrollIntoView({behavior:"smooth"})}
             style={{
               fontSize: "0.95rem",
               fontWeight: 600,
@@ -911,8 +907,7 @@ export default function Page() {
                   </svg>
                   {TABS[activeTab].instructors}
                 </div>
-                <a
-                  href="#courses"
+                <button onClick={() => document.getElementById("courses")?.scrollIntoView({behavior:"smooth"})}
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -1672,8 +1667,7 @@ export default function Page() {
               position: "relative",
             }}
           >
-            <a
-              href="#tarifs"
+            <button onClick={() => document.getElementById("tarifs")?.scrollIntoView({behavior:"smooth"})}
               style={{
                 fontSize: "0.95rem",
                 fontWeight: 700,
@@ -1690,8 +1684,7 @@ export default function Page() {
             >
               Commencer Gratuitement
             </a>
-            <a
-              href="#courses"
+            <button onClick={() => document.getElementById("courses")?.scrollIntoView({behavior:"smooth"})}
               style={{
                 fontSize: "0.95rem",
                 fontWeight: 600,

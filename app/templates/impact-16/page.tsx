@@ -251,8 +251,7 @@ export default function ObscuraStudio() {
               {link}
             </Link>
           ))}
-          <motion.a
-            href="#booking"
+          <button onClick={() => document.getElementById("booking")?.scrollIntoView({behavior:"smooth"})}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
             style={{
@@ -262,7 +261,7 @@ export default function ObscuraStudio() {
             }}
           >
             Réserver
-          </motion.a>
+          </button>
         </div>
       </nav>
 
@@ -325,8 +324,7 @@ export default function ObscuraStudio() {
               transition={{ duration: 0.6, delay: 1.2 }}
               style={{ display: "flex", gap: 16, marginTop: 40 }}
             >
-              <motion.a
-                href="#booking"
+              <button onClick={() => document.getElementById("booking")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -336,9 +334,8 @@ export default function ObscuraStudio() {
                 }}
               >
                 Réserver une séance
-              </motion.a>
-              <motion.a
-                href="#galerie"
+              </button>
+              <button onClick={() => document.getElementById("galerie")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ borderColor: C.accent, color: C.accent }}
                 style={{
                   fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
@@ -347,7 +344,7 @@ export default function ObscuraStudio() {
                 }}
               >
                 Voir la galerie
-              </motion.a>
+              </button>
             </motion.div>
           </motion.div>
         </div>
@@ -634,8 +631,7 @@ export default function ObscuraStudio() {
                   </li>
                 ))}
               </ul>
-              <motion.a
-                href="#booking"
+              <button onClick={() => document.getElementById("booking")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -649,7 +645,7 @@ export default function ObscuraStudio() {
                 }}
               >
                 {tier.price === "Sur devis" ? "Demander un devis" : "Réserver"}
-              </motion.a>
+              </button>
             </motion.div>
           ))}
         </div>
@@ -764,7 +760,7 @@ export default function ObscuraStudio() {
               }}
             >
               Réserver une Séance
-            </motion.a>
+            </button>
             <motion.a
               href="tel:+33142001122"
               whileHover={{ borderColor: C.accent, color: C.accent }}
@@ -775,7 +771,7 @@ export default function ObscuraStudio() {
               }}
             >
               +33 1 42 00 11 22
-            </motion.a>
+            </button>
           </div>
         </motion.div>
       </section>

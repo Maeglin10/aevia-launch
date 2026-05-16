@@ -322,8 +322,7 @@ export default function OrensPage() {
               {l}
             </Link>
           ))}
-          <a
-            href="#contact"
+          <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
             style={{
               fontFamily: FONT_BODY,
               fontSize: 11,

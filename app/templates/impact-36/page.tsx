@@ -475,8 +475,7 @@ export default function ApexTalentPage() {
           </div>
 
           <div style={{ display: "flex", gap: 12 }}>
-            <a
-              href="#contact"
+            <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
               style={{
                 background: "rgba(255,255,255,0.1)",
                 color: C.white,
@@ -490,8 +489,7 @@ export default function ApexTalentPage() {
             >
               I'm a Candidate
             </a>
-            <a
-              href="#contact"
+            <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
               style={{
                 background: C.accent,
                 color: C.white,
@@ -638,8 +636,7 @@ export default function ApexTalentPage() {
                 transition={{ duration: 0.6, delay: 0.35 }}
                 style={{ display: "flex", gap: 16, flexWrap: "wrap" }}
               >
-                <a
-                  href="#contact"
+                <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -655,8 +652,7 @@ export default function ApexTalentPage() {
                 >
                   Hire Executive Talent <ArrowRight size={18} />
                 </a>
-                <a
-                  href="#contact"
+                <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -960,8 +956,7 @@ export default function ApexTalentPage() {
                       </div>
                     ))}
                   </div>
-                  <a
-                    href="#contact"
+                  <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
                     style={{
                       marginTop: 28,
                       display: "inline-flex",

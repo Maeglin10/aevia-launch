@@ -252,7 +252,7 @@ export default function NovaPlatformSaaS() {
 
           <div className="hidden lg:flex items-center gap-4">
             <button className="text-sm text-zinc-400 hover:text-white transition-all duration-200 cursor-pointer">Log in</button>
-            <a href="#pricing" className="px-5 py-2.5 bg-violet-600 hover:bg-violet-500 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer">
+            <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})} className="px-5 py-2.5 bg-violet-600 hover:bg-violet-500 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer">
               Get Started Free
             </a>
           </div>
@@ -273,7 +273,7 @@ export default function NovaPlatformSaaS() {
                   <a key={item} href={`#${item.toLowerCase()}`} className="text-xl font-semibold hover:text-violet-400 transition-all duration-200 cursor-pointer">{item}</a>
                 ))}
                 <Separator className="bg-white/10 my-2" />
-                <a href="#pricing" className="px-8 py-3 bg-violet-600 rounded-full font-semibold text-center cursor-pointer">Get Started Free</a>
+                <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})} className="px-8 py-3 bg-violet-600 rounded-full font-semibold text-center cursor-pointer">Get Started Free</a>
               </div>
             </SheetContent>
           </Sheet>
@@ -318,7 +318,7 @@ export default function NovaPlatformSaaS() {
           </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.3 }} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
-            <a href="#pricing" className="group px-8 py-4 bg-violet-600 hover:bg-violet-500 rounded-full text-sm font-bold transition-all duration-200 flex items-center gap-2 cursor-pointer">
+            <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})} className="group px-8 py-4 bg-violet-600 hover:bg-violet-500 rounded-full text-sm font-bold transition-all duration-200 flex items-center gap-2 cursor-pointer">
               Start building for free <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
             </a>
             <button onClick={() => setDemoOpen(true)} className="px-8 py-4 border border-white/10 rounded-full text-sm font-semibold hover:border-violet-500/50 transition-all duration-200 flex items-center gap-2 cursor-pointer">
@@ -668,7 +668,7 @@ export default function NovaPlatformSaaS() {
               Join 14,200+ teams shipping faster with NovaPlatform. Free forever plan — no credit card required.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="#pricing" className="group px-10 py-4 bg-violet-600 hover:bg-violet-500 rounded-full font-bold transition-all duration-200 flex items-center gap-2 text-lg cursor-pointer">
+              <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})} className="group px-10 py-4 bg-violet-600 hover:bg-violet-500 rounded-full font-bold transition-all duration-200 flex items-center gap-2 text-lg cursor-pointer">
                 Get started — it&apos;s free <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
               </a>
               <button className="px-8 py-4 text-zinc-400 hover:text-white transition-all duration-200 flex items-center gap-2 cursor-pointer">

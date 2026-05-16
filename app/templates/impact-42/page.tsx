@@ -426,8 +426,7 @@ export default function EchoChamberPage() {
               {l.label}
             </a>
           ))}
-          <a
-            href="#tarifs"
+          <button onClick={() => document.getElementById("tarifs")?.scrollIntoView({behavior:"smooth"})}
             style={{
               backgroundColor: C.accent,
               color: C.white,
@@ -594,8 +593,7 @@ export default function EchoChamberPage() {
             transition={{ duration: 0.85, delay: 0.48 }}
             style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}
           >
-            <a
-              href="#tarifs"
+            <button onClick={() => document.getElementById("tarifs")?.scrollIntoView({behavior:"smooth"})}
               style={{
                 backgroundColor: C.accent,
                 color: C.white,
@@ -614,8 +612,7 @@ export default function EchoChamberPage() {
             >
               Réserver une session <ArrowRight size={16} />
             </a>
-            <a
-              href="#studios"
+            <button onClick={() => document.getElementById("studios")?.scrollIntoView({behavior:"smooth"})}
               style={{
                 border: `1px solid ${C.border}`,
                 color: C.text,
@@ -735,8 +732,7 @@ export default function EchoChamberPage() {
                 <p style={{ fontFamily: C.bodyFont, fontSize: "0.95rem", color: C.textLight, lineHeight: 1.8, marginBottom: "2rem" }}>
                   {studios[activeStudio].desc}
                 </p>
-                <a
-                  href="#tarifs"
+                <button onClick={() => document.getElementById("tarifs")?.scrollIntoView({behavior:"smooth"})}
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -993,8 +989,7 @@ export default function EchoChamberPage() {
                       </li>
                     ))}
                   </ul>
-                  <a
-                    href="#contact"
+                  <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
                     style={{
                       display: "block",
                       textAlign: "center",

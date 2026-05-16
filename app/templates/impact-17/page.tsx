@@ -278,8 +278,7 @@ export default function KeopsCabinet() {
               {link}
             </Link>
           ))}
-          <motion.a
-            href="#contact"
+          <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
             style={{
@@ -289,7 +288,7 @@ export default function KeopsCabinet() {
             }}
           >
             Projet
-          </motion.a>
+          </button>
         </div>
       </nav>
 
@@ -375,8 +374,7 @@ export default function KeopsCabinet() {
               transition={{ duration: 0.6, delay: 1.3 }}
               style={{ display: "flex", gap: 16 }}
             >
-              <motion.a
-                href="#contact"
+              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -386,9 +384,8 @@ export default function KeopsCabinet() {
                 }}
               >
                 Discutons de votre projet
-              </motion.a>
-              <motion.a
-                href="#projets"
+              </button>
+              <button onClick={() => document.getElementById("projets")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ borderColor: C.accent, color: C.accent }}
                 style={{
                   fontFamily: bodyFont, fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
@@ -397,7 +394,7 @@ export default function KeopsCabinet() {
                 }}
               >
                 Nos réalisations
-              </motion.a>
+              </button>
             </motion.div>
           </motion.div>
         </div>
@@ -720,8 +717,7 @@ export default function KeopsCabinet() {
                   </li>
                 ))}
               </ul>
-              <motion.a
-                href="#contact"
+              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -735,7 +731,7 @@ export default function KeopsCabinet() {
                 }}
               >
                 {tier.cta}
-              </motion.a>
+              </button>
             </motion.div>
           ))}
         </div>
@@ -849,7 +845,7 @@ export default function KeopsCabinet() {
               }}
             >
               Envoyer un message
-            </motion.a>
+            </button>
             <motion.a
               href="tel:+33145001234"
               whileHover={{ borderColor: C.accent, color: C.accent }}
@@ -860,7 +856,7 @@ export default function KeopsCabinet() {
               }}
             >
               +33 1 45 00 12 34
-            </motion.a>
+            </button>
           </div>
         </motion.div>
       </section>

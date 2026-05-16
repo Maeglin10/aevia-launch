@@ -624,7 +624,7 @@ function Nav() {
             (item) => (
               <motion.a
                 key={item}
-                href={`#${item.toLowerCase()}`}
+                onClick={() => document.getElementById(item.toLowerCase())?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ color: C.cream }}
                 style={{ color: C.muted, textDecoration: "none", transition: "color 0.2s" }}
               >

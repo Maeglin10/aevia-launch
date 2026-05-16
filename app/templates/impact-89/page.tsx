@@ -646,8 +646,7 @@ export default function Impact89Page() {
             >
               Prendre RDV <ArrowRight size={16} />
             </motion.button>
-            <motion.a
-              href="#portfolio"
+            <button onClick={() => document.getElementById("portfolio")?.scrollIntoView({behavior:"smooth"})}
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
               style={{
@@ -668,7 +667,7 @@ export default function Impact89Page() {
               }}
             >
               Voir le portfolio
-            </motion.a>
+            </button>
           </motion.div>
         </motion.div>
 

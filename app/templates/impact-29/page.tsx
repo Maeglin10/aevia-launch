@@ -567,8 +567,7 @@ export default function GlitchDevPage() {
 
             {/* CTA below terminal */}
             <div style={{ display: "flex", gap: "16px", marginTop: "40px" }}>
-              <motion.a
-                href="#projets"
+              <button onClick={() => document.getElementById("projets")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ background: C.accent, color: C.bg }}
                 transition={{ duration: 0.15 }}
                 style={{
@@ -585,7 +584,7 @@ export default function GlitchDevPage() {
                 }}
               >
                 {">"} voir mes projets
-              </motion.a>
+              </button>
               <motion.a
                 href="mailto:alex@glitch.dev"
                 whileHover={{ color: C.accent }}
@@ -604,7 +603,7 @@ export default function GlitchDevPage() {
                 }}
               >
                 {">"} discuter d'une mission
-              </motion.a>
+              </button>
             </div>
           </motion.div>
         </div>
@@ -1360,7 +1359,7 @@ export default function GlitchDevPage() {
               }}
             >
               {">"} alex@glitch.dev
-            </motion.a>
+            </button>
             <motion.a
               href="https://cal.com/glitch-dev"
               whileHover={{ background: "rgba(0,229,184,0.08)" }}
@@ -1379,7 +1378,7 @@ export default function GlitchDevPage() {
               }}
             >
               {">"} réserver un créneau
-            </motion.a>
+            </button>
           </div>
         </motion.div>
       </section>

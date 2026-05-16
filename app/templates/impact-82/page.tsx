@@ -230,14 +230,14 @@ export default function BlueprintDev() {
         </div>
         <div style={{ display: "flex", gap: "2.5rem" }}>
           {["Projets", "Expertise", "Investisseurs", "ESG", "Contact"].map((item) => (
-            <motion.a
-              key={item}
-              href="#"
+            <motion.button key={item} onClick={() => document.getElementById(({"Projets": "projets", "Expertise": "expertise", "Investisseurs": "investisseurs", "ESG": "esg", "Contact": "contact"})[item] || "")?.scrollIntoView({behavior:"smooth"})}
+              
+              
               style={{ fontSize: "0.75rem", color: C.textMuted, textDecoration: "none", cursor: "pointer" }}
               whileHover={{ color: C.text }}
             >
               {item}
-            </motion.a>
+            </motion.button>
           ))}
         </div>
         <motion.button
@@ -362,7 +362,7 @@ export default function BlueprintDev() {
       </section>
 
       {/* ── Key figures ─────────────────────────────────────────────────── */}
-      <section style={{ background: C.bgDark, borderTop: `1px solid ${C.borderDark}`, borderBottom: `1px solid ${C.borderDark}` }}>
+      <section id="projets" style={{ background: C.bgDark, borderTop: `1px solid ${C.borderDark}`, borderBottom: `1px solid ${C.borderDark}` }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
           {SPECS.map((spec, i) => {
             const ref = useRef<HTMLDivElement>(null);
@@ -393,7 +393,7 @@ export default function BlueprintDev() {
       </section>
 
       {/* ── Projects ─────────────────────────────────────────────────────── */}
-      <section style={{ padding: "7rem clamp(2rem, 5vw, 4rem)" }}>
+      <section id="expertise" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3rem" }}>
             <div>
@@ -530,7 +530,7 @@ export default function BlueprintDev() {
       </section>
 
       {/* ── Expertise ────────────────────────────────────────────────────── */}
-      <section style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
+      <section id="investisseurs" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ marginBottom: "4rem" }}>
             <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.textMuted, marginBottom: "0.5rem" }}>
@@ -570,7 +570,7 @@ export default function BlueprintDev() {
       </section>
 
       {/* ── Tenants ──────────────────────────────────────────────────────── */}
-      <section style={{ padding: "5rem clamp(2rem, 5vw, 4rem)", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+      <section id="esg" style={{ padding: "5rem clamp(2rem, 5vw, 4rem)", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.textMuted, marginBottom: "2.5rem" }}>
             LOCATAIRES DE RÉFÉRENCE
@@ -602,7 +602,7 @@ export default function BlueprintDev() {
       </section>
 
       {/* ── CTA ──────────────────────────────────────────────────────────── */}
-      <section style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgDark, textAlign: "center" }}>
+      <section id="contact" style={{ padding: "7rem clamp(2rem, 5vw, 4rem)", background: C.bgDark, textAlign: "center" }}>
         <div style={{ maxWidth: "700px", margin: "0 auto" }}>
           <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.steel, marginBottom: "1.5rem" }}>
             INVESTISSEURS INSTITUTIONNELS

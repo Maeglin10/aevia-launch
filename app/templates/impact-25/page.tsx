@@ -419,8 +419,7 @@ export default function PrismAnalyticsPage() {
               {link}
             </a>
           ))}
-          <motion.a
-            href="#essai"
+          <button onClick={() => document.getElementById("essai")?.scrollIntoView({behavior:"smooth"})}
             whileHover={{ scale: 1.04, boxShadow: `0 0 24px rgba(124,58,237,0.5)` }}
             whileTap={{ scale: 0.97 }}
             style={{
@@ -431,7 +430,7 @@ export default function PrismAnalyticsPage() {
             }}
           >
             Essai gratuit 14j
-          </motion.a>
+          </button>
         </div>
       </motion.nav>
 
@@ -480,21 +479,19 @@ export default function PrismAnalyticsPage() {
               transition={{ duration: 0.7, delay: 0.5 }}
               style={{ display: "flex", gap: "1rem", marginTop: "2.5rem", flexWrap: "wrap" }}
             >
-              <motion.a
-                href="#essai"
+              <button onClick={() => document.getElementById("essai")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.04, boxShadow: `0 0 40px rgba(124,58,237,0.5)` }}
                 whileTap={{ scale: 0.97 }}
                 style={{ display: "inline-block", background: C.violet, color: "#fff", padding: "1rem 2rem", borderRadius: "10px", fontWeight: 700, fontSize: "1rem", textDecoration: "none", cursor: "pointer" }}
               >
                 Essayer 14 jours gratuitement
-              </motion.a>
-              <motion.a
-                href="#connecteurs"
+              </button>
+              <button onClick={() => document.getElementById("connecteurs")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ borderColor: C.violet, color: C.violetLight }}
                 style={{ display: "inline-block", border: `1px solid ${C.faint}`, color: C.muted, padding: "1rem 2rem", borderRadius: "10px", fontWeight: 600, fontSize: "1rem", textDecoration: "none", cursor: "pointer", transition: "border-color 0.2s, color 0.2s" }}
               >
                 Voir les connecteurs
-              </motion.a>
+              </button>
             </motion.div>
 
             <motion.div
@@ -926,14 +923,14 @@ export default function PrismAnalyticsPage() {
                 style={{ display: "inline-block", background: C.violet, color: "#fff", padding: "1.1rem 2.75rem", borderRadius: "10px", fontWeight: 700, fontSize: "1.05rem", textDecoration: "none", cursor: "pointer" }}
               >
                 Démarrer l'essai gratuit →
-              </motion.a>
+              </button>
               <motion.a
                 href="#"
                 whileHover={{ borderColor: C.violet }}
                 style={{ display: "inline-block", border: `1px solid ${C.faint}`, color: C.muted, padding: "1.1rem 2rem", borderRadius: "10px", fontWeight: 600, fontSize: "1.05rem", textDecoration: "none", cursor: "pointer", transition: "border-color 0.2s" }}
               >
                 Demander une démo
-              </motion.a>
+              </button>
             </div>
 
             <div style={{ marginTop: "2rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "2rem", flexWrap: "wrap" }}>

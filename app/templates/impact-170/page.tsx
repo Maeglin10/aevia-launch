@@ -126,14 +126,14 @@ export default function Page() {
           </motion.div>
 
           <div style={{ display: "flex", gap: 24, marginTop: 48 }}>
-            <motion.a href="#contact" whileHover={{ background: C.green, color: C.bg }} whileTap={{ scale: 0.97 }}
+            <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} whileHover={{ background: C.green, color: C.bg }} whileTap={{ scale: 0.97 }}
               style={{ padding: "14px 32px", background: "transparent", color: C.green, border: `1px solid ${C.green}`, fontSize: 12, letterSpacing: 2, textTransform: "uppercase", textDecoration: "none", transition: "all 0.2s", display: "inline-block" }}>
               $ ./contact.sh
-            </motion.a>
-            <motion.a href="#projects" whileHover={{ color: C.green }} whileTap={{ scale: 0.97 }}
+            </button>
+            <button onClick={() => document.getElementById("projects")?.scrollIntoView({behavior:"smooth"})} whileHover={{ color: C.green }} whileTap={{ scale: 0.97 }}
               style={{ padding: "14px 32px", color: C.muted, fontSize: 12, letterSpacing: 2, textTransform: "uppercase", textDecoration: "none", transition: "color 0.2s", display: "inline-block" }}>
               ls ./projects →
-            </motion.a>
+            </button>
           </div>
         </motion.div>
       </section>

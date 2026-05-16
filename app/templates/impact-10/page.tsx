@@ -342,8 +342,7 @@ export default function Page() {
               {link.label}
             </Link>
           ))}
-          <a
-            href="#reservation"
+          <button onClick={() => document.getElementById("reservation")?.scrollIntoView({behavior:"smooth"})}
             style={{
               fontFamily: C.bodyFont,
               fontSize: "0.78rem",
@@ -461,8 +460,7 @@ export default function Page() {
             transition={{ duration: 0.8, delay: 0.85 }}
             style={{ display: "flex", gap: "16px", alignItems: "center" }}
           >
-            <a
-              href="#reservation"
+            <button onClick={() => document.getElementById("reservation")?.scrollIntoView({behavior:"smooth"})}
               style={{
                 fontFamily: C.bodyFont,
                 fontSize: "0.82rem",
@@ -479,8 +477,7 @@ export default function Page() {
             >
               Réservez Votre Séjour
             </a>
-            <a
-              href="#chambres"
+            <button onClick={() => document.getElementById("chambres")?.scrollIntoView({behavior:"smooth"})}
               style={{
                 fontFamily: C.bodyFont,
                 fontSize: "0.82rem",
@@ -762,8 +759,7 @@ export default function Page() {
               >
                 {TABS[activeTab].body}
               </p>
-              <a
-                href="#reservation"
+              <button onClick={() => document.getElementById("reservation")?.scrollIntoView({behavior:"smooth"})}
                 style={{
                   fontFamily: C.bodyFont,
                   fontSize: "0.8rem",

@@ -524,8 +524,7 @@ export default function ClosDuSoirPage() {
             )}
           </div>
 
-          <a
-            href="#reservation"
+          <button onClick={() => document.getElementById("reservation")?.scrollIntoView({behavior:"smooth"})}
             style={{
               marginLeft: 32,
               background: "transparent",
@@ -674,8 +673,7 @@ export default function ClosDuSoirPage() {
                 transition={{ duration: 0.7, delay: 0.4 }}
                 style={{ display: "flex", gap: 16, flexWrap: "wrap" }}
               >
-                <a
-                  href="#lacarte"
+                <button onClick={() => document.getElementById("lacarte")?.scrollIntoView({behavior:"smooth"})}
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -693,8 +691,7 @@ export default function ClosDuSoirPage() {
                 >
                   Explore the Wine List
                 </a>
-                <a
-                  href="#membership"
+                <button onClick={() => document.getElementById("membership")?.scrollIntoView({behavior:"smooth"})}
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -1267,8 +1264,7 @@ export default function ClosDuSoirPage() {
                         </span>
                       </div>
                       {!ev.sold && (
-                        <a
-                          href="#contact"
+                        <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
                           style={{
                             background: C.burgundy,
                             color: C.cream,
@@ -1576,8 +1572,7 @@ export default function ClosDuSoirPage() {
                       </div>
                     ))}
                   </div>
-                  <a
-                    href="#contact"
+                  <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
                     style={{
                       display: "block",
                       textAlign: "center",

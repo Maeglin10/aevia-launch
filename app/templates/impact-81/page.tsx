@@ -273,14 +273,14 @@ export default function VogueNoire() {
       >
         <div style={{ display: "flex", gap: "2.5rem" }}>
           {["Éditorial", "Collections", "Archives"].map((item) => (
-            <motion.a
-              key={item}
-              href="#"
+            <motion.button key={item} onClick={() => document.getElementById(({"Éditorial": "editorial", "Collections": "collections", "Archives": "archives"})[item] || "")?.scrollIntoView({behavior:"smooth"})}
+              
+              
               style={{ fontSize: "0.7rem", letterSpacing: "0.2em", color: C.textMuted, textDecoration: "none", cursor: "pointer" }}
               whileHover={{ color: C.text }}
             >
               {item}
-            </motion.a>
+            </motion.button>
           ))}
         </div>
 
@@ -293,14 +293,14 @@ export default function VogueNoire() {
 
         <div style={{ display: "flex", gap: "2.5rem", justifyContent: "flex-end" }}>
           {["Boutique", "Abonnement"].map((item) => (
-            <motion.a
-              key={item}
-              href="#"
+            <motion.button key={item} onClick={() => document.getElementById(({"Éditorial": "editorial", "Collections": "collections", "Archives": "archives"})[item] || "")?.scrollIntoView({behavior:"smooth"})}
+              
+              
               style={{ fontSize: "0.7rem", letterSpacing: "0.2em", color: C.textMuted, textDecoration: "none", cursor: "pointer" }}
               whileHover={{ color: C.text }}
             >
               {item}
-            </motion.a>
+            </motion.button>
           ))}
         </div>
       </motion.nav>
@@ -441,7 +441,7 @@ export default function VogueNoire() {
       <Ticker />
 
       {/* ── Mosaic Grid ────────────────────────────────────────────────────── */}
-      <section style={{ padding: "4rem clamp(1.5rem, 4vw, 4rem)" }}>
+      <section id="editorial" style={{ padding: "4rem clamp(1.5rem, 4vw, 4rem)" }}>
         <div style={{ maxWidth: "1300px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3rem" }}>
             <div>
@@ -487,7 +487,7 @@ export default function VogueNoire() {
       </section>
 
       {/* ── Manifeste ─────────────────────────────────────────────────────── */}
-      <section style={{ padding: "8rem clamp(2rem, 6vw, 6rem)", background: C.bgDark, overflow: "hidden" }}>
+      <section id="collections" style={{ padding: "8rem clamp(2rem, 6vw, 6rem)", background: C.bgDark, overflow: "hidden" }}>
         <div style={{ maxWidth: "900px", margin: "0 auto" }}>
           <div style={{ marginBottom: "3rem" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
@@ -525,7 +525,7 @@ export default function VogueNoire() {
       </section>
 
       {/* ── Archives Issues ───────────────────────────────────────────────── */}
-      <section style={{ padding: "8rem clamp(2rem, 6vw, 6rem)" }}>
+      <section id="archives" style={{ padding: "8rem clamp(2rem, 6vw, 6rem)" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "4rem" }}>
             <div>

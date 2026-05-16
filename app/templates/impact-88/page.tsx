@@ -433,7 +433,8 @@ export default function Page() {
         </div>
         <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
           {["Services", "Gallery", "Shades", "Book"].map(item => (
-            <button key={item} style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.muted, background: "none", border: "none", cursor: "pointer", letterSpacing: "0.03em", transition: "color 0.2s" }}
+            <button key={item} onClick={() => document.getElementById(({"Services": "services", "Gallery": "gallery", "Shades": "shades", "Book": "book"})[item] || "")?.scrollIntoView({behavior:"smooth"})}
+              style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.muted, background: "none", border: "none", cursor: "pointer", letterSpacing: "0.03em", transition: "color 0.2s" }}
               onMouseEnter={e => (e.currentTarget.style.color = C.cream)}
               onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
               {item}
@@ -526,7 +527,7 @@ export default function Page() {
       <MarqueeStrip />
 
       {/* ── Iridescent Nail — Signature Element ── */}
-      <section style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
+      <section id="services" style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
         <div style={{ marginBottom: 56 }}>
           <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.4em", color: C.rose, textTransform: "uppercase", marginBottom: 16 }}>Shade Collection</p>
           <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 600, lineHeight: 1.1, letterSpacing: "-0.02em", color: C.cream, fontFamily: "'Playfair Display', serif" }}>
@@ -538,7 +539,7 @@ export default function Page() {
       </section>
 
       {/* ── Services ── */}
-      <section style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+      <section id="gallery" style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
           <div style={{ marginBottom: 56 }}>
             <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.4em", color: C.rose, textTransform: "uppercase", marginBottom: 16 }}>Services</p>
@@ -558,7 +559,7 @@ export default function Page() {
       </section>
 
       {/* ── Gallery ── */}
-      <section style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
+      <section id="shades" style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 56 }}>
           <div>
             <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.4em", color: C.rose, textTransform: "uppercase", marginBottom: 16 }}>Nail Art Gallery</p>
@@ -580,7 +581,7 @@ export default function Page() {
       </section>
 
       {/* ── Testimonials ── */}
-      <section style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
+      <section id="book" style={{ padding: "80px 0", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: 800, margin: "0 auto", paddingInline: 40, textAlign: "center" }}>
           <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.4em", color: C.rose, textTransform: "uppercase", marginBottom: 48 }}>Client Reviews</p>
 

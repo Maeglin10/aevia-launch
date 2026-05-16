@@ -239,7 +239,7 @@ function Nav({ onBook }: { onBook: () => void }) {
         {["Expeditions", "Philosophy", "Why Us", "Contact"].map((item) => (
           <motion.a
             key={item}
-            href={`#${item.toLowerCase().replace(" ", "-")}`}
+            onClick={() => document.getElementById(item.toLowerCase().replace(" ", "-"))?.scrollIntoView({behavior:"smooth"})}
             whileHover={{ color: C.sky }}
             style={{ color: C.muted, fontSize: 13, fontWeight: 500, letterSpacing: "0.08em", textDecoration: "none", transition: "color 0.2s" }}
           >

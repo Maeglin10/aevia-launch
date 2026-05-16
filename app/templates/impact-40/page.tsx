@@ -399,8 +399,7 @@ export default function TerreVivantePage() {
               {l.label}
             </a>
           ))}
-          <a
-            href="#tarifs"
+          <button onClick={() => document.getElementById("tarifs")?.scrollIntoView({behavior:"smooth"})}
             style={{
               backgroundColor: C.bgDark,
               color: C.accent,
@@ -455,8 +454,7 @@ export default function TerreVivantePage() {
                 {l.label}
               </a>
             ))}
-            <a
-              href="#tarifs"
+            <button onClick={() => document.getElementById("tarifs")?.scrollIntoView({behavior:"smooth"})}
               onClick={() => setMenuOpen(false)}
               style={{
                 backgroundColor: C.bgDark,
@@ -581,8 +579,7 @@ export default function TerreVivantePage() {
             transition={{ duration: 0.85, delay: 0.42 }}
             style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}
           >
-            <a
-              href="#tarifs"
+            <button onClick={() => document.getElementById("tarifs")?.scrollIntoView({behavior:"smooth"})}
               style={{
                 backgroundColor: C.accent,
                 color: C.bgDark,
@@ -600,8 +597,7 @@ export default function TerreVivantePage() {
             >
               Choisir mon panier <ArrowRight size={16} />
             </a>
-            <a
-              href="#histoire"
+            <button onClick={() => document.getElementById("histoire")?.scrollIntoView({behavior:"smooth"})}
               style={{
                 border: `2px solid rgba(253,249,238,0.28)`,
                 color: C.bg,
@@ -1017,8 +1013,7 @@ export default function TerreVivantePage() {
                       </li>
                     ))}
                   </ul>
-                  <a
-                    href="#contact"
+                  <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
                     style={{
                       display: "block",
                       textAlign: "center",

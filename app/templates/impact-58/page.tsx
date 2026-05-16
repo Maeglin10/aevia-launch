@@ -262,14 +262,13 @@ export default function SkewOS() {
         </div>
         <div style={{ display: "flex", gap: "3rem" }}>
           {["Work", "Services", "Studio", "Contact"].map((item) => (
-            <motion.a
-              key={item}
-              href="#"
+            <motion.button
+              key={item} onClick={() => document.getElementById(({"Work": "work", "Services": "services", "Studio": "studio", "Contact": "contact"})[item] || "")?.scrollIntoView({behavior:"smooth"})}
               style={{ fontFamily: "'Syne Mono', monospace", fontSize: "0.7rem", color: C.textMuted, textDecoration: "none", cursor: "pointer" }}
               whileHover={{ color: C.violetLight }}
             >
               {item}
-            </motion.a>
+            </motion.button>
           ))}
         </div>
         <motion.button
@@ -352,7 +351,7 @@ export default function SkewOS() {
       </section>
 
       {/* ── Work ───────────────────────────────────────────────────────── */}
-      <section style={{ padding: "5rem 3rem", borderTop: `1px solid ${C.border}` }}>
+      <section id="work" style={{ padding: "5rem 3rem", borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: "1300px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3rem" }}>
             <div>
@@ -382,7 +381,7 @@ export default function SkewOS() {
       </section>
 
       {/* ── Services ───────────────────────────────────────────────────── */}
-      <section style={{ padding: "6rem 3rem", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
+      <section id="services" style={{ padding: "6rem 3rem", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: "1300px", margin: "0 auto" }}>
           <div style={{ marginBottom: "4rem" }}>
             <div style={{ fontFamily: "'Syne Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.textDim, marginBottom: "0.75rem" }}>
@@ -423,7 +422,7 @@ export default function SkewOS() {
       </section>
 
       {/* ── Awards ─────────────────────────────────────────────────────── */}
-      <section style={{ padding: "6rem 3rem", borderTop: `1px solid ${C.border}` }}>
+      <section id="studio" style={{ padding: "6rem 3rem", borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
           <div style={{ marginBottom: "4rem" }}>
             <div style={{ fontFamily: "'Syne Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.textDim, marginBottom: "0.75rem" }}>
@@ -462,7 +461,7 @@ export default function SkewOS() {
       </section>
 
       {/* ── CTA ────────────────────────────────────────────────────────── */}
-      <section style={{ padding: "8rem 3rem", background: C.violet, position: "relative", overflow: "hidden" }}>
+      <section id="contact" style={{ padding: "8rem 3rem", background: C.violet, position: "relative", overflow: "hidden" }}>
         <div style={{
           position: "absolute",
           inset: 0,

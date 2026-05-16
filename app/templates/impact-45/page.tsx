@@ -282,7 +282,7 @@ function Navbar() {
               onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
             >{l.label}</Link>
           ))}
-          <Link href="#booking"
+          <button onClick={() => document.getElementById("booking")?.scrollIntoView({behavior:"smooth"})}
             style={{ background: C.accent, color: C.white, padding: "10px 24px", fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase" as const, textDecoration: "none", fontFamily: "'Barlow', system-ui", fontWeight: 600 }}
             onMouseEnter={e => (e.currentTarget.style.background = C.accentHover)}
             onMouseLeave={e => (e.currentTarget.style.background = C.accent)}
@@ -353,12 +353,12 @@ function HeroSection() {
             transition={{ duration: 0.8, delay: 0.9 }}
             style={{ display: "flex", gap: 16, flexWrap: "wrap" as const }}
           >
-            <Link href="#booking"
+            <button onClick={() => document.getElementById("booking")?.scrollIntoView({behavior:"smooth"})}
               style={{ background: C.accent, color: C.white, padding: "16px 36px", fontSize: 13, letterSpacing: "0.12em", textTransform: "uppercase" as const, textDecoration: "none", fontFamily: "'Barlow', system-ui", fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}
               onMouseEnter={e => (e.currentTarget.style.background = C.accentHover)}
               onMouseLeave={e => (e.currentTarget.style.background = C.accent)}
             >Book Consultation <ArrowRight size={16} /></Link>
-            <Link href="#portfolio"
+            <button onClick={() => document.getElementById("portfolio")?.scrollIntoView({behavior:"smooth"})}
               style={{ border: `1px solid ${C.border}`, color: C.textMuted, padding: "16px 36px", fontSize: 13, letterSpacing: "0.12em", textTransform: "uppercase" as const, textDecoration: "none", fontFamily: "'Barlow', system-ui", fontWeight: 600 }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = C.accent; e.currentTarget.style.color = C.white; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.color = C.textMuted; }}
@@ -672,7 +672,7 @@ function BookingSection() {
                   </li>
                 ))}
               </ul>
-              <Link href="#contact"
+              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
                 style={{ display: "block", textAlign: "center" as const, background: tier.featured ? C.white : "transparent", color: tier.featured ? C.accent : C.white, border: tier.featured ? "none" : `1px solid ${C.border}`, padding: "14px 24px", fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase" as const, textDecoration: "none", fontFamily: "'Barlow', system-ui", fontWeight: 700 }}
               >{tier.cta}</Link>
             </motion.div>

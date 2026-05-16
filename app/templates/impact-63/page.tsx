@@ -378,16 +378,15 @@ export default function MaisonDrouet() {
         {/* Left nav */}
         <div style={{ display: "flex", gap: "2rem", flex: 1 }}>
           {["Collections", "Patrimoine", "Savoir-Faire"].map((item) => (
-            <motion.a
-              key={item}
-              href="#"
+            <motion.button
+              key={item} onClick={() => document.getElementById(({"Collections": "collections", "Patrimoine": "patrimoine", "Savoir-Faire": "savoir-faire"})[item] || "")?.scrollIntoView({behavior:"smooth"})}
               style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.7rem", letterSpacing: "0.2em", color: C.textMuted, textDecoration: "none", cursor: "pointer", position: "relative" }}
               whileHover={{ color: C.text }}
               transition={{ duration: 0.2 }}
             >
               {item}
               <HoverGoldLine />
-            </motion.a>
+            </motion.button>
           ))}
         </div>
 
@@ -403,16 +402,15 @@ export default function MaisonDrouet() {
         {/* Right nav */}
         <div style={{ display: "flex", gap: "2rem", flex: 1, justifyContent: "flex-end" }}>
           {["Bespoke", "Boutiques", "Contact"].map((item) => (
-            <motion.a
-              key={item}
-              href="#"
+            <motion.button
+              key={item} onClick={() => document.getElementById(({"Collections": "collections", "Patrimoine": "patrimoine", "Savoir-Faire": "savoir-faire"})[item] || "")?.scrollIntoView({behavior:"smooth"})}
               style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.7rem", letterSpacing: "0.2em", color: C.textMuted, textDecoration: "none", cursor: "pointer", position: "relative" }}
               whileHover={{ color: C.text }}
               transition={{ duration: 0.2 }}
             >
               {item}
               <HoverGoldLine />
-            </motion.a>
+            </motion.button>
           ))}
         </div>
       </motion.nav>
@@ -536,7 +534,7 @@ export default function MaisonDrouet() {
       </section>
 
       {/* ── Stats ──────────────────────────────────────────────────────────── */}
-      <section style={{ padding: "5rem clamp(2rem, 6vw, 6rem)", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, background: C.bgSection }}>
+      <section id="collections" style={{ padding: "5rem clamp(2rem, 6vw, 6rem)", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, background: C.bgSection }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "2rem", maxWidth: "1000px", margin: "0 auto" }}>
           <StatNumber value="133" label="Années d'histoire" />
           <StatNumber value="23" label="Maîtres-horlogers" />
@@ -546,7 +544,7 @@ export default function MaisonDrouet() {
       </section>
 
       {/* ── Collections ────────────────────────────────────────────────────── */}
-      <section style={{ padding: "8rem clamp(2rem, 6vw, 6rem)" }}>
+      <section id="patrimoine" style={{ padding: "8rem clamp(2rem, 6vw, 6rem)" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: "4rem" }}>
             <SectionLabel>Nos Collections</SectionLabel>
@@ -697,7 +695,7 @@ export default function MaisonDrouet() {
       </section>
 
       {/* ── Heritage Timeline ──────────────────────────────────────────────── */}
-      <section style={{ padding: "8rem clamp(2rem, 6vw, 6rem)", background: C.bgSection, borderTop: `1px solid ${C.border}` }}>
+      <section id="savoir-faire" style={{ padding: "8rem clamp(2rem, 6vw, 6rem)", background: C.bgSection, borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
           <div style={{ marginBottom: "5rem" }}>
             <SectionLabel>Notre Patrimoine</SectionLabel>

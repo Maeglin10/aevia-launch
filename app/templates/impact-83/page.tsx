@@ -555,10 +555,9 @@ export default function Impact83Page() {
               }}
             >
               {item}
-            </motion.a>
+            </button>
           ))}
-          <motion.a
-            href="#contact"
+          <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             style={{
@@ -573,7 +572,7 @@ export default function Impact83Page() {
             }}
           >
             Rendez-vous privé
-          </motion.a>
+          </button>
         </div>
       </motion.nav>
 
@@ -719,8 +718,7 @@ export default function Impact83Page() {
               transition={{ duration: 0.8, delay: 1.2 }}
               style={{ display: "flex", gap: 20, justifyContent: "center", flexWrap: "wrap" }}
             >
-              <motion.a
-                href="#collections"
+              <button onClick={() => document.getElementById("collections")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.03, background: C.accentLight }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -738,9 +736,8 @@ export default function Impact83Page() {
                 }}
               >
                 Découvrir les Collections <ArrowRight size={14} />
-              </motion.a>
-              <motion.a
-                href="#bespoke"
+              </button>
+              <button onClick={() => document.getElementById("bespoke")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.03, borderColor: C.accent, color: C.accent }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -759,7 +756,7 @@ export default function Impact83Page() {
                 }}
               >
                 Sur Mesure <Gem size={14} />
-              </motion.a>
+              </button>
             </motion.div>
           </div>
         </motion.div>
@@ -1124,8 +1121,7 @@ export default function Impact83Page() {
             transition={{ duration: 0.7, delay: 0.8 }}
             style={{ textAlign: "center", marginTop: 64 }}
           >
-            <motion.a
-              href="#contact"
+            <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
               whileHover={{ scale: 1.03, background: C.accentLight }}
               whileTap={{ scale: 0.97 }}
               style={{
@@ -1143,7 +1139,7 @@ export default function Impact83Page() {
               }}
             >
               Démarrer mon projet <ArrowRight size={14} />
-            </motion.a>
+            </button>
           </motion.div>
         </div>
       </section>
@@ -1586,7 +1582,7 @@ export default function Impact83Page() {
               }}
             >
               <Phone size={14} /> +33 1 42 88 18 87
-            </motion.a>
+            </button>
           </motion.div>
         </div>
       </section>
@@ -1680,7 +1676,7 @@ export default function Impact83Page() {
                     }}
                   >
                     {link}
-                  </motion.a>
+                  </button>
                 ))}
               </div>
             ))}
@@ -1716,7 +1712,7 @@ export default function Impact83Page() {
                   }}
                 >
                   {link}
-                </motion.a>
+                </button>
               ))}
             </div>
           </div>
