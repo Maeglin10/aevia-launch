@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, Suspense, useMemo } from "react";
+import { useState, useRef, Suspense, useMemo } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Sparkles, Search, Star } from "lucide-react";
@@ -60,44 +60,13 @@ interface ThemeItem {
 }
 
 // ─── Thumbnail card ────────────────────────────────────────────────────────────
-// Priority: static WebP screenshot (public/thumbnails/[id].webp) → live iframe fallback
-// Generate screenshots with: npm run screenshots
+// Static WebP thumbnail + CSS object-position scroll on hover (no iframe, no perf cost)
 function ThumbCard({ item, index }: { item: ThemeItem; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  const previewRef = useRef<HTMLDivElement>(null);
   const accent = CAT_COLOR[item.category] ?? "#7c3aed";
-
-  // Static thumbnail state
   const [thumbFailed, setThumbFailed] = useState(false);
   const [thumbLoaded, setThumbLoaded] = useState(false);
-
-  // Iframe on hover only
   const [hovered, setHovered] = useState(false);
-  const [showIframe, setShowIframe] = useState(false);
-
-  // Track preview area width for correct iframe scale
-  const [previewWidth, setPreviewWidth] = useState(0);
-
-  useEffect(() => {
-    if (!previewRef.current) return;
-    const ro = new ResizeObserver(entries => {
-      setPreviewWidth(entries[0].contentRect.width);
-    });
-    ro.observe(previewRef.current);
-    return () => ro.disconnect();
-  }, []);
-
-  useEffect(() => {
-    let t: NodeJS.Timeout;
-    if (hovered && previewWidth > 0) {
-      t = setTimeout(() => setShowIframe(true), 400);
-    } else {
-      setShowIframe(false);
-    }
-    return () => clearTimeout(t);
-  }, [hovered, previewWidth]);
-
-  const iframeScale = previewWidth > 0 ? previewWidth / 1440 : 0;
   const thumbSrc = `/thumbnails/${item.id}.webp`;
 
   return (
@@ -122,21 +91,23 @@ function ThumbCard({ item, index }: { item: ThemeItem; index: number }) {
           />
 
           {/* ── Preview area ── */}
-          <div ref={previewRef} className="w-full aspect-video relative overflow-hidden bg-[#050506] border-b border-white/5 shrink-0">
+          <div className="w-full aspect-video relative overflow-hidden bg-[#050506] border-b border-white/5 shrink-0">
 
-            {/* Placeholder (always behind) */}
-            <div
-              className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center"
-              style={{ background: `linear-gradient(135deg, ${accent}11 0%, #050506 100%)` }}
-            >
-               <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 opacity-20 border border-white/10 group-hover:scale-110 group-hover:opacity-40 transition-all duration-700">
+            {/* Placeholder shown when thumbnail is absent */}
+            {(!thumbLoaded || thumbFailed) && (
+              <div
+                className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center"
+                style={{ background: `linear-gradient(135deg, ${accent}11 0%, #050506 100%)` }}
+              >
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 opacity-20 border border-white/10 group-hover:scale-110 group-hover:opacity-40 transition-all duration-700">
                   <Sparkles className="w-8 h-8 text-white" />
-               </div>
-               <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 mb-2">{item.category}</span>
-               <h3 className="text-xl font-bold text-white/40 group-hover:text-white transition-colors duration-700 tracking-tighter uppercase">{item.label}</h3>
-            </div>
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 mb-2">{item.category}</span>
+                <h3 className="text-xl font-bold text-white/40 group-hover:text-white transition-colors duration-700 tracking-tighter uppercase">{item.label}</h3>
+              </div>
+            )}
 
-            {/* Static WebP thumbnail — first 25 eager, rest lazy */}
+            {/* Static WebP — scrolls from top to bottom on hover */}
             {!thumbFailed && (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -145,43 +116,27 @@ function ThumbCard({ item, index }: { item: ThemeItem; index: number }) {
                 loading={index < 25 ? "eager" : "lazy"}
                 decoding={index < 25 ? "sync" : "async"}
                 fetchPriority={index < 8 ? "high" : "low"}
-                className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-700 z-20 ${thumbLoaded ? "opacity-100" : "opacity-0"}`}
+                className={`absolute inset-0 w-full h-full object-cover z-20 ${thumbLoaded ? "opacity-100" : "opacity-0"}`}
+                style={{
+                  objectPosition: hovered ? "center 100%" : "center 0%",
+                  transition: `opacity 500ms, object-position ${hovered ? "4s" : "800ms"} ease-in-out`,
+                }}
                 onLoad={() => setThumbLoaded(true)}
                 onError={() => setThumbFailed(true)}
               />
             )}
 
-            {/* Live Iframe on hover — correct scale via ResizeObserver */}
-            <AnimatePresence>
-              {showIframe && iframeScale > 0 && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="absolute inset-0 z-30 pointer-events-none overflow-hidden"
-                >
-                  <iframe
-                    src={item.href}
-                    style={{
-                      width: '1440px',
-                      height: '900px',
-                      transformOrigin: 'top left',
-                      transform: `scale(${iframeScale})`,
-                      pointerEvents: 'none',
-                      border: 'none',
-                    }}
-                  />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-            {showIframe && (
-              <div className="absolute top-3 right-3 z-40 px-2 py-1 rounded-full text-[8px] font-black uppercase tracking-widest bg-white text-black shadow-xl animate-pulse">
-                Live Preview
+            {/* Scroll indicator badge */}
+            {thumbLoaded && !thumbFailed && (
+              <div
+                className={`absolute bottom-2 left-2 z-30 flex items-center gap-1 px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-widest transition-all duration-300 ${hovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"}`}
+                style={{ background: `${accent}25`, color: accent, border: `1px solid ${accent}45` }}
+              >
+                <span className="w-1 h-1 rounded-full bg-current" style={{ animation: hovered ? "pulse 1s infinite" : "none" }} />
+                Preview
               </div>
             )}
+          </div>
 
             {/* Info Section */}
             <div className="p-5 flex flex-col flex-1 relative z-10">
@@ -203,17 +158,17 @@ function ThumbCard({ item, index }: { item: ThemeItem; index: number }) {
 
               <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                   <div className="flex -space-x-2">
-                      {[1,2,3].map(i => (
-                        <div key={i} className="w-5 h-5 rounded-full border border-[#050506] bg-[#111118] flex items-center justify-center overflow-hidden">
-                           <div className="w-full h-full bg-gradient-to-br from-white/5 to-transparent" />
-                        </div>
-                      ))}
-                   </div>
-                   <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest">12k+ active</div>
+                  <div className="flex -space-x-2">
+                    {[1,2,3].map(i => (
+                      <div key={i} className="w-5 h-5 rounded-full border border-[#050506] bg-[#111118] flex items-center justify-center overflow-hidden">
+                        <div className="w-full h-full bg-gradient-to-br from-white/5 to-transparent" />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest">12k+ active</div>
                 </div>
                 <div className="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
-                   <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </div>
               </div>
             </div>
@@ -322,7 +277,7 @@ function ThemesContent() {
             </span>
           </h1>
           <p className="text-zinc-400 text-sm sm:text-base max-w-sm mx-auto leading-relaxed">
-            {allThemes.length}+ themes — every style, every industry, hover to preview live.
+            {allThemes.length}+ themes — every style, every industry, hover to scroll through.
           </p>
         </motion.div>
 
