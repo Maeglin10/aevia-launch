@@ -109,9 +109,9 @@ const PROCESS = [
 
 const REELTHUMB = [
   "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85",
-  "https://images.unsplash.com/photo-1637268884457-3cd0d2f4cd6f",
-  "https://images.unsplash.com/photo-1533709752211-118fcb24312f",
-  "https://images.unsplash.com/photo-1536440936eb61e6cf9e765e81b0e5a9",
+  "https://picsum.photos/seed/motion1/1200/750",
+  "https://picsum.photos/seed/motion/1200/750",
+  "https://picsum.photos/seed/motion2/1200/750",
 ]
 
 export default function KineticStudio() {
@@ -342,7 +342,7 @@ export default function KineticStudio() {
             <DialogTitle className="text-3xl text-white">Showreel 2025</DialogTitle>
           </DialogHeader>
           <div className="aspect-video bg-black relative rounded-lg overflow-hidden">
-            <Image src="https://images.unsplash.com/photo-1536523?w=800&q=80" alt="Showreel" fill className="object-cover" />
+            <Image src="https://picsum.photos/seed/motion3/800/450" alt="Showreel" fill className="object-cover" />
             <div className="absolute inset-0 flex items-center justify-center bg-black/30">
               <button className="text-white text-6xl hover:scale-110 transition-transform">▶</button>
             </div>

@@ -992,7 +992,7 @@ export default function Impact43Page() {
                 color: scrolled ? C.charcoal : "rgba(255,255,255,0.9)",
                 padding: 0,
                 transition: "color 0.3s, opacity 0.3s",
-                display: window?.innerWidth < 768 ? "none" : "block",
+                display: "block",
               }}
             >
               {link}

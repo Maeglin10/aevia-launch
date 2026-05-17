@@ -27,7 +27,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 };
 
 const films = [
-  { title: "Les Heures Perdues", type: "Long-métrage", year: "2025", festival: "Cannes — Sélection Officielle", src: "https://images.unsplash.com/photo-1478720568477-152d9b5e23dc?w=600&q=80" },
+  { title: "Les Heures Perdues", type: "Long-métrage", year: "2025", festival: "Cannes — Sélection Officielle", src: "https://picsum.photos/seed/cinema/600/800" },
   { title: "Poussière de Lumière", type: "Court-métrage", year: "2025", festival: "Sundance — Grand Prix", src: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&q=80" },
   { title: "L'Écho du Silence", type: "Documentaire", year: "2024", festival: "IDFA — Best Documentary", src: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80" },
   { title: "Fragments", type: "Court-métrage", year: "2024", festival: "César — Nommé", src: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=600&q=80" },
@@ -105,7 +105,7 @@ export default function StudioPelikanPage() {
       {/* Hero */}
       <section ref={heroRef} className="relative h-screen overflow-hidden">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
-          <Image src="https://images.unsplash.com/photo-1478720568477-152d9b5e23dc?w=1600&q=85" alt="Studio Pelikan" fill className="object-cover" priority />
+          <Image src="https://picsum.photos/seed/cinema/1600/1000" alt="Studio Pelikan" fill className="object-cover" priority />
           <div className="absolute inset-0 bg-gradient-to-b from-[#100D08]/70 via-[#100D08]/30 to-[#100D08]/95" />
         </motion.div>
         <motion.div className="relative z-10 h-full flex flex-col justify-end pb-20 px-6" style={{ opacity: heroOpacity }}>

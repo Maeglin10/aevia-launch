@@ -62,7 +62,7 @@ const STREAMS = [
     streamer: "DEV_X",
     viewers: "4.2K",
     tags: ["Tech", "Finance", "Web3"],
-    img: "https://images.unsplash.com/photo-1550741113-727a16c4e330?w=800&q=80",
+    img: "https://picsum.photos/seed/gaming/800/800",
     status: "LIVE",
   },
   {
@@ -374,7 +374,7 @@ export default function StreamHubPage() {
           className="absolute inset-0 z-0"
         >
           <Image
-            src="https://images.unsplash.com/photo-1550741113-727a16c4e330?w=1600&q=80"
+            src="https://picsum.photos/seed/gaming/1600/1000"
             alt="StreamHub Hero"
             fill
             className="object-cover brightness-[0.2] opacity-40"

@@ -60,7 +60,7 @@ const FEATURES = [
       "Micro-climat exceptionnel",
       "Rendements naturellement limités"
     ],
-    image: "https://images.unsplash.com/photo-1596403759955-4670c29ed6d6?w=800&q=80"
+    image: "https://picsum.photos/seed/restaurant/800/800"
   },
   {
     id: "vinification",

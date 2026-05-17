@@ -27,7 +27,7 @@ const DESTINATIONS = [
     days: "8 Days",
     desc: "Traverse the oldest desert in the world. Witness the towering red dunes of Sossusvlei and the surreal dead-tree valleys of Deadvlei.",
     image:
-      "https://images.unsplash.com/photo-1547471080-7fc2caa6f17f?q=80&w=1600&auto=format&fit=crop",
+      "https://picsum.photos/seed/desert/1600/1000",
     color: "#d97736",
   },
   {
@@ -60,7 +60,7 @@ const DESTINATIONS = [
     days: "5 Days",
     desc: "The Valley of the Moon. Sleep in luxury glass domes under the stars and ride through sandstone canyons.",
     image:
-      "https://images.unsplash.com/photo-1549887552-cb1071d3e5ca?q=80&w=1600&auto=format&fit=crop",
+      "https://picsum.photos/seed/desert1/1600/1000",
     color: "#9a3412",
   },
 ];

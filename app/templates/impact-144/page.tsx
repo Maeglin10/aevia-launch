@@ -36,7 +36,7 @@ const WORDS_1 = ["DESIGN", "MOTION", "IDENTITY", "STRATEGY", "CONTENT", "DIGITAL
 const WORDS_2 = ["CREATE", "LAUNCH", "SCALE", "DISRUPT", "CONVERT", "ENGAGE", "GROW"]
 
 const WORK = [
-  { title: "Neon Drift", client: "Pulse Gaming", type: "Brand Launch", img: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Neon Drift", client: "Pulse Gaming", type: "Brand Launch", img: "https://picsum.photos/seed/brand/1200/750" },
   { title: "Apex Protocol", client: "Velos Finance", type: "Web3 Campaign", img: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200" },
   { title: "Silk Thread", client: "Maison Versa", type: "Motion Design", img: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1200" },
   { title: "Gravity Shift", client: "Prism Analytics", type: "Product Campaign", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200" },

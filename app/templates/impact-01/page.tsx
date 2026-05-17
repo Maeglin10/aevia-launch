@@ -191,7 +191,7 @@ export default function AgencyVitrineSPA() {
         {/* Parallax Background */}
         <motion.div style={{ y: heroY, scale: heroScale }} className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1109543?w=800&q=80"
+            src="https://picsum.photos/seed/agency/800/800"
             fill
             className="object-cover opacity-[0.07]"
             alt="Agency Background"
@@ -434,7 +434,7 @@ export default function AgencyVitrineSPA() {
             <div className="relative">
               <div className="relative aspect-[4/5] rounded-3xl overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1109543?w=800&q=80"
+                  src="https://picsum.photos/seed/agency/800/800"
                   alt="Our Team"
                   fill
                   className="object-cover"

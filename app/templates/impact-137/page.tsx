@@ -31,7 +31,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 const ORIGINS = [
-  { name: "Ethiopian Yirgacheffe", region: "Sidamo, Ethiopia", altitude: "1,800m", process: "Washed", notes: "Jasmine, bergamot, stone fruit", img: "https://images.unsplash.com/photo-1447933601403-56dc2df6e89b?auto=format&fit=crop&q=80&w=800", score: 92 },
+  { name: "Ethiopian Yirgacheffe", region: "Sidamo, Ethiopia", altitude: "1,800m", process: "Washed", notes: "Jasmine, bergamot, stone fruit", img: "https://picsum.photos/seed/coffee/800/800", score: 92 },
   { name: "Colombian Huila", region: "Huila, Colombia", altitude: "1,650m", process: "Honey", notes: "Chocolate, caramel, citrus", img: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=800", score: 89 },
   { name: "Kenyan Nyeri AA", region: "Nyeri, Kenya", altitude: "1,700m", process: "Washed", notes: "Blackcurrant, tomato, wine", img: "https://images.unsplash.com/photo-1504630083234-14187a9df0f5?auto=format&fit=crop&q=80&w=800", score: 91 },
   { name: "Guatemala Antigua", region: "Antigua, Guatemala", altitude: "1,500m", process: "Natural", notes: "Dark chocolate, spice, smoke", img: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=800", score: 88 },
@@ -96,7 +96,7 @@ export default function TorrefieCoffeePage() {
         {/* ── HERO ────────────────────────────── */}
         <section className="relative h-[110vh] min-h-[800px] flex items-center overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src="https://images.unsplash.com/photo-1447933601403-56dc2df6e89b?auto=format&fit=crop&q=80&w=2400" alt="Coffee" fill className="object-cover" priority />
+            <Image src="https://picsum.photos/seed/coffee/2400/1500" alt="Coffee" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-r from-[#f5f0ea] via-[#f5f0ea]/60 to-transparent" />
           </motion.div>
 

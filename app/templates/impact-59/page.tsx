@@ -55,7 +55,7 @@ const RETREATS = [
     price: "from $4,200",
     theme: "Stillness",
     season: "Oct–Apr",
-    img: "https://images.unsplash.com/photo-1544161515-4be31d52a6be?w=1200&q=80",
+    img: "https://picsum.photos/seed/wellness/1200/750",
     desc: "Seven days in an ancient desert landscape. Dawn somatic practice, silent midday walks, and evening fire ceremonies. No agenda. No schedule beyond your own unfolding.",
     details: [
       ["Group Size", "Max 9 participants"],
@@ -336,7 +336,7 @@ export default function LuminalRetreatsPage() {
           className="absolute inset-0 z-0"
         >
           <Image
-            src="https://images.unsplash.com/photo-1544161515-4be31d52a6be?w=1600&q=80"
+            src="https://picsum.photos/seed/wellness/1600/1000"
             alt="Wellness Hero"
             fill
             className="object-cover grayscale brightness-90"

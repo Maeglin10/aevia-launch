@@ -45,7 +45,7 @@ const COLLECTIONS = [
     status: "In_Exhibition",
     location: "Paris Annex",
     desc: "Sculptures hellénistiques retrouvées lors de l'expédition de 1924 en mer Égée.",
-    image: "https://images.unsplash.com/photo-1549887534-1541e9326642?q=80&w=1200&auto=format&fit=crop"
+    image: "https://picsum.photos/seed/gallery/1200/750"
   },
   {
     id: "art-03",
@@ -162,7 +162,7 @@ export default function IvoryArchivePremium() {
         <section className="relative h-screen flex items-center justify-center overflow-hidden">
           <motion.div style={{ opacity: heroOpacity, scale: heroScale }} className="absolute inset-0 z-0">
              <Image 
-                src="https://images.unsplash.com/photo-1549887534-1541e9326642?q=80&w=2400&auto=format&fit=crop" 
+                src="https://picsum.photos/seed/gallery/2400/1500" 
                 alt="Classical Sculpture in Museum" 
                 fill 
                 className="object-cover opacity-20 grayscale"

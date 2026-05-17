@@ -636,7 +636,7 @@ export default function SatoriRestaurantPage() {
             <div className="lg:col-span-7 order-1 lg:order-2">
               <Reveal className="relative aspect-square md:aspect-[16/9] rounded-sm overflow-hidden shadow-2xl">
                 <Image
-                  src="https://images.unsplash.com/photo-733852?w=1200&q=80"
+                  src="https://picsum.photos/seed/chef/1200/800"
                   alt="Chef Portrait"
                   fill
                   className="object-cover grayscale brightness-50"

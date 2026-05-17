@@ -13,7 +13,7 @@ import {
 import Image from "next/image"
 import Link from "next/link"
 import { 
-  Zap, Activity, Target, Layers, Box, Hexagon, 
+  Zap, Activity, Target, Layers, Box, Hexagon, ArrowUpRight,
   Terminal, Settings, Power, Info, 
   AlertTriangle, ChevronRight, ArrowRight, 
   Share2, Maximize2, Download, ExternalLink, 

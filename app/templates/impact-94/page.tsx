@@ -58,7 +58,7 @@ const ARRANGEMENTS = [
     season: "Été",
     price: "195€",
     description: "Composition estivale aux roses centifolia et pivoines pêche, cueillie au lever du soleil.",
-    image: "https://images.unsplash.com/photo-1487530811015-780780171b65?w=800&q=80",
+    image: "https://picsum.photos/seed/fragrance/800/800",
     tag: "Exclusif",
   },
   {
@@ -85,7 +85,7 @@ const ARRANGEMENTS = [
     season: "Été",
     price: "220€",
     description: "Élégance orientale : lys Casa Blanca immaculés entre bambous lacqués et orchidées blanches.",
-    image: "https://images.unsplash.com/photo-1487530811015-780780171b65?w=800&q=80",
+    image: "https://picsum.photos/seed/fragrance/800/800",
     tag: "Signature",
   },
   {
@@ -447,7 +447,7 @@ export default function Impact94Page() {
         {/* Parallax Image */}
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
-            src="https://images.unsplash.com/photo-1487530811015-780780171b65?w=1800&q=90"
+            src="https://picsum.photos/seed/fragrance/1800/1125"
             alt="Bouquet de fleurs botanica"
             fill
             className="object-cover"
@@ -769,7 +769,7 @@ export default function Impact94Page() {
                 </div>
                 <div className="absolute -bottom-8 -right-8 w-56 h-56 overflow-hidden border-4 border-[#FAFAF9]">
                   <Image
-                    src="https://images.unsplash.com/photo-1487530811015-780780171b65?w=400&q=80"
+                    src="https://picsum.photos/seed/fragrance/400/800"
                     alt="Détail floral"
                     fill
                     className="object-cover"

@@ -29,7 +29,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 const collections = [
   { name: "Éternité", items: 18, theme: "Diamants taille brillant", src: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80" },
   { name: "Rivière", items: 12, theme: "Saphirs & diamants", src: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=600&q=80" },
-  { name: "Héritage", items: 24, theme: "Pièces de haute joaillerie", src: "https://images.unsplash.com/photo-1573408301185-9519f94f4bd4?w=600&q=80" },
+  { name: "Héritage", items: 24, theme: "Pièces de haute joaillerie", src: "https://picsum.photos/seed/jewelry/600/800" },
 ];
 
 const pieces = [
@@ -113,7 +113,7 @@ export default function OrensJewelryPage() {
       {/* Hero */}
       <section ref={heroRef} className="relative h-screen overflow-hidden">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
-          <Image src="https://images.unsplash.com/photo-1573408301185-9519f94f4bd4?w=1600&q=85" alt="Orens Jewelry" fill className="object-cover" priority />
+          <Image src="https://picsum.photos/seed/jewelry/1600/1000" alt="Orens Jewelry" fill className="object-cover" priority />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0A0806]/90 via-[#0A0806]/50 to-transparent" />
         </motion.div>
         <motion.div className="relative z-10 h-full flex items-center px-6" style={{ opacity: heroOpacity }}>

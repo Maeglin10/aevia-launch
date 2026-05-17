@@ -74,7 +74,7 @@ const PROJECTS = [
     year: "2026",
     type: "Cultural",
     area: "1,200m²",
-    img: "https://images.unsplash.com/photo-1600607687940-c52af096999c?w=1200&q=80",
+    img: "https://picsum.photos/seed/realestate/1200/750",
     desc: "Subterranean art gallery utilizing natural light diffraction through glass fissures.",
   },
 ];
@@ -337,7 +337,7 @@ export default function StructuraArchPage() {
           className="absolute inset-0 z-0"
         >
           <Image
-            src="https://images.unsplash.com/photo-1600607687940-c52af096999c?w=1600&q=80"
+            src="https://picsum.photos/seed/realestate/1600/1000"
             alt="Structura Hero"
             fill
             className="object-cover brightness-50 grayscale-[0.5]"

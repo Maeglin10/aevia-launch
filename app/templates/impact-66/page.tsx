@@ -76,7 +76,7 @@ const SERVICES = [
     name: "Brow Architecture",
     tag: "Lamination & Tint",
     price: "from €65",
-    img: "https://images.unsplash.com/photo-1522337660859-02fbefda4740?w=1200&q=80",
+    img: "https://picsum.photos/seed/beauty/1200/750",
     desc: "Framing the face through geometric mapping and custom pigment blending.",
   },
 ];
@@ -596,7 +596,7 @@ export default function AtelierBeautePage() {
 
             <Reveal className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
               <Image
-                src="https://images.unsplash.com/photo-1522337660859-02fbefda4740?w=1200&q=80"
+                src="https://picsum.photos/seed/beauty/1200/750"
                 alt="Atelier Detail"
                 fill
                 className="object-cover grayscale hover:grayscale-0 transition-all duration-1000"
