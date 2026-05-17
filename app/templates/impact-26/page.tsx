@@ -1,1058 +1,446 @@
 "use client"
 
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
-import React, { useState, useRef } from "react"
-import Link from "next/link"
+import { useRef, useState, useEffect } from "react"
+import Image from "next/image"
+import { ArrowRight, Heart, ChevronLeft, ChevronRight, Star, Leaf, Droplets, Wind } from "lucide-react"
 
-const C = {
-  bg: "#050508",
-  text: "#f8f4f0",
-  accent: "#c4a096",
-  plum: "#3d1c2e",
-  muted: "#8a7a74",
-  card: "#0e0a0d",
-  border: "#2a1a24",
+function useFonts() {
+  useEffect(() => {
+    if (document.getElementById("impact-26-fonts")) return
+    const style = document.createElement("style")
+    style.id = "impact-26-fonts"
+    style.textContent = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap');`
+    document.head.appendChild(style)
+  }, [])
 }
 
-const heading: React.CSSProperties = {
-  fontFamily: '"Cormorant Garamond", Georgia, serif',
-  fontStyle: "italic",
-}
-
-const body: React.CSSProperties = {
-  fontFamily: "system-ui, sans-serif",
-}
-
-// ─── Stat counter with useInView ────────────────────────────────────────────
-function StatCounter({ value, label }: { value: string; label: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true })
+function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: "-80px" })
   return (
-    <div ref={ref} style={{ textAlign: "center", padding: "0 24px" }}>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7, ease: "easeOut" }}
-        style={{
-          ...heading,
-          fontSize: "clamp(2rem, 4vw, 3.2rem)",
-          fontWeight: 400,
-          color: C.accent,
-          letterSpacing: "0.02em",
-          lineHeight: 1,
-          marginBottom: 8,
-        }}
-      >
-        {value}
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-        style={{ ...body, fontSize: "0.78rem", color: C.muted, letterSpacing: "0.12em", textTransform: "uppercase" }}
-      >
-        {label}
-      </motion.div>
-    </div>
-  )
-}
-
-// ─── FAQ Item ───────────────────────────────────────────────────────────────
-function FaqItem({ q, a, isOpen, onClick }: { q: string; a: string; isOpen: boolean; onClick: () => void }) {
-  return (
-    <div
-      style={{
-        borderBottom: `1px solid ${C.border}`,
-        overflow: "hidden",
-      }}
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 24 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
     >
-      <button
-        onClick={onClick}
-        style={{
-          width: "100%",
-          background: "none",
-          border: "none",
-          padding: "22px 0",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          cursor: "pointer",
-          textAlign: "left",
-          gap: 16,
-        }}
-      >
-        <span
-          style={{
-            ...heading,
-            fontSize: "1.15rem",
-            color: isOpen ? C.accent : C.text,
-            fontStyle: "italic",
-            transition: "color 0.3s",
-          }}
-        >
-          {q}
-        </span>
-        <motion.span
-          animate={{ rotate: isOpen ? 45 : 0 }}
-          transition={{ duration: 0.3 }}
-          style={{ color: C.accent, fontSize: "1.4rem", flexShrink: 0, lineHeight: 1 }}
-        >
-          +
-        </motion.span>
-      </button>
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            key="answer"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            style={{ overflow: "hidden" }}
-          >
-            <p style={{ ...body, color: C.muted, fontSize: "0.95rem", lineHeight: 1.75, paddingBottom: 22, margin: 0 }}>
-              {a}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+      {children}
+    </motion.div>
   )
 }
 
-// ─── Testimonial Card ────────────────────────────────────────────────────────
+const fragrances = [
+  {
+    name: "Nuit Absolue",
+    desc: "Oud noir, rose de Turquie, ambre gris",
+    family: "Oriental",
+    ml: "50ml",
+    price: "€285",
+    img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=600&fit=crop&crop=center",
+    notes: ["Oud", "Rose", "Ambre"],
+  },
+  {
+    name: "Aube Dorée",
+    desc: "Bergamote italienne, jasmin sambac, santal blanc",
+    family: "Floral",
+    ml: "50ml",
+    price: "€245",
+    img: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=600&fit=crop&crop=center",
+    notes: ["Bergamote", "Jasmin", "Santal"],
+  },
+  {
+    name: "Brume Sauvage",
+    desc: "Cèdre de l'Atlas, vétiver fumé, mousse de chêne",
+    family: "Boisé",
+    ml: "50ml",
+    price: "€265",
+    img: "https://images.unsplash.com/photo-1541643600914-78b084683702?w=400&h=600&fit=crop&crop=center",
+    notes: ["Cèdre", "Vétiver", "Mousse"],
+  },
+  {
+    name: "Lumière Claire",
+    desc: "Fleur d'oranger, musc blanc, poivre rose",
+    family: "Frais",
+    ml: "50ml",
+    price: "€225",
+    img: "https://images.unsplash.com/photo-1557170334-a9632e77c6e4?w=400&h=600&fit=crop&crop=center",
+    notes: ["Oranger", "Musc", "Poivre"],
+  },
+]
+
 const testimonials = [
-  {
-    quote:
-      "Je n'avais jamais ressenti un parfum me raconter une histoire avant Éther. Leur Vétiver Nocturne m'a accompagné lors de moments que je n'oublierai jamais. C'est bien plus qu'un parfum, c'est une empreinte.",
-    name: "Isabelle Moreau",
-    role: "Directrice artistique, Paris",
-    scent: "Vétiver Nocturne",
-  },
-  {
-    quote:
-      "J'ai offert le Coffret Découverte à ma mère pour son anniversaire et elle m'a rappelée en larmes — de joie. La qualité des matières premières se sent immédiatement. Rien de chimique, rien d'artificiel. Pure nature.",
-    name: "Camille Durand",
-    role: "Acheteuse luxe, Lyon",
-    scent: "Coffret Ambre & Rose",
-  },
-  {
-    quote:
-      "En tant que nez amateur, je cherchais des compositions honnêtes. Éther utilise des absolus réels, pas des reconstitutions. La tenue est remarquable — douze heures sur peau chaude, sans jamais virer à l'agressif.",
-    name: "Thomas Vergne",
-    role: "Collectionneur de parfums, Bordeaux",
-    scent: "Iris Poudré Absolu",
-  },
+  { text: "Un parfum qui raconte une histoire. Nuit Absolue est devenu mon identité olfactive.", name: "Camille R.", location: "Paris" },
+  { text: "La qualité des matières premières est incomparable. Je ne peux plus porter autre chose.", name: "Thomas V.", location: "Lyon" },
+  { text: "Éther comprend ce que la parfumerie de niche devrait être — art, pas commerce.", name: "Isabelle M.", location: "Bordeaux" },
 ]
 
-const tabs = [
-  {
-    id: "signature",
-    label: "Collection Signature",
-    content: {
-      headline: "L'Essence de Notre Maison",
-      body: "Nos 12 eaux de parfum permanentes constituent l'âme d'Éther. Chaque fragrance naît d'une obsession : trouver la matière première la plus noble — rose de Taïf, oud du Laos, iris de Florence — et la sublimer sans artifice. Des compositions qui évoluent sur la peau, révélant de nouvelles facettes à chaque heure.",
-      items: ["Rose de Taïf & Bois de Santal", "Vétiver Nocturne", "Iris Poudré Absolu", "Oud Blanc & Musc Sacré"],
-    },
-  },
-  {
-    id: "editions",
-    label: "Éditions Limitées",
-    content: {
-      headline: "La Rareté, Révélée",
-      body: "Deux fois par an, notre maîtresse parfumeuse part en quête d'une matière première exceptionnelle disponible en quantité infime. Ces éditions — limitées à 200 flacons — explorent des territoires olfactifs audacieux : tabac vert du Zimbabwe, encens d'Éthiopie, tubéreuse mexicaine absolue.",
-      items: ["Tabac Vert (Automne 2025)", "Encens d'Harar (Printemps 2025)", "Tubéreuse Méxicaine (Automne 2024)", "Cyprès & Sel Marin (Épuisé)"],
-    },
-  },
-  {
-    id: "bougies",
-    label: "Bougies & Ambiance",
-    content: {
-      headline: "La Maison Éther",
-      body: "Nos bougies de cire végétale portent les mêmes compositions que nos eaux de parfum. Conçues pour embaumer sans agressivité, elles diffusent pendant 55 à 60 heures une fragrance vraie, qui respire avec la pièce. Leur verre soufflé, gravé à la main, devient une pièce de décoration après usage.",
-      items: ["Bougies Signature 220g (55h)", "Bougies Miniatures 80g (20h)", "Diffuseurs de Roseau 200ml", "Spray d'Ambiance 100ml"],
-    },
-  },
-  {
-    id: "coffrets",
-    label: "Coffrets Cadeaux",
-    content: {
-      headline: "L'Art d'Offrir",
-      body: "Chaque coffret Éther est assemblé à la main dans notre atelier parisien. Du Coffret Découverte 3×10ml — idéal pour l'initiation — au Grand Coffret Maison réunissant une eau de parfum 100ml et sa bougie assortie, chaque présentation est pensée pour faire de l'ouverture un rituel en soi.",
-      items: ["Coffret Découverte 3×10ml", "Coffret Duo EDP + Bougie", "Grand Coffret Maison", "Coffret Personnalisable sur mesure"],
-    },
-  },
-]
+export default function Impact26() {
+  useFonts()
+  const containerRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: containerRef })
+  const heroY = useTransform(scrollYProgress, [0, 0.4], [0, -80])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0])
+  const [activeFragrance, setActiveFragrance] = useState(0)
+  const [wishlist, setWishlist] = useState<Set<number>>(new Set())
+  const [testimonialIdx, setTestimonialIdx] = useState(0)
+  const [menuOpen, setMenuOpen] = useState(false)
 
-const faqs = [
-  {
-    q: "Vos ingrédients sont-ils vraiment naturels ?",
-    a: "Tous nos parfums sont formulés avec un minimum de 95% d'ingrédients d'origine naturelle, certifiés COSMOS Natural par Ecocert. Nous travaillons en direct avec des producteurs de matières premières sélectionnés pour leur éthique et la qualité de leur récolte. Les 5% restants correspondent à des conservateurs naturels indispensables à la stabilité du flacon.",
-  },
-  {
-    q: "Quelle est la tenue de vos parfums ?",
-    a: "Nos eaux de parfum titrent entre 22% et 28% de concentration en matières premières, bien au-delà des standards de marché. Sur une peau chaude et bien hydratée, comptez 8 à 14 heures de tenue. Pour prolonger la diffusion, nous recommandons d'appliquer notre Baume Neutre Éther sur les poignets avant la fragrance.",
-  },
-  {
-    q: "Livrez-vous à l'international ?",
-    a: "Nous livrons dans 62 pays via DHL Express (3-5 jours ouvrés) et La Poste Colissimo pour la France et les DOM-TOM (2-3 jours). Les commandes sont préparées dans notre atelier parisien le jour ouvré suivant la commande, emballées dans un écrin recyclable. Les frais de douane sont à la charge du destinataire hors UE.",
-  },
-  {
-    q: "Puis-je recevoir des échantillons avant d'acheter ?",
-    a: "Absolument. Notre Coffret Découverte 3×10ml est conçu précisément pour cela — vous choisissez vos trois fragrances parmi l'intégralité de la collection. Nous offrons également deux échantillons de 1,5ml avec chaque commande, en cadeau. Ces flacons de voyage sont aussi disponibles séparément à l'unité sur notre boutique.",
-  },
-  {
-    q: "Votre politique de retour ?",
-    a: "Nous acceptons les retours de flacons non ouverts et non descellés dans un délai de 14 jours suivant la réception, conformément au droit de rétractation européen. En cas de défaut de fabrication avéré, nous assurons le remplacement ou le remboursement intégral. Contactez notre service client à contact@ether-parfums.fr pour initier toute démarche.",
-  },
-  {
-    q: "Vos flacons sont-ils rechargeables ?",
-    a: "Depuis 2023, l'intégralité de notre collection Signature est disponible en format rechargeable. Nos flacons 100ml acceptent notre recharge hermétique, réduisant les déchets de verre et le coût à la recharge (-25% par rapport au flacon neuf). Nous proposons également la collecte des flacons vides en boutique pour recyclage.",
-  },
-]
+  useEffect(() => {
+    const t = setInterval(() => setTestimonialIdx(i => (i + 1) % testimonials.length), 4000)
+    return () => clearInterval(t)
+  }, [])
 
-const pricingTiers = [
-  {
-    name: "Eau de Parfum",
-    volume: "50 ml",
-    price: "à partir de 120€",
-    desc: "L'entrée dans l'univers Éther. Concentration 22–24%, flacon verre soufflé, bouchon laqué.",
-    features: ["12 fragrances disponibles", "Flacon collector réutilisable", "Notice olfactive incluse", "Emballage cadeau offert"],
-    highlighted: false,
-  },
-  {
-    name: "Eau de Parfum",
-    volume: "100 ml",
-    price: "à partir de 195€",
-    desc: "Le grand format, conçu pour ceux qui ont trouvé leur signature. Rechargeable dès 2024.",
-    features: ["Format rechargeable", "Concentrations exclusives 26–28%", "Gravure prénom offerte", "Livraison express prioritaire", "Accès éditions limitées en avant-première"],
-    highlighted: true,
-  },
-  {
-    name: "Coffret Découverte",
-    volume: "3 × 10 ml",
-    price: "89€",
-    desc: "Explorez trois fragrances de votre choix dans des flacons de voyage élégants, idéal en cadeau.",
-    features: ["Choix libre parmi 12 créations", "Coffret bois laqué inclus", "Carte olfactive personnalisée", "Échange possible sous 30 jours"],
-    highlighted: false,
-  },
-]
-
-// ─── SVG Noise pattern for feature cards ────────────────────────────────────
-function NoiseOverlay() {
-  return (
-    <svg
-      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.04, pointerEvents: "none" }}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <filter id="noise-ether">
-        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch" />
-        <feColorMatrix type="saturate" values="0" />
-      </filter>
-      <rect width="100%" height="100%" filter="url(#noise-ether)" />
-    </svg>
-  )
-}
-
-// ─── Main Page ───────────────────────────────────────────────────────────────
-export default function EtherPage() {
-  const { scrollY } = useScroll()
-  const heroCircleScale = useTransform(scrollY, [0, 500], [1, 1.2])
-  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0])
-
-  const [activeTab, setActiveTab] = useState("signature")
-  const [activeTestimonial, setActiveTestimonial] = useState(0)
-  const [openFaq, setOpenFaq] = useState<number | null>(0)
-  const [direction, setDirection] = useState(1)
-
-  const currentTab = tabs.find((t) => t.id === activeTab)!
-
-  function goTestimonial(index: number) {
-    setDirection(index > activeTestimonial ? 1 : -1)
-    setActiveTestimonial(index)
-  }
-  function nextTestimonial() {
-    const next = (activeTestimonial + 1) % testimonials.length
-    setDirection(1)
-    setActiveTestimonial(next)
-  }
-  function prevTestimonial() {
-    const prev = (activeTestimonial - 1 + testimonials.length) % testimonials.length
-    setDirection(-1)
-    setActiveTestimonial(prev)
+  const toggleWishlist = (i: number) => {
+    setWishlist(prev => {
+      const next = new Set(prev)
+      next.has(i) ? next.delete(i) : next.add(i)
+      return next
+    })
   }
 
   return (
-    <div style={{ background: C.bg, color: C.text, minHeight: "100vh", overflowX: "hidden" }}>
-      {/* Rose gold top bar */}
-      <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 3, background: C.accent, zIndex: 100 }} />
+    <div ref={containerRef} className="min-h-screen bg-[#1A0F1E] text-[#F5EDE8]" style={{ fontFamily: "'Jost', sans-serif" }}>
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-px bg-[#C9956A] origin-left z-50"
+        style={{ scaleX: scrollYProgress }}
+      />
 
-      {/* ── NAVBAR ─────────────────────────────────────────────────────────── */}
-      <motion.nav
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        style={{
-          position: "fixed",
-          top: 3,
-          left: 0,
-          right: 0,
-          zIndex: 99,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "18px 48px",
-          background: "rgba(5, 5, 8, 0.88)",
-          backdropFilter: "blur(12px)",
-          borderBottom: `1px solid ${C.border}`,
-        }}
-      >
-        <div style={{ ...heading, fontSize: "1.5rem", letterSpacing: "0.3em", color: C.accent, fontStyle: "normal", fontWeight: 400 }}>
-          ÉTHER
-        </div>
-        <div style={{ display: "flex", gap: 36, alignItems: "center" }}>
-          {["Collection", "Éditions", "Bougies", "Notre Histoire"].map((link) => (
-            <Link
-              key={link}
-              href="#"
-              style={{ ...body, color: C.muted, fontSize: "0.8rem", letterSpacing: "0.1em", textDecoration: "none", textTransform: "uppercase", cursor: "pointer", transition: "color 0.2s" }}
-            >
-              {link}
-            </Link>
-          ))}
-        </div>
-        <motion.a
-          href="#"
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-          style={{
-            ...body,
-            background: C.accent,
-            color: C.bg,
-            padding: "10px 24px",
-            fontSize: "0.75rem",
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
-            textDecoration: "none",
-            cursor: "pointer",
-          }}
-        >
-          Boutique
-        </motion.a>
-      </motion.nav>
-
-      {/* ── HERO ────────────────────────────────────────────────────────────── */}
-      <section
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
-          paddingTop: 80,
-          overflow: "hidden",
-        }}
-      >
-        {/* Background gradient */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: `radial-gradient(ellipse 70% 60% at 50% 40%, ${C.plum}44 0%, transparent 70%)`,
-            pointerEvents: "none",
-          }}
-        />
-
-        <motion.div
-          style={{ scale: heroCircleScale, opacity: heroOpacity, position: "relative" }}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-        >
-          {/* Rotating SVG circle */}
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-            style={{ position: "absolute", inset: -20, pointerEvents: "none" }}
-          >
-            <svg viewBox="0 0 460 460" style={{ width: "100%", height: "100%" }}>
-              <circle
-                cx="230" cy="230" r="215"
-                fill="none"
-                stroke={C.accent}
-                strokeWidth="0.8"
-                strokeDasharray="8 14"
-                opacity="0.5"
-              />
-              <circle
-                cx="230" cy="230" r="200"
-                fill="none"
-                stroke={C.accent}
-                strokeWidth="0.3"
-                opacity="0.3"
-              />
-            </svg>
-          </motion.div>
-
-          {/* Inner content circle */}
-          <div
-            style={{
-              width: 420,
-              height: 420,
-              borderRadius: "50%",
-              border: `1px solid ${C.border}`,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              position: "relative",
-              background: `radial-gradient(ellipse at center, ${C.plum}22 0%, transparent 70%)`,
-            }}
-          >
-            <div
-              style={{
-                ...heading,
-                fontSize: "clamp(3rem, 6vw, 5.5rem)",
-                letterSpacing: "0.5em",
-                color: C.text,
-                fontStyle: "normal",
-                fontWeight: 300,
-                lineHeight: 1,
-                marginBottom: 16,
-              }}
-            >
-              ÉTHER
-            </div>
-            <div
-              style={{
-                ...heading,
-                fontSize: "clamp(0.9rem, 2vw, 1.2rem)",
-                color: C.accent,
-                fontStyle: "italic",
-                letterSpacing: "0.05em",
-                textAlign: "center",
-              }}
-            >
-              L'Invisible Made Visible
-            </div>
+      {/* Nav */}
+      <nav className="fixed top-0 left-0 right-0 z-40 bg-[#1A0F1E]/90 backdrop-blur-md border-b border-[#C9956A]/10">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="text-2xl tracking-[0.3em] uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+            Éther
           </div>
-        </motion.div>
-
-        {/* Collection pills */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.8 }}
-          style={{ display: "flex", gap: 12, marginTop: 48, flexWrap: "wrap", justifyContent: "center" }}
-        >
-          {["Collection Signature", "Éditions Limitées", "Bougies & Maison"].map((label) => (
-            <div
-              key={label}
-              style={{
-                ...body,
-                border: `1px solid ${C.border}`,
-                color: C.muted,
-                padding: "8px 20px",
-                fontSize: "0.72rem",
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                borderRadius: 999,
-              }}
-            >
-              {label}
-            </div>
-          ))}
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          style={{ position: "absolute", bottom: 40, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}
-        >
-          <div style={{ width: 1, height: 40, background: `linear-gradient(to bottom, transparent, ${C.accent})` }} />
-          <span style={{ ...body, fontSize: "0.65rem", letterSpacing: "0.2em", color: C.muted, textTransform: "uppercase" }}>Défiler</span>
-        </motion.div>
-      </section>
-
-      {/* ── STATS BAR ────────────────────────────────────────────────────────── */}
-      <section style={{ padding: "80px 48px", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
-        <div
-          style={{
-            maxWidth: 900,
-            margin: "0 auto",
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: 24,
-          }}
-        >
-          <StatCounter value="2018" label="Année de fondation" />
-          <StatCounter value="24" label="Créations olfactives" />
-          <StatCounter value="100%" label="Ingrédients naturels certifiés" />
-          <StatCounter value="62" label="Pays de livraison" />
-        </div>
-      </section>
-
-      {/* ── FEATURES / TABS ──────────────────────────────────────────────────── */}
-      <section style={{ padding: "100px 48px", maxWidth: 1100, margin: "0 auto" }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          style={{ textAlign: "center", marginBottom: 60 }}
-        >
-          <div style={{ ...body, fontSize: "0.7rem", letterSpacing: "0.22em", color: C.accent, textTransform: "uppercase", marginBottom: 16 }}>
-            Notre Univers
+          <div className="hidden md:flex items-center gap-10 text-xs tracking-widest uppercase text-[#F5EDE8]/50">
+            <a href="#collection" className="hover:text-[#C9956A] transition-colors cursor-pointer">Collection</a>
+            <a href="#maison" className="hover:text-[#C9956A] transition-colors cursor-pointer">La Maison</a>
+            <a href="#savoir-faire" className="hover:text-[#C9956A] transition-colors cursor-pointer">Savoir-Faire</a>
+            <a href="#contact" className="hover:text-[#C9956A] transition-colors cursor-pointer">Contact</a>
           </div>
-          <h2 style={{ ...heading, fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 400, margin: 0, color: C.text }}>
-            La Maison Éther
-          </h2>
-        </motion.div>
-
-        {/* Tab selector */}
-        <div style={{ display: "flex", justifyContent: "center", gap: 4, marginBottom: 56, flexWrap: "wrap" }}>
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              style={{
-                background: activeTab === tab.id ? C.accent : "transparent",
-                color: activeTab === tab.id ? C.bg : C.muted,
-                border: `1px solid ${activeTab === tab.id ? C.accent : C.border}`,
-                padding: "10px 22px",
-                fontSize: "0.75rem",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                cursor: "pointer",
-                fontFamily: "system-ui, sans-serif",
-                transition: "all 0.25s",
-              }}
-            >
-              {tab.label}
-            </button>
-          ))}
+          <a href="#collection" className="hidden md:block border border-[#C9956A]/50 text-[#C9956A] text-xs tracking-widest uppercase px-6 py-2.5 hover:bg-[#C9956A]/10 transition-colors cursor-pointer">
+            Commander
+          </a>
+          <button className="md:hidden p-2 cursor-pointer" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
+            <div className="w-5 h-px bg-[#F5EDE8] mb-1.5" />
+            <div className="w-5 h-px bg-[#F5EDE8] mb-1.5" />
+            <div className="w-5 h-px bg-[#F5EDE8]" />
+          </button>
         </div>
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="overflow-hidden border-t border-[#C9956A]/10"
+            >
+              <div className="px-6 py-4 flex flex-col gap-4 text-xs tracking-widest uppercase text-[#F5EDE8]/60">
+                {["Collection", "La Maison", "Savoir-Faire", "Contact"].map(item => (
+                  <a key={item} href={`#${item.toLowerCase().replace(" ", "-")}`} onClick={() => setMenuOpen(false)} className="hover:text-[#C9956A] transition-colors cursor-pointer">{item}</a>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
 
-        {/* Tab content */}
-        <AnimatePresence mode="wait">
+      {/* Hero */}
+      <section className="min-h-screen flex items-end relative overflow-hidden pt-20">
+        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1590736704728-f4730bb30770?w=1600&h=900&fit=crop&crop=center"
+            alt="Éther Parfums"
+            fill
+            className="object-cover opacity-40"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1A0F1E] via-[#1A0F1E]/60 to-transparent" />
+        </motion.div>
+        <div className="relative max-w-6xl mx-auto px-6 pb-24 w-full">
           <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 48,
-              alignItems: "center",
-            }}
+            transition={{ duration: 0.8 }}
+            className="text-[#C9956A] text-xs tracking-[0.4em] uppercase mb-6"
           >
-            <div>
-              <h3 style={{ ...heading, fontSize: "clamp(1.6rem, 3vw, 2.4rem)", fontWeight: 400, color: C.text, margin: "0 0 20px" }}>
-                {currentTab.content.headline}
-              </h3>
-              <p style={{ ...body, color: C.muted, lineHeight: 1.8, fontSize: "0.95rem", margin: "0 0 32px" }}>
-                {currentTab.content.body}
-              </p>
-              <motion.a
-                href="#"
-                whileHover={{ x: 4 }}
-                style={{
-                  ...body,
-                  color: C.accent,
-                  fontSize: "0.8rem",
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  cursor: "pointer",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                }}
-              >
-                Explorer →
-              </motion.a>
-            </div>
+            Parfumerie de Niche · Paris
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.1 }}
+            className="text-6xl md:text-9xl leading-[0.9] mb-8"
+            style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
+          >
+            L'art du<br />
+            <em>invisible.</em>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-[#F5EDE8]/60 text-lg max-w-xl mb-10 leading-relaxed"
+          >
+            Chaque flacon est une œuvre. Chaque note, une promesse. Éther compose des parfums pour ceux qui refusent l'ordinaire.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className="flex items-center gap-6"
+          >
+            <a href="#collection" className="bg-[#C9956A] text-[#1A0F1E] text-xs tracking-widest uppercase px-8 py-4 font-medium hover:bg-[#D9A57A] transition-colors flex items-center gap-3 cursor-pointer">
+              Découvrir la collection <ArrowRight className="w-4 h-4" />
+            </a>
+            <a href="#savoir-faire" className="text-[#C9956A] text-xs tracking-widest uppercase border-b border-[#C9956A]/40 pb-0.5 hover:border-[#C9956A] transition-colors cursor-pointer">
+              Notre histoire
+            </a>
+          </motion.div>
+        </div>
+      </section>
 
-            {/* Fragrance family cards with noise texture */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-              {currentTab.content.items.map((item, i) => (
+      {/* Collection */}
+      <section id="collection" className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="mb-16">
+            <p className="text-[#C9956A] text-xs tracking-[0.4em] uppercase mb-4">Collection 2026</p>
+            <h2 className="text-5xl md:text-6xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+              Quatre essences,<br /><em>un monde.</em>
+            </h2>
+          </Reveal>
+
+          {/* Main feature */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
+            <Reveal>
+              <div className="relative group cursor-pointer">
+                <div className="overflow-hidden aspect-[3/4] rounded-sm">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeFragrance}
+                      initial={{ opacity: 0, scale: 1.05 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.98 }}
+                      transition={{ duration: 0.6 }}
+                      className="w-full h-full"
+                    >
+                      <Image
+                        src={fragrances[activeFragrance].img}
+                        alt={fragrances[activeFragrance].name}
+                        width={400}
+                        height={600}
+                        className="w-full h-full object-cover"
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+                <button
+                  onClick={() => toggleWishlist(activeFragrance)}
+                  className="absolute top-4 right-4 w-10 h-10 bg-[#1A0F1E]/80 backdrop-blur-sm rounded-full flex items-center justify-center transition-colors cursor-pointer"
+                  aria-label="Wishlist"
+                >
+                  <Heart className={`w-4 h-4 transition-colors ${wishlist.has(activeFragrance) ? "fill-[#C9956A] text-[#C9956A]" : "text-[#F5EDE8]/60"}`} />
+                </button>
+              </div>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <div>
+                <div className="text-[#C9956A] text-xs tracking-widest uppercase mb-3">{fragrances[activeFragrance].family}</div>
+                <h3 className="text-4xl md:text-5xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+                  {fragrances[activeFragrance].name}
+                </h3>
+                <p className="text-[#F5EDE8]/60 italic text-lg mb-8 leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                  {fragrances[activeFragrance].desc}
+                </p>
+                <div className="flex gap-3 mb-8">
+                  {fragrances[activeFragrance].notes.map(note => (
+                    <span key={note} className="border border-[#C9956A]/30 text-[#C9956A] text-xs tracking-widest uppercase px-4 py-2">
+                      {note}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex items-center justify-between mb-8">
+                  <div>
+                    <div className="text-3xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fragrances[activeFragrance].price}</div>
+                    <div className="text-[#F5EDE8]/40 text-xs tracking-widest">{fragrances[activeFragrance].ml} · Eau de Parfum</div>
+                  </div>
+                  <button className="bg-[#C9956A] text-[#1A0F1E] text-xs tracking-widest uppercase px-8 py-3 hover:bg-[#D9A57A] transition-colors cursor-pointer">
+                    Ajouter au panier
+                  </button>
+                </div>
+                {/* Thumbnails */}
+                <div className="flex gap-3">
+                  {fragrances.map((f, i) => (
+                    <button
+                      key={f.name}
+                      onClick={() => setActiveFragrance(i)}
+                      className={`w-16 h-20 overflow-hidden rounded-sm transition-all cursor-pointer ${activeFragrance === i ? "ring-1 ring-[#C9956A]" : "opacity-40 hover:opacity-70"}`}
+                    >
+                      <Image src={f.img} alt={f.name} width={64} height={80} className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* La Maison */}
+      <section id="maison" className="py-24 px-6 bg-[#150C18]">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <Reveal delay={0.1}>
+              <div className="relative">
+                <div className="aspect-[4/5] overflow-hidden rounded-sm">
+                  <Image
+                    src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=750&fit=crop&crop=center"
+                    alt="Atelier Éther"
+                    width={600}
+                    height={750}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="absolute bottom-6 left-6 bg-[#1A0F1E]/90 backdrop-blur-sm border border-[#C9956A]/20 p-6">
+                  <div className="text-3xl text-[#C9956A]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>1987</div>
+                  <div className="text-[#F5EDE8]/50 text-xs tracking-widest uppercase mt-1">Fondé à Paris</div>
+                </div>
+              </div>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <div>
+                <p className="text-[#C9956A] text-xs tracking-[0.4em] uppercase mb-6">La Maison Éther</p>
+                <h2 className="text-4xl md:text-5xl mb-8 leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+                  Trente-sept ans de<br /><em>création olfactive.</em>
+                </h2>
+                <div className="space-y-6 text-[#F5EDE8]/60 leading-relaxed">
+                  <p>Éther est née d'une conviction : que le parfum est le dernier art intime. Fondée en 1987 par la nez Hélène Varenne, notre maison n'a jamais renoncé à l'exigence absolue.</p>
+                  <p>Chaque fragrance est composée dans notre atelier du Marais, avec des matières premières sourcing directement auprès des producteurs — fleurs de Grasse, oud du Camboge, résines d'Éthiopie.</p>
+                </div>
+                <div className="grid grid-cols-3 gap-6 mt-10">
+                  {[
+                    { icon: <Leaf className="w-5 h-5" />, label: "Ingrédients naturels", val: "93%" },
+                    { icon: <Droplets className="w-5 h-5" />, label: "Concentrés parfum", val: "25–30%" },
+                    { icon: <Wind className="w-5 h-5" />, label: "Tenue garantie", val: "12h+" },
+                  ].map(({ icon, label, val }) => (
+                    <div key={label} className="border-t border-[#C9956A]/20 pt-4">
+                      <div className="text-[#C9956A] mb-2">{icon}</div>
+                      <div className="text-2xl text-[#F5EDE8]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{val}</div>
+                      <div className="text-[#F5EDE8]/40 text-xs mt-1">{label}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Savoir-faire */}
+      <section id="savoir-faire" className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="text-center mb-16">
+            <p className="text-[#C9956A] text-xs tracking-[0.4em] uppercase mb-4">Savoir-Faire</p>
+            <h2 className="text-4xl md:text-5xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+              Le processus de création
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {[
+              { step: "01", title: "Sourcing", desc: "Nous sélectionnons chaque ingrédient à la source, directement chez le producteur." },
+              { step: "02", title: "Macération", desc: "Les matières reposent 6 à 8 semaines pour révéler leur plein potentiel aromatique." },
+              { step: "03", title: "Composition", desc: "Notre nez assemble les accords, ajustant jusqu'à l'accord parfait — parfois 200 essais." },
+              { step: "04", title: "Mise en flacon", desc: "Chaque flacon est rempli et cacheté à la main dans notre atelier parisien." },
+            ].map((s, i) => (
+              <Reveal key={s.step} delay={i * 0.1}>
+                <div className="border-t border-[#C9956A]/20 pt-6">
+                  <div className="text-[#C9956A]/30 text-4xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{s.step}</div>
+                  <h3 className="text-xl mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{s.title}</h3>
+                  <p className="text-[#F5EDE8]/50 text-sm leading-relaxed">{s.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-24 px-6 bg-[#150C18]">
+        <div className="max-w-3xl mx-auto text-center">
+          <Reveal>
+            <p className="text-[#C9956A] text-xs tracking-[0.4em] uppercase mb-12">Ils portent Éther</p>
+            <div className="relative min-h-[180px] flex items-center">
+              <AnimatePresence mode="wait">
                 <motion.div
-                  key={item}
+                  key={testimonialIdx}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.08 }}
-                  whileHover={{ y: -4, borderColor: C.accent }}
-                  style={{
-                    position: "relative",
-                    background: C.card,
-                    border: `1px solid ${C.border}`,
-                    padding: "24px 18px",
-                    overflow: "hidden",
-                    cursor: "pointer",
-                    transition: "border-color 0.3s",
-                  }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                  className="w-full"
                 >
-                  <NoiseOverlay />
-                  <div style={{ position: "relative", zIndex: 1 }}>
-                    <div style={{ width: 24, height: 1, background: C.accent, marginBottom: 14 }} />
-                    <div style={{ ...heading, fontSize: "0.9rem", color: C.text, fontStyle: "italic", lineHeight: 1.4 }}>
-                      {item}
-                    </div>
+                  <div className="flex justify-center mb-6">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-[#C9956A] text-[#C9956A]" />
+                    ))}
+                  </div>
+                  <p className="text-2xl leading-relaxed text-[#F5EDE8]/80 italic mb-8" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+                    "{testimonials[testimonialIdx].text}"
+                  </p>
+                  <div className="text-sm tracking-widest uppercase text-[#F5EDE8]/50">
+                    {testimonials[testimonialIdx].name} · {testimonials[testimonialIdx].location}
                   </div>
                 </motion.div>
-              ))}
+              </AnimatePresence>
             </div>
-          </motion.div>
-        </AnimatePresence>
-      </section>
-
-      {/* ── TESTIMONIALS ─────────────────────────────────────────────────────── */}
-      <section
-        style={{
-          padding: "100px 48px",
-          background: C.card,
-          borderTop: `1px solid ${C.border}`,
-          borderBottom: `1px solid ${C.border}`,
-        }}
-      >
-        <div style={{ maxWidth: 800, margin: "0 auto" }}>
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            style={{ textAlign: "center", marginBottom: 56 }}
-          >
-            <div style={{ ...body, fontSize: "0.7rem", letterSpacing: "0.22em", color: C.accent, textTransform: "uppercase", marginBottom: 16 }}>
-              Témoignages
-            </div>
-            <h2 style={{ ...heading, fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 400, color: C.text, margin: 0 }}>
-              Ce Que Disent Nos Clients
-            </h2>
-          </motion.div>
-
-          <div style={{ position: "relative", minHeight: 280 }}>
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={activeTestimonial}
-                custom={direction}
-                initial={{ opacity: 0, x: direction * 60 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: direction * -60 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                style={{ textAlign: "center" }}
-              >
-                {/* Quote marks */}
-                <div style={{ ...heading, fontSize: "5rem", color: C.accent, opacity: 0.3, lineHeight: 0.6, marginBottom: 24 }}>"</div>
-                <p
-                  style={{
-                    ...heading,
-                    fontSize: "clamp(1rem, 2vw, 1.25rem)",
-                    fontStyle: "italic",
-                    color: C.text,
-                    lineHeight: 1.7,
-                    margin: "0 0 32px",
-                  }}
-                >
-                  {testimonials[activeTestimonial].quote}
-                </p>
-                <div style={{ ...body, fontSize: "0.85rem", color: C.accent, marginBottom: 4 }}>
-                  {testimonials[activeTestimonial].name}
-                </div>
-                <div style={{ ...body, fontSize: "0.75rem", color: C.muted }}>
-                  {testimonials[activeTestimonial].role}
-                </div>
-                <div
-                  style={{
-                    ...body,
-                    fontSize: "0.7rem",
-                    color: C.muted,
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    marginTop: 6,
-                    opacity: 0.7,
-                  }}
-                >
-                  {testimonials[activeTestimonial].scent}
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* Navigation */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 20, marginTop: 40 }}>
-            <button
-              onClick={prevTestimonial}
-              style={{
-                background: "none",
-                border: `1px solid ${C.border}`,
-                color: C.muted,
-                width: 40,
-                height: 40,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "1rem",
-                transition: "border-color 0.2s",
-              }}
-            >
-              ←
-            </button>
-            <div style={{ display: "flex", gap: 8 }}>
+            <div className="flex justify-center gap-2 mt-8">
               {testimonials.map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => goTestimonial(i)}
-                  style={{
-                    width: i === activeTestimonial ? 24 : 6,
-                    height: 6,
-                    background: i === activeTestimonial ? C.accent : C.border,
-                    border: "none",
-                    cursor: "pointer",
-                    transition: "all 0.3s",
-                    borderRadius: 3,
-                    padding: 0,
-                  }}
+                  onClick={() => setTestimonialIdx(i)}
+                  className={`transition-all cursor-pointer ${testimonialIdx === i ? "w-8 h-0.5 bg-[#C9956A]" : "w-2 h-0.5 bg-[#C9956A]/30 hover:bg-[#C9956A]/60"}`}
                 />
               ))}
             </div>
-            <button
-              onClick={nextTestimonial}
-              style={{
-                background: "none",
-                border: `1px solid ${C.border}`,
-                color: C.muted,
-                width: 40,
-                height: 40,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "1rem",
-                transition: "border-color 0.2s",
-              }}
-            >
-              →
-            </button>
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ── PRICING ──────────────────────────────────────────────────────────── */}
-      <section style={{ padding: "100px 48px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            style={{ textAlign: "center", marginBottom: 64 }}
-          >
-            <div style={{ ...body, fontSize: "0.7rem", letterSpacing: "0.22em", color: C.accent, textTransform: "uppercase", marginBottom: 16 }}>
-              Tarifs
-            </div>
-            <h2 style={{ ...heading, fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 400, color: C.text, margin: 0 }}>
-              Nos Formats
+      {/* CTA */}
+      <section id="contact" className="py-32 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <Reveal>
+            <p className="text-[#C9956A] text-xs tracking-[0.4em] uppercase mb-6">Commander</p>
+            <h2 className="text-5xl md:text-7xl mb-8 leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+              Votre parfum<br /><em>vous attend.</em>
             </h2>
-          </motion.div>
+            <p className="text-[#F5EDE8]/50 text-lg mb-12 max-w-lg mx-auto">
+              Livraison mondiale. Emballage cadeau offert. Retours sous 30 jours.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a href="#collection" className="bg-[#C9956A] text-[#1A0F1E] text-xs tracking-widest uppercase px-10 py-4 font-medium hover:bg-[#D9A57A] transition-colors cursor-pointer">
+                Explorer la collection
+              </a>
+              <a href="mailto:contact@ether-parfums.com" className="border border-[#C9956A]/40 text-[#C9956A] text-xs tracking-widest uppercase px-10 py-4 hover:border-[#C9956A] hover:bg-[#C9956A]/5 transition-colors cursor-pointer">
+                Nous contacter
+              </a>
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24, alignItems: "stretch" }}>
-            {pricingTiers.map((tier, i) => (
-              <motion.div
-                key={tier.name + tier.volume}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                style={{
-                  background: tier.highlighted ? C.plum : C.card,
-                  border: `1px solid ${tier.highlighted ? C.accent : C.border}`,
-                  padding: "40px 32px",
-                  position: "relative",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                {tier.highlighted && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: -1,
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      background: C.accent,
-                      color: C.bg,
-                      padding: "4px 16px",
-                      fontSize: "0.65rem",
-                      letterSpacing: "0.15em",
-                      textTransform: "uppercase",
-                      fontFamily: "system-ui, sans-serif",
-                    }}
-                  >
-                    Le Plus Populaire
-                  </div>
-                )}
-
-                <div style={{ ...body, fontSize: "0.7rem", letterSpacing: "0.15em", color: C.accent, textTransform: "uppercase", marginBottom: 8 }}>
-                  {tier.name}
-                </div>
-                <div style={{ ...heading, fontSize: "1.5rem", color: C.text, marginBottom: 4, fontStyle: "normal" }}>
-                  {tier.volume}
-                </div>
-                <div style={{ ...heading, fontSize: "2rem", color: C.accent, marginBottom: 16, fontWeight: 400 }}>
-                  {tier.price}
-                </div>
-                <p style={{ ...body, fontSize: "0.85rem", color: C.muted, lineHeight: 1.65, marginBottom: 28, flexGrow: 1 }}>
-                  {tier.desc}
-                </p>
-                <ul style={{ listStyle: "none", padding: 0, margin: "0 0 32px" }}>
-                  {tier.features.map((f) => (
-                    <li key={f} style={{ ...body, fontSize: "0.83rem", color: C.muted, padding: "7px 0", borderBottom: `1px solid ${C.border}`, display: "flex", gap: 10, alignItems: "flex-start" }}>
-                      <span style={{ color: C.accent, flexShrink: 0 }}>✦</span> {f}
-                    </li>
-                  ))}
-                </ul>
-                <motion.a
-                  href="#"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  style={{
-                    display: "block",
-                    textAlign: "center",
-                    padding: "13px 0",
-                    background: tier.highlighted ? C.accent : "transparent",
-                    border: `1px solid ${tier.highlighted ? C.accent : C.border}`,
-                    color: tier.highlighted ? C.bg : C.text,
-                    fontSize: "0.75rem",
-                    letterSpacing: "0.12em",
-                    textTransform: "uppercase",
-                    textDecoration: "none",
-                    cursor: "pointer",
-                    fontFamily: "system-ui, sans-serif",
-                  }}
-                >
-                  Commander
-                </motion.a>
-              </motion.div>
+      {/* Footer */}
+      <footer className="border-t border-[#C9956A]/10 py-12 px-6">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="text-xl tracking-[0.3em] uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+            Éther
+          </div>
+          <div className="flex gap-8 text-xs tracking-widest uppercase text-[#F5EDE8]/30">
+            {["Collection", "La Maison", "Savoir-Faire", "Mentions Légales"].map(l => (
+              <a key={l} href="#" className="hover:text-[#C9956A] transition-colors cursor-pointer">{l}</a>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ── FAQ ──────────────────────────────────────────────────────────────── */}
-      <section
-        style={{
-          padding: "100px 48px",
-          background: C.card,
-          borderTop: `1px solid ${C.border}`,
-          borderBottom: `1px solid ${C.border}`,
-        }}
-      >
-        <div style={{ maxWidth: 760, margin: "0 auto" }}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            style={{ textAlign: "center", marginBottom: 60 }}
-          >
-            <div style={{ ...body, fontSize: "0.7rem", letterSpacing: "0.22em", color: C.accent, textTransform: "uppercase", marginBottom: 16 }}>
-              Questions Fréquentes
-            </div>
-            <h2 style={{ ...heading, fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 400, color: C.text, margin: 0 }}>
-              Ce Que Vous Voulez Savoir
-            </h2>
-          </motion.div>
-
-          <div>
-            {faqs.map((faq, i) => (
-              <FaqItem
-                key={i}
-                q={faq.q}
-                a={faq.a}
-                isOpen={openFaq === i}
-                onClick={() => setOpenFaq(openFaq === i ? null : i)}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── CTA BANNER ───────────────────────────────────────────────────────── */}
-      <section
-        style={{
-          padding: "120px 48px",
-          background: `linear-gradient(135deg, ${C.plum} 0%, #1a0a14 50%, ${C.bg} 100%)`,
-          textAlign: "center",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: `radial-gradient(ellipse 80% 80% at 50% 50%, ${C.accent}11 0%, transparent 70%)`,
-            pointerEvents: "none",
-          }}
-        />
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          style={{ position: "relative", zIndex: 1 }}
-        >
-          <div style={{ ...body, fontSize: "0.7rem", letterSpacing: "0.22em", color: C.accent, textTransform: "uppercase", marginBottom: 20 }}>
-            Bienvenue dans l'Univers Éther
-          </div>
-          <h2
-            style={{
-              ...heading,
-              fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
-              fontWeight: 300,
-              color: C.text,
-              margin: "0 0 20px",
-              lineHeight: 1.1,
-            }}
-          >
-            Découvrir Nos Créations
-          </h2>
-          <p style={{ ...body, color: C.muted, fontSize: "1.05rem", lineHeight: 1.7, maxWidth: 520, margin: "0 auto 48px" }}>
-            Chaque flacon renferme des centaines d'heures de recherche, de voyages et d'exigence. Commencez votre voyage olfactif avec notre Coffret Découverte ou explorez la collection complète.
-          </p>
-          <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a
-              href="#"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              style={{
-                background: C.accent,
-                color: C.bg,
-                padding: "16px 40px",
-                fontSize: "0.8rem",
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                textDecoration: "none",
-                cursor: "pointer",
-                fontFamily: "system-ui, sans-serif",
-              }}
-            >
-              Explorer la Boutique
-            </motion.a>
-            <motion.a
-              href="#"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              style={{
-                background: "transparent",
-                color: C.text,
-                padding: "16px 40px",
-                fontSize: "0.8rem",
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                textDecoration: "none",
-                border: `1px solid ${C.border}`,
-                cursor: "pointer",
-                fontFamily: "system-ui, sans-serif",
-              }}
-            >
-              Commander un Coffret Découverte
-            </motion.a>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ── FOOTER ───────────────────────────────────────────────────────────── */}
-      <footer
-        style={{
-          background: C.bg,
-          borderTop: `1px solid ${C.border}`,
-          padding: "60px 48px 40px",
-        }}
-      >
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 40, marginBottom: 48 }}>
-            {/* Brand */}
-            <div>
-              <div style={{ ...heading, fontSize: "1.8rem", letterSpacing: "0.3em", color: C.accent, fontStyle: "normal", fontWeight: 400, marginBottom: 16 }}>
-                ÉTHER
-              </div>
-              <p style={{ ...body, color: C.muted, fontSize: "0.85rem", lineHeight: 1.7, maxWidth: 280 }}>
-                Maison de parfumerie artisanale fondée à Paris en 2018. 100% ingrédients naturels certifiés. Livraison dans 62 pays.
-              </p>
-              <div style={{ display: "flex", gap: 16, marginTop: 24 }}>
-                {/* Camera SVG */}
-                <a href="#" style={{ color: C.muted, cursor: "pointer", transition: "color 0.2s" }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                    <circle cx="12" cy="12" r="4" />
-                    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-                  </svg>
-                </a>
-                {/* Bookmark SVG */}
-                <a href="#" style={{ color: C.muted, cursor: "pointer" }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.18-.76 1.23-5.21 1.23-5.21s-.31-.63-.31-1.56c0-1.46.85-2.55 1.9-2.55.9 0 1.33.67 1.33 1.48 0 .9-.58 2.26-.87 3.51-.25 1.05.52 1.9 1.54 1.9 1.85 0 3.09-2.39 3.09-5.21 0-2.15-1.45-3.77-4.08-3.77-2.98 0-4.83 2.22-4.83 4.71 0 .85.25 1.47.64 1.94.18.21.21.3.14.54-.05.17-.16.58-.21.75-.07.24-.28.33-.51.24-1.44-.59-2.11-2.19-2.11-3.98 0-2.97 2.51-6.55 7.49-6.55 4.03 0 6.69 2.93 6.69 6.08 0 4.17-2.3 7.28-5.69 7.28-1.14 0-2.22-.62-2.59-1.31l-.72 2.78c-.24.9-.86 2.02-1.33 2.77.83.25 1.7.38 2.6.38 5.52 0 10-4.48 10-10S17.52 2 12 2z" />
-                  </svg>
-                </a>
-                {/* Email SVG */}
-                <a href="mailto:contact@ether-parfums.fr" style={{ color: C.muted, cursor: "pointer" }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <rect x="2" y="4" width="20" height="16" rx="2" />
-                    <path d="M2 7l10 7 10-7" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-
-            {/* Collections */}
-            <div>
-              <div style={{ ...body, fontSize: "0.7rem", letterSpacing: "0.15em", color: C.accent, textTransform: "uppercase", marginBottom: 20 }}>Collections</div>
-              {["Collection Signature", "Éditions Limitées", "Bougies & Ambiance", "Coffrets Cadeaux"].map((l) => (
-                <a key={l} href="#" style={{ ...body, display: "block", color: C.muted, fontSize: "0.83rem", marginBottom: 10, textDecoration: "none", cursor: "pointer" }}>{l}</a>
-              ))}
-            </div>
-
-            {/* Maison */}
-            <div>
-              <div style={{ ...body, fontSize: "0.7rem", letterSpacing: "0.15em", color: C.accent, textTransform: "uppercase", marginBottom: 20 }}>La Maison</div>
-              {["Notre Histoire", "L'Atelier Parisien", "La Parfumeuse", "Presse & Médias"].map((l) => (
-                <a key={l} href="#" style={{ ...body, display: "block", color: C.muted, fontSize: "0.83rem", marginBottom: 10, textDecoration: "none", cursor: "pointer" }}>{l}</a>
-              ))}
-            </div>
-
-            {/* Service */}
-            <div>
-              <div style={{ ...body, fontSize: "0.7rem", letterSpacing: "0.15em", color: C.accent, textTransform: "uppercase", marginBottom: 20 }}>Service Client</div>
-              {["Livraison & Retours", "FAQ", "Boutiques Partenaires", "Contact"].map((l) => (
-                <a key={l} href="#" style={{ ...body, display: "block", color: C.muted, fontSize: "0.83rem", marginBottom: 10, textDecoration: "none", cursor: "pointer" }}>{l}</a>
-              ))}
-            </div>
-          </div>
-
-          <div
-            style={{
-              borderTop: `1px solid ${C.border}`,
-              paddingTop: 24,
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: 12,
-            }}
-          >
-            <span style={{ ...body, color: C.muted, fontSize: "0.75rem" }}>
-              © 2026 Éther — Maison de Parfumerie. Tous droits réservés.
-            </span>
-            <div style={{ display: "flex", gap: 24 }}>
-              {["Mentions légales", "Politique de confidentialité", "CGV"].map((l) => (
-                <a key={l} href="#" style={{ ...body, color: C.muted, fontSize: "0.75rem", textDecoration: "none", cursor: "pointer" }}>{l}</a>
-              ))}
-            </div>
-          </div>
+          <p className="text-[#F5EDE8]/20 text-xs tracking-widest">© 2026 Éther Parfums, Paris</p>
         </div>
       </footer>
     </div>

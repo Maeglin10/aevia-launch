@@ -1,1028 +1,436 @@
 "use client"
 
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
-import Link from "next/link"
+import { useRef, useState, useEffect } from "react"
+import Image from "next/image"
+import { BarChart3, TrendingUp, Users, Zap, ArrowRight, CheckCircle, ChevronDown, Activity, Globe, Shield } from "lucide-react"
 
-const C = {
-  bg: "#070b14",
-  card: "#0e1220",
-  violet: "#7c3aed",
-  violetLight: "#a78bfa",
-  violetMuted: "rgba(124,58,237,0.15)",
-  violetBorder: "rgba(124,58,237,0.2)",
-  violetGlow: "rgba(124,58,237,0.08)",
-  text: "#f1f5f9",
-  muted: "rgba(241,245,249,0.5)",
-  faint: "rgba(255,255,255,0.06)",
-  cardBorder: "rgba(124,58,237,0.2)",
-}
-
-const FONT = "system-ui, -apple-system, sans-serif"
-const MONO = '"JetBrains Mono", "Fira Code", "Cascadia Code", monospace'
-
-// ─── DATA ────────────────────────────────────────────────────────────────────
-
-const NAV_LINKS = ["Fonctionnalités", "Connecteurs", "Tarifs", "Documentation", "Cas clients"]
-
-const METRICS = [
-  { label: "Revenue MoM", value: "+24%", color: "#4ade80", trend: "up" },
-  { label: "Churn Rate", value: "-8%", color: "#f87171", trend: "down" },
-  { label: "NPS Score", value: "+12", color: "#60a5fa", trend: "up" },
-]
-
-const BAR_DATA = [
-  { month: "Jan", height: 42 },
-  { month: "Fév", height: 58 },
-  { month: "Mar", height: 51 },
-  { month: "Avr", height: 73 },
-  { month: "Mai", height: 68 },
-  { month: "Jun", height: 89 },
-  { month: "Jul", height: 79 },
-  { month: "Aoû", height: 95 },
-]
-
-const STATS = [
-  { value: 3400, suffix: "+", label: "Utilisateurs actifs", prefix: "" },
-  { value: 180, suffix: "+", label: "Connecteurs data", prefix: "" },
-  { value: 8, suffix: " sec", label: "Temps de chargement moyen", prefix: "" },
-  { value: 99.5, suffix: "%", label: "Uptime garanti", prefix: "" },
-]
-
-const TABS = [
-  {
-    id: "dashboards",
-    label: "Tableaux de Bord",
-    headline: "Des dashboards qui parlent à votre équipe",
-    content:
-      "Construisez des tableaux de bord en glisser-déposer en moins de 5 minutes. Chaque widget est configurable, chaque métrique est cliquable. Prism adapte automatiquement les visualisations selon le type de données : séries temporelles, entonnoirs, géographies, cohorts.",
-    items: [
-      "40+ types de visualisations disponibles",
-      "Actualisation automatique toutes les 60 secondes",
-      "Mode présentation pour les comités",
-      "Filtres croisés inter-widgets",
-    ],
-  },
-  {
-    id: "predictif",
-    label: "Analytics Prédictif",
-    headline: "Anticipez, ne subissez pas",
-    content:
-      "Notre moteur ML intégré analyse vos tendances historiques et projette vos KPIs à 30, 60 et 90 jours. Les alertes intelligentes vous préviennent avant que les métriques ne dégradent — pas après. Détection d'anomalies incluse sans configuration.",
-    items: [
-      "Prévisions ML sur toutes vos métriques clés",
-      "Alertes seuil et anomalie en temps réel",
-      "Attribution multi-touch automatisée",
-      "Analyse de cohortes et LTV prediction",
-    ],
-  },
-  {
-    id: "rapports",
-    label: "Rapports Automatisés",
-    headline: "Vos reportings s'écrivent tout seuls",
-    content:
-      "Planifiez des rapports PDF ou Slides générés automatiquement et envoyés à votre distribution. Nos templates métier (CMO, CFO, Board) sont pré-configurés avec les métriques standards de votre secteur. Zéro heure de préparation PowerPoint.",
-    items: [
-      "Templates PDF/PPTX prêts à envoyer",
-      "Planification horaire, quotidienne, hebdomadaire",
-      "Narration automatique des variations clés",
-      "Envoi multi-canal : email, Slack, Teams",
-    ],
-  },
-  {
-    id: "collaboration",
-    label: "Partage & Collaboration",
-    headline: "Toute votre organisation, alignée sur les mêmes chiffres",
-    content:
-      "Partagez n'importe quel dashboard en lecture seule avec un lien sécurisé — sans obliger vos partenaires à créer un compte. Commentez directement sur les graphiques, assignez des tickets d'action à votre équipe, suivez les décisions prises à partir des données.",
-    items: [
-      "Partage par lien avec expiration paramétrable",
-      "Commentaires et annotations sur graphiques",
-      "Permissions granulaires par équipe et par vue",
-      "Audit log complet des accès et modifications",
-    ],
-  },
-]
-
-const TESTIMONIALS = [
-  {
-    name: "Sophie Aubert",
-    role: "CMO, Retailink Group",
-    company: "E-commerce · 800 collaborateurs",
-    quote:
-      "Avant Prism, je passais 4h chaque lundi à consolider des exports Excel de 5 sources différentes pour mon comité. Maintenant ce dashboard s'actualise seul. Je passe ce temps à analyser — pas à assembler des chiffres.",
-  },
-  {
-    name: "Marc Delacroix",
-    role: "CFO, Lumières SaaS",
-    company: "SaaS B2B · ARR 12M€",
-    quote:
-      "La partie prédictive est remarquable. Prism a détecté une dégradation du churn 6 semaines avant que nos outils habituels ne la signalent. Nous avons eu le temps d'agir. C'est la différence entre piloter et subir.",
-  },
-  {
-    name: "Inès Mabrouk",
-    role: "Head of Growth, FinCoach",
-    company: "FinTech · 45 collaborateurs",
-    quote:
-      "L'intégration Stripe + HubSpot + GA4 a pris 20 minutes. On avait tout en place l'après-midi du premier jour. La qualité des données est irréprochable — pas de doublons, pas de délais. Les reports se font seuls le lundi matin.",
-  },
-  {
-    name: "Antoine Fournier",
-    role: "VP Marketing, Medisyn",
-    company: "HealthTech · Series B",
-    quote:
-      "Nos investisseurs Board reçoivent un PDF automatique chaque premier lundi du mois. Propre, en marque blanche, avec la narration des variations. Notre CFO a récupéré 6h par mois. Ce seul cas d'usage justifie l'abonnement.",
-  },
-]
-
-const PRICING_TIERS = [
-  {
-    name: "Solo",
-    tag: "Indépendants & freelances",
-    price: "89",
-    period: "/mois",
-    description: "Pour un utilisateur avec des besoins de reporting structurés et des sources de données multiples.",
-    features: [
-      "1 utilisateur",
-      "5 dashboards actifs",
-      "25 connecteurs disponibles",
-      "Rapports automatisés (PDF)",
-      "Support email < 48h",
-    ],
-    cta: "Démarrer en Solo",
-    highlighted: false,
-  },
-  {
-    name: "Équipe",
-    tag: "Équipes marketing & finance",
-    price: "390",
-    period: "/mois",
-    description: "Pour les équipes qui veulent aligner toute leur organisation sur les mêmes données en temps réel.",
-    features: [
-      "Jusqu'à 10 utilisateurs",
-      "Dashboards illimités",
-      "180+ connecteurs disponibles",
-      "Analytics prédictif inclus",
-      "Partage externe par lien",
-      "Support prioritaire < 4h",
-    ],
-    cta: "Démarrer en Équipe",
-    highlighted: true,
-  },
-  {
-    name: "Enterprise",
-    tag: "Grandes organisations",
-    price: "Sur devis",
-    period: "",
-    description: "Pour les entreprises avec des exigences avancées en matière de sécurité, conformité et infrastructure.",
-    features: [
-      "Utilisateurs illimités",
-      "SSO / SAML 2.0",
-      "On-premise disponible",
-      "SLA 99.9% contractualisé",
-      "Customer success manager dédié",
-      "Intégrations custom sur mesure",
-    ],
-    cta: "Contacter l'équipe commerciale",
-    highlighted: false,
-  },
-]
-
-const FAQS = [
-  {
-    q: "Quels connecteurs data sont disponibles ?",
-    a: "Prism propose 180+ connecteurs natifs couvrant : CRM (Salesforce, HubSpot, Pipedrive), Analytics (Google Analytics 4, Mixpanel, Amplitude), Finance (Stripe, Chargebee, QuickBooks), Publicité (Meta Ads, Google Ads, LinkedIn Ads), E-commerce (Shopify, WooCommerce), bases SQL/BI (BigQuery, Redshift, Snowflake, PostgreSQL) et bien d'autres. Tous sont maintenus et mis à jour par nos équipes.",
-  },
-  {
-    q: "Quel est le délai d'intégration habituel ?",
-    a: "La plupart des connecteurs s'activent en moins de 5 minutes via OAuth ou clé API. Les premières données apparaissent dans les 15 à 60 minutes selon le volume historique à synchroniser. Pour les intégrations Enterprise avec SQL ou connecteurs custom, notre équipe vous accompagne sous 48h.",
-  },
-  {
-    q: "Mes données sont-elles exportables ?",
-    a: "Oui, intégralement. Vous pouvez exporter n'importe quelle vue en CSV, Excel, JSON ou via notre API REST publique. Vous êtes propriétaire de vos données à tout moment. En cas de résiliation, vos exports sont disponibles pendant 90 jours.",
-  },
-  {
-    q: "La formation est-elle incluse dans l'abonnement ?",
-    a: "Toutes les formules incluent l'accès à Prism Academy (vidéos, guides interactifs, templates métier). La formule Équipe inclut une session d'onboarding live de 2h avec un spécialiste Prism. La formule Enterprise inclut un programme de formation sur mesure pour votre équipe.",
-  },
-  {
-    q: "Prism est-il conforme au RGPD avec hébergement en Europe ?",
-    a: "Oui. Toutes nos données sont hébergées exclusivement en Europe (AWS eu-west-3, Paris). Nous sommes conformes RGPD, ISO 27001, et fournissons un DPA (Data Processing Agreement) à la signature. Nos serveurs ne transmettent aucune donnée client hors de l'UE.",
-  },
-  {
-    q: "Puis-je changer de formule en cours d'abonnement ?",
-    a: "Oui, à tout moment. L'upgrade est immédiat et proratisé à la journée. Le downgrade prend effet à la prochaine date de renouvellement. Aucun engagement minimum, aucuns frais de résiliation. Vous pouvez annuler depuis votre espace client en 2 clics.",
-  },
-]
-
-// ─── STAT COUNTER ────────────────────────────────────────────────────────────
-
-function StatCounter({ value, suffix, prefix, label }: { value: number; suffix: string; prefix: string; label: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
-  const [display, setDisplay] = useState(0)
-
+function useFonts() {
   useEffect(() => {
-    if (!inView) return
-    const duration = 1600
-    const steps = 50
-    const increment = value / steps
-    let current = 0
-    const timer = setInterval(() => {
-      current += increment
-      if (current >= value) {
-        setDisplay(value)
-        clearInterval(timer)
-      } else {
-        setDisplay(parseFloat(current.toFixed(1)))
-      }
-    }, duration / steps)
-    return () => clearInterval(timer)
-  }, [inView, value])
-
-  return (
-    <div ref={ref} style={{ textAlign: "center" }}>
-      <div style={{ fontFamily: MONO, fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 700, color: C.violetLight, lineHeight: 1 }}>
-        {prefix}{display}{suffix}
-      </div>
-      <div style={{ fontFamily: FONT, fontSize: "0.875rem", fontWeight: 500, color: C.muted, marginTop: "0.6rem" }}>
-        {label}
-      </div>
-    </div>
-  )
+    if (document.getElementById("impact-25-fonts")) return
+    const style = document.createElement("style")
+    style.id = "impact-25-fonts"
+    style.textContent = `@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');`
+    document.head.appendChild(style)
+  }, [])
 }
 
-// ─── ANIMATED BAR CHART ──────────────────────────────────────────────────────
-
-function BarChart() {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true })
-
+function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: "-80px" })
   return (
-    <div ref={ref} style={{ display: "flex", alignItems: "flex-end", gap: "6px", height: "80px", padding: "0 4px" }}>
-      {BAR_DATA.map((bar, i) => (
-        <div key={bar.month} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px", flex: 1 }}>
-          <motion.div
-            initial={{ height: 0 }}
-            animate={inView ? { height: `${bar.height}%` } : { height: 0 }}
-            transition={{ duration: 0.7, delay: i * 0.08, ease: "easeOut" }}
-            style={{
-              width: "100%",
-              background: i === BAR_DATA.length - 1
-                ? `linear-gradient(180deg, ${C.violetLight} 0%, ${C.violet} 100%)`
-                : `rgba(124,58,237,0.4)`,
-              borderRadius: "3px 3px 0 0",
-              minHeight: "4px",
-            }}
-          />
-          <span style={{ fontFamily: MONO, fontSize: "9px", color: C.muted }}>{bar.month}</span>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-// ─── DASHBOARD MOCKUP ────────────────────────────────────────────────────────
-
-function DashboardMockup({ dashY }: { dashY: any }) {
-  return (
-    <motion.div style={{ y: dashY, position: "relative" }}>
-      {/* Rotating gradient border effect */}
-      <style>{`
-        @keyframes prism-spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        .prism-border-glow {
-          animation: prism-spin 4s linear infinite;
-        }
-      `}</style>
-
-      {/* Outer glow wrapper */}
-      <div style={{ position: "relative", borderRadius: "16px", padding: "1px", background: `linear-gradient(135deg, ${C.violet}, transparent, ${C.violetLight}, transparent, ${C.violet})` }}>
-        <div
-          style={{
-            background: C.card,
-            borderRadius: "15px",
-            padding: "1.5rem",
-            boxShadow: `0 0 60px rgba(124,58,237,0.15), 0 20px 80px rgba(0,0,0,0.6)`,
-          }}
-        >
-          {/* Dashboard header */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.25rem" }}>
-            <div>
-              <div style={{ fontFamily: MONO, fontSize: "0.7rem", color: C.muted, marginBottom: "2px" }}>PRISM ANALYTICS</div>
-              <div style={{ fontWeight: 700, fontSize: "0.95rem", color: C.text }}>Vue d'ensemble — Mai 2026</div>
-            </div>
-            <div style={{ display: "flex", gap: "0.4rem" }}>
-              <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#f87171" }} />
-              <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#fbbf24" }} />
-              <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#4ade80" }} />
-            </div>
-          </div>
-
-          {/* Metric cards */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.625rem", marginBottom: "1.25rem" }}>
-            {METRICS.map((metric, i) => (
-              <motion.div
-                key={metric.label}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 + i * 0.15 }}
-                style={{
-                  background: "#070b14",
-                  border: `1px solid ${C.faint}`,
-                  borderRadius: "8px",
-                  padding: "0.75rem",
-                }}
-              >
-                <div style={{ fontFamily: MONO, fontSize: "1.2rem", fontWeight: 700, color: metric.color }}>{metric.value}</div>
-                <div style={{ fontSize: "0.65rem", color: C.muted, marginTop: "2px", fontFamily: FONT }}>{metric.label}</div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Bar chart section */}
-          <div style={{ background: "#070b14", border: `1px solid ${C.faint}`, borderRadius: "8px", padding: "1rem" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.75rem" }}>
-              <span style={{ fontSize: "0.7rem", fontWeight: 600, color: C.muted, fontFamily: FONT }}>REVENUE PAR MOIS</span>
-              <span style={{ fontFamily: MONO, fontSize: "0.7rem", color: C.violetLight }}>+31% YoY</span>
-            </div>
-            <BarChart />
-          </div>
-
-          {/* Bottom status bar */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "1rem" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
-              <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#4ade80" }} />
-              <span style={{ fontFamily: MONO, fontSize: "0.6rem", color: C.muted }}>180 sources actives · Mis à jour il y a 38s</span>
-            </div>
-            <span style={{ fontFamily: MONO, fontSize: "0.6rem", color: C.muted }}>99.5% uptime</span>
-          </div>
-        </div>
-      </div>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 28 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
+    >
+      {children}
     </motion.div>
   )
 }
 
-// ─── MAIN PAGE ────────────────────────────────────────────────────────────────
+const metrics = [
+  { label: "Sessions", value: "2.4M", change: "+18.2%", up: true },
+  { label: "Conversion Rate", value: "4.7%", change: "+0.9pts", up: true },
+  { label: "Avg. Revenue", value: "$84", change: "-2.1%", up: false },
+  { label: "Active Users", value: "128K", change: "+31%", up: true },
+]
 
-export default function PrismAnalyticsPage() {
-  const { scrollY } = useScroll()
-  const heroTextY = useTransform(scrollY, [0, 500], [0, -40])
-  const dashY = useTransform(scrollY, [0, 500], [0, 20])
+const integrations = [
+  "Stripe", "Shopify", "HubSpot", "Salesforce", "Segment", "BigQuery",
+  "PostgreSQL", "Snowflake", "Mixpanel", "Amplitude", "Google Analytics", "Intercom"
+]
 
-  const [activeTab, setActiveTab] = useState("dashboards")
-  const [testimonialIndex, setTestimonialIndex] = useState(0)
+const plans = [
+  {
+    name: "Starter", price: "$49", period: "/mo",
+    features: ["Up to 100K events/mo", "3 dashboards", "7-day retention", "Email support"],
+    cta: "Start free", highlight: false,
+  },
+  {
+    name: "Growth", price: "$199", period: "/mo",
+    features: ["Up to 5M events/mo", "Unlimited dashboards", "90-day retention", "Funnels & cohorts", "Slack support"],
+    cta: "Start free trial", highlight: true,
+  },
+  {
+    name: "Enterprise", price: "Custom", period: "",
+    features: ["Unlimited events", "Custom retention", "SSO & SAML", "SLA guarantee", "Dedicated CSM"],
+    cta: "Contact sales", highlight: false,
+  },
+]
+
+const faqs = [
+  { q: "How is event volume calculated?", a: "Each unique user action tracked via our SDK counts as one event. Page views, clicks, and custom events all count." },
+  { q: "Can I self-host Prism?", a: "Yes — our Enterprise plan includes a self-hosted option with Docker/Kubernetes deployment guides." },
+  { q: "Is there a free trial?", a: "Growth plan comes with a 14-day free trial. No credit card required. Starter is free up to 10K events." },
+  { q: "How does data retention work?", a: "Raw events are retained per your plan. Aggregated metrics and dashboards are always available regardless of retention." },
+]
+
+export default function Impact25() {
+  useFonts()
+  const containerRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: containerRef })
+  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -50])
+  const [annual, setAnnual] = useState(false)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [activeMetric, setActiveMetric] = useState(0)
 
-  const activeTabData = TABS.find((t) => t.id === activeTab)!
-  const activeTesti = TESTIMONIALS[testimonialIndex]
+  useEffect(() => {
+    const t = setInterval(() => setActiveMetric(m => (m + 1) % metrics.length), 2500)
+    return () => clearInterval(t)
+  }, [])
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: FONT, overflowX: "hidden" }}>
+    <div ref={containerRef} className="min-h-screen bg-[#0B0F1A] text-white" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#6C47FF] to-[#A78BFA] origin-left z-50"
+        style={{ scaleX: scrollYProgress }}
+      />
 
-      {/* ── 1. NAVBAR ──────────────────────────────────────────────────────── */}
-      <motion.nav
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        style={{
-          position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          padding: "0 clamp(1.5rem, 5vw, 4rem)",
-          height: "72px",
-          background: "rgba(7,11,20,0.88)",
-          backdropFilter: "blur(20px)",
-          borderBottom: `1px solid ${C.violetBorder}`,
-        }}
-      >
-        {/* Logo */}
-        <div style={{ display: "flex", alignItems: "center", gap: "0.625rem" }}>
-          <div style={{ width: "32px", height: "32px", background: `linear-gradient(135deg, ${C.violet}, ${C.violetLight})`, borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M8 1L14 5V11L8 15L2 11V5L8 1Z" fill="white" opacity="0.9"/>
-              <path d="M8 5L11 7V10L8 12L5 10V7L8 5Z" fill={C.violet}/>
-            </svg>
+      {/* Nav */}
+      <nav className="fixed top-4 left-4 right-4 z-40">
+        <div className="max-w-6xl mx-auto bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-gradient-to-br from-[#6C47FF] to-[#A78BFA] rounded-lg flex items-center justify-center">
+              <BarChart3 className="w-4 h-4 text-white" />
+            </div>
+            <span className="font-bold text-lg">Prism</span>
           </div>
-          <span style={{ fontWeight: 800, fontSize: "1.1rem", letterSpacing: "-0.02em", color: C.text }}>Prism</span>
-          <span style={{ fontWeight: 400, fontSize: "1.1rem", letterSpacing: "-0.02em", color: C.muted }}>Analytics</span>
-        </div>
-
-        {/* Nav links */}
-        <div style={{ display: "flex", gap: "2.25rem", alignItems: "center" }}>
-          {NAV_LINKS.map((link) => (
-            <a key={link} href={`#${link.toLowerCase()}`}
-              style={{ color: C.muted, textDecoration: "none", fontSize: "0.875rem", fontWeight: 500, cursor: "pointer", transition: "color 0.2s" }}
-              onMouseEnter={e => (e.currentTarget.style.color = C.text)}
-              onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
-              {link}
+          <div className="hidden md:flex items-center gap-8 text-sm text-white/60">
+            <a href="#features" className="hover:text-white transition-colors cursor-pointer">Features</a>
+            <a href="#integrations" className="hover:text-white transition-colors cursor-pointer">Integrations</a>
+            <a href="#pricing" className="hover:text-white transition-colors cursor-pointer">Pricing</a>
+          </div>
+          <div className="hidden md:flex items-center gap-3">
+            <a href="#" className="text-sm text-white/60 hover:text-white transition-colors cursor-pointer">Log in</a>
+            <a href="#pricing" className="bg-[#6C47FF] text-white text-sm font-semibold px-5 py-2 rounded-full hover:bg-[#7C5CFF] transition-colors cursor-pointer">
+              Start free
             </a>
-          ))}
-          <button onClick={() => document.getElementById("essai")?.scrollIntoView({behavior:"smooth"})}
-            whileHover={{ scale: 1.04, boxShadow: `0 0 24px rgba(124,58,237,0.5)` }}
-            whileTap={{ scale: 0.97 }}
-            style={{
-              background: C.violet, color: "#fff",
-              padding: "0.55rem 1.4rem", borderRadius: "8px",
-              fontWeight: 700, fontSize: "0.875rem",
-              textDecoration: "none", cursor: "pointer",
-            }}
-          >
-            Essai gratuit 14j
+          </div>
+          <button className="md:hidden p-2 cursor-pointer" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
+            <div className="w-5 h-0.5 bg-white mb-1" />
+            <div className="w-5 h-0.5 bg-white mb-1" />
+            <div className="w-5 h-0.5 bg-white" />
           </button>
         </div>
-      </motion.nav>
-
-      {/* ── 2. HERO ────────────────────────────────────────────────────────── */}
-      <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", paddingTop: "72px", overflow: "hidden", position: "relative" }}>
-        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 50% 60% at 70% 50%, rgba(124,58,237,0.1) 0%, transparent 70%)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", top: "10%", left: "5%", width: "400px", height: "400px", background: "radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 70%)", pointerEvents: "none" }} />
-
-        <div style={{ display: "grid", gridTemplateColumns: "60fr 40fr", gap: "4rem", alignItems: "center", width: "100%", maxWidth: "1280px", margin: "0 auto", padding: "0 clamp(1.5rem, 5vw, 4rem)" }}>
-
-          {/* LEFT */}
-          <motion.div style={{ y: heroTextY }}>
+        <AnimatePresence>
+          {menuOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -16 }}
+              initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="mt-2 bg-[#0F1626] border border-white/10 rounded-2xl p-4 flex flex-col gap-3 text-sm"
             >
-              <span style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: C.violetMuted, border: `1px solid ${C.violetBorder}`, color: C.violetLight, padding: "0.3rem 0.9rem", borderRadius: "100px", fontSize: "0.75rem", fontWeight: 600, marginBottom: "2rem" }}>
-                <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#4ade80", display: "inline-block" }} />
-                180+ connecteurs · Hébergement EU · RGPD certifié
-              </span>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.15 }}
-              style={{ margin: 0, fontWeight: 800, fontSize: "clamp(2.5rem, 5.5vw, 5rem)", letterSpacing: "-0.04em", lineHeight: 1.06 }}
-            >
-              <span style={{ display: "block", color: C.text }}>Vos Données.</span>
-              <span style={{ display: "block", background: `linear-gradient(135deg, ${C.violet} 0%, ${C.violetLight} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Vos Décisions.</span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.35 }}
-              style={{ color: C.muted, fontSize: "1.1rem", lineHeight: 1.75, marginTop: "1.75rem", maxWidth: "520px" }}
-            >
-              Prism centralise toutes vos sources de données en un seul tableau de bord intelligent. Marketing, finance, produit — vos équipes pilotent avec les mêmes chiffres, en temps réel.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.5 }}
-              style={{ display: "flex", gap: "1rem", marginTop: "2.5rem", flexWrap: "wrap" }}
-            >
-              <button onClick={() => document.getElementById("essai")?.scrollIntoView({behavior:"smooth"})}
-                whileHover={{ scale: 1.04, boxShadow: `0 0 40px rgba(124,58,237,0.5)` }}
-                whileTap={{ scale: 0.97 }}
-                style={{ display: "inline-block", background: C.violet, color: "#fff", padding: "1rem 2rem", borderRadius: "10px", fontWeight: 700, fontSize: "1rem", textDecoration: "none", cursor: "pointer" }}
-              >
-                Essayer 14 jours gratuitement
-              </button>
-              <button onClick={() => document.getElementById("connecteurs")?.scrollIntoView({behavior:"smooth"})}
-                whileHover={{ borderColor: C.violet, color: C.violetLight }}
-                style={{ display: "inline-block", border: `1px solid ${C.faint}`, color: C.muted, padding: "1rem 2rem", borderRadius: "10px", fontWeight: 600, fontSize: "1rem", textDecoration: "none", cursor: "pointer", transition: "border-color 0.2s, color 0.2s" }}
-              >
-                Voir les connecteurs
-              </button>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-              style={{ display: "flex", alignItems: "center", gap: "2rem", marginTop: "2.5rem", flexWrap: "wrap" }}
-            >
-              {["Sans carte bancaire", "Annulation à tout moment", "Support inclus"].map((item) => (
-                <div key={item} style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: C.muted, fontSize: "0.8rem" }}>
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke={C.violetLight} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                  {item}
-                </div>
+              {["Features", "Integrations", "Pricing"].map(item => (
+                <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMenuOpen(false)} className="text-white/70 hover:text-white transition-colors cursor-pointer">{item}</a>
               ))}
             </motion.div>
-          </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
 
-          {/* RIGHT: Dashboard */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.3 }}
-          >
-            <DashboardMockup dashY={dashY} />
-          </motion.div>
+      {/* Hero */}
+      <section className="min-h-screen flex items-center relative overflow-hidden pt-28 pb-16">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-0 left-1/3 w-[600px] h-[600px] bg-[#6C47FF]/15 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#A78BFA]/10 rounded-full blur-3xl" />
         </div>
-      </section>
-
-      {/* ── 3. STATS BAR ───────────────────────────────────────────────────── */}
-      <section style={{ background: C.card, borderTop: `1px solid ${C.violetBorder}`, borderBottom: `1px solid ${C.violetBorder}`, padding: "4rem clamp(1.5rem, 5vw, 4rem)" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "2rem" }}>
-          {STATS.map((stat) => (
-            <StatCounter key={stat.label} {...stat} />
-          ))}
-        </div>
-      </section>
-
-      {/* ── CONNECTOR LOGOS STRIP ──────────────────────────────────────────── */}
-      <section id="connecteurs" style={{ padding: "3.5rem clamp(1.5rem, 5vw, 4rem)", overflow: "hidden" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", textAlign: "center" }}>
-          <div style={{ color: C.muted, fontSize: "0.8rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "2rem" }}>
-            Compatible avec vos outils existants
-          </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", justifyContent: "center" }}>
-            {["Salesforce", "HubSpot", "Google Analytics 4", "Stripe", "Mixpanel", "BigQuery", "Shopify", "Meta Ads", "Snowflake", "PostgreSQL", "Amplitude", "Chargebee", "Pipedrive", "LinkedIn Ads", "QuickBooks"].map((tool) => (
-              <div key={tool} style={{ background: C.card, border: `1px solid ${C.faint}`, borderRadius: "8px", padding: "0.5rem 1rem", fontSize: "0.8rem", fontWeight: 600, color: C.muted, fontFamily: MONO }}>
-                {tool}
-              </div>
-            ))}
-            <div style={{ background: C.violetMuted, border: `1px solid ${C.violetBorder}`, borderRadius: "8px", padding: "0.5rem 1rem", fontSize: "0.8rem", fontWeight: 600, color: C.violetLight, fontFamily: MONO }}>
-              +165 autres →
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 4. FEATURES / TABS ─────────────────────────────────────────────── */}
-      <section id="fonctionnalités" style={{ padding: "7rem clamp(1.5rem, 5vw, 4rem)", background: C.card, borderTop: `1px solid ${C.faint}` }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            style={{ marginBottom: "3.5rem" }}
-          >
-            <span style={{ color: C.violetLight, fontWeight: 700, fontSize: "0.8rem", letterSpacing: "0.12em", textTransform: "uppercase" }}>Ce que Prism fait pour vous</span>
-            <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 800, margin: "0.75rem 0 0", letterSpacing: "-0.03em", lineHeight: 1.1 }}>
-              Quatre modules. Un seul outil.
-            </h2>
-          </motion.div>
-
-          {/* Tab Nav */}
-          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "2.5rem" }}>
-            {TABS.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                style={{
-                  background: activeTab === tab.id ? C.violet : "transparent",
-                  color: activeTab === tab.id ? "#fff" : C.muted,
-                  border: `1px solid ${activeTab === tab.id ? C.violet : C.faint}`,
-                  padding: "0.6rem 1.4rem",
-                  borderRadius: "8px",
-                  fontWeight: 600,
-                  fontSize: "0.875rem",
-                  cursor: "pointer",
-                  fontFamily: FONT,
-                  transition: "all 0.2s",
-                }}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Tab Content */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.3 }}
-              style={{
-                background: C.bg,
-                border: `1px solid ${C.violetBorder}`,
-                borderRadius: "14px",
-                padding: "2.5rem",
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "3rem",
-                alignItems: "center",
-              }}
-            >
-              <div>
-                <h3 style={{ fontWeight: 800, fontSize: "clamp(1.3rem, 2.5vw, 1.9rem)", margin: "0 0 1rem", letterSpacing: "-0.025em", color: C.text }}>{activeTabData.headline}</h3>
-                <p style={{ color: C.muted, lineHeight: 1.78, fontSize: "0.975rem", margin: 0 }}>{activeTabData.content}</p>
-              </div>
-              <div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
-                  {activeTabData.items.map((item, i) => (
-                    <motion.div
-                      key={item}
-                      initial={{ opacity: 0, x: 16 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.09 }}
-                      style={{ display: "flex", alignItems: "flex-start", gap: "0.875rem", background: C.card, border: `1px solid ${C.faint}`, borderRadius: "8px", padding: "0.875rem 1rem" }}
-                    >
-                      <div style={{ width: "20px", height: "20px", background: C.violetMuted, border: `1px solid ${C.violetBorder}`, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", marginTop: "1px" }}>
-                        <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke={C.violetLight} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                      </div>
-                      <span style={{ color: C.text, fontWeight: 500, fontSize: "0.9rem", lineHeight: 1.5 }}>{item}</span>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </section>
-
-      {/* ── 5. TESTIMONIALS ────────────────────────────────────────────────── */}
-      <section style={{ padding: "7rem clamp(1.5rem, 5vw, 4rem)", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", right: "-100px", top: "50%", transform: "translateY(-50%)", width: "500px", height: "500px", background: "radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
-
-        <div style={{ maxWidth: "900px", margin: "0 auto", position: "relative" }}>
+        <motion.div style={{ y: heroY }} className="max-w-6xl mx-auto px-6 relative w-full">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            style={{ textAlign: "center", marginBottom: "3.5rem" }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 bg-[#6C47FF]/10 border border-[#6C47FF]/30 text-[#A78BFA] text-sm font-medium px-4 py-2 rounded-full mb-8"
           >
-            <span style={{ color: C.violetLight, fontWeight: 700, fontSize: "0.8rem", letterSpacing: "0.12em", textTransform: "uppercase" }}>Ils pilotent avec Prism</span>
-            <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, margin: "0.75rem 0 0", letterSpacing: "-0.03em" }}>
-              Paroles de directeurs
-            </h2>
+            <Activity className="w-4 h-4" />
+            Now with AI-powered insights
           </motion.div>
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={testimonialIndex}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.4 }}
-              style={{
-                background: C.card,
-                border: `1px solid ${C.violetBorder}`,
-                borderRadius: "14px",
-                padding: "2.5rem",
-                position: "relative",
-              }}
-            >
-              <div style={{ position: "absolute", top: "1.5rem", right: "1.5rem", fontFamily: MONO, fontSize: "4rem", color: C.violetMuted, lineHeight: 1, userSelect: "none" }}>"</div>
-              <div style={{ fontSize: "clamp(1rem, 1.8vw, 1.2rem)", fontWeight: 400, lineHeight: 1.8, color: C.text, marginBottom: "2rem", fontStyle: "italic", position: "relative" }}>
-                "{activeTesti.quote}"
-              </div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", background: `linear-gradient(135deg, ${C.violet}, ${C.violetLight})`, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: "1.1rem", color: "#fff" }}>
-                    {activeTesti.name.charAt(0)}
-                  </div>
-                  <div>
-                    <div style={{ fontWeight: 700, fontSize: "0.95rem" }}>{activeTesti.name}</div>
-                    <div style={{ color: C.muted, fontSize: "0.8rem", marginTop: "2px" }}>{activeTesti.role}</div>
-                  </div>
-                </div>
-                <div style={{ background: C.violetMuted, border: `1px solid ${C.violetBorder}`, padding: "0.4rem 0.9rem", borderRadius: "6px", fontSize: "0.75rem", color: C.muted, fontFamily: MONO }}>
-                  {activeTesti.company}
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", marginTop: "2rem" }}>
-            <button
-              onClick={() => setTestimonialIndex((i) => (i - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)}
-              style={{ width: "40px", height: "40px", borderRadius: "50%", border: `1px solid ${C.violetBorder}`, background: "transparent", color: C.text, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: FONT }}
-            >
-              ←
-            </button>
-            <div style={{ display: "flex", gap: "0.5rem" }}>
-              {TESTIMONIALS.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setTestimonialIndex(i)}
-                  style={{ width: i === testimonialIndex ? "24px" : "8px", height: "8px", borderRadius: "4px", background: i === testimonialIndex ? C.violet : C.faint, border: "none", cursor: "pointer", transition: "all 0.3s" }}
-                />
-              ))}
-            </div>
-            <button
-              onClick={() => setTestimonialIndex((i) => (i + 1) % TESTIMONIALS.length)}
-              style={{ width: "40px", height: "40px", borderRadius: "50%", border: `1px solid ${C.violetBorder}`, background: "transparent", color: C.text, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: FONT }}
-            >
-              →
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 6. PRICING ─────────────────────────────────────────────────────── */}
-      <section id="tarifs" style={{ background: C.card, padding: "7rem clamp(1.5rem, 5vw, 4rem)", borderTop: `1px solid ${C.faint}` }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            style={{ textAlign: "center", marginBottom: "4rem" }}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.7 }}
+            className="text-5xl md:text-7xl font-extrabold leading-[1.05] mb-6 max-w-4xl"
           >
-            <span style={{ color: C.violetLight, fontWeight: 700, fontSize: "0.8rem", letterSpacing: "0.12em", textTransform: "uppercase" }}>Tarification</span>
-            <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 800, margin: "0.75rem 0 0", letterSpacing: "-0.03em" }}>
-              Transparent. Prévisible. Scalable.
-            </h2>
-            <p style={{ color: C.muted, marginTop: "1rem", maxWidth: "480px", marginLeft: "auto", marginRight: "auto", lineHeight: 1.7 }}>
-              Aucun frais de setup, aucun engagement minimum. Commencez gratuitement, passez à l'abonnement quand vous êtes prêt.
-            </p>
-          </motion.div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem", alignItems: "start" }}>
-            {PRICING_TIERS.map((tier, i) => (
-              <motion.div
-                key={tier.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.12 }}
-                style={{
-                  background: tier.highlighted ? `linear-gradient(180deg, rgba(124,58,237,0.2) 0%, ${C.bg} 100%)` : C.bg,
-                  border: `1px solid ${tier.highlighted ? C.violet : C.faint}`,
-                  borderRadius: "14px",
-                  padding: "2.25rem",
-                  position: "relative",
-                  transform: tier.highlighted ? "scale(1.03)" : "scale(1)",
-                  boxShadow: tier.highlighted ? `0 0 40px rgba(124,58,237,0.15)` : "none",
-                }}
-              >
-                {tier.highlighted && (
-                  <div style={{ position: "absolute", top: "-1px", left: "50%", transform: "translateX(-50%)", background: C.violet, color: "#fff", padding: "0.3rem 1.2rem", borderRadius: "0 0 8px 8px", fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", whiteSpace: "nowrap" }}>
-                    Le plus populaire
-                  </div>
-                )}
-
-                <div style={{ color: C.muted, fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.5rem", fontFamily: MONO }}>{tier.tag}</div>
-                <div style={{ fontWeight: 800, fontSize: "1.4rem", marginBottom: "1.25rem" }}>{tier.name}</div>
-
-                <div style={{ display: "flex", alignItems: "baseline", gap: "0.25rem", marginBottom: "0.5rem" }}>
-                  {tier.period ? (
-                    <>
-                      <span style={{ fontFamily: MONO, fontWeight: 700, fontSize: "2.5rem", color: tier.highlighted ? C.violetLight : C.text }}>{tier.price}€</span>
-                      <span style={{ color: C.muted, fontSize: "0.85rem" }}>{tier.period}</span>
-                    </>
-                  ) : (
-                    <span style={{ fontFamily: MONO, fontWeight: 700, fontSize: "1.5rem", color: C.muted }}>{tier.price}</span>
-                  )}
-                </div>
-
-                <p style={{ color: C.muted, fontSize: "0.85rem", lineHeight: 1.65, marginBottom: "1.75rem", minHeight: "60px" }}>{tier.description}</p>
-
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.65rem", marginBottom: "2rem" }}>
-                  {tier.features.map((f) => (
-                    <div key={f} style={{ display: "flex", alignItems: "flex-start", gap: "0.65rem" }}>
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, marginTop: "2px" }}>
-                        <circle cx="8" cy="8" r="7" fill={C.violetMuted} stroke={C.violetBorder}/>
-                        <path d="M5 8L7 10L11 6" stroke={C.violetLight} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                      <span style={{ fontSize: "0.875rem", color: C.text, lineHeight: 1.5 }}>{f}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  style={{
-                    width: "100%",
-                    padding: "0.9rem",
-                    background: tier.highlighted ? C.violet : "transparent",
-                    color: tier.highlighted ? "#fff" : C.violetLight,
-                    border: `1px solid ${tier.highlighted ? C.violet : C.violetBorder}`,
-                    borderRadius: "8px",
-                    fontWeight: 700,
-                    fontSize: "0.9rem",
-                    cursor: "pointer",
-                    fontFamily: FONT,
-                    transition: "all 0.2s",
-                  }}
-                >
-                  {tier.cta}
-                </motion.button>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── 7. FAQ ACCORDION ───────────────────────────────────────────────── */}
-      <section id="faq" style={{ padding: "7rem clamp(1.5rem, 5vw, 4rem)" }}>
-        <div style={{ maxWidth: "780px", margin: "0 auto" }}>
+            Analytics that actually<br />
+            <span className="bg-gradient-to-r from-[#6C47FF] to-[#A78BFA] bg-clip-text text-transparent">drive decisions.</span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-xl text-white/55 max-w-2xl mb-10 leading-relaxed"
+          >
+            Prism gives your team a single source of truth — real-time dashboards, funnel analysis, cohort retention, and AI summaries. No SQL required.
+          </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            style={{ marginBottom: "3rem" }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex flex-wrap gap-4 mb-16"
           >
-            <span style={{ color: C.violetLight, fontWeight: 700, fontSize: "0.8rem", letterSpacing: "0.12em", textTransform: "uppercase" }}>Questions fréquentes</span>
-            <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, margin: "0.75rem 0 0", letterSpacing: "-0.03em" }}>
-              Tout ce que vous voulez savoir
-            </h2>
+            <a href="#pricing" className="bg-[#6C47FF] hover:bg-[#7C5CFF] text-white font-semibold px-8 py-4 rounded-full transition-colors flex items-center gap-2 cursor-pointer">
+              Start for free <ArrowRight className="w-5 h-5" />
+            </a>
+            <a href="#features" className="border border-white/20 hover:border-white/40 text-white/70 hover:text-white font-medium px-8 py-4 rounded-full transition-colors cursor-pointer">
+              See features
+            </a>
           </motion.div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-            {FAQS.map((faq, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.07 }}
-                style={{
-                  background: C.card,
-                  border: `1px solid ${openFaq === i ? C.violetBorder : C.faint}`,
-                  borderRadius: "10px",
-                  overflow: "hidden",
-                  transition: "border-color 0.25s",
-                }}
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  style={{
-                    width: "100%", padding: "1.35rem 1.5rem", background: "transparent", border: "none",
-                    display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem",
-                    color: C.text, fontWeight: 600, fontSize: "0.975rem", textAlign: "left", cursor: "pointer", fontFamily: FONT,
-                  }}
+          {/* Live metrics widget */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="bg-white/5 border border-white/10 rounded-2xl p-6 max-w-2xl"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+                <span className="text-sm text-white/50">Live · Last 30 days</span>
+              </div>
+              <span className="text-xs text-white/30">prism.so/dashboard</span>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {metrics.map((m, i) => (
+                <div
+                  key={m.label}
+                  className={`p-3 rounded-xl transition-all cursor-default ${activeMetric === i ? "bg-[#6C47FF]/20 border border-[#6C47FF]/30" : "bg-white/5"}`}
                 >
-                  <span>{faq.q}</span>
-                  <motion.div
-                    animate={{ rotate: openFaq === i ? 45 : 0 }}
-                    transition={{ duration: 0.25 }}
-                    style={{ width: "24px", height: "24px", background: openFaq === i ? C.violetMuted : C.faint, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
-                  >
-                    <span style={{ color: openFaq === i ? C.violetLight : C.muted, fontSize: "1.1rem", lineHeight: 1 }}>+</span>
-                  </motion.div>
-                </button>
-                <AnimatePresence>
-                  {openFaq === i && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      style={{ overflow: "hidden" }}
-                    >
-                      <div style={{ padding: "0 1.5rem 1.5rem", color: C.muted, lineHeight: 1.78, fontSize: "0.925rem" }}>
-                        {faq.a}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── 8. CTA BANNER ──────────────────────────────────────────────────── */}
-      <section id="essai" style={{ padding: "7rem clamp(1.5rem, 5vw, 4rem)", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(7,11,20,0) 60%)`, pointerEvents: "none" }} />
-        <div style={{ position: "absolute", inset: 0, border: "none", borderRadius: "0" }} />
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          style={{
-            maxWidth: "860px",
-            margin: "0 auto",
-            textAlign: "center",
-            background: C.card,
-            border: `1px solid ${C.violetBorder}`,
-            borderRadius: "20px",
-            padding: "5rem clamp(2rem, 6vw, 5rem)",
-            position: "relative",
-            overflow: "hidden",
-            boxShadow: `0 0 80px rgba(124,58,237,0.12)`,
-          }}
-        >
-          <div style={{ position: "absolute", top: "-80px", right: "-80px", width: "280px", height: "280px", background: "radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%)", pointerEvents: "none" }} />
-          <div style={{ position: "absolute", bottom: "-60px", left: "-60px", width: "200px", height: "200px", background: "radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%)", pointerEvents: "none" }} />
-
-          <div style={{ position: "relative" }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: C.violetMuted, border: `1px solid ${C.violetBorder}`, color: C.violetLight, padding: "0.35rem 1rem", borderRadius: "100px", fontSize: "0.75rem", fontWeight: 600, marginBottom: "1.75rem" }}>
-              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#4ade80", display: "inline-block" }} />
-              Aucune carte bancaire requise
-            </div>
-
-            <h2 style={{ fontWeight: 800, fontSize: "clamp(2.2rem, 4.5vw, 3.8rem)", margin: "0 0 1.25rem", letterSpacing: "-0.035em", lineHeight: 1.1 }}>
-              Essayer Prism <span style={{ background: `linear-gradient(135deg, ${C.violet}, ${C.violetLight})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>14 Jours</span> Gratuitement
-            </h2>
-
-            <p style={{ color: C.muted, fontSize: "1.05rem", lineHeight: 1.75, maxWidth: "520px", margin: "0 auto 2.5rem" }}>
-              Connectez vos sources de données, créez votre premier dashboard et voyez la différence avant de vous engager. Aucun frais, aucune limite cachée pendant l'essai.
-            </p>
-
-            <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-              <motion.a
-                href="#"
-                whileHover={{ scale: 1.05, boxShadow: `0 0 50px rgba(124,58,237,0.5)` }}
-                whileTap={{ scale: 0.97 }}
-                style={{ display: "inline-block", background: C.violet, color: "#fff", padding: "1.1rem 2.75rem", borderRadius: "10px", fontWeight: 700, fontSize: "1.05rem", textDecoration: "none", cursor: "pointer" }}
-              >
-                Démarrer l'essai gratuit →
-              </button>
-              <motion.a
-                href="#"
-                whileHover={{ borderColor: C.violet }}
-                style={{ display: "inline-block", border: `1px solid ${C.faint}`, color: C.muted, padding: "1.1rem 2rem", borderRadius: "10px", fontWeight: 600, fontSize: "1.05rem", textDecoration: "none", cursor: "pointer", transition: "border-color 0.2s" }}
-              >
-                Demander une démo
-              </button>
-            </div>
-
-            <div style={{ marginTop: "2rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "2rem", flexWrap: "wrap" }}>
-              {["Setup en 20 minutes", "Hébergement EU · RGPD", "Support 7j/7"].map((item) => (
-                <div key={item} style={{ display: "flex", alignItems: "center", gap: "0.4rem", color: C.muted, fontSize: "0.8rem" }}>
-                  <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 6.5L4.5 9.5L11.5 3" stroke={C.violetLight} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                  {item}
+                  <div className="text-2xl font-bold mb-1">{m.value}</div>
+                  <div className="text-xs text-white/40 mb-2">{m.label}</div>
+                  <div className={`text-xs font-medium ${m.up ? "text-emerald-400" : "text-red-400"}`}>{m.change}</div>
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       </section>
 
-      {/* ── 9. FOOTER ──────────────────────────────────────────────────────── */}
-      <footer style={{ background: "#04070f", borderTop: `1px solid ${C.violetBorder}`, padding: "4.5rem clamp(1.5rem, 5vw, 4rem) 2.5rem" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "3rem", marginBottom: "3.5rem" }}>
-
-            {/* Brand */}
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.625rem", marginBottom: "1.25rem" }}>
-                <div style={{ width: "32px", height: "32px", background: `linear-gradient(135deg, ${C.violet}, ${C.violetLight})`, borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M8 1L14 5V11L8 15L2 11V5L8 1Z" fill="white" opacity="0.9"/>
-                    <path d="M8 5L11 7V10L8 12L5 10V7L8 5Z" fill={C.violet}/>
-                  </svg>
+      {/* Features */}
+      <section id="features" className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="text-center mb-16">
+            <p className="text-[#A78BFA] text-sm font-semibold tracking-widest uppercase mb-4">Features</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Everything your data team needs.</h2>
+            <p className="text-white/50 text-lg max-w-2xl mx-auto">From real-time monitoring to deep cohort analysis — Prism covers every angle.</p>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { icon: <Activity className="w-6 h-6" />, title: "Real-time dashboards", desc: "Sub-second data updates. Watch your metrics move as users interact." },
+              { icon: <TrendingUp className="w-6 h-6" />, title: "Funnel analysis", desc: "Track conversion across any multi-step flow. Identify exactly where users drop." },
+              { icon: <Users className="w-6 h-6" />, title: "Cohort retention", desc: "Group users by behavior or attributes. See which cohorts retain best." },
+              { icon: <Zap className="w-6 h-6" />, title: "AI summaries", desc: "Ask Prism AI anything in plain English. Get instant insights, no SQL needed." },
+              { icon: <Globe className="w-6 h-6" />, title: "Attribution modeling", desc: "Multi-touch attribution across UTM sources, channels, and campaigns." },
+              { icon: <Shield className="w-6 h-6" />, title: "Privacy-first", desc: "GDPR, CCPA compliant. No PII stored by default. SOC 2 Type II certified." },
+            ].map((f, i) => (
+              <Reveal key={f.title} delay={i * 0.08}>
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-7 hover:border-[#6C47FF]/40 hover:bg-[#6C47FF]/5 transition-all group cursor-default">
+                  <div className="w-12 h-12 bg-[#6C47FF]/15 text-[#A78BFA] rounded-xl flex items-center justify-center mb-5 group-hover:bg-[#6C47FF]/25 transition-colors">
+                    {f.icon}
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2">{f.title}</h3>
+                  <p className="text-white/50 text-sm leading-relaxed">{f.desc}</p>
                 </div>
-                <span style={{ fontWeight: 800, fontSize: "1.1rem", color: C.text }}>Prism Analytics</span>
-              </div>
-              <p style={{ color: C.muted, fontSize: "0.875rem", lineHeight: 1.7, maxWidth: "280px", margin: "0 0 1.5rem" }}>
-                L'intelligence data pour les directeurs marketing et finance qui veulent piloter, pas subir.
-              </p>
-              <div style={{ display: "flex", gap: "0.75rem" }}>
-                {/* LinkedIn */}
-                <a href="#" style={{ width: "36px", height: "36px", background: C.faint, borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "background 0.2s" }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill={C.muted}><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-                </a>
-                {/* MessageSquare/X */}
-                <a href="#" style={{ width: "36px", height: "36px", background: C.faint, borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill={C.muted}><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                </a>
-                {/* GitHub */}
-                <a href="#" style={{ width: "36px", height: "36px", background: C.faint, borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill={C.muted}><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-                </a>
-              </div>
-            </div>
-
-            {/* Produit */}
-            <div>
-              <div style={{ fontWeight: 700, marginBottom: "1.25rem", fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "0.09em", color: C.text }}>Produit</div>
-              {["Fonctionnalités", "Connecteurs", "Tarification", "Mises à jour", "Roadmap"].map((l) => (
-                <a key={l} href="#" style={{ display: "block", color: C.muted, fontSize: "0.875rem", textDecoration: "none", marginBottom: "0.6rem", cursor: "pointer" }}>{l}</a>
-              ))}
-            </div>
-
-            {/* Ressources */}
-            <div>
-              <div style={{ fontWeight: 700, marginBottom: "1.25rem", fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "0.09em", color: C.text }}>Ressources</div>
-              {["Documentation", "API Reference", "Tutoriels vidéo", "Blog data", "Cas clients"].map((l) => (
-                <a key={l} href="#" style={{ display: "block", color: C.muted, fontSize: "0.875rem", textDecoration: "none", marginBottom: "0.6rem", cursor: "pointer" }}>{l}</a>
-              ))}
-            </div>
-
-            {/* Entreprise */}
-            <div>
-              <div style={{ fontWeight: 700, marginBottom: "1.25rem", fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "0.09em", color: C.text }}>Entreprise</div>
-              {["À propos", "Équipe", "Sécurité", "RGPD", "Contact"].map((l) => (
-                <a key={l} href="#" style={{ display: "block", color: C.muted, fontSize: "0.875rem", textDecoration: "none", marginBottom: "0.6rem", cursor: "pointer" }}>{l}</a>
-              ))}
-            </div>
-          </div>
-
-          {/* Bottom bar */}
-          <div style={{ borderTop: `1px solid ${C.faint}`, paddingTop: "2rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
-              <span style={{ color: C.muted, fontSize: "0.8rem" }}>© 2026 Prism Analytics SAS. Tous droits réservés.</span>
-              <span style={{ display: "flex", alignItems: "center", gap: "0.4rem", color: C.muted, fontSize: "0.75rem", fontFamily: MONO }}>
-                <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#4ade80", display: "inline-block" }} />
-                99.5% uptime · Données hébergées EU
-              </span>
-            </div>
-            <div style={{ display: "flex", gap: "1.5rem" }}>
-              {["Mentions légales", "CGU", "Confidentialité", "Cookies"].map((l) => (
-                <a key={l} href="#" style={{ color: C.muted, fontSize: "0.78rem", textDecoration: "none", cursor: "pointer" }}>{l}</a>
-              ))}
-            </div>
+              </Reveal>
+            ))}
           </div>
         </div>
-      </footer>
+      </section>
 
+      {/* Integrations */}
+      <section id="integrations" className="py-24 px-6 bg-white/[0.02]">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="text-center mb-12">
+            <p className="text-[#A78BFA] text-sm font-semibold tracking-widest uppercase mb-4">Integrations</p>
+            <h2 className="text-4xl font-bold mb-4">Works with your stack.</h2>
+            <p className="text-white/50 max-w-xl mx-auto">Connect Prism to 60+ tools in one click. Your data, unified.</p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div className="flex flex-wrap justify-center gap-3">
+              {integrations.map((name, i) => (
+                <motion.div
+                  key={name}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: i * 0.04, duration: 0.3 }}
+                  viewport={{ once: true }}
+                  className="bg-white/5 border border-white/10 rounded-full px-5 py-2.5 text-sm text-white/70 hover:text-white hover:border-[#6C47FF]/40 transition-all cursor-default"
+                >
+                  {name}
+                </motion.div>
+              ))}
+            </div>
+          </Reveal>
+          <Reveal delay={0.3} className="text-center mt-8">
+            <span className="text-white/40 text-sm">+ 48 more integrations</span>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Social proof */}
+      <section className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="text-center mb-12">
+            <div className="text-5xl font-extrabold mb-2">2,400+</div>
+            <p className="text-white/50">companies trust Prism to make data-driven decisions</p>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { quote: "Prism replaced 4 different tools. Our team went from 2-day reporting cycles to real-time.", name: "Elena Torres", role: "Head of Growth, Vesper" },
+              { quote: "The AI summaries are a game changer. I can ask 'why did churn spike Tuesday?' and get a real answer.", name: "James Woo", role: "CEO, Nori Finance" },
+              { quote: "Setup took 20 minutes. We had our first funnel report before lunch.", name: "Priya Shah", role: "Product Lead, Decker" },
+            ].map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.12}>
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-7 h-full">
+                  <p className="text-white/70 leading-relaxed mb-6 text-sm">"{t.quote}"</p>
+                  <div className="font-semibold text-sm">{t.name}</div>
+                  <div className="text-white/40 text-xs">{t.role}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="pricing" className="py-24 px-6 bg-white/[0.02]">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="text-center mb-12">
+            <p className="text-[#A78BFA] text-sm font-semibold tracking-widest uppercase mb-4">Pricing</p>
+            <h2 className="text-4xl font-bold mb-8">Simple, transparent pricing.</h2>
+            <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 rounded-full p-1">
+              <button
+                onClick={() => setAnnual(false)}
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${!annual ? "bg-[#6C47FF] text-white" : "text-white/50 hover:text-white"}`}
+              >
+                Monthly
+              </button>
+              <button
+                onClick={() => setAnnual(true)}
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${annual ? "bg-[#6C47FF] text-white" : "text-white/50 hover:text-white"}`}
+              >
+                Annual <span className="text-[#A78BFA] text-xs ml-1">–20%</span>
+              </button>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {plans.map((plan, i) => (
+              <Reveal key={plan.name} delay={i * 0.1}>
+                <div className={`rounded-2xl p-8 h-full flex flex-col ${
+                  plan.highlight
+                    ? "bg-[#6C47FF] border border-[#8B6DFF]"
+                    : "bg-white/5 border border-white/10"
+                }`}>
+                  <div className="mb-6">
+                    <div className="text-sm font-semibold mb-2 opacity-80">{plan.name}</div>
+                    <div className="flex items-end gap-1">
+                      <span className="text-4xl font-extrabold">{plan.price}</span>
+                      <span className={`text-sm mb-1 ${plan.highlight ? "text-white/70" : "text-white/40"}`}>{plan.period}</span>
+                    </div>
+                    {annual && plan.price !== "Custom" && (
+                      <div className="text-xs mt-1 opacity-60">Billed annually</div>
+                    )}
+                  </div>
+                  <ul className="space-y-3 flex-1 mb-8">
+                    {plan.features.map(f => (
+                      <li key={f} className="flex items-center gap-3 text-sm">
+                        <CheckCircle className={`w-4 h-4 shrink-0 ${plan.highlight ? "text-white" : "text-[#6C47FF]"}`} />
+                        <span className={plan.highlight ? "text-white/90" : "text-white/70"}>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <button className={`w-full py-3 rounded-full font-semibold text-sm transition-colors cursor-pointer ${
+                    plan.highlight
+                      ? "bg-white text-[#6C47FF] hover:bg-white/90"
+                      : "border border-white/20 hover:border-[#6C47FF]/60 hover:text-white text-white/70"
+                  }`}>
+                    {plan.cta}
+                  </button>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-24 px-6">
+        <div className="max-w-3xl mx-auto">
+          <Reveal className="text-center mb-12">
+            <p className="text-[#A78BFA] text-sm font-semibold tracking-widest uppercase mb-4">FAQ</p>
+            <h2 className="text-4xl font-bold">Got questions?</h2>
+          </Reveal>
+          <div className="space-y-3">
+            {faqs.map((faq, i) => (
+              <Reveal key={i} delay={i * 0.07}>
+                <div
+                  className="border border-white/10 rounded-xl overflow-hidden cursor-pointer"
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                >
+                  <div className="flex items-center justify-between p-6">
+                    <span className="font-medium text-sm">{faq.q}</span>
+                    <motion.div animate={{ rotate: openFaq === i ? 180 : 0 }} transition={{ duration: 0.25 }}>
+                      <ChevronDown className="w-4 h-4 text-white/40" />
+                    </motion.div>
+                  </div>
+                  <AnimatePresence>
+                    {openFaq === i && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-6 pb-6 text-white/55 text-sm leading-relaxed border-t border-white/10 pt-4">
+                          {faq.a}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-32 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <Reveal>
+            <div className="bg-gradient-to-br from-[#6C47FF]/20 to-[#A78BFA]/10 border border-[#6C47FF]/30 rounded-3xl p-16">
+              <h2 className="text-5xl font-extrabold mb-6">Start knowing your numbers.</h2>
+              <p className="text-white/55 text-lg mb-10 max-w-lg mx-auto">
+                Free for 14 days. No credit card. Setup in under 20 minutes.
+              </p>
+              <a href="#" className="inline-flex items-center gap-2 bg-[#6C47FF] hover:bg-[#7C5CFF] text-white font-bold px-10 py-4 rounded-full transition-colors cursor-pointer text-lg">
+                Create free account <ArrowRight className="w-5 h-5" />
+              </a>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-white/10 py-12 px-6">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 bg-gradient-to-br from-[#6C47FF] to-[#A78BFA] rounded-lg flex items-center justify-center">
+              <BarChart3 className="w-3.5 h-3.5 text-white" />
+            </div>
+            <span className="font-bold">Prism Analytics</span>
+          </div>
+          <div className="flex gap-8 text-sm text-white/40">
+            {["Product", "Docs", "Blog", "Privacy", "Status"].map(l => (
+              <a key={l} href="#" className="hover:text-white transition-colors cursor-pointer">{l}</a>
+            ))}
+          </div>
+          <p className="text-white/30 text-sm">© 2026 Prism Analytics, Inc.</p>
+        </div>
+      </footer>
     </div>
   )
 }
