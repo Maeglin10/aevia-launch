@@ -165,14 +165,14 @@ function SuccessContent() {
 
   useOnce(() => setShowConfetti(true));
 
-  const stagger: { container: import("framer-motion").Variants; item: import("framer-motion").Variants } = {
+  const stagger: any = {
     container: {
       hidden: {},
       show: { transition: { staggerChildren: 0.12, delayChildren: 0.3 } },
     },
     item: {
       hidden: { opacity: 0, y: 20 },
-      show:   { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
+      show:   { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
     },
   };
 

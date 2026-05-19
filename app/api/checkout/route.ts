@@ -96,7 +96,7 @@ export async function POST(req: NextRequest) {
       `&theme=${encodeURIComponent(siteTheme)}` +
       `&maintenance=${withMaintenance ? "1" : "0"}`;
 
-    const lineItems: NonNullable<Parameters<typeof stripe.checkout.sessions.create>[0]>['line_items'] = [
+    const lineItems: any[] = [
       {
         price_data: {
           currency: "eur",
