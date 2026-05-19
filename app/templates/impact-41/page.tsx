@@ -1,1010 +1,1805 @@
-"use client";
+'use client';
 
-import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
-import Link from "next/link";
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
+} from 'react';
 import {
-  Heart,
-  Globe,
-  BookOpen,
-  Utensils,
-  Home,
-  ChevronDown,
-  Check,
-  ArrowRight,
-  Star,
-  Users,
-  Mail,
-  Phone,
-  MapPin,
-  Menu,
-  X,
-  TrendingUp,
-  Gift,
-  Shield,
-} from "lucide-react";
+  motion,
+  useScroll,
+  useTransform,
+  useMotionTemplate,
+  useInView,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+} from 'framer-motion';
 
-// ─── Design tokens ────────────────────────────────────────────────────────────
-const C = {
-  bg: "#fffef9",
-  bgAlt: "#f8f7f0",
-  bgDark: "#1e3a8a",
-  bgDeep: "#172554",
-  text: "#1f2937",
-  textLight: "#4b5563",
-  textMuted: "#9ca3af",
-  accent: "#fbbf24",
-  accentLight: "#fde68a",
-  white: "#ffffff",
-  border: "#e5e7eb",
-  shadow: "rgba(30,58,138,0.1)",
-  warm: "#374151",
-  headingFont: "'Merriweather', Georgia, serif",
-  bodyFont: "'Open Sans', system-ui, sans-serif",
-};
+// ─── Seasonal scene definitions ───────────────────────────────────────────────
+const SCENES = [
+  {
+    name: 'Automne',
+    bg: '#1a0f07',
+    bgMid: '#2d1608',
+    accent: '#c9835a',
+    accentLight: '#e8a97e',
+    textPrimary: '#f0e8df',
+    textSecondary: '#9a7a68',
+    borderColor: 'rgba(201,131,90,0.18)',
+    patternColor: 'rgba(201,131,90,0.06)',
+  },
+  {
+    name: 'Hiver',
+    bg: '#0a0f1a',
+    bgMid: '#111827',
+    accent: '#b8c4d4',
+    accentLight: '#d4dde8',
+    textPrimary: '#e8edf5',
+    textSecondary: '#6b7a8d',
+    borderColor: 'rgba(184,196,212,0.18)',
+    patternColor: 'rgba(184,196,212,0.05)',
+  },
+  {
+    name: 'Printemps',
+    bg: '#f5f0e8',
+    bgMid: '#ede8dc',
+    accent: '#6b8f5e',
+    accentLight: '#89b07a',
+    textPrimary: '#1a1a14',
+    textSecondary: '#6b6255',
+    borderColor: 'rgba(107,143,94,0.2)',
+    patternColor: 'rgba(107,143,94,0.07)',
+  },
+  {
+    name: 'Été',
+    bg: '#f5e8d5',
+    bgMid: '#edddc8',
+    accent: '#2d6b7a',
+    accentLight: '#3d8a9c',
+    textPrimary: '#0f1f23',
+    textSecondary: '#5a6e73',
+    borderColor: 'rgba(45,107,122,0.2)',
+    patternColor: 'rgba(45,107,122,0.07)',
+  },
+];
 
-// ─── Animated Counter ─────────────────────────────────────────────────────────
-function AnimatedCounter({ target, suffix = "", prefix = "" }: { target: number; suffix?: string; prefix?: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+// ─── Collections data ──────────────────────────────────────────────────────────
+const COLLECTIONS = [
+  {
+    number: '01',
+    season: 'Automne / Hiver',
+    title: 'Crépuscule de Soie',
+    subtitle: 'La Collection',
+    desc: 'Drapés profonds en soie sauvage. Broderies de fils d\'or brûlé. Une architecture du corps qui redéfinit la nuit.',
+    palette: ['#2d1608', '#c9835a', '#e8d5c0'],
+  },
+  {
+    number: '02',
+    season: 'Automne / Hiver',
+    title: 'Noir Minéral',
+    subtitle: 'La Collection',
+    desc: 'Cachemire double face. Découpes géométriques inspirées de la lithographie japonaise. Pureté absolue.',
+    palette: ['#0a0f1a', '#b8c4d4', '#ffffff'],
+  },
+  {
+    number: '03',
+    season: 'Printemps / Été',
+    title: 'Jardin Suspendu',
+    subtitle: 'La Collection',
+    desc: 'Voiles de lin Égyptien. Teintes tirées de la nature vivante. La légèreté comme manifeste.',
+    palette: ['#f5f0e8', '#6b8f5e', '#d4c9b0'],
+  },
+  {
+    number: '04',
+    season: 'Printemps / Été',
+    title: 'Lumière Marine',
+    subtitle: 'La Collection',
+    desc: 'Textiles côtiers tissés main. Bleus profonds et sables lumineux. La mer comme muse.',
+    palette: ['#f5e8d5', '#2d6b7a', '#a8c5cc'],
+  },
+  {
+    number: '05',
+    season: 'Couture',
+    title: 'La Robe Absolue',
+    subtitle: 'Haute Couture',
+    desc: 'Pièce unique. Mille heures de broderie main. Trente-deux mètres de taffetas de soie. Un chef-d\'oeuvre vivant.',
+    palette: ['#1a0f07', '#d4a862', '#f0e0c8'],
+  },
+  {
+    number: '06',
+    season: 'Couture',
+    title: 'Architecture du Vide',
+    subtitle: 'Haute Couture',
+    desc: 'Organza structuré en volumes. Le corps disparaît pour laisser place à la sculpture. Couture comme art.',
+    palette: ['#0a0f1a', '#c4b8d4', '#e8e0f0'],
+  },
+  {
+    number: '07',
+    season: 'Capsule',
+    title: 'Héritage',
+    subtitle: 'La Capsule',
+    desc: 'Six pièces. Un vestiaire pour l\'éternité. Chaque silhouette porte cent ans de savoir-faire.',
+    palette: ['#1a1208', '#8b7355', '#d4c4a8'],
+  },
+  {
+    number: '08',
+    season: 'Capsule',
+    title: 'Nuit Étoilée',
+    subtitle: 'La Capsule',
+    desc: 'Velours de Gênes brodé à la main. Constellation de cristaux. La nuit comme territoire de la grâce.',
+    palette: ['#060810', '#7a8fb8', '#c8d4e8'],
+  },
+];
+
+// ─── Lookbook entries ──────────────────────────────────────────────────────────
+const LOOKBOOK = [
+  { ref: 'LB-001', material: 'Soie Sauvage', origin: 'Vietnam', caption: 'Robe longue à taille marquée' },
+  { ref: 'LB-002', material: 'Cachemire Grade A', origin: 'Mongolie', caption: 'Manteau redingote oversize' },
+  { ref: 'LB-003', material: 'Lin Égyptien', origin: 'Égypte', caption: 'Ensemble tailleur fluide' },
+  { ref: 'LB-004', material: 'Taffetas de Soie', origin: 'Lyon', caption: 'Jupe midi architecture' },
+  { ref: 'LB-005', material: 'Velours de Gênes', origin: 'Italie', caption: 'Veste structurée baroque' },
+  { ref: 'LB-006', material: 'Organza Plumetis', origin: 'France', caption: 'Blouse romantique à volants' },
+];
+
+// ─── SVG Monogram ──────────────────────────────────────────────────────────────
+function SVGMonogram({ color }: { color: string }) {
+  const pathRef = useRef<SVGPathElement>(null);
+  const [pathLength, setPathLength] = useState(0);
+  const [drawn, setDrawn] = useState(false);
 
   useEffect(() => {
-    if (!inView) return;
-    const duration = 2200;
-    const steps = 60;
-    const stepVal = target / steps;
-    let current = 0;
-    const timer = setInterval(() => {
-      current += stepVal;
-      if (current >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(current));
-      }
-    }, duration / steps);
-    return () => clearInterval(timer);
-  }, [inView, target]);
+    if (pathRef.current) {
+      const len = pathRef.current.getTotalLength();
+      setPathLength(len);
+    }
+    const t = setTimeout(() => setDrawn(true), 200);
+    return () => clearTimeout(t);
+  }, []);
+
+  // V path — angular serif V
+  const vPath =
+    'M 30 20 L 80 140 L 130 20';
+  // M path — classic serif M
+  const mPath =
+    'M 160 140 L 160 20 L 220 100 L 280 20 L 280 140';
 
   return (
-    <span ref={ref}>
-      {prefix}{count.toLocaleString("fr-FR")}{suffix}
-    </span>
+    <svg
+      width="320"
+      height="160"
+      viewBox="0 0 320 160"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ overflow: 'visible' }}
+    >
+      {/* V */}
+      <motion.path
+        ref={pathRef}
+        d={vPath}
+        stroke={color}
+        strokeWidth="3.5"
+        strokeLinecap="square"
+        strokeLinejoin="miter"
+        fill="none"
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={drawn ? { pathLength: 1, opacity: 1 } : {}}
+        transition={{ duration: 2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+      />
+      {/* M */}
+      <motion.path
+        d={mPath}
+        stroke={color}
+        strokeWidth="3.5"
+        strokeLinecap="square"
+        strokeLinejoin="miter"
+        fill="none"
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={drawn ? { pathLength: 1, opacity: 1 } : {}}
+        transition={{ duration: 2, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
+      />
+      {/* Decorative horizontal rule */}
+      <motion.line
+        x1="20"
+        y1="155"
+        x2="300"
+        y2="155"
+        stroke={color}
+        strokeWidth="0.75"
+        initial={{ scaleX: 0, opacity: 0 }}
+        animate={drawn ? { scaleX: 1, opacity: 0.45 } : {}}
+        transition={{ duration: 1.2, delay: 2.4, ease: [0.16, 1, 0.3, 1] }}
+        style={{ transformOrigin: '160px 155px' }}
+      />
+    </svg>
   );
 }
 
-// ─── Donation progress bar ────────────────────────────────────────────────────
-function DonationProgress({ goal, current, label }: { goal: number; current: number; label: string }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  const pct = Math.min((current / goal) * 100, 100);
-
-  return (
-    <div ref={ref} style={{ marginBottom: "1.5rem" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
-        <span style={{ fontFamily: C.bodyFont, fontSize: "0.88rem", color: C.textLight, fontWeight: 600 }}>{label}</span>
-        <span style={{ fontFamily: C.bodyFont, fontSize: "0.88rem", color: C.bgDark, fontWeight: 700 }}>
-          {current.toLocaleString("fr-FR")} € / {goal.toLocaleString("fr-FR")} €
-        </span>
-      </div>
-      <div style={{ height: 10, backgroundColor: C.border, borderRadius: "5px", overflow: "hidden" }}>
-        <motion.div
-          initial={{ width: 0 }}
-          animate={inView ? { width: `${pct}%` } : {}}
-          transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
-          style={{
-            height: "100%",
-            backgroundColor: C.accent,
-            borderRadius: "5px",
-          }}
-        />
-      </div>
-      <div style={{ fontFamily: C.bodyFont, fontSize: "0.78rem", color: C.textMuted, marginTop: "0.3rem" }}>{Math.round(pct)}% atteint</div>
-    </div>
-  );
+// ─── Scene-aware background hook ──────────────────────────────────────────────
+function useSceneProgress() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
+  return { containerRef, scrollYProgress };
 }
 
-function SectionReveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+// ─── Word Stage component (Apple-style scroll-linked word) ────────────────────
+function ScrollWord({
+  word,
+  scrollProgress,
+  start,
+  peak,
+  end,
+  sceneIdx,
+}: {
+  word: string;
+  scrollProgress: ReturnType<typeof useScroll>['scrollYProgress'];
+  start: number;
+  peak: number;
+  end: number;
+  sceneIdx: number;
+}) {
+  const scene = SCENES[sceneIdx];
+  const opacity = useTransform(
+    scrollProgress,
+    [start, peak, peak + (end - peak) * 0.3, end],
+    [0, 1, 1, 0]
+  );
+  const scale = useTransform(
+    scrollProgress,
+    [start, peak],
+    [0.82, 1.0]
+  );
+
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 44 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.72, delay, ease: [0.22, 1, 0.36, 1] }}
+      style={{
+        position: 'absolute',
+        inset: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        opacity,
+        scale,
+        pointerEvents: 'none',
+      }}
     >
-      {children}
+      <span
+        style={{
+          fontFamily: "'Cormorant Garamond', 'Playfair Display', 'EB Garamond', Georgia, serif",
+          fontSize: 'clamp(4.5rem, 14vw, 13rem)',
+          fontWeight: 300,
+          letterSpacing: '0.2em',
+          color: scene.accent,
+          lineHeight: 1,
+          textTransform: 'uppercase',
+          userSelect: 'none',
+        }}
+      >
+        {word}
+      </span>
     </motion.div>
   );
 }
 
-function FAQItem({ q, a }: { q: string; a: string }) {
-  const [open, setOpen] = useState(false);
+// ─── Fabric texture section ────────────────────────────────────────────────────
+function FabricSection({
+  pattern,
+  scene,
+  children,
+}: {
+  pattern: 'grid' | 'herringbone' | 'diagonal';
+  scene: (typeof SCENES)[number];
+  children: React.ReactNode;
+}) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const y = useTransform(scrollYProgress, [0, 1], ['-6%', '6%']);
+
+  const patternStyle: Record<string, React.CSSProperties> = {
+    grid: {
+      backgroundImage: `
+        repeating-linear-gradient(0deg, ${scene.patternColor} 0px, ${scene.patternColor} 1px, transparent 1px, transparent 28px),
+        repeating-linear-gradient(90deg, ${scene.patternColor} 0px, ${scene.patternColor} 1px, transparent 1px, transparent 28px)
+      `,
+    },
+    herringbone: {
+      backgroundImage: `
+        repeating-linear-gradient(45deg, ${scene.patternColor} 0px, ${scene.patternColor} 1px, transparent 1px, transparent 18px),
+        repeating-linear-gradient(-45deg, ${scene.patternColor} 0px, ${scene.patternColor} 1px, transparent 1px, transparent 18px)
+      `,
+    },
+    diagonal: {
+      backgroundImage: `
+        repeating-linear-gradient(
+          -55deg,
+          transparent,
+          transparent 14px,
+          ${scene.patternColor} 14px,
+          ${scene.patternColor} 15px
+        )
+      `,
+    },
+  };
+
   return (
-    <div style={{ borderBottom: `1px solid ${C.border}`, marginBottom: "0.5rem" }}>
-      <button
-        onClick={() => setOpen(!open)}
+    <div
+      ref={ref}
+      style={{
+        position: 'relative',
+        overflow: 'hidden',
+        backgroundColor: scene.bg,
+      }}
+    >
+      <motion.div
         style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          padding: "1.1rem 0",
-          textAlign: "left",
-          gap: "1rem",
+          position: 'absolute',
+          inset: '-10%',
+          y,
+          ...patternStyle[pattern],
         }}
-      >
-        <span style={{ fontFamily: C.headingFont, fontSize: "1rem", color: C.text, fontWeight: 700, lineHeight: 1.45 }}>{q}</span>
-        <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }} style={{ flexShrink: 0 }}>
-          <ChevronDown size={20} color={C.bgDark} />
-        </motion.div>
-      </button>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            key="content"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.32, ease: "easeInOut" }}
-            style={{ overflow: "hidden" }}
-          >
-            <p style={{ fontFamily: C.bodyFont, fontSize: "0.93rem", color: C.textLight, lineHeight: 1.8, paddingBottom: "1.1rem" }}>
-              {a}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      />
+      <div style={{ position: 'relative', zIndex: 1 }}>{children}</div>
     </div>
   );
 }
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
-const programs = [
-  {
-    icon: <BookOpen size={28} />,
-    title: "Éducation pour tous",
-    desc: "Nous finançons la construction de salles de classe, la formation d'enseignants et la fourniture de matériaux scolaires dans 14 pays d'Afrique subsaharienne et d'Asie du Sud-Est.",
-    stats: "147 écoles construites",
-    color: "#3b82f6",
-  },
-  {
-    icon: <Utensils size={28} />,
-    title: "Alimentation & nutrition",
-    desc: "Notre programme de cantines scolaires assure un repas chaud et équilibré par jour à 42 000 enfants. La nutrition améliore l'assiduité scolaire de 68%.",
-    stats: "3,2M repas servis/an",
-    color: "#10b981",
-  },
-  {
-    icon: <Home size={28} />,
-    title: "Abris sécurisés",
-    desc: "En partenariat avec des ONG locales, nous fournissons des abris d'urgence aux familles déplacées et soutenons la reconstruction de villages après catastrophes naturelles.",
-    stats: "8 200 familles logées",
-    color: "#f59e0b",
-  },
-];
+// ─── Runway Carousel ──────────────────────────────────────────────────────────
+function RunwayCarousel({ scene }: { scene: (typeof SCENES)[number] }) {
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: stickyRef,
+    offset: ['start start', 'end end'],
+  });
 
-const stories = [
-  {
-    name: "Amara, 9 ans",
-    country: "Mali",
-    text: "Grâce à Lumière d'Espoir, j'ai pu aller à l'école pour la première fois. Je veux devenir médecin pour aider mon village.",
-    bg: "#dbeafe",
-    accent: "#1e40af",
-    initial: "A",
-  },
-  {
-    name: "Fatou, mère de 3 enfants",
-    country: "Sénégal",
-    text: "La cantine scolaire a tout changé. Mes enfants partent le matin avec le sourire, sachant qu'ils auront un vrai repas. Leurs notes se sont améliorées.",
-    bg: "#dcfce7",
-    accent: "#15803d",
-    initial: "F",
-  },
-  {
-    name: "Ravi Kumar, instituteur",
-    country: "Inde",
-    text: "Avant, j'enseignais sous un arbre. Aujourd'hui j'ai une belle salle de classe avec des tableaux, des livres, et des enfants qui viennent régulièrement.",
-    bg: "#fef3c7",
-    accent: "#d97706",
-    initial: "R",
-  },
-];
+  const totalSlides = COLLECTIONS.length;
+  const rawIndex = useTransform(scrollYProgress, [0, 0.98], [0, totalSlides - 1]);
 
-const donationTiers = [
-  {
-    amount: "10",
-    label: "Bienfaiteur",
-    desc: "Un repas par semaine pour un enfant pendant un mois",
-    impact: "4 repas offerts",
-    color: C.border,
-    textColor: C.text,
-    accent: C.bgDark,
-  },
-  {
-    amount: "25",
-    label: "Soutien",
-    desc: "Financement partiel de fournitures scolaires pour un élève",
-    impact: "1 kit scolaire",
-    color: C.bgDark,
-    textColor: C.white,
-    accent: C.accent,
-    popular: true,
-  },
-  {
-    amount: "50",
-    label: "Ambassadeur",
-    desc: "Financement d'un mois complet de repas pour un enfant",
-    impact: "30 repas offerts",
-    color: C.accent,
-    textColor: C.bgDeep,
-    accent: C.bgDeep,
-  },
-  {
-    amount: "100",
-    label: "Parrain",
-    desc: "Participation à la construction d'une salle de classe",
-    impact: "1/500e d'une école",
-    color: C.bgDeep,
-    textColor: C.white,
-    accent: C.accentLight,
-  },
-];
-
-const faqs = [
-  {
-    q: "Mon don est-il déductible des impôts ?",
-    a: "Oui. Lumière d'Espoir est reconnu d'utilité publique en France. Vos dons sont déductibles à 66% de votre impôt sur le revenu, dans la limite de 20% de votre revenu imposable. Vous recevez un reçu fiscal dans les 48h.",
-  },
-  {
-    q: "Comment mon argent est-il utilisé ?",
-    a: "87% des fonds vont directement aux programmes sur le terrain. 8% couvrent les frais de coordination internationale, et 5% les frais administratifs. Nous publions un rapport annuel certifié par un commissaire aux comptes.",
-  },
-  {
-    q: "Puis-je parrainer un enfant spécifique ?",
-    a: "Notre programme de parrainage vous associe à un enfant dans un pays de votre choix. Vous recevez des nouvelles et des photos deux fois par an. Le parrainage commence à 25€/mois.",
-  },
-  {
-    q: "Puis-je annuler mon don mensuel ?",
-    a: "Oui, à tout moment, sans frais ni préavis. Connectez-vous à votre espace donateur ou contactez-nous. Vos dons passés ont déjà eu un impact concret — nous vous en remercions.",
-  },
-  {
-    q: "Intervenez-vous en cas de crise humanitaire ?",
-    a: "Oui, nous disposons d'un fonds d'urgence permettant une intervention sous 72h en cas de catastrophe naturelle ou de conflit. 15% de nos réserves annuelles sont dédiées à cette réponse rapide.",
-  },
-];
-
-// ─── Main page ─────────────────────────────────────────────────────────────────
-export default function LumiereEspoirPage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const heroRef = useRef(null);
-
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 140]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.72], [1, 0]);
-  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [prevIdx, setPrevIdx] = useState(0);
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handler, { passive: true });
-    return () => window.removeEventListener("scroll", handler);
-  }, []);
+    const unsub = rawIndex.on('change', (v) => {
+      const next = Math.round(v);
+      const clamped = Math.max(0, Math.min(totalSlides - 1, next));
+      if (clamped !== activeIdx) {
+        setPrevIdx(activeIdx);
+        setActiveIdx(clamped);
+      }
+    });
+    return unsub;
+  }, [rawIndex, activeIdx, totalSlides]);
 
-  const navLinks = [
-    { label: "Notre mission", href: "#mission" },
-    { label: "Impact", href: "#impact" },
-    { label: "Programmes", href: "#programmes" },
-    { label: "Témoignages", href: "#temoignages" },
-    { label: "Donner", href: "#dons" },
-    { label: "FAQ", href: "#faq" },
+  const col = COLLECTIONS[activeIdx];
+
+  return (
+    <div
+      ref={stickyRef}
+      style={{ height: `${totalSlides * 120}vh`, position: 'relative' }}
+    >
+      <div
+        style={{
+          position: 'sticky',
+          top: 0,
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'stretch',
+          backgroundColor: scene.bg,
+          overflow: 'hidden',
+        }}
+      >
+        {/* Left — outfit number + meta */}
+        <div
+          style={{
+            width: '38%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
+            padding: '4rem 3rem 4rem 5rem',
+            borderRight: `1px solid ${scene.borderColor}`,
+          }}
+        >
+          <motion.div
+            key={`label-${activeIdx}`}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div
+              style={{
+                fontFamily: 'monospace',
+                fontSize: '0.72rem',
+                letterSpacing: '0.22em',
+                color: scene.textSecondary,
+                textTransform: 'uppercase',
+                marginBottom: '0.5rem',
+              }}
+            >
+              {col.season}
+            </div>
+            <div
+              style={{
+                fontFamily: "'Cormorant Garamond', 'Playfair Display', Georgia, serif",
+                fontSize: 'clamp(2.2rem, 4.5vw, 3.8rem)',
+                fontWeight: 300,
+                color: scene.textPrimary,
+                lineHeight: 1.1,
+                letterSpacing: '0.04em',
+                marginBottom: '1.5rem',
+              }}
+            >
+              {col.title}
+            </div>
+            <p
+              style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: '1.05rem',
+                fontStyle: 'italic',
+                color: scene.textSecondary,
+                lineHeight: 1.85,
+                maxWidth: 320,
+                marginBottom: '2.5rem',
+              }}
+            >
+              {col.desc}
+            </p>
+            <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
+              {col.palette.map((p, i) => (
+                <div
+                  key={i}
+                  style={{
+                    width: i === 0 ? 32 : 20,
+                    height: i === 0 ? 32 : 20,
+                    borderRadius: '50%',
+                    backgroundColor: p,
+                    border: `1px solid ${scene.borderColor}`,
+                    transition: 'width 0.3s, height 0.3s',
+                  }}
+                />
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Slide counter */}
+          <div
+            style={{
+              marginTop: '4rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: '3.5rem',
+                fontWeight: 300,
+                color: scene.accent,
+                lineHeight: 1,
+              }}
+            >
+              {String(activeIdx + 1).padStart(2, '0')}
+            </span>
+            <div style={{ flex: 1, height: 1, backgroundColor: scene.borderColor }} />
+            <span
+              style={{
+                fontFamily: 'monospace',
+                fontSize: '0.75rem',
+                color: scene.textSecondary,
+              }}
+            >
+              {String(totalSlides).padStart(2, '0')}
+            </span>
+          </div>
+        </div>
+
+        {/* Right — visual card */}
+        <div
+          style={{
+            flex: 1,
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+          <AnimatePresence mode="popLayout">
+            <motion.div
+              key={`card-${activeIdx}`}
+              initial={{ x: '100%', opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '-40%', opacity: 0 }}
+              transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: col.palette[0],
+              }}
+            >
+              {/* Abstract outfit silhouette using CSS */}
+              <div
+                style={{
+                  position: 'relative',
+                  width: 220,
+                  height: 380,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
+                {/* Head */}
+                <div
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: '50%',
+                    backgroundColor: col.palette[1],
+                    opacity: 0.7,
+                    marginBottom: 12,
+                  }}
+                />
+                {/* Shoulders */}
+                <div
+                  style={{
+                    width: 160,
+                    height: 8,
+                    backgroundColor: col.palette[1],
+                    opacity: 0.5,
+                    borderRadius: 4,
+                    marginBottom: 4,
+                  }}
+                />
+                {/* Torso */}
+                <div
+                  style={{
+                    width: 80,
+                    height: 120,
+                    backgroundImage: `repeating-linear-gradient(
+                      -55deg,
+                      transparent,
+                      transparent 6px,
+                      ${col.palette[2]}55 6px,
+                      ${col.palette[2]}55 7px
+                    )`,
+                    backgroundColor: col.palette[1],
+                    opacity: 0.6,
+                  }}
+                />
+                {/* Skirt / drape */}
+                <div
+                  style={{
+                    width: 0,
+                    height: 0,
+                    borderLeft: '80px solid transparent',
+                    borderRight: '80px solid transparent',
+                    borderTop: `160px solid ${col.palette[1]}`,
+                    opacity: 0.4,
+                    marginTop: -2,
+                  }}
+                />
+              </div>
+
+              {/* Reference tag */}
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '3rem',
+                  right: '3rem',
+                  fontFamily: 'monospace',
+                  fontSize: '0.65rem',
+                  letterSpacing: '0.2em',
+                  color: col.palette[2],
+                  opacity: 0.65,
+                }}
+              >
+                REF {col.number} — VM MAISON
+              </div>
+
+              {/* Diagonal fabric texture overlay */}
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  backgroundImage: `repeating-linear-gradient(
+                    -45deg,
+                    transparent,
+                    transparent 22px,
+                    ${col.palette[2]}08 22px,
+                    ${col.palette[2]}08 23px
+                  )`,
+                  pointerEvents: 'none',
+                }}
+              />
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Progress dots */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '2.5rem',
+              right: '2.5rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.5rem',
+              zIndex: 10,
+            }}
+          >
+            {COLLECTIONS.map((_, i) => (
+              <div
+                key={i}
+                style={{
+                  width: 2,
+                  height: i === activeIdx ? 24 : 8,
+                  backgroundColor: i === activeIdx ? col.palette[2] : `${col.palette[2]}40`,
+                  borderRadius: 2,
+                  transition: 'height 0.4s ease, background-color 0.4s ease',
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Lookbook Item (extracted to respect rules of hooks) ─────────────────────
+const LOOKBOOK_ASPECT_RATIOS = ['3/4', '4/3', '3/4', '4/3', '3/4', '4/3'];
+
+function LookbookItem({
+  item,
+  index,
+  scene,
+}: {
+  item: (typeof LOOKBOOK)[number];
+  index: number;
+  scene: (typeof SCENES)[number];
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const delay = (index % 3) * 0.08 + Math.floor(index / 3) * 0.12;
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={inView ? { opacity: 1, scale: 1 } : {}}
+      transition={{ duration: 0.85, delay, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        position: 'relative',
+        aspectRatio: LOOKBOOK_ASPECT_RATIOS[index],
+        backgroundColor: scene.bgMid,
+        overflow: 'hidden',
+        cursor: 'pointer',
+      }}
+    >
+      {/* Abstract lookbook visual */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `
+            repeating-linear-gradient(
+              ${30 + index * 15}deg,
+              transparent,
+              transparent ${12 + index * 3}px,
+              ${scene.patternColor} ${12 + index * 3}px,
+              ${scene.patternColor} ${13 + index * 3}px
+            )
+          `,
+        }}
+      />
+      <motion.div
+        whileHover={{ scale: 1.03 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          padding: '1.5rem',
+          background: `linear-gradient(to top, ${scene.bg}dd 0%, transparent 50%)`,
+        }}
+      >
+        <div
+          style={{
+            fontFamily: 'monospace',
+            fontSize: '0.6rem',
+            letterSpacing: '0.2em',
+            color: scene.accent,
+            textTransform: 'uppercase',
+            marginBottom: '0.35rem',
+          }}
+        >
+          {item.ref}
+        </div>
+        <div
+          style={{
+            fontFamily: "'Cormorant Garamond', Georgia, serif",
+            fontSize: '0.95rem',
+            color: scene.textPrimary,
+            letterSpacing: '0.04em',
+            marginBottom: '0.2rem',
+          }}
+        >
+          {item.caption}
+        </div>
+        <div
+          style={{
+            fontFamily: 'monospace',
+            fontSize: '0.6rem',
+            letterSpacing: '0.15em',
+            color: scene.textSecondary,
+            textTransform: 'uppercase',
+          }}
+        >
+          {item.material} — {item.origin}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+// ─── Lookbook Grid ────────────────────────────────────────────────────────────
+function LookbookGrid({ scene }: { scene: (typeof SCENES)[number] }) {
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: '1px',
+        backgroundColor: scene.borderColor,
+      }}
+    >
+      {LOOKBOOK.map((item, i) => (
+        <LookbookItem key={item.ref} item={item} index={i} scene={scene} />
+      ))}
+    </div>
+  );
+}
+
+// ─── Atelier section ──────────────────────────────────────────────────────────
+function AtelierSection({ scene }: { scene: (typeof SCENES)[number] }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-100px' });
+
+  const pillars = [
+    {
+      number: '01',
+      title: 'Savoir-faire',
+      desc: 'Chaque pièce naît de six mois de prototypage. Nos ateliers parisiens réunissent quatre-vingt artisans d\'excellence, héritiers de traditions centenaires.',
+    },
+    {
+      number: '02',
+      title: 'Matière',
+      desc: 'Nous sourceons nos textiles dans dix-sept pays, sélectionnés pour leur qualité intrinsèque. Soie grège du Vietnam, cachemire de Mongolie, lin d\'Égypte.',
+    },
+    {
+      number: '03',
+      title: 'Durabilité',
+      desc: 'Chaque création est conçue pour traverser les décennies. Nous refusons la mode de saison — nous fabriquons des archives destinées aux générations futures.',
+    },
+    {
+      number: '04',
+      title: 'Signature',
+      desc: 'La coupe VM est reconnaissable entre toutes — cette ligne de hanche particulière, ce tombé. Une géométrie du corps unique, brevetée depuis 2008.',
+    },
   ];
 
   return (
-    <div style={{ fontFamily: C.bodyFont, backgroundColor: C.bg, color: C.text, overflowX: "hidden" }}>
+    <div ref={ref} style={{ padding: '8rem 5rem' }}>
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        style={{ marginBottom: '5rem' }}
+      >
+        <div
+          style={{
+            fontFamily: 'monospace',
+            fontSize: '0.7rem',
+            letterSpacing: '0.3em',
+            color: scene.accent,
+            textTransform: 'uppercase',
+            marginBottom: '1.25rem',
+          }}
+        >
+          L'Atelier
+        </div>
+        <h2
+          style={{
+            fontFamily: "'Cormorant Garamond', 'Playfair Display', Georgia, serif",
+            fontSize: 'clamp(2.8rem, 6vw, 5rem)',
+            fontWeight: 300,
+            color: scene.textPrimary,
+            letterSpacing: '0.06em',
+            lineHeight: 1.05,
+            maxWidth: 700,
+          }}
+        >
+          L'excellence comme seul absolu
+        </h2>
+      </motion.div>
 
-      {/* ── NAVBAR ── */}
-      <motion.nav
+      <div
         style={{
-          position: "fixed",
-          top: 0, left: 0, right: 0,
-          zIndex: 100,
-          padding: scrolled ? "0.7rem 2.5rem" : "1.3rem 2.5rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          backgroundColor: scrolled ? "rgba(255,254,249,0.97)" : "transparent",
-          backdropFilter: scrolled ? "blur(14px)" : "none",
-          boxShadow: scrolled ? `0 1px 24px ${C.shadow}` : "none",
-          transition: "all 0.38s ease",
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: '1px',
+          backgroundColor: scene.borderColor,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "0.7rem" }}>
-          <div
-            style={{
-              width: 38, height: 38,
-              borderRadius: "50%",
-              backgroundColor: C.bgDark,
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}
-          >
-            <Heart size={18} color={C.accent} fill={C.accent} />
-          </div>
-          <div>
-            <div style={{ fontFamily: C.headingFont, fontSize: "1.05rem", fontWeight: 700, color: scrolled ? C.bgDark : C.white, lineHeight: 1.1 }}>
-              Lumière d'Espoir
-            </div>
-            <div style={{ fontFamily: C.bodyFont, fontSize: "0.65rem", color: scrolled ? C.textMuted : "rgba(255,255,255,0.6)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-              ONG humanitaire
-            </div>
-          </div>
-        </div>
-
-        <div style={{ display: "flex", gap: "2rem", alignItems: "center" }}>
-          {navLinks.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              style={{
-                fontFamily: C.bodyFont,
-                fontSize: "0.875rem",
-                color: scrolled ? C.textLight : "rgba(255,255,255,0.82)",
-                textDecoration: "none",
-                fontWeight: 500,
-                transition: "color 0.2s",
-              }}
-              onMouseEnter={(e) => ((e.target as HTMLElement).style.color = scrolled ? C.bgDark : C.accent)}
-              onMouseLeave={(e) => ((e.target as HTMLElement).style.color = scrolled ? C.textLight : "rgba(255,255,255,0.82)")}
-            >
-              {l.label}
-            </a>
-          ))}
-          <button onClick={() => document.getElementById("dons")?.scrollIntoView({behavior:"smooth"})}
-            style={{
-              backgroundColor: C.accent,
-              color: C.bgDeep,
-              padding: "0.6rem 1.5rem",
-              borderRadius: "2rem",
-              textDecoration: "none",
-              fontSize: "0.88rem",
-              fontWeight: 800,
-              fontFamily: C.bodyFont,
-              boxShadow: "0 4px 14px rgba(251,191,36,0.35)",
-            }}
-          >
-            Faire un don
-          </button>
-        </div>
-
-        <button onClick={() => setMenuOpen(!menuOpen)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, display: "none" }} aria-label="Menu">
-          {menuOpen ? <X color={scrolled ? C.bgDark : C.white} size={24} /> : <Menu color={scrolled ? C.bgDark : C.white} size={24} />}
-        </button>
-      </motion.nav>
-
-      <AnimatePresence>
-        {menuOpen && (
+        {pillars.map((pillar, i) => (
           <motion.div
-            initial={{ opacity: 0, y: -16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
+            key={pillar.number}
+            initial={{ opacity: 0, y: 32 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
             style={{
-              position: "fixed",
-              top: 64, left: 0, right: 0,
-              zIndex: 99,
-              backgroundColor: C.bg,
-              padding: "1.5rem 2rem",
-              display: "flex",
-              flexDirection: "column",
-              gap: "1.25rem",
-              boxShadow: `0 8px 32px ${C.shadow}`,
+              padding: '3.5rem',
+              backgroundColor: scene.bg,
+              position: 'relative',
             }}
           >
-            {navLinks.map((l) => (
-              <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{ color: C.text, textDecoration: "none", fontSize: "1.05rem", fontFamily: C.bodyFont, fontWeight: 500 }}>
-                {l.label}
-              </a>
-            ))}
+            <div
+              style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: '5rem',
+                fontWeight: 300,
+                color: scene.accent,
+                opacity: 0.12,
+                lineHeight: 1,
+                position: 'absolute',
+                top: '2rem',
+                right: '2.5rem',
+              }}
+            >
+              {pillar.number}
+            </div>
+            <div
+              style={{
+                fontFamily: 'monospace',
+                fontSize: '0.65rem',
+                letterSpacing: '0.22em',
+                color: scene.accent,
+                textTransform: 'uppercase',
+                marginBottom: '1rem',
+              }}
+            >
+              {pillar.number}
+            </div>
+            <h3
+              style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: '1.8rem',
+                fontWeight: 300,
+                color: scene.textPrimary,
+                letterSpacing: '0.08em',
+                marginBottom: '1.25rem',
+              }}
+            >
+              {pillar.title}
+            </h3>
+            <p
+              style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: '1rem',
+                fontStyle: 'italic',
+                color: scene.textSecondary,
+                lineHeight: 1.9,
+              }}
+            >
+              {pillar.desc}
+            </p>
           </motion.div>
-        )}
-      </AnimatePresence>
+        ))}
+      </div>
+    </div>
+  );
+}
 
-      {/* ── HERO ── */}
-      <section
-        ref={heroRef}
+// ─── Press section ────────────────────────────────────────────────────────────
+function PressSection({ scene }: { scene: (typeof SCENES)[number] }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+
+  const quotes = [
+    {
+      text: 'Une maison qui redéfinit la notion même de luxe.',
+      source: 'Le Figaro Madame',
+    },
+    {
+      text: 'La coupe VM est la plus architecturale de sa génération.',
+      source: 'Vogue Paris',
+    },
+    {
+      text: 'Un vestiaire pour l\'éternité, sculpté dans la perfection.',
+      source: 'Harper\'s Bazaar',
+    },
+  ];
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        padding: '7rem 5rem',
+        borderTop: `1px solid ${scene.borderColor}`,
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 1, ease: 'easeOut' }}
         style={{
-          minHeight: "100vh",
-          background: `linear-gradient(160deg, ${C.bgDeep} 0%, ${C.bgDark} 60%, #1e50c8 100%)`,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
-          overflow: "hidden",
-          paddingTop: "5rem",
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '3.5rem',
         }}
       >
-        {/* Animated background blobs */}
-        <motion.div
-          animate={{ scale: [1, 1.08, 1], opacity: [0.15, 0.22, 0.15] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        <div
           style={{
-            position: "absolute",
-            top: "-20%",
-            right: "-10%",
-            width: 600,
-            height: 600,
-            borderRadius: "50%",
-            backgroundColor: C.accent,
-            filter: "blur(120px)",
-            pointerEvents: "none",
+            fontFamily: 'monospace',
+            fontSize: '0.7rem',
+            letterSpacing: '0.3em',
+            color: scene.accent,
+            textTransform: 'uppercase',
           }}
-        />
-        <motion.div
-          animate={{ scale: [1, 1.05, 1], opacity: [0.1, 0.18, 0.1] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          style={{
-            position: "absolute",
-            bottom: "-10%",
-            left: "-5%",
-            width: 500,
-            height: 500,
-            borderRadius: "50%",
-            backgroundColor: "#3b82f6",
-            filter: "blur(100px)",
-            pointerEvents: "none",
-          }}
-        />
-
-        <motion.div
-          style={{ y: heroY, opacity: heroOpacity, textAlign: "center", maxWidth: 900, padding: "2rem 1.5rem", position: "relative", zIndex: 2 }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem", marginBottom: "2rem" }}
-          >
-            <Globe size={16} color={C.accent} />
-            <span style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: C.accent, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" }}>
-              Présents dans 14 pays
-            </span>
-          </motion.div>
+          Presse & Revues
+        </div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 36 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.14 }}
+        {quotes.map((q, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, x: -24 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: i * 0.14, ease: [0.16, 1, 0.3, 1] }}
             style={{
-              fontFamily: C.headingFont,
-              fontSize: "clamp(2.8rem, 7vw, 5.5rem)",
-              fontWeight: 900,
-              color: C.white,
-              lineHeight: 1.1,
-              marginBottom: "1.5rem",
+              display: 'flex',
+              gap: '3rem',
+              alignItems: 'flex-start',
+              paddingBottom: '3rem',
+              borderBottom: i < quotes.length - 1 ? `1px solid ${scene.borderColor}` : 'none',
             }}
           >
-            Chaque enfant mérite<br />
-            <span style={{ color: C.accent }}>une lumière d'espoir</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 36 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.28 }}
-            style={{
-              fontFamily: C.bodyFont,
-              fontSize: "1.15rem",
-              color: "rgba(255,255,255,0.7)",
-              maxWidth: 580,
-              margin: "0 auto 3rem",
-              lineHeight: 1.8,
-            }}
-          >
-            Lumière d'Espoir agit depuis 2003 pour garantir l'éducation, la nutrition et un abri aux enfants les plus vulnérables dans le monde.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 36 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.42 }}
-            style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}
-          >
-            <button onClick={() => document.getElementById("dons")?.scrollIntoView({behavior:"smooth"})}
+            <div
               style={{
-                backgroundColor: C.accent,
-                color: C.bgDeep,
-                padding: "1.1rem 2.6rem",
-                borderRadius: "3rem",
-                textDecoration: "none",
-                fontWeight: 800,
-                fontFamily: C.bodyFont,
-                fontSize: "1rem",
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                boxShadow: "0 10px 36px rgba(251,191,36,0.4)",
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: '4.5rem',
+                color: scene.accent,
+                lineHeight: 0.8,
+                flexShrink: 0,
+                opacity: 0.35,
+                marginTop: '-0.5rem',
               }}
             >
-              <Heart size={18} fill={C.bgDeep} /> Faire un don maintenant
-            </button>
-            <button onClick={() => document.getElementById("programmes")?.scrollIntoView({behavior:"smooth"})}
-              style={{
-                border: `2px solid rgba(255,255,255,0.28)`,
-                color: C.white,
-                padding: "1.1rem 2.6rem",
-                borderRadius: "3rem",
-                textDecoration: "none",
-                fontWeight: 600,
-                fontFamily: C.bodyFont,
-                fontSize: "1rem",
-              }}
-            >
-              Nos programmes
-            </button>
-          </motion.div>
-
-          {/* Hero stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 36 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.58 }}
-            style={{ display: "flex", gap: "3.5rem", justifyContent: "center", marginTop: "4.5rem", flexWrap: "wrap" }}
-          >
-            {[
-              { val: 127000, label: "enfants aidés", suffix: "+" },
-              { val: 147, label: "écoles construites", suffix: "" },
-              { val: 3200000, label: "repas servis/an", suffix: "" },
-              { val: 14, label: "pays d'intervention", suffix: "" },
-            ].map((s, i) => (
-              <div key={s.label} style={{ textAlign: "center" }}>
-                <div style={{ fontFamily: C.headingFont, fontSize: "2.2rem", fontWeight: 900, color: C.accent }}>
-                  {i === 0 ? <AnimatedCounter target={s.val} suffix={s.suffix} /> :
-                   i === 2 ? <AnimatedCounter target={s.val} suffix={s.suffix} /> :
-                   <>{s.val}{s.suffix}</>}
-                </div>
-                <div style={{ fontFamily: C.bodyFont, fontSize: "0.78rem", color: "rgba(255,255,255,0.52)", marginTop: "0.2rem" }}>{s.label}</div>
-              </div>
-            ))}
-          </motion.div>
-        </motion.div>
-
-        <motion.div
-          animate={{ y: [0, 9, 0] }}
-          transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
-          style={{ position: "absolute", bottom: "2.5rem", left: "50%", transform: "translateX(-50%)", zIndex: 3 }}
-        >
-          <ChevronDown color={C.accent} size={30} opacity={0.55} />
-        </motion.div>
-      </section>
-
-      {/* ── MISSION ── */}
-      <section id="mission" style={{ padding: "7rem 2rem", backgroundColor: C.bg }}>
-        <div style={{ maxWidth: 1140, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "5rem", alignItems: "center" }}>
-            <SectionReveal>
-              <span style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: C.bgDark }}>
-                Notre mission
-              </span>
-              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(1.9rem, 3.5vw, 2.8rem)", color: C.text, fontWeight: 900, margin: "0.75rem 0 1.5rem", lineHeight: 1.2 }}>
-                Agir avec efficacité, transparence et respect
-              </h2>
-              <p style={{ fontFamily: C.bodyFont, color: C.textLight, lineHeight: 1.85, fontSize: "0.95rem", marginBottom: "1.25rem" }}>
-                Fondée en 2003 par Isabelle Marchand et le Dr. Seydou Coulibaly, Lumière d'Espoir croit que chaque enfant, où qu'il naisse, mérite les mêmes chances. Nous ne faisons pas de charité — nous construisons des ponts vers l'autonomie.
-              </p>
-              <p style={{ fontFamily: C.bodyFont, color: C.textLight, lineHeight: 1.85, fontSize: "0.95rem", marginBottom: "2.25rem" }}>
-                Nos équipes travaillent en collaboration étroite avec les communautés locales, les gouvernements et des partenaires internationaux pour créer des changements durables, mesurables et respectueux des cultures.
-              </p>
-              <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
-                {[
-                  { icon: <Shield size={16} />, label: "Labellisé Don en Confiance" },
-                  { icon: <TrendingUp size={16} />, label: "87% sur le terrain" },
-                  { icon: <Star size={16} />, label: "Noté 4,9/5 par nos donateurs" },
-                ].map((item) => (
-                  <div key={item.label} style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
-                    <span style={{ color: C.bgDark }}>{item.icon}</span>
-                    <span style={{ fontFamily: C.bodyFont, fontSize: "0.83rem", color: C.textLight, fontWeight: 600 }}>{item.label}</span>
-                  </div>
-                ))}
-              </div>
-            </SectionReveal>
-
-            <SectionReveal delay={0.15}>
-              <div
+              "
+            </div>
+            <div>
+              <p
                 style={{
-                  backgroundColor: C.bgDark,
-                  borderRadius: "2rem",
-                  padding: "2.5rem",
-                  color: C.white,
+                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontSize: 'clamp(1.3rem, 2.5vw, 2rem)',
+                  fontWeight: 300,
+                  fontStyle: 'italic',
+                  color: scene.textPrimary,
+                  lineHeight: 1.5,
+                  letterSpacing: '0.02em',
+                  marginBottom: '1rem',
                 }}
               >
-                <h3 style={{ fontFamily: C.headingFont, fontSize: "1.2rem", color: C.white, marginBottom: "1.5rem", fontWeight: 700 }}>
-                  Objectifs 2026 — Avancement
-                </h3>
-                <DonationProgress goal={500000} current={342800} label="Fonds éducation annuel" />
-                <DonationProgress goal={200000} current={187400} label="Programme nutrition" />
-                <DonationProgress goal={150000} current={98200} label="Construction d'abris" />
-                <DonationProgress goal={80000} current={61500} label="Formation enseignants" />
-                <div
-                  style={{
-                    marginTop: "2rem",
-                    padding: "1.25rem",
-                    backgroundColor: "rgba(251,191,36,0.12)",
-                    borderRadius: "1rem",
-                    border: `1px solid rgba(251,191,36,0.25)`,
-                  }}
-                >
-                  <div style={{ fontFamily: C.headingFont, fontSize: "1.5rem", color: C.accent, fontWeight: 700 }}>690 000 €</div>
-                  <div style={{ fontFamily: C.bodyFont, fontSize: "0.82rem", color: "rgba(255,255,255,0.6)", marginTop: "0.2rem" }}>collectés en 2026 — objectif 930 000 €</div>
-                </div>
+                {q.text}
+              </p>
+              <div
+                style={{
+                  fontFamily: 'monospace',
+                  fontSize: '0.68rem',
+                  letterSpacing: '0.2em',
+                  color: scene.accent,
+                  textTransform: 'uppercase',
+                }}
+              >
+                — {q.source}
               </div>
-            </SectionReveal>
-          </div>
+            </div>
+          </motion.div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+// ─── Contact / Press request form area ───────────────────────────────────────
+function ContactSection({ scene }: { scene: (typeof SCENES)[number] }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        padding: '8rem 5rem',
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: '6rem',
+        alignItems: 'center',
+        borderTop: `1px solid ${scene.borderColor}`,
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 32 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div
+          style={{
+            fontFamily: 'monospace',
+            fontSize: '0.7rem',
+            letterSpacing: '0.3em',
+            color: scene.accent,
+            textTransform: 'uppercase',
+            marginBottom: '1.5rem',
+          }}
+        >
+          Contact & Presse
         </div>
+        <h2
+          style={{
+            fontFamily: "'Cormorant Garamond', 'Playfair Display', Georgia, serif",
+            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+            fontWeight: 300,
+            color: scene.textPrimary,
+            letterSpacing: '0.06em',
+            lineHeight: 1.1,
+            marginBottom: '2rem',
+          }}
+        >
+          Rejoindre<br />l'univers VM
+        </h2>
+        <p
+          style={{
+            fontFamily: "'Cormorant Garamond', Georgia, serif",
+            fontSize: '1.1rem',
+            fontStyle: 'italic',
+            color: scene.textSecondary,
+            lineHeight: 1.85,
+            marginBottom: '3rem',
+            maxWidth: 380,
+          }}
+        >
+          Pour les demandes presse, les commandes sur-mesure, et les collaborations éditoriales, notre équipe vous répond sous 48 heures.
+        </p>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {[
+            { label: 'Presse & Médias', value: 'presse@vm-maison.com' },
+            { label: 'Boutiques & Commandes', value: '+33 1 44 72 90 00' },
+            { label: 'Atelier Paris', value: '12 rue du Faubourg Saint-Honoré' },
+          ].map((item) => (
+            <div
+              key={item.label}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.2rem',
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: 'monospace',
+                  fontSize: '0.6rem',
+                  letterSpacing: '0.22em',
+                  color: scene.textSecondary,
+                  textTransform: 'uppercase',
+                }}
+              >
+                {item.label}
+              </span>
+              <span
+                style={{
+                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontSize: '1rem',
+                  color: scene.textPrimary,
+                  letterSpacing: '0.04em',
+                }}
+              >
+                {item.value}
+              </span>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 32 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1.25rem',
+        }}
+      >
+        {['Prénom & Nom', 'Adresse e-mail', 'Publication / Organisation'].map((placeholder) => (
+          <div
+            key={placeholder}
+            style={{
+              borderBottom: `1px solid ${scene.borderColor}`,
+              paddingBottom: '0.75rem',
+            }}
+          >
+            <input
+              type="text"
+              placeholder={placeholder}
+              style={{
+                width: '100%',
+                background: 'none',
+                border: 'none',
+                outline: 'none',
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: '1rem',
+                color: scene.textPrimary,
+                padding: '0.5rem 0',
+                caretColor: scene.accent,
+              }}
+            />
+          </div>
+        ))}
+
+        <div
+          style={{
+            borderBottom: `1px solid ${scene.borderColor}`,
+            paddingBottom: '0.75rem',
+          }}
+        >
+          <textarea
+            placeholder="Votre demande"
+            rows={4}
+            style={{
+              width: '100%',
+              background: 'none',
+              border: 'none',
+              outline: 'none',
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontSize: '1rem',
+              color: scene.textPrimary,
+              padding: '0.5rem 0',
+              resize: 'none',
+              caretColor: scene.accent,
+            }}
+          />
+        </div>
+
+        <motion.button
+          whileHover={{ letterSpacing: '0.35em' }}
+          transition={{ duration: 0.4 }}
+          style={{
+            marginTop: '1rem',
+            padding: '1.1rem 2.5rem',
+            backgroundColor: 'transparent',
+            border: `1px solid ${scene.accent}`,
+            color: scene.accent,
+            fontFamily: 'monospace',
+            fontSize: '0.7rem',
+            letterSpacing: '0.28em',
+            textTransform: 'uppercase',
+            cursor: 'pointer',
+            alignSelf: 'flex-start',
+          }}
+        >
+          Envoyer
+        </motion.button>
+      </motion.div>
+    </div>
+  );
+}
+
+// ─── Main page ─────────────────────────────────────────────────────────────────
+export default function VMMaisonPage() {
+  const [scrolled, setScrolled] = useState(false);
+  const [navMenuOpen, setNavMenuOpen] = useState(false);
+
+  // Master scroll for scene transitions
+  const pageRef = useRef<HTMLDivElement>(null);
+  const { scrollY } = useScroll();
+
+  // Scene transition — we drive scene index from scroll position after the hero
+  // Hero = 100vh, word section = 400vh, rest = ~300vh so scenes split at those
+  const [sceneIdx, setSceneIdx] = useState(0);
+
+  // Scroll for the words section
+  const wordsRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: wordsProgress } = useScroll({
+    target: wordsRef,
+    offset: ['start start', 'end end'],
+  });
+
+  // Scene color interpolation via scroll
+  // We use a single master scroll progress mapped to scene backgrounds
+  // Scenes transition: 0-25% Automne, 25-50% Hiver, 50-75% Printemps, 75-100% Été
+  const masterRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: masterProgress } = useScroll({
+    target: masterRef,
+    offset: ['start start', 'end end'],
+  });
+
+  // Compute current scene for static sections
+  useEffect(() => {
+    const unsub = masterProgress.on('change', (v) => {
+      if (v < 0.25) setSceneIdx(0);
+      else if (v < 0.5) setSceneIdx(1);
+      else if (v < 0.75) setSceneIdx(2);
+      else setSceneIdx(3);
+    });
+    return unsub;
+  }, [masterProgress]);
+
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 60);
+    window.addEventListener('scroll', handler, { passive: true });
+    return () => window.removeEventListener('scroll', handler);
+  }, []);
+
+  const currentScene = SCENES[sceneIdx];
+
+  const navLinks = [
+    { label: 'Collections', href: '#collections' },
+    { label: 'Lookbook', href: '#lookbook' },
+    { label: "L'Atelier", href: '#atelier' },
+    { label: 'Presse', href: '#presse' },
+    { label: 'Contact', href: '#contact' },
+  ];
+
+  // Words for Apple-style sequence
+  const words = [
+    { word: 'ÉLÉGANCE', sceneIdx: 0 },
+    { word: 'AUDACE', sceneIdx: 1 },
+    { word: 'LIBERTÉ', sceneIdx: 2 },
+    { word: 'GRÂCE', sceneIdx: 3 },
+  ];
+
+  return (
+    <div
+      ref={masterRef}
+      style={{
+        fontFamily: "'Cormorant Garamond', 'Playfair Display', Georgia, serif",
+        backgroundColor: SCENES[0].bg,
+        color: SCENES[0].textPrimary,
+        overflowX: 'hidden',
+      }}
+    >
+      {/* Google Fonts import via inline style */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        ::placeholder { color: inherit; opacity: 0.35; }
+        html { scroll-behavior: smooth; }
+      `}</style>
+
+      {/* ── NAVBAR ──────────────────────────────────────────────────────────── */}
+      <motion.nav
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 200,
+          padding: '1.5rem 4rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          backgroundColor: scrolled ? `${SCENES[0].bg}f0` : 'transparent',
+          backdropFilter: scrolled ? 'blur(20px)' : 'none',
+          borderBottom: scrolled ? `1px solid ${SCENES[0].borderColor}` : '1px solid transparent',
+          transition: 'all 0.5s ease',
+        }}
+      >
+        {/* Logo / monogram text */}
+        <div
+          style={{
+            fontFamily: "'Cormorant Garamond', Georgia, serif",
+            fontSize: '1.05rem',
+            letterSpacing: '0.35em',
+            textTransform: 'uppercase',
+            color: SCENES[0].textPrimary,
+            fontWeight: 300,
+          }}
+        >
+          VM Maison
+        </div>
+
+        {/* Nav links */}
+        <div
+          style={{
+            display: 'flex',
+            gap: '2.5rem',
+            alignItems: 'center',
+          }}
+        >
+          {navLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              style={{
+                fontFamily: 'monospace',
+                fontSize: '0.62rem',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                color: SCENES[0].textSecondary,
+                textDecoration: 'none',
+                transition: 'color 0.25s ease',
+              }}
+              onMouseEnter={(e) => {
+                (e.target as HTMLElement).style.color = SCENES[0].accent;
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLElement).style.color = SCENES[0].textSecondary;
+              }}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <motion.a
+          href="#contact"
+          whileHover={{ letterSpacing: '0.32em' }}
+          transition={{ duration: 0.35 }}
+          style={{
+            fontFamily: 'monospace',
+            fontSize: '0.6rem',
+            letterSpacing: '0.25em',
+            textTransform: 'uppercase',
+            color: SCENES[0].accent,
+            textDecoration: 'none',
+            border: `1px solid ${SCENES[0].accent}`,
+            padding: '0.65rem 1.5rem',
+          }}
+        >
+          Prendre Contact
+        </motion.a>
+      </motion.nav>
+
+      {/* ── HERO — SVG Monogram ──────────────────────────────────────────────── */}
+      <section
+        style={{
+          minHeight: '100vh',
+          backgroundColor: SCENES[0].bg,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Fabric texture background */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: `
+              repeating-linear-gradient(
+                -55deg,
+                transparent,
+                transparent 18px,
+                ${SCENES[0].patternColor} 18px,
+                ${SCENES[0].patternColor} 19px
+              )
+            `,
+          }}
+        />
+
+        {/* Large decorative text */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.04 }}
+          transition={{ duration: 2, delay: 2.5 }}
+          style={{
+            position: 'absolute',
+            bottom: '5%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            fontFamily: "'Cormorant Garamond', Georgia, serif",
+            fontSize: 'clamp(6rem, 18vw, 18rem)',
+            fontWeight: 300,
+            color: SCENES[0].accent,
+            letterSpacing: '0.18em',
+            whiteSpace: 'nowrap',
+            lineHeight: 1,
+            pointerEvents: 'none',
+            userSelect: 'none',
+          }}
+        >
+          MAISON
+        </motion.div>
+
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '2.5rem',
+            position: 'relative',
+            zIndex: 1,
+          }}
+        >
+          {/* SVG Monogram with drawing animation */}
+          <SVGMonogram color={SCENES[0].accent} />
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 2.8, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '0.75rem',
+            }}
+          >
+            <div
+              style={{
+                fontFamily: 'monospace',
+                fontSize: '0.62rem',
+                letterSpacing: '0.4em',
+                textTransform: 'uppercase',
+                color: SCENES[0].textSecondary,
+              }}
+            >
+              Paris — Maison de Couture
+            </div>
+            <div
+              style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: 'clamp(0.85rem, 1.5vw, 1.1rem)',
+                letterSpacing: '0.08em',
+                color: SCENES[0].textSecondary,
+                fontStyle: 'italic',
+              }}
+            >
+              Collection Perpétuelle — 2026
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 3.5 }}
+          style={{
+            position: 'absolute',
+            bottom: '3rem',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '0.75rem',
+          }}
+        >
+          <div
+            style={{
+              fontFamily: 'monospace',
+              fontSize: '0.55rem',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: SCENES[0].textSecondary,
+            }}
+          >
+            Défiler
+          </div>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+            style={{
+              width: 1,
+              height: 48,
+              backgroundColor: SCENES[0].accent,
+              opacity: 0.45,
+            }}
+          />
+        </motion.div>
       </section>
 
-      {/* ── IMPACT COUNTERS ── */}
-      <section id="impact" style={{ padding: "6rem 2rem", backgroundColor: C.bgDark }}>
-        <div style={{ maxWidth: 1140, margin: "0 auto" }}>
-          <SectionReveal>
-            <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2rem, 4vw, 2.8rem)", color: C.white, fontWeight: 900, marginBottom: "0.8rem" }}>
-                Notre impact en chiffres
-              </h2>
-              <p style={{ fontFamily: C.bodyFont, color: "rgba(255,255,255,0.6)", fontSize: "1rem", maxWidth: 480, margin: "0 auto" }}>
-                Des résultats concrets, vérifiables, depuis 2003.
-              </p>
-            </div>
-          </SectionReveal>
+      {/* ── APPLE-STYLE WORD SEQUENCE ────────────────────────────────────────── */}
+      <div
+        ref={wordsRef}
+        id="collections"
+        style={{
+          height: '400vh',
+          position: 'relative',
+          backgroundColor: SCENES[0].bg,
+        }}
+      >
+        <div
+          style={{
+            position: 'sticky',
+            top: 0,
+            height: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden',
+          }}
+        >
+          {/* Scene background transitions */}
+          {SCENES.map((scene, i) => {
+            const opacity = useTransform(
+              wordsProgress,
+              [i * 0.25, i * 0.25 + 0.05, (i + 1) * 0.25 - 0.05, (i + 1) * 0.25],
+              [0, 1, 1, 0]
+            );
+            return (
+              <motion.div
+                key={scene.name}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  backgroundColor: scene.bg,
+                  opacity: i === 0 ? undefined : opacity,
+                  backgroundImage: `repeating-linear-gradient(
+                    ${45 + i * 15}deg,
+                    transparent,
+                    transparent ${14 + i * 4}px,
+                    ${scene.patternColor} ${14 + i * 4}px,
+                    ${scene.patternColor} ${15 + i * 4}px
+                  )`,
+                }}
+              />
+            );
+          })}
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1.5rem" }}>
+          {/* Season label */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '3rem',
+              right: '4rem',
+              zIndex: 10,
+            }}
+          >
+            {SCENES.map((scene, i) => {
+              const opacity = useTransform(
+                wordsProgress,
+                [i * 0.25, i * 0.25 + 0.08, (i + 1) * 0.25 - 0.08, (i + 1) * 0.25],
+                [0, 1, 1, 0]
+              );
+              return (
+                <motion.div
+                  key={scene.name}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    right: 0,
+                    opacity,
+                    fontFamily: 'monospace',
+                    fontSize: '0.62rem',
+                    letterSpacing: '0.28em',
+                    textTransform: 'uppercase',
+                    color: scene.accent,
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {scene.name}
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Words */}
+          {words.map((item, i) => (
+            <ScrollWord
+              key={item.word}
+              word={item.word}
+              scrollProgress={wordsProgress}
+              start={i * 0.25}
+              peak={i * 0.25 + 0.1}
+              end={(i + 1) * 0.25}
+              sceneIdx={item.sceneIdx}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* ── RUNWAY CAROUSEL ──────────────────────────────────────────────────── */}
+      <FabricSection pattern="herringbone" scene={SCENES[1]}>
+        <RunwayCarousel scene={SCENES[1]} />
+      </FabricSection>
+
+      {/* ── LOOKBOOK ─────────────────────────────────────────────────────────── */}
+      <FabricSection pattern="grid" scene={SCENES[2]}>
+        <div id="lookbook" style={{ padding: '7rem 5rem 3rem' }}>
+          <div style={{ marginBottom: '4rem' }}>
+            <div
+              style={{
+                fontFamily: 'monospace',
+                fontSize: '0.7rem',
+                letterSpacing: '0.3em',
+                color: SCENES[2].accent,
+                textTransform: 'uppercase',
+                marginBottom: '1.25rem',
+              }}
+            >
+              Lookbook
+            </div>
+            <h2
+              style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: 'clamp(2.5rem, 5.5vw, 4.5rem)',
+                fontWeight: 300,
+                color: SCENES[2].textPrimary,
+                letterSpacing: '0.06em',
+                lineHeight: 1.05,
+              }}
+            >
+              L'Image Permanente
+            </h2>
+          </div>
+        </div>
+        <LookbookGrid scene={SCENES[2]} />
+      </FabricSection>
+
+      {/* ── ATELIER ──────────────────────────────────────────────────────────── */}
+      <FabricSection pattern="diagonal" scene={SCENES[3]}>
+        <div id="atelier">
+          <AtelierSection scene={SCENES[3]} />
+        </div>
+      </FabricSection>
+
+      {/* ── PRESS ────────────────────────────────────────────────────────────── */}
+      <FabricSection pattern="herringbone" scene={SCENES[0]}>
+        <div id="presse">
+          <PressSection scene={SCENES[0]} />
+        </div>
+      </FabricSection>
+
+      {/* ── CONTACT ──────────────────────────────────────────────────────────── */}
+      <FabricSection pattern="grid" scene={SCENES[1]}>
+        <div id="contact">
+          <ContactSection scene={SCENES[1]} />
+        </div>
+      </FabricSection>
+
+      {/* ── FOOTER ───────────────────────────────────────────────────────────── */}
+      <footer
+        style={{
+          backgroundColor: SCENES[0].bg,
+          borderTop: `1px solid ${SCENES[0].borderColor}`,
+          padding: '4rem 5rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '3rem',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+          }}
+        >
+          <div>
+            <div
+              style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: '1.5rem',
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase',
+                color: SCENES[0].textPrimary,
+                fontWeight: 300,
+                marginBottom: '0.5rem',
+              }}
+            >
+              VM Maison
+            </div>
+            <div
+              style={{
+                fontFamily: 'monospace',
+                fontSize: '0.6rem',
+                letterSpacing: '0.2em',
+                color: SCENES[0].textSecondary,
+                textTransform: 'uppercase',
+              }}
+            >
+              Haute Couture — Paris — Est. 2008
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: '4rem' }}>
             {[
-              { target: 127000, label: "enfants aidés directement", suffix: "+", icon: <Users size={24} />, color: "#3b82f6" },
-              { target: 147, label: "salles de classe construites", suffix: "", icon: <BookOpen size={24} />, color: "#10b981" },
-              { target: 3200000, label: "repas distribués par an", suffix: "", icon: <Utensils size={24} />, color: C.accent },
-              { target: 8200, label: "familles relogées", suffix: "", icon: <Home size={24} />, color: "#f43f5e" },
-              { target: 2400, label: "enseignants formés", suffix: "", icon: <Star size={24} />, color: "#8b5cf6" },
-              { target: 14, label: "pays d'intervention", suffix: "", icon: <Globe size={24} />, color: "#06b6d4" },
-            ].map((item, i) => (
-              <SectionReveal key={item.label} delay={i * 0.07}>
+              {
+                title: 'Maison',
+                links: ['Histoire', 'Atelier', 'Savoir-faire', 'Engagements'],
+              },
+              {
+                title: 'Collections',
+                links: ['Automne Hiver', 'Printemps Été', 'Haute Couture', 'Capsule'],
+              },
+              {
+                title: 'Services',
+                links: ['Sur-mesure', 'Boutiques', 'Presse', 'Contact'],
+              },
+            ].map((col) => (
+              <div key={col.title} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div
                   style={{
-                    backgroundColor: "rgba(255,255,255,0.05)",
-                    border: "1px solid rgba(255,255,255,0.09)",
-                    borderRadius: "1.5rem",
-                    padding: "2rem",
-                    textAlign: "center",
+                    fontFamily: 'monospace',
+                    fontSize: '0.6rem',
+                    letterSpacing: '0.22em',
+                    textTransform: 'uppercase',
+                    color: SCENES[0].accent,
+                    marginBottom: '0.25rem',
                   }}
                 >
-                  <div style={{ color: item.color, display: "flex", justifyContent: "center", marginBottom: "1rem" }}>{item.icon}</div>
-                  <div style={{ fontFamily: C.headingFont, fontSize: "2.4rem", fontWeight: 900, color: C.white }}>
-                    <AnimatedCounter target={item.target} suffix={item.suffix} />
-                  </div>
-                  <div style={{ fontFamily: C.bodyFont, fontSize: "0.82rem", color: "rgba(255,255,255,0.5)", marginTop: "0.4rem", lineHeight: 1.5 }}>
-                    {item.label}
-                  </div>
+                  {col.title}
                 </div>
-              </SectionReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── PROGRAMS ── */}
-      <section id="programmes" style={{ padding: "7rem 2rem", backgroundColor: C.bg }}>
-        <div style={{ maxWidth: 1140, margin: "0 auto" }}>
-          <SectionReveal>
-            <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-              <span style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: C.bgDark }}>
-                Nos programmes
-              </span>
-              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2rem, 4vw, 2.8rem)", color: C.text, fontWeight: 900, margin: "0.6rem 0" }}>
-                Trois axes d'action, un seul objectif
-              </h2>
-            </div>
-          </SectionReveal>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "1.75rem" }}>
-            {programs.map((prog, i) => (
-              <SectionReveal key={prog.title} delay={i * 0.1}>
-                <div
-                  style={{
-                    backgroundColor: C.white,
-                    borderRadius: "1.75rem",
-                    padding: "2.5rem",
-                    border: `1px solid ${C.border}`,
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    boxShadow: `0 2px 24px ${C.shadow}`,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 56, height: 56,
-                      borderRadius: "1rem",
-                      backgroundColor: `${prog.color}18`,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      color: prog.color,
-                      marginBottom: "1.5rem",
-                    }}
-                  >
-                    {prog.icon}
-                  </div>
-                  <h3 style={{ fontFamily: C.headingFont, fontSize: "1.2rem", color: C.text, fontWeight: 700, marginBottom: "0.9rem" }}>
-                    {prog.title}
-                  </h3>
-                  <p style={{ fontFamily: C.bodyFont, fontSize: "0.93rem", color: C.textLight, lineHeight: 1.8, flex: 1 }}>
-                    {prog.desc}
-                  </p>
-                  <div
-                    style={{
-                      marginTop: "1.75rem",
-                      padding: "0.7rem 1.1rem",
-                      backgroundColor: `${prog.color}10`,
-                      borderRadius: "0.75rem",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                    }}
-                  >
-                    <TrendingUp size={14} color={prog.color} />
-                    <span style={{ fontFamily: C.bodyFont, fontSize: "0.83rem", color: prog.color, fontWeight: 700 }}>{prog.stats}</span>
-                  </div>
-                </div>
-              </SectionReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── STORIES ── */}
-      <section id="temoignages" style={{ padding: "7rem 2rem", backgroundColor: C.bgAlt }}>
-        <div style={{ maxWidth: 1140, margin: "0 auto" }}>
-          <SectionReveal>
-            <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-              <span style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: C.bgDark }}>
-                Histoires du terrain
-              </span>
-              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2rem, 4vw, 2.8rem)", color: C.text, fontWeight: 900, margin: "0.6rem 0" }}>
-                Derrière chaque chiffre, une vie
-              </h2>
-            </div>
-          </SectionReveal>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.75rem" }}>
-            {stories.map((story, i) => (
-              <SectionReveal key={story.name} delay={i * 0.1}>
-                <div
-                  style={{
-                    backgroundColor: story.bg,
-                    borderRadius: "1.75rem",
-                    padding: "2.5rem",
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <div style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: story.accent, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "1.25rem" }}>
-                    {story.country}
-                  </div>
-                  <p style={{ fontFamily: C.headingFont, fontSize: "1rem", color: C.text, lineHeight: 1.75, flex: 1, fontStyle: "italic" }}>
-                    "{story.text}"
-                  </p>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.9rem", marginTop: "1.75rem" }}>
-                    <div
-                      style={{
-                        width: 46, height: 46,
-                        borderRadius: "50%",
-                        backgroundColor: story.accent,
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        fontFamily: C.headingFont,
-                        fontSize: "1rem",
-                        color: C.white,
-                        fontWeight: 700,
-                        flexShrink: 0,
-                      }}
-                    >
-                      {story.initial}
-                    </div>
-                    <div>
-                      <div style={{ fontFamily: C.bodyFont, fontWeight: 700, fontSize: "0.9rem", color: C.text }}>{story.name}</div>
-                      <div style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: C.textMuted, marginTop: "0.1rem" }}>{story.country}</div>
-                    </div>
-                  </div>
-                </div>
-              </SectionReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── DONATION TIERS ── */}
-      <section id="dons" style={{ padding: "7rem 2rem", backgroundColor: C.bg }}>
-        <div style={{ maxWidth: 1140, margin: "0 auto" }}>
-          <SectionReveal>
-            <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-              <span style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: C.bgDark }}>
-                Faire un don
-              </span>
-              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2rem, 4vw, 2.8rem)", color: C.text, fontWeight: 900, margin: "0.6rem 0 1rem" }}>
-                Choisissez votre engagement mensuel
-              </h2>
-              <p style={{ fontFamily: C.bodyFont, color: C.textLight, fontSize: "1rem", maxWidth: 480, margin: "0 auto" }}>
-                Chaque euro compte. Déductible à 66% de vos impôts. Annulable à tout moment.
-              </p>
-            </div>
-          </SectionReveal>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "1.5rem" }}>
-            {donationTiers.map((tier, i) => (
-              <SectionReveal key={tier.label} delay={i * 0.08}>
-                <div
-                  style={{
-                    backgroundColor: tier.color,
-                    borderRadius: "1.75rem",
-                    padding: "2.25rem",
-                    position: "relative",
-                    display: "flex",
-                    flexDirection: "column",
-                    border: tier.textColor === C.text ? `2px solid ${C.border}` : "none",
-                  }}
-                >
-                  {tier.popular && (
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "-13px",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        backgroundColor: C.accent,
-                        color: C.bgDeep,
-                        padding: "0.28rem 1.1rem",
-                        borderRadius: "2rem",
-                        fontSize: "0.74rem",
-                        fontWeight: 800,
-                        fontFamily: C.bodyFont,
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      LE PLUS POPULAIRE
-                    </div>
-                  )}
-                  <div style={{ fontFamily: C.bodyFont, fontSize: "0.78rem", fontWeight: 700, color: tier.textColor, opacity: tier.textColor === C.text ? 0.55 : 0.65, textTransform: "uppercase", letterSpacing: "0.08em" }}>
-                    {tier.label}
-                  </div>
-                  <div style={{ fontFamily: C.headingFont, fontSize: "3rem", fontWeight: 900, color: tier.textColor === C.text ? C.bgDark : tier.accent, margin: "0.4rem 0 0.25rem" }}>
-                    {tier.amount}€
-                    <span style={{ fontSize: "1rem", fontFamily: C.bodyFont, fontWeight: 400, opacity: 0.6 }}>/mois</span>
-                  </div>
-                  <p style={{ fontFamily: C.bodyFont, fontSize: "0.88rem", color: tier.textColor, opacity: 0.75, lineHeight: 1.65, margin: "0.75rem 0 1.5rem", flex: 1 }}>
-                    {tier.desc}
-                  </p>
-                  <div
-                    style={{
-                      padding: "0.65rem 1rem",
-                      backgroundColor: tier.textColor === C.text ? `${C.bgDark}12` : "rgba(255,255,255,0.12)",
-                      borderRadius: "0.75rem",
-                      marginBottom: "1.5rem",
-                      display: "flex", alignItems: "center", gap: "0.5rem",
-                    }}
-                  >
-                    <Gift size={14} color={tier.textColor === C.text ? C.bgDark : tier.accent} />
-                    <span style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: tier.textColor === C.text ? C.bgDark : tier.accent, fontWeight: 700 }}>
-                      {tier.impact}
-                    </span>
-                  </div>
+                {col.links.map((link) => (
                   <a
+                    key={link}
                     href="#"
                     style={{
-                      display: "block",
-                      textAlign: "center",
-                      backgroundColor: tier.popular ? C.accent : tier.textColor === C.text ? C.bgDark : "rgba(255,255,255,0.18)",
-                      color: tier.popular ? C.bgDeep : tier.textColor === C.text ? C.white : tier.textColor,
-                      padding: "0.9rem",
-                      borderRadius: "1rem",
-                      textDecoration: "none",
-                      fontWeight: 800,
-                      fontFamily: C.bodyFont,
-                      fontSize: "0.9rem",
+                      fontFamily: "'Cormorant Garamond', Georgia, serif",
+                      fontSize: '0.9rem',
+                      color: SCENES[0].textSecondary,
+                      textDecoration: 'none',
+                      letterSpacing: '0.04em',
                     }}
                   >
-                    Je donne {tier.amount}€/mois
+                    {link}
                   </a>
-                </div>
-              </SectionReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── FAQ ── */}
-      <section id="faq" style={{ padding: "7rem 2rem", backgroundColor: C.bgAlt }}>
-        <div style={{ maxWidth: 780, margin: "0 auto" }}>
-          <SectionReveal>
-            <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-              <span style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: C.bgDark }}>
-                Questions fréquentes
-              </span>
-              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2rem, 4vw, 2.7rem)", color: C.text, fontWeight: 900, margin: "0.6rem 0 0" }}>
-                Tout ce que vous devez savoir
-              </h2>
-            </div>
-          </SectionReveal>
-          <SectionReveal delay={0.1}>
-            {faqs.map((faq) => <FAQItem key={faq.q} q={faq.q} a={faq.a} />)}
-          </SectionReveal>
-        </div>
-      </section>
-
-      {/* ── FOOTER ── */}
-      <footer style={{ backgroundColor: C.bgDeep, padding: "5rem 2.5rem 2.5rem" }}>
-        <div style={{ maxWidth: 1140, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "3rem", marginBottom: "3.5rem" }}>
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.65rem", marginBottom: "1.35rem" }}>
-                <div style={{ width: 38, height: 38, borderRadius: "50%", backgroundColor: C.bgDark, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <Heart size={18} color={C.accent} fill={C.accent} />
-                </div>
-                <div>
-                  <div style={{ fontFamily: C.headingFont, fontSize: "1rem", color: C.white, fontWeight: 700 }}>Lumière d'Espoir</div>
-                  <div style={{ fontFamily: C.bodyFont, fontSize: "0.65rem", color: "rgba(255,255,255,0.4)", letterSpacing: "0.08em", textTransform: "uppercase" }}>ONG humanitaire</div>
-                </div>
-              </div>
-              <p style={{ fontFamily: C.bodyFont, fontSize: "0.86rem", color: "rgba(255,255,255,0.45)", lineHeight: 1.8, maxWidth: 290 }}>
-                Fondée en 2003, Lumière d'Espoir agit dans 14 pays pour garantir éducation, nutrition et abri aux enfants les plus vulnérables.
-              </p>
-              <div style={{ marginTop: "1.75rem", display: "flex", flexDirection: "column", gap: "0.55rem" }}>
-                {[
-                  { icon: <MapPin size={13} />, text: "12 rue de la Solidarité, 75011 Paris" },
-                  { icon: <Phone size={13} />, text: "+33 1 42 88 00 12" },
-                  { icon: <Mail size={13} />, text: "contact@lumiere-despoir.org" },
-                ].map((item) => (
-                  <div key={item.text} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                    <span style={{ color: C.accent }}>{item.icon}</span>
-                    <span style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: "rgba(255,255,255,0.4)" }}>{item.text}</span>
-                  </div>
                 ))}
               </div>
-            </div>
-
-            {[
-              { title: "Organisation", links: ["Notre histoire", "Équipe dirigeante", "Rapport annuel", "Certifications"] },
-              { title: "Agir", links: ["Faire un don", "Devenir parrain", "Léguer à l'ONG", "Entreprises partenaires"] },
-              { title: "Ressources", links: ["Blog terrain", "Médias & presse", "Programme éducatif", "Contact"] },
-            ].map((col) => (
-              <div key={col.title}>
-                <h4 style={{ fontFamily: C.headingFont, fontSize: "0.95rem", color: C.white, fontWeight: 700, marginBottom: "1.35rem" }}>{col.title}</h4>
-                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.65rem" }}>
-                  {col.links.map((link) => (
-                    <li key={link}>
-                      <a
-                        href="#"
-                        style={{ fontFamily: C.bodyFont, fontSize: "0.875rem", color: "rgba(255,255,255,0.4)", textDecoration: "none", transition: "color 0.2s" }}
-                        onMouseEnter={(e) => ((e.target as HTMLElement).style.color = C.accent)}
-                        onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "rgba(255,255,255,0.4)")}
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
             ))}
           </div>
+        </div>
 
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
-            <p style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: "rgba(255,255,255,0.28)" }}>
-              © 2026 Lumière d'Espoir — Association loi 1901 — RNA W751234567 — Don en Confiance
-            </p>
-            <div style={{ display: "flex", gap: "1.75rem" }}>
-              {["Mentions légales", "Confidentialité", "Statuts"].map((l) => (
-                <a key={l} href="#" style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: "rgba(255,255,255,0.28)", textDecoration: "none" }}>{l}</a>
-              ))}
-            </div>
+        <div
+          style={{
+            borderTop: `1px solid ${SCENES[0].borderColor}`,
+            paddingTop: '2rem',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <div
+            style={{
+              fontFamily: 'monospace',
+              fontSize: '0.58rem',
+              letterSpacing: '0.18em',
+              color: SCENES[0].textSecondary,
+              textTransform: 'uppercase',
+            }}
+          >
+            © 2026 VM Maison — Tous droits réservés
+          </div>
+          <div style={{ display: 'flex', gap: '2rem' }}>
+            {['Mentions légales', 'Confidentialité', 'CGV'].map((l) => (
+              <a
+                key={l}
+                href="#"
+                style={{
+                  fontFamily: 'monospace',
+                  fontSize: '0.58rem',
+                  letterSpacing: '0.15em',
+                  color: SCENES[0].textSecondary,
+                  textDecoration: 'none',
+                  textTransform: 'uppercase',
+                }}
+              >
+                {l}
+              </a>
+            ))}
           </div>
         </div>
       </footer>
