@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { Resend } from "resend";
+import * as Sentry from "@sentry/nextjs";
 
 // ─── Clients ───────────────────────────────────────────────────────────────────
 
@@ -227,6 +228,7 @@ export async function POST(req: NextRequest) {
     );
   } catch (err) {
     // Invalid signature — reject immediately, do NOT process
+    Sentry.captureException(err, { tags: { route: "webhook", stage: "signature-verification" } });
     console.error("[webhook] Signature verification failed:", err);
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
@@ -280,6 +282,7 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     // Log processing errors but still return 200 to avoid Stripe retries
     // (which would resend the email). For critical failures, use a dead-letter queue.
+    Sentry.captureException(err, { tags: { route: "webhook", stage: "event-processing", eventType: event.type } });
     console.error("[webhook] Error processing event:", event.type, err);
   }
 

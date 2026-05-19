@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
@@ -49,4 +50,15 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  // Sentry organization and project (set SENTRY_ORG + SENTRY_PROJECT env vars for source maps)
+  silent: true,
+  // Upload source maps only in CI/production builds to avoid slowing local dev
+  disableServerWebpackPlugin: process.env.NODE_ENV !== "production",
+  disableClientWebpackPlugin: process.env.NODE_ENV !== "production",
+  hideSourceMaps: true,
+  // Automatically tree-shake Sentry logger statements in production
+  disableLogger: true,
+  // Tunnels Sentry requests through /api/monitoring to avoid ad blockers
+  tunnelRoute: "/api/monitoring",
+});

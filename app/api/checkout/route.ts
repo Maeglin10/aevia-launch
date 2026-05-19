@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import * as Sentry from "@sentry/nextjs";
 
 const stripeKey = process.env.STRIPE_SECRET_KEY;
 if (!stripeKey) throw new Error("[checkout] STRIPE_SECRET_KEY is not set — refusing to start");
@@ -145,6 +146,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ url: session.url });
   } catch (err) {
+    Sentry.captureException(err, { tags: { route: "checkout" } });
     console.error("[checkout] Stripe session creation failed:", err);
     return NextResponse.json(
       { error: "Impossible de créer la session de paiement." },
