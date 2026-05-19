@@ -1,308 +1,2489 @@
 "use client";
 
-import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+  useInView,
+  useSpring,
+} from "framer-motion";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
-import { Menu, X, ArrowRight, Star, ChevronLeft, ChevronRight, ShoppingBag, Heart, MapPin, Phone, Mail, Award, Gem } from "lucide-react";
 
-const useFonts = () => {
-  useEffect(() => {
-    if (document.getElementById("oj-fonts")) return;
-    const s = document.createElement("style");
-    s.id = "oj-fonts";
-    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500&display=swap');`;
-    document.head.appendChild(s);
-  }, []);
-};
+// ─── Types ──────────────────────────────────────────────────────────────────
 
-const Reveal = ({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+interface GoldParticle {
+  id: number;
+  left: number;
+  top: number;
+  size: number;
+  speed: number;
+  opacity: number;
+  delay: number;
+}
+
+interface ProductCard {
+  name: string;
+  subtitle: string;
+  material: string;
+  price: string;
+  category: string;
+  color: string;
+}
+
+interface MagneticCardProps {
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+}
+
+// ─── Gold Particles ──────────────────────────────────────────────────────────
+
+function GoldParticles({ scrollY }: { scrollY: number }) {
+  const [particles] = useState<GoldParticle[]>(() =>
+    Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      top: Math.random() * 300,
+      size: Math.random() * 6 + 2,
+      speed: Math.random() * 0.4 + 0.1,
+      opacity: Math.random() * 0.35 + 0.05,
+      delay: Math.random() * 4,
+    }))
+  );
+
   return (
-    <motion.div ref={ref} className={className} initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1], delay }}>
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        pointerEvents: "none",
+        zIndex: 1,
+        overflow: "hidden",
+      }}
+    >
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          style={{
+            position: "absolute",
+            left: `${p.left}%`,
+            top: `${p.top}%`,
+            width: p.size,
+            height: p.size,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, #d4af6b 0%, #c8963a 60%, transparent 100%)",
+            opacity: p.opacity,
+            transform: `translateY(${-scrollY * p.speed}px)`,
+            transition: "transform 0.1s linear",
+            animation: `float-particle ${3 + p.delay}s ease-in-out infinite alternate`,
+          }}
+        />
+      ))}
+      <style>{`
+        @keyframes float-particle {
+          from { transform: translateY(var(--ty, 0px)) translateX(0px); }
+          to { transform: translateY(calc(var(--ty, 0px) - 12px)) translateX(4px); }
+        }
+        @keyframes jewel-spin {
+          to { transform: rotateY(360deg); }
+        }
+        @keyframes float-card {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-6px); }
+        }
+        @keyframes shimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+        @keyframes pulse-glow {
+          0%, 100% { box-shadow: 0 0 20px #d4af6b22; }
+          50% { box-shadow: 0 0 40px #d4af6b44, 0 0 80px #d4af6b11; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+// ─── 3D Jewel SVG ────────────────────────────────────────────────────────────
+
+function RotatingJewel({ rotationSpeed }: { rotationSpeed: number }) {
+  const jewel = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!jewel.current) return;
+    jewel.current.style.setProperty(
+      "--rotation-speed",
+      `${rotationSpeed}s`
+    );
+  }, [rotationSpeed]);
+
+  return (
+    <div
+      ref={jewel}
+      style={{
+        width: 220,
+        height: 220,
+        perspective: 800,
+        perspectiveOrigin: "center",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        style={{
+          width: 180,
+          height: 180,
+          animation: `jewel-spin var(--rotation-speed, 8s) linear infinite`,
+          transformStyle: "preserve-3d",
+          position: "relative",
+        }}
+      >
+        {/* Outer ring */}
+        <svg
+          viewBox="0 0 180 180"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            filter: "drop-shadow(0 0 20px #d4af6b88)",
+          }}
+        >
+          <defs>
+            <radialGradient id="goldGrad" cx="50%" cy="35%" r="65%">
+              <stop offset="0%" stopColor="#f5e6b8" />
+              <stop offset="40%" stopColor="#d4af6b" />
+              <stop offset="100%" stopColor="#8b6914" />
+            </radialGradient>
+            <radialGradient id="diamondGrad" cx="40%" cy="30%" r="70%">
+              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
+              <stop offset="50%" stopColor="#e8f4ff" stopOpacity="0.7" />
+              <stop offset="100%" stopColor="#a0c4ff" stopOpacity="0.3" />
+            </radialGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          {/* Outer band */}
+          <circle
+            cx="90"
+            cy="90"
+            r="82"
+            fill="none"
+            stroke="url(#goldGrad)"
+            strokeWidth="8"
+            filter="url(#glow)"
+          />
+          {/* Inner band */}
+          <circle
+            cx="90"
+            cy="90"
+            r="62"
+            fill="none"
+            stroke="url(#goldGrad)"
+            strokeWidth="3"
+            strokeDasharray="4 6"
+            opacity="0.6"
+          />
+          {/* Setting prongs */}
+          {[0, 60, 120, 180, 240, 300].map((angle) => {
+            const rad = (angle * Math.PI) / 180;
+            const x1 = 90 + 62 * Math.cos(rad);
+            const y1 = 90 + 62 * Math.sin(rad);
+            const x2 = 90 + 75 * Math.cos(rad);
+            const y2 = 90 + 75 * Math.sin(rad);
+            return (
+              <line
+                key={angle}
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="url(#goldGrad)"
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
+            );
+          })}
+          {/* Engraved facets on band */}
+          {[30, 90, 150, 210, 270, 330].map((angle) => {
+            const rad = (angle * Math.PI) / 180;
+            const x = 90 + 72 * Math.cos(rad);
+            const y = 90 + 72 * Math.sin(rad);
+            return (
+              <circle
+                key={angle}
+                cx={x}
+                cy={y}
+                r="4"
+                fill="url(#goldGrad)"
+                filter="url(#glow)"
+              />
+            );
+          })}
+          {/* Central diamond — brilliant cut top view */}
+          <polygon
+            points="90,52 114,75 114,105 90,128 66,105 66,75"
+            fill="url(#diamondGrad)"
+            stroke="#d4af6b"
+            strokeWidth="1.5"
+            filter="url(#glow)"
+          />
+          {/* Diamond facets */}
+          <line x1="90" y1="52" x2="90" y2="90" stroke="#ffffff" strokeWidth="0.8" opacity="0.6" />
+          <line x1="114" y1="75" x2="90" y2="90" stroke="#ffffff" strokeWidth="0.8" opacity="0.6" />
+          <line x1="114" y1="105" x2="90" y2="90" stroke="#ffffff" strokeWidth="0.8" opacity="0.6" />
+          <line x1="90" y1="128" x2="90" y2="90" stroke="#ffffff" strokeWidth="0.8" opacity="0.6" />
+          <line x1="66" y1="105" x2="90" y2="90" stroke="#ffffff" strokeWidth="0.8" opacity="0.6" />
+          <line x1="66" y1="75" x2="90" y2="90" stroke="#ffffff" strokeWidth="0.8" opacity="0.6" />
+          {/* Center sparkle */}
+          <circle cx="90" cy="90" r="5" fill="white" opacity="0.9" filter="url(#glow)" />
+          <line x1="90" y1="80" x2="90" y2="100" stroke="white" strokeWidth="1" opacity="0.7" />
+          <line x1="80" y1="90" x2="100" y2="90" stroke="white" strokeWidth="1" opacity="0.7" />
+          <line x1="83" y1="83" x2="97" y2="97" stroke="white" strokeWidth="0.6" opacity="0.5" />
+          <line x1="97" y1="83" x2="83" y2="97" stroke="white" strokeWidth="0.6" opacity="0.5" />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+// ─── Magnetic Card ────────────────────────────────────────────────────────────
+
+function MagneticCard({ children, style }: MagneticCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = e.clientX - cx;
+    const dy = e.clientY - cy;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const maxDist = 200;
+    if (dist < maxDist) {
+      const strength = (1 - dist / maxDist) * 8;
+      setOffset({
+        x: (dx / dist) * strength,
+        y: (dy / dist) * strength,
+      });
+    } else {
+      setOffset({ x: 0, y: 0 });
+    }
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setOffset({ x: 0, y: 0 });
+  }, []);
+
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    window.addEventListener("mousemove", handleMouseMove);
+    el.addEventListener("mouseleave", handleMouseLeave);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      el.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [handleMouseMove, handleMouseLeave]);
+
+  return (
+    <div
+      ref={cardRef}
+      style={{
+        ...style,
+        transform: `translate(${offset.x}px, ${offset.y}px)`,
+        transition: "transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        willChange: "transform",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+// ─── Clip-Path Reveal Image ──────────────────────────────────────────────────
+
+function ClipRevealImage({
+  color,
+  label,
+  inView: revealed,
+  delay = 0,
+}: {
+  color: string;
+  label: string;
+  inView: boolean;
+  delay?: number;
+}) {
+  const [clipped, setClipped] = useState(
+    "polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)"
+  );
+
+  useEffect(() => {
+    if (revealed) {
+      const timer = setTimeout(() => {
+        setClipped("polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)");
+      }, delay * 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [revealed, delay]);
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        aspectRatio: "3/4",
+        background: color,
+        borderRadius: 4,
+        clipPath: clipped,
+        transition: "clip-path 0.9s cubic-bezier(0.77, 0, 0.18, 1)",
+        display: "flex",
+        alignItems: "flex-end",
+        padding: 24,
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* Shimmer overlay */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(110deg, transparent 30%, rgba(212,175,107,0.15) 50%, transparent 70%)",
+          backgroundSize: "200% 100%",
+          animation: "shimmer 3s linear infinite",
+        }}
+      />
+      <span
+        style={{
+          color: "#f0ece0",
+          fontSize: 11,
+          letterSpacing: "0.25em",
+          textTransform: "uppercase",
+          fontFamily: "Georgia, serif",
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        {label}
+      </span>
+    </div>
+  );
+}
+
+// ─── Scroll-Scrubbed Product Card ─────────────────────────────────────────────
+
+function ProductRevealCard({
+  product,
+  index,
+  scrollProgress,
+}: {
+  product: ProductCard;
+  index: number;
+  scrollProgress: number;
+}) {
+  const threshold = 0.08 + index * 0.09;
+  const revealed = scrollProgress > threshold;
+  const cardRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(cardRef, { once: false, margin: "-40px" });
+
+  const scale = revealed ? 1 : 0.82;
+  const opacity = revealed ? 1 : 0;
+  const translateY = revealed ? 0 : 60;
+
+  return (
+    <MagneticCard>
+      <motion.div
+        ref={cardRef}
+        style={{
+          opacity,
+          scale,
+          y: translateY,
+          transition: `all 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 0.08}s`,
+          animation: revealed ? `float-card ${3 + index * 0.4}s ease-in-out infinite` : "none",
+          animationDelay: `${index * 0.3}s`,
+          cursor: "pointer",
+        }}
+      >
+        <div
+          style={{
+            background: "rgba(255,255,255,0.02)",
+            border: "1px solid rgba(212,175,107,0.12)",
+            borderRadius: 8,
+            padding: 0,
+            overflow: "hidden",
+            transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLDivElement).style.borderColor =
+              "rgba(212,175,107,0.45)";
+            (e.currentTarget as HTMLDivElement).style.boxShadow =
+              "0 0 40px rgba(212,175,107,0.12), 0 20px 60px rgba(0,0,0,0.5)";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLDivElement).style.borderColor =
+              "rgba(212,175,107,0.12)";
+            (e.currentTarget as HTMLDivElement).style.boxShadow = "none";
+          }}
+        >
+          {/* Image zone with clip-path reveal */}
+          <ClipRevealImage
+            color={product.color}
+            label={product.category}
+            inView={revealed && inView}
+            delay={index * 0.1}
+          />
+
+          {/* Info */}
+          <div style={{ padding: "20px 24px 24px" }}>
+            <p
+              style={{
+                color: "#d4af6b",
+                fontSize: 10,
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                fontFamily: "Georgia, serif",
+                marginBottom: 8,
+              }}
+            >
+              {product.category}
+            </p>
+            <h3
+              style={{
+                color: "#f0ece0",
+                fontSize: 18,
+                fontFamily: "Georgia, serif",
+                fontStyle: "italic",
+                letterSpacing: "0.04em",
+                marginBottom: 6,
+                lineHeight: 1.3,
+              }}
+            >
+              {product.name}
+            </h3>
+            <p
+              style={{
+                color: "rgba(240,236,224,0.38)",
+                fontSize: 11,
+                letterSpacing: "0.15em",
+                marginBottom: 16,
+              }}
+            >
+              {product.material}
+            </p>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <span
+                style={{
+                  color: "#d4af6b",
+                  fontSize: 17,
+                  fontFamily: "Georgia, serif",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                {product.price}
+              </span>
+              <button
+                style={{
+                  background: "transparent",
+                  border: "1px solid rgba(212,175,107,0.3)",
+                  borderRadius: 2,
+                  color: "rgba(212,175,107,0.7)",
+                  fontSize: 9,
+                  letterSpacing: "0.25em",
+                  textTransform: "uppercase",
+                  padding: "6px 14px",
+                  cursor: "pointer",
+                  fontFamily: "Georgia, serif",
+                  transition: "all 0.3s ease",
+                }}
+                onMouseEnter={(e) => {
+                  const btn = e.currentTarget as HTMLButtonElement;
+                  btn.style.background = "#d4af6b";
+                  btn.style.color = "#0a0806";
+                  btn.style.borderColor = "#d4af6b";
+                }}
+                onMouseLeave={(e) => {
+                  const btn = e.currentTarget as HTMLButtonElement;
+                  btn.style.background = "transparent";
+                  btn.style.color = "rgba(212,175,107,0.7)";
+                  btn.style.borderColor = "rgba(212,175,107,0.3)";
+                }}
+              >
+                Découvrir
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </MagneticCard>
+  );
+}
+
+// ─── Section Reveal Wrapper ───────────────────────────────────────────────────
+
+function SectionReveal({
+  children,
+  delay = 0,
+  style,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  style?: React.CSSProperties;
+}) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 36 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{
+        duration: 1.1,
+        ease: [0.25, 0.1, 0.25, 1],
+        delay,
+      }}
+      style={style}
+    >
       {children}
     </motion.div>
   );
-};
+}
 
-const collections = [
-  { name: "Éternité", items: 18, theme: "Diamants taille brillant", src: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80" },
-  { name: "Rivière", items: 12, theme: "Saphirs & diamants", src: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=600&q=80" },
-  { name: "Héritage", items: 24, theme: "Pièces de haute joaillerie", src: "https://picsum.photos/seed/jewelry/600/800" },
+// ─── Data ────────────────────────────────────────────────────────────────────
+
+const PRODUCTS: ProductCard[] = [
+  {
+    name: "Solitaire Éternité",
+    subtitle: "La pureté absolue",
+    material: "Or blanc 18k · Diamant 1.2ct F/VS1",
+    price: "12 400 €",
+    category: "Bagues",
+    color: "linear-gradient(145deg, #1a1612 0%, #2c2418 60%, #1a1612 100%)",
+  },
+  {
+    name: "Collier Aube Dorée",
+    subtitle: "Lumière sur la peau",
+    material: "Or jaune 18k · Diamants 0.85ct total",
+    price: "8 750 €",
+    category: "Colliers",
+    color: "linear-gradient(145deg, #161210 0%, #241c10 60%, #161210 100%)",
+  },
+  {
+    name: "Bracelet Rivière",
+    subtitle: "Un fleuve de lumière",
+    material: "Platine 950 · Diamants 2.4ct",
+    price: "18 200 €",
+    category: "Bracelets",
+    color: "linear-gradient(145deg, #111418 0%, #18202a 60%, #111418 100%)",
+  },
+  {
+    name: "Boucles Célestes",
+    subtitle: "La grâce à l'oreille",
+    material: "Or rose 18k · Perles Akoya & Brillants",
+    price: "5 900 €",
+    category: "Boucles",
+    color: "linear-gradient(145deg, #181210 0%, #261a14 60%, #181210 100%)",
+  },
+  {
+    name: "Chevalière Crest",
+    subtitle: "Héritage gravé",
+    material: "Or jaune 22k · Gravure à la main",
+    price: "3 200 €",
+    category: "Chevalières",
+    color: "linear-gradient(145deg, #141210 0%, #201a0e 60%, #141210 100%)",
+  },
+  {
+    name: "Parure Impériale",
+    subtitle: "L'ensemble souverain",
+    material: "Or blanc 18k · Saphirs & Diamants",
+    price: "34 000 €",
+    category: "Parures",
+    color: "linear-gradient(145deg, #101218 0%, #161a28 60%, #101218 100%)",
+  },
 ];
 
-const pieces = [
-  { name: "Bague Étoile de Mer", collection: "Éternité", material: "Or blanc 18k · Diamants 0.82ct", price: "4 800€", src: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80", inStock: true },
-  { name: "Collier Rivière Céleste", collection: "Rivière", material: "Or jaune 18k · Saphirs & Diamants", price: "6 200€", src: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&q=80", inStock: true },
-  { name: "Bracelet Lumière", collection: "Héritage", material: "Platine · Diamants 1.4ct total", price: "8 900€", src: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=400&q=80", inStock: false },
-  { name: "Boucles d'oreilles Aurore", collection: "Éternité", material: "Or rose 18k · Perles & Brillants", price: "3 400€", src: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80", inStock: true },
+const MATERIALS = [
+  {
+    title: "Or 18 carats",
+    desc: "Chaque alliage est fondu en interne, testé à 750/1000, contrôlé sous loupe ×40 avant toute mise en forme.",
+    icon: "◈",
+  },
+  {
+    title: "Diamants certifiés GIA",
+    desc: "Nous ne sélectionnons que des pierres avec rapport GIA individuel. Couleur D–H, pureté IF–VS2.",
+    icon: "◇",
+  },
+  {
+    title: "Platine 950",
+    desc: "Métal noble, 30 fois plus rare que l'or. Hypoallergénique, inoxydable, il gagne en beauté avec les années.",
+    icon: "◆",
+  },
+  {
+    title: "Pierres de couleur",
+    desc: "Saphirs Kashmir, rubis Birmanie, émeraudes Colombie — sourcés directement avec traçabilité éthique complète.",
+    icon: "◉",
+  },
 ];
 
-const services = [
-  { title: "Sur mesure", desc: "De l'esquisse à la livraison, créez la pièce de vos rêves avec nos maîtres joailliers." },
-  { title: "Expertise & Estimation", desc: "Évaluation professionnelle de vos bijoux de famille par nos gemmologues certifiés GIA." },
-  { title: "Gravure personnalisée", desc: "Rendez chaque pièce unique avec une inscription, une date, une initiale gravée à la main." },
-  { title: "Entretien & Réparation", desc: "Nettoyage, rhodiage, remplacement de griffes. SAV à vie pour les pièces achetées chez Orens." },
+const LOOKBOOK = [
+  { title: "Printemps 2025", image: "bg-stone-900", items: 8 },
+  { title: "Édition Nuit", image: "bg-zinc-900", items: 5 },
+  { title: "Sur Mesure", image: "bg-neutral-900", items: "∞" },
 ];
 
-const testimonials = [
-  { name: "Madeleine V.", text: "La bague de fiançailles que mon mari a choisie chez Orens est d'une beauté indescriptible. Chaque détail est parfait, et le service a été d'un raffinement exceptionnel.", piece: "Bague Étoile de Mer" },
-  { name: "Florent K.", text: "J'ai commandé une pièce sur mesure pour les 30 ans de ma femme. L'équipe a su capturer exactement ce que je voulais. Un résultat qui dépasse toutes mes espérances.", piece: "Pièce sur mesure" },
-  { name: "Anaïs B.", text: "Les boucles d'oreilles Aurore sont mon bijou de référence. Je les porte tous les jours depuis 3 ans. Elles ne se ternissent jamais, et l'or rose est d'une chaleur magnifique.", piece: "Boucles d'oreilles Aurore" },
-];
+// ─── Lookbook Card (extracted to respect Rules of Hooks) ─────────────────────
 
-export default function OrensJewelryPage() {
-  useFonts();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeCollection, setActiveCollection] = useState(0);
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [wishlist, setWishlist] = useState<Set<string>>(new Set());
+interface LookbookItem {
+  title: string;
+  image: string;
+  items: number | string;
+}
 
-  const { scrollYProgress } = useScroll();
-  const heroRef = useRef(null);
-  const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(heroScroll, [0, 1], ["0%", "22%"]);
-  const heroOpacity = useTransform(heroScroll, [0, 0.7], [1, 0]);
+function LookbookCard({
+  lb,
+  index,
+}: {
+  lb: LookbookItem;
+  index: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const [clipPath, setClipPath] = useState(
+    "polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)"
+  );
 
   useEffect(() => {
-    const t = setInterval(() => setActiveTestimonial(p => (p + 1) % testimonials.length), 5000);
-    return () => clearInterval(t);
-  }, []);
-
-  const toggleWishlist = (name: string) => setWishlist(prev => { const n = new Set(prev); n.has(name) ? n.delete(name) : n.add(name); return n; });
+    if (inView) {
+      const t = setTimeout(
+        () => setClipPath("polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)"),
+        index * 150
+      );
+      return () => clearTimeout(t);
+    }
+  }, [inView, index]);
 
   return (
-    <div className="min-h-screen bg-[#0A0806]" style={{ fontFamily: "'Raleway', sans-serif" }}>
-      <motion.div className="fixed top-0 left-0 right-0 h-[1px] bg-[#C9A86C] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
+    <MagneticCard>
+      <div
+        ref={ref}
+        style={{
+          height: "100%",
+          background: "linear-gradient(145deg, #111 0%, #1c1c1c 100%)",
+          borderRadius: 6,
+          clipPath,
+          transition: "clip-path 1.1s cubic-bezier(0.77,0,0.18,1)",
+          position: "relative",
+          overflow: "hidden",
+          cursor: "pointer",
+          border: "1px solid rgba(212,175,107,0.08)",
+        }}
+      >
+        {/* Pattern overlay */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: `repeating-linear-gradient(
+              45deg,
+              rgba(212,175,107,0.015) 0px,
+              rgba(212,175,107,0.015) 1px,
+              transparent 1px,
+              transparent 20px
+            )`,
+          }}
+        />
+        {/* Shimmer */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(110deg, transparent 30%, rgba(212,175,107,0.08) 50%, transparent 70%)",
+            backgroundSize: "200% 100%",
+            animation: "shimmer 5s linear infinite",
+            animationDelay: `${index * 0.8}s`,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            padding: "40px 28px 28px",
+            background: "linear-gradient(transparent, rgba(10,8,6,0.9))",
+          }}
+        >
+          <p
+            style={{
+              color: "rgba(212,175,107,0.5)",
+              fontSize: 9,
+              letterSpacing: "0.4em",
+              textTransform: "uppercase",
+              fontFamily: "Georgia, serif",
+              marginBottom: 6,
+            }}
+          >
+            {lb.items} pièces
+          </p>
+          <h3
+            style={{
+              color: "#f0ece0",
+              fontSize: 22,
+              fontFamily: "Georgia, serif",
+              fontStyle: "italic",
+              letterSpacing: "0.05em",
+            }}
+          >
+            {lb.title}
+          </h3>
+        </div>
+      </div>
+    </MagneticCard>
+  );
+}
 
-      {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0A0806]/95 backdrop-blur-md border-b border-[#C9A86C]/10">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-          <Link href="/" className="text-[#C9A86C] tracking-[0.2em] text-sm uppercase" style={{ fontFamily: "'Bodoni Moda', serif", fontSize: "1.1rem" }}>
-            Orens Jewelry
-          </Link>
-          <div className="hidden md:flex items-center gap-10 text-white/40 text-xs tracking-widest uppercase">
-            {["Collections", "Sur mesure", "Heritage", "Services", "Contact"].map(item => (
-              <Link key={item} href="#" className="hover:text-[#C9A86C] transition-colors cursor-pointer">{item}</Link>
-            ))}
+// ─── Main Page ────────────────────────────────────────────────────────────────
+
+export default function LuxuryJewelryTemplate() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [rotationSpeed, setRotationSpeed] = useState(8);
+  const [productScrollProgress, setProductScrollProgress] = useState(0);
+
+  const heroRef = useRef<HTMLDivElement>(null);
+  const productSectionRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll();
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const heroY = useTransform(heroProgress, [0, 1], ["0%", "24%"]);
+  const heroOpacity = useTransform(heroProgress, [0, 0.75], [1, 0]);
+  const progressBarScale = useSpring(scrollYProgress, {
+    stiffness: 200,
+    damping: 30,
+  });
+
+  // Scroll listener — particles + jewel speed + product scroll progress
+  useEffect(() => {
+    const onScroll = () => {
+      const sy = window.scrollY;
+      setScrollY(sy);
+
+      // Jewel spins faster as user scrolls — max speed 1.5s, resting 8s
+      const maxScroll = 600;
+      const ratio = Math.min(sy / maxScroll, 1);
+      setRotationSpeed(8 - ratio * 6.5); // 8s → 1.5s
+
+      // Product section scroll progress
+      if (productSectionRef.current) {
+        const rect = productSectionRef.current.getBoundingClientRect();
+        const windowH = window.innerHeight;
+        const sectionH = productSectionRef.current.offsetHeight;
+        const entered = windowH - rect.top;
+        const progress = Math.max(0, Math.min(1, entered / (sectionH + windowH)));
+        setProductScrollProgress(progress);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const handleEmailSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim()) setEmailSubmitted(true);
+  };
+
+  // ─── Render ────────────────────────────────────────────────────────────────
+
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#0a0806",
+        color: "#f0ece0",
+        fontFamily: "Georgia, 'Times New Roman', serif",
+        overflowX: "hidden",
+        position: "relative",
+      }}
+    >
+      {/* Gold particles (parallax depth layer) */}
+      <GoldParticles scrollY={scrollY} />
+
+      {/* Scroll progress bar */}
+      <motion.div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 1,
+          background: "linear-gradient(90deg, #8b6914, #d4af6b, #f5e6b8, #d4af6b)",
+          transformOrigin: "left",
+          scaleX: progressBarScale,
+          zIndex: 100,
+        }}
+      />
+
+      {/* ── Navigation ── */}
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          background: "rgba(10,8,6,0.88)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          borderBottom: "1px solid rgba(212,175,107,0.08)",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1280,
+            margin: "0 auto",
+            padding: "0 32px",
+            height: 72,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          {/* Logo */}
+          <div
+            style={{
+              color: "#d4af6b",
+              fontSize: 22,
+              fontFamily: "Georgia, serif",
+              letterSpacing: "0.22em",
+              fontStyle: "italic",
+              background: "linear-gradient(90deg, #d4af6b, #f5e6b8, #d4af6b)",
+              backgroundSize: "200% auto",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              animation: "shimmer 4s linear infinite",
+            }}
+          >
+            MAISON ÉLARA
           </div>
-          <div className="hidden md:flex items-center gap-3">
-            <button className="cursor-pointer hover:opacity-60 transition-opacity"><ShoppingBag className="w-5 h-5 text-white" /></button>
+
+          {/* Desktop nav */}
+          <div
+            style={{
+              display: "flex",
+              gap: 40,
+              alignItems: "center",
+            }}
+            className="hidden-mobile"
+          >
+            {["Collections", "Atelier", "Savoir-faire", "Lookbook", "Contact"].map(
+              (item) => (
+                <Link
+                  key={item}
+                  href="#"
+                  style={{
+                    color: "rgba(240,236,224,0.38)",
+                    fontSize: 10,
+                    letterSpacing: "0.28em",
+                    textTransform: "uppercase",
+                    textDecoration: "none",
+                    fontFamily: "Georgia, serif",
+                    transition: "color 0.3s ease",
+                  }}
+                  onMouseEnter={(e) =>
+                    ((e.target as HTMLElement).style.color = "#d4af6b")
+                  }
+                  onMouseLeave={(e) =>
+                    ((e.target as HTMLElement).style.color =
+                      "rgba(240,236,224,0.38)")
+                  }
+                >
+                  {item}
+                </Link>
+              )
+            )}
           </div>
-          <button className="md:hidden text-white cursor-pointer" onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5" /></button>
+
+          {/* RHS */}
+          <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+            <button
+              style={{
+                background: "transparent",
+                border: "1px solid rgba(212,175,107,0.3)",
+                borderRadius: 2,
+                color: "#d4af6b",
+                fontSize: 9,
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                padding: "8px 20px",
+                cursor: "pointer",
+                fontFamily: "Georgia, serif",
+                display: "none",
+              }}
+              className="nav-cta"
+            >
+              Rendez-vous
+            </button>
+            {/* Hamburger */}
+            <button
+              onClick={() => setMobileOpen(true)}
+              style={{
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+                padding: 4,
+                display: "flex",
+                flexDirection: "column",
+                gap: 5,
+              }}
+            >
+              {[0, 1, 2].map((i) => (
+                <span
+                  key={i}
+                  style={{
+                    display: "block",
+                    width: i === 1 ? 16 : 22,
+                    height: 1,
+                    background: "rgba(240,236,224,0.6)",
+                    transition: "width 0.3s ease",
+                  }}
+                />
+              ))}
+            </button>
+          </div>
         </div>
       </nav>
 
+      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div className="fixed inset-0 z-[100] bg-[#0A0806] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
-            <div className="flex items-center justify-between mb-12">
-              <span className="text-[#C9A86C] text-xl" style={{ fontFamily: "'Bodoni Moda', serif" }}>Orens Jewelry</span>
-              <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", stiffness: 260, damping: 28 }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 200,
+              background: "#0a0806",
+              padding: "40px 32px",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 56,
+              }}
+            >
+              <span
+                style={{
+                  color: "#d4af6b",
+                  fontSize: 20,
+                  fontFamily: "Georgia, serif",
+                  fontStyle: "italic",
+                  letterSpacing: "0.18em",
+                }}
+              >
+                MAISON ÉLARA
+              </span>
+              <button
+                onClick={() => setMobileOpen(false)}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  color: "rgba(240,236,224,0.6)",
+                  fontSize: 24,
+                  cursor: "pointer",
+                  lineHeight: 1,
+                  fontFamily: "Georgia, serif",
+                }}
+              >
+                ×
+              </button>
             </div>
-            {["Collections", "Sur mesure", "Heritage", "Services", "Contact"].map((item, i) => (
-              <motion.div key={item} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
-                <Link href="#" className="block text-white text-3xl mb-6 cursor-pointer" style={{ fontFamily: "'Bodoni Moda', serif" }} onClick={() => setMobileOpen(false)}>{item}</Link>
-              </motion.div>
-            ))}
+            {["Collections", "Atelier", "Savoir-faire", "Lookbook", "Contact"].map(
+              (item, i) => (
+                <motion.div
+                  key={item}
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.06 }}
+                >
+                  <Link
+                    href="#"
+                    onClick={() => setMobileOpen(false)}
+                    style={{
+                      display: "block",
+                      color: "#f0ece0",
+                      fontSize: 32,
+                      fontFamily: "Georgia, serif",
+                      fontStyle: "italic",
+                      letterSpacing: "0.06em",
+                      textDecoration: "none",
+                      marginBottom: 28,
+                      transition: "color 0.3s ease",
+                    }}
+                  >
+                    {item}
+                  </Link>
+                </motion.div>
+              )
+            )}
+            <div style={{ marginTop: "auto" }}>
+              <p
+                style={{
+                  color: "rgba(212,175,107,0.5)",
+                  fontSize: 10,
+                  letterSpacing: "0.25em",
+                  textTransform: "uppercase",
+                  fontFamily: "Georgia, serif",
+                }}
+              >
+                Paris · Depuis 1947
+              </p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Hero */}
-      <section ref={heroRef} className="relative h-screen overflow-hidden">
-        <motion.div className="absolute inset-0" style={{ y: heroY }}>
-          <Image src="https://picsum.photos/seed/jewelry/1600/1000" alt="Orens Jewelry" fill className="object-cover" priority />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0806]/90 via-[#0A0806]/50 to-transparent" />
-        </motion.div>
-        <motion.div className="relative z-10 h-full flex items-center px-6" style={{ opacity: heroOpacity }}>
-          <div className="max-w-7xl mx-auto w-full">
-            <Reveal>
-              <div className="flex items-center gap-2 text-[#C9A86C] text-xs tracking-widest uppercase mb-8">
-                <Gem className="w-3 h-3" /> Maison fondée en 1962 · Paris
-              </div>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <h1 className="text-white text-6xl md:text-8xl leading-none mb-6" style={{ fontFamily: "'Bodoni Moda', serif", fontWeight: 400 }}>
-                L'art de la<br /><em>joaillerie</em>
-              </h1>
-            </Reveal>
-            <Reveal delay={0.2}>
-              <p className="text-white/60 text-lg max-w-md leading-relaxed mb-10">
-                Chaque bijou est une histoire. Façonné à la main par nos artisans joailliers depuis plus de 60 ans.
-              </p>
-            </Reveal>
-            <Reveal delay={0.3}>
-              <div className="flex gap-4">
-                <button className="bg-[#C9A86C] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B8975E] transition-colors cursor-pointer">
-                  Découvrir les collections
-                </button>
-                <button className="border border-white/20 text-white text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
-                  Sur mesure
-                </button>
-              </div>
-            </Reveal>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* Marquee */}
-      <section className="py-6 bg-[#C9A86C] overflow-hidden">
+      {/* ── HERO ── */}
+      <section
+        ref={heroRef}
+        style={{
+          position: "relative",
+          height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          overflow: "hidden",
+        }}
+      >
+        {/* Background gradient layers */}
         <motion.div
-          className="flex gap-16 whitespace-nowrap"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            y: heroY,
+          }}
         >
-          {[...Array(6)].flatMap(() => ["Haute Joaillerie", "·", "Sur Mesure", "·", "Diamants Certifiés", "·", "Or 18 Carats", "·", "Gemmologie GIA", "·"]).map((t, i) => (
-            <span key={i} className="text-black text-xs tracking-widest uppercase">{t}</span>
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "radial-gradient(ellipse 80% 60% at 70% 50%, rgba(212,175,107,0.06) 0%, transparent 70%)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "radial-gradient(ellipse 40% 40% at 30% 30%, rgba(212,175,107,0.04) 0%, transparent 60%)",
+            }}
+          />
+          {/* Horizontal lines */}
+          {[20, 45, 70].map((pct) => (
+            <div
+              key={pct}
+              style={{
+                position: "absolute",
+                top: `${pct}%`,
+                left: 0,
+                right: 0,
+                height: 1,
+                background:
+                  "linear-gradient(90deg, transparent, rgba(212,175,107,0.06), transparent)",
+              }}
+            />
           ))}
         </motion.div>
-      </section>
 
-      {/* Collections */}
-      <section className="py-24 px-6 bg-[#0D0B09]">
-        <div className="max-w-7xl mx-auto">
-          <Reveal className="mb-12">
-            <p className="text-[#C9A86C] text-xs tracking-widest uppercase mb-3">Collections</p>
-            <h2 className="text-white text-4xl md:text-5xl" style={{ fontFamily: "'Bodoni Moda', serif", fontWeight: 400 }}>Nos univers</h2>
-          </Reveal>
-          <div className="grid md:grid-cols-3 gap-5">
-            {collections.map((c, i) => (
-              <Reveal key={c.name} delay={i * 0.1}>
-                <div onClick={() => setActiveCollection(i)} className={`relative overflow-hidden rounded-2xl cursor-pointer group border transition-all ${i === activeCollection ? "border-[#C9A86C]/40" : "border-transparent"}`} style={{ aspectRatio: "3/4" }}>
-                  <Image src={c.src} alt={c.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700 filter grayscale group-hover:grayscale-0" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                  <div className="absolute bottom-6 left-6">
-                    <p className="text-[#C9A86C] text-xs tracking-widest uppercase mb-1">{c.items} pièces</p>
-                    <h3 className="text-white text-2xl" style={{ fontFamily: "'Bodoni Moda', serif" }}>{c.name}</h3>
-                    <p className="text-white/50 text-xs mt-1">{c.theme}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Shop */}
-      <section className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <Reveal className="flex items-end justify-between mb-12">
-            <div>
-              <p className="text-[#C9A86C] text-xs tracking-widest uppercase mb-3">Boutique</p>
-              <h2 className="text-white text-4xl" style={{ fontFamily: "'Bodoni Moda', serif", fontWeight: 400 }}>Pièces sélectionnées</h2>
-            </div>
-            <Link href="#" className="text-[#C9A86C] text-xs tracking-widest uppercase hover:opacity-70 transition-opacity cursor-pointer flex items-center gap-1">
-              Voir tout <ChevronRight className="w-3 h-3" />
-            </Link>
-          </Reveal>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {pieces.map((p, i) => (
-              <Reveal key={p.name} delay={i * 0.08}>
-                <div className="group cursor-pointer">
-                  <div className="relative overflow-hidden rounded-2xl mb-4" style={{ aspectRatio: "3/4" }}>
-                    <Image src={p.src} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
-                    {!p.inStock && <div className="absolute inset-0 bg-black/30 flex items-center justify-center"><span className="text-white text-xs tracking-widest uppercase border border-white/30 px-3 py-1">Sur commande</span></div>}
-                    <button onClick={() => toggleWishlist(p.name)} className="absolute top-3 right-3 w-8 h-8 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
-                      <Heart className={`w-4 h-4 ${wishlist.has(p.name) ? "text-red-400 fill-red-400" : "text-white"}`} />
-                    </button>
-                  </div>
-                  <p className="text-white/40 text-xs tracking-widest uppercase mb-1">{p.collection}</p>
-                  <h3 className="text-white text-sm mb-1" style={{ fontFamily: "'Bodoni Moda', serif" }}>{p.name}</h3>
-                  <p className="text-white/30 text-xs mb-3">{p.material}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[#C9A86C]" style={{ fontFamily: "'Bodoni Moda', serif" }}>{p.price}</span>
-                    <button className="text-white/40 text-xs hover:text-[#C9A86C] transition-colors cursor-pointer flex items-center gap-1">
-                      <ShoppingBag className="w-3 h-3" /> Ajouter
-                    </button>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Services */}
-      <section className="py-24 px-6 bg-[#0D0B09]">
-        <div className="max-w-7xl mx-auto">
-          <Reveal className="mb-12">
-            <p className="text-[#C9A86C] text-xs tracking-widest uppercase mb-3">Nos services</p>
-            <h2 className="text-white text-4xl" style={{ fontFamily: "'Bodoni Moda', serif" }}>L'exception en tout</h2>
-          </Reveal>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {services.map((s, i) => (
-              <Reveal key={s.title} delay={i * 0.1}>
-                <div className="border-t border-[#C9A86C]/20 pt-6 cursor-pointer group hover:border-[#C9A86C]/60 transition-colors">
-                  <h3 className="text-white text-lg mb-3 group-hover:text-[#C9A86C] transition-colors" style={{ fontFamily: "'Bodoni Moda', serif" }}>{s.title}</h3>
-                  <p className="text-white/40 text-sm leading-relaxed">{s.desc}</p>
-                  <div className="flex items-center gap-1 text-[#C9A86C] text-xs mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    En savoir plus <ChevronRight className="w-3 h-3" />
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-24 px-6 bg-[#C9A86C]">
-        <div className="max-w-3xl mx-auto text-center">
-          <AnimatePresence mode="wait">
-            <motion.div key={activeTestimonial} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }} transition={{ duration: 0.5 }}>
-              <div className="flex justify-center gap-1 mb-6">
-                {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="w-4 h-4 text-black fill-black" />)}
+        <motion.div
+          style={{
+            opacity: heroOpacity,
+            position: "relative",
+            zIndex: 10,
+            maxWidth: 1280,
+            margin: "0 auto",
+            padding: "0 40px",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 60,
+          }}
+        >
+          {/* Left content */}
+          <div style={{ flex: 1, maxWidth: 580 }}>
+            <SectionReveal>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  marginBottom: 32,
+                }}
+              >
+                <div
+                  style={{
+                    width: 40,
+                    height: 1,
+                    background:
+                      "linear-gradient(90deg, transparent, #d4af6b)",
+                  }}
+                />
+                <span
+                  style={{
+                    color: "#d4af6b",
+                    fontSize: 10,
+                    letterSpacing: "0.4em",
+                    textTransform: "uppercase",
+                    fontFamily: "Georgia, serif",
+                  }}
+                >
+                  Paris · Maison fondée en 1947
+                </span>
               </div>
-              <p className="text-black text-2xl md:text-3xl leading-relaxed mb-6" style={{ fontFamily: "'Bodoni Moda', serif", fontStyle: "italic" }}>
-                "{testimonials[activeTestimonial].text}"
+            </SectionReveal>
+
+            <SectionReveal delay={0.1}>
+              <h1
+                style={{
+                  fontSize: "clamp(52px, 6vw, 88px)",
+                  fontFamily: "Georgia, 'Times New Roman', serif",
+                  fontWeight: 400,
+                  fontStyle: "italic",
+                  lineHeight: 1.04,
+                  letterSpacing: "-0.01em",
+                  color: "#f0ece0",
+                  marginBottom: 24,
+                }}
+              >
+                L'art du
+                <br />
+                <span
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #d4af6b 0%, #f5e6b8 45%, #d4af6b 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    display: "block",
+                  }}
+                >
+                  bijou éternel
+                </span>
+              </h1>
+            </SectionReveal>
+
+            <SectionReveal delay={0.2}>
+              <p
+                style={{
+                  color: "rgba(240,236,224,0.5)",
+                  fontSize: 16,
+                  lineHeight: 1.8,
+                  letterSpacing: "0.03em",
+                  maxWidth: 420,
+                  marginBottom: 48,
+                  fontFamily: "Georgia, serif",
+                  fontStyle: "italic",
+                }}
+              >
+                Chaque pièce naît d'un dialogue entre la lumière et la matière.
+                Façonnée à la main par nos maîtres joailliers, elle porte une
+                histoire qui traverse les générations.
               </p>
-              <p className="text-black font-semibold text-sm">{testimonials[activeTestimonial].name}</p>
-              <p className="text-black/50 text-xs mt-1">{testimonials[activeTestimonial].piece}</p>
-            </motion.div>
-          </AnimatePresence>
-          <div className="flex justify-center gap-2 mt-10">
-            {testimonials.map((_, i) => (
-              <button key={i} onClick={() => setActiveTestimonial(i)} className={`rounded-full transition-all cursor-pointer ${i === activeTestimonial ? "w-6 h-2 bg-black" : "w-2 h-2 bg-black/30"}`} />
+            </SectionReveal>
+
+            <SectionReveal delay={0.3}>
+              <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+                <button
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #d4af6b, #b8963a)",
+                    border: "none",
+                    borderRadius: 2,
+                    color: "#0a0806",
+                    fontSize: 10,
+                    letterSpacing: "0.3em",
+                    textTransform: "uppercase",
+                    padding: "16px 36px",
+                    cursor: "pointer",
+                    fontFamily: "Georgia, serif",
+                    fontWeight: 700,
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 8px 32px rgba(212,175,107,0.25)",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                      "0 12px 48px rgba(212,175,107,0.45)";
+                    (e.currentTarget as HTMLButtonElement).style.transform =
+                      "translateY(-2px)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                      "0 8px 32px rgba(212,175,107,0.25)";
+                    (e.currentTarget as HTMLButtonElement).style.transform =
+                      "translateY(0)";
+                  }}
+                >
+                  Explorer les collections
+                </button>
+                <button
+                  style={{
+                    background: "transparent",
+                    border: "1px solid rgba(212,175,107,0.25)",
+                    borderRadius: 2,
+                    color: "rgba(240,236,224,0.7)",
+                    fontSize: 10,
+                    letterSpacing: "0.3em",
+                    textTransform: "uppercase",
+                    padding: "16px 36px",
+                    cursor: "pointer",
+                    fontFamily: "Georgia, serif",
+                    transition: "all 0.3s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.borderColor =
+                      "rgba(212,175,107,0.6)";
+                    (e.currentTarget as HTMLButtonElement).style.color =
+                      "#d4af6b";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.borderColor =
+                      "rgba(212,175,107,0.25)";
+                    (e.currentTarget as HTMLButtonElement).style.color =
+                      "rgba(240,236,224,0.7)";
+                  }}
+                >
+                  Prendre rendez-vous
+                </button>
+              </div>
+            </SectionReveal>
+
+            {/* Stats */}
+            <SectionReveal delay={0.45}>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 40,
+                  marginTop: 60,
+                  paddingTop: 32,
+                  borderTop: "1px solid rgba(212,175,107,0.1)",
+                }}
+              >
+                {[
+                  { n: "78+", l: "Années d'excellence" },
+                  { n: "4 200", l: "Pièces créées" },
+                  { n: "GIA", l: "Certifiées" },
+                ].map(({ n, l }) => (
+                  <div key={l}>
+                    <p
+                      style={{
+                        color: "#d4af6b",
+                        fontSize: 24,
+                        fontFamily: "Georgia, serif",
+                        letterSpacing: "0.05em",
+                        marginBottom: 4,
+                      }}
+                    >
+                      {n}
+                    </p>
+                    <p
+                      style={{
+                        color: "rgba(240,236,224,0.35)",
+                        fontSize: 10,
+                        letterSpacing: "0.2em",
+                        textTransform: "uppercase",
+                        fontFamily: "Georgia, serif",
+                      }}
+                    >
+                      {l}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </SectionReveal>
+          </div>
+
+          {/* Right — rotating jewel */}
+          <SectionReveal delay={0.2} style={{ flex: "0 0 auto" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 20,
+              }}
+            >
+              <RotatingJewel rotationSpeed={rotationSpeed} />
+              <p
+                style={{
+                  color: "rgba(212,175,107,0.4)",
+                  fontSize: 9,
+                  letterSpacing: "0.35em",
+                  textTransform: "uppercase",
+                  fontFamily: "Georgia, serif",
+                  textAlign: "center",
+                }}
+              >
+                Solitaire · Or blanc 18k
+              </p>
+              {/* Speed indicator */}
+              <div
+                style={{
+                  width: 80,
+                  height: 1,
+                  background: "rgba(212,175,107,0.15)",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                <div
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    top: 0,
+                    height: "100%",
+                    width: `${((8 - rotationSpeed) / 6.5) * 100}%`,
+                    background:
+                      "linear-gradient(90deg, transparent, #d4af6b)",
+                    transition: "width 0.2s ease",
+                  }}
+                />
+              </div>
+            </div>
+          </SectionReveal>
+        </motion.div>
+
+        {/* Scroll hint */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2, duration: 1 }}
+          style={{
+            position: "absolute",
+            bottom: 40,
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 8,
+            zIndex: 10,
+          }}
+        >
+          <p
+            style={{
+              color: "rgba(212,175,107,0.4)",
+              fontSize: 9,
+              letterSpacing: "0.4em",
+              textTransform: "uppercase",
+              fontFamily: "Georgia, serif",
+            }}
+          >
+            Défiler
+          </p>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            style={{
+              width: 1,
+              height: 40,
+              background:
+                "linear-gradient(180deg, rgba(212,175,107,0.6), transparent)",
+            }}
+          />
+        </motion.div>
+      </section>
+
+      {/* ── MARQUEE ── */}
+      <section
+        style={{
+          padding: "18px 0",
+          background:
+            "linear-gradient(90deg, #1a1108, rgba(212,175,107,0.08), #1a1108)",
+          borderTop: "1px solid rgba(212,175,107,0.15)",
+          borderBottom: "1px solid rgba(212,175,107,0.15)",
+          overflow: "hidden",
+          position: "relative",
+          zIndex: 2,
+        }}
+      >
+        <motion.div
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+          style={{ display: "flex", gap: 56, whiteSpace: "nowrap" }}
+        >
+          {Array.from({ length: 8 }).flatMap((_, i) =>
+            [
+              "Haute Joaillerie",
+              "✦",
+              "Or 18 Carats",
+              "✦",
+              "Diamants Certifiés GIA",
+              "✦",
+              "Platine 950",
+              "✦",
+              "Sur Mesure",
+              "✦",
+            ].map((t, j) => (
+              <span
+                key={`${i}-${j}`}
+                style={{
+                  color:
+                    t === "✦"
+                      ? "rgba(212,175,107,0.6)"
+                      : "rgba(240,236,224,0.35)",
+                  fontSize: 10,
+                  letterSpacing: "0.35em",
+                  textTransform: "uppercase",
+                  fontFamily: "Georgia, serif",
+                }}
+              >
+                {t}
+              </span>
+            ))
+          )}
+        </motion.div>
+      </section>
+
+      {/* ── PRODUCT SHOWCASE (scroll-scrubbed reveal) ── */}
+      <section
+        ref={productSectionRef}
+        style={{
+          padding: "120px 40px",
+          maxWidth: 1400,
+          margin: "0 auto",
+          position: "relative",
+          zIndex: 2,
+        }}
+      >
+        <SectionReveal>
+          <div style={{ marginBottom: 72, textAlign: "center" }}>
+            <p
+              style={{
+                color: "rgba(212,175,107,0.6)",
+                fontSize: 10,
+                letterSpacing: "0.5em",
+                textTransform: "uppercase",
+                fontFamily: "Georgia, serif",
+                marginBottom: 16,
+              }}
+            >
+              Collection Permanente
+            </p>
+            <h2
+              style={{
+                color: "#f0ece0",
+                fontSize: "clamp(36px, 4vw, 60px)",
+                fontFamily: "Georgia, 'Times New Roman', serif",
+                fontWeight: 400,
+                fontStyle: "italic",
+                letterSpacing: "0.03em",
+                lineHeight: 1.15,
+              }}
+            >
+              Pièces d'exception
+            </h2>
+            <div
+              style={{
+                width: 48,
+                height: 1,
+                background:
+                  "linear-gradient(90deg, transparent, #d4af6b, transparent)",
+                margin: "24px auto 0",
+              }}
+            />
+          </div>
+        </SectionReveal>
+
+        {/* 6-card grid with scroll-scrubbed stagger */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+            gap: 24,
+          }}
+        >
+          {PRODUCTS.map((product, i) => (
+            <ProductRevealCard
+              key={product.name}
+              product={product}
+              index={i}
+              scrollProgress={productScrollProgress}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* ── MATERIALS / CRAFTSMANSHIP ── */}
+      <section
+        style={{
+          padding: "120px 40px",
+          background: "#080604",
+          borderTop: "1px solid rgba(212,175,107,0.06)",
+          borderBottom: "1px solid rgba(212,175,107,0.06)",
+          position: "relative",
+          zIndex: 2,
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "60%",
+            height: "100%",
+            background:
+              "radial-gradient(ellipse 100% 50% at 50% 50%, rgba(212,175,107,0.03) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }}
+        />
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <SectionReveal>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-end",
+                justifyContent: "space-between",
+                marginBottom: 72,
+                flexWrap: "wrap",
+                gap: 24,
+              }}
+            >
+              <div>
+                <p
+                  style={{
+                    color: "rgba(212,175,107,0.6)",
+                    fontSize: 10,
+                    letterSpacing: "0.5em",
+                    textTransform: "uppercase",
+                    fontFamily: "Georgia, serif",
+                    marginBottom: 14,
+                  }}
+                >
+                  Matières Premières
+                </p>
+                <h2
+                  style={{
+                    color: "#f0ece0",
+                    fontSize: "clamp(32px, 3.5vw, 52px)",
+                    fontFamily: "Georgia, serif",
+                    fontWeight: 400,
+                    fontStyle: "italic",
+                    letterSpacing: "0.03em",
+                    lineHeight: 1.2,
+                  }}
+                >
+                  Un savoir-faire
+                  <br />
+                  sans compromis
+                </h2>
+              </div>
+              <p
+                style={{
+                  color: "rgba(240,236,224,0.4)",
+                  fontSize: 14,
+                  lineHeight: 1.9,
+                  maxWidth: 360,
+                  fontFamily: "Georgia, serif",
+                  fontStyle: "italic",
+                }}
+              >
+                Depuis 1947, chaque gramme de métal et chaque pierre sont
+                sélectionnés avec une rigueur absolue. Rien n'entre dans notre
+                atelier qui ne soit digne du meilleur.
+              </p>
+            </div>
+          </SectionReveal>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+              gap: 2,
+            }}
+          >
+            {MATERIALS.map((m, i) => (
+              <SectionReveal key={m.title} delay={i * 0.1}>
+                <div
+                  style={{
+                    padding: "40px 32px",
+                    borderLeft: "1px solid rgba(212,175,107,0.1)",
+                    transition: "background 0.4s ease",
+                    cursor: "default",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLDivElement).style.background =
+                      "rgba(212,175,107,0.04)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLDivElement).style.background =
+                      "transparent";
+                  }}
+                >
+                  <span
+                    style={{
+                      display: "block",
+                      color: "#d4af6b",
+                      fontSize: 28,
+                      marginBottom: 24,
+                      opacity: 0.7,
+                    }}
+                  >
+                    {m.icon}
+                  </span>
+                  <h3
+                    style={{
+                      color: "#f0ece0",
+                      fontSize: 20,
+                      fontFamily: "Georgia, serif",
+                      fontStyle: "italic",
+                      letterSpacing: "0.04em",
+                      marginBottom: 14,
+                    }}
+                  >
+                    {m.title}
+                  </h3>
+                  <p
+                    style={{
+                      color: "rgba(240,236,224,0.38)",
+                      fontSize: 13,
+                      lineHeight: 1.8,
+                      letterSpacing: "0.01em",
+                      fontFamily: "Georgia, serif",
+                    }}
+                  >
+                    {m.desc}
+                  </p>
+                </div>
+              </SectionReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Contact */}
-      <section className="py-24 px-6">
-        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <Reveal>
-            <p className="text-[#C9A86C] text-xs tracking-widest uppercase mb-4">Nos boutiques</p>
-            <h2 className="text-white text-4xl mb-8" style={{ fontFamily: "'Bodoni Moda', serif" }}>Venez nous rendre visite</h2>
-            <div className="space-y-4">
-              {[{ loc: "Place Vendôme, Paris", tel: "+33 1 40 00 00 00", hours: "Lun–Sam 10h–19h" }, { loc: "Promenade des Anglais, Nice", tel: "+33 4 93 00 00 00", hours: "Lun–Sam 10h–18h" }].map(b => (
-                <div key={b.loc} className="border-l-2 border-[#C9A86C]/20 pl-4">
-                  <p className="text-white text-sm font-medium mb-1">{b.loc}</p>
-                  <p className="text-white/40 text-xs">{b.tel} · {b.hours}</p>
+      {/* ── LOOKBOOK ── */}
+      <section
+        style={{
+          padding: "120px 40px",
+          position: "relative",
+          zIndex: 2,
+        }}
+      >
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <SectionReveal>
+            <div style={{ textAlign: "center", marginBottom: 64 }}>
+              <p
+                style={{
+                  color: "rgba(212,175,107,0.6)",
+                  fontSize: 10,
+                  letterSpacing: "0.5em",
+                  textTransform: "uppercase",
+                  fontFamily: "Georgia, serif",
+                  marginBottom: 14,
+                }}
+              >
+                Lookbook
+              </p>
+              <h2
+                style={{
+                  color: "#f0ece0",
+                  fontSize: "clamp(32px, 3.5vw, 52px)",
+                  fontFamily: "Georgia, serif",
+                  fontWeight: 400,
+                  fontStyle: "italic",
+                  letterSpacing: "0.03em",
+                }}
+              >
+                Instants de grâce
+              </h2>
+            </div>
+          </SectionReveal>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1.6fr 1fr 1fr",
+              gap: 16,
+              height: 560,
+            }}
+          >
+            {LOOKBOOK.map((lb, i) => (
+              <LookbookCard key={lb.title} lb={lb} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ATELIER STORY ── */}
+      <section
+        style={{
+          padding: "120px 40px",
+          background: "#070503",
+          position: "relative",
+          zIndex: 2,
+          overflow: "hidden",
+        }}
+      >
+        {/* Decorative lines */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            width: 1,
+            height: "100%",
+            background:
+              "linear-gradient(180deg, transparent, rgba(212,175,107,0.08), transparent)",
+          }}
+        />
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 100,
+              alignItems: "center",
+            }}
+          >
+            {/* Left — story */}
+            <div>
+              <SectionReveal>
+                <p
+                  style={{
+                    color: "rgba(212,175,107,0.6)",
+                    fontSize: 10,
+                    letterSpacing: "0.5em",
+                    textTransform: "uppercase",
+                    fontFamily: "Georgia, serif",
+                    marginBottom: 20,
+                  }}
+                >
+                  Notre Atelier
+                </p>
+              </SectionReveal>
+              <SectionReveal delay={0.08}>
+                <h2
+                  style={{
+                    color: "#f0ece0",
+                    fontSize: "clamp(34px, 3.5vw, 52px)",
+                    fontFamily: "Georgia, serif",
+                    fontWeight: 400,
+                    fontStyle: "italic",
+                    lineHeight: 1.2,
+                    letterSpacing: "0.03em",
+                    marginBottom: 32,
+                  }}
+                >
+                  Là où la pierre
+                  <br />
+                  rencontre la lumière
+                </h2>
+              </SectionReveal>
+              {[
+                "Notre atelier du 1er arrondissement abrite douze maîtres joailliers. Chacun a été formé pendant sept années minimum avant de toucher un diamant.",
+                "Nous n'utilisons aucune machine pour la finition. Chaque griffure, chaque galerie, chaque poli est le fruit de mains expertes et d'un regard affûté par des décennies d'expérience.",
+                "Un solitaire Élara nécessite en moyenne 160 heures de travail. C'est cette lenteur délibérée qui crée l'éternité.",
+              ].map((para, i) => (
+                <SectionReveal key={i} delay={0.15 + i * 0.1}>
+                  <p
+                    style={{
+                      color: "rgba(240,236,224,0.45)",
+                      fontSize: 15,
+                      lineHeight: 1.9,
+                      letterSpacing: "0.02em",
+                      fontFamily: "Georgia, serif",
+                      fontStyle: "italic",
+                      marginBottom: 20,
+                    }}
+                  >
+                    {para}
+                  </p>
+                </SectionReveal>
+              ))}
+              <SectionReveal delay={0.5}>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: 32,
+                    marginTop: 48,
+                    paddingTop: 40,
+                    borderTop: "1px solid rgba(212,175,107,0.1)",
+                  }}
+                >
+                  {[
+                    { n: "12", l: "Maîtres joailliers" },
+                    { n: "160h", l: "Par solitaire" },
+                    { n: "1947", l: "Fondation" },
+                  ].map(({ n, l }) => (
+                    <div key={l}>
+                      <p
+                        style={{
+                          color: "#d4af6b",
+                          fontSize: 26,
+                          fontFamily: "Georgia, serif",
+                          letterSpacing: "0.04em",
+                          marginBottom: 6,
+                        }}
+                      >
+                        {n}
+                      </p>
+                      <p
+                        style={{
+                          color: "rgba(240,236,224,0.3)",
+                          fontSize: 10,
+                          letterSpacing: "0.2em",
+                          textTransform: "uppercase",
+                          fontFamily: "Georgia, serif",
+                        }}
+                      >
+                        {l}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </SectionReveal>
+            </div>
+
+            {/* Right — visual */}
+            <SectionReveal delay={0.15}>
+              <div style={{ position: "relative" }}>
+                {/* Main box */}
+                <div
+                  style={{
+                    aspectRatio: "3/4",
+                    background:
+                      "linear-gradient(145deg, #151210 0%, #201810 50%, #151210 100%)",
+                    borderRadius: 8,
+                    border: "1px solid rgba(212,175,107,0.12)",
+                    position: "relative",
+                    overflow: "hidden",
+                    animation: "pulse-glow 4s ease-in-out infinite",
+                  }}
+                >
+                  {/* Cross-hatch pattern */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      backgroundImage: `
+                        repeating-linear-gradient(0deg, rgba(212,175,107,0.03) 0px, rgba(212,175,107,0.03) 1px, transparent 1px, transparent 40px),
+                        repeating-linear-gradient(90deg, rgba(212,175,107,0.03) 0px, rgba(212,175,107,0.03) 1px, transparent 1px, transparent 40px)
+                      `,
+                    }}
+                  />
+                  {/* Centered jewel icon */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <RotatingJewel rotationSpeed={Math.max(2, rotationSpeed * 0.6)} />
+                  </div>
+                  {/* Caption */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: 28,
+                      left: 28,
+                    }}
+                  >
+                    <p
+                      style={{
+                        color: "rgba(212,175,107,0.5)",
+                        fontSize: 9,
+                        letterSpacing: "0.4em",
+                        textTransform: "uppercase",
+                        fontFamily: "Georgia, serif",
+                      }}
+                    >
+                      Atelier Paris · 1er arr.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Floating detail card */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: -24,
+                    right: -24,
+                    background: "rgba(10,8,6,0.95)",
+                    border: "1px solid rgba(212,175,107,0.2)",
+                    borderRadius: 4,
+                    padding: "20px 24px",
+                    backdropFilter: "blur(20px)",
+                    animation: "float-card 5s ease-in-out infinite",
+                  }}
+                >
+                  <p
+                    style={{
+                      color: "#d4af6b",
+                      fontSize: 20,
+                      fontFamily: "Georgia, serif",
+                      letterSpacing: "0.04em",
+                      marginBottom: 4,
+                    }}
+                  >
+                    160h
+                  </p>
+                  <p
+                    style={{
+                      color: "rgba(240,236,224,0.4)",
+                      fontSize: 10,
+                      letterSpacing: "0.2em",
+                      textTransform: "uppercase",
+                      fontFamily: "Georgia, serif",
+                    }}
+                  >
+                    Par création
+                  </p>
+                </div>
+              </div>
+            </SectionReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ── TESTIMONIALS ── */}
+      <section
+        style={{
+          padding: "100px 40px",
+          position: "relative",
+          zIndex: 2,
+          borderTop: "1px solid rgba(212,175,107,0.06)",
+        }}
+      >
+        <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
+          <SectionReveal>
+            <p
+              style={{
+                color: "rgba(212,175,107,0.5)",
+                fontSize: 10,
+                letterSpacing: "0.5em",
+                textTransform: "uppercase",
+                fontFamily: "Georgia, serif",
+                marginBottom: 56,
+              }}
+            >
+              Témoignages
+            </p>
+          </SectionReveal>
+
+          {[
+            {
+              text: "La bague de fiançailles est d'une beauté indescriptible. Chaque détail est parfait — on sent que des mains expertes et une âme passionnée l'ont façonnée.",
+              name: "Madeleine V.",
+              piece: "Solitaire Éternité",
+            },
+            {
+              text: "J'ai commandé une parure sur mesure pour les 25 ans de mariage de mes parents. La Maison a su capturer une histoire entière dans un seul bijou.",
+              name: "Florent K.",
+              piece: "Parure Impériale sur mesure",
+            },
+          ].map((t, i) => (
+            <SectionReveal key={i} delay={i * 0.15}>
+              <div
+                style={{
+                  marginBottom: 56,
+                  paddingBottom: 56,
+                  borderBottom:
+                    i < 1 ? "1px solid rgba(212,175,107,0.08)" : "none",
+                }}
+              >
+                <p
+                  style={{
+                    color: "rgba(240,236,224,0.65)",
+                    fontSize: "clamp(18px, 2.2vw, 26px)",
+                    fontFamily: "Georgia, serif",
+                    fontStyle: "italic",
+                    lineHeight: 1.7,
+                    letterSpacing: "0.02em",
+                    marginBottom: 28,
+                  }}
+                >
+                  &ldquo;{t.text}&rdquo;
+                </p>
+                <p
+                  style={{
+                    color: "#d4af6b",
+                    fontSize: 13,
+                    fontFamily: "Georgia, serif",
+                    letterSpacing: "0.15em",
+                    marginBottom: 4,
+                  }}
+                >
+                  — {t.name}
+                </p>
+                <p
+                  style={{
+                    color: "rgba(212,175,107,0.35)",
+                    fontSize: 10,
+                    letterSpacing: "0.3em",
+                    textTransform: "uppercase",
+                    fontFamily: "Georgia, serif",
+                  }}
+                >
+                  {t.piece}
+                </p>
+              </div>
+            </SectionReveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── CTA — EMAIL CAPTURE ── */}
+      <section
+        style={{
+          padding: "120px 40px",
+          background:
+            "linear-gradient(180deg, #080604 0%, #0d0b08 50%, #080604 100%)",
+          position: "relative",
+          zIndex: 2,
+          overflow: "hidden",
+        }}
+      >
+        {/* Radial glow */}
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 600,
+            height: 600,
+            background:
+              "radial-gradient(circle, rgba(212,175,107,0.06) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* Gold geometric lines */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundImage: `
+              radial-gradient(ellipse at 20% 80%, rgba(212,175,107,0.04) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 20%, rgba(212,175,107,0.04) 0%, transparent 50%)
+            `,
+            pointerEvents: "none",
+          }}
+        />
+
+        <div
+          style={{
+            maxWidth: 640,
+            margin: "0 auto",
+            textAlign: "center",
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
+          <SectionReveal>
+            {/* Ornament */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 16,
+                marginBottom: 40,
+              }}
+            >
+              <div
+                style={{
+                  width: 60,
+                  height: 1,
+                  background:
+                    "linear-gradient(90deg, transparent, rgba(212,175,107,0.4))",
+                }}
+              />
+              <span
+                style={{
+                  color: "#d4af6b",
+                  fontSize: 20,
+                  opacity: 0.6,
+                }}
+              >
+                ✦
+              </span>
+              <div
+                style={{
+                  width: 60,
+                  height: 1,
+                  background:
+                    "linear-gradient(90deg, rgba(212,175,107,0.4), transparent)",
+                }}
+              />
+            </div>
+          </SectionReveal>
+
+          <SectionReveal delay={0.05}>
+            <h2
+              style={{
+                color: "#f0ece0",
+                fontSize: "clamp(32px, 4vw, 56px)",
+                fontFamily: "Georgia, serif",
+                fontWeight: 400,
+                fontStyle: "italic",
+                lineHeight: 1.2,
+                letterSpacing: "0.03em",
+                marginBottom: 20,
+              }}
+            >
+              Entrez dans le cercle
+              <br />
+              <span
+                style={{
+                  background:
+                    "linear-gradient(135deg, #d4af6b 0%, #f5e6b8 50%, #d4af6b 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                des initiés
+              </span>
+            </h2>
+          </SectionReveal>
+
+          <SectionReveal delay={0.12}>
+            <p
+              style={{
+                color: "rgba(240,236,224,0.42)",
+                fontSize: 15,
+                lineHeight: 1.8,
+                fontFamily: "Georgia, serif",
+                fontStyle: "italic",
+                marginBottom: 48,
+              }}
+            >
+              Avant-premières, pièces exclusives, invitations à l'atelier,
+              éditions limitées — réservées à notre cercle privé.
+            </p>
+          </SectionReveal>
+
+          <SectionReveal delay={0.2}>
+            <AnimatePresence mode="wait">
+              {!emailSubmitted ? (
+                <motion.form
+                  key="form"
+                  initial={{ opacity: 1 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  onSubmit={handleEmailSubmit}
+                  style={{
+                    display: "flex",
+                    gap: 0,
+                    maxWidth: 480,
+                    margin: "0 auto",
+                    border: "1px solid rgba(212,175,107,0.2)",
+                    borderRadius: 3,
+                    overflow: "hidden",
+                    transition: "border-color 0.3s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLFormElement).style.borderColor =
+                      "rgba(212,175,107,0.5)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLFormElement).style.borderColor =
+                      "rgba(212,175,107,0.2)";
+                  }}
+                >
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Votre adresse e-mail"
+                    required
+                    style={{
+                      flex: 1,
+                      background: "rgba(255,255,255,0.03)",
+                      border: "none",
+                      outline: "none",
+                      color: "#f0ece0",
+                      fontSize: 13,
+                      padding: "18px 24px",
+                      fontFamily: "Georgia, serif",
+                      fontStyle: "italic",
+                      letterSpacing: "0.04em",
+                    }}
+                  />
+                  <button
+                    type="submit"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, #d4af6b, #b8963a)",
+                      border: "none",
+                      color: "#0a0806",
+                      fontSize: 9,
+                      letterSpacing: "0.3em",
+                      textTransform: "uppercase",
+                      padding: "18px 28px",
+                      cursor: "pointer",
+                      fontFamily: "Georgia, serif",
+                      fontWeight: 700,
+                      whiteSpace: "nowrap",
+                      transition: "opacity 0.3s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLButtonElement).style.opacity =
+                        "0.85";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLButtonElement).style.opacity =
+                        "1";
+                    }}
+                  >
+                    Rejoindre
+                  </button>
+                </motion.form>
+              ) : (
+                <motion.div
+                  key="thanks"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  style={{
+                    padding: "24px 40px",
+                    border: "1px solid rgba(212,175,107,0.25)",
+                    borderRadius: 3,
+                    display: "inline-block",
+                  }}
+                >
+                  <p
+                    style={{
+                      color: "#d4af6b",
+                      fontSize: 14,
+                      fontFamily: "Georgia, serif",
+                      fontStyle: "italic",
+                      letterSpacing: "0.08em",
+                    }}
+                  >
+                    ✦ Bienvenue dans le cercle Élara
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </SectionReveal>
+
+          <SectionReveal delay={0.3}>
+            <p
+              style={{
+                color: "rgba(240,236,224,0.2)",
+                fontSize: 10,
+                letterSpacing: "0.2em",
+                fontFamily: "Georgia, serif",
+                marginTop: 20,
+              }}
+            >
+              Discrétion absolue. Aucune cession de données.
+            </p>
+          </SectionReveal>
+        </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer
+        style={{
+          background: "#060402",
+          borderTop: "1px solid rgba(212,175,107,0.08)",
+          padding: "64px 40px 40px",
+          position: "relative",
+          zIndex: 2,
+        }}
+      >
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          {/* Top row */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              marginBottom: 56,
+              flexWrap: "wrap",
+              gap: 40,
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  color: "#d4af6b",
+                  fontSize: 26,
+                  fontFamily: "Georgia, serif",
+                  fontStyle: "italic",
+                  letterSpacing: "0.18em",
+                  marginBottom: 12,
+                }}
+              >
+                Maison Élara
+              </div>
+              <p
+                style={{
+                  color: "rgba(240,236,224,0.25)",
+                  fontSize: 11,
+                  letterSpacing: "0.2em",
+                  fontFamily: "Georgia, serif",
+                }}
+              >
+                Haute Joaillerie · Paris · Depuis 1947
+              </p>
+            </div>
+
+            <div style={{ display: "flex", gap: 64, flexWrap: "wrap" }}>
+              {[
+                {
+                  title: "Maison",
+                  links: ["Notre histoire", "L'atelier", "Savoir-faire"],
+                },
+                {
+                  title: "Collections",
+                  links: ["Bagues", "Colliers", "Sur mesure"],
+                },
+                {
+                  title: "Service",
+                  links: ["Rendez-vous", "Entretien", "Contact"],
+                },
+              ].map((col) => (
+                <div key={col.title}>
+                  <p
+                    style={{
+                      color: "rgba(212,175,107,0.5)",
+                      fontSize: 9,
+                      letterSpacing: "0.4em",
+                      textTransform: "uppercase",
+                      fontFamily: "Georgia, serif",
+                      marginBottom: 20,
+                    }}
+                  >
+                    {col.title}
+                  </p>
+                  {col.links.map((l) => (
+                    <Link
+                      key={l}
+                      href="#"
+                      style={{
+                        display: "block",
+                        color: "rgba(240,236,224,0.28)",
+                        fontSize: 12,
+                        fontFamily: "Georgia, serif",
+                        fontStyle: "italic",
+                        letterSpacing: "0.05em",
+                        textDecoration: "none",
+                        marginBottom: 10,
+                        transition: "color 0.3s ease",
+                      }}
+                      onMouseEnter={(e) =>
+                        ((e.target as HTMLElement).style.color =
+                          "rgba(212,175,107,0.7)")
+                      }
+                      onMouseLeave={(e) =>
+                        ((e.target as HTMLElement).style.color =
+                          "rgba(240,236,224,0.28)")
+                      }
+                    >
+                      {l}
+                    </Link>
+                  ))}
                 </div>
               ))}
             </div>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <div className="relative h-80 rounded-2xl overflow-hidden">
-              <Image src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80" alt="Boutique Orens" fill className="object-cover" />
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-[#060402] border-t border-[#C9A86C]/10 py-16 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/20">
-          <span className="text-[#C9A86C] text-xl" style={{ fontFamily: "'Bodoni Moda', serif" }}>Orens Jewelry · Depuis 1962</span>
-          <div className="flex gap-8">
-            <Link href="#" className="hover:text-[#C9A86C] transition-colors cursor-pointer">Collections</Link>
-            <Link href="#" className="hover:text-[#C9A86C] transition-colors cursor-pointer">Mentions légales</Link>
-            <Link href="#" className="hover:text-[#C9A86C] transition-colors cursor-pointer">Politique de retour</Link>
           </div>
-          <span>© 2026 Orens Jewelry. Tous droits réservés.</span>
+
+          {/* Divider */}
+          <div
+            style={{
+              height: 1,
+              background:
+                "linear-gradient(90deg, transparent, rgba(212,175,107,0.12), transparent)",
+              marginBottom: 28,
+            }}
+          />
+
+          {/* Bottom row */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: 16,
+            }}
+          >
+            <p
+              style={{
+                color: "rgba(240,236,224,0.18)",
+                fontSize: 10,
+                letterSpacing: "0.18em",
+                fontFamily: "Georgia, serif",
+              }}
+            >
+              © 2025 Maison Élara. Tous droits réservés.
+            </p>
+            <div style={{ display: "flex", gap: 32 }}>
+              {["Mentions légales", "CGV", "Politique de confidentialité"].map(
+                (l) => (
+                  <Link
+                    key={l}
+                    href="#"
+                    style={{
+                      color: "rgba(240,236,224,0.15)",
+                      fontSize: 10,
+                      letterSpacing: "0.15em",
+                      fontFamily: "Georgia, serif",
+                      textDecoration: "none",
+                      transition: "color 0.3s ease",
+                    }}
+                    onMouseEnter={(e) =>
+                      ((e.target as HTMLElement).style.color =
+                        "rgba(212,175,107,0.5)")
+                    }
+                    onMouseLeave={(e) =>
+                      ((e.target as HTMLElement).style.color =
+                        "rgba(240,236,224,0.15)")
+                    }
+                  >
+                    {l}
+                  </Link>
+                )
+              )}
+            </div>
+          </div>
         </div>
       </footer>
     </div>
