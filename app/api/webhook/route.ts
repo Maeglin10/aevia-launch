@@ -4,11 +4,15 @@ import { Resend } from "resend";
 
 // ─── Clients ───────────────────────────────────────────────────────────────────
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "dummy", {
+const stripeKey = process.env.STRIPE_SECRET_KEY;
+if (!stripeKey) throw new Error("[webhook] STRIPE_SECRET_KEY is not set — refusing to start");
+const stripe = new Stripe(stripeKey, {
   apiVersion: "2026-04-22.dahlia",
 });
 
-const resend = new Resend(process.env.RESEND_API_KEY || "dummy");
+const resendKey = process.env.RESEND_API_KEY;
+if (!resendKey) throw new Error("[webhook] RESEND_API_KEY is not set — refusing to start");
+const resend = new Resend(resendKey);
 
 // ─── Price map (for the email order summary) ───────────────────────────────────
 
@@ -46,6 +50,16 @@ const SITE_PRICES: Record<string, number> = {
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 
+/** Escape HTML special characters — prevents HTML injection in email body from Stripe metadata */
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
+}
+
 function formatAmount(cents: number): string {
   return (cents / 100).toLocaleString("fr-FR", {
     style: "currency",
@@ -67,12 +81,18 @@ function orderEmailHtml(params: {
   const basePrice = SITE_PRICES[params.type] ?? total;
   const maintenancePrice = 59;
 
+  // Escape all Stripe metadata values before injecting into HTML
+  const safeName = escapeHtml(name);
+  const safeTypeLabel = escapeHtml(typeLabel);
+  const safeDate = escapeHtml(date);
+  const safeSessionId = escapeHtml(sessionId);
+
   return `<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Nouvelle commande — ${name}</title>
+<title>Nouvelle commande — ${safeName}</title>
 </head>
 <body style="margin:0;padding:0;background:#09090b;font-family:'Helvetica Neue',Arial,sans-serif;color:#f4f4f5;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#09090b;padding:40px 0;">
@@ -88,7 +108,7 @@ function orderEmailHtml(params: {
                 Nouvelle commande
               </h1>
               <p style="margin:6px 0 0;font-size:14px;color:#7c3aed;">
-                ${name}
+                ${safeName}
               </p>
             </td>
           </tr>
@@ -108,7 +128,7 @@ function orderEmailHtml(params: {
                     <span style="font-size:13px;color:#a1a1aa;">Nom du site</span>
                   </td>
                   <td align="right" style="padding:10px 0;border-bottom:1px solid #27272a;">
-                    <span style="font-size:13px;color:#ffffff;font-weight:600;">${name}</span>
+                    <span style="font-size:13px;color:#ffffff;font-weight:600;">${safeName}</span>
                   </td>
                 </tr>
                 <tr>
@@ -116,7 +136,7 @@ function orderEmailHtml(params: {
                     <span style="font-size:13px;color:#a1a1aa;">Type de site</span>
                   </td>
                   <td align="right" style="padding:10px 0;border-bottom:1px solid #27272a;">
-                    <span style="font-size:13px;color:#ffffff;font-weight:600;">${typeLabel}</span>
+                    <span style="font-size:13px;color:#ffffff;font-weight:600;">${safeTypeLabel}</span>
                   </td>
                 </tr>
                 <tr>
@@ -151,11 +171,11 @@ function orderEmailHtml(params: {
                 <tr>
                   <td>
                     <p style="margin:0 0 4px;font-size:11px;color:#71717a;text-transform:uppercase;letter-spacing:1px;">Date</p>
-                    <p style="margin:0;font-size:13px;color:#d4d4d8;">${date}</p>
+                    <p style="margin:0;font-size:13px;color:#d4d4d8;">${safeDate}</p>
                   </td>
                   <td align="right">
                     <p style="margin:0 0 4px;font-size:11px;color:#71717a;text-transform:uppercase;letter-spacing:1px;">Session ID</p>
-                    <p style="margin:0;font-size:11px;color:#71717a;font-family:monospace;">${sessionId}</p>
+                    <p style="margin:0;font-size:11px;color:#71717a;font-family:monospace;">${safeSessionId}</p>
                   </td>
                 </tr>
               </table>
