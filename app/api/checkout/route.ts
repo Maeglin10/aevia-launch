@@ -3,10 +3,9 @@ import Stripe from "stripe";
 import * as Sentry from "@sentry/nextjs";
 
 const stripeKey = process.env.STRIPE_SECRET_KEY;
-if (!stripeKey) throw new Error("[checkout] STRIPE_SECRET_KEY is not set — refusing to start");
-const stripe = new Stripe(stripeKey, {
+const stripe = stripeKey ? new Stripe(stripeKey, {
   apiVersion: "2026-04-22.dahlia",
-});
+}) : null;
 
 // Simple in-memory rate limiter: max 10 checkout requests per IP per hour
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
@@ -54,6 +53,10 @@ const MAINTENANCE_LABEL = "Maintenance mensuelle";
 
 export async function POST(req: NextRequest) {
   try {
+    if (!stripe) {
+      return NextResponse.json({ error: "Stripe is not configured" }, { status: 500 });
+    }
+
     // Rate limiting — protect Stripe from checkout spam
     const ip =
       req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??

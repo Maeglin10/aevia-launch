@@ -6,14 +6,12 @@ import * as Sentry from "@sentry/nextjs";
 // ─── Clients ───────────────────────────────────────────────────────────────────
 
 const stripeKey = process.env.STRIPE_SECRET_KEY;
-if (!stripeKey) throw new Error("[webhook] STRIPE_SECRET_KEY is not set — refusing to start");
-const stripe = new Stripe(stripeKey, {
+const stripe = stripeKey ? new Stripe(stripeKey, {
   apiVersion: "2026-04-22.dahlia",
-});
+}) : null;
 
 const resendKey = process.env.RESEND_API_KEY;
-if (!resendKey) throw new Error("[webhook] RESEND_API_KEY is not set — refusing to start");
-const resend = new Resend(resendKey);
+const resend = resendKey ? new Resend(resendKey) : null;
 
 // ─── Price map (for the email order summary) ───────────────────────────────────
 
@@ -201,6 +199,10 @@ function orderEmailHtml(params: {
 // ─── Webhook handler ───────────────────────────────────────────────────────────
 
 export async function POST(req: NextRequest) {
+  if (!stripe || !resend) {
+    return NextResponse.json({ error: "Missing API keys" }, { status: 500 });
+  }
+
   // 1. Preserve the raw body — required for signature verification.
   //    Next.js App Router gives us a ReadableStream; consume it as ArrayBuffer.
   const rawBody = await req.arrayBuffer();
