@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { ArrowRight, Check, ChevronLeft } from "lucide-react";
+import {
+  ArrowRight, Check, ChevronLeft,
+  Rocket, Zap, Palette, Building2, Target, Briefcase, ShoppingBag,
+  UtensilsCrossed, BedDouble, Stethoscope, Home, Dumbbell, CalendarDays,
+  Heart, Star, Gem, Square, Newspaper, Sparkles, Hexagon, Minus, Globe,
+  type LucideIcon,
+} from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -35,12 +41,12 @@ const SITE_PRICES: Record<string, { label: string; price: number }> = {
 
 const MAINTENANCE_PRICE = 59;
 
-const TEMPLATE_ICONS: Record<string, string> = {
-  landing: "🚀", saas: "⚡", agency: "🎨", vitrine: "🏢",
-  consultant: "🎯", portfolio: "💼", ecommerce: "🛍️", restaurant: "🍽️",
-  hotel: "🏨", healthcare: "🏥", realestate: "🏠", fitness: "💪",
-  event: "🎪", nonprofit: "❤️", startup: "🌟", luxury: "💎",
-  brutalist: "◼", magazine: "📰", aurora: "✦", "3d-tech": "⬡", "minimal-pro": "—",
+const TEMPLATE_ICONS: Record<string, LucideIcon> = {
+  landing: Rocket, saas: Zap, agency: Palette, vitrine: Building2,
+  consultant: Target, portfolio: Briefcase, ecommerce: ShoppingBag, restaurant: UtensilsCrossed,
+  hotel: BedDouble, healthcare: Stethoscope, realestate: Home, fitness: Dumbbell,
+  event: CalendarDays, nonprofit: Heart, startup: Star, luxury: Gem,
+  brutalist: Square, magazine: Newspaper, aurora: Sparkles, "3d-tech": Hexagon, "minimal-pro": Minus,
 };
 
 // ─── Page ──────────────────────────────────────────────────────────────────────
@@ -66,7 +72,7 @@ export default async function OrderPage({ searchParams }: PageProps) {
   const siteInfo  = SITE_PRICES[siteType] ?? SITE_PRICES["landing"];
   const basePrice = siteInfo.price;
   const total     = basePrice + (maintenance ? MAINTENANCE_PRICE : 0);
-  const icon      = TEMPLATE_ICONS[theme] ?? TEMPLATE_ICONS[siteType] ?? "🌐";
+  const IconCmp   = TEMPLATE_ICONS[theme] ?? TEMPLATE_ICONS[siteType] ?? Globe;
 
   // Build configure back-link with existing params preserved
   const configureHref = `/configure?type=${encodeURIComponent(siteType)}&name=${encodeURIComponent(name)}&theme=${encodeURIComponent(theme)}`;
@@ -94,7 +100,7 @@ export default async function OrderPage({ searchParams }: PageProps) {
         <div className="bg-gradient-to-br from-violet-600/20 to-zinc-900 px-7 py-6 border-b border-zinc-800">
           <p className="text-zinc-400 text-xs uppercase tracking-widest mb-1 font-semibold">Récapitulatif de commande</p>
           <div className="flex items-center gap-3 mt-2">
-            <span className="text-3xl">{icon}</span>
+            <IconCmp className="w-8 h-8 text-violet-400" />
             <div>
               <h1 className="text-xl font-bold text-white leading-tight">{name}</h1>
               <p className="text-violet-400 text-sm">{siteInfo.label}</p>

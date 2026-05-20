@@ -3,14 +3,20 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ArrowLeft, Loader2, Check } from "lucide-react";
+import {
+  ArrowRight, ArrowLeft, Loader2, Check,
+  Rocket, Zap, Palette, Building2, Target, Briefcase, ShoppingBag,
+  UtensilsCrossed, BedDouble, Stethoscope, Home, Dumbbell, CalendarDays,
+  Heart, Star, Gem, Square, Newspaper, Sparkles, Hexagon, Minus,
+  type LucideIcon,
+} from "lucide-react";
 
-const THEME_ICONS: Record<string, string> = {
-  landing: "🚀", saas: "⚡", agency: "🎨", vitrine: "🏢",
-  consultant: "🎯", portfolio: "💼", ecommerce: "🛍️", restaurant: "🍽️",
-  hotel: "🏨", healthcare: "🏥", realestate: "🏠", fitness: "💪",
-  event: "🎪", nonprofit: "❤️", startup: "🌟", luxury: "💎",
-  brutalist: "◼", magazine: "📰", aurora: "✦", "3d-tech": "⬡", "minimal-pro": "—",
+const THEME_ICONS: Record<string, LucideIcon> = {
+  landing: Rocket, saas: Zap, agency: Palette, vitrine: Building2,
+  consultant: Target, portfolio: Briefcase, ecommerce: ShoppingBag, restaurant: UtensilsCrossed,
+  hotel: BedDouble, healthcare: Stethoscope, realestate: Home, fitness: Dumbbell,
+  event: CalendarDays, nonprofit: Heart, startup: Star, luxury: Gem,
+  brutalist: Square, magazine: Newspaper, aurora: Sparkles, "3d-tech": Hexagon, "minimal-pro": Minus,
 };
 
 const THEME_LABELS: Record<string, string> = {
@@ -30,34 +36,34 @@ const BUSINESS_TYPES = [
 
 const TONES = ["Professional", "Friendly", "Bold", "Luxurious"];
 
-const TEMPLATES = [
+const TEMPLATES: Array<{ id: string; label: string; desc: string; icon: LucideIcon; category: string }> = [
   // Marketing
-  { id: "landing", label: "Landing Page", desc: "High-conversion single page", icon: "🚀", category: "Marketing" },
-  { id: "saas", label: "SaaS Product", desc: "Software product with features & pricing", icon: "⚡", category: "Tech" },
-  { id: "agency", label: "Creative Agency", desc: "Bold portfolio-first agency site", icon: "🎨", category: "Agency" },
+  { id: "landing", label: "Landing Page", desc: "High-conversion single page", icon: Rocket, category: "Marketing" },
+  { id: "saas", label: "SaaS Product", desc: "Software product with features & pricing", icon: Zap, category: "Tech" },
+  { id: "agency", label: "Creative Agency", desc: "Bold portfolio-first agency site", icon: Palette, category: "Agency" },
   // Business
-  { id: "vitrine", label: "Business Vitrine", desc: "Professional multi-page presence", icon: "🏢", category: "Business" },
-  { id: "consultant", label: "Consultant / Coach", desc: "Authority-building personal brand", icon: "🎯", category: "Personal" },
-  { id: "portfolio", label: "Portfolio", desc: "Work showcase for creatives & devs", icon: "💼", category: "Personal" },
+  { id: "vitrine", label: "Business Vitrine", desc: "Professional multi-page presence", icon: Building2, category: "Business" },
+  { id: "consultant", label: "Consultant / Coach", desc: "Authority-building personal brand", icon: Target, category: "Personal" },
+  { id: "portfolio", label: "Portfolio", desc: "Work showcase for creatives & devs", icon: Briefcase, category: "Personal" },
   // Commerce
-  { id: "ecommerce", label: "E-commerce Store", desc: "Full online store with cart", icon: "🛍️", category: "Commerce" },
-  { id: "restaurant", label: "Restaurant / Food", desc: "Menu, reservations, ambiance", icon: "🍽️", category: "Hospitality" },
-  { id: "hotel", label: "Hotel / B&B", desc: "Rooms, gallery, booking CTA", icon: "🏨", category: "Hospitality" },
+  { id: "ecommerce", label: "E-commerce Store", desc: "Full online store with cart", icon: ShoppingBag, category: "Commerce" },
+  { id: "restaurant", label: "Restaurant / Food", desc: "Menu, reservations, ambiance", icon: UtensilsCrossed, category: "Hospitality" },
+  { id: "hotel", label: "Hotel / B&B", desc: "Rooms, gallery, booking CTA", icon: BedDouble, category: "Hospitality" },
   // Services
-  { id: "healthcare", label: "Healthcare / Clinic", desc: "Trust-first medical practice site", icon: "🏥", category: "Health" },
-  { id: "realestate", label: "Real Estate", desc: "Property listings & agent profile", icon: "🏠", category: "Property" },
-  { id: "fitness", label: "Fitness / Wellness", desc: "Classes, trainers, transformation", icon: "💪", category: "Health" },
+  { id: "healthcare", label: "Healthcare / Clinic", desc: "Trust-first medical practice site", icon: Stethoscope, category: "Health" },
+  { id: "realestate", label: "Real Estate", desc: "Property listings & agent profile", icon: Home, category: "Property" },
+  { id: "fitness", label: "Fitness / Wellness", desc: "Classes, trainers, transformation", icon: Dumbbell, category: "Health" },
   // Events & Social
-  { id: "event", label: "Event / Conference", desc: "Speakers, schedule, tickets", icon: "🎪", category: "Events" },
-  { id: "nonprofit", label: "Non-profit / NGO", desc: "Mission-driven, donation-focused", icon: "❤️", category: "Social" },
-  { id: "startup", label: "Startup Launch", desc: "Pre-launch waitlist & social proof", icon: "🌟", category: "Tech" },
+  { id: "event", label: "Event / Conference", desc: "Speakers, schedule, tickets", icon: CalendarDays, category: "Events" },
+  { id: "nonprofit", label: "Non-profit / NGO", desc: "Mission-driven, donation-focused", icon: Heart, category: "Social" },
+  { id: "startup", label: "Startup Launch", desc: "Pre-launch waitlist & social proof", icon: Star, category: "Tech" },
   // Premium
-  { id: "luxury", label: "Luxury / Couture", desc: "Dark marble, gold accents, haute couture", icon: "💎", category: "Premium" },
-  { id: "brutalist", label: "Brutalist Editorial", desc: "Bold, raw, massive typography", icon: "◼", category: "Premium" },
-  { id: "magazine", label: "Magazine / Editorial", desc: "Grid-based journalistic layout", icon: "📰", category: "Premium" },
-  { id: "aurora", label: "Aurora / Wellness", desc: "Iridescent gradients, soft glow", icon: "✦", category: "Premium" },
-  { id: "3d-tech", label: "3D Tech / Web3", desc: "Holographic grid, glitch effects", icon: "⬡", category: "Premium" },
-  { id: "minimal-pro", label: "Minimal Pro", desc: "Architecture-grade negative space", icon: "—", category: "Premium" },
+  { id: "luxury", label: "Luxury / Couture", desc: "Dark marble, gold accents, haute couture", icon: Gem, category: "Premium" },
+  { id: "brutalist", label: "Brutalist Editorial", desc: "Bold, raw, massive typography", icon: Square, category: "Premium" },
+  { id: "magazine", label: "Magazine / Editorial", desc: "Grid-based journalistic layout", icon: Newspaper, category: "Premium" },
+  { id: "aurora", label: "Aurora / Wellness", desc: "Iridescent gradients, soft glow", icon: Sparkles, category: "Premium" },
+  { id: "3d-tech", label: "3D Tech / Web3", desc: "Holographic grid, glitch effects", icon: Hexagon, category: "Premium" },
+  { id: "minimal-pro", label: "Minimal Pro", desc: "Architecture-grade negative space", icon: Minus, category: "Premium" },
 ];
 
 // Group templates by category, preserving insertion order
@@ -183,6 +189,8 @@ export function StepForm() {
     }
   };
 
+  const SelectedTemplateIcon = (selectedTemplate && THEME_ICONS[selectedTemplate]) || Palette;
+
   const variants = {
     enter: { opacity: 0, x: 30 },
     center: { opacity: 1, x: 0 },
@@ -194,7 +202,7 @@ export function StepForm() {
       {/* Template pre-selection banner */}
       {selectedTemplate && THEME_LABELS[selectedTemplate] && (
         <div className="mb-6 flex items-center gap-3 px-4 py-3 rounded-xl bg-violet-500/10 border border-violet-500/20">
-          <span className="text-2xl">{THEME_ICONS[selectedTemplate] ?? "🎨"}</span>
+          <SelectedTemplateIcon className="w-7 h-7 text-violet-400" />
           <div className="flex-1 min-w-0">
             <div className="text-white text-sm font-semibold">{THEME_LABELS[selectedTemplate]}</div>
             <div className="text-violet-400 text-xs">Template selected</div>
@@ -318,7 +326,9 @@ export function StepForm() {
                         {group.category}
                       </div>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        {group.templates.map((t) => (
+                        {group.templates.map((t) => {
+                          const TIcon = t.icon;
+                          return (
                           <button
                             key={t.id}
                             type="button"
@@ -330,7 +340,7 @@ export function StepForm() {
                             }`}
                           >
                             <div className="flex items-center justify-between w-full">
-                              <span className="text-xl">{t.icon}</span>
+                              <TIcon className="w-5 h-5 text-zinc-300" />
                               {form.template === t.id && <Check className="w-4 h-4 text-violet-400" />}
                             </div>
                             <div>
@@ -338,7 +348,8 @@ export function StepForm() {
                               <div className="text-zinc-500 text-xs mt-0.5 leading-snug">{t.desc}</div>
                             </div>
                           </button>
-                        ))}
+                          );
+                        })}
                       </div>
                     </div>
                   ))}
