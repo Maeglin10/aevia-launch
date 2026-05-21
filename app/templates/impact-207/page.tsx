@@ -10,6 +10,7 @@ import {
   AnimatePresence,
 } from "framer-motion"
 import Link from "next/link"
+import { TemplateIcon } from '@/components/TemplateIcon'
 
 /* ==========================================================================
    NEXUS FREIGHT — Premium B2B Freight & Logistics (impact-207)
@@ -1387,12 +1388,13 @@ function DeliveryTimeline() {
               >
                 <div
                   style={{
-                    fontSize: 72,
                     marginBottom: 24,
                     filter: "drop-shadow(0 0 20px rgba(255,107,0,0.3))",
+                    display: "flex",
+                    justifyContent: "center",
                   }}
                 >
-                  {STAGES[activeStage].icon}
+                  <TemplateIcon emoji={STAGES[activeStage].icon} size={72} color={T.accent} />
                 </div>
                 <h3
                   style={{
@@ -1694,11 +1696,10 @@ function ContactSection() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      fontSize: 18,
                       flexShrink: 0,
                     }}
                   >
-                    {item.icon}
+                    <TemplateIcon emoji={item.icon} size={18} color={T.accent} />
                   </div>
                   <div>
                     <div style={{ fontSize: 11, fontWeight: 600, color: T.textMuted, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 2 }}>
@@ -1890,7 +1891,7 @@ function ContactSection() {
                   animate={{ opacity: 1, scale: 1 }}
                   style={{ textAlign: "center", padding: "40px 0" }}
                 >
-                  <div style={{ fontSize: 56, marginBottom: 20 }}>📬</div>
+                  <div style={{ marginBottom: 20, display: "flex", justifyContent: "center" }}><TemplateIcon emoji="📬" size={56} color={T.green} /></div>
                   <h3 style={{ fontWeight: 700, fontSize: 24, color: T.text, marginBottom: 12 }}>
                     Quote Request Received
                   </h3>

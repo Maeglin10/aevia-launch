@@ -504,7 +504,7 @@ function Classes() {
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 4 }}>
               <span style={{ fontSize: 13, color: c.spots <= 3 ? C.accent : C.textMuted, fontWeight: c.spots <= 3 ? 700 : 400 }}>
-                {c.spots <= 3 ? `⚡ ${c.spots} places` : `${c.spots} places dispo`}
+                {c.spots <= 3 ? `${c.spots} places` : `${c.spots} places dispo`}
               </span>
               <motion.button
                 style={{ background: C.accent, color: C.white, border: "none", borderRadius: 20, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", fontFamily: FONT_BODY }}

@@ -8,6 +8,7 @@ import {
   useInView,
   AnimatePresence,
 } from 'framer-motion';
+import { TemplateIcon } from '@/components/TemplateIcon';
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 const C = {
@@ -337,8 +338,8 @@ function Nav() {
               <div style={{
                 width: 36, height: 36, borderRadius: 8,
                 background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18,
-              }}>🚚</div>
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}><TemplateIcon emoji="🚚" size={18} color="#fff" /></div>
               <span style={{ fontFamily: C.fontDisplay, fontWeight: 800, fontSize: 18, color: C.text }}>
                 Meridian<span style={{ color: C.accent }}>Freight</span>
               </span>
@@ -691,7 +692,7 @@ function ShipmentCard({ shipment }: { shipment: typeof SHIPMENTS[0] }) {
 
       {/* ETA */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingTop: 12, borderTop: `1px solid ${C.border}` }}>
-        <span style={{ fontSize: 14 }}>🕐</span>
+        <TemplateIcon emoji="🕐" size={14} />
         <span style={{ fontFamily: C.fontBody, fontSize: 12, color: C.textMuted }}>
           ETA : <strong style={{ color: C.text }}>{shipment.eta}</strong>
         </span>
@@ -790,10 +791,10 @@ function ServiceCard({ service, index }: { service: typeof SERVICES[0]; index: n
       <div style={{
         width: 52, height: 52, borderRadius: 14, background: `${service.color}18`,
         border: `1px solid ${service.color}30`, display: 'flex', alignItems: 'center',
-        justifyContent: 'center', fontSize: 24, marginBottom: 20, transition: C.transition,
+        justifyContent: 'center', marginBottom: 20, transition: C.transition,
         boxShadow: hovered ? `0 0 20px ${service.color}40` : 'none',
       }}>
-        {service.icon}
+        <TemplateIcon emoji={service.icon} size={24} color={service.color} />
       </div>
       <h3 style={{ fontFamily: C.fontDisplay, fontSize: 19, fontWeight: 700, color: C.text, marginBottom: 10 }}>{service.title}</h3>
       <p style={{ fontFamily: C.fontBody, fontSize: 14, color: C.textMuted, lineHeight: 1.7, marginBottom: 20 }}>{service.desc}</p>
@@ -852,8 +853,8 @@ function StatCard({ stat, index }: { stat: typeof STATS_DATA[0]; index: number }
         padding: 36, textAlign: 'center', position: 'relative', overflow: 'hidden',
       }}
     >
-      <div style={{ position: 'absolute', top: -20, right: -20, fontSize: 80, opacity: 0.04 }}>{stat.icon}</div>
-      <div style={{ fontSize: 36, marginBottom: 8 }}>{stat.icon}</div>
+      <div style={{ position: 'absolute', top: -20, right: -20, opacity: 0.04 }}><TemplateIcon emoji={stat.icon} size={80} /></div>
+      <div style={{ marginBottom: 8 }}><TemplateIcon emoji={stat.icon} size={36} /></div>
       <div style={{ fontFamily: C.fontDisplay, fontSize: 'clamp(32px,5vw,48px)', fontWeight: 800, color: C.text, lineHeight: 1 }}>
         {display}<span style={{ color: C.accent, fontSize: 'clamp(22px,3.5vw,32px)' }}>{stat.suffix}</span>
       </div>
@@ -1093,7 +1094,7 @@ function CoverageSection() {
           {/* Mobile fallback — shown only on small screens */}
           <div className="coverage-map-fallback" style={{ width: '100%', background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: C.radius, padding: 20, marginBottom: 16 }}>
             <p style={{ fontFamily: C.fontBody, fontSize: 14, color: C.textMuted, textAlign: 'center' }}>
-              🗺️ Carte des agences — 7 hubs couvrant toute la France
+              Carte des agences — 7 hubs couvrant toute la France
             </p>
           </div>
 
@@ -1491,8 +1492,8 @@ function ContactSection() {
                 <div style={{
                   width: 44, height: 44, borderRadius: 12, background: `${C.accent}15`,
                   border: `1px solid ${C.accent}25`, display: 'flex', alignItems: 'center',
-                  justifyContent: 'center', fontSize: 18, flexShrink: 0,
-                }}>{info.icon}</div>
+                  justifyContent: 'center', flexShrink: 0,
+                }}><TemplateIcon emoji={info.icon} size={18} color={C.accentLight} /></div>
                 <div>
                   <div style={{ fontFamily: C.fontBody, fontSize: 11, color: C.textMuted, marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{info.label}</div>
                   <div style={{ fontFamily: C.fontDisplay, fontSize: 15, fontWeight: 600, color: C.text }}>{info.value}</div>
@@ -1511,7 +1512,7 @@ function ContactSection() {
                     padding: '48px 36px', textAlign: 'center', boxShadow: `0 0 40px ${C.success}15`,
                   }}
                 >
-                  <div style={{ fontSize: 56, marginBottom: 20 }}>✅</div>
+                  <div style={{ marginBottom: 20 }}><TemplateIcon emoji="✅" size={56} color={C.success} /></div>
                   <h3 style={{ fontFamily: C.fontDisplay, fontSize: 24, fontWeight: 700, color: C.text, marginBottom: 12 }}>Demande envoyée !</h3>
                   <p style={{ fontFamily: C.fontBody, fontSize: 15, color: C.textMuted, lineHeight: 1.7 }}>
                     Merci pour votre intérêt. Notre équipe commerciale vous contactera sous{' '}
@@ -1595,8 +1596,8 @@ function Footer() {
                 <div style={{
                   width: 38, height: 38, borderRadius: 9,
                   background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19,
-                }}>🚚</div>
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}><TemplateIcon emoji="🚚" size={19} color="#fff" /></div>
                 <span style={{ fontFamily: C.fontDisplay, fontWeight: 800, fontSize: 19, color: C.text }}>
                   Meridian<span style={{ color: C.accent }}>Freight</span>
                 </span>

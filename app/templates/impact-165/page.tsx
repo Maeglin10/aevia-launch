@@ -260,7 +260,7 @@ export default function PulseAppPage() {
                     </div>
                     {/* Notifications */}
                     <div className="space-y-2">
-                      {["Rapport hebdomadaire prêt", "3 tâches en retard", "Objectif atteint — 🎯"].map(notif => (
+                      {["Rapport hebdomadaire prêt", "3 tâches en retard", "Objectif atteint"].map(notif => (
                         <div key={notif} className="bg-[#252150] rounded-xl p-3 flex items-center gap-3">
                           <div className="w-2 h-2 rounded-full bg-[#6366F1] flex-shrink-0" />
                           <span className="text-[11px] text-[#C8C4E8]">{notif}</span>

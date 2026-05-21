@@ -4,7 +4,13 @@ import { use, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
+import {
+  ArrowLeft, ArrowRight, Sparkles,
+  Rocket, Zap, Palette, Building2, Target, Briefcase, ShoppingBag,
+  UtensilsCrossed, BedDouble, Stethoscope, Home, Dumbbell, CalendarDays,
+  Heart, Star, Gem, Square, Newspaper, Hexagon, Minus,
+  type LucideIcon,
+} from "lucide-react";
 import type { SessionData } from "@/lib/sessions";
 import { generateMockContent } from "@/lib/mockContent";
 
@@ -25,28 +31,28 @@ const GeneratedSite = dynamic(
 );
 
 // All available themes with display metadata
-const THEMES_META: Record<string, { label: string; icon: string; category: string; premium: boolean }> = {
-  landing:      { label: "Landing Page",        icon: "🚀", category: "Marketing",   premium: false },
-  saas:         { label: "SaaS Product",         icon: "⚡", category: "Tech",        premium: false },
-  agency:       { label: "Creative Agency",      icon: "🎨", category: "Agency",      premium: false },
-  vitrine:      { label: "Business Vitrine",     icon: "🏢", category: "Business",    premium: false },
-  consultant:   { label: "Consultant & Coach",   icon: "🎯", category: "Personal",    premium: false },
-  portfolio:    { label: "Portfolio",            icon: "💼", category: "Personal",    premium: false },
-  ecommerce:    { label: "E-commerce Store",     icon: "🛍️", category: "Commerce",    premium: false },
-  restaurant:   { label: "Restaurant & Food",    icon: "🍽️", category: "Hospitality", premium: false },
-  hotel:        { label: "Hotel & B&B",          icon: "🏨", category: "Hospitality", premium: false },
-  healthcare:   { label: "Healthcare & Clinic",  icon: "🏥", category: "Health",      premium: false },
-  realestate:   { label: "Real Estate",          icon: "🏠", category: "Property",    premium: false },
-  fitness:      { label: "Fitness & Wellness",   icon: "💪", category: "Health",      premium: false },
-  event:        { label: "Event & Conference",   icon: "🎪", category: "Events",      premium: false },
-  nonprofit:    { label: "Non-profit & NGO",     icon: "❤️", category: "Social",      premium: false },
-  startup:      { label: "Startup Launch",       icon: "🌟", category: "Tech",        premium: false },
-  luxury:       { label: "Luxury & Couture",     icon: "💎", category: "Premium",     premium: true },
-  brutalist:    { label: "Brutalist Editorial",  icon: "◼", category: "Premium",     premium: true },
-  magazine:     { label: "Magazine & Editorial", icon: "📰", category: "Premium",     premium: true },
-  aurora:       { label: "Aurora & Wellness",    icon: "✦", category: "Premium",     premium: true },
-  "3d-tech":    { label: "3D Tech & Web3",       icon: "⬡", category: "Premium",     premium: true },
-  "minimal-pro":{ label: "Minimal Pro",          icon: "—", category: "Premium",     premium: true },
+const THEMES_META: Record<string, { label: string; icon: LucideIcon; category: string; premium: boolean }> = {
+  landing:      { label: "Landing Page",        icon: Rocket,          category: "Marketing",   premium: false },
+  saas:         { label: "SaaS Product",         icon: Zap,             category: "Tech",        premium: false },
+  agency:       { label: "Creative Agency",      icon: Palette,         category: "Agency",      premium: false },
+  vitrine:      { label: "Business Vitrine",     icon: Building2,       category: "Business",    premium: false },
+  consultant:   { label: "Consultant & Coach",   icon: Target,          category: "Personal",    premium: false },
+  portfolio:    { label: "Portfolio",            icon: Briefcase,       category: "Personal",    premium: false },
+  ecommerce:    { label: "E-commerce Store",     icon: ShoppingBag,     category: "Commerce",    premium: false },
+  restaurant:   { label: "Restaurant & Food",    icon: UtensilsCrossed, category: "Hospitality", premium: false },
+  hotel:        { label: "Hotel & B&B",          icon: BedDouble,       category: "Hospitality", premium: false },
+  healthcare:   { label: "Healthcare & Clinic",  icon: Stethoscope,     category: "Health",      premium: false },
+  realestate:   { label: "Real Estate",          icon: Home,            category: "Property",    premium: false },
+  fitness:      { label: "Fitness & Wellness",   icon: Dumbbell,        category: "Health",      premium: false },
+  event:        { label: "Event & Conference",   icon: CalendarDays,    category: "Events",      premium: false },
+  nonprofit:    { label: "Non-profit & NGO",     icon: Heart,           category: "Social",      premium: false },
+  startup:      { label: "Startup Launch",       icon: Star,            category: "Tech",        premium: false },
+  luxury:       { label: "Luxury & Couture",     icon: Gem,             category: "Premium",     premium: true },
+  brutalist:    { label: "Brutalist Editorial",  icon: Square,          category: "Premium",     premium: true },
+  magazine:     { label: "Magazine & Editorial", icon: Newspaper,       category: "Premium",     premium: true },
+  aurora:       { label: "Aurora & Wellness",    icon: Sparkles,        category: "Premium",     premium: true },
+  "3d-tech":    { label: "3D Tech & Web3",       icon: Hexagon,         category: "Premium",     premium: true },
+  "minimal-pro":{ label: "Minimal Pro",          icon: Minus,           category: "Premium",     premium: true },
 };
 
 const ORDERED_THEME_IDS = [
@@ -120,6 +126,8 @@ export default function ThemePreviewPage({ params }: { params: Promise<{ id: str
 
   if (!meta) notFound();
 
+  const ThemeIcon = meta.icon;
+
   const session = buildMockSession(id);
 
   const currentIndex = ORDERED_THEME_IDS.indexOf(id);
@@ -143,7 +151,7 @@ export default function ThemePreviewPage({ params }: { params: Promise<{ id: str
           <span className="text-zinc-700 hidden sm:inline">/</span>
 
           <div className="flex items-center gap-2 min-w-0">
-            <span className="text-base">{meta.icon}</span>
+            <ThemeIcon className="w-4 h-4 text-zinc-300" />
             <div className="min-w-0">
               <span className="text-white text-sm font-semibold truncate block">{meta.label}</span>
             </div>
@@ -224,7 +232,7 @@ export default function ThemePreviewPage({ params }: { params: Promise<{ id: str
           style={{ background: "rgba(9, 9, 11, 0.92)" }}
         >
           <div>
-            <p className="text-white text-sm font-semibold">{meta.icon} {meta.label}</p>
+            <p className="flex items-center gap-1.5 text-white text-sm font-semibold"><ThemeIcon className="w-4 h-4" /> {meta.label}</p>
             <p className="text-zinc-500 text-xs">This is a live preview with sample content</p>
           </div>
           <Link

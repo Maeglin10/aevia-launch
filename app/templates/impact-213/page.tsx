@@ -8,6 +8,8 @@ import {
   useInView,
   AnimatePresence,
 } from 'framer-motion'
+import { TemplateIcon } from '@/components/TemplateIcon'
+import { CheckCircle2 } from 'lucide-react'
 
 /* ─────────────────────────────────────────────
    DESIGN TOKENS
@@ -845,7 +847,7 @@ function ServiceCard({ icon, title, description, price, delay }: ServiceCardProp
           transition: 'border-color 0.3s',
         }}
       />
-      <div style={{ fontSize: 36, marginBottom: 20 }}>{icon}</div>
+      <div style={{ marginBottom: 20 }}><TemplateIcon emoji={icon} size={36} /></div>
       <h3
         style={{
           fontFamily: 'Oswald, sans-serif',
@@ -1328,7 +1330,7 @@ function APropos() {
                 { label: 'Artisan certifié', icon: '⭐' },
               ].map((badge) => (
                 <div key={badge.label} style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: 28, marginBottom: 6 }}>{badge.icon}</div>
+                  <div style={{ marginBottom: 6 }}><TemplateIcon emoji={badge.icon} size={28} /></div>
                   <div style={{ fontSize: 11, color: C.textMuted, letterSpacing: 1, textTransform: 'uppercase' }}>
                     {badge.label}
                   </div>
@@ -2268,11 +2270,10 @@ function ContactForm() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: 18,
                     flexShrink: 0,
                   }}
                 >
-                  {item.icon}
+                  <TemplateIcon emoji={item.icon} size={18} />
                 </div>
                 <div>
                   <div style={{ fontSize: 11, color: C.textMuted, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 600, marginBottom: 4 }}>
@@ -2305,7 +2306,7 @@ function ContactForm() {
                     textAlign: 'center',
                   }}
                 >
-                  <div style={{ fontSize: 56, marginBottom: 20 }}>✅</div>
+                  <div style={{ marginBottom: 20 }}><CheckCircle2 style={{ width: 56, height: 56 }} /></div>
                   <h3
                     style={{
                       fontFamily: 'Oswald, sans-serif',
@@ -2688,7 +2689,7 @@ function Footer() {
             © {currentYear} Bâtisseurs Durand SARL — Tous droits réservés. Maçonnerie Lyon.
           </p>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-            {['🏅 Qualibat RGE', '📜 Décennale', '⭐ 4.9/5 Google'].map((badge) => (
+            {['Qualibat RGE', 'Décennale', '4.9/5 Google'].map((badge) => (
               <span
                 key={badge}
                 style={{

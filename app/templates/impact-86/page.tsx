@@ -28,6 +28,7 @@ import {
   Sun,
   CheckCircle,
 } from "lucide-react";
+import { TemplateIcon } from '@/components/TemplateIcon';
 
 const useFonts = () => {
   useEffect(() => {
@@ -486,7 +487,7 @@ export default function AuraWellnessPage() {
             {botanicals.map((b, i) => (
               <Reveal key={b.name} delay={i * 0.1}>
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors duration-200 cursor-pointer">
-                  <div className="text-3xl mb-4">{b.icon}</div>
+                  <div className="mb-4"><TemplateIcon emoji={b.icon} size={30} /></div>
                   <h3
                     className="text-white text-lg mb-1"
                     style={{ fontFamily: "'Cormorant Garamond', serif" }}

@@ -17,6 +17,7 @@ import {
   AnimatePresence,
   useMotionTemplate,
 } from 'framer-motion';
+import { TemplateIcon } from '@/components/TemplateIcon';
 
 /* ==========================================================================
    TYPES
@@ -306,7 +307,7 @@ function Nav({ accentColor }: { accentColor: string }) {
     >
       {/* Logo */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <span style={{ fontSize: 22 }}>💅</span>
+        <TemplateIcon emoji="💅" size={22} />
         <span
           style={{
             fontFamily: 'Syne, sans-serif',
@@ -822,7 +823,7 @@ function ServiceCard({
 
           {/* Duration */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 'auto' }}>
-            <span style={{ fontSize: 12, color: '#7a5060' }}>⏱ {service.duration}</span>
+            <span style={{ fontSize: 12, color: '#7a5060' }}>{service.duration}</span>
           </div>
         </div>
 
@@ -1943,7 +1944,7 @@ function ContactSection({ accentColor }: { accentColor: string }) {
                 ((e.currentTarget as HTMLElement).style.boxShadow = 'none')
               }
             >
-              <span style={{ fontSize: 28 }}>{info.icon}</span>
+              <TemplateIcon emoji={info.icon} size={28} />
               <div
                 style={{
                   fontFamily: 'Syne, sans-serif',
@@ -2036,7 +2037,7 @@ function Footer({ accentColor }: { accentColor: string }) {
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <span style={{ fontSize: 22 }}>💅</span>
+        <TemplateIcon emoji="💅" size={22} />
         <span
           style={{
             fontFamily: 'Syne, sans-serif',

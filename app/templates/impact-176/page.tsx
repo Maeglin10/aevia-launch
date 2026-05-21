@@ -11,6 +11,7 @@ import {
   useSpring,
   AnimatePresence,
 } from "framer-motion";
+import { TemplateIcon } from '@/components/TemplateIcon';
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 const C = {
@@ -645,11 +646,10 @@ function FeatureCard({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: 22,
             marginBottom: 20,
           }}
         >
-          {item.icon}
+          <TemplateIcon emoji={item.icon} size={22} color={item.color} />
         </div>
 
         <div

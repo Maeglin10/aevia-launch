@@ -185,7 +185,7 @@ function TypeCard({ cat, index }: { cat: typeof TYPE_CATS[0]; index: number }) {
           ) : (
             <div className="absolute inset-0 flex items-center justify-center"
               style={{ background: `linear-gradient(135deg, ${cat.color}20, transparent)` }}>
-              <span className="text-4xl opacity-30">✦</span>
+              <Sparkles className="w-10 h-10 text-white opacity-30" />
             </div>
           )}
           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"

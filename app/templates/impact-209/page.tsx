@@ -8,6 +8,8 @@ import {
   useTransform,
   useSpring,
 } from 'framer-motion'
+import { TemplateIcon } from '@/components/TemplateIcon'
+import { MapPin } from 'lucide-react'
 
 // ─── Design Tokens ─────────────────────────────────────────────────────────────
 const BG = '#faf8f5'
@@ -1503,7 +1505,7 @@ export default function Page() {
                 transition={{ duration: 0.6 }}
                 style={{ textAlign: 'center' }}
               >
-                <div style={{ fontSize: '28px', marginBottom: '12px' }}>{item.icon}</div>
+                <div style={{ marginBottom: '12px' }}><TemplateIcon emoji={item.icon} size={28} /></div>
                 <p style={{ ...bodyFont, fontSize: '10px', color: GOLD, letterSpacing: '0.15em', textTransform: 'uppercase', margin: '0 0 12px' }}>
                   {item.label}
                 </p>
@@ -1535,7 +1537,7 @@ export default function Page() {
             }}
           >
             <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: GOLD_PALE, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontSize: '20px' }}>📍</span>
+              <MapPin style={{ width: 20, height: 20 }} />
             </div>
             <p style={{ ...bodyFont, fontSize: '12px', color: GRAY_MID, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>
               14 rue de Varenne, Paris 7e
