@@ -8,6 +8,8 @@ import {
   useInView,
   AnimatePresence,
 } from 'framer-motion';
+import { TemplateIcon } from '@/components/TemplateIcon';
+import { Droplets, Bell } from 'lucide-react';
 
 /* ─────────────────────────────────────────────
    DESIGN TOKENS
@@ -430,7 +432,7 @@ function ServiceCard({ icon, title, desc, badge, index }: ServiceCardProps) {
           }}
         />
       )}
-      <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{icon}</div>
+      <div style={{ marginBottom: '1rem' }}><TemplateIcon emoji={icon} size={40} /></div>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '0.75rem', gap: '0.5rem', flexWrap: 'wrap' }}>
         <h3
           style={{
@@ -516,12 +518,11 @@ function ProcessStep({ num, title, desc, icon, index, isLast }: ProcessStepProps
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '1.4rem',
             flexShrink: 0,
             boxShadow: `0 0 0 6px rgba(30,143,191,0.15)`,
           }}
         >
-          {icon}
+          <TemplateIcon emoji={icon} size={22} />
         </div>
         {!isLast && (
           <div
@@ -622,7 +623,7 @@ function PortfolioCard({ style, surface, budget, city, index }: PortfolioCardPro
         }}
       >
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '3.5rem', marginBottom: '0.5rem' }}>🛁</div>
+          <div style={{ marginBottom: '0.5rem' }}><TemplateIcon emoji="🛁" size={56} /></div>
           <div
             style={{
               fontFamily: "'Barlow Condensed', sans-serif",
@@ -677,7 +678,7 @@ function PortfolioCard({ style, surface, budget, city, index }: PortfolioCardPro
               color: C.accent,
             }}
           >
-            📍 {city}
+            {city}
           </span>
           <span style={{ fontSize: '0.75rem', color: C.textMuted }}>{surface}</span>
         </div>
@@ -742,12 +743,11 @@ function TeamCard({ name, role, exp, certs, bio, emoji, color, index }: TeamCard
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '2.5rem',
           marginBottom: '1.25rem',
           boxShadow: `0 0 0 6px ${color}22`,
         }}
       >
-        {emoji}
+        <TemplateIcon emoji={emoji} size={40} />
       </div>
       <h3
         style={{
@@ -841,7 +841,7 @@ function TestimonialCard({ name, city, rating, text, service, index }: Testimoni
       <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
         <div>
           <div style={{ fontWeight: 700, color: C.text, fontSize: '0.9rem' }}>{name}</div>
-          <div style={{ color: C.textMuted, fontSize: '0.78rem' }}>📍 {city}</div>
+          <div style={{ color: C.textMuted, fontSize: '0.78rem' }}>{city}</div>
         </div>
         <span
           style={{
@@ -981,7 +981,7 @@ function StatCard({ value, suffix, label, icon, index }: StatCardProps) {
       transition={{ duration: 0.6, delay: index * 0.12 }}
       style={{ textAlign: 'center', padding: '1rem' }}
     >
-      <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{icon}</div>
+      <div style={{ marginBottom: '0.5rem' }}><TemplateIcon emoji={icon} size={32} /></div>
       <div
         className="stats-value"
         style={{
@@ -1228,10 +1228,9 @@ export default function AquaPrestigePage() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '1.2rem',
             }}
           >
-            💧
+            <Droplets style={{ width: 20, height: 20 }} />
           </div>
           <div>
             <div
@@ -1307,7 +1306,7 @@ export default function AquaPrestigePage() {
               boxShadow: `0 4px 16px rgba(30,143,191,0.35)`,
             }}
           >
-            🚨 Urgence 24/7
+            Urgence 24/7
           </a>
           <button
             onClick={() => setMobileMenuOpen((o) => !o)}
@@ -1393,7 +1392,7 @@ export default function AquaPrestigePage() {
                 textTransform: 'uppercase',
               }}
             >
-              🚨 Appeler Maintenant
+              Appeler Maintenant
             </a>
           </motion.div>
         )}
@@ -1560,7 +1559,7 @@ export default function AquaPrestigePage() {
                 (e.currentTarget as HTMLElement).style.boxShadow = `0 8px 32px rgba(30,143,191,0.4)`;
               }}
             >
-              🚨 Urgence 24/7 — Appeler
+              Urgence 24/7 — Appeler
             </a>
             <a
               href="#services"
@@ -1721,7 +1720,7 @@ export default function AquaPrestigePage() {
                     animate={{ scale: [1, 1.3, 1] }}
                     transition={{ repeat: Infinity, duration: 1 }}
                   >
-                    🚨
+                    <Bell style={{ width: 16, height: 16 }} />
                   </motion.span>
                   Urgence Plomberie
                 </div>
@@ -1765,7 +1764,7 @@ export default function AquaPrestigePage() {
                   onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.transform = 'scale(1.04)')}
                   onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = 'scale(1)')}
                 >
-                  📞 01 42 00 00 00
+                  01 42 00 00 00
                 </a>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
@@ -1831,7 +1830,7 @@ export default function AquaPrestigePage() {
                   (e.currentTarget as HTMLElement).style.color = C.textMuted;
                 }}
               >
-                📍 {zone}
+                {zone}
               </div>
             ))}
           </div>
@@ -1964,7 +1963,7 @@ export default function AquaPrestigePage() {
                   fontWeight: 500,
                 }}
               >
-                <span>{badge.icon}</span>
+                <TemplateIcon emoji={badge.icon} size={16} />
                 <span>{badge.label}</span>
               </div>
             ))}
@@ -2054,11 +2053,10 @@ export default function AquaPrestigePage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '1.1rem',
                         flexShrink: 0,
                       }}
                     >
-                      {info.icon}
+                      <TemplateIcon emoji={info.icon} size={20} />
                     </div>
                     <div>
                       <div style={{ color: C.textMuted, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.2rem' }}>{info.label}</div>
@@ -2093,7 +2091,7 @@ export default function AquaPrestigePage() {
                       animate={{ opacity: 1, scale: 1 }}
                       style={{ textAlign: 'center', padding: '3rem 1rem' }}
                     >
-                      <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>✅</div>
+                      <div style={{ marginBottom: '1rem' }}><TemplateIcon emoji="✅" size={56} /></div>
                       <h3
                         style={{
                           fontFamily: "'Barlow Condensed', sans-serif",
@@ -2324,10 +2322,9 @@ export default function AquaPrestigePage() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '1.3rem',
                   }}
                 >
-                  💧
+                  <Droplets style={{ width: 21, height: 21 }} />
                 </div>
                 <div>
                   <div
@@ -2379,7 +2376,7 @@ export default function AquaPrestigePage() {
                     }}
                     title={social}
                   >
-                    {social === 'Facebook' ? 'f' : social === 'Instagram' ? '📷' : 'in'}
+                    {social === 'Facebook' ? 'f' : social === 'Instagram' ? 'ig' : 'in'}
                   </div>
                 ))}
               </div>
@@ -2415,7 +2412,7 @@ export default function AquaPrestigePage() {
                       onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = C.accentLight)}
                       onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = C.textMuted)}
                     >
-                      {s.icon} {s.title}
+                      {s.title}
                     </a>
                   </li>
                 ))}
@@ -2491,13 +2488,13 @@ export default function AquaPrestigePage() {
                     boxShadow: `0 4px 16px rgba(30,143,191,0.3)`,
                   }}
                 >
-                  📞 01 42 00 00 00
+                  01 42 00 00 00
                 </a>
                 <div style={{ color: C.textMuted, fontSize: '0.83rem', lineHeight: 1.7 }}>
-                  <div>📧 contact@aquaprestige.fr</div>
-                  <div style={{ marginTop: '0.4rem' }}>📍 15 Rue de la Pompe, Paris 16e</div>
-                  <div style={{ marginTop: '0.4rem' }}>🕒 Lun–Sam : 8h – 19h</div>
-                  <div>🚨 Urgences : 24h/24</div>
+                  <div>contact@aquaprestige.fr</div>
+                  <div style={{ marginTop: '0.4rem' }}>15 Rue de la Pompe, Paris 16e</div>
+                  <div style={{ marginTop: '0.4rem' }}>Lun–Sam : 8h – 19h</div>
+                  <div>Urgences : 24h/24</div>
                 </div>
               </div>
             </div>
