@@ -25,6 +25,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { TemplateIcon } from '@/components/TemplateIcon';
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 const C = {
@@ -726,7 +727,7 @@ export default function TerreVivantePage() {
                     transition: "box-shadow 0.3s",
                   }}
                 >
-                  <div style={{ fontSize: "2rem", marginBottom: "0.8rem" }}>{item.emoji}</div>
+                  <div style={{ marginBottom: "0.8rem" }}><TemplateIcon emoji={item.emoji} size={32} /></div>
                   <h3 style={{ fontFamily: C.headingFont, fontSize: "1.05rem", color: C.text, fontWeight: 700, marginBottom: "0.45rem" }}>
                     {item.name}
                   </h3>

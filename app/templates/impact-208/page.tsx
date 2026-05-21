@@ -10,6 +10,7 @@ import {
   useMotionValue,
   AnimatePresence,
 } from 'framer-motion'
+import { TemplateIcon } from '@/components/TemplateIcon'
 
 /* ==========================================================================
    DESIGN TOKENS
@@ -529,7 +530,7 @@ function ServicesSection() {
                 transition: 'background 0.2s',
               }}
             >
-              <div style={{ fontSize: 28, marginBottom: 20 }}>{service.icon}</div>
+              <div style={{ marginBottom: 20 }}><TemplateIcon emoji={service.icon} size={28} color={C.yellow} /></div>
               <h3 style={{
                 fontFamily: FONT_HEADING,
                 fontWeight: 700,
@@ -1308,10 +1309,10 @@ function ProjectTiltCard({
             marginBottom: 16,
           }}>
             <span style={{ fontFamily: FONT_BODY, fontSize: '0.8rem', color: C.creamDim }}>
-              📍 {project.location}
+              {project.location}
             </span>
             <span style={{ fontFamily: FONT_BODY, fontSize: '0.8rem', color: C.creamDim }}>
-              📅 {project.year}
+              {project.year}
             </span>
           </div>
           <div style={{
@@ -1657,7 +1658,7 @@ function ContactSection() {
                     textAlign: 'center',
                   }}
                 >
-                  <div style={{ fontSize: 48, marginBottom: 24 }}>✅</div>
+                  <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'center' }}><TemplateIcon emoji="✅" size={48} color={C.yellow} /></div>
                   <h3 style={{
                     fontFamily: FONT_HEADING,
                     fontWeight: 700,

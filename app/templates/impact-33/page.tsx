@@ -21,6 +21,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { TemplateIcon } from '@/components/TemplateIcon';
 
 // ─── Design Tokens ─────────────────────────────────────────────────────────────
 const C = {
@@ -84,7 +85,7 @@ function Marquee() {
               flexShrink: 0,
             }}
           >
-            <span style={{ fontSize: 22 }}>{item.emoji}</span>
+            <TemplateIcon emoji={item.emoji} size={22} />
             <span style={{ fontFamily: FONT_HEADING, fontSize: 15, color: C.text, fontWeight: 600 }}>
               {item.name}
             </span>
@@ -123,8 +124,8 @@ function Navbar() {
         }}
       >
         <motion.div style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }} whileHover={{ scale: 1.03 }}>
-          <div style={{ width: 40, height: 40, background: C.accent, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
-            🥖
+          <div style={{ width: 40, height: 40, background: C.accent, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <TemplateIcon emoji="🥖" size={20} color="#fff" />
           </div>
           <div>
             <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 20, color: C.text, lineHeight: 1 }}>La Fournée</div>
@@ -204,11 +205,11 @@ function Hero() {
 
       {/* Large decorative emoji */}
       <motion.div
-        style={{ position: "absolute", right: "8%", top: "50%", transform: "translateY(-50%)", fontSize: 180, opacity: 0.12, zIndex: 0, userSelect: "none" }}
+        style={{ position: "absolute", right: "8%", top: "50%", transform: "translateY(-50%)", opacity: 0.12, zIndex: 0, userSelect: "none" }}
         animate={{ rotate: [0, 3, 0, -3, 0] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       >
-        🥖
+        <TemplateIcon emoji="🥖" size={180} />
       </motion.div>
 
       {/* Content */}
@@ -355,7 +356,7 @@ function MenuSection() {
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
           >
-            <span style={{ fontSize: 18 }}>{cat.emoji}</span>
+            <TemplateIcon emoji={cat.emoji} size={18} />
             {cat.name}
           </motion.button>
         ))}
@@ -441,14 +442,13 @@ function Story() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: 60,
                 border: `1px solid ${C.border}`,
               }}
               whileHover={{ scale: 1.05, y: -4 }}
               animate={{ y: [0, -5, 0] }}
               transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
             >
-              {emoji}
+              <TemplateIcon emoji={emoji} size={60} />
             </motion.div>
           ))}
         </motion.div>
@@ -482,7 +482,7 @@ function Stats() {
             transition={{ duration: 0.5, delay: i * 0.1 }}
             style={{ textAlign: "center" }}
           >
-            <div style={{ fontSize: 36, marginBottom: 12 }}>{s.emoji}</div>
+            <div style={{ marginBottom: 12 }}><TemplateIcon emoji={s.emoji} size={36} /></div>
             <div style={{ fontFamily: FONT_HEADING, fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 700, color: C.white, marginBottom: 8 }}>{s.value}</div>
             <div style={{ color: "rgba(255,255,255,0.55)", fontSize: 15 }}>{s.label}</div>
           </motion.div>
@@ -526,7 +526,7 @@ function ProductsShowcase() {
             style={{ background: C.bgSection, borderRadius: 20, padding: 28, border: `1px solid ${C.border}`, boxShadow: C.shadow, position: "relative", overflow: "hidden" }}
           >
             <div style={{ position: "absolute", top: 16, right: 16, background: C.accentLight, color: C.accent, borderRadius: 20, padding: "4px 12px", fontSize: 12, fontWeight: 700 }}>{p.badge}</div>
-            <div style={{ fontSize: 44, marginBottom: 18 }}>{p.emoji}</div>
+            <div style={{ marginBottom: 18 }}><TemplateIcon emoji={p.emoji} size={44} /></div>
             <h3 style={{ fontFamily: FONT_HEADING, fontSize: 19, fontWeight: 700, color: C.text, marginBottom: 10 }}>{p.name}</h3>
             <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.65, marginBottom: 20 }}>{p.desc}</p>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -630,7 +630,7 @@ function HorairesContact() {
           </div>
           <div style={{ marginTop: 24, padding: "14px 20px", background: C.accentLight, borderRadius: 12, border: `1px solid ${C.border}` }}>
             <span style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.5 }}>
-              ☀️ En été (juillet–août) et jours fériés, horaires réduits. Consultez notre Camera pour les fermetures exceptionnelles.
+              En été (juillet–août) et jours fériés, horaires réduits. Consultez notre Camera pour les fermetures exceptionnelles.
             </span>
           </div>
         </motion.div>
@@ -738,7 +738,7 @@ function Footer() {
       <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 48, marginBottom: 52 }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
-            <div style={{ width: 40, height: 40, background: C.accent, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>🥖</div>
+            <div style={{ width: 40, height: 40, background: C.accent, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}><TemplateIcon emoji="🥖" size={20} color="#fff" /></div>
             <div>
               <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 20 }}>La Fournée</div>
               <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", letterSpacing: 1.5, textTransform: "uppercase" }}>Artisan Boulanger</div>

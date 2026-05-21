@@ -9,6 +9,8 @@ import {
   useTransform,
   useInView,
 } from 'framer-motion';
+import { TemplateIcon } from '@/components/TemplateIcon';
+import { PartyPopper } from 'lucide-react';
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 const C = {
@@ -326,7 +328,7 @@ function FeaturedCard({
           background: `linear-gradient(90deg, transparent, ${C.accent}, transparent)`,
         }}
       />
-      <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>{p.emoji}</div>
+      <div style={{ marginBottom: '0.75rem' }}><TemplateIcon emoji={p.emoji} size={40} /></div>
       <p style={{ color: C.textMuted, fontSize: '0.75rem', fontFamily: 'Inter, sans-serif', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.25rem' }}>{p.type}</p>
       <h3 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: '1.25rem', fontWeight: 700, margin: '0 0 0.5rem' }}>{p.name}</h3>
       <p style={{ color: C.textMuted, fontSize: '0.85rem', fontFamily: 'Inter, sans-serif', lineHeight: 1.6, marginBottom: '1.25rem' }}>{p.desc}</p>
@@ -404,9 +406,9 @@ function CategoryCard({ c, i }: { c: typeof CATEGORIES[number]; i: number }) {
       <motion.div
         animate={{ scale: hovered ? 1.12 : 1 }}
         transition={{ duration: 0.3 }}
-        style={{ fontSize: '2.8rem', marginBottom: '1rem' }}
+        style={{ marginBottom: '1rem' }}
       >
-        {c.emoji}
+        <TemplateIcon emoji={c.emoji} size={45} />
       </motion.div>
       <h3 style={{
         color: C.text,
@@ -488,9 +490,9 @@ function ProductCard({
         <motion.div
           animate={{ scale: hovered ? 1.08 : 1 }}
           transition={{ duration: 0.4 }}
-          style={{ fontSize: '5rem' }}
+          style={{}}
         >
-          {p.emoji}
+          <TemplateIcon emoji={p.emoji} size={80} />
         </motion.div>
         <TagBadge tag={p.tag} />
         {discount && (
@@ -526,11 +528,10 @@ function ProductCard({
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
-            fontSize: '0.85rem',
             transition: 'all 0.25s',
           }}
         >
-          {liked ? '❤️' : '🤍'}
+          <TemplateIcon emoji={liked ? '❤️' : '🤍'} size={14} />
         </motion.button>
         {/* eco badge */}
         {p.certEco && (
@@ -547,7 +548,7 @@ function ProductCard({
             fontFamily: 'Inter, sans-serif',
             letterSpacing: '0.06em',
           }}>
-            🌿 Éco-cert.
+            Éco-cert.
           </span>
         )}
       </div>
@@ -581,11 +582,11 @@ function ProductCard({
         <div style={{ display: 'flex', gap: '1rem', marginBottom: '0.75rem' }}>
           {p.kw && (
             <span style={{ color: C.textMuted, fontSize: '0.75rem', fontFamily: 'Inter, sans-serif' }}>
-              🔥 {p.kw} kW
+              {p.kw} kW
             </span>
           )}
           <span style={{ color: C.textMuted, fontSize: '0.75rem', fontFamily: 'Inter, sans-serif' }}>
-            📐 {p.surface}
+            {p.surface}
           </span>
         </div>
 
@@ -674,10 +675,9 @@ function USPCard({ u, i }: { u: typeof USPS[number]; i: number }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '1.8rem',
         margin: '0 auto 1.25rem',
       }}>
-        {u.icon}
+        <TemplateIcon emoji={u.icon} size={29} />
       </div>
       <h3 style={{
         color: C.text,
@@ -775,7 +775,7 @@ function TestiCard({ t, i }: { t: typeof TESTIMONIALS[number]; i: number }) {
 
       <div style={{ borderTop: `1px solid ${C.borderLight}`, paddingTop: '0.75rem' }}>
         <span style={{ color: C.accentLight, fontSize: '0.73rem', fontFamily: 'Inter, sans-serif' }}>
-          🛍️ {t.product}
+          {t.product}
         </span>
       </div>
     </motion.div>
@@ -876,7 +876,7 @@ function Configurator() {
                     transition: 'all 0.25s',
                   }}
                 >
-                  <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{t.emoji}</div>
+                  <div style={{ marginBottom: '0.5rem' }}><TemplateIcon emoji={t.emoji} size={32} /></div>
                   <div style={{ color: C.text, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', fontWeight: 600 }}>{t.label}</div>
                 </motion.button>
               ))}
@@ -996,7 +996,7 @@ function Configurator() {
               boxShadow: C.glowAccent,
             }}
           >
-            <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>{result.emoji}</div>
+            <div style={{ marginBottom: '1rem' }}><TemplateIcon emoji={result.emoji} size={56} /></div>
             <p style={{ color: C.accentLight, fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.5rem' }}>
               Notre recommandation
             </p>
@@ -1152,7 +1152,7 @@ function CartDrawer({
             <div style={{ flex: 1, padding: '1.25rem 1.75rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {items.length === 0 ? (
                 <div style={{ textAlign: 'center', paddingTop: '4rem' }}>
-                  <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🛒</div>
+                  <div style={{ marginBottom: '1rem' }}><TemplateIcon emoji="🛒" size={48} /></div>
                   <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.95rem' }}>
                     Votre panier est vide
                   </p>
@@ -1176,7 +1176,7 @@ function CartDrawer({
                         gap: '1rem',
                       }}
                     >
-                      <div style={{ fontSize: '2rem', flexShrink: 0 }}>{item.emoji}</div>
+                      <div style={{ flexShrink: 0 }}><TemplateIcon emoji={item.emoji} size={32} /></div>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <p style={{ color: C.text, fontFamily: 'Inter, sans-serif', fontSize: '0.88rem', fontWeight: 600, margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {item.name}
@@ -1301,7 +1301,7 @@ function MobileNavDrawer({
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
               <span style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: '1.3rem', fontWeight: 700 }}>
-                🔥 Flamme & Co
+                Flamme & Co
               </span>
               <motion.button
                 whileTap={{ scale: 0.9 }}
@@ -1516,7 +1516,7 @@ function Newsletter() {
           transition={{ type: 'spring', stiffness: 200, damping: 18 }}
           style={{ textAlign: 'center' }}
         >
-          <div style={{ fontSize: '3rem', marginBottom: '0.75rem' }}>🎉</div>
+          <div style={{ marginBottom: '0.75rem' }}><PartyPopper style={{ width: 48, height: 48 }} /></div>
           <p style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: '1.3rem', fontWeight: 700 }}>
             Merci de votre inscription !
           </p>
@@ -1573,7 +1573,7 @@ function PromoBanner() {
             zIndex: 1,
             margin: 0,
           }}>
-            🔥 Livraison offerte sur toute la France · Code promo <strong>FLAMME10</strong> : −10 % sur votre première commande
+            Livraison offerte sur toute la France · Code promo <strong>FLAMME10</strong> : −10 % sur votre première commande
           </p>
           <button
             onClick={() => setVisible(false)}
@@ -1728,7 +1728,7 @@ export default function FlammeEtCoPage() {
             {/* Logo */}
             <a href="#" style={{ textDecoration: 'none', flexShrink: 0 }}>
               <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.4rem', fontWeight: 800, color: C.text }}>
-                🔥 <span style={{ background: `linear-gradient(90deg, ${C.accent}, ${C.gold})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Flamme</span>{' '}
+                <span style={{ background: `linear-gradient(90deg, ${C.accent}, ${C.gold})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Flamme</span>{' '}
                 <span style={{ color: C.text }}>&amp; Co</span>
               </span>
             </a>
@@ -1777,10 +1777,9 @@ export default function FlammeEtCoPage() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   position: 'relative',
-                  fontSize: '1.1rem',
                 }}
               >
-                🛒
+                <TemplateIcon emoji="🛒" size={18} />
                 <AnimatePresence>
                   {cartCount > 0 && (
                     <motion.span
@@ -1915,7 +1914,7 @@ export default function FlammeEtCoPage() {
               }}
             >
               <span style={{ color: C.accentLight, fontSize: '0.78rem', fontFamily: 'Inter, sans-serif', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                🔥 Spécialiste chauffage premium depuis 2008
+                Spécialiste chauffage premium depuis 2008
               </span>
             </motion.div>
 
@@ -2007,7 +2006,7 @@ export default function FlammeEtCoPage() {
                   backdropFilter: 'blur(8px)',
                 }}
               >
-                🎯 Configurateur
+                Configurateur
               </motion.a>
             </motion.div>
 
@@ -2275,7 +2274,7 @@ export default function FlammeEtCoPage() {
                   transition={{ delay: idx * 0.1 }}
                   style={{ textAlign: 'center' }}
                 >
-                  <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{s.icon}</div>
+                  <div style={{ marginBottom: '0.5rem' }}><TemplateIcon emoji={s.icon} size={32} /></div>
                   <div style={{ color: C.accentLight, fontFamily: 'Playfair Display, serif', fontSize: '2.2rem', fontWeight: 800 }}>{s.value}</div>
                   <div style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', fontWeight: 500, marginTop: '0.25rem' }}>{s.label}</div>
                 </motion.div>
@@ -2321,7 +2320,7 @@ export default function FlammeEtCoPage() {
                   transition: 'all 0.25s',
                 }}
               >
-                📧 Contactez-nous
+                Contactez-nous
               </motion.a>
             </div>
           </div>
@@ -2406,7 +2405,7 @@ export default function FlammeEtCoPage() {
               {/* Column 1 — Brand */}
               <div>
                 <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.5rem', fontWeight: 800, color: C.text, marginBottom: '1rem' }}>
-                  🔥 <span style={{ background: `linear-gradient(90deg, ${C.accent}, ${C.gold})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Flamme</span> &amp; Co
+                  <span style={{ background: `linear-gradient(90deg, ${C.accent}, ${C.gold})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Flamme</span> &amp; Co
                 </div>
                 <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.87rem', lineHeight: 1.75, marginBottom: '1.5rem' }}>
                   Votre spécialiste en chauffage au bois et à granulés depuis 2008. 
@@ -2428,10 +2427,9 @@ export default function FlammeEtCoPage() {
                         alignItems: 'center',
                         justifyContent: 'center',
                         cursor: 'pointer',
-                        fontSize: '0.9rem',
                       }}
                     >
-                      {icon}
+                      <TemplateIcon emoji={icon} size={14} />
                     </motion.button>
                   ))}
                 </div>
@@ -2519,7 +2517,7 @@ export default function FlammeEtCoPage() {
                   borderRadius: '12px',
                   padding: '1rem',
                 }}>
-                  <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', marginBottom: '0.35rem' }}>📞 Service client</p>
+                  <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', marginBottom: '0.35rem' }}>Service client</p>
                   <p style={{ color: C.text, fontFamily: 'Inter, sans-serif', fontSize: '1rem', fontWeight: 700 }}>01 23 45 67 89</p>
                   <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.73rem', marginTop: '0.2rem' }}>Lun–Ven, 9h–18h</p>
                 </div>
@@ -2537,7 +2535,7 @@ export default function FlammeEtCoPage() {
               gap: '1.5rem',
             }}>
               <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-                {['💳 Visa', '💳 Mastercard', '🔵 PayPal', '🍎 Apple Pay', '🏦 Virement', '📦 3× sans frais'].map(p => (
+                {['Visa', 'Mastercard', 'PayPal', 'Apple Pay', 'Virement', '3× sans frais'].map(p => (
                   <span
                     key={p}
                     style={{
@@ -2622,7 +2620,7 @@ export default function FlammeEtCoPage() {
               whiteSpace: 'nowrap',
             }}
           >
-            🎯 Configurateur
+            Configurateur
           </motion.a>
           <motion.button
             whileTap={{ scale: 0.95 }}
@@ -2641,7 +2639,7 @@ export default function FlammeEtCoPage() {
               position: 'relative',
             }}
           >
-            🛒 Panier
+            Panier
             {cartCount > 0 && (
               <span style={{
                 position: 'absolute',

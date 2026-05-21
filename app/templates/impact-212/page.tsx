@@ -10,6 +10,8 @@ import {
   useSpring,
   useMotionValue,
 } from 'framer-motion';
+import { TemplateIcon } from '@/components/TemplateIcon';
+import { Flame } from 'lucide-react';
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 const C = {
@@ -245,10 +247,10 @@ function ServiceCard({ icon, title, desc, badge, index }: ServiceCardProps) {
         background: `linear-gradient(135deg, ${C.accent}22, ${C.accent}44)`,
         border: `1px solid ${C.accent}44`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 26, marginBottom: 18,
+        marginBottom: 18,
         transition: 'transform 0.3s ease',
         transform: hovered ? 'scale(1.1) rotate(-5deg)' : 'scale(1)',
-      }}>{icon}</div>
+      }}><TemplateIcon emoji={icon} size={26} /></div>
       <h3 style={{
         fontFamily: "'Barlow Condensed', sans-serif",
         fontSize: 'clamp(18px, 2.5vw, 22px)',
@@ -324,9 +326,9 @@ function CertCard({ icon, title, sub, index }: CertCardProps) {
           width: 44, height: 44, borderRadius: '50%',
           background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          margin: '0 auto 12px', fontSize: 20,
+          margin: '0 auto 12px',
         }}
-      >{icon}</motion.div>
+      ><TemplateIcon emoji={icon} size={20} /></motion.div>
       <div style={{
         fontFamily: "'Barlow Condensed', sans-serif",
         fontSize: 'clamp(13px, 1.5vw, 16px)', fontWeight: 700, color: C.white, marginBottom: 4,
@@ -388,9 +390,9 @@ function ProjectCard({ type, location, surface, year, tag, index }: ProjectCardP
       }}>{type}</h3>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
         {[
-          { label: '📍 Lieu', val: location },
-          { label: '📐 Surface', val: surface },
-          { label: '📅 Année', val: year },
+          { label: 'Lieu', val: location },
+          { label: 'Surface', val: surface },
+          { label: 'Année', val: year },
         ].map(({ label, val }) => (
           <div key={label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
             <span style={{ color: C.textMuted }}>{label}</span>
@@ -826,8 +828,8 @@ export default function ThermaProPage() {
               width: 38, height: 38, borderRadius: 10,
               background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 20, boxShadow: `0 4px 14px ${C.accent}44`,
-            }}>🔥</div>
+              boxShadow: `0 4px 14px ${C.accent}44`,
+            }}><Flame style={{ width: 20, height: 20 }} /></div>
             <div>
               <div style={{
                 fontFamily: "'Barlow Condensed', sans-serif",
@@ -857,7 +859,7 @@ export default function ThermaProPage() {
               padding: '10px 20px', borderRadius: 50,
               fontSize: 13.5, fontWeight: 700,
               boxShadow: `0 4px 20px ${C.accent}44`, whiteSpace: 'nowrap',
-            }}>📞 04 78 00 00 00</a>
+            }}>04 78 00 00 00</a>
           </div>
 
           {/* Hamburger */}
@@ -903,7 +905,7 @@ export default function ThermaProPage() {
                   color: C.white, textDecoration: 'none',
                   padding: '14px 20px', borderRadius: 10,
                   fontSize: 15, fontWeight: 700, textAlign: 'center', marginTop: 12,
-                }}>📞 Appeler maintenant</a>
+                }}>Appeler maintenant</a>
               </div>
             </motion.div>
           )}
@@ -1006,7 +1008,7 @@ export default function ThermaProPage() {
                 fontSize: 'clamp(14px, 2vw, 15.5px)', fontWeight: 700,
                 boxShadow: `0 8px 30px ${C.accent}55`,
                 display: 'inline-flex', alignItems: 'center', gap: 8,
-              }}>🔥 Devis gratuit en 48h</a>
+              }}>Devis gratuit en 48h</a>
               <a href="tel:+33478000000" style={{
                 background: 'none', border: `2px solid ${C.border}`,
                 color: C.white, textDecoration: 'none',
@@ -1016,7 +1018,7 @@ export default function ThermaProPage() {
               }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = C.accent)}
                 onMouseLeave={e => (e.currentTarget.style.borderColor = C.border)}
-              >📞 Urgence 24/7</a>
+              >Urgence 24/7</a>
             </motion.div>
 
             {/* Inline hero stats */}
@@ -1176,7 +1178,7 @@ export default function ThermaProPage() {
                 fontFamily: "'Barlow Condensed', sans-serif",
                 fontSize: 'clamp(18px, 3vw, 24px)', fontWeight: 800,
                 color: C.white, marginBottom: 6,
-              }}>🏷️ Jusqu'à 70% d'aides sur votre installation</div>
+              }}>Jusqu'à 70% d'aides sur votre installation</div>
               <div style={{ color: C.textMuted, fontSize: 'clamp(13px, 1.5vw, 14.5px)' }}>
                 Grâce à notre statut RGE, vous êtes éligible à toutes les aides de l'État. Nos conseillers gèrent les dossiers pour vous.
               </div>
@@ -1327,8 +1329,8 @@ export default function ThermaProPage() {
                     <div style={{
                       flexShrink: 0, width: 42, height: 42, borderRadius: 11,
                       background: `${C.accent}22`, display: 'flex',
-                      alignItems: 'center', justifyContent: 'center', fontSize: 20,
-                    }}>{info.icon}</div>
+                      alignItems: 'center', justifyContent: 'center',
+                    }}><TemplateIcon emoji={info.icon} size={20} /></div>
                     <div>
                       <div style={{ color: C.textMuted, fontSize: 11.5, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 2 }}>{info.title}</div>
                       <div style={{ color: C.white, fontWeight: 600, fontSize: 14.5 }}>{info.val}</div>
@@ -1484,7 +1486,7 @@ export default function ThermaProPage() {
                             }} />
                             Envoi en cours…
                           </>
-                        ) : '🔥 Demander mon devis gratuit'}
+                        ) : 'Demander mon devis gratuit'}
                       </button>
 
                       <p style={{ color: C.textMuted, fontSize: 11.5, textAlign: 'center', lineHeight: 1.6 }}>
@@ -1515,8 +1517,8 @@ export default function ThermaProPage() {
                 <div style={{
                   width: 38, height: 38, borderRadius: 10,
                   background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20,
-                }}>🔥</div>
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}><Flame style={{ width: 20, height: 20 }} /></div>
                 <div>
                   <div style={{
                     fontFamily: "'Barlow Condensed', sans-serif",
@@ -1537,7 +1539,7 @@ export default function ThermaProPage() {
                 padding: '11px 18px', borderRadius: 50,
                 fontSize: 13.5, fontWeight: 700,
                 boxShadow: `0 4px 18px ${C.accent}44`,
-              }}>📞 04 78 00 00 00 — 24h/7j</a>
+              }}>04 78 00 00 00 — 24h/7j</a>
             </div>
 
             {/* Services */}
@@ -1596,7 +1598,7 @@ export default function ThermaProPage() {
               © 2024 Therma Pro SAS · SIRET 123 456 789 00012 · RGE n° E-E200050
             </div>
             <div className="footer-badges" style={{ display: 'flex', gap: '0.75rem' }}>
-              {['🏅 RGE Certifié', '⭐ 4.9/5 Google', '🛡️ Garantie 5 ans'].map(badge => (
+              {['RGE Certifié', '4.9/5 Google', 'Garantie 5 ans'].map(badge => (
                 <span key={badge} style={{
                   color: C.textMuted, fontSize: 12,
                   background: C.bgCard, border: `1px solid ${C.border}`,

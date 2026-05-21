@@ -199,7 +199,7 @@ function AnimatedTooth() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 2.3, duration: 0.5 }}
       >
-        ⭐ 4.9 / 5 — 1 200+ avis
+        4.9 / 5 — 1 200+ avis
       </motion.div>
     </motion.div>
   );

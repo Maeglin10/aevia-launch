@@ -3,7 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { ArrowRight, Zap, Palette, Rocket, CheckCircle2, Sparkles, ExternalLink } from "lucide-react";
+import { ArrowRight, Zap, Palette, Rocket, CheckCircle2, Sparkles, ExternalLink, Search } from "lucide-react";
+
+const METRIC_ICONS = [Zap, Sparkles, Search] as const;
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
 import { useLang } from "@/lib/LangContext";
 import { AeviaHeader } from "@/components/AeviaHeader";
@@ -19,7 +21,7 @@ const HERO_T = {
     cta1: "Créer mon site",
     cta2: "Voir les thèmes",
     free: "Aperçu gratuit · sans carte bancaire",
-    metrics: ["Live en 2h ⚡", "IA rédige ✦", "SEO optimisé 🔍"],
+    metrics: ["Live en 2h", "IA rédige", "SEO optimisé"],
     how: "Comment ça marche",
     choose: "Quel type de site ?",
     chooseSub: "Choisissez votre catégorie — on a le thème parfait pour vous.",
@@ -40,7 +42,7 @@ const HERO_T = {
     cta1: "Build my site",
     cta2: "Browse themes",
     free: "Free preview · no credit card required",
-    metrics: ["Live in 2h ⚡", "AI-written ✦", "SEO optimised 🔍"],
+    metrics: ["Live in 2h", "AI-written", "SEO optimised"],
     how: "How it works",
     choose: "What type of site?",
     chooseSub: "Choose your category — we have the perfect theme for you.",
@@ -61,7 +63,7 @@ const HERO_T = {
     cta1: "Crear mi sitio",
     cta2: "Ver temas",
     free: "Vista previa gratis · sin tarjeta",
-    metrics: ["Online en 2h ⚡", "IA-escribe ✦", "SEO optimizado 🔍"],
+    metrics: ["Online en 2h", "IA-escribe", "SEO optimizado"],
     how: "Cómo funciona",
     choose: "¿Qué tipo de sitio?",
     chooseSub: "Elige tu categoría — tenemos el tema perfecto para ti.",
@@ -82,7 +84,7 @@ const HERO_T = {
     cta1: "Meine Website erstellen",
     cta2: "Themes ansehen",
     free: "Kostenlose Vorschau · keine Kreditkarte",
-    metrics: ["Online in 2h ⚡", "KI-geschrieben ✦", "SEO-optimiert 🔍"],
+    metrics: ["Online in 2h", "KI-geschrieben", "SEO-optimiert"],
     how: "So funktioniert es",
     choose: "Welche Art von Website?",
     chooseSub: "Wähle deine Kategorie — wir haben das perfekte Theme für dich.",
@@ -103,7 +105,7 @@ const HERO_T = {
     cta1: "Criar o meu site",
     cta2: "Ver temas",
     free: "Pré-visualização grátis · sem cartão",
-    metrics: ["Online em 2h ⚡", "IA-escrito ✦", "SEO otimizado 🔍"],
+    metrics: ["Online em 2h", "IA-escrito", "SEO otimizado"],
     how: "Como funciona",
     choose: "Que tipo de site?",
     chooseSub: "Escolha a sua categoria — temos o tema perfeito para si.",
@@ -284,7 +286,7 @@ function TypeCard({ cat, index }: { cat: typeof TYPE_CATS[0]; index: number }) {
               className="absolute inset-0 flex items-center justify-center"
               style={{ background: `linear-gradient(135deg, ${cat.color}20, transparent)` }}
             >
-              <span className="text-4xl opacity-30">✦</span>
+              <Sparkles className="w-10 h-10 text-white opacity-30" />
             </div>
           )}
           {/* Overlay on hover */}
@@ -496,18 +498,22 @@ function HeroSection() {
               </div>
             </motion.div>
 
-            {floatingCards.map((card, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.75, x: 10 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
-                transition={{ duration: 0.45, delay: card.delay }}
-                className="absolute flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-900/95 border border-white/10 backdrop-blur-md shadow-xl text-xs font-semibold text-white whitespace-nowrap"
-                style={card.style}
-              >
-                {card.label}
-              </motion.div>
-            ))}
+            {floatingCards.map((card, i) => {
+              const MetricIcon = METRIC_ICONS[i];
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.75, x: 10 }}
+                  animate={{ opacity: 1, scale: 1, x: 0 }}
+                  transition={{ duration: 0.45, delay: card.delay }}
+                  className="absolute flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-900/95 border border-white/10 backdrop-blur-md shadow-xl text-xs font-semibold text-white whitespace-nowrap"
+                  style={card.style}
+                >
+                  <MetricIcon className="w-3.5 h-3.5 text-violet-400" />
+                  {card.label}
+                </motion.div>
+              );
+            })}
           </motion.div>
         </div>
 
