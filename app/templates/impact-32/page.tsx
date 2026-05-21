@@ -22,6 +22,7 @@ import {
   Stethoscope,
   Syringe,
 } from "lucide-react";
+import { TemplateIcon } from '@/components/TemplateIcon';
 
 // ─── Design Tokens ─────────────────────────────────────────────────────────────
 const C = {
@@ -127,7 +128,7 @@ function AnimatedPaw() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 1.6, duration: 0.5 }}
       >
-        ⭐ 4.8 / 5 — 2 400+ avis
+        4.8 / 5 — 2 400+ avis
       </motion.div>
     </motion.div>
   );
@@ -259,8 +260,8 @@ function Navbar() {
         }}
       >
         <motion.div style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }} whileHover={{ scale: 1.03 }}>
-          <div style={{ width: 38, height: 38, background: C.accent, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
-            🐾
+          <div style={{ width: 38, height: 38, background: C.accent, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <TemplateIcon emoji="🐾" size={20} color="#fff" />
           </div>
           <span style={{ fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: -0.5 }}>
             Paw<span style={{ color: C.accent }}>Care</span>
@@ -484,7 +485,7 @@ function Stats() {
             transition={{ duration: 0.5, delay: i * 0.1 }}
             style={{ textAlign: "center" }}
           >
-            <div style={{ fontSize: 36, marginBottom: 12 }}>{s.icon}</div>
+            <div style={{ marginBottom: 12 }}><TemplateIcon emoji={s.icon} size={36} /></div>
             <div style={{ fontSize: "clamp(28px, 3vw, 42px)", fontWeight: 900, color: C.white, letterSpacing: -1, marginBottom: 8 }}>{s.value}</div>
             <div style={{ color: "rgba(255,255,255,0.68)", fontSize: 15 }}>{s.label}</div>
           </motion.div>
@@ -658,7 +659,7 @@ function Pricing() {
                 </div>
               </>
             )}
-            <div style={{ fontSize: 28, marginBottom: 14 }}>{p.emoji}</div>
+            <div style={{ marginBottom: 14 }}><TemplateIcon emoji={p.emoji} size={28} /></div>
             <h3 style={{ fontSize: 22, fontWeight: 800, color: p.highlight ? C.white : C.text, marginBottom: 8 }}>{p.name}</h3>
             <p style={{ fontSize: 14, color: p.highlight ? "rgba(255,255,255,0.6)" : C.textMuted, marginBottom: 24, lineHeight: 1.55 }}>{p.desc}</p>
             <div style={{ marginBottom: 28 }}>
@@ -751,7 +752,7 @@ function Footer() {
       <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 48, marginBottom: 52 }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
-            <div style={{ width: 38, height: 38, background: C.accent, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>🐾</div>
+            <div style={{ width: 38, height: 38, background: C.accent, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center" }}><TemplateIcon emoji="🐾" size={20} color="#fff" /></div>
             <span style={{ fontWeight: 800, fontSize: 20 }}>PawCare Clinic</span>
           </div>
           <p style={{ color: "rgba(255,255,255,0.58)", fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
