@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
+import { TemplateIcon } from '@/components/TemplateIcon';
 
 // ─── Design tokens ───────────────────────────────────────────────────────────
 const C = {
@@ -633,12 +634,11 @@ function FeatureCard({ item, index }: { item: (typeof FEATURES)[0]; index: numbe
       >
         <div
           style={{
-            fontSize: 28,
             marginBottom: 16,
             lineHeight: 1,
           }}
         >
-          {item.icon}
+          <TemplateIcon emoji={item.icon} size={28} />
         </div>
         <div
           style={{

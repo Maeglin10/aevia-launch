@@ -10,6 +10,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
+import { TemplateIcon } from '@/components/TemplateIcon';
 
 /* ==========================================================================
    DESIGN TOKENS
@@ -1536,7 +1537,7 @@ export default function WineryTemplate() {
                     padding: "40px 32px",
                   }}
                 >
-                  <div style={{ fontSize: 32, marginBottom: 20 }}>{exp.icon}</div>
+                  <div style={{ marginBottom: 20 }}><TemplateIcon emoji={exp.icon} size={32} /></div>
                   <h3
                     style={{
                       fontFamily: C.fontSerif,

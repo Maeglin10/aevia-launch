@@ -9,6 +9,7 @@ import {
   useSpring,
   AnimatePresence,
 } from "framer-motion";
+import { TemplateIcon } from '@/components/TemplateIcon';
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 const C = {
@@ -1910,12 +1911,11 @@ export default function Impact201Page() {
                 >
                   <div
                     style={{
-                      fontSize: 32,
                       marginBottom: 24,
                       lineHeight: 1,
                     }}
                   >
-                    {sf.icon}
+                    <TemplateIcon emoji={sf.icon} size={32} color={C.gold} />
                   </div>
                   <h3
                     style={{
@@ -2174,8 +2174,8 @@ export default function Impact201Page() {
                       borderBottom: `1px solid ${C.border}`,
                     }}
                   >
-                    <span style={{ fontSize: 18, flexShrink: 0 }}>
-                      {info.icon}
+                    <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
+                      <TemplateIcon emoji={info.icon} size={18} color={C.gold} />
                     </span>
                     <div>
                       <div

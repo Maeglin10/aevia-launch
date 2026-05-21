@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { TemplateIcon } from '@/components/TemplateIcon'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -216,7 +217,7 @@ export default function KineticStudio() {
           {PROCESS.map((item, idx) => (
             <AccordionItem key={idx} value={`step-${idx}`} className="border-[#ff5500]/20">
               <AccordionTrigger className="text-white text-lg">
-                <span className="mr-4 text-2xl">{item.icon}</span>
+                <span className="mr-4 flex items-center"><TemplateIcon emoji={item.icon} size={24} color="#ff5500" /></span>
                 {item.step}
               </AccordionTrigger>
               <AccordionContent className="text-white/70">
@@ -395,7 +396,7 @@ export default function KineticStudio() {
           {PROCESS.map((item, idx) => (
             <AccordionItem key={idx} value={`step-${idx}`} className="border-[#ff5500]/20 mb-3">
               <AccordionTrigger className="text-white text-lg hover:text-[#ff5500] transition-colors">
-                <span className="mr-4 text-2xl">{item.icon}</span>
+                <span className="mr-4 flex items-center"><TemplateIcon emoji={item.icon} size={24} color="#ff5500" /></span>
                 <span className="font-light">Phase {idx + 1}: {item.step}</span>
               </AccordionTrigger>
               <AccordionContent className="text-white/70 space-y-2">
