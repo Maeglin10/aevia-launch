@@ -187,7 +187,7 @@ function PetTabs() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.97 }}
           >
-            <span style={{ fontSize: 18 }}>{s.emoji}</span>
+            <TemplateIcon emoji={s.emoji} size={18} />
             {s.label}
           </motion.button>
         ))}

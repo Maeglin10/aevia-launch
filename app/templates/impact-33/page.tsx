@@ -85,7 +85,7 @@ function Marquee() {
               flexShrink: 0,
             }}
           >
-            <span style={{ fontSize: 22 }}>{item.emoji}</span>
+            <TemplateIcon emoji={item.emoji} size={22} />
             <span style={{ fontFamily: FONT_HEADING, fontSize: 15, color: C.text, fontWeight: 600 }}>
               {item.name}
             </span>
@@ -205,11 +205,11 @@ function Hero() {
 
       {/* Large decorative emoji */}
       <motion.div
-        style={{ position: "absolute", right: "8%", top: "50%", transform: "translateY(-50%)", fontSize: 180, opacity: 0.12, zIndex: 0, userSelect: "none" }}
+        style={{ position: "absolute", right: "8%", top: "50%", transform: "translateY(-50%)", opacity: 0.12, zIndex: 0, userSelect: "none" }}
         animate={{ rotate: [0, 3, 0, -3, 0] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       >
-        🥖
+        <TemplateIcon emoji="🥖" size={180} />
       </motion.div>
 
       {/* Content */}
@@ -356,7 +356,7 @@ function MenuSection() {
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
           >
-            <span style={{ fontSize: 18 }}>{cat.emoji}</span>
+            <TemplateIcon emoji={cat.emoji} size={18} />
             {cat.name}
           </motion.button>
         ))}
@@ -442,14 +442,13 @@ function Story() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: 60,
                 border: `1px solid ${C.border}`,
               }}
               whileHover={{ scale: 1.05, y: -4 }}
               animate={{ y: [0, -5, 0] }}
               transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
             >
-              {emoji}
+              <TemplateIcon emoji={emoji} size={60} />
             </motion.div>
           ))}
         </motion.div>
