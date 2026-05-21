@@ -77,8 +77,7 @@ export default async function OrderPage({ searchParams }: PageProps) {
   // Build configure back-link with existing params preserved
   const configureHref = `/configure?type=${encodeURIComponent(siteType)}&name=${encodeURIComponent(name)}&theme=${encodeURIComponent(theme)}`;
 
-  // Checkout link — wire Stripe later
-  const checkoutHref = `/checkout?type=${encodeURIComponent(siteType)}&name=${encodeURIComponent(name)}&theme=${encodeURIComponent(theme)}&maintenance=${maintenance ? "1" : "0"}`;
+  const checkoutHref = `/onboarding?type=${encodeURIComponent(siteType)}&name=${encodeURIComponent(name)}&theme=${encodeURIComponent(theme)}&maintenance=${maintenance ? "1" : "0"}`;
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white flex flex-col items-center justify-center px-4 py-16">
@@ -158,7 +157,7 @@ export default async function OrderPage({ searchParams }: PageProps) {
             href={checkoutHref}
             className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-base transition-colors shadow-lg shadow-violet-900/30"
           >
-            Payer et lancer mon site
+            Personnaliser et commander
             <ArrowRight className="w-5 h-5" />
           </Link>
           <p className="text-center text-zinc-500 text-xs mt-3">

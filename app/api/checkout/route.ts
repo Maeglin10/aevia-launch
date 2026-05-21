@@ -69,13 +69,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const body = await req.json();
-    const { type, name, theme, maintenance } = body as {
+    const body = await req.json() as {
       type?: string;
       name?: string;
       theme?: string;
       maintenance?: string | number | boolean;
+      brief?: Record<string, unknown>;
     };
+    const { type, name, theme, maintenance, brief } = body;
 
     // Validate required fields
     const siteType = (typeof type === "string" && type) ? type : "landing";
@@ -140,6 +141,21 @@ export async function POST(req: NextRequest) {
         name: siteName,
         theme: siteTheme,
         maintenance: withMaintenance ? "1" : "0",
+        // Brief fields — truncated to fit Stripe's 500-char limit per key
+        ...(brief ? {
+          company:    String(brief.company    ?? "").slice(0, 200),
+          industry:   String(brief.industry   ?? "").slice(0, 100),
+          tagline:    String(brief.tagline    ?? "").slice(0, 200),
+          colors:     `${String(brief.colorPrimary ?? "")} / ${String(brief.colorSecondary ?? "")}`,
+          description: String(brief.description ?? "").slice(0, 400),
+          logo_url:   String(brief.logoUrl    ?? "").slice(0, 400),
+          photos:     (Array.isArray(brief.photoUrls) ? (brief.photoUrls as string[]).join(",") : "").slice(0, 490),
+          services:   JSON.stringify(brief.services ?? []).slice(0, 490),
+          about:      String(brief.about      ?? "").slice(0, 400),
+          contact:    `${String(brief.phone ?? "")} | ${String(brief.email ?? "")} | ${String(brief.address ?? "")}`.slice(0, 400),
+          socials:    `IG:${String(brief.instagram ?? "")} LI:${String(brief.linkedin ?? "")} WEB:${String(brief.website ?? "")}`.slice(0, 400),
+          notes:      String(brief.notes      ?? "").slice(0, 400),
+        } : {}),
       },
       // Surface billing address collection for proper invoicing
       billing_address_collection: "auto",
