@@ -60,6 +60,32 @@ function escapeHtml(str: string): string {
 }
 
 
+interface BriefMeta {
+  company?: string;
+  industry?: string;
+  tagline?: string;
+  colors?: string;
+  description?: string;
+  logo_url?: string;
+  photos?: string;
+  services?: string;
+  about?: string;
+  contact?: string;
+  socials?: string;
+  notes?: string;
+}
+
+function briefRow(label: string, value: string | undefined): string {
+  if (!value) return "";
+  return `
+    <tr>
+      <td colspan="2" style="padding:8px 0;border-bottom:1px solid #27272a;">
+        <p style="margin:0 0 3px;font-size:11px;color:#71717a;text-transform:uppercase;letter-spacing:1px;">${label}</p>
+        <p style="margin:0;font-size:13px;color:#d4d4d8;word-break:break-word;">${escapeHtml(value)}</p>
+      </td>
+    </tr>`;
+}
+
 function orderEmailHtml(params: {
   name: string;
   type: string;
@@ -68,8 +94,9 @@ function orderEmailHtml(params: {
   total: number; // euros
   date: string;
   sessionId: string;
+  brief?: BriefMeta;
 }): string {
-  const { name, typeLabel, maintenance, total, date, sessionId } = params;
+  const { name, typeLabel, maintenance, total, date, sessionId, brief } = params;
   const basePrice = SITE_PRICES[params.type] ?? total;
   const maintenancePrice = 59;
 
@@ -176,6 +203,42 @@ function orderEmailHtml(params: {
                 Action requise : démarrer la création et contacter le client sous 2 heures.
               </p>
 
+              ${brief && Object.values(brief).some(Boolean) ? `
+              <!-- Brief client -->
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:28px;border-top:1px solid #3f3f46;padding-top:20px;">
+                <tr>
+                  <td colspan="2" style="padding-bottom:12px;">
+                    <h2 style="margin:0;font-size:14px;font-weight:700;color:#ffffff;letter-spacing:0.5px;">Brief client</h2>
+                  </td>
+                </tr>
+                ${briefRow("Entreprise", brief.company)}
+                ${briefRow("Secteur", brief.industry)}
+                ${briefRow("Accroche / Tagline", brief.tagline)}
+                ${briefRow("Couleurs", brief.colors)}
+                ${briefRow("Description", brief.description)}
+                ${briefRow("À propos", brief.about)}
+                ${briefRow("Services", brief.services)}
+                ${briefRow("Contact", brief.contact)}
+                ${briefRow("Réseaux sociaux", brief.socials)}
+                ${brief.logo_url ? `
+                <tr>
+                  <td colspan="2" style="padding:8px 0;border-bottom:1px solid #27272a;">
+                    <p style="margin:0 0 3px;font-size:11px;color:#71717a;text-transform:uppercase;letter-spacing:1px;">Logo</p>
+                    <a href="${escapeHtml(brief.logo_url)}" style="font-size:13px;color:#7c3aed;word-break:break-all;">Voir le logo</a>
+                  </td>
+                </tr>` : ""}
+                ${brief.photos ? `
+                <tr>
+                  <td colspan="2" style="padding:8px 0;border-bottom:1px solid #27272a;">
+                    <p style="margin:0 0 6px;font-size:11px;color:#71717a;text-transform:uppercase;letter-spacing:1px;">Photos</p>
+                    ${brief.photos.split(",").filter(Boolean).map((url, i) =>
+                      `<a href="${escapeHtml(url.trim())}" style="display:inline-block;margin:0 6px 6px 0;font-size:12px;color:#7c3aed;">Photo ${i + 1}</a>`
+                    ).join("")}
+                  </td>
+                </tr>` : ""}
+                ${briefRow("Notes", brief.notes)}
+              </table>` : ""}
+
             </td>
           </tr>
 
@@ -255,6 +318,21 @@ export async function POST(req: NextRequest) {
         timeZone: "Europe/Paris",
       });
 
+      const brief: BriefMeta = {
+        company:     meta.company     || undefined,
+        industry:    meta.industry    || undefined,
+        tagline:     meta.tagline     || undefined,
+        colors:      meta.colors      || undefined,
+        description: meta.description || undefined,
+        logo_url:    meta.logo_url    || undefined,
+        photos:      meta.photos      || undefined,
+        services:    meta.services    || undefined,
+        about:       meta.about       || undefined,
+        contact:     meta.contact     || undefined,
+        socials:     meta.socials     || undefined,
+        notes:       meta.notes       || undefined,
+      };
+
       await resend.emails.send({
         from: "onboarding@resend.dev",
         to: "v.milliand@gmail.com",
@@ -267,6 +345,7 @@ export async function POST(req: NextRequest) {
           total: totalEuros,
           date,
           sessionId: session.id,
+          brief,
         }),
       });
 
