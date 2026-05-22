@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams, useRouter } from "next/navigation";
 import { ChevronRight, ChevronLeft, Upload, X, Check, Loader2, Globe, Phone, Mail, MapPin, Plus, Link } from "lucide-react";
@@ -385,7 +385,7 @@ function Step3({ data, onChange }: { data: BriefData; onChange: (d: Partial<Brie
 
 // ─── Main page ─────────────────────────────────────────────────────────────────
 
-export default function OnboardingPage() {
+function OnboardingContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -527,5 +527,13 @@ export default function OnboardingPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function OnboardingPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-zinc-950 flex items-center justify-center"><div className="w-8 h-8 border-2 border-violet-500 border-t-transparent rounded-full animate-spin" /></div>}>
+      <OnboardingContent />
+    </Suspense>
   );
 }
