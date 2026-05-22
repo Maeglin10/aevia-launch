@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession, saveSession, getSessionFromBlob } from "@/lib/sessions";
 
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 // Simple in-memory rate limiter: max 30 session requests per IP per minute

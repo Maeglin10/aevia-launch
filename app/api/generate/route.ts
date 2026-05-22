@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { saveSession, getSession, type FormData, type GeneratedContent } from "@/lib/sessions";
 import { generateMockContent } from "@/lib/mockContent";
 
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 // Simple in-memory rate limiter: max 5 generate requests per IP per minute

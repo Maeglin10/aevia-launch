@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { put } from "@vercel/blob";
 import * as Sentry from "@sentry/nextjs";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 const stripeKey = process.env.STRIPE_SECRET_KEY;
 const stripe = stripeKey ? new Stripe(stripeKey, {
@@ -130,6 +134,23 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    // Persist the full brief in Blob and pass only a briefId in Stripe metadata
+    // (Stripe metadata is capped to ~500 chars per key and 50 keys total, so we
+    // store the brief separately and resolve it from the webhook handler.)
+    const briefId = crypto.randomUUID();
+    if (brief && Object.keys(brief).length > 0) {
+      try {
+        await put(`briefs/${briefId}.json`, JSON.stringify(brief), {
+          access: "public",
+          addRandomSuffix: false,
+          contentType: "application/json",
+        });
+      } catch (err) {
+        console.error("[checkout] brief upload failed", err);
+        Sentry.captureException(err, { tags: { route: "checkout", stage: "brief-upload" } });
+      }
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
@@ -137,28 +158,16 @@ export async function POST(req: NextRequest) {
       success_url: successUrl,
       cancel_url: cancelUrl,
       metadata: {
-        type: siteType,
-        name: siteName,
+        siteName,
+        siteType,
         theme: siteTheme,
         maintenance: withMaintenance ? "1" : "0",
-        // Brief fields — truncated to fit Stripe's 500-char limit per key
-        ...(brief ? {
-          company:    String(brief.company    ?? "").slice(0, 200),
-          industry:   String(brief.industry   ?? "").slice(0, 100),
-          tagline:    String(brief.tagline    ?? "").slice(0, 200),
-          colors:     `${String(brief.colorPrimary ?? "")} / ${String(brief.colorSecondary ?? "")}`,
-          description: String(brief.description ?? "").slice(0, 400),
-          logo_url:   String(brief.logoUrl    ?? "").slice(0, 400),
-          photos:     (Array.isArray(brief.photoUrls) ? (brief.photoUrls as string[]).join(",") : "").slice(0, 490),
-          services:   JSON.stringify(brief.services ?? []).slice(0, 490),
-          about:      String(brief.about      ?? "").slice(0, 400),
-          contact:    `${String(brief.phone ?? "")} | ${String(brief.email ?? "")} | ${String(brief.address ?? "")}`.slice(0, 400),
-          socials:    `IG:${String(brief.instagram ?? "")} LI:${String(brief.linkedin ?? "")} WEB:${String(brief.website ?? "")}`.slice(0, 400),
-          notes:      String(brief.notes      ?? "").slice(0, 400),
-        } : {}),
+        briefId,
       },
-      // Surface billing address collection for proper invoicing
+      // Force Stripe to collect customer email (even though Checkout collects by default in payment mode)
+      customer_email: undefined, // let Stripe collect it
       billing_address_collection: "auto",
+      // customer_creation: "always", // only valid for `mode: "subscription"` - skip
       // Allow promotion codes
       allow_promotion_codes: true,
     });

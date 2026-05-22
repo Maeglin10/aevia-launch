@@ -66,17 +66,15 @@ export function updateSession(id: string, updates: Partial<SessionData>) {
 }
 
 // Blob persistence (survives restarts)
+// Throws on failure — callers MUST handle the error and avoid sending the
+// client a preview link that points to a missing session.
 export async function saveSessionToBlob(id: string, data: SessionData): Promise<void> {
-  try {
-    await put(`sessions/${id}.json`, JSON.stringify(data), {
-      access: "public",
-      addRandomSuffix: false,
-      contentType: "application/json",
-    });
-    sessions.set(id, data); // warm the in-memory cache
-  } catch (err) {
-    console.error("[sessions] Blob save failed:", err);
-  }
+  await put(`sessions/${id}.json`, JSON.stringify(data), {
+    access: "public",
+    addRandomSuffix: false,
+    contentType: "application/json",
+  });
+  sessions.set(id, data); // warm the in-memory cache
 }
 
 export async function getSessionFromBlob(id: string): Promise<SessionData | null> {

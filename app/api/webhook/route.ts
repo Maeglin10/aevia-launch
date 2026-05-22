@@ -1,9 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { Resend } from "resend";
+import { put } from "@vercel/blob";
 import * as Sentry from "@sentry/nextjs";
 import { saveSessionToBlob, type FormData as SiteFormData, type GeneratedContent } from "@/lib/sessions";
 import { generateMockContent } from "@/lib/mockContent";
+
+// IMPORTANT: configure RESEND_FROM_EMAIL with a verified domain (e.g., noreply@aevia.io)
+export const runtime = "nodejs";
+export const maxDuration = 60;
+export const dynamic = "force-dynamic";
 
 // ─── Clients ───────────────────────────────────────────────────────────────────
 
@@ -303,6 +309,31 @@ function orderEmailHtml(params: {
 </html>`;
 }
 
+// ─── Idempotency reservation via Blob ──────────────────────────────────────────
+
+/**
+ * Reserve a Stripe event ID by writing a marker blob. Returns false if the event
+ * was already processed (duplicate webhook delivery), true otherwise. Fails open
+ * if the Blob store is unreachable so valid events are never silently dropped.
+ */
+async function tryReserveEvent(eventId: string): Promise<boolean> {
+  const key = `events/${eventId}.json`;
+  try {
+    const { list } = await import("@vercel/blob");
+    const { blobs } = await list({ prefix: key, limit: 1 });
+    if (blobs.length > 0) return false; // already processed
+    await put(key, JSON.stringify({ processedAt: new Date().toISOString() }), {
+      access: "public",
+      addRandomSuffix: false,
+      contentType: "application/json",
+    });
+    return true;
+  } catch (err) {
+    console.error("[webhook] reserve failed", err);
+    return true; // fail-open to avoid blocking valid events
+  }
+}
+
 // ─── Webhook handler ───────────────────────────────────────────────────────────
 
 export async function POST(req: NextRequest) {
@@ -335,7 +366,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
-  // 3. Acknowledge receipt fast — Stripe expects 2xx within 30 s.
+  // 3. Idempotency — Stripe may retry deliveries (up to 3 days). Reserve the
+  //    event id in Blob before processing so duplicates short-circuit here.
+  const reserved = await tryReserveEvent(event.id);
+  if (!reserved) {
+    console.log(`[webhook] Skipping duplicate event ${event.id}`);
+    return NextResponse.json({ received: true, duplicate: true });
+  }
+
+  // 4. Acknowledge receipt fast — Stripe expects 2xx within 30 s.
   //    We process synchronously here (no queue) but keep it lightweight.
   //    For high-volume, move heavy work to a background job.
 
@@ -344,10 +383,26 @@ export async function POST(req: NextRequest) {
       const session = event.data.object as Stripe.Checkout.Session;
 
       const meta = session.metadata ?? {};
-      const siteType   = meta.type       ?? "landing";
-      const siteName   = meta.name       ?? "Votre site";
+      const siteType   = meta.siteType   ?? meta.type ?? "landing";
+      const siteName   = meta.siteName   ?? meta.name ?? "Votre site";
       const withMaint  = meta.maintenance === "1";
       const typeLabel  = SITE_LABELS[siteType] ?? siteType;
+
+      // ── Resolve the full brief from Blob (we only store a briefId in Stripe metadata) ──
+      const briefId = meta.briefId;
+      let brief: BriefMeta = {};
+      if (briefId) {
+        try {
+          const { list } = await import("@vercel/blob");
+          const { blobs } = await list({ prefix: `briefs/${briefId}.json`, limit: 1 });
+          if (blobs.length > 0) {
+            const res = await fetch(blobs[0].url);
+            if (res.ok) brief = await res.json() as BriefMeta;
+          }
+        } catch (err) {
+          console.error("[webhook] brief fetch failed", err);
+        }
+      }
 
       // Re-derive total from Stripe's authoritative amount (server-side validation)
       const totalCents = session.amount_total ?? 0;
@@ -362,43 +417,67 @@ export async function POST(req: NextRequest) {
         timeZone: "Europe/Paris",
       });
 
-      const brief: BriefMeta = {
-        company:     meta.company     || undefined,
-        industry:    meta.industry    || undefined,
-        tagline:     meta.tagline     || undefined,
-        colors:      meta.colors      || undefined,
-        description: meta.description || undefined,
-        logo_url:    meta.logo_url    || undefined,
-        photos:      meta.photos      || undefined,
-        services:    meta.services    || undefined,
-        about:       meta.about       || undefined,
-        contact:     meta.contact     || undefined,
-        socials:     meta.socials     || undefined,
-        notes:       meta.notes       || undefined,
+      // The brief from Blob is the raw onboarding payload (BriefData shape with
+      // colorPrimary/colorSecondary/phone/email/etc as separate fields). We
+      // normalise both shapes here so legacy events still work.
+      const rawBrief = brief as BriefMeta & Record<string, unknown>;
+      const briefCompany     = (rawBrief.company     as string | undefined) || undefined;
+      const briefIndustry    = (rawBrief.industry    as string | undefined) || undefined;
+      const briefTagline     = (rawBrief.tagline     as string | undefined) || undefined;
+      const briefDescription = (rawBrief.description as string | undefined) || undefined;
+      const briefAbout       = (rawBrief.about       as string | undefined) || undefined;
+      const briefNotes       = (rawBrief.notes       as string | undefined) || undefined;
+      const briefLogoUrl     = (rawBrief.logo_url    as string | undefined) || (rawBrief.logoUrl as string | undefined) || undefined;
+      const briefPhotoUrlsArr = Array.isArray(rawBrief.photoUrls)
+        ? (rawBrief.photoUrls as string[])
+        : ((rawBrief.photos as string | undefined)?.split(",").map(u => u.trim()).filter(Boolean) ?? []);
+      const briefColors = (rawBrief.colors as string | undefined)
+        ?? `${String(rawBrief.colorPrimary ?? "")} / ${String(rawBrief.colorSecondary ?? "")}`;
+      const briefContact = (rawBrief.contact as string | undefined)
+        ?? `${String(rawBrief.phone ?? "")} | ${String(rawBrief.email ?? "")} | ${String(rawBrief.address ?? "")}`;
+      const briefSocials = (rawBrief.socials as string | undefined)
+        ?? `IG:${String(rawBrief.instagram ?? "")} LI:${String(rawBrief.linkedin ?? "")} WEB:${String(rawBrief.website ?? "")}`;
+      const briefServicesStr = typeof rawBrief.services === "string"
+        ? rawBrief.services
+        : JSON.stringify(rawBrief.services ?? []);
+
+      // Repopulate the structured brief used for the order email
+      brief = {
+        company:     briefCompany,
+        industry:    briefIndustry,
+        tagline:     briefTagline,
+        colors:      briefColors,
+        description: briefDescription,
+        logo_url:    briefLogoUrl,
+        photos:      briefPhotoUrlsArr.join(","),
+        services:    briefServicesStr,
+        about:       briefAbout,
+        contact:     briefContact,
+        socials:     briefSocials,
+        notes:       briefNotes,
       };
 
       // ── Generate personalized site from brief ────────────────────────────────
-      const primaryColor = brief.colors?.split("/")[0]?.trim() || "#7c3aed";
-      const [phone = "", email = ""] = (brief.contact ?? "").split("|").map(s => s.trim());
-      const igMatch = (brief.socials ?? "").match(/IG:([^\s]+)/);
-      const liMatch = (brief.socials ?? "").match(/LI:([^\s]+)/);
-      const photoUrls = brief.photos?.split(",").map(u => u.trim()).filter(Boolean) ?? [];
+      const primaryColor = briefColors.split("/")[0]?.trim() || "#7c3aed";
+      const [phone = "", email = ""] = briefContact.split("|").map(s => s.trim());
+      const igMatch = briefSocials.match(/IG:([^\s]+)/);
+      const liMatch = briefSocials.match(/LI:([^\s]+)/);
 
       const formData: SiteFormData = {
-        businessName:   brief.company   ?? siteName,
+        businessName:   briefCompany   ?? siteName,
         businessType:   siteType,
-        tagline:        brief.tagline   ?? "",
+        tagline:        briefTagline   ?? "",
         city:           "",
-        mainService:    brief.description ?? "",
+        mainService:    briefDescription ?? "",
         benefits:       ["", "", ""],
         priceRange:     "",
-        targetAudience: brief.about     ?? "",
+        targetAudience: briefAbout     ?? "",
         brandColor:     primaryColor,
         tone:           "professional",
         template:       meta.theme      ?? siteType,
-        heroImageUrl:   photoUrls[0]    ?? undefined,
-        logoUrl:        brief.logo_url  ?? undefined,
-        photoUrls:      photoUrls,
+        heroImageUrl:   briefPhotoUrlsArr[0] ?? undefined,
+        logoUrl:        briefLogoUrl   ?? undefined,
+        photoUrls:      briefPhotoUrlsArr,
         email,
         phone:          phone || undefined,
         instagram:      igMatch?.[1]    ?? undefined,
@@ -454,39 +533,68 @@ Retourne uniquement du JSON valide, sans markdown.`;
       }
 
       const previewSessionId = crypto.randomUUID();
-      await saveSessionToBlob(previewSessionId, {
-        id: previewSessionId,
-        formData,
-        generatedContent,
-        createdAt: new Date(),
-      });
-
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://aevia-launch.vercel.app";
       const previewUrl = `${baseUrl}/preview/${previewSessionId}`;
+      const fromAddress = process.env.RESEND_FROM_EMAIL || "Aevia Launch <onboarding@resend.dev>";
+
+      // ── Persist the preview session to Blob — MUST succeed before emailing
+      // the client a preview link (otherwise the link 404s and the client
+      // believes they paid for nothing). On failure, we alert Valentin only.
+      let blobSaveOk = true;
+      try {
+        await saveSessionToBlob(previewSessionId, {
+          id: previewSessionId,
+          formData,
+          generatedContent,
+          createdAt: new Date(),
+        });
+      } catch (err) {
+        blobSaveOk = false;
+        console.error("[webhook] saveSessionToBlob failed:", err);
+        Sentry.captureException(err, { tags: { route: "webhook", stage: "session-save" } });
+        try {
+          await resend.emails.send({
+            from: fromAddress,
+            to: "v.milliand@gmail.com",
+            subject: `🚨 Blob save FAILED — Commande à traiter manuellement (${siteName})`,
+            html: `<p>La sauvegarde Blob de la session preview a échoué pour la commande <strong>${escapeHtml(siteName)}</strong>.</p>
+              <p>Session Stripe : <code>${escapeHtml(session.id)}</code></p>
+              <p>Le client n'a PAS reçu son lien de preview. À traiter manuellement.</p>
+              <p>Erreur : <code>${escapeHtml(String(err))}</code></p>`,
+          });
+        } catch (mailErr) {
+          console.error("[webhook] failed to send urgent alert email:", mailErr);
+          Sentry.captureException(mailErr, { tags: { route: "webhook", stage: "urgent-alert" } });
+        }
+      }
 
       // ── Email to Valentin ────────────────────────────────────────────────────
-      await resend.emails.send({
-        from: "onboarding@resend.dev",
-        to: "v.milliand@gmail.com",
-        subject: `Nouvelle commande — ${siteName}`,
-        html: orderEmailHtml({
-          name: siteName,
-          type: siteType,
-          typeLabel,
-          maintenance: withMaint,
-          total: totalEuros,
-          date,
-          sessionId: session.id,
-          brief,
-          previewUrl,
-        }),
-      });
+      if (blobSaveOk) {
+        await resend.emails.send({
+          from: fromAddress,
+          to: "v.milliand@gmail.com",
+          subject: `Nouvelle commande — ${siteName}`,
+          html: orderEmailHtml({
+            name: siteName,
+            type: siteType,
+            typeLabel,
+            maintenance: withMaint,
+            total: totalEuros,
+            date,
+            sessionId: session.id,
+            brief,
+            previewUrl,
+          }),
+        });
+      }
 
       // ── Email to client ──────────────────────────────────────────────────────
+      // Skip the client email if the blob save failed — sending a dead preview
+      // link to a paying customer is worse than no email at all.
       const clientEmail = session.customer_details?.email ?? email;
-      if (clientEmail) {
+      if (clientEmail && blobSaveOk) {
         await resend.emails.send({
-          from: "onboarding@resend.dev",
+          from: fromAddress,
           to: clientEmail,
           subject: `Votre site est en cours de création — ${siteName}`,
           html: clientEmailHtml({ name: siteName, previewUrl }),

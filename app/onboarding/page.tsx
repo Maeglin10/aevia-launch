@@ -412,8 +412,30 @@ function OnboardingContent() {
   };
 
   const handleSubmit = async () => {
-    setSubmitting(true);
     setError("");
+
+    // ── Pre-submit validation ───────────────────────────────────────────────
+    // We can't recover from a half-formed brief once the customer is on Stripe,
+    // so block the submit here with a clear message rather than letting Stripe
+    // checkout open against an empty payload.
+    if (!data.company.trim()) {
+      setError("Le nom de l'entreprise est requis.");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email.trim())) {
+      setError("Email invalide. Vérifiez l'adresse de contact.");
+      return;
+    }
+    const hasValidService = data.services.some(
+      s => s.name.trim().length > 0 && s.description.trim().length > 0,
+    );
+    if (!hasValidService) {
+      setError("Renseignez au moins un service avec un nom ET une description.");
+      return;
+    }
+
+    setSubmitting(true);
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
