@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { Resend } from "resend";
 import * as Sentry from "@sentry/nextjs";
+import { saveSessionToBlob, type FormData as SiteFormData, type GeneratedContent } from "@/lib/sessions";
+import { generateMockContent } from "@/lib/mockContent";
 
 // ─── Clients ───────────────────────────────────────────────────────────────────
 
@@ -86,6 +88,42 @@ function briefRow(label: string, value: string | undefined): string {
     </tr>`;
 }
 
+function clientEmailHtml({ name, previewUrl }: { name: string; previewUrl: string }): string {
+  const safeName = escapeHtml(name);
+  const safeUrl  = escapeHtml(previewUrl);
+  return `<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"/><title>Votre site — ${safeName}</title></head>
+<body style="margin:0;padding:0;background:#09090b;font-family:'Helvetica Neue',Arial,sans-serif;color:#f4f4f5;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 0;">
+    <tr><td align="center">
+      <table width="520" cellpadding="0" cellspacing="0" style="background:#18181b;border:1px solid #27272a;border-radius:16px;overflow:hidden;">
+        <tr><td style="background:linear-gradient(135deg,rgba(109,40,217,0.25),#18181b);padding:32px 36px;border-bottom:1px solid #27272a;">
+          <p style="margin:0 0 6px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#a1a1aa;font-weight:600;">AeviaLaunch</p>
+          <h1 style="margin:0;font-size:20px;font-weight:700;color:#ffffff;">Votre site est en préparation ✨</h1>
+        </td></tr>
+        <tr><td style="padding:28px 36px;">
+          <p style="margin:0 0 20px;font-size:14px;color:#a1a1aa;line-height:1.7;">
+            Merci pour votre commande ! Nous avons généré un aperçu personnalisé de <strong style="color:#fff;">${safeName}</strong> basé sur vos informations.
+          </p>
+          <p style="margin:0 0 28px;font-size:14px;color:#a1a1aa;line-height:1.7;">
+            Notre équipe finalise votre site et vous contacte sous <strong style="color:#fff;">2 heures</strong>. En attendant, découvrez votre aperçu :
+          </p>
+          <a href="${safeUrl}" style="display:inline-block;padding:14px 28px;background:#7c3aed;color:#fff;font-weight:700;font-size:14px;border-radius:10px;text-decoration:none;">
+            Voir mon aperçu →
+          </a>
+          <p style="margin:24px 0 0;font-size:12px;color:#52525b;">
+            Ou copiez ce lien : <span style="color:#7c3aed;">${safeUrl}</span>
+          </p>
+        </td></tr>
+        <tr><td style="padding:16px 36px;border-top:1px solid #27272a;background:#0f0f12;">
+          <p style="margin:0;font-size:11px;color:#52525b;text-align:center;">AeviaLaunch · Paiement traité par Stripe</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body></html>`;
+}
+
 function orderEmailHtml(params: {
   name: string;
   type: string;
@@ -95,8 +133,9 @@ function orderEmailHtml(params: {
   date: string;
   sessionId: string;
   brief?: BriefMeta;
+  previewUrl?: string;
 }): string {
-  const { name, typeLabel, maintenance, total, date, sessionId, brief } = params;
+  const { name, typeLabel, maintenance, total, date, sessionId, brief, previewUrl } = params;
   const basePrice = SITE_PRICES[params.type] ?? total;
   const maintenancePrice = 59;
 
@@ -199,9 +238,14 @@ function orderEmailHtml(params: {
                 </tr>
               </table>
 
-              <p style="margin:0;font-size:13px;color:#71717a;line-height:1.6;">
+              <p style="margin:0 0 16px;font-size:13px;color:#71717a;line-height:1.6;">
                 Action requise : démarrer la création et contacter le client sous 2 heures.
               </p>
+
+              ${previewUrl ? `
+              <a href="${escapeHtml(previewUrl)}" style="display:inline-block;padding:12px 24px;background:#7c3aed;color:#fff;font-weight:700;font-size:13px;border-radius:8px;text-decoration:none;margin-bottom:8px;">
+                Voir l'aperçu généré →
+              </a>` : ""}
 
               ${brief && Object.values(brief).some(Boolean) ? `
               <!-- Brief client -->
@@ -333,6 +377,94 @@ export async function POST(req: NextRequest) {
         notes:       meta.notes       || undefined,
       };
 
+      // ── Generate personalized site from brief ────────────────────────────────
+      const primaryColor = brief.colors?.split("/")[0]?.trim() || "#7c3aed";
+      const [phone = "", email = ""] = (brief.contact ?? "").split("|").map(s => s.trim());
+      const igMatch = (brief.socials ?? "").match(/IG:([^\s]+)/);
+      const liMatch = (brief.socials ?? "").match(/LI:([^\s]+)/);
+      const photoUrls = brief.photos?.split(",").map(u => u.trim()).filter(Boolean) ?? [];
+
+      const formData: SiteFormData = {
+        businessName:   brief.company   ?? siteName,
+        businessType:   siteType,
+        tagline:        brief.tagline   ?? "",
+        city:           "",
+        mainService:    brief.description ?? "",
+        benefits:       ["", "", ""],
+        priceRange:     "",
+        targetAudience: brief.about     ?? "",
+        brandColor:     primaryColor,
+        tone:           "professional",
+        template:       meta.theme      ?? siteType,
+        heroImageUrl:   photoUrls[0]    ?? undefined,
+        logoUrl:        brief.logo_url  ?? undefined,
+        photoUrls:      photoUrls,
+        email,
+        phone:          phone || undefined,
+        instagram:      igMatch?.[1]    ?? undefined,
+        linkedin:       liMatch?.[1]    ?? undefined,
+      };
+
+      let generatedContent: GeneratedContent;
+      const apiKey = process.env.ANTHROPIC_API_KEY;
+      if (apiKey) {
+        try {
+          const Anthropic = (await import("@anthropic-ai/sdk")).default;
+          const client = new Anthropic({ apiKey });
+          const services = (() => {
+            try { return JSON.parse(brief.services ?? "[]") as { name: string; description?: string }[]; }
+            catch { return []; }
+          })();
+          const prompt = `Tu es un copywriter professionnel. Génère le contenu d'un site web en français pour cette entreprise:
+- Nom: ${formData.businessName}
+- Type: ${siteType}
+- Accroche: ${formData.tagline}
+- Description: ${formData.mainService}
+- Services: ${services.map((s: { name: string; description?: string }) => s.name).join(", ")}
+- Cible: ${formData.targetAudience}
+- Secteur: ${brief.industry ?? siteType}
+
+Génère du JSON avec exactement ces champs:
+{
+  "heroHeadline": "...",
+  "heroSubline": "...",
+  "aboutTitle": "...",
+  "aboutText": "...",
+  "services": [{"title":"...","description":"..."},{"title":"...","description":"..."},{"title":"...","description":"..."}],
+  "testimonials": [{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5}],
+  "ctaText": "...",
+  "metaTitle": "...",
+  "metaDescription": "..."
+}
+Retourne uniquement du JSON valide, sans markdown.`;
+
+          const msg = await client.messages.create({
+            model: "claude-haiku-4-5-20251001",
+            max_tokens: 1024,
+            messages: [{ role: "user", content: prompt }],
+          });
+          const text = msg.content[0].type === "text" ? msg.content[0].text : "";
+          generatedContent = JSON.parse(text) as GeneratedContent;
+        } catch (err) {
+          console.error("[webhook] Claude generation failed, using mock:", err);
+          generatedContent = generateMockContent(formData);
+        }
+      } else {
+        generatedContent = generateMockContent(formData);
+      }
+
+      const previewSessionId = crypto.randomUUID();
+      await saveSessionToBlob(previewSessionId, {
+        id: previewSessionId,
+        formData,
+        generatedContent,
+        createdAt: new Date(),
+      });
+
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://aevia-launch.vercel.app";
+      const previewUrl = `${baseUrl}/preview/${previewSessionId}`;
+
+      // ── Email to Valentin ────────────────────────────────────────────────────
       await resend.emails.send({
         from: "onboarding@resend.dev",
         to: "v.milliand@gmail.com",
@@ -346,10 +478,22 @@ export async function POST(req: NextRequest) {
           date,
           sessionId: session.id,
           brief,
+          previewUrl,
         }),
       });
 
-      console.log(`[webhook] Order email sent for session ${session.id} (${siteName})`);
+      // ── Email to client ──────────────────────────────────────────────────────
+      const clientEmail = session.customer_details?.email ?? email;
+      if (clientEmail) {
+        await resend.emails.send({
+          from: "onboarding@resend.dev",
+          to: clientEmail,
+          subject: `Votre site est en cours de création — ${siteName}`,
+          html: clientEmailHtml({ name: siteName, previewUrl }),
+        });
+      }
+
+      console.log(`[webhook] Order processed — preview: ${previewUrl}`);
     }
     // Add handlers for other event types here:
     // payment_intent.payment_failed, charge.dispute.created, etc.

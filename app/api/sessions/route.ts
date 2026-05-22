@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession, saveSession } from "@/lib/sessions";
+import { getSession, saveSession, getSessionFromBlob } from "@/lib/sessions";
 
 export const dynamic = "force-dynamic";
 
@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
   const id = searchParams.get("id");
   if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
 
-  const session = getSession(id);
+  const session = getSession(id) ?? await getSessionFromBlob(id);
   if (!session) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   return NextResponse.json(session);
