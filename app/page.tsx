@@ -9,6 +9,7 @@ const METRIC_ICONS = [Zap, Sparkles, Search] as const;
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
 import { useLang } from "@/lib/LangContext";
 import { AeviaHeader } from "@/components/AeviaHeader";
+import { LegalFooter } from "@/components/LegalFooter";
 
 /* ─── Translations ─────────────────────────────────────────── */
 const HERO_T = {
@@ -666,25 +667,7 @@ export default function HomePage() {
       <StepsSection />
       <ChooseTypeSection />
       <CtaSection />
-      <footer className="border-t border-zinc-800 px-6 py-10">
-        <div className="mx-auto max-w-5xl space-y-4 text-center text-zinc-500 text-sm">
-          <div>
-            © 2026 AeviaLaunch — A product by{" "}
-            <a href="https://aevia.vercel.app" rel="noopener noreferrer" className="hover:text-zinc-300 transition-colors">Aevia</a>
-            {" · "}
-            <Link href="/themes" className="hover:text-zinc-300 transition-colors">Templates</Link>
-            {" · "}
-            <Link href="/pricing" className="hover:text-zinc-300 transition-colors">Tarifs</Link>
-            {" · "}
-            <Link href="/configure" className="hover:text-zinc-300 transition-colors">Créer mon site</Link>
-          </div>
-          <div className="flex items-center justify-center gap-4 text-xs text-zinc-600">
-            <a href="https://aevia.vercel.app/fr/legal/privacy" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition-colors">Politique de confidentialité</a>
-            <a href="https://aevia.vercel.app/fr/legal/terms" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition-colors">CGU</a>
-            <a href="https://aevia.vercel.app/fr/legal/cookies" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition-colors">Cookies</a>
-          </div>
-        </div>
-      </footer>
+      <LegalFooter />
     </div>
   );
 }

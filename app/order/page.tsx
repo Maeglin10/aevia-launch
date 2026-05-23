@@ -7,6 +7,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { Metadata } from "next";
+import { LegalFooter } from "@/components/LegalFooter";
 
 export const metadata: Metadata = {
   title: "Récapitulatif de commande",
@@ -161,10 +162,12 @@ export default async function OrderPage({ searchParams }: PageProps) {
             <ArrowRight className="w-5 h-5" />
           </Link>
           <p className="text-center text-zinc-500 text-xs mt-3">
-            Paiement sécurisé par Stripe · Aucun abonnement caché
+            Paiement sécurisé par Stripe · Aucun abonnement caché ·{" "}
+            <Link href="/legal/cgu" className="underline hover:text-zinc-700">CGV</Link>
           </p>
         </div>
       </div>
+      <LegalFooter variant="light" />
     </main>
   );
 }

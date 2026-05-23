@@ -400,6 +400,7 @@ function OnboardingContent() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [acceptedCgv, setAcceptedCgv] = useState(false);
 
   const update = useCallback((patch: Partial<BriefData>) => {
     setData((d) => ({ ...d, ...patch }));
@@ -408,8 +409,19 @@ function OnboardingContent() {
   const canNext = () => {
     if (step === 0) return data.company.trim().length > 0 && data.industry.length > 0;
     if (step === 1) return true; // visuals are optional
-    return data.services.some(s => s.name.trim().length > 0);
+    if (step === 2) return data.services.some(s => s.name.trim().length > 0) && acceptedCgv;
+    return false;
   };
+
+  // Price recap shown before payment
+  const TYPE_PRICES: Record<string, number> = {
+    essentiel: 599,
+    pro: 899,
+    premium: 1499,
+  };
+  const basePrice = TYPE_PRICES[type] ?? 599;
+  const maintenancePrice = 59;
+  const totalPrice = basePrice + (maint === "1" ? maintenancePrice : 0);
 
   const handleSubmit = async () => {
     setError("");
@@ -513,6 +525,51 @@ function OnboardingContent() {
               {step === 2 && <Step3 data={data} onChange={update} />}
             </motion.div>
           </AnimatePresence>
+
+          {/* Price recap + CGV — only on last step */}
+          {step === STEPS.length - 1 && (
+            <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.02] p-5 space-y-4">
+              <div>
+                <p className="text-xs font-semibold tracking-widest text-violet-400 uppercase mb-3">Récapitulatif</p>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="text-white/60">Site {type ? type.charAt(0).toUpperCase() + type.slice(1) : "Essentiel"}</span>
+                    <span className="text-white font-medium">{basePrice}&nbsp;€</span>
+                  </div>
+                  {maint === "1" && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-white/60">Maintenance (premier mois)</span>
+                      <span className="text-white font-medium">{maintenancePrice}&nbsp;€</span>
+                    </div>
+                  )}
+                  <div className="flex items-center justify-between pt-2 border-t border-white/5">
+                    <span className="text-white font-semibold">Total TTC</span>
+                    <span className="text-white font-bold text-lg">{totalPrice}&nbsp;€</span>
+                  </div>
+                </div>
+              </div>
+
+              <label className="flex items-start gap-3 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={acceptedCgv}
+                  onChange={(e) => setAcceptedCgv(e.target.checked)}
+                  className="mt-0.5 w-4 h-4 rounded border-white/20 bg-white/5 text-violet-500 focus:ring-violet-500 cursor-pointer accent-violet-500"
+                />
+                <span className="text-xs text-white/60 leading-relaxed">
+                  J&apos;accepte les{" "}
+                  <a href="/legal/cgu" target="_blank" rel="noopener noreferrer" className="text-violet-400 underline hover:text-violet-300">
+                    Conditions générales de vente
+                  </a>{" "}
+                  et la{" "}
+                  <a href="/legal/confidentialite" target="_blank" rel="noopener noreferrer" className="text-violet-400 underline hover:text-violet-300">
+                    politique de confidentialité
+                  </a>
+                  . Je confirme que le paiement est définitif après livraison de l&apos;aperçu.
+                </span>
+              </label>
+            </div>
+          )}
 
           {/* Error */}
           {error && (

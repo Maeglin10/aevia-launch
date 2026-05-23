@@ -4,6 +4,7 @@ import { Check, Zap, Star, Crown, MessageSquare } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { AeviaHeader } from "@/components/AeviaHeader";
+import { LegalFooter } from "@/components/LegalFooter";
 import { useLang } from "@/lib/LangContext";
 
 const T = {
@@ -306,6 +307,7 @@ export default function PricingPage() {
           </a>
         </div>
       </main>
+      <LegalFooter />
     </div>
   );
 }
