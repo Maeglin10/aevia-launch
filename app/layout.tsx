@@ -48,7 +48,7 @@ export const metadata: Metadata = {
       "Generate your professional website with AI-powered copywriting. Preview instantly, deployed on Vercel in 2 hours.",
     images: [
       {
-        url: "/og.png",
+        url: "/api/og",
         width: 1200,
         height: 630,
         alt: "AeviaLaunch — AI Website Generator",
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     title: "AeviaLaunch — AI Website Generator, Live in 2 Hours",
     description:
       "Generate your professional website with AI-powered copywriting. Preview instantly, deployed on Vercel in 2 hours.",
-    images: ["/og.png"],
+    images: ["/api/og"],
     creator: "@valentinmilliand",
   },
   robots: {
