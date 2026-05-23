@@ -92,6 +92,17 @@ export async function POST(req: NextRequest) {
     const siteInfo = SITE_PRICES[siteType] ?? SITE_PRICES["landing"];
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
 
+    // In production, refuse to create a checkout session with a localhost
+    // redirect — the customer would pay and land on a dead URL.
+    if (process.env.NODE_ENV === "production" && baseUrl.includes("localhost")) {
+      console.error("[checkout] NEXT_PUBLIC_BASE_URL not set in production");
+      Sentry.captureMessage("NEXT_PUBLIC_BASE_URL missing in production", "error");
+      return NextResponse.json(
+        { error: "Configuration serveur incorrecte. Contactez le support." },
+        { status: 500 },
+      );
+    }
+
     const successUrl =
       `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}` +
       `&name=${encodeURIComponent(siteName)}` +
