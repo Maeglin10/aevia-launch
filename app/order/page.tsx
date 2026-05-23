@@ -59,6 +59,7 @@ interface PageProps {
     theme?: string;
     maintenance?: string;
     color?: string;
+    session?: string;
   }>;
 }
 
@@ -69,6 +70,7 @@ export default async function OrderPage({ searchParams }: PageProps) {
   const name      = params.name  ?? "Votre site";
   const theme     = params.theme ?? siteType;
   const maintenance = params.maintenance === "1";
+  const sessionId = params.session;
 
   const siteInfo  = SITE_PRICES[siteType] ?? SITE_PRICES["landing"];
   const basePrice = siteInfo.price;
@@ -78,7 +80,11 @@ export default async function OrderPage({ searchParams }: PageProps) {
   // Build configure back-link with existing params preserved
   const configureHref = `/configure?type=${encodeURIComponent(siteType)}&name=${encodeURIComponent(name)}&theme=${encodeURIComponent(theme)}`;
 
-  const checkoutHref = `/onboarding?type=${encodeURIComponent(siteType)}&name=${encodeURIComponent(name)}&theme=${encodeURIComponent(theme)}&maintenance=${maintenance ? "1" : "0"}`;
+  // Forward session ID to onboarding so the brief can be pre-filled from
+  // the data already collected during /configure (avoids asking the user
+  // for the business name, services etc. a second time).
+  const sessionParam = sessionId ? `&session=${encodeURIComponent(sessionId)}` : "";
+  const checkoutHref = `/onboarding?type=${encodeURIComponent(siteType)}&name=${encodeURIComponent(name)}&theme=${encodeURIComponent(theme)}&maintenance=${maintenance ? "1" : "0"}${sessionParam}`;
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white flex flex-col items-center justify-center px-4 py-16">

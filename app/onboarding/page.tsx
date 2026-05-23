@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef, Suspense } from "react";
+import { useState, useCallback, useEffect, useRef, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams, useRouter } from "next/navigation";
 import { ChevronRight, ChevronLeft, Upload, X, Check, Loader2, Globe, Phone, Mail, MapPin, Plus, Link } from "lucide-react";
@@ -392,6 +392,7 @@ function OnboardingContent() {
   const type  = searchParams.get("type")  ?? "vitrine";
   const theme = searchParams.get("theme") ?? "";
   const maint = searchParams.get("maintenance") ?? "0";
+  const sessionId = searchParams.get("session");
 
   const [step, setStep] = useState(0);
   const [data, setData] = useState<BriefData>({
@@ -405,6 +406,38 @@ function OnboardingContent() {
   const update = useCallback((patch: Partial<BriefData>) => {
     setData((d) => ({ ...d, ...patch }));
   }, []);
+
+  // If a session ID was passed (from /configure), pre-fill the brief with
+  // what we already collected during the IA preview step.
+  useEffect(() => {
+    if (!sessionId) return;
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetch(`/api/sessions?id=${encodeURIComponent(sessionId)}`);
+        if (!res.ok) return;
+        const json = await res.json() as { formData?: Record<string, unknown> };
+        if (cancelled || !json.formData) return;
+        const f = json.formData;
+        update({
+          company: typeof f.businessName === "string" ? f.businessName : "",
+          industry: typeof f.businessType === "string" ? f.businessType : "",
+          tagline: typeof f.tagline === "string" ? f.tagline : "",
+          description: typeof f.mainService === "string" ? f.mainService : "",
+          colorPrimary: typeof f.brandColor === "string" ? f.brandColor : "#6d28d9",
+          email: typeof f.email === "string" ? f.email : "",
+          phone: typeof f.phone === "string" ? f.phone : "",
+          instagram: typeof f.instagram === "string" ? f.instagram : "",
+          linkedin: typeof f.linkedin === "string" ? f.linkedin : "",
+          logoUrl: typeof f.logoUrl === "string" ? f.logoUrl : "",
+          photoUrls: Array.isArray(f.photoUrls) ? f.photoUrls.filter((u): u is string => typeof u === "string") : [],
+        });
+      } catch {
+        // Fail silent — user can fill the form manually
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [sessionId, update]);
 
   const canNext = () => {
     if (step === 0) return data.company.trim().length > 0 && data.industry.length > 0;
