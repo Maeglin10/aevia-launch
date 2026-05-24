@@ -396,17 +396,6 @@ function HeroSection() {
 
           {/* Left: Text */}
           <div>
-            <motion.div
-              initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/10 ring-1 ring-violet-500/20 text-violet-300 text-xs font-semibold mb-8"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-500" />
-              </span>
-              {t.badge}
-            </motion.div>
-
             <motion.h1
               initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, delay: 0.1 }}
               className="text-5xl sm:text-6xl xl:text-[5.5rem] font-black tracking-tight leading-[1.0] mb-6"
@@ -554,10 +543,6 @@ function ChooseTypeSection() {
           transition={{ duration: 0.55 }}
           className="mb-12"
         >
-          <div className="flex items-center gap-2 mb-4">
-            <Sparkles className="w-4 h-4 text-violet-400" />
-            <span className="text-xs font-bold text-violet-400 uppercase tracking-widest">{t.templatesBadge}</span>
-          </div>
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <h2 className="text-3xl sm:text-4xl font-black text-white mb-2" style={{ letterSpacing: "-0.02em" }}>

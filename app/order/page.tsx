@@ -87,9 +87,9 @@ export default async function OrderPage({ searchParams }: PageProps) {
   const checkoutHref = `/onboarding?type=${encodeURIComponent(siteType)}&name=${encodeURIComponent(name)}&theme=${encodeURIComponent(theme)}&maintenance=${maintenance ? "1" : "0"}${sessionParam}`;
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-white flex flex-col items-center justify-center px-4 py-16">
+    <main className="min-h-screen bg-zinc-950 text-white flex flex-col items-center px-4 pt-16 pb-0">
       {/* Back link */}
-      <div className="w-full max-w-lg mb-6">
+      <div className="w-full max-w-lg mb-6 mt-0">
         <Link
           href={configureHref}
           className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
@@ -173,7 +173,8 @@ export default async function OrderPage({ searchParams }: PageProps) {
           </p>
         </div>
       </div>
-      <LegalFooter variant="light" />
+      <div className="mb-16" />
+      <LegalFooter variant="dark" />
     </main>
   );
 }

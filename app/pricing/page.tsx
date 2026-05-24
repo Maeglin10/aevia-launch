@@ -199,9 +199,6 @@ export default function PricingPage() {
       <main id="main-content" className="pt-28 pb-24 px-4">
         {/* Hero */}
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-300 text-sm font-medium mb-6">
-            {t.badge}
-          </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight mb-4">
             {t.title}{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400">
