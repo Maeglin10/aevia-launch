@@ -84,12 +84,6 @@ export function AeviaHeader() {
         {/* Desktop */}
         <nav className="hidden sm:flex items-center gap-1">
           <Link
-            href="/showcase"
-            className={`px-3 py-1.5 rounded-md text-sm transition-colors ${pathname === "/showcase" ? "text-white bg-white/10" : "text-white/60 hover:text-white hover:bg-white/10"}`}
-          >
-            Sites web
-          </Link>
-          <Link
             href="/themes"
             className={`px-3 py-1.5 rounded-md text-sm transition-colors ${pathname === "/themes" ? "text-white bg-white/10" : "text-white/60 hover:text-white hover:bg-white/10"}`}
           >
@@ -170,7 +164,6 @@ export function AeviaHeader() {
 
       {mobileOpen && (
         <div className="sm:hidden border-t border-white/10 bg-black/90 px-6 py-4 flex flex-col gap-2">
-          <Link href="/showcase" onClick={() => setMobileOpen(false)} className="text-white/70 hover:text-white text-sm py-2">Sites web</Link>
           <Link href="/themes" onClick={() => setMobileOpen(false)} className="text-white/70 hover:text-white text-sm py-2">Templates IA</Link>
           <Link href="/pricing" onClick={() => setMobileOpen(false)} className="text-white/70 hover:text-white text-sm py-2">Tarifs</Link>
           <div className="border-t border-white/10 pt-2 mt-1 flex flex-col gap-2">

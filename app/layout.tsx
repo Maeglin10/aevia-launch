@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import { LangProvider } from "@/lib/LangContext";
 import { CookieBanner } from "@/components/CookieBanner";
@@ -116,15 +115,6 @@ export default function RootLayout({
         <LangProvider>
           {children}
           <CookieBanner />
-          <footer className="border-t border-zinc-800 mt-auto py-8 px-6 text-center text-xs text-zinc-500">
-            <div className="max-w-6xl mx-auto flex flex-wrap justify-center gap-6">
-              <Link href="/legal/mentions-legales" className="hover:text-zinc-300 transition-colors">Mentions légales</Link>
-              <Link href="/legal/cgu" className="hover:text-zinc-300 transition-colors">CGU</Link>
-              <Link href="/legal/confidentialite" className="hover:text-zinc-300 transition-colors">Confidentialité</Link>
-              <Link href="/legal/cookies" className="hover:text-zinc-300 transition-colors">Cookies</Link>
-              <span>© 2026 Aevia — AeviaLaunch</span>
-            </div>
-          </footer>
         </LangProvider>
       </body>
     </html>
