@@ -164,10 +164,19 @@ export async function POST(req: NextRequest) {
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      payment_method_types: ["card"],
+      // payment_method_types omitted → Stripe auto-enables all activated methods
+      // (cards, Apple Pay, Google Pay, Link, SEPA…). Enable each one in
+      // Stripe Dashboard → Settings → Payment methods. Apple Pay and Google Pay
+      // appear automatically on Safari iOS / Chrome Android once domain is verified.
       line_items: lineItems,
       success_url: successUrl,
       cancel_url: cancelUrl,
+      // Required by Stripe to show Apple Pay / Google Pay buttons.
+      payment_method_options: {
+        card: {
+          request_three_d_secure: "automatic",
+        },
+      },
       metadata: {
         siteName,
         siteType,
