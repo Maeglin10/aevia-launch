@@ -197,31 +197,31 @@ function ThumbCard({ item, index }: { item: ThemeItem; index: number }) {
 
           {/* ── Preview area ── */}
           <div className="w-full aspect-video relative overflow-hidden bg-[#050506] border-b border-white/5 shrink-0">
-            {(!thumbLoaded || thumbFailed) && (
-              <div
-                className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center"
-                style={{ background: `linear-gradient(135deg, ${accent}11 0%, #050506 100%)` }}
-              >
-                <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 opacity-20 border border-white/10 group-hover:scale-110 group-hover:opacity-40 transition-all duration-700">
-                  <Sparkles className="w-8 h-8 text-white" />
-                </div>
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 mb-2">{item.category}</span>
-                <h3 className="text-xl font-bold text-white/40 group-hover:text-white transition-colors duration-700 tracking-tighter uppercase">{item.label}</h3>
+            {/* Fallback placeholder: shown until image loads OR if it fails */}
+            <div
+              className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center"
+              style={{ background: `linear-gradient(135deg, ${accent}22 0%, #050506 100%)` }}
+            >
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 opacity-30 border border-white/10 group-hover:scale-110 group-hover:opacity-50 transition-all duration-700">
+                <Sparkles className="w-8 h-8 text-white" />
               </div>
-            )}
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 mb-2">{item.category}</span>
+              <h3 className="text-xl font-bold text-white/60 group-hover:text-white transition-colors duration-700 tracking-tighter uppercase">{item.label}</h3>
+            </div>
 
             {!thumbFailed && (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={thumbSrc}
                 alt={item.label}
-                loading={index < 12 ? "eager" : "lazy"}
-                decoding={index < 12 ? "sync" : "async"}
-                fetchPriority={index < 6 ? "high" : "low"}
-                className={`absolute inset-0 w-full h-full object-cover z-20 ${thumbLoaded ? "opacity-100" : "opacity-0"}`}
+                loading={index < 8 ? "eager" : "lazy"}
+                decoding="async"
+                fetchPriority={index < 6 ? "high" : "auto"}
+                className="absolute inset-0 w-full h-full object-cover z-20 transition-opacity duration-300"
                 style={{
+                  opacity: thumbLoaded ? 1 : 0,
                   objectPosition: hovered ? "center 100%" : "center 0%",
-                  transition: `opacity 500ms, object-position ${hovered ? "4s" : "800ms"} ease-in-out`,
+                  transition: `opacity 400ms, object-position ${hovered ? "4s" : "800ms"} ease-in-out`,
                 }}
                 onLoad={() => setThumbLoaded(true)}
                 onError={() => setThumbFailed(true)}

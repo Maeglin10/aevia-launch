@@ -477,14 +477,14 @@ function HeroSection() {
                 </div>
               </div>
               {/* Live thumbnail preview */}
-              <div className="relative overflow-hidden bg-zinc-900" style={{ height: 260 }}>
+              <div className="relative overflow-hidden bg-zinc-900" style={{ height: 420 }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/thumbnails/impact-01.webp"
-                  alt="Preview"
-                  className="w-full h-full object-cover object-top opacity-90"
+                  alt="Aperçu d'un site Aevia Launch"
+                  className="w-full h-full object-cover object-top"
+                  loading="eager"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/60 to-transparent" />
               </div>
             </motion.div>
 

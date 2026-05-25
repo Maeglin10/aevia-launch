@@ -3,6 +3,8 @@ import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  // Hide Next.js dev indicator (the small badge bottom-left in dev/preview builds)
+  devIndicators: false,
   images: {
     remotePatterns: [
       {

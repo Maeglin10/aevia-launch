@@ -145,7 +145,7 @@ const AUTHORS = [
 
 const TESTIMONIALS = [
   {
-    quote: "Fréquence est la seule newsletter que j'ouvre en premier le lundi matin. Pas de bullshit, des idées qui tiennent et qui transforment ma manière de penser le business.",
+    quote: "Fréquence est la seule newsletter que j'ouvre en premier le lundi matin. Pas de superflu, des idées qui tiennent et qui transforment ma manière de penser le business.",
     name: "Alexandre M.",
     role: "Directeur Produit, Scale-up Paris",
     stars: 5,

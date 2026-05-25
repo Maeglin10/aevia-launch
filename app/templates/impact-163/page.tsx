@@ -63,7 +63,7 @@ const ARTICLES = [
   {
     cat: "IA & TECH",
     title: "RAG vs Fine-tuning : guide décisionnel pour équipes produit",
-    excerpt: "Vous n'êtes pas chercheur. Vous avez un produit à livrer. Ce guide coupe le bullshit et vous dit quoi choisir selon votre cas.",
+    excerpt: "Vous n'êtes pas chercheur. Vous avez un produit à livrer. Ce guide coupe le superflu et vous dit quoi choisir selon votre cas.",
     author: "Kevin Park",
     readTime: "9 min",
     date: "24 avr. 2026",
@@ -153,7 +153,7 @@ const TESTIMONIALS = [
     name: "Alexandre Martin",
     role: "Fondateur, NordX",
     rating: 5,
-    text: "Le niveau d'analyse est incomparable. Pas de bullshit, pas de checklists vides — juste des insights actionnables avec des vraies données.",
+    text: "Le niveau d'analyse est incomparable. Pas de superflu, pas de checklists vides — juste des insights actionnables avec des vraies données.",
     avatar: "AM",
   },
   {
