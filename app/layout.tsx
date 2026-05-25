@@ -19,80 +19,141 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://aevia-launch.vercel.app"),
   title: {
-    default: "AeviaLaunch — AI Website Generator, Live in 2 Hours",
-    template: "%s | AeviaLaunch",
+    default: "Aevia Launch — Votre site web pro en 2 heures, généré par IA",
+    template: "%s | Aevia Launch",
   },
   description:
-    "AeviaLaunch generates your professional website with AI-powered copywriting and SEO. Fill a 5-step form, preview instantly, go live on Vercel in 2 hours. No design skills needed.",
+    "Aevia Launch génère votre site web professionnel avec IA : rédaction, design, SEO. Remplissez un formulaire en 5 étapes, prévisualisez, et mettez en ligne sur Vercel en 2h. Sans compétence design.",
   keywords: [
+    "site web 2 heures",
+    "générateur site IA",
     "AI website generator",
-    "website builder AI",
+    "constructeur site web IA",
+    "Aevia Launch",
     "AeviaLaunch",
     "AI copywriting",
-    "website in 2 hours",
+    "website builder AI",
     "Vercel deploy",
     "Next.js website",
-    "automated website creation",
+    "site web automatisé",
+    "création site rapide",
+    "site freelance pro",
+    "agence digitale IA",
     "Valentin Milliand",
   ],
   authors: [{ name: "Valentin Milliand", url: "https://valentin-milliand.vercel.app" }],
-  creator: "Valentin Milliand",
+  creator: "Aevia",
+  publisher: "Aevia",
+  alternates: {
+    canonical: "/",
+    languages: {
+      fr: "/?lang=fr",
+      en: "/?lang=en",
+      es: "/?lang=es",
+      de: "/?lang=de",
+      pt: "/?lang=pt",
+      "x-default": "/",
+    },
+  },
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "fr_FR",
+    alternateLocale: ["en_US", "es_ES", "de_DE", "pt_PT"],
     url: "https://aevia-launch.vercel.app",
-    siteName: "AeviaLaunch",
-    title: "AeviaLaunch — AI Website Generator, Live in 2 Hours",
+    siteName: "Aevia Launch",
+    title: "Aevia Launch — Votre site web pro en 2 heures, généré par IA",
     description:
-      "Generate your professional website with AI-powered copywriting. Preview instantly, deployed on Vercel in 2 hours.",
+      "Générez votre site web professionnel avec IA. Prévisualisez instantanément, déployé sur Vercel en 2h.",
     images: [
       {
         url: "/api/og",
         width: 1200,
         height: 630,
-        alt: "AeviaLaunch — AI Website Generator",
+        alt: "Aevia Launch — Générateur de sites web par IA",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AeviaLaunch — AI Website Generator, Live in 2 Hours",
+    site: "@aevia_io",
+    creator: "@aevia_io",
+    title: "Aevia Launch — Votre site web pro en 2 heures",
     description:
-      "Generate your professional website with AI-powered copywriting. Preview instantly, deployed on Vercel in 2 hours.",
+      "Générez votre site web professionnel avec IA. Prévisualisez instantanément, déployé en 2h.",
     images: ["/api/og"],
-    creator: "@valentinmilliand",
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true },
-  },
-  alternates: {
-    canonical: "https://aevia-launch.vercel.app",
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 };
 
 const softwareAppSchema = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'AeviaLaunch',
+  name: 'Aevia Launch',
+  alternateName: ['AeviaLaunch', 'Aevia Launch'],
   url: 'https://aevia-launch.vercel.app',
   applicationCategory: 'WebApplication',
+  applicationSubCategory: 'AI Website Builder',
   operatingSystem: 'All',
+  inLanguage: ['fr-FR', 'en-US', 'es-ES', 'de-DE', 'pt-PT'],
   description:
-    'AI-powered website generator. Fill a 5-step form, AI writes your copy, we deploy your site on Vercel in 2 hours.',
-  offers: {
-    '@type': 'Offer',
-    price: '0',
-    priceCurrency: 'USD',
-    description: 'Free preview, no credit card required.',
+    'Générateur de site web par IA. Remplissez un formulaire en 5 étapes, l\'IA écrit vos textes, le site est déployé sur Vercel en 2h.',
+  offers: [
+    {
+      '@type': 'Offer',
+      name: 'Essentiel',
+      price: '599',
+      priceCurrency: 'EUR',
+      description: 'Site vitrine pro, livré en 2 à 4 heures.',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Pro',
+      price: '899',
+      priceCurrency: 'EUR',
+      description: 'Site multi-sections animé, blog et analytics.',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Premium',
+      price: '1499',
+      priceCurrency: 'EUR',
+      description: 'E-commerce, 3D, intégration Stripe.',
+    },
+  ],
+  provider: {
+    '@type': 'Organization',
+    name: 'Aevia',
+    url: 'https://aevia.vercel.app',
   },
   author: {
     '@type': 'Person',
     name: 'Valentin Milliand',
     url: 'https://valentin-milliand.vercel.app',
   },
-}
+};
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Aevia',
+  url: 'https://aevia.vercel.app',
+  logo: 'https://aevia-launch.vercel.app/favicon.svg',
+  sameAs: [
+    'https://aevia.vercel.app',
+    'https://aevia-inbox.vercel.app',
+    'https://aevia-skysecurity.vercel.app',
+  ],
+};
 
 export default function RootLayout({
   children,
@@ -108,6 +169,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>
       <body className="min-h-full flex flex-col">

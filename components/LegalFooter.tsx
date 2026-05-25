@@ -51,6 +51,23 @@ export function LegalFooter({ variant = "dark" }: LegalFooterProps) {
           </nav>
         </div>
 
+        <div className="mt-6 pt-6 border-t border-white/5">
+          <p className="text-xs opacity-70 mb-2">
+            Découvrez l&apos;écosystème Aevia :
+          </p>
+          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs">
+            <a href="https://aevia.vercel.app" rel="noopener" className={linkCls}>
+              Aevia — Hub
+            </a>
+            <a href="https://aevia-inbox.vercel.app" rel="noopener" className={linkCls}>
+              Aevia Inbox — CRM multicanal
+            </a>
+            <a href="https://aevia-skysecurity.vercel.app" rel="noopener" className={linkCls}>
+              Aevia Security — Audit sécurité 60s
+            </a>
+          </nav>
+        </div>
+
         <p className="text-[10px] opacity-50 mt-6 leading-relaxed">
           Paiement sécurisé par Stripe. Livraison de l&apos;aperçu sous 2 heures.
           Site web livré en 2 à 4 heures après validation du brief.
