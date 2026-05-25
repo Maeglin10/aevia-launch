@@ -62,7 +62,7 @@ export function LegalFooter({ variant = "dark" }: LegalFooterProps) {
             <a href="https://aevia-inbox.vercel.app" rel="noopener" className={linkCls}>
               Aevia Inbox — CRM multicanal
             </a>
-            <a href="https://aevia-skysecurity.vercel.app" rel="noopener" className={linkCls}>
+            <a href="https://aevia-security.vercel.app" rel="noopener" className={linkCls}>
               Aevia Security — Audit sécurité 60s
             </a>
           </nav>

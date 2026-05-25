@@ -151,7 +151,7 @@ const organizationSchema = {
   sameAs: [
     'https://aevia.vercel.app',
     'https://aevia-inbox.vercel.app',
-    'https://aevia-skysecurity.vercel.app',
+    'https://aevia-security.vercel.app',
   ],
 };
 
