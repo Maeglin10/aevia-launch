@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { saveSession, getSession, type FormData, type GeneratedContent } from "@/lib/sessions";
+import { saveSession, saveSessionToBlob, getSession, getSessionFromBlob, type FormData, type GeneratedContent } from "@/lib/sessions";
 import { generateMockContent } from "@/lib/mockContent";
 
 export const runtime = "nodejs";
@@ -118,14 +118,22 @@ Réponds UNIQUEMENT avec un objet JSON valide (pas de \`\`\`json wrapper, pas d'
       generatedContent = generateMockContent(formData);
     }
 
-    // Save or update session
-    const existing = getSession(sessionId);
-    saveSession(sessionId, {
+    // Save or update session — persist to Blob so the preview page (running
+    // on another serverless instance) can read the generated content.
+    const existing = getSession(sessionId) ?? (await getSessionFromBlob(sessionId));
+    const sessionData = {
       id: sessionId,
       formData,
       generatedContent,
       createdAt: existing?.createdAt ?? new Date(),
-    });
+    };
+
+    try {
+      await saveSessionToBlob(sessionId, sessionData);
+    } catch (blobErr) {
+      console.error("[generate] Blob save failed, in-memory only:", blobErr);
+      saveSession(sessionId, sessionData);
+    }
 
     return NextResponse.json({
       success: true,

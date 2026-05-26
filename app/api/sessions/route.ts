@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession, saveSession, getSessionFromBlob } from "@/lib/sessions";
+import { saveSession, saveSessionToBlob, getSessionFromBlob } from "@/lib/sessions";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
   const id = searchParams.get("id");
   if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
 
-  const session = getSession(id) ?? await getSessionFromBlob(id);
+  const session = await getSessionFromBlob(id);
   if (!session) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   return NextResponse.json(session);
@@ -59,6 +59,17 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json();
   const id = crypto.randomUUID();
-  saveSession(id, { id, formData: body.formData, createdAt: new Date() });
+  const data = { id, formData: body.formData, createdAt: new Date() };
+
+  // Persist to Blob so the session survives across serverless instances.
+  // Without this, /api/generate (next call) lands on a different instance
+  // and cannot read the freshly created session.
+  try {
+    await saveSessionToBlob(id, data);
+  } catch (err) {
+    console.error("[sessions POST] Blob save failed, falling back to in-memory:", err);
+    saveSession(id, data);
+  }
+
   return NextResponse.json({ sessionId: id });
 }
