@@ -55,42 +55,64 @@ export async function POST(req: NextRequest) {
 
     const apiKey = process.env.ANTHROPIC_API_KEY;
     if (apiKey && !apiKey.includes("REPLACE")) {
-      // Real Claude generation
-      const Anthropic = (await import("@anthropic-ai/sdk")).default;
-      const client = new Anthropic({ apiKey });
+      try {
+        const Anthropic = (await import("@anthropic-ai/sdk")).default;
+        const client = new Anthropic({ apiKey });
 
-      const prompt = `You are a professional copywriter. Generate website content for this business:
-- Name: ${formData.businessName}
+        const prompt = `Tu es un copywriter web pro. Génère le contenu d'un site pour ce business en français professionnel.
+- Nom: ${formData.businessName}
 - Type: ${formData.businessType}
-- What they do: ${formData.tagline}
-- Main service: ${formData.mainService}
-- Key benefits: ${formData.benefits?.join(", ")}
-- Target audience: ${formData.targetAudience}
-- Tone: ${formData.tone}
-- Location: ${formData.city}
+- Tagline: ${formData.tagline}
+- Service principal: ${formData.mainService}
+- Bénéfices clés: ${formData.benefits?.join(", ")}
+- Cible: ${formData.targetAudience}
+- Ton: ${formData.tone}
+- Ville: ${formData.city}
+- Tarifs: ${formData.priceRange ?? "sur devis"}
 
-Generate JSON with exactly these fields:
+Réponds UNIQUEMENT avec un objet JSON valide (pas de \`\`\`json wrapper, pas d'explication) avec exactement ces clés:
 {
-  "heroHeadline": "...",
-  "heroSubline": "...",
-  "aboutTitle": "...",
-  "aboutText": "...",
-  "services": [{"title":"...","description":"..."},{"title":"...","description":"..."},{"title":"...","description":"..."}],
-  "testimonials": [{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5}],
-  "ctaText": "...",
-  "metaTitle": "...",
-  "metaDescription": "..."
-}
-Return only valid JSON, no markdown, no explanation.`;
+  "heroHeadline": "accroche principale 6-10 mots",
+  "heroSubline": "sous-titre 12-20 mots",
+  "aboutTitle": "titre section à propos",
+  "aboutText": "paragraphe à propos 40-60 mots",
+  "services": [{"title":"...","description":"35-50 mots"},{"title":"...","description":"35-50 mots"},{"title":"...","description":"35-50 mots"}],
+  "testimonials": [{"name":"prénom + initiale","role":"contexte court","text":"avis 25-40 mots","rating":5},{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5}],
+  "ctaText": "appel à action 4-7 mots",
+  "metaTitle": "titre SEO 50-60 chars avec ville",
+  "metaDescription": "meta description SEO 140-160 chars"
+}`;
 
-      const message = await client.messages.create({
-        model: "claude-haiku-4-5-20251001",
-        max_tokens: 1024,
-        messages: [{ role: "user", content: prompt }],
-      });
+        const message = await client.messages.create({
+          model: "claude-haiku-4-5-20251001",
+          max_tokens: 2048,
+          messages: [{ role: "user", content: prompt }],
+        });
 
-      const text = message.content[0].type === "text" ? message.content[0].text : "";
-      generatedContent = JSON.parse(text) as GeneratedContent;
+        let text = message.content[0].type === "text" ? message.content[0].text : "";
+
+        // Strip markdown JSON wrappers (Claude sometimes adds ```json ... ```)
+        text = text.trim();
+        const fence = text.match(/^```(?:json)?\s*\n?([\s\S]*?)\n?```\s*$/);
+        if (fence) text = fence[1].trim();
+
+        // Extract first JSON object even if Claude added preamble/postamble
+        const firstBrace = text.indexOf("{");
+        const lastBrace = text.lastIndexOf("}");
+        if (firstBrace !== -1 && lastBrace > firstBrace) {
+          text = text.slice(firstBrace, lastBrace + 1);
+        }
+
+        try {
+          generatedContent = JSON.parse(text) as GeneratedContent;
+        } catch (parseErr) {
+          console.error("[generate] Claude JSON parse failed, falling back to mock. Raw:", text.slice(0, 200));
+          generatedContent = generateMockContent(formData);
+        }
+      } catch (claudeErr) {
+        console.error("[generate] Claude API call failed, falling back to mock:", claudeErr);
+        generatedContent = generateMockContent(formData);
+      }
     } else {
       // Mock generation (no API key)
       generatedContent = generateMockContent(formData);
