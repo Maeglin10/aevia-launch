@@ -14,9 +14,7 @@ export const dynamic = "force-dynamic";
 // ─── Clients ───────────────────────────────────────────────────────────────────
 
 const stripeKey = process.env.STRIPE_SECRET_KEY;
-const stripe = stripeKey ? new Stripe(stripeKey, {
-  apiVersion: "2026-04-22.dahlia",
-}) : null;
+const stripe = stripeKey ? new Stripe(stripeKey) : null;
 
 const resendKey = process.env.RESEND_API_KEY;
 const resend = resendKey ? new Resend(resendKey) : null;

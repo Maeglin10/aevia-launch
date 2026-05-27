@@ -7,9 +7,9 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const stripeKey = process.env.STRIPE_SECRET_KEY;
-const stripe = stripeKey ? new Stripe(stripeKey, {
-  apiVersion: "2026-04-22.dahlia",
-}) : null;
+// Omit apiVersion so Stripe uses the account's default version (avoids
+// 'invalid_api_version' errors when the account hasn't been upgraded yet).
+const stripe = stripeKey ? new Stripe(stripeKey) : null;
 
 // Simple in-memory rate limiter: max 10 checkout requests per IP per hour
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
@@ -195,7 +195,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ url: session.url });
   } catch (err) {
     Sentry.captureException(err, { tags: { route: "checkout" } });
-    console.error("[checkout] Stripe session creation failed:", err);
+    const errMsg = err instanceof Error ? err.message : String(err);
+    const errType = (err as { type?: string; statusCode?: number })?.type ?? "unknown";
+    console.error("[checkout] Stripe session creation failed:", errType, errMsg, err);
+    // Return diagnostic info in dev mode or when explicitly enabled
+    if (process.env.STRIPE_DEBUG === "true") {
+      return NextResponse.json(
+        { error: "Impossible de créer la session de paiement.", debug: { type: errType, message: errMsg } },
+        { status: 500 },
+      );
+    }
     return NextResponse.json(
       { error: "Impossible de créer la session de paiement." },
       { status: 500 },
