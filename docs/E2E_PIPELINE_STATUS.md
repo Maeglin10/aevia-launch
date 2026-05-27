@@ -53,8 +53,32 @@ Client → /configure (wizard 5 étapes)
   - Fix : `saveSessionToBlob` partout, `getSessionFromBlob` en lecture. Commit `3ff8a96`.
 
 - **B3** — `/api/checkout` retournait "Impossible de créer la session"
-  - Cause : `apiVersion: "2026-04-22.dahlia"` hardcodé alors que le compte Stripe utilise une version antérieure.
-  - Fix : retrait du `apiVersion` → SDK utilise la version par défaut du compte. Commit en cours.
+  - Premier diagnostic (faux positif) : `apiVersion` hardcodé "2026-04-22.dahlia" — retiré (commit `46e8b25`).
+  - **Vrai cause** : `StripeConnectionError: An error occurred with our connection to Stripe. Request was retried 2 times`.
+  - Hypothèses (à vérifier côté config Vercel/Stripe) :
+    1. La clé `STRIPE_SECRET_KEY` est une **restricted key** (`rk_test_*` ou `rk_live_*`) qui ne peut pas créer de Checkout Session — il faut une `sk_test_*` ou `sk_live_*`.
+    2. Le compte Stripe est suspendu / pas encore activé.
+    3. Problème réseau Vercel→Stripe (rare).
+  - **Action requise (toi)** : aller sur dashboard.stripe.com → API keys → générer/copier une `sk_test_...` (Standard secret key) → la mettre dans `vercel env` à la place de la valeur actuelle, puis redéployer.
+
+## Test pratique recommandé pour valider Stripe
+
+```bash
+# 1. Récupérer la clé sur Stripe Dashboard (sk_test_... ou sk_live_...)
+# 2. Tester la clé directement :
+curl -X POST https://api.stripe.com/v1/checkout/sessions \
+  -u "sk_test_XXX:" \
+  -d "mode=payment" \
+  -d "line_items[0][price_data][currency]=eur" \
+  -d "line_items[0][price_data][product_data][name]=Test" \
+  -d "line_items[0][price_data][unit_amount]=599" \
+  -d "line_items[0][quantity]=1" \
+  -d "success_url=https://aevia-launch.vercel.app/success" \
+  -d "cancel_url=https://aevia-launch.vercel.app/order"
+
+# Si retour `{ "url": "https://checkout.stripe.com/..." }` → clé valide
+# Sinon l'erreur précise apparaîtra
+```
 
 ## Ce qui manque (V2)
 
