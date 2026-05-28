@@ -19,11 +19,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://aevia-launch.vercel.app"),
   title: {
-    default: "Aevia Launch — Votre site web pro en 2 heures, généré par IA",
+    // 51 chars
+    default: "Aevia Launch — Votre site web pro en 2 heures",
     template: "%s | Aevia Launch",
   },
   description:
-    "Aevia Launch génère votre site web professionnel avec IA : rédaction, design, SEO. Remplissez un formulaire en 5 étapes, prévisualisez, et mettez en ligne sur Vercel en 2h. Sans compétence design.",
+    // 156 chars
+    "Aevia Launch génère votre site web pro avec IA : rédaction, design, SEO. Wizard 5 étapes, preview instantané, mise en ligne en 2h. Sans compétence design.",
   keywords: [
     "site web 2 heures",
     "générateur site IA",
