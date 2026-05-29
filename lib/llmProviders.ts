@@ -1,0 +1,208 @@
+// Free-tier LLM provider chain for Aevia Launch generation.
+//
+// The /api/generate route tries each provider in order until one succeeds.
+// All providers are zero-dependency (plain `fetch`) and respect the same
+// system prompt + JSON output contract, so swapping is invisible to callers.
+//
+// Order (cheapest first → best fallback last):
+//   1. Gemini 2.0 Flash       — Google AI Studio free tier (1500 req/day, 1M tokens/day)
+//   2. Groq Llama 3.3 70B     — Groq free tier (14400 req/day, very fast)
+//   3. caller's mock fallback — generateMockContent() in /api/generate
+//
+// Env vars:
+//   GEMINI_API_KEY  https://aistudio.google.com/app/apikey  (no credit card)
+//   GROQ_API_KEY    https://console.groq.com/keys           (no credit card)
+//
+// Adding a paid provider for real clients (e.g. Anthropic when revenue starts):
+// extend `PROVIDER_ORDER` and add a `tryX` function below. Mocking + parsing
+// are shared so the new provider only handles its own request shape.
+
+import type { FormData, GeneratedContent } from "./sessions";
+
+type ProviderName = "gemini" | "groq";
+type ProviderResult =
+  | { ok: true; provider: ProviderName; content: GeneratedContent }
+  | { ok: false; provider: ProviderName; reason: string };
+
+// Order matters — first successful provider wins.
+const PROVIDER_ORDER: ProviderName[] = ["gemini", "groq"];
+
+export interface LLMGenerationOutcome {
+  content: GeneratedContent | null;
+  provider: ProviderName | "mock" | "none";
+  attempts: Array<{ provider: ProviderName; ok: boolean; reason?: string }>;
+}
+
+export async function generateWithFreeProviders(
+  formData: FormData,
+): Promise<LLMGenerationOutcome> {
+  const prompt = buildPrompt(formData);
+  const attempts: LLMGenerationOutcome["attempts"] = [];
+
+  for (const name of PROVIDER_ORDER) {
+    const result = await runProvider(name, prompt);
+    attempts.push({
+      provider: result.provider,
+      ok: result.ok,
+      reason: result.ok ? undefined : result.reason,
+    });
+    if (result.ok) {
+      return { content: result.content, provider: result.provider, attempts };
+    }
+  }
+
+  return { content: null, provider: "none", attempts };
+}
+
+async function runProvider(name: ProviderName, prompt: string): Promise<ProviderResult> {
+  try {
+    switch (name) {
+      case "gemini":
+        return await tryGemini(prompt);
+      case "groq":
+        return await tryGroq(prompt);
+    }
+  } catch (err) {
+    return {
+      ok: false,
+      provider: name,
+      reason: err instanceof Error ? err.message : String(err),
+    };
+  }
+}
+
+// ─── Gemini 2.5 Flash (with auto-fallback to 2.5-flash-lite on 429) ──────────
+// Free tier quotas vary by project; we try the better model first, then the
+// lite model if quota is exhausted, so a single project can absorb more bursts.
+async function tryGemini(prompt: string): Promise<ProviderResult> {
+  const key = process.env.GEMINI_API_KEY;
+  if (!key) return { ok: false, provider: "gemini", reason: "no_key" };
+
+  const models = ["gemini-2.5-flash", "gemini-2.5-flash-lite"];
+  let lastReason = "unknown";
+
+  for (const model of models) {
+    const url =
+      "https://generativelanguage.googleapis.com/v1beta/models/" +
+      `${model}:generateContent?key=` +
+      encodeURIComponent(key);
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ role: "user", parts: [{ text: prompt }] }],
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 2048,
+          responseMimeType: "application/json",
+        },
+      }),
+    });
+
+    if (!res.ok) {
+      lastReason = `http_${res.status}_${model}`;
+      // 429 = quota, try the next model. Other errors abort immediately.
+      if (res.status === 429) continue;
+      return { ok: false, provider: "gemini", reason: lastReason };
+    }
+
+    const data = (await res.json()) as {
+      candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+    };
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+    const parsed = parseJsonResponse(text);
+    if (!parsed) {
+      lastReason = `json_parse_failed_${model}`;
+      continue;
+    }
+
+    return { ok: true, provider: "gemini", content: parsed };
+  }
+
+  return { ok: false, provider: "gemini", reason: lastReason };
+}
+
+// ─── Groq Llama 3.3 70B ───────────────────────────────────────────────────────
+async function tryGroq(prompt: string): Promise<ProviderResult> {
+  const key = process.env.GROQ_API_KEY;
+  if (!key) return { ok: false, provider: "groq", reason: "no_key" };
+
+  const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      authorization: `Bearer ${key}`,
+    },
+    body: JSON.stringify({
+      model: "llama-3.3-70b-versatile",
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.7,
+      max_tokens: 2048,
+      response_format: { type: "json_object" },
+    }),
+  });
+
+  if (!res.ok) {
+    return { ok: false, provider: "groq", reason: `http_${res.status}` };
+  }
+
+  const data = (await res.json()) as {
+    choices?: Array<{ message?: { content?: string } }>;
+  };
+  const text = data.choices?.[0]?.message?.content ?? "";
+  const parsed = parseJsonResponse(text);
+  if (!parsed) return { ok: false, provider: "groq", reason: "json_parse_failed" };
+
+  return { ok: true, provider: "groq", content: parsed };
+}
+
+// ─── Shared JSON extraction ──────────────────────────────────────────────────
+// Handles raw JSON, ```json ... ``` fences, and content surrounded by prose.
+function parseJsonResponse(rawText: string): GeneratedContent | null {
+  let text = rawText.trim();
+
+  // Strip ```json ... ``` wrappers if present.
+  const fence = text.match(/^```(?:json)?\s*\n?([\s\S]*?)\n?```\s*$/);
+  if (fence) text = fence[1].trim();
+
+  // Even if response_format=json_object failed, salvage the first {...} block.
+  const firstBrace = text.indexOf("{");
+  const lastBrace = text.lastIndexOf("}");
+  if (firstBrace !== -1 && lastBrace > firstBrace) {
+    text = text.slice(firstBrace, lastBrace + 1);
+  }
+
+  try {
+    return JSON.parse(text) as GeneratedContent;
+  } catch {
+    return null;
+  }
+}
+
+// ─── Shared prompt builder ───────────────────────────────────────────────────
+function buildPrompt(formData: FormData): string {
+  return `Tu es un copywriter web pro. Génère le contenu d'un site pour ce business en français professionnel.
+- Nom: ${formData.businessName}
+- Type: ${formData.businessType}
+- Tagline: ${formData.tagline ?? ""}
+- Service principal: ${formData.mainService ?? ""}
+- Bénéfices clés: ${(formData.benefits ?? []).join(", ")}
+- Cible: ${formData.targetAudience ?? ""}
+- Ton: ${formData.tone ?? "professional"}
+- Ville: ${formData.city ?? ""}
+- Tarifs: ${formData.priceRange ?? "sur devis"}
+
+Réponds UNIQUEMENT avec un objet JSON valide (pas de \`\`\`json wrapper, pas d'explication) avec exactement ces clés:
+{
+  "heroHeadline": "accroche principale 6-10 mots",
+  "heroSubline": "sous-titre 12-20 mots",
+  "aboutTitle": "titre section à propos",
+  "aboutText": "paragraphe à propos 40-60 mots",
+  "services": [{"title":"...","description":"35-50 mots"},{"title":"...","description":"35-50 mots"},{"title":"...","description":"35-50 mots"}],
+  "testimonials": [{"name":"prénom + initiale","role":"contexte court","text":"avis 25-40 mots","rating":5},{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5}],
+  "ctaText": "appel à action 4-7 mots",
+  "metaTitle": "titre SEO 50-60 chars avec ville",
+  "metaDescription": "meta description SEO 140-160 chars"
+}`;
+}

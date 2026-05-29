@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { saveSession, saveSessionToBlob, getSession, getSessionFromBlob, type FormData, type GeneratedContent } from "@/lib/sessions";
 import { generateMockContent } from "@/lib/mockContent";
+import { generateWithFreeProviders } from "@/lib/llmProviders";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -51,70 +52,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "tagline too long" }, { status: 400 });
     }
 
+    // Provider chain: Gemini → Groq → mock (see lib/llmProviders.ts).
+    // Anthropic is intentionally NOT in this chain so test traffic does not
+    // burn paid credits. When a real paying client comes in we'll either
+    // top up Anthropic and add it to the chain, or keep relying on free
+    // providers + the business-aware mock fallback.
     let generatedContent: GeneratedContent;
-
-    const apiKey = process.env.ANTHROPIC_API_KEY;
-    if (apiKey && !apiKey.includes("REPLACE")) {
-      try {
-        const Anthropic = (await import("@anthropic-ai/sdk")).default;
-        const client = new Anthropic({ apiKey });
-
-        const prompt = `Tu es un copywriter web pro. Génère le contenu d'un site pour ce business en français professionnel.
-- Nom: ${formData.businessName}
-- Type: ${formData.businessType}
-- Tagline: ${formData.tagline}
-- Service principal: ${formData.mainService}
-- Bénéfices clés: ${formData.benefits?.join(", ")}
-- Cible: ${formData.targetAudience}
-- Ton: ${formData.tone}
-- Ville: ${formData.city}
-- Tarifs: ${formData.priceRange ?? "sur devis"}
-
-Réponds UNIQUEMENT avec un objet JSON valide (pas de \`\`\`json wrapper, pas d'explication) avec exactement ces clés:
-{
-  "heroHeadline": "accroche principale 6-10 mots",
-  "heroSubline": "sous-titre 12-20 mots",
-  "aboutTitle": "titre section à propos",
-  "aboutText": "paragraphe à propos 40-60 mots",
-  "services": [{"title":"...","description":"35-50 mots"},{"title":"...","description":"35-50 mots"},{"title":"...","description":"35-50 mots"}],
-  "testimonials": [{"name":"prénom + initiale","role":"contexte court","text":"avis 25-40 mots","rating":5},{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5}],
-  "ctaText": "appel à action 4-7 mots",
-  "metaTitle": "titre SEO 50-60 chars avec ville",
-  "metaDescription": "meta description SEO 140-160 chars"
-}`;
-
-        const message = await client.messages.create({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 2048,
-          messages: [{ role: "user", content: prompt }],
-        });
-
-        let text = message.content[0].type === "text" ? message.content[0].text : "";
-
-        // Strip markdown JSON wrappers (Claude sometimes adds ```json ... ```)
-        text = text.trim();
-        const fence = text.match(/^```(?:json)?\s*\n?([\s\S]*?)\n?```\s*$/);
-        if (fence) text = fence[1].trim();
-
-        // Extract first JSON object even if Claude added preamble/postamble
-        const firstBrace = text.indexOf("{");
-        const lastBrace = text.lastIndexOf("}");
-        if (firstBrace !== -1 && lastBrace > firstBrace) {
-          text = text.slice(firstBrace, lastBrace + 1);
-        }
-
-        try {
-          generatedContent = JSON.parse(text) as GeneratedContent;
-        } catch (parseErr) {
-          console.error("[generate] Claude JSON parse failed, falling back to mock. Raw:", text.slice(0, 200));
-          generatedContent = generateMockContent(formData);
-        }
-      } catch (claudeErr) {
-        console.error("[generate] Claude API call failed, falling back to mock:", claudeErr);
-        generatedContent = generateMockContent(formData);
-      }
+    const llmOutcome = await generateWithFreeProviders(formData);
+    if (llmOutcome.content) {
+      generatedContent = llmOutcome.content;
     } else {
-      // Mock generation (no API key)
+      console.warn(
+        "[generate] all free LLM providers failed, using mock:",
+        JSON.stringify(llmOutcome.attempts),
+      );
       generatedContent = generateMockContent(formData);
     }
 
