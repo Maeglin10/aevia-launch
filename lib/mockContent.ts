@@ -344,24 +344,98 @@ const mockByType: Record<string, Partial<GeneratedContent>> = {
   },
 
   default: {
-    heroHeadline: "Excellence delivered, every time",
-    heroSubline: "Professional services tailored to your needs, backed by years of expertise.",
-    aboutTitle: "Who we are",
+    heroHeadline: "L'excellence, à chaque rendez-vous",
+    heroSubline: "Des prestations sur mesure, portées par des années d'expertise et un sens du détail rare.",
+    aboutTitle: "Qui sommes-nous",
     aboutText:
-      "We are a passionate team dedicated to delivering exceptional results for our clients.\n\nWith years of experience in our field, we combine expertise with a personal approach to ensure every client gets exactly what they need.\n\nYour success is our mission — we don't rest until the job is done right.",
+      "Nous sommes une équipe passionnée, engagée à livrer des résultats à la hauteur de vos attentes.\n\nAvec une expérience solide dans notre domaine, nous allions expertise technique et approche humaine pour vous accompagner précisément là où vous en avez besoin.\n\nVotre réussite est notre priorité — nous ne sommes satisfaits que lorsque vous l'êtes pleinement.",
     services: [
-      { title: "Consultation", description: "Expert advice tailored to your unique situation and goals." },
-      { title: "Implementation", description: "Hands-on support to bring your vision to life efficiently." },
-      { title: "Support", description: "Ongoing assistance to ensure lasting results and peace of mind." },
+      { title: "Conseil & accompagnement", description: "Une expertise sur mesure pour répondre à vos enjeux spécifiques et vous orienter avec clarté." },
+      { title: "Mise en œuvre", description: "Un accompagnement opérationnel pour transformer vos objectifs en résultats concrets, sans friction." },
+      { title: "Suivi & support", description: "Une assistance continue pour pérenniser vos résultats et anticiper les évolutions de votre activité." },
     ],
     testimonials: [
-      { name: "Marie P.", role: "Client", text: "Exceptional service from start to finish. I couldn't be happier.", rating: 5 },
-      { name: "Thomas B.", role: "Business Owner", text: "Professional, reliable, and truly committed to results.", rating: 5 },
-      { name: "Isabelle C.", role: "Manager", text: "They exceeded every expectation. I'll definitely work with them again.", rating: 5 },
+      { name: "Marie P.", role: "Cliente", text: "Une prestation exceptionnelle du début à la fin. Je recommande sans hésiter.", rating: 5 },
+      { name: "Thomas B.", role: "Dirigeant", text: "Professionnels, fiables et réellement investis dans la réussite du projet.", rating: 5 },
+      { name: "Isabelle C.", role: "Responsable", text: "Ils ont dépassé toutes mes attentes. Je referai appel à eux sans hésiter.", rating: 5 },
     ],
-    ctaText: "Get in touch",
+    ctaText: "Prendre contact",
   },
 };
+
+// Fuzzy substring match: "Restaurant italien" → "Restaurant", "Coach de vie" → "Coach", etc.
+function findFuzzyMatch(businessType: string): string | null {
+  const lower = businessType.toLowerCase();
+  const aliases: Record<string, string> = {
+    restaurant: "Restaurant",
+    resto: "Restaurant",
+    bistrot: "Restaurant",
+    brasserie: "Restaurant",
+    pizzeria: "Restaurant",
+    café: "Restaurant",
+    cafe: "Restaurant",
+    bar: "Restaurant",
+    hôtel: "Hotel",
+    hotel: "Hotel",
+    auberge: "Hotel",
+    gîte: "Hotel",
+    coach: "Coach",
+    coaching: "Coach",
+    mentor: "Coach",
+    thérapeute: "Coach",
+    consultant: "Consultant",
+    conseil: "Consultant",
+    cabinet: "Consultant",
+    expert: "Consultant",
+    agence: "Agency",
+    agency: "Agency",
+    studio: "Agency",
+    saas: "SaaS",
+    logiciel: "SaaS",
+    plateforme: "SaaS",
+    application: "SaaS",
+    startup: "Startup",
+    fitness: "Fitness",
+    salle: "Fitness",
+    musculation: "Fitness",
+    gym: "Fitness",
+    sport: "Fitness",
+    médecin: "Healthcare",
+    medecin: "Healthcare",
+    dentiste: "Healthcare",
+    clinique: "Healthcare",
+    santé: "Healthcare",
+    immobilier: "RealEstate",
+    immo: "RealEstate",
+    realestate: "RealEstate",
+    evenement: "Event",
+    événement: "Event",
+    conférence: "Event",
+    salon: "Event",
+    association: "NonProfit",
+    ong: "NonProfit",
+    nonprofit: "NonProfit",
+    bijoux: "Luxury",
+    joaillerie: "Luxury",
+    luxury: "Luxury",
+    luxe: "Luxury",
+    architecte: "Brutalist",
+    architecture: "Brutalist",
+    magazine: "Magazine",
+    media: "Magazine",
+    spa: "Aurora",
+    beauté: "Aurora",
+    cosmétique: "Aurora",
+    "bien-être": "Aurora",
+    ai: "TechAI",
+    ia: "TechAI",
+    tech: "TechAI",
+  };
+  for (const [needle, key] of Object.entries(aliases)) {
+    if (lower.includes(needle)) return key;
+  }
+  return null;
+}
 
 // Template-to-profile fallback mapping
 const templateToProfile: Record<string, string> = {
@@ -385,10 +459,12 @@ const templateToProfile: Record<string, string> = {
 };
 
 export function generateMockContent(formData: FormData): GeneratedContent {
-  // Match by businessType first, then fall back to template mapping, then default
+  // Match by businessType first, then fuzzy substring, then template mapping, then default
   const templateFallbackKey = templateToProfile[formData.template ?? ""] ?? "";
+  const fuzzyKey = findFuzzyMatch(formData.businessType ?? "") ?? "";
   const base =
     mockByType[formData.businessType] ??
+    mockByType[fuzzyKey] ??
     mockByType[templateFallbackKey] ??
     mockByType.default;
 
