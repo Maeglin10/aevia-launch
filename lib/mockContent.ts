@@ -2,22 +2,22 @@ import type { FormData, GeneratedContent } from "./sessions";
 
 const mockByType: Record<string, Partial<GeneratedContent>> = {
   Restaurant: {
-    heroHeadline: "Where every meal becomes a memory",
-    heroSubline: "Authentic flavours crafted with passion, served in a warm and welcoming atmosphere.",
-    aboutTitle: "Our story",
+    heroHeadline: "Une cuisine qui se savoure, un moment qui se partage",
+    heroSubline: "Des saveurs authentiques, préparées avec passion et servies dans une ambiance chaleureuse.",
+    aboutTitle: "Notre histoire",
     aboutText:
-      "Born from a love of food and community, we opened our doors with one simple goal: to make every guest feel at home.\n\nOur chefs source the finest local ingredients each morning, turning them into dishes that surprise and delight.\n\nWhether you're joining us for a quick lunch or a long dinner, we promise an experience worth returning for.",
+      "Né d'une passion pour la cuisine et le partage, notre établissement a ouvert ses portes avec un objectif simple : faire en sorte que chaque convive se sente comme à la maison.\n\nNos chefs sélectionnent chaque matin les meilleurs produits locaux pour les transformer en plats qui surprennent et ravissent.\n\nQue vous veniez pour un déjeuner rapide ou un long dîner, nous vous promettons une expérience à laquelle vous aurez envie de revenir.",
     services: [
-      { title: "Dine In", description: "Relax in our cosy dining room and let us take care of everything." },
-      { title: "Takeaway", description: "Your favourite dishes, packed with care and ready to enjoy anywhere." },
-      { title: "Private Events", description: "Celebrate your special moments with a personalised menu and dedicated service." },
+      { title: "Sur place", description: "Détendez-vous dans notre salle conviviale et laissez-nous prendre soin de tout." },
+      { title: "À emporter", description: "Vos plats préférés, soigneusement préparés et prêts à emporter où vous voulez." },
+      { title: "Événements privés", description: "Célébrez vos moments spéciaux avec un menu sur mesure et un service dédié." },
     ],
     testimonials: [
-      { name: "Sophie L.", role: "Regular guest", text: "The food is incredible every single time. I bring all my friends here.", rating: 5 },
-      { name: "Marc T.", role: "Food blogger", text: "Genuinely one of the best meals I've had this year. Don't miss it.", rating: 5 },
-      { name: "Elena R.", role: "Local resident", text: "Perfect spot for a family dinner. Warm atmosphere and delicious food.", rating: 5 },
+      { name: "Sophie L.", role: "Cliente régulière", text: "La cuisine est exceptionnelle à chaque visite. J'y amène tous mes amis.", rating: 5 },
+      { name: "Marc T.", role: "Blogueur culinaire", text: "Sincèrement l'un des meilleurs repas de l'année. À ne pas manquer.", rating: 5 },
+      { name: "Elena R.", role: "Habitante du quartier", text: "Le spot idéal pour un dîner en famille. Ambiance chaleureuse et plats délicieux.", rating: 5 },
     ],
-    ctaText: "Reserve a table",
+    ctaText: "Réserver une table",
   },
 
   Agency: {
@@ -78,22 +78,22 @@ const mockByType: Record<string, Partial<GeneratedContent>> = {
   },
 
   Coach: {
-    heroHeadline: "Your breakthrough starts here",
-    heroSubline: "Personalized coaching that transforms how you think, lead, and live.",
-    aboutTitle: "My approach",
+    heroHeadline: "Votre transformation commence ici",
+    heroSubline: "Un accompagnement sur mesure pour changer votre façon de penser, de décider et de vivre.",
+    aboutTitle: "Mon approche",
     aboutText:
-      "Coaching changed my life before I became a coach. I know what it feels like to be stuck — talented, motivated, but not moving. That's exactly who I built my practice for.\n\nOver the past decade I've worked with executives, entrepreneurs, and high performers across every industry. My approach blends evidence-based psychology with practical strategy that actually sticks.\n\nI don't believe in one-size-fits-all. Every engagement is built around you, your goals, and your timeline.",
+      "Le coaching a changé ma vie avant que je ne devienne coach. Je sais ce que c'est que d'être bloqué — talentueux, motivé, mais incapable d'avancer. C'est précisément pour cela que j'ai construit ma pratique.\n\nDepuis plus de dix ans, j'accompagne dirigeants, entrepreneurs et profils exigeants à travers tous les secteurs. Mon approche combine psychologie fondée sur la preuve et stratégie concrète qui s'ancre durablement.\n\nJe ne crois pas aux méthodes universelles. Chaque accompagnement est conçu pour vous, vos objectifs et votre rythme.",
     services: [
-      { title: "1:1 Coaching", description: "Intensive, personalised sessions focused on your specific goals and blind spots." },
-      { title: "Group Masterminds", description: "Curated peer groups that challenge and accelerate your growth together." },
-      { title: "Online Programmes", description: "Self-paced courses packed with frameworks I've refined over 10+ years." },
+      { title: "Coaching individuel", description: "Sessions intensives et personnalisées centrées sur vos objectifs précis et vos angles morts." },
+      { title: "Mastermind en groupe", description: "Cercles de pairs sélectionnés pour challenger votre progression et l'accélérer collectivement." },
+      { title: "Programmes en ligne", description: "Parcours en autonomie nourris des cadres que j'ai affinés sur plus de 10 ans de pratique." },
     ],
     testimonials: [
-      { name: "Nadia F.", role: "VP of Marketing", text: "Six months in and I've been promoted, hired a team, and feel more confident than ever.", rating: 5 },
-      { name: "Romain C.", role: "Entrepreneur", text: "The clarity I got in just three sessions was worth more than a year of therapy.", rating: 5 },
-      { name: "Lena W.", role: "Executive Coach", text: "I came to learn. I left transformed. The best investment I've made in myself.", rating: 5 },
+      { name: "Nadia F.", role: "Directrice Marketing", text: "Six mois plus tard, j'ai été promue, j'ai constitué une équipe et je me sens plus confiante que jamais.", rating: 5 },
+      { name: "Romain C.", role: "Entrepreneur", text: "La clarté obtenue en trois séances valait plus qu'une année de thérapie.", rating: 5 },
+      { name: "Lena W.", role: "Coach exécutive", text: "Je venais apprendre. Je suis repartie transformée. Le meilleur investissement que j'ai fait pour moi.", rating: 5 },
     ],
-    ctaText: "Book a discovery call",
+    ctaText: "Réserver un appel découverte",
   },
 
   Consultant: {
