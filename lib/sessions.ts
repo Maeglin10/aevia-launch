@@ -73,6 +73,9 @@ export async function saveSessionToBlob(id: string, data: SessionData): Promise<
     access: "public",
     addRandomSuffix: false,
     contentType: "application/json",
+    // /api/generate writes to the same session blob created by /api/sessions
+    // earlier in the wizard, so we must allow overwriting that fixed path.
+    allowOverwrite: true,
   });
   sessions.set(id, data); // warm the in-memory cache
 }

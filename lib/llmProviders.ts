@@ -102,8 +102,10 @@ async function tryGemini(prompt: string): Promise<ProviderResult> {
 
     if (!res.ok) {
       lastReason = `http_${res.status}_${model}`;
-      // 429 = quota, try the next model. Other errors abort immediately.
-      if (res.status === 429) continue;
+      // 429 (quota) and 5xx (Google capacity issues, very common on 2.5 Flash)
+      // → try the next model. Other 4xx errors mean the request itself is bad
+      // and retrying with a different model won't help.
+      if (res.status === 429 || res.status >= 500) continue;
       return { ok: false, provider: "gemini", reason: lastReason };
     }
 
