@@ -26,6 +26,14 @@ const C = {
   fontSans: "'DM Sans', system-ui, sans-serif",
 };
 
+
+// Local photo path (starts with /) is returned as-is; otherwise build the
+// Unsplash URL from a photo id. Lets the same template mix client photos and
+// stock images.
+function imgUrl(img: string, w = 800): string {
+  return img.startsWith("/") ? img : `https://images.unsplash.com/${img}?q=80&w=${w}&auto=format&fit=crop`;
+}
+
 const SERVICES = [
   {
     id: 1,
@@ -84,10 +92,10 @@ const SERVICES = [
 ];
 
 const INGREDIENTS = [
-  { name: "Cils Soie Premium", origin: "Corée du Sud", benefit: "Légèreté & tenue", img: "photo-1583001931096-959e9a1a6223" },
-  { name: "Colle Hypoallergénique", origin: "Qualité médicale", benefit: "Confort & respect de l'œil", img: "photo-1512496015851-a90fb38ba796" },
-  { name: "Teinture Végétale", origin: "France", benefit: "Sourcils intenses, sans agression", img: "photo-1556228578-8c89e6adf883" },
-  { name: "Soin Fortifiant", origin: "Botanique", benefit: "Cils naturels nourris", img: "photo-1620916566398-39f1143ab7be" },
+  { name: "Cils Soie Premium", origin: "Corée du Sud", benefit: "Légèreté & tenue", img: "/maison-maria/3.jpg" },
+  { name: "Colle Hypoallergénique", origin: "Qualité médicale", benefit: "Confort & respect de l'œil", img: "/maison-maria/4.jpg" },
+  { name: "Teinture Végétale", origin: "France", benefit: "Sourcils intenses, sans agression", img: "/maison-maria/5.jpg" },
+  { name: "Soin Fortifiant", origin: "Botanique", benefit: "Cils naturels nourris", img: "/maison-maria/6.jpg" },
 ];
 
 const TEAM = [
@@ -95,7 +103,7 @@ const TEAM = [
     name: "Maria",
     role: "Fondatrice & Experte du Regard",
     bio: "Spécialiste certifiée en extensions de cils et architecture de sourcils à Vénissieux. Maria sublime chaque regard avec précision, patience et un sens du détail rare. Chaque pose est sur-mesure, dans un cadre cocooning et bienveillant.",
-    img: "photo-1487412947147-5cebf100ffc2",
+    img: "/maison-maria/2.jpg",
     specialties: ["Volume russe", "Lifting de cils", "Architecture sourcils"],
   },
 ];
@@ -455,7 +463,7 @@ function IngredientCard({ ing }: { ing: (typeof INGREDIENTS)[0] }) {
     >
       <div style={{ height: 200, overflow: "hidden" }}>
         <img
-          src={`https://images.unsplash.com/${ing.img}?q=80&w=800&auto=format&fit=crop`}
+          src={imgUrl(ing.img, 800)}
           alt={ing.name}
           style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
         />
@@ -922,7 +930,7 @@ export default function MaisonMariaPage() {
           }}
         >
           <img
-            src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1400&auto=format&fit=crop"
+            src="/maison-maria/1.jpg"
             alt="Maison Maria salon"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
@@ -1311,7 +1319,7 @@ export default function MaisonMariaPage() {
             >
               <div style={{ position: "relative" }}>
                 <img
-                  src={`https://images.unsplash.com/${TEAM[activeTeam].img}?q=80&w=800&auto=format&fit=crop`}
+                  src={imgUrl(TEAM[activeTeam].img, 800)}
                   alt={TEAM[activeTeam].name}
                   style={{
                     width: "100%",
