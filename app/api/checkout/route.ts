@@ -2,9 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { put } from "@vercel/blob";
 import * as Sentry from "@sentry/nextjs";
+import { SITE_PRICES, ADDONS, priceIn, isCurrency, type Currency } from "@/lib/pricing";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+// Stripe currency codes are lowercase ISO-4217.
+const STRIPE_CCY: Record<Currency, string> = { EUR: "eur", CHF: "chf", USD: "usd", GBP: "gbp" };
 
 const stripeKey = process.env.STRIPE_SECRET_KEY;
 // Omit apiVersion so Stripe uses the account's default version (avoids
@@ -27,33 +31,6 @@ function isRateLimited(ip: string): boolean {
   entry.count += 1;
   return false;
 }
-
-const SITE_PRICES: Record<string, { label: string; price: number }> = {
-  landing:       { label: "Landing Page",          price: 599  },
-  saas:          { label: "SaaS Product",           price: 899  },
-  agency:        { label: "Creative Agency",        price: 899  },
-  vitrine:       { label: "Site Vitrine",           price: 899  },
-  consultant:    { label: "Consultant / Coach",     price: 599  },
-  portfolio:     { label: "Portfolio",              price: 599  },
-  ecommerce:     { label: "E-Commerce",             price: 1499 },
-  restaurant:    { label: "Restaurant / Food",      price: 899  },
-  hotel:         { label: "Hôtel / B&B",            price: 899  },
-  healthcare:    { label: "Santé / Clinique",       price: 899  },
-  realestate:    { label: "Immobilier",             price: 899  },
-  fitness:       { label: "Fitness / Wellness",     price: 899  },
-  event:         { label: "Événement",              price: 599  },
-  nonprofit:     { label: "Non-profit / ONG",       price: 599  },
-  startup:       { label: "Startup Launch",         price: 599  },
-  luxury:        { label: "Luxury / Couture",       price: 1499 },
-  brutalist:     { label: "Brutalist Editorial",    price: 899  },
-  magazine:      { label: "Magazine / Éditorial",   price: 899  },
-  aurora:        { label: "Aurora / Wellness",      price: 899  },
-  "3d-tech":     { label: "3D Tech / Web3",         price: 1499 },
-  "minimal-pro": { label: "Minimal Pro",            price: 899  },
-};
-
-const MAINTENANCE_PRICE_CENTS = 5900; // 59€ in cents
-const MAINTENANCE_LABEL = "Maintenance mensuelle";
 
 export async function POST(req: NextRequest) {
   try {
@@ -78,9 +55,11 @@ export async function POST(req: NextRequest) {
       name?: string;
       theme?: string;
       maintenance?: string | number | boolean;
+      branding?: string | number | boolean;
+      currency?: string;
       brief?: Record<string, unknown>;
     };
-    const { type, name, theme, maintenance, brief } = body;
+    const { type, name, theme, maintenance, branding, currency, brief } = body;
 
     // Validate required fields
     const siteType = (typeof type === "string" && type) ? type : "landing";
@@ -88,6 +67,10 @@ export async function POST(req: NextRequest) {
     const siteTheme = (typeof theme === "string" && theme) ? theme : siteType;
     const withMaintenance =
       maintenance === 1 || maintenance === "1" || maintenance === true;
+    const withBranding =
+      branding === 1 || branding === "1" || branding === true;
+    const ccy: Currency = isCurrency(currency) ? currency : "EUR";
+    const stripeCcy = STRIPE_CCY[ccy];
 
     const siteInfo = SITE_PRICES[siteType] ?? SITE_PRICES["landing"];
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
@@ -113,33 +96,51 @@ export async function POST(req: NextRequest) {
       `?type=${encodeURIComponent(siteType)}` +
       `&name=${encodeURIComponent(siteName)}` +
       `&theme=${encodeURIComponent(siteTheme)}` +
-      `&maintenance=${withMaintenance ? "1" : "0"}`;
+      `&maintenance=${withMaintenance ? "1" : "0"}` +
+      `&branding=${withBranding ? "1" : "0"}` +
+      `&currency=${ccy}`;
 
+    // All amounts resolved in the chosen currency via the pricing table so the
+    // charge matches exactly what the order page displayed.
     const lineItems: any[] = [
       {
         price_data: {
-          currency: "eur",
+          currency: stripeCcy,
           product_data: {
             name: siteInfo.label,
-            description: "Création complète — livraison en 2 heures",
+            description: "Création complète sur thème — livraison en 2 heures",
           },
-          unit_amount: siteInfo.price * 100,
+          unit_amount: priceIn(siteInfo.price, ccy) * 100,
         },
         quantity: 1,
       },
     ];
 
+    if (withBranding) {
+      lineItems.push({
+        price_data: {
+          currency: stripeCcy,
+          product_data: {
+            name: ADDONS.branding.label,
+            description: ADDONS.branding.sublabel,
+          },
+          unit_amount: priceIn(ADDONS.branding.price, ccy) * 100,
+        },
+        quantity: 1,
+      });
+    }
+
     if (withMaintenance) {
       lineItems.push({
         price_data: {
-          currency: "eur",
+          currency: stripeCcy,
           product_data: {
-            name: MAINTENANCE_LABEL,
-            description: "Mises à jour, hébergement & support",
+            name: ADDONS.maintenance.label,
+            description: ADDONS.maintenance.sublabel,
           },
           // Recurring maintenance billed monthly — use a one-time line item
           // to avoid Stripe subscription complexity; displayed as monthly on order page
-          unit_amount: MAINTENANCE_PRICE_CENTS,
+          unit_amount: priceIn(ADDONS.maintenance.price, ccy) * 100,
         },
         quantity: 1,
       });
@@ -182,6 +183,8 @@ export async function POST(req: NextRequest) {
         siteType,
         theme: siteTheme,
         maintenance: withMaintenance ? "1" : "0",
+        branding: withBranding ? "1" : "0",
+        currency: ccy,
         briefId,
       },
       // Force Stripe to collect customer email (even though Checkout collects by default in payment mode)

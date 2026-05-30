@@ -5,6 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams, useRouter } from "next/navigation";
 import { ChevronRight, ChevronLeft, Upload, X, Check, Loader2, Globe, Phone, Mail, MapPin, Plus, Link } from "lucide-react";
 import Image from "next/image";
+import {
+  SITE_PRICES, ADDONS, DEFAULT_CURRENCY,
+  priceIn, formatPrice, isCurrency, type Currency,
+} from "@/lib/pricing";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -392,6 +396,9 @@ function OnboardingContent() {
   const type  = searchParams.get("type")  ?? "vitrine";
   const theme = searchParams.get("theme") ?? "";
   const maint = searchParams.get("maintenance") ?? "0";
+  const brand = searchParams.get("branding") ?? "0";
+  const currencyParam = searchParams.get("currency");
+  const currency: Currency = isCurrency(currencyParam) ? currencyParam : DEFAULT_CURRENCY;
   const sessionId = searchParams.get("session");
 
   const [step, setStep] = useState(0);
@@ -446,15 +453,12 @@ function OnboardingContent() {
     return false;
   };
 
-  // Price recap shown before payment
-  const TYPE_PRICES: Record<string, number> = {
-    essentiel: 599,
-    pro: 899,
-    premium: 1499,
-  };
-  const basePrice = TYPE_PRICES[type] ?? 599;
-  const maintenancePrice = 59;
-  const totalPrice = basePrice + (maint === "1" ? maintenancePrice : 0);
+  // Price recap shown before payment (canonical EUR amounts resolved to the
+  // chosen currency via the shared pricing table).
+  const basePriceEur = (SITE_PRICES[type] ?? SITE_PRICES["landing"]).price;
+  const withBranding = brand === "1";
+  const withMaintenance = maint === "1";
+  const oneTimeEur = basePriceEur + (withBranding ? ADDONS.branding.price : 0);
 
   const handleSubmit = async () => {
     setError("");
@@ -489,7 +493,9 @@ function OnboardingContent() {
           type,
           name: data.company,
           theme,
-          maintenance: maint === "1",
+          maintenance: withMaintenance,
+          branding: withBranding,
+          currency,
           brief: data,
         }),
       });
@@ -566,18 +572,24 @@ function OnboardingContent() {
                 <p className="text-xs font-semibold tracking-widest text-violet-400 uppercase mb-3">Récapitulatif</p>
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center justify-between">
-                    <span className="text-white/60">Site {type ? type.charAt(0).toUpperCase() + type.slice(1) : "Essentiel"}</span>
-                    <span className="text-white font-medium">{basePrice}&nbsp;€</span>
+                    <span className="text-white/60">{(SITE_PRICES[type] ?? SITE_PRICES["landing"]).label}</span>
+                    <span className="text-white font-medium">{formatPrice(basePriceEur, currency)}</span>
                   </div>
-                  {maint === "1" && (
+                  {withBranding && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-white/60">{ADDONS.branding.label}</span>
+                      <span className="text-white font-medium">{formatPrice(ADDONS.branding.price, currency)}</span>
+                    </div>
+                  )}
+                  {withMaintenance && (
                     <div className="flex items-center justify-between">
                       <span className="text-white/60">Maintenance (premier mois)</span>
-                      <span className="text-white font-medium">{maintenancePrice}&nbsp;€</span>
+                      <span className="text-white font-medium">{formatPrice(ADDONS.maintenance.price, currency)}</span>
                     </div>
                   )}
                   <div className="flex items-center justify-between pt-2 border-t border-white/5">
                     <span className="text-white font-semibold">Total TTC</span>
-                    <span className="text-white font-bold text-lg">{totalPrice}&nbsp;€</span>
+                    <span className="text-white font-bold text-lg">{formatPrice(oneTimeEur, currency)}</span>
                   </div>
                 </div>
               </div>
