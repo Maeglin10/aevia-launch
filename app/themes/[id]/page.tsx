@@ -124,11 +124,37 @@ export default function ThemePreviewPage({ params }: { params: Promise<{ id: str
   useEffect(() => setMounted(true), []);
   const meta = THEMES_META[id];
 
+  // Optional ?session=<id> → render this theme with a REAL generated session
+  // (e.g. a client's actual content) instead of the generic mock. Falls back
+  // to mock if the param is missing or the session can't be loaded.
+  const [realSession, setRealSession] = useState<SessionData | null>(null);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const sid = new URLSearchParams(window.location.search).get("session");
+    if (!sid) return;
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetch(`/api/sessions?id=${encodeURIComponent(sid)}`);
+        if (!res.ok) return;
+        const data = (await res.json()) as SessionData;
+        if (!cancelled && data?.generatedContent) setRealSession(data);
+      } catch {
+        /* fall back to mock */
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
   if (!meta) notFound();
 
   const ThemeIcon = meta.icon;
 
-  const session = buildMockSession(id);
+  // Use the real client session when loaded; force the rendered theme to this
+  // page's theme id so you can preview the same content across themes.
+  const session: SessionData = realSession
+    ? { ...realSession, formData: { ...realSession.formData, template: id } }
+    : buildMockSession(id);
 
   const currentIndex = ORDERED_THEME_IDS.indexOf(id);
   const prevId = currentIndex > 0 ? ORDERED_THEME_IDS[currentIndex - 1] : null;
