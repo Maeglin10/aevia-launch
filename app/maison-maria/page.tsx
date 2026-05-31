@@ -34,6 +34,20 @@ function imgUrl(img: string, w = 800): string {
   return img.startsWith("/") ? img : `https://images.unsplash.com/${img}?q=80&w=${w}&auto=format&fit=crop`;
 }
 
+// Réservation — À REMPLACER par les vrais identifiants de la cliente.
+// BOOKING_URL : son lien Calendly (ou Planity/Treatwell).
+// PHONE_NUMBER : numéro au format international pour le lien d'appel.
+const BOOKING_URL = "https://calendly.com/maison-maria/rendez-vous"; // TODO: vrai lien Calendly
+const PHONE_NUMBER = "+33600000000"; // TODO: vrai numéro
+const PHONE_DISPLAY = "06 00 00 00 00"; // TODO: numéro affiché
+
+function openBooking() {
+  if (typeof window !== "undefined") window.open(BOOKING_URL, "_blank", "noopener,noreferrer");
+}
+function callSalon() {
+  if (typeof window !== "undefined") window.location.href = `tel:${PHONE_NUMBER}`;
+}
+
 const SERVICES = [
   {
     id: 1,
@@ -189,17 +203,27 @@ function TextReveal({
   children,
   delay = 0,
   style: externalStyle,
+  animateOnMount = false,
 }: {
   children: React.ReactNode;
   delay?: number;
   style?: React.CSSProperties;
+  // Above-the-fold content (e.g. the hero title) is always visible on load, so
+  // it should reveal on mount. whileInView/IntersectionObserver can miss the
+  // very first element at the top of the page, leaving it stuck at opacity:0.
+  animateOnMount?: boolean;
 }) {
+  // useInView (ref-based) is far more reliable than the declarative
+  // whileInView, which intermittently failed to fire for headings and left
+  // them stuck at opacity:0 (invisible). once:true keeps the reveal permanent.
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "0px 0px -8% 0px" });
+  const show = animateOnMount || inView;
   return (
-    <div style={{ overflow: "hidden", ...externalStyle }}>
+    <div ref={ref} style={{ overflow: "hidden", ...externalStyle }}>
       <motion.div
         initial={{ y: "110%", opacity: 0 }}
-        whileInView={{ y: "0%", opacity: 1 }}
-        viewport={{ once: true, margin: "-40px" }}
+        animate={show ? { y: "0%", opacity: 1 } : { y: "110%", opacity: 0 }}
         transition={{ duration: 0.9, delay, ease: [0.76, 0, 0.24, 1] }}
       >
         {children}
@@ -797,7 +821,7 @@ export default function MaisonMariaPage() {
             </button>
           ))}
           <MagneticButton
-            onClick={() => scrollTo("booking")}
+            onClick={openBooking}
             style={{
               background: C.rose,
               color: "#fff",
@@ -980,7 +1004,7 @@ export default function MaisonMariaPage() {
             Cils & Sourcils · Vénissieux, Lyon
           </motion.div>
 
-          <TextReveal delay={0.3}>
+          <TextReveal delay={0.3} animateOnMount>
             <h1
               style={{
                 fontFamily: C.font,
@@ -994,7 +1018,7 @@ export default function MaisonMariaPage() {
               Le regard
             </h1>
           </TextReveal>
-          <TextReveal delay={0.45}>
+          <TextReveal delay={0.45} animateOnMount>
             <h1
               style={{
                 fontFamily: C.font,
@@ -1033,7 +1057,7 @@ export default function MaisonMariaPage() {
             style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}
           >
             <MagneticButton
-              onClick={() => scrollTo("booking")}
+              onClick={openBooking}
               style={{
                 background: C.dark,
                 color: "#fff",
@@ -1119,12 +1143,12 @@ export default function MaisonMariaPage() {
         }}
       >
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ marginBottom: 64 }}>
+          <div style={{ marginBottom: 36 }}>
             <TextReveal>
               <div
                 style={{
                   fontFamily: C.fontSans,
-                  fontSize: 11,
+                  fontSize: 12,
                   letterSpacing: "0.25em",
                   textTransform: "uppercase",
                   color: C.rose,
@@ -1139,7 +1163,7 @@ export default function MaisonMariaPage() {
               <h2
                 style={{
                   fontFamily: C.font,
-                  fontSize: "clamp(38px, 5vw, 68px)",
+                  fontSize: "clamp(46px, 6vw, 88px)",
                   fontWeight: 400,
                   color: C.dark,
                   lineHeight: 1.05,
@@ -1188,7 +1212,7 @@ export default function MaisonMariaPage() {
                 <div
                   style={{
                     fontFamily: C.fontSans,
-                    fontSize: 11,
+                    fontSize: 12,
                     letterSpacing: "0.25em",
                     textTransform: "uppercase",
                     color: C.rose,
@@ -1203,7 +1227,7 @@ export default function MaisonMariaPage() {
                 <h2
                   style={{
                     fontFamily: C.font,
-                    fontSize: "clamp(34px, 4vw, 56px)",
+                    fontSize: "clamp(40px, 5vw, 72px)",
                     fontWeight: 400,
                     color: C.dark,
                     lineHeight: 1.1,
@@ -1233,7 +1257,7 @@ export default function MaisonMariaPage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))",
               gap: 24,
             }}
           >
@@ -1257,7 +1281,7 @@ export default function MaisonMariaPage() {
               <div
                 style={{
                   fontFamily: C.fontSans,
-                  fontSize: 11,
+                  fontSize: 12,
                   letterSpacing: "0.25em",
                   textTransform: "uppercase",
                   color: C.rose,
@@ -1272,7 +1296,7 @@ export default function MaisonMariaPage() {
               <h2
                 style={{
                   fontFamily: C.font,
-                  fontSize: "clamp(36px, 5vw, 60px)",
+                  fontSize: "clamp(42px, 5.5vw, 76px)",
                   fontWeight: 400,
                   color: C.dark,
                 }}
@@ -1438,7 +1462,7 @@ export default function MaisonMariaPage() {
               <div
                 style={{
                   fontFamily: C.fontSans,
-                  fontSize: 11,
+                  fontSize: 12,
                   letterSpacing: "0.25em",
                   textTransform: "uppercase",
                   color: C.roseDark,
@@ -1453,7 +1477,7 @@ export default function MaisonMariaPage() {
               <h2
                 style={{
                   fontFamily: C.font,
-                  fontSize: "clamp(36px, 5vw, 60px)",
+                  fontSize: "clamp(42px, 5.5vw, 76px)",
                   fontWeight: 400,
                   color: C.dark,
                 }}
@@ -1479,7 +1503,7 @@ export default function MaisonMariaPage() {
               <div
                 style={{
                   fontFamily: C.fontSans,
-                  fontSize: 11,
+                  fontSize: 12,
                   letterSpacing: "0.25em",
                   textTransform: "uppercase",
                   color: C.rose,
@@ -1494,7 +1518,7 @@ export default function MaisonMariaPage() {
               <h2
                 style={{
                   fontFamily: C.font,
-                  fontSize: "clamp(36px, 5vw, 60px)",
+                  fontSize: "clamp(42px, 5.5vw, 76px)",
                   fontWeight: 400,
                   color: C.dark,
                 }}
@@ -1549,7 +1573,7 @@ export default function MaisonMariaPage() {
             <div
               style={{
                 fontFamily: C.fontSans,
-                fontSize: 11,
+                fontSize: 12,
                 letterSpacing: "0.25em",
                 textTransform: "uppercase",
                 color: C.roseLight,
@@ -1599,6 +1623,7 @@ export default function MaisonMariaPage() {
             style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}
           >
             <MagneticButton
+              onClick={openBooking}
               style={{
                 background: C.rose,
                 color: "#fff",
@@ -1616,6 +1641,7 @@ export default function MaisonMariaPage() {
               Prendre rendez-vous
             </MagneticButton>
             <MagneticButton
+              onClick={callSalon}
               style={{
                 background: "transparent",
                 color: "rgba(255,255,255,0.7)",
@@ -1630,7 +1656,7 @@ export default function MaisonMariaPage() {
                 borderRadius: 1,
               }}
             >
-              Nous appeler
+              Nous appeler · {PHONE_DISPLAY}
             </MagneticButton>
           </motion.div>
           <motion.div
@@ -1649,7 +1675,7 @@ export default function MaisonMariaPage() {
             {[
               { label: "Clientes satisfaites", value: "3 400+" },
               { label: "Années d'expertise", value: "12" },
-              { label: "Clientes satisfaites", value: "100%" },
+              { label: "Recommandation", value: "100%" },
             ].map((stat) => (
               <div key={stat.label} style={{ textAlign: "center" }}>
                 <div
