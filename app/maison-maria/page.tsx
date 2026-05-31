@@ -883,17 +883,33 @@ export default function MaisonMariaPage() {
         }}
       >
         <div
-          style={{
-            fontFamily: C.font,
-            fontSize: 22,
-            fontWeight: 500,
-            color: C.dark,
-            letterSpacing: "0.05em",
-            cursor: "pointer",
-          }}
+          style={{ cursor: "pointer", display: "flex", alignItems: "center" }}
           onClick={() => scrollTo("hero")}
         >
-          Maison Maria
+          {/* Brand text by default; the logo image replaces it only once it
+              loads successfully (drop the file at /public/maison-maria/logo.png).
+              This avoids any broken-image icon while the logo is missing. */}
+          <img
+            src="/maison-maria/logo.png"
+            alt="Maison Maria"
+            style={{ height: 46, width: "auto", display: "none" }}
+            onLoad={(e) => {
+              e.currentTarget.style.display = "block";
+              const t = e.currentTarget.nextElementSibling as HTMLElement | null;
+              if (t) t.style.display = "none";
+            }}
+          />
+          <span
+            style={{
+              fontFamily: C.font,
+              fontSize: 22,
+              fontWeight: 500,
+              color: C.dark,
+              letterSpacing: "0.05em",
+            }}
+          >
+            Maison Maria
+          </span>
         </div>
 
         {/* Desktop links */}
@@ -1035,6 +1051,12 @@ export default function MaisonMariaPage() {
           .desktop-nav { display: none !important; }
           .hamburger { display: flex !important; }
         }
+        /* Hero photo is landscape — on portrait phones, cover crops it hard.
+           Focus the framing on the lashed eye so it stays visible. */
+        .mm-hero-img { object-position: center 40%; }
+        @media (max-width: 768px) {
+          .mm-hero-img { object-position: 32% 60%; }
+        }
       `}</style>
 
       {/* Hero */}
@@ -1062,7 +1084,8 @@ export default function MaisonMariaPage() {
           <img
             src="/maison-maria/planity-5.jpg"
             alt="Maison Maria — institut de beauté à Vénissieux : extensions de cils, sourcils, dentaire"
-            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }}
+            className="mm-hero-img"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
           {/* Soft cream scrim — concentrated in the centre so the overlaid
               title/subtitle always read, while the photo stays visible at the
