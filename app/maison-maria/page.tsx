@@ -447,11 +447,17 @@ function ServiceCard({ service }: { service: (typeof SERVICES)[0] }) {
         >
           {service.description}
         </p>
-        <div
+        <button
+          type="button"
+          onClick={openBooking}
+          aria-label={`Réserver — ${service.title}`}
           style={{
-            display: "flex",
+            display: "inline-flex",
             alignItems: "center",
             gap: 8,
+            background: "none",
+            border: "none",
+            padding: 0,
             fontFamily: C.fontSans,
             fontSize: 12,
             letterSpacing: "0.15em",
@@ -463,7 +469,7 @@ function ServiceCard({ service }: { service: (typeof SERVICES)[0] }) {
         >
           Réserver
           <span style={{ fontSize: 16 }}>→</span>
-        </div>
+        </button>
       </motion.div>
     </SpotlightCard>
   );
@@ -679,6 +685,8 @@ function PackageCard({ pkg }: { pkg: (typeof PACKAGES)[0] }) {
         ))}
       </div>
       <button
+        type="button"
+        onClick={openBooking}
         style={{
           width: "100%",
           padding: "14px 24px",
