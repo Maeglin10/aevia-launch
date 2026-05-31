@@ -34,10 +34,24 @@ function imgUrl(img: string, w = 800): string {
   return img.startsWith("/") ? img : `https://images.unsplash.com/${img}?q=80&w=${w}&auto=format&fit=crop`;
 }
 
-// Réservation — coordonnées réelles de Maison Maria.
+// Coordonnées réelles de Maison Maria (source : Planity).
 const BOOKING_URL = "https://www.planity.com/maison-maria-69200-venissieux"; // Planity
 const PHONE_NUMBER = "+33617867969";
 const PHONE_DISPLAY = "06 17 86 79 69";
+const PHONE_NAILS_NUMBER = "+33771491937";
+const PHONE_NAILS_DISPLAY = "07 71 49 19 37"; // ongles (@baddies.nailzzz)
+const ADDRESS = "10 Rue Jean-Baptiste Clément, 69200 Vénissieux";
+const ADDRESS_MAP = "https://maps.google.com/?q=10+Rue+Jean-Baptiste+Clément+69200+Vénissieux";
+const INSTAGRAM = "https://www.instagram.com/maisonmarialyon69";
+const INSTAGRAM_HANDLE = "@maisonmarialyon69";
+const RATING = "4,9";
+const REVIEWS_COUNT = "243";
+const HOURS = [
+  { d: "Lundi – Jeudi", h: "07:00 – 23:30" },
+  { d: "Vendredi", h: "07:00 – 23:30" },
+  { d: "Samedi", h: "07:00 – 23:00" },
+  { d: "Dimanche", h: "10:00 – 23:00" },
+];
 
 function openBooking() {
   if (typeof window !== "undefined") window.open(BOOKING_URL, "_blank", "noopener,noreferrer");
@@ -46,60 +60,154 @@ function callSalon() {
   if (typeof window !== "undefined") window.location.href = `tel:${PHONE_NUMBER}`;
 }
 
+// Prestations vedettes (les 6 univers phares de l'institut).
 const SERVICES = [
   {
     id: 1,
-    title: "Volume Russe",
-    subtitle: "2h — 120€",
+    title: "Extensions de Cils",
+    subtitle: "à partir de 40€",
     description:
-      "La signature Maison Maria. Pose de bouquets de cils ultra-fins pour un regard dense, fourni et glamour, tout en légèreté. Tenue impeccable jusqu'à 4 semaines.",
+      "Volume russe, effet wispy, wet, doll ou naturel — un regard sur-mesure, dense et léger. Pose et remplissages, tenue plusieurs semaines.",
     icon: "✦",
     tag: "Best-seller",
   },
   {
     id: 2,
-    title: "Méga Volume",
-    subtitle: "2h15 — 130€",
+    title: "Réhaussement de Cils",
+    subtitle: "à partir de 55€",
     description:
-      "Pour un regard spectaculaire et intense. Bouquets très fournis, effet maximal maîtrisé, parfait pour les événements et les amoureuses du glamour assumé.",
-    icon: "◈",
-    tag: "Luxe",
-  },
-  {
-    id: 3,
-    title: "Cil à Cil Classique",
-    subtitle: "1h30 — 90€",
-    description:
-      "Un cil d'extension posé sur un cil naturel. Résultat élégant et naturel qui sublime votre regard sans artifice. L'effet mascara permanent.",
-    icon: "❋",
-    tag: "Naturel",
-  },
-  {
-    id: 4,
-    title: "Lifting de Cils",
-    subtitle: "1h — 65€",
-    description:
-      "Vos cils naturels rehaussés et galbés, teinture incluse. Un regard ouvert et lumineux pendant 6 à 8 semaines, sans entretien quotidien.",
+      "Vos cils naturels galbés et rehaussés, pour un regard ouvert et lumineux. Sans entretien quotidien, possible en séance duo.",
     icon: "◇",
     tag: "Tendance",
   },
   {
-    id: 5,
-    title: "Architecture Sourcils",
-    subtitle: "45 min — 45€",
+    id: 3,
+    title: "Sourcils & Teinture",
+    subtitle: "à partir de 10€",
     description:
-      "Restructuration complète, épilation au fil ou à la cire, teinture végétale. Des sourcils dessinés sur-mesure pour structurer et harmoniser votre visage.",
+      "Restructuration, épilation à la pince, teinture simple ou au henné. Des sourcils dessinés pour harmoniser votre visage.",
     icon: "✿",
     tag: "Populaire",
   },
   {
-    id: 6,
-    title: "Maquillage Longue Tenue",
-    subtitle: "1h — 70€",
+    id: 4,
+    title: "Blanchiment Dentaire",
+    subtitle: "à partir de 70€",
     description:
-      "Un maquillage impeccable qui tient toute la journée et toute la soirée. Mariées, shooting, événements : votre regard sublimé, sans retouche.",
-    icon: "⌘",
-    tag: "Événement",
+      "Un sourire éclatant en une séance — formule simple ou extrême, en solo ou en duo. Strass dentaire Swarovski en option.",
+    icon: "❋",
+    tag: "Éclat",
+  },
+  {
+    id: 5,
+    title: "Micropigmentation",
+    subtitle: "sur rendez-vous",
+    description:
+      "Sourcils semi-permanents au rendu naturel, poil par poil ou ombré. Un réveil sans crayon, pendant des mois. Sur consultation.",
+    icon: "✎",
+    tag: "Semi-permanent",
+  },
+  {
+    id: 6,
+    title: "Madérothérapie",
+    subtitle: "à partir de 35€",
+    description:
+      "Modelage corps sculptant : ventre, jambes, fessiers, bras ou corps entier. Drainant, raffermissant, anti-capitons.",
+    icon: "◈",
+    tag: "Bien-être",
+  },
+];
+
+// Carte complète des prestations, par univers (prix réels Planity).
+const MENU = [
+  {
+    cat: "Regard — Extensions & Réhaussement",
+    img: "/maison-maria/planity-2.jpg",
+    items: [
+      { n: "Extension cils — wispy / wet / doll / déco / plume", d: "1h", p: "60€" },
+      { n: "Extension cils — pose hybride / mixte", d: "1h", p: "50€" },
+      { n: "Extension cils — pose naturelle", d: "1h", p: "40€" },
+      { n: "Remplissage wispy / wet / doll", d: "30 min", p: "40€" },
+      { n: "Remplissage pose naturelle", d: "1h", p: "30€" },
+      { n: "Réhaussement de cils (+ blanchiment dentaire)", d: "2h", p: "60€" },
+      { n: "Séance duo réhaussement de cils", d: "1h", p: "55€" },
+    ],
+  },
+  {
+    cat: "Sourcils",
+    img: "/maison-maria/planity-3.jpg",
+    items: [
+      { n: "Épilation à la pince", d: "30 min", p: "10€" },
+      { n: "Teinture simple", d: "30 min", p: "15€" },
+      { n: "Teinture au henné", d: "30 min", p: "20€" },
+      { n: "Teinture + épilation", d: "30 min", p: "25€" },
+    ],
+  },
+  {
+    cat: "Blanchiment & Strass dentaire",
+    img: "/maison-maria/planity-4.jpg",
+    items: [
+      { n: "Blanchiment dentaire — séance duo simple", d: "1h", p: "70€" },
+      { n: "Blanchiment dentaire — séance duo extrême", d: "1h", p: "120€" },
+      { n: "Strass dentaire « Swarovski »", d: "30 min", p: "30€" },
+    ],
+  },
+  {
+    cat: "Pack Beauty",
+    img: "/maison-maria/planity-5.jpg",
+    items: [
+      { n: "Extension de cils + blanchiment dentaire", d: "2h", p: "70 – 100€" },
+      { n: "Réhaussement de cils + blanchiment dentaire", d: "2h", p: "60€" },
+    ],
+  },
+  {
+    cat: "Ongles · sur RDV au 07 71 49 19 37",
+    img: null,
+    items: [
+      { n: "Pose capsule gel — french", d: "1h40", p: "45€" },
+      { n: "Pose capsule gel — couleur unie", d: "1h30", p: "40€" },
+      { n: "Pose capsule gel — nail art niveau 1", d: "2h", p: "50€" },
+      { n: "Pose capsule gel — nail art niveau 2", d: "2h30", p: "60€" },
+      { n: "Pose de gel sur ongles naturels — french", d: "1h10", p: "35€" },
+    ],
+  },
+  {
+    cat: "Corps — Madérothérapie",
+    img: null,
+    items: [
+      { n: "Ventre & taille", d: "1h", p: "50€" },
+      { n: "Jambes & fessiers", d: "1h", p: "50€" },
+      { n: "Visage & buste", d: "1h", p: "35€" },
+      { n: "Bras", d: "40 min", p: "35€" },
+      { n: "Corps entier", d: "2h", p: "110€" },
+    ],
+  },
+  {
+    cat: "Épilations",
+    img: null,
+    items: [
+      { n: "Épilation à la cire", d: "30 min", p: "10€" },
+      { n: "Duvet lèvre supérieure / moustache", d: "30 min", p: "10€" },
+      { n: "Pattes", d: "30 min", p: "5€" },
+    ],
+  },
+  {
+    cat: "Cheveux",
+    img: null,
+    items: [
+      { n: "Coupe fourche (Split Ender Pro) + sérum réparateur", d: "10 min", p: "20€" },
+    ],
+  },
+  {
+    cat: "Formations certifiantes — kit + diplôme inclus",
+    img: null,
+    items: [
+      { n: "Blanchiment dentaire", d: "6h", p: "400€" },
+      { n: "Extension de cils", d: "6h", p: "350€" },
+      { n: "Strass dentaire", d: "6h", p: "300€" },
+      { n: "Réhaussement de cils", d: "6h", p: "250€" },
+      { n: "Browlift", d: "6h", p: "250€" },
+    ],
   },
 ];
 
@@ -114,64 +222,54 @@ const TEAM = [
   {
     name: "Maria",
     role: "Fondatrice & Experte du Regard",
-    bio: "Spécialiste certifiée en extensions de cils et architecture de sourcils à Vénissieux. Maria sublime chaque regard avec précision, patience et un sens du détail rare. Chaque pose est sur-mesure, dans un cadre cocooning et bienveillant.",
+    bio: "Fondatrice de Maison Maria à Vénissieux, Maria est experte en extensions de cils, sourcils, blanchiment dentaire, micropigmentation et soins du corps. Certifiée et formatrice, elle sublime chaque cliente avec précision, douceur et un vrai sens du détail — dans un cadre cocooning, 7 jours sur 7.",
     img: "/maison-maria/1.jpg",
-    specialties: ["Volume russe", "Lifting de cils", "Architecture sourcils"],
+    specialties: ["Extensions de cils", "Sourcils", "Blanchiment dentaire", "Micropigmentation", "Madérothérapie", "Formations"],
   },
 ];
 
+// Avis réels vérifiés sur Planity (4,9/5 · 243 avis).
 const TESTIMONIALS = [
   {
-    text: "Un regard de rêve ! Le volume russe de Maria est d'une finesse incroyable, ça tient des semaines. Je ne mets plus jamais de mascara. Une vraie artiste du regard.",
-    author: "Léa M.",
-    role: "Cliente fidèle",
+    text: "Très bel accueil et très belle prestation.",
+    author: "Cliente vérifiée",
+    role: "Avis Planity · 09/05/2026",
     rating: 5,
   },
   {
-    text: "J'ai testé plein de salons à Lyon, et chez Maison Maria c'est une autre dimension. Pose précise, indolore, et le résultat est juste sublime. Je recommande à 1000%.",
-    author: "Charlotte B.",
-    role: "Vénissieux",
-    rating: 5,
-  },
-  {
-    text: "Le lifting de cils a complètement ouvert mon regard. Maria prend le temps, explique tout, et le cadre est ultra cosy. On se sent chouchoutée du début à la fin.",
-    author: "Mathilde D.",
-    role: "Cliente depuis 1 an",
-    rating: 5,
-  },
-  {
-    text: "Maria a fait mes cils et mon maquillage pour mon mariage. Tenue parfaite toute la journée, malgré les larmes de joie ! Un grand merci.",
-    author: "Amélie R.",
-    role: "Mariée, 2026",
+    text: "Au top, super sympa et très bonne prestation, nickel.",
+    author: "Cliente vérifiée",
+    role: "Avis Planity · 04/05/2026",
     rating: 5,
   },
 ];
 
+// Packs réels (Pack Beauty Planity + séances duo).
 const PACKAGES = [
   {
-    name: "Regard Signature",
-    duration: "2h30",
-    price: "150€",
-    tag: "Le plus demandé",
-    includes: ["Volume russe", "Architecture sourcils", "Teinture sourcils", "Conseils d'entretien"],
+    name: "Pack Regard",
+    duration: "2h",
+    price: "60€",
+    tag: "Naturel & éclat",
+    includes: ["Réhaussement de cils", "Blanchiment dentaire", "Un regard ouvert", "Un sourire éclatant"],
     color: C.rose,
     highlight: false,
   },
   {
-    name: "Jour J",
-    duration: "3h",
-    price: "180€",
-    tag: "Spécial Mariée",
-    includes: ["Volume russe ou méga volume", "Architecture sourcils", "Maquillage longue tenue", "Essai inclus"],
+    name: "Pack Éclat",
+    duration: "2h",
+    price: "dès 70€",
+    tag: "Le plus demandé",
+    includes: ["Extension de cils", "Blanchiment dentaire", "Cils sur-mesure", "Sourire lumineux"],
     color: C.dark,
     highlight: true,
   },
   {
-    name: "Naturel Chic",
-    duration: "2h15",
-    price: "120€",
-    tag: "Effet naturel",
-    includes: ["Lifting de cils", "Teinture cils", "Architecture sourcils", "Soin fortifiant"],
+    name: "Séance Duo",
+    duration: "1h",
+    price: "dès 55€",
+    tag: "À vivre à deux",
+    includes: ["Réhaussement de cils en duo", "ou blanchiment dentaire en duo", "Un moment partagé", "Entre amies ou en famille"],
     color: C.rose,
     highlight: false,
   },
@@ -179,10 +277,12 @@ const PACKAGES = [
 
 const MARQUEE_ITEMS = [
   "Extensions de Cils",
-  "Volume Russe",
-  "Lifting de Cils",
-  "Architecture Sourcils",
-  "Experte Certifiée",
+  "Sourcils",
+  "Blanchiment Dentaire",
+  "Micropigmentation",
+  "Madérothérapie",
+  "Ongles",
+  "Formations",
   "Vénissieux · Lyon",
 ];
 
@@ -960,9 +1060,9 @@ export default function MaisonMariaPage() {
           }}
         >
           <img
-            src="/maison-maria/1.jpg"
-            alt="Maison Maria — extensions de cils Vénissieux"
-            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 35%" }}
+            src="/maison-maria/planity-5.jpg"
+            alt="Maison Maria — institut de beauté à Vénissieux : extensions de cils, sourcils, dentaire"
+            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }}
           />
           {/* Soft cream scrim — concentrated in the centre so the overlaid
               title/subtitle always read, while the photo stays visible at the
@@ -1007,7 +1107,7 @@ export default function MaisonMariaPage() {
               fontWeight: 500,
             }}
           >
-            Cils & Sourcils · Vénissieux, Lyon
+            Institut de beauté · Vénissieux, Lyon
           </motion.div>
 
           <TextReveal delay={0.3} animateOnMount>
@@ -1021,7 +1121,7 @@ export default function MaisonMariaPage() {
                 marginBottom: 0,
               }}
             >
-              Le regard
+              Votre beauté
             </h1>
           </TextReveal>
           <TextReveal delay={0.45} animateOnMount>
@@ -1036,7 +1136,7 @@ export default function MaisonMariaPage() {
                 marginBottom: 28,
               }}
             >
-              sublimé
+              sublimée
             </h1>
           </TextReveal>
 
@@ -1053,7 +1153,7 @@ export default function MaisonMariaPage() {
               lineHeight: 1.7,
             }}
           >
-            Extensions de cils, lifting et architecture de sourcils par une experte certifiée. Un regard sublimé, sur-mesure, dans un cadre cocooning à Vénissieux.
+            Cils, sourcils, blanchiment dentaire, micropigmentation, soins du corps & formations. L'institut de beauté de Maria à Vénissieux — sur-mesure, dans un cadre cocooning, 7j/7. Noté {RATING}/5 sur {REVIEWS_COUNT} avis.
           </motion.p>
 
           <motion.div
@@ -1162,7 +1262,7 @@ export default function MaisonMariaPage() {
                   fontWeight: 500,
                 }}
               >
-                Nos Soins
+                Nos Prestations
               </div>
             </TextReveal>
             <TextReveal delay={0.1}>
@@ -1175,22 +1275,113 @@ export default function MaisonMariaPage() {
                   lineHeight: 1.05,
                 }}
               >
-                Un regard pensé
+                Tous vos soins,
                 <br />
-                <em>pour vous sublimer</em>
+                <em>un seul lieu</em>
               </h2>
             </TextReveal>
           </div>
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))",
               gap: 24,
             }}
           >
             {SERVICES.map((service) => (
               <ServiceCard key={service.id} service={service} />
             ))}
+          </div>
+
+          {/* Carte complète des prestations, par univers */}
+          <div style={{ marginTop: 96 }}>
+            <TextReveal>
+              <div
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 12,
+                  letterSpacing: "0.25em",
+                  textTransform: "uppercase",
+                  color: C.rose,
+                  marginBottom: 16,
+                  fontWeight: 500,
+                  textAlign: "center",
+                }}
+              >
+                La carte
+              </div>
+            </TextReveal>
+            <TextReveal delay={0.1}>
+              <h2
+                style={{
+                  fontFamily: C.font,
+                  fontSize: "clamp(36px, 4.5vw, 64px)",
+                  fontWeight: 400,
+                  color: C.dark,
+                  lineHeight: 1.05,
+                  textAlign: "center",
+                  marginBottom: 64,
+                }}
+              >
+                Toutes nos <em>prestations</em>
+              </h2>
+            </TextReveal>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 380px), 1fr))", gap: "48px 64px" }}>
+              {MENU.map((group) => (
+                <div key={group.cat}>
+                  {group.img && (
+                    <div style={{ height: 150, overflow: "hidden", borderRadius: 2, marginBottom: 20 }}>
+                      <img src={group.img} alt={group.cat} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                    </div>
+                  )}
+                  <h3
+                    style={{
+                      fontFamily: C.font,
+                      fontSize: 24,
+                      fontWeight: 500,
+                      color: C.dark,
+                      marginBottom: 18,
+                      paddingBottom: 12,
+                      borderBottom: `1px solid ${C.ivoryDark}`,
+                    }}
+                  >
+                    {group.cat}
+                  </h3>
+                  <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 14 }}>
+                    {group.items.map((it) => (
+                      <li key={it.n} style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
+                        <span style={{ fontFamily: C.fontSans, fontSize: 14.5, color: C.text, flex: "1 1 auto", lineHeight: 1.4 }}>
+                          {it.n}
+                          <span style={{ color: C.textMuted, fontSize: 12.5 }}> · {it.d}</span>
+                        </span>
+                        <span style={{ flex: "1 1 0", borderBottom: `1px dotted ${C.ivoryDark}`, transform: "translateY(-4px)", minWidth: 12 }} />
+                        <span style={{ fontFamily: C.fontSans, fontSize: 15, fontWeight: 600, color: C.roseDark, whiteSpace: "nowrap" }}>{it.p}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <div style={{ textAlign: "center", marginTop: 56 }}>
+              <MagneticButton
+                onClick={openBooking}
+                style={{
+                  background: C.dark,
+                  color: "#fff",
+                  border: "none",
+                  padding: "16px 44px",
+                  fontFamily: C.fontSans,
+                  fontSize: 12,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  borderRadius: 1,
+                }}
+              >
+                Réserver sur Planity
+              </MagneticButton>
+            </div>
           </div>
         </div>
       </section>
@@ -1491,6 +1682,15 @@ export default function MaisonMariaPage() {
                 Elles nous font <em>confiance</em>
               </h2>
             </TextReveal>
+            <TextReveal delay={0.2}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginTop: 28, background: C.ivory, border: `1px solid ${C.ivoryDark}`, borderRadius: 100, padding: "12px 28px" }}>
+                <span style={{ fontFamily: C.font, fontSize: 34, fontWeight: 500, color: C.dark, lineHeight: 1 }}>{RATING}</span>
+                <span style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                  <span style={{ color: C.rose, fontSize: 15, letterSpacing: 2 }}>★★★★★</span>
+                  <span style={{ fontFamily: C.fontSans, fontSize: 12.5, color: C.textMuted }}>{REVIEWS_COUNT} avis vérifiés sur Planity</span>
+                </span>
+              </div>
+            </TextReveal>
           </div>
           <TestimonialCarousel />
         </div>
@@ -1619,7 +1819,7 @@ export default function MaisonMariaPage() {
               marginBottom: 44,
             }}
           >
-            Réservez en ligne en 2 minutes. Consultations disponibles du mardi au samedi, de 9h à 19h.
+            Réservez en ligne en 2 minutes sur Planity. Ouvert 7j/7, du matin tard le soir, au cœur de Vénissieux.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1679,9 +1879,9 @@ export default function MaisonMariaPage() {
             }}
           >
             {[
-              { label: "Clientes satisfaites", value: "3 400+" },
-              { label: "Années d'expertise", value: "12" },
-              { label: "Recommandation", value: "100%" },
+              { label: "Note Planity", value: `${RATING}/5` },
+              { label: "Avis vérifiés", value: `${REVIEWS_COUNT}` },
+              { label: "Ouvert", value: "7j/7" },
             ].map((stat) => (
               <div key={stat.label} style={{ textAlign: "center" }}>
                 <div
@@ -1716,32 +1916,68 @@ export default function MaisonMariaPage() {
       <footer
         style={{
           background: "#120e0c",
-          color: "rgba(255,255,255,0.5)",
-          padding: "40px clamp(24px, 8vw, 120px)",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: 16,
+          color: "rgba(255,255,255,0.55)",
+          padding: "72px clamp(24px, 8vw, 120px) 36px",
         }}
       >
         <div
           style={{
-            fontFamily: C.font,
-            fontSize: 18,
-            color: "rgba(255,255,255,0.8)",
+            maxWidth: 1200,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 220px), 1fr))",
+            gap: 48,
           }}
         >
-          Maison Maria
+          {/* Brand */}
+          <div>
+            <div style={{ fontFamily: C.font, fontSize: 28, color: "#fff", marginBottom: 14 }}>Maison Maria</div>
+            <p style={{ fontFamily: C.fontSans, fontSize: 13.5, lineHeight: 1.7, color: "rgba(255,255,255,0.5)", maxWidth: 280 }}>
+              Institut de beauté à Vénissieux. Cils, sourcils, dentaire, micropigmentation, corps & formations.
+            </p>
+            <div style={{ marginTop: 18, display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ color: C.roseLight, fontSize: 14, letterSpacing: 1 }}>★★★★★</span>
+              <span style={{ fontFamily: C.fontSans, fontSize: 13, color: "rgba(255,255,255,0.7)" }}>{RATING}/5 · {REVIEWS_COUNT} avis</span>
+            </div>
+          </div>
+
+          {/* Adresse & horaires */}
+          <div>
+            <div style={{ fontFamily: C.fontSans, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: C.roseLight, marginBottom: 16, fontWeight: 600 }}>Adresse & horaires</div>
+            <a href={ADDRESS_MAP} target="_blank" rel="noopener noreferrer" style={{ fontFamily: C.fontSans, fontSize: 13.5, color: "rgba(255,255,255,0.75)", textDecoration: "none", lineHeight: 1.6, display: "block", marginBottom: 16 }}>
+              {ADDRESS}
+            </a>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 6 }}>
+              {HOURS.map((h) => (
+                <li key={h.d} style={{ display: "flex", justifyContent: "space-between", gap: 16, fontFamily: C.fontSans, fontSize: 12.5, color: "rgba(255,255,255,0.6)" }}>
+                  <span>{h.d}</span>
+                  <span style={{ color: "rgba(255,255,255,0.8)" }}>{h.h}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <div style={{ fontFamily: C.fontSans, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: C.roseLight, marginBottom: 16, fontWeight: 600 }}>Contact</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12, fontFamily: C.fontSans, fontSize: 13.5 }}>
+              <a href={`tel:${PHONE_NUMBER}`} style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>{PHONE_DISPLAY} <span style={{ color: "rgba(255,255,255,0.45)", fontSize: 12 }}>· institut</span></a>
+              <a href={`tel:${PHONE_NAILS_NUMBER}`} style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>{PHONE_NAILS_DISPLAY} <span style={{ color: "rgba(255,255,255,0.45)", fontSize: 12 }}>· ongles</span></a>
+              <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>Instagram {INSTAGRAM_HANDLE}</a>
+            </div>
+            <button
+              type="button"
+              onClick={openBooking}
+              style={{ marginTop: 22, background: C.rose, color: "#fff", border: "none", padding: "12px 28px", fontFamily: C.fontSans, fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600, cursor: "pointer", borderRadius: 1 }}
+            >
+              Réserver sur Planity
+            </button>
+          </div>
         </div>
-        <div
-          style={{
-            fontFamily: C.fontSans,
-            fontSize: 12,
-            letterSpacing: "0.05em",
-          }}
-        >
-          © 2026 Maison Maria · 8 rue de la République, 69200 Vénissieux · @maisonmarialyon69
+
+        <div style={{ maxWidth: 1200, margin: "48px auto 0", paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.1)", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12, fontFamily: C.fontSans, fontSize: 11.5, color: "rgba(255,255,255,0.4)" }}>
+          <span>© 2026 Maison Maria · Institut de beauté · Vénissieux</span>
+          <span>Majoration +10€ : prestations de nuit (21h–6h) & dimanche</span>
         </div>
       </footer>
     </div>
