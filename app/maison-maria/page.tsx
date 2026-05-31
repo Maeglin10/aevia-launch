@@ -931,14 +931,26 @@ export default function MaisonMariaPage() {
         >
           <img
             src="/maison-maria/1.jpg"
-            alt="Maison Maria salon"
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            alt="Maison Maria — extensions de cils Vénissieux"
+            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 35%" }}
+          />
+          {/* Soft cream scrim — concentrated in the centre so the overlaid
+              title/subtitle always read, while the photo stays visible at the
+              edges. Avoids dark text disappearing on the dark eye area. */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "radial-gradient(ellipse 80% 70% at 50% 52%, rgba(253,250,245,0.86) 0%, rgba(253,250,245,0.62) 45%, rgba(253,250,245,0.42) 75%, rgba(253,250,245,0.55) 100%)",
+            }}
           />
           <div
             style={{
               position: "absolute",
               inset: 0,
-              background: "linear-gradient(to bottom, rgba(253,250,245,0.3) 0%, rgba(253,250,245,0.6) 60%, rgba(253,250,245,0.9) 100%)",
+              background:
+                "linear-gradient(to bottom, rgba(253,250,245,0.2) 0%, rgba(253,250,245,0) 35%, rgba(253,250,245,0.55) 88%, rgba(253,250,245,0.95) 100%)",
             }}
           />
         </motion.div>
