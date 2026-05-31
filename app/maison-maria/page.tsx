@@ -92,10 +92,10 @@ const SERVICES = [
 ];
 
 const INGREDIENTS = [
-  { name: "Cils Soie Premium", origin: "Corée du Sud", benefit: "Légèreté & tenue", img: "/maison-maria/3.jpg" },
-  { name: "Colle Hypoallergénique", origin: "Qualité médicale", benefit: "Confort & respect de l'œil", img: "/maison-maria/4.jpg" },
+  { name: "Cils Soie Premium", origin: "Corée du Sud", benefit: "Légèreté & tenue", img: "/maison-maria/6.jpg" },
+  { name: "Colle Hypoallergénique", origin: "Qualité médicale", benefit: "Confort & respect de l'œil", img: "/maison-maria/7.jpg" },
   { name: "Teinture Végétale", origin: "France", benefit: "Sourcils intenses, sans agression", img: "/maison-maria/5.jpg" },
-  { name: "Soin Fortifiant", origin: "Botanique", benefit: "Cils naturels nourris", img: "/maison-maria/6.jpg" },
+  { name: "Soin Fortifiant", origin: "Botanique", benefit: "Cils naturels nourris", img: "/maison-maria/4.jpg" },
 ];
 
 const TEAM = [
@@ -103,7 +103,7 @@ const TEAM = [
     name: "Maria",
     role: "Fondatrice & Experte du Regard",
     bio: "Spécialiste certifiée en extensions de cils et architecture de sourcils à Vénissieux. Maria sublime chaque regard avec précision, patience et un sens du détail rare. Chaque pose est sur-mesure, dans un cadre cocooning et bienveillant.",
-    img: "/maison-maria/2.jpg",
+    img: "/maison-maria/1.jpg",
     specialties: ["Volume russe", "Lifting de cils", "Architecture sourcils"],
   },
 ];
@@ -905,6 +905,14 @@ export default function MaisonMariaPage() {
           .desktop-nav { display: none !important; }
           .hamburger { display: flex !important; }
         }
+        .mm-hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; min-height: 100vh; }
+        .mm-hero-text { display: flex; flex-direction: column; justify-content: center; padding: clamp(40px, 6vw, 96px); }
+        .mm-hero-photo { position: relative; overflow: hidden; }
+        @media (max-width: 880px) {
+          .mm-hero-grid { grid-template-columns: 1fr; }
+          .mm-hero-photo { order: -1; height: 46vh; min-height: 320px; }
+          .mm-hero-text { min-height: 54vh; padding: clamp(32px, 8vw, 56px); }
+        }
       `}</style>
 
       {/* Hero */}
@@ -913,163 +921,81 @@ export default function MaisonMariaPage() {
         ref={heroRef}
         style={{
           position: "relative",
-          height: "100vh",
-          minHeight: 700,
+          minHeight: "100vh",
           overflow: "hidden",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          background: C.bg,
         }}
       >
-        {/* Parallax background */}
-        <motion.div
-          style={{
-            position: "absolute",
-            inset: "-20% 0",
-            y: heroY,
-          }}
-        >
-          <img
-            src="/maison-maria/1.jpg"
-            alt="Maison Maria — extensions de cils Vénissieux"
-            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 35%" }}
-          />
-          {/* Soft cream scrim — concentrated in the centre so the overlaid
-              title/subtitle always read, while the photo stays visible at the
-              edges. Avoids dark text disappearing on the dark eye area. */}
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "radial-gradient(ellipse 80% 70% at 50% 52%, rgba(253,250,245,0.86) 0%, rgba(253,250,245,0.62) 45%, rgba(253,250,245,0.42) 75%, rgba(253,250,245,0.55) 100%)",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "linear-gradient(to bottom, rgba(253,250,245,0.2) 0%, rgba(253,250,245,0) 35%, rgba(253,250,245,0.55) 88%, rgba(253,250,245,0.95) 100%)",
-            }}
-          />
-        </motion.div>
-
-        <motion.div
-          style={{
-            position: "relative",
-            zIndex: 2,
-            textAlign: "center",
-            padding: "0 clamp(24px, 6vw, 100px)",
-            opacity: heroOpacity,
-          }}
-        >
-          <motion.div
-            initial={{ opacity: 0, letterSpacing: "0.5em" }}
-            animate={{ opacity: 1, letterSpacing: "0.25em" }}
-            transition={{ duration: 1.2, delay: 0.2 }}
-            style={{
-              fontFamily: C.fontSans,
-              fontSize: 11,
-              textTransform: "uppercase",
-              color: C.rose,
-              marginBottom: 20,
-              fontWeight: 500,
-            }}
-          >
-            Cils & Sourcils · Vénissieux, Lyon
-          </motion.div>
-
-          <TextReveal delay={0.3}>
-            <h1
+        {/* Split hero — cream text panel (left) + full-bleed result photo
+            (right). Guarantees the serif title reads on cream while letting her
+            best lash/brow result shine. Stacks (photo on top) on mobile. */}
+        <div className="mm-hero-grid">
+          {/* Text panel */}
+          <motion.div className="mm-hero-text" style={{ opacity: heroOpacity }}>
+            <motion.div
+              initial={{ opacity: 0, letterSpacing: "0.5em" }}
+              animate={{ opacity: 1, letterSpacing: "0.25em" }}
+              transition={{ duration: 1.2, delay: 0.2 }}
               style={{
-                fontFamily: C.font,
-                fontSize: "clamp(52px, 9vw, 120px)",
-                fontWeight: 300,
-                color: C.dark,
-                lineHeight: 0.95,
-                marginBottom: 0,
-              }}
-            >
-              Le regard
-            </h1>
-          </TextReveal>
-          <TextReveal delay={0.45}>
-            <h1
-              style={{
-                fontFamily: C.font,
-                fontStyle: "italic",
-                fontSize: "clamp(52px, 9vw, 120px)",
-                fontWeight: 300,
+                fontFamily: C.fontSans,
+                fontSize: 11,
+                textTransform: "uppercase",
                 color: C.rose,
-                lineHeight: 0.95,
-                marginBottom: 28,
+                marginBottom: 20,
+                fontWeight: 500,
               }}
             >
-              sublimé
-            </h1>
-          </TextReveal>
+              Cils & Sourcils · Vénissieux, Lyon
+            </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            style={{
-              fontFamily: C.fontSans,
-              fontSize: 16,
-              color: C.textMuted,
-              maxWidth: 480,
-              margin: "0 auto 40px",
-              lineHeight: 1.7,
-            }}
-          >
-            Extensions de cils, lifting et architecture de sourcils par une experte certifiée. Un regard sublimé, sur-mesure, dans un cadre cocooning à Vénissieux.
-          </motion.p>
+            <TextReveal delay={0.3}>
+              <h1 style={{ fontFamily: C.font, fontSize: "clamp(52px, 7vw, 104px)", fontWeight: 300, color: C.dark, lineHeight: 0.95, marginBottom: 0 }}>
+                Le regard
+              </h1>
+            </TextReveal>
+            <TextReveal delay={0.45}>
+              <h1 style={{ fontFamily: C.font, fontStyle: "italic", fontSize: "clamp(52px, 7vw, 104px)", fontWeight: 300, color: C.rose, lineHeight: 0.95, marginBottom: 28 }}>
+                sublimé
+              </h1>
+            </TextReveal>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-            style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}
-          >
-            <MagneticButton
-              onClick={() => scrollTo("booking")}
-              style={{
-                background: C.dark,
-                color: "#fff",
-                border: "none",
-                padding: "16px 40px",
-                fontFamily: C.fontSans,
-                fontSize: 12,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                fontWeight: 600,
-                cursor: "pointer",
-                borderRadius: 1,
-              }}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+              style={{ fontFamily: C.fontSans, fontSize: 16, color: C.textMuted, maxWidth: 440, margin: "0 0 40px", lineHeight: 1.7 }}
             >
-              Prendre rendez-vous
-            </MagneticButton>
-            <MagneticButton
-              onClick={() => scrollTo("services")}
-              style={{
-                background: "transparent",
-                color: C.dark,
-                border: `1.5px solid ${C.dark}`,
-                padding: "16px 40px",
-                fontFamily: C.fontSans,
-                fontSize: 12,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                fontWeight: 600,
-                cursor: "pointer",
-                borderRadius: 1,
-              }}
+              Extensions de cils, lifting et architecture de sourcils par une experte certifiée. Un regard sublimé, sur-mesure, dans un cadre cocooning à Vénissieux.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.9 }}
+              style={{ display: "flex", gap: 16, flexWrap: "wrap" }}
             >
-              Découvrir
-            </MagneticButton>
+              <MagneticButton onClick={() => scrollTo("booking")} style={{ background: C.dark, color: "#fff", border: "none", padding: "16px 40px", fontFamily: C.fontSans, fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 600, cursor: "pointer", borderRadius: 1 }}>
+                Prendre rendez-vous
+              </MagneticButton>
+              <MagneticButton onClick={() => scrollTo("services")} style={{ background: "transparent", color: C.dark, border: `1.5px solid ${C.dark}`, padding: "16px 40px", fontFamily: C.fontSans, fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 600, cursor: "pointer", borderRadius: 1 }}>
+                Découvrir
+              </MagneticButton>
+            </motion.div>
           </motion.div>
-        </motion.div>
+
+          {/* Photo panel — her cleanest lash + brow result */}
+          <div className="mm-hero-photo">
+            <motion.div style={{ position: "absolute", inset: "-8% 0", y: heroY }}>
+              <img
+                src="/maison-maria/8.jpg"
+                alt="Maison Maria — extensions de cils et architecture de sourcils, Vénissieux"
+                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 42%" }}
+              />
+            </motion.div>
+            {/* Seam blend toward the cream text panel */}
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(253,250,245,0.92) 0%, rgba(253,250,245,0) 16%)", pointerEvents: "none" }} />
+          </div>
+        </div>
 
         {/* Scroll indicator */}
         <motion.div
@@ -1265,7 +1191,7 @@ export default function MaisonMariaPage() {
                   fontWeight: 500,
                 }}
               >
-                Notre Équipe
+                La Fondatrice
               </div>
             </TextReveal>
             <TextReveal delay={0.1}>
@@ -1277,43 +1203,45 @@ export default function MaisonMariaPage() {
                   color: C.dark,
                 }}
               >
-                Des expertes <em>passionnées</em>
+                L'experte de votre <em>regard</em>
               </h2>
             </TextReveal>
           </div>
 
-          {/* Team tabs */}
-          <div
-            style={{
-              display: "flex",
-              gap: 0,
-              justifyContent: "center",
-              marginBottom: 48,
-              borderBottom: `1px solid ${C.ivoryDark}`,
-            }}
-          >
-            {TEAM.map((member, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveTeam(i)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  borderBottom: `2px solid ${activeTeam === i ? C.rose : "transparent"}`,
-                  padding: "12px 24px",
-                  fontFamily: C.fontSans,
-                  fontSize: 13,
-                  color: activeTeam === i ? C.rose : C.textMuted,
-                  cursor: "pointer",
-                  transition: "all 0.25s",
-                  fontWeight: activeTeam === i ? 600 : 400,
-                  marginBottom: -1,
-                }}
-              >
-                {member.name.split(" ")[0]}
-              </button>
-            ))}
-          </div>
+          {/* Team tabs — shown only when there is more than one member */}
+          {TEAM.length > 1 && (
+            <div
+              style={{
+                display: "flex",
+                gap: 0,
+                justifyContent: "center",
+                marginBottom: 48,
+                borderBottom: `1px solid ${C.ivoryDark}`,
+              }}
+            >
+              {TEAM.map((member, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveTeam(i)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    borderBottom: `2px solid ${activeTeam === i ? C.rose : "transparent"}`,
+                    padding: "12px 24px",
+                    fontFamily: C.fontSans,
+                    fontSize: 13,
+                    color: activeTeam === i ? C.rose : C.textMuted,
+                    cursor: "pointer",
+                    transition: "all 0.25s",
+                    fontWeight: activeTeam === i ? 600 : 400,
+                    marginBottom: -1,
+                  }}
+                >
+                  {member.name.split(" ")[0]}
+                </button>
+              ))}
+            </div>
+          )}
 
           <AnimatePresence mode="wait">
             <motion.div
@@ -1337,6 +1265,7 @@ export default function MaisonMariaPage() {
                     width: "100%",
                     aspectRatio: "4/5",
                     objectFit: "cover",
+                    objectPosition: "center 28%",
                     display: "block",
                     borderRadius: 2,
                   }}
