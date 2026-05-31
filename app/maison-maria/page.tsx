@@ -34,12 +34,10 @@ function imgUrl(img: string, w = 800): string {
   return img.startsWith("/") ? img : `https://images.unsplash.com/${img}?q=80&w=${w}&auto=format&fit=crop`;
 }
 
-// Réservation — À REMPLACER par les vrais identifiants de la cliente.
-// BOOKING_URL : son lien Calendly (ou Planity/Treatwell).
-// PHONE_NUMBER : numéro au format international pour le lien d'appel.
-const BOOKING_URL = "https://calendly.com/maison-maria/rendez-vous"; // TODO: vrai lien Calendly
-const PHONE_NUMBER = "+33600000000"; // TODO: vrai numéro
-const PHONE_DISPLAY = "06 00 00 00 00"; // TODO: numéro affiché
+// Réservation — coordonnées réelles de Maison Maria.
+const BOOKING_URL = "https://www.planity.com/maison-maria-69200-venissieux"; // Planity
+const PHONE_NUMBER = "+33617867969";
+const PHONE_DISPLAY = "06 17 86 79 69";
 
 function openBooking() {
   if (typeof window !== "undefined") window.open(BOOKING_URL, "_blank", "noopener,noreferrer");
