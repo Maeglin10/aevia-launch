@@ -316,6 +316,25 @@ export default function ConfidentialitePage() {
               en précisant votre nom et adresse email. Nous répondrons dans un délai d&apos;un mois.
             </p>
           </div>
+          <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-5 text-sm mt-4">
+            <p className="text-zinc-900 font-semibold mb-2">
+              Droit de réclamation (Art. 77)
+            </p>
+            <p className="text-zinc-700 leading-relaxed">
+              Si vous estimez que le traitement de vos données n&apos;est pas conforme au RGPD, vous
+              avez le droit d&apos;introduire une réclamation auprès de la{" "}
+              <a
+                href="https://www.cnil.fr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-violet-600 hover:text-violet-700 transition-colors"
+              >
+                CNIL
+              </a>{" "}
+              (Commission Nationale de l&apos;Informatique et des Libertés), 3 Place de Fontenoy –
+              TSA 80715 – 75334 Paris Cedex 07.
+            </p>
+          </div>
         </section>
 
         {/* ── 8. Sécurité ─────────────────────────────────────────────────────── */}
