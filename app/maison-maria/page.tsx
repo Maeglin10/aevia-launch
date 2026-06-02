@@ -38,8 +38,6 @@ function imgUrl(img: string, w = 800): string {
 const BOOKING_URL = "https://www.planity.com/maison-maria-69200-venissieux"; // Planity
 const PHONE_NUMBER = "+33617867969";
 const PHONE_DISPLAY = "06 17 86 79 69";
-const PHONE_NAILS_NUMBER = "+33771491937";
-const PHONE_NAILS_DISPLAY = "07 71 49 19 37"; // ongles (@baddies.nailzzz)
 const ADDRESS = "10 Rue Jean-Baptiste Clément, 69200 Vénissieux";
 const ADDRESS_MAP = "https://maps.google.com/?q=10+Rue+Jean-Baptiste+Clément+69200+Vénissieux";
 const INSTAGRAM = "https://www.instagram.com/maisonmarialyon69";
@@ -161,17 +159,6 @@ const MENU = [
     ],
   },
   {
-    cat: "Ongles · sur RDV au 07 71 49 19 37",
-    img: null,
-    items: [
-      { n: "Pose capsule gel — french", d: "1h40", p: "45€" },
-      { n: "Pose capsule gel — couleur unie", d: "1h30", p: "40€" },
-      { n: "Pose capsule gel — nail art niveau 1", d: "2h", p: "50€" },
-      { n: "Pose capsule gel — nail art niveau 2", d: "2h30", p: "60€" },
-      { n: "Pose de gel sur ongles naturels — french", d: "1h10", p: "35€" },
-    ],
-  },
-  {
     cat: "Corps — Madérothérapie",
     img: null,
     items: [
@@ -223,9 +210,18 @@ const TEAM = [
     name: "Maria",
     role: "Fondatrice & Experte du Regard",
     bio: "Fondatrice de Maison Maria à Vénissieux, Maria est experte en extensions de cils, sourcils, blanchiment dentaire, micropigmentation et soins du corps. Certifiée et formatrice, elle sublime chaque cliente avec précision, douceur et un vrai sens du détail — dans un cadre cocooning, 7 jours sur 7.",
-    img: "/maison-maria/1.jpg",
+    img: "/maison-maria/maria.jpg",
     specialties: ["Extensions de cils", "Sourcils", "Blanchiment dentaire", "Micropigmentation", "Madérothérapie", "Formations"],
   },
+];
+
+// « Mon histoire » — version soignée (image de marque) du récit de Maria.
+const STORY = [
+  "Depuis 2019, je consacre ma vie à la beauté du regard. Après mon CAP Esthétique, j'ai choisi de me spécialiser dans l'extension de cils — et de ne jamais cesser d'apprendre. Cinq formations spécialisées plus tard, l'exigence est devenue ma signature.",
+  "Très vite, j'ai compris qu'une belle technique ne suffisait pas. Ce que je voulais offrir, c'était une véritable expérience : un moment de confiance et de bien-être, où chaque cliente se sent écoutée et sublimée. C'est cette conviction qui m'a menée jusqu'à ouvrir mon propre salon.",
+  "Le chemin n'a pas toujours été simple. J'ai appris — parfois durement — à m'entourer des bonnes personnes, à poser mes limites et à transformer chaque épreuve en force. Ce sont ces obstacles qui m'ont façonnée : plus déterminée, plus exigeante, plus libre.",
+  "Aujourd'hui, j'avance avec une seule obsession : progresser sans cesse et devenir la meilleure version de moi-même. Je me forme, je me remets en question, et je construis chaque jour une maison dont je serai fière dans dix ans.",
+  "Car je crois profondément que notre passé ne définit pas notre avenir. Ce qui nous définit, c'est notre capacité à nous relever.",
 ];
 
 // Avis réels vérifiés sur Planity (4,9/5 · 243 avis).
@@ -281,7 +277,6 @@ const MARQUEE_ITEMS = [
   "Blanchiment Dentaire",
   "Micropigmentation",
   "Madérothérapie",
-  "Ongles",
   "Formations",
   "Vénissieux · Lyon",
 ];
@@ -1579,11 +1574,18 @@ export default function MaisonMariaPage() {
                 <img
                   src={imgUrl(TEAM[activeTeam].img, 800)}
                   alt={TEAM[activeTeam].name}
+                  onError={(e) => {
+                    // Fallback to the existing photo until maria.jpg is added.
+                    if (!e.currentTarget.dataset.fallback) {
+                      e.currentTarget.dataset.fallback = "1";
+                      e.currentTarget.src = "/maison-maria/1.jpg";
+                    }
+                  }}
                   style={{
                     width: "100%",
                     aspectRatio: "4/5",
                     objectFit: "cover",
-                    objectPosition: "center 28%",
+                    objectPosition: "center 25%",
                     display: "block",
                     borderRadius: 2,
                   }}
@@ -1665,6 +1667,66 @@ export default function MaisonMariaPage() {
               </div>
             </motion.div>
           </AnimatePresence>
+
+          {/* Mon histoire */}
+          <div style={{ maxWidth: 740, margin: "104px auto 0", textAlign: "center" }}>
+            <TextReveal>
+              <div
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 12,
+                  letterSpacing: "0.25em",
+                  textTransform: "uppercase",
+                  color: C.rose,
+                  marginBottom: 16,
+                  fontWeight: 500,
+                }}
+              >
+                Mon histoire
+              </div>
+            </TextReveal>
+            <TextReveal delay={0.1}>
+              <h3
+                style={{
+                  fontFamily: C.font,
+                  fontSize: "clamp(30px, 4vw, 52px)",
+                  fontWeight: 400,
+                  color: C.dark,
+                  lineHeight: 1.1,
+                  marginBottom: 40,
+                }}
+              >
+                De la passion à <em>la Maison</em>
+              </h3>
+            </TextReveal>
+            <div
+              style={{
+                fontFamily: C.fontSans,
+                fontSize: 16,
+                color: C.textMuted,
+                lineHeight: 1.9,
+                textAlign: "left",
+              }}
+            >
+              {STORY.map((para, i) => (
+                <p key={i} style={{ marginBottom: 20 }}>
+                  {para}
+                </p>
+              ))}
+            </div>
+            <p
+              style={{
+                fontFamily: C.font,
+                fontStyle: "italic",
+                fontSize: "clamp(22px, 3vw, 34px)",
+                color: C.rose,
+                marginTop: 28,
+                lineHeight: 1.2,
+              }}
+            >
+              Et mon histoire ne fait que commencer.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -1985,7 +2047,6 @@ export default function MaisonMariaPage() {
             <div style={{ fontFamily: C.fontSans, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: C.roseLight, marginBottom: 16, fontWeight: 600 }}>Contact</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12, fontFamily: C.fontSans, fontSize: 13.5 }}>
               <a href={`tel:${PHONE_NUMBER}`} style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>{PHONE_DISPLAY} <span style={{ color: "rgba(255,255,255,0.45)", fontSize: 12 }}>· institut</span></a>
-              <a href={`tel:${PHONE_NAILS_NUMBER}`} style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>{PHONE_NAILS_DISPLAY} <span style={{ color: "rgba(255,255,255,0.45)", fontSize: 12 }}>· ongles</span></a>
               <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>Instagram {INSTAGRAM_HANDLE}</a>
             </div>
             <button
