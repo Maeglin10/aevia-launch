@@ -638,6 +638,7 @@ export default function VitrineDemo() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [activeSection, setActiveSection] = useState("");
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
   // Scroll-active nav
   useEffect(() => {
@@ -660,11 +661,27 @@ export default function VitrineDemo() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
+  // Visual validation layer: required fields get a red border + helper text.
+  const validateContact = () => {
+    const errs: Record<string, string> = {};
+    if (!formData.name.trim()) errs.name = "Le nom complet est requis";
+    if (!formData.email.trim()) errs.email = "L'email est requis";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim()))
+      errs.email = "Email invalide";
+    if (!formData.subject) errs.subject = "Veuillez choisir un sujet";
+    if (!formData.message.trim()) errs.message = "Le message est requis";
+    return errs;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const errs = validateContact();
+    setFormErrors(errs);
+    if (Object.keys(errs).length > 0) return;
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 4000);
     setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+    setFormErrors({});
   };
 
   return (
@@ -1292,12 +1309,13 @@ export default function VitrineDemo() {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       onSubmit={handleSubmit}
+                      noValidate
                       className="rounded-2xl border border-white/8 bg-zinc-900/50 p-6 space-y-4"
                     >
                       <div className="grid sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="text-xs font-medium text-zinc-400 mb-1.5 block">
-                            Nom complet *
+                          <label className="text-base font-medium text-zinc-400 mb-1.5 block">
+                            Nom complet <span className="text-red-400" aria-hidden="true">*</span>
                           </label>
                           <input
                             type="text"
@@ -1307,12 +1325,19 @@ export default function VitrineDemo() {
                               setFormData({ ...formData, name: e.target.value })
                             }
                             placeholder="Marie Dupont"
-                            className="w-full px-4 py-2.5 rounded-xl bg-zinc-800/50 border border-white/8 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:border-blue-500/50 transition-colors"
+                            className={`w-full px-4 py-2.5 rounded-xl bg-zinc-800/50 border text-white text-base placeholder:text-zinc-600 focus:outline-none transition-colors ${
+                              formErrors.name
+                                ? "border-red-500 focus:border-red-500"
+                                : "border-white/8 focus:border-blue-500/50"
+                            }`}
                           />
+                          {formErrors.name && (
+                            <p className="text-red-400 text-base mt-1.5" role="alert">{formErrors.name}</p>
+                          )}
                         </div>
                         <div>
-                          <label className="text-xs font-medium text-zinc-400 mb-1.5 block">
-                            Email *
+                          <label className="text-base font-medium text-zinc-400 mb-1.5 block">
+                            Email <span className="text-red-400" aria-hidden="true">*</span>
                           </label>
                           <input
                             type="email"
@@ -1322,14 +1347,21 @@ export default function VitrineDemo() {
                               setFormData({ ...formData, email: e.target.value })
                             }
                             placeholder="marie@entreprise.fr"
-                            className="w-full px-4 py-2.5 rounded-xl bg-zinc-800/50 border border-white/8 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:border-blue-500/50 transition-colors"
+                            className={`w-full px-4 py-2.5 rounded-xl bg-zinc-800/50 border text-white text-base placeholder:text-zinc-600 focus:outline-none transition-colors ${
+                              formErrors.email
+                                ? "border-red-500 focus:border-red-500"
+                                : "border-white/8 focus:border-blue-500/50"
+                            }`}
                           />
+                          {formErrors.email && (
+                            <p className="text-red-400 text-base mt-1.5" role="alert">{formErrors.email}</p>
+                          )}
                         </div>
                       </div>
 
                       <div className="grid sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="text-xs font-medium text-zinc-400 mb-1.5 block">
+                          <label className="text-base font-medium text-zinc-400 mb-1.5 block">
                             Téléphone
                           </label>
                           <input
@@ -1339,12 +1371,12 @@ export default function VitrineDemo() {
                               setFormData({ ...formData, phone: e.target.value })
                             }
                             placeholder="06 00 00 00 00"
-                            className="w-full px-4 py-2.5 rounded-xl bg-zinc-800/50 border border-white/8 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:border-blue-500/50 transition-colors"
+                            className="w-full px-4 py-2.5 rounded-xl bg-zinc-800/50 border border-white/8 text-white text-base placeholder:text-zinc-600 focus:outline-none focus:border-blue-500/50 transition-colors"
                           />
                         </div>
                         <div>
-                          <label className="text-xs font-medium text-zinc-400 mb-1.5 block">
-                            Sujet *
+                          <label className="text-base font-medium text-zinc-400 mb-1.5 block">
+                            Sujet <span className="text-red-400" aria-hidden="true">*</span>
                           </label>
                           <select
                             required
@@ -1352,7 +1384,11 @@ export default function VitrineDemo() {
                             onChange={(e) =>
                               setFormData({ ...formData, subject: e.target.value })
                             }
-                            className="w-full px-4 py-2.5 rounded-xl bg-zinc-800/50 border border-white/8 text-white text-sm focus:outline-none focus:border-blue-500/50 transition-colors appearance-none"
+                            className={`w-full px-4 py-2.5 rounded-xl bg-zinc-800/50 border text-white text-base focus:outline-none transition-colors appearance-none ${
+                              formErrors.subject
+                                ? "border-red-500 focus:border-red-500"
+                                : "border-white/8 focus:border-blue-500/50"
+                            }`}
                           >
                             <option value="" className="bg-zinc-900">Choisir...</option>
                             <option value="compta" className="bg-zinc-900">Comptabilité</option>
@@ -1361,12 +1397,15 @@ export default function VitrineDemo() {
                             <option value="social" className="bg-zinc-900">Social & Paie</option>
                             <option value="autre" className="bg-zinc-900">Autre</option>
                           </select>
+                          {formErrors.subject && (
+                            <p className="text-red-400 text-base mt-1.5" role="alert">{formErrors.subject}</p>
+                          )}
                         </div>
                       </div>
 
                       <div>
-                        <label className="text-xs font-medium text-zinc-400 mb-1.5 block">
-                          Message *
+                        <label className="text-base font-medium text-zinc-400 mb-1.5 block">
+                          Message <span className="text-red-400" aria-hidden="true">*</span>
                         </label>
                         <textarea
                           required
@@ -1376,8 +1415,15 @@ export default function VitrineDemo() {
                             setFormData({ ...formData, message: e.target.value })
                           }
                           placeholder="Décrivez votre situation et vos besoins..."
-                          className="w-full px-4 py-2.5 rounded-xl bg-zinc-800/50 border border-white/8 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:border-blue-500/50 transition-colors resize-none"
+                          className={`w-full px-4 py-2.5 rounded-xl bg-zinc-800/50 border text-white text-base placeholder:text-zinc-600 focus:outline-none transition-colors resize-none ${
+                            formErrors.message
+                              ? "border-red-500 focus:border-red-500"
+                              : "border-white/8 focus:border-blue-500/50"
+                          }`}
                         />
+                        {formErrors.message && (
+                          <p className="text-red-400 text-base mt-1.5" role="alert">{formErrors.message}</p>
+                        )}
                       </div>
 
                       <button

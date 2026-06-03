@@ -631,6 +631,7 @@ export default function EcommerceDemo() {
   const [badgeBounce, setBadgeBounce] = useState(0);
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
+  const [newsletterError, setNewsletterError] = useState("");
 
   // --- Scroll-based parallax ---
   const heroRef = useRef<HTMLElement>(null);
@@ -693,7 +694,16 @@ export default function EcommerceDemo() {
   // --- Newsletter ---
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newsletterEmail) return;
+    // Visual validation layer for the required email field.
+    if (!newsletterEmail.trim()) {
+      setNewsletterError("L'adresse email est requise");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newsletterEmail.trim())) {
+      setNewsletterError("Adresse email invalide");
+      return;
+    }
+    setNewsletterError("");
     setNewsletterSubmitted(true);
   };
 
@@ -1224,23 +1234,39 @@ export default function EcommerceDemo() {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       onSubmit={handleNewsletterSubmit}
-                      className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+                      noValidate
+                      className="max-w-md mx-auto"
                     >
-                      <input
-                        type="email"
-                        value={newsletterEmail}
-                        onChange={(e) => setNewsletterEmail(e.target.value)}
-                        placeholder="votre@email.com"
-                        required
-                        className="flex-1 px-5 py-3 rounded-full bg-white/6 border border-white/12 text-white placeholder:text-zinc-600 text-sm focus:outline-none focus:border-[var(--brand-primary)]/50 transition-colors"
-                      />
-                      <button
-                        type="submit"
-                        className="px-6 py-3 rounded-full text-black font-bold text-sm hover:opacity-90 transition-opacity whitespace-nowrap"
-                        style={{ background: "var(--brand-gradient)" }}
-                      >
-                        Je rejoins
-                      </button>
+                      <div className="flex flex-col sm:flex-row gap-3">
+                        <input
+                          type="email"
+                          value={newsletterEmail}
+                          onChange={(e) => {
+                            setNewsletterEmail(e.target.value);
+                            if (newsletterError) setNewsletterError("");
+                          }}
+                          placeholder="votre@email.com *"
+                          required
+                          aria-invalid={!!newsletterError}
+                          className={`flex-1 px-5 py-3 rounded-full bg-white/6 border text-white placeholder:text-zinc-600 text-base focus:outline-none transition-colors ${
+                            newsletterError
+                              ? "border-red-500 focus:border-red-500"
+                              : "border-white/12 focus:border-[var(--brand-primary)]/50"
+                          }`}
+                        />
+                        <button
+                          type="submit"
+                          className="px-6 py-3 rounded-full text-black font-bold text-base hover:opacity-90 transition-opacity whitespace-nowrap"
+                          style={{ background: "var(--brand-gradient)" }}
+                        >
+                          Je rejoins
+                        </button>
+                      </div>
+                      {newsletterError && (
+                        <p className="text-red-400 text-base mt-2 text-left" role="alert">
+                          {newsletterError}
+                        </p>
+                      )}
                     </motion.form>
                   )}
                 </AnimatePresence>

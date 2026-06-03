@@ -112,6 +112,10 @@ export function StepForm() {
     }
   }, [searchParams]);
 
+  // Tracks whether the user attempted to advance a given step, so we only show
+  // validation errors after an attempt (not on first render).
+  const [attempted, setAttempted] = useState<Record<number, boolean>>({});
+
   const set = (k: keyof FormState, v: string) => {
     setForm((f) => ({ ...f, [k]: v }));
     if (k === "template") {
@@ -119,14 +123,44 @@ export function StepForm() {
     }
   };
 
-  const canNext = () => {
-    if (step === 1) return form.businessName && form.businessType && form.tagline;
-    if (step === 2) return form.mainService && form.benefit1;
-    if (step === 5) return form.email;
-    return true;
+  const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+
+  // Returns the set of invalid required-field keys for a given step.
+  // Empty set === step is valid and the user may advance.
+  const getStepErrors = (s: number): Partial<Record<keyof FormState, string>> => {
+    const errs: Partial<Record<keyof FormState, string>> = {};
+    if (s === 1) {
+      if (!form.businessName.trim()) errs.businessName = "Business name is required";
+      if (!form.businessType) errs.businessType = "Please pick a business type";
+      if (!form.tagline.trim()) errs.tagline = "Tell us what you do";
+    } else if (s === 2) {
+      if (!form.mainService.trim()) errs.mainService = "Your main service is required";
+      if (!form.benefit1.trim()) errs.benefit1 = "At least one benefit is required";
+    } else if (s === 5) {
+      if (!form.email.trim()) errs.email = "Email address is required";
+      else if (!isEmail(form.email)) errs.email = "Enter a valid email address";
+    }
+    return errs;
+  };
+
+  // Only surface errors for a field once the step has been attempted.
+  const stepErrors = attempted[step] ? getStepErrors(step) : {};
+  const errFor = (k: keyof FormState) => stepErrors[k];
+
+  const canNext = () => Object.keys(getStepErrors(step)).length === 0;
+
+  // Guarded navigation: mark the step attempted; only advance when valid.
+  const goNext = () => {
+    setAttempted((a) => ({ ...a, [step]: true }));
+    if (Object.keys(getStepErrors(step)).length === 0) {
+      setStep((s) => s + 1);
+    }
   };
 
   const handleGenerate = async () => {
+    // Final-step guard: validate required fields before submitting.
+    setAttempted((a) => ({ ...a, [step]: true }));
+    if (Object.keys(getStepErrors(step)).length > 0) return;
     setLoading(true);
     setError("");
     try {
@@ -249,17 +283,17 @@ export function StepForm() {
           {step === 1 && (
             <>
               <h2 className="text-xl font-bold text-white">Your business</h2>
-              <Field label="Business name *">
-                <input className={input} value={form.businessName} onChange={(e) => set("businessName", e.target.value)} placeholder="Nexxa Studio" />
+              <Field label="Business name" required error={errFor("businessName")}>
+                <input className={`${input} ${errFor("businessName") ? inputError : ""}`} value={form.businessName} onChange={(e) => set("businessName", e.target.value)} placeholder="Nexxa Studio" />
               </Field>
-              <Field label="Type of business *">
-                <div className="flex flex-wrap gap-2">
+              <Field label="Type of business" required error={errFor("businessType")}>
+                <div className={`flex flex-wrap gap-2 ${errFor("businessType") ? "rounded-xl ring-1 ring-red-500 p-2" : ""}`}>
                   {BUSINESS_TYPES.map((t) => (
                     <button
                       key={t}
                       type="button"
                       onClick={() => set("businessType", t)}
-                      className={`px-3 py-1.5 rounded-full text-sm transition-all ${
+                      className={`px-3 py-1.5 rounded-full text-base transition-all ${
                         form.businessType === t
                           ? "bg-violet-600 text-white"
                           : "bg-zinc-800 text-zinc-400 hover:text-white"
@@ -270,8 +304,8 @@ export function StepForm() {
                   ))}
                 </div>
               </Field>
-              <Field label="What you do *">
-                <textarea className={`${input} resize-none`} rows={2} value={form.tagline} onChange={(e) => set("tagline", e.target.value)} placeholder="We design and build websites for small businesses..." />
+              <Field label="What you do" required error={errFor("tagline")}>
+                <textarea className={`${input} resize-none ${errFor("tagline") ? inputError : ""}`} rows={2} value={form.tagline} onChange={(e) => set("tagline", e.target.value)} placeholder="We design and build websites for small businesses..." />
               </Field>
               <Field label="City">
                 <input className={input} value={form.city} onChange={(e) => set("city", e.target.value)} placeholder="Paris, France" />
@@ -282,12 +316,12 @@ export function StepForm() {
           {step === 2 && (
             <>
               <h2 className="text-xl font-bold text-white">Your offer</h2>
-              <Field label="Main service / product *">
-                <input className={input} value={form.mainService} onChange={(e) => set("mainService", e.target.value)} placeholder="Custom website design" />
+              <Field label="Main service / product" required error={errFor("mainService")}>
+                <input className={`${input} ${errFor("mainService") ? inputError : ""}`} value={form.mainService} onChange={(e) => set("mainService", e.target.value)} placeholder="Custom website design" />
               </Field>
-              <Field label="3 key benefits *">
+              <Field label="3 key benefits" required error={errFor("benefit1")}>
                 {(["benefit1", "benefit2", "benefit3"] as const).map((k, i) => (
-                  <input key={k} className={`${input} mb-2`} value={form[k]} onChange={(e) => set(k, e.target.value)} placeholder={`Benefit ${i + 1}${i === 0 ? " *" : " (optional)"}`} />
+                  <input key={k} className={`${input} mb-2 ${k === "benefit1" && errFor("benefit1") ? inputError : ""}`} value={form[k]} onChange={(e) => set(k, e.target.value)} placeholder={`Benefit ${i + 1}${i === 0 ? " (required)" : " (optional)"}`} />
                 ))}
               </Field>
               <Field label="Price range">
@@ -305,14 +339,14 @@ export function StepForm() {
               <Field label="Brand colour">
                 <div className="flex items-center gap-3">
                   <input type="color" value={form.brandColor} onChange={(e) => set("brandColor", e.target.value)} className="w-12 h-10 rounded-lg cursor-pointer border-0 bg-transparent" />
-                  <span className="text-zinc-400 text-sm font-mono">{form.brandColor}</span>
+                  <span className="text-zinc-400 text-base font-mono">{form.brandColor}</span>
                 </div>
               </Field>
               <Field label="Tone of voice">
                 <div className="flex flex-wrap gap-2">
                   {TONES.map((t) => (
                     <button key={t} type="button" onClick={() => set("tone", t)}
-                      className={`px-4 py-2 rounded-full text-sm transition-all ${form.tone === t ? "bg-violet-600 text-white" : "bg-zinc-800 text-zinc-400 hover:text-white"}`}>
+                      className={`px-4 py-2 rounded-full text-base transition-all ${form.tone === t ? "bg-violet-600 text-white" : "bg-zinc-800 text-zinc-400 hover:text-white"}`}>
                       {t}
                     </button>
                   ))}
@@ -322,7 +356,7 @@ export function StepForm() {
                 <div className="space-y-6">
                   {TEMPLATE_CATEGORIES.map((group) => (
                     <div key={group.category}>
-                      <div className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-2">
+                      <div className="text-base font-semibold text-zinc-500 uppercase tracking-widest mb-2">
                         {group.category}
                       </div>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -344,8 +378,8 @@ export function StepForm() {
                               {form.template === t.id && <Check className="w-4 h-4 text-violet-400" />}
                             </div>
                             <div>
-                              <div className="text-white font-medium text-sm leading-tight">{t.label}</div>
-                              <div className="text-zinc-500 text-xs mt-0.5 leading-snug">{t.desc}</div>
+                              <div className="text-white font-medium text-base leading-tight">{t.label}</div>
+                              <div className="text-zinc-500 text-base mt-0.5 leading-snug">{t.desc}</div>
                             </div>
                           </button>
                           );
@@ -361,7 +395,7 @@ export function StepForm() {
           {step === 4 && (
             <>
               <h2 className="text-xl font-bold text-white">Photos & media</h2>
-              <p className="text-zinc-400 text-sm">Optional — you can add these later.</p>
+              <p className="text-zinc-400 text-base">Optional — you can add these later.</p>
               <Field label="Logo (PNG or SVG)">
                 <input type="file" accept="image/*" className={input} onChange={(e) => {
                   const f = e.target.files?.[0];
@@ -379,7 +413,7 @@ export function StepForm() {
                   reader.onload = () => setForm((s) => ({ ...s, heroImageBase64: reader.result as string }));
                   reader.readAsDataURL(f);
                 }} />
-                <p className="text-zinc-500 text-xs mt-1">Or we'll use a professional stock image matching your business.</p>
+                <p className="text-zinc-500 text-base mt-1">Or we'll use a professional stock image matching your business.</p>
               </Field>
             </>
           )}
@@ -387,8 +421,8 @@ export function StepForm() {
           {step === 5 && (
             <>
               <h2 className="text-xl font-bold text-white">Almost there!</h2>
-              <Field label="Email address *">
-                <input type="email" className={input} value={form.email} onChange={(e) => set("email", e.target.value)} placeholder="you@example.com" />
+              <Field label="Email address" required error={errFor("email")}>
+                <input type="email" className={`${input} ${errFor("email") ? inputError : ""}`} value={form.email} onChange={(e) => set("email", e.target.value)} placeholder="you@example.com" />
               </Field>
               <Field label="Phone">
                 <input type="tel" className={input} value={form.phone} onChange={(e) => set("phone", e.target.value)} placeholder="+33 6 00 00 00 00" />
@@ -399,7 +433,7 @@ export function StepForm() {
               <Field label="LinkedIn">
                 <input className={input} value={form.linkedin} onChange={(e) => set("linkedin", e.target.value)} placeholder="linkedin.com/in/yourname" />
               </Field>
-              {error && <p className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2">{error}</p>}
+              {error && <p className="text-red-400 text-base bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2">{error}</p>}
             </>
           )}
         </motion.div>
@@ -408,24 +442,29 @@ export function StepForm() {
       {/* Nav buttons */}
       <div className="flex items-center justify-between mt-6">
         {step > 1 ? (
-          <button onClick={() => setStep((s) => s - 1)} className="flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-700 text-zinc-400 text-sm hover:text-white transition-colors">
+          <button onClick={() => setStep((s) => s - 1)} className="flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-700 text-zinc-400 text-base hover:text-white transition-colors">
             <ArrowLeft className="w-4 h-4" /> Back
           </button>
         ) : <div />}
 
         {step < TOTAL_STEPS ? (
           <button
-            onClick={() => setStep((s) => s + 1)}
-            disabled={!canNext()}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 disabled:opacity-40 text-white text-sm font-semibold transition-colors"
+            onClick={goNext}
+            aria-disabled={!canNext()}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-base font-semibold transition-all ${
+              canNext() ? "" : "opacity-50"
+            }`}
           >
             Continue <ArrowRight className="w-4 h-4" />
           </button>
         ) : (
           <button
             onClick={handleGenerate}
-            disabled={!canNext() || loading}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 disabled:opacity-40 text-white text-sm font-semibold transition-colors"
+            disabled={loading}
+            aria-disabled={!canNext()}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 disabled:opacity-40 text-white text-base font-semibold transition-all ${
+              canNext() || loading ? "" : "opacity-50"
+            }`}
           >
             {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Generating…</> : <>Generate my site <ArrowRight className="w-4 h-4" /></>}
           </button>
@@ -435,13 +474,35 @@ export function StepForm() {
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({
+  label,
+  required,
+  error,
+  children,
+}: {
+  label: string;
+  required?: boolean;
+  error?: string;
+  children: React.ReactNode;
+}) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-sm font-medium text-zinc-300">{label}</label>
+      <label className="block text-lg font-medium text-zinc-300">
+        {label}
+        {required && <span className="text-red-400 ml-0.5" aria-hidden="true">*</span>}
+      </label>
       {children}
+      {error && (
+        <p className="text-red-400 text-base" role="alert">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
 
-const input = "w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white placeholder:text-zinc-600 text-sm focus:outline-none focus:border-violet-500 transition-colors";
+// Base input style: text-base === 16px to avoid iOS Safari focus auto-zoom and
+// meet the accessibility font-size floor on all form fields.
+const input = "w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white placeholder:text-zinc-600 text-base focus:outline-none focus:border-violet-500 transition-colors";
+// Applied additionally when a required field is invalid after a submit attempt.
+const inputError = "border-red-500 focus:border-red-500";
