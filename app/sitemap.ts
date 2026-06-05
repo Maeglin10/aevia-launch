@@ -22,10 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: BASE, lastModified, changeFrequency: 'weekly', priority: 1.0 },
     { url: `${BASE}/pricing`, lastModified, changeFrequency: 'weekly', priority: 0.95 },
     { url: `${BASE}/themes`, lastModified, changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${BASE}/templates`, lastModified, changeFrequency: 'weekly', priority: 0.85 },
     { url: `${BASE}/configure`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${BASE}/onboarding`, lastModified, changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${BASE}/showcase`, lastModified, changeFrequency: 'monthly', priority: 0.6 },
     ...themePages,
   ]
 }
