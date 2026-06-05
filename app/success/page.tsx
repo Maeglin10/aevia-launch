@@ -4,6 +4,81 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
+import { AeviaHeader } from "@/components/AeviaHeader";
+import { useLang } from "@/lib/LangContext";
+
+const T = {
+  fr: {
+    success: "Succès",
+    title: "Commande confirmée !",
+    thanks: "Merci",
+    yourSite: ", votre site",
+    inPrep: "est en préparation.",
+    contact: "Notre équipe vous contacte sous 2h.",
+    checkEmails: "Vérifiez vos emails.",
+    badgePaid: "Paiement reçu",
+    badgeConfirm: "Confirmation envoyée",
+    badgeDelivery: "Livraison dans 2h",
+    backHome: "Retour à l'accueil",
+    loading: "Chargement...",
+  },
+  en: {
+    success: "Success",
+    title: "Order confirmed!",
+    thanks: "Thank you",
+    yourSite: ", your",
+    inPrep: "site is being prepared.",
+    contact: "Our team will contact you within 2h.",
+    checkEmails: "Check your emails.",
+    badgePaid: "Payment received",
+    badgeConfirm: "Confirmation sent",
+    badgeDelivery: "Delivery in 2h",
+    backHome: "Back to home",
+    loading: "Loading...",
+  },
+  es: {
+    success: "Éxito",
+    title: "¡Pedido confirmado!",
+    thanks: "Gracias",
+    yourSite: ", tu sitio",
+    inPrep: "se está preparando.",
+    contact: "Nuestro equipo te contactará en 2h.",
+    checkEmails: "Revisa tus correos.",
+    badgePaid: "Pago recibido",
+    badgeConfirm: "Confirmación enviada",
+    badgeDelivery: "Entrega en 2h",
+    backHome: "Volver al inicio",
+    loading: "Cargando...",
+  },
+  de: {
+    success: "Erfolg",
+    title: "Bestellung bestätigt!",
+    thanks: "Danke",
+    yourSite: ", deine",
+    inPrep: "Website wird vorbereitet.",
+    contact: "Unser Team meldet sich innerhalb von 2 Std.",
+    checkEmails: "Prüfe deine E-Mails.",
+    badgePaid: "Zahlung erhalten",
+    badgeConfirm: "Bestätigung gesendet",
+    badgeDelivery: "Lieferung in 2 Std.",
+    backHome: "Zurück zur Startseite",
+    loading: "Wird geladen...",
+  },
+  pt: {
+    success: "Sucesso",
+    title: "Pedido confirmado!",
+    thanks: "Obrigado",
+    yourSite: ", o seu site",
+    inPrep: "está sendo preparado.",
+    contact: "A nossa equipa entra em contacto em 2h.",
+    checkEmails: "Verifique os seus emails.",
+    badgePaid: "Pagamento recebido",
+    badgeConfirm: "Confirmação enviada",
+    badgeDelivery: "Entrega em 2h",
+    backHome: "Voltar ao início",
+    loading: "A carregar...",
+  },
+};
 
 // ─── Confetti particle ─────────────────────────────────────────────────────────
 
@@ -157,6 +232,8 @@ import { Suspense } from "react";
 
 function SuccessContent() {
   const searchParams = useSearchParams();
+  const { locale } = useLang();
+  const t = T[locale as keyof typeof T] ?? T.fr;
   const name     = searchParams.get("name") ?? "Votre site";
   const type     = searchParams.get("type") ?? "landing";
   const typeLabel = SITE_LABELS[type] ?? type;
@@ -178,6 +255,7 @@ function SuccessContent() {
 
   return (
     <main className="relative min-h-screen bg-zinc-950 text-white flex flex-col items-center justify-center px-4 overflow-hidden">
+      <AeviaHeader />
       {/* Confetti burst */}
       {showConfetti && <Confetti />}
 
@@ -218,27 +296,27 @@ function SuccessContent() {
               variants={stagger.item}
               className="text-2xl font-extrabold text-white tracking-tight"
             >
-              Commande confirmée&nbsp;!
+              {t.title}
             </motion.h1>
 
             <motion.p
               variants={stagger.item}
               className="text-zinc-300 text-sm leading-relaxed max-w-xs"
             >
-              Merci{" "}
+              {t.thanks}{" "}
               <span className="text-violet-400 font-semibold">{name}</span>
-              {", "}votre site{" "}
+              {t.yourSite}{" "}
               <span className="text-white font-medium">{typeLabel}</span>{" "}
-              est en préparation.
+              {t.inPrep}
             </motion.p>
 
             <motion.p
               variants={stagger.item}
               className="text-zinc-500 text-sm leading-relaxed"
             >
-              Notre équipe vous contacte sous 2h.{" "}
+              {t.contact}{" "}
               <br className="hidden sm:block" />
-              Vérifiez vos emails.
+              {t.checkEmails}
             </motion.p>
           </motion.div>
 
@@ -253,9 +331,9 @@ function SuccessContent() {
             className="flex flex-wrap justify-center gap-2 mb-7"
           >
             {[
-              "Paiement reçu",
-              "Confirmation envoyée",
-              "Livraison dans 2h",
+              t.badgePaid,
+              t.badgeConfirm,
+              t.badgeDelivery,
             ].map((badge) => (
               <span
                 key={badge}
@@ -281,7 +359,7 @@ function SuccessContent() {
               href="/"
               className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold text-sm transition-colors shadow-lg shadow-violet-900/30"
             >
-              Retour à l&apos;accueil
+              {t.backHome}
             </Link>
           </motion.div>
 
