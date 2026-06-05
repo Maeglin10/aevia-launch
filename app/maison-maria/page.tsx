@@ -210,7 +210,7 @@ const TEAM = [
     name: "Maria",
     role: "Fondatrice & Experte du Regard",
     bio: "Fondatrice de Maison Maria à Vénissieux, Maria conjugue maîtrise technique et sens du détail. Spécialiste de la beauté du regard — extensions de cils, sourcils, blanchiment dentaire, micropigmentation et soins du corps — elle est certifiée et formatrice, et place l'expérience cliente au cœur de chaque prestation.",
-    img: "/maison-maria/maria.jpg",
+    img: "/maison-maria/maria.jpeg",
     specialties: ["Extensions de cils", "Sourcils", "Blanchiment dentaire", "Micropigmentation", "Madérothérapie", "Formations"],
   },
 ];
