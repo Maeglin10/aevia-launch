@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
-  ArrowLeft, ArrowRight, Sparkles,
+  ArrowLeft, ArrowRight, Sparkles, Globe, ChevronDown,
   Rocket, Zap, Palette, Building2, Target, Briefcase, ShoppingBag,
   UtensilsCrossed, BedDouble, Stethoscope, Home, Dumbbell, CalendarDays,
   Heart, Star, Gem, Square, Newspaper, Hexagon, Minus,
@@ -13,6 +13,47 @@ import {
 } from "lucide-react";
 import type { SessionData } from "@/lib/sessions";
 import { generateMockContent } from "@/lib/mockContent";
+import { useLang, LOCALE_META, type Locale } from "@/lib/LangContext";
+
+const T = {
+  fr: { allThemes: "Tous les thèmes", premium: "Premium", useTheme: "Utiliser ce thème", preview: "aperçu", demoMode: "Mode démo", livePreview: "Aperçu en direct avec contenu d'exemple", buildWith: "Créer avec ce thème" },
+  en: { allThemes: "All themes", premium: "Premium", useTheme: "Use this theme", preview: "preview", demoMode: "Demo mode", livePreview: "This is a live preview with sample content", buildWith: "Build with this" },
+  es: { allThemes: "Todos los temas", premium: "Premium", useTheme: "Usar este tema", preview: "vista previa", demoMode: "Modo demo", livePreview: "Vista previa en vivo con contenido de ejemplo", buildWith: "Crear con este tema" },
+  de: { allThemes: "Alle Themes", premium: "Premium", useTheme: "Dieses Theme verwenden", preview: "Vorschau", demoMode: "Demo-Modus", livePreview: "Live-Vorschau mit Beispielinhalten", buildWith: "Damit erstellen" },
+  pt: { allThemes: "Todos os temas", premium: "Premium", useTheme: "Usar este tema", preview: "pré-visualização", demoMode: "Modo demo", livePreview: "Pré-visualização ao vivo com conteúdo de exemplo", buildWith: "Criar com este tema" },
+};
+
+function PreviewLangSwitcher() {
+  const { locale, setLocale } = useLang();
+  const [open, setOpen] = useState(false);
+  const current = LOCALE_META.find((l) => l.code === locale) ?? LOCALE_META[0];
+  return (
+    <div className="relative shrink-0">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="flex items-center gap-1 px-2 py-1.5 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-white/10 transition-colors"
+        aria-label="Changer de langue"
+      >
+        <Globe size={14} />
+        <span className="hidden sm:inline">{current.flag} {current.code.toUpperCase()}</span>
+        <span className="sm:hidden">{current.flag}</span>
+        <ChevronDown size={12} className={`transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <div className="absolute right-0 mt-1 w-40 bg-zinc-900 border border-zinc-800 rounded-xl shadow-xl shadow-black/40 overflow-hidden z-50">
+          {LOCALE_META.map((l) => (
+            <button key={l.code} onClick={() => { setLocale(l.code as Locale); setOpen(false); }}
+              className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-zinc-800 ${l.code === locale ? "text-white font-semibold" : "text-zinc-400"}`}
+            >
+              <span>{l.flag}</span><span>{l.label}</span>
+              {l.code === locale && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-violet-400" />}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 // Prevent SSR to avoid Framer Motion useScroll ref hydration error
 const GeneratedSite = dynamic(
@@ -120,6 +161,8 @@ function buildMockSession(id: string): SessionData {
 
 export default function ThemePreviewPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
+  const { locale } = useLang();
+  const t = T[locale as keyof typeof T] ?? T.fr;
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   const meta = THEMES_META[id];
@@ -171,7 +214,7 @@ export default function ThemePreviewPage({ params }: { params: Promise<{ id: str
             className="flex items-center gap-1.5 text-zinc-400 hover:text-white text-sm transition-colors shrink-0"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">All themes</span>
+            <span className="hidden sm:inline">{t.allThemes}</span>
           </Link>
 
           <span className="text-zinc-700 hidden sm:inline">/</span>
@@ -184,7 +227,7 @@ export default function ThemePreviewPage({ params }: { params: Promise<{ id: str
             {meta.premium && (
               <div className="flex items-center gap-1 px-2 py-0.5 rounded-full shrink-0" style={{ background: "#c9a96e20", border: "1px solid #c9a96e40" }}>
                 <Sparkles className="w-3 h-3" style={{ color: "#c9a96e" }} />
-                <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "#c9a96e" }}>Premium</span>
+                <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "#c9a96e" }}>{t.premium}</span>
               </div>
             )}
           </div>
@@ -221,14 +264,17 @@ export default function ThemePreviewPage({ params }: { params: Promise<{ id: str
           )}
         </div>
 
-        {/* Right: CTA */}
-        <Link
-          href={`/configure?template=${id}`}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors shrink-0"
-        >
-          Use this theme
-          <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
+        {/* Right: language + CTA */}
+        <div className="flex items-center gap-2 shrink-0">
+          <PreviewLangSwitcher />
+          <Link
+            href={`/configure?template=${id}`}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors shrink-0"
+          >
+            <span className="hidden sm:inline">{t.useTheme}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
       </div>
 
       {/* Browser chrome mockup */}
@@ -240,10 +286,10 @@ export default function ThemePreviewPage({ params }: { params: Promise<{ id: str
             <div className="w-3 h-3 rounded-full bg-green-500/50" />
           </div>
           <div className="flex-1 bg-zinc-800 rounded px-3 py-1 text-zinc-500 text-xs font-mono truncate">
-            preview — {session.formData.businessName} · {meta.label}
+            {t.preview} — {session.formData.businessName} · {meta.label}
           </div>
           <div className="shrink-0 text-[10px] text-zinc-600 font-mono uppercase tracking-widest hidden sm:block">
-            Demo mode
+            {t.demoMode}
           </div>
         </div>
 
@@ -259,13 +305,13 @@ export default function ThemePreviewPage({ params }: { params: Promise<{ id: str
         >
           <div>
             <p className="flex items-center gap-1.5 text-white text-sm font-semibold"><ThemeIcon className="w-4 h-4" /> {meta.label}</p>
-            <p className="text-zinc-500 text-xs">This is a live preview with sample content</p>
+            <p className="text-zinc-500 text-xs">{t.livePreview}</p>
           </div>
           <Link
             href={`/configure?template=${id}`}
             className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-bold transition-colors shrink-0"
           >
-            Build with this
+            {t.buildWith}
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
