@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -294,6 +294,37 @@ export function StepForm() {
   // validation errors after an attempt (not on first render).
   const [attempted, setAttempted] = useState<Record<number, boolean>>({});
 
+  // --- Funnel analytics ---------------------------------------------------
+  // Record how far each visitor gets in the wizard (even if they abandon), so
+  // we can see exactly where prospects drop off. Fire-and-forget, no PII.
+  const funnelId = useRef<string>("");
+  const recordFunnel = (s: number, completed = false) => {
+    if (typeof window === "undefined") return;
+    if (!funnelId.current) {
+      funnelId.current =
+        sessionStorage.getItem("aevia-funnel") ||
+        (crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`);
+      sessionStorage.setItem("aevia-funnel", funnelId.current);
+    }
+    void fetch("/api/funnel", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        funnelId: funnelId.current,
+        step: s,
+        totalSteps: TOTAL_STEPS,
+        businessType: form.businessType || undefined,
+        completed,
+      }),
+      keepalive: true,
+    }).catch(() => {});
+  };
+  // Fire on every step change (and on first mount → step 1).
+  useEffect(() => {
+    recordFunnel(step);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
+
   const set = (k: keyof FormState, v: string) => {
     setForm((f) => ({ ...f, [k]: v }));
     if (k === "template") {
@@ -387,6 +418,7 @@ export function StepForm() {
       // pricing → brief funnel. The generated site is persisted to the
       // session by /api/generate, and the preview page reads it back.
       // Monetization happens from the preview's own "Launch my site" CTA.
+      recordFunnel(TOTAL_STEPS, true); // mark this visitor as completed
       router.push(previewUrl ?? `/preview/${sessionId}`);
     } catch {
       setError(t.genericError);
