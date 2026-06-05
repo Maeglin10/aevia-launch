@@ -64,13 +64,23 @@ function AeviaLogoSvg() {
 }
 
 const otherProducts = [
-  { name: "AeviaSecurity", href: "https://web-bx4tjhk2h-valentins-projects-7cad2c95.vercel.app", desc: "Audit sécurité en 60s", icon: Shield, status: "live" },
-  { name: "AeviaInbox", href: "#", desc: "CRM multi-canal", icon: MessageSquare, status: "soon" },
-  { name: "Aevia.app", href: "https://valentin-milliand.vercel.app", desc: "Accueil Aevia", icon: Globe, status: "live" },
-];
+  { name: "AeviaSecurity", href: "https://web-bx4tjhk2h-valentins-projects-7cad2c95.vercel.app", descKey: "descSecurity", icon: Shield, status: "live" },
+  { name: "AeviaInbox", href: "#", descKey: "descInbox", icon: MessageSquare, status: "soon" },
+  { name: "Aevia.app", href: "https://valentin-milliand.vercel.app", descKey: "descHome", icon: Globe, status: "live" },
+] as const;
+
+const HEADER_T = {
+  fr: { templates: "Templates IA", pricing: "Tarifs", products: "Produits", cta: "Démarrer un projet", soon: "Bientôt", live: "Live", descSecurity: "Audit sécurité en 60s", descInbox: "CRM multi-canal", descHome: "Accueil Aevia" },
+  en: { templates: "AI Templates", pricing: "Pricing", products: "Products", cta: "Start a project", soon: "Soon", live: "Live", descSecurity: "Security audit in 60s", descInbox: "Multi-channel CRM", descHome: "Aevia home" },
+  es: { templates: "Plantillas IA", pricing: "Precios", products: "Productos", cta: "Iniciar un proyecto", soon: "Pronto", live: "Live", descSecurity: "Auditoría de seguridad en 60s", descInbox: "CRM multicanal", descHome: "Inicio Aevia" },
+  de: { templates: "KI-Vorlagen", pricing: "Preise", products: "Produkte", cta: "Projekt starten", soon: "Bald", live: "Live", descSecurity: "Sicherheits-Audit in 60s", descInbox: "Multichannel-CRM", descHome: "Aevia-Startseite" },
+  pt: { templates: "Modelos IA", pricing: "Preços", products: "Produtos", cta: "Iniciar um projeto", soon: "Em breve", live: "Live", descSecurity: "Auditoria de segurança em 60s", descInbox: "CRM multicanal", descHome: "Início Aevia" },
+};
 
 export function AeviaHeader() {
   const pathname = usePathname();
+  const { locale } = useLang();
+  const t = HEADER_T[locale as keyof typeof HEADER_T] ?? HEADER_T.fr;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -87,13 +97,13 @@ export function AeviaHeader() {
             href="/themes"
             className={`px-3 py-1.5 rounded-md text-sm transition-colors ${pathname === "/themes" ? "text-white bg-white/10" : "text-white/60 hover:text-white hover:bg-white/10"}`}
           >
-            Templates IA
+            {t.templates}
           </Link>
           <Link
             href="/pricing"
             className={`px-3 py-1.5 rounded-md text-sm transition-colors ${pathname === "/pricing" ? "text-white bg-white/10" : "text-white/60 hover:text-white hover:bg-white/10"}`}
           >
-            Tarifs
+            {t.pricing}
           </Link>
 
           {/* Other products dropdown */}
@@ -103,7 +113,7 @@ export function AeviaHeader() {
             onMouseLeave={() => setDropdownOpen(false)}
           >
             <button className="px-3 py-1.5 rounded-md text-sm text-white/60 hover:text-white hover:bg-white/10 transition-colors flex items-center gap-1">
-              Produits
+              {t.products}
               <ChevronDown size={14} className={`transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
             </button>
             {dropdownOpen && (
@@ -126,7 +136,7 @@ export function AeviaHeader() {
                             <span className="text-white text-sm font-medium group-hover:text-violet-300 transition-colors">{p.name}</span>
                             <ExternalLink className="w-3 h-3 text-zinc-600" />
                           </div>
-                          <p className="text-zinc-500 text-xs">{p.desc}</p>
+                          <p className="text-zinc-500 text-xs">{t[p.descKey]}</p>
                         </div>
                       </a>
                     ) : (
@@ -135,9 +145,9 @@ export function AeviaHeader() {
                         <div>
                           <div className="flex items-center gap-1.5">
                             <span className="text-zinc-400 text-sm font-medium">{p.name}</span>
-                            <span className="bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.5 rounded-full">Bientôt</span>
+                            <span className="bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.5 rounded-full">{t.soon}</span>
                           </div>
-                          <p className="text-zinc-600 text-xs">{p.desc}</p>
+                          <p className="text-zinc-600 text-xs">{t[p.descKey]}</p>
                         </div>
                       </div>
                     );
@@ -153,7 +163,7 @@ export function AeviaHeader() {
             href="https://aevia.vercel.app/contact"
             className="ml-1 px-4 py-1.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors"
           >
-            Démarrer un projet
+            {t.cta}
           </a>
         </nav>
 
@@ -164,21 +174,22 @@ export function AeviaHeader() {
 
       {mobileOpen && (
         <div className="sm:hidden border-t border-white/10 bg-black/90 px-6 py-4 flex flex-col gap-2">
-          <Link href="/themes" onClick={() => setMobileOpen(false)} className="text-white/70 hover:text-white text-sm py-2">Templates IA</Link>
-          <Link href="/pricing" onClick={() => setMobileOpen(false)} className="text-white/70 hover:text-white text-sm py-2">Tarifs</Link>
+          <Link href="/themes" onClick={() => setMobileOpen(false)} className="text-white/70 hover:text-white text-sm py-2">{t.templates}</Link>
+          <Link href="/pricing" onClick={() => setMobileOpen(false)} className="text-white/70 hover:text-white text-sm py-2">{t.pricing}</Link>
           <div className="border-t border-white/10 pt-2 mt-1 flex flex-col gap-2">
             {otherProducts.map((p) => p.status === "live" ? (
               <a key={p.name} href={p.href} className="text-white/70 hover:text-white text-sm py-2 flex items-center justify-between">
-                {p.name} <span className="bg-emerald-500/20 text-emerald-300 text-[10px] px-1.5 py-0.5 rounded-full">Live</span>
+                {p.name} <span className="bg-emerald-500/20 text-emerald-300 text-[10px] px-1.5 py-0.5 rounded-full">{t.live}</span>
               </a>
             ) : (
               <div key={p.name} className="text-white/40 text-sm py-2 flex items-center justify-between">
-                {p.name} <span className="bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.5 rounded-full">Bientôt</span>
+                {p.name} <span className="bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.5 rounded-full">{t.soon}</span>
               </div>
             ))}
           </div>
+          <div className="border-t border-white/10 pt-2 mt-1"><LangSwitcher /></div>
           <a href="https://aevia.vercel.app/contact" className="mt-2 text-center px-4 py-2.5 rounded-full bg-violet-600 text-white text-sm font-semibold">
-            Démarrer un projet
+            {t.cta}
           </a>
         </div>
       )}
