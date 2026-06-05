@@ -5,9 +5,55 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
 import { Suspense } from "react";
+import { useLang } from "@/lib/LangContext";
+
+const T = {
+  fr: {
+    errSession: "Erreur lors de la création de la session.",
+    errUrl: "URL de paiement manquante.",
+    errUnexpected: "Une erreur inattendue s'est produite.",
+    payError: "Erreur de paiement", back: "Retour",
+    preparing: "Préparation du paiement sécurisé…", redirecting: "Vous allez être redirigé vers Stripe",
+    sslHint: "Connexion chiffrée SSL · Stripe Payments",
+  },
+  en: {
+    errSession: "Error creating the session.",
+    errUrl: "Payment URL missing.",
+    errUnexpected: "An unexpected error occurred.",
+    payError: "Payment error", back: "Back",
+    preparing: "Preparing secure payment…", redirecting: "You'll be redirected to Stripe",
+    sslHint: "SSL-encrypted connection · Stripe Payments",
+  },
+  es: {
+    errSession: "Error al crear la sesión.",
+    errUrl: "Falta la URL de pago.",
+    errUnexpected: "Se produjo un error inesperado.",
+    payError: "Error de pago", back: "Atrás",
+    preparing: "Preparando el pago seguro…", redirecting: "Serás redirigido a Stripe",
+    sslHint: "Conexión cifrada SSL · Stripe Payments",
+  },
+  de: {
+    errSession: "Fehler beim Erstellen der Sitzung.",
+    errUrl: "Zahlungs-URL fehlt.",
+    errUnexpected: "Ein unerwarteter Fehler ist aufgetreten.",
+    payError: "Zahlungsfehler", back: "Zurück",
+    preparing: "Sichere Zahlung wird vorbereitet…", redirecting: "Sie werden zu Stripe weitergeleitet",
+    sslHint: "SSL-verschlüsselte Verbindung · Stripe Payments",
+  },
+  pt: {
+    errSession: "Erro ao criar a sessão.",
+    errUrl: "URL de pagamento em falta.",
+    errUnexpected: "Ocorreu um erro inesperado.",
+    payError: "Erro de pagamento", back: "Voltar",
+    preparing: "A preparar o pagamento seguro…", redirecting: "Será redirecionado para a Stripe",
+    sslHint: "Ligação encriptada SSL · Stripe Payments",
+  },
+};
 
 function CheckoutContent() {
   const searchParams = useSearchParams();
+  const { locale } = useLang();
+  const t = T[locale as keyof typeof T] ?? T.fr;
   const type        = searchParams.get("type")        ?? "landing";
   const name        = searchParams.get("name")        ?? "Votre site";
   const theme       = searchParams.get("theme")       ?? type;
@@ -32,13 +78,12 @@ function CheckoutContent() {
         if (!res.ok) {
           const data = await res.json().catch(() => ({}));
           throw new Error(
-            (data as { error?: string }).error ??
-              "Erreur lors de la création de la session.",
+            (data as { error?: string }).error ?? t.errSession,
           );
         }
 
         const { url } = (await res.json()) as { url: string };
-        if (!url) throw new Error("URL de paiement manquante.");
+        if (!url) throw new Error(t.errUrl);
 
         window.location.href = url;
       } catch (err) {
@@ -46,12 +91,15 @@ function CheckoutContent() {
         setError(
           err instanceof Error
             ? err.message
-            : "Une erreur inattendue s'est produite.",
+            : t.errUnexpected,
         );
       }
     }
 
     startCheckout();
+    // `t` is intentionally omitted: the `called` ref guards re-runs, and the
+    // checkout POST must fire exactly once regardless of locale changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type, name, theme, maintenance]);
 
   const cancelHref =
@@ -80,7 +128,7 @@ function CheckoutContent() {
             </svg>
           </div>
           <h2 className="text-white font-bold text-lg mb-2">
-            Erreur de paiement
+            {t.payError}
           </h2>
           <p className="text-zinc-400 text-sm mb-6 leading-relaxed">{error}</p>
           <Link
@@ -100,7 +148,7 @@ function CheckoutContent() {
                 d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
               />
             </svg>
-            Retour
+            {t.back}
           </Link>
         </div>
       </main>
@@ -125,10 +173,10 @@ function CheckoutContent() {
 
         <div className="text-center">
           <p className="text-white font-semibold text-lg">
-            Préparation du paiement sécurisé…
+            {t.preparing}
           </p>
           <p className="text-zinc-500 text-sm mt-1.5">
-            Vous allez être redirigé vers Stripe
+            {t.redirecting}
           </p>
         </div>
 
@@ -147,7 +195,7 @@ function CheckoutContent() {
               d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
             />
           </svg>
-          Connexion chiffrée SSL · Stripe Payments
+          {t.sslHint}
         </div>
       </div>
     </main>
