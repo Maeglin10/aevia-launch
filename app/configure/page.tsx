@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { StepForm } from "@/components/StepForm";
 import { useLang } from "@/lib/LangContext";
 import { LegalFooter } from "@/components/LegalFooter";
+import { AeviaHeader } from "@/components/AeviaHeader";
 
 const T = {
   fr: { title: "Créez votre site", sub: "5 étapes rapides — moins de 3 minutes" },
@@ -17,6 +18,7 @@ export default function ConfigurePage() {
   const t = T[locale as keyof typeof T] ?? T.fr;
   return (
     <div id="main-content" className="min-h-screen bg-[#09090b] text-white pt-16 flex flex-col">
+      <AeviaHeader />
       <div className="mx-auto max-w-xl px-6 py-16 flex flex-col items-center flex-1 w-full">
         <div className="text-center mb-10">
           <h1 className="text-3xl font-bold text-white mb-3">{t.title}</h1>
