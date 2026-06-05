@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Zap, Star, Crown, MessageSquare } from "lucide-react";
+import { Check, Rocket, Zap, Star, Crown, MessageSquare } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { AeviaHeader } from "@/components/AeviaHeader";
@@ -17,9 +17,26 @@ const T = {
     perSite: "paiement unique",
     tiers: [
       {
+        name: "Landing",
+        price: "399",
+        desc: "Une page unique, percutante. Parfaite pour valider une idée ou lancer un produit rapidement.",
+        icon: Rocket,
+        color: "border-zinc-700",
+        bg: "bg-zinc-900/40",
+        features: [
+          "Landing page une page",
+          "Design responsive premium",
+          "SEO de base",
+          "Formulaire de contact",
+          "Mise en ligne incluse",
+        ],
+        cta: "Lancer ma Landing",
+        ctaStyle: "bg-white/10 border border-white/20 text-white hover:bg-white/20",
+      },
+      {
         name: "Essentiel",
         price: "599",
-        desc: "Portfolio, landing page, site vitrine simple. Idéal pour les freelances et créateurs.",
+        desc: "Portfolio ou site vitrine simple. Idéal pour les freelances et créateurs.",
         icon: Zap,
         color: "border-zinc-700",
         bg: "bg-zinc-900/40",
@@ -106,9 +123,26 @@ const T = {
     perSite: "one-time payment",
     tiers: [
       {
+        name: "Landing",
+        price: "399",
+        desc: "A single, high-impact page. Perfect to validate an idea or launch a product fast.",
+        icon: Rocket,
+        color: "border-zinc-700",
+        bg: "bg-zinc-900/40",
+        features: [
+          "One-page landing site",
+          "Premium responsive design",
+          "Basic SEO",
+          "Contact form",
+          "Go-live included",
+        ],
+        cta: "Launch my Landing",
+        ctaStyle: "bg-white/10 border border-white/20 text-white hover:bg-white/20",
+      },
+      {
         name: "Essential",
         price: "599",
-        desc: "Portfolio, landing page, simple showcase. Ideal for freelancers and creators.",
+        desc: "Portfolio or simple showcase site. Ideal for freelancers and creators.",
         icon: Zap,
         color: "border-zinc-700",
         bg: "bg-zinc-900/40",
@@ -195,9 +229,26 @@ const T = {
     perSite: "pago único",
     tiers: [
       {
+        name: "Landing",
+        price: "399",
+        desc: "Una sola página de alto impacto. Perfecta para validar una idea o lanzar un producto rápido.",
+        icon: Rocket,
+        color: "border-zinc-700",
+        bg: "bg-zinc-900/40",
+        features: [
+          "Landing page de una página",
+          "Diseño responsive premium",
+          "SEO básico",
+          "Formulario de contacto",
+          "Publicación incluida",
+        ],
+        cta: "Lanzar mi Landing",
+        ctaStyle: "bg-white/10 border border-white/20 text-white hover:bg-white/20",
+      },
+      {
         name: "Esencial",
         price: "599",
-        desc: "Portafolio, landing page, sitio escaparate simple. Ideal para freelancers y creadores.",
+        desc: "Portafolio o sitio escaparate simple. Ideal para freelancers y creadores.",
         icon: Zap,
         color: "border-zinc-700",
         bg: "bg-zinc-900/40",
@@ -284,9 +335,26 @@ const T = {
     perSite: "Einmalzahlung",
     tiers: [
       {
+        name: "Landing",
+        price: "399",
+        desc: "Eine einzige, wirkungsstarke Seite. Perfekt, um eine Idee zu testen oder ein Produkt schnell zu launchen.",
+        icon: Rocket,
+        color: "border-zinc-700",
+        bg: "bg-zinc-900/40",
+        features: [
+          "Einseitige Landing Page",
+          "Premium-Responsive-Design",
+          "Basis-SEO",
+          "Kontaktformular",
+          "Veröffentlichung inklusive",
+        ],
+        cta: "Landing starten",
+        ctaStyle: "bg-white/10 border border-white/20 text-white hover:bg-white/20",
+      },
+      {
         name: "Essenziell",
         price: "599",
-        desc: "Portfolio, Landing Page, einfache Visitenseite. Ideal für Freelancer und Kreative.",
+        desc: "Portfolio oder einfache Visitenseite. Ideal für Freelancer und Kreative.",
         icon: Zap,
         color: "border-zinc-700",
         bg: "bg-zinc-900/40",
@@ -373,9 +441,26 @@ const T = {
     perSite: "pagamento único",
     tiers: [
       {
+        name: "Landing",
+        price: "399",
+        desc: "Uma única página de alto impacto. Perfeita para validar uma ideia ou lançar um produto rápido.",
+        icon: Rocket,
+        color: "border-zinc-700",
+        bg: "bg-zinc-900/40",
+        features: [
+          "Landing page de uma página",
+          "Design responsivo premium",
+          "SEO básico",
+          "Formulário de contato",
+          "Publicação incluída",
+        ],
+        cta: "Lançar minha Landing",
+        ctaStyle: "bg-white/10 border border-white/20 text-white hover:bg-white/20",
+      },
+      {
         name: "Essencial",
         price: "599",
-        desc: "Portfólio, landing page, site institucional simples. Ideal para freelancers e criadores.",
+        desc: "Portfólio ou site institucional simples. Ideal para freelancers e criadores.",
         icon: Zap,
         color: "border-zinc-700",
         bg: "bg-zinc-900/40",
@@ -476,7 +561,7 @@ export default function PricingPage() {
         </div>
 
         {/* Pricing cards */}
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
           {t.tiers.map((tier, i) => {
             const Icon = tier.icon;
             return (

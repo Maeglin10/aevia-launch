@@ -17,7 +17,7 @@ const HERO_T = {
     badge: "Sites livrés en 2 heures",
     pre: "Votre",
     post: "en ligne aujourd'hui.",
-    rotate: ["Landing Page", "Boutique en ligne", "Site vitrine", "Portfolio"],
+    rotate: ["Landing Page", "E-commerce", "Site vitrine", "Portfolio"],
     sub: "Notre IA rédige votre contenu, vous choisissez un thème, on lance en 2 heures. C'est tout.",
     cta1: "Créer mon site",
     cta2: "Voir les thèmes",
@@ -401,16 +401,16 @@ function HeroSection() {
               className="text-5xl sm:text-6xl xl:text-[5.5rem] font-black tracking-tight leading-[1.0] mb-6"
             >
               <span className="text-white">{t.pre}</span>
-              <span className="block relative overflow-hidden" style={{ height: "1.1em" }}>
+              <span className="block relative overflow-hidden" style={{ height: "1.35em", lineHeight: 1.35, paddingTop: "0.12em", paddingBottom: "0.12em" }}>
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={idx}
-                    initial={{ y: "105%", opacity: 0 }}
+                    initial={{ y: "115%", opacity: 0 }}
                     animate={{ y: "0%", opacity: 1 }}
-                    exit={{ y: "-105%", opacity: 0 }}
+                    exit={{ y: "-115%", opacity: 0 }}
                     transition={{ duration: 0.38, ease: [0.4, 0, 0.2, 1] }}
-                    className="absolute inset-0 flex items-center text-transparent bg-clip-text"
-                    style={{ backgroundImage: "linear-gradient(135deg, #a78bfa 0%, #e879f9 50%, #60a5fa 100%)" }}
+                    className="absolute inset-0 flex items-center whitespace-nowrap text-transparent bg-clip-text"
+                    style={{ backgroundImage: "linear-gradient(135deg, #a78bfa 0%, #e879f9 50%, #60a5fa 100%)", lineHeight: 1.35 }}
                   >
                     {t.rotate[idx]}
                   </motion.span>
