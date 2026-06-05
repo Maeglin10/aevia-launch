@@ -209,19 +209,21 @@ const TEAM = [
   {
     name: "Maria",
     role: "Fondatrice & Experte du Regard",
-    bio: "Fondatrice de Maison Maria à Vénissieux, Maria est experte en extensions de cils, sourcils, blanchiment dentaire, micropigmentation et soins du corps. Certifiée et formatrice, elle sublime chaque cliente avec précision, douceur et un vrai sens du détail — dans un cadre cocooning, 7 jours sur 7.",
+    bio: "Fondatrice de Maison Maria à Vénissieux, Maria conjugue maîtrise technique et sens du détail. Spécialiste de la beauté du regard — extensions de cils, sourcils, blanchiment dentaire, micropigmentation et soins du corps — elle est certifiée et formatrice, et place l'expérience cliente au cœur de chaque prestation.",
     img: "/maison-maria/maria.jpg",
     specialties: ["Extensions de cils", "Sourcils", "Blanchiment dentaire", "Micropigmentation", "Madérothérapie", "Formations"],
   },
 ];
 
 // « Mon histoire » — version soignée (image de marque) du récit de Maria.
+// `quote: true` met le paragraphe en exergue (citation).
 const STORY = [
-  "Depuis 2019, je consacre ma vie à la beauté du regard. Après mon CAP Esthétique, j'ai choisi de me spécialiser dans l'extension de cils — et de ne jamais cesser d'apprendre. Cinq formations spécialisées plus tard, l'exigence est devenue ma signature.",
-  "Très vite, j'ai compris qu'une belle technique ne suffisait pas. Ce que je voulais offrir, c'était une véritable expérience : un moment de confiance et de bien-être, où chaque cliente se sent écoutée et sublimée. C'est cette conviction qui m'a menée jusqu'à ouvrir mon propre salon.",
-  "Le chemin n'a pas toujours été simple. J'ai appris — parfois durement — à m'entourer des bonnes personnes, à poser mes limites et à transformer chaque épreuve en force. Ce sont ces obstacles qui m'ont façonnée : plus déterminée, plus exigeante, plus libre.",
-  "Aujourd'hui, j'avance avec une seule obsession : progresser sans cesse et devenir la meilleure version de moi-même. Je me forme, je me remets en question, et je construis chaque jour une maison dont je serai fière dans dix ans.",
-  "Car je crois profondément que notre passé ne définit pas notre avenir. Ce qui nous définit, c'est notre capacité à nous relever.",
+  "Depuis 2019, j'évolue dans l'univers de la beauté du regard. Après l'obtention de mon CAP Esthétique, j'ai choisi de me spécialiser dans l'extension de cils et de placer l'exigence au cœur de mon métier. Cinq formations spécialisées plus tard, la maîtrise technique est devenue ma signature.",
+  "J'ai rapidement compris qu'une technique irréprochable ne suffisait pas. Ce que je voulais bâtir, c'était une véritable expérience — un moment de confiance et de bien-être où chaque cliente se sent écoutée, respectée et sublimée. Cette conviction m'a menée jusqu'à ouvrir mon propre salon.",
+  "Le parcours n'a pas été sans épreuves. Comme tout entrepreneur, j'ai appris à m'entourer des bonnes personnes, à poser mes limites et à faire de chaque difficulté un moteur. Ces obstacles ne m'ont pas définie : ils m'ont forgée — plus déterminée, plus exigeante, plus libre.",
+  { quote: "Mon choix a toujours été le même : me relever, encore plus forte que la veille." },
+  "Aujourd'hui, j'avance avec une seule ambition : progresser sans cesse et offrir le meilleur de mon art. Je me forme, je me remets en question et je construis, jour après jour, une maison dont je serai fière dans dix ans.",
+  "Car je suis convaincue d'une chose : notre passé ne définit pas notre avenir. Ce qui nous définit, c'est notre capacité à nous relever lorsque la vie nous met à l'épreuve.",
 ];
 
 // Avis réels vérifiés sur Planity (4,9/5 · 243 avis).
@@ -1708,11 +1710,27 @@ export default function MaisonMariaPage() {
                 textAlign: "left",
               }}
             >
-              {STORY.map((para, i) => (
-                <p key={i} style={{ marginBottom: 20 }}>
-                  {para}
-                </p>
-              ))}
+              {STORY.map((para, i) =>
+                typeof para === "string" ? (
+                  <p key={i} style={{ marginBottom: 20 }}>
+                    {para}
+                  </p>
+                ) : (
+                  <p
+                    key={i}
+                    style={{
+                      marginBottom: 20,
+                      fontFamily: C.font,
+                      fontStyle: "italic",
+                      fontSize: "clamp(20px, 2.4vw, 28px)",
+                      color: C.rose,
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {para.quote}
+                  </p>
+                )
+              )}
             </div>
             <p
               style={{
