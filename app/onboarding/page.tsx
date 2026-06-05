@@ -3,12 +3,45 @@
 import { useState, useCallback, useEffect, useRef, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams, useRouter } from "next/navigation";
-import { ChevronRight, ChevronLeft, Upload, X, Check, Loader2, Globe, Phone, Mail, MapPin, Plus, Link } from "lucide-react";
+import { ChevronRight, ChevronLeft, ChevronDown, Upload, X, Check, Loader2, Globe, Phone, Mail, MapPin, Plus, Link } from "lucide-react";
 import Image from "next/image";
 import {
   SITE_PRICES, ADDONS, DEFAULT_CURRENCY,
   priceIn, formatPrice, isCurrency, type Currency,
 } from "@/lib/pricing";
+import { useLang, LOCALE_META, type Locale } from "@/lib/LangContext";
+
+function OnboardingLangSwitcher() {
+  const { locale, setLocale } = useLang();
+  const [open, setOpen] = useState(false);
+  const current = LOCALE_META.find((l) => l.code === locale) ?? LOCALE_META[0];
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="flex items-center gap-1 px-2 py-1.5 rounded-md text-sm text-white/50 hover:text-white hover:bg-white/10 transition-colors"
+        aria-label="Changer de langue"
+      >
+        <Globe size={14} />
+        <span className="hidden sm:inline">{current.flag} {current.code.toUpperCase()}</span>
+        <span className="sm:hidden">{current.flag}</span>
+        <ChevronDown size={12} className={`transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <div className="absolute right-0 mt-1 w-40 bg-zinc-900 border border-zinc-800 rounded-xl shadow-xl shadow-black/40 overflow-hidden z-50">
+          {LOCALE_META.map((l) => (
+            <button key={l.code} onClick={() => { setLocale(l.code as Locale); setOpen(false); }}
+              className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-zinc-800 ${l.code === locale ? "text-white font-semibold" : "text-zinc-400"}`}
+            >
+              <span>{l.flag}</span><span>{l.label}</span>
+              {l.code === locale && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-violet-400" />}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -525,6 +558,7 @@ function OnboardingContent() {
       <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
         <span className="font-black text-lg tracking-tight">skylaunch</span>
         <div className="flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-2">
           {STEPS.map((label, i) => (
             <div key={i} className="flex items-center gap-2">
               <div className={`flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold transition-all ${
@@ -538,6 +572,8 @@ function OnboardingContent() {
               {i < STEPS.length - 1 && <div className="w-8 h-px bg-white/10" />}
             </div>
           ))}
+          </div>
+          <OnboardingLangSwitcher />
         </div>
       </div>
 
