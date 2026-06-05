@@ -110,7 +110,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
                 Back to preview
               </button>
               <a
-                href={`mailto:contact@skylaunch.io?subject=Launch my site — ${session.formData.businessName}&body=Hi! I've configured my site and I'm ready to launch. Preview: ${typeof window !== "undefined" ? window.location.href : ""}`}
+                href={`mailto:contact@aevia.io?subject=Launch my site — ${session.formData.businessName}&body=Hi! I've configured my site and I'm ready to launch. Preview: ${typeof window !== "undefined" ? window.location.href : ""}`}
                 className="flex-1 px-4 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors text-center"
               >
                 Confirm launch
