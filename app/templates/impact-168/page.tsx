@@ -592,6 +592,84 @@ function ProductCard({ p, i, onAddToCart }: { p: typeof PRODUCTS[0]; i: number; 
   );
 }
 
+// ─── Multi-page navigation config ───────────────────────────────────────────
+// PATTERN (reused identically across all impact themes): a single `page` state
+// drives in-page navigation. NAV_PAGES maps the route key -> nav label. The
+// existing single-page content is rendered verbatim under page === "home";
+// every other key renders a theme-native sub-page built from the same `C`
+// design tokens, typography, nav and footer.
+type EclatPage = "home" | "boutique" | "blog" | "about" | "contact" | "cgv" | "mentions";
+
+const NAV_PAGES: { key: EclatPage; label: string }[] = [
+  { key: "home", label: "Accueil" },
+  { key: "boutique", label: "Boutique" },
+  { key: "blog", label: "Blog" },
+  { key: "about", label: "À propos" },
+  { key: "contact", label: "Contact" },
+  { key: "cgv", label: "CGV" },
+  { key: "mentions", label: "Mentions" },
+];
+
+// ─── Blog mock data (FR fashion) ──────────────────────────────────────────────
+const BLOG_POSTS = [
+  {
+    slug: "lin-ete",
+    title: "Le lin lavé, la matière reine de l'été",
+    date: "12 juin 2025",
+    category: "Matières",
+    excerpt:
+      "Respirant, thermorégulateur et increvable : pourquoi le lin lavé s'impose comme la pièce maîtresse d'une garde-robe estivale durable.",
+    cover: "#C9A87C",
+    body: [
+      "Le lin est cultivé en Europe depuis des millénaires, et la France reste aujourd'hui le premier producteur mondial de lin textile. Cette proximité nous permet de tracer chaque fibre, de la plante au vêtement fini.",
+      "Le lavage du lin — un procédé mécanique qui assouplit la fibre — donne ce tombé fluide et ce toucher déjà familier dès le premier port. Contrairement aux idées reçues, un lin lavé se froisse avec élégance : c'est sa signature, pas un défaut.",
+      "Côté entretien, un lavage à 30°C et un séchage à plat suffisent. Évitez le sèche-linge, qui fragilise les fibres longues. Bien traité, un vêtement en lin vous accompagne dix ans, voire plus.",
+    ],
+  },
+  {
+    slug: "capsule",
+    title: "Construire une garde-robe capsule en 12 pièces",
+    date: "3 juin 2025",
+    category: "Style",
+    excerpt:
+      "Moins de pièces, plus de combinaisons. Notre méthode pour bâtir un vestiaire intemporel qui se renouvelle sans surconsommer.",
+    cover: "#B5A895",
+    body: [
+      "Une garde-robe capsule repose sur une palette restreinte de couleurs neutres qui se marient toutes entre elles. Beige, écru, gris souris et noir profond forment une base que l'on rehausse de deux ou trois teintes signatures.",
+      "Le secret tient dans la qualité des coupes plutôt que dans la quantité. Un blazer parfaitement ajusté, un pantalon wide-leg et une robe en lin couvrent à eux seuls quatre-vingts pour cent des occasions du quotidien.",
+      "En investissant dans douze pièces réfléchies plutôt que dans cinquante achats impulsifs, on réduit son empreinte tout en gagnant un temps précieux chaque matin.",
+    ],
+  },
+  {
+    slug: "soie",
+    title: "Soie grège : le luxe responsable décrypté",
+    date: "21 mai 2025",
+    category: "Engagements",
+    excerpt:
+      "Derrière la noblesse de la soie se cachent des enjeux écologiques majeurs. Comment nous sélectionnons des filatures éthiques.",
+    cover: "#C4754E",
+    body: [
+      "La soie grège est une soie écrue, non teinte et non décreusée, qui conserve toute sa séricine naturelle. Elle offre un toucher mat et une tenue incomparable, parfaits pour les pièces de soirée.",
+      "Nous travaillons exclusivement avec des filatures certifiées qui garantissent le bien-être des élevages et une consommation d'eau maîtrisée à chaque étape de transformation.",
+      "Choisir la soie grège, c'est privilégier une matière vivante qui patine avec le temps plutôt qu'une fibre synthétique qui se dégrade en microplastiques.",
+    ],
+  },
+  {
+    slug: "lookbook-biarritz",
+    title: "Dans les coulisses du lookbook à Biarritz",
+    date: "9 mai 2025",
+    category: "Coulisses",
+    excerpt:
+      "Trois jours de shooting entre océan et lumière dorée. Récit de la création visuelle de notre collection Été Brûlant.",
+    cover: "#7A9BB0",
+    body: [
+      "Biarritz au lever du jour offre une lumière dorée que nos équipes attendaient depuis des mois. Les 34 looks de la collection ont été photographiés sur trois jours, du front de mer aux ruelles du vieux port.",
+      "Chaque tenue a été pensée pour vivre : on court sur le sable, on s'assoit sur les rochers, on laisse le vent jouer avec le lin. L'objectif était de montrer des vêtements en mouvement, pas figés en studio.",
+      "Ce carnet de voyage visuel est désormais disponible en intégralité dans notre lookbook en ligne, et bientôt en édition imprimée tirée à 500 exemplaires.",
+    ],
+  },
+];
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function ImpactEclatPage() {
   const [cartCount, setCartCount] = useState(0);
@@ -602,6 +680,19 @@ export default function ImpactEclatPage() {
   const [navScrolled, setNavScrolled] = useState(false);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
   const [cartOpen, setCartOpen] = useState(false);
+
+  // Multi-page state
+  const [page, setPage] = useState<EclatPage>("home");
+  const [productDetail, setProductDetail] = useState<number | null>(null);
+  const [blogSlug, setBlogSlug] = useState<string | null>(null);
+
+  const goTo = (p: EclatPage) => {
+    setPage(p);
+    setProductDetail(null);
+    setBlogSlug(null);
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "auto" });
+  };
+  const addToCart = () => setCartCount(c => c + 1);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
@@ -664,36 +755,44 @@ export default function ImpactEclatPage() {
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
+          onClick={() => goTo("home")}
           style={{
             fontFamily: C.serif,
             fontSize: 26,
             letterSpacing: 4,
             fontStyle: "italic",
             color: C.gold,
+            cursor: "pointer",
           }}
         >
           Éclat
         </motion.div>
 
         {/* Nav links */}
-        <div style={{ display: "flex", gap: 40, alignItems: "center" }}>
-          {["Collections", "Nouveautés", "Soldes", "Lookbook", "Notre histoire"].map(l => (
+        <div style={{ display: "flex", gap: 30, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
+          {NAV_PAGES.map(({ key, label }) => (
             <a
-              key={l}
+              key={key}
               href="#"
+              onClick={e => {
+                e.preventDefault();
+                goTo(key);
+              }}
               style={{
                 fontSize: 13,
-                color: C.muted,
+                color: page === key ? C.cream : C.muted,
                 textDecoration: "none",
                 letterSpacing: 0.3,
                 fontWeight: 500,
                 transition: "color 0.2s",
                 position: "relative",
+                borderBottom: page === key ? `1px solid ${C.gold}` : "1px solid transparent",
+                paddingBottom: 2,
               }}
               onMouseEnter={e => (e.currentTarget.style.color = C.cream)}
-              onMouseLeave={e => (e.currentTarget.style.color = C.muted as string)}
+              onMouseLeave={e => (e.currentTarget.style.color = (page === key ? C.cream : C.muted) as string)}
             >
-              {l}
+              {label}
             </a>
           ))}
         </div>
@@ -756,6 +855,9 @@ export default function ImpactEclatPage() {
         </div>
       </nav>
 
+      {/* ══════════ HOME PAGE (original single-page content, unchanged) ══════════ */}
+      {page === "home" && (
+      <>
       {/* HERO — plein écran editorial dark */}
       <section
         ref={heroRef}
@@ -1253,6 +1355,7 @@ export default function ImpactEclatPage() {
 
         <div style={{ textAlign: "center", marginTop: 56 }}>
           <motion.button
+            onClick={() => goTo("boutique")}
             whileHover={{ background: C.gold, color: C.bg, borderColor: C.gold }}
             whileTap={{ scale: 0.96 }}
             style={{
@@ -1825,6 +1928,24 @@ export default function ImpactEclatPage() {
           +18 500 abonnées · Désabonnement en 1 clic · Aucun spam
         </div>
       </section>
+      </>
+      )}
+
+      {/* ══════════ EXTRA PAGES (theme-native, built from C tokens) ══════════ */}
+      {page === "boutique" && (
+        <BoutiquePage
+          productDetail={productDetail}
+          setProductDetail={setProductDetail}
+          onAddToCart={addToCart}
+        />
+      )}
+      {page === "blog" && (
+        <BlogPage blogSlug={blogSlug} setBlogSlug={setBlogSlug} />
+      )}
+      {page === "about" && <AboutPage goTo={goTo} />}
+      {page === "contact" && <ContactPage />}
+      {page === "cgv" && <LegalPage variant="cgv" />}
+      {page === "mentions" && <LegalPage variant="mentions" />}
 
       {/* FOOTER */}
       <footer style={{ background: "#050505", padding: "72px 64px 36px" }}>
@@ -1953,7 +2074,28 @@ export default function ImpactEclatPage() {
           }}
         >
           <span>© 2025 Éclat — Tous droits réservés</span>
-          <span>Mentions légales · CGV · Confidentialité · Plan du site</span>
+          <span style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <a
+              href="#"
+              onClick={e => { e.preventDefault(); goTo("mentions"); }}
+              style={{ color: "#333", textDecoration: "none" }}
+              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = C.gold)}
+              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = "#333")}
+            >
+              Mentions légales
+            </a>
+            ·
+            <a
+              href="#"
+              onClick={e => { e.preventDefault(); goTo("cgv"); }}
+              style={{ color: "#333", textDecoration: "none" }}
+              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = C.gold)}
+              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = "#333")}
+            >
+              CGV
+            </a>
+            · Confidentialité · Plan du site
+          </span>
         </div>
       </footer>
 
@@ -2063,6 +2205,971 @@ export default function ImpactEclatPage() {
           </>
         )}
       </AnimatePresence>
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// SUB-PAGE COMPONENTS — all styled exclusively from the `C` design tokens above
+// so they render natively inside Éclat. Shared <PageHero> gives every extra page
+// the same editorial dark header as the home sections.
+// ════════════════════════════════════════════════════════════════════════════
+
+// Reusable editorial page header (matches home section eyebrow + serif title).
+function PageHero({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle?: string }) {
+  return (
+    <div
+      style={{
+        padding: "clamp(56px, 9vw, 96px) clamp(20px, 6vw, 64px) 0",
+        background: `radial-gradient(ellipse at 30% 0%, rgba(200,169,110,0.08) 0%, transparent 55%)`,
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <div
+          style={{
+            fontSize: 10,
+            letterSpacing: 4,
+            color: C.gold,
+            textTransform: "uppercase",
+            marginBottom: 16,
+            fontFamily: C.sans,
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+          }}
+        >
+          <div style={{ width: 32, height: 1, background: C.gold }} />
+          {eyebrow}
+        </div>
+        <h1
+          style={{
+            fontFamily: C.serif,
+            fontSize: "clamp(40px, 6vw, 80px)",
+            fontStyle: "italic",
+            fontWeight: 400,
+            letterSpacing: -1.5,
+            lineHeight: 1.02,
+            color: C.cream,
+            marginBottom: subtitle ? 24 : 0,
+          }}
+        >
+          {title}
+        </h1>
+        {subtitle && (
+          <p
+            style={{
+              fontSize: 16,
+              color: C.creamDim,
+              lineHeight: 1.75,
+              maxWidth: 560,
+              fontWeight: 300,
+              fontFamily: C.sans,
+            }}
+          >
+            {subtitle}
+          </p>
+        )}
+      </motion.div>
+    </div>
+  );
+}
+
+// ─── BOUTIQUE ─────────────────────────────────────────────────────────────────
+function BoutiquePage({
+  productDetail,
+  setProductDetail,
+  onAddToCart,
+}: {
+  productDetail: number | null;
+  setProductDetail: (i: number | null) => void;
+  onAddToCart: () => void;
+}) {
+  if (productDetail !== null && PRODUCTS[productDetail]) {
+    return (
+      <ProductDetail
+        p={PRODUCTS[productDetail]}
+        onBack={() => setProductDetail(null)}
+        onAddToCart={onAddToCart}
+      />
+    );
+  }
+
+  return (
+    <div>
+      <PageHero
+        eyebrow="Toute la boutique"
+        title="La boutique Éclat"
+        subtitle="L'intégralité de nos collections, du lin lavé à la soie grège. Cliquez sur une pièce pour découvrir sa fiche détaillée."
+      />
+      <section style={{ padding: "clamp(40px, 6vw, 72px) clamp(20px, 6vw, 64px) clamp(72px, 9vw, 100px)" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+            gap: 16,
+          }}
+        >
+          {PRODUCTS.map((p, i) => (
+            <ShopCard
+              key={p.name}
+              p={p}
+              i={i}
+              onOpen={() => {
+                setProductDetail(i);
+                if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "auto" });
+              }}
+            />
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// Boutique card — reuses the home ProductCard visual language, click opens detail.
+function ShopCard({ p, i, onOpen }: { p: typeof PRODUCTS[0]; i: number; onOpen: () => void }) {
+  const [hovering, setHovering] = useState(false);
+  const tagColors: Record<string, string> = {
+    new: C.gold,
+    sale: "#D4614A",
+    exclusive: "#8B7355",
+    low: "#B5763A",
+  };
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: (i % 4) * 0.07, duration: 0.5 }}
+      onHoverStart={() => setHovering(true)}
+      onHoverEnd={() => setHovering(false)}
+      onClick={onOpen}
+      style={{
+        background: C.bgCard,
+        border: `1px solid ${C.borderLight}`,
+        overflow: "hidden",
+        position: "relative",
+        cursor: "pointer",
+      }}
+    >
+      <div
+        style={{
+          height: 300,
+          background: `linear-gradient(135deg, ${p.colors[0]}22 0%, ${p.colors[1]}22 100%)`,
+          position: "relative",
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <motion.div
+          animate={{ scale: hovering ? 1.04 : 1 }}
+          transition={{ duration: 0.4 }}
+          style={{ display: "flex", gap: 8, flexDirection: "column", alignItems: "center" }}
+        >
+          <div
+            style={{
+              width: 80,
+              height: 140,
+              background: `linear-gradient(160deg, ${p.colors[0]}, ${p.colors[1]})`,
+              borderRadius: 4,
+            }}
+          />
+          <div style={{ display: "flex", gap: 6 }}>
+            {p.colors.map((color, ci) => (
+              <div
+                key={ci}
+                style={{
+                  width: 16,
+                  height: 16,
+                  borderRadius: "50%",
+                  background: color,
+                  border: `1.5px solid rgba(255,255,255,0.2)`,
+                }}
+              />
+            ))}
+          </div>
+        </motion.div>
+        {p.tag && (
+          <div
+            style={{
+              position: "absolute",
+              top: 14,
+              left: 14,
+              background: p.tagType ? tagColors[p.tagType] : C.gold,
+              color: "#fff",
+              padding: "4px 10px",
+              fontSize: 10,
+              fontWeight: 700,
+              letterSpacing: 0.8,
+              fontFamily: C.sans,
+            }}
+          >
+            {p.tag}
+          </div>
+        )}
+        <AnimatePresence>
+          {hovering && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                background: "rgba(13,13,13,0.92)",
+                padding: "12px 14px",
+                textAlign: "center",
+                color: C.gold,
+                fontFamily: C.sans,
+                fontSize: 11,
+                letterSpacing: 1,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 6,
+              }}
+            >
+              Voir la fiche <ArrowRight size={13} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+      <div style={{ padding: "18px 20px 20px" }}>
+        <div style={{ fontSize: 10, color: C.gold, letterSpacing: 1.5, marginBottom: 4, fontFamily: C.sans }}>
+          {p.collection} · {p.material}
+        </div>
+        <div style={{ fontFamily: C.serif, fontSize: 17, color: C.cream, marginBottom: 6, fontStyle: "italic" }}>
+          {p.name}
+        </div>
+        <div style={{ display: "flex", gap: 4, alignItems: "center", marginBottom: 14 }}>
+          {[...Array(5)].map((_, j) => (
+            <Star key={j} size={10} fill={C.gold} stroke="none" />
+          ))}
+          <span style={{ fontSize: 10, color: C.muted, fontFamily: C.sans, marginLeft: 4 }}>
+            {p.rating} ({p.reviews})
+          </span>
+        </div>
+        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          <span style={{ fontSize: 18, fontWeight: 700, color: C.cream, fontFamily: C.sans }}>{p.price} €</span>
+          {p.oldPrice && (
+            <span
+              style={{
+                fontSize: 13,
+                color: C.muted,
+                textDecoration: "line-through",
+                fontFamily: C.sans,
+              }}
+            >
+              {p.oldPrice} €
+            </span>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// Product detail view — large visual + size selector + add-to-cart, Éclat styling.
+function ProductDetail({
+  p,
+  onBack,
+  onAddToCart,
+}: {
+  p: typeof PRODUCTS[0];
+  onBack: () => void;
+  onAddToCart: () => void;
+}) {
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [added, setAdded] = useState(false);
+  const [activeColor, setActiveColor] = useState(0);
+
+  const handleAdd = () => {
+    if (!selectedSize) return;
+    onAddToCart();
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  };
+
+  return (
+    <section style={{ padding: "clamp(40px, 7vw, 72px) clamp(20px, 6vw, 64px) clamp(72px, 9vw, 100px)" }}>
+      <button
+        onClick={onBack}
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 8,
+          background: "none",
+          border: "none",
+          color: C.muted,
+          cursor: "pointer",
+          fontFamily: C.sans,
+          fontSize: 13,
+          marginBottom: 40,
+          letterSpacing: 0.3,
+        }}
+        onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = C.gold)}
+        onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = C.muted as string)}
+      >
+        <ChevronLeft size={16} /> Retour à la boutique
+      </button>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+          gap: "clamp(32px, 5vw, 72px)",
+          alignItems: "start",
+        }}
+      >
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          style={{
+            height: "clamp(380px, 56vw, 600px)",
+            background: `linear-gradient(135deg, ${p.colors[activeColor]}33 0%, ${p.colors[(activeColor + 1) % p.colors.length]}22 100%)`,
+            border: `1px solid ${C.border}`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+          }}
+        >
+          {p.tag && (
+            <div
+              style={{
+                position: "absolute",
+                top: 18,
+                left: 18,
+                background: C.gold,
+                color: C.bg,
+                padding: "5px 12px",
+                fontSize: 10,
+                fontWeight: 700,
+                letterSpacing: 0.8,
+                fontFamily: C.sans,
+              }}
+            >
+              {p.tag}
+            </div>
+          )}
+          <div
+            style={{
+              width: "38%",
+              maxWidth: 200,
+              aspectRatio: "0.62",
+              background: `linear-gradient(160deg, ${p.colors[activeColor]}, ${p.colors[(activeColor + 1) % p.colors.length]})`,
+              borderRadius: 6,
+            }}
+          />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          <div style={{ fontSize: 10, color: C.gold, letterSpacing: 2, marginBottom: 10, fontFamily: C.sans, textTransform: "uppercase" }}>
+            {p.collection}
+          </div>
+          <h1
+            style={{
+              fontFamily: C.serif,
+              fontSize: "clamp(32px, 4vw, 48px)",
+              fontStyle: "italic",
+              fontWeight: 400,
+              letterSpacing: -1,
+              color: C.cream,
+              marginBottom: 16,
+            }}
+          >
+            {p.name}
+          </h1>
+          <div style={{ display: "flex", gap: 6, alignItems: "center", marginBottom: 24 }}>
+            {[...Array(5)].map((_, j) => (
+              <Star key={j} size={13} fill={C.gold} stroke="none" />
+            ))}
+            <span style={{ fontSize: 12, color: C.muted, fontFamily: C.sans, marginLeft: 6 }}>
+              {p.rating} · {p.reviews} avis vérifiés
+            </span>
+          </div>
+          <div style={{ display: "flex", gap: 12, alignItems: "baseline", marginBottom: 28 }}>
+            <span style={{ fontSize: 30, fontWeight: 700, color: C.cream, fontFamily: C.sans }}>{p.price} €</span>
+            {p.oldPrice && (
+              <span style={{ fontSize: 17, color: C.muted, textDecoration: "line-through", fontFamily: C.sans }}>
+                {p.oldPrice} €
+              </span>
+            )}
+          </div>
+          <p style={{ fontSize: 15, color: C.creamDim, lineHeight: 1.8, marginBottom: 32, fontWeight: 300, fontFamily: C.sans, maxWidth: 460 }}>
+            Confectionnée en {p.material.toLowerCase()}, la pièce {p.name} incarne l'élégance intemporelle d'Éclat.
+            Coupe étudiée, finitions soignées et matière certifiée pour traverser les saisons sans jamais se démoder.
+          </p>
+
+          <div style={{ marginBottom: 28 }}>
+            <div style={{ fontSize: 11, color: C.muted, letterSpacing: 1, marginBottom: 10, fontFamily: C.sans, textTransform: "uppercase" }}>
+              Coloris
+            </div>
+            <div style={{ display: "flex", gap: 10 }}>
+              {p.colors.map((color, ci) => (
+                <button
+                  key={ci}
+                  onClick={() => setActiveColor(ci)}
+                  style={{
+                    width: 30,
+                    height: 30,
+                    borderRadius: "50%",
+                    background: color,
+                    border: `2px solid ${activeColor === ci ? C.gold : "rgba(255,255,255,0.2)"}`,
+                    cursor: "pointer",
+                    padding: 0,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div style={{ marginBottom: 32 }}>
+            <div style={{ fontSize: 11, color: C.muted, letterSpacing: 1, marginBottom: 10, fontFamily: C.sans, textTransform: "uppercase" }}>
+              Taille
+            </div>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {p.sizes.map(s => (
+                <button
+                  key={s}
+                  onClick={() => setSelectedSize(s === selectedSize ? null : s)}
+                  style={{
+                    minWidth: 48,
+                    padding: "10px 14px",
+                    background: selectedSize === s ? C.gold : "transparent",
+                    color: selectedSize === s ? C.bg : C.creamDim,
+                    border: `1px solid ${selectedSize === s ? C.gold : C.borderLight}`,
+                    fontSize: 13,
+                    cursor: "pointer",
+                    fontFamily: C.sans,
+                    transition: "all 0.15s",
+                  }}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <motion.button
+            onClick={handleAdd}
+            whileHover={{ background: added ? "#2A6A3A" : C.cream, color: C.bg }}
+            whileTap={{ scale: 0.97 }}
+            style={{
+              width: "100%",
+              maxWidth: 460,
+              padding: "17px",
+              background: added ? "#2A6A3A" : C.gold,
+              color: added ? "#fff" : C.bg,
+              border: "none",
+              fontSize: 14,
+              fontWeight: 700,
+              cursor: "pointer",
+              transition: "all 0.2s",
+              fontFamily: C.sans,
+              letterSpacing: 0.5,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+            }}
+          >
+            {added ? (
+              <><Check size={16} /> Ajouté au panier</>
+            ) : selectedSize ? (
+              <><ShoppingBag size={16} /> Ajouter au panier — {p.price} €</>
+            ) : (
+              <>Sélectionnez une taille</>
+            )}
+          </motion.button>
+          <div style={{ display: "flex", gap: 20, marginTop: 20, flexWrap: "wrap" }}>
+            <span style={{ fontSize: 12, color: C.muted, fontFamily: C.sans, display: "flex", alignItems: "center", gap: 6 }}>
+              <Truck size={13} style={{ color: C.gold }} /> Livraison offerte dès 150 €
+            </span>
+            <span style={{ fontSize: 12, color: C.muted, fontFamily: C.sans, display: "flex", alignItems: "center", gap: 6 }}>
+              <RefreshCw size={13} style={{ color: C.gold }} /> Retours 30 jours
+            </span>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ─── BLOG ───────────────────────────────────────────────────────────────────
+function BlogPage({
+  blogSlug,
+  setBlogSlug,
+}: {
+  blogSlug: string | null;
+  setBlogSlug: (s: string | null) => void;
+}) {
+  const post = blogSlug ? BLOG_POSTS.find(b => b.slug === blogSlug) : null;
+
+  if (post) {
+    return (
+      <section style={{ padding: "clamp(40px, 7vw, 72px) clamp(20px, 6vw, 64px) clamp(72px, 9vw, 100px)" }}>
+        <div style={{ maxWidth: 760, margin: "0 auto" }}>
+          <button
+            onClick={() => setBlogSlug(null)}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: "none",
+              border: "none",
+              color: C.muted,
+              cursor: "pointer",
+              fontFamily: C.sans,
+              fontSize: 13,
+              marginBottom: 36,
+            }}
+            onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = C.gold)}
+            onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = C.muted as string)}
+          >
+            <ChevronLeft size={16} /> Tous les articles
+          </button>
+          <div style={{ fontSize: 10, color: C.gold, letterSpacing: 2, textTransform: "uppercase", fontFamily: C.sans, marginBottom: 14 }}>
+            {post.category} · {post.date}
+          </div>
+          <h1
+            style={{
+              fontFamily: C.serif,
+              fontSize: "clamp(34px, 5vw, 60px)",
+              fontStyle: "italic",
+              fontWeight: 400,
+              letterSpacing: -1.5,
+              lineHeight: 1.08,
+              color: C.cream,
+              marginBottom: 32,
+            }}
+          >
+            {post.title}
+          </h1>
+          <div
+            style={{
+              height: "clamp(220px, 38vw, 380px)",
+              background: `linear-gradient(160deg, ${post.cover}44, ${post.cover}11)`,
+              border: `1px solid ${post.cover}33`,
+              marginBottom: 40,
+            }}
+          />
+          {post.body.map((paraTxt, i) => (
+            <p
+              key={i}
+              style={{
+                fontSize: 17,
+                color: C.creamDim,
+                lineHeight: 1.9,
+                marginBottom: 24,
+                fontWeight: 300,
+                fontFamily: C.sans,
+              }}
+            >
+              {paraTxt}
+            </p>
+          ))}
+          <div style={{ borderTop: `1px solid ${C.border}`, marginTop: 24, paddingTop: 24, fontSize: 13, color: C.muted, fontFamily: C.sans, fontStyle: "italic" }}>
+            Rédigé par l'équipe éditoriale Éclat.
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <div>
+      <PageHero
+        eyebrow="Journal Éclat"
+        title="Le Blog"
+        subtitle="Matières, style et coulisses. Nos réflexions sur une mode plus durable et intemporelle."
+      />
+      <section style={{ padding: "clamp(40px, 6vw, 72px) clamp(20px, 6vw, 64px) clamp(72px, 9vw, 100px)" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+            gap: 24,
+          }}
+        >
+          {BLOG_POSTS.map((post, i) => (
+            <motion.article
+              key={post.slug}
+              initial={{ opacity: 0, y: 26 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: (i % 3) * 0.08 }}
+              onClick={() => {
+                setBlogSlug(post.slug);
+                if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "auto" });
+              }}
+              whileHover={{ y: -4 }}
+              style={{
+                background: C.bgCard,
+                border: `1px solid ${C.borderLight}`,
+                cursor: "pointer",
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div
+                style={{
+                  height: 200,
+                  background: `linear-gradient(160deg, ${post.cover}44, ${post.cover}11)`,
+                  borderBottom: `1px solid ${post.cover}22`,
+                }}
+              />
+              <div style={{ padding: "24px 26px 28px" }}>
+                <div style={{ fontSize: 10, color: C.gold, letterSpacing: 1.5, textTransform: "uppercase", fontFamily: C.sans, marginBottom: 12 }}>
+                  {post.category} · {post.date}
+                </div>
+                <h2 style={{ fontFamily: C.serif, fontSize: 22, fontStyle: "italic", color: C.cream, lineHeight: 1.25, marginBottom: 14, letterSpacing: -0.5 }}>
+                  {post.title}
+                </h2>
+                <p style={{ fontSize: 14, color: C.creamDim, lineHeight: 1.7, fontWeight: 300, fontFamily: C.sans, marginBottom: 18 }}>
+                  {post.excerpt}
+                </p>
+                <span style={{ fontSize: 12, color: C.gold, fontFamily: C.sans, letterSpacing: 0.5, display: "inline-flex", alignItems: "center", gap: 6 }}>
+                  Lire l'article <ArrowRight size={13} />
+                </span>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ─── À PROPOS ─────────────────────────────────────────────────────────────────
+function AboutPage({ goTo }: { goTo: (p: EclatPage) => void }) {
+  const values = [
+    { icon: <Leaf size={20} />, title: "Matières certifiées", text: "100% de nos tissus sont certifiés GOTS ou OEKO-TEX. Aucune fibre synthétique issue du pétrole depuis 2022." },
+    { icon: <Package size={20} />, title: "Production raisonnée", text: "De petites séries fabriquées sur commande pour éviter la surproduction et le gaspillage textile." },
+    { icon: <Star size={20} />, title: "Qualité durable", text: "Des coupes pensées pour durer dix ans, pas une saison. La qualité plutôt que la quantité." },
+  ];
+  return (
+    <div>
+      <PageHero
+        eyebrow="Notre histoire"
+        title="L'élégance, avec intention."
+        subtitle="Éclat est née d'une conviction simple : on peut s'habiller avec goût sans compromettre la planète ni les artisans qui font nos vêtements."
+      />
+      <section style={{ padding: "clamp(48px, 7vw, 80px) clamp(20px, 6vw, 64px)" }}>
+        <div style={{ maxWidth: 720, margin: "0 auto" }}>
+          {[
+            "Fondée en 2019 à Marseille, Éclat est partie d'un atelier de quatre personnes et d'une question : pourquoi la mode durable devrait-elle être terne ? Nous voulions prouver qu'éthique et désirabilité pouvaient coexister.",
+            "Aujourd'hui, nous collaborons avec des filatures européennes sélectionnées pour leur transparence et leur savoir-faire. Le lin vient de Normandie, la soie d'Italie, le cachemire d'ateliers labellisés.",
+            "Chaque pièce est pensée comme un investissement : des matières nobles, des coupes intemporelles et des finitions haute couture, pour des vêtements que l'on garde et que l'on transmet.",
+          ].map((paraTxt, i) => (
+            <p key={i} style={{ fontSize: 17, color: C.creamDim, lineHeight: 1.9, marginBottom: 24, fontWeight: 300, fontFamily: C.sans }}>
+              {paraTxt}
+            </p>
+          ))}
+        </div>
+      </section>
+
+      <section style={{ padding: "0 clamp(20px, 6vw, 64px) clamp(48px, 7vw, 80px)" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 2, maxWidth: 1000, margin: "0 auto" }}>
+          {values.map((v, i) => (
+            <motion.div
+              key={v.title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              style={{ background: C.bgCard, border: `1px solid ${C.borderLight}`, padding: "40px 32px" }}
+            >
+              <div style={{ color: C.gold, marginBottom: 18 }}>{v.icon}</div>
+              <h3 style={{ fontFamily: C.serif, fontSize: 22, fontStyle: "italic", color: C.cream, marginBottom: 12 }}>{v.title}</h3>
+              <p style={{ fontSize: 14, color: C.creamDim, lineHeight: 1.7, fontWeight: 300, fontFamily: C.sans }}>{v.text}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      <section style={{ padding: "clamp(64px, 9vw, 100px) clamp(20px, 6vw, 64px)", background: "#0A0A0A", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "clamp(32px, 5vw, 80px)", alignItems: "center", maxWidth: 1100, margin: "0 auto" }}>
+          <div>
+            <div style={{ fontSize: 10, letterSpacing: 4, color: C.gold, textTransform: "uppercase", marginBottom: 16, fontFamily: C.sans }}>
+              L'atelier
+            </div>
+            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(32px, 4vw, 52px)", fontStyle: "italic", fontWeight: 400, letterSpacing: -1, lineHeight: 1.1, color: C.cream, marginBottom: 24 }}>
+              Un savoir-faire<br /><span style={{ color: C.gold }}>qui se transmet.</span>
+            </h2>
+            <p style={{ fontSize: 16, color: C.creamDim, lineHeight: 1.8, fontWeight: 300, fontFamily: C.sans, marginBottom: 32, maxWidth: 460 }}>
+              Notre atelier marseillais réunit des couturières aux décennies d'expérience. Chaque vêtement passe entre les mains
+              d'une seule personne, du patron à la dernière finition.
+            </p>
+            <motion.button
+              onClick={() => goTo("boutique")}
+              whileHover={{ background: C.gold, color: C.bg }}
+              whileTap={{ scale: 0.96 }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 10,
+                padding: "15px 36px",
+                background: "transparent",
+                color: C.gold,
+                border: `1px solid ${C.gold}`,
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all 0.25s",
+                fontFamily: C.sans,
+                letterSpacing: 0.5,
+              }}
+            >
+              Découvrir nos pièces <ArrowRight size={14} />
+            </motion.button>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+            {[{ h: 240, c: "#C9A87C" }, { h: 180, c: "#D4896A" }, { h: 180, c: "#B5C4B1" }, { h: 240, c: "#7A9BB0" }].map((it, i) => (
+              <div key={i} style={{ height: it.h, background: `linear-gradient(160deg, ${it.c}44, ${it.c}22)`, border: `1px solid ${it.c}33` }} />
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ─── CONTACT ──────────────────────────────────────────────────────────────────
+function ContactPage() {
+  const [sent, setSent] = useState(false);
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    padding: "15px 18px",
+    background: "transparent",
+    border: `1px solid ${C.border}`,
+    color: C.cream,
+    fontSize: 16, // ≥16px to avoid iOS zoom
+    outline: "none",
+    fontFamily: C.sans,
+    marginBottom: 16,
+  };
+  const labelStyle: React.CSSProperties = {
+    fontSize: 11,
+    color: C.muted,
+    letterSpacing: 1,
+    textTransform: "uppercase",
+    fontFamily: C.sans,
+    marginBottom: 8,
+    display: "block",
+  };
+  return (
+    <div>
+      <PageHero
+        eyebrow="Restons en contact"
+        title="Contactez-nous"
+        subtitle="Une question sur une commande, une taille ou nos matières ? Notre équipe vous répond sous 24h ouvrées."
+      />
+      <section style={{ padding: "clamp(40px, 6vw, 72px) clamp(20px, 6vw, 64px) clamp(72px, 9vw, 100px)" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "clamp(32px, 5vw, 64px)", maxWidth: 1000, margin: "0 auto" }}>
+          <div>
+            {[
+              { label: "Email", value: "contact@aevia.io" },
+              { label: "Téléphone", value: "+33 4 91 00 00 00" },
+              { label: "Ville", value: "Marseille, France" },
+              { label: "Horaires", value: "Lun – Ven · 9h – 18h" },
+            ].map(item => (
+              <div key={item.label} style={{ marginBottom: 28, borderBottom: `1px solid ${C.borderLight}`, paddingBottom: 20 }}>
+                <div style={{ fontSize: 11, color: C.gold, letterSpacing: 2, textTransform: "uppercase", fontFamily: C.sans, marginBottom: 8 }}>
+                  {item.label}
+                </div>
+                <div style={{ fontFamily: C.serif, fontSize: 22, fontStyle: "italic", color: C.cream }}>{item.value}</div>
+              </div>
+            ))}
+          </div>
+
+          <div>
+            {sent ? (
+              <div style={{ border: `1px solid ${C.border}`, padding: "48px 36px", textAlign: "center", background: C.bgCard }}>
+                <Check size={28} style={{ color: C.gold, marginBottom: 16 }} />
+                <div style={{ fontFamily: C.serif, fontSize: 24, fontStyle: "italic", color: C.cream, marginBottom: 10 }}>
+                  Message envoyé
+                </div>
+                <p style={{ fontSize: 14, color: C.creamDim, fontFamily: C.sans, lineHeight: 1.7 }}>
+                  Merci ! Notre équipe vous répond sous 24h ouvrées.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={e => { e.preventDefault(); setSent(true); }}>
+                <label style={labelStyle}>Nom complet</label>
+                <input style={inputStyle} type="text" placeholder="Votre nom" required />
+                <label style={labelStyle}>Email</label>
+                <input style={inputStyle} type="email" placeholder="votre@email.fr" required />
+                <label style={labelStyle}>Sujet</label>
+                <input style={inputStyle} type="text" placeholder="Objet de votre message" />
+                <label style={labelStyle}>Message</label>
+                <textarea
+                  style={{ ...inputStyle, minHeight: 140, resize: "vertical" }}
+                  placeholder="Comment pouvons-nous vous aider ?"
+                  required
+                />
+                <motion.button
+                  type="submit"
+                  whileHover={{ background: C.cream, color: C.bg }}
+                  whileTap={{ scale: 0.97 }}
+                  style={{
+                    width: "100%",
+                    padding: "16px",
+                    background: C.gold,
+                    color: C.bg,
+                    border: "none",
+                    fontSize: 14,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    transition: "all 0.2s",
+                    fontFamily: C.sans,
+                    letterSpacing: 0.5,
+                  }}
+                >
+                  Envoyer le message
+                </motion.button>
+              </form>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ─── CGV & MENTIONS LÉGALES ─────────────────────────────────────────────────
+// Long-form legal pages. `mentions` content is verbatim per legal requirement.
+function LegalPage({ variant }: { variant: "cgv" | "mentions" }) {
+  const sectionTitle: React.CSSProperties = {
+    fontFamily: C.serif,
+    fontSize: 24,
+    fontStyle: "italic",
+    color: C.cream,
+    marginTop: 40,
+    marginBottom: 14,
+    letterSpacing: -0.5,
+  };
+  const para: React.CSSProperties = {
+    fontSize: 15,
+    color: C.creamDim,
+    lineHeight: 1.9,
+    marginBottom: 14,
+    fontWeight: 300,
+    fontFamily: C.sans,
+  };
+
+  if (variant === "mentions") {
+    return (
+      <div>
+        <PageHero eyebrow="Informations légales" title="Mentions légales" />
+        <section style={{ padding: "clamp(40px, 6vw, 64px) clamp(20px, 6vw, 64px) clamp(72px, 9vw, 100px)" }}>
+          <div style={{ maxWidth: 760, margin: "0 auto" }}>
+            <h2 style={sectionTitle}>Éditeur du site</h2>
+            <p style={para}>
+              <strong style={{ color: C.cream }}>Aevia WS</strong> — entrepreneur individuel (auto-entrepreneur).
+            </p>
+            <p style={para}>Directeur de la publication : <strong style={{ color: C.cream }}>Valentin Milliand</strong>.</p>
+            <p style={para}>SIREN : <strong style={{ color: C.cream }}>852 546 225</strong> — RCS Bourg-en-Bresse.</p>
+            <p style={para}>Contact : <strong style={{ color: C.cream }}>contact@aevia.io</strong></p>
+            <p style={para}>Adresse du siège social communiquée sur demande à contact@aevia.io.</p>
+
+            <h2 style={sectionTitle}>TVA</h2>
+            <p style={para}>TVA non applicable, art. 293 B du CGI.</p>
+
+            <h2 style={sectionTitle}>Hébergeur</h2>
+            <p style={para}>
+              Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA.
+            </p>
+
+            <h2 style={sectionTitle}>Propriété intellectuelle</h2>
+            <p style={para}>
+              L'ensemble des contenus présents sur ce site (textes, visuels, logo, mise en page) est protégé par le droit
+              de la propriété intellectuelle. Toute reproduction, même partielle, est interdite sans autorisation préalable
+              de l'éditeur.
+            </p>
+
+            <h2 style={sectionTitle}>Données personnelles</h2>
+            <p style={para}>
+              Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression des données vous
+              concernant. Pour exercer ce droit, écrivez à contact@aevia.io.
+            </p>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <PageHero eyebrow="Conditions générales" title="Conditions générales de vente" />
+      <section style={{ padding: "clamp(40px, 6vw, 64px) clamp(20px, 6vw, 64px) clamp(72px, 9vw, 100px)" }}>
+        <div style={{ maxWidth: 760, margin: "0 auto" }}>
+          <p style={{ ...para, fontStyle: "italic", color: C.muted }}>Dernière mise à jour : juin 2025.</p>
+
+          <h2 style={sectionTitle}>Article 1 — Objet</h2>
+          <p style={para}>
+            Les présentes conditions générales de vente régissent les relations contractuelles entre Éclat et tout client
+            effectuant un achat sur le site. Toute commande implique l'acceptation sans réserve des présentes CGV.
+          </p>
+
+          <h2 style={sectionTitle}>Article 2 — Prix</h2>
+          <p style={para}>
+            Les prix sont indiqués en euros, toutes taxes comprises. Éclat se réserve le droit de modifier ses prix à tout
+            moment ; les articles sont facturés sur la base des tarifs en vigueur au moment de la validation de la commande.
+          </p>
+
+          <h2 style={sectionTitle}>Article 3 — Commande</h2>
+          <p style={para}>
+            La commande est validée après confirmation du paiement. Un email récapitulatif est adressé au client. Éclat se
+            réserve le droit d'annuler toute commande en cas de litige de paiement ou de rupture de stock.
+          </p>
+
+          <h2 style={sectionTitle}>Article 4 — Paiement</h2>
+          <p style={para}>
+            Le règlement s'effectue par carte bancaire via un prestataire de paiement sécurisé. Aucune donnée bancaire n'est
+            conservée par Éclat.
+          </p>
+
+          <h2 style={sectionTitle}>Article 5 — Livraison</h2>
+          <p style={para}>
+            Les délais de livraison sont de 2 à 3 jours ouvrés en standard. La livraison est offerte dès 150 € d'achat. Les
+            risques liés au transport sont transférés au client à la réception du colis.
+          </p>
+
+          <h2 style={sectionTitle}>Article 6 — Droit de rétractation</h2>
+          <p style={para}>
+            Conformément au Code de la consommation, le client dispose d'un délai de 30 jours à compter de la réception pour
+            retourner un article, sans avoir à justifier de motif. Le remboursement intervient sous 5 jours ouvrés après
+            réception du retour.
+          </p>
+
+          <h2 style={sectionTitle}>Article 7 — Garanties</h2>
+          <p style={para}>
+            Tous les produits bénéficient des garanties légales de conformité et contre les vices cachés, conformément aux
+            dispositions du Code de la consommation et du Code civil.
+          </p>
+
+          <h2 style={sectionTitle}>Article 8 — Droit applicable</h2>
+          <p style={para}>
+            Les présentes CGV sont soumises au droit français. En cas de litige, une solution amiable sera recherchée avant
+            toute action judiciaire.
+          </p>
+        </div>
+      </section>
     </div>
   );
 }
