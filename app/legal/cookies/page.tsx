@@ -1,4 +1,5 @@
 import { LegalFooter } from "@/components/LegalFooter";
+import { LEGAL_FACTS } from "@/components/LegalIdentity";
 
 export default function CookiesPage() {
   return (
@@ -274,7 +275,7 @@ export default function CookiesPage() {
               </a>
             </p>
             <p className="text-zinc-700">
-              <span className="text-zinc-900">Responsable :</span> Valentin Milliand — Aevia, France
+              <span className="text-zinc-900">Responsable :</span> {LEGAL_FACTS.director} — {LEGAL_FACTS.editeur}, France
             </p>
           </div>
         </section>

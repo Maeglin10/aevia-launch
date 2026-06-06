@@ -1,4 +1,5 @@
 import { LegalFooter } from "@/components/LegalFooter";
+import { LegalEditeur, LEGAL_FACTS } from "@/components/LegalIdentity";
 
 export default function ConfidentialitePage() {
   return (
@@ -23,23 +24,7 @@ export default function ConfidentialitePage() {
           <p className="mb-3 text-sm leading-relaxed">
             Le responsable du traitement de vos données personnelles est :
           </p>
-          <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-5 text-sm space-y-1">
-            <p><span className="text-zinc-900 font-semibold">Aevia</span> — Entreprise individuelle (auto-entrepreneur)</p>
-            <p><span className="text-zinc-500">Responsable légal :</span> Valentin Milliand</p>
-            <p><span className="text-zinc-500">Service concerné :</span> AeviaLaunch (launch.aevia.io)</p>
-            <p>
-              <span className="text-zinc-500">Contact :</span>{" "}
-              <a href="mailto:hello@aevia.io" className="text-violet-600 hover:text-violet-700 transition-colors">
-                hello@aevia.io
-              </a>
-            </p>
-            <p>
-              <span className="text-zinc-500">Contact DPO / Vie privée :</span>{" "}
-              <a href="mailto:privacy@aevia.io" className="text-violet-600 hover:text-violet-700 transition-colors">
-                privacy@aevia.io
-              </a>
-            </p>
-          </div>
+          <LegalEditeur variant="responsable" />
         </section>
 
         {/* ── 2. Données collectées ────────────────────────────────────────────── */}
@@ -372,12 +357,12 @@ export default function ConfidentialitePage() {
             </p>
             <p className="text-zinc-700">
               <span className="text-zinc-900">Email général :</span>{" "}
-              <a href="mailto:hello@aevia.io" className="text-violet-600 hover:text-violet-700 transition-colors">
-                hello@aevia.io
+              <a href={`mailto:${LEGAL_FACTS.contactEmail}`} className="text-violet-600 hover:text-violet-700 transition-colors">
+                {LEGAL_FACTS.contactEmail}
               </a>
             </p>
             <p className="text-zinc-700">
-              <span className="text-zinc-900">Responsable :</span> Valentin Milliand — Aevia, France
+              <span className="text-zinc-900">Responsable :</span> {LEGAL_FACTS.director} — {LEGAL_FACTS.editeur}, France
             </p>
           </div>
         </section>
