@@ -11,6 +11,30 @@ interface ThemeWrapperProps {
   navStyle?: "default" | "transparent" | "luxury" | "minimal";
   footerStyle?: "default" | "dark" | "luxury";
   dark?: boolean;
+  /**
+   * Optional custom slot rendered in the nav between the logo and the CTA.
+   * Themes that want a multi-page experience pass their own nav links here.
+   * When omitted, the wrapper behaves exactly as before (single CTA only),
+   * so existing single-page themes are unaffected.
+   */
+  navSlot?: React.ReactNode;
+  /**
+   * Optional custom slot rendered to the far right of the nav (e.g. a cart
+   * button). Sits after the default CTA. Optional / backward-compatible.
+   */
+  navActions?: React.ReactNode;
+  /**
+   * Optional handler for the wrapper's default CTA button. When provided,
+   * the CTA becomes a button (no anchor jump) so a multi-page theme can
+   * route it (e.g. to a contact section/page). Defaults to the "#contact"
+   * anchor behaviour when omitted.
+   */
+  onCtaClick?: () => void;
+  /**
+   * Optional footer link slot (e.g. legal pages). Rendered in the footer
+   * "Follow Us" column area. Backward-compatible when omitted.
+   */
+  footerSlot?: React.ReactNode;
 }
 
 export function ThemeWrapper({
@@ -19,6 +43,10 @@ export function ThemeWrapper({
   navStyle = "default",
   footerStyle = "default",
   dark = false,
+  navSlot,
+  navActions,
+  onCtaClick,
+  footerSlot,
 }: ThemeWrapperProps) {
   const { formData, generatedContent: c } = session;
   const brand = formData.brandColor || "#7c3aed";
@@ -33,22 +61,36 @@ export function ThemeWrapper({
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 backdrop-blur-xl border-b ${dark ? 'bg-black/80' : 'bg-white/80'}`} style={{ borderColor }}>
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="text-xl font-bold tracking-tight">
+          <div className="text-xl font-bold tracking-tight shrink-0">
             {formData.logoBase64 ? (
               <img src={formData.logoBase64} alt={formData.businessName} className="h-8 object-contain" />
             ) : (
               formData.businessName
             )}
           </div>
-          
-          <div className="flex items-center gap-6">
-            <MagneticButton
-              href="#contact"
-              style={{ background: brand, color: "#fff" }}
-              className="px-6 py-2 rounded-full text-sm font-bold shadow-lg"
-            >
-              {c?.ctaText || "Contact"}
-            </MagneticButton>
+
+          {/* Optional theme-provided nav links (multi-page themes) */}
+          {navSlot && <div className="flex-1 flex justify-center min-w-0">{navSlot}</div>}
+
+          <div className="flex items-center gap-3 shrink-0">
+            {onCtaClick ? (
+              <MagneticButton
+                onClick={onCtaClick}
+                style={{ background: brand, color: "#fff" }}
+                className="px-6 py-2 rounded-full text-sm font-bold shadow-lg"
+              >
+                {c?.ctaText || "Contact"}
+              </MagneticButton>
+            ) : (
+              <MagneticButton
+                href="#contact"
+                style={{ background: brand, color: "#fff" }}
+                className="px-6 py-2 rounded-full text-sm font-bold shadow-lg"
+              >
+                {c?.ctaText || "Contact"}
+              </MagneticButton>
+            )}
+            {navActions}
           </div>
         </div>
       </nav>
@@ -79,10 +121,11 @@ export function ThemeWrapper({
           
           <div>
             <div className="font-bold mb-6 uppercase text-xs tracking-widest">Follow Us</div>
-            <div className="flex gap-4">
+            <div className="flex gap-4 mb-8">
               {formData.instagram && <Globe className="w-5 h-5 cursor-pointer hover:opacity-70" />}
               {formData.linkedin && <Globe className="w-5 h-5 cursor-pointer hover:opacity-70" />}
             </div>
+            {footerSlot}
           </div>
         </div>
         
