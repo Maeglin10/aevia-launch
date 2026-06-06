@@ -10,7 +10,7 @@ import { ShoppingBag, X, Plus, Minus, Star, ShieldCheck, Truck, RotateCcw, Arrow
 // ─────────────────────────────────────────────────────────────────────────────
 // Page model — client-side page switching (no Next routes)
 // ─────────────────────────────────────────────────────────────────────────────
-type Page = "home" | "shop" | "blog" | "cgv" | "mentions";
+type Page = "home" | "shop" | "blog" | "about" | "contact" | "cgv" | "mentions";
 
 // --- Mock Product Data Generator ---
 type Product = {
@@ -172,6 +172,8 @@ export function EcommerceTheme({ session }: { session: SessionData }) {
     { key: "home", label: "Accueil" },
     { key: "shop", label: "Boutique" },
     { key: "blog", label: "Blog" },
+    { key: "about", label: "À propos" },
+    { key: "contact", label: "Contact" },
     { key: "cgv", label: "CGV" },
     { key: "mentions", label: "Mentions légales" },
   ];
@@ -218,6 +220,8 @@ export function EcommerceTheme({ session }: { session: SessionData }) {
     <div className="flex flex-col gap-3 text-xs uppercase tracking-widest">
       <button onClick={() => goTo("shop")} className="text-left hover:opacity-70 transition-opacity">Boutique</button>
       <button onClick={() => goTo("blog")} className="text-left hover:opacity-70 transition-opacity">Blog</button>
+      <button onClick={() => goTo("about")} className="text-left hover:opacity-70 transition-opacity">À propos</button>
+      <button onClick={() => goTo("contact")} className="text-left hover:opacity-70 transition-opacity">Contact</button>
       <button onClick={() => goTo("cgv")} className="text-left hover:opacity-70 transition-opacity">CGV</button>
       <button onClick={() => goTo("mentions")} className="text-left hover:opacity-70 transition-opacity">Mentions légales</button>
     </div>
@@ -250,11 +254,7 @@ export function EcommerceTheme({ session }: { session: SessionData }) {
       navSlot={navSlot}
       navActions={navActions}
       footerSlot={footerSlot}
-      onCtaClick={() => {
-        goTo("home");
-        // let the home page mount, then scroll to its contact section
-        setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }), 60);
-      }}
+      onCtaClick={() => goTo("contact")}
     >
       {mobileTabs}
 
@@ -283,6 +283,9 @@ export function EcommerceTheme({ session }: { session: SessionData }) {
           {page === "blog" && activeArticle && (
             <BlogArticle article={activeArticle} brand={brand} onBack={() => { setActiveArticle(null); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
           )}
+
+          {page === "about" && <AboutPage formData={formData} c={c} brand={brand} goTo={goTo} />}
+          {page === "contact" && <ContactPage formData={formData} brand={brand} />}
 
           {page === "cgv" && <CgvPage brand={brand} businessName={formData.businessName} />}
           {page === "mentions" && <MentionsPage brand={brand} />}
@@ -1001,6 +1004,211 @@ function BlogArticle({ article, brand, onBack }: { article: Article; brand: stri
         </div>
       </div>
     </article>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// À PROPOS
+// ─────────────────────────────────────────────────────────────────────────────
+function AboutPage({
+  formData, c, brand, goTo,
+}: {
+  formData: SessionData["formData"];
+  c: SessionData["generatedContent"];
+  brand: string;
+  goTo: (p: Page) => void;
+}) {
+  const values = [
+    { icon: <Award />, title: "Exigence", desc: "Nous ne transigeons jamais sur la qualité. Chaque pièce est contrôlée et pensée pour durer." },
+    { icon: <ShieldCheck />, title: "Confiance", desc: "Transparence sur nos matières, nos prix et nos engagements. Une relation honnête avec notre communauté." },
+    { icon: <Gift />, title: "Passion", desc: "Une équipe animée par l'amour du beau et du bien-fait, au service de votre quotidien." },
+  ];
+  const team = [
+    { name: "Camille Durand", role: "Fondatrice & Direction artistique", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80" },
+    { name: "Thomas Bernard", role: "Responsable production", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80" },
+    { name: "Léa Martin", role: "Relation client", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80" },
+  ];
+
+  return (
+    <>
+      {/* Header band */}
+      <section className="bg-zinc-900 text-white py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <Reveal>
+            <div className="text-xs font-black uppercase tracking-[0.3em] mb-4 opacity-60">Notre maison</div>
+            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none">À propos</h1>
+            <p className="text-white/50 mt-6 max-w-xl text-lg">L&apos;histoire, les valeurs et les visages derrière {formData.businessName}.</p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Brand story */}
+      <section className="py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <Reveal>
+            <div className="text-xs font-black uppercase tracking-[0.4em] mb-8" style={{ color: brand }}>Notre histoire</div>
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-10 leading-tight">Née d&apos;une conviction simple.</h2>
+            <div className="space-y-6 text-lg text-zinc-500 leading-relaxed">
+              <p>{c?.aboutText || `${formData.businessName} est née d'une conviction simple : il est possible de proposer des produits d'exception, fabriqués dans le respect des hommes et de l'environnement, sans jamais sacrifier le style ni la qualité.`}</p>
+              <p>Depuis nos débuts à {formData.city || "Lyon"}, nous cultivons un savoir-faire artisanal et une relation de proximité avec celles et ceux qui nous font confiance. Chaque collection raconte une histoire, la nôtre comme la vôtre.</p>
+            </div>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div className="aspect-[4/5] overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=900&q=80" alt="Notre atelier" className="w-full h-full object-cover" />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Values */}
+      <section className="py-32 bg-zinc-50 border-y">
+        <div className="max-w-7xl mx-auto px-6">
+          <Reveal className="mb-20">
+            <h2 className="text-4xl font-black uppercase tracking-tighter">Nos valeurs</h2>
+            <div className="w-20 h-2 mt-6" style={{ background: brand }} />
+          </Reveal>
+          <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {values.map((v, i) => (
+              <StaggerItem key={i}>
+                <div className="p-10 bg-white border h-full">
+                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-8" style={{ background: brand + '10', color: brand }}>{v.icon}</div>
+                  <h3 className="text-lg font-black uppercase tracking-tight mb-4">{v.title}</h3>
+                  <p className="text-sm text-zinc-500 leading-relaxed">{v.desc}</p>
+                </div>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* Team */}
+      <section className="py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <Reveal className="mb-20">
+            <h2 className="text-4xl font-black uppercase tracking-tighter">L&apos;équipe</h2>
+            <div className="w-20 h-2 mt-6" style={{ background: brand }} />
+          </Reveal>
+          <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {team.map((m, i) => (
+              <StaggerItem key={i}>
+                <div className="group">
+                  <div className="aspect-[4/5] overflow-hidden mb-6">
+                    <img src={m.img} alt={m.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                  </div>
+                  <h3 className="text-xl font-black uppercase tracking-tight">{m.name}</h3>
+                  <p className="text-[11px] uppercase tracking-widest text-zinc-400 font-bold mt-2">{m.role}</p>
+                </div>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-32 bg-zinc-900 text-white text-center">
+        <div className="max-w-3xl mx-auto px-6">
+          <Reveal>
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-8">Envie d&apos;en savoir plus ?</h2>
+            <p className="text-white/50 mb-12 text-lg">Découvrez notre collection ou contactez-nous, nous serons ravis d&apos;échanger.</p>
+            <div className="flex flex-wrap gap-6 justify-center">
+              <button onClick={() => goTo("shop")} style={{ background: brand }} className="px-10 py-5 font-black uppercase tracking-widest text-sm hover:brightness-110 transition-all">Voir la boutique</button>
+              <button onClick={() => goTo("contact")} className="px-10 py-5 border-2 border-white font-black uppercase tracking-widest text-sm hover:bg-white hover:text-zinc-900 transition-all">Nous contacter</button>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CONTACT
+// ─────────────────────────────────────────────────────────────────────────────
+function ContactPage({ formData, brand }: { formData: SessionData["formData"]; brand: string }) {
+  const [sent, setSent] = useState(false);
+
+  return (
+    <>
+      <section className="bg-zinc-900 text-white py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <Reveal>
+            <div className="text-xs font-black uppercase tracking-[0.3em] mb-4 opacity-60">Nous écrire</div>
+            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none">Contact</h1>
+            <p className="text-white/50 mt-6 max-w-xl text-lg">Une question, une commande, une collaboration ? Notre équipe vous répond.</p>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="py-20 bg-zinc-50 min-h-[60vh]">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16">
+          {/* Contact info */}
+          <Reveal>
+            <h2 className="text-3xl font-black uppercase tracking-tighter mb-10">Coordonnées</h2>
+            <div className="space-y-6">
+              <div className="flex items-start gap-5 p-6 bg-white border">
+                <Mail className="w-6 h-6 flex-shrink-0" style={{ color: brand }} />
+                <div>
+                  <div className="font-black uppercase tracking-widest text-xs mb-1">Email</div>
+                  <a href={`mailto:${formData.email}`} className="text-zinc-500 text-sm hover:text-zinc-900 transition-colors">{formData.email}</a>
+                </div>
+              </div>
+              <div className="flex items-start gap-5 p-6 bg-white border">
+                <Phone className="w-6 h-6 flex-shrink-0" style={{ color: brand }} />
+                <div>
+                  <div className="font-black uppercase tracking-widest text-xs mb-1">Téléphone</div>
+                  <p className="text-zinc-500 text-sm">{formData.phone || "Du lundi au samedi, 9h–18h"}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-5 p-6 bg-white border">
+                <MapPin className="w-6 h-6 flex-shrink-0" style={{ color: brand }} />
+                <div>
+                  <div className="font-black uppercase tracking-widest text-xs mb-1">Ville</div>
+                  <p className="text-zinc-500 text-sm">{formData.city || "Lyon, France"}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-5 p-6 bg-white border">
+                <Clock className="w-6 h-6 flex-shrink-0" style={{ color: brand }} />
+                <div>
+                  <div className="font-black uppercase tracking-widest text-xs mb-1">Horaires</div>
+                  <p className="text-zinc-500 text-sm">Lun–Sam : 9h–18h · Dim : fermé</p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Form */}
+          <Reveal delay={0.1}>
+            <div className="bg-white border p-8 md:p-10">
+              <h2 className="text-3xl font-black uppercase tracking-tighter mb-10">Écrivez-nous</h2>
+              {sent ? (
+                <div className="py-16 text-center">
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 text-white" style={{ background: brand }}><Mail className="w-7 h-7" /></div>
+                  <p className="font-black uppercase tracking-widest text-sm mb-2">Message envoyé</p>
+                  <p className="text-zinc-500 text-sm">Merci, nous revenons vers vous très vite.</p>
+                </div>
+              ) : (
+                <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="space-y-6">
+                  <div>
+                    <label className="block text-[11px] font-black uppercase tracking-widest mb-2 text-zinc-500">Nom</label>
+                    <input required type="text" placeholder="Votre nom" className="w-full px-5 py-4 border border-zinc-200 outline-none text-base focus:border-zinc-900 transition-colors" />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-black uppercase tracking-widest mb-2 text-zinc-500">Email</label>
+                    <input required type="email" placeholder="vous@email.com" className="w-full px-5 py-4 border border-zinc-200 outline-none text-base focus:border-zinc-900 transition-colors" />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-black uppercase tracking-widest mb-2 text-zinc-500">Message</label>
+                    <textarea required rows={5} placeholder="Votre message…" className="w-full px-5 py-4 border border-zinc-200 outline-none text-base focus:border-zinc-900 transition-colors resize-none" />
+                  </div>
+                  <button type="submit" style={{ background: brand }} className="w-full py-5 text-white font-black uppercase tracking-widest text-sm hover:brightness-110 transition-all">Envoyer le message</button>
+                </form>
+              )}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+    </>
   );
 }
 
