@@ -6,7 +6,8 @@ import Link from "next/link";
 import {
   Menu, X, Phone, Mail, MapPin, Clock, Star, ChevronDown,
   ArrowRight, Check, Leaf, Sun, Snowflake, Wind, Heart,
-  Gift, Briefcase, Users, Camera, MessageSquare
+  Gift, Briefcase, Users, Camera, MessageSquare, ShoppingBag,
+  ChevronLeft, Truck, RefreshCw, Package
 } from "lucide-react";
 
 const C = {
@@ -230,8 +231,196 @@ const faqs = [
   },
 ];
 
-function Navbar() {
+// ════════════════════════════════════════════════════════════════════════════
+// MULTI-PAGE PATTERN (reused identically from impact-168 / impact-215): a single
+// `page` state drives in-page navigation. NAV_PAGES maps route key -> label. The
+// original single-page content renders verbatim under page === "home"; every
+// other key renders a theme-native sub-page built from the same `C` tokens,
+// 'Libre Baskerville'/'Poppins' typography, nav and footer.
+// ════════════════════════════════════════════════════════════════════════════
+type FloristPage = "home" | "boutique" | "blog" | "about" | "contact" | "cgv" | "mentions";
+
+const NAV_PAGES: { key: FloristPage; label: string }[] = [
+  { key: "home", label: "Accueil" },
+  { key: "boutique", label: "Boutique" },
+  { key: "blog", label: "Blog" },
+  { key: "about", label: "À propos" },
+  { key: "contact", label: "Contact" },
+  { key: "cgv", label: "CGV" },
+  { key: "mentions", label: "Mentions" },
+];
+
+// ─── Boutique product data (FR florist) ─────────────────────────────────────
+const PRODUCTS = [
+  {
+    name: "Jardin de Printemps",
+    price: 65,
+    oldPrice: null,
+    tag: "Saison",
+    tagType: "season",
+    collection: "Printemps",
+    material: "Pivoines · tulipes · roses de jardin",
+    desc: "Pivoines, tulipes et roses de jardin dans des tons blush et crème, noués à la main.",
+    colors: [C.rose, C.blush, "#f8bbd0"],
+    rating: 4.9,
+    reviews: 142,
+  },
+  {
+    name: "Soleil de Provence",
+    price: 70,
+    oldPrice: null,
+    tag: null,
+    tagType: null,
+    collection: "Été",
+    material: "Tournesols · lavande · dahlias",
+    desc: "Tournesols, lavande et dahlias dorés dans une abondance chaleureuse aux accents du Sud.",
+    colors: ["#f9a825", "#9575cd", "#fbc02d"],
+    rating: 4.8,
+    reviews: 96,
+  },
+  {
+    name: "Bouquet Blanc Éternel",
+    price: 80,
+    oldPrice: null,
+    tag: "Bestseller",
+    tagType: "best",
+    collection: "Mariages",
+    material: "Roses blanches · eucalyptus · lisianthus",
+    desc: "Composition immaculée de roses blanches, eucalyptus et lisianthus pour les grandes occasions.",
+    colors: ["#ffffff", C.sageLight, "#e8f5e9"],
+    rating: 5.0,
+    reviews: 67,
+  },
+  {
+    name: "Automne Doré",
+    price: 75,
+    oldPrice: 90,
+    tag: "–17%",
+    tagType: "sale",
+    collection: "Automne",
+    material: "Dahlias rouille · chrysanthèmes · blé séché",
+    desc: "Dahlias rouille, chrysanthèmes orangés et épis de blé séché aux textures de saison.",
+    colors: ["#bf360c", "#e64a19", "#d7ccc8"],
+    rating: 4.7,
+    reviews: 88,
+  },
+  {
+    name: "Blanc de Noël",
+    price: 80,
+    oldPrice: null,
+    tag: "Édition limitée",
+    tagType: "limited",
+    collection: "Hiver",
+    material: "Amaryllis · pin argenté · eucalyptus",
+    desc: "Amaryllis blanc, eucalyptus et branches de pin saupoudrées d'argent pour les fêtes.",
+    colors: ["#ffffff", C.sage, "#cfd8dc"],
+    rating: 4.9,
+    reviews: 54,
+  },
+  {
+    name: "Roseraie Romantique",
+    price: 95,
+    oldPrice: null,
+    tag: null,
+    tagType: null,
+    collection: "Romance",
+    material: "Roses de jardin · pivoines · renoncules",
+    desc: "Un débordement de roses de jardin, pivoines et renoncules dans les tons rose profond.",
+    colors: [C.accent, C.rose, "#ad1457"],
+    rating: 5.0,
+    reviews: 121,
+  },
+  {
+    name: "Champêtre Sauvage",
+    price: 55,
+    oldPrice: null,
+    tag: null,
+    tagType: null,
+    collection: "Champêtre",
+    material: "Fleurs des champs · graminées · feuillages",
+    desc: "Un bouquet libre et naturel de fleurs des champs, graminées légères et feuillages frais.",
+    colors: [C.sageMid, "#aed581", C.rose],
+    rating: 4.8,
+    reviews: 73,
+  },
+  {
+    name: "Plante d'Intérieur Apaisante",
+    price: 48,
+    oldPrice: null,
+    tag: "Nouveau",
+    tagType: "new",
+    collection: "Plantes",
+    material: "Plante verte · cache-pot artisanal",
+    desc: "Une plante verte sélectionnée dans son cache-pot artisanal, livrée avec carte d'entretien.",
+    colors: [C.sage, C.sageMid, "#a5d6a7"],
+    rating: 4.9,
+    reviews: 110,
+  },
+];
+
+// ─── Blog mock data (FR florist) ────────────────────────────────────────────
+const BLOG_POSTS = [
+  {
+    slug: "fleurs-de-saison",
+    title: "Pourquoi choisir des fleurs de saison",
+    date: "12 juin 2026",
+    category: "Saisons",
+    excerpt:
+      "Plus fraîches, plus durables et plus belles : les raisons pour lesquelles nous composons exclusivement avec les fleurs du moment.",
+    cover: C.rose,
+    body: [
+      "Une fleur de saison est cueillie à maturité, au plus près de sa floraison naturelle. Elle tient plus longtemps en vase, dégage un parfum plus intense et affiche des couleurs que les variétés forcées hors saison n'égalent jamais.",
+      "Travailler avec les saisons, c'est aussi soutenir les producteurs locaux et réduire l'empreinte du transport réfrigéré. Chez Pétales & Co, nous privilégions les petits cultivateurs français dès que la saison le permet.",
+      "Concrètement, cela signifie que nos compositions évoluent au fil de l'année : pivoines au printemps, tournesols en été, dahlias à l'automne, amaryllis en hiver. Chaque bouquet raconte le moment précis où il a été créé.",
+    ],
+  },
+  {
+    slug: "entretien-bouquet",
+    title: "Faire durer son bouquet plus longtemps",
+    date: "3 juin 2026",
+    category: "Conseils",
+    excerpt:
+      "Coupe en biseau, eau renouvelée, emplacement idéal : nos gestes d'atelier pour prolonger la vie de vos fleurs coupées.",
+    cover: C.sage,
+    body: [
+      "La première règle est de recouper les tiges en biseau, sous l'eau si possible, afin que les fleurs continuent de s'abreuver sans bulle d'air dans le canal.",
+      "Changez l'eau tous les deux jours et retirez les feuilles immergées qui pourrissent et accélèrent le flétrissement. Un vase propre fait toute la différence.",
+      "Enfin, éloignez votre bouquet des sources de chaleur, des courants d'air et de la corbeille de fruits : l'éthylène dégagé par les fruits mûrs fait faner les fleurs prématurément.",
+    ],
+  },
+  {
+    slug: "fleurs-mariage",
+    title: "Choisir les fleurs de son mariage",
+    date: "21 mai 2026",
+    category: "Mariages",
+    excerpt:
+      "Du bouquet de mariée aux compositions de cérémonie : comment penser une direction florale cohérente pour le grand jour.",
+    cover: C.accent,
+    body: [
+      "Un mariage floral réussi commence par une palette restreinte de deux ou trois couleurs, déclinée du bouquet de la mariée aux centres de table. La cohérence prime sur la profusion.",
+      "Nous recommandons de réserver trois à six mois à l'avance, en particulier pour les dates estivales très demandées. Cela nous laisse le temps de sourcer les variétés exactes que vous imaginez.",
+      "Le jour J, notre équipe installe et veille sur chaque composition. Du premier brief à la dernière pétale posée sur l'arche, nous assurons une direction florale complète.",
+    ],
+  },
+  {
+    slug: "langage-des-fleurs",
+    title: "Le langage des fleurs, mode d'emploi",
+    date: "9 mai 2026",
+    category: "Culture",
+    excerpt:
+      "La rose pour l'amour, la pivoine pour la prospérité, l'eucalyptus pour la sérénité : décryptage des symboles floraux.",
+    cover: C.sageMid,
+    body: [
+      "Né au XIXe siècle, le langage des fleurs attribuait à chaque variété un message précis. La rose rouge déclarait l'amour, la pivoine annonçait la prospérité, le lilas évoquait les premiers émois.",
+      "Aujourd'hui encore, ces symboles inspirent nos compositions. Offrir un bouquet, c'est transmettre une intention autant qu'une beauté.",
+      "Lorsque vous commandez, n'hésitez pas à nous préciser l'occasion et l'émotion à transmettre : nous composons un bouquet qui parle pour vous.",
+    ],
+  },
+];
+
+function Navbar({ page, goTo, cartCount, onCartOpen }: { page: FloristPage; goTo: (p: FloristPage) => void; cartCount: number; onCartOpen: () => void }) {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40);
@@ -239,16 +428,20 @@ function Navbar() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
+  // Home keeps its original transparent-on-top behaviour; sub-pages always get a
+  // solid background so the nav stays legible without a full-screen hero behind it.
+  const solid = scrolled || page !== "home";
+
   return (
     <nav style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-      background: scrolled ? "rgba(255,253,248,0.97)" : "transparent",
-      borderBottom: scrolled ? `1px solid ${C.border}` : "none",
-      backdropFilter: scrolled ? "blur(16px)" : "none",
+      background: solid ? "rgba(255,253,248,0.97)" : "transparent",
+      borderBottom: solid ? `1px solid ${C.border}` : "none",
+      backdropFilter: solid ? "blur(16px)" : "none",
       transition: "all 0.4s ease",
     }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
-        <Link href="#" style={{ textDecoration: "none" }}>
+        <a href="#" onClick={e => { e.preventDefault(); goTo("home"); }} style={{ textDecoration: "none" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{ width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <svg viewBox="0 0 28 28" style={{ width: 28, height: 28 }}>
@@ -263,23 +456,61 @@ function Navbar() {
               <div style={{ fontFamily: "'Poppins', system-ui", fontSize: 9, color: C.sage, letterSpacing: "0.18em", textTransform: "uppercase" as const }}>Artisan Florist</div>
             </div>
           </div>
-        </Link>
+        </a>
 
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
-          {navLinks.slice(0, 4).map((l) => (
-            <Link key={l.href} href={l.href}
-              style={{ color: C.textMuted, fontSize: 13, letterSpacing: "0.04em", textDecoration: "none", fontFamily: "'Poppins', system-ui" }}
+        {/* Desktop nav */}
+        <div className="florist-desktop-nav" style={{ display: "flex", gap: 28, alignItems: "center" }}>
+          {NAV_PAGES.map((l) => (
+            <a key={l.key} href="#"
+              onClick={e => { e.preventDefault(); goTo(l.key); }}
+              style={{ color: page === l.key ? C.accent : C.textMuted, fontSize: 13, letterSpacing: "0.04em", textDecoration: "none", fontFamily: "'Poppins', system-ui", fontWeight: page === l.key ? 600 : 400, borderBottom: page === l.key ? `1px solid ${C.accent}` : "1px solid transparent", paddingBottom: 2, transition: "color 0.2s" }}
               onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
-              onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
-            >{l.label}</Link>
+              onMouseLeave={e => (e.currentTarget.style.color = page === l.key ? C.accent : C.textMuted)}
+            >{l.label}</a>
           ))}
-          <button onClick={() => document.getElementById("subscribe")?.scrollIntoView({behavior:"smooth"})}
-            style={{ background: C.accent, color: C.white, padding: "10px 24px", fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase" as const, textDecoration: "none", fontFamily: "'Poppins', system-ui", fontWeight: 600, borderRadius: 2 }}
+          <button onClick={onCartOpen}
+            style={{ position: "relative", display: "flex", alignItems: "center", gap: 8, background: C.accent, color: C.white, padding: "10px 22px", fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase" as const, fontFamily: "'Poppins', system-ui", fontWeight: 600, borderRadius: 2, border: "none", cursor: "pointer" }}
             onMouseEnter={e => (e.currentTarget.style.background = C.accentHover)}
             onMouseLeave={e => (e.currentTarget.style.background = C.accent)}
-          >Subscribe</button>
+          >
+            <ShoppingBag size={14} /> Panier
+            {cartCount > 0 && (
+              <span style={{ position: "absolute", top: -6, right: -6, width: 18, height: 18, background: C.sage, color: C.white, borderRadius: "50%", fontSize: 10, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>{cartCount}</span>
+            )}
+          </button>
         </div>
+
+        {/* Mobile toggle */}
+        <button className="florist-mobile-toggle" onClick={() => setMenuOpen(o => !o)}
+          style={{ display: "none", background: "transparent", border: "none", cursor: "pointer", color: C.accent, padding: 4 }}
+          aria-label="Menu">
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
+
+      {/* Mobile menu drawer */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            style={{ overflow: "hidden", background: "rgba(255,253,248,0.99)", borderBottom: `1px solid ${C.border}` }}
+          >
+            <div style={{ display: "flex", flexDirection: "column" as const, padding: "12px 24px 20px", gap: 4 }}>
+              {NAV_PAGES.map((l) => (
+                <a key={l.key} href="#"
+                  onClick={e => { e.preventDefault(); setMenuOpen(false); goTo(l.key); }}
+                  style={{ color: page === l.key ? C.accent : C.textMuted, fontSize: 15, padding: "10px 0", textDecoration: "none", fontFamily: "'Poppins', system-ui", fontWeight: page === l.key ? 600 : 400, borderBottom: `1px solid ${C.border}` }}
+                >{l.label}</a>
+              ))}
+              <button onClick={() => { setMenuOpen(false); onCartOpen(); }}
+                style={{ marginTop: 12, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: C.accent, color: C.white, padding: "12px", fontSize: 13, letterSpacing: "0.06em", textTransform: "uppercase" as const, fontFamily: "'Poppins', system-ui", fontWeight: 600, borderRadius: 2, border: "none", cursor: "pointer" }}
+              ><ShoppingBag size={15} /> Panier ({cartCount})</button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
@@ -717,7 +948,27 @@ function FAQSection() {
   );
 }
 
-function Footer() {
+function Footer({ goTo }: { goTo: (p: FloristPage) => void }) {
+  const footerCols: { title: string; links: { label: string; page: FloristPage }[] }[] = [
+    { title: "Boutique", links: [
+      { label: "Tous les bouquets", page: "boutique" },
+      { label: "Créations de saison", page: "boutique" },
+      { label: "Plantes & cache-pots", page: "boutique" },
+      { label: "Compositions sur mesure", page: "boutique" },
+    ] },
+    { title: "Atelier", links: [
+      { label: "Notre histoire", page: "about" },
+      { label: "Le blog", page: "blog" },
+      { label: "Nous contacter", page: "contact" },
+      { label: "Accueil", page: "home" },
+    ] },
+    { title: "Infos", links: [
+      { label: "CGV", page: "cgv" },
+      { label: "Mentions légales", page: "mentions" },
+      { label: "Contact", page: "contact" },
+      { label: "Blog", page: "blog" },
+    ] },
+  ];
   return (
     <footer style={{ background: C.text, padding: "80px 24px 40px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -742,21 +993,18 @@ function Footer() {
             </div>
           </div>
 
-          {[
-            { title: "Shop", links: ["Spring Collection", "Summer Blooms", "Autumn Harvest", "Winter Whites", "Gift Cards"] },
-            { title: "Services", links: ["Weddings", "Corporate", "Workshops", "Subscriptions", "Same-day Delivery"] },
-            { title: "Studio", links: ["Our Story", "Press", "FAQ", "Contact", "Visit Us"] },
-          ].map((col) => (
+          {footerCols.map((col) => (
             <div key={col.title}>
               <h4 style={{ fontFamily: "'Poppins', system-ui", fontSize: 11, color: C.rose, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase" as const, marginBottom: 20 }}>{col.title}</h4>
               <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                {col.links.map((link) => (
-                  <li key={link} style={{ marginBottom: 12 }}>
-                    <Link href="#"
+                {col.links.map((link, li) => (
+                  <li key={li} style={{ marginBottom: 12 }}>
+                    <a href="#"
+                      onClick={e => { e.preventDefault(); goTo(link.page); }}
                       style={{ fontFamily: "'Poppins', system-ui", fontSize: 13, color: "rgba(255,255,255,0.4)", textDecoration: "none" }}
                       onMouseEnter={e => (e.currentTarget.style.color = C.white)}
                       onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.4)")}
-                    >{link}</Link>
+                    >{link.label}</a>
                   </li>
                 ))}
               </ul>
@@ -777,7 +1025,14 @@ function Footer() {
               </div>
             ))}
           </div>
-          <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 13, color: "rgba(255,255,255,0.25)", margin: 0 }}>© 2026 Pétales & Co. All rights reserved.</p>
+          <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 13, color: "rgba(255,255,255,0.25)", margin: 0, display: "flex", gap: 8, flexWrap: "wrap" as const }}>
+            <a href="#" onClick={e => { e.preventDefault(); goTo("mentions"); }} style={{ color: "rgba(255,255,255,0.25)", textDecoration: "none" }}
+              onMouseEnter={e => (e.currentTarget.style.color = C.rose)} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.25)")}>Mentions légales</a>
+            ·
+            <a href="#" onClick={e => { e.preventDefault(); goTo("cgv"); }} style={{ color: "rgba(255,255,255,0.25)", textDecoration: "none" }}
+              onMouseEnter={e => (e.currentTarget.style.color = C.rose)} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.25)")}>CGV</a>
+            · © 2026 Pétales & Co.
+          </p>
         </div>
       </div>
     </footer>
@@ -785,17 +1040,484 @@ function Footer() {
 }
 
 export default function FloristTemplate() {
+  // Multi-page state (pattern from impact-168 / impact-215)
+  const [page, setPage] = useState<FloristPage>("home");
+  const [productDetail, setProductDetail] = useState<number | null>(null);
+  const [blogSlug, setBlogSlug] = useState<string | null>(null);
+  const [cartCount, setCartCount] = useState(0);
+  const [cartOpen, setCartOpen] = useState(false);
+
+  const goTo = (p: FloristPage) => {
+    setPage(p);
+    setProductDetail(null);
+    setBlogSlug(null);
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "auto" });
+  };
+  const addToCart = () => setCartCount(c => c + 1);
+
   return (
     <main style={{ background: C.bg, minHeight: "100vh" }}>
-      <Navbar />
-      <HeroSection />
-      <CollectionsSection />
-      <OccasionsSection />
-      <WorkshopSection />
-      <TestimonialsSection />
-      <SubscribeSection />
-      <FAQSection />
-      <Footer />
+      <style>{`
+        @media (max-width: 860px) {
+          .florist-desktop-nav { display: none !important; }
+          .florist-mobile-toggle { display: flex !important; }
+        }
+      `}</style>
+
+      <Navbar page={page} goTo={goTo} cartCount={cartCount} onCartOpen={() => setCartOpen(true)} />
+
+      {/* ══════════ HOME (original single-page content, unchanged) ══════════ */}
+      {page === "home" && (
+        <>
+          <HeroSection />
+          <CollectionsSection />
+          <OccasionsSection />
+          <WorkshopSection />
+          <TestimonialsSection />
+          <SubscribeSection />
+          <FAQSection />
+        </>
+      )}
+
+      {/* ══════════ SUB-PAGES ══════════ */}
+      {page === "boutique" && (
+        <BoutiquePage productDetail={productDetail} setProductDetail={setProductDetail} onAddToCart={addToCart} />
+      )}
+      {page === "blog" && <BlogPage blogSlug={blogSlug} setBlogSlug={setBlogSlug} />}
+      {page === "about" && <AboutPage goTo={goTo} />}
+      {page === "contact" && <ContactPage />}
+      {page === "cgv" && <LegalPage variant="cgv" />}
+      {page === "mentions" && <LegalPage variant="mentions" />}
+
+      <Footer goTo={goTo} />
+
+      {/* CART DRAWER */}
+      <AnimatePresence>
+        {cartOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={() => setCartOpen(false)}
+              style={{ position: "fixed", inset: 0, background: "rgba(45,26,31,0.45)", zIndex: 200 }}
+            />
+            <motion.div
+              initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 28, stiffness: 300 }}
+              style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: "min(420px, 90vw)", background: C.white, borderLeft: `1px solid ${C.border}`, zIndex: 201, display: "flex", flexDirection: "column" }}
+            >
+              <div style={{ padding: "24px 28px", borderBottom: `1px solid ${C.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 20, color: C.accent, fontWeight: 700 }}>Votre panier ({cartCount})</div>
+                <button onClick={() => setCartOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: C.textMuted }}><X size={20} /></button>
+              </div>
+              <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 12, padding: 24 }}>
+                <ShoppingBag size={32} color={C.textDim} />
+                <p style={{ fontSize: 14, color: C.textMuted, fontFamily: "'Poppins', system-ui", textAlign: "center" as const }}>
+                  {cartCount === 0
+                    ? "Votre panier est vide pour le moment."
+                    : `${cartCount} article${cartCount > 1 ? "s" : ""} ajouté${cartCount > 1 ? "s" : ""} à votre panier.`}
+                </p>
+              </div>
+              <div style={{ padding: "24px 28px", borderTop: `1px solid ${C.border}` }}>
+                <button
+                  disabled={cartCount === 0}
+                  style={{ width: "100%", padding: "16px", background: cartCount === 0 ? C.textDim : C.accent, color: C.white, border: "none", fontSize: 13, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" as const, cursor: cartCount === 0 ? "not-allowed" : "pointer", fontFamily: "'Poppins', system-ui", borderRadius: 2 }}
+                >Passer commande</button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </main>
+  );
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// SUB-PAGE COMPONENTS — styled exclusively from the `C` tokens and the theme's
+// 'Libre Baskerville' / 'Poppins' typography, so they render natively inside the
+// Pétales & Co florist design.
+// ════════════════════════════════════════════════════════════════════════════
+
+const SERIF = "'Libre Baskerville', Georgia, serif";
+const SANS = "'Poppins', system-ui";
+
+// Shared editorial page header (matches home section eyebrow + serif title).
+function PageHero({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle?: string }) {
+  return (
+    <div style={{ background: C.bgPink, padding: "140px 24px 64px", position: "relative", overflow: "hidden" }}>
+      <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at 75% 20%, rgba(244,143,177,0.25) 0%, transparent 60%)`, pointerEvents: "none" }} />
+      <motion.div
+        initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+        style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 1 }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+          <div style={{ width: 32, height: 1, background: C.accent }} />
+          <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.accent }}>{eyebrow}</span>
+        </div>
+        <h1 style={{ fontFamily: SERIF, fontSize: "clamp(40px, 6vw, 72px)", color: C.accent, margin: 0, fontWeight: 700, lineHeight: 1.04 }}>{title}</h1>
+        {subtitle && (
+          <p style={{ fontFamily: SANS, fontSize: 17, color: C.textMuted, lineHeight: 1.7, maxWidth: 560, marginTop: 24 }}>{subtitle}</p>
+        )}
+      </motion.div>
+    </div>
+  );
+}
+
+// ─── BOUTIQUE ───────────────────────────────────────────────────────────────
+function BoutiquePage({ productDetail, setProductDetail, onAddToCart }: {
+  productDetail: number | null; setProductDetail: (i: number | null) => void; onAddToCart: () => void;
+}) {
+  if (productDetail !== null && PRODUCTS[productDetail]) {
+    return <ProductDetail p={PRODUCTS[productDetail]} onBack={() => setProductDetail(null)} onAddToCart={onAddToCart} />;
+  }
+  return (
+    <div>
+      <PageHero
+        eyebrow="La boutique"
+        title="Nos bouquets & créations"
+        subtitle="Compositions de saison, plantes et créations sur mesure, façonnées à la main dans notre atelier parisien. Cliquez sur une création pour découvrir sa fiche."
+      />
+      <section style={{ background: C.bg, padding: "72px 24px 100px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 24 }}>
+          {PRODUCTS.map((p, i) => (
+            <ShopCard key={p.name} p={p} i={i} onOpen={() => {
+              setProductDetail(i);
+              if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "auto" });
+            }} />
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// Boutique card — reuses the home CollectionsSection card visual language.
+function ShopCard({ p, i, onOpen }: { p: typeof PRODUCTS[0]; i: number; onOpen: () => void }) {
+  const tagColors: Record<string, string> = {
+    season: C.sage, sale: "#bf360c", best: C.accent, limited: "#1565c0", new: C.sageMid,
+  };
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+      transition={{ delay: (i % 4) * 0.08, duration: 0.5 }}
+      onClick={onOpen}
+      style={{ background: C.bgCard, border: `1px solid ${C.border}`, padding: "0 0 32px", overflow: "hidden", cursor: "pointer", transition: "all 0.2s" }}
+      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = C.borderAccent; (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)"; }}
+      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = C.border; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}
+    >
+      <div style={{ height: 220, background: `linear-gradient(135deg, ${p.colors[0]}, ${p.colors[1]})`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 24, position: "relative" }}>
+        <Camera size={34} color="rgba(255,255,255,0.55)" />
+        {p.tag && (
+          <div style={{ position: "absolute", top: 14, left: 14, background: p.tagType ? tagColors[p.tagType] : C.accent, color: C.white, padding: "4px 10px", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", fontFamily: SANS, textTransform: "uppercase" as const }}>{p.tag}</div>
+        )}
+      </div>
+      <div style={{ padding: "0 24px" }}>
+        <div style={{ fontFamily: SANS, fontSize: 10, color: C.sage, letterSpacing: "0.12em", textTransform: "uppercase" as const, marginBottom: 8 }}>{p.collection}</div>
+        <h3 style={{ fontFamily: SERIF, fontSize: 18, color: C.text, margin: "0 0 8px", fontWeight: 700 }}>{p.name}</h3>
+        <p style={{ fontFamily: SANS, fontSize: 13, color: C.textMuted, lineHeight: 1.6, margin: "0 0 14px" }}>{p.desc}</p>
+        <div style={{ display: "flex", gap: 4, alignItems: "center", marginBottom: 14 }}>
+          {[...Array(5)].map((_, j) => (<Star key={j} size={11} fill={C.accent} color={C.accent} />))}
+          <span style={{ fontSize: 11, color: C.textDim, fontFamily: SANS, marginLeft: 4 }}>{p.rating} ({p.reviews})</span>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", gap: 8, alignItems: "baseline" }}>
+            <span style={{ fontFamily: SERIF, fontSize: 22, color: C.accent, fontWeight: 700 }}>{p.price} €</span>
+            {p.oldPrice && (<span style={{ fontFamily: SANS, fontSize: 13, color: C.textDim, textDecoration: "line-through" }}>{p.oldPrice} €</span>)}
+          </div>
+          <span style={{ fontFamily: SANS, fontSize: 12, color: C.accent, display: "flex", alignItems: "center", gap: 4 }}>Voir <ArrowRight size={13} /></span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// Product detail — large visual + color/qty selector + add-to-cart, theme styling.
+function ProductDetail({ p, onBack, onAddToCart }: { p: typeof PRODUCTS[0]; onBack: () => void; onAddToCart: () => void }) {
+  const [activeColor, setActiveColor] = useState(0);
+  const [added, setAdded] = useState(false);
+  const handleAdd = () => { onAddToCart(); setAdded(true); setTimeout(() => setAdded(false), 2000); };
+  return (
+    <section style={{ background: C.bg, padding: "120px 24px 100px" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <button onClick={onBack}
+          style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "none", border: "none", color: C.textMuted, cursor: "pointer", fontFamily: SANS, fontSize: 13, marginBottom: 36 }}
+          onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
+          onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
+        ><ChevronLeft size={16} /> Retour à la boutique</button>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "clamp(32px, 5vw, 72px)", alignItems: "start" }}>
+          <motion.div
+            initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}
+            style={{ height: "clamp(380px, 56vw, 560px)", background: `linear-gradient(135deg, ${p.colors[activeColor]}, ${p.colors[(activeColor + 1) % p.colors.length]})`, border: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}
+          >
+            <Camera size={48} color="rgba(255,255,255,0.5)" />
+            {p.tag && (<div style={{ position: "absolute", top: 18, left: 18, background: C.accent, color: C.white, padding: "5px 12px", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", fontFamily: SANS, textTransform: "uppercase" as const }}>{p.tag}</div>)}
+          </motion.div>
+          <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
+            <div style={{ fontFamily: SANS, fontSize: 11, color: C.sage, letterSpacing: "0.12em", textTransform: "uppercase" as const, marginBottom: 12 }}>{p.collection}</div>
+            <h1 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 46px)", color: C.accent, margin: "0 0 16px", fontWeight: 700 }}>{p.name}</h1>
+            <div style={{ display: "flex", gap: 6, alignItems: "center", marginBottom: 24 }}>
+              {[...Array(5)].map((_, j) => (<Star key={j} size={14} fill={C.accent} color={C.accent} />))}
+              <span style={{ fontSize: 12, color: C.textMuted, fontFamily: SANS, marginLeft: 6 }}>{p.rating} · {p.reviews} avis vérifiés</span>
+            </div>
+            <div style={{ display: "flex", gap: 12, alignItems: "baseline", marginBottom: 28 }}>
+              <span style={{ fontFamily: SERIF, fontSize: 34, color: C.accent, fontWeight: 700 }}>{p.price} €</span>
+              {p.oldPrice && (<span style={{ fontSize: 17, color: C.textDim, textDecoration: "line-through", fontFamily: SANS }}>{p.oldPrice} €</span>)}
+            </div>
+            <p style={{ fontFamily: SANS, fontSize: 15, color: C.textMuted, lineHeight: 1.8, marginBottom: 28, maxWidth: 460 }}>
+              {p.desc} Composé à la main dans notre atelier parisien avec des fleurs de saison ({p.material.toLowerCase()}), livré dans un emballage kraft avec ruban et carte d'entretien.
+            </p>
+            <div style={{ marginBottom: 28 }}>
+              <div style={{ fontFamily: SANS, fontSize: 11, color: C.textMuted, letterSpacing: "0.08em", textTransform: "uppercase" as const, marginBottom: 10 }}>Palette</div>
+              <div style={{ display: "flex", gap: 10 }}>
+                {p.colors.map((color, ci) => (
+                  <button key={ci} onClick={() => setActiveColor(ci)}
+                    style={{ width: 30, height: 30, borderRadius: "50%", background: color, border: `2px solid ${activeColor === ci ? C.accent : C.border}`, cursor: "pointer", padding: 0 }} />
+                ))}
+              </div>
+            </div>
+            <button onClick={handleAdd}
+              style={{ width: "100%", maxWidth: 460, padding: "17px", background: added ? C.sage : C.accent, color: C.white, border: "none", fontSize: 13, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" as const, cursor: "pointer", transition: "all 0.2s", fontFamily: SANS, borderRadius: 2, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
+            >{added ? (<><Check size={16} /> Ajouté au panier</>) : (<><ShoppingBag size={16} /> Ajouter au panier</>)}</button>
+            <div style={{ display: "flex", gap: 20, marginTop: 24, flexWrap: "wrap" as const }}>
+              <span style={{ fontSize: 12, color: C.textMuted, fontFamily: SANS, display: "flex", alignItems: "center", gap: 6 }}><Truck size={13} color={C.sage} /> Livraison Paris offerte</span>
+              <span style={{ fontSize: 12, color: C.textMuted, fontFamily: SANS, display: "flex", alignItems: "center", gap: 6 }}><Leaf size={13} color={C.sage} /> Fleurs fraîches de saison</span>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── BLOG ───────────────────────────────────────────────────────────────────
+function BlogPage({ blogSlug, setBlogSlug }: { blogSlug: string | null; setBlogSlug: (s: string | null) => void }) {
+  const post = blogSlug ? BLOG_POSTS.find(b => b.slug === blogSlug) : null;
+  if (post) {
+    return (
+      <section style={{ background: C.bg, padding: "120px 24px 100px" }}>
+        <div style={{ maxWidth: 760, margin: "0 auto" }}>
+          <button onClick={() => setBlogSlug(null)}
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "none", border: "none", color: C.textMuted, cursor: "pointer", fontFamily: SANS, fontSize: 13, marginBottom: 32 }}
+            onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
+            onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
+          ><ChevronLeft size={16} /> Tous les articles</button>
+          <div style={{ fontFamily: SANS, fontSize: 11, color: C.sage, letterSpacing: "0.12em", textTransform: "uppercase" as const, marginBottom: 14 }}>{post.category} · {post.date}</div>
+          <h1 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 52px)", color: C.accent, margin: "0 0 32px", fontWeight: 700, lineHeight: 1.1 }}>{post.title}</h1>
+          <div style={{ height: "clamp(220px, 38vw, 360px)", background: `linear-gradient(135deg, ${post.cover}, ${C.blush})`, border: `1px solid ${C.border}`, marginBottom: 40 }} />
+          {post.body.map((paraTxt, i) => (
+            <p key={i} style={{ fontFamily: SANS, fontSize: 17, color: C.textMuted, lineHeight: 1.9, marginBottom: 24 }}>{paraTxt}</p>
+          ))}
+          <div style={{ borderTop: `1px solid ${C.border}`, marginTop: 24, paddingTop: 24, fontSize: 13, color: C.textDim, fontFamily: SERIF, fontStyle: "italic" }}>
+            Rédigé par l'équipe de Pétales & Co.
+          </div>
+        </div>
+      </section>
+    );
+  }
+  return (
+    <div>
+      <PageHero eyebrow="Le journal" title="Le Blog de l'atelier" subtitle="Conseils d'entretien, fleurs de saison, inspirations mariage et culture florale, par nos fleuristes." />
+      <section style={{ background: C.bg, padding: "72px 24px 100px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 24 }}>
+          {BLOG_POSTS.map((post, i) => (
+            <motion.article key={post.slug}
+              initial={{ opacity: 0, y: 26 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: (i % 3) * 0.08 }}
+              whileHover={{ y: -4 }}
+              onClick={() => { setBlogSlug(post.slug); if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "auto" }); }}
+              style={{ background: C.bgCard, border: `1px solid ${C.border}`, cursor: "pointer", overflow: "hidden", display: "flex", flexDirection: "column" as const }}
+            >
+              <div style={{ height: 190, background: `linear-gradient(135deg, ${post.cover}, ${C.blush})` }} />
+              <div style={{ padding: "24px 26px 28px" }}>
+                <div style={{ fontFamily: SANS, fontSize: 10, color: C.sage, letterSpacing: "0.1em", textTransform: "uppercase" as const, marginBottom: 12 }}>{post.category} · {post.date}</div>
+                <h2 style={{ fontFamily: SERIF, fontSize: 21, color: C.text, lineHeight: 1.3, margin: "0 0 14px", fontWeight: 700 }}>{post.title}</h2>
+                <p style={{ fontFamily: SANS, fontSize: 14, color: C.textMuted, lineHeight: 1.7, margin: "0 0 18px" }}>{post.excerpt}</p>
+                <span style={{ fontFamily: SANS, fontSize: 12, color: C.accent, display: "inline-flex", alignItems: "center", gap: 6 }}>Lire l'article <ArrowRight size={13} /></span>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ─── À PROPOS ───────────────────────────────────────────────────────────────
+function AboutPage({ goTo }: { goTo: (p: FloristPage) => void }) {
+  const values = [
+    { icon: <Leaf size={22} />, title: "Fleurs de saison", text: "Nous composons avec les fleurs du moment et privilégions les petits cultivateurs français dès que la saison le permet." },
+    { icon: <Heart size={22} />, title: "Fait main, avec intention", text: "Chaque création est façonnée à la main dans notre atelier, du simple bouquet à l'arche de mariage." },
+    { icon: <Package size={22} />, title: "Emballage soigné", text: "Papier kraft, ruban et carte d'entretien : un soin du détail jusque dans la livraison, à votre porte." },
+  ];
+  return (
+    <div>
+      <PageHero eyebrow="Notre histoire" title="Fait main, avec amour." subtitle="Pétales & Co est née d'une conviction simple : les fleurs ne devraient jamais être un détail. Elles racontent nos moments les plus précieux." />
+      <section style={{ background: C.bg, padding: "72px 24px" }}>
+        <div style={{ maxWidth: 720, margin: "0 auto" }}>
+          {[
+            "Fondé en 2014 par la fleuriste Amélie Rousseau, notre atelier du 11e arrondissement est devenu un lieu de rendez-vous pour celles et ceux qui aiment la beauté naturelle.",
+            "Nous travaillons avec de petits producteurs français dès que possible, choisissons les fleurs de saison plutôt que les variétés importées, et composons chaque arrangement à la main — d'une simple tige à une arche de mariage.",
+            "Notre raison d'être : transformer une émotion en bouquet. Un anniversaire, un mariage, un adieu, ou simplement l'envie d'égayer un intérieur. Pour chaque moment, une fleur.",
+          ].map((paraTxt, i) => (
+            <p key={i} style={{ fontFamily: SANS, fontSize: 17, color: C.textMuted, lineHeight: 1.9, marginBottom: 24 }}>{paraTxt}</p>
+          ))}
+        </div>
+      </section>
+      <section style={{ background: C.blush, padding: "80px 24px" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24 }}>
+          {values.map((v, i) => (
+            <motion.div key={v.title}
+              initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+              style={{ background: C.bgCard, border: `1px solid ${C.border}`, padding: "40px 32px" }}
+            >
+              <div style={{ width: 56, height: 56, background: C.accentLight, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", color: C.accent, marginBottom: 20 }}>{v.icon}</div>
+              <h3 style={{ fontFamily: SERIF, fontSize: 21, color: C.text, margin: "0 0 12px", fontWeight: 700 }}>{v.title}</h3>
+              <p style={{ fontFamily: SANS, fontSize: 14, color: C.textMuted, lineHeight: 1.7, margin: 0 }}>{v.text}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+      <section style={{ background: C.bg, padding: "90px 24px", textAlign: "center" as const }}>
+        <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 44px)", color: C.accent, margin: "0 0 20px", fontWeight: 700 }}>Une création vous attend.</h2>
+        <p style={{ fontFamily: SANS, fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 32px", lineHeight: 1.7 }}>Découvrez nos bouquets de saison et nos compositions sur mesure.</p>
+        <button onClick={() => goTo("boutique")}
+          style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.accent, color: C.white, padding: "16px 36px", fontSize: 13, letterSpacing: "0.06em", textTransform: "uppercase" as const, fontFamily: SANS, fontWeight: 700, border: "none", borderRadius: 2, cursor: "pointer" }}
+          onMouseEnter={e => (e.currentTarget.style.background = C.accentHover)}
+          onMouseLeave={e => (e.currentTarget.style.background = C.accent)}
+        >Découvrir la boutique <ArrowRight size={15} /></button>
+      </section>
+    </div>
+  );
+}
+
+// ─── CONTACT ────────────────────────────────────────────────────────────────
+function ContactPage() {
+  const [sent, setSent] = useState(false);
+  const inputStyle: React.CSSProperties = {
+    width: "100%", padding: "14px 16px", background: C.white, border: `1px solid ${C.border}`, color: C.text,
+    fontSize: 16, /* ≥16px to avoid iOS zoom */ outline: "none", fontFamily: SANS, marginBottom: 16, borderRadius: 2,
+  };
+  const labelStyle: React.CSSProperties = {
+    fontSize: 11, color: C.textMuted, letterSpacing: "0.08em", textTransform: "uppercase" as const, fontFamily: SANS, marginBottom: 8, display: "block",
+  };
+  return (
+    <div>
+      <PageHero eyebrow="Restons en contact" title="Nous contacter" subtitle="Une question sur une commande, un mariage ou un atelier ? Notre équipe vous répond sous 24h ouvrées." />
+      <section style={{ background: C.bg, padding: "72px 24px 100px" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "clamp(32px, 5vw, 64px)" }}>
+          <div>
+            {[
+              { Icon: Mail, label: "Email", value: "contact@aevia.io" },
+              { Icon: Phone, label: "Téléphone", value: "+33 1 43 00 00 00" },
+              { Icon: MapPin, label: "Atelier", value: "18 Rue du Marché, Paris 11e" },
+              { Icon: Clock, label: "Horaires", value: "Mar – Sam · 9h – 19h" },
+            ].map(({ Icon, label, value }) => (
+              <div key={label} style={{ marginBottom: 28, borderBottom: `1px solid ${C.border}`, paddingBottom: 20, display: "flex", gap: 16, alignItems: "flex-start" }}>
+                <div style={{ width: 44, height: 44, background: C.accentLight, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Icon size={18} color={C.accent} /></div>
+                <div>
+                  <div style={{ fontFamily: SANS, fontSize: 11, color: C.sage, letterSpacing: "0.1em", textTransform: "uppercase" as const, marginBottom: 6 }}>{label}</div>
+                  <div style={{ fontFamily: SERIF, fontSize: 19, color: C.text, fontWeight: 700 }}>{value}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div>
+            {sent ? (
+              <div style={{ border: `1px solid ${C.border}`, padding: "48px 36px", textAlign: "center" as const, background: C.bgCard }}>
+                <div style={{ width: 56, height: 56, background: C.sageLight, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}><Check size={26} color={C.sage} /></div>
+                <div style={{ fontFamily: SERIF, fontSize: 24, color: C.accent, marginBottom: 10, fontWeight: 700 }}>Message envoyé</div>
+                <p style={{ fontFamily: SANS, fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>Merci ! Notre équipe vous répond sous 24h ouvrées.</p>
+              </div>
+            ) : (
+              <form onSubmit={e => { e.preventDefault(); setSent(true); }}>
+                <label style={labelStyle}>Nom complet</label>
+                <input style={inputStyle} type="text" placeholder="Votre nom" required />
+                <label style={labelStyle}>Email</label>
+                <input style={inputStyle} type="email" placeholder="votre@email.fr" required />
+                <label style={labelStyle}>Sujet</label>
+                <input style={inputStyle} type="text" placeholder="Objet de votre message" />
+                <label style={labelStyle}>Message</label>
+                <textarea style={{ ...inputStyle, minHeight: 140, resize: "vertical" as const }} placeholder="Comment pouvons-nous vous aider ?" required />
+                <button type="submit"
+                  style={{ width: "100%", padding: "16px", background: C.accent, color: C.white, border: "none", fontSize: 13, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" as const, cursor: "pointer", fontFamily: SANS, borderRadius: 2 }}
+                  onMouseEnter={e => (e.currentTarget.style.background = C.accentHover)}
+                  onMouseLeave={e => (e.currentTarget.style.background = C.accent)}
+                >Envoyer le message</button>
+              </form>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ─── CGV & MENTIONS LÉGALES ─────────────────────────────────────────────────
+// Long-form legal pages. `mentions` content is verbatim per legal requirement.
+function LegalPage({ variant }: { variant: "cgv" | "mentions" }) {
+  const sectionTitle: React.CSSProperties = { fontFamily: SERIF, fontSize: 23, color: C.accent, marginTop: 40, marginBottom: 14, fontWeight: 700 };
+  const para: React.CSSProperties = { fontFamily: SANS, fontSize: 15, color: C.textMuted, lineHeight: 1.9, marginBottom: 14 };
+
+  if (variant === "mentions") {
+    return (
+      <div>
+        <PageHero eyebrow="Informations légales" title="Mentions légales" />
+        <section style={{ background: C.bg, padding: "64px 24px 100px" }}>
+          <div style={{ maxWidth: 760, margin: "0 auto" }}>
+            <h2 style={sectionTitle}>Éditeur du site</h2>
+            <p style={para}><strong style={{ color: C.text }}>Aevia WS</strong> — entrepreneur individuel (auto-entrepreneur).</p>
+            <p style={para}>Directeur de la publication : <strong style={{ color: C.text }}>Valentin Milliand</strong>.</p>
+            <p style={para}>SIREN : <strong style={{ color: C.text }}>852 546 225</strong> — RCS Bourg-en-Bresse.</p>
+            <p style={para}>Contact : <strong style={{ color: C.text }}>contact@aevia.io</strong></p>
+            <p style={para}>Adresse du siège social communiquée sur demande à contact@aevia.io.</p>
+
+            <h2 style={sectionTitle}>TVA</h2>
+            <p style={para}>TVA non applicable, art. 293 B du CGI.</p>
+
+            <h2 style={sectionTitle}>Hébergeur</h2>
+            <p style={para}>Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA.</p>
+
+            <h2 style={sectionTitle}>Propriété intellectuelle</h2>
+            <p style={para}>L'ensemble des contenus présents sur ce site (textes, visuels, logo, mise en page) est protégé par le droit de la propriété intellectuelle. Toute reproduction, même partielle, est interdite sans autorisation préalable de l'éditeur.</p>
+
+            <h2 style={sectionTitle}>Données personnelles</h2>
+            <p style={para}>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant. Pour exercer ce droit, écrivez à contact@aevia.io.</p>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <PageHero eyebrow="Conditions générales" title="Conditions générales de vente" />
+      <section style={{ background: C.bg, padding: "64px 24px 100px" }}>
+        <div style={{ maxWidth: 760, margin: "0 auto" }}>
+          <p style={{ ...para, fontStyle: "italic", color: C.textDim }}>Dernière mise à jour : juin 2026.</p>
+
+          <h2 style={sectionTitle}>Article 1 — Objet</h2>
+          <p style={para}>Les présentes conditions générales de vente régissent les relations contractuelles entre Pétales & Co et tout client effectuant un achat sur le site. Toute commande implique l'acceptation sans réserve des présentes CGV.</p>
+
+          <h2 style={sectionTitle}>Article 2 — Prix</h2>
+          <p style={para}>Les prix sont indiqués en euros, toutes taxes comprises. Pétales & Co se réserve le droit de modifier ses prix à tout moment ; les articles sont facturés sur la base des tarifs en vigueur au moment de la validation de la commande.</p>
+
+          <h2 style={sectionTitle}>Article 3 — Commande</h2>
+          <p style={para}>La commande est validée après confirmation du paiement. Un email récapitulatif est adressé au client. Pétales & Co se réserve le droit d'annuler toute commande en cas de litige de paiement ou de rupture de stock saisonnière.</p>
+
+          <h2 style={sectionTitle}>Article 4 — Paiement</h2>
+          <p style={para}>Le règlement s'effectue par carte bancaire via un prestataire de paiement sécurisé. Aucune donnée bancaire n'est conservée par Pétales & Co.</p>
+
+          <h2 style={sectionTitle}>Article 5 — Livraison</h2>
+          <p style={para}>Nous livrons dans Paris et l'Île-de-France. La livraison est offerte dans Paris ; un supplément peut s'appliquer en Île-de-France pour les commandes ponctuelles. Les fleurs étant des produits périssables, le client veille à être disponible au créneau de livraison convenu.</p>
+
+          <h2 style={sectionTitle}>Article 6 — Droit de rétractation</h2>
+          <p style={para}>Conformément à l'article L221-28 du Code de la consommation, le droit de rétractation ne s'applique pas aux biens périssables tels que les fleurs fraîches et compositions florales. Toute réclamation relative à la fraîcheur doit être signalée dans les 24h suivant la réception, photo à l'appui.</p>
+
+          <h2 style={sectionTitle}>Article 7 — Garanties</h2>
+          <p style={para}>Nous garantissons la fraîcheur de nos fleurs à la livraison. En cas de produit non conforme, un remplacement ou un avoir sera proposé après examen de la réclamation.</p>
+
+          <h2 style={sectionTitle}>Article 8 — Droit applicable</h2>
+          <p style={para}>Les présentes CGV sont soumises au droit français. En cas de litige, une solution amiable sera recherchée avant toute action judiciaire.</p>
+        </div>
+      </section>
+    </div>
   );
 }
