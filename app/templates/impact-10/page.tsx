@@ -11,7 +11,6 @@ import {
   AnimatePresence,
 } from 'framer-motion';
 import { useEffect, useRef, useState, useCallback } from 'react';
-import Link from 'next/link';
 
 // ─── Font Loader ─────────────────────────────────────────────────────────────
 const useFonts = () => {
@@ -101,6 +100,232 @@ const STATS = [
 
 const NAV_LINKS = ['Rooms', 'Experiences', 'Dining', 'Location', 'Reserve'];
 
+// ─── Multi-page navigation config ─────────────────────────────────────────────
+// PATTERN (reused identically from impact-46 / impact-48 vitrine themes): a single
+// `page` state drives in-page navigation. The original single-page content renders
+// VERBATIM under page === "home"; every other key renders a theme-native sub-page
+// built from the SAME tokens (CREAM/DARK/GOLD…), fonts (Cormorant Garamond + Jost)
+// and section/card styling. Additive only — the home experience is untouched.
+type HotelPage =
+  | 'home'
+  | 'chambres'
+  | 'services'
+  | 'blog'
+  | 'contact'
+  | 'mentions'
+  | 'privacy';
+
+const NAV_PAGES: { key: HotelPage; label: string }[] = [
+  { key: 'home', label: 'Accueil' },
+  { key: 'chambres', label: 'Chambres' },
+  { key: 'services', label: 'Services' },
+  { key: 'blog', label: 'Blog' },
+  { key: 'contact', label: 'Contact' },
+  { key: 'mentions', label: 'Mentions légales' },
+];
+
+// ─── Fuller rooms & suites catalogue (Chambres sub-page) ──────────────────────
+type RoomFull = {
+  slug: string;
+  name: string;
+  size: string;
+  view: string;
+  price: string;
+  tag: string;
+  desc: string;
+  long: string;
+  img: string;
+  gallery: string[];
+  amenities: string[];
+};
+
+const ROOMS_FULL: RoomFull[] = [
+  {
+    slug: 'prestige-room',
+    name: 'Prestige Room',
+    size: '38 m²',
+    view: 'Jardin intérieur',
+    price: '€480',
+    tag: 'La plus demandée',
+    desc: "Un havre de calme raffiné. Lin brodé à la main, parquet de chêne ancien et terrasse privative sur le jardin sculpté.",
+    long: "Nichée autour du jardin intérieur, la Prestige Room incarne l'art de vivre du Grand Palais dans sa forme la plus essentielle. Chaque matière y a été choisie pour le toucher autant que pour l'œil : linge de maison brodé à la main, parquet de chêne patiné par le temps, marbre veiné dans la salle de bain. Une terrasse privative ouvre sur le jardin sculpté, refuge de silence au cœur de la ville.",
+    img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=85',
+    gallery: [
+      'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=85',
+      'https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=1200&q=85',
+      'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85',
+    ],
+    amenities: ['Terrasse privative', 'Lit king-size en lin', 'Salle de bain en marbre', 'Service de majordome', 'Wi-Fi fibre', 'Minibar de prestige'],
+  },
+  {
+    slug: 'deluxe-suite',
+    name: 'Deluxe Suite',
+    size: '65 m²',
+    view: 'Parc panoramique',
+    price: '€780',
+    tag: 'Coup de cœur',
+    desc: "Plafonds vertigineux, double salle de bain en marbre et baies vitrées qui encadrent le parc comme un tableau vivant.",
+    long: "La Deluxe Suite déploie ses volumes généreux sous des plafonds à la française. Les baies toute hauteur cadrent le parc comme une toile en perpétuel mouvement, du premier feuillage du printemps aux ors de l'automne. Un salon distinct, une double salle de bain en marbre de Carrare et un dressing complet en font une adresse à part entière, pensée pour les séjours qui s'étirent.",
+    img: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200&q=85',
+    gallery: [
+      'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200&q=85',
+      'https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=1200&q=85',
+      'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=85',
+    ],
+    amenities: ['Salon séparé', 'Double salle de bain en marbre', 'Dressing complet', 'Vue panoramique sur le parc', 'Machine à café de barista', 'Service de majordome'],
+  },
+  {
+    slug: 'grand-suite',
+    name: 'Grand Suite',
+    size: '110 m²',
+    view: 'Skyline de la ville',
+    price: '€1,200',
+    tag: 'Signature',
+    desc: "Notre adresse la plus convoitée. Salle à manger privée, antichambre de majordome et terrasse sur les toits.",
+    long: "Joyau de la maison, la Grand Suite occupe l'angle le plus prisé du palace. Une salle à manger privée accueille jusqu'à huit convives, une antichambre dédie un espace au majordome attaché à la suite, et la terrasse sur les toits embrasse le skyline doré au crépuscule. Ici, chaque détail relève du sur-mesure, du choix des oreillers à la carte des thés rares.",
+    img: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85',
+    gallery: [
+      'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85',
+      'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=1200&q=85',
+      'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=1200&q=85',
+    ],
+    amenities: ['Salle à manger privée', 'Terrasse sur les toits', 'Majordome dédié 24h/24', 'Antichambre de réception', 'Cave à vins privée', 'Accès spa illimité'],
+  },
+  {
+    slug: 'suite-presidentielle',
+    name: 'Suite Présidentielle',
+    size: '180 m²',
+    view: 'Vue 360° sur la ville',
+    price: '€2,800',
+    tag: 'Exception',
+    desc: "L'expression ultime du séjour. Deux chambres, bibliothèque, piano à queue et terrasse-jardin suspendue.",
+    long: "Au dernier étage du Grand Palais, la Suite Présidentielle s'étend sur cent quatre-vingts mètres carrés d'élégance absolue. Deux chambres principales, une bibliothèque lambrissée, un piano à queue accordé chaque semaine et une terrasse-jardin suspendue offrant une vue à 360° composent le décor d'un séjour sans équivalent. Chef privé, voiture avec chauffeur et conciergerie personnelle complètent l'expérience.",
+    img: 'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=1200&q=85',
+    gallery: [
+      'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=1200&q=85',
+      'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=1200&q=85',
+      'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200&q=85',
+    ],
+    amenities: ['Deux chambres principales', 'Bibliothèque & piano à queue', 'Terrasse-jardin suspendue', 'Chef privé sur demande', 'Voiture avec chauffeur', 'Conciergerie personnelle'],
+  },
+];
+
+// ─── Hotel services / experiences (Services sub-page) ─────────────────────────
+const SERVICES = [
+  {
+    glyph: '✦',
+    label: 'Espace Étoile',
+    sub: 'Spa & circuit thermal',
+    desc: "Sept cabines de soin, un hammam romain et une piscine chauffée de 25 mètres. Chaque rituel est sur-mesure, chaque instant restaurateur.",
+    img: 'https://images.unsplash.com/photo-1540541338537-1220059a0de6?w=1000&q=85',
+    points: ['Hammam romain & sauna', 'Piscine chauffée 25 m', 'Soins signature sur-mesure', 'Salle de fitness 24h/24'],
+  },
+  {
+    glyph: '✶',
+    label: "L'Atelier",
+    sub: 'Restaurant deux étoiles',
+    desc: "La cheffe Margaux Vernet réinvente le canon français avec des produits cultivés à cinquante mètres des cuisines. Le menu dégustation change avec la lune.",
+    img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=85',
+    points: ['Menu dégustation saisonnier', 'Potager du domaine', 'Accord mets & vins', 'Table du chef privatisable'],
+  },
+  {
+    glyph: '◈',
+    label: 'Bar Lumière',
+    sub: 'Spiritueux rares & cave',
+    desc: "Un bar intime présidé par notre Maître d'Alcools. Trois mille références. Une conversation extraordinaire.",
+    img: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=1000&q=85',
+    points: ['3000 références', 'Maître d\'Alcools dédié', 'Cocktails signatures', 'Soirées dégustation privées'],
+  },
+  {
+    glyph: '◎',
+    label: 'Conciergerie Clefs d\'Or',
+    sub: 'Disponible 24 heures sur 24',
+    desc: "Réservations, transferts privés, accès culturels d'exception : notre conciergerie compose chaque séjour comme une partition unique.",
+    img: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1000&q=85',
+    points: ['Transferts privés & jet', 'Accès culturels exclusifs', 'Réservations spectacles', 'Personal shopping'],
+  },
+  {
+    glyph: '❖',
+    label: 'Événements privés',
+    sub: 'Salons & jardins d\'honneur',
+    desc: "Mariages, dîners de gala, séminaires de direction : nos salons d'apparat et nos quatre hectares de jardins accueillent vos plus belles occasions.",
+    img: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1000&q=85',
+    points: ['Salons d\'apparat', '4 hectares de jardins', 'Traiteur étoilé', 'Coordination dédiée'],
+  },
+  {
+    glyph: '✧',
+    label: 'Voiture & chauffeur',
+    sub: 'Mobilité d\'exception',
+    desc: "Une flotte de berlines de prestige et de chauffeurs discrets pour rejoindre l'aéroport ou parcourir la ville en toute sérénité.",
+    img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1000&q=85',
+    points: ['Berlines de prestige', 'Chauffeurs anglophones', 'Transferts aéroport', 'Excursions sur-mesure'],
+  },
+];
+
+// ─── Blog mock data (FR — art de vivre / voyage / gastronomie) ────────────────
+const BLOG_POSTS = [
+  {
+    slug: 'art-de-la-table',
+    title: "L'art de la table à la française, un héritage vivant",
+    date: '5 juin 2026',
+    category: 'Art de vivre',
+    excerpt:
+      "Du pli de la nappe au choix du cristal, la table française est une chorégraphie silencieuse. Plongée dans un savoir-faire que le Grand Palais perpétue chaque soir.",
+    img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=85',
+    body: [
+      "Dresser une table n'est pas un geste utilitaire : c'est une forme de politesse adressée à celui que l'on reçoit. À la française, l'ordonnancement obéit à une grammaire précise, héritée des grandes maisons et transmise de génération en génération.",
+      "Tout commence par la nappe, dont le pli central doit courir parfaitement au milieu de la table. Les couverts se disposent de l'extérieur vers l'intérieur, dans l'ordre du service ; les verres s'alignent en oblique, du plus grand au plus petit, au-dessus de la pointe du couteau.",
+      "Au Grand Palais, nos maîtres d'hôtel perpétuent ces codes sans nostalgie. Le cristal taillé y côtoie la porcelaine contemporaine, et chaque dîner devient une mise en scène discrète où le confort de l'invité prime toujours sur l'apparat.",
+      "Car le véritable luxe, en matière de table comme ailleurs, n'est pas l'ostentation : c'est cette aisance acquise qui fait que tout paraît simple, évident, naturel.",
+    ],
+  },
+  {
+    slug: 'echappee-vallee-loire',
+    title: 'Échappée dans la vallée de la Loire',
+    date: '22 mai 2026',
+    category: 'Voyage',
+    excerpt:
+      "À deux heures du palace, les châteaux de la Loire dévoilent jardins à la française et caves troglodytes. Notre conciergerie compose l'itinéraire idéal d'une journée.",
+    img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200&q=85',
+    body: [
+      "Quand l'envie d'horizon se fait sentir, la vallée de la Loire s'offre comme une parenthèse enchantée. À deux heures à peine du Grand Palais, elle déroule ses châteaux Renaissance le long d'un fleuve royal, classé au patrimoine mondial.",
+      "Notre conciergerie compose pour vous une journée sur-mesure : visite privée d'un château à l'ouverture, avant l'arrivée des groupes, déjeuner dans une demeure d'hôtes, puis dégustation dans une cave troglodyte creusée à même le tuffeau.",
+      "Les amateurs de jardins ne manqueront pas les parterres à la française, dessinés au cordeau, où l'art du jardinier rivalise avec celui de l'architecte. Les passionnés d'histoire, eux, s'attarderont dans les escaliers à double révolution attribués à Léonard de Vinci.",
+      "Le soir venu, la voiture vous ramène au palace, où un dîner léger vous attend. La Loire, c'est l'art français du voyage : ni précipité, ni démonstratif, simplement juste.",
+    ],
+  },
+  {
+    slug: 'menu-dune-cheffe',
+    title: "Le menu d'une cheffe : Margaux Vernet se confie",
+    date: '8 mai 2026',
+    category: 'Gastronomie',
+    excerpt:
+      "Deux étoiles, un potager à cinquante mètres des fourneaux et une philosophie de la saison. Rencontre avec la cheffe de L'Atelier, au Grand Palais.",
+    img: 'https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=1200&q=85',
+    body: [
+      "« Un menu, c'est d'abord une saison qu'on écoute. » Ainsi parle Margaux Vernet, cheffe doublement étoilée de L'Atelier, le restaurant du Grand Palais. Dans son univers, la carte n'est jamais figée : elle respire au rythme du potager.",
+      "Cinquante mètres séparent les fourneaux des planches de culture. Cette proximité change tout : les herbes sont cueillies à la dernière minute, les légumes récoltés à maturité parfaite, et le gaspillage tend vers zéro. « La distance la plus courte entre la terre et l'assiette », résume-t-elle.",
+      "Sa cuisine revisite le canon français avec une retenue rare. Pas d'effet de manche, pas de surenchère technique : une sauce réduite avec patience, une cuisson exacte, un assaisonnement millimétré. L'émotion naît de la justesse, jamais de la démonstration.",
+      "Quand on lui demande sa définition du luxe, elle sourit : « C'est de pouvoir offrir à un client une tomate qui a le goût d'une tomate. Le reste n'est que décor. »",
+    ],
+  },
+  {
+    slug: 'rituel-spa-hiver',
+    title: 'Le rituel spa de l\'hiver à Espace Étoile',
+    date: '24 avril 2026',
+    category: 'Art de vivre',
+    excerpt:
+      "Hammam romain, modelage aux huiles chaudes et tisanerie : découvrez le parcours de soin que notre spa réserve à la saison froide.",
+    img: 'https://images.unsplash.com/photo-1540541338537-1220059a0de6?w=1200&q=85',
+    body: [
+      "Lorsque la ville se couvre de gris, Espace Étoile devient un cocon. Notre spa a conçu pour l'hiver un parcours de soin pensé comme un voyage intérieur, du premier souffle de vapeur à la dernière gorgée de tisane.",
+      "Le rituel débute par le hammam romain, dont la chaleur humide prépare la peau et apaise l'esprit. Vient ensuite un gommage aux sels minéraux, puis un modelage corps complet aux huiles chaudes, dont les fragrances changent au fil de la saison.",
+      "Le parcours se prolonge dans la piscine chauffée, où la lumière tamisée invite au lâcher-prise, avant un temps de repos à la tisanerie, autour d'infusions composées par notre herboriste.",
+      "Quatre-vingt-dix minutes plus tard, on ressort de l'Espace Étoile avec cette sensation rare : celle d'avoir, pour un moment, suspendu le cours du temps.",
+    ],
+  },
+];
+
 // ─── Hooks ───────────────────────────────────────────────────────────────────
 function useParallax(ref: React.RefObject<HTMLElement | null>, speed = 0.4) {
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
@@ -185,8 +410,13 @@ function ParallaxSection({
 }
 
 // ─── NavBar ──────────────────────────────────────────────────────────────────
-function NavBar({ scrolled }: { scrolled: boolean }) {
+// Visual layout is IDENTICAL to the original (brand left, links + Reserve right).
+// The links now drive in-page navigation via goTo instead of dead `href="#"`.
+function NavBar({ scrolled, page, goTo }: { scrolled: boolean; page: HotelPage; goTo: (p: HotelPage) => void }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  // Desktop bar shows the primary destinations; legal pages live in the mobile
+  // drawer + footer (mirrors the original which showed only the first links).
+  const desktopPages = NAV_PAGES.filter((p) => p.key !== 'mentions');
 
   return (
     <>
@@ -208,29 +438,39 @@ function NavBar({ scrolled }: { scrolled: boolean }) {
           borderBottom: scrolled ? `1px solid ${GOLD}30` : '1px solid transparent',
         }}
       >
-        <span style={{ fontFamily: SERIF, fontSize: '1.5rem', color: scrolled ? DARK : CREAM, letterSpacing: '0.08em', fontWeight: 300 }}>
+        <button
+          onClick={() => goTo('home')}
+          style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: SERIF, fontSize: '1.5rem', color: scrolled ? DARK : CREAM, letterSpacing: '0.08em', fontWeight: 300 }}
+        >
           Grand Palais
-        </span>
+        </button>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem' }}>
-          {NAV_LINKS.slice(0, 4).map((link) => (
-            <Link
-              key={link}
-              href="#"
+        {/* Desktop links */}
+        <div className="gp-nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: '2.5rem' }}>
+          {desktopPages.map((l) => (
+            <button
+              key={l.key}
+              onClick={() => goTo(l.key)}
               style={{
                 fontFamily: SANS,
                 fontSize: '0.72rem',
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-                color: scrolled ? `${DARK}99` : `${CREAM}99`,
-                textDecoration: 'none',
+                color: page === l.key ? GOLD : scrolled ? `${DARK}99` : `${CREAM}99`,
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                cursor: 'pointer',
                 transition: 'color 0.2s',
               }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = GOLD; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = page === l.key ? GOLD : scrolled ? `${DARK}99` : `${CREAM}99`; }}
             >
-              {link}
-            </Link>
+              {l.label}
+            </button>
           ))}
           <button
+            onClick={() => goTo('contact')}
             style={{
               fontFamily: SANS,
               fontSize: '0.7rem',
@@ -246,9 +486,19 @@ function NavBar({ scrolled }: { scrolled: boolean }) {
             onMouseEnter={(e) => { (e.target as HTMLButtonElement).style.background = GOLD_DIM; }}
             onMouseLeave={(e) => { (e.target as HTMLButtonElement).style.background = GOLD; }}
           >
-            Reserve
+            Réserver
           </button>
         </div>
+
+        {/* Mobile hamburger */}
+        <button
+          className="gp-nav-burger"
+          onClick={() => setMobileOpen(true)}
+          aria-label="Menu"
+          style={{ display: 'none', background: 'none', border: 'none', cursor: 'pointer', color: scrolled ? DARK : CREAM, fontSize: '1.4rem', lineHeight: 1, padding: 0 }}
+        >
+          ☰
+        </button>
       </motion.nav>
 
       <AnimatePresence>
@@ -274,20 +524,27 @@ function NavBar({ scrolled }: { scrolled: boolean }) {
             >
               ✕
             </button>
-            {NAV_LINKS.map((link, i) => (
-              <motion.div key={link} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
-                <Link
-                  href="#"
-                  onClick={() => setMobileOpen(false)}
-                  style={{ fontFamily: SERIF, fontSize: '2.5rem', color: CREAM, display: 'block', marginBottom: '1.5rem', textDecoration: 'none' }}
+            {NAV_PAGES.map((l, i) => (
+              <motion.div key={l.key} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
+                <button
+                  onClick={() => { goTo(l.key); setMobileOpen(false); }}
+                  style={{ fontFamily: SERIF, fontSize: '2.2rem', color: page === l.key ? GOLD : CREAM, display: 'block', marginBottom: '1.4rem', textDecoration: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer', textAlign: 'left' }}
                 >
-                  {link}
-                </Link>
+                  {l.label}
+                </button>
               </motion.div>
             ))}
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Responsive toggle: desktop links hidden on small screens, burger shown */}
+      <style>{`
+        @media (max-width: 820px) {
+          .gp-nav-desktop { display: none !important; }
+          .gp-nav-burger { display: inline-flex !important; }
+        }
+      `}</style>
     </>
   );
 }
@@ -1396,17 +1653,50 @@ function BookingCTA() {
 }
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
-function Footer() {
+function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
+  const footerCols: { title: string; links: { label: string; page: HotelPage }[] }[] = [
+    {
+      title: 'Séjour',
+      links: [
+        { label: 'Chambres & Suites', page: 'chambres' },
+        { label: 'Prestige Room', page: 'chambres' },
+        { label: 'Grand Suite', page: 'chambres' },
+        { label: 'Suite Présidentielle', page: 'chambres' },
+      ],
+    },
+    {
+      title: 'Expériences',
+      links: [
+        { label: "L'Atelier Restaurant", page: 'services' },
+        { label: 'Espace Étoile Spa', page: 'services' },
+        { label: 'Bar Lumière', page: 'services' },
+        { label: 'Événements privés', page: 'services' },
+      ],
+    },
+    {
+      title: 'Informations',
+      links: [
+        { label: 'Blog & art de vivre', page: 'blog' },
+        { label: 'Contact', page: 'contact' },
+        { label: 'Mentions légales', page: 'mentions' },
+        { label: 'Confidentialité', page: 'privacy' },
+      ],
+    },
+  ];
+
   return (
     <footer style={{ background: '#0f0b06', borderTop: `1px solid ${GOLD}25`, padding: '5rem 3rem 3rem' }}>
       <div style={{ maxWidth: '75rem', margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: '3rem', marginBottom: '4rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '3rem', marginBottom: '4rem' }}>
           <div>
-            <p style={{ fontFamily: SERIF, fontSize: '1.6rem', fontWeight: 300, color: GOLD, marginBottom: '1rem', letterSpacing: '0.05em' }}>
+            <button
+              onClick={() => goTo('home')}
+              style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: SERIF, fontSize: '1.6rem', fontWeight: 300, color: GOLD, marginBottom: '1rem', letterSpacing: '0.05em', display: 'block' }}
+            >
               Grand Palais
-            </p>
+            </button>
             <p style={{ fontFamily: SERIF, fontSize: '0.9rem', color: `${CREAM}50`, lineHeight: 1.7, fontStyle: 'italic', maxWidth: '20rem', marginBottom: '1.5rem' }}>
-              A palace of quiet distinction at the heart of Paris since 1887.
+              Un palace de distinction tranquille au cœur de Paris depuis 1887.
             </p>
             <div style={{ display: 'flex', gap: '1rem' }}>
               {['IG', 'FB', 'TW'].map((s) => (
@@ -1429,39 +1719,32 @@ function Footer() {
             </div>
           </div>
 
-          {[
-            {
-              title: 'Stay',
-              links: ['Prestige Rooms', 'Deluxe Suites', 'Grand Suite', 'Presidential Suite'],
-            },
-            {
-              title: 'Experiences',
-              links: ['L\'Atelier Restaurant', 'Espace Étoile Spa', 'Bar Lumière', 'Private Events'],
-            },
-            {
-              title: 'Information',
-              links: ['Rates & Availability', 'Cancellation Policy', 'Special Offers', 'Contact'],
-            },
-          ].map((col) => (
+          {footerCols.map((col) => (
             <div key={col.title}>
               <p style={{ fontFamily: SANS, fontSize: '0.6rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: `${CREAM}60`, marginBottom: '1.25rem' }}>
                 {col.title}
               </p>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 {col.links.map((l) => (
-                  <li key={l}>
-                    <Link
-                      href="#"
+                  <li key={l.label}>
+                    <button
+                      onClick={() => goTo(l.page)}
                       style={{
                         fontFamily: SERIF,
                         fontSize: '0.9rem',
                         color: `${CREAM}50`,
-                        textDecoration: 'none',
+                        background: 'none',
+                        border: 'none',
+                        padding: 0,
+                        cursor: 'pointer',
+                        textAlign: 'left',
                         fontStyle: 'italic',
                       }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = GOLD; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = `${CREAM}50`; }}
                     >
-                      {l}
-                    </Link>
+                      {l.label}
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -1481,23 +1764,32 @@ function Footer() {
           }}
         >
           <span style={{ fontFamily: SANS, fontSize: '0.58rem', color: `${CREAM}35`, letterSpacing: '0.08em' }}>
-            © 2026 Grand Palais. All rights reserved.
+            © 2026 Grand Palais. Tous droits réservés.
           </span>
           <div style={{ display: 'flex', gap: '2rem' }}>
-            {['Legal Notice', 'Privacy Policy', 'Cookie Settings'].map((l) => (
-              <Link
-                key={l}
-                href="#"
+            {([
+              { label: 'Mentions légales', page: 'mentions' as HotelPage },
+              { label: 'Confidentialité', page: 'privacy' as HotelPage },
+              { label: 'Contact', page: 'contact' as HotelPage },
+            ]).map((l) => (
+              <button
+                key={l.label}
+                onClick={() => goTo(l.page)}
                 style={{
                   fontFamily: SANS,
                   fontSize: '0.58rem',
                   color: `${CREAM}35`,
-                  textDecoration: 'none',
+                  background: 'none',
+                  border: 'none',
+                  padding: 0,
+                  cursor: 'pointer',
                   letterSpacing: '0.08em',
                 }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = GOLD; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = `${CREAM}35`; }}
               >
-                {l}
-              </Link>
+                {l.label}
+              </button>
             ))}
           </div>
         </div>
@@ -1528,11 +1820,569 @@ function ScrollProgress() {
   );
 }
 
+// ─── Shared sub-page hero (theme-native: parallax band + gold eyebrow) ────────
+function SubPageHero({ eyebrow, title, subtitle, img }: { eyebrow: string; title: string; subtitle?: string; img: string }) {
+  return (
+    <ParallaxSection imgSrc={img} speed={0.3} height="58vh" overlay="rgba(26,18,8,0.6)">
+      <BlurReveal>
+        <div style={{ textAlign: 'center', padding: '0 1.5rem', maxWidth: '44rem' }}>
+          <p style={{ fontFamily: SANS, fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: GOLD, marginBottom: '1.5rem' }}>
+            {eyebrow}
+          </p>
+          <h1 style={{ fontFamily: SERIF, fontSize: 'clamp(2.8rem, 7vw, 5.5rem)', fontWeight: 300, color: CREAM, lineHeight: 1, marginBottom: subtitle ? '1.5rem' : 0 }}>
+            {title}
+          </h1>
+          {subtitle && (
+            <p style={{ fontFamily: SERIF, fontSize: '1.1rem', fontStyle: 'italic', color: `${CREAM}aa`, lineHeight: 1.7, maxWidth: '34rem', margin: '0 auto' }}>
+              {subtitle}
+            </p>
+          )}
+        </div>
+      </BlurReveal>
+    </ParallaxSection>
+  );
+}
+
+// ─── Room detail view (own component so hooks stay unconditional) ─────────────
+function RoomDetail({ room, setRoomSlug, goTo }: { room: RoomFull; setRoomSlug: (s: string | null) => void; goTo: (p: HotelPage) => void }) {
+  const [activeImg, setActiveImg] = useState(0);
+  return (
+    <div>
+      <section style={{ background: CREAM, padding: '7rem 0 6rem' }}>
+          <div style={{ maxWidth: '75rem', margin: '0 auto', padding: '0 3rem' }}>
+            <button
+              onClick={() => setRoomSlug(null)}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'none', border: 'none', color: `${DARK}80`, cursor: 'pointer', fontFamily: SANS, fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '2.5rem' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = GOLD; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = `${DARK}80`; }}
+            >
+              ← Toutes les chambres
+            </button>
+
+            <div className="gp-detail-grid" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '4rem', alignItems: 'start' }}>
+              {/* Gallery */}
+              <BlurReveal>
+                <div>
+                  <div style={{ height: 'clamp(280px, 42vw, 460px)', backgroundImage: `url(${room.gallery[activeImg]})`, backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: '1rem' }} />
+                  <div style={{ display: 'flex', gap: '1rem' }}>
+                    {room.gallery.map((g, i) => (
+                      <button
+                        key={g}
+                        onClick={() => setActiveImg(i)}
+                        style={{ flex: 1, height: '5rem', backgroundImage: `url(${g})`, backgroundSize: 'cover', backgroundPosition: 'center', border: i === activeImg ? `2px solid ${GOLD}` : '2px solid transparent', cursor: 'pointer', padding: 0 }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </BlurReveal>
+
+              {/* Info */}
+              <BlurReveal delay={0.1}>
+                <div>
+                  <p style={{ fontFamily: SANS, fontSize: '0.6rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: GOLD, marginBottom: '0.8rem' }}>
+                    {room.tag}
+                  </p>
+                  <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(2.2rem, 4vw, 3.2rem)', fontWeight: 300, color: DARK, lineHeight: 1.05, marginBottom: '0.6rem' }}>
+                    {room.name}
+                  </h2>
+                  <p style={{ fontFamily: SANS, fontSize: '0.62rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: `${DARK}70`, marginBottom: '1.5rem' }}>
+                    {room.size} · {room.view}
+                  </p>
+                  <p style={{ fontFamily: SERIF, fontSize: '1.05rem', color: `${DARK}88`, lineHeight: 1.8, fontStyle: 'italic', marginBottom: '2rem' }}>
+                    {room.long}
+                  </p>
+
+                  <p style={{ fontFamily: SANS, fontSize: '0.6rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: `${DARK}60`, marginBottom: '1rem' }}>
+                    Équipements
+                  </p>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2.5rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.7rem' }}>
+                    {room.amenities.map((a) => (
+                      <li key={a} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', fontFamily: SERIF, fontSize: '0.95rem', color: `${DARK}80` }}>
+                        <span style={{ color: GOLD, flexShrink: 0 }}>✦</span>
+                        {a}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1.5rem', borderTop: `1px solid ${GOLD}40`, paddingTop: '1.75rem' }}>
+                    <div>
+                      <p style={{ fontFamily: SANS, fontSize: '0.55rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: `${DARK}50`, marginBottom: '0.2rem' }}>
+                        À partir de
+                      </p>
+                      <p style={{ fontFamily: SERIF, fontSize: '2.6rem', fontWeight: 300, color: GOLD, lineHeight: 1 }}>
+                        {room.price}
+                        <span style={{ fontFamily: SANS, fontSize: '0.7rem', color: `${DARK}50`, marginLeft: '0.3rem' }}>/ nuit</span>
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => goTo('contact')}
+                      style={{ fontFamily: SANS, fontSize: '0.68rem', letterSpacing: '0.18em', textTransform: 'uppercase', background: GOLD, color: CREAM, border: 'none', padding: '1rem 2.5rem', cursor: 'pointer' }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = GOLD_DIM; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = GOLD; }}
+                    >
+                      Réserver
+                    </button>
+                  </div>
+                </div>
+              </BlurReveal>
+            </div>
+          </div>
+        </section>
+      <style>{`@media (max-width: 820px){ .gp-detail-grid{ grid-template-columns: 1fr !important; } }`}</style>
+    </div>
+  );
+}
+
+// ─── CHAMBRES & SUITES (listing + room detail), theme room-card design ─────────
+function ChambresPage({ roomSlug, setRoomSlug, goTo }: { roomSlug: string | null; setRoomSlug: (s: string | null) => void; goTo: (p: HotelPage) => void }) {
+  const room = roomSlug ? ROOMS_FULL.find((r) => r.slug === roomSlug) : null;
+
+  if (room) {
+    return <RoomDetail room={room} setRoomSlug={setRoomSlug} goTo={goTo} />;
+  }
+
+  return (
+    <div>
+      <SubPageHero
+        eyebrow="Hébergements"
+        title="Chambres & Suites"
+        subtitle="Quatre catégories d'exception, chacune une variation sur le même art de recevoir. Choisissez votre refuge."
+        img="https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=1800&q=85"
+      />
+      <section style={{ background: CREAM, padding: '7rem 0' }}>
+        <div style={{ maxWidth: '75rem', margin: '0 auto', padding: '0 3rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+            {ROOMS_FULL.map((r, i) => (
+              <motion.div
+                key={r.slug}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.7, delay: (i % 2) * 0.1 }}
+                whileHover={{ y: -6 }}
+                onClick={() => { setRoomSlug(r.slug); if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'auto' }); }}
+                style={{ background: DARK, display: 'flex', flexDirection: 'column', overflow: 'hidden', cursor: 'pointer' }}
+              >
+                <div style={{ height: '15rem', backgroundImage: `url(${r.img})`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative' }}>
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 50%, rgba(26,18,8,0.6) 100%)' }} />
+                  <div style={{ position: 'absolute', top: '1.25rem', left: '1.5rem', fontFamily: SANS, fontSize: '0.6rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: GOLD, background: `${DARK}cc`, padding: '0.3rem 0.8rem' }}>
+                    {r.tag}
+                  </div>
+                </div>
+                <div style={{ flex: 1, padding: '1.75rem 2rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div>
+                    <p style={{ fontFamily: SANS, fontSize: '0.58rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: `${CREAM}50`, marginBottom: '0.4rem' }}>
+                      {r.size} · {r.view}
+                    </p>
+                    <h3 style={{ fontFamily: SERIF, fontSize: '1.75rem', fontWeight: 300, color: CREAM, marginBottom: '0.75rem', lineHeight: 1.1 }}>
+                      {r.name}
+                    </h3>
+                    <p style={{ fontFamily: SERIF, fontSize: '0.9rem', color: `${CREAM}70`, lineHeight: 1.7, fontStyle: 'italic' }}>
+                      {r.desc}
+                    </p>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: '1.5rem' }}>
+                    <div>
+                      <p style={{ fontFamily: SANS, fontSize: '0.55rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: `${CREAM}40`, marginBottom: '0.2rem' }}>
+                        À partir de
+                      </p>
+                      <p style={{ fontFamily: SERIF, fontSize: '2.2rem', fontWeight: 300, color: GOLD, lineHeight: 1 }}>
+                        {r.price}
+                        <span style={{ fontFamily: SANS, fontSize: '0.65rem', color: `${CREAM}40`, marginLeft: '0.3rem' }}>/nuit</span>
+                      </p>
+                    </div>
+                    <span style={{ fontFamily: SANS, fontSize: '0.62rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: GOLD, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+                      Découvrir →
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ─── SERVICES (hotel experiences), theme card design ──────────────────────────
+function ServicesPage({ goTo }: { goTo: (p: HotelPage) => void }) {
+  return (
+    <div>
+      <SubPageHero
+        eyebrow="L'expérience"
+        title="Services & expériences"
+        subtitle="Spa, gastronomie, conciergerie : chaque service du Grand Palais est conçu pour que tout vous paraisse simple et naturel."
+        img="https://images.unsplash.com/photo-1540541338537-1220059a0de6?w=1800&q=85"
+      />
+      <section style={{ background: DARK, padding: '7rem 0' }}>
+        <div style={{ maxWidth: '75rem', margin: '0 auto', padding: '0 3rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+            {SERVICES.map((s, i) => (
+              <motion.div
+                key={s.label}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.7, delay: (i % 3) * 0.1 }}
+                style={{ background: MID, display: 'flex', flexDirection: 'column', overflow: 'hidden', borderTop: `2px solid ${GOLD}` }}
+              >
+                <div style={{ height: '12rem', backgroundImage: `url(${s.img})`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative' }}>
+                  <div style={{ position: 'absolute', inset: 0, background: 'rgba(26,18,8,0.3)' }} />
+                  <div style={{ position: 'absolute', bottom: '1rem', left: '1.5rem', fontSize: '1.6rem', color: GOLD }}>{s.glyph}</div>
+                </div>
+                <div style={{ padding: '1.75rem 2rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <p style={{ fontFamily: SANS, fontSize: '0.58rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: GOLD, marginBottom: '0.6rem' }}>
+                    {s.sub}
+                  </p>
+                  <h3 style={{ fontFamily: SERIF, fontSize: '1.7rem', fontWeight: 300, color: CREAM, lineHeight: 1.1, marginBottom: '0.9rem' }}>
+                    {s.label}
+                  </h3>
+                  <p style={{ fontFamily: SERIF, fontSize: '0.95rem', color: `${CREAM}70`, lineHeight: 1.75, fontStyle: 'italic', marginBottom: '1.5rem', flex: 1 }}>
+                    {s.desc}
+                  </p>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                    {s.points.map((p) => (
+                      <li key={p} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', marginBottom: '0.55rem', fontFamily: SANS, fontSize: '0.8rem', color: `${CREAM}65`, letterSpacing: '0.02em' }}>
+                        <span style={{ color: GOLD, flexShrink: 0, fontSize: '0.7rem', marginTop: '0.1rem' }}>✦</span>
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div style={{ background: GOLD, marginTop: '4rem', padding: '3.5rem clamp(2rem, 5vw, 4rem)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1.5rem' }}>
+            <div>
+              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', fontWeight: 300, color: DARK, lineHeight: 1.1, marginBottom: '0.5rem' }}>
+                Composons votre séjour ensemble
+              </h2>
+              <p style={{ fontFamily: SERIF, fontSize: '1rem', fontStyle: 'italic', color: `${DARK}80`, margin: 0, maxWidth: '32rem' }}>
+                Notre conciergerie est disponible à chaque heure pour orchestrer un séjour entièrement vôtre.
+              </p>
+            </div>
+            <button
+              onClick={() => goTo('contact')}
+              style={{ fontFamily: SANS, fontSize: '0.7rem', letterSpacing: '0.18em', textTransform: 'uppercase', background: DARK, color: CREAM, border: 'none', padding: '1rem 2.5rem', cursor: 'pointer', flexShrink: 0 }}
+            >
+              Nous contacter
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ─── BLOG (index + single article), theme styling ─────────────────────────────
+function BlogPage({ blogSlug, setBlogSlug }: { blogSlug: string | null; setBlogSlug: (s: string | null) => void }) {
+  const post = blogSlug ? BLOG_POSTS.find((b) => b.slug === blogSlug) : null;
+
+  if (post) {
+    return (
+      <div>
+        <ParallaxSection imgSrc={post.img} speed={0.3} height="56vh" overlay="rgba(26,18,8,0.62)">
+          <BlurReveal>
+            <div style={{ textAlign: 'center', padding: '0 1.5rem', maxWidth: '46rem' }}>
+              <p style={{ fontFamily: SANS, fontSize: '0.62rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: GOLD, marginBottom: '1.2rem' }}>
+                {post.category} · {post.date}
+              </p>
+              <h1 style={{ fontFamily: SERIF, fontSize: 'clamp(2.2rem, 5vw, 4rem)', fontWeight: 300, color: CREAM, lineHeight: 1.1 }}>
+                {post.title}
+              </h1>
+            </div>
+          </BlurReveal>
+        </ParallaxSection>
+
+        <section style={{ background: CREAM, padding: '5rem 0 6rem' }}>
+          <div style={{ maxWidth: '44rem', margin: '0 auto', padding: '0 1.75rem' }}>
+            <button
+              onClick={() => setBlogSlug(null)}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'none', border: 'none', color: `${DARK}80`, cursor: 'pointer', fontFamily: SANS, fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '2.5rem' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = GOLD; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = `${DARK}80`; }}
+            >
+              ← Tous les articles
+            </button>
+            {post.body.map((para, i) => (
+              <p key={i} style={{ fontFamily: SERIF, fontSize: '1.15rem', color: `${DARK}90`, lineHeight: 1.9, marginBottom: '1.6rem' }}>
+                {para}
+              </p>
+            ))}
+            <div style={{ borderTop: `1px solid ${GOLD}40`, marginTop: '2rem', paddingTop: '1.5rem', fontFamily: SERIF, fontStyle: 'italic', fontSize: '0.95rem', color: `${DARK}70` }}>
+              Rédigé par la rédaction du Grand Palais. Le Journal du palace, publié tout au long de l'année.
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <SubPageHero
+        eyebrow="Le Journal du palace"
+        title="Blog & art de vivre"
+        subtitle="Nos chroniques d'art de vivre, de voyage et de gastronomie, écrites au rythme des saisons."
+        img="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=1800&q=85"
+      />
+      <section style={{ background: CREAM, padding: '7rem 0' }}>
+        <div style={{ maxWidth: '75rem', margin: '0 auto', padding: '0 3rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
+            {BLOG_POSTS.map((p, i) => (
+              <motion.article
+                key={p.slug}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.7, delay: (i % 3) * 0.1 }}
+                whileHover={{ y: -6 }}
+                onClick={() => { setBlogSlug(p.slug); if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'auto' }); }}
+                style={{ background: DARK, display: 'flex', flexDirection: 'column', overflow: 'hidden', cursor: 'pointer', borderTop: `2px solid ${GOLD}` }}
+              >
+                <div style={{ height: '12rem', backgroundImage: `url(${p.img})`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative' }}>
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 55%, rgba(26,18,8,0.55) 100%)' }} />
+                </div>
+                <div style={{ padding: '1.6rem 1.9rem 2rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.9rem' }}>
+                    <span style={{ fontFamily: SANS, fontSize: '0.55rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: GOLD }}>{p.category}</span>
+                    <span style={{ fontFamily: SANS, fontSize: '0.62rem', color: `${CREAM}45` }}>· {p.date}</span>
+                  </div>
+                  <h2 style={{ fontFamily: SERIF, fontSize: '1.45rem', fontWeight: 300, color: CREAM, lineHeight: 1.25, marginBottom: '0.8rem' }}>
+                    {p.title}
+                  </h2>
+                  <p style={{ fontFamily: SERIF, fontSize: '0.92rem', color: `${CREAM}65`, lineHeight: 1.7, fontStyle: 'italic', marginBottom: '1.2rem', flex: 1 }}>
+                    {p.excerpt}
+                  </p>
+                  <span style={{ fontFamily: SANS, fontSize: '0.62rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: GOLD, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+                    Lire l'article →
+                  </span>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ─── CONTACT (info + reservation form, inputs ≥16px) ──────────────────────────
+function ContactPage() {
+  const [sent, setSent] = useState(false);
+  const inputStyle: React.CSSProperties = {
+    width: '100%', padding: '0.85rem 1rem', background: CREAM,
+    border: `1px solid ${GOLD}40`, color: DARK,
+    fontSize: 16, // ≥16px to avoid iOS zoom on focus
+    outline: 'none', fontFamily: SERIF, marginBottom: '1.1rem',
+  };
+  const labelStyle: React.CSSProperties = {
+    fontFamily: SANS, fontSize: '0.6rem', color: GOLD_DIM,
+    letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 500,
+    marginBottom: '0.45rem', display: 'block',
+  };
+
+  return (
+    <div>
+      <SubPageHero
+        eyebrow="Réservations & conciergerie"
+        title="Contact"
+        subtitle="Notre équipe est à votre écoute à chaque heure pour composer un séjour qui vous ressemble."
+        img="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1800&q=85"
+      />
+      <section style={{ background: CREAM, padding: '7rem 0' }}>
+        <div className="gp-contact-grid" style={{ maxWidth: '70rem', margin: '0 auto', padding: '0 3rem', display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: 'clamp(3rem, 5vw, 5rem)', alignItems: 'start' }}>
+          {/* Info */}
+          <div>
+            {[
+              { label: 'Téléphone', val: '+33 1 40 00 00 00' },
+              { label: 'Réservations', val: 'reservations@grandpalais.fr' },
+              { label: 'Adresse', val: '8 Avenue de la Paix, 75009 Paris' },
+              { label: 'Conciergerie', val: 'Disponible 24 heures sur 24' },
+            ].map((item) => (
+              <div key={item.label} style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start', marginBottom: '1.75rem', borderBottom: `1px solid ${GOLD}30`, paddingBottom: '1.4rem' }}>
+                <span style={{ color: GOLD, fontSize: '0.9rem', marginTop: '0.2rem', flexShrink: 0 }}>◎</span>
+                <div>
+                  <p style={{ fontFamily: SANS, fontSize: '0.6rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD_DIM, marginBottom: '0.35rem' }}>{item.label}</p>
+                  <p style={{ fontFamily: SERIF, fontSize: '1.25rem', color: DARK }}>{item.val}</p>
+                </div>
+              </div>
+            ))}
+            <p style={{ fontFamily: SERIF, fontSize: '1rem', fontStyle: 'italic', color: `${DARK}75`, lineHeight: 1.8, marginTop: '0.5rem' }}>
+              Pour les demandes de privatisation, d'événements ou de séjours longue durée, notre conciergerie vous répond sous 24 heures.
+            </p>
+          </div>
+
+          {/* Form */}
+          <div>
+            {sent ? (
+              <div style={{ background: DARK, padding: '3.5rem 2.5rem', textAlign: 'center', borderTop: `2px solid ${GOLD}` }}>
+                <p style={{ fontSize: '1.8rem', color: GOLD, marginBottom: '1rem' }}>✦</p>
+                <h3 style={{ fontFamily: SERIF, fontSize: '1.8rem', fontWeight: 300, color: CREAM, marginBottom: '0.8rem' }}>Demande envoyée</h3>
+                <p style={{ fontFamily: SERIF, fontSize: '1rem', fontStyle: 'italic', color: `${CREAM}70`, lineHeight: 1.7, margin: 0 }}>
+                  Merci. Notre conciergerie vous répondra sous 24 heures.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} style={{ background: DARK, padding: '2.75rem 2.5rem', borderTop: `2px solid ${GOLD}` }}>
+                <label style={labelStyle}>Nom complet</label>
+                <input style={inputStyle} type="text" placeholder="Votre nom" required />
+                <label style={labelStyle}>Email</label>
+                <input style={inputStyle} type="email" placeholder="votre@email.fr" required />
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div>
+                    <label style={labelStyle}>Arrivée</label>
+                    <input style={inputStyle} type="text" placeholder="JJ / MM / AAAA" />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Départ</label>
+                    <input style={inputStyle} type="text" placeholder="JJ / MM / AAAA" />
+                  </div>
+                </div>
+                <label style={labelStyle}>Catégorie souhaitée</label>
+                <input style={inputStyle} type="text" placeholder="Ex. : Deluxe Suite, Grand Suite…" />
+                <label style={labelStyle}>Message</label>
+                <textarea style={{ ...inputStyle, minHeight: '8rem', resize: 'vertical' }} placeholder="Précisez votre demande (nombre de personnes, occasion…)." required />
+                <button
+                  type="submit"
+                  style={{ width: '100%', padding: '1rem', background: GOLD, color: CREAM, border: 'none', fontFamily: SANS, fontSize: '0.7rem', fontWeight: 500, letterSpacing: '0.16em', textTransform: 'uppercase', cursor: 'pointer' }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = GOLD_DIM; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = GOLD; }}
+                >
+                  Envoyer ma demande
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </section>
+      <style>{`@media (max-width: 820px){ .gp-contact-grid{ grid-template-columns: 1fr !important; } }`}</style>
+    </div>
+  );
+}
+
+// ─── MENTIONS LÉGALES & CONFIDENTIALITÉ ───────────────────────────────────────
+// `mentions` content is verbatim per legal requirement. NEVER print a street address.
+function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
+  const sectionTitle: React.CSSProperties = {
+    fontFamily: SERIF, fontSize: '1.7rem', fontWeight: 300, color: DARK, margin: '2.5rem 0 0.9rem',
+  };
+  const para: React.CSSProperties = {
+    fontFamily: SERIF, fontSize: '1.05rem', color: `${DARK}88`, lineHeight: 1.85, marginBottom: '0.9rem',
+  };
+  const strong: React.CSSProperties = { color: DARK, fontWeight: 500 };
+
+  if (variant === 'mentions') {
+    return (
+      <div>
+        <SubPageHero
+          eyebrow="Informations légales"
+          title="Mentions légales"
+          img="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1800&q=85"
+        />
+        <section style={{ background: CREAM, padding: '5rem 0 7rem' }}>
+          <div style={{ maxWidth: '44rem', margin: '0 auto', padding: '0 1.75rem' }}>
+            <h2 style={{ ...sectionTitle, marginTop: 0 }}>Éditeur du site</h2>
+            <p style={para}><span style={strong}>Aevia WS</span> — entrepreneur individuel (auto-entrepreneur).</p>
+            <p style={para}>Directeur de la publication : <span style={strong}>Valentin Milliand</span>.</p>
+            <p style={para}>SIREN : <span style={strong}>852 546 225</span> — RCS Bourg-en-Bresse.</p>
+            <p style={para}>Contact : <span style={strong}>contact@aevia.io</span></p>
+            <p style={para}>Adresse du siège social communiquée sur demande à contact@aevia.io.</p>
+
+            <h2 style={sectionTitle}>TVA</h2>
+            <p style={para}>TVA non applicable, art. 293 B du CGI.</p>
+
+            <h2 style={sectionTitle}>Hébergeur</h2>
+            <p style={para}>Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA.</p>
+
+            <h2 style={sectionTitle}>Propriété intellectuelle</h2>
+            <p style={para}>
+              L'ensemble des contenus présents sur ce site (textes, visuels, logo, mise en page) est protégé par le droit
+              de la propriété intellectuelle. Toute reproduction, même partielle, est interdite sans autorisation préalable
+              de l'éditeur.
+            </p>
+
+            <h2 style={sectionTitle}>Responsabilité</h2>
+            <p style={para}>
+              Les informations diffusées sur ce site sont fournies à titre indicatif. Les visuels et tarifs présentés ne
+              sont pas contractuels et peuvent évoluer sans préavis.
+            </p>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <SubPageHero
+        eyebrow="Protection des données"
+        title="Confidentialité"
+        img="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1800&q=85"
+      />
+      <section style={{ background: CREAM, padding: '5rem 0 7rem' }}>
+        <div style={{ maxWidth: '44rem', margin: '0 auto', padding: '0 1.75rem' }}>
+          <p style={{ ...para, fontStyle: 'italic', color: `${DARK}60` }}>Dernière mise à jour : juin 2026.</p>
+
+          <h2 style={{ ...sectionTitle, marginTop: '1.5rem' }}>Responsable du traitement</h2>
+          <p style={para}>
+            Le responsable du traitement des données personnelles est <span style={strong}>Aevia WS</span>, éditeur du
+            site. Pour toute question, écrivez à <span style={strong}>contact@aevia.io</span>.
+          </p>
+
+          <h2 style={sectionTitle}>Données collectées</h2>
+          <p style={para}>
+            Nous collectons uniquement les données que vous nous transmettez volontairement via le formulaire de contact
+            (nom, email, dates de séjour, catégorie souhaitée et message), aux seules fins de traiter votre demande de
+            réservation ou de renseignement.
+          </p>
+
+          <h2 style={sectionTitle}>Finalité et base légale</h2>
+          <p style={para}>
+            Vos données sont traitées sur la base de votre consentement et de l'intérêt légitime du palace à répondre aux
+            sollicitations. Elles ne font l'objet d'aucune cession à des tiers à des fins commerciales.
+          </p>
+
+          <h2 style={sectionTitle}>Durée de conservation</h2>
+          <p style={para}>
+            Les données issues du formulaire de contact sont conservées le temps nécessaire au traitement de votre demande,
+            puis archivées ou supprimées conformément aux obligations légales applicables.
+          </p>
+
+          <h2 style={sectionTitle}>Vos droits</h2>
+          <p style={para}>
+            Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement, de portabilité et
+            d'opposition au traitement de vos données. Pour exercer ces droits, écrivez à contact@aevia.io.
+          </p>
+
+          <h2 style={sectionTitle}>Cookies</h2>
+          <p style={para}>
+            Ce site ne dépose pas de cookies de suivi publicitaire. Seuls des cookies techniques strictement nécessaires
+            au fonctionnement du site peuvent être utilisés.
+          </p>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 // ─── Root Page ────────────────────────────────────────────────────────────────
 export default function GrandPalaisPage() {
   useFonts();
 
   const [scrolled, setScrolled] = useState(false);
+  const [page, setPage] = useState<HotelPage>('home');
+  const [roomSlug, setRoomSlug] = useState<string | null>(null);
+  const [blogSlug, setBlogSlug] = useState<string | null>(null);
+
+  const goTo = useCallback((p: HotelPage) => {
+    setPage(p);
+    setRoomSlug(null);
+    setBlogSlug(null);
+    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'auto' });
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -1551,17 +2401,32 @@ export default function GrandPalaisPage() {
       }}
     >
       <ScrollProgress />
-      <NavBar scrolled={scrolled} />
-      <HeroSection />
-      <StatsBar />
-      <RoomsSection />
-      <ParallaxDivider />
-      <ExperienceSection />
-      <DiningSection />
-      <TestimonialsSection />
-      <LocationSection />
-      <BookingCTA />
-      <Footer />
+      <NavBar scrolled={scrolled} page={page} goTo={goTo} />
+
+      {/* ══════════ HOME (original single-page content, unchanged) ══════════ */}
+      {page === 'home' && (
+        <>
+          <HeroSection />
+          <StatsBar />
+          <RoomsSection />
+          <ParallaxDivider />
+          <ExperienceSection />
+          <DiningSection />
+          <TestimonialsSection />
+          <LocationSection />
+          <BookingCTA />
+        </>
+      )}
+
+      {/* ══════════ EXTRA PAGES (theme-native, built from the same tokens) ══════════ */}
+      {page === 'chambres' && <ChambresPage roomSlug={roomSlug} setRoomSlug={setRoomSlug} goTo={goTo} />}
+      {page === 'services' && <ServicesPage goTo={goTo} />}
+      {page === 'blog' && <BlogPage blogSlug={blogSlug} setBlogSlug={setBlogSlug} />}
+      {page === 'contact' && <ContactPage />}
+      {page === 'mentions' && <LegalPage variant="mentions" />}
+      {page === 'privacy' && <LegalPage variant="privacy" />}
+
+      <Footer goTo={goTo} />
     </div>
   );
 }
