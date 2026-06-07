@@ -1842,7 +1842,7 @@ export default function ClosDuSoirPage() {
         fontFamily: "'Lato', system-ui, sans-serif",
         background: C.bg,
         color: C.text,
-        overflowX: "hidden",
+        overflowX: "clip",
       }}
     >
       {/* NAVBAR — transparent over dark hero */}
