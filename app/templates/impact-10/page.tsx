@@ -115,13 +115,14 @@ type HotelPage =
   | 'mentions'
   | 'privacy';
 
+// Top-nav destinations only — legal pages (mentions/privacy) live in the FOOTER,
+// never in the top nav or the mobile drawer. Labels match the home language (EN).
 const NAV_PAGES: { key: HotelPage; label: string }[] = [
-  { key: 'home', label: 'Accueil' },
-  { key: 'chambres', label: 'Chambres' },
+  { key: 'home', label: 'Home' },
+  { key: 'chambres', label: 'Rooms' },
   { key: 'services', label: 'Services' },
-  { key: 'blog', label: 'Blog' },
+  { key: 'blog', label: 'Journal' },
   { key: 'contact', label: 'Contact' },
-  { key: 'mentions', label: 'Mentions légales' },
 ];
 
 // ─── Fuller rooms & suites catalogue (Chambres sub-page) ──────────────────────
@@ -144,69 +145,69 @@ const ROOMS_FULL: RoomFull[] = [
     slug: 'prestige-room',
     name: 'Prestige Room',
     size: '38 m²',
-    view: 'Jardin intérieur',
+    view: 'Courtyard Garden',
     price: '€480',
-    tag: 'La plus demandée',
-    desc: "Un havre de calme raffiné. Lin brodé à la main, parquet de chêne ancien et terrasse privative sur le jardin sculpté.",
-    long: "Nichée autour du jardin intérieur, la Prestige Room incarne l'art de vivre du Grand Palais dans sa forme la plus essentielle. Chaque matière y a été choisie pour le toucher autant que pour l'œil : linge de maison brodé à la main, parquet de chêne patiné par le temps, marbre veiné dans la salle de bain. Une terrasse privative ouvre sur le jardin sculpté, refuge de silence au cœur de la ville.",
+    tag: 'Most Requested',
+    desc: 'A sanctuary of refined calm. Hand-stitched linen, aged oak flooring and a private terrace overlooking the sculpted garden.',
+    long: 'Nestled around the inner garden, the Prestige Room captures the art of living of the Grand Palais in its most essential form. Every material was chosen for touch as much as for the eye: hand-embroidered house linen, oak flooring softened by time, veined marble in the bathroom. A private terrace opens onto the sculpted garden — a refuge of silence at the heart of the city.',
     img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=85',
     gallery: [
       'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=85',
       'https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=1200&q=85',
       'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85',
     ],
-    amenities: ['Terrasse privative', 'Lit king-size en lin', 'Salle de bain en marbre', 'Service de majordome', 'Wi-Fi fibre', 'Minibar de prestige'],
+    amenities: ['Private terrace', 'King-size linen bed', 'Marble bathroom', 'Butler service', 'Fibre Wi-Fi', 'Prestige minibar'],
   },
   {
     slug: 'deluxe-suite',
     name: 'Deluxe Suite',
     size: '65 m²',
-    view: 'Parc panoramique',
+    view: 'Panoramic Park',
     price: '€780',
-    tag: 'Coup de cœur',
-    desc: "Plafonds vertigineux, double salle de bain en marbre et baies vitrées qui encadrent le parc comme un tableau vivant.",
-    long: "La Deluxe Suite déploie ses volumes généreux sous des plafonds à la française. Les baies toute hauteur cadrent le parc comme une toile en perpétuel mouvement, du premier feuillage du printemps aux ors de l'automne. Un salon distinct, une double salle de bain en marbre de Carrare et un dressing complet en font une adresse à part entière, pensée pour les séjours qui s'étirent.",
+    tag: 'Guest Favourite',
+    desc: 'Soaring ceilings, a double marble bathroom and floor-to-ceiling windows that frame the park like a living painting.',
+    long: 'The Deluxe Suite unfolds its generous volumes beneath classic French ceilings. Full-height windows frame the park like a canvas in perpetual motion, from the first foliage of spring to the golds of autumn. A separate sitting room, a double Carrara marble bathroom and a full dressing room make it a destination in its own right, conceived for stays that linger.',
     img: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200&q=85',
     gallery: [
       'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200&q=85',
       'https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=1200&q=85',
       'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=85',
     ],
-    amenities: ['Salon séparé', 'Double salle de bain en marbre', 'Dressing complet', 'Vue panoramique sur le parc', 'Machine à café de barista', 'Service de majordome'],
+    amenities: ['Separate sitting room', 'Double marble bathroom', 'Full dressing room', 'Panoramic park view', 'Barista coffee machine', 'Butler service'],
   },
   {
     slug: 'grand-suite',
     name: 'Grand Suite',
     size: '110 m²',
-    view: 'Skyline de la ville',
+    view: 'City Skyline',
     price: '€1,200',
     tag: 'Signature',
-    desc: "Notre adresse la plus convoitée. Salle à manger privée, antichambre de majordome et terrasse sur les toits.",
-    long: "Joyau de la maison, la Grand Suite occupe l'angle le plus prisé du palace. Une salle à manger privée accueille jusqu'à huit convives, une antichambre dédie un espace au majordome attaché à la suite, et la terrasse sur les toits embrasse le skyline doré au crépuscule. Ici, chaque détail relève du sur-mesure, du choix des oreillers à la carte des thés rares.",
+    desc: 'Our most coveted address. A private dining room, a butler antechamber and a rooftop terrace over the skyline.',
+    long: 'The jewel of the house, the Grand Suite occupies the most sought-after corner of the palace. A private dining room seats up to eight guests, an antechamber dedicates a space to the butler attached to the suite, and the rooftop terrace embraces the golden skyline at dusk. Here, every detail is bespoke — from the choice of pillows to the menu of rare teas.',
     img: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85',
     gallery: [
       'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85',
       'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=1200&q=85',
       'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=1200&q=85',
     ],
-    amenities: ['Salle à manger privée', 'Terrasse sur les toits', 'Majordome dédié 24h/24', 'Antichambre de réception', 'Cave à vins privée', 'Accès spa illimité'],
+    amenities: ['Private dining room', 'Rooftop terrace', '24-hour dedicated butler', 'Reception antechamber', 'Private wine cellar', 'Unlimited spa access'],
   },
   {
     slug: 'suite-presidentielle',
-    name: 'Suite Présidentielle',
+    name: 'Presidential Suite',
     size: '180 m²',
-    view: 'Vue 360° sur la ville',
+    view: '360° City View',
     price: '€2,800',
-    tag: 'Exception',
-    desc: "L'expression ultime du séjour. Deux chambres, bibliothèque, piano à queue et terrasse-jardin suspendue.",
-    long: "Au dernier étage du Grand Palais, la Suite Présidentielle s'étend sur cent quatre-vingts mètres carrés d'élégance absolue. Deux chambres principales, une bibliothèque lambrissée, un piano à queue accordé chaque semaine et une terrasse-jardin suspendue offrant une vue à 360° composent le décor d'un séjour sans équivalent. Chef privé, voiture avec chauffeur et conciergerie personnelle complètent l'expérience.",
+    tag: 'Exceptional',
+    desc: 'The ultimate expression of the stay. Two bedrooms, a library, a grand piano and a suspended garden terrace.',
+    long: 'On the top floor of the Grand Palais, the Presidential Suite extends across one hundred and eighty square metres of absolute elegance. Two principal bedrooms, a panelled library, a grand piano tuned each week and a suspended garden terrace offering a 360° view compose the setting of a stay without equal. A private chef, a chauffeured car and a personal concierge complete the experience.',
     img: 'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=1200&q=85',
     gallery: [
       'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=1200&q=85',
       'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=1200&q=85',
       'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200&q=85',
     ],
-    amenities: ['Deux chambres principales', 'Bibliothèque & piano à queue', 'Terrasse-jardin suspendue', 'Chef privé sur demande', 'Voiture avec chauffeur', 'Conciergerie personnelle'],
+    amenities: ['Two principal bedrooms', 'Library & grand piano', 'Suspended garden terrace', 'Private chef on request', 'Chauffeured car', 'Personal concierge'],
   },
 ];
 
@@ -215,113 +216,113 @@ const SERVICES = [
   {
     glyph: '✦',
     label: 'Espace Étoile',
-    sub: 'Spa & circuit thermal',
-    desc: "Sept cabines de soin, un hammam romain et une piscine chauffée de 25 mètres. Chaque rituel est sur-mesure, chaque instant restaurateur.",
+    sub: 'Spa & Thermal Circuit',
+    desc: 'Seven treatment rooms, a Roman hammam and a 25-metre heated pool. Every ritual is bespoke, every moment restorative.',
     img: 'https://images.unsplash.com/photo-1540541338537-1220059a0de6?w=1000&q=85',
-    points: ['Hammam romain & sauna', 'Piscine chauffée 25 m', 'Soins signature sur-mesure', 'Salle de fitness 24h/24'],
+    points: ['Roman hammam & sauna', '25 m heated pool', 'Bespoke signature treatments', '24-hour fitness suite'],
   },
   {
     glyph: '✶',
     label: "L'Atelier",
-    sub: 'Restaurant deux étoiles',
-    desc: "La cheffe Margaux Vernet réinvente le canon français avec des produits cultivés à cinquante mètres des cuisines. Le menu dégustation change avec la lune.",
+    sub: 'Two Michelin Stars',
+    desc: 'Chef Margaux Vernet reimagines the French canon with produce grown fifty metres from the kitchen. The tasting menu changes with the moon.',
     img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=85',
-    points: ['Menu dégustation saisonnier', 'Potager du domaine', 'Accord mets & vins', 'Table du chef privatisable'],
+    points: ['Seasonal tasting menu', 'Estate kitchen garden', 'Wine pairings', 'Private chef\'s table'],
   },
   {
     glyph: '◈',
     label: 'Bar Lumière',
-    sub: 'Spiritueux rares & cave',
-    desc: "Un bar intime présidé par notre Maître d'Alcools. Trois mille références. Une conversation extraordinaire.",
+    sub: 'Rare Spirits & Cellar',
+    desc: 'An intimate bar presided over by our Maître d\'Alcools. Three thousand labels. One extraordinary conversation.',
     img: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=1000&q=85',
-    points: ['3000 références', 'Maître d\'Alcools dédié', 'Cocktails signatures', 'Soirées dégustation privées'],
+    points: ['3,000 labels', 'Dedicated Maître d\'Alcools', 'Signature cocktails', 'Private tasting evenings'],
   },
   {
     glyph: '◎',
-    label: 'Conciergerie Clefs d\'Or',
-    sub: 'Disponible 24 heures sur 24',
-    desc: "Réservations, transferts privés, accès culturels d'exception : notre conciergerie compose chaque séjour comme une partition unique.",
+    label: 'Clefs d\'Or Concierge',
+    sub: 'Available 24 Hours',
+    desc: 'Reservations, private transfers, exceptional cultural access: our concierge composes every stay like a unique score.',
     img: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1000&q=85',
-    points: ['Transferts privés & jet', 'Accès culturels exclusifs', 'Réservations spectacles', 'Personal shopping'],
+    points: ['Private transfers & jet', 'Exclusive cultural access', 'Theatre reservations', 'Personal shopping'],
   },
   {
     glyph: '❖',
-    label: 'Événements privés',
-    sub: 'Salons & jardins d\'honneur',
-    desc: "Mariages, dîners de gala, séminaires de direction : nos salons d'apparat et nos quatre hectares de jardins accueillent vos plus belles occasions.",
+    label: 'Private Events',
+    sub: 'Salons & Honour Gardens',
+    desc: 'Weddings, gala dinners, executive retreats: our state salons and four hectares of gardens host your finest occasions.',
     img: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1000&q=85',
-    points: ['Salons d\'apparat', '4 hectares de jardins', 'Traiteur étoilé', 'Coordination dédiée'],
+    points: ['State salons', '4 hectares of gardens', 'Michelin catering', 'Dedicated coordination'],
   },
   {
     glyph: '✧',
-    label: 'Voiture & chauffeur',
-    sub: 'Mobilité d\'exception',
-    desc: "Une flotte de berlines de prestige et de chauffeurs discrets pour rejoindre l'aéroport ou parcourir la ville en toute sérénité.",
+    label: 'Car & Chauffeur',
+    sub: 'Exceptional Mobility',
+    desc: 'A fleet of prestige saloons and discreet chauffeurs to reach the airport or explore the city in complete serenity.',
     img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1000&q=85',
-    points: ['Berlines de prestige', 'Chauffeurs anglophones', 'Transferts aéroport', 'Excursions sur-mesure'],
+    points: ['Prestige saloons', 'English-speaking chauffeurs', 'Airport transfers', 'Bespoke excursions'],
   },
 ];
 
-// ─── Blog mock data (FR — art de vivre / voyage / gastronomie) ────────────────
+// ─── Blog mock data (EN — art of living / travel / gastronomy) ────────────────
 const BLOG_POSTS = [
   {
-    slug: 'art-de-la-table',
-    title: "L'art de la table à la française, un héritage vivant",
-    date: '5 juin 2026',
-    category: 'Art de vivre',
+    slug: 'art-of-the-table',
+    title: 'The French Art of the Table, a Living Heritage',
+    date: '5 June 2026',
+    category: 'Art of Living',
     excerpt:
-      "Du pli de la nappe au choix du cristal, la table française est une chorégraphie silencieuse. Plongée dans un savoir-faire que le Grand Palais perpétue chaque soir.",
+      'From the fold of the cloth to the choice of crystal, the French table is a silent choreography. A look inside a craft the Grand Palais perpetuates every evening.',
     img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=85',
     body: [
-      "Dresser une table n'est pas un geste utilitaire : c'est une forme de politesse adressée à celui que l'on reçoit. À la française, l'ordonnancement obéit à une grammaire précise, héritée des grandes maisons et transmise de génération en génération.",
-      "Tout commence par la nappe, dont le pli central doit courir parfaitement au milieu de la table. Les couverts se disposent de l'extérieur vers l'intérieur, dans l'ordre du service ; les verres s'alignent en oblique, du plus grand au plus petit, au-dessus de la pointe du couteau.",
-      "Au Grand Palais, nos maîtres d'hôtel perpétuent ces codes sans nostalgie. Le cristal taillé y côtoie la porcelaine contemporaine, et chaque dîner devient une mise en scène discrète où le confort de l'invité prime toujours sur l'apparat.",
-      "Car le véritable luxe, en matière de table comme ailleurs, n'est pas l'ostentation : c'est cette aisance acquise qui fait que tout paraît simple, évident, naturel.",
+      'Setting a table is not a utilitarian gesture: it is a form of courtesy addressed to the one you receive. In the French manner, the arrangement obeys a precise grammar, inherited from the great houses and passed down from generation to generation.',
+      'Everything begins with the cloth, whose central fold must run perfectly down the middle of the table. The cutlery is laid from the outside in, in the order of service; the glasses align on a diagonal, from largest to smallest, above the tip of the knife.',
+      'At the Grand Palais, our maîtres d\'hôtel uphold these codes without nostalgia. Cut crystal sits alongside contemporary porcelain, and every dinner becomes a discreet staging in which the comfort of the guest always prevails over display.',
+      'For true luxury, at the table as elsewhere, is not ostentation: it is that acquired ease which makes everything appear simple, obvious, natural.',
     ],
   },
   {
-    slug: 'echappee-vallee-loire',
-    title: 'Échappée dans la vallée de la Loire',
-    date: '22 mai 2026',
-    category: 'Voyage',
+    slug: 'loire-valley-escape',
+    title: 'An Escape to the Loire Valley',
+    date: '22 May 2026',
+    category: 'Travel',
     excerpt:
-      "À deux heures du palace, les châteaux de la Loire dévoilent jardins à la française et caves troglodytes. Notre conciergerie compose l'itinéraire idéal d'une journée.",
+      'Two hours from the palace, the châteaux of the Loire reveal formal gardens and troglodyte cellars. Our concierge composes the ideal day-long itinerary.',
     img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200&q=85',
     body: [
-      "Quand l'envie d'horizon se fait sentir, la vallée de la Loire s'offre comme une parenthèse enchantée. À deux heures à peine du Grand Palais, elle déroule ses châteaux Renaissance le long d'un fleuve royal, classé au patrimoine mondial.",
-      "Notre conciergerie compose pour vous une journée sur-mesure : visite privée d'un château à l'ouverture, avant l'arrivée des groupes, déjeuner dans une demeure d'hôtes, puis dégustation dans une cave troglodyte creusée à même le tuffeau.",
-      "Les amateurs de jardins ne manqueront pas les parterres à la française, dessinés au cordeau, où l'art du jardinier rivalise avec celui de l'architecte. Les passionnés d'histoire, eux, s'attarderont dans les escaliers à double révolution attribués à Léonard de Vinci.",
-      "Le soir venu, la voiture vous ramène au palace, où un dîner léger vous attend. La Loire, c'est l'art français du voyage : ni précipité, ni démonstratif, simplement juste.",
+      'When the longing for the horizon makes itself felt, the Loire Valley offers an enchanted interlude. Barely two hours from the Grand Palais, it unrolls its Renaissance châteaux along a royal river, listed as a World Heritage site.',
+      'Our concierge composes a bespoke day for you: a private château visit at opening, before the groups arrive, lunch in a guest house, then a tasting in a troglodyte cellar carved straight into the tufa.',
+      'Garden lovers will not miss the formal parterres, drawn with a string line, where the gardener\'s art rivals the architect\'s. History enthusiasts, for their part, will linger on the double-helix staircases attributed to Leonardo da Vinci.',
+      'When evening comes, the car returns you to the palace, where a light dinner awaits. The Loire is the French art of travel: neither hurried nor demonstrative — simply right.',
     ],
   },
   {
-    slug: 'menu-dune-cheffe',
-    title: "Le menu d'une cheffe : Margaux Vernet se confie",
-    date: '8 mai 2026',
-    category: 'Gastronomie',
+    slug: 'menu-of-a-chef',
+    title: 'The Menu of a Chef: Margaux Vernet Confides',
+    date: '8 May 2026',
+    category: 'Gastronomy',
     excerpt:
-      "Deux étoiles, un potager à cinquante mètres des fourneaux et une philosophie de la saison. Rencontre avec la cheffe de L'Atelier, au Grand Palais.",
+      'Two stars, a kitchen garden fifty metres from the stoves and a philosophy of the season. A meeting with the chef of L\'Atelier, at the Grand Palais.',
     img: 'https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=1200&q=85',
     body: [
-      "« Un menu, c'est d'abord une saison qu'on écoute. » Ainsi parle Margaux Vernet, cheffe doublement étoilée de L'Atelier, le restaurant du Grand Palais. Dans son univers, la carte n'est jamais figée : elle respire au rythme du potager.",
-      "Cinquante mètres séparent les fourneaux des planches de culture. Cette proximité change tout : les herbes sont cueillies à la dernière minute, les légumes récoltés à maturité parfaite, et le gaspillage tend vers zéro. « La distance la plus courte entre la terre et l'assiette », résume-t-elle.",
-      "Sa cuisine revisite le canon français avec une retenue rare. Pas d'effet de manche, pas de surenchère technique : une sauce réduite avec patience, une cuisson exacte, un assaisonnement millimétré. L'émotion naît de la justesse, jamais de la démonstration.",
-      "Quand on lui demande sa définition du luxe, elle sourit : « C'est de pouvoir offrir à un client une tomate qui a le goût d'une tomate. Le reste n'est que décor. »",
+      '"A menu is, first of all, a season you listen to." So speaks Margaux Vernet, the two-star chef of L\'Atelier, the restaurant of the Grand Palais. In her world, the menu is never fixed: it breathes to the rhythm of the kitchen garden.',
+      'Fifty metres separate the stoves from the growing beds. That proximity changes everything: the herbs are picked at the last minute, the vegetables harvested at perfect ripeness, and waste tends towards zero. "The shortest distance between the earth and the plate," she sums up.',
+      'Her cooking revisits the French canon with rare restraint. No flourishes, no technical excess: a sauce reduced with patience, an exact cooking time, a millimetric seasoning. The emotion is born of precision, never of demonstration.',
+      'When asked for her definition of luxury, she smiles: "It is being able to offer a guest a tomato that tastes of a tomato. The rest is only décor."',
     ],
   },
   {
-    slug: 'rituel-spa-hiver',
-    title: 'Le rituel spa de l\'hiver à Espace Étoile',
-    date: '24 avril 2026',
-    category: 'Art de vivre',
+    slug: 'winter-spa-ritual',
+    title: 'The Winter Spa Ritual at Espace Étoile',
+    date: '24 April 2026',
+    category: 'Art of Living',
     excerpt:
-      "Hammam romain, modelage aux huiles chaudes et tisanerie : découvrez le parcours de soin que notre spa réserve à la saison froide.",
+      'Roman hammam, warm-oil massage and a herbal tea room: discover the treatment journey our spa reserves for the cold season.',
     img: 'https://images.unsplash.com/photo-1540541338537-1220059a0de6?w=1200&q=85',
     body: [
-      "Lorsque la ville se couvre de gris, Espace Étoile devient un cocon. Notre spa a conçu pour l'hiver un parcours de soin pensé comme un voyage intérieur, du premier souffle de vapeur à la dernière gorgée de tisane.",
-      "Le rituel débute par le hammam romain, dont la chaleur humide prépare la peau et apaise l'esprit. Vient ensuite un gommage aux sels minéraux, puis un modelage corps complet aux huiles chaudes, dont les fragrances changent au fil de la saison.",
-      "Le parcours se prolonge dans la piscine chauffée, où la lumière tamisée invite au lâcher-prise, avant un temps de repos à la tisanerie, autour d'infusions composées par notre herboriste.",
-      "Quatre-vingt-dix minutes plus tard, on ressort de l'Espace Étoile avec cette sensation rare : celle d'avoir, pour un moment, suspendu le cours du temps.",
+      'When the city turns grey, Espace Étoile becomes a cocoon. For winter, our spa has designed a treatment journey conceived as an inner voyage, from the first breath of steam to the last sip of herbal tea.',
+      'The ritual opens with the Roman hammam, whose moist heat prepares the skin and soothes the mind. Then comes a mineral-salt scrub, followed by a full-body massage with warm oils whose fragrances change with the season.',
+      'The journey continues in the heated pool, where the dimmed light invites you to let go, before a moment of rest in the tea room, around infusions composed by our herbalist.',
+      'Ninety minutes later, you leave Espace Étoile with that rare sensation: of having, for a moment, suspended the passing of time.',
     ],
   },
 ];
@@ -414,9 +415,9 @@ function ParallaxSection({
 // The links now drive in-page navigation via goTo instead of dead `href="#"`.
 function NavBar({ scrolled, page, goTo }: { scrolled: boolean; page: HotelPage; goTo: (p: HotelPage) => void }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  // Desktop bar shows the primary destinations; legal pages live in the mobile
-  // drawer + footer (mirrors the original which showed only the first links).
-  const desktopPages = NAV_PAGES.filter((p) => p.key !== 'mentions');
+  // NAV_PAGES already excludes legal pages (those live only in the footer), so
+  // both the desktop bar and the mobile drawer render the same content pages.
+  const desktopPages = NAV_PAGES;
 
   return (
     <>
@@ -486,7 +487,7 @@ function NavBar({ scrolled, page, goTo }: { scrolled: boolean; page: HotelPage; 
             onMouseEnter={(e) => { (e.target as HTMLButtonElement).style.background = GOLD_DIM; }}
             onMouseLeave={(e) => { (e.target as HTMLButtonElement).style.background = GOLD; }}
           >
-            Réserver
+            Reserve
           </button>
         </div>
 
@@ -781,48 +782,24 @@ function StatsBar() {
   );
 }
 
-// ─── Horizontal Scroll Rooms ─────────────────────────────────────────────────
-function RoomsSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end end'],
-  });
-
-  // Each card is ~520px + 32px gap. We have 3 cards so total - viewport ~= 2 * 552
-  const CARD_W = 520;
-  const GAP = 32;
-  const TOTAL_SHIFT = -(CARD_W + GAP) * (ROOMS.length - 1);
-
-  const x = useTransform(scrollYProgress, [0.05, 0.95], [0, TOTAL_SHIFT]);
-  const springX = useSpring(x, { stiffness: 80, damping: 22 });
-
-  // Decorative large number opacity/position driven by scroll
-  const numOpacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
-
+// ─── Rooms Section ───────────────────────────────────────────────────────────
+// PREVIOUSLY: a scroll-driven horizontal rail. The section was `${100 + N*60}vh`
+// tall (≈280vh) with a `position: sticky` inner column whose horizontal
+// transform (`x`) was tied to vertical scroll progress over that height. The
+// root page wrapper sets `overflowX: 'hidden'`, which turns an ancestor into a
+// scroll container and BREAKS `position: sticky` on descendants. With sticky
+// dead, the 280vh section rendered as one huge empty gap and the rail never
+// advanced — rooms were unbrowsable. Rewritten as a clean responsive grid
+// (same dark room-card visual style, same data) so it is always browsable on
+// desktop + mobile and occupies only its natural height — no empty gap. The
+// root wrapper's `overflowX` is also switched to `clip` (see Root Page) so any
+// remaining sticky/parallax descendants behave correctly.
+function RoomsSection({ goTo }: { goTo: (p: HotelPage) => void }) {
   return (
-    <section
-      ref={sectionRef}
-      style={{
-        position: 'relative',
-        height: `${100 + ROOMS.length * 60}vh`,
-        background: CREAM,
-      }}
-    >
-      <div
-        style={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-        }}
-      >
+    <section style={{ position: 'relative', background: CREAM, padding: '8rem 0', overflow: 'hidden' }}>
+      <div style={{ maxWidth: '75rem', margin: '0 auto', padding: '0 3rem', position: 'relative' }}>
         {/* Section label */}
-        <div style={{ padding: '0 3rem', marginBottom: '3rem' }}>
+        <div style={{ marginBottom: '3.5rem' }}>
           <BlurReveal>
             <p style={{ fontFamily: SANS, fontSize: '0.62rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD, marginBottom: '0.6rem' }}>
               Accommodations
@@ -836,116 +813,106 @@ function RoomsSection() {
                 lineHeight: 1.05,
               }}
             >
-              Rooms & Suites
+              Rooms &amp; Suites
             </h2>
           </BlurReveal>
         </div>
 
-        {/* Horizontal rail */}
-        <div style={{ position: 'relative', overflow: 'hidden', paddingLeft: '3rem' }}>
-          <motion.div
-            style={{
-              display: 'flex',
-              gap: `${GAP}px`,
-              x: springX,
-              willChange: 'transform',
-            }}
-          >
-            {ROOMS.map((room, i) => (
-              <RoomCard key={room.num} room={room} index={i} scrollYProgress={scrollYProgress} />
-            ))}
-          </motion.div>
-        </div>
-
-        {/* Decorative room number watermark */}
-        <motion.div
+        {/* Decorative oversized watermark behind the grid (purely visual) */}
+        <span
+          aria-hidden
           style={{
             position: 'absolute',
-            right: '3rem',
-            bottom: '4rem',
+            right: '0.5rem',
+            top: '-1rem',
             fontFamily: SERIF,
-            fontSize: 'clamp(8rem, 20vw, 18rem)',
+            fontSize: 'clamp(7rem, 18vw, 16rem)',
             fontWeight: 300,
-            color: `${GOLD}15`,
+            color: `${GOLD}12`,
             lineHeight: 1,
             userSelect: 'none',
             pointerEvents: 'none',
-            opacity: numOpacity,
+            zIndex: 0,
           }}
         >
-          {/* Active room number driven by scroll */}
-          <ScrollRoomNumber scrollYProgress={scrollYProgress} />
-        </motion.div>
+          {ROOMS[0].num}
+        </span>
+
+        {/* Responsive grid of room cards (browsable on all viewports) */}
+        <div
+          style={{
+            position: 'relative',
+            zIndex: 1,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '2rem',
+          }}
+        >
+          {ROOMS.map((room, i) => (
+            <RoomCard key={room.num} room={room} index={i} goTo={goTo} />
+          ))}
+        </div>
+
+        {/* Browse-all link to the full catalogue */}
+        <div style={{ textAlign: 'center', marginTop: '3.5rem' }}>
+          <button
+            onClick={() => goTo('chambres')}
+            style={{
+              fontFamily: SANS,
+              fontSize: '0.68rem',
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              background: 'transparent',
+              color: GOLD,
+              border: `1px solid ${GOLD}60`,
+              padding: '1rem 2.5rem',
+              cursor: 'pointer',
+              transition: 'background 0.2s, color 0.2s',
+            }}
+            onMouseEnter={(e) => { const t = e.currentTarget as HTMLButtonElement; t.style.background = GOLD; t.style.color = CREAM; }}
+            onMouseLeave={(e) => { const t = e.currentTarget as HTMLButtonElement; t.style.background = 'transparent'; t.style.color = GOLD; }}
+          >
+            View All Rooms &amp; Suites
+          </button>
+        </div>
       </div>
     </section>
-  );
-}
-
-function ScrollRoomNumber({ scrollYProgress }: { scrollYProgress: ReturnType<typeof useScroll>['scrollYProgress'] }) {
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    return scrollYProgress.on('change', (v) => {
-      if (v < 0.35) setActive(0);
-      else if (v < 0.68) setActive(1);
-      else setActive(2);
-    });
-  }, [scrollYProgress]);
-
-  return (
-    <AnimatePresence mode="wait">
-      <motion.span
-        key={active}
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -30 }}
-        transition={{ duration: 0.5 }}
-      >
-        {ROOMS[active].num}
-      </motion.span>
-    </AnimatePresence>
   );
 }
 
 function RoomCard({
   room,
   index,
-  scrollYProgress,
+  goTo,
 }: {
   room: typeof ROOMS[0];
   index: number;
-  scrollYProgress: ReturnType<typeof useScroll>['scrollYProgress'];
+  goTo: (p: HotelPage) => void;
 }) {
-  const SEGMENTS = ROOMS.length;
-  const start = index / SEGMENTS;
-  const end = (index + 1) / SEGMENTS;
-
-  const cardOpacity = useTransform(scrollYProgress, [Math.max(0, start - 0.1), start + 0.05, end - 0.05, Math.min(1, end + 0.1)], [0.45, 1, 1, 0.45]);
-  const cardScale = useTransform(scrollYProgress, [Math.max(0, start - 0.1), start + 0.05, end - 0.05, Math.min(1, end + 0.1)], [0.96, 1, 1, 0.96]);
-
   return (
     <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.7, delay: (index % 3) * 0.1 }}
+      whileHover={{ y: -6 }}
+      onClick={() => goTo('chambres')}
       style={{
-        flex: '0 0 520px',
-        height: '520px',
         background: DARK,
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
-        opacity: cardOpacity,
-        scale: cardScale,
+        cursor: 'pointer',
       }}
     >
       {/* Image */}
-      <div
-        style={{
-          flex: '0 0 55%',
-          backgroundImage: `url(${room.img})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          position: 'relative',
-        }}
-      >
+      <div style={{ position: 'relative', height: '15rem', overflow: 'hidden' }}>
+        <img
+          src={room.img}
+          alt={room.name}
+          loading="lazy"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 50%, rgba(26,18,8,0.6) 100%)' }} />
         <div
           style={{
@@ -988,7 +955,7 @@ function RoomCard({
           </p>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: '1.25rem' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: '1.5rem' }}>
           <div>
             <p style={{ fontFamily: SANS, fontSize: '0.55rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: `${CREAM}40`, marginBottom: '0.2rem' }}>
               From
@@ -998,21 +965,20 @@ function RoomCard({
               <span style={{ fontFamily: SANS, fontSize: '0.65rem', color: `${CREAM}40`, marginLeft: '0.3rem' }}>/night</span>
             </p>
           </div>
-          <button
+          <span
             style={{
               fontFamily: SANS,
               fontSize: '0.62rem',
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
-              background: GOLD,
-              color: CREAM,
-              border: 'none',
-              padding: '0.75rem 1.5rem',
-              cursor: 'pointer',
+              color: GOLD,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
             }}
           >
-            Reserve
-          </button>
+            Discover →
+          </span>
         </div>
       </div>
     </motion.div>
@@ -1656,32 +1622,39 @@ function BookingCTA() {
 function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
   const footerCols: { title: string; links: { label: string; page: HotelPage }[] }[] = [
     {
-      title: 'Séjour',
+      title: 'Stay',
       links: [
-        { label: 'Chambres & Suites', page: 'chambres' },
+        { label: 'Rooms & Suites', page: 'chambres' },
         { label: 'Prestige Room', page: 'chambres' },
         { label: 'Grand Suite', page: 'chambres' },
-        { label: 'Suite Présidentielle', page: 'chambres' },
+        { label: 'Presidential Suite', page: 'chambres' },
       ],
     },
     {
-      title: 'Expériences',
+      title: 'Experiences',
       links: [
         { label: "L'Atelier Restaurant", page: 'services' },
         { label: 'Espace Étoile Spa', page: 'services' },
         { label: 'Bar Lumière', page: 'services' },
-        { label: 'Événements privés', page: 'services' },
+        { label: 'Private Events', page: 'services' },
       ],
     },
     {
-      title: 'Informations',
+      title: 'Information',
       links: [
-        { label: 'Blog & art de vivre', page: 'blog' },
+        { label: 'The Journal', page: 'blog' },
         { label: 'Contact', page: 'contact' },
-        { label: 'Mentions légales', page: 'mentions' },
-        { label: 'Confidentialité', page: 'privacy' },
+        { label: 'Legal Notice', page: 'mentions' },
+        { label: 'Privacy Policy', page: 'privacy' },
       ],
     },
+  ];
+
+  // Social links are external and may remain external (they open in a new tab).
+  const socials: { label: string; href: string }[] = [
+    { label: 'IG', href: 'https://www.instagram.com' },
+    { label: 'FB', href: 'https://www.facebook.com' },
+    { label: 'TW', href: 'https://www.x.com' },
   ];
 
   return (
@@ -1696,12 +1669,16 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
               Grand Palais
             </button>
             <p style={{ fontFamily: SERIF, fontSize: '0.9rem', color: `${CREAM}50`, lineHeight: 1.7, fontStyle: 'italic', maxWidth: '20rem', marginBottom: '1.5rem' }}>
-              Un palace de distinction tranquille au cœur de Paris depuis 1887.
+              A palace of quiet distinction at the heart of Paris since 1887.
             </p>
             <div style={{ display: 'flex', gap: '1rem' }}>
-              {['IG', 'FB', 'TW'].map((s) => (
-                <button
-                  key={s}
+              {socials.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
                   style={{
                     width: '2rem',
                     height: '2rem',
@@ -1711,10 +1688,14 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
                     fontFamily: SANS,
                     fontSize: '0.55rem',
                     cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textDecoration: 'none',
                   }}
                 >
-                  {s}
-                </button>
+                  {s.label}
+                </a>
               ))}
             </div>
           </div>
@@ -1764,12 +1745,12 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
           }}
         >
           <span style={{ fontFamily: SANS, fontSize: '0.58rem', color: `${CREAM}35`, letterSpacing: '0.08em' }}>
-            © 2026 Grand Palais. Tous droits réservés.
+            © 2026 Grand Palais. All rights reserved.
           </span>
           <div style={{ display: 'flex', gap: '2rem' }}>
             {([
-              { label: 'Mentions légales', page: 'mentions' as HotelPage },
-              { label: 'Confidentialité', page: 'privacy' as HotelPage },
+              { label: 'Legal Notice', page: 'mentions' as HotelPage },
+              { label: 'Privacy Policy', page: 'privacy' as HotelPage },
               { label: 'Contact', page: 'contact' as HotelPage },
             ]).map((l) => (
               <button
@@ -1856,21 +1837,29 @@ function RoomDetail({ room, setRoomSlug, goTo }: { room: RoomFull; setRoomSlug: 
               onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = GOLD; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = `${DARK}80`; }}
             >
-              ← Toutes les chambres
+              ← All rooms
             </button>
 
             <div className="gp-detail-grid" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '4rem', alignItems: 'start' }}>
               {/* Gallery */}
               <BlurReveal>
                 <div>
-                  <div style={{ height: 'clamp(280px, 42vw, 460px)', backgroundImage: `url(${room.gallery[activeImg]})`, backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: '1rem' }} />
+                  <img
+                    src={room.gallery[activeImg]}
+                    alt={room.name}
+                    loading="lazy"
+                    style={{ width: '100%', height: 'clamp(280px, 42vw, 460px)', objectFit: 'cover', display: 'block', marginBottom: '1rem' }}
+                  />
                   <div style={{ display: 'flex', gap: '1rem' }}>
                     {room.gallery.map((g, i) => (
                       <button
                         key={g}
                         onClick={() => setActiveImg(i)}
-                        style={{ flex: 1, height: '5rem', backgroundImage: `url(${g})`, backgroundSize: 'cover', backgroundPosition: 'center', border: i === activeImg ? `2px solid ${GOLD}` : '2px solid transparent', cursor: 'pointer', padding: 0 }}
-                      />
+                        aria-label={`${room.name} photo ${i + 1}`}
+                        style={{ flex: 1, height: '5rem', padding: 0, border: i === activeImg ? `2px solid ${GOLD}` : '2px solid transparent', cursor: 'pointer', overflow: 'hidden', background: 'none' }}
+                      >
+                        <img src={g} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                      </button>
                     ))}
                   </div>
                 </div>
@@ -1893,7 +1882,7 @@ function RoomDetail({ room, setRoomSlug, goTo }: { room: RoomFull; setRoomSlug: 
                   </p>
 
                   <p style={{ fontFamily: SANS, fontSize: '0.6rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: `${DARK}60`, marginBottom: '1rem' }}>
-                    Équipements
+                    Amenities
                   </p>
                   <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2.5rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.7rem' }}>
                     {room.amenities.map((a) => (
@@ -1907,11 +1896,11 @@ function RoomDetail({ room, setRoomSlug, goTo }: { room: RoomFull; setRoomSlug: 
                   <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1.5rem', borderTop: `1px solid ${GOLD}40`, paddingTop: '1.75rem' }}>
                     <div>
                       <p style={{ fontFamily: SANS, fontSize: '0.55rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: `${DARK}50`, marginBottom: '0.2rem' }}>
-                        À partir de
+                        From
                       </p>
                       <p style={{ fontFamily: SERIF, fontSize: '2.6rem', fontWeight: 300, color: GOLD, lineHeight: 1 }}>
                         {room.price}
-                        <span style={{ fontFamily: SANS, fontSize: '0.7rem', color: `${DARK}50`, marginLeft: '0.3rem' }}>/ nuit</span>
+                        <span style={{ fontFamily: SANS, fontSize: '0.7rem', color: `${DARK}50`, marginLeft: '0.3rem' }}>/ night</span>
                       </p>
                     </div>
                     <button
@@ -1920,7 +1909,7 @@ function RoomDetail({ room, setRoomSlug, goTo }: { room: RoomFull; setRoomSlug: 
                       onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = GOLD_DIM; }}
                       onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = GOLD; }}
                     >
-                      Réserver
+                      Reserve
                     </button>
                   </div>
                 </div>
@@ -1944,9 +1933,9 @@ function ChambresPage({ roomSlug, setRoomSlug, goTo }: { roomSlug: string | null
   return (
     <div>
       <SubPageHero
-        eyebrow="Hébergements"
-        title="Chambres & Suites"
-        subtitle="Quatre catégories d'exception, chacune une variation sur le même art de recevoir. Choisissez votre refuge."
+        eyebrow="Accommodations"
+        title="Rooms & Suites"
+        subtitle="Four exceptional categories, each a variation on the same art of welcoming. Choose your refuge."
         img="https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=1800&q=85"
       />
       <section style={{ background: CREAM, padding: '7rem 0' }}>
@@ -1963,7 +1952,8 @@ function ChambresPage({ roomSlug, setRoomSlug, goTo }: { roomSlug: string | null
                 onClick={() => { setRoomSlug(r.slug); if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'auto' }); }}
                 style={{ background: DARK, display: 'flex', flexDirection: 'column', overflow: 'hidden', cursor: 'pointer' }}
               >
-                <div style={{ height: '15rem', backgroundImage: `url(${r.img})`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative' }}>
+                <div style={{ height: '15rem', position: 'relative', overflow: 'hidden' }}>
+                  <img src={r.img} alt={r.name} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 50%, rgba(26,18,8,0.6) 100%)' }} />
                   <div style={{ position: 'absolute', top: '1.25rem', left: '1.5rem', fontFamily: SANS, fontSize: '0.6rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: GOLD, background: `${DARK}cc`, padding: '0.3rem 0.8rem' }}>
                     {r.tag}
@@ -1984,15 +1974,15 @@ function ChambresPage({ roomSlug, setRoomSlug, goTo }: { roomSlug: string | null
                   <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: '1.5rem' }}>
                     <div>
                       <p style={{ fontFamily: SANS, fontSize: '0.55rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: `${CREAM}40`, marginBottom: '0.2rem' }}>
-                        À partir de
+                        From
                       </p>
                       <p style={{ fontFamily: SERIF, fontSize: '2.2rem', fontWeight: 300, color: GOLD, lineHeight: 1 }}>
                         {r.price}
-                        <span style={{ fontFamily: SANS, fontSize: '0.65rem', color: `${CREAM}40`, marginLeft: '0.3rem' }}>/nuit</span>
+                        <span style={{ fontFamily: SANS, fontSize: '0.65rem', color: `${CREAM}40`, marginLeft: '0.3rem' }}>/night</span>
                       </p>
                     </div>
                     <span style={{ fontFamily: SANS, fontSize: '0.62rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: GOLD, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
-                      Découvrir →
+                      Discover →
                     </span>
                   </div>
                 </div>
@@ -2010,9 +2000,9 @@ function ServicesPage({ goTo }: { goTo: (p: HotelPage) => void }) {
   return (
     <div>
       <SubPageHero
-        eyebrow="L'expérience"
-        title="Services & expériences"
-        subtitle="Spa, gastronomie, conciergerie : chaque service du Grand Palais est conçu pour que tout vous paraisse simple et naturel."
+        eyebrow="The Experience"
+        title="Services & Experiences"
+        subtitle="Spa, gastronomy, concierge: every service at the Grand Palais is designed so that everything feels simple and natural."
         img="https://images.unsplash.com/photo-1540541338537-1220059a0de6?w=1800&q=85"
       />
       <section style={{ background: DARK, padding: '7rem 0' }}>
@@ -2027,7 +2017,8 @@ function ServicesPage({ goTo }: { goTo: (p: HotelPage) => void }) {
                 transition={{ duration: 0.7, delay: (i % 3) * 0.1 }}
                 style={{ background: MID, display: 'flex', flexDirection: 'column', overflow: 'hidden', borderTop: `2px solid ${GOLD}` }}
               >
-                <div style={{ height: '12rem', backgroundImage: `url(${s.img})`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative' }}>
+                <div style={{ height: '12rem', position: 'relative', overflow: 'hidden' }}>
+                  <img src={s.img} alt={s.label} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                   <div style={{ position: 'absolute', inset: 0, background: 'rgba(26,18,8,0.3)' }} />
                   <div style={{ position: 'absolute', bottom: '1rem', left: '1.5rem', fontSize: '1.6rem', color: GOLD }}>{s.glyph}</div>
                 </div>
@@ -2057,17 +2048,17 @@ function ServicesPage({ goTo }: { goTo: (p: HotelPage) => void }) {
           <div style={{ background: GOLD, marginTop: '4rem', padding: '3.5rem clamp(2rem, 5vw, 4rem)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1.5rem' }}>
             <div>
               <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', fontWeight: 300, color: DARK, lineHeight: 1.1, marginBottom: '0.5rem' }}>
-                Composons votre séjour ensemble
+                Let us compose your stay together
               </h2>
               <p style={{ fontFamily: SERIF, fontSize: '1rem', fontStyle: 'italic', color: `${DARK}80`, margin: 0, maxWidth: '32rem' }}>
-                Notre conciergerie est disponible à chaque heure pour orchestrer un séjour entièrement vôtre.
+                Our concierge is available at every hour to orchestrate a stay that is entirely yours.
               </p>
             </div>
             <button
               onClick={() => goTo('contact')}
               style={{ fontFamily: SANS, fontSize: '0.7rem', letterSpacing: '0.18em', textTransform: 'uppercase', background: DARK, color: CREAM, border: 'none', padding: '1rem 2.5rem', cursor: 'pointer', flexShrink: 0 }}
             >
-              Nous contacter
+              Contact Us
             </button>
           </div>
         </div>
@@ -2104,7 +2095,7 @@ function BlogPage({ blogSlug, setBlogSlug }: { blogSlug: string | null; setBlogS
               onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = GOLD; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = `${DARK}80`; }}
             >
-              ← Tous les articles
+              ← All articles
             </button>
             {post.body.map((para, i) => (
               <p key={i} style={{ fontFamily: SERIF, fontSize: '1.15rem', color: `${DARK}90`, lineHeight: 1.9, marginBottom: '1.6rem' }}>
@@ -2112,7 +2103,7 @@ function BlogPage({ blogSlug, setBlogSlug }: { blogSlug: string | null; setBlogS
               </p>
             ))}
             <div style={{ borderTop: `1px solid ${GOLD}40`, marginTop: '2rem', paddingTop: '1.5rem', fontFamily: SERIF, fontStyle: 'italic', fontSize: '0.95rem', color: `${DARK}70` }}>
-              Rédigé par la rédaction du Grand Palais. Le Journal du palace, publié tout au long de l'année.
+              Written by the editorial team of the Grand Palais. The Journal of the palace, published throughout the year.
             </div>
           </div>
         </section>
@@ -2123,9 +2114,9 @@ function BlogPage({ blogSlug, setBlogSlug }: { blogSlug: string | null; setBlogS
   return (
     <div>
       <SubPageHero
-        eyebrow="Le Journal du palace"
-        title="Blog & art de vivre"
-        subtitle="Nos chroniques d'art de vivre, de voyage et de gastronomie, écrites au rythme des saisons."
+        eyebrow="The Journal of the Palace"
+        title="The Journal"
+        subtitle="Our chronicles of the art of living, travel and gastronomy, written to the rhythm of the seasons."
         img="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=1800&q=85"
       />
       <section style={{ background: CREAM, padding: '7rem 0' }}>
@@ -2142,7 +2133,8 @@ function BlogPage({ blogSlug, setBlogSlug }: { blogSlug: string | null; setBlogS
                 onClick={() => { setBlogSlug(p.slug); if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'auto' }); }}
                 style={{ background: DARK, display: 'flex', flexDirection: 'column', overflow: 'hidden', cursor: 'pointer', borderTop: `2px solid ${GOLD}` }}
               >
-                <div style={{ height: '12rem', backgroundImage: `url(${p.img})`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative' }}>
+                <div style={{ height: '12rem', position: 'relative', overflow: 'hidden' }}>
+                  <img src={p.img} alt={p.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 55%, rgba(26,18,8,0.55) 100%)' }} />
                 </div>
                 <div style={{ padding: '1.6rem 1.9rem 2rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
@@ -2157,7 +2149,7 @@ function BlogPage({ blogSlug, setBlogSlug }: { blogSlug: string | null; setBlogS
                     {p.excerpt}
                   </p>
                   <span style={{ fontFamily: SANS, fontSize: '0.62rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: GOLD, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
-                    Lire l'article →
+                    Read the article →
                   </span>
                 </div>
               </motion.article>
@@ -2187,9 +2179,9 @@ function ContactPage() {
   return (
     <div>
       <SubPageHero
-        eyebrow="Réservations & conciergerie"
+        eyebrow="Reservations & Concierge"
         title="Contact"
-        subtitle="Notre équipe est à votre écoute à chaque heure pour composer un séjour qui vous ressemble."
+        subtitle="Our team is at your service at every hour to compose a stay that reflects who you are."
         img="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1800&q=85"
       />
       <section style={{ background: CREAM, padding: '7rem 0' }}>
@@ -2197,10 +2189,10 @@ function ContactPage() {
           {/* Info */}
           <div>
             {[
-              { label: 'Téléphone', val: '+33 1 40 00 00 00' },
-              { label: 'Réservations', val: 'reservations@grandpalais.fr' },
-              { label: 'Adresse', val: '8 Avenue de la Paix, 75009 Paris' },
-              { label: 'Conciergerie', val: 'Disponible 24 heures sur 24' },
+              { label: 'Telephone', val: '+33 1 40 00 00 00' },
+              { label: 'Reservations', val: 'reservations@grandpalais.fr' },
+              { label: 'Address', val: '8 Avenue de la Paix, 75009 Paris' },
+              { label: 'Concierge', val: 'Available 24 hours a day' },
             ].map((item) => (
               <div key={item.label} style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start', marginBottom: '1.75rem', borderBottom: `1px solid ${GOLD}30`, paddingBottom: '1.4rem' }}>
                 <span style={{ color: GOLD, fontSize: '0.9rem', marginTop: '0.2rem', flexShrink: 0 }}>◎</span>
@@ -2211,7 +2203,7 @@ function ContactPage() {
               </div>
             ))}
             <p style={{ fontFamily: SERIF, fontSize: '1rem', fontStyle: 'italic', color: `${DARK}75`, lineHeight: 1.8, marginTop: '0.5rem' }}>
-              Pour les demandes de privatisation, d'événements ou de séjours longue durée, notre conciergerie vous répond sous 24 heures.
+              For private hire, events or long-stay enquiries, our concierge replies within 24 hours.
             </p>
           </div>
 
@@ -2220,38 +2212,38 @@ function ContactPage() {
             {sent ? (
               <div style={{ background: DARK, padding: '3.5rem 2.5rem', textAlign: 'center', borderTop: `2px solid ${GOLD}` }}>
                 <p style={{ fontSize: '1.8rem', color: GOLD, marginBottom: '1rem' }}>✦</p>
-                <h3 style={{ fontFamily: SERIF, fontSize: '1.8rem', fontWeight: 300, color: CREAM, marginBottom: '0.8rem' }}>Demande envoyée</h3>
+                <h3 style={{ fontFamily: SERIF, fontSize: '1.8rem', fontWeight: 300, color: CREAM, marginBottom: '0.8rem' }}>Request sent</h3>
                 <p style={{ fontFamily: SERIF, fontSize: '1rem', fontStyle: 'italic', color: `${CREAM}70`, lineHeight: 1.7, margin: 0 }}>
-                  Merci. Notre conciergerie vous répondra sous 24 heures.
+                  Thank you. Our concierge will reply within 24 hours.
                 </p>
               </div>
             ) : (
               <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} style={{ background: DARK, padding: '2.75rem 2.5rem', borderTop: `2px solid ${GOLD}` }}>
-                <label style={labelStyle}>Nom complet</label>
-                <input style={inputStyle} type="text" placeholder="Votre nom" required />
+                <label style={labelStyle}>Full name</label>
+                <input style={inputStyle} type="text" placeholder="Your name" required />
                 <label style={labelStyle}>Email</label>
-                <input style={inputStyle} type="email" placeholder="votre@email.fr" required />
+                <input style={inputStyle} type="email" placeholder="you@email.com" required />
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                   <div>
-                    <label style={labelStyle}>Arrivée</label>
-                    <input style={inputStyle} type="text" placeholder="JJ / MM / AAAA" />
+                    <label style={labelStyle}>Arrival</label>
+                    <input style={inputStyle} type="text" placeholder="DD / MM / YYYY" />
                   </div>
                   <div>
-                    <label style={labelStyle}>Départ</label>
-                    <input style={inputStyle} type="text" placeholder="JJ / MM / AAAA" />
+                    <label style={labelStyle}>Departure</label>
+                    <input style={inputStyle} type="text" placeholder="DD / MM / YYYY" />
                   </div>
                 </div>
-                <label style={labelStyle}>Catégorie souhaitée</label>
-                <input style={inputStyle} type="text" placeholder="Ex. : Deluxe Suite, Grand Suite…" />
+                <label style={labelStyle}>Preferred category</label>
+                <input style={inputStyle} type="text" placeholder="e.g. Deluxe Suite, Grand Suite…" />
                 <label style={labelStyle}>Message</label>
-                <textarea style={{ ...inputStyle, minHeight: '8rem', resize: 'vertical' }} placeholder="Précisez votre demande (nombre de personnes, occasion…)." required />
+                <textarea style={{ ...inputStyle, minHeight: '8rem', resize: 'vertical' }} placeholder="Tell us about your request (number of guests, occasion…)." required />
                 <button
                   type="submit"
                   style={{ width: '100%', padding: '1rem', background: GOLD, color: CREAM, border: 'none', fontFamily: SANS, fontSize: '0.7rem', fontWeight: 500, letterSpacing: '0.16em', textTransform: 'uppercase', cursor: 'pointer' }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = GOLD_DIM; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = GOLD; }}
                 >
-                  Envoyer ma demande
+                  Send my request
                 </button>
               </form>
             )}
@@ -2278,36 +2270,35 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
     return (
       <div>
         <SubPageHero
-          eyebrow="Informations légales"
-          title="Mentions légales"
+          eyebrow="Legal Information"
+          title="Legal Notice"
           img="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1800&q=85"
         />
         <section style={{ background: CREAM, padding: '5rem 0 7rem' }}>
           <div style={{ maxWidth: '44rem', margin: '0 auto', padding: '0 1.75rem' }}>
-            <h2 style={{ ...sectionTitle, marginTop: 0 }}>Éditeur du site</h2>
-            <p style={para}><span style={strong}>Aevia WS</span> — entrepreneur individuel (auto-entrepreneur).</p>
-            <p style={para}>Directeur de la publication : <span style={strong}>Valentin Milliand</span>.</p>
-            <p style={para}>SIREN : <span style={strong}>852 546 225</span> — RCS Bourg-en-Bresse.</p>
-            <p style={para}>Contact : <span style={strong}>contact@aevia.io</span></p>
-            <p style={para}>Adresse du siège social communiquée sur demande à contact@aevia.io.</p>
+            <h2 style={{ ...sectionTitle, marginTop: 0 }}>Site publisher</h2>
+            <p style={para}><span style={strong}>Aevia WS</span> — sole trader (auto-entrepreneur).</p>
+            <p style={para}>Publication director: <span style={strong}>Valentin Milliand</span>.</p>
+            <p style={para}>SIREN: <span style={strong}>852 546 225</span> — RCS Bourg-en-Bresse.</p>
+            <p style={para}>Contact: <span style={strong}>contact@aevia.io</span></p>
+            <p style={para}>Registered office address provided on request at contact@aevia.io.</p>
 
-            <h2 style={sectionTitle}>TVA</h2>
-            <p style={para}>TVA non applicable, art. 293 B du CGI.</p>
+            <h2 style={sectionTitle}>VAT</h2>
+            <p style={para}>VAT not applicable, art. 293 B of the French Tax Code (CGI).</p>
 
-            <h2 style={sectionTitle}>Hébergeur</h2>
+            <h2 style={sectionTitle}>Hosting</h2>
             <p style={para}>Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA.</p>
 
-            <h2 style={sectionTitle}>Propriété intellectuelle</h2>
+            <h2 style={sectionTitle}>Intellectual property</h2>
             <p style={para}>
-              L'ensemble des contenus présents sur ce site (textes, visuels, logo, mise en page) est protégé par le droit
-              de la propriété intellectuelle. Toute reproduction, même partielle, est interdite sans autorisation préalable
-              de l'éditeur.
+              All content on this site (text, visuals, logo, layout) is protected by intellectual property law. Any
+              reproduction, even partial, is prohibited without the prior authorisation of the publisher.
             </p>
 
-            <h2 style={sectionTitle}>Responsabilité</h2>
+            <h2 style={sectionTitle}>Liability</h2>
             <p style={para}>
-              Les informations diffusées sur ce site sont fournies à titre indicatif. Les visuels et tarifs présentés ne
-              sont pas contractuels et peuvent évoluer sans préavis.
+              The information published on this site is provided for guidance only. The visuals and rates shown are not
+              contractual and may change without notice.
             </p>
           </div>
         </section>
@@ -2318,49 +2309,48 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
   return (
     <div>
       <SubPageHero
-        eyebrow="Protection des données"
-        title="Confidentialité"
+        eyebrow="Data Protection"
+        title="Privacy Policy"
         img="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1800&q=85"
       />
       <section style={{ background: CREAM, padding: '5rem 0 7rem' }}>
         <div style={{ maxWidth: '44rem', margin: '0 auto', padding: '0 1.75rem' }}>
-          <p style={{ ...para, fontStyle: 'italic', color: `${DARK}60` }}>Dernière mise à jour : juin 2026.</p>
+          <p style={{ ...para, fontStyle: 'italic', color: `${DARK}60` }}>Last updated: June 2026.</p>
 
-          <h2 style={{ ...sectionTitle, marginTop: '1.5rem' }}>Responsable du traitement</h2>
+          <h2 style={{ ...sectionTitle, marginTop: '1.5rem' }}>Data controller</h2>
           <p style={para}>
-            Le responsable du traitement des données personnelles est <span style={strong}>Aevia WS</span>, éditeur du
-            site. Pour toute question, écrivez à <span style={strong}>contact@aevia.io</span>.
+            The controller of personal data is <span style={strong}>Aevia WS</span>, publisher of the site. For any
+            question, write to <span style={strong}>contact@aevia.io</span>.
           </p>
 
-          <h2 style={sectionTitle}>Données collectées</h2>
+          <h2 style={sectionTitle}>Data collected</h2>
           <p style={para}>
-            Nous collectons uniquement les données que vous nous transmettez volontairement via le formulaire de contact
-            (nom, email, dates de séjour, catégorie souhaitée et message), aux seules fins de traiter votre demande de
-            réservation ou de renseignement.
+            We collect only the data you voluntarily provide through the contact form (name, email, stay dates, preferred
+            category and message), solely to process your reservation or enquiry request.
           </p>
 
-          <h2 style={sectionTitle}>Finalité et base légale</h2>
+          <h2 style={sectionTitle}>Purpose and legal basis</h2>
           <p style={para}>
-            Vos données sont traitées sur la base de votre consentement et de l'intérêt légitime du palace à répondre aux
-            sollicitations. Elles ne font l'objet d'aucune cession à des tiers à des fins commerciales.
+            Your data is processed on the basis of your consent and the palace's legitimate interest in responding to
+            enquiries. It is never sold or transferred to third parties for commercial purposes.
           </p>
 
-          <h2 style={sectionTitle}>Durée de conservation</h2>
+          <h2 style={sectionTitle}>Retention period</h2>
           <p style={para}>
-            Les données issues du formulaire de contact sont conservées le temps nécessaire au traitement de votre demande,
-            puis archivées ou supprimées conformément aux obligations légales applicables.
+            Data from the contact form is kept for the time necessary to process your request, then archived or deleted in
+            accordance with applicable legal obligations.
           </p>
 
-          <h2 style={sectionTitle}>Vos droits</h2>
+          <h2 style={sectionTitle}>Your rights</h2>
           <p style={para}>
-            Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement, de portabilité et
-            d'opposition au traitement de vos données. Pour exercer ces droits, écrivez à contact@aevia.io.
+            In accordance with the GDPR, you have the right to access, rectify, erase, port and object to the processing of
+            your data. To exercise these rights, write to contact@aevia.io.
           </p>
 
           <h2 style={sectionTitle}>Cookies</h2>
           <p style={para}>
-            Ce site ne dépose pas de cookies de suivi publicitaire. Seuls des cookies techniques strictement nécessaires
-            au fonctionnement du site peuvent être utilisés.
+            This site does not place advertising tracking cookies. Only technical cookies strictly necessary for the
+            operation of the site may be used.
           </p>
         </div>
       </section>
@@ -2397,7 +2387,10 @@ export default function GrandPalaisPage() {
         background: CREAM,
         fontFamily: SANS,
         color: DARK,
-        overflowX: 'hidden',
+        // `clip` (not `hidden`) prevents horizontal overflow WITHOUT turning this
+        // wrapper into a scroll container — which is what breaks `position: sticky`
+        // and parallax on descendant sections.
+        overflowX: 'clip',
       }}
     >
       <ScrollProgress />
@@ -2408,7 +2401,7 @@ export default function GrandPalaisPage() {
         <>
           <HeroSection />
           <StatsBar />
-          <RoomsSection />
+          <RoomsSection goTo={goTo} />
           <ParallaxDivider />
           <ExperienceSection />
           <DiningSection />
