@@ -12,7 +12,6 @@ import {
 } from "framer-motion";
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -174,6 +173,286 @@ const STATS_DATA = [
   { target: 312, suffix: "+", label: "Projects Delivered" },
   { target: 8, suffix: "", label: "Years of Craft" },
   { target: 98, suffix: "%", label: "Client Satisfaction" },
+];
+
+/* ─────────────────────────────────────────────────────────────
+   MULTI-PAGE NAVIGATION (additive — see notes below)
+   ───────────────────────────────────────────────────────────── */
+// PATTERN: a single `page` React-state drives in-page navigation. The original
+// single-page content is rendered VERBATIM under page === "home" (design is
+// untouched). Every other key renders a theme-native sub-page built from the
+// SAME `T` design tokens, fonts (Syne + Inter) and section/card styling as the
+// home page. Vitrine (creative agency) — no cart/CGV; "Réalisations" maps to the
+// existing Work/portfolio section + a fuller grid and a case-detail view.
+type AgencyPage =
+  | "home"
+  | "services"
+  | "work"
+  | "blog"
+  | "about"
+  | "contact"
+  | "mentions"
+  | "privacy";
+
+const NAV_PAGES: { key: AgencyPage; label: string }[] = [
+  { key: "home", label: "Accueil" },
+  { key: "services", label: "Services" },
+  { key: "work", label: "Réalisations" },
+  { key: "blog", label: "Blog" },
+  { key: "about", label: "À propos" },
+  { key: "contact", label: "Contact" },
+];
+
+/* ── Detailed services (Services sub-page — FR, reuses ServiceCard styling) ── */
+const SERVICE_DETAILS = [
+  {
+    icon: <Monitor size={28} />,
+    tag: "UI/UX",
+    title: "Web Design",
+    desc: "Des interfaces sur-mesure pensées au pixel près, guidées par une réflexion UX stratégique qui transforme vos visiteurs en clients.",
+    points: [
+      "Audit UX et recherche utilisateur",
+      "Wireframes & prototypes interactifs",
+      "Design systems & composants réutilisables",
+      "Interfaces responsive et accessibles",
+    ],
+  },
+  {
+    icon: <Code2 size={28} />,
+    tag: "Engineering",
+    title: "Développement",
+    desc: "Des applications performantes bâties sur des stacks modernes, avec des intégrations fluides et une fiabilité à toute épreuve.",
+    points: [
+      "Next.js, React, Node.js, TypeScript",
+      "Sites vitrines & applications sur-mesure",
+      "Intégrations API et back-office",
+      "CI/CD, tests et mise en production",
+    ],
+  },
+  {
+    icon: <Palette size={28} />,
+    tag: "Identity",
+    title: "Branding",
+    desc: "Des identités visuelles distinctives qui résonnent profondément avec votre audience et vous démarquent de la concurrence.",
+    points: [
+      "Logo & charte graphique",
+      "Direction artistique",
+      "Déclinaisons print & digital",
+      "Guidelines de marque",
+    ],
+  },
+  {
+    icon: <Layers size={28} />,
+    tag: "Growth",
+    title: "Stratégie",
+    desc: "Des stratégies de croissance pilotées par la donnée, qui se composent dans le temps et fidélisent durablement votre audience.",
+    points: [
+      "Stratégie de contenu & SEO",
+      "Optimisation des tunnels de conversion",
+      "Analytics & tableaux de bord",
+      "Roadmap produit",
+    ],
+  },
+  {
+    icon: <Monitor size={28} />,
+    tag: "Animation",
+    title: "Motion Design",
+    desc: "Des animations cinématiques et micro-interactions qui subliment la perception et rendent chaque point de contact mémorable.",
+    points: [
+      "Animations d'interface (Framer Motion)",
+      "Micro-interactions & transitions",
+      "Habillage de marque animé",
+      "Prototypes de mouvement",
+    ],
+  },
+  {
+    icon: <Code2 size={28} />,
+    tag: "Speed",
+    title: "Performance",
+    desc: "Optimisation des Core Web Vitals, architecture CDN et réglage d'infrastructure pour des temps de chargement sous la seconde.",
+    points: [
+      "Audit Lighthouse & Core Web Vitals",
+      "Optimisation des images & du bundle",
+      "Architecture CDN & edge",
+      "Monitoring de performance",
+    ],
+  },
+];
+
+/* ── Fuller portfolio for the Réalisations sub-page (reuses WorkCard styling) ── */
+const WORK_DETAILS = [
+  {
+    id: 1,
+    title: "Aether Labs",
+    category: "Web Ecosystem",
+    year: "2025",
+    image:
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop",
+    summary:
+      "Refonte complète de l'écosystème web d'un laboratoire de R&D : design system, site institutionnel et portail client.",
+    role: "Design, Développement, Branding",
+    result: "+180 % de leads qualifiés en six mois.",
+  },
+  {
+    id: 2,
+    title: "Noir Studio",
+    category: "Brand Identity",
+    year: "2025",
+    image:
+      "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop",
+    summary:
+      "Création de l'identité visuelle d'un studio de production : logo, charte, déclinaisons print et digitales.",
+    role: "Branding, Direction artistique",
+    result: "Une marque reconnaissable, primée au Brand Awards 2025.",
+  },
+  {
+    id: 3,
+    title: "Prisme Finance",
+    category: "Fintech App",
+    year: "2024",
+    image:
+      "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1200&auto=format&fit=crop",
+    summary:
+      "Conception et développement d'une application fintech mobile-first, du wireframe au lancement.",
+    role: "UI/UX, Développement",
+    result: "Note de 4,8/5 sur les stores dès le premier mois.",
+  },
+  {
+    id: 4,
+    title: "Lumina Health",
+    category: "Healthcare Portal",
+    year: "2024",
+    image:
+      "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1200&auto=format&fit=crop",
+    summary:
+      "Portail patient sécurisé et accessible (WCAG 2.2 AA) pour un acteur de la santé.",
+    role: "UX, Accessibilité, Développement",
+    result: "Conformité RGAA et réduction de 40 % des appels au support.",
+  },
+  {
+    id: 5,
+    title: "Onyx Records",
+    category: "E-commerce",
+    year: "2024",
+    image:
+      "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1200&auto=format&fit=crop",
+    summary:
+      "Boutique en ligne d'un label musical indépendant, immersive et performante.",
+    role: "Design, Développement, Motion",
+    result: "Taux de conversion multiplié par 2,3.",
+  },
+  {
+    id: 6,
+    title: "Solaris AI",
+    category: "SaaS Platform",
+    year: "2023",
+    image:
+      "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?q=80&w=1200&auto=format&fit=crop",
+    summary:
+      "Plateforme SaaS d'intelligence artificielle : marketing site, app et design system.",
+    role: "Design system, Développement",
+    result: "Onboarding accéléré et churn divisé par deux.",
+  },
+];
+
+/* ── Blog mock articles (FR — web / design / marketing insights) ── */
+const BLOG_POSTS = [
+  {
+    slug: "core-web-vitals",
+    title: "Core Web Vitals : pourquoi la performance est devenue un argument de vente",
+    date: "4 juin 2026",
+    category: "Performance",
+    excerpt:
+      "Au-delà du référencement, la vitesse de chargement façonne directement la perception de votre marque et votre taux de conversion.",
+    body: [
+      "Les Core Web Vitals — LCP, INP et CLS — ne sont plus de simples métriques techniques. Ils mesurent l'expérience réelle vécue par vos visiteurs et conditionnent à la fois votre référencement et votre crédibilité de marque.",
+      "Le LCP (Largest Contentful Paint) traduit le temps perçu avant que la page ne soit utile. Sous 2,5 secondes, l'utilisateur a le sentiment d'un site rapide ; au-delà de 4 secondes, le taux de rebond explose. L'optimisation passe par le préchargement des ressources critiques, le redimensionnement des images et un CDN bien configuré.",
+      "L'INP (Interaction to Next Paint) mesure la réactivité aux interactions. Un bouton qui répond instantanément inspire confiance ; une latence de quelques centaines de millisecondes suffit à donner une impression de site « cassé ». La clé : alléger le JavaScript exécuté au moment de l'interaction.",
+      "Notre conviction : la performance n'est pas un sujet d'ingénieurs, c'est un sujet de direction. Un site rapide convertit mieux, se positionne mieux et renvoie l'image d'une marque sérieuse. Nous l'intégrons dès la phase de design.",
+    ],
+  },
+  {
+    slug: "design-system",
+    title: "Design system : l'investissement qui accélère toutes vos sorties",
+    date: "22 mai 2026",
+    category: "Design",
+    excerpt:
+      "Un design system bien pensé n'est pas un luxe d'agence : c'est l'outil qui aligne design et développement et divise vos délais.",
+    body: [
+      "Un design system est une bibliothèque vivante de composants, de tokens et de règles qui garantit la cohérence visuelle d'un produit. Mais sa vraie valeur est ailleurs : il transforme la manière dont design et développement collaborent.",
+      "Sans système, chaque nouvelle page se réinvente : couleurs approximatives, espacements incohérents, composants dupliqués. Avec un système, designers et développeurs parlent le même langage — un « bouton primaire » désigne exactement la même chose des deux côtés.",
+      "Les tokens de design (couleurs, typographies, espacements) sont le socle. Centralisés, ils permettent de faire évoluer toute une marque depuis une seule source de vérité, sans repasser sur des centaines d'écrans.",
+      "Le retour sur investissement se mesure dans le temps : les premières semaines sont plus lentes, mais chaque sortie suivante est plus rapide, plus cohérente et moins sujette aux bugs. C'est l'effet composé du design.",
+    ],
+  },
+  {
+    slug: "tunnel-conversion",
+    title: "Tunnel de conversion : cinq frictions qui vous coûtent des clients",
+    date: "9 mai 2026",
+    category: "Marketing",
+    excerpt:
+      "La plupart des sites ne perdent pas leurs visiteurs par manque de trafic, mais par excès de friction. Revue des points de fuite les plus courants.",
+    body: [
+      "Un tunnel de conversion est le parcours qui mène un visiteur de la découverte à l'action souhaitée — achat, prise de contact, inscription. Chaque étape superflue est une porte de sortie potentielle.",
+      "Première friction : un appel à l'action ambigu. Un visiteur doit comprendre en une seconde ce qu'on attend de lui. Multiplier les boutons concurrents dilue l'attention et fait chuter les conversions.",
+      "Deuxième friction : les formulaires trop longs. Chaque champ supplémentaire réduit le taux de complétion. Ne demandez que l'essentiel ; le reste se collecte plus tard.",
+      "Troisième friction : l'absence de réassurance. Témoignages, logos clients, garanties et indicateurs de sécurité lèvent les freins à l'action au moment décisif. La confiance se construit visuellement, à l'endroit exact de l'hésitation.",
+    ],
+  },
+  {
+    slug: "motion-design",
+    title: "Motion design : quand l'animation sert l'expérience (et quand elle la dessert)",
+    date: "24 avril 2026",
+    category: "Design",
+    excerpt:
+      "Bien dosée, l'animation guide le regard et fluidifie l'expérience. Mal utilisée, elle ralentit et agace. Où se situe la juste mesure ?",
+    body: [
+      "Le motion design regroupe l'ensemble des animations d'interface : transitions de page, micro-interactions, effets au survol. Son rôle n'est pas décoratif : il est fonctionnel.",
+      "Une bonne animation a un but : confirmer une action, orienter l'attention, expliquer une transition spatiale. Lorsqu'un panneau glisse depuis la droite, l'utilisateur comprend instinctivement où il pourra le retrouver.",
+      "À l'inverse, l'animation gratuite nuit. Une transition trop longue donne une impression de lenteur ; un effet trop appuyé distrait du contenu. La règle d'or : la plupart des animations d'interface devraient durer entre 150 et 400 millisecondes.",
+      "Nous concevons le mouvement comme un langage discret. L'utilisateur ne doit pas remarquer l'animation : il doit simplement trouver l'expérience fluide, naturelle et agréable.",
+    ],
+  },
+];
+
+/* ── Team & values for the À propos sub-page ── */
+const TEAM = [
+  {
+    name: "Léa Fontaine",
+    role: "Directrice de création",
+    focus: "Direction artistique, Branding",
+    bio: "Léa pilote la vision créative du studio. Quinze ans d'expérience entre Paris et Londres, au service de marques qui veulent marquer les esprits.",
+  },
+  {
+    name: "Thomas Reyes",
+    role: "Lead Développeur",
+    focus: "Architecture, Performance",
+    bio: "Thomas traduit le design en code propre, rapide et durable. Spécialiste Next.js et des architectures qui tiennent la charge en production.",
+  },
+  {
+    name: "Camille Aubry",
+    role: "Stratège produit",
+    focus: "UX, Conversion, Growth",
+    bio: "Camille relie la créativité aux résultats. Recherche utilisateur, optimisation des conversions et stratégie de croissance pilotée par la donnée.",
+  },
+];
+
+const VALUES = [
+  {
+    icon: <Palette size={24} />,
+    title: "Le détail",
+    text: "Chaque pixel est intentionnel. Nous croyons que l'excellence se loge dans les détails que personne ne remarque consciemment.",
+  },
+  {
+    icon: <Code2 size={24} />,
+    title: "La rigueur",
+    text: "Du design au code, nous anticipons les cas limites et bâtissons pour durer. Un beau site qui casse n'est qu'une promesse trahie.",
+  },
+  {
+    icon: <Layers size={24} />,
+    title: "L'impact",
+    text: "Le beau qui ne convertit pas n'est que décoration. Nous mesurons notre réussite à l'aune des résultats de nos clients.",
+  },
 ];
 
 /* ─────────────────────────────────────────────────────────────
@@ -393,9 +672,11 @@ function Counter({
 function NavLink({
   label,
   onClick,
+  active = false,
 }: {
   label: string;
   onClick: () => void;
+  active?: boolean;
 }) {
   const [hovered, setHovered] = useState(false);
   return (
@@ -409,7 +690,7 @@ function NavLink({
         fontWeight: 600,
         textTransform: "uppercase",
         letterSpacing: "0.18em",
-        color: hovered ? T.text : T.muted,
+        color: active || hovered ? T.text : T.muted,
         background: "none",
         border: "none",
         cursor: "pointer",
@@ -425,7 +706,7 @@ function NavLink({
           bottom: 0,
           left: 0,
           height: 1,
-          width: hovered ? "100%" : 0,
+          width: active || hovered ? "100%" : 0,
           background: T.accent,
           transition: "width 0.3s cubic-bezier(0.16,1,0.3,1)",
         }}
@@ -439,7 +720,17 @@ function NavLink({
    ───────────────────────────────────────────────────────────── */
 export default function ImpactAgencyTemplate() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [page, setPage] = useState<AgencyPage>("home");
+  const [blogSlug, setBlogSlug] = useState<string | null>(null);
   const pageRef = useRef<HTMLDivElement>(null);
+
+  /* ── Page navigation (additive) ── */
+  const goTo = useCallback((p: AgencyPage) => {
+    setMenuOpen(false);
+    setBlogSlug(null);
+    setPage(p);
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
 
   /* ── Hero parallax ── */
   const heroRef = useRef<HTMLElement>(null);
@@ -468,12 +759,27 @@ export default function ImpactAgencyTemplate() {
     return unsubscribe;
   }, [activeStep]);
 
-  const scrollTo = useCallback((id: string) => {
-    setMenuOpen(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  }, []);
-
-  const NAV_ITEMS = ["About", "Services", "Process", "Stats", "Work", "Contact"];
+  // Smooth-scroll to a home section. If we're on another page, switch to home
+  // first, then scroll once the section is mounted.
+  const scrollTo = useCallback(
+    (id: string) => {
+      setMenuOpen(false);
+      if (page !== "home") {
+        setBlogSlug(null);
+        setPage("home");
+        if (typeof window !== "undefined") {
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() =>
+              document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
+            )
+          );
+        }
+        return;
+      }
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    },
+    [page]
+  );
 
   /* ─────────────────────────────────── */
   return (
@@ -532,8 +838,8 @@ export default function ImpactAgencyTemplate() {
         />
 
         {/* Logo */}
-        <Link
-          href="/"
+        <button
+          onClick={() => goTo("home")}
           style={{
             position: "relative",
             zIndex: 1,
@@ -543,10 +849,14 @@ export default function ImpactAgencyTemplate() {
             letterSpacing: "-0.02em",
             color: T.text,
             textDecoration: "none",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: 0,
           }}
         >
           IMPACT<span style={{ color: T.accent }}>.</span>
-        </Link>
+        </button>
 
         {/* Desktop nav */}
         <div
@@ -559,15 +869,16 @@ export default function ImpactAgencyTemplate() {
           }}
           className="nav-desktop"
         >
-          {NAV_ITEMS.map((item) => (
+          {NAV_PAGES.map((item) => (
             <NavLink
-              key={item}
-              label={item}
-              onClick={() => scrollTo(item.toLowerCase())}
+              key={item.key}
+              label={item.label}
+              active={page === item.key}
+              onClick={() => goTo(item.key)}
             />
           ))}
           <button
-            onClick={() => scrollTo("contact")}
+            onClick={() => goTo("contact")}
             style={{
               fontFamily: FONT_BODY,
               fontWeight: 600,
@@ -631,32 +942,35 @@ export default function ImpactAgencyTemplate() {
               gap: 32,
             }}
           >
-            {NAV_ITEMS.map((item, i) => (
+            {NAV_PAGES.map((item, i) => (
               <motion.button
-                key={item}
+                key={item.key}
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.07 }}
-                onClick={() => scrollTo(item.toLowerCase())}
+                onClick={() => goTo(item.key)}
                 style={{
                   fontFamily: FONT_HEADING,
                   fontWeight: 800,
                   fontSize: "2.5rem",
                   textTransform: "uppercase",
                   letterSpacing: "-0.02em",
-                  color: T.text,
+                  color: page === item.key ? T.accent : T.text,
                   background: "none",
                   border: "none",
                   cursor: "pointer",
                 }}
               >
-                {item}
+                {item.label}
               </motion.button>
             ))}
           </motion.div>
         )}
       </AnimatePresence>
 
+      {/* ══════════ HOME (original single-page content — unchanged) ══════════ */}
+      {page === "home" && (
+        <>
       {/* ══════════════════════════════════════════════════
           HERO — scroll-parallax background + text reveal
           ══════════════════════════════════════════════════ */}
@@ -1629,6 +1943,19 @@ export default function ImpactAgencyTemplate() {
           </FadeUp>
         </div>
       </section>
+        </>
+      )}
+
+      {/* ══════════ EXTRA PAGES (theme-native — built from T tokens) ══════════ */}
+      {page === "services" && <ServicesPage goTo={goTo} />}
+      {page === "work" && <WorkPage goTo={goTo} />}
+      {page === "blog" && (
+        <BlogPage blogSlug={blogSlug} setBlogSlug={setBlogSlug} />
+      )}
+      {page === "about" && <AboutPage goTo={goTo} />}
+      {page === "contact" && <ContactPage />}
+      {page === "mentions" && <LegalPage variant="mentions" />}
+      {page === "privacy" && <LegalPage variant="privacy" />}
 
       {/* ══════════════════════════════════════════════════
           FOOTER
@@ -1667,22 +1994,30 @@ export default function ImpactAgencyTemplate() {
           &copy; 2026 IMPACT Studio. All rights reserved.
         </span>
         <div style={{ display: "flex", gap: 24 }}>
-          {["Privacy", "Terms", "Cookies"].map((item) => (
-            <a
-              key={item}
-              href="#"
+          {[
+            { label: "Mentions légales", page: "mentions" as AgencyPage },
+            { label: "Confidentialité", page: "privacy" as AgencyPage },
+            { label: "Contact", page: "contact" as AgencyPage },
+          ].map((item) => (
+            <button
+              key={item.label}
+              onClick={() => goTo(item.page)}
               style={{
                 fontFamily: FONT_BODY,
                 fontSize: "0.75rem",
                 color: T.dimmed,
                 textDecoration: "none",
                 transition: "color 0.2s ease",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
               }}
               onMouseEnter={(e) => (e.currentTarget.style.color = T.text)}
               onMouseLeave={(e) => (e.currentTarget.style.color = T.dimmed)}
             >
-              {item}
-            </a>
+              {item.label}
+            </button>
           ))}
         </div>
       </footer>
@@ -1708,6 +2043,9 @@ export default function ImpactAgencyTemplate() {
           section[id="process"] > div:last-child > div > div > div {
             grid-template-columns: 1fr !important;
           }
+          .subpage-grid-3 { grid-template-columns: 1fr !important; }
+          .subpage-grid-2 { grid-template-columns: 1fr !important; }
+          .subpage-contact { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>
@@ -2085,6 +2423,1517 @@ function ProcessStepIndicator({
           </motion.div>
         </div>
       )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SUB-PAGES (additive — theme-native, reuse T tokens + fonts + cards)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Shared sub-page hero (matches home's eyebrow + clip-reveal heading) ── */
+function PageHero({
+  eyebrow,
+  title,
+  accent,
+  subtitle,
+}: {
+  eyebrow: string;
+  title: string;
+  accent?: string;
+  subtitle?: string;
+}) {
+  return (
+    <section
+      style={{
+        position: "relative",
+        padding: "180px 48px 80px",
+        borderBottom: `1px solid ${T.border}`,
+        overflow: "hidden",
+        boxSizing: "border-box",
+      }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "radial-gradient(ellipse 70% 60% at 50% 0%, rgba(0,102,255,0.10) 0%, transparent 65%)",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          opacity: 0.025,
+          backgroundImage:
+            "linear-gradient(rgba(240,240,240,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(240,240,240,0.4) 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+          pointerEvents: "none",
+        }}
+      />
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 1200, margin: "0 auto" }}>
+        <FadeUp>
+          <span
+            style={{
+              fontFamily: FONT_BODY,
+              fontSize: "0.68rem",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.28em",
+              color: T.accent,
+              display: "block",
+              marginBottom: 24,
+            }}
+          >
+            {eyebrow}
+          </span>
+        </FadeUp>
+        <ClipRevealHeading>
+          <h1
+            style={{
+              fontFamily: FONT_HEADING,
+              fontWeight: 800,
+              fontSize: "clamp(2.8rem, 6vw, 6rem)",
+              letterSpacing: "-0.03em",
+              lineHeight: 0.95,
+              margin: 0,
+              color: T.text,
+            }}
+          >
+            {title}
+            {accent && (
+              <>
+                {" "}
+                <span style={{ color: T.accent }}>{accent}</span>
+              </>
+            )}
+          </h1>
+        </ClipRevealHeading>
+        {subtitle && (
+          <FadeUp delay={0.15}>
+            <p
+              style={{
+                fontFamily: FONT_BODY,
+                fontWeight: 300,
+                fontSize: "clamp(1rem, 1.6vw, 1.2rem)",
+                lineHeight: 1.7,
+                color: T.muted,
+                maxWidth: 620,
+                margin: "32px 0 0",
+              }}
+            >
+              {subtitle}
+            </p>
+          </FadeUp>
+        )}
+      </div>
+    </section>
+  );
+}
+
+/* ── CTA band reused across sub-pages ── */
+function SubCTA({
+  goTo,
+  title,
+  text,
+}: {
+  goTo: (p: AgencyPage) => void;
+  title: string;
+  text: string;
+}) {
+  return (
+    <FadeUp>
+      <div
+        style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          padding: "56px clamp(32px, 6vw, 64px)",
+          background: T.surface,
+          border: `1px solid ${T.border}`,
+          borderRadius: 24,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: 24,
+          boxSizing: "border-box",
+        }}
+      >
+        <div>
+          <h2
+            style={{
+              fontFamily: FONT_HEADING,
+              fontWeight: 800,
+              fontSize: "clamp(1.8rem, 3vw, 2.6rem)",
+              letterSpacing: "-0.02em",
+              margin: "0 0 10px",
+              color: T.text,
+            }}
+          >
+            {title}
+          </h2>
+          <p
+            style={{
+              fontFamily: FONT_BODY,
+              fontSize: "1rem",
+              lineHeight: 1.6,
+              color: T.muted,
+              margin: 0,
+              fontWeight: 300,
+              maxWidth: 520,
+            }}
+          >
+            {text}
+          </p>
+        </div>
+        <button
+          onClick={() => goTo("contact")}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 10,
+            padding: "16px 36px",
+            background: T.accent,
+            color: T.text,
+            border: "none",
+            borderRadius: 100,
+            fontFamily: FONT_BODY,
+            fontWeight: 600,
+            fontSize: "0.82rem",
+            textTransform: "uppercase",
+            letterSpacing: "0.14em",
+            cursor: "pointer",
+            flexShrink: 0,
+            transition: "opacity 0.2s ease",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
+          onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+        >
+          Discutons-en <ArrowRight size={16} />
+        </button>
+      </div>
+    </FadeUp>
+  );
+}
+
+/* ── SERVICES sub-page (detailed offerings, reuses ServiceCard look) ── */
+function ServicesPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
+  return (
+    <div>
+      <PageHero
+        eyebrow="Ce que nous faisons"
+        title="Des services"
+        accent="taillés pour l'impact."
+        subtitle="Du design à la mise en production, nous couvrons tout le spectre du digital. Chaque prestation est conçue pour servir un objectif business mesurable."
+      />
+      <section style={{ padding: "100px 48px", boxSizing: "border-box" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div
+            className="subpage-grid-3"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: 20,
+            }}
+          >
+            {SERVICE_DETAILS.map((service, i) => (
+              <FadeUp key={service.title} delay={(i % 3) * 0.08}>
+                <TiltCard>
+                  <ServiceDetailCard service={service} />
+                </TiltCard>
+              </FadeUp>
+            ))}
+          </div>
+          <div style={{ marginTop: 64 }}>
+            <SubCTA
+              goTo={goTo}
+              title="Un projet en tête ?"
+              text="Nous travaillons avec un nombre limité de clients chaque trimestre. Parlons de votre projet avant que les places ne soient prises."
+            />
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function ServiceDetailCard({
+  service,
+}: {
+  service: (typeof SERVICE_DETAILS)[0];
+}) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        padding: "40px 36px",
+        background: hovered ? T.surfaceHover : T.surface,
+        border: `1px solid ${hovered ? T.accentBorder : T.border}`,
+        borderRadius: 20,
+        transition:
+          "background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease",
+        boxShadow: hovered ? "0 32px 80px rgba(0,102,255,0.08)" : "none",
+        height: "100%",
+        boxSizing: "border-box",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginBottom: 28,
+        }}
+      >
+        <div
+          style={{
+            width: 52,
+            height: 52,
+            borderRadius: 14,
+            background: hovered ? T.accent : T.accentDim,
+            border: `1px solid ${hovered ? T.accent : T.accentBorder}`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: T.text,
+            transition: "background 0.3s ease, border-color 0.3s ease",
+          }}
+        >
+          {service.icon}
+        </div>
+        <span
+          style={{
+            fontFamily: FONT_BODY,
+            fontSize: "0.62rem",
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: "0.2em",
+            color: T.dimmed,
+            border: `1px solid ${T.border}`,
+            borderRadius: 100,
+            padding: "4px 12px",
+          }}
+        >
+          {service.tag}
+        </span>
+      </div>
+      <h3
+        style={{
+          fontFamily: FONT_HEADING,
+          fontWeight: 800,
+          fontSize: "1.4rem",
+          letterSpacing: "-0.02em",
+          margin: "0 0 14px",
+          color: hovered ? T.accent : T.text,
+          transition: "color 0.3s ease",
+        }}
+      >
+        {service.title}
+      </h3>
+      <p
+        style={{
+          fontFamily: FONT_BODY,
+          fontSize: "0.92rem",
+          lineHeight: 1.7,
+          color: T.muted,
+          margin: "0 0 24px",
+          fontWeight: 300,
+        }}
+      >
+        {service.desc}
+      </p>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        {service.points.map((pt) => (
+          <div key={pt} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+            <span
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: T.accent,
+                flexShrink: 0,
+                marginTop: 7,
+              }}
+            />
+            <span
+              style={{
+                fontFamily: FONT_BODY,
+                fontSize: "0.85rem",
+                fontWeight: 400,
+                color: T.text,
+                lineHeight: 1.5,
+              }}
+            >
+              {pt}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── RÉALISATIONS sub-page (fuller grid + case-detail view) ── */
+function WorkPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
+  const [caseId, setCaseId] = useState<number | null>(null);
+  const project = caseId ? WORK_DETAILS.find((p) => p.id === caseId) : null;
+
+  if (project) {
+    return (
+      <div>
+        <section style={{ padding: "150px 48px 100px", boxSizing: "border-box" }}>
+          <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+            <button
+              onClick={() => setCaseId(null)}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: "none",
+                border: "none",
+                color: T.muted,
+                cursor: "pointer",
+                fontFamily: FONT_BODY,
+                fontSize: "0.78rem",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.14em",
+                marginBottom: 40,
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = T.accent)}
+              onMouseLeave={(e) => (e.currentTarget.style.color = T.muted)}
+            >
+              <ArrowRight size={14} style={{ transform: "rotate(180deg)" }} /> Toutes les
+              réalisations
+            </button>
+            <FadeUp>
+              <span
+                style={{
+                  fontFamily: FONT_BODY,
+                  fontSize: "0.68rem",
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.2em",
+                  color: T.accent,
+                  display: "block",
+                  marginBottom: 18,
+                }}
+              >
+                {project.category} · {project.year}
+              </span>
+              <h1
+                style={{
+                  fontFamily: FONT_HEADING,
+                  fontWeight: 800,
+                  fontSize: "clamp(2.6rem, 5vw, 5rem)",
+                  letterSpacing: "-0.03em",
+                  lineHeight: 0.95,
+                  margin: "0 0 40px",
+                  color: T.text,
+                }}
+              >
+                {project.title}
+              </h1>
+            </FadeUp>
+            <FadeUp delay={0.1}>
+              <div
+                style={{
+                  position: "relative",
+                  aspectRatio: "16/9",
+                  borderRadius: 20,
+                  overflow: "hidden",
+                  border: `1px solid ${T.border}`,
+                  marginBottom: 48,
+                }}
+              >
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
+            </FadeUp>
+            <FadeUp delay={0.15}>
+              <div
+                className="subpage-grid-2"
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "2fr 1fr",
+                  gap: 48,
+                  alignItems: "start",
+                }}
+              >
+                <p
+                  style={{
+                    fontFamily: FONT_BODY,
+                    fontSize: "1.1rem",
+                    lineHeight: 1.8,
+                    color: T.muted,
+                    margin: 0,
+                    fontWeight: 300,
+                  }}
+                >
+                  {project.summary}
+                </p>
+                <div
+                  style={{
+                    padding: 28,
+                    background: T.surface,
+                    border: `1px solid ${T.border}`,
+                    borderRadius: 16,
+                  }}
+                >
+                  {[
+                    { label: "Notre rôle", val: project.role },
+                    { label: "Année", val: project.year },
+                    { label: "Résultat", val: project.result },
+                  ].map((item) => (
+                    <div key={item.label} style={{ marginBottom: 20 }}>
+                      <div
+                        style={{
+                          fontFamily: FONT_BODY,
+                          fontSize: "0.62rem",
+                          fontWeight: 600,
+                          textTransform: "uppercase",
+                          letterSpacing: "0.18em",
+                          color: T.accent,
+                          marginBottom: 6,
+                        }}
+                      >
+                        {item.label}
+                      </div>
+                      <div
+                        style={{
+                          fontFamily: FONT_BODY,
+                          fontSize: "0.92rem",
+                          color: T.text,
+                          fontWeight: 400,
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        {item.val}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </FadeUp>
+            <div style={{ marginTop: 72 }}>
+              <SubCTA
+                goTo={goTo}
+                title="Un projet similaire ?"
+                text="Racontez-nous votre ambition. Nous reviendrons vers vous sous 24 heures ouvrées."
+              />
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <PageHero
+        eyebrow="Travaux sélectionnés"
+        title="Nos"
+        accent="réalisations."
+        subtitle="Une sélection de projets récents. Chaque collaboration vise un objectif clair et des résultats mesurables."
+      />
+      <section style={{ padding: "100px 48px", boxSizing: "border-box" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div
+            className="subpage-grid-3"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: 20,
+            }}
+          >
+            {WORK_DETAILS.map((project, i) => (
+              <FadeUp key={project.id} delay={(i % 3) * 0.07}>
+                <div onClick={() => setCaseId(project.id)}>
+                  <TiltCard>
+                    <WorkCard project={project} />
+                  </TiltCard>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+          <div style={{ marginTop: 64 }}>
+            <SubCTA
+              goTo={goTo}
+              title="Prêt à rejoindre cette liste ?"
+              text="Nous concevons des produits digitaux qui marquent. Parlons de votre projet."
+            />
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/* ── BLOG sub-page (index + single article) ── */
+function BlogPage({
+  blogSlug,
+  setBlogSlug,
+}: {
+  blogSlug: string | null;
+  setBlogSlug: (s: string | null) => void;
+}) {
+  const post = blogSlug ? BLOG_POSTS.find((b) => b.slug === blogSlug) : null;
+
+  if (post) {
+    return (
+      <div>
+        <section style={{ padding: "150px 48px 100px", boxSizing: "border-box" }}>
+          <div style={{ maxWidth: 780, margin: "0 auto" }}>
+            <button
+              onClick={() => setBlogSlug(null)}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: "none",
+                border: "none",
+                color: T.muted,
+                cursor: "pointer",
+                fontFamily: FONT_BODY,
+                fontSize: "0.78rem",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.14em",
+                marginBottom: 40,
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = T.accent)}
+              onMouseLeave={(e) => (e.currentTarget.style.color = T.muted)}
+            >
+              <ArrowRight size={14} style={{ transform: "rotate(180deg)" }} /> Tous les
+              articles
+            </button>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                marginBottom: 20,
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: FONT_BODY,
+                  fontSize: "0.62rem",
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.18em",
+                  color: T.accent,
+                  background: T.accentDim,
+                  border: `1px solid ${T.accentBorder}`,
+                  padding: "5px 12px",
+                  borderRadius: 100,
+                }}
+              >
+                {post.category}
+              </span>
+              <span
+                style={{
+                  fontFamily: FONT_BODY,
+                  fontSize: "0.8rem",
+                  color: T.dimmed,
+                }}
+              >
+                {post.date}
+              </span>
+            </div>
+            <h1
+              style={{
+                fontFamily: FONT_HEADING,
+                fontWeight: 800,
+                fontSize: "clamp(2.2rem, 4.5vw, 4rem)",
+                letterSpacing: "-0.03em",
+                lineHeight: 1.02,
+                margin: "0 0 40px",
+                color: T.text,
+              }}
+            >
+              {post.title}
+            </h1>
+            <div
+              style={{
+                height: "clamp(200px, 36vw, 340px)",
+                borderRadius: 20,
+                border: `1px solid ${T.border}`,
+                background:
+                  "radial-gradient(ellipse 80% 80% at 30% 30%, rgba(0,102,255,0.18) 0%, transparent 70%), #0e0e0e",
+                marginBottom: 48,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Layers size={48} color={T.accent} style={{ opacity: 0.5 }} />
+            </div>
+            {post.body.map((paraTxt, i) => (
+              <p
+                key={i}
+                style={{
+                  fontFamily: FONT_BODY,
+                  fontSize: "1.08rem",
+                  lineHeight: 1.85,
+                  color: T.muted,
+                  marginBottom: 26,
+                  fontWeight: 300,
+                }}
+              >
+                {paraTxt}
+              </p>
+            ))}
+            <div
+              style={{
+                borderTop: `1px solid ${T.border}`,
+                marginTop: 32,
+                paddingTop: 24,
+                fontFamily: FONT_BODY,
+                fontStyle: "italic",
+                fontSize: "0.9rem",
+                color: T.dimmed,
+              }}
+            >
+              Article rédigé par l&apos;équipe d&apos;IMPACT Studio. Contenu fourni à titre
+              informatif.
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <PageHero
+        eyebrow="Le journal du studio"
+        title="Insights"
+        accent="& réflexions."
+        subtitle="Nos partis pris sur le web, le design et le marketing. Des analyses concrètes pour des décisions éclairées."
+      />
+      <section style={{ padding: "100px 48px", boxSizing: "border-box" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div
+            className="subpage-grid-3"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: 20,
+            }}
+          >
+            {BLOG_POSTS.map((p, i) => (
+              <FadeUp key={p.slug} delay={(i % 3) * 0.08}>
+                <BlogCard
+                  post={p}
+                  onClick={() => {
+                    setBlogSlug(p.slug);
+                    if (typeof window !== "undefined")
+                      window.scrollTo({ top: 0, behavior: "auto" });
+                  }}
+                />
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function BlogCard({
+  post,
+  onClick,
+}: {
+  post: (typeof BLOG_POSTS)[0];
+  onClick: () => void;
+}) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <article
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        cursor: "pointer",
+        borderRadius: 20,
+        overflow: "hidden",
+        background: hovered ? T.surfaceHover : T.surface,
+        border: `1px solid ${hovered ? T.accentBorder : T.border}`,
+        transition: "background 0.35s ease, border-color 0.35s ease",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <div
+        style={{
+          height: 170,
+          background:
+            "radial-gradient(ellipse 80% 80% at 30% 30%, rgba(0,102,255,0.16) 0%, transparent 70%), #0e0e0e",
+          borderBottom: `1px solid ${T.border}`,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Layers size={32} color={T.accent} style={{ opacity: 0.45 }} />
+      </div>
+      <div
+        style={{
+          padding: "26px 28px 30px",
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            marginBottom: 14,
+          }}
+        >
+          <span
+            style={{
+              fontFamily: FONT_BODY,
+              fontSize: "0.6rem",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.16em",
+              color: T.accent,
+            }}
+          >
+            {post.category}
+          </span>
+          <span
+            style={{
+              fontFamily: FONT_BODY,
+              fontSize: "0.72rem",
+              color: T.dimmed,
+            }}
+          >
+            · {post.date}
+          </span>
+        </div>
+        <h2
+          style={{
+            fontFamily: FONT_HEADING,
+            fontWeight: 800,
+            fontSize: "1.25rem",
+            letterSpacing: "-0.02em",
+            lineHeight: 1.2,
+            margin: "0 0 14px",
+            color: hovered ? T.accent : T.text,
+            transition: "color 0.3s ease",
+          }}
+        >
+          {post.title}
+        </h2>
+        <p
+          style={{
+            fontFamily: FONT_BODY,
+            fontSize: "0.9rem",
+            lineHeight: 1.65,
+            color: T.muted,
+            margin: "0 0 18px",
+            flex: 1,
+            fontWeight: 300,
+          }}
+        >
+          {post.excerpt}
+        </p>
+        <span
+          style={{
+            fontFamily: FONT_BODY,
+            fontSize: "0.78rem",
+            color: T.accent,
+            fontWeight: 600,
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          Lire l&apos;article <ArrowUpRight size={14} />
+        </span>
+      </div>
+    </article>
+  );
+}
+
+/* ── À PROPOS sub-page (story / values / team) ── */
+function AboutPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
+  return (
+    <div>
+      <PageHero
+        eyebrow="Le studio"
+        title="Nous ne construisons pas"
+        accent="que des sites."
+        subtitle="IMPACT est un collectif de designers, d'ingénieurs et de stratèges obsédés par l'excellence. Depuis 2018, nous accompagnons des marques ambitieuses."
+      />
+
+      {/* Story */}
+      <section style={{ padding: "100px 48px", boxSizing: "border-box" }}>
+        <div style={{ maxWidth: 780, margin: "0 auto" }}>
+          {[
+            "Fondé en 2018, IMPACT Studio est né d'une conviction simple : le digital mérite la même exigence que les marques qu'il sert. Nous réunissons design, ingénierie et stratégie sous un même toit pour livrer un travail qui surperforme, systématiquement.",
+            "Notre modèle est celui d'un studio à taille humaine. Chaque projet est piloté de bout en bout par une équipe restreinte et senior — garantie de réactivité, de cohérence et d'un niveau de soin qui se voit dans le résultat final.",
+            "En huit ans, nous avons accompagné plus de 147 clients à travers le monde, des start-ups en amorçage aux grands comptes, avec un taux de satisfaction de 98 %. Le beau qui ne convertit pas n'est que décoration : nous mesurons notre réussite à la vôtre.",
+          ].map((paraTxt, i) => (
+            <p
+              key={i}
+              style={{
+                fontFamily: FONT_BODY,
+                fontSize: "1.1rem",
+                lineHeight: 1.85,
+                color: T.muted,
+                marginBottom: 26,
+                fontWeight: 300,
+              }}
+            >
+              {paraTxt}
+            </p>
+          ))}
+        </div>
+      </section>
+
+      {/* Values */}
+      <section
+        style={{
+          padding: "100px 48px",
+          background: "rgba(240,240,240,0.015)",
+          borderTop: `1px solid ${T.border}`,
+          borderBottom: `1px solid ${T.border}`,
+          boxSizing: "border-box",
+        }}
+      >
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ marginBottom: 64 }}>
+            <FadeUp>
+              <span
+                style={{
+                  fontFamily: FONT_BODY,
+                  fontSize: "0.68rem",
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.28em",
+                  color: T.accent,
+                  display: "block",
+                  marginBottom: 20,
+                }}
+              >
+                Nos valeurs
+              </span>
+            </FadeUp>
+            <ClipRevealHeading>
+              <h2
+                style={{
+                  fontFamily: FONT_HEADING,
+                  fontWeight: 800,
+                  fontSize: "clamp(2.2rem, 4vw, 4rem)",
+                  letterSpacing: "-0.03em",
+                  lineHeight: 0.95,
+                  margin: 0,
+                  color: T.text,
+                }}
+              >
+                Ce qui nous <span style={{ color: T.dimmed }}>guide.</span>
+              </h2>
+            </ClipRevealHeading>
+          </div>
+          <div
+            className="subpage-grid-3"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: 20,
+            }}
+          >
+            {VALUES.map((v, i) => (
+              <FadeUp key={v.title} delay={i * 0.1}>
+                <div
+                  style={{
+                    padding: "40px 36px",
+                    background: T.surface,
+                    border: `1px solid ${T.border}`,
+                    borderRadius: 20,
+                    height: "100%",
+                    boxSizing: "border-box",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 52,
+                      height: 52,
+                      borderRadius: 14,
+                      background: T.accentDim,
+                      border: `1px solid ${T.accentBorder}`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: T.text,
+                      marginBottom: 24,
+                    }}
+                  >
+                    {v.icon}
+                  </div>
+                  <h3
+                    style={{
+                      fontFamily: FONT_HEADING,
+                      fontWeight: 800,
+                      fontSize: "1.35rem",
+                      letterSpacing: "-0.02em",
+                      margin: "0 0 14px",
+                      color: T.text,
+                    }}
+                  >
+                    {v.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: FONT_BODY,
+                      fontSize: "0.92rem",
+                      lineHeight: 1.7,
+                      color: T.muted,
+                      margin: 0,
+                      fontWeight: 300,
+                    }}
+                  >
+                    {v.text}
+                  </p>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Team */}
+      <section style={{ padding: "100px 48px", boxSizing: "border-box" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ marginBottom: 56 }}>
+            <FadeUp>
+              <span
+                style={{
+                  fontFamily: FONT_BODY,
+                  fontSize: "0.68rem",
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.28em",
+                  color: T.accent,
+                  display: "block",
+                  marginBottom: 20,
+                }}
+              >
+                L&apos;équipe
+              </span>
+            </FadeUp>
+            <ClipRevealHeading>
+              <h2
+                style={{
+                  fontFamily: FONT_HEADING,
+                  fontWeight: 800,
+                  fontSize: "clamp(2.2rem, 4vw, 4rem)",
+                  letterSpacing: "-0.03em",
+                  lineHeight: 0.95,
+                  margin: 0,
+                  color: T.text,
+                }}
+              >
+                Les esprits <span style={{ color: T.dimmed }}>derrière.</span>
+              </h2>
+            </ClipRevealHeading>
+          </div>
+          <div
+            className="subpage-grid-3"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: 20,
+            }}
+          >
+            {TEAM.map((member, i) => (
+              <FadeUp key={member.name} delay={i * 0.1}>
+                <div
+                  style={{
+                    padding: "40px 36px",
+                    background: T.surface,
+                    border: `1px solid ${T.border}`,
+                    borderRadius: 20,
+                    height: "100%",
+                    boxSizing: "border-box",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 64,
+                      height: 64,
+                      borderRadius: 16,
+                      background: T.accentDim,
+                      border: `1px solid ${T.accentBorder}`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginBottom: 24,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: FONT_HEADING,
+                        fontWeight: 800,
+                        fontSize: "1.6rem",
+                        color: T.accent,
+                      }}
+                    >
+                      {member.name.charAt(0)}
+                    </span>
+                  </div>
+                  <h3
+                    style={{
+                      fontFamily: FONT_HEADING,
+                      fontWeight: 800,
+                      fontSize: "1.25rem",
+                      letterSpacing: "-0.02em",
+                      margin: "0 0 4px",
+                      color: T.text,
+                    }}
+                  >
+                    {member.name}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: FONT_BODY,
+                      fontSize: "0.8rem",
+                      color: T.accent,
+                      margin: "0 0 4px",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {member.role}
+                  </p>
+                  <p
+                    style={{
+                      fontFamily: FONT_BODY,
+                      fontSize: "0.72rem",
+                      color: T.dimmed,
+                      margin: "0 0 18px",
+                    }}
+                  >
+                    {member.focus}
+                  </p>
+                  <p
+                    style={{
+                      fontFamily: FONT_BODY,
+                      fontSize: "0.9rem",
+                      lineHeight: 1.65,
+                      color: T.muted,
+                      margin: 0,
+                      fontWeight: 300,
+                    }}
+                  >
+                    {member.bio}
+                  </p>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+          <div style={{ marginTop: 72 }}>
+            <SubCTA
+              goTo={goTo}
+              title="Travaillons ensemble."
+              text="Une idée, un projet, une ambition ? Nous serions ravis d'en discuter avec vous."
+            />
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/* ── CONTACT sub-page (info + form, inputs ≥16px) ── */
+function ContactPage() {
+  const [sent, setSent] = useState(false);
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    padding: "14px 16px",
+    background: T.surface,
+    border: `1px solid ${T.border}`,
+    color: T.text,
+    fontSize: 16, // ≥16px to avoid iOS zoom on focus
+    outline: "none",
+    fontFamily: FONT_BODY,
+    marginBottom: 18,
+    borderRadius: 10,
+    boxSizing: "border-box",
+  };
+  const labelStyle: React.CSSProperties = {
+    fontFamily: FONT_BODY,
+    fontSize: "0.62rem",
+    color: T.accent,
+    letterSpacing: "0.16em",
+    textTransform: "uppercase",
+    fontWeight: 600,
+    marginBottom: 8,
+    display: "block",
+  };
+  return (
+    <div>
+      <PageHero
+        eyebrow="Entrons en contact"
+        title="Discutons de"
+        accent="votre projet."
+        subtitle="Nous travaillons avec un nombre limité de clients chaque trimestre. Décrivez-nous votre ambition — nous revenons vers vous sous 24 heures ouvrées."
+      />
+      <section style={{ padding: "100px 48px", boxSizing: "border-box" }}>
+        <div
+          className="subpage-contact"
+          style={{
+            maxWidth: 1100,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "clamp(40px, 5vw, 72px)",
+          }}
+        >
+          {/* Info */}
+          <div>
+            {[
+              { icon: <Mail size={18} />, label: "Email", value: "contact@aevia.io" },
+              { icon: <MapPin size={18} />, label: "Studio", value: "Paris, France" },
+              {
+                icon: <Phone size={18} />,
+                label: "Horaires",
+                value: "Lun – Ven · 9h – 19h",
+              },
+            ].map((item) => (
+              <div
+                key={item.label}
+                style={{
+                  display: "flex",
+                  gap: 16,
+                  alignItems: "flex-start",
+                  marginBottom: 28,
+                  borderBottom: `1px solid ${T.border}`,
+                  paddingBottom: 22,
+                }}
+              >
+                <div
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 12,
+                    background: T.accentDim,
+                    border: `1px solid ${T.accentBorder}`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: T.accent,
+                    flexShrink: 0,
+                  }}
+                >
+                  {item.icon}
+                </div>
+                <div>
+                  <div
+                    style={{
+                      fontFamily: FONT_BODY,
+                      fontSize: "0.62rem",
+                      color: T.accent,
+                      letterSpacing: "0.16em",
+                      textTransform: "uppercase",
+                      marginBottom: 6,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {item.label}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: FONT_HEADING,
+                      fontWeight: 800,
+                      fontSize: "1.2rem",
+                      color: T.text,
+                      letterSpacing: "-0.01em",
+                    }}
+                  >
+                    {item.value}
+                  </div>
+                </div>
+              </div>
+            ))}
+            <p
+              style={{
+                fontFamily: FONT_BODY,
+                fontSize: "0.9rem",
+                lineHeight: 1.7,
+                color: T.muted,
+                marginTop: 8,
+                fontWeight: 300,
+              }}
+            >
+              Préférez-vous un appel ? Indiquez-le dans votre message et nous vous
+              proposerons un créneau.
+            </p>
+          </div>
+
+          {/* Form */}
+          <div>
+            {sent ? (
+              <div
+                style={{
+                  background: T.surface,
+                  border: `1px solid ${T.accentBorder}`,
+                  borderRadius: 20,
+                  padding: "56px 40px",
+                  textAlign: "center",
+                }}
+              >
+                <div
+                  style={{
+                    width: 52,
+                    height: 52,
+                    borderRadius: "50%",
+                    background: T.accentDim,
+                    border: `1px solid ${T.accentBorder}`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: "0 auto 20px",
+                  }}
+                >
+                  <ArrowRight size={22} color={T.accent} />
+                </div>
+                <div
+                  style={{
+                    fontFamily: FONT_HEADING,
+                    fontWeight: 800,
+                    fontSize: "1.5rem",
+                    color: T.text,
+                    marginBottom: 12,
+                  }}
+                >
+                  Message envoyé
+                </div>
+                <p
+                  style={{
+                    fontFamily: FONT_BODY,
+                    fontSize: "0.95rem",
+                    lineHeight: 1.7,
+                    color: T.muted,
+                    margin: 0,
+                    fontWeight: 300,
+                  }}
+                >
+                  Merci. Un membre du studio vous répondra sous 24 heures ouvrées.
+                </p>
+              </div>
+            ) : (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setSent(true);
+                }}
+                style={{
+                  background: T.surface,
+                  border: `1px solid ${T.border}`,
+                  borderRadius: 20,
+                  padding: "40px 36px",
+                }}
+              >
+                <label style={labelStyle}>Nom complet</label>
+                <input style={inputStyle} type="text" placeholder="Votre nom" required />
+                <label style={labelStyle}>Email</label>
+                <input
+                  style={inputStyle}
+                  type="email"
+                  placeholder="votre@email.fr"
+                  required
+                />
+                <label style={labelStyle}>Société</label>
+                <input
+                  style={inputStyle}
+                  type="text"
+                  placeholder="Nom de votre entreprise"
+                />
+                <label style={labelStyle}>Type de projet</label>
+                <input
+                  style={inputStyle}
+                  type="text"
+                  placeholder="Ex. : site vitrine, application, branding…"
+                />
+                <label style={labelStyle}>Message</label>
+                <textarea
+                  style={{ ...inputStyle, minHeight: 140, resize: "vertical" }}
+                  placeholder="Décrivez brièvement votre projet."
+                  required
+                />
+                <button
+                  type="submit"
+                  style={{
+                    width: "100%",
+                    padding: "16px",
+                    background: T.accent,
+                    color: T.text,
+                    border: "none",
+                    borderRadius: 100,
+                    fontSize: "0.78rem",
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    fontFamily: FONT_BODY,
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    transition: "opacity 0.2s ease",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
+                  onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+                >
+                  Envoyer la demande
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/* ── MENTIONS LÉGALES & CONFIDENTIALITÉ ──────────────────────────────
+   `mentions` content is verbatim per legal requirement. NEVER print a
+   street address. */
+function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
+  const sectionTitle: React.CSSProperties = {
+    fontFamily: FONT_HEADING,
+    fontWeight: 800,
+    fontSize: "1.4rem",
+    letterSpacing: "-0.02em",
+    color: T.text,
+    margin: "44px 0 14px",
+  };
+  const para: React.CSSProperties = {
+    fontFamily: FONT_BODY,
+    fontSize: "1rem",
+    color: T.muted,
+    lineHeight: 1.8,
+    marginBottom: 14,
+    fontWeight: 300,
+  };
+  const strong: React.CSSProperties = { color: T.text, fontWeight: 600 };
+
+  if (variant === "mentions") {
+    return (
+      <div>
+        <PageHero eyebrow="Informations légales" title="Mentions légales" />
+        <section style={{ padding: "80px 48px 100px", boxSizing: "border-box" }}>
+          <div style={{ maxWidth: 780, margin: "0 auto" }}>
+            <h2 style={{ ...sectionTitle, marginTop: 0 }}>Éditeur du site</h2>
+            <p style={para}>
+              <span style={strong}>Aevia WS</span> — entrepreneur individuel
+              (auto-entrepreneur).
+            </p>
+            <p style={para}>
+              Directeur de la publication : <span style={strong}>Valentin Milliand</span>.
+            </p>
+            <p style={para}>
+              SIREN : <span style={strong}>852 546 225</span> — RCS Bourg-en-Bresse.
+            </p>
+            <p style={para}>
+              Contact : <span style={strong}>contact@aevia.io</span>
+            </p>
+            <p style={para}>
+              Adresse du siège social communiquée sur demande à contact@aevia.io.
+            </p>
+
+            <h2 style={sectionTitle}>TVA</h2>
+            <p style={para}>TVA non applicable, art. 293 B du CGI.</p>
+
+            <h2 style={sectionTitle}>Hébergeur</h2>
+            <p style={para}>
+              Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA.
+            </p>
+
+            <h2 style={sectionTitle}>Propriété intellectuelle</h2>
+            <p style={para}>
+              L&apos;ensemble des contenus présents sur ce site (textes, visuels, logo,
+              mise en page) est protégé par le droit de la propriété intellectuelle. Toute
+              reproduction, même partielle, est interdite sans autorisation préalable de
+              l&apos;éditeur.
+            </p>
+
+            <h2 style={sectionTitle}>Responsabilité</h2>
+            <p style={para}>
+              Les informations diffusées sur ce site sont fournies à titre indicatif et ne
+              sauraient engager la responsabilité de l&apos;éditeur.
+            </p>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <PageHero eyebrow="Protection des données" title="Confidentialité" />
+      <section style={{ padding: "80px 48px 100px", boxSizing: "border-box" }}>
+        <div style={{ maxWidth: 780, margin: "0 auto" }}>
+          <p style={{ ...para, fontStyle: "italic", color: T.dimmed }}>
+            Dernière mise à jour : juin 2026.
+          </p>
+
+          <h2 style={{ ...sectionTitle, marginTop: 24 }}>Responsable du traitement</h2>
+          <p style={para}>
+            Le responsable du traitement des données personnelles est{" "}
+            <span style={strong}>Aevia WS</span>, éditeur du site. Pour toute question,
+            écrivez à <span style={strong}>contact@aevia.io</span>.
+          </p>
+
+          <h2 style={sectionTitle}>Données collectées</h2>
+          <p style={para}>
+            Nous collectons uniquement les données que vous nous transmettez volontairement
+            via le formulaire de contact (nom, email, société et message), aux seules fins
+            de répondre à votre demande.
+          </p>
+
+          <h2 style={sectionTitle}>Finalité et base légale</h2>
+          <p style={para}>
+            Vos données sont traitées sur la base de votre consentement et de
+            l&apos;intérêt légitime du studio à répondre aux sollicitations. Elles ne font
+            l&apos;objet d&apos;aucune cession à des tiers à des fins commerciales.
+          </p>
+
+          <h2 style={sectionTitle}>Durée de conservation</h2>
+          <p style={para}>
+            Les données issues du formulaire de contact sont conservées le temps nécessaire
+            au traitement de votre demande, puis archivées ou supprimées conformément aux
+            obligations légales applicables.
+          </p>
+
+          <h2 style={sectionTitle}>Vos droits</h2>
+          <p style={para}>
+            Conformément au RGPD, vous disposez d&apos;un droit d&apos;accès, de
+            rectification, d&apos;effacement, de portabilité et d&apos;opposition au
+            traitement de vos données. Pour exercer ces droits, écrivez à contact@aevia.io.
+          </p>
+
+          <h2 style={sectionTitle}>Cookies</h2>
+          <p style={para}>
+            Ce site ne dépose pas de cookies de suivi publicitaire. Seuls des cookies
+            techniques strictement nécessaires au fonctionnement du site peuvent être
+            utilisés.
+          </p>
+        </div>
+      </section>
     </div>
   );
 }
