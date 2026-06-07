@@ -195,86 +195,86 @@ type AgencyPage =
   | "privacy";
 
 const NAV_PAGES: { key: AgencyPage; label: string }[] = [
-  { key: "home", label: "Accueil" },
+  { key: "home", label: "Home" },
   { key: "services", label: "Services" },
-  { key: "work", label: "Réalisations" },
+  { key: "work", label: "Work" },
   { key: "blog", label: "Blog" },
-  { key: "about", label: "À propos" },
+  { key: "about", label: "About" },
   { key: "contact", label: "Contact" },
 ];
 
-/* ── Detailed services (Services sub-page — FR, reuses ServiceCard styling) ── */
+/* ── Detailed services (Services sub-page — EN, reuses ServiceCard styling) ── */
 const SERVICE_DETAILS = [
   {
     icon: <Monitor size={28} />,
     tag: "UI/UX",
     title: "Web Design",
-    desc: "Des interfaces sur-mesure pensées au pixel près, guidées par une réflexion UX stratégique qui transforme vos visiteurs en clients.",
+    desc: "Bespoke interfaces crafted with pixel-perfect precision and strategic UX thinking that turns visitors into customers.",
     points: [
-      "Audit UX et recherche utilisateur",
-      "Wireframes & prototypes interactifs",
-      "Design systems & composants réutilisables",
-      "Interfaces responsive et accessibles",
+      "UX audit & user research",
+      "Wireframes & interactive prototypes",
+      "Design systems & reusable components",
+      "Responsive, accessible interfaces",
     ],
   },
   {
     icon: <Code2 size={28} />,
     tag: "Engineering",
-    title: "Développement",
-    desc: "Des applications performantes bâties sur des stacks modernes, avec des intégrations fluides et une fiabilité à toute épreuve.",
+    title: "Development",
+    desc: "High-performance applications built on modern stacks, with seamless integrations and bulletproof reliability.",
     points: [
       "Next.js, React, Node.js, TypeScript",
-      "Sites vitrines & applications sur-mesure",
-      "Intégrations API et back-office",
-      "CI/CD, tests et mise en production",
+      "Marketing sites & custom applications",
+      "API integrations & back-office tooling",
+      "CI/CD, testing & production rollout",
     ],
   },
   {
     icon: <Palette size={28} />,
     tag: "Identity",
     title: "Branding",
-    desc: "Des identités visuelles distinctives qui résonnent profondément avec votre audience et vous démarquent de la concurrence.",
+    desc: "Distinctive visual identities that resonate deeply with your audience and set you apart from competitors.",
     points: [
-      "Logo & charte graphique",
-      "Direction artistique",
-      "Déclinaisons print & digital",
-      "Guidelines de marque",
+      "Logo & visual guidelines",
+      "Art direction",
+      "Print & digital applications",
+      "Brand guidelines",
     ],
   },
   {
     icon: <Layers size={28} />,
     tag: "Growth",
-    title: "Stratégie",
-    desc: "Des stratégies de croissance pilotées par la donnée, qui se composent dans le temps et fidélisent durablement votre audience.",
+    title: "Strategy",
+    desc: "Data-driven growth strategies that compound over time and build lasting loyalty with your audience.",
     points: [
-      "Stratégie de contenu & SEO",
-      "Optimisation des tunnels de conversion",
-      "Analytics & tableaux de bord",
-      "Roadmap produit",
+      "Content strategy & SEO",
+      "Conversion funnel optimization",
+      "Analytics & dashboards",
+      "Product roadmap",
     ],
   },
   {
     icon: <Monitor size={28} />,
     tag: "Animation",
     title: "Motion Design",
-    desc: "Des animations cinématiques et micro-interactions qui subliment la perception et rendent chaque point de contact mémorable.",
+    desc: "Cinematic animations and micro-interactions that elevate perception and make every touchpoint memorable.",
     points: [
-      "Animations d'interface (Framer Motion)",
+      "Interface animation (Framer Motion)",
       "Micro-interactions & transitions",
-      "Habillage de marque animé",
-      "Prototypes de mouvement",
+      "Animated brand identity",
+      "Motion prototypes",
     ],
   },
   {
     icon: <Code2 size={28} />,
     tag: "Speed",
     title: "Performance",
-    desc: "Optimisation des Core Web Vitals, architecture CDN et réglage d'infrastructure pour des temps de chargement sous la seconde.",
+    desc: "Core Web Vitals optimization, CDN architecture, and infrastructure tuning for sub-second load times.",
     points: [
-      "Audit Lighthouse & Core Web Vitals",
-      "Optimisation des images & du bundle",
-      "Architecture CDN & edge",
-      "Monitoring de performance",
+      "Lighthouse & Core Web Vitals audit",
+      "Image & bundle optimization",
+      "CDN & edge architecture",
+      "Performance monitoring",
     ],
   },
 ];
@@ -289,9 +289,9 @@ const WORK_DETAILS = [
     image:
       "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop",
     summary:
-      "Refonte complète de l'écosystème web d'un laboratoire de R&D : design system, site institutionnel et portail client.",
-    role: "Design, Développement, Branding",
-    result: "+180 % de leads qualifiés en six mois.",
+      "A complete overhaul of an R&D lab's web ecosystem: design system, corporate site, and client portal.",
+    role: "Design, Development, Branding",
+    result: "+180% qualified leads within six months.",
   },
   {
     id: 2,
@@ -301,9 +301,9 @@ const WORK_DETAILS = [
     image:
       "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop",
     summary:
-      "Création de l'identité visuelle d'un studio de production : logo, charte, déclinaisons print et digitales.",
-    role: "Branding, Direction artistique",
-    result: "Une marque reconnaissable, primée au Brand Awards 2025.",
+      "Crafting the visual identity of a production studio: logo, guidelines, print and digital applications.",
+    role: "Branding, Art direction",
+    result: "A recognizable brand, awarded at the Brand Awards 2025.",
   },
   {
     id: 3,
@@ -313,9 +313,9 @@ const WORK_DETAILS = [
     image:
       "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1200&auto=format&fit=crop",
     summary:
-      "Conception et développement d'une application fintech mobile-first, du wireframe au lancement.",
-    role: "UI/UX, Développement",
-    result: "Note de 4,8/5 sur les stores dès le premier mois.",
+      "Design and development of a mobile-first fintech app, from wireframe to launch.",
+    role: "UI/UX, Development",
+    result: "4.8/5 store rating in the first month.",
   },
   {
     id: 4,
@@ -325,9 +325,9 @@ const WORK_DETAILS = [
     image:
       "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1200&auto=format&fit=crop",
     summary:
-      "Portail patient sécurisé et accessible (WCAG 2.2 AA) pour un acteur de la santé.",
-    role: "UX, Accessibilité, Développement",
-    result: "Conformité RGAA et réduction de 40 % des appels au support.",
+      "A secure, accessible (WCAG 2.2 AA) patient portal for a healthcare provider.",
+    role: "UX, Accessibility, Development",
+    result: "Full accessibility compliance and a 40% drop in support calls.",
   },
   {
     id: 5,
@@ -337,9 +337,9 @@ const WORK_DETAILS = [
     image:
       "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1200&auto=format&fit=crop",
     summary:
-      "Boutique en ligne d'un label musical indépendant, immersive et performante.",
-    role: "Design, Développement, Motion",
-    result: "Taux de conversion multiplié par 2,3.",
+      "An immersive, high-performance online store for an independent music label.",
+    role: "Design, Development, Motion",
+    result: "Conversion rate multiplied by 2.3.",
   },
   {
     id: 6,
@@ -349,68 +349,76 @@ const WORK_DETAILS = [
     image:
       "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?q=80&w=1200&auto=format&fit=crop",
     summary:
-      "Plateforme SaaS d'intelligence artificielle : marketing site, app et design system.",
-    role: "Design system, Développement",
-    result: "Onboarding accéléré et churn divisé par deux.",
+      "An AI SaaS platform: marketing site, app, and design system.",
+    role: "Design system, Development",
+    result: "Faster onboarding and churn cut in half.",
   },
 ];
 
-/* ── Blog mock articles (FR — web / design / marketing insights) ── */
+/* ── Blog mock articles (EN — web / design / marketing insights) ── */
 const BLOG_POSTS = [
   {
     slug: "core-web-vitals",
-    title: "Core Web Vitals : pourquoi la performance est devenue un argument de vente",
-    date: "4 juin 2026",
+    title: "Core Web Vitals: why performance became a selling point",
+    date: "June 4, 2026",
     category: "Performance",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop",
     excerpt:
-      "Au-delà du référencement, la vitesse de chargement façonne directement la perception de votre marque et votre taux de conversion.",
+      "Beyond SEO, load speed directly shapes how your brand is perceived and how well your site converts.",
     body: [
-      "Les Core Web Vitals — LCP, INP et CLS — ne sont plus de simples métriques techniques. Ils mesurent l'expérience réelle vécue par vos visiteurs et conditionnent à la fois votre référencement et votre crédibilité de marque.",
-      "Le LCP (Largest Contentful Paint) traduit le temps perçu avant que la page ne soit utile. Sous 2,5 secondes, l'utilisateur a le sentiment d'un site rapide ; au-delà de 4 secondes, le taux de rebond explose. L'optimisation passe par le préchargement des ressources critiques, le redimensionnement des images et un CDN bien configuré.",
-      "L'INP (Interaction to Next Paint) mesure la réactivité aux interactions. Un bouton qui répond instantanément inspire confiance ; une latence de quelques centaines de millisecondes suffit à donner une impression de site « cassé ». La clé : alléger le JavaScript exécuté au moment de l'interaction.",
-      "Notre conviction : la performance n'est pas un sujet d'ingénieurs, c'est un sujet de direction. Un site rapide convertit mieux, se positionne mieux et renvoie l'image d'une marque sérieuse. Nous l'intégrons dès la phase de design.",
+      "Core Web Vitals — LCP, INP, and CLS — are no longer just technical metrics. They measure the real experience your visitors have, and they drive both your search ranking and your brand credibility.",
+      "LCP (Largest Contentful Paint) reflects the perceived time before a page becomes useful. Under 2.5 seconds, users feel the site is fast; beyond 4 seconds, bounce rates explode. Optimization comes from preloading critical resources, resizing images, and a well-configured CDN.",
+      "INP (Interaction to Next Paint) measures responsiveness to interactions. A button that responds instantly inspires confidence; a few hundred milliseconds of latency is enough to make a site feel \"broken.\" The key: trim the JavaScript executed at interaction time.",
+      "Our conviction: performance is not an engineering topic, it's a leadership topic. A fast site converts better, ranks better, and projects the image of a serious brand. We bake it in from the design phase.",
     ],
   },
   {
     slug: "design-system",
-    title: "Design system : l'investissement qui accélère toutes vos sorties",
-    date: "22 mai 2026",
+    title: "Design systems: the investment that speeds up every release",
+    date: "May 22, 2026",
     category: "Design",
+    image:
+      "https://images.unsplash.com/photo-1545235617-9465d2a55698?q=80&w=1200&auto=format&fit=crop",
     excerpt:
-      "Un design system bien pensé n'est pas un luxe d'agence : c'est l'outil qui aligne design et développement et divise vos délais.",
+      "A well-built design system isn't an agency luxury: it's the tool that aligns design and development and cuts your timelines.",
     body: [
-      "Un design system est une bibliothèque vivante de composants, de tokens et de règles qui garantit la cohérence visuelle d'un produit. Mais sa vraie valeur est ailleurs : il transforme la manière dont design et développement collaborent.",
-      "Sans système, chaque nouvelle page se réinvente : couleurs approximatives, espacements incohérents, composants dupliqués. Avec un système, designers et développeurs parlent le même langage — un « bouton primaire » désigne exactement la même chose des deux côtés.",
-      "Les tokens de design (couleurs, typographies, espacements) sont le socle. Centralisés, ils permettent de faire évoluer toute une marque depuis une seule source de vérité, sans repasser sur des centaines d'écrans.",
-      "Le retour sur investissement se mesure dans le temps : les premières semaines sont plus lentes, mais chaque sortie suivante est plus rapide, plus cohérente et moins sujette aux bugs. C'est l'effet composé du design.",
+      "A design system is a living library of components, tokens, and rules that guarantees the visual consistency of a product. But its true value lies elsewhere: it transforms how design and development collaborate.",
+      "Without a system, every new page is reinvented: approximate colors, inconsistent spacing, duplicated components. With a system, designers and developers speak the same language — a \"primary button\" means exactly the same thing on both sides.",
+      "Design tokens (colors, typography, spacing) are the foundation. Centralized, they let you evolve an entire brand from a single source of truth, without revisiting hundreds of screens.",
+      "The return on investment shows over time: the first weeks are slower, but every release after that is faster, more consistent, and less prone to bugs. That's the compound effect of design.",
     ],
   },
   {
     slug: "tunnel-conversion",
-    title: "Tunnel de conversion : cinq frictions qui vous coûtent des clients",
-    date: "9 mai 2026",
+    title: "Conversion funnels: five frictions that cost you customers",
+    date: "May 9, 2026",
     category: "Marketing",
+    image:
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop",
     excerpt:
-      "La plupart des sites ne perdent pas leurs visiteurs par manque de trafic, mais par excès de friction. Revue des points de fuite les plus courants.",
+      "Most sites don't lose visitors for lack of traffic, but from too much friction. A review of the most common leak points.",
     body: [
-      "Un tunnel de conversion est le parcours qui mène un visiteur de la découverte à l'action souhaitée — achat, prise de contact, inscription. Chaque étape superflue est une porte de sortie potentielle.",
-      "Première friction : un appel à l'action ambigu. Un visiteur doit comprendre en une seconde ce qu'on attend de lui. Multiplier les boutons concurrents dilue l'attention et fait chuter les conversions.",
-      "Deuxième friction : les formulaires trop longs. Chaque champ supplémentaire réduit le taux de complétion. Ne demandez que l'essentiel ; le reste se collecte plus tard.",
-      "Troisième friction : l'absence de réassurance. Témoignages, logos clients, garanties et indicateurs de sécurité lèvent les freins à l'action au moment décisif. La confiance se construit visuellement, à l'endroit exact de l'hésitation.",
+      "A conversion funnel is the journey that takes a visitor from discovery to the desired action — purchase, contact, sign-up. Every unnecessary step is a potential exit door.",
+      "First friction: an ambiguous call to action. A visitor must understand in one second what's expected of them. Multiplying competing buttons dilutes attention and drags conversions down.",
+      "Second friction: forms that are too long. Every extra field lowers completion rates. Ask only for the essentials; the rest can be collected later.",
+      "Third friction: a lack of reassurance. Testimonials, client logos, guarantees, and security signals remove barriers to action at the decisive moment. Trust is built visually, exactly where hesitation happens.",
     ],
   },
   {
     slug: "motion-design",
-    title: "Motion design : quand l'animation sert l'expérience (et quand elle la dessert)",
-    date: "24 avril 2026",
+    title: "Motion design: when animation serves the experience (and when it hurts it)",
+    date: "April 24, 2026",
     category: "Design",
+    image:
+      "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop",
     excerpt:
-      "Bien dosée, l'animation guide le regard et fluidifie l'expérience. Mal utilisée, elle ralentit et agace. Où se situe la juste mesure ?",
+      "Used well, animation guides the eye and smooths the experience. Used badly, it slows things down and annoys. Where's the right balance?",
     body: [
-      "Le motion design regroupe l'ensemble des animations d'interface : transitions de page, micro-interactions, effets au survol. Son rôle n'est pas décoratif : il est fonctionnel.",
-      "Une bonne animation a un but : confirmer une action, orienter l'attention, expliquer une transition spatiale. Lorsqu'un panneau glisse depuis la droite, l'utilisateur comprend instinctivement où il pourra le retrouver.",
-      "À l'inverse, l'animation gratuite nuit. Une transition trop longue donne une impression de lenteur ; un effet trop appuyé distrait du contenu. La règle d'or : la plupart des animations d'interface devraient durer entre 150 et 400 millisecondes.",
-      "Nous concevons le mouvement comme un langage discret. L'utilisateur ne doit pas remarquer l'animation : il doit simplement trouver l'expérience fluide, naturelle et agréable.",
+      "Motion design covers all interface animation: page transitions, micro-interactions, hover effects. Its role isn't decorative: it's functional.",
+      "Good animation has a purpose: confirm an action, direct attention, explain a spatial transition. When a panel slides in from the right, the user instinctively understands where they'll be able to find it again.",
+      "Conversely, gratuitous animation hurts. A transition that's too long feels sluggish; an effect that's too strong distracts from the content. The golden rule: most interface animations should last between 150 and 400 milliseconds.",
+      "We design motion as a quiet language. Users shouldn't notice the animation — they should simply find the experience smooth, natural, and pleasant.",
     ],
   },
 ];
@@ -419,39 +427,39 @@ const BLOG_POSTS = [
 const TEAM = [
   {
     name: "Léa Fontaine",
-    role: "Directrice de création",
-    focus: "Direction artistique, Branding",
-    bio: "Léa pilote la vision créative du studio. Quinze ans d'expérience entre Paris et Londres, au service de marques qui veulent marquer les esprits.",
+    role: "Creative Director",
+    focus: "Art direction, Branding",
+    bio: "Léa drives the studio's creative vision. Fifteen years of experience between Paris and London, serving brands that want to leave a mark.",
   },
   {
     name: "Thomas Reyes",
-    role: "Lead Développeur",
+    role: "Lead Developer",
     focus: "Architecture, Performance",
-    bio: "Thomas traduit le design en code propre, rapide et durable. Spécialiste Next.js et des architectures qui tiennent la charge en production.",
+    bio: "Thomas turns design into clean, fast, durable code. A specialist in Next.js and architectures that hold up under production load.",
   },
   {
     name: "Camille Aubry",
-    role: "Stratège produit",
+    role: "Product Strategist",
     focus: "UX, Conversion, Growth",
-    bio: "Camille relie la créativité aux résultats. Recherche utilisateur, optimisation des conversions et stratégie de croissance pilotée par la donnée.",
+    bio: "Camille connects creativity to results. User research, conversion optimization, and data-driven growth strategy.",
   },
 ];
 
 const VALUES = [
   {
     icon: <Palette size={24} />,
-    title: "Le détail",
-    text: "Chaque pixel est intentionnel. Nous croyons que l'excellence se loge dans les détails que personne ne remarque consciemment.",
+    title: "Detail",
+    text: "Every pixel is intentional. We believe excellence lives in the details no one consciously notices.",
   },
   {
     icon: <Code2 size={24} />,
-    title: "La rigueur",
-    text: "Du design au code, nous anticipons les cas limites et bâtissons pour durer. Un beau site qui casse n'est qu'une promesse trahie.",
+    title: "Rigor",
+    text: "From design to code, we anticipate edge cases and build to last. A beautiful site that breaks is just a broken promise.",
   },
   {
     icon: <Layers size={24} />,
-    title: "L'impact",
-    text: "Le beau qui ne convertit pas n'est que décoration. Nous mesurons notre réussite à l'aune des résultats de nos clients.",
+    title: "Impact",
+    text: "Beautiful work that doesn't convert is just decoration. We measure our success by our clients' results.",
   },
 ];
 
@@ -789,7 +797,12 @@ export default function ImpactAgencyTemplate() {
         background: T.bg,
         color: T.text,
         fontFamily: FONT_BODY,
-        overflowX: "hidden",
+        // `overflow-x: clip` prevents horizontal scroll WITHOUT establishing a
+        // scroll container. Using `overflow-x: hidden` here computed to
+        // `overflow: hidden auto`, which turned this wrapper into the scroll
+        // container and broke the `position: sticky` PROCESS section (it scrolled
+        // away early, leaving a large black gap before the Stats section).
+        overflowX: "clip",
         minHeight: "100vh",
       }}
     >
@@ -1726,6 +1739,7 @@ export default function ImpactAgencyTemplate() {
             </div>
             <FadeUp>
               <button
+                onClick={() => goTo("work")}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -1877,8 +1891,8 @@ export default function ImpactAgencyTemplate() {
               >
                 <Mail size={16} /> hello@impact.studio
               </a>
-              <a
-                href="#"
+              <button
+                onClick={() => scrollTo("contact")}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -1894,6 +1908,7 @@ export default function ImpactAgencyTemplate() {
                   textTransform: "uppercase",
                   letterSpacing: "0.14em",
                   textDecoration: "none",
+                  cursor: "pointer",
                   transition: "border-color 0.2s ease",
                 }}
                 onMouseEnter={(e) =>
@@ -1904,7 +1919,7 @@ export default function ImpactAgencyTemplate() {
                 }
               >
                 Schedule a Call
-              </a>
+              </button>
             </div>
           </FadeUp>
 
@@ -1958,69 +1973,9 @@ export default function ImpactAgencyTemplate() {
       {page === "privacy" && <LegalPage variant="privacy" />}
 
       {/* ══════════════════════════════════════════════════
-          FOOTER
+          FOOTER — every internal link is wired to goTo(...)
           ══════════════════════════════════════════════════ */}
-      <footer
-        style={{
-          borderTop: `1px solid ${T.border}`,
-          padding: "48px 48px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: 16,
-          boxSizing: "border-box",
-        }}
-      >
-        <span
-          style={{
-            fontFamily: FONT_HEADING,
-            fontWeight: 800,
-            fontSize: "1.1rem",
-            letterSpacing: "-0.02em",
-            color: T.text,
-          }}
-        >
-          IMPACT<span style={{ color: T.accent }}>.</span>
-        </span>
-        <span
-          style={{
-            fontFamily: FONT_BODY,
-            fontSize: "0.75rem",
-            color: T.dimmed,
-            fontWeight: 400,
-          }}
-        >
-          &copy; 2026 IMPACT Studio. All rights reserved.
-        </span>
-        <div style={{ display: "flex", gap: 24 }}>
-          {[
-            { label: "Mentions légales", page: "mentions" as AgencyPage },
-            { label: "Confidentialité", page: "privacy" as AgencyPage },
-            { label: "Contact", page: "contact" as AgencyPage },
-          ].map((item) => (
-            <button
-              key={item.label}
-              onClick={() => goTo(item.page)}
-              style={{
-                fontFamily: FONT_BODY,
-                fontSize: "0.75rem",
-                color: T.dimmed,
-                textDecoration: "none",
-                transition: "color 0.2s ease",
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                padding: 0,
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = T.text)}
-              onMouseLeave={(e) => (e.currentTarget.style.color = T.dimmed)}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-      </footer>
+      <Footer goTo={goTo} />
 
       {/* ── Responsive overrides via style tag ── */}
       <style>{`
@@ -2046,9 +2001,266 @@ export default function ImpactAgencyTemplate() {
           .subpage-grid-3 { grid-template-columns: 1fr !important; }
           .subpage-grid-2 { grid-template-columns: 1fr !important; }
           .subpage-contact { grid-template-columns: 1fr !important; }
+          .footer-cols { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 480px) {
+          .footer-cols { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FOOTER (fully active — every internal link routes via goTo)
+   ───────────────────────────────────────────────────────────── */
+function FooterLink({
+  label,
+  onClick,
+}: {
+  label: string;
+  onClick: () => void;
+}) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        fontFamily: FONT_BODY,
+        fontSize: "0.85rem",
+        fontWeight: 400,
+        color: hovered ? T.text : T.muted,
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+        padding: 0,
+        textAlign: "left",
+        transition: "color 0.2s ease",
+      }}
+    >
+      {label}
+    </button>
+  );
+}
+
+function Footer({ goTo }: { goTo: (p: AgencyPage) => void }) {
+  const colTitle: React.CSSProperties = {
+    fontFamily: FONT_BODY,
+    fontSize: "0.62rem",
+    fontWeight: 600,
+    textTransform: "uppercase",
+    letterSpacing: "0.2em",
+    color: T.accent,
+    marginBottom: 18,
+  };
+  return (
+    <footer
+      style={{
+        borderTop: `1px solid ${T.border}`,
+        boxSizing: "border-box",
+      }}
+    >
+      {/* Link columns */}
+      <div
+        className="footer-cols"
+        style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          padding: "72px 48px 56px",
+          display: "grid",
+          gridTemplateColumns: "1.5fr 1fr 1fr 1fr",
+          gap: 40,
+          boxSizing: "border-box",
+        }}
+      >
+        {/* Brand + blurb */}
+        <div>
+          <button
+            onClick={() => goTo("home")}
+            style={{
+              fontFamily: FONT_HEADING,
+              fontWeight: 800,
+              fontSize: "1.4rem",
+              letterSpacing: "-0.02em",
+              color: T.text,
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 0,
+              marginBottom: 18,
+              display: "block",
+            }}
+          >
+            IMPACT<span style={{ color: T.accent }}>.</span>
+          </button>
+          <p
+            style={{
+              fontFamily: FONT_BODY,
+              fontSize: "0.9rem",
+              lineHeight: 1.7,
+              color: T.muted,
+              fontWeight: 300,
+              maxWidth: 320,
+              margin: 0,
+            }}
+          >
+            Full-service creative studio crafting immersive digital experiences for
+            ambitious brands.
+          </p>
+        </div>
+
+        {/* Studio (content pages) */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={colTitle}>Studio</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <FooterLink label="Home" onClick={() => goTo("home")} />
+            <FooterLink label="Services" onClick={() => goTo("services")} />
+            <FooterLink label="Work" onClick={() => goTo("work")} />
+            <FooterLink label="About" onClick={() => goTo("about")} />
+          </div>
+        </div>
+
+        {/* Resources */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={colTitle}>Resources</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <FooterLink label="Blog" onClick={() => goTo("blog")} />
+            <FooterLink label="Contact" onClick={() => goTo("contact")} />
+            <FooterLink
+              label="Legal notice"
+              onClick={() => goTo("mentions")}
+            />
+            <FooterLink
+              label="Privacy policy"
+              onClick={() => goTo("privacy")}
+            />
+          </div>
+        </div>
+
+        {/* Connect (external/social can stay as-is) */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={colTitle}>Connect</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <a
+              href="mailto:contact@aevia.io"
+              style={{
+                fontFamily: FONT_BODY,
+                fontSize: "0.85rem",
+                color: T.muted,
+                textDecoration: "none",
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = T.text)}
+              onMouseLeave={(e) => (e.currentTarget.style.color = T.muted)}
+            >
+              contact@aevia.io
+            </a>
+            <a
+              href="https://www.linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontFamily: FONT_BODY,
+                fontSize: "0.85rem",
+                color: T.muted,
+                textDecoration: "none",
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = T.text)}
+              onMouseLeave={(e) => (e.currentTarget.style.color = T.muted)}
+            >
+              LinkedIn
+            </a>
+            <a
+              href="https://www.instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontFamily: FONT_BODY,
+                fontSize: "0.85rem",
+                color: T.muted,
+                textDecoration: "none",
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = T.text)}
+              onMouseLeave={(e) => (e.currentTarget.style.color = T.muted)}
+            >
+              Instagram
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div
+        style={{
+          borderTop: `1px solid ${T.border}`,
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1200,
+            margin: "0 auto",
+            padding: "24px 48px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 16,
+            boxSizing: "border-box",
+          }}
+        >
+          <span
+            style={{
+              fontFamily: FONT_BODY,
+              fontSize: "0.75rem",
+              color: T.dimmed,
+              fontWeight: 400,
+            }}
+          >
+            &copy; 2026 IMPACT Studio. All rights reserved.
+          </span>
+          <div style={{ display: "flex", gap: 24 }}>
+            <button
+              onClick={() => goTo("mentions")}
+              style={{
+                fontFamily: FONT_BODY,
+                fontSize: "0.75rem",
+                color: T.dimmed,
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = T.text)}
+              onMouseLeave={(e) => (e.currentTarget.style.color = T.dimmed)}
+            >
+              Legal notice
+            </button>
+            <button
+              onClick={() => goTo("privacy")}
+              style={{
+                fontFamily: FONT_BODY,
+                fontSize: "0.75rem",
+                color: T.dimmed,
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = T.text)}
+              onMouseLeave={(e) => (e.currentTarget.style.color = T.dimmed)}
+            >
+              Privacy policy
+            </button>
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 }
 
@@ -2611,7 +2823,7 @@ function SubCTA({
           onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
           onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
         >
-          Discutons-en <ArrowRight size={16} />
+          Let&apos;s Talk <ArrowRight size={16} />
         </button>
       </div>
     </FadeUp>
@@ -2623,10 +2835,10 @@ function ServicesPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
   return (
     <div>
       <PageHero
-        eyebrow="Ce que nous faisons"
-        title="Des services"
-        accent="taillés pour l'impact."
-        subtitle="Du design à la mise en production, nous couvrons tout le spectre du digital. Chaque prestation est conçue pour servir un objectif business mesurable."
+        eyebrow="What we do"
+        title="Services built"
+        accent="for impact."
+        subtitle="From design to production, we cover the full spectrum of digital. Every service is built to serve a measurable business goal."
       />
       <section style={{ padding: "100px 48px", boxSizing: "border-box" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -2649,8 +2861,8 @@ function ServicesPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
           <div style={{ marginTop: 64 }}>
             <SubCTA
               goTo={goTo}
-              title="Un projet en tête ?"
-              text="Nous travaillons avec un nombre limité de clients chaque trimestre. Parlons de votre projet avant que les places ne soient prises."
+              title="Have a project in mind?"
+              text="We work with a select number of clients each quarter. Let's talk about your project before spots fill up."
             />
           </div>
         </div>
@@ -2809,8 +3021,7 @@ function WorkPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
               onMouseEnter={(e) => (e.currentTarget.style.color = T.accent)}
               onMouseLeave={(e) => (e.currentTarget.style.color = T.muted)}
             >
-              <ArrowRight size={14} style={{ transform: "rotate(180deg)" }} /> Toutes les
-              réalisations
+              <ArrowRight size={14} style={{ transform: "rotate(180deg)" }} /> All work
             </button>
             <FadeUp>
               <span
@@ -2891,9 +3102,9 @@ function WorkPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
                   }}
                 >
                   {[
-                    { label: "Notre rôle", val: project.role },
-                    { label: "Année", val: project.year },
-                    { label: "Résultat", val: project.result },
+                    { label: "Our role", val: project.role },
+                    { label: "Year", val: project.year },
+                    { label: "Result", val: project.result },
                   ].map((item) => (
                     <div key={item.label} style={{ marginBottom: 20 }}>
                       <div
@@ -2928,8 +3139,8 @@ function WorkPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
             <div style={{ marginTop: 72 }}>
               <SubCTA
                 goTo={goTo}
-                title="Un projet similaire ?"
-                text="Racontez-nous votre ambition. Nous reviendrons vers vous sous 24 heures ouvrées."
+                title="A similar project?"
+                text="Tell us about your ambition. We'll get back to you within one business day."
               />
             </div>
           </div>
@@ -2941,10 +3152,10 @@ function WorkPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
   return (
     <div>
       <PageHero
-        eyebrow="Travaux sélectionnés"
-        title="Nos"
-        accent="réalisations."
-        subtitle="Une sélection de projets récents. Chaque collaboration vise un objectif clair et des résultats mesurables."
+        eyebrow="Selected work"
+        title="Our"
+        accent="work."
+        subtitle="A selection of recent projects. Every engagement targets a clear objective and measurable results."
       />
       <section style={{ padding: "100px 48px", boxSizing: "border-box" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -2969,8 +3180,8 @@ function WorkPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
           <div style={{ marginTop: 64 }}>
             <SubCTA
               goTo={goTo}
-              title="Prêt à rejoindre cette liste ?"
-              text="Nous concevons des produits digitaux qui marquent. Parlons de votre projet."
+              title="Ready to join this list?"
+              text="We craft digital products that leave a mark. Let's talk about your project."
             />
           </div>
         </div>
@@ -3014,8 +3225,7 @@ function BlogPage({
               onMouseEnter={(e) => (e.currentTarget.style.color = T.accent)}
               onMouseLeave={(e) => (e.currentTarget.style.color = T.muted)}
             >
-              <ArrowRight size={14} style={{ transform: "rotate(180deg)" }} /> Tous les
-              articles
+              <ArrowRight size={14} style={{ transform: "rotate(180deg)" }} /> All articles
             </button>
             <div
               style={{
@@ -3066,18 +3276,34 @@ function BlogPage({
             </h1>
             <div
               style={{
+                position: "relative",
                 height: "clamp(200px, 36vw, 340px)",
                 borderRadius: 20,
                 border: `1px solid ${T.border}`,
-                background:
-                  "radial-gradient(ellipse 80% 80% at 30% 30%, rgba(0,102,255,0.18) 0%, transparent 70%), #0e0e0e",
+                overflow: "hidden",
                 marginBottom: 48,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
               }}
             >
-              <Layers size={48} color={T.accent} style={{ opacity: 0.5 }} />
+              <img
+                src={post.image}
+                alt={post.title}
+                loading="lazy"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background:
+                    "linear-gradient(to top, rgba(10,10,10,0.55) 0%, transparent 60%)",
+                  pointerEvents: "none",
+                }}
+              />
             </div>
             {post.body.map((paraTxt, i) => (
               <p
@@ -3105,8 +3331,7 @@ function BlogPage({
                 color: T.dimmed,
               }}
             >
-              Article rédigé par l&apos;équipe d&apos;IMPACT Studio. Contenu fourni à titre
-              informatif.
+              Written by the IMPACT Studio team. Provided for informational purposes.
             </div>
           </div>
         </section>
@@ -3117,10 +3342,10 @@ function BlogPage({
   return (
     <div>
       <PageHero
-        eyebrow="Le journal du studio"
+        eyebrow="The studio journal"
         title="Insights"
-        accent="& réflexions."
-        subtitle="Nos partis pris sur le web, le design et le marketing. Des analyses concrètes pour des décisions éclairées."
+        accent="& thinking."
+        subtitle="Our take on the web, design, and marketing. Concrete analysis for better-informed decisions."
       />
       <section style={{ padding: "100px 48px", boxSizing: "border-box" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -3178,16 +3403,34 @@ function BlogCard({
     >
       <div
         style={{
+          position: "relative",
           height: 170,
-          background:
-            "radial-gradient(ellipse 80% 80% at 30% 30%, rgba(0,102,255,0.16) 0%, transparent 70%), #0e0e0e",
           borderBottom: `1px solid ${T.border}`,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          overflow: "hidden",
         }}
       >
-        <Layers size={32} color={T.accent} style={{ opacity: 0.45 }} />
+        <img
+          src={post.image}
+          alt={post.title}
+          loading="lazy"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            display: "block",
+            transform: hovered ? "scale(1.06)" : "scale(1)",
+            transition: "transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(to top, rgba(10,10,10,0.5) 0%, transparent 65%)",
+            pointerEvents: "none",
+          }}
+        />
       </div>
       <div
         style={{
@@ -3265,7 +3508,7 @@ function BlogCard({
             gap: 6,
           }}
         >
-          Lire l&apos;article <ArrowUpRight size={14} />
+          Read article <ArrowUpRight size={14} />
         </span>
       </div>
     </article>
@@ -3277,19 +3520,19 @@ function AboutPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
   return (
     <div>
       <PageHero
-        eyebrow="Le studio"
-        title="Nous ne construisons pas"
-        accent="que des sites."
-        subtitle="IMPACT est un collectif de designers, d'ingénieurs et de stratèges obsédés par l'excellence. Depuis 2018, nous accompagnons des marques ambitieuses."
+        eyebrow="The studio"
+        title="We don't just build"
+        accent="websites."
+        subtitle="IMPACT is a collective of designers, engineers, and strategists obsessed with excellence. Since 2018, we've partnered with ambitious brands."
       />
 
       {/* Story */}
       <section style={{ padding: "100px 48px", boxSizing: "border-box" }}>
         <div style={{ maxWidth: 780, margin: "0 auto" }}>
           {[
-            "Fondé en 2018, IMPACT Studio est né d'une conviction simple : le digital mérite la même exigence que les marques qu'il sert. Nous réunissons design, ingénierie et stratégie sous un même toit pour livrer un travail qui surperforme, systématiquement.",
-            "Notre modèle est celui d'un studio à taille humaine. Chaque projet est piloté de bout en bout par une équipe restreinte et senior — garantie de réactivité, de cohérence et d'un niveau de soin qui se voit dans le résultat final.",
-            "En huit ans, nous avons accompagné plus de 147 clients à travers le monde, des start-ups en amorçage aux grands comptes, avec un taux de satisfaction de 98 %. Le beau qui ne convertit pas n'est que décoration : nous mesurons notre réussite à la vôtre.",
+            "Founded in 2018, IMPACT Studio was born from a simple conviction: digital deserves the same standards as the brands it serves. We bring design, engineering, and strategy under one roof to deliver work that consistently outperforms.",
+            "Ours is a boutique studio model. Every project is run end to end by a small, senior team — a guarantee of responsiveness, consistency, and a level of care that shows in the final result.",
+            "In eight years, we've partnered with more than 147 clients worldwide, from seed-stage startups to large accounts, with a 98% satisfaction rate. Beautiful work that doesn't convert is just decoration: we measure our success by yours.",
           ].map((paraTxt, i) => (
             <p
               key={i}
@@ -3333,7 +3576,7 @@ function AboutPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
                   marginBottom: 20,
                 }}
               >
-                Nos valeurs
+                Our values
               </span>
             </FadeUp>
             <ClipRevealHeading>
@@ -3348,7 +3591,7 @@ function AboutPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
                   color: T.text,
                 }}
               >
-                Ce qui nous <span style={{ color: T.dimmed }}>guide.</span>
+                What <span style={{ color: T.dimmed }}>guides us.</span>
               </h2>
             </ClipRevealHeading>
           </div>
@@ -3436,7 +3679,7 @@ function AboutPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
                   marginBottom: 20,
                 }}
               >
-                L&apos;équipe
+                The team
               </span>
             </FadeUp>
             <ClipRevealHeading>
@@ -3451,7 +3694,7 @@ function AboutPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
                   color: T.text,
                 }}
               >
-                Les esprits <span style={{ color: T.dimmed }}>derrière.</span>
+                The minds <span style={{ color: T.dimmed }}>behind it.</span>
               </h2>
             </ClipRevealHeading>
           </div>
@@ -3551,8 +3794,8 @@ function AboutPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
           <div style={{ marginTop: 72 }}>
             <SubCTA
               goTo={goTo}
-              title="Travaillons ensemble."
-              text="Une idée, un projet, une ambition ? Nous serions ravis d'en discuter avec vous."
+              title="Let's work together."
+              text="An idea, a project, an ambition? We'd love to talk it through with you."
             />
           </div>
         </div>
@@ -3590,10 +3833,10 @@ function ContactPage() {
   return (
     <div>
       <PageHero
-        eyebrow="Entrons en contact"
-        title="Discutons de"
-        accent="votre projet."
-        subtitle="Nous travaillons avec un nombre limité de clients chaque trimestre. Décrivez-nous votre ambition — nous revenons vers vous sous 24 heures ouvrées."
+        eyebrow="Get in touch"
+        title="Let's talk about"
+        accent="your project."
+        subtitle="We work with a select number of clients each quarter. Tell us about your ambition — we'll get back to you within one business day."
       />
       <section style={{ padding: "100px 48px", boxSizing: "border-box" }}>
         <div
@@ -3613,8 +3856,8 @@ function ContactPage() {
               { icon: <MapPin size={18} />, label: "Studio", value: "Paris, France" },
               {
                 icon: <Phone size={18} />,
-                label: "Horaires",
-                value: "Lun – Ven · 9h – 19h",
+                label: "Hours",
+                value: "Mon – Fri · 9am – 7pm",
               },
             ].map((item) => (
               <div
@@ -3682,8 +3925,8 @@ function ContactPage() {
                 fontWeight: 300,
               }}
             >
-              Préférez-vous un appel ? Indiquez-le dans votre message et nous vous
-              proposerons un créneau.
+              Prefer a call? Mention it in your message and we&apos;ll suggest a time
+              slot.
             </p>
           </div>
 
@@ -3723,7 +3966,7 @@ function ContactPage() {
                     marginBottom: 12,
                   }}
                 >
-                  Message envoyé
+                  Message sent
                 </div>
                 <p
                   style={{
@@ -3735,7 +3978,7 @@ function ContactPage() {
                     fontWeight: 300,
                   }}
                 >
-                  Merci. Un membre du studio vous répondra sous 24 heures ouvrées.
+                  Thank you. A member of the studio will reply within one business day.
                 </p>
               </div>
             ) : (
@@ -3751,31 +3994,31 @@ function ContactPage() {
                   padding: "40px 36px",
                 }}
               >
-                <label style={labelStyle}>Nom complet</label>
-                <input style={inputStyle} type="text" placeholder="Votre nom" required />
+                <label style={labelStyle}>Full name</label>
+                <input style={inputStyle} type="text" placeholder="Your name" required />
                 <label style={labelStyle}>Email</label>
                 <input
                   style={inputStyle}
                   type="email"
-                  placeholder="votre@email.fr"
+                  placeholder="you@email.com"
                   required
                 />
-                <label style={labelStyle}>Société</label>
+                <label style={labelStyle}>Company</label>
                 <input
                   style={inputStyle}
                   type="text"
-                  placeholder="Nom de votre entreprise"
+                  placeholder="Your company name"
                 />
-                <label style={labelStyle}>Type de projet</label>
+                <label style={labelStyle}>Project type</label>
                 <input
                   style={inputStyle}
                   type="text"
-                  placeholder="Ex. : site vitrine, application, branding…"
+                  placeholder="e.g. marketing site, application, branding…"
                 />
                 <label style={labelStyle}>Message</label>
                 <textarea
                   style={{ ...inputStyle, minHeight: 140, resize: "vertical" }}
-                  placeholder="Décrivez brièvement votre projet."
+                  placeholder="Briefly describe your project."
                   required
                 />
                 <button
@@ -3798,7 +4041,7 @@ function ContactPage() {
                   onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
                   onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
                 >
-                  Envoyer la demande
+                  Send request
                 </button>
               </form>
             )}
@@ -3809,9 +4052,10 @@ function ContactPage() {
   );
 }
 
-/* ── MENTIONS LÉGALES & CONFIDENTIALITÉ ──────────────────────────────
-   `mentions` content is verbatim per legal requirement. NEVER print a
-   street address. */
+/* ── LEGAL NOTICE & PRIVACY POLICY ───────────────────────────────────
+   The legal FACTS (Aevia WS, SIREN, RCS, contact email, VAT statement,
+   host) are accurate and must stay so. Surrounding UI copy is English to
+   match the home page. NEVER print a street address. */
 function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
   const sectionTitle: React.CSSProperties = {
     fontFamily: FONT_HEADING,
@@ -3834,47 +4078,45 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
   if (variant === "mentions") {
     return (
       <div>
-        <PageHero eyebrow="Informations légales" title="Mentions légales" />
+        <PageHero eyebrow="Legal information" title="Legal notice" />
         <section style={{ padding: "80px 48px 100px", boxSizing: "border-box" }}>
           <div style={{ maxWidth: 780, margin: "0 auto" }}>
-            <h2 style={{ ...sectionTitle, marginTop: 0 }}>Éditeur du site</h2>
+            <h2 style={{ ...sectionTitle, marginTop: 0 }}>Site publisher</h2>
             <p style={para}>
-              <span style={strong}>Aevia WS</span> — entrepreneur individuel
-              (auto-entrepreneur).
+              <span style={strong}>Aevia WS</span> — sole proprietor (auto-entrepreneur).
             </p>
             <p style={para}>
-              Directeur de la publication : <span style={strong}>Valentin Milliand</span>.
+              Publication director: <span style={strong}>Valentin Milliand</span>.
             </p>
             <p style={para}>
-              SIREN : <span style={strong}>852 546 225</span> — RCS Bourg-en-Bresse.
+              SIREN: <span style={strong}>852 546 225</span> — RCS Bourg-en-Bresse.
             </p>
             <p style={para}>
-              Contact : <span style={strong}>contact@aevia.io</span>
+              Contact: <span style={strong}>contact@aevia.io</span>
             </p>
             <p style={para}>
-              Adresse du siège social communiquée sur demande à contact@aevia.io.
+              Registered office address available on request at contact@aevia.io.
             </p>
 
-            <h2 style={sectionTitle}>TVA</h2>
-            <p style={para}>TVA non applicable, art. 293 B du CGI.</p>
+            <h2 style={sectionTitle}>VAT</h2>
+            <p style={para}>VAT not applicable, art. 293 B French Tax Code.</p>
 
-            <h2 style={sectionTitle}>Hébergeur</h2>
+            <h2 style={sectionTitle}>Host</h2>
             <p style={para}>
               Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA.
             </p>
 
-            <h2 style={sectionTitle}>Propriété intellectuelle</h2>
+            <h2 style={sectionTitle}>Intellectual property</h2>
             <p style={para}>
-              L&apos;ensemble des contenus présents sur ce site (textes, visuels, logo,
-              mise en page) est protégé par le droit de la propriété intellectuelle. Toute
-              reproduction, même partielle, est interdite sans autorisation préalable de
-              l&apos;éditeur.
+              All content on this site (text, visuals, logo, layout) is protected by
+              intellectual property law. Any reproduction, even partial, is prohibited
+              without prior authorization from the publisher.
             </p>
 
-            <h2 style={sectionTitle}>Responsabilité</h2>
+            <h2 style={sectionTitle}>Liability</h2>
             <p style={para}>
-              Les informations diffusées sur ce site sont fournies à titre indicatif et ne
-              sauraient engager la responsabilité de l&apos;éditeur.
+              The information published on this site is provided for general guidance and
+              shall not engage the liability of the publisher.
             </p>
           </div>
         </section>
@@ -3884,53 +4126,52 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
 
   return (
     <div>
-      <PageHero eyebrow="Protection des données" title="Confidentialité" />
+      <PageHero eyebrow="Data protection" title="Privacy policy" />
       <section style={{ padding: "80px 48px 100px", boxSizing: "border-box" }}>
         <div style={{ maxWidth: 780, margin: "0 auto" }}>
           <p style={{ ...para, fontStyle: "italic", color: T.dimmed }}>
-            Dernière mise à jour : juin 2026.
+            Last updated: June 2026.
           </p>
 
-          <h2 style={{ ...sectionTitle, marginTop: 24 }}>Responsable du traitement</h2>
+          <h2 style={{ ...sectionTitle, marginTop: 24 }}>Data controller</h2>
           <p style={para}>
-            Le responsable du traitement des données personnelles est{" "}
-            <span style={strong}>Aevia WS</span>, éditeur du site. Pour toute question,
-            écrivez à <span style={strong}>contact@aevia.io</span>.
+            The controller of personal data is{" "}
+            <span style={strong}>Aevia WS</span>, the site publisher. For any question,
+            write to <span style={strong}>contact@aevia.io</span>.
           </p>
 
-          <h2 style={sectionTitle}>Données collectées</h2>
+          <h2 style={sectionTitle}>Data collected</h2>
           <p style={para}>
-            Nous collectons uniquement les données que vous nous transmettez volontairement
-            via le formulaire de contact (nom, email, société et message), aux seules fins
-            de répondre à votre demande.
+            We only collect the data you voluntarily provide through the contact form
+            (name, email, company, and message), for the sole purpose of responding to your
+            request.
           </p>
 
-          <h2 style={sectionTitle}>Finalité et base légale</h2>
+          <h2 style={sectionTitle}>Purpose and legal basis</h2>
           <p style={para}>
-            Vos données sont traitées sur la base de votre consentement et de
-            l&apos;intérêt légitime du studio à répondre aux sollicitations. Elles ne font
-            l&apos;objet d&apos;aucune cession à des tiers à des fins commerciales.
+            Your data is processed on the basis of your consent and the studio&apos;s
+            legitimate interest in responding to inquiries. It is never sold or transferred
+            to third parties for commercial purposes.
           </p>
 
-          <h2 style={sectionTitle}>Durée de conservation</h2>
+          <h2 style={sectionTitle}>Retention period</h2>
           <p style={para}>
-            Les données issues du formulaire de contact sont conservées le temps nécessaire
-            au traitement de votre demande, puis archivées ou supprimées conformément aux
-            obligations légales applicables.
+            Data from the contact form is kept for as long as needed to handle your
+            request, then archived or deleted in accordance with applicable legal
+            obligations.
           </p>
 
-          <h2 style={sectionTitle}>Vos droits</h2>
+          <h2 style={sectionTitle}>Your rights</h2>
           <p style={para}>
-            Conformément au RGPD, vous disposez d&apos;un droit d&apos;accès, de
-            rectification, d&apos;effacement, de portabilité et d&apos;opposition au
-            traitement de vos données. Pour exercer ces droits, écrivez à contact@aevia.io.
+            Under the GDPR, you have the right to access, rectify, erase, port, and object
+            to the processing of your data. To exercise these rights, write to
+            contact@aevia.io.
           </p>
 
           <h2 style={sectionTitle}>Cookies</h2>
           <p style={para}>
-            Ce site ne dépose pas de cookies de suivi publicitaire. Seuls des cookies
-            techniques strictement nécessaires au fonctionnement du site peuvent être
-            utilisés.
+            This site does not use advertising tracking cookies. Only technical cookies
+            strictly necessary for the site to function may be used.
           </p>
         </div>
       </section>
