@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { LangProvider } from "@/lib/LangContext";
 import { CookieBanner } from "@/components/CookieBanner";
+import Script from "next/script";
 import "./globals.css";
+
+const GA_ID = "G-9XTKCZLYVF";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -180,6 +183,13 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-violet-600 focus:text-white focus:rounded-lg focus:font-semibold">Skip to main content</a>
         <LangProvider>
+          <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
+          <Script id="ga4-init" strategy="afterInteractive">{`
+            window.dataLayer=window.dataLayer||[];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js',new Date());
+            gtag('config','${GA_ID}');
+          `}</Script>
           {children}
           <CookieBanner />
         </LangProvider>
