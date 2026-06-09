@@ -23,8 +23,8 @@ import {
   Clock,
   Users,
   Volume2,
-  Instagram,
-  Youtube,
+  Share2,
+  Tv,
   Send,
 } from "lucide-react";
 
@@ -830,9 +830,9 @@ function ContactPage() {
             <h3 style={{ fontFamily: C.headingFont, fontSize: "1.2rem", color: C.white, letterSpacing: "0.06em", marginBottom: "1rem" }}>RÉSEAUX SOCIAUX</h3>
             <div style={{ display: "flex", gap: "1rem" }}>
               {[
-                { icon: <Instagram size={20} />, label: "Instagram", handle: "@echochamber.studio" },
+                { icon: <Share2 size={20} />, label: "Instagram", handle: "@echochamber.studio" },
                 { icon: <Volume2 size={20} />, label: "SoundCloud", handle: "echochamber-studio" },
-                { icon: <Youtube size={20} />, label: "YouTube", handle: "Echo Chamber Studio" },
+                { icon: <Tv size={20} />, label: "YouTube", handle: "Echo Chamber Studio" },
               ].map((social) => (
                 <a
                   key={social.label}
