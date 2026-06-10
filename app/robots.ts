@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/admin/', '/_next/', '/order', '/success', '/checkout'],
       },
     ],
-    sitemap: 'https://aevia-launch.vercel.app/sitemap.xml',
-    host: 'https://aevia-launch.vercel.app',
+    sitemap: 'https://launch.aevia.services/sitemap.xml',
+    host: 'https://launch.aevia.services',
   }
 }

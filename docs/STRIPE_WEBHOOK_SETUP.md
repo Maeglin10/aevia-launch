@@ -14,7 +14,7 @@ Stripe utilise **deux clés différentes** :
 ```
 1. Client paye sur Stripe Checkout → paiement réussi
 2. Stripe envoie un POST vers ton endpoint :
-     URL    : https://aevia-launch.vercel.app/api/webhook
+     URL    : https://launch.aevia.services/api/webhook
      Headers: stripe-signature: t=1716800000,v1=abc123def456...
      Body   : { type: "checkout.session.completed", data: { object: {...} } }
 3. Ton code: stripe.webhooks.constructEvent(rawBody, sigHeader, WEBHOOK_SECRET)
@@ -27,7 +27,7 @@ Stripe utilise **deux clés différentes** :
 N'importe qui peut envoyer un faux POST à ton `/api/webhook` :
 
 ```bash
-curl -X POST https://aevia-launch.vercel.app/api/webhook \
+curl -X POST https://launch.aevia.services/api/webhook \
   -H "Content-Type: application/json" \
   -d '{"type":"checkout.session.completed","data":{...}}'
 ```
@@ -42,7 +42,7 @@ Et te faire générer un site + envoyer les emails comme si quelqu'un avait pay�
 2. Cliquer **"Add endpoint"**
 3. **Endpoint URL** :
    ```
-   https://aevia-launch.vercel.app/api/webhook
+   https://launch.aevia.services/api/webhook
    ```
 4. **Events to listen** : sélectionner au minimum :
    - `checkout.session.completed` (le seul actuellement géré dans le code)
@@ -109,8 +109,8 @@ curl -X POST https://api.stripe.com/v1/checkout/sessions \
   -d "line_items[0][price_data][product_data][name]=Test" \
   -d "line_items[0][price_data][unit_amount]=599" \
   -d "line_items[0][quantity]=1" \
-  -d "success_url=https://aevia-launch.vercel.app/success" \
-  -d "cancel_url=https://aevia-launch.vercel.app/order"
+  -d "success_url=https://launch.aevia.services/success" \
+  -d "cancel_url=https://launch.aevia.services/order"
 ```
 
 - Si retour `{ "url": "https://checkout.stripe.com/…" }` → ta clé est OK, Aevia Launch va marcher.

@@ -473,7 +473,7 @@ function HeroSection() {
                   <div className="w-3 h-3 rounded-full bg-emerald-400/70" />
                 </div>
                 <div className="flex-1 mx-3 bg-zinc-700/50 rounded-md px-3 py-1 text-[10px] font-mono text-zinc-500 truncate">
-                  aevia-launch.vercel.app
+                  launch.aevia.services
                 </div>
               </div>
               {/* Live thumbnail preview */}

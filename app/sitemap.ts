@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-const BASE = 'https://aevia-launch.vercel.app'
+const BASE = 'https://launch.aevia.services'
 
 const SITE_THEME_IDS = [
   'landing', 'saas', 'agency', 'vitrine', 'consultant', 'portfolio', 'ecommerce',

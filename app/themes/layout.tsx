@@ -6,10 +6,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Browse 181 Website Themes | AeviaLaunch",
     description: "21 site builder templates and 160 impact vault designs. Click any theme for a live preview.",
-    url: "https://aevia-launch.vercel.app/themes",
+    url: "https://launch.aevia.services/themes",
     images: [{ url: "/og.png", width: 1200, height: 630 }],
   },
-  alternates: { canonical: "https://aevia-launch.vercel.app/themes" },
+  alternates: { canonical: "https://launch.aevia.services/themes" },
 };
 
 export default function ThemesLayout({ children }: { children: React.ReactNode }) {

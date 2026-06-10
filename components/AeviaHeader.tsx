@@ -64,9 +64,9 @@ function AeviaLogoSvg() {
 }
 
 const otherProducts = [
-  { name: "AeviaSecurity", href: "https://aevia-security.vercel.app", descKey: "descSecurity", icon: Shield, status: "live" },
-  { name: "AeviaInbox", href: "https://aevia-inbox.vercel.app", descKey: "descInbox", icon: MessageSquare, status: "soon" },
-  { name: "Aevia.app", href: "https://aevia.vercel.app", descKey: "descHome", icon: Globe, status: "live" },
+  { name: "AeviaSecurity", href: "https://security.aevia.services", descKey: "descSecurity", icon: Shield, status: "live" },
+  { name: "AeviaInbox", href: "https://inbox.aevia.services", descKey: "descInbox", icon: MessageSquare, status: "soon" },
+  { name: "Aevia.app", href: "https://aevia.services", descKey: "descHome", icon: Globe, status: "live" },
 ] as const;
 
 const HEADER_T = {
@@ -87,7 +87,7 @@ export function AeviaHeader() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-black/70 backdrop-blur-md">
       <div className="mx-auto max-w-6xl px-6 h-14 flex items-center justify-between">
-        <a href="https://aevia.vercel.app" className="hover:opacity-80 transition-opacity">
+        <a href="https://aevia.services" className="hover:opacity-80 transition-opacity">
           <AeviaLogoSvg />
         </a>
 
@@ -160,7 +160,7 @@ export function AeviaHeader() {
           <LangSwitcher />
 
           <a
-            href="https://aevia.vercel.app/contact"
+            href="https://aevia.services/contact"
             className="ml-1 px-4 py-1.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors"
           >
             {t.cta}
@@ -188,7 +188,7 @@ export function AeviaHeader() {
             ))}
           </div>
           <div className="border-t border-white/10 pt-2 mt-1"><LangSwitcher /></div>
-          <a href="https://aevia.vercel.app/contact" className="mt-2 text-center px-4 py-2.5 rounded-full bg-violet-600 text-white text-sm font-semibold">
+          <a href="https://aevia.services/contact" className="mt-2 text-center px-4 py-2.5 rounded-full bg-violet-600 text-white text-sm font-semibold">
             {t.cta}
           </a>
         </div>

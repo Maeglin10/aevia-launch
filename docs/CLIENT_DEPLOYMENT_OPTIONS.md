@@ -3,7 +3,7 @@
 Aujourd'hui, après le pipeline E2E, le client voit son site sur :
 
 ```
-https://aevia-launch.vercel.app/preview/{sessionId}
+https://launch.aevia.services/preview/{sessionId}
 ```
 
 C'est fonctionnel mais **pas brandé pour le client** (URL Aevia). Le but : que le client ait son **propre site live** avec son nom dans l'URL (ex: `maison-maria.vercel.app`) ou son propre domaine (`maison-maria.fr`).

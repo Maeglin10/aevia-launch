@@ -649,7 +649,7 @@ export default function PricingPage() {
             </div>
           </div>
           <a
-            href="https://aevia.vercel.app/contact"
+            href="https://aevia.services/contact"
             className="whitespace-nowrap px-7 py-3.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold text-sm transition-all shadow-lg shadow-violet-500/20"
           >
             {t.ctaBandBtn}

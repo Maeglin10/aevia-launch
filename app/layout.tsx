@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://aevia-launch.vercel.app"),
+  metadataBase: new URL("https://launch.aevia.services"),
   title: {
     // 51 chars
     default: "Aevia Launch — Votre site web pro en 2 heures",
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     alternateLocale: ["en_US", "es_ES", "de_DE", "pt_PT"],
-    url: "https://aevia-launch.vercel.app",
+    url: "https://launch.aevia.services",
     siteName: "Aevia Launch",
     title: "Aevia Launch — Votre site web pro en 2 heures, généré par IA",
     description:
@@ -105,7 +105,7 @@ const softwareAppSchema = {
   '@type': 'SoftwareApplication',
   name: 'Aevia Launch',
   alternateName: ['AeviaLaunch', 'Aevia Launch'],
-  url: 'https://aevia-launch.vercel.app',
+  url: 'https://launch.aevia.services',
   applicationCategory: 'WebApplication',
   applicationSubCategory: 'AI Website Builder',
   operatingSystem: 'All',
@@ -138,7 +138,7 @@ const softwareAppSchema = {
   provider: {
     '@type': 'Organization',
     name: 'Aevia',
-    url: 'https://aevia.vercel.app',
+    url: 'https://aevia.services',
   },
   author: {
     '@type': 'Person',
@@ -151,12 +151,12 @@ const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Aevia',
-  url: 'https://aevia.vercel.app',
-  logo: 'https://aevia-launch.vercel.app/favicon.svg',
+  url: 'https://aevia.services',
+  logo: 'https://launch.aevia.services/favicon.svg',
   sameAs: [
-    'https://aevia.vercel.app',
-    'https://aevia-inbox.vercel.app',
-    'https://aevia-security.vercel.app',
+    'https://aevia.services',
+    'https://inbox.aevia.services',
+    'https://security.aevia.services',
   ],
 };
 

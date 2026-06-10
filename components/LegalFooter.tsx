@@ -56,13 +56,13 @@ export function LegalFooter({ variant = "dark" }: LegalFooterProps) {
             Découvrez l&apos;écosystème Aevia :
           </p>
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs">
-            <a href="https://aevia.vercel.app" rel="noopener" className={linkCls}>
+            <a href="https://aevia.services" rel="noopener" className={linkCls}>
               Aevia — Hub
             </a>
-            <a href="https://aevia-inbox.vercel.app" rel="noopener" className={linkCls}>
+            <a href="https://inbox.aevia.services" rel="noopener" className={linkCls}>
               Aevia Inbox — CRM multicanal
             </a>
-            <a href="https://aevia-security.vercel.app" rel="noopener" className={linkCls}>
+            <a href="https://security.aevia.services" rel="noopener" className={linkCls}>
               Aevia Security — Audit sécurité 60s
             </a>
           </nav>

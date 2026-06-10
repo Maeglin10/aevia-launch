@@ -16,4 +16,4 @@ Next.js 16 · React 19 · Framer Motion · Anthropic Claude Haiku · TypeScript
 
 ## Live
 
-[aevia-launch.vercel.app](https://aevia-launch.vercel.app)
+[launch.aevia.services](https://launch.aevia.services)

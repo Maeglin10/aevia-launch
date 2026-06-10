@@ -100,7 +100,7 @@ export async function GET(req: Request) {
             color: "#71717a",
           }}
         >
-          aevia-launch.vercel.app
+          launch.aevia.services
         </div>
       </div>
     ),

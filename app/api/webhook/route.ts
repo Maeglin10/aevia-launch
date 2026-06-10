@@ -531,7 +531,7 @@ Retourne uniquement du JSON valide, sans markdown.`;
       }
 
       const previewSessionId = crypto.randomUUID();
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://aevia-launch.vercel.app";
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://launch.aevia.services";
       const previewUrl = `${baseUrl}/preview/${previewSessionId}`;
       const fromAddress = process.env.RESEND_FROM_EMAIL || "Aevia Launch <onboarding@resend.dev>";
 

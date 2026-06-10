@@ -5,7 +5,7 @@
 export VERCEL_API_TOKEN=$(grep '^VERCEL_API_TOKEN=' ~/skybot-inbox/.env | cut -d= -f2)
 npx vercel --prod --yes --token "$VERCEL_API_TOKEN"
 ```
-Live URL: **aevia-launch.vercel.app** — vérifier : `curl -sI https://aevia-launch.vercel.app | head -2`
+Live URL: **launch.aevia.services** — vérifier : `curl -sI https://launch.aevia.services | head -2`
 
 > ⚠️ push GitHub ≠ live. Deploy TOUJOURS manuellement.
 

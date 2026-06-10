@@ -73,8 +73,8 @@ curl -X POST https://api.stripe.com/v1/checkout/sessions \
   -d "line_items[0][price_data][product_data][name]=Test" \
   -d "line_items[0][price_data][unit_amount]=599" \
   -d "line_items[0][quantity]=1" \
-  -d "success_url=https://aevia-launch.vercel.app/success" \
-  -d "cancel_url=https://aevia-launch.vercel.app/order"
+  -d "success_url=https://launch.aevia.services/success" \
+  -d "cancel_url=https://launch.aevia.services/order"
 
 # Si retour `{ "url": "https://checkout.stripe.com/..." }` → clé valide
 # Sinon l'erreur précise apparaîtra
@@ -84,7 +84,7 @@ curl -X POST https://api.stripe.com/v1/checkout/sessions \
 
 ### 1. Auto-deploy custom Vercel (BONUS dans le scope client)
 
-Aujourd'hui : client reçoit `aevia-launch.vercel.app/preview/{id}` — URL avec marque Aevia.
+Aujourd'hui : client reçoit `launch.aevia.services/preview/{id}` — URL avec marque Aevia.
 
 Pour un produit pro premium :
 - Le client devrait avoir son propre projet Vercel

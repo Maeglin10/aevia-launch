@@ -11,7 +11,7 @@
  *   node scripts/screenshot-templates.js
  *
  *   # Against production:
- *   BASE_URL=https://aevia-launch.vercel.app node scripts/screenshot-templates.js --force
+ *   BASE_URL=https://launch.aevia.services node scripts/screenshot-templates.js --force
  *
  *   # Re-generate specific templates only:
  *   ONLY=impact-01,impact-22 node scripts/screenshot-templates.js --force

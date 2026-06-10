@@ -6,11 +6,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Build Your Site in 5 Steps | AeviaLaunch",
     description: "5-step AI website builder. Preview instantly, deployed in 2 hours.",
-    url: "https://aevia-launch.vercel.app/configure",
+    url: "https://launch.aevia.services/configure",
     images: [{ url: "/og.png", width: 1200, height: 630 }],
   },
   robots: { index: false, follow: false },
-  alternates: { canonical: "https://aevia-launch.vercel.app/configure" },
+  alternates: { canonical: "https://launch.aevia.services/configure" },
 };
 
 export default function ConfigureLayout({ children }: { children: React.ReactNode }) {
