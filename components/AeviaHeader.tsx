@@ -64,9 +64,9 @@ function AeviaLogoSvg() {
 }
 
 const otherProducts = [
-  { name: "AeviaSecurity", href: "https://web-bx4tjhk2h-valentins-projects-7cad2c95.vercel.app", descKey: "descSecurity", icon: Shield, status: "live" },
-  { name: "AeviaInbox", href: "#", descKey: "descInbox", icon: MessageSquare, status: "soon" },
-  { name: "Aevia.app", href: "https://valentin-milliand.vercel.app", descKey: "descHome", icon: Globe, status: "live" },
+  { name: "AeviaSecurity", href: "https://aevia-security.vercel.app", descKey: "descSecurity", icon: Shield, status: "live" },
+  { name: "AeviaInbox", href: "https://aevia-inbox.vercel.app", descKey: "descInbox", icon: MessageSquare, status: "soon" },
+  { name: "Aevia.app", href: "https://aevia.vercel.app", descKey: "descHome", icon: Globe, status: "live" },
 ] as const;
 
 const HEADER_T = {
