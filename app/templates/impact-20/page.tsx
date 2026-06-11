@@ -762,13 +762,34 @@ function LookbookCard({
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
+type ActivePage =
+  | "home"
+  | "collections"
+  | "atelier"
+  | "savoir-faire"
+  | "lookbook"
+  | "contact"
+  | "mentions"
+  | "cgv"
+  | "privacy";
+
 export default function LuxuryJewelryTemplate() {
+  const [page, setPage] = useState<ActivePage>("home");
+  const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [rotationSpeed, setRotationSpeed] = useState(8);
   const [productScrollProgress, setProductScrollProgress] = useState(0);
+
+  const goTo = (p: ActivePage) => {
+    setPage(p);
+    setSelectedProduct(null);
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+  };
 
   const heroRef = useRef<HTMLDivElement>(null);
   const productSectionRef = useRef<HTMLDivElement>(null);
@@ -824,7 +845,7 @@ export default function LuxuryJewelryTemplate() {
         background: "#0a0806",
         color: "#f0ece0",
         fontFamily: "Georgia, 'Times New Roman', serif",
-        overflowX: "hidden",
+        overflowX: "clip",
         position: "relative",
       }}
     >
@@ -873,6 +894,7 @@ export default function LuxuryJewelryTemplate() {
         >
           {/* Logo */}
           <div
+            onClick={() => goTo("home")}
             style={{
               color: "#d4af6b",
               fontSize: 22,
@@ -884,6 +906,7 @@ export default function LuxuryJewelryTemplate() {
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               animation: "shimmer 4s linear infinite",
+              cursor: "pointer",
             }}
           >
             MAISON ÉLARA
@@ -898,37 +921,45 @@ export default function LuxuryJewelryTemplate() {
             }}
             className="hidden-mobile"
           >
-            {["Collections", "Atelier", "Savoir-faire", "Lookbook", "Contact"].map(
-              (item) => (
-                <Link
-                  key={item}
-                  href="#"
-                  style={{
-                    color: "rgba(240,236,224,0.38)",
-                    fontSize: 10,
-                    letterSpacing: "0.28em",
-                    textTransform: "uppercase",
-                    textDecoration: "none",
-                    fontFamily: "Georgia, serif",
-                    transition: "color 0.3s ease",
-                  }}
-                  onMouseEnter={(e) =>
-                    ((e.target as HTMLElement).style.color = "#d4af6b")
-                  }
-                  onMouseLeave={(e) =>
-                    ((e.target as HTMLElement).style.color =
-                      "rgba(240,236,224,0.38)")
-                  }
-                >
-                  {item}
-                </Link>
-              )
-            )}
+            {[
+              { label: "Collections", key: "collections" as const },
+              { label: "Atelier", key: "atelier" as const },
+              { label: "Savoir-faire", key: "savoir-faire" as const },
+              { label: "Lookbook", key: "lookbook" as const },
+              { label: "Contact", key: "contact" as const },
+            ].map(({ label, key }) => (
+              <button
+                key={key}
+                onClick={() => goTo(key)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: 0,
+                  color: page === key ? "#d4af6b" : "rgba(240,236,224,0.38)",
+                  fontSize: 10,
+                  letterSpacing: "0.28em",
+                  textTransform: "uppercase",
+                  fontFamily: "Georgia, serif",
+                  transition: "color 0.3s ease",
+                }}
+                onMouseEnter={(e) =>
+                  ((e.target as HTMLElement).style.color = "#d4af6b")
+                }
+                onMouseLeave={(e) =>
+                  ((e.target as HTMLElement).style.color =
+                    page === key ? "#d4af6b" : "rgba(240,236,224,0.38)")
+                }
+              >
+                {label}
+              </button>
+            ))}
           </div>
 
           {/* RHS */}
           <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
             <button
+              onClick={() => goTo("contact")}
               style={{
                 background: "transparent",
                 border: "1px solid rgba(212,175,107,0.3)",
@@ -1003,12 +1034,17 @@ export default function LuxuryJewelryTemplate() {
               }}
             >
               <span
+                onClick={() => {
+                  setMobileOpen(false);
+                  goTo("home");
+                }}
                 style={{
                   color: "#d4af6b",
                   fontSize: 20,
                   fontFamily: "Georgia, serif",
                   fontStyle: "italic",
                   letterSpacing: "0.18em",
+                  cursor: "pointer",
                 }}
               >
                 MAISON ÉLARA
@@ -1028,34 +1064,44 @@ export default function LuxuryJewelryTemplate() {
                 ×
               </button>
             </div>
-            {["Collections", "Atelier", "Savoir-faire", "Lookbook", "Contact"].map(
-              (item, i) => (
-                <motion.div
-                  key={item}
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06 }}
+            {[
+              { label: "Collections", key: "collections" as const },
+              { label: "Atelier", key: "atelier" as const },
+              { label: "Savoir-faire", key: "savoir-faire" as const },
+              { label: "Lookbook", key: "lookbook" as const },
+              { label: "Contact", key: "contact" as const },
+            ].map(({ label, key }, i) => (
+              <motion.div
+                key={key}
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.06 }}
+              >
+                <button
+                  onClick={() => {
+                    setMobileOpen(false);
+                    goTo(key);
+                  }}
+                  style={{
+                    display: "block",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: 0,
+                    textAlign: "left",
+                    color: page === key ? "#d4af6b" : "#f0ece0",
+                    fontSize: 32,
+                    fontFamily: "Georgia, serif",
+                    fontStyle: "italic",
+                    letterSpacing: "0.06em",
+                    marginBottom: 28,
+                    transition: "color 0.3s ease",
+                  }}
                 >
-                  <Link
-                    href="#"
-                    onClick={() => setMobileOpen(false)}
-                    style={{
-                      display: "block",
-                      color: "#f0ece0",
-                      fontSize: 32,
-                      fontFamily: "Georgia, serif",
-                      fontStyle: "italic",
-                      letterSpacing: "0.06em",
-                      textDecoration: "none",
-                      marginBottom: 28,
-                      transition: "color 0.3s ease",
-                    }}
-                  >
-                    {item}
-                  </Link>
-                </motion.div>
-              )
-            )}
+                  {label}
+                </button>
+              </motion.div>
+            ))}
             <div style={{ marginTop: "auto" }}>
               <p
                 style={{
@@ -1073,9 +1119,11 @@ export default function LuxuryJewelryTemplate() {
         )}
       </AnimatePresence>
 
-      {/* ── HERO ── */}
-      <section
-        ref={heroRef}
+      {page === "home" && (
+        <>
+          {/* ── HERO ── */}
+          <section
+            ref={heroRef}
         style={{
           position: "relative",
           height: "100vh",
@@ -1224,6 +1272,7 @@ export default function LuxuryJewelryTemplate() {
             <SectionReveal delay={0.3}>
               <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
                 <button
+                  onClick={() => goTo("collections")}
                   style={{
                     background:
                       "linear-gradient(135deg, #d4af6b, #b8963a)",
@@ -1256,6 +1305,7 @@ export default function LuxuryJewelryTemplate() {
                   Explorer les collections
                 </button>
                 <button
+                  onClick={() => goTo("contact")}
                   style={{
                     background: "transparent",
                     border: "1px solid rgba(212,175,107,0.25)",
@@ -2317,6 +2367,24 @@ export default function LuxuryJewelryTemplate() {
           </SectionReveal>
         </div>
       </section>
+      </>
+      )}
+
+      {/* ── SUB-PAGES ROUTING ── */}
+      {page === "collections" && (
+        <BoutiquePage
+          selectedProduct={selectedProduct}
+          setSelectedProduct={setSelectedProduct}
+          goTo={goTo}
+        />
+      )}
+      {page === "atelier" && <AtelierPage />}
+      {page === "savoir-faire" && <SavoirFairePage />}
+      {page === "lookbook" && <LookbookPage />}
+      {page === "contact" && <ContactPage />}
+      {page === "mentions" && <LegalPage variant="mentions" />}
+      {page === "cgv" && <LegalPage variant="cgv" />}
+      {page === "privacy" && <LegalPage variant="privacy" />}
 
       {/* ── FOOTER ── */}
       <footer
@@ -2369,15 +2437,27 @@ export default function LuxuryJewelryTemplate() {
               {[
                 {
                   title: "Maison",
-                  links: ["Notre histoire", "L'atelier", "Savoir-faire"],
+                  links: [
+                    { label: "Notre histoire", key: "atelier" as const },
+                    { label: "L'atelier", key: "atelier" as const },
+                    { label: "Savoir-faire", key: "savoir-faire" as const },
+                  ],
                 },
                 {
                   title: "Collections",
-                  links: ["Bagues", "Colliers", "Sur mesure"],
+                  links: [
+                    { label: "Bagues", key: "collections" as const },
+                    { label: "Colliers", key: "collections" as const },
+                    { label: "Sur mesure", key: "contact" as const },
+                  ],
                 },
                 {
                   title: "Service",
-                  links: ["Rendez-vous", "Entretien", "Contact"],
+                  links: [
+                    { label: "Rendez-vous", key: "contact" as const },
+                    { label: "Entretien", key: "contact" as const },
+                    { label: "Contact", key: "contact" as const },
+                  ],
                 },
               ].map((col) => (
                 <div key={col.title}>
@@ -2394,17 +2474,21 @@ export default function LuxuryJewelryTemplate() {
                     {col.title}
                   </p>
                   {col.links.map((l) => (
-                    <Link
-                      key={l}
-                      href="#"
+                    <button
+                      key={l.label}
+                      onClick={() => goTo(l.key)}
                       style={{
                         display: "block",
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        padding: 0,
+                        textAlign: "left",
                         color: "rgba(240,236,224,0.28)",
                         fontSize: 12,
                         fontFamily: "Georgia, serif",
                         fontStyle: "italic",
                         letterSpacing: "0.05em",
-                        textDecoration: "none",
                         marginBottom: 10,
                         transition: "color 0.3s ease",
                       }}
@@ -2417,8 +2501,8 @@ export default function LuxuryJewelryTemplate() {
                           "rgba(240,236,224,0.28)")
                       }
                     >
-                      {l}
-                    </Link>
+                      {l.label}
+                    </button>
                   ))}
                 </div>
               ))}
@@ -2456,36 +2540,1167 @@ export default function LuxuryJewelryTemplate() {
               © 2025 Maison Élara. Tous droits réservés.
             </p>
             <div style={{ display: "flex", gap: 32 }}>
-              {["Mentions légales", "CGV", "Politique de confidentialité"].map(
-                (l) => (
-                  <Link
-                    key={l}
-                    href="#"
-                    style={{
-                      color: "rgba(240,236,224,0.15)",
-                      fontSize: 10,
-                      letterSpacing: "0.15em",
-                      fontFamily: "Georgia, serif",
-                      textDecoration: "none",
-                      transition: "color 0.3s ease",
-                    }}
-                    onMouseEnter={(e) =>
-                      ((e.target as HTMLElement).style.color =
-                        "rgba(212,175,107,0.5)")
-                    }
-                    onMouseLeave={(e) =>
-                      ((e.target as HTMLElement).style.color =
-                        "rgba(240,236,224,0.15)")
-                    }
-                  >
-                    {l}
-                  </Link>
-                )
-              )}
+              {[
+                { label: "Mentions légales", key: "mentions" as const },
+                { label: "CGV", key: "cgv" as const },
+                { label: "Politique de confidentialité", key: "privacy" as const },
+              ].map((l) => (
+                <button
+                  key={l.label}
+                  onClick={() => goTo(l.key)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: 0,
+                    color: "rgba(240,236,224,0.15)",
+                    fontSize: 10,
+                    letterSpacing: "0.15em",
+                    fontFamily: "Georgia, serif",
+                    transition: "color 0.3s ease",
+                  }}
+                  onMouseEnter={(e) =>
+                    ((e.target as HTMLElement).style.color =
+                      "rgba(212,175,107,0.5)")
+                  }
+                  onMouseLeave={(e) =>
+                    ((e.target as HTMLElement).style.color =
+                      "rgba(240,236,224,0.15)")
+                  }
+                >
+                  {l.label}
+                </button>
+              ))}
             </div>
           </div>
         </div>
       </footer>
     </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SUB-PAGE COMPONENTS
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface BoutiquePageProps {
+  selectedProduct: any | null;
+  setSelectedProduct: (p: any | null) => void;
+  goTo: (p: any) => void;
+}
+
+function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePageProps) {
+  const [successMsg, setSuccessMsg] = useState(false);
+
+  // We can access products list
+  const products = PRODUCTS;
+
+  if (selectedProduct) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        style={{
+          padding: "160px 40px 100px",
+          maxWidth: 1200,
+          margin: "0 auto",
+          fontFamily: "Georgia, serif",
+          minHeight: "80vh",
+        }}
+      >
+        <button
+          onClick={() => setSelectedProduct(null)}
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            fontFamily: "Georgia, serif",
+            fontSize: 11,
+            letterSpacing: "0.25em",
+            textTransform: "uppercase",
+            color: "rgba(240,236,224,0.5)",
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            marginBottom: 48,
+            transition: "color 0.3s ease",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = "#d4af6b")}
+          onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(240,236,224,0.5)")}
+        >
+          ← Retour à la collection
+        </button>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            gap: 64,
+          }}
+        >
+          {/* Left Column: Shimmering block of color */}
+          <div
+            style={{
+              aspectRatio: "1/1",
+              background: selectedProduct.color,
+              borderRadius: 8,
+              border: "1px solid rgba(212,175,107,0.15)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "relative",
+              overflow: "hidden",
+              boxShadow: "0 20px 40px rgba(0,0,0,0.6)",
+            }}
+          >
+            {/* Shimmer */}
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background:
+                  "linear-gradient(110deg, transparent 30%, rgba(212,175,107,0.15) 50%, transparent 70%)",
+                backgroundSize: "200% 100%",
+                animation: "shimmer 4s linear infinite",
+              }}
+            />
+            {/* Minimalist 3D representation */}
+            <div
+              style={{
+                width: 120,
+                height: 120,
+                borderRadius: "50%",
+                border: "2px stroke #d4af6b",
+                background: "radial-gradient(circle, #f5e6b8 0%, #c8963a 70%, transparent 100%)",
+                opacity: 0.15,
+                filter: "blur(2px)",
+                animation: "jewel-spin 10s linear infinite",
+              }}
+            />
+            <span
+              style={{
+                color: "#d4af6b",
+                fontSize: 40,
+                opacity: 0.7,
+                filter: "drop-shadow(0 0 10px #d4af6b)",
+              }}
+            >
+              ✦
+            </span>
+          </div>
+
+          {/* Right Column: Info */}
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <p
+              style={{
+                color: "#d4af6b",
+                fontSize: 11,
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                marginBottom: 16,
+              }}
+            >
+              {selectedProduct.category}
+            </p>
+            <h1
+              style={{
+                color: "#f0ece0",
+                fontSize: 36,
+                fontStyle: "italic",
+                marginBottom: 12,
+                lineHeight: 1.2,
+              }}
+            >
+              {selectedProduct.name}
+            </h1>
+            <p
+              style={{
+                color: "rgba(240,236,224,0.4)",
+                fontSize: 14,
+                marginBottom: 24,
+                letterSpacing: "0.05em",
+              }}
+            >
+              {selectedProduct.material}
+            </p>
+            <div
+              style={{
+                color: "#d4af6b",
+                fontSize: 28,
+                marginBottom: 32,
+              }}
+            >
+              {selectedProduct.price}
+            </div>
+
+            <p
+              style={{
+                color: "rgba(240,236,224,0.6)",
+                fontSize: 15,
+                lineHeight: 1.8,
+                fontStyle: "italic",
+                marginBottom: 40,
+              }}
+            >
+              Une création d'une finesse rare, conçue pour magnifier la lumière naturelle des gemmes.
+              Façonnée entièrement à la main au sein de notre atelier parisien par nos maîtres joailliers,
+              chaque griffe est travaillée et polie individuellement pour un éclat éternel et une sécurité absolue.
+            </p>
+
+            {successMsg ? (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                style={{
+                  padding: "16px 24px",
+                  border: "1px solid #d4af6b",
+                  color: "#d4af6b",
+                  fontSize: 12,
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  marginBottom: 24,
+                  textAlign: "center",
+                }}
+              >
+                ✦ Demande d'information enregistrée. Nos conseillers vous contacteront sous 24h.
+              </motion.div>
+            ) : (
+              <button
+                onClick={() => setSuccessMsg(true)}
+                style={{
+                  background: "linear-gradient(135deg, #d4af6b, #b8963a)",
+                  border: "none",
+                  borderRadius: 2,
+                  color: "#0a0806",
+                  fontSize: 10,
+                  letterSpacing: "0.3em",
+                  textTransform: "uppercase",
+                  padding: "18px 40px",
+                  cursor: "pointer",
+                  fontWeight: 700,
+                  marginBottom: 32,
+                  transition: "all 0.3s ease",
+                  width: "fit-content",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.9")}
+                onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+              >
+                Demander des informations
+              </button>
+            )}
+
+            <div
+              style={{
+                fontSize: 12,
+                color: "rgba(240,236,224,0.35)",
+                lineHeight: 1.8,
+                borderTop: "1px solid rgba(212,175,107,0.1)",
+                paddingTop: 24,
+              }}
+            >
+              • Façonné à la commande sous 4 à 6 semaines<br />
+              • Certificat GIA individuel fourni pour chaque diamant<br />
+              • Transport sécurisé et livraison blindée offerts dans le monde entier
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      style={{
+        padding: "160px 40px 120px",
+        maxWidth: 1280,
+        margin: "0 auto",
+        minHeight: "80vh",
+      }}
+    >
+      <div style={{ textAlign: "center", marginBottom: 80 }}>
+        <p
+          style={{
+            color: "rgba(212,175,107,0.6)",
+            fontSize: 10,
+            letterSpacing: "0.5em",
+            textTransform: "uppercase",
+            fontFamily: "Georgia, serif",
+            marginBottom: 16,
+          }}
+        >
+          Maison Élence
+        </p>
+        <h1
+          style={{
+            color: "#f0ece0",
+            fontSize: "clamp(36px, 4vw, 56px)",
+            fontFamily: "Georgia, serif",
+            fontWeight: 400,
+            fontStyle: "italic",
+            letterSpacing: "0.03em",
+            marginBottom: 24,
+          }}
+        >
+          La Collection Élence
+        </h1>
+        <p
+          style={{
+            color: "rgba(240,236,224,0.45)",
+            fontSize: 15,
+            fontFamily: "Georgia, serif",
+            fontStyle: "italic",
+            maxWidth: 500,
+            margin: "0 auto",
+            lineHeight: 1.6,
+          }}
+        >
+          Explorez nos créations d'exception façonnées en or 18 carats et platine,
+          ornées de diamants sélectionnés avec une rigueur absolue.
+        </p>
+      </div>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+          gap: 32,
+        }}
+      >
+        {products.map((product) => (
+          <div
+            key={product.name}
+            onClick={() => {
+              setSelectedProduct(product);
+              if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "auto" });
+            }}
+            style={{
+              background: "rgba(255,255,255,0.01)",
+              border: "1px solid rgba(212,175,107,0.1)",
+              borderRadius: 6,
+              padding: "24px",
+              cursor: "pointer",
+              transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "rgba(212,175,107,0.4)";
+              e.currentTarget.style.boxShadow = "0 10px 30px rgba(212,175,107,0.05)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "rgba(212,175,107,0.1)";
+              e.currentTarget.style.boxShadow = "none";
+            }}
+          >
+            <div
+              style={{
+                aspectRatio: "3/4",
+                background: product.color,
+                borderRadius: 4,
+                marginBottom: 20,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+                overflow: "hidden",
+              }}
+            >
+              <span style={{ color: "#d4af6b", fontSize: 24, opacity: 0.5 }}>✦</span>
+            </div>
+            <p
+              style={{
+                color: "#d4af6b",
+                fontSize: 9,
+                letterSpacing: "0.25em",
+                textTransform: "uppercase",
+                marginBottom: 6,
+              }}
+            >
+              {product.category}
+            </p>
+            <h3
+              style={{
+                color: "#f0ece0",
+                fontSize: 18,
+                fontFamily: "Georgia, serif",
+                fontStyle: "italic",
+                marginBottom: 6,
+              }}
+            >
+              {product.name}
+            </h3>
+            <p
+              style={{
+                color: "rgba(240,236,224,0.3)",
+                fontSize: 11,
+                marginBottom: 16,
+              }}
+            >
+              {product.material}
+            </p>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <span style={{ color: "#d4af6b", fontSize: 16 }}>{product.price}</span>
+              <span
+                style={{
+                  fontSize: 10,
+                  color: "#d4af6b",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                }}
+              >
+                Découvrir →
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function AtelierPage() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      style={{
+        padding: "160px 40px 120px",
+        maxWidth: 900,
+        margin: "0 auto",
+        minHeight: "80vh",
+        fontFamily: "Georgia, serif",
+      }}
+    >
+      <div style={{ textAlign: "center", marginBottom: 72 }}>
+        <p
+          style={{
+            color: "rgba(212,175,107,0.6)",
+            fontSize: 10,
+            letterSpacing: "0.5em",
+            textTransform: "uppercase",
+            marginBottom: 16,
+          }}
+        >
+          Histoire & Esprit
+        </p>
+        <h1
+          style={{
+            color: "#f0ece0",
+            fontSize: "clamp(36px, 4vw, 56px)",
+            fontStyle: "italic",
+            fontWeight: 400,
+            marginBottom: 24,
+          }}
+        >
+          L'Atelier Place Vendôme
+        </h1>
+        <div
+          style={{
+            width: 48,
+            height: 1,
+            background: "linear-gradient(90deg, transparent, #d4af6b, transparent)",
+            margin: "0 auto",
+          }}
+        />
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 48, fontSize: 16, lineHeight: 1.9, color: "rgba(240,236,224,0.75)" }}>
+        <p style={{ fontStyle: "italic" }}>
+          Depuis sa fondation en 1947, la Maison Élara s'est imposée comme le gardien d'un savoir-faire d'exception.
+          Installé dans un hôtel particulier historique à quelques pas de la Place Vendôme, notre atelier réunit
+          douze maîtres joailliers dévoués à l'excellence.
+        </p>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+            gap: 24,
+            margin: "24px 0",
+            background: "rgba(212,175,107,0.02)",
+            border: "1px solid rgba(212,175,107,0.08)",
+            borderRadius: 6,
+            padding: 32,
+          }}
+        >
+          <div>
+            <h3 style={{ color: "#d4af6b", fontSize: 28, marginBottom: 8, fontWeight: 400 }}>78+ Ans</h3>
+            <p style={{ fontSize: 12, color: "rgba(240,236,224,0.4)", textTransform: "uppercase", letterSpacing: "0.1em" }}>D'histoire et d'indépendance</p>
+          </div>
+          <div>
+            <h3 style={{ color: "#d4af6b", fontSize: 28, marginBottom: 8, fontWeight: 400 }}>12</h3>
+            <p style={{ fontSize: 12, color: "rgba(240,236,224,0.4)", textTransform: "uppercase", letterSpacing: "0.1em" }}>Maîtres joailliers à l'atelier</p>
+          </div>
+          <div>
+            <h3 style={{ color: "#d4af6b", fontSize: 28, marginBottom: 8, fontWeight: 400 }}>160 Heures</h3>
+            <p style={{ fontSize: 12, color: "rgba(240,236,224,0.4)", textTransform: "uppercase", letterSpacing: "0.1em" }}>De travail manuel par pièce unique</p>
+          </div>
+        </div>
+
+        <p>
+          Chaque création commence par un dialogue intime entre la matière brute et l'idée.
+          Dans le calme feutré de l'établi, sous la lumière tamisée, le métal précieux est martelé, sculpté, poli.
+          Nos artisans refusent les techniques modernes d'automatisation ou d'impression 3D directe : seule la main
+          est capable d'insuffler une âme vibrante à un objet inanimé.
+        </p>
+        <p>
+          Le temps est notre plus grand allié. Nous acceptons de passer des semaines sur un unique serti griffes,
+          de parfaire un poli miroir caché au dos d'une parure, car nous savons que ces détails imperceptibles font
+          la différence entre un bijou éphémère et un héritage qui traversera les générations.
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+function SavoirFairePage() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      style={{
+        padding: "160px 40px 120px",
+        maxWidth: 900,
+        margin: "0 auto",
+        minHeight: "80vh",
+        fontFamily: "Georgia, serif",
+      }}
+    >
+      <div style={{ textAlign: "center", marginBottom: 72 }}>
+        <p
+          style={{
+            color: "rgba(212,175,107,0.6)",
+            fontSize: 10,
+            letterSpacing: "0.5em",
+            textTransform: "uppercase",
+            marginBottom: 16,
+          }}
+        >
+          Exigence & Rigueur
+        </p>
+        <h1
+          style={{
+            color: "#f0ece0",
+            fontSize: "clamp(36px, 4vw, 56px)",
+            fontStyle: "italic",
+            fontWeight: 400,
+            marginBottom: 24,
+          }}
+        >
+          Le Savoir-Faire Élara
+        </h1>
+        <div
+          style={{
+            width: 48,
+            height: 1,
+            background: "linear-gradient(90deg, transparent, #d4af6b, transparent)",
+            margin: "0 auto",
+          }}
+        />
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 48 }}>
+        {[
+          {
+            title: "L'Or 18 Carats & Le Platine 950",
+            desc: "Nous fondons nos propres alliages d'or jaune, blanc et rose au sein de l'atelier pour garantir une pureté de 750/1000 et une nuance de couleur incomparable. Le platine 950, d'une dureté exceptionnelle, est réservé à nos sertissages les plus complexes.",
+            num: "01",
+          },
+          {
+            title: "Les Diamants GIA de Haute Pureté",
+            desc: "Chaque diamant d'un poids supérieur à 0.3 carat est accompagné d'un certificat individuel émis par le GIA (Gemological Institute of America). Nos gemmologues ne sélectionnent que des pierres classées D à H en couleur, et de pureté IF à VS2.",
+            num: "02",
+          },
+          {
+            title: "Le Serti Parisien",
+            desc: "Technique signature de la Maison, le serti parisien exige d'ajuster chaque grain de métal précieux sous binoculaire pour enserrer la gemme de manière invisible. La pierre semble ainsi flotter sur le métal, captant la lumière sous tous les angles.",
+            num: "03",
+          },
+          {
+            title: "Le Poli Miroir",
+            desc: "Dernière étape cruciale, le polissage est réalisé à l'aide de fils de coton d'épaisseurs variables. Ce procédé permet d'éliminer la moindre micro-rayure et d'obtenir un éclat si intense qu'il reflète l'environnement comme un miroir liquide.",
+            num: "04",
+          },
+        ].map((item, idx) => (
+          <div
+            key={item.title}
+            style={{
+              paddingBottom: 40,
+              borderBottom: idx < 3 ? "1px solid rgba(212,175,107,0.1)" : "none",
+              display: "flex",
+              gap: 32,
+              alignItems: "flex-start",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "Georgia, serif",
+                fontSize: 32,
+                color: "rgba(212,175,107,0.3)",
+                lineHeight: 1,
+              }}
+            >
+              {item.num}
+            </span>
+            <div>
+              <h3
+                style={{
+                  color: "#f0ece0",
+                  fontSize: 20,
+                  fontStyle: "italic",
+                  marginBottom: 12,
+                  fontWeight: 400,
+                }}
+              >
+                {item.title}
+              </h3>
+              <p
+                style={{
+                  color: "rgba(240,236,224,0.65)",
+                  fontSize: 15,
+                  lineHeight: 1.8,
+                }}
+              >
+                {item.desc}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function LookbookPage() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      style={{
+        padding: "160px 40px 120px",
+        maxWidth: 1100,
+        margin: "0 auto",
+        minHeight: "80vh",
+        fontFamily: "Georgia, serif",
+      }}
+    >
+      <div style={{ textAlign: "center", marginBottom: 72 }}>
+        <p
+          style={{
+            color: "rgba(212,175,107,0.6)",
+            fontSize: 10,
+            letterSpacing: "0.5em",
+            textTransform: "uppercase",
+            marginBottom: 16,
+          }}
+        >
+          Instants de Lumière
+        </p>
+        <h1
+          style={{
+            color: "#f0ece0",
+            fontSize: "clamp(36px, 4vw, 56px)",
+            fontStyle: "italic",
+            fontWeight: 400,
+            marginBottom: 24,
+          }}
+        >
+          Le Lookbook
+        </h1>
+        <div
+          style={{
+            width: 48,
+            height: 1,
+            background: "linear-gradient(90deg, transparent, #d4af6b, transparent)",
+            margin: "0 auto",
+          }}
+        />
+      </div>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: 32,
+        }}
+      >
+        {[
+          { title: "Printemps 2025 · Clarté", theme: "linear-gradient(135deg, #16120e 0%, #2a2015 100%)", pieces: "8 pièces d'exception" },
+          { title: "Édition Nuit · Intense", theme: "linear-gradient(135deg, #0a0b0e 0%, #171a24 100%)", pieces: "5 pièces d'exception" },
+          { title: "Sur Mesure · Héritage", theme: "linear-gradient(135deg, #0e120e 0%, #1b261b 100%)", pieces: "Créations à la demande" },
+        ].map((lb) => (
+          <div
+            key={lb.title}
+            style={{
+              background: lb.theme,
+              border: "1px solid rgba(212,175,107,0.1)",
+              borderRadius: 8,
+              aspectRatio: "3/4",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-end",
+              padding: 40,
+              cursor: "pointer",
+              transition: "transform 0.4s ease, border-color 0.4s ease",
+              position: "relative",
+              overflow: "hidden",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-4px)";
+              e.currentTarget.style.borderColor = "rgba(212,175,107,0.4)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.borderColor = "rgba(212,175,107,0.1)";
+            }}
+          >
+            {/* Shimmer */}
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background:
+                  "linear-gradient(110deg, transparent 30%, rgba(212,175,107,0.05) 50%, transparent 70%)",
+                backgroundSize: "200% 100%",
+                animation: "shimmer 6s linear infinite",
+              }}
+            />
+            <p
+              style={{
+                color: "#d4af6b",
+                fontSize: 10,
+                letterSpacing: "0.25em",
+                textTransform: "uppercase",
+                marginBottom: 12,
+                position: "relative",
+                zIndex: 1,
+              }}
+            >
+              {lb.pieces}
+            </p>
+            <h3
+              style={{
+                color: "#f0ece0",
+                fontSize: 24,
+                fontStyle: "italic",
+                fontWeight: 400,
+                position: "relative",
+                zIndex: 1,
+              }}
+            >
+              {lb.title}
+            </h3>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function ContactPage() {
+  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({ nom: "", email: "", msg: "" });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.nom && formData.email && formData.msg) {
+      setSubmitted(true);
+    }
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      style={{
+        padding: "160px 40px 120px",
+        maxWidth: 1100,
+        margin: "0 auto",
+        minHeight: "80vh",
+        fontFamily: "Georgia, serif",
+      }}
+    >
+      <div style={{ textAlign: "center", marginBottom: 72 }}>
+        <p
+          style={{
+            color: "rgba(212,175,107,0.6)",
+            fontSize: 10,
+            letterSpacing: "0.5em",
+            textTransform: "uppercase",
+            marginBottom: 16,
+          }}
+        >
+          Prendre Rendez-Vous
+        </p>
+        <h1
+          style={{
+            color: "#f0ece0",
+            fontSize: "clamp(36px, 4vw, 56px)",
+            fontStyle: "italic",
+            fontWeight: 400,
+            marginBottom: 24,
+          }}
+        >
+          Contactez la Maison
+        </h1>
+        <div
+          style={{
+            width: 48,
+            height: 1,
+            background: "linear-gradient(90deg, transparent, #d4af6b, transparent)",
+            margin: "0 auto",
+          }}
+        />
+      </div>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+          gap: 64,
+        }}
+      >
+        {/* Left Column: Form */}
+        <div>
+          <h2
+            style={{
+              color: "#f0ece0",
+              fontSize: 24,
+              fontStyle: "italic",
+              marginBottom: 32,
+              fontWeight: 400,
+            }}
+          >
+            Formulaire de contact
+          </h2>
+
+          <AnimatePresence mode="wait">
+            {!submitted ? (
+              <motion.form
+                key="form"
+                onSubmit={handleSubmit}
+                style={{ display: "flex", flexDirection: "column", gap: 24 }}
+              >
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  <label style={{ color: "rgba(240,236,224,0.5)", fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase" }}>Nom complet</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.nom}
+                    onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
+                    style={{
+                      background: "rgba(255,255,255,0.02)",
+                      border: "1px solid rgba(212,175,107,0.2)",
+                      borderRadius: 3,
+                      padding: "16px 20px",
+                      color: "#f0ece0",
+                      fontFamily: "Georgia, serif",
+                      fontStyle: "italic",
+                      outline: "none",
+                    }}
+                  />
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  <label style={{ color: "rgba(240,236,224,0.5)", fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase" }}>Adresse e-mail</label>
+                  <input
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    style={{
+                      background: "rgba(255,255,255,0.02)",
+                      border: "1px solid rgba(212,175,107,0.2)",
+                      borderRadius: 3,
+                      padding: "16px 20px",
+                      color: "#f0ece0",
+                      fontFamily: "Georgia, serif",
+                      fontStyle: "italic",
+                      outline: "none",
+                    }}
+                  />
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  <label style={{ color: "rgba(240,236,224,0.5)", fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase" }}>Votre message</label>
+                  <textarea
+                    required
+                    rows={5}
+                    value={formData.msg}
+                    onChange={(e) => setFormData({ ...formData, msg: e.target.value })}
+                    style={{
+                      background: "rgba(255,255,255,0.02)",
+                      border: "1px solid rgba(212,175,107,0.2)",
+                      borderRadius: 3,
+                      padding: "16px 20px",
+                      color: "#f0ece0",
+                      fontFamily: "Georgia, serif",
+                      fontStyle: "italic",
+                      outline: "none",
+                      resize: "none",
+                    }}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  style={{
+                    background: "linear-gradient(135deg, #d4af6b, #b8963a)",
+                    border: "none",
+                    borderRadius: 2,
+                    color: "#0a0806",
+                    fontSize: 10,
+                    letterSpacing: "0.3em",
+                    textTransform: "uppercase",
+                    padding: "18px 36px",
+                    cursor: "pointer",
+                    fontWeight: 700,
+                    transition: "all 0.3s ease",
+                    width: "fit-content",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.9")}
+                  onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+                >
+                  Envoyer
+                </button>
+              </motion.form>
+            ) : (
+              <motion.div
+                key="success"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                style={{
+                  padding: "40px",
+                  border: "1px solid rgba(212,175,107,0.3)",
+                  borderRadius: 6,
+                  textAlign: "center",
+                  background: "rgba(212,175,107,0.02)",
+                }}
+              >
+                <p style={{ color: "#d4af6b", fontSize: 18, fontStyle: "italic", marginBottom: 16 }}>✦ Message transmis ✦</p>
+                <p style={{ color: "rgba(240,236,224,0.6)", fontSize: 14 }}>
+                  Nous vous remercions pour votre intérêt. Un conseiller vous répondra sous 24h.
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Right Column: Address & Map */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
+          <div>
+            <h2
+              style={{
+                color: "#f0ece0",
+                fontSize: 24,
+                fontStyle: "italic",
+                marginBottom: 24,
+                fontWeight: 400,
+              }}
+            >
+              L'Atelier
+            </h2>
+            <p style={{ color: "rgba(240,236,224,0.7)", fontSize: 15, lineHeight: 1.8, fontStyle: "italic" }}>
+              Place Vendôme, 75001 Paris (sur rendez-vous uniquement)<br />
+              Téléphone : +33 1 42 60 00 00<br />
+              E-mail : contact@aevia.io
+            </p>
+          </div>
+
+          {/* Minimalist Graphic Map */}
+          <div
+            style={{
+              aspectRatio: "16/10",
+              background: "linear-gradient(145deg, #111 0%, #1c1c1c 100%)",
+              borderRadius: 6,
+              border: "1px solid rgba(212,175,107,0.1)",
+              position: "relative",
+              overflow: "hidden",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {/* Grid overlay */}
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                backgroundImage: `
+                  repeating-linear-gradient(0deg, rgba(212,175,107,0.02) 0px, rgba(212,175,107,0.02) 1px, transparent 1px, transparent 20px),
+                  repeating-linear-gradient(90deg, rgba(212,175,107,0.02) 0px, rgba(212,175,107,0.02) 1px, transparent 1px, transparent 20px)
+                `,
+              }}
+            />
+            {/* Center dot */}
+            <div
+              style={{
+                width: 10,
+                height: 10,
+                background: "#d4af6b",
+                borderRadius: "50%",
+                filter: "drop-shadow(0 0 10px #d4af6b)",
+                animation: "pulse-glow 2s ease-in-out infinite",
+              }}
+            />
+            <span
+              style={{
+                position: "absolute",
+                color: "rgba(212,175,107,0.4)",
+                fontSize: 10,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                bottom: 20,
+              }}
+            >
+              Place Vendôme · Paris
+            </span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
+  if (variant === "mentions") {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        style={{
+          padding: "160px 40px 120px",
+          maxWidth: 800,
+          margin: "0 auto",
+          minHeight: "80vh",
+          fontFamily: "Georgia, serif",
+          lineHeight: 1.8,
+        }}
+      >
+        <h1 style={{ color: "#f0ece0", fontSize: 36, fontStyle: "italic", marginBottom: 40, fontWeight: 400 }}>Mentions Légales</h1>
+        <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "rgba(240,236,224,0.75)" }}>
+          <div>
+            <h3 style={{ color: "#d4af6b", fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Éditeur du site</h3>
+            <p>
+              Aevia WS — Valentin Milliand<br />
+              Entrepreneur individuel<br />
+              SIREN : 852 546 225<br />
+              RCS : Bourg-en-Bresse<br />
+              Adresse : communiquée sur demande<br />
+              E-mail : contact@aevia.io
+            </p>
+          </div>
+          <div>
+            <h3 style={{ color: "#d4af6b", fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Hébergement</h3>
+            <p>
+              Vercel Inc.<br />
+              340 S Lemon Ave #4133<br />
+              Walnut, CA 91789, États-Unis
+            </p>
+          </div>
+          <div>
+            <h3 style={{ color: "#d4af6b", fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Propriété intellectuelle</h3>
+            <p>
+              L'ensemble des contenus de ce site (textes, images, designs, logos) est protégé au titre du droit d'auteur.
+              Toute reproduction ou diffusion non autorisée est strictement interdite.
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
+  if (variant === "cgv") {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        style={{
+          padding: "160px 40px 120px",
+          maxWidth: 800,
+          margin: "0 auto",
+          minHeight: "80vh",
+          fontFamily: "Georgia, serif",
+          lineHeight: 1.8,
+        }}
+      >
+        <h1 style={{ color: "#f0ece0", fontSize: 36, fontStyle: "italic", marginBottom: 40, fontWeight: 400 }}>Conditions Générales de Vente</h1>
+        <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "rgba(240,236,224,0.75)" }}>
+          <div>
+            <h3 style={{ color: "#d4af6b", fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>1. Objet</h3>
+            <p>
+              Les présentes Conditions Générales de Vente régissent les relations contractuelles pour toute demande ou commande effectuée auprès de la Maison Élara.
+            </p>
+          </div>
+          <div>
+            <h3 style={{ color: "#d4af6b", fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>2. Commandes & Créations</h3>
+            <p>
+              Nos bijoux étant façonnés à la main et sur commande, le délai de fabrication moyen est de 4 à 6 semaines. Un acompte peut être exigé lors de la validation de commandes sur mesure.
+            </p>
+          </div>
+          <div>
+            <h3 style={{ color: "#d4af6b", fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>3. Livraison</h3>
+            <p>
+              Toutes nos livraisons de haute joaillerie sont confiées à des transporteurs spécialisés assurant un transit sécurisé et blindé. La livraison est offerte dans le monde entier.
+            </p>
+          </div>
+          <div>
+            <h3 style={{ color: "#d4af6b", fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>4. Droit de rétractation</h3>
+            <p>
+              Conformément à la réglementation, l'acheteur dispose d'un droit de rétractation de 14 jours à compter de la réception de la pièce, sauf pour les créations entièrement personnalisées ou gravées sur mesure.
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      style={{
+        padding: "160px 40px 120px",
+        maxWidth: 800,
+        margin: "0 auto",
+        minHeight: "80vh",
+        fontFamily: "Georgia, serif",
+        lineHeight: 1.8,
+      }}
+    >
+      <h1 style={{ color: "#f0ece0", fontSize: 36, fontStyle: "italic", marginBottom: 40, fontWeight: 400 }}>Politique de Confidentialité</h1>
+      <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "rgba(240,236,224,0.75)" }}>
+        <div>
+          <h3 style={{ color: "#d4af6b", fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Collecte des données</h3>
+          <p>
+            Les données recueillies via nos formulaires de contact ou d'inscription (nom, e-mail) sont destinées exclusivement au traitement de vos demandes d'informations et au suivi de vos relations avec la Maison Élara.
+          </p>
+        </div>
+        <div>
+          <h3 style={{ color: "#d4af6b", fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Discrétion absolue</h3>
+          <p>
+            Nous garantissons la confidentialité totale de vos données. Celles-ci ne seront en aucun cas louées, vendues ou cédées à des tiers.
+          </p>
+        </div>
+        <div>
+          <h3 style={{ color: "#d4af6b", fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Vos Droits</h3>
+          <p>
+            Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant. Vous pouvez exercer ce droit à tout moment par e-mail à : contact@aevia.io.
+          </p>
+        </div>
+      </div>
+    </motion.div>
   );
 }
