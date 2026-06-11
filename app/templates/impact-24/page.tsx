@@ -5,7 +5,7 @@ import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import { ArrowRight, Zap, Users, TrendingUp, Globe, CheckCircle, ChevronDown, Rocket, Star, Clock, Briefcase, Target, BookOpen, Award, Calendar, MapPin, Mail, Shield } from "lucide-react"
 
-type ActivePage = "home" | "portfolio" | "program" | "mentors" | "legal"
+type ActivePage = "home" | "portfolio" | "program" | "mentors" | "apply" | "legal"
 
 function useFonts() {
   useEffect(() => {
@@ -80,7 +80,7 @@ export default function Impact24() {
     { label: "Portfolio", target: "portfolio" },
     { label: "Program", target: "program" },
     { label: "Mentors", target: "mentors" },
-    { label: "Apply", target: "home" },
+    { label: "Apply", target: "apply" },
   ]
 
   return (
@@ -105,7 +105,7 @@ export default function Impact24() {
               <button key={item.label} onClick={() => goTo(item.target)} className="hover:text-white transition-colors cursor-pointer bg-transparent border-none text-sm text-white/60">{item.label}</button>
             ))}
           </div>
-          <button className="hidden md:flex bg-[#A3E635] text-[#060A0F] text-sm font-semibold px-5 py-2 rounded-full hover:bg-[#BEF264] transition-colors cursor-pointer">
+          <button onClick={() => goTo("apply")} className="hidden md:flex bg-[#A3E635] text-[#060A0F] text-sm font-semibold px-5 py-2 rounded-full hover:bg-[#BEF264] transition-colors cursor-pointer border-none">
             Apply Now
           </button>
           <button
@@ -134,9 +134,8 @@ export default function Impact24() {
         </AnimatePresence>
       </nav>
 
-      {/* ─── HOME PAGE ─── */}
-      {page === "home" && (
-        <>
+      {/* === HOME PAGE === */}
+      <div style={{ display: page === "home" ? "block" : "none" }}>
           {/* Hero */}
           <section className="min-h-screen flex items-center relative overflow-hidden pt-24 pb-16">
             <div className="absolute inset-0">
@@ -176,7 +175,7 @@ export default function Impact24() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="flex flex-wrap items-center gap-4"
               >
-                <button className="bg-[#A3E635] text-[#060A0F] font-bold text-lg px-8 py-4 rounded-full hover:bg-[#BEF264] transition-colors flex items-center gap-2 cursor-pointer">
+                <button onClick={() => goTo("apply")} className="bg-[#A3E635] text-[#060A0F] font-bold text-lg px-8 py-4 rounded-full hover:bg-[#BEF264] transition-colors flex items-center gap-2 cursor-pointer border-none">
                   Apply for W24 <ArrowRight className="w-5 h-5" />
                 </button>
                 <button onClick={() => goTo("portfolio")} className="text-white/60 hover:text-white transition-colors flex items-center gap-2 text-lg cursor-pointer bg-transparent border-none">
@@ -463,7 +462,7 @@ export default function Impact24() {
                       placeholder="your@startup.com"
                       className="bg-white/10 border border-white/20 rounded-full px-6 py-4 text-white placeholder:text-white/30 w-full sm:w-auto sm:min-w-72 focus:outline-none focus:border-[#A3E635]/50"
                     />
-                    <button className="bg-[#A3E635] text-[#060A0F] font-bold px-8 py-4 rounded-full hover:bg-[#BEF264] transition-colors flex items-center gap-2 cursor-pointer whitespace-nowrap">
+                    <button onClick={() => goTo("apply")} className="bg-[#A3E635] text-[#060A0F] font-bold px-8 py-4 rounded-full hover:bg-[#BEF264] transition-colors flex items-center gap-2 cursor-pointer whitespace-nowrap border-none">
                       Start Application <ArrowRight className="w-5 h-5" />
                     </button>
                   </div>
@@ -472,11 +471,10 @@ export default function Impact24() {
               </Reveal>
             </div>
           </section>
-        </>
-      )}
+        </div>
 
-      {/* ─── PORTFOLIO PAGE ─── */}
-      {page === "portfolio" && (
+      {/* === PORTFOLIO PAGE === */}
+      <div style={{ display: page === "portfolio" ? "block" : "none" }}>
         <section className="pt-32 pb-24 px-6">
           <div className="max-w-6xl mx-auto">
             <Reveal>
@@ -605,17 +603,17 @@ export default function Impact24() {
             <Reveal delay={0.2}>
               <div className="text-center mt-16">
                 <p className="text-white/40 text-sm mb-6">Want to be on this list?</p>
-                <button onClick={() => goTo("home")} className="bg-[#A3E635] text-[#060A0F] font-bold text-lg px-8 py-4 rounded-full hover:bg-[#BEF264] transition-colors inline-flex items-center gap-2 cursor-pointer">
+                <button onClick={() => goTo("apply")} className="bg-[#A3E635] text-[#060A0F] font-bold text-lg px-8 py-4 rounded-full hover:bg-[#BEF264] transition-colors inline-flex items-center gap-2 cursor-pointer">
                   Apply for W24 <ArrowRight className="w-5 h-5" />
                 </button>
               </div>
             </Reveal>
           </div>
         </section>
-      )}
+      </div>
 
-      {/* ─── PROGRAM PAGE ─── */}
-      {page === "program" && (
+      {/* --- PROGRAM PAGE --- */}
+      <div style={{ display: page === "program" ? "block" : "none" }}>
         <section className="pt-32 pb-24 px-6">
           <div className="max-w-6xl mx-auto">
             <Reveal>
@@ -781,17 +779,17 @@ export default function Impact24() {
             <Reveal delay={0.2}>
               <div className="text-center">
                 <p className="text-white/40 text-sm mb-6">Ready for the most intense 12 weeks of your life?</p>
-                <button onClick={() => goTo("home")} className="bg-[#A3E635] text-[#060A0F] font-bold text-lg px-8 py-4 rounded-full hover:bg-[#BEF264] transition-colors inline-flex items-center gap-2 cursor-pointer">
+                <button onClick={() => goTo("apply")} className="bg-[#A3E635] text-[#060A0F] font-bold text-lg px-8 py-4 rounded-full hover:bg-[#BEF264] transition-colors inline-flex items-center gap-2 cursor-pointer">
                   Apply for W24 <ArrowRight className="w-5 h-5" />
                 </button>
               </div>
             </Reveal>
           </div>
         </section>
-      )}
+      </div>
 
-      {/* ─── MENTORS PAGE ─── */}
-      {page === "mentors" && (
+      {/* --- MENTORS PAGE --- */}
+      <div style={{ display: page === "mentors" ? "block" : "none" }}>
         <section className="pt-32 pb-24 px-6">
           <div className="max-w-6xl mx-auto">
             <Reveal>
@@ -966,17 +964,82 @@ export default function Impact24() {
             <Reveal delay={0.2}>
               <div className="text-center mt-16">
                 <p className="text-white/40 text-sm mb-6">Want to work with these mentors?</p>
-                <button onClick={() => goTo("home")} className="bg-[#A3E635] text-[#060A0F] font-bold text-lg px-8 py-4 rounded-full hover:bg-[#BEF264] transition-colors inline-flex items-center gap-2 cursor-pointer">
+                <button onClick={() => goTo("apply")} className="bg-[#A3E635] text-[#060A0F] font-bold text-lg px-8 py-4 rounded-full hover:bg-[#BEF264] transition-colors inline-flex items-center gap-2 cursor-pointer">
                   Apply for W24 <ArrowRight className="w-5 h-5" />
                 </button>
               </div>
             </Reveal>
           </div>
         </section>
-      )}
+      </div>
 
-      {/* ─── LEGAL PAGE ─── */}
-      {page === "legal" && (
+      {/* --- APPLY PAGE --- */}
+      <div style={{ display: page === "apply" ? "block" : "none" }}>
+        <section className="pt-32 pb-24 px-6 min-h-[85vh] flex items-center justify-center">
+          <div className="max-w-2xl w-full bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#A3E635]/5 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-[#3B82F6]/5 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-2 bg-[#A3E635]/10 border border-[#A3E635]/20 text-[#A3E635] text-sm font-medium px-4 py-2 rounded-full mb-6">
+                <Rocket className="w-4 h-4" /> Cohort W24 — Applications Open
+              </div>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">Start your application</h1>
+              <p className="text-white/50 text-sm max-w-md mx-auto">
+                Apply to the Zero to One 12-week accelerator. We invest €500K and help you scale. Takes ~15 minutes to complete.
+              </p>
+            </div>
+
+            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="text-white/60 text-sm font-medium mb-2 block">Startup Name</label>
+                  <input type="text" placeholder="Acme Inc." className="w-full bg-white/5 border border-white/20 rounded-xl px-5 py-3.5 text-white placeholder:text-white/20 focus:outline-none focus:border-[#A3E635]/50 transition-colors" />
+                </div>
+                <div>
+                  <label className="text-white/60 text-sm font-medium mb-2 block">Website or Deck Link</label>
+                  <input type="url" placeholder="https://mydeck.pdf" className="w-full bg-white/5 border border-white/20 rounded-xl px-5 py-3.5 text-white placeholder:text-white/20 focus:outline-none focus:border-[#A3E635]/50 transition-colors" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="text-white/60 text-sm font-medium mb-2 block">Contact Email</label>
+                  <input type="email" placeholder="founder@startup.com" className="w-full bg-[#060A0F]/50 border border-white/20 rounded-xl px-5 py-3.5 text-white placeholder:text-white/20 focus:outline-none focus:border-[#A3E635]/50 transition-colors" />
+                </div>
+                <div>
+                  <label className="text-white/60 text-sm font-medium mb-2 block">Sector</label>
+                  <select className="w-full bg-[#0D1520] border border-white/20 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-[#A3E635]/50 transition-colors">
+                    <option>AI/ML</option>
+                    <option>Fintech</option>
+                    <option>Developer Tools</option>
+                    <option>HealthTech</option>
+                    <option>CleanTech</option>
+                    <option>Design Tools</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="text-white/60 text-sm font-medium mb-2 block">What is your startup building?</label>
+                <textarea rows={4} placeholder="Describe your product, target audience, and current traction..." className="w-full bg-white/5 border border-white/20 rounded-xl px-5 py-3.5 text-white placeholder:text-white/20 focus:outline-none focus:border-[#A3E635]/50 transition-colors resize-none" />
+              </div>
+
+              <button type="submit" className="w-full bg-[#A3E635] text-[#060A0F] font-bold py-4 rounded-full hover:bg-[#BEF264] transition-colors flex items-center justify-center gap-2 cursor-pointer border-none">
+                Submit Application <ArrowRight className="w-5 h-5" />
+              </button>
+            </form>
+
+            <p className="text-center text-xs text-white/30 mt-6">
+              Deadline: November 15, 2026. Results by December 1, 2026.
+            </p>
+          </div>
+        </section>
+      </div>
+
+      {/* --- LEGAL PAGE --- */}
+      <div style={{ display: page === "legal" ? "block" : "none" }}>
         <section className="pt-32 pb-24 px-6">
           <div className="max-w-4xl mx-auto">
             <Reveal>
@@ -1041,7 +1104,7 @@ export default function Impact24() {
             </Reveal>
           </div>
         </section>
-      )}
+      </div>
 
       {/* Footer */}
       <footer className="border-t border-white/10 py-12 px-6">

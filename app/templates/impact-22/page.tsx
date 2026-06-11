@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, ArrowRight, Cloud, Cpu, Zap, Database, Lock, BarChart3, ChevronDown, CheckCircle, GitBranch, Globe, BookOpen, FileText, Tag, Clock, Users, Shield, Terminal, Code, Layers, Server, Eye, TrendingUp, Sparkles, ExternalLink } from "lucide-react";
 
-type ActivePage = "home" | "modeles" | "pricing" | "docs" | "blog" | "legal";
+type ActivePage = "home" | "modeles" | "pricing" | "docs" | "blog" | "login" | "legal";
 
 const useFonts = () => {
   useEffect(() => {
@@ -114,7 +114,7 @@ export default function NimbusAIPage() {
             ))}
           </div>
           <div className="hidden md:flex items-center gap-3">
-            <button className="text-gray-400 text-sm px-4 py-2 hover:text-white transition-colors cursor-pointer">Se connecter</button>
+            <button onClick={() => goTo("login")} className="text-gray-400 text-sm px-4 py-2 hover:text-white transition-colors cursor-pointer bg-transparent border-none">Se connecter</button>
             <button onClick={() => goTo("pricing")} className="bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] text-white text-sm px-5 py-2.5 rounded-xl hover:opacity-90 transition-opacity cursor-pointer font-medium">Démarrer</button>
           </div>
           <button className="md:hidden text-white cursor-pointer" onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5" /></button>
@@ -137,9 +137,8 @@ export default function NimbusAIPage() {
         )}
       </AnimatePresence>
 
-      {/* ═══════════════════════════ HOME PAGE ═══════════════════════════ */}
-      {page === "home" && (
-        <>
+      {/* ============================== HOME ============================== */}
+      <div style={{ display: page === "home" ? "block" : "none" }}>
           {/* Hero */}
           <section className="relative min-h-screen flex items-center pt-32 pb-20 px-6 overflow-hidden">
             <div className="absolute inset-0 pointer-events-none">
@@ -313,12 +312,10 @@ export default function NimbusAIPage() {
               </Reveal>
             </div>
           </section>
-        </>
-      )}
+        </div>
 
-      {/* ═══════════════════════════ MODÈLES PAGE ═══════════════════════════ */}
-      {page === "modeles" && (
-        <>
+      {/* ============================== MODÈLES PAGE ============================== */}
+      <div style={{ display: page === "modeles" ? "block" : "none" }}>
           <section className="pt-32 pb-16 px-6">
             <div className="max-w-6xl mx-auto">
               <Reveal>
@@ -439,12 +436,10 @@ export default function NimbusAIPage() {
               </Reveal>
             </div>
           </section>
-        </>
-      )}
+        </div>
 
-      {/* ═══════════════════════════ PRICING PAGE ═══════════════════════════ */}
-      {page === "pricing" && (
-        <>
+      {/* ============================== PRICING PAGE ============================== */}
+      <div style={{ display: page === "pricing" ? "block" : "none" }}>
           <section className="pt-32 pb-16 px-6">
             <div className="max-w-6xl mx-auto text-center">
               <Reveal>
@@ -586,12 +581,10 @@ export default function NimbusAIPage() {
               </Reveal>
             </div>
           </section>
-        </>
-      )}
+        </div>
 
-      {/* ═══════════════════════════ DOCS PAGE ═══════════════════════════ */}
-      {page === "docs" && (
-        <>
+      {/* ============================== DOCS PAGE ============================== */}
+      <div style={{ display: page === "docs" ? "block" : "none" }}>
           <section className="pt-32 pb-16 px-6">
             <div className="max-w-4xl mx-auto">
               <Reveal>
@@ -786,12 +779,10 @@ app.post("/webhooks/nimbus", (req, res) => {
               </Reveal>
             </div>
           </section>
-        </>
-      )}
+        </div>
 
-      {/* ═══════════════════════════ BLOG PAGE ═══════════════════════════ */}
-      {page === "blog" && (
-        <>
+      {/* ============================== BLOG PAGE ============================== */}
+      <div style={{ display: page === "blog" ? "block" : "none" }}>
           <section className="pt-32 pb-16 px-6">
             <div className="max-w-6xl mx-auto">
               <Reveal>
@@ -874,12 +865,63 @@ app.post("/webhooks/nimbus", (req, res) => {
               ))}
             </div>
           </section>
-        </>
-      )}
+        </div>
 
-      {/* ═══════════════════════════ LEGAL PAGE ═══════════════════════════ */}
-      {page === "legal" && (
-        <>
+      {/* ============================== LOGIN PAGE ============================== */}
+      <div style={{ display: page === "login" ? "block" : "none" }}>
+        <section className="pt-32 pb-20 px-6 min-h-[80vh] flex items-center justify-center">
+          <div className="max-w-md w-full bg-[#0D1525] border border-white/5 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+            <div className="absolute -top-20 -right-20 w-48 h-48 bg-[#06B6D4]/5 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-[#8B5CF6]/5 rounded-full blur-2xl pointer-events-none" />
+            
+            <div className="text-center mb-8">
+              <div className="w-12 h-12 bg-gradient-to-br from-[#06B6D4] to-[#8B5CF6] rounded-xl flex items-center justify-center mx-auto mb-4">
+                <Cloud className="w-6 h-6 text-white" />
+              </div>
+              <h2 className="text-white text-2xl font-bold">Connexion à NimbusAI</h2>
+              <p className="text-gray-500 text-sm mt-2">Accédez à votre console d&apos;administration</p>
+            </div>
+
+            <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+              <div>
+                <label className="text-gray-400 text-xs font-semibold uppercase tracking-wider block mb-2">Adresse Email</label>
+                <input type="email" placeholder="nom@entreprise.com" className="w-full bg-[#060B16] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:border-[#06B6D4] transition-colors" />
+              </div>
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="text-gray-400 text-xs font-semibold uppercase tracking-wider block">Mot de passe</label>
+                  <button className="text-[#06B6D4] text-xs hover:underline cursor-pointer bg-transparent border-none">Oublié ?</button>
+                </div>
+                <input type="password" placeholder="••••••••••••" className="w-full bg-[#060B16] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:border-[#06B6D4] transition-colors" />
+              </div>
+              <button type="submit" className="w-full bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] text-white font-bold py-3.5 rounded-xl hover:opacity-90 transition-opacity cursor-pointer flex items-center justify-center gap-2">
+                Se connecter <ArrowRight className="w-4 h-4" />
+              </button>
+            </form>
+
+            <div className="relative my-8 text-center">
+              <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/5"></div></div>
+              <span className="bg-[#0D1525] px-3 text-xs text-gray-500 relative">Ou continuer avec</span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <button className="flex items-center justify-center gap-2 bg-[#060B16] border border-white/10 rounded-xl py-2.5 hover:bg-white/5 transition-colors cursor-pointer text-sm text-white font-medium">
+                <Globe className="w-4 h-4" /> GitHub
+              </button>
+              <button className="flex items-center justify-center gap-2 bg-[#060B16] border border-white/10 rounded-xl py-2.5 hover:bg-white/5 transition-colors cursor-pointer text-sm text-white font-medium">
+                <Shield className="w-4 h-4" /> SSO
+              </button>
+            </div>
+
+            <p className="text-center text-xs text-gray-500 mt-8">
+              Pas encore de compte ? <button onClick={() => goTo("pricing")} className="text-[#06B6D4] hover:underline bg-transparent border-none cursor-pointer">Démarrer gratuitement</button>
+            </p>
+          </div>
+        </section>
+      </div>
+
+      {/* ============================== LEGAL PAGE ============================== */}
+      <div style={{ display: page === "legal" ? "block" : "none" }}>
           <section className="pt-32 pb-20 px-6">
             <div className="max-w-3xl mx-auto">
               <Reveal>
@@ -908,10 +950,9 @@ app.post("/webhooks/nimbus", (req, res) => {
               </Reveal>
             </div>
           </section>
-        </>
-      )}
+        </div>
 
-      {/* ═══════════════════════════ FOOTER (always visible) ═══════════════════════════ */}
+      {/* ============================== FOOTER (always visible) ============================== */}
       <footer className="bg-[#060B16] border-t border-white/5 py-16 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10 mb-12">
           <div>
