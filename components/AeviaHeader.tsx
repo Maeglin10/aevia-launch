@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Shield, MessageSquare, ChevronDown, ExternalLink, Globe } from "lucide-react";
+import { Menu, X, Shield, MessageSquare, Sparkles, ChevronDown, ExternalLink, Globe } from "lucide-react";
 import { useLang, LOCALE_META, type Locale } from "@/lib/LangContext";
 
 function LangSwitcher() {
@@ -63,18 +63,18 @@ function AeviaLogoSvg() {
   );
 }
 
-const otherProducts = [
-  { name: "AeviaSecurity", href: "https://security.aevia.services", descKey: "descSecurity", icon: Shield, status: "live" },
-  { name: "AeviaInbox", href: "https://inbox.aevia.services", descKey: "descInbox", icon: MessageSquare, status: "soon" },
-  { name: "Aevia.app", href: "https://aevia.services", descKey: "descHome", icon: Globe, status: "live" },
+const allProducts = [
+  { name: "AeviaSecurity", href: "https://security.aevia.services", descKey: "descSecurity", icon: Shield, current: false },
+  { name: "AeviaLaunch", href: "/", descKey: "descLaunch", icon: Sparkles, current: true },
+  { name: "AeviaInbox", href: "https://inbox.aevia.services", descKey: "descInbox", icon: MessageSquare, current: false },
 ] as const;
 
 const HEADER_T = {
-  fr: { templates: "Templates IA", pricing: "Tarifs", products: "Produits", cta: "Démarrer un projet", soon: "Bientôt", live: "Live", descSecurity: "Audit sécurité en 60s", descInbox: "CRM multi-canal", descHome: "Accueil Aevia" },
-  en: { templates: "AI Templates", pricing: "Pricing", products: "Products", cta: "Start a project", soon: "Soon", live: "Live", descSecurity: "Security audit in 60s", descInbox: "Multi-channel CRM", descHome: "Aevia home" },
-  es: { templates: "Plantillas IA", pricing: "Precios", products: "Productos", cta: "Iniciar un proyecto", soon: "Pronto", live: "Live", descSecurity: "Auditoría de seguridad en 60s", descInbox: "CRM multicanal", descHome: "Inicio Aevia" },
-  de: { templates: "KI-Vorlagen", pricing: "Preise", products: "Produkte", cta: "Projekt starten", soon: "Bald", live: "Live", descSecurity: "Sicherheits-Audit in 60s", descInbox: "Multichannel-CRM", descHome: "Aevia-Startseite" },
-  pt: { templates: "Modelos IA", pricing: "Preços", products: "Produtos", cta: "Iniciar um projeto", soon: "Em breve", live: "Live", descSecurity: "Auditoria de segurança em 60s", descInbox: "CRM multicanal", descHome: "Início Aevia" },
+  fr: { templates: "Templates IA", pricing: "Tarifs", products: "Produits", cta: "Démarrer un projet", current: "Actuel", descSecurity: "Audit sécurité en 60s", descLaunch: "Sites web en 2 heures · IA", descInbox: "CRM multi-canal · WhatsApp & IA" },
+  en: { templates: "AI Templates", pricing: "Pricing", products: "Products", cta: "Start a project", current: "Current", descSecurity: "Security audit in 60s", descLaunch: "Websites in 2 hours · AI", descInbox: "Multi-channel CRM · WhatsApp & AI" },
+  es: { templates: "Plantillas IA", pricing: "Precios", products: "Productos", cta: "Iniciar un proyecto", current: "Actual", descSecurity: "Auditoría de seguridad en 60s", descLaunch: "Sitios web en 2 horas · IA", descInbox: "CRM multicanal · WhatsApp e IA" },
+  de: { templates: "KI-Vorlagen", pricing: "Preise", products: "Produkte", cta: "Projekt starten", current: "Aktuell", descSecurity: "Sicherheits-Audit in 60s", descLaunch: "Websites in 2 Stunden · KI", descInbox: "Multichannel-CRM · WhatsApp & KI" },
+  pt: { templates: "Modelos IA", pricing: "Preços", products: "Produtos", cta: "Iniciar um projeto", current: "Atual", descSecurity: "Auditoria de segurança em 60s", descLaunch: "Sites em 2 horas · IA", descInbox: "CRM multicanal · WhatsApp e IA" },
 };
 
 export function AeviaHeader() {
@@ -83,6 +83,7 @@ export function AeviaHeader() {
   const t = HEADER_T[locale as keyof typeof HEADER_T] ?? HEADER_T.fr;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const isConfigurePage = pathname === "/configure";
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-black/70 backdrop-blur-md">
@@ -93,6 +94,56 @@ export function AeviaHeader() {
 
         {/* Desktop */}
         <nav className="hidden sm:flex items-center gap-1">
+          {/* Products dropdown — first */}
+          <div
+            className="relative"
+            onMouseEnter={() => setDropdownOpen(true)}
+            onMouseLeave={() => setDropdownOpen(false)}
+          >
+            <button className="px-3 py-1.5 rounded-md text-sm text-white/60 hover:text-white hover:bg-white/10 transition-colors flex items-center gap-1">
+              {t.products}
+              <ChevronDown size={14} className={`transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
+            </button>
+            {dropdownOpen && (
+              <div className="absolute left-0 mt-1 w-68 bg-zinc-900 border border-zinc-800 rounded-xl shadow-xl shadow-black/40 overflow-hidden">
+                <div className="p-2 flex flex-col gap-1">
+                  {allProducts.map((p) => {
+                    const Icon = p.icon;
+                    return p.current ? (
+                      <div key={p.name} className="flex items-center gap-3 p-2.5 rounded-lg bg-violet-500/10 ring-1 ring-violet-500/20">
+                        <Icon className="w-4 h-4 text-violet-400 shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-white text-sm font-medium">{p.name}</span>
+                            <span className="bg-violet-500/20 text-violet-300 text-[10px] px-1.5 py-0.5 rounded-full">{t.current}</span>
+                          </div>
+                          <p className="text-zinc-500 text-xs">{t[p.descKey]}</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <a
+                        key={p.name}
+                        href={p.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-zinc-800/60 transition-colors group"
+                      >
+                        <Icon className="w-4 h-4 text-violet-400 shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-white text-sm font-medium group-hover:text-violet-300 transition-colors">{p.name}</span>
+                            <ExternalLink className="w-3 h-3 text-zinc-600" />
+                          </div>
+                          <p className="text-zinc-500 text-xs">{t[p.descKey]}</p>
+                        </div>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+
           <Link
             href="/themes"
             className={`px-3 py-1.5 rounded-md text-sm transition-colors ${pathname === "/themes" ? "text-white bg-white/10" : "text-white/60 hover:text-white hover:bg-white/10"}`}
@@ -106,65 +157,16 @@ export function AeviaHeader() {
             {t.pricing}
           </Link>
 
-          {/* Other products dropdown */}
-          <div
-            className="relative"
-            onMouseEnter={() => setDropdownOpen(true)}
-            onMouseLeave={() => setDropdownOpen(false)}
-          >
-            <button className="px-3 py-1.5 rounded-md text-sm text-white/60 hover:text-white hover:bg-white/10 transition-colors flex items-center gap-1">
-              {t.products}
-              <ChevronDown size={14} className={`transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
-            </button>
-            {dropdownOpen && (
-              <div className="absolute right-0 mt-1 w-64 bg-zinc-900 border border-zinc-800 rounded-xl shadow-xl shadow-black/40 overflow-hidden">
-                <div className="p-2 flex flex-col gap-1">
-                  {otherProducts.map((p) => {
-                    const Icon = p.icon;
-                    const isLive = p.status === "live";
-                    return isLive ? (
-                      <a
-                        key={p.name}
-                        href={p.href}
-                        target={p.href.startsWith("http") && !p.href.includes("aevia.vercel") ? "_blank" : undefined}
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-zinc-800/60 transition-colors group"
-                      >
-                        <Icon className="w-4 h-4 text-violet-400 shrink-0" />
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-white text-sm font-medium group-hover:text-violet-300 transition-colors">{p.name}</span>
-                            <ExternalLink className="w-3 h-3 text-zinc-600" />
-                          </div>
-                          <p className="text-zinc-500 text-xs">{t[p.descKey]}</p>
-                        </div>
-                      </a>
-                    ) : (
-                      <div key={p.name} className="flex items-center gap-3 p-2.5 rounded-lg opacity-50">
-                        <Icon className="w-4 h-4 text-zinc-500 shrink-0" />
-                        <div>
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-zinc-400 text-sm font-medium">{p.name}</span>
-                            <span className="bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.5 rounded-full">{t.soon}</span>
-                          </div>
-                          <p className="text-zinc-600 text-xs">{t[p.descKey]}</p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
-
           <LangSwitcher />
 
-          <a
-            href="https://aevia.services/contact"
-            className="ml-1 px-4 py-1.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors"
-          >
-            {t.cta}
-          </a>
+          {!isConfigurePage && (
+            <Link
+              href="/configure"
+              className="ml-1 px-4 py-1.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors"
+            >
+              {t.cta}
+            </Link>
+          )}
         </nav>
 
         <button className="sm:hidden text-white/60 hover:text-white" onClick={() => setMobileOpen(!mobileOpen)}>
@@ -174,23 +176,28 @@ export function AeviaHeader() {
 
       {mobileOpen && (
         <div className="sm:hidden border-t border-white/10 bg-black/90 px-6 py-4 flex flex-col gap-2">
-          <Link href="/themes" onClick={() => setMobileOpen(false)} className="text-white/70 hover:text-white text-sm py-2">{t.templates}</Link>
-          <Link href="/pricing" onClick={() => setMobileOpen(false)} className="text-white/70 hover:text-white text-sm py-2">{t.pricing}</Link>
-          <div className="border-t border-white/10 pt-2 mt-1 flex flex-col gap-2">
-            {otherProducts.map((p) => p.status === "live" ? (
-              <a key={p.name} href={p.href} className="text-white/70 hover:text-white text-sm py-2 flex items-center justify-between">
-                {p.name} <span className="bg-emerald-500/20 text-emerald-300 text-[10px] px-1.5 py-0.5 rounded-full">{t.live}</span>
-              </a>
-            ) : (
-              <div key={p.name} className="text-white/40 text-sm py-2 flex items-center justify-between">
-                {p.name} <span className="bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.5 rounded-full">{t.soon}</span>
+          <p className="text-xs text-zinc-500 uppercase tracking-wider pb-1">{t.products}</p>
+          {allProducts.map((p) => (
+            p.current ? (
+              <div key={p.name} className="text-white/70 text-sm py-2 flex items-center justify-between">
+                {p.name} <span className="bg-violet-500/20 text-violet-300 text-[10px] px-1.5 py-0.5 rounded-full">{t.current}</span>
               </div>
-            ))}
+            ) : (
+              <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white text-sm py-2 flex items-center justify-between">
+                {p.name} <ExternalLink className="w-3.5 h-3.5 text-zinc-500" />
+              </a>
+            )
+          ))}
+          <div className="border-t border-white/10 pt-2 mt-1 flex flex-col gap-2">
+            <Link href="/themes" onClick={() => setMobileOpen(false)} className="text-white/70 hover:text-white text-sm py-2">{t.templates}</Link>
+            <Link href="/pricing" onClick={() => setMobileOpen(false)} className="text-white/70 hover:text-white text-sm py-2">{t.pricing}</Link>
           </div>
           <div className="border-t border-white/10 pt-2 mt-1"><LangSwitcher /></div>
-          <a href="https://aevia.services/contact" className="mt-2 text-center px-4 py-2.5 rounded-full bg-violet-600 text-white text-sm font-semibold">
-            {t.cta}
-          </a>
+          {!isConfigurePage && (
+            <Link href="/configure" onClick={() => setMobileOpen(false)} className="mt-2 text-center px-4 py-2.5 rounded-full bg-violet-600 text-white text-sm font-semibold">
+              {t.cta}
+            </Link>
+          )}
         </div>
       )}
     </header>
