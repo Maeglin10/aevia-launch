@@ -762,7 +762,17 @@ function CounterStat({ stat, triggered }: { stat: StatItem; triggered: boolean }
 /* ─────────────────────────────────────────────
    MAIN PAGE
 ───────────────────────────────────────────── */
+type ActivePage = "home" | "fleet" | "destinations" | "experience" | "contact" | "legal";
+
 export default function HorizonMaritimePage() {
+  const [page, setPage] = useState<ActivePage>("home");
+  const goTo = (p: ActivePage) => {
+    setPage(p);
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+  };
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [timelineProgress, setTimelineProgress] = useState(0);
@@ -806,7 +816,7 @@ export default function HorizonMaritimePage() {
     window.addEventListener("scroll", update, { passive: true });
     update();
     return () => window.removeEventListener("scroll", update);
-  }, []);
+  }, [page]);
 
   return (
     <div
@@ -815,7 +825,7 @@ export default function HorizonMaritimePage() {
         minHeight: "100vh",
         background: "#0d1b2a",
         color: "#f0ece0",
-        overflowX: "hidden",
+        overflowX: "clip",
       }}
     >
       {/* Global styles */}
@@ -860,7 +870,10 @@ export default function HorizonMaritimePage() {
           }}
         >
           {/* Logo */}
-          <Link href="/" style={{ display: "flex", alignItems: "center", gap: "0.75rem", textDecoration: "none" }}>
+          <div
+            onClick={(e) => { e.preventDefault(); goTo("home"); }}
+            style={{ display: "flex", alignItems: "center", gap: "0.75rem", textDecoration: "none", cursor: "pointer" }}
+          >
             <div
               style={{
                 width: 36,
@@ -904,7 +917,7 @@ export default function HorizonMaritimePage() {
                 Maritime
               </p>
             </div>
-          </Link>
+          </div>
 
           {/* Desktop nav */}
           <div
@@ -915,15 +928,22 @@ export default function HorizonMaritimePage() {
             }}
             className="hidden-mobile"
           >
-            {["Fleet", "Destinations", "Experience", "Voyage", "Contact"].map((item) => (
-              <Link
-                key={item}
+            {[
+              { name: "Fleet", page: "fleet" },
+              { name: "Destinations", page: "destinations" },
+              { name: "Experience", page: "experience" },
+              { name: "Voyage", page: "home" },
+              { name: "Contact", page: "contact" },
+            ].map((item) => (
+              <a
+                key={item.name}
                 href="#"
+                onClick={(e) => { e.preventDefault(); goTo(item.page as any); }}
                 style={{
                   fontFamily: "Montserrat, sans-serif",
                   fontSize: 11,
                   fontWeight: 500,
-                  color: "rgba(240,236,224,0.7)",
+                  color: page === item.page ? "#c9a84c" : "rgba(240,236,224,0.7)",
                   textDecoration: "none",
                   letterSpacing: 2,
                   textTransform: "uppercase",
@@ -934,13 +954,14 @@ export default function HorizonMaritimePage() {
                 }
                 onMouseLeave={(e) =>
                   ((e.target as HTMLAnchorElement).style.color =
-                    "rgba(240,236,224,0.7)")
+                    page === item.page ? "#c9a84c" : "rgba(240,236,224,0.7)")
                 }
               >
-                {item}
-              </Link>
+                {item.name}
+              </a>
             ))}
             <button
+              onClick={() => goTo("contact")}
               style={{
                 fontFamily: "Montserrat, sans-serif",
                 fontSize: 10,
@@ -1004,29 +1025,35 @@ export default function HorizonMaritimePage() {
                 <X size={24} />
               </button>
             </div>
-            {["Fleet", "Destinations", "Experience", "Voyage", "Contact"].map((item, i) => (
+            {[
+              { name: "Fleet", page: "fleet" },
+              { name: "Destinations", page: "destinations" },
+              { name: "Experience", page: "experience" },
+              { name: "Voyage", page: "home" },
+              { name: "Contact", page: "contact" },
+            ].map((item, i) => (
               <motion.div
-                key={item}
+                key={item.name}
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.08 }}
               >
-                <Link
+                <a
                   href="#"
-                  onClick={() => setMobileOpen(false)}
+                  onClick={(e) => { e.preventDefault(); setMobileOpen(false); goTo(item.page as any); }}
                   style={{
                     display: "block",
                     fontFamily: "Cormorant Garamond, Georgia, serif",
                     fontSize: "2.5rem",
                     fontWeight: 300,
-                    color: "#f0ece0",
+                    color: page === item.page ? "#c9a84c" : "#f0ece0",
                     textDecoration: "none",
                     marginBottom: "1.5rem",
                     letterSpacing: 2,
                   }}
                 >
-                  {item}
-                </Link>
+                  {item.name}
+                </a>
               </motion.div>
             ))}
             <div
@@ -1043,6 +1070,9 @@ export default function HorizonMaritimePage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {page === "home" && (
+        <>
 
       {/* ── HERO: MULTI-SPEED PARALLAX ── */}
       <section
@@ -2101,6 +2131,15 @@ export default function HorizonMaritimePage() {
         </div>
       </section>
 
+        </>
+      )}
+
+      {page === "fleet" && <FleetPage goTo={goTo} />}
+      {page === "destinations" && <DestinationsPage goTo={goTo} />}
+      {page === "experience" && <ExperiencePage goTo={goTo} />}
+      {page === "contact" && <ContactPage />}
+      {page === "legal" && <LegalPage />}
+
       {/* ── FOOTER ── */}
       <footer
         style={{
@@ -2183,22 +2222,35 @@ export default function HorizonMaritimePage() {
                   {col.title}
                 </p>
                 <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                  {col.links.map((link) => (
-                    <li key={link} style={{ marginBottom: "0.75rem" }}>
-                      <Link
-                        href="#"
-                        style={{
-                          fontFamily: "Montserrat, sans-serif",
-                          fontSize: 11,
-                          fontWeight: 300,
-                          color: "rgba(240,236,224,0.45)",
-                          textDecoration: "none",
-                        }}
-                      >
-                        {link}
-                      </Link>
-                    </li>
-                  ))}
+                  {col.links.map((link) => {
+                    let onClickHandler = (e: React.MouseEvent) => e.preventDefault();
+                    if (link === "Yacht Charter" || link === "Expedition Yachts" || link === "Our Fleet") {
+                      onClickHandler = (e) => { e.preventDefault(); goTo("fleet"); };
+                    } else if (link === "Private Aviation" || link === "About Horizon") {
+                      onClickHandler = (e) => { e.preventDefault(); goTo("experience"); };
+                    } else if (link === "Villa Collection" || col.title === "Destinations") {
+                      onClickHandler = (e) => { e.preventDefault(); goTo("destinations"); };
+                    } else if (link === "Corporate Charter" || link === "Charter Brokers" || link === "Press" || link === "Careers") {
+                      onClickHandler = (e) => { e.preventDefault(); goTo("contact"); };
+                    }
+                    return (
+                      <li key={link} style={{ marginBottom: "0.75rem" }}>
+                        <a
+                          href="#"
+                          onClick={onClickHandler}
+                          style={{
+                            fontFamily: "Montserrat, sans-serif",
+                            fontSize: 11,
+                            fontWeight: 300,
+                            color: "rgba(240,236,224,0.45)",
+                            textDecoration: "none",
+                          }}
+                        >
+                          {link}
+                        </a>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             ))}
@@ -2261,19 +2313,665 @@ export default function HorizonMaritimePage() {
               © 2026 Horizon Maritime Group S.A.M. · All rights reserved · Monaco
             </p>
             <div style={{ display: "flex", gap: "2rem" }}>
-              {["Privacy Policy", "Terms of Charter", "Cookie Policy"].map((l) => (
-                <Link
+              {["Privacy Policy", "Terms of Charter", "Cookie Policy", "Legal Mentions"].map((l) => (
+                <a
                   key={l}
                   href="#"
+                  onClick={(e) => { e.preventDefault(); goTo("legal"); }}
                   style={{ fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.25)", textDecoration: "none", letterSpacing: 1 }}
                 >
                   {l}
-                </Link>
+                </a>
               ))}
             </div>
           </div>
         </div>
       </footer>
     </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   SUB-PAGE COMPONENTS
+───────────────────────────────────────────── */
+
+function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
+  const [filter, setFilter] = useState<"all" | "motor" | "sailing" | "explorer">("all");
+
+  const fleetYachts = [
+    {
+      name: "M/Y Lumière",
+      type: "motor",
+      length: "58m",
+      built: "2022",
+      guests: 12,
+      cabins: 6,
+      crew: 14,
+      speed: "16 knots",
+      price: "€380,000",
+      img: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&q=80&w=1200",
+      desc: "An icon of contemporary luxury. Featuring a glass-bottom pool, private owner's deck, and an expansive beach club.",
+    },
+    {
+      name: "S/Y Ariel",
+      type: "sailing",
+      length: "42m",
+      built: "2020",
+      guests: 8,
+      cabins: 4,
+      crew: 6,
+      speed: "12 knots",
+      price: "€160,000",
+      img: "https://images.unsplash.com/photo-1505080856163-267d49b3026a?auto=format&fit=crop&q=80&w=1200",
+      desc: "High-performance sailing meets ultimate comfort. Carbon rigging, minimalist Italian interior, and direct ocean access.",
+    },
+    {
+      name: "M/Y Étoile",
+      type: "motor",
+      length: "72m",
+      built: "2023",
+      guests: 16,
+      cabins: 8,
+      crew: 22,
+      speed: "18 knots",
+      price: "€650,000",
+      img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&q=80&w=1200",
+      desc: "Unrivaled scale and sophistication. Features a certified helipad, onboard cinema, wellness spa, and two Michelin chefs.",
+    },
+    {
+      name: "M/Y Odyssey",
+      type: "explorer",
+      length: "85m",
+      built: "2021",
+      guests: 14,
+      cabins: 7,
+      crew: 28,
+      speed: "15 knots",
+      price: "€800,000",
+      img: "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&q=80&w=1200",
+      desc: "Ice-class explorer designed for global expeditions. Complete with private submarine, heli-hangar, and science lab.",
+    },
+    {
+      name: "S/Y Chronos",
+      type: "sailing",
+      length: "50m",
+      built: "2019",
+      guests: 10,
+      cabins: 5,
+      crew: 8,
+      speed: "14 knots",
+      price: "€240,000",
+      img: "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&q=80&w=1200",
+      desc: "Classic lines with modern naval architecture. Hand-finished teak decks, mahogany salon, and state-of-the-art rigging.",
+    },
+  ];
+
+  const filteredYachts = filter === "all" ? fleetYachts : fleetYachts.filter((y) => y.type === filter);
+
+  return (
+    <section style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100vh" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        {/* Title */}
+        <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", marginBottom: "1rem" }}>
+            <div style={{ width: 32, height: 1, background: "#c9a84c" }} />
+            <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "#c9a84c", letterSpacing: 4, textTransform: "uppercase" }}>
+              Our Fleet
+            </p>
+            <div style={{ width: 32, height: 1, background: "#c9a84c" }} />
+          </div>
+          <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300, color: "#f0ece0", lineHeight: 1.1, marginBottom: "1.5rem" }}>
+            The Horizon <em style={{ fontStyle: "italic", color: "#c9a84c" }}>Collection</em>
+          </h1>
+          <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 13, color: "rgba(240,236,224,0.6)", maxWidth: 600, margin: "0 auto", lineHeight: 1.8 }}>
+            Explore our curated portfolio of ultra-luxury vessels available for charter. Each yacht is maintained to impeccable standards with hand-selected crews.
+          </p>
+        </div>
+
+        {/* Filter Tabs */}
+        <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginBottom: "4rem", flexWrap: "wrap" }}>
+          {(["all", "motor", "sailing", "explorer"] as const).map((t) => (
+            <button
+              key={t}
+              onClick={() => setFilter(t)}
+              style={{
+                fontFamily: "Montserrat, sans-serif",
+                fontSize: 10,
+                fontWeight: 600,
+                color: filter === t ? "#0d1b2a" : "#c9a84c",
+                background: filter === t ? "#c9a84c" : "transparent",
+                border: "1px solid rgba(201,168,76,0.3)",
+                padding: "0.75rem 2rem",
+                letterSpacing: 2,
+                textTransform: "uppercase",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+              }}
+            >
+              {t === "all" ? "All Fleet" : `${t} Yachts`}
+            </button>
+          ))}
+        </div>
+
+        {/* Grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "2.5rem" }}>
+          {filteredYachts.map((yacht) => (
+            <div
+              key={yacht.name}
+              style={{
+                background: "rgba(255,255,255,0.02)",
+                border: "1px solid rgba(201,168,76,0.15)",
+                borderRadius: 4,
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+                transition: "all 0.3s ease",
+              }}
+            >
+              {/* Image */}
+              <div style={{ position: "relative", height: 260, width: "100%", overflow: "hidden" }}>
+                <img
+                  src={yacht.img}
+                  alt={yacht.name}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,21,32,0.8), transparent)" }} />
+                <div style={{ position: "absolute", bottom: "1rem", left: "1.5rem", right: "1.5rem", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                  <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "#c9a84c", letterSpacing: 2, textTransform: "uppercase", fontWeight: 600 }}>
+                    {yacht.type} yacht
+                  </span>
+                  <span style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "1.4rem", color: "#f0ece0" }}>
+                    {yacht.length}
+                  </span>
+                </div>
+              </div>
+
+              {/* Body */}
+              <div style={{ padding: "2rem 1.5rem", flexGrow: 1, display: "flex", flexDirection: "column" }}>
+                <h3 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "1.8rem", color: "#f0ece0", fontWeight: 300, marginBottom: "0.75rem" }}>
+                  {yacht.name}
+                </h3>
+                <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 12, color: "rgba(240,236,224,0.5)", lineHeight: 1.7, fontWeight: 300, marginBottom: "1.5rem", flexGrow: 1 }}>
+                  {yacht.desc}
+                </p>
+
+                {/* Specs */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", borderTop: "1px solid rgba(201,168,76,0.1)", paddingTop: "1.5rem", marginBottom: "1.5rem" }}>
+                  <div>
+                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 8, color: "rgba(240,236,224,0.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 2 }}>Guests / Cabins</p>
+                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#f0ece0", fontWeight: 500 }}>{yacht.guests} guests in {yacht.cabins} cabins</p>
+                  </div>
+                  <div>
+                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 8, color: "rgba(240,236,224,0.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 2 }}>Crew</p>
+                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#f0ece0", fontWeight: 500 }}>{yacht.crew} members</p>
+                  </div>
+                  <div>
+                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 8, color: "rgba(240,236,224,0.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 2 }}>Cruising Speed</p>
+                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#f0ece0", fontWeight: 500 }}>{yacht.speed}</p>
+                  </div>
+                  <div>
+                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 8, color: "rgba(240,236,224,0.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 2 }}>Built / Refit</p>
+                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#f0ece0", fontWeight: 500 }}>{yacht.built}</p>
+                  </div>
+                </div>
+
+                {/* Price CTA */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "auto" }}>
+                  <div>
+                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 8, color: "rgba(240,236,224,0.4)", letterSpacing: 1, textTransform: "uppercase" }}>Weekly Rate</p>
+                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 13, color: "#c9a84c", fontWeight: 600 }}>from {yacht.price}</p>
+                  </div>
+                  <button
+                    onClick={() => goTo("contact")}
+                    style={{
+                      fontFamily: "Montserrat, sans-serif",
+                      fontSize: 9,
+                      fontWeight: 600,
+                      color: "#0d1b2a",
+                      background: "#c9a84c",
+                      border: "none",
+                      padding: "0.6rem 1.25rem",
+                      letterSpacing: 2,
+                      textTransform: "uppercase",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Enquire
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
+  const allDestinations = [
+    {
+      name: "Monaco & French Riviera",
+      region: "Mediterranean",
+      desc: "Sail the glamour capital of Europe. Drop anchor off St. Tropez, cruise Monaco's Port Hercules, and dine cliffside in Eze.",
+      bestTime: "May — September",
+      yacht: "M/Y Lumière",
+      img: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=1200",
+    },
+    {
+      name: "Santorini & Cyclades",
+      region: "Greek Islands",
+      desc: "Discover white-washed villages draped over volcanic cliffs. Cruise private coves in Folegandros and catch caldera sunsets from your deck.",
+      bestTime: "June — October",
+      yacht: "S/Y Ariel",
+      img: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&q=80&w=1200",
+    },
+    {
+      name: "Maldives Atolls",
+      region: "Indian Ocean",
+      desc: "Turquoise lagoons of utter stillness. Access shallow reefs by tender, enjoy private beach dinners on sandbanks, and sleep beneath starlight.",
+      bestTime: "November — April",
+      yacht: "M/Y Odyssey",
+      img: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&q=80&w=1200",
+    },
+    {
+      name: "Amalfi Coast & Capri",
+      region: "Tyrrhenian Coast",
+      desc: "Vibrant towns clinging to cliffs. Explore the Blue Grotto at dawn, anchor off Positano at midnight, and experience legendary Italian hospitality.",
+      bestTime: "May — September",
+      yacht: "M/Y Étoile",
+      img: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=1200",
+    },
+    {
+      name: "St. Barts & Grenadines",
+      region: "Caribbean",
+      desc: "Pristine white sand bays reserved for the few. Crystal clear waters, luxury shopping, and sunset sailing in constant trade winds.",
+      bestTime: "December — April",
+      yacht: "S/Y Chronos",
+      img: "https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&q=80&w=1200",
+    },
+    {
+      name: "Svalbard & Fjords",
+      region: "Arctic Circle",
+      desc: "For the true explorer. Navigate through towering glaciers, witness polar wildlife in silence, and experience the midnight sun.",
+      bestTime: "June — August",
+      yacht: "M/Y Odyssey",
+      img: "https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?auto=format&fit=crop&q=80&w=1200",
+    },
+  ];
+
+  return (
+    <section style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100vh" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        {/* Title */}
+        <div style={{ textAlign: "center", marginBottom: "5rem" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", marginBottom: "1rem" }}>
+            <div style={{ width: 32, height: 1, background: "#c9a84c" }} />
+            <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "#c9a84c", letterSpacing: 4, textTransform: "uppercase" }}>
+              Private Journeys
+            </p>
+            <div style={{ width: 32, height: 1, background: "#c9a84c" }} />
+          </div>
+          <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300, color: "#f0ece0", lineHeight: 1.1, marginBottom: "1.5rem" }}>
+            Curated <em style={{ fontStyle: "italic", color: "#c9a84c" }}>Destinations</em>
+          </h1>
+          <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 13, color: "rgba(240,236,224,0.6)", maxWidth: 600, margin: "0 auto", lineHeight: 1.8 }}>
+            Navigate the world's most exceptional coastal waters. From sun-drenched Mediterranean shores to untouched polar wilderness.
+          </p>
+        </div>
+
+        {/* Grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "3rem" }}>
+          {allDestinations.map((dest) => (
+            <div
+              key={dest.name}
+              style={{
+                position: "relative",
+                minHeight: 450,
+                borderRadius: 4,
+                overflow: "hidden",
+                border: "1px solid rgba(201,168,76,0.15)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-end",
+                padding: "3rem 2rem",
+                background: `linear-gradient(to top, rgba(13,27,42,0.95) 0%, rgba(13,27,42,0.4) 60%, transparent 100%), url(${dest.img})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              <span style={{ position: "absolute", top: "2rem", right: "2rem", fontFamily: "Montserrat, sans-serif", fontSize: 8, color: "#c9a84c", border: "1px solid rgba(201,168,76,0.3)", padding: "0.4rem 1rem", textTransform: "uppercase", letterSpacing: 2 }}>
+                {dest.region}
+              </span>
+
+              <div style={{ position: "relative", zIndex: 1 }}>
+                <h3 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "2.2rem", fontWeight: 300, color: "#f0ece0", marginBottom: "0.5rem" }}>
+                  {dest.name}
+                </h3>
+                <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 12, color: "rgba(240,236,224,0.6)", fontWeight: 300, lineHeight: 1.6, marginBottom: "1.5rem" }}>
+                  {dest.desc}
+                </p>
+
+                <div style={{ display: "flex", justifyContent: "space-between", borderTop: "1px solid rgba(201,168,76,0.15)", paddingTop: "1rem", alignItems: "center" }}>
+                  <div>
+                    <span style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 7, color: "rgba(240,236,224,0.4)", textTransform: "uppercase", letterSpacing: 1 }}>Best Season</span>
+                    <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#f0ece0", fontWeight: 500 }}>{dest.bestTime}</span>
+                  </div>
+                  <div>
+                    <span style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 7, color: "rgba(240,236,224,0.4)", textTransform: "uppercase", letterSpacing: 1 }}>Recommended Vessel</span>
+                    <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#c9a84c", fontWeight: 500 }}>{dest.yacht}</span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => goTo("contact")}
+                  style={{
+                    width: "100%",
+                    fontFamily: "Montserrat, sans-serif",
+                    fontSize: 9,
+                    fontWeight: 600,
+                    color: "#0d1b2a",
+                    background: "#c9a84c",
+                    border: "none",
+                    padding: "0.85rem",
+                    letterSpacing: 2,
+                    textTransform: "uppercase",
+                    cursor: "pointer",
+                    marginTop: "1.5rem",
+                  }}
+                >
+                  Plan Custom Itinerary
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ExperiencePage({ goTo }: { goTo: (p: ActivePage) => void }) {
+  const experiences = [
+    {
+      title: "Bespoke Cuisine",
+      desc: "Our onboard culinary program features Michelin-starred chefs who tailor menus around your personal preferences and locally sourced ingredients at every anchorage.",
+      img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=1200",
+    },
+    {
+      title: "Private Aviation",
+      desc: "Avoid the friction of public airports. We coordinate seamless private jet charters and helicopter transfers directly to your yacht's helipad.",
+      img: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?auto=format&fit=crop&q=80&w=1200",
+    },
+    {
+      title: "Toys & Tenders",
+      desc: "Every vessel carries a premium selection of watersports equipment, from personal submarines and fast tenders to jet skis, foil boards, and diving gear.",
+      img: "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&q=80&w=1200",
+    },
+    {
+      title: "Voyage Architects",
+      desc: "Your dedicated voyage architect designs every element of your cruise, handling port clearances, exclusive shore excursions, and private bookings months in advance.",
+      img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=1200",
+    },
+  ];
+
+  return (
+    <section style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100vh" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        {/* Title */}
+        <div style={{ textAlign: "center", marginBottom: "6rem" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", marginBottom: "1rem" }}>
+            <div style={{ width: 32, height: 1, background: "#c9a84c" }} />
+            <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "#c9a84c", letterSpacing: 4, textTransform: "uppercase" }}>
+              The Horizon Standard
+            </p>
+            <div style={{ width: 32, height: 1, background: "#c9a84c" }} />
+          </div>
+          <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300, color: "#f0ece0", lineHeight: 1.1, marginBottom: "1.5rem" }}>
+            The Onboard <em style={{ fontStyle: "italic", color: "#c9a84c" }}>Experience</em>
+          </h1>
+          <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 13, color: "rgba(240,236,224,0.6)", maxWidth: 600, margin: "0 auto", lineHeight: 1.8 }}>
+            True luxury is the absence of friction. We manage every detail of your journey so that your only responsibility is to enjoy the open sea.
+          </p>
+        </div>
+
+        {/* Experience Rows */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "6rem" }}>
+          {experiences.map((exp, idx) => {
+            const isEven = idx % 2 === 0;
+            return (
+              <div
+                key={exp.title}
+                style={{
+                  display: "flex",
+                  flexDirection: isEven ? "row" : "row-reverse",
+                  alignItems: "center",
+                  gap: "4rem",
+                  flexWrap: "wrap",
+                }}
+              >
+                {/* Image */}
+                <div style={{ flex: "1 1 450px", height: 350, border: "1px solid rgba(201,168,76,0.15)", borderRadius: 4, overflow: "hidden" }}>
+                  <img
+                    src={exp.img}
+                    alt={exp.title}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                </div>
+
+                {/* Text */}
+                <div style={{ flex: "1 1 450px" }}>
+                  <h3 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "2.5rem", fontWeight: 300, color: "#f0ece0", marginBottom: "1.5rem" }}>
+                    {exp.title}
+                  </h3>
+                  <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 14, color: "rgba(240,236,224,0.6)", lineHeight: 1.8, fontWeight: 300, marginBottom: "2rem" }}>
+                    {exp.desc}
+                  </p>
+                  <button
+                    onClick={() => goTo("contact")}
+                    style={{
+                      fontFamily: "Montserrat, sans-serif",
+                      fontSize: 10,
+                      fontWeight: 600,
+                      color: "#c9a84c",
+                      background: "transparent",
+                      border: "1px solid rgba(201,168,76,0.4)",
+                      padding: "0.75rem 2rem",
+                      letterSpacing: 2,
+                      textTransform: "uppercase",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                    }}
+                  >
+                    Discuss Requirements
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ContactPage() {
+  const offices = [
+    { city: "Monaco", address: "Port Hercules, 98000 Monaco", phone: "+377 93 25 45 67", email: "monaco@horizonmaritime.com" },
+    { city: "Geneva", address: "Rue du Rhône 42, 1204 Genève, Switzerland", phone: "+41 22 310 12 34", email: "geneva@horizonmaritime.com" },
+    { city: "Singapore", address: "Marina Bay Sands Office, 018956 Singapore", phone: "+65 6688 8888", email: "singapore@horizonmaritime.com" },
+  ];
+
+  return (
+    <section style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100vh" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        {/* Title */}
+        <div style={{ textAlign: "center", marginBottom: "5rem" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", marginBottom: "1rem" }}>
+            <div style={{ width: 32, height: 1, background: "#c9a84c" }} />
+            <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "#c9a84c", letterSpacing: 4, textTransform: "uppercase" }}>
+              Get In Touch
+            </p>
+            <div style={{ width: 32, height: 1, background: "#c9a84c" }} />
+          </div>
+          <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300, color: "#f0ece0", lineHeight: 1.1, marginBottom: "1.5rem" }}>
+            Begin Your <em style={{ fontStyle: "italic", color: "#c9a84c" }}>Voyage</em>
+          </h1>
+          <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 13, color: "rgba(240,236,224,0.6)", maxWidth: 600, margin: "0 auto", lineHeight: 1.8 }}>
+            Reach out to our global charter desks or submit a private enquiry. A voyage architect will respond within 4 hours.
+          </p>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: "4rem", flexWrap: "wrap", alignItems: "flex-start" }}>
+          {/* Office coordinates */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+            <h3 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "2rem", fontWeight: 300, color: "#f0ece0", borderBottom: "1px solid rgba(201,168,76,0.2)", paddingBottom: "1rem" }}>
+              Global Offices
+            </h3>
+            {offices.map((off) => (
+              <div
+                key={off.city}
+                style={{
+                  background: "rgba(255,255,255,0.01)",
+                  border: "1px solid rgba(201,168,76,0.1)",
+                  padding: "2rem",
+                  borderRadius: 4,
+                }}
+              >
+                <h4 style={{ fontFamily: "Montserrat, sans-serif", fontSize: 14, fontWeight: 600, color: "#c9a84c", textTransform: "uppercase", letterSpacing: 2, marginBottom: "0.5rem" }}>
+                  {off.city}
+                </h4>
+                <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 12, color: "rgba(240,236,224,0.6)", marginBottom: "1rem", fontWeight: 300 }}>
+                  {off.address}
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#f0ece0" }}>
+                    Tel: {off.phone}
+                  </span>
+                  <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#c9a84c" }}>
+                    Email: {off.email}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Enquiry Form */}
+          <div
+            style={{
+              background: "rgba(255,255,255,0.02)",
+              border: "1px solid rgba(201,168,76,0.15)",
+              padding: "3rem",
+              borderRadius: 4,
+            }}
+          >
+            <h3 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "2rem", fontWeight: 300, color: "#f0ece0", marginBottom: "2rem" }}>
+              Private Enquiry
+            </h3>
+            <form style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+                <div>
+                  <label style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.5)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6 }}>Full Name</label>
+                  <input type="text" placeholder="Your name" style={{ width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(201,168,76,0.15)", padding: "0.75rem 1rem", fontFamily: "Montserrat, sans-serif", fontSize: 12, color: "#f0ece0", outline: "none" }} />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.5)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6 }}>Email</label>
+                  <input type="email" placeholder="your@email.com" style={{ width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(201,168,76,0.15)", padding: "0.75rem 1rem", fontFamily: "Montserrat, sans-serif", fontSize: 12, color: "#f0ece0", outline: "none" }} />
+                </div>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+                <div>
+                  <label style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.5)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6 }}>Destination</label>
+                  <input type="text" placeholder="e.g. Mediterranean" style={{ width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(201,168,76,0.15)", padding: "0.75rem 1rem", fontFamily: "Montserrat, sans-serif", fontSize: 12, color: "#f0ece0", outline: "none" }} />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.5)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6 }}>Duration</label>
+                  <input type="text" placeholder="e.g. 7 nights" style={{ width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(201,168,76,0.15)", padding: "0.75rem 1rem", fontFamily: "Montserrat, sans-serif", fontSize: 12, color: "#f0ece0", outline: "none" }} />
+                </div>
+              </div>
+              <div>
+                <label style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.5)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6 }}>Additional Requirements</label>
+                <textarea rows={4} placeholder="Guest count, catering, activities..." style={{ width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(201,168,76,0.15)", padding: "0.75rem 1rem", fontFamily: "Montserrat, sans-serif", fontSize: 12, color: "#f0ece0", outline: "none", resize: "vertical" }} />
+              </div>
+              <button
+                type="submit"
+                onClick={(e) => e.preventDefault()}
+                style={{
+                  width: "100%",
+                  fontFamily: "Montserrat, sans-serif",
+                  fontSize: 10,
+                  fontWeight: 600,
+                  color: "#0d1b2a",
+                  background: "#c9a84c",
+                  border: "none",
+                  padding: "1rem",
+                  letterSpacing: 3,
+                  textTransform: "uppercase",
+                  cursor: "pointer",
+                  marginTop: "1rem",
+                }}
+              >
+                Submit Private Enquiry
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function LegalPage() {
+  return (
+    <section style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100vh" }}>
+      <div style={{ maxWidth: 800, margin: "0 auto", fontFamily: "Montserrat, sans-serif" }}>
+        <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "3rem", fontWeight: 300, color: "#f0ece0", borderBottom: "1px solid rgba(201,168,76,0.2)", paddingBottom: "1.5rem", marginBottom: "2.5rem" }}>
+          Legal Mentions & Terms
+        </h1>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem", fontSize: "0.9rem", color: "rgba(240,236,224,0.7)", lineHeight: 1.8, fontWeight: 300 }}>
+          {/* Legal Identity Block */}
+          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(201,168,76,0.15)", padding: "2rem", borderRadius: 4 }}>
+            <h3 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "1.4rem", color: "#c9a84c", marginBottom: "1rem", fontWeight: 400 }}>
+              Publisher & Host Information
+            </h3>
+            <p style={{ margin: 0 }}>
+              <strong>Publisher:</strong> Aevia WS — Valentin Milliand<br />
+              Sole Proprietorship — SIREN 852 546 225 — RCS Bourg-en-Bresse<br />
+              <strong>Contact Email:</strong> contact@aevia.io<br />
+              <strong>Address:</strong> communicated upon request<br />
+              <strong>Host:</strong> Vercel Inc.
+            </p>
+          </div>
+
+          <div>
+            <h3 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "1.6rem", color: "#f0ece0", marginBottom: "1rem", fontWeight: 400 }}>
+              1. Intellectual Property
+            </h3>
+            <p style={{ margin: 0 }}>
+              All content on this website, including texts, graphics, logos, images, icons, and software, is the exclusive property of Horizon Maritime Group or its content providers. Any reproduction, distribution, modification, or use of these materials without prior written consent is strictly prohibited.
+            </p>
+          </div>
+
+          <div>
+            <h3 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "1.6rem", color: "#f0ece0", marginBottom: "1rem", fontWeight: 400 }}>
+              2. Privacy & Personal Data
+            </h3>
+            <p style={{ margin: 0 }}>
+              We respect your privacy. Any personal information collected through our enquiry form is processed for the sole purpose of planning your charter. In accordance with applicable data protection laws, you retain the right to access, rectify, or request the deletion of your data at any time by contacting us.
+            </p>
+          </div>
+
+          <div>
+            <h3 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "1.6rem", color: "#f0ece0", marginBottom: "1rem", fontWeight: 400 }}>
+              3. Disclaimer
+            </h3>
+            <p style={{ margin: 0 }}>
+              The information provided on this website is for general guidance and marketing purposes only. While we make every effort to ensure the accuracy of details, specifications, and prices, final conditions are subject to confirmation in the formal charter agreement.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
