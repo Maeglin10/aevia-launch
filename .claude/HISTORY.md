@@ -78,16 +78,21 @@ Thèmes livrés : 168 (Éclat/fashion), 46 (Dumont/law), 192 (Quantum/tech), 215
 
 ---
 
-## Template pour prochaine session
+## 2026-06-11 — Session #4 : Corrections Lot 6 + CSP dev-eval fix
 
-**Fait :** `xxxxx`
-- ...
+**Fait :** `79508cd`
+- Correction des conteneurs de pages et de la navigation pour `impact-21` (Forme Studio), `impact-22` (NimbusAI), `impact-23` (Studio Pelikan), et `impact-24` (Zero to One).
+- Résolution des erreurs de syntaxe JSX (balises section et Reveal non fermées dans Pelikan et Zero to One).
+- Fix de la CSP (Content Security Policy) en développement local pour autoriser `unsafe-eval` et les WebSockets HMR (`ws:` / `wss:`).
 
 **Comment :**
-- ...
+- Validation de la compilation locale avec `npx tsc --noEmit` et succès du build de production (`npm run build`).
+- Injection conditionnelle de `'unsafe-eval'` dans `script-src` et de `ws:`/`wss:` dans `connect-src` uniquement si `process.env.NODE_ENV !== "production"` pour maintenir une sécurité stricte en production tout en préservant le Fast Refresh des outils de dev Next.js/Turbopack.
 
 **Pourquoi :**
-- ...
+- Les erreurs de balises JSX empêchaient toute compilation du projet.
+- La CSP d'origine bloquait Fast Refresh et le chargement dynamique de scripts en développement, provoquant des crashs `eval()` en console locale.
 
 **Erreurs commises :**
-- ...
+- L'absence de compilation globale de validation à la fin du batch précédent avait laissé passer des erreurs de structure JSX complexes sur Pelikan et Zero to One. Le passage systématique de `tsc` et `npm run build` a permis de les éradiquer.
+
