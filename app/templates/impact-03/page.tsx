@@ -711,6 +711,19 @@ export default function FashionEditorialTemplate() {
   const [emailValue, setEmailValue] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
+  /* ── Multi-page state ── */
+  type ActivePage = 'home' | 'boutique' | 'blog' | 'about' | 'contact' | 'cgv' | 'mentions';
+  const [page, setPage] = useState<ActivePage>('home');
+  const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
+  const [selectedPost, setSelectedPost] = useState<any | null>(null);
+
+  const goTo = (p: ActivePage) => {
+    setPage(p);
+    setSelectedProduct(null);
+    setSelectedPost(null);
+    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'auto' });
+  };
+
   const handleAddToCart = useCallback(() => {
     setCartCount((n) => n + 1);
   }, []);
@@ -731,7 +744,7 @@ export default function FashionEditorialTemplate() {
         background: '#fafafa',
         color: '#0a0a0a',
         minHeight: '100vh',
-        overflowX: 'hidden',
+        overflowX: 'clip',
         fontFamily: "'Georgia', 'Times New Roman', serif",
       }}
     >
@@ -760,33 +773,37 @@ export default function FashionEditorialTemplate() {
             gap: 40,
           }}
         >
-          {['Collection', 'Gallery', 'Lookbook'].map((label) => (
-            <button
-              key={label}
-              onClick={() => scrollTo(label.toLowerCase())}
-              style={{
-                fontFamily: 'system-ui, sans-serif',
-                fontSize: 10,
-                letterSpacing: '0.25em',
-                textTransform: 'uppercase',
-                color: 'rgba(10,10,10,0.45)',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'color 0.25s',
-              }}
-              onMouseEnter={(e) => ((e.target as HTMLButtonElement).style.color = '#0a0a0a')}
-              onMouseLeave={(e) =>
-                ((e.target as HTMLButtonElement).style.color = 'rgba(10,10,10,0.45)')
-              }
-            >
-              {label}
-            </button>
-          ))}
+          {['Home', 'Boutique', 'Blog', 'About', 'Contact'].map((label) => {
+            const key = label.toLowerCase() as ActivePage;
+            return (
+              <button
+                key={label}
+                onClick={() => goTo(key)}
+                style={{
+                  fontFamily: 'system-ui, sans-serif',
+                  fontSize: 10,
+                  letterSpacing: '0.25em',
+                  textTransform: 'uppercase',
+                  color: page === key ? '#0a0a0a' : 'rgba(10,10,10,0.45)',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'color 0.25s',
+                }}
+                onMouseEnter={(e) => ((e.target as HTMLButtonElement).style.color = '#0a0a0a')}
+                onMouseLeave={(e) =>
+                  ((e.target as HTMLButtonElement).style.color = page === key ? '#0a0a0a' : 'rgba(10,10,10,0.45)')
+                }
+              >
+                {label}
+              </button>
+            );
+          })}
         </div>
 
         {/* Wordmark */}
         <div
+          onClick={() => goTo('home')}
           style={{
             position: 'absolute',
             left: '50%',
@@ -795,6 +812,7 @@ export default function FashionEditorialTemplate() {
             fontSize: 22,
             letterSpacing: '0.08em',
             fontWeight: 300,
+            cursor: 'pointer',
           }}
         >
           <span style={{ fontStyle: 'italic' }}>Atelier</span>{' '}
@@ -804,7 +822,14 @@ export default function FashionEditorialTemplate() {
         {/* Right */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
           <button
-            onClick={() => scrollTo('stores')}
+            onClick={() => {
+              if (page !== 'home') {
+                goTo('home');
+                setTimeout(() => scrollTo('stores'), 100);
+              } else {
+                scrollTo('stores');
+              }
+            }}
             style={{
               fontFamily: 'system-ui, sans-serif',
               fontSize: 10,
@@ -860,6 +885,8 @@ export default function FashionEditorialTemplate() {
         </div>
       </nav>
 
+      {page === 'home' && (
+      <>
       {/* ─────────────────────────────────────────────────────────────────────
           SECTION 1: EDITORIAL HERO — scroll-spin product + line reveal
       ───────────────────────────────────────────────────────────────────── */}
@@ -2022,6 +2049,29 @@ export default function FashionEditorialTemplate() {
           </div>
         </Reveal>
       </section>
+      </>
+      )}
+
+      {/* ── SUB-PAGES ROUTING ── */}
+      {page === 'boutique' && (
+        <BoutiquePage
+          selectedProduct={selectedProduct}
+          setSelectedProduct={setSelectedProduct}
+          onAddToCart={handleAddToCart}
+          accentColor={accentColor}
+        />
+      )}
+      {page === 'blog' && (
+        <BlogPage
+          selectedPost={selectedPost}
+          setSelectedPost={setSelectedPost}
+          accentColor={accentColor}
+        />
+      )}
+      {page === 'about' && <AboutPage accentColor={accentColor} />}
+      {page === 'contact' && <ContactPage accentColor={accentColor} />}
+      {page === 'cgv' && <LegalPage variant="cgv" accentColor={accentColor} />}
+      {page === 'mentions' && <LegalPage variant="mentions" accentColor={accentColor} />}
 
       {/* ─────────────────────────────────────────────────────────────────────
           FOOTER
@@ -2074,9 +2124,9 @@ export default function FashionEditorialTemplate() {
             </div>
 
             {[
-              { heading: 'Maison', links: ['Collection', 'Lookbook', 'Stores', 'About'] },
-              { heading: 'Services', links: ['Shipping', 'Returns', 'Care guide', 'Bespoke'] },
-              { heading: 'Legal', links: ['Privacy', 'Terms', 'Cookies', 'Accessibility'] },
+              { heading: 'Maison', links: [{ label: 'Collection', key: 'home' as const }, { label: 'About', key: 'about' as const }] },
+              { heading: 'Services', links: [{ label: 'Boutique', key: 'boutique' as const }, { label: 'Blog', key: 'blog' as const }, { label: 'Contact', key: 'contact' as const }] },
+              { heading: 'Legal', links: [{ label: 'Mentions Légales', key: 'mentions' as const }, { label: 'CGV', key: 'cgv' as const }] },
             ].map((col) => (
               <div key={col.heading}>
                 <div
@@ -2093,8 +2143,9 @@ export default function FashionEditorialTemplate() {
                 </div>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
                   {col.links.map((link) => (
-                    <li key={link}>
+                    <li key={link.label}>
                       <button
+                        onClick={() => goTo(link.key)}
                         style={{
                           fontFamily: 'system-ui, sans-serif',
                           fontSize: 12,
@@ -2104,6 +2155,7 @@ export default function FashionEditorialTemplate() {
                           cursor: 'pointer',
                           padding: 0,
                           transition: 'color 0.2s',
+                          textAlign: 'left',
                         }}
                         onMouseEnter={(e) =>
                           ((e.target as HTMLButtonElement).style.color = '#fafafa')
@@ -2112,7 +2164,7 @@ export default function FashionEditorialTemplate() {
                           ((e.target as HTMLButtonElement).style.color = 'rgba(250,250,250,0.4)')
                         }
                       >
-                        {link}
+                        {link.label}
                       </button>
                     </li>
                   ))}
@@ -2155,6 +2207,608 @@ export default function FashionEditorialTemplate() {
           </div>
         </div>
       </footer>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SUB-PAGE: BOUTIQUE
+───────────────────────────────────────────────────────────────────────────── */
+function BoutiquePage({
+  selectedProduct,
+  setSelectedProduct,
+  onAddToCart,
+  accentColor,
+}: {
+  selectedProduct: any | null;
+  setSelectedProduct: (p: any | null) => void;
+  onAddToCart: () => void;
+  accentColor: import('framer-motion').MotionValue<string>;
+}) {
+  if (selectedProduct) {
+    return (
+      <div style={{ padding: '120px 64px 80px', maxWidth: 1000, margin: '0 auto', fontFamily: 'system-ui, sans-serif' }}>
+        <button
+          onClick={() => setSelectedProduct(null)}
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            fontFamily: 'system-ui, sans-serif',
+            fontSize: 10,
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            color: 'rgba(10,10,10,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            marginBottom: 48,
+          }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          Back to boutique
+        </button>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 64 }}>
+          {/* Visual wrapper */}
+          <div
+            style={{
+              aspectRatio: '3/4',
+              background: selectedProduct.color,
+              borderRadius: 4,
+              position: 'relative',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <div
+              style={{
+                width: 140,
+                height: 200,
+                background: 'rgba(255,255,255,0.15)',
+                borderRadius: 2,
+                position: 'relative',
+              }}
+            >
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: 50,
+                  height: 38,
+                  background: 'rgba(255,255,255,0.1)',
+                  clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Product details */}
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <div
+              style={{
+                fontSize: 11,
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                color: 'rgba(10,10,10,0.4)',
+                marginBottom: 16,
+              }}
+            >
+              {selectedProduct.category}
+            </div>
+            <h1
+              style={{
+                fontFamily: "'Georgia', serif",
+                fontSize: 36,
+                fontWeight: 300,
+                color: '#0a0a0a',
+                marginBottom: 16,
+                letterSpacing: '-0.02em',
+              }}
+            >
+              {selectedProduct.name}
+            </h1>
+            <div
+              style={{
+                fontFamily: "'Georgia', serif",
+                fontSize: 22,
+                color: '#0a0a0a',
+                marginBottom: 32,
+              }}
+            >
+              ${selectedProduct.price.toLocaleString()}
+            </div>
+            <p
+              style={{
+                fontSize: 14,
+                lineHeight: 1.8,
+                color: 'rgba(10,10,10,0.6)',
+                marginBottom: 40,
+              }}
+            >
+              {selectedProduct.desc}
+            </p>
+
+            <button
+              onClick={onAddToCart}
+              style={{
+                padding: '16px 48px',
+                background: '#0a0a0a',
+                color: '#fafafa',
+                fontFamily: 'system-ui, sans-serif',
+                fontSize: 10,
+                letterSpacing: '0.25em',
+                textTransform: 'uppercase',
+                border: 'none',
+                cursor: 'pointer',
+                marginBottom: 24,
+                width: 'fit-content',
+              }}
+            >
+              Add to Bag
+            </button>
+            <div
+              style={{
+                fontSize: 11,
+                color: 'rgba(10,10,10,0.4)',
+                lineHeight: 1.6,
+              }}
+            >
+              • Made to order in Paris<br />
+              • Complimentary worldwide shipping<br />
+              • Returns accepted within 14 days
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ padding: '120px 64px 100px', maxWidth: 1280, margin: '0 auto' }}>
+      <div style={{ textAlign: 'center', marginBottom: 80 }}>
+        <h1
+          style={{
+            fontFamily: "'Georgia', serif",
+            fontSize: 48,
+            fontWeight: 300,
+            letterSpacing: '-0.02em',
+            color: '#0a0a0a',
+            marginBottom: 16,
+          }}
+        >
+          The Boutique
+        </h1>
+        <p
+          style={{
+            fontFamily: 'system-ui, sans-serif',
+            fontSize: 13,
+            color: 'rgba(10,10,10,0.45)',
+            letterSpacing: '0.05em',
+          }}
+        >
+          Explore our permanent edit of hand-finished quiet luxury garments.
+        </p>
+      </div>
+
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+          gap: 32,
+        }}
+      >
+        {COLLECTION.map((product) => (
+          <div
+            key={product.id}
+            onClick={() => {
+              setSelectedProduct(product);
+              if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'auto' });
+            }}
+            style={{ cursor: 'pointer' }}
+          >
+            <div
+              style={{
+                background: '#f5f3f0',
+                borderRadius: 2,
+                overflow: 'hidden',
+                aspectRatio: '3/4',
+                position: 'relative',
+                marginBottom: 16,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <div
+                style={{
+                  width: 100,
+                  height: 140,
+                  background: product.color,
+                  borderRadius: 2,
+                  opacity: 0.85,
+                }}
+              />
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>
+                <h3
+                  style={{
+                    fontFamily: "'Georgia', serif",
+                    fontSize: 15,
+                    color: '#0a0a0a',
+                    marginBottom: 4,
+                  }}
+                >
+                  {product.name}
+                </h3>
+                <div
+                  style={{
+                    fontFamily: 'system-ui, sans-serif',
+                    fontSize: 10,
+                    letterSpacing: '0.2em',
+                    textTransform: 'uppercase',
+                    color: '#999',
+                  }}
+                >
+                  {product.category}
+                </div>
+              </div>
+              <div style={{ fontFamily: "'Georgia', serif", fontSize: 15, color: '#0a0a0a' }}>
+                ${product.price.toLocaleString()}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SUB-PAGE: BLOG
+───────────────────────────────────────────────────────────────────────────── */
+const BLOG_POSTS = [
+  {
+    id: 1,
+    title: 'The Philosophy of Slow Fashion',
+    date: 'October 12, 2025',
+    category: 'Philosophy',
+    excerpt: 'Understanding why buying less but buying better is the ultimate luxury for the modern wardrobe.',
+    content: [
+      'In a world dominated by ultra-fast fashion, quiet luxury represents a return to form. It is the conscious choice to value craftsmanship, material integrity, and longevity over fleeting trends.',
+      'At Atelier NOIR, every piece is designed to be worn for decades. We select raw fibers that age beautifully, and we partner with heritage weavers who keep traditional techniques alive. This commitment is slower, but it produces garments that carry stories.',
+      'To build a wardrobe with intention is to curate your life. It is selecting twelve perfectly fitting pieces rather than fifty disposable ones. It is knowing the hands that spun the silk and the tailors who cut the wool.'
+    ]
+  },
+  {
+    id: 2,
+    title: 'How to Care for Double-Faced Cashmere',
+    date: 'September 28, 2025',
+    category: 'Care',
+    excerpt: 'A comprehensive guide to preserving the texture, warmth, and shape of your hand-stitched cashmere coats.',
+    content: [
+      'Cashmere is a delicate, living fiber. Double-faced cashmere, which uses two layers of cashmere woven together, requires special attention to keep its loft and softness.',
+      'Never machine wash or dry clean your cashmere coat frequently. Instead, brush it gently with a soft garment brush to remove surface dust. If a stain occurs, spot clean immediately with cold water and mild baby shampoo.',
+      'Store your coat on a wide, padded hanger to maintain the shoulder structure. During summer, store it in a breathable cotton garment bag with cedar blocks to protect it from pests. Treated correctly, it will keep its beauty for generations.'
+    ]
+  }
+];
+
+function BlogPage({
+  selectedPost,
+  setSelectedPost,
+  accentColor,
+}: {
+  selectedPost: any | null;
+  setSelectedPost: (p: any | null) => void;
+  accentColor: import('framer-motion').MotionValue<string>;
+}) {
+  if (selectedPost) {
+    return (
+      <div style={{ padding: '120px 64px 100px', maxWidth: 800, margin: '0 auto', fontFamily: 'system-ui, sans-serif' }}>
+        <button
+          onClick={() => setSelectedPost(null)}
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            fontFamily: 'system-ui, sans-serif',
+            fontSize: 10,
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            color: 'rgba(10,10,10,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            marginBottom: 48,
+          }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          Back to blog
+        </button>
+
+        <div style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.4)', marginBottom: 16 }}>
+          {selectedPost.category} · {selectedPost.date}
+        </div>
+        <h1
+          style={{
+            fontFamily: "'Georgia', serif",
+            fontSize: 40,
+            fontWeight: 300,
+            letterSpacing: '-0.02em',
+            color: '#0a0a0a',
+            marginBottom: 40,
+            lineHeight: 1.2,
+          }}
+        >
+          {selectedPost.title}
+        </h1>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+          {selectedPost.content.map((p: string, idx: number) => (
+            <p key={idx} style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(10,10,10,0.65)' }}>
+              {p}
+            </p>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ padding: '120px 64px 100px', maxWidth: 900, margin: '0 auto' }}>
+      <div style={{ textAlign: 'center', marginBottom: 80 }}>
+        <h1
+          style={{
+            fontFamily: "'Georgia', serif",
+            fontSize: 48,
+            fontWeight: 300,
+            letterSpacing: '-0.02em',
+            color: '#0a0a0a',
+            marginBottom: 16,
+          }}
+        >
+          The Notebook
+        </h1>
+        <p
+          style={{
+            fontFamily: 'system-ui, sans-serif',
+            fontSize: 13,
+            color: 'rgba(10,10,10,0.45)',
+            letterSpacing: '0.05em',
+          }}
+        >
+          Insights on design, materiality, and the quiet luxury way of life.
+        </p>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 64 }}>
+        {BLOG_POSTS.map((post) => (
+          <div
+            key={post.id}
+            onClick={() => {
+              setSelectedPost(post);
+              if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'auto' });
+            }}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 2fr',
+              gap: 48,
+              cursor: 'pointer',
+              borderBottom: '1px solid rgba(10,10,10,0.06)',
+              paddingBottom: 48,
+            }}
+          >
+            {/* Post meta */}
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div style={{ fontFamily: 'system-ui, sans-serif', fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.4)' }}>
+                {post.category}
+              </div>
+              <div style={{ fontFamily: 'system-ui, sans-serif', fontSize: 11, color: 'rgba(10,10,10,0.3)' }}>
+                {post.date}
+              </div>
+            </div>
+
+            {/* Post preview */}
+            <div>
+              <h2
+                style={{
+                  fontFamily: "'Georgia', serif",
+                  fontSize: 24,
+                  fontWeight: 300,
+                  color: '#0a0a0a',
+                  marginBottom: 12,
+                  letterSpacing: '-0.01em',
+                }}
+              >
+                {post.title}
+              </h2>
+              <p style={{ fontFamily: 'system-ui, sans-serif', fontSize: 13, lineHeight: 1.7, color: 'rgba(10,10,10,0.5)', marginBottom: 20 }}>
+                {post.excerpt}
+              </p>
+              <span style={{ fontFamily: 'system-ui, sans-serif', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#0a0a0a', display: 'flex', alignItems: 'center', gap: 6 }}>
+                Read notebook
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SUB-PAGE: ABOUT
+───────────────────────────────────────────────────────────────────────────── */
+function AboutPage({ accentColor }: { accentColor: import('framer-motion').MotionValue<string> }) {
+  return (
+    <div style={{ padding: '120px 64px 100px', maxWidth: 800, margin: '0 auto', fontFamily: 'system-ui, sans-serif' }}>
+      <div style={{ textAlign: 'center', marginBottom: 80 }}>
+        <h1
+          style={{
+            fontFamily: "'Georgia', serif",
+            fontSize: 48,
+            fontWeight: 300,
+            letterSpacing: '-0.02em',
+            color: '#0a0a0a',
+            marginBottom: 16,
+          }}
+        >
+          Our Story
+        </h1>
+        <p
+          style={{
+            fontFamily: 'system-ui, sans-serif',
+            fontSize: 13,
+            color: 'rgba(10,10,10,0.45)',
+            letterSpacing: '0.05em',
+          }}
+        >
+          Craftsmanship, design, and longevity.
+        </p>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 40, fontSize: 15, lineHeight: 1.8, color: 'rgba(10,10,10,0.65)' }}>
+        <p>
+          Founded in Paris in 2021, Atelier NOIR is an independent fashion house dedicated to the art of quiet luxury. We reject the rapid cycles of fast fashion in favor of a slower, more deliberate method of creation.
+        </p>
+        <p>
+          Our garments are defined by architectural simplicity, meticulous tailoring, and exceptional materials. We work exclusively with certified natural fibers—organic cashmere, French flax linen, and Japanese silk—sourced from mills that guarantee raw material traceability and ecological responsibility.
+        </p>
+        <p>
+          Every piece is handcrafted to order in our Parisian atelier by master artisans who bring decades of high-fashion experience. By making only what is ordered, we eliminate excess production and waste, creating garments that are as responsible as they are beautiful.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SUB-PAGE: CONTACT
+───────────────────────────────────────────────────────────────────────────── */
+function ContactPage({ accentColor }: { accentColor: import('framer-motion').MotionValue<string> }) {
+  const [formSent, setFormSent] = useState(false);
+
+  return (
+    <div style={{ padding: '120px 64px 100px', maxWidth: 600, margin: '0 auto', fontFamily: 'system-ui, sans-serif' }}>
+      <div style={{ textAlign: 'center', marginBottom: 60 }}>
+        <h1
+          style={{
+            fontFamily: "'Georgia', serif",
+            fontSize: 48,
+            fontWeight: 300,
+            letterSpacing: '-0.02em',
+            color: '#0a0a0a',
+            marginBottom: 16,
+          }}
+        >
+          Contact Us
+        </h1>
+        <p
+          style={{
+            fontFamily: 'system-ui, sans-serif',
+            fontSize: 13,
+            color: 'rgba(10,10,10,0.45)',
+            letterSpacing: '0.05em',
+          }}
+        >
+          Enquire about bespoke orders or private appointments.
+        </p>
+      </div>
+
+      {!formSent ? (
+        <form onSubmit={(e) => { e.preventDefault(); setFormSent(true); }} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+          <div>
+            <label style={{ fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.45)', marginBottom: 8, display: 'block' }}>Name</label>
+            <input required type="text" style={{ width: '100%', padding: '16px', background: 'rgba(10,10,10,0.03)', border: '1px solid rgba(10,10,10,0.1)', outline: 'none', fontSize: 13 }} />
+          </div>
+          <div>
+            <label style={{ fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.45)', marginBottom: 8, display: 'block' }}>Email</label>
+            <input required type="email" style={{ width: '100%', padding: '16px', background: 'rgba(10,10,10,0.03)', border: '1px solid rgba(10,10,10,0.1)', outline: 'none', fontSize: 13 }} />
+          </div>
+          <div>
+            <label style={{ fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.45)', marginBottom: 8, display: 'block' }}>Message</label>
+            <textarea required rows={5} style={{ width: '100%', padding: '16px', background: 'rgba(10,10,10,0.03)', border: '1px solid rgba(10,10,10,0.1)', outline: 'none', fontSize: 13, resize: 'none' }}></textarea>
+          </div>
+          <button type="submit" style={{ padding: '16px', background: '#0a0a0a', color: '#fafafa', border: 'none', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', cursor: 'pointer', marginTop: 12 }}>
+            Send message
+          </button>
+        </form>
+      ) : (
+        <div style={{ textAlign: 'center', padding: '40px 0', color: 'rgba(10,10,10,0.6)' }}>
+          <h3 style={{ fontFamily: "'Georgia', serif", fontSize: 20, fontWeight: 300, color: '#0a0a0a', marginBottom: 12 }}>Thank you.</h3>
+          <p style={{ fontSize: 13 }}>Your enquiry has been received. Our team will contact you within 24 hours.</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SUB-PAGE: LEGAL (MENTIONS / CGV)
+───────────────────────────────────────────────────────────────────────────── */
+function LegalPage({ variant, accentColor }: { variant: 'cgv' | 'mentions'; accentColor: import('framer-motion').MotionValue<string> }) {
+  return (
+    <div style={{ padding: '120px 64px 100px', maxWidth: 800, margin: '0 auto', fontFamily: 'system-ui, sans-serif' }}>
+      {variant === 'mentions' ? (
+        <>
+          <h1 style={{ fontFamily: "'Georgia', serif", fontSize: 36, fontWeight: 300, letterSpacing: '-0.02em', color: '#0a0a0a', marginBottom: 40 }}>Mentions Légales</h1>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 32, fontSize: 14, lineHeight: 1.8, color: 'rgba(10,10,10,0.65)' }}>
+            <div>
+              <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: '#0a0a0a', marginBottom: 12 }}>Éditeur</h2>
+              <p>
+                Aevia WS — Valentin Milliand<br />
+                Entrepreneur individuel<br />
+                SIREN 852 546 225<br />
+                RCS Bourg-en-Bresse<br />
+                contact@aevia.io
+              </p>
+            </div>
+            <div>
+              <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: '#0a0a0a', marginBottom: 12 }}>Hébergeur</h2>
+              <p>
+                Vercel Inc.<br />
+                340 S Lemon Ave #4133<br />
+                Walnut, CA 91789, USA
+              </p>
+            </div>
+            <div>
+              <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: '#0a0a0a', marginBottom: 12 }}>Adresse physique</h2>
+              <p>Communiquée sur demande.</p>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <h1 style={{ fontFamily: "'Georgia', serif", fontSize: 36, fontWeight: 300, letterSpacing: '-0.02em', color: '#0a0a0a', marginBottom: 40 }}>Conditions Générales de Vente</h1>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 32, fontSize: 14, lineHeight: 1.8, color: 'rgba(10,10,10,0.65)' }}>
+            <div>
+              <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: '#0a0a0a', marginBottom: 12 }}>1. Objet</h2>
+              <p>Les présentes Conditions Générales de Vente régissent les relations contractuelles entre Atelier NOIR et tout client effectuant un achat sur notre boutique en ligne.</p>
+            </div>
+            <div>
+              <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: '#0a0a0a', marginBottom: 12 }}>2. Prix et commande</h2>
+              <p>Les prix de nos produits sont indiqués en Dollars ($) ou Euros (€) toutes taxes comprises. La commande est validée après paiement complet de la commande.</p>
+            </div>
+            <div>
+              <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: '#0a0a0a', marginBottom: 12 }}>3. Livraison et Retours</h2>
+              <p>Nos pièces étant réalisées sur commande dans notre atelier parisien, le délai de fabrication et d&apos;expédition est de 6 à 8 semaines. Les retours sont possibles sous 14 jours.</p>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
