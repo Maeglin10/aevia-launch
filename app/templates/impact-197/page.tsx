@@ -339,7 +339,17 @@ function RevealSection({ children, delay = 0, direction = "up" }: { children: Re
   );
 }
 
+type ActivePage = "home" | "destinations" | "concept" | "formules" | "legal";
+
 export default function EvasionDoree() {
+  const [page, setPage] = useState<ActivePage>("home");
+  const goTo = (p: ActivePage) => {
+    setPage(p);
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+  };
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeDestination, setActiveDestination] = useState(0);
   const [activePkg, setActivePkg] = useState(1);
@@ -352,7 +362,6 @@ export default function EvasionDoree() {
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
 
   const NAV_LINKS = ["Destinations", "Services", "Processus", "Avis", "Tarifs"];
-
   return (
     <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100vh", fontFamily: "'Cormorant Garamond', Georgia, serif", overflowX: "hidden" }}>
       <style>{`
@@ -376,23 +385,30 @@ export default function EvasionDoree() {
         }}
       >
         <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 40px", height: 72, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div onClick={(e) => { e.preventDefault(); goTo("home"); }} style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}>
             <Compass size={22} color={C.accent} />
             <span style={{ fontSize: 22, fontWeight: 400, letterSpacing: "0.08em", color: C.marine }}>Évasion Dorée</span>
           </div>
           <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
-            {NAV_LINKS.map(link => (
+            {[
+              { name: "Accueil", page: "home" },
+              { name: "Destinations", page: "destinations" },
+              { name: "Concept", page: "concept" },
+              { name: "Formules", page: "formules" },
+            ].map(link => (
               <a
-                key={link}
-                href={`#${link.toLowerCase()}`}
-                style={{ fontSize: 13, color: C.textMuted, textDecoration: "none", fontFamily: "system-ui", letterSpacing: "0.04em", transition: "color 0.2s" }}
+                key={link.name}
+                href="#"
+                onClick={(e) => { e.preventDefault(); goTo(link.page as any); }}
+                style={{ fontSize: 13, color: page === link.page ? C.accent : C.textMuted, textDecoration: "none", fontFamily: "system-ui", letterSpacing: "0.04em", transition: "color 0.2s" }}
                 onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
-                onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
+                onMouseLeave={e => (e.currentTarget.style.color = page === link.page ? C.accent : C.textMuted)}
               >
-                {link}
+                {link.name}
               </a>
             ))}
             <motion.button
+              onClick={() => goTo("formules")}
               whileHover={{ scale: 1.03, boxShadow: `0 6px 24px rgba(201,169,110,0.35)` }}
               whileTap={{ scale: 0.97 }}
               style={{ padding: "11px 28px", background: C.marine, color: C.white, border: "none", borderRadius: 3, fontSize: 12, fontFamily: "system-ui", fontWeight: 600, letterSpacing: "0.1em", cursor: "pointer" }}
@@ -409,7 +425,9 @@ export default function EvasionDoree() {
         </div>
       </motion.nav>
 
-      {/* HERO */}
+      {page === "home" && (
+        <>
+          {/* HERO */}
       <section
         ref={heroRef}
         style={{ position: "relative", height: "100vh", minHeight: 700, overflow: "hidden", display: "flex", alignItems: "center" }}
@@ -937,6 +955,14 @@ export default function EvasionDoree() {
         </div>
       </section>
 
+        </>
+      )}
+
+      {page === "destinations" && <DestinationsPage goTo={goTo} />}
+      {page === "concept" && <ConceptPage goTo={goTo} />}
+      {page === "formules" && <FormulesPage />}
+      {page === "legal" && <LegalPage />}
+
       {/* FOOTER */}
       <footer style={{ background: "#050F1A", padding: "72px 40px 40px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -972,18 +998,31 @@ export default function EvasionDoree() {
                   {col.title.toUpperCase()}
                 </h4>
                 <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 12 }}>
-                  {col.links.map(link => (
-                    <li key={link}>
-                      <a
-                        href="#"
-                        style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", textDecoration: "none", fontFamily: "system-ui", transition: "color 0.2s" }}
-                        onMouseEnter={e => (e.currentTarget.style.color = "rgba(255,255,255,0.7)")}
-                        onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.3)")}
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  ))}
+                  {col.links.map(link => {
+                    let onClickHandler = (e: React.MouseEvent) => e.preventDefault();
+                    if (link === "Maldives" || link === "Japon" || link === "Kenya" || link === "Patagonie" || link === "Grèce" || link === "Rajasthan" || col.title === "Destinations") {
+                      onClickHandler = (e) => { e.preventDefault(); goTo("destinations"); };
+                    } else if (link === "Voyages sur mesure" || link === "Conciergerie 24h" || link === "Voyages famille" || link === "Lune de miel" || link === "Classe affaires") {
+                      onClickHandler = (e) => { e.preventDefault(); goTo("concept"); };
+                    } else if (link === "Consultation gratuite" || link === "CGV") {
+                      onClickHandler = (e) => { e.preventDefault(); goTo("formules"); };
+                    } else if (link === "Mentions légales") {
+                      onClickHandler = (e) => { e.preventDefault(); goTo("legal"); };
+                    }
+                    return (
+                      <li key={link}>
+                        <a
+                          href="#"
+                          onClick={onClickHandler}
+                          style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", textDecoration: "none", fontFamily: "system-ui", transition: "color 0.2s" }}
+                          onMouseEnter={e => (e.currentTarget.style.color = "rgba(255,255,255,0.7)")}
+                          onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.3)")}
+                        >
+                          {link}
+                        </a>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             ))}
@@ -999,5 +1038,257 @@ export default function EvasionDoree() {
         </div>
       </footer>
     </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   SUB-PAGE COMPONENTS (FRENCH)
+───────────────────────────────────────────── */
+
+function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
+  const allDestinations = [
+    { name: "Maldives Privées", region: "Océan Indien", img: "photo-1514282401047-d79a71a590e8", duration: "10 nuits", price: "À partir de 12 400 €", tag: "Sérénité absolue", desc: "Villas sur pilotis, lagon turquoise privé, plongée de corail — l'archipel d'exception." },
+    { name: "Kyoto Impériale", region: "Japon", img: "photo-1528360983277-13d401cdc186", duration: "12 nuits", price: "À partir de 9 800 €", tag: "Patrimoine vivant", desc: "Ryokans historiques, cérémonie du thé privée, géishas et jardins zen au lever du soleil." },
+    { name: "Safari Masaï Mara", region: "Kenya", img: "photo-1516426122078-c23e76319801", duration: "9 nuits", price: "À partir de 14 200 €", tag: "Grande migration", desc: "Camp de luxe privé, safaris au lever du soleil, bush dinner sous les étoiles africaines." },
+    { name: "Patagonie Sauvage", region: "Argentine & Chili", img: "photo-1501854140801-50d01698950b", duration: "14 nuits", price: "À partir de 8 900 €", tag: "Bout du monde", desc: "Torres del Paine, glaciers Perito Moreno, lodges isolés au cœur d'une nature absolue." },
+    { name: "Grèce des Cyclades", region: "Méditerranée", img: "photo-1533105079780-92b9be482077", duration: "8 nuits", price: "À partir de 7 600 €", tag: "Lumière dorée", desc: "Santorin, Mykonos, Folegandros — voilier privatisé et îles secrètes hors des sentiers battus." },
+    { name: "Rajasthan Royal", region: "Inde du Nord", img: "photo-1524492412937-b28074a5d7da", duration: "11 nuits", price: "À partir de 6 400 €", tag: "Fastes de l'Orient", desc: "Palace hotels historiques, Jaipur, Udaipur, Jaisalmer — un voyage dans un voyage." },
+  ];
+
+  return (
+    <section style={{ padding: "140px 40px", background: C.bg, minHeight: "100vh" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: 80 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
+            <div style={{ width: 24, height: 1, background: C.accent }} />
+            <span style={{ fontSize: 11, color: C.accent, fontFamily: "system-ui", letterSpacing: "0.14em", fontWeight: 600 }}>PORTFOLIO EXCLUSIF</span>
+            <div style={{ width: 24, height: 1, background: C.accent }} />
+          </div>
+          <h1 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 300, color: C.marine, lineHeight: 1.1 }}>
+            Explorez Nos <em style={{ color: C.accent, fontStyle: "italic" }}>Horizons</em>
+          </h1>
+          <p style={{ fontSize: 15, color: C.textMuted, fontFamily: "system-ui", maxWidth: 600, margin: "24px auto 0", lineHeight: 1.7 }}>
+            Découvrez nos suggestions d'itinéraires haut de gamme entièrement personnalisables par nos créateurs de voyages.
+          </p>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: 32 }}>
+          {allDestinations.map((dest, i) => (
+            <div
+              key={i}
+              style={{
+                borderRadius: 16, overflow: "hidden", background: C.white,
+                boxShadow: "0 4px 24px rgba(10,37,64,0.06)",
+                border: `1px solid ${C.borderLight}`,
+              }}
+            >
+              <div style={{ position: "relative", aspectRatio: "16/10", overflow: "hidden" }}>
+                <div
+                  style={{
+                    width: "100%", height: "100%",
+                    backgroundImage: `url(https://images.unsplash.com/${dest.img}?w=800&q=85)`,
+                    backgroundSize: "cover", backgroundPosition: "center",
+                  }}
+                />
+                <div style={{ position: "absolute", top: 16, left: 16 }}>
+                  <span style={{ background: "rgba(201,169,110,0.9)", color: C.marine, fontSize: 10, fontFamily: "system-ui", fontWeight: 700, letterSpacing: "0.1em", padding: "4px 10px", borderRadius: 20 }}>
+                    {dest.tag}
+                  </span>
+                </div>
+              </div>
+              <div style={{ padding: 32 }}>
+                <h3 style={{ fontSize: 24, fontWeight: 400, color: C.marine, marginBottom: 12 }}>{dest.name}</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, fontFamily: "system-ui", lineHeight: 1.7, marginBottom: 24 }}>{dest.desc}</p>
+                
+                <div style={{ borderTop: `1px solid ${C.borderLight}`, paddingTop: 20, marginBottom: 24, display: "flex", justifyContent: "space-between", fontSize: 13, color: C.textMuted, fontFamily: "system-ui" }}>
+                  <div><strong>Durée :</strong> {dest.duration}</div>
+                  <div><strong>Budget :</strong> {dest.price}</div>
+                </div>
+
+                <button
+                  onClick={() => goTo("formules")}
+                  style={{
+                    width: "100%", padding: "14px",
+                    background: C.marine, color: C.white,
+                    border: "none", borderRadius: 3,
+                    fontSize: 12, fontFamily: "system-ui", fontWeight: 700,
+                    letterSpacing: "0.1em", cursor: "pointer",
+                  }}
+                >
+                  DEMANDER UN DEVIS PERSONNALISÉ
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ConceptPage({ goTo }: { goTo: (p: ActivePage) => void }) {
+  return (
+    <section style={{ padding: "140px 40px", background: C.bg, minHeight: "100vh" }}>
+      <div style={{ maxWidth: 900, margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: 80 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
+            <div style={{ width: 24, height: 1, background: C.accent }} />
+            <span style={{ fontSize: 11, color: C.accent, fontFamily: "system-ui", letterSpacing: "0.14em", fontWeight: 600 }}>NOTRE PHILOSOPHIE</span>
+            <div style={{ width: 24, height: 1, background: C.accent }} />
+          </div>
+          <h1 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 300, color: C.marine, lineHeight: 1.1 }}>
+            L'Excellence du <em style={{ color: C.accent, fontStyle: "italic" }}>Sur Mesure</em>
+          </h1>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 64, fontSize: 16, color: C.textMuted, fontFamily: "system-ui", lineHeight: 1.8 }}>
+          <div style={{ background: C.white, border: `1px solid ${C.borderLight}`, padding: 40, borderRadius: 16 }}>
+            <h3 style={{ fontSize: 24, fontWeight: 400, color: C.marine, marginBottom: 16, fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+              Notre Engagement Qualité
+            </h3>
+            <p>
+              Depuis 2006, Évasion Dorée crée des expériences de voyage d'exception pour une clientèle exigeante. Nous ne proposons pas de circuits standardisés. Chaque voyageur se voit attribuer un créateur de voyage dédié qui étudie ses préférences pour façonner un itinéraire sur mesure.
+            </p>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
+            <div style={{ background: C.white, border: `1px solid ${C.borderLight}`, padding: 32, borderRadius: 16 }}>
+              <h4 style={{ fontSize: 18, color: C.marine, marginBottom: 12, fontFamily: "'Cormorant Garamond', Georgia, serif" }}>Conciergerie 24h/24</h4>
+              <p style={{ fontSize: 14 }}>
+                Où que vous soyez dans le monde, un concierge dédié francophone reste à votre entière disposition pour ajuster vos plans, réserver une table de dernière minute ou pallier un imprévu.
+              </p>
+            </div>
+            <div style={{ background: C.white, border: `1px solid ${C.borderLight}`, padding: 32, borderRadius: 16 }}>
+              <h4 style={{ fontSize: 18, color: C.marine, marginBottom: 12, fontFamily: "'Cormorant Garamond', Georgia, serif" }}>Engagement Éco-responsable</h4>
+              <p style={{ fontSize: 14 }}>
+                Nous sélectionnons des partenaires hôteliers engagés dans la préservation de l'environnement et de la biodiversité locale. Nous compensons 100% de l'empreinte carbone de vos vols.
+              </p>
+            </div>
+          </div>
+
+          <div style={{ textAlign: "center", marginTop: 40 }}>
+            <button
+              onClick={() => goTo("formules")}
+              style={{
+                padding: "16px 44px", background: C.accent, color: C.marine,
+                border: "none", borderRadius: 3,
+                fontSize: 12, fontFamily: "system-ui", fontWeight: 700,
+                letterSpacing: "0.12em", cursor: "pointer",
+              }}
+            >
+              COMMENCER MON PROJET DE VOYAGE
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FormulesPage() {
+  return (
+    <section style={{ padding: "140px 40px", background: C.bg, minHeight: "100vh" }}>
+      <div style={{ maxWidth: 800, margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: 64 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
+            <div style={{ width: 24, height: 1, background: C.accent }} />
+            <span style={{ fontSize: 11, color: C.accent, fontFamily: "system-ui", letterSpacing: "0.14em", fontWeight: 600 }}>DEMANDE DE DEVIS</span>
+            <div style={{ width: 24, height: 1, background: C.accent }} />
+          </div>
+          <h1 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 300, color: C.marine, lineHeight: 1.1 }}>
+            Formuler Votre <em style={{ color: C.accent, fontStyle: "italic" }}>Projet</em>
+          </h1>
+          <p style={{ fontSize: 15, color: C.textMuted, fontFamily: "system-ui", marginTop: 20 }}>
+            Remplissez notre formulaire de consultation privée. Un conseiller dédié étudiera votre demande sous 4 heures.
+          </p>
+        </div>
+
+        <form onSubmit={(e) => e.preventDefault()} style={{ background: C.white, border: `1px solid ${C.borderLight}`, padding: 40, borderRadius: 16, display: "flex", flexDirection: "column", gap: 24 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+            <div>
+              <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: C.marine, fontFamily: "system-ui", marginBottom: 8, letterSpacing: "0.04em" }}>NOM COMPLET</label>
+              <input type="text" placeholder="Votre nom" style={{ width: "100%", padding: "12px 16px", border: `1px solid ${C.borderLight}`, borderRadius: 4, fontSize: 14, fontFamily: "system-ui", outline: "none" }} />
+            </div>
+            <div>
+              <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: C.marine, fontFamily: "system-ui", marginBottom: 8, letterSpacing: "0.04em" }}>ADRESSE EMAIL</label>
+              <input type="email" placeholder="nom@email.com" style={{ width: "100%", padding: "12px 16px", border: `1px solid ${C.borderLight}`, borderRadius: 4, fontSize: 14, fontFamily: "system-ui", outline: "none" }} />
+            </div>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+            <div>
+              <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: C.marine, fontFamily: "system-ui", marginBottom: 8, letterSpacing: "0.04em" }}>DESTINATION SOUHAITÉE</label>
+              <input type="text" placeholder="Ex: Maldives, Japon..." style={{ width: "100%", padding: "12px 16px", border: `1px solid ${C.borderLight}`, borderRadius: 4, fontSize: 14, fontFamily: "system-ui", outline: "none" }} />
+            </div>
+            <div>
+              <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: C.marine, fontFamily: "system-ui", marginBottom: 8, letterSpacing: "0.04em" }}>FORMULE SOUHAITÉE</label>
+              <select style={{ width: "100%", padding: "12px 16px", border: `1px solid ${C.borderLight}`, borderRadius: 4, fontSize: 14, fontFamily: "system-ui", outline: "none", color: C.text }}>
+                <option value="evasion">Évasion — Le Voyage Essentiel</option>
+                <option value="prestige">Prestige — L'Expérience Signature</option>
+                <option value="excellence">Excellence — Le Sur-Mesure Absolu</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: C.marine, fontFamily: "system-ui", marginBottom: 8, letterSpacing: "0.04em" }}>EXIGENCES PARTICULIÈRES</label>
+            <textarea rows={4} placeholder="Indiquez ici le nombre de voyageurs, les préférences d'hôtels, activités spécifiques..." style={{ width: "100%", padding: "12px 16px", border: `1px solid ${C.borderLight}`, borderRadius: 4, fontSize: 14, fontFamily: "system-ui", outline: "none", resize: "none" }} />
+          </div>
+
+          <button
+            type="submit"
+            style={{
+              padding: "16px", background: C.marine, color: C.white,
+              border: "none", borderRadius: 3,
+              fontSize: 12, fontFamily: "system-ui", fontWeight: 700,
+              letterSpacing: "0.12em", cursor: "pointer",
+            }}
+          >
+            ENVOYER MA DEMANDE DE CONCILIATION
+          </button>
+        </form>
+      </div>
+    </section>
+  );
+}
+
+function LegalPage() {
+  return (
+    <section style={{ padding: "140px 40px", background: C.bg, minHeight: "100vh" }}>
+      <div style={{ maxWidth: 800, margin: "0 auto", fontFamily: "system-ui" }}>
+        <h1 style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 300, color: C.marine, marginBottom: 40, fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+          Mentions <em style={{ color: C.accent, fontStyle: "italic" }}>Légales</em>
+        </h1>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 36, fontSize: 14, color: C.textMuted, lineHeight: 1.8 }}>
+          <div style={{ background: C.white, border: `1px solid ${C.borderLight}`, padding: 32, borderRadius: 12 }}>
+            <h3 style={{ fontSize: 18, color: C.marine, marginBottom: 16, fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 500 }}>
+              Édition et Hébergement
+            </h3>
+            <p>
+              <strong>Éditeur :</strong> Aevia WS — Valentin Milliand<br />
+              Entrepreneur individuel — SIREN 852 546 225 — RCS Bourg-en-Bresse<br />
+              <strong>Contact :</strong> contact@aevia.io<br />
+              <strong>Hébergeur :</strong> Vercel Inc., 650 2nd St, San Francisco, CA 94107, USA.<br />
+              <strong>Adresse physique :</strong> communiquée sur demande.
+            </p>
+          </div>
+
+          <div>
+            <h4 style={{ fontSize: 16, color: C.marine, marginBottom: 8, fontFamily: "'Cormorant Garamond', Georgia, serif" }}>Propriété Intellectuelle</h4>
+            <p>
+              L'intégralité du site Évasion Dorée (textes, images, codes source, structure générale) est protégée par le droit d'auteur. Toute reproduction totale ou partielle sans accord préalable écrit de l'éditeur est strictement interdite.
+            </p>
+          </div>
+
+          <div>
+            <h4 style={{ fontSize: 16, color: C.marine, marginBottom: 8, fontFamily: "'Cormorant Garamond', Georgia, serif" }}>Protection des Données Personnelles</h4>
+            <p>
+              Les données personnelles transmises via notre formulaire de contact sont uniquement traitées par Évasion Dorée pour la gestion de votre projet de voyage. Conformément à la réglementation RGPD, vous disposez d'un droit d'accès, de modification et de suppression de vos données sur simple demande par email.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
