@@ -222,9 +222,8 @@ export default function FormeStudioPage() {
         )}
       </AnimatePresence>
 
-      {/* ════════════════════════════ HOME ════════════════════════════ */}
-      {page === "home" && (
-        <>
+      {/* ============================== HOME ============================== */}
+      <div style={{ display: page === "home" ? "block" : "none" }}>
           {/* Hero */}
           <section ref={heroRef} className="relative min-h-screen flex items-center pt-32 pb-16 px-6 overflow-hidden bg-[#F8F4F0]">
             <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
@@ -385,12 +384,10 @@ export default function FormeStudioPage() {
               </Reveal>
             </div>
           </section>
-        </>
-      )}
+      </div>
 
-      {/* ════════════════════════════ TRAVAUX ════════════════════════════ */}
-      {page === "travaux" && (
-        <>
+      {/* ============================== TRAVAUX ============================== */}
+      <div style={{ display: page === "travaux" ? "block" : "none" }}>
           <section className="pt-32 pb-16 px-6 bg-[#F8F4F0]">
             <div className="max-w-6xl mx-auto">
               <Reveal>
@@ -469,12 +466,10 @@ export default function FormeStudioPage() {
               </Reveal>
             </div>
           </section>
-        </>
-      )}
+        </div>
 
-      {/* ════════════════════════════ EXPERTISES ════════════════════════════ */}
-      {page === "expertises" && (
-        <>
+      {/* ============================== EXPERTISES ============================== */}
+      <div style={{ display: page === "expertises" ? "block" : "none" }}>
           <section className="pt-32 pb-16 px-6 bg-[#F8F4F0]">
             <div className="max-w-6xl mx-auto">
               <Reveal>
@@ -639,12 +634,10 @@ export default function FormeStudioPage() {
               </Reveal>
             </div>
           </section>
-        </>
-      )}
+        </div>
 
-      {/* ════════════════════════════ STUDIO ════════════════════════════ */}
-      {page === "studio" && (
-        <>
+      {/* ============================== STUDIO ============================== */}
+      <div style={{ display: page === "studio" ? "block" : "none" }}>
           <section className="pt-32 pb-16 px-6 bg-[#F8F4F0]">
             <div className="max-w-6xl mx-auto">
               <Reveal>
@@ -789,12 +782,10 @@ export default function FormeStudioPage() {
               </Reveal>
             </div>
           </section>
-        </>
-      )}
+        </div>
 
-      {/* ════════════════════════════ CONTACT ════════════════════════════ */}
-      {page === "contact" && (
-        <>
+      {/* ============================== CONTACT ============================== */}
+      <div style={{ display: page === "contact" ? "block" : "none" }}>
           <section className="pt-32 pb-16 px-6 bg-[#F8F4F0]">
             <div className="max-w-6xl mx-auto">
               <Reveal>
@@ -943,12 +934,10 @@ export default function FormeStudioPage() {
               </div>
             </div>
           </section>
-        </>
-      )}
+        </div>
 
-      {/* ════════════════════════════ LEGAL ════════════════════════════ */}
-      {page === "legal" && (
-        <>
+      {/* ============================== LEGAL ============================== */}
+      <div style={{ display: page === "legal" ? "block" : "none" }}>
           <section className="pt-32 pb-16 px-6 bg-[#F8F4F0]">
             <div className="max-w-4xl mx-auto">
               <Reveal>
@@ -994,8 +983,7 @@ export default function FormeStudioPage() {
               </Reveal>
             </div>
           </section>
-        </>
-      )}
+        </div>
 
       {/* Footer — always visible */}
       <footer className="bg-gray-900 py-12 px-6">

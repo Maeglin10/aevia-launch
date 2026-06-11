@@ -177,8 +177,7 @@ export default function StudioPelikanPage() {
       </AnimatePresence>
 
       {/* ====== HOME PAGE ====== */}
-      {page === "home" && (
-        <>
+      <div style={{ display: page === "home" ? "block" : "none" }}>
           {/* Hero */}
           <section ref={heroRef} className="relative h-screen overflow-hidden">
             <motion.div className="absolute inset-0" style={{ y: heroY }}>
@@ -327,12 +326,10 @@ export default function StudioPelikanPage() {
               </Reveal>
             </div>
           </section>
-        </>
-      )}
+        </div>
 
       {/* ====== FILMS PAGE ====== */}
-      {page === "films" && (
-        <>
+      <div style={{ display: page === "films" ? "block" : "none" }}>
           <section className="pt-32 pb-16 px-6">
             <div className="max-w-6xl mx-auto">
               <Reveal>
@@ -422,12 +419,10 @@ export default function StudioPelikanPage() {
               </Reveal>
             </div>
           </section>
-        </>
-      )}
+        </div>
 
       {/* ====== SERVICES PAGE ====== */}
-      {page === "services" && (
-        <>
+      <div style={{ display: page === "services" ? "block" : "none" }}>
           <section className="pt-32 pb-16 px-6">
             <div className="max-w-6xl mx-auto">
               <Reveal>
@@ -649,12 +644,10 @@ export default function StudioPelikanPage() {
               </Reveal>
             </div>
           </section>
-        </>
-      )}
+        </div>
 
       {/* ====== À PROPOS PAGE ====== */}
-      {page === "propos" && (
-        <>
+      <div style={{ display: page === "propos" ? "block" : "none" }}>
           <section className="pt-32 pb-16 px-6">
             <div className="max-w-6xl mx-auto">
               <Reveal>
@@ -837,12 +830,10 @@ export default function StudioPelikanPage() {
               </Reveal>
             </div>
           </section>
-        </>
-      )}
+        </div>
 
       {/* ====== LEGAL PAGE ====== */}
-      {page === "legal" && (
-        <>
+      <div style={{ display: page === "legal" ? "block" : "none" }}>
           <section className="pt-32 pb-16 px-6">
             <div className="max-w-4xl mx-auto">
               <Reveal>
@@ -884,8 +875,7 @@ export default function StudioPelikanPage() {
               </Reveal>
             </div>
           </section>
-        </>
-      )}
+        </div>
 
       {/* Footer */}
       <footer className="bg-[#090704] border-t border-white/5 py-12 px-6">
