@@ -2,7 +2,6 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
-import Link from "next/link";
 import {
   Star,
   Phone,
@@ -20,6 +19,9 @@ import {
   X,
   Users,
   ThumbsUp,
+  Activity,
+  Calculator,
+  FileText
 } from "lucide-react";
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
@@ -36,15 +38,18 @@ const C = {
   border: "#dce9f5",
   shadow: "0 4px 24px rgba(26,39,68,0.08)",
   shadowLg: "0 12px 48px rgba(26,39,68,0.14)",
+  whiteTrans: "rgba(255, 255, 255, 0.95)",
 };
 
 const FONT = "'Inter', system-ui, sans-serif";
+
+type ActivePage = "home" | "soins" | "pricing" | "team" | "legal";
 
 // ─── Animated Tooth SVG ───────────────────────────────────────────────────────
 function AnimatedTooth() {
   return (
     <motion.div
-      style={{ position: "relative", width: 360, height: 400 }}
+      style={{ position: "relative", width: 320, height: 360 }}
       initial={{ opacity: 0, scale: 0.8, y: 30 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.9, ease: "easeOut" }}
@@ -56,8 +61,8 @@ function AnimatedTooth() {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 290,
-          height: 290,
+          width: 260,
+          height: 260,
           borderRadius: "50%",
           background: `radial-gradient(circle, ${C.accentLight} 0%, transparent 70%)`,
           zIndex: 0,
@@ -65,33 +70,16 @@ function AnimatedTooth() {
         animate={{ scale: [1, 1.18, 1], opacity: [0.6, 1, 0.6] }}
         transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.div
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: 330,
-          height: 330,
-          borderRadius: "50%",
-          border: `2px solid ${C.accent}`,
-          opacity: 0.15,
-          zIndex: 0,
-        }}
-        animate={{ scale: [1, 1.22, 1], opacity: [0.15, 0.04, 0.15] }}
-        transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
-      />
-
+      
       {/* Floating tooth SVG */}
       <motion.svg
         viewBox="0 0 200 240"
-        width={240}
-        height={290}
+        width={200}
+        height={240}
         style={{ position: "relative", zIndex: 1, margin: "0 auto", display: "block" }}
         animate={{ y: [0, -10, 0] }}
         transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
       >
-        {/* Main tooth body */}
         <motion.path
           d="M100 18 C58 18, 28 44, 26 82 C24 112, 34 134, 39 162 C44 188, 47 218, 60 227 C70 235, 81 221, 88 200 C94 184, 100 170, 100 170 C100 170, 106 184, 112 200 C119 221, 130 235, 140 227 C153 218, 156 188, 161 162 C166 134, 176 112, 174 82 C172 44, 142 18, 100 18 Z"
           fill={C.white}
@@ -102,29 +90,20 @@ function AnimatedTooth() {
           animate={{ pathLength: 1 }}
           transition={{ duration: 1.6, ease: "easeOut" }}
         />
-        {/* Tooth roots detail */}
         <motion.path
           d="M80 170 C78 190, 74 210, 68 222 M120 170 C122 190, 126 210, 132 222"
           fill="none"
           stroke={`${C.accent}40`}
           strokeWidth={6}
           strokeLinecap="round"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.4 }}
         />
-        {/* Shine highlight */}
         <motion.path
           d="M72 42 C65 57, 62 78, 66 98"
           fill="none"
           stroke="rgba(255,255,255,0.9)"
           strokeWidth={6}
           strokeLinecap="round"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1.3 }}
         />
-        {/* Check mark */}
         <motion.path
           d="M80 128 L95 146 L122 112"
           fill="none"
@@ -134,28 +113,10 @@ function AnimatedTooth() {
           strokeLinejoin="round"
           initial={{ pathLength: 0, opacity: 0 }}
           animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 0.65, delay: 1.9 }}
+          transition={{ duration: 0.65, delay: 1.2 }}
         />
-        {/* Sparkle dots */}
-        {[
-          { cx: 50, cy: 52, delay: 1.5 },
-          { cx: 150, cy: 50, delay: 1.65 },
-          { cx: 100, cy: 28, delay: 1.8 },
-        ].map((dot, i) => (
-          <motion.circle
-            key={i}
-            cx={dot.cx}
-            cy={dot.cy}
-            r={4.5}
-            fill={C.accent}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: [0, 1.3, 1], opacity: [0, 1, 0.75] }}
-            transition={{ duration: 0.55, delay: dot.delay }}
-          />
-        ))}
       </motion.svg>
 
-      {/* ISO badge */}
       <motion.div
         style={{
           position: "absolute",
@@ -173,40 +134,16 @@ function AnimatedTooth() {
         }}
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 2.1, duration: 0.5 }}
+        transition={{ delay: 1.5, duration: 0.5 }}
       >
-        ISO Certified
-      </motion.div>
-
-      {/* Rating badge */}
-      <motion.div
-        style={{
-          position: "absolute",
-          bottom: 42,
-          left: 0,
-          background: C.white,
-          border: `1px solid ${C.border}`,
-          borderRadius: 12,
-          padding: "9px 17px",
-          fontSize: 13,
-          fontWeight: 600,
-          fontFamily: FONT,
-          color: C.text,
-          boxShadow: C.shadow,
-          zIndex: 2,
-        }}
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 2.3, duration: 0.5 }}
-      >
-        4.9 / 5 — 1 200+ avis
+        Agréé ARS
       </motion.div>
     </motion.div>
   );
 }
 
 // ─── Navbar ───────────────────────────────────────────────────────────────────
-function Navbar() {
+function Navbar({ page, goTo }: { page: ActivePage; goTo: (p: ActivePage) => void }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -217,11 +154,10 @@ function Navbar() {
   }, []);
 
   const links = [
-    { label: "Accueil", href: "#" },
-    { label: "Services", href: "#services" },
-    { label: "Équipe", href: "#team" },
-    { label: "Tarifs", href: "#pricing" },
-    { label: "Contact", href: "#contact" },
+    { label: "Accueil", id: "home" as const },
+    { label: "Soins", id: "soins" as const },
+    { label: "Tarifs & Remboursement", id: "pricing" as const },
+    { label: "L'Équipe", id: "team" as const },
   ];
 
   return (
@@ -249,6 +185,7 @@ function Navbar() {
         {/* Logo */}
         <motion.div
           style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}
+          onClick={() => goTo("home")}
           whileHover={{ scale: 1.03 }}
         >
           <div
@@ -270,25 +207,31 @@ function Navbar() {
         </motion.div>
 
         {/* Desktop links */}
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+        <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="hidden md:flex">
           {links.map((link) => (
-            <motion.a
-              key={link.label}
-              href={link.href}
+            <button
+              key={link.id}
+              onClick={() => goTo(link.id)}
               style={{
-                color: C.text,
-                fontWeight: 500,
+                color: page === link.id ? C.accent : C.text,
+                fontWeight: 600,
                 fontSize: 15,
-                textDecoration: "none",
+                background: "none",
+                border: "none",
                 cursor: "pointer",
+                fontFamily: FONT,
               }}
-              whileHover={{ color: C.accent }}
-              transition={{ duration: 0.15 }}
             >
               {link.label}
-            </motion.a>
+            </button>
           ))}
-          <motion.button
+          <button
+            onClick={() => {
+              if (page !== "home") goTo("home");
+              setTimeout(() => {
+                document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+              }, 150);
+            }}
             style={{
               background: C.accent,
               color: C.white,
@@ -303,28 +246,25 @@ function Navbar() {
               alignItems: "center",
               gap: 7,
             }}
-            whileHover={{ background: C.accentDark, scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
           >
             <Calendar size={16} />
             Prendre RDV
-          </motion.button>
+          </button>
         </div>
 
         {/* Mobile toggle */}
-        <motion.button
+        <button
           onClick={() => setMenuOpen(!menuOpen)}
           style={{
-            display: "none",
             background: "none",
             border: "none",
             cursor: "pointer",
             color: C.text,
           }}
-          whileTap={{ scale: 0.9 }}
+          className="md:hidden block"
         >
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
-        </motion.button>
+        </button>
       </motion.nav>
 
       {/* Mobile menu */}
@@ -348,21 +288,54 @@ function Navbar() {
             }}
           >
             {links.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
+              <button
+                key={link.id}
+                onClick={() => {
+                  setMenuOpen(false);
+                  goTo(link.id);
+                }}
                 style={{
                   display: "block",
+                  width: "100%",
+                  textAlign: "left",
                   padding: "12px 0",
-                  color: C.text,
-                  fontWeight: 500,
-                  textDecoration: "none",
+                  color: page === link.id ? C.accent : C.text,
+                  fontWeight: 600,
+                  background: "none",
+                  border: "none",
                   borderBottom: `1px solid ${C.border}`,
+                  fontSize: 16,
+                  cursor: "pointer",
                 }}
               >
                 {link.label}
-              </a>
+              </button>
             ))}
+            <button
+              onClick={() => {
+                setMenuOpen(false);
+                if (page !== "home") goTo("home");
+                setTimeout(() => {
+                  document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+                }, 150);
+              }}
+              style={{
+                display: "block",
+                width: "100%",
+                textAlign: "center",
+                marginTop: 18,
+                padding: "12px",
+                background: C.accent,
+                color: C.white,
+                borderRadius: 8,
+                border: "none",
+                fontWeight: 700,
+                fontSize: 16,
+                cursor: "pointer",
+              }}
+            >
+              Prendre RDV en ligne
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -371,7 +344,7 @@ function Navbar() {
 }
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
-function Hero() {
+function Hero({ goTo }: { goTo: (p: ActivePage) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const textY = useTransform(scrollYProgress, [0, 1], [0, -90]);
@@ -391,7 +364,6 @@ function Hero() {
         fontFamily: FONT,
       }}
     >
-      {/* Background circles */}
       <div
         style={{
           position: "absolute",
@@ -402,18 +374,6 @@ function Hero() {
           borderRadius: "50%",
           background: `radial-gradient(circle, ${C.accentLight} 0%, transparent 68%)`,
           opacity: 0.55,
-          pointerEvents: "none",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          bottom: -100,
-          left: -100,
-          width: 450,
-          height: 450,
-          borderRadius: "50%",
-          background: `radial-gradient(circle, ${C.bgLight} 0%, transparent 70%)`,
           pointerEvents: "none",
         }}
       />
@@ -456,8 +416,7 @@ function Hero() {
             marginBottom: 24,
           }}
         >
-          Votre sourire,{" "}
-          <span style={{ color: C.accent }}>notre passion</span>
+          Votre sourire, <span style={{ color: C.accent }}>notre passion</span>
         </motion.h1>
 
         <motion.p
@@ -484,6 +443,9 @@ function Hero() {
           style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 48 }}
         >
           <motion.button
+            onClick={() => {
+              document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+            }}
             style={{
               background: C.accent,
               color: C.white,
@@ -505,6 +467,7 @@ function Hero() {
             Prendre rendez-vous
           </motion.button>
           <motion.button
+            onClick={() => goTo("soins")}
             style={{
               background: "transparent",
               color: C.text,
@@ -552,6 +515,7 @@ function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
+        className="hidden lg:flex"
       >
         <AnimatedTooth />
       </motion.div>
@@ -591,7 +555,7 @@ const SERVICES = [
   },
 ];
 
-function Services() {
+function Services({ goTo }: { goTo: (p: ActivePage) => void }) {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -645,12 +609,13 @@ function Services() {
           gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
           gap: 28,
           maxWidth: 1100,
-          margin: "0 auto",
+          margin: "0 auto 48px",
         }}
       >
         {SERVICES.map((s, i) => (
           <motion.div
             key={s.title}
+            onClick={() => goTo("soins")}
             initial={{ opacity: 0, y: 44 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.55, delay: i * 0.1 }}
@@ -705,6 +670,25 @@ function Services() {
             <div style={{ fontWeight: 700, color: C.accent, fontSize: 16 }}>{s.price}</div>
           </motion.div>
         ))}
+      </div>
+
+      <div style={{ textAlign: "center" }}>
+        <button
+          onClick={() => goTo("soins")}
+          style={{
+            background: "none",
+            border: "none",
+            color: C.accent,
+            fontWeight: 700,
+            fontSize: 16,
+            cursor: "pointer",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          Consulter le catalogue clinique complet <ChevronRight size={18} />
+        </button>
       </div>
     </section>
   );
@@ -794,7 +778,7 @@ const TESTIMONIALS = [
   {
     name: "Thomas B.",
     treatment: "Implant dentaire",
-    before: "J'avais perdu une dent depuis 3 ans et j'en étais très complexé au quotidien.",
+    before: "J'avois perdu une dent depuis 3 ans et j'en étais très complexé au quotidien.",
     after: "L'implant est posé depuis 6 mois — aucune différence avec mes vraies dents. Dr. Laurent est tout simplement exceptionnelle !",
     stars: 5,
     date: "Janvier 2025",
@@ -920,7 +904,7 @@ const TEAM = [
   { name: "Dr. Sofia Ramirez", role: "Chirurgienne-dentiste", specialty: "Esthétique dentaire & Blanchiment", experience: "9 ans", initials: "SR", color: "#00b894" },
 ];
 
-function Team() {
+function Team({ goTo }: { goTo: (p: ActivePage) => void }) {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
 
@@ -962,7 +946,7 @@ function Team() {
           gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
           gap: 28,
           maxWidth: 920,
-          margin: "0 auto",
+          margin: "0 auto 48px",
         }}
       >
         {TEAM.map((doc, i) => (
@@ -1018,6 +1002,25 @@ function Team() {
           </motion.div>
         ))}
       </div>
+
+      <div style={{ textAlign: "center" }}>
+        <button
+          onClick={() => goTo("team")}
+          style={{
+            background: "none",
+            border: "none",
+            color: C.accent,
+            fontWeight: 700,
+            fontSize: 16,
+            cursor: "pointer",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          Voir les biographies de nos praticiens <ChevronRight size={18} />
+        </button>
+      </div>
     </section>
   );
 }
@@ -1044,7 +1047,7 @@ const PLANS = [
   },
   {
     name: "Premium",
-    price: "Devis gratuit",
+    price: "Sur Devis",
     period: "traitement sur mesure",
     desc: "Pour les transformations complètes et l'implantologie avancée.",
     features: ["Tout le plan Sourire", "Implants dentaires Straumann", "Facettes céramiques Emax", "Orthodontie Invisalign Diamond", "Suivi illimité 2 ans", "Financement 0 % disponible"],
@@ -1053,7 +1056,7 @@ const PLANS = [
   },
 ];
 
-function Pricing() {
+function Pricing({ goTo }: { goTo: (p: ActivePage) => void }) {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
 
@@ -1098,7 +1101,7 @@ function Pricing() {
           gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
           gap: 28,
           maxWidth: 980,
-          margin: "0 auto",
+          margin: "0 auto 48px",
           alignItems: "start",
         }}
       >
@@ -1156,15 +1159,15 @@ function Pricing() {
             <div style={{ marginBottom: 28 }}>
               <span
                 style={{
-                  fontSize: p.price.includes("Devis") ? 22 : 40,
+                  fontSize: p.price.includes("Devis") || p.price.includes("Sur") ? 26 : 40,
                   fontWeight: 900,
                   color: p.highlight ? C.white : C.text,
                   letterSpacing: -1,
                 }}
               >
-                {p.price.includes("Devis") ? p.price : `€${p.price}`}
+                {p.price.includes("Devis") || p.price.includes("Sur") ? p.price : `€${p.price}`}
               </span>
-              {!p.price.includes("Devis") && (
+              {!p.price.includes("Devis") && !p.price.includes("Sur") && (
                 <span style={{ fontSize: 14, color: p.highlight ? "rgba(255,255,255,0.55)" : C.textMuted, marginLeft: 6 }}>
                   {p.period}
                 </span>
@@ -1179,6 +1182,13 @@ function Pricing() {
               ))}
             </ul>
             <motion.button
+              onClick={() => {
+                if (p.cta === "Demander un devis" || p.cta === "Choisir ce plan") {
+                  goTo("pricing");
+                } else {
+                  document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
               style={{
                 width: "100%",
                 background: p.highlight ? C.accent : "transparent",
@@ -1203,6 +1213,25 @@ function Pricing() {
             </motion.button>
           </motion.div>
         ))}
+      </div>
+
+      <div style={{ textAlign: "center" }}>
+        <button
+          onClick={() => goTo("pricing")}
+          style={{
+            background: "none",
+            border: "none",
+            color: C.accent,
+            fontWeight: 700,
+            fontSize: 16,
+            cursor: "pointer",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          Accéder au simulateur de remboursement mutuelle <ChevronRight size={18} />
+        </button>
       </div>
     </section>
   );
@@ -1320,7 +1349,7 @@ function FAQ() {
                   <div style={{ padding: "0 24px 22px", fontSize: 15, color: C.textMuted, lineHeight: 1.72 }}>
                     {faq.a}
                   </div>
-                </motion.div>
+                  </motion.div>
               )}
             </AnimatePresence>
           </motion.div>
@@ -1331,7 +1360,7 @@ function FAQ() {
 }
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
-function Footer() {
+function Footer({ goTo }: { goTo: (p: ActivePage) => void }) {
   return (
     <footer
       id="contact"
@@ -1340,7 +1369,7 @@ function Footer() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "2fr 1fr 1fr 1fr",
+          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
           gap: 48,
           marginBottom: 52,
         }}
@@ -1370,9 +1399,21 @@ function Footer() {
         </div>
 
         {[
-          { title: "Soins", links: ["Blanchiment", "Implants", "Orthodontie", "Pédiatrie", "Urgences"] },
-          { title: "Cabinet", links: ["Notre équipe", "Nos valeurs", "Tarifs", "Actualités"] },
-          { title: "Pratique", links: ["Rendez-vous", "Accès & plan", "Parking", "Accessibilité"] },
+          { title: "Soins Cliniques", links: [
+            { label: "Blanchiment dentaire", id: "soins" as const },
+            { label: "Implants dentaires", id: "soins" as const },
+            { label: "Orthodontie Invisalign", id: "soins" as const },
+            { label: "Soins pédiatriques", id: "soins" as const }
+          ]},
+          { title: "Le Cabinet", links: [
+            { label: "Notre équipe", id: "team" as const },
+            { label: "Tarifs transparents", id: "pricing" as const },
+            { label: "Simulateur mutuelle", id: "pricing" as const },
+          ]},
+          { title: "Pratique", links: [
+            { label: "Accueil", id: "home" as const },
+            { label: "Mentions légales", id: "legal" as const },
+          ]},
         ].map((col) => (
           <div key={col.title}>
             <h4 style={{ fontSize: 13, fontWeight: 700, marginBottom: 20, color: C.white, textTransform: "uppercase", letterSpacing: 0.8 }}>
@@ -1380,9 +1421,22 @@ function Footer() {
             </h4>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {col.links.map((link) => (
-                <a key={link} href="#" style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, textDecoration: "none" }}>
-                  {link}
-                </a>
+                <button 
+                  key={link.label} 
+                  onClick={() => goTo(link.id)} 
+                  style={{ 
+                    color: "rgba(255,255,255,0.55)", 
+                    fontSize: 14, 
+                    background: "none", 
+                    border: "none", 
+                    textAlign: "left", 
+                    cursor: "pointer", 
+                    fontFamily: FONT,
+                    padding: 0
+                  }}
+                >
+                  {link.label}
+                </button>
               ))}
             </div>
           </div>
@@ -1390,30 +1444,548 @@ function Footer() {
       </div>
 
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-        <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 14 }}>© 2025 Smile Studio. Tous droits réservés.</p>
+        <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 14 }}>© 2026 Smile Studio. Tous droits réservés.</p>
         <div style={{ display: "flex", gap: 20 }}>
-          {["Mentions légales", "Confidentialité", "RGPD"].map((link) => (
-            <a key={link} href="#" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>{link}</a>
-          ))}
+          <button onClick={() => goTo("legal")} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.38)", fontSize: 13, cursor: "pointer", fontFamily: FONT }}>Mentions légales</button>
+          <button onClick={() => goTo("legal")} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.38)", fontSize: 13, cursor: "pointer", fontFamily: FONT }}>Confidentialité</button>
         </div>
       </div>
     </footer>
   );
 }
 
+// ─── Subpage: Soins ───────────────────────────────────────────────────────────
+function SoinsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
+  const specialties = [
+    {
+      title: "Blanchiment dentaire Zoom!",
+      tech: "Lampe LED Philips Zoom! WhiteSpeed",
+      details: "Le traitement de blanchiment au fauteuil Philips Zoom! est cliniquement prouvé pour blanchir vos dents jusqu'à 8 teintes en une seule séance de 45 minutes. C'est le procédé de blanchiment le plus demandé au monde, alliant rapidité et sécurité absolue pour l'émail.",
+      advantages: [
+        "Jusqu'à 8 teintes gagnées en une séance",
+        "Formule brevetée limitant la sensibilité post-traitement",
+        "Supervisé entièrement par un chirurgien-dentiste certifié",
+        "Polissage final protecteur inclus"
+      ],
+      price: "350 €"
+    },
+    {
+      title: "Implants dentaires Straumann",
+      tech: "Titane Grade 4 & Céramique Emax",
+      details: "Nous utilisons exclusivement les implants suisses Straumann, leaders mondiaux de l'implantologie. Posé sous anesthésie locale, l'implant remplace la racine naturelle manquante et s'intègre parfaitement à l'os (ostéointégration) pour accueillir une couronne céramique esthétique.",
+      advantages: [
+        "Matériaux biocompatibles haute durabilité",
+        "Garantie internationale Straumann de 10 ans",
+        "Remplacement fixe et invisible au quotidien",
+        "Préservation de la structure osseuse maxillaire"
+      ],
+      price: "À partir de 1 200 €"
+    },
+    {
+      title: "Orthodontie Invisible Invisalign",
+      tech: "Scanner 3D iTero & Aligneurs SmartTrack",
+      details: "Invisalign utilise des séries de gouttières transparentes amovibles et sur mesure pour déplacer vos dents en douceur. Pratiquement invisibles, elles se retirent facilement pour manger et se brosser les dents, offrant une alternative esthétique idéale aux bagues métalliques.",
+      advantages: [
+        "Gouttières translucides très discrètes",
+        "Amovibles pour une hygiène bucco-dentaire impeccable",
+        "Visualisation 3D du résultat final avant de commencer",
+        "Rendez-vous de contrôle simplifiés toutes les 6 à 8 semaines"
+      ],
+      price: "À partir de 2 800 €"
+    },
+    {
+      title: "Facettes Céramiques Emax",
+      tech: "Porcelaine feldspathique Emax pressée",
+      details: "Les facettes Emax sont de fines pellicules de céramique collées sur la face visible des dents antérieures. Elles permettent de corriger instantanément les défauts de forme, d'alignement, d'espacement (diastèmes) ou de coloration rebelle, pour un sourire harmonieux sur mesure.",
+      advantages: [
+        "Rendu ultra-naturel avec translucidité de l'émail",
+        "Haute résistance aux taches de café, thé ou tabac",
+        "Préparation dentaire ultra-conservatrice (a minima)",
+        "Durée de vie supérieure à 15 ans avec une bonne hygiène"
+      ],
+      price: "À partir de 800 € / dent"
+    }
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      style={{ padding: "120px 48px 80px", fontFamily: FONT, background: C.bg }}
+    >
+      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+        <div style={{ borderBottom: `2px solid ${C.border}`, paddingBottom: 32, marginBottom: 48 }}>
+          <span style={{ color: C.accent, fontWeight: 700, textTransform: "uppercase", fontSize: 13, letterSpacing: 1, display: "block", marginBottom: 8 }}>Catalogue Clinique</span>
+          <h1 style={{ fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 800, color: C.text, letterSpacing: -1.5, lineHeight: 1.1 }}>
+            Nos Soins Spécialisés & Technologies
+          </h1>
+          <p style={{ color: C.textMuted, fontSize: 16, marginTop: 12, maxWidth: 620 }}>
+            Découvrez nos spécialités en dentisterie esthétique et restauratrice. Nous appliquons des protocoles rigoureux avec des équipements certifiés.
+          </p>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 56 }}>
+          {specialties.map((s, idx) => (
+            <div key={s.title} style={{ display: "grid", gridTemplateColumns: "1fr", gap: 32 }} className="lg:grid-cols-12 border-b border-gray-100 pb-12">
+              <div className="lg:col-span-5">
+                <span style={{ fontSize: 12, fontWeight: 700, color: C.accent, background: C.accentLight, padding: "5px 12px", borderRadius: 12 }}>
+                  {s.tech}
+                </span>
+                <h3 style={{ fontSize: 24, fontWeight: 800, color: C.text, marginTop: 16, marginBottom: 16 }}>
+                  {s.title}
+                </h3>
+                <div style={{ fontSize: 28, fontWeight: 900, color: C.text }}>
+                  {s.price}
+                </div>
+                <button
+                  onClick={() => {
+                    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  style={{
+                    marginTop: 24,
+                    background: C.accent,
+                    color: C.white,
+                    border: "none",
+                    borderRadius: 8,
+                    padding: "12px 24px",
+                    fontWeight: 700,
+                    fontSize: 14,
+                    cursor: "pointer",
+                    fontFamily: FONT
+                  }}
+                >
+                  Prendre rendez-vous
+                </button>
+              </div>
+
+              <div className="lg:col-span-7 bg-slate-50 p-8 rounded-2xl border border-[#dce9f5]">
+                <h4 style={{ fontSize: 14, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: C.text, marginBottom: 12 }}>Détails Cliniques</h4>
+                <p style={{ color: C.textMuted, fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
+                  {s.details}
+                </p>
+
+                <h4 style={{ fontSize: 14, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: C.text, marginBottom: 12 }}>Avantages Clés</h4>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
+                  {s.advantages.map((adv) => (
+                    <div key={adv} style={{ display: "flex", gap: 8, alignItems: "start", fontSize: 13, color: C.text, fontWeight: 500 }}>
+                      <CheckCircle size={16} color={C.accent} style={{ marginTop: 2, flexShrink: 0 }} />
+                      <span>{adv}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Subpage: Pricing & Simulator ────────────────────────────────────────────
+function PricingPage() {
+  const [proc, setProc] = useState("Consultation");
+  const [mutuelle, setMutuelle] = useState("100"); // 100%, 200%, 300%, 0 (none)
+
+  const procedures = [
+    { name: "Consultation", cost: 23, baseSecu: 23, rateSecu: 0.70, desc: "Bilan bucco-dentaire annuel de contrôle." },
+    { name: "Détartrage", cost: 43.38, baseSecu: 43.38, rateSecu: 0.70, desc: "Détartrage professionnel des arcades supérieure et inférieure." },
+    { name: "Blanchiment Zoom!", cost: 350, baseSecu: 0, rateSecu: 0, desc: "Blanchiment esthétique au fauteuil (non remboursé par la Sécurité Sociale)." },
+    { name: "Facette céramique Emax", cost: 800, baseSecu: 0, rateSecu: 0, desc: "Facette esthétique unitaire en porcelaine (non remboursée par la Sécurité Sociale)." },
+    { name: "Implant dentaire complet", cost: 1800, baseSecu: 120, rateSecu: 0.70, desc: "Implant titane Straumann + pilier + couronne céramique." },
+  ];
+
+  const current = procedures.find(p => p.name === proc) || procedures[0];
+
+  // Calculations
+  const secuShare = Math.round(current.baseSecu * current.rateSecu * 100) / 100;
+  
+  let mutuelleShare = 0;
+  if (mutuelle !== "0" && current.baseSecu > 0) {
+    const pct = parseFloat(mutuelle) / 100;
+    // Mutuelle coverage usually includes the Secu share.
+    // Max coverage is limited by the actual cost of the procedure.
+    const totalMaxCoverage = current.baseSecu * pct;
+    mutuelleShare = Math.min(current.cost - secuShare, totalMaxCoverage - secuShare);
+    if (mutuelleShare < 0) mutuelleShare = 0;
+  }
+  mutuelleShare = Math.round(mutuelleShare * 100) / 100;
+
+  const outOfPocket = Math.round((current.cost - secuShare - mutuelleShare) * 100) / 100;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      style={{ padding: "120px 48px 80px", fontFamily: FONT, background: C.bg }}
+    >
+      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+        <div style={{ borderBottom: `2px solid ${C.border}`, paddingBottom: 32, marginBottom: 48 }}>
+          <span style={{ color: C.accent, fontWeight: 700, textTransform: "uppercase", fontSize: 13, letterSpacing: 1, display: "block", marginBottom: 8 }}>Transparence Clinique</span>
+          <h1 style={{ fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 800, color: C.text, letterSpacing: -1.5, lineHeight: 1.1 }}>
+            Grille Tarifaire & Devis
+          </h1>
+          <p style={{ color: C.textMuted, fontSize: 16, marginTop: 12, maxWidth: 620 }}>
+            Nous pratiquons des tarifs transparents et établissons un devis avant tout traitement. Le cabinet accepte la carte vitale et applique le tiers-payant sur la part Sécurité Sociale.
+          </p>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 40 }} className="lg:grid-cols-12">
+          {/* Prices Table */}
+          <div className="lg:col-span-6">
+            <h3 style={{ fontSize: 20, fontWeight: 800, color: C.text, marginBottom: 20, display: "flex", alignItems: "center", gap: 8 }}>
+              <FileText size={20} color={C.accent} /> Tarifs des Soins Courants
+            </h3>
+
+            <div style={{ overflowX: "auto", border: `1px solid ${C.border}`, borderRadius: 16 }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14, textAlign: "left" }}>
+                <thead>
+                  <tr style={{ background: C.bgSection, borderBottom: `1px solid ${C.border}` }}>
+                    <th style={{ padding: "16px 20px", fontWeight: 700, color: C.text }}>Traitement</th>
+                    <th style={{ padding: "16px 20px", fontWeight: 700, color: C.text, textAlign: "right" }}>Honoraires</th>
+                    <th style={{ padding: "16px 20px", fontWeight: 700, color: C.text, textAlign: "right" }}>Base Sécu</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {procedures.map((p) => (
+                    <tr key={p.name} style={{ borderBottom: `1px solid ${C.border}`, cursor: "pointer", background: proc === p.name ? C.accentLight : "transparent" }} onClick={() => setProc(p.name)}>
+                      <td style={{ padding: "16px 20px", fontWeight: 600, color: C.text }}>{p.name}</td>
+                      <td style={{ padding: "16px 20px", color: C.text, fontWeight: 700, textAlign: "right" }}>€{p.cost.toFixed(2)}</td>
+                      <td style={{ padding: "16px 20px", color: C.textMuted, textAlign: "right" }}>{p.baseSecu > 0 ? `€${p.baseSecu.toFixed(2)}` : "Hors nomenc."}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <p style={{ fontSize: 13, color: C.textMuted, marginTop: 16, lineHeight: 1.5 }}>
+              * Les soins esthétiques (blanchiment, facettes) ne font pas l'objet d'un remboursement Sécurité Sociale obligatoire. Renseignez-vous auprès de votre mutuelle pour d'éventuels forfaits esthétiques.
+            </p>
+          </div>
+
+          {/* Interactive Simulator */}
+          <div className="lg:col-span-6 bg-slate-50 border border-[#dce9f5] p-8 rounded-2xl">
+            <h3 style={{ fontSize: 20, fontWeight: 800, color: C.text, marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
+              <Calculator size={20} color={C.accent} /> Simulateur de Restes à Charge
+            </h3>
+            <p style={{ color: C.textMuted, fontSize: 14, marginBottom: 24 }}>
+              Simulez la prise en charge de vos soins selon votre couverture mutuelle complémentaire.
+            </p>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              {/* Select Procedure */}
+              <div>
+                <label style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: C.text, display: "block", marginBottom: 8 }}>Sélectionner le Traitement</label>
+                <div style={{ position: "relative" }}>
+                  <select 
+                    value={proc}
+                    onChange={(e) => setProc(e.target.value)}
+                    style={{
+                      width: "100%",
+                      padding: "12px 16px",
+                      borderRadius: 10,
+                      border: `1px solid ${C.border}`,
+                      background: C.white,
+                      color: C.text,
+                      fontSize: 14,
+                      fontWeight: 600,
+                      appearance: "none",
+                      outline: "none"
+                    }}
+                  >
+                    {procedures.map((p) => (
+                      <option key={p.name} value={p.name}>{p.name}</option>
+                    ))}
+                  </select>
+                  <ChevronDown size={16} style={{ position: "absolute", right: 16, top: 15, pointerEvents: "none" }} />
+                </div>
+                <p style={{ fontSize: 13, color: C.textMuted, marginTop: 6 }}>{current.desc}</p>
+              </div>
+
+              {/* Select Mutuelle Rate */}
+              <div>
+                <label style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: C.text, display: "block", marginBottom: 8 }}>Taux de Remboursement Mutuelle</label>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10 }}>
+                  {[
+                    { label: "Pas de mutuelle", value: "0" },
+                    { label: "100%", value: "100" },
+                    { label: "200%", value: "200" },
+                    { label: "300%", value: "300" },
+                  ].map((m) => (
+                    <button
+                      key={m.value}
+                      onClick={() => setMutuelle(m.value)}
+                      style={{
+                        padding: "10px 4px",
+                        fontSize: 12,
+                        fontWeight: 700,
+                        borderRadius: 8,
+                        border: mutuelle === m.value ? `2px solid ${C.accent}` : `1px solid ${C.border}`,
+                        background: mutuelle === m.value ? C.accentLight : C.white,
+                        color: mutuelle === m.value ? C.accent : C.text,
+                        cursor: "pointer",
+                        fontFamily: FONT
+                      }}
+                    >
+                      {m.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Simulation Result */}
+              <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 20, marginTop: 10 }} className="space-y-4">
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14 }}>
+                  <span style={{ color: C.textMuted }}>Honoraires praticien :</span>
+                  <span style={{ fontWeight: 700, color: C.text }}>€{current.cost.toFixed(2)}</span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14 }}>
+                  <span style={{ color: C.textMuted }}>Part Sécurité Sociale ({current.rateSecu * 100}%) :</span>
+                  <span style={{ fontWeight: 600, color: C.text }}>- €{secuShare.toFixed(2)}</span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14 }}>
+                  <span style={{ color: C.textMuted }}>Part Mutuelle complémentaire :</span>
+                  <span style={{ fontWeight: 600, color: C.text }}>- €{mutuelleShare.toFixed(2)}</span>
+                </div>
+                
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 18, borderTop: `2px solid ${C.border}`, paddingTop: 16, marginTop: 8 }}>
+                  <span style={{ fontWeight: 800, color: C.text }}>Reste à charge patient :</span>
+                  <span style={{ fontWeight: 900, color: C.accent, fontSize: 22 }}>€{outOfPocket.toFixed(2)}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Subpage: Team ───────────────────────────────────────────────────────────
+function TeamPage() {
+  const members = [
+    {
+      name: "Dr. Claire Laurent",
+      role: "Chirurgienne-dentiste co-fondatrice",
+      specialty: "Implantologie complexe & Chirurgie reconstructrice",
+      experience: "18 ans",
+      initials: "CL",
+      color: "#4a90d9",
+      diplomas: [
+        "Diplôme d'État de Docteur en Chirurgie Dentaire — Université Paris VII (Cochin)",
+        "Post-Graduate en Implantologie et Parodontologie — New York University (NYU)",
+        "D.U. de Reconstruction Osseuse Maxillo-Faciale — Hôpital de la Salpêtrière"
+      ],
+      description: "Le Dr Laurent dirige les pôles de chirurgie orale et d'implantologie. Passionnée par la réhabilitation globale, elle s'efforce de redonner confort et esthétique aux sourires les plus complexes en utilisant les dernières techniques de guidage chirurgical 3D."
+    },
+    {
+      name: "Dr. Marc Dupont",
+      role: "Orthodontiste exclusif",
+      specialty: "Orthodontie de l'enfant et de l'adulte, aligneurs transparents",
+      experience: "12 ans",
+      initials: "MD",
+      color: "#7c3aed",
+      diplomas: [
+        "Diplôme d'État de Docteur en Chirurgie Dentaire — Université de Lyon",
+        "Spécialiste Qualifié en Orthopédie Dento-Faciale (CECSOF)",
+        "Praticien certifié Invisalign Diamond Apex (Top 1% Europe)"
+      ],
+      description: "Le Dr Dupont est spécialisé dans l'alignement dentaire discret. Précurseur de l'utilisation d'aligneurs Invisalign en France, il intègre des technologies numériques de scan et de simulation de croissance maxillaire pour des traitements précis et confortables."
+    },
+    {
+      name: "Dr. Sofia Ramirez",
+      role: "Chirurgienne-dentiste omnipraticienne",
+      specialty: "Dentisterie esthétique, blanchiment & facettes céramiques",
+      experience: "9 ans",
+      initials: "SR",
+      color: "#00b894",
+      diplomas: [
+        "Diplôme en Médecine Dentaire — Faculté de Médecine de Madrid",
+        "Master en Esthétique Dentaire et Prothèses — Université Complutense de Madrid",
+        "Certifiée en techniques avancées de collage de facettes Emax"
+      ],
+      description: "Spécialisée dans l'esthétique du sourire et la dentisterie conservatrice (dite a minima), le Dr Ramirez met son sens artistique au service des patients pour éclaircir ou restructurer les sourires de façon naturelle et élégante."
+    }
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      style={{ padding: "120px 48px 80px", fontFamily: FONT, background: C.bg }}
+    >
+      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+        <div style={{ borderBottom: `2px solid ${C.border}`, paddingBottom: 32, marginBottom: 48 }}>
+          <span style={{ color: C.accent, fontWeight: 700, textTransform: "uppercase", fontSize: 13, letterSpacing: 1, display: "block", marginBottom: 8 }}>Découvrez nos Experts</span>
+          <h1 style={{ fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 800, color: C.text, letterSpacing: -1.5, lineHeight: 1.1 }}>
+            L'Équipe Médicale Smile Studio
+          </h1>
+          <p style={{ color: C.textMuted, fontSize: 16, marginTop: 12, maxWidth: 620 }}>
+            Nos dentistes et orthodontistes sont diplômés des plus grandes universités et se forment continuellement aux protocoles médicaux les plus avancés.
+          </p>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 56 }}>
+          {members.map((m) => (
+            <div key={m.name} style={{ display: "grid", gridTemplateColumns: "1fr", gap: 32 }} className="md:grid-cols-12 pb-12 border-b border-gray-100">
+              {/* Left Column: Initials and Title */}
+              <div className="md:col-span-4 text-center md:text-left">
+                <div
+                  style={{
+                    width: 110,
+                    height: 110,
+                    borderRadius: "50%",
+                    background: m.color,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: "0 auto 20px",
+                    fontSize: 32,
+                    fontWeight: 800,
+                    color: C.white,
+                    boxShadow: C.shadow,
+                    marginLeft: "0"
+                  }}
+                  className="mx-auto md:ml-0"
+                >
+                  {m.initials}
+                </div>
+                <h3 style={{ fontSize: 22, fontWeight: 800, color: C.text, marginBottom: 6 }}>{m.name}</h3>
+                <div style={{ fontSize: 15, fontWeight: 700, color: m.color, marginBottom: 8 }}>{m.role}</div>
+                <span style={{ fontSize: 13, background: C.bgLight, color: C.text, padding: "5px 12px", borderRadius: 12, fontWeight: 600 }}>
+                  {m.experience} d'activité
+                </span>
+              </div>
+
+              {/* Right Column: Bio and Diplomas */}
+              <div className="md:col-span-8">
+                <h4 style={{ fontSize: 14, fontWeight: 700, color: C.text, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 10 }}>Présentation</h4>
+                <p style={{ color: C.textMuted, fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
+                  {m.description}
+                </p>
+
+                <h4 style={{ fontSize: 14, fontWeight: 700, color: C.text, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 12 }}>Titres & Diplômes universitaires</h4>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+                  {m.diplomas.map((d, idx) => (
+                    <li key={idx} style={{ display: "flex", gap: 10, alignItems: "start", fontSize: 13, color: C.textMuted }}>
+                      <Award size={16} color={m.color} style={{ marginTop: 2, flexShrink: 0 }} />
+                      <span>{d}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Subpage: Legal ──────────────────────────────────────────────────────────
+function LegalPage() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      style={{ padding: "120px 48px 80px", fontFamily: FONT, background: C.bg }}
+    >
+      <div style={{ maxWidth: 800, margin: "0 auto" }}>
+        <h1 style={{ fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 800, color: C.text, letterSpacing: -1.5, marginBottom: 38 }}>
+          Mentions Légales
+        </h1>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 32, fontSize: 14, lineHeight: 1.7, color: C.textMuted }}>
+          <section style={{ borderBottom: `1px solid ${C.border}`, paddingBottom: 24 }}>
+            <h2 style={{ fontSize: 15, fontWeight: 700, color: C.text, marginBottom: 12 }}>1. Éditeur du Site Internet</h2>
+            <p style={{ fontWeight: 600, color: C.text }}>Aevia WS — Valentin Milliand</p>
+            <p>SIREN : 852 546 225</p>
+            <p>RCS : Bourg-en-Bresse</p>
+            <p>Email de contact : <a href="mailto:contact@aevia.ws" style={{ color: C.accent, textDecoration: "underline" }}>contact@aevia.ws</a></p>
+            <p style={{ fontSize: 12, color: C.textMuted, marginTop: 10 }}>Conformément à la réglementation sur la protection de la vie privée, l'adresse physique est transmissible sur simple demande justifiée.</p>
+          </section>
+
+          <section style={{ borderBottom: `1px solid ${C.border}`, paddingBottom: 24 }}>
+            <h2 style={{ fontSize: 15, fontWeight: 700, color: C.text, marginBottom: 12 }}>2. Hébergement du Site</h2>
+            <p style={{ fontWeight: 600, color: C.text }}>Vercel Inc.</p>
+            <p>Adresse : 340 S Lemon Ave #4133 Walnut, CA 91789, USA</p>
+            <p>Site Internet : <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" style={{ color: C.accent, textDecoration: "underline" }}>vercel.com</a></p>
+          </section>
+
+          <section style={{ borderBottom: `1px solid ${C.border}`, paddingBottom: 24 }}>
+            <h2 style={{ fontSize: 15, fontWeight: 700, color: C.text, marginBottom: 12 }}>3. Droits de Propriété Intellectuelle</h2>
+            <p>
+              L'ensemble du contenu publié sur ce site (graphismes, illustrations vectorielles, animations, logos) relève de la législation française et internationale sur le droit d'auteur. Toute reproduction totale ou partielle sans consentement exprès de l'éditeur constitue une contrefaçon passible de sanctions judiciaires.
+            </p>
+          </section>
+
+          <section>
+            <h2 style={{ fontSize: 15, fontWeight: 700, color: C.text, marginBottom: 12 }}>4. Cookies & Données Personnelles</h2>
+            <p>
+              Ce site à visée de démonstration ne dépose aucun cookie publicitaire et n'enregistre aucune donnée utilisateur de façon permanente. Les saisies dans le formulaire de simulation ou de contact restent stockées localement en mémoire et sont purgées lors de la fermeture de l'onglet.
+            </p>
+          </section>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 // ─── Page Export ──────────────────────────────────────────────────────────────
 export default function Impact30() {
+  const [page, setPage] = useState<ActivePage>("home");
+
+  const goTo = (p: ActivePage) => {
+    setPage(p);
+    window.scrollTo({ top: 0, behavior: "auto" });
+  };
+
   return (
     <main style={{ background: C.bg, fontFamily: FONT, overflowX: "hidden" }}>
-      <Navbar />
-      <Hero />
-      <Services />
-      <Stats />
-      <Testimonials />
-      <Team />
-      <Pricing />
-      <FAQ />
-      <Footer />
+      <Navbar page={page} goTo={goTo} />
+      
+      {/* Home sections wrapped in a display-controlled div to prevent Framer Motion Target unmounting crashes */}
+      <div style={{ display: page === "home" ? "block" : "none" }}>
+        <Hero goTo={goTo} />
+        <Services goTo={goTo} />
+        <Stats />
+        <Testimonials />
+        <Team goTo={goTo} />
+        <Pricing goTo={goTo} />
+        <FAQ />
+      </div>
+
+      {/* Pages */}
+      {page === "soins" && <SoinsPage goTo={goTo} />}
+      {page === "pricing" && <PricingPage />}
+      {page === "team" && <TeamPage />}
+      {page === "legal" && <LegalPage />}
+
+      {/* Contact Form Section (Shared for quick actions, placed outside conditional if needed, but in original it's inside footer styled contact) */}
+      <div style={{ display: page === "home" ? "block" : "none" }}>
+        <section id="contact-form" style={{ padding: "80px 48px", background: C.bgSection, fontFamily: FONT, borderTop: `1px solid ${C.border}` }}>
+          <div style={{ maxWidth: 680, margin: "0 auto" }}>
+            <div style={{ textAlign: "center", marginBottom: 38 }}>
+              <h2 style={{ fontSize: 28, fontWeight: 800, color: C.text, letterSpacing: -0.5, marginBottom: 10 }}>Contactez notre Cabinet</h2>
+              <p style={{ color: C.textMuted, fontSize: 15 }}>Une question ou une demande spécifique ? Laissez-nous un message.</p>
+            </div>
+            
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+              <input type="text" placeholder="Votre Nom" style={{ width: "100%", padding: "14px 18px", borderRadius: 10, border: `1px solid ${C.border}`, fontSize: 14, outline: "none" }} />
+              <input type="email" placeholder="Votre E-mail" style={{ width: "100%", padding: "14px 18px", borderRadius: 10, border: `1px solid ${C.border}`, fontSize: 14, outline: "none" }} />
+            </div>
+            <textarea placeholder="Votre message..." rows={4} style={{ width: "100%", padding: "14px 18px", borderRadius: 10, border: `1px solid ${C.border}`, fontSize: 14, outline: "none", resize: "none", marginBottom: 20 }} />
+            <button 
+              onClick={() => alert("Message envoyé ! (Simulation)")}
+              style={{ width: "100%", padding: "14px", background: C.accent, color: C.white, border: "none", borderRadius: 10, fontWeight: 700, fontSize: 15, cursor: "pointer", fontFamily: FONT }}
+            >
+              Envoyer le message
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <Footer goTo={goTo} />
     </main>
   );
 }
