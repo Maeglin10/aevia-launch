@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform, AnimatePresence, useInView } from "fra
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X, ArrowRight, Building2, ChevronRight, MapPin, Mail, Phone, Award, Layers, Users } from "lucide-react";
+import { Menu, X, ArrowRight, Building2, ChevronRight, MapPin, Mail, Phone, Award, Layers, Users, Calendar, MessageSquare, ShieldCheck } from "lucide-react";
 
 const useFonts = () => {
   useEffect(() => {
@@ -45,9 +45,9 @@ const services = [
 ];
 
 const team = [
-  { name: "Nadia Kéops", role: "Architecte Fondatrice", years: "22 ans" },
-  { name: "Luc Ferrand", role: "Associé — Construction", years: "16 ans" },
-  { name: "Amina Belkacem", role: "Architecte DPLG", years: "9 ans" },
+  { name: "Nadia Kéops", role: "Architecte Fondatrice", years: "22 ans", citation: "L'architecture n'est pas seulement esthétique, c'est l'art d'habiter le monde avec respect." },
+  { name: "Luc Ferrand", role: "Associé — Construction", years: "16 ans", citation: "Chaque pierre posée doit avoir une fonction, chaque espace une raison d'être." },
+  { name: "Amina Belkacem", role: "Architecte DPLG", years: "9 ans", citation: "Concevoir des lieux de rencontre fluides qui s'intègrent organiquement dans la ville." },
 ];
 
 const distinctions = [
@@ -57,10 +57,21 @@ const distinctions = [
   "Label Inventerre — Architecture Bioclimatique",
 ];
 
+type ActivePage = "home" | "projets" | "services" | "agence" | "equipe" | "contact" | "legal";
+
 export default function KeopsPage() {
   useFonts();
+  const [page, setPage] = useState<ActivePage>("home");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState("Tous");
+
+  const goTo = (p: ActivePage) => {
+    setPage(p);
+    setMobileOpen(false);
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+  };
 
   const { scrollYProgress } = useScroll();
   const heroRef = useRef(null);
@@ -71,19 +82,34 @@ export default function KeopsPage() {
   const filtered = activeFilter === "Tous" ? projects : projects.filter(p => p.type === activeFilter);
 
   return (
-    <div className="min-h-screen bg-[#F5F2ED]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+    <div className="min-h-screen bg-[#F5F2ED] text-[#1A1510] overflow-x-clip flex flex-col" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#C46A3E] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
       <nav className="fixed top-4 left-4 right-4 z-50">
-        <div className="max-w-6xl mx-auto bg-[#F5F2ED]/92 backdrop-blur-md border border-[#C46A3E]/20 rounded-2xl px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="text-[#1A1510] tracking-wide text-lg font-medium" style={{ fontFamily: "'Libre Baskerville', serif" }}>Kéops</Link>
-          <div className="hidden md:flex items-center gap-8 text-[#1A1510]/60 text-sm">
-            {["Projets", "Services", "L'agence", "Équipe", "Contact"].map(item => (
-              <Link key={item} href="#" className="hover:text-[#C46A3E] transition-colors cursor-pointer">{item}</Link>
+        <div className="max-w-6xl mx-auto bg-[#F5F2ED]/92 backdrop-blur-md border border-[#C46A3E]/20 rounded-2xl px-6 py-4 flex items-center justify-between shadow-sm">
+          <div onClick={() => goTo("home")} className="text-[#1A1510] tracking-wide text-lg font-medium cursor-pointer" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+            Kéops
+          </div>
+          <div className="hidden md:flex items-center gap-8 text-[#1A1510]/60 text-sm font-medium">
+            {[
+              { name: "Projets", key: "projets" },
+              { name: "Services", key: "services" },
+              { name: "L'agence", key: "agence" },
+              { name: "Équipe", key: "equipe" },
+              { name: "Contact", key: "contact" }
+            ].map(item => (
+              <a
+                key={item.key}
+                href={`#${item.key}`}
+                onClick={(e) => { e.preventDefault(); goTo(item.key as any); }}
+                className={`hover:text-[#C46A3E] transition-colors cursor-pointer ${page === item.key ? "text-[#C46A3E] font-bold" : ""}`}
+              >
+                {item.name}
+              </a>
             ))}
           </div>
-          <button className="hidden md:inline-flex border border-[#C46A3E] text-[#C46A3E] text-sm px-5 py-2.5 rounded-xl hover:bg-[#C46A3E] hover:text-white transition-all cursor-pointer font-medium">
+          <button onClick={() => goTo("contact")} className="hidden md:inline-flex border border-[#C46A3E] text-[#C46A3E] text-sm px-5 py-2.5 rounded-xl hover:bg-[#C46A3E] hover:text-white transition-all cursor-pointer font-medium">
             Nous contacter
           </button>
           <button className="md:hidden text-[#1A1510] cursor-pointer" onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5" /></button>
@@ -97,175 +123,146 @@ export default function KeopsPage() {
               <span className="text-[#1A1510] text-xl font-medium" style={{ fontFamily: "'Libre Baskerville', serif" }}>Kéops</span>
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-[#1A1510]" /></button>
             </div>
-            {["Projets", "Services", "L'agence", "Équipe", "Contact"].map((item, i) => (
-              <motion.div key={item} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
-                <Link href="#" className="block text-[#1A1510] text-3xl mb-6 cursor-pointer" style={{ fontFamily: "'Libre Baskerville', serif" }} onClick={() => setMobileOpen(false)}>{item}</Link>
+            {[
+              { name: "Accueil", key: "home" },
+              { name: "Projets", key: "projets" },
+              { name: "Services", key: "services" },
+              { name: "L'agence", key: "agence" },
+              { name: "Équipe", key: "equipe" },
+              { name: "Contact", key: "contact" },
+              { name: "Mentions Légales", key: "legal" }
+            ].map((item, i) => (
+              <motion.div key={item.key} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
+                <a
+                  href={`#${item.key}`}
+                  className={`block text-3xl mb-6 cursor-pointer ${page === item.key ? "text-[#C46A3E] font-bold" : "text-[#1A1510]"}`}
+                  style={{ fontFamily: "'Libre Baskerville', serif" }}
+                  onClick={(e) => { e.preventDefault(); goTo(item.key as any); }}
+                >
+                  {item.name}
+                </a>
               </motion.div>
             ))}
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Hero */}
-      <section ref={heroRef} className="relative h-screen overflow-hidden">
-        <motion.div className="absolute inset-0" style={{ y: heroY }}>
-          <Image src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=1600&q=85" alt="Kéops Architecture" fill className="object-cover" priority />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1A1510]/50 to-[#F5F2ED]/80" />
-        </motion.div>
-        <motion.div className="relative z-10 h-full flex items-end pb-20 px-6" style={{ opacity: heroOpacity }}>
-          <div className="max-w-6xl mx-auto w-full">
-            <Reveal>
-              <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-4">Agence d'architecture · Paris</p>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>
-                Kéops
-              </h1>
-            </Reveal>
-            <Reveal delay={0.2}>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                <p className="text-white/70 text-lg max-w-md leading-relaxed">Architecture vivante. Espaces pensés pour durer, bâtis avec intention, habités avec plaisir.</p>
-                <button className="shrink-0 bg-[#C46A3E] text-white px-8 py-4 rounded-xl font-medium hover:bg-[#B5593A] transition-colors cursor-pointer flex items-center gap-2">
-                  Voir les projets <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </Reveal>
-          </div>
-        </motion.div>
-      </section>
+      <main className="flex-grow pt-20">
+        {page === "home" && (
+          <>
+            {/* Hero */}
+            <section ref={heroRef} className="relative h-screen overflow-hidden">
+              <motion.div className="absolute inset-0" style={{ y: heroY }}>
+                <Image src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=1600&q=85" alt="Kéops Architecture" fill className="object-cover" priority />
+                <div className="absolute inset-0 bg-gradient-to-b from-[#1A1510]/50 to-[#F5F2ED]/80" />
+              </motion.div>
+              <motion.div className="relative z-10 h-full flex items-end pb-20 px-6" style={{ opacity: heroOpacity }}>
+                <div className="max-w-6xl mx-auto w-full">
+                  <Reveal>
+                    <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-4">Agence d'architecture · Paris</p>
+                  </Reveal>
+                  <Reveal delay={0.1}>
+                    <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>
+                      Kéops
+                    </h1>
+                  </Reveal>
+                  <Reveal delay={0.2}>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                      <p className="text-white/70 text-lg max-w-md leading-relaxed">Architecture vivante. Espaces pensés pour durer, bâtis avec intention, habités avec plaisir.</p>
+                      <button onClick={() => goTo("projets")} className="shrink-0 bg-[#C46A3E] text-white px-8 py-4 rounded-xl font-medium hover:bg-[#B5593A] transition-colors cursor-pointer flex items-center gap-2">
+                        Voir les projets <ArrowRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </Reveal>
+                </div>
+              </motion.div>
+            </section>
 
-      {/* Stats */}
-      <section className="py-12 bg-[#C46A3E]">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6">
-          {[["22 ans", "D'expérience"], ["140+", "Projets réalisés"], ["12", "Prix d'architecture"], ["4", "Villes d'agences"]].map(([n, l]) => (
-            <div key={l} className="text-center">
-              <p className="text-white text-3xl font-bold mb-1">{n}</p>
-              <p className="text-white/60 text-xs uppercase tracking-widest">{l}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Projects */}
-      <section className="py-24 px-6 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <Reveal>
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
-              <div>
-                <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-3">Réalisations</p>
-                <h2 className="text-[#1A1510] text-4xl md:text-5xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>Nos projets</h2>
-              </div>
-              <div className="flex gap-2 flex-wrap mt-6 md:mt-0">
-                {filters.map(f => (
-                  <button key={f} onClick={() => setActiveFilter(f)} className={`px-4 py-2 rounded-xl text-sm transition-all cursor-pointer border ${activeFilter === f ? "bg-[#C46A3E] text-white border-[#C46A3E]" : "border-[#1A1510]/15 text-[#1A1510]/60 hover:border-[#C46A3E]"}`}>{f}</button>
+            {/* Stats */}
+            <section className="py-12 bg-[#C46A3E]">
+              <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6">
+                {[["22 ans", "D'expérience"], ["140+", "Projets réalisés"], ["12", "Prix d'architecture"], ["4", "Villes d'agences"]].map(([n, l]) => (
+                  <div key={l} className="text-center">
+                    <p className="text-white text-3xl font-bold mb-1">{n}</p>
+                    <p className="text-white/60 text-xs uppercase tracking-widest">{l}</p>
+                  </div>
                 ))}
               </div>
-            </div>
-          </Reveal>
-          <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <AnimatePresence>
-              {filtered.map((p, i) => (
-                <motion.div key={p.name} layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.4 }} className="group cursor-pointer">
-                  <div className="relative overflow-hidden rounded-2xl mb-4" style={{ aspectRatio: "4/3" }}>
-                    <Image src={p.src} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
-                    <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-xs px-2.5 py-1 rounded-full text-[#1A1510]">{p.type}</div>
-                  </div>
-                  <div className="flex items-start justify-between">
+            </section>
+
+            {/* Projects Preview */}
+            <section className="py-24 px-6 bg-white">
+              <div className="max-w-6xl mx-auto">
+                <Reveal>
+                  <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
                     <div>
-                      <h3 className="text-[#1A1510] font-medium mb-1">{p.name}</h3>
-                      <p className="text-[#1A1510]/50 text-sm flex items-center gap-1"><MapPin className="w-3 h-3" />{p.location} · {p.area}</p>
+                      <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-3">Réalisations</p>
+                      <h2 className="text-[#1A1510] text-4xl md:text-5xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>Nos projets</h2>
                     </div>
-                    <span className="text-[#C46A3E] text-sm">{p.year}</span>
+                    <button onClick={() => goTo("projets")} className="mt-4 md:mt-0 text-[#C46A3E] font-medium flex items-center gap-2 hover:underline cursor-pointer">
+                      Tous nos projets <ArrowRight className="w-4 h-4" />
+                    </button>
                   </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Services */}
-      <section className="py-24 px-6 bg-[#F5F2ED]">
-        <div className="max-w-6xl mx-auto">
-          <Reveal>
-            <div className="mb-12">
-              <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-3">Expertise</p>
-              <h2 className="text-[#1A1510] text-4xl md:text-5xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>Services</h2>
-            </div>
-          </Reveal>
-          <div className="grid md:grid-cols-2 gap-5">
-            {services.map((s, i) => (
-              <Reveal key={s.title} delay={i * 0.08}>
-                <div className="bg-white rounded-2xl p-8 border border-[#1A1510]/8 hover:border-[#C46A3E]/30 transition-colors cursor-pointer group">
-                  <div className="w-10 h-10 bg-[#C46A3E]/10 rounded-xl flex items-center justify-center text-[#C46A3E] mb-5 group-hover:bg-[#C46A3E] group-hover:text-white transition-colors">{s.icon}</div>
-                  <h3 className="text-[#1A1510] font-medium text-lg mb-3" style={{ fontFamily: "'Libre Baskerville', serif" }}>{s.title}</h3>
-                  <p className="text-[#1A1510]/50 text-sm leading-relaxed">{s.desc}</p>
+                </Reveal>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {projects.slice(0, 3).map((p, i) => (
+                    <Reveal key={p.name} delay={i * 0.1}>
+                      <div className="group cursor-pointer" onClick={() => goTo("projets")}>
+                        <div className="relative overflow-hidden rounded-2xl mb-4" style={{ aspectRatio: "4/3" }}>
+                          <Image src={p.src} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                          <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-xs px-2.5 py-1 rounded-full text-[#1A1510]">{p.type}</div>
+                        </div>
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <h3 className="text-[#1A1510] font-medium mb-1">{p.name}</h3>
+                            <p className="text-[#1A1510]/50 text-sm flex items-center gap-1"><MapPin className="w-3 h-3" />{p.location} · {p.area}</p>
+                          </div>
+                          <span className="text-[#C46A3E] text-sm">{p.year}</span>
+                        </div>
+                      </div>
+                    </Reveal>
+                  ))}
                 </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team */}
-      <section className="py-24 px-6 bg-[#1A1510]">
-        <div className="max-w-6xl mx-auto">
-          <Reveal>
-            <div className="mb-12">
-              <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-3">L'équipe</p>
-              <h2 className="text-white text-4xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>Nos architectes</h2>
-            </div>
-          </Reveal>
-          <div className="grid md:grid-cols-3 gap-5">
-            {team.map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.1}>
-                <div className="bg-[#231E17] border border-white/5 rounded-2xl p-8 hover:border-[#C46A3E]/30 transition-colors cursor-pointer">
-                  <div className="w-16 h-16 bg-[#C46A3E] rounded-2xl flex items-center justify-center text-white text-2xl font-medium mb-6" style={{ fontFamily: "'Libre Baskerville', serif" }}>{t.name.charAt(0)}</div>
-                  <h3 className="text-white text-lg mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{t.name}</h3>
-                  <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-3">{t.role}</p>
-                  <p className="text-white/40 text-sm">{t.years} d'expérience</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Distinctions */}
-      <section className="py-24 px-6 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <Reveal className="mb-12">
-            <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-3">Reconnaissances</p>
-            <h2 className="text-[#1A1510] text-4xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>Distinctions</h2>
-          </Reveal>
-          <div className="space-y-0">
-            {distinctions.map((d, i) => (
-              <Reveal key={d} delay={i * 0.07}>
-                <div className="flex items-center gap-4 py-5 border-b border-[#1A1510]/10 group cursor-pointer">
-                  <Award className="w-4 h-4 text-[#C46A3E] shrink-0" />
-                  <p className="text-[#1A1510] text-sm group-hover:text-[#C46A3E] transition-colors">{d}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact */}
-      <section className="py-24 px-6 bg-[#F5F2ED]">
-        <div className="max-w-4xl mx-auto">
-          <Reveal>
-            <div className="bg-[#C46A3E] rounded-3xl p-10 md:p-16 text-center">
-              <h2 className="text-white text-4xl mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>Parlons de votre projet</h2>
-              <p className="text-white/70 max-w-lg mx-auto mb-10">Un projet résidentiel, un programme mixte, une réhabilitation ? Notre équipe est disponible pour un premier échange sans engagement.</p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="bg-white text-[#C46A3E] font-bold px-8 py-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">Prendre rendez-vous</button>
-                <button className="border border-white/30 text-white px-8 py-4 rounded-xl hover:bg-white/10 transition-colors cursor-pointer flex items-center justify-center gap-2"><Phone className="w-4 h-4" />+33 1 42 00 00 00</button>
               </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+            </section>
+
+            {/* Services Preview */}
+            <section className="py-24 px-6 bg-[#F5F2ED]">
+              <div className="max-w-6xl mx-auto">
+                <Reveal>
+                  <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                    <div>
+                      <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-3">Expertise</p>
+                      <h2 className="text-[#1A1510] text-4xl md:text-5xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>Services</h2>
+                    </div>
+                    <button onClick={() => goTo("services")} className="mt-4 md:mt-0 text-[#C46A3E] font-medium flex items-center gap-2 hover:underline cursor-pointer">
+                      Notre méthodologie <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </Reveal>
+                <div className="grid md:grid-cols-2 gap-5">
+                  {services.map((s, i) => (
+                    <Reveal key={s.title} delay={i * 0.08}>
+                      <div onClick={() => goTo("services")} className="bg-white rounded-2xl p-8 border border-[#1A1510]/8 hover:border-[#C46A3E]/30 transition-colors cursor-pointer group">
+                        <div className="w-10 h-10 bg-[#C46A3E]/10 rounded-xl flex items-center justify-center text-[#C46A3E] mb-5 group-hover:bg-[#C46A3E] group-hover:text-white transition-colors">{s.icon}</div>
+                        <h3 className="text-[#1A1510] font-medium text-lg mb-3" style={{ fontFamily: "'Libre Baskerville', serif" }}>{s.title}</h3>
+                        <p className="text-[#1A1510]/50 text-sm leading-relaxed">{s.desc}</p>
+                      </div>
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </>
+        )}
+
+        {page === "projets" && <ProjetsPage activeFilter={activeFilter} setActiveFilter={setActiveFilter} filtered={filtered} />}
+        {page === "services" && <ServicesPage goTo={goTo} />}
+        {page === "agence" && <AgencePage />}
+        {page === "equipe" && <EquipePage />}
+        {page === "contact" && <ContactPage />}
+        {page === "legal" && <LegalPage />}
+      </main>
 
       {/* Footer */}
       <footer className="bg-[#1A1510] py-16 px-6">
@@ -275,22 +272,334 @@ export default function KeopsPage() {
             <p className="text-white/30 text-sm leading-relaxed">Agence d'architecture fondée à Paris. Projets résidentiels, culturels et mixtes.</p>
           </div>
           {[
-            { title: "Projets", links: ["Résidentiel", "Culturel", "Bureau mixte", "Patrimoine"] },
-            { title: "Agence", links: ["Notre histoire", "L'équipe", "Distinctions", "Presse"] },
-            { title: "Contact", links: ["Paris — 11 Rue de la Paix", "+33 1 42 00 00 00", "contact@keops-archi.fr", "LinkedIn"] },
+            { title: "Projets", links: [
+              { name: "Résidentiel", key: "projets" },
+              { name: "Culturel", key: "projets" },
+              { name: "Bureau mixte", key: "projets" },
+              { name: "Patrimoine", key: "projets" }
+            ]},
+            { title: "Agence", links: [
+              { name: "Notre histoire", key: "agence" },
+              { name: "L'équipe", key: "equipe" },
+              { name: "Distinctions", key: "agence" },
+              { name: "Presse", key: "agence" }
+            ]},
+            { title: "Contact", links: [
+              { name: "Prendre rendez-vous", key: "contact" },
+              { name: "Paris Showroom", key: "contact" },
+              { name: "Faire une demande", key: "contact" }
+            ]},
           ].map(col => (
             <div key={col.title}>
               <h4 className="text-white/40 text-xs tracking-widest uppercase mb-4">{col.title}</h4>
               <ul className="space-y-2">
-                {col.links.map(l => <li key={l}><span className="text-white/30 text-sm hover:text-[#C46A3E] transition-colors cursor-pointer">{l}</span></li>)}
+                {col.links.map(l => <li key={l.name}><a href="#" onClick={(e) => { e.preventDefault(); goTo(l.key as any); }} className="text-white/30 text-sm hover:text-[#C46A3E] transition-colors cursor-pointer">{l.name}</a></li>)}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-white/20">
+        <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between text-xs text-white/20 gap-4">
           <span>© 2026 Kéops Architecture. Tous droits réservés.</span>
+          <div className="flex gap-6">
+            <a href="#" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C46A3E] transition-colors">Mentions légales</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C46A3E] transition-colors">Confidentialité</a>
+          </div>
         </div>
       </footer>
     </div>
+  );
+}
+
+/* ==========================================================================
+   SUB-PAGE COMPONENTS (KÉOPS CRÈME & ROUILLE STYLE)
+   ========================================================================= */
+
+function ProjetsPage({ activeFilter, setActiveFilter, filtered }: { activeFilter: string; setActiveFilter: (f: string) => void; filtered: typeof projects }) {
+  return (
+    <section className="py-20 px-6 bg-white">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-16">
+          <span className="text-[#C46A3E] text-xs tracking-widest uppercase mb-4 block">Notre catalogue</span>
+          <h1 className="text-5xl md:text-7xl font-light mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Nos Réalisations</h1>
+          <p className="max-w-xl mx-auto text-[#1A1510]/60 text-sm leading-relaxed mb-10">
+            Découvrez nos réalisations architecturales à travers la France. Chaque ouvrage répond à une étude bioclimatique minutieuse et intègre des matériaux biosourcés.
+          </p>
+
+          <div className="flex gap-2 flex-wrap justify-center mt-8">
+            {filters.map(f => (
+              <button
+                key={f}
+                onClick={() => setActiveFilter(f)}
+                className={`px-5 py-2.5 rounded-xl text-sm transition-all cursor-pointer border font-medium ${activeFilter === f ? "bg-[#C46A3E] text-white border-[#C46A3E]" : "border-[#1A1510]/15 text-[#1A1510]/60 hover:border-[#C46A3E]"}`}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <AnimatePresence mode="popLayout">
+            {filtered.map((p, i) => (
+              <motion.div
+                key={p.name}
+                layout
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4 }}
+                className="group cursor-pointer"
+              >
+                <div className="relative overflow-hidden rounded-2xl mb-4" style={{ aspectRatio: "4/3" }}>
+                  <Image src={p.src} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-xs px-2.5 py-1 rounded-full text-[#1A1510]">{p.type}</div>
+                </div>
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h3 className="text-[#1A1510] font-medium mb-1">{p.name}</h3>
+                    <p className="text-[#1A1510]/50 text-sm flex items-center gap-1"><MapPin className="w-3 h-3" />{p.location} · {p.area}</p>
+                    <p className="text-xs text-[#C46A3E]/70 mt-1 font-mono">Matériaux : Bois local, terre crue, béton bas carbone</p>
+                  </div>
+                  <span className="text-[#C46A3E] text-sm font-semibold">{p.year}</span>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
+  const steps = [
+    { num: "01", title: "Diagnostic & Faisabilité", desc: "Analyse du terrain, contraintes d'urbanisme, orientation solaire et étude de sol préliminaire." },
+    { num: "02", title: "Conception & Modélisation", desc: "Esquisses, plans 2D/3D détaillés et choix de matériaux durables (isolation paille, chanvre, ossature bois)." },
+    { num: "03", title: "Permis de Construire", desc: "Constitution et suivi administratif rigoureux du dossier de demande auprès des municipalités." },
+    { num: "04", title: "Suivi de Chantier", desc: "Coordination et pilotage des artisans labellisés RGE jusqu'à la réception des clés." }
+  ];
+
+  return (
+    <section className="py-20 px-6 bg-[#F5F2ED]">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-16">
+          <span className="text-[#C46A3E] text-xs tracking-widest uppercase mb-4 block">Notre Expertise</span>
+          <h1 className="text-5xl md:text-7xl font-light mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Services & Processus</h1>
+          <p className="max-w-xl mx-auto text-[#1A1510]/60 text-sm leading-relaxed">
+            De la première esquisse à la livraison définitive, nous pilotons chaque projet avec la même exigence de rigueur technique et d'élégance environnementale.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6 mb-20">
+          {services.map((s, i) => (
+            <div key={s.title} className="bg-white rounded-2xl p-8 border border-[#1A1510]/8 hover:border-[#C46A3E]/30 transition-colors flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 bg-[#C46A3E]/10 rounded-xl flex items-center justify-center text-[#C46A3E] mb-6">{s.icon}</div>
+                <h3 className="text-[#1A1510] font-medium text-xl mb-3" style={{ fontFamily: "'Libre Baskerville', serif" }}>{s.title}</h3>
+                <p className="text-[#1A1510]/50 text-sm leading-relaxed mb-6">{s.desc}</p>
+              </div>
+              <button onClick={() => goTo("contact")} className="w-full py-3.5 border border-[#C46A3E]/30 hover:border-[#C46A3E] hover:bg-[#C46A3E] hover:text-white rounded-xl text-xs tracking-widest uppercase transition-all font-medium text-[#C46A3E]">
+                Étudier mon projet
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <div className="border-t border-[#1A1510]/10 pt-16">
+          <h2 className="text-3xl md:text-4xl text-[#1A1510] mb-12 text-center" style={{ fontFamily: "'Libre Baskerville', serif" }}>Notre méthodologie en 4 étapes</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {steps.map((st, idx) => (
+              <div key={st.num} className="bg-white/50 border border-[#1A1510]/5 rounded-2xl p-6 relative">
+                <span className="text-5xl font-bold text-[#C46A3E]/15 absolute top-4 right-4">{st.num}</span>
+                <h4 className="text-[#1A1510] font-medium text-lg mb-2 mt-4">{st.title}</h4>
+                <p className="text-[#1A1510]/50 text-xs leading-relaxed">{st.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AgencePage() {
+  return (
+    <section className="py-20 px-6 bg-white">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center mb-20">
+          <div className="lg:col-span-5 relative aspect-[4/3] rounded-2xl overflow-hidden shadow-sm">
+            <Image src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80" alt="Kéops Agence" fill className="object-cover" />
+          </div>
+          <div className="lg:col-span-7">
+            <span className="text-[#C46A3E] text-xs tracking-widest uppercase mb-4 block">Notre histoire</span>
+            <h2 className="text-4xl md:text-5xl font-light leading-tight mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Bâtir l'avenir sur des fondations durables.</h2>
+            <p className="text-[#1A1510]/70 text-lg leading-relaxed mb-4">
+              Fondée en 2004 par Nadia Kéops, l'agence s'est forgé une solide réputation nationale dans la conception d'architectures bioclimatiques et d'espaces durables.
+            </p>
+            <p className="text-[#1A1510]/50 text-sm leading-relaxed mb-6">
+              Nos projets privilégient les circuits courts pour l'approvisionnement en matériaux biosourcés : la pierre sèche du Gard, le bois Douglas du Morvan et la terre cuite de l'arrière-pays méditerranéen. En alliant savoir-faire artisanal traditionnel et technologies numériques passives, nous façonnons des édifices à haute efficacité thermique et à empreinte environnementale minimale.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-16 border-t border-[#1A1510]/10 pt-16">
+          <div>
+            <h3 className="text-3xl font-light mb-8 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Distinctions & Prix</h3>
+            <div className="space-y-4">
+              {distinctions.map((d, i) => (
+                <div key={d} className="flex items-center gap-4 py-4 border-b border-[#1A1510]/5">
+                  <Award className="w-5 h-5 text-[#C46A3E] shrink-0" />
+                  <p className="text-[#1A1510] text-sm font-medium">{d}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h3 className="text-3xl font-light mb-8 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Notre Engagement</h3>
+            <p className="text-[#1A1510]/60 text-sm leading-relaxed mb-6">
+              Tous nos bâtiments visent une conformité stricte RE2020 et intègrent l'analyse de cycle de vie (ACV) dès les premières étapes du design pour minimiser le carbone incorporé.
+            </p>
+            <div className="bg-[#F5F2ED] rounded-2xl p-6 border border-[#C46A3E]/10">
+              <h4 className="text-[#1A1510] font-medium text-md mb-2 flex items-center gap-2"><ShieldCheck className="w-5 h-5 text-[#C46A3E]" /> Philosophie Bioclimatique</h4>
+              <p className="text-[#1A1510]/50 text-xs leading-relaxed">
+                Utilisation de la ventilation transversale naturelle, de la masse thermique pour le lissage des températures, et de protections solaires passives calculées selon l'azimut local.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function EquipePage() {
+  return (
+    <section className="py-20 px-6 bg-[#F5F2ED]">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-16">
+          <span className="text-[#C46A3E] text-xs tracking-widest uppercase mb-4 block">Notre ADN</span>
+          <h1 className="text-5xl md:text-7xl font-light mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>L'Équipe</h1>
+          <p className="max-w-xl mx-auto text-[#1A1510]/60 text-sm leading-relaxed">
+            Une synergie de talents complémentaires : architectes, ingénieurs thermiciens et conducteurs de chantiers animés par la même passion environnementale.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {team.map((t, i) => (
+            <div key={t.name} className="bg-white border border-[#1A1510]/5 rounded-2xl p-8 hover:border-[#C46A3E]/30 transition-colors flex flex-col justify-between">
+              <div>
+                <div className="w-16 h-16 bg-[#C46A3E] rounded-2xl flex items-center justify-center text-white text-2xl font-medium mb-6" style={{ fontFamily: "'Libre Baskerville', serif" }}>{t.name.charAt(0)}</div>
+                <h3 className="text-[#1A1510] text-xl mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{t.name}</h3>
+                <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-4">{t.role}</p>
+                <p className="text-[#1A1510]/50 text-xs font-mono mb-4">{t.years} d'expérience</p>
+                <p className="text-[#1A1510]/60 text-sm italic leading-relaxed">"{t.citation}"</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ContactPage() {
+  return (
+    <section className="py-20 px-6 bg-white">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-16">
+          <span className="text-[#C46A3E] text-xs tracking-widest uppercase mb-4 block">Contact</span>
+          <h1 className="text-5xl md:text-7xl font-light mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Parlons de votre projet</h1>
+          <p className="max-w-xl mx-auto text-[#1A1510]/60 text-sm leading-relaxed">
+            Vous avez un projet résidentiel, public ou mixte ? Remplissez ce formulaire et un de nos architectes vous recontactera sous 48 heures.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-12 gap-8 items-start">
+          <div className="md:col-span-5 space-y-6 bg-[#F5F2ED] p-8 rounded-2xl border border-[#1A1510]/5">
+            <h3 className="text-xl font-medium text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Coordonnées</h3>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
+                <MapPin className="w-4 h-4 text-[#C46A3E] shrink-0" />
+                <span>Showroom Privé, 11 Rue de la Paix, 75002 Paris</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
+                <Mail className="w-4 h-4 text-[#C46A3E] shrink-0" />
+                <span>contact@keops-archi.fr</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
+                <Phone className="w-4 h-4 text-[#C46A3E] shrink-0" />
+                <span>+33 1 42 00 00 00</span>
+              </div>
+            </div>
+            <div className="border-t border-[#1A1510]/10 pt-4">
+              <p className="text-xs text-[#1A1510]/40 font-mono">
+                Horaires d'ouverture :<br />
+                Lundi au Vendredi : 9h00 - 18h00<br />
+                Samedi : Sur rendez-vous uniquement
+              </p>
+            </div>
+          </div>
+
+          <div className="md:col-span-7 bg-white p-8 rounded-2xl border border-[#1A1510]/10 flex flex-col gap-4">
+            <input type="text" placeholder="Votre nom complet" className="bg-[#F5F2ED] border border-[#1A1510]/10 text-[#1A1510] text-sm px-4 py-3.5 rounded-xl outline-none focus:border-[#C46A3E] placeholder-[#1A1510]/30" />
+            <input type="email" placeholder="Votre adresse email" className="bg-[#F5F2ED] border border-[#1A1510]/10 text-[#1A1510] text-sm px-4 py-3.5 rounded-xl outline-none focus:border-[#C46A3E] placeholder-[#1A1510]/30" />
+            <select className="bg-[#F5F2ED] border border-[#1A1510]/10 text-[#1A1510]/60 text-sm px-4 py-3.5 rounded-xl outline-none focus:border-[#C46A3E] cursor-pointer">
+              <option>Type de programme</option>
+              <option>Villa & Résidentiel</option>
+              <option>Espace Public / Culturel</option>
+              <option>Réhabilitation & Rénovation</option>
+              <option>Autre</option>
+            </select>
+            <textarea rows={4} placeholder="Décrivez les grandes lignes de votre projet (surface, localisation, budget estimé...)" className="bg-[#F5F2ED] border border-[#1A1510]/10 text-[#1A1510] text-sm px-4 py-3.5 rounded-xl outline-none focus:border-[#C46A3E] placeholder-[#1A1510]/30 resize-none" />
+            <button className="bg-[#C46A3E] text-white font-medium px-6 py-4 rounded-xl hover:bg-[#B5593A] transition-colors cursor-pointer text-sm">
+              Envoyer ma demande d'étude
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function LegalPage() {
+  return (
+    <section className="py-20 px-6 bg-white font-mono text-xs text-[#1A1510]/80">
+      <div className="max-w-3xl mx-auto space-y-12">
+        <div>
+          <span className="text-[#C46A3E] text-[10px] uppercase tracking-widest mb-3 block font-bold">Réglementation</span>
+          <h1 className="text-4xl md:text-5xl font-light uppercase text-[#1A1510] mb-8" style={{ fontFamily: "'Libre Baskerville', serif" }}>Mentions Légales</h1>
+        </div>
+
+        <div className="border border-[#C46A3E]/20 bg-[#F5F2ED]/50 p-8 rounded-2xl space-y-6">
+          <div className="border-b border-[#1A1510]/10 pb-4">
+            <div className="text-[#C46A3E] text-[10px] font-bold uppercase mb-2">ÉDITEUR</div>
+            <p className="leading-relaxed font-sans">
+              <strong>Aevia WS — Valentin Milliand</strong><br />
+              Entrepreneur individuel<br />
+              SIREN : 852 546 225<br />
+              RCS : Bourg-en-Bresse<br />
+              Email : contact@aevia.io<br />
+              Adresse : Communiquée sur demande
+            </p>
+          </div>
+
+          <div className="border-b border-[#1A1510]/10 pb-4">
+            <div className="text-[#C46A3E] text-[10px] font-bold uppercase mb-2">HÉBERGEUR</div>
+            <p className="leading-relaxed font-sans">
+              <strong>Vercel Inc.</strong><br />
+              340 S Lemon Ave #4133<br />
+              Walnut, CA 91789, USA
+            </p>
+          </div>
+
+          <div>
+            <div className="text-[#C46A3E] text-[10px] font-bold uppercase mb-2">PROPRIÉTÉ INTELLECTUELLE</div>
+            <p className="leading-relaxed font-sans text-xs">
+              Tous les visuels, photographies de chantiers, plans, esquisses architecturales, ainsi que le code source de ce site internet sont protégés par le droit d'auteur. Toute reproduction ou distribution non autorisée est passible de poursuites judiciaires.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
