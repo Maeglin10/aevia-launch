@@ -49,6 +49,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Valentin Milliand", url: "https://valentin-milliand.vercel.app" }],
   creator: "Aevia",
   publisher: "Aevia",
+  icons: { icon: "/favicon.svg" },
   alternates: {
     canonical: "/",
     languages: {
