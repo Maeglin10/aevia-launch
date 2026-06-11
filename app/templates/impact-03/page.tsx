@@ -590,7 +590,7 @@ function MagnifierCard({
             color: '#0a0a0a',
           }}
         >
-          ${product.price.toLocaleString()}
+          ${product.price.toLocaleString("en-US")}
         </div>
       </div>
 
@@ -1387,7 +1387,7 @@ export default function FashionEditorialTemplate() {
                       color: '#0a0a0a',
                     }}
                   >
-                    ${product.price.toLocaleString()}
+                    ${product.price.toLocaleString("en-US")}
                   </div>
                 </div>
               ))}
@@ -2322,7 +2322,7 @@ function BoutiquePage({
                 marginBottom: 32,
               }}
             >
-              ${selectedProduct.price.toLocaleString()}
+              ${selectedProduct.price.toLocaleString("en-US")}
             </div>
             <p
               style={{
@@ -2461,7 +2461,7 @@ function BoutiquePage({
                 </div>
               </div>
               <div style={{ fontFamily: "'Georgia', serif", fontSize: 15, color: '#0a0a0a' }}>
-                ${product.price.toLocaleString()}
+                ${product.price.toLocaleString("en-US")}
               </div>
             </div>
           </div>
