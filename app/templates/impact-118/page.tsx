@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Watch, ArrowRight, Menu, Star, Sparkles, Shield, Clock, Award, Hammer, Compass, ChevronRight, Play } from "lucide-react"
+import { Watch, ArrowRight, Menu, Star, Sparkles, Shield, Clock, Award, Hammer, Compass, ChevronRight, Play, BookOpen, History, Cpu, Wrench } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
@@ -44,7 +44,7 @@ const CRAFT = [
   { icon: Shield, title: "Indestructible Materials", desc: "Grade 5 titanium and scratch-proof sapphire with multi-layer anti-reflective coating." },
 ]
 
-type ActivePage = "home" | "atelier" | "collection" | "concierge" | "legal";
+type ActivePage = "home" | "atelier" | "collection" | "concierge" | "legal" | "craftsmanship" | "heritage" | "innovation" | "journal" | "support";
 
 export default function ChronosLuxuryPage() {
   const [page, setPage] = useState<ActivePage>("home");
@@ -75,30 +75,37 @@ export default function ChronosLuxuryPage() {
             </div>
             <span className="text-xl font-light tracking-[0.4em] uppercase text-white">Chronos</span>
           </div>
-          <div className="hidden lg:flex gap-12 text-[9px] font-bold uppercase tracking-[0.4em] text-[#d4af37]/40">
+          <div className="hidden lg:flex gap-10 text-[9px] font-bold uppercase tracking-[0.4em] text-[#d4af37]/40">
             {[
               { name: "The Atelier", page: "atelier" },
               { name: "Collection", page: "collection" },
-              { name: "Craftsmanship", page: "atelier" },
-              { name: "Heritage", page: "atelier" },
+              { name: "Craftsmanship", page: "craftsmanship" },
+              { name: "Heritage", page: "heritage" },
+              { name: "Innovation", page: "innovation" },
+              { name: "Journal", page: "journal" },
             ].map(l => (
-              <a key={l.name} href="#" onClick={(e) => { e.preventDefault(); goTo(l.page as any); }} className="hover:text-[#d4af37] transition-colors">{l.name}</a>
+              <a key={l.name} href="#" onClick={(e) => { e.preventDefault(); goTo(l.page as any); }} className={`transition-colors hover:text-[#d4af37] ${page === l.page ? "text-[#d4af37] font-extrabold" : ""}`}>{l.name}</a>
             ))}
           </div>
           <div className="flex items-center gap-8">
-            <button onClick={() => goTo("concierge")} className="hidden md:block text-[9px] font-bold uppercase tracking-widest text-[#d4af37]/60 hover:text-[#d4af37] transition-colors">Private Concierge</button>
+            <button onClick={() => goTo("concierge")} className={`hidden md:block text-[9px] font-bold uppercase tracking-widest transition-colors ${page === "concierge" ? "text-[#d4af37]" : "text-[#d4af37]/60 hover:text-[#d4af37]"}`}>Private Concierge</button>
             <button onClick={() => goTo("collection")} className="px-8 py-3 border border-[#d4af37] text-[#d4af37] text-[9px] font-bold uppercase tracking-[0.3em] hover:bg-[#d4af37] hover:text-black transition-all duration-700">Explore</button>
             <Sheet>
               <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-[#d4af37]" /></button></SheetTrigger>
-              <SheetContent side="right" className="bg-[#050505] border-[#d4af37]/10 p-12">
-                <div className="flex flex-col gap-10 mt-16 text-left">
+              <SheetContent side="right" className="bg-[#050505] border-[#d4af37]/10 p-12 overflow-y-auto">
+                <div className="flex flex-col gap-8 mt-16 text-left">
                   {[
+                    { name: "Home", page: "home" },
                     { name: "Atelier", page: "atelier" },
                     { name: "Collection", page: "collection" },
-                    { name: "Craft", page: "atelier" },
-                    { name: "Legacy", page: "atelier" },
+                    { name: "Craftsmanship", page: "craftsmanship" },
+                    { name: "Heritage", page: "heritage" },
+                    { name: "Innovation", page: "innovation" },
+                    { name: "Journal", page: "journal" },
+                    { name: "Concierge", page: "concierge" },
+                    { name: "Client Care", page: "support" },
                   ].map(l => (
-                    <a key={l.name} href="#" onClick={(e) => { e.preventDefault(); goTo(l.page as any); }} className="text-2xl font-light uppercase tracking-[0.3em] hover:text-[#d4af37] transition-colors text-white">{l.name}</a>
+                    <a key={l.name} href="#" onClick={(e) => { e.preventDefault(); goTo(l.page as any); }} className={`text-xl font-light uppercase tracking-[0.3em] hover:text-[#d4af37] transition-colors ${page === l.page ? "text-[#d4af37]" : "text-white"}`}>{l.name}</a>
                   ))}
                 </div>
               </SheetContent>
@@ -214,7 +221,7 @@ export default function ChronosLuxuryPage() {
                       <h2 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-16 italic" style={{ fontFamily: "serif" }}>Born In <br/>The <span className="not-italic">Alps.</span></h2>
                       <div className="space-y-16">
                         {CRAFT.map((item, i) => (
-                          <div key={i} className="flex gap-8 group">
+                          <div key={i} className="flex gap-8 group cursor-pointer" onClick={() => goTo("craftsmanship")}>
                             <div className="w-12 h-12 shrink-0 border border-[#d4af37]/20 flex items-center justify-center group-hover:bg-[#d4af37] group-hover:border-[#d4af37] transition-all duration-700">
                               <item.icon className="w-5 h-5 text-[#d4af37] group-hover:text-black transition-colors" />
                             </div>
@@ -255,7 +262,12 @@ export default function ChronosLuxuryPage() {
 
         {page === "atelier" && <AtelierPage />}
         {page === "collection" && <CollectionPage goTo={goTo} />}
+        {page === "craftsmanship" && <CraftsmanshipPage />}
+        {page === "heritage" && <HeritagePage />}
+        {page === "innovation" && <InnovationPage />}
+        {page === "journal" && <JournalPage />}
         {page === "concierge" && <ConciergePage />}
+        {page === "support" && <SupportPage />}
         {page === "legal" && <LegalPage />}
       </main>
 
@@ -289,12 +301,20 @@ export default function ChronosLuxuryPage() {
               <ul className="space-y-6">
                 {col.l.map(link => {
                   let onClickHandler = (e: React.MouseEvent) => e.preventDefault();
-                  if (link === "All Series" || link === "Accessories") {
+                  if (link === "All Series" || link === "Pre-Owned" || link === "Accessories") {
                     onClickHandler = (e) => { e.preventDefault(); goTo("collection"); };
                   } else if (link === "Bespoke Service" || link === "Contact") {
                     onClickHandler = (e) => { e.preventDefault(); goTo("concierge"); };
-                  } else if (link === "Our Atelier" || link === "Heritage") {
+                  } else if (link === "Our Atelier") {
                     onClickHandler = (e) => { e.preventDefault(); goTo("atelier"); };
+                  } else if (link === "Heritage") {
+                    onClickHandler = (e) => { e.preventDefault(); goTo("heritage"); };
+                  } else if (link === "Innovation") {
+                    onClickHandler = (e) => { e.preventDefault(); goTo("innovation"); };
+                  } else if (link === "Journal") {
+                    onClickHandler = (e) => { e.preventDefault(); goTo("journal"); };
+                  } else if (link === "Servicing" || link === "Authentication" || link === "Warranty") {
+                    onClickHandler = (e) => { e.preventDefault(); goTo("support"); };
                   }
                   return (
                     <li key={link}>
@@ -329,7 +349,7 @@ export default function ChronosLuxuryPage() {
 function AtelierPage() {
   return (
     <section className="py-40 bg-[#050505] min-h-screen text-[#f0f0f0] border-t border-white/5">
-      <div className="max-w-[1200px] mx-auto px-6">
+      <div className="max-w-[1200px] mx-auto px-6 font-sans">
         <div className="text-center mb-24">
           <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[#d4af37]/60 block mb-6 italic">Since 1924</span>
           <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-8" style={{ fontFamily: "serif" }}>
@@ -385,7 +405,7 @@ function CollectionPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 
   return (
     <section className="py-40 bg-[#050505] min-h-screen text-white border-t border-white/5">
-      <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-12 font-sans">
         <div className="text-center mb-20">
           <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#d4af37] block mb-4">The Collection</span>
           <h2 className="text-5xl md:text-7xl font-extralight uppercase text-white" style={{ fontFamily: "serif" }}>
@@ -426,10 +446,243 @@ function CollectionPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   );
 }
 
+function CraftsmanshipPage() {
+  return (
+    <section className="py-40 bg-[#050505] min-h-screen text-white border-t border-white/5">
+      <div className="max-w-[1200px] mx-auto px-6 font-sans">
+        <div className="text-center mb-24">
+          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#d4af37] block mb-4">Savoir-Faire</span>
+          <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>
+            The Art Of <span className="italic text-[#d4af37]">Craftsmanship</span>
+          </h1>
+          <p className="text-base text-white/40 max-w-2xl mx-auto leading-relaxed">
+            Every step in creating a Chronos watch is guided by absolute devotion to horological perfection. Here, we outline the key stages of our craft.
+          </p>
+        </div>
+
+        <div className="space-y-32">
+          {[
+            {
+              num: "01",
+              title: "Guillochage & Dial Artistry",
+              desc: "Our solid gold and silver dials are hand-engraved using mechanical rose engine lathes dating back to the early 20th century. This precise art form requires intense concentration, where a single slip of the wrist can ruin days of precision labor.",
+              img: "https://images.unsplash.com/photo-1522337360744-47309047ffcf?auto=format&fit=crop&q=80&w=1200"
+            },
+            {
+              num: "02",
+              title: "Anglage & Decorative Finishing",
+              desc: "Bridges, plates, and steel parts undergo meticulous hand-beveling (anglage). Using boxwood pegs and diamond paste, our craftsmen polish every internal angle until it reflects light flawlessly, creating a striking contrast with the circular-grained mainplate.",
+              img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200"
+            },
+            {
+              num: "03",
+              title: "Dynamic Chronometer Calibration",
+              desc: "Before a watch leaves our atelier, it is tested in five different positions at temperatures ranging from 8°C to 38°C. This dynamic testing simulates real-world movements and pressure, ensuring the timepiece maintains steady rate stability.",
+              img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"
+            }
+          ].map((item, idx) => (
+            <div key={idx} className={`flex flex-col lg:flex-row gap-16 items-center ${idx % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
+              <div className="w-full lg:w-1/2 aspect-[16/10] relative border border-white/10 p-2 bg-[#0c0c0c]">
+                <img src={item.img} alt={item.title} className="w-full h-full object-cover" />
+              </div>
+              <div className="w-full lg:w-1/2">
+                <span className="text-4xl md:text-5xl font-light italic text-[#d4af37] block mb-4" style={{ fontFamily: "serif" }}>{item.num}</span>
+                <h3 className="text-2xl md:text-3xl font-extralight uppercase text-white tracking-widest mb-6" style={{ fontFamily: "serif" }}>{item.title}</h3>
+                <p className="text-sm text-white/50 leading-relaxed font-light">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HeritagePage() {
+  return (
+    <section className="py-40 bg-[#050505] min-h-screen text-white border-t border-white/5">
+      <div className="max-w-[1200px] mx-auto px-6 font-sans">
+        <div className="text-center mb-24">
+          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#d4af37] block mb-4">Our Legacy</span>
+          <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>
+            Century Of <span className="italic text-[#d4af37]">Heritage</span>
+          </h1>
+          <p className="text-base text-white/40 max-w-2xl mx-auto leading-relaxed">
+            Time is not only measured but lived. Discover the key chapters that defined the Chronos legacy from the early 20th century to the modern day.
+          </p>
+        </div>
+
+        <div className="relative border-l border-[#d4af37]/20 pl-8 md:pl-16 max-w-3xl mx-auto space-y-24">
+          {[
+            {
+              year: "1924",
+              title: "The Founding Father",
+              desc: "Master horologist Leo Aris opens his first tiny workshop in Geneva, Switzerland. Inspired by astronomical movements, he creates his first perpetual lunar complication, laying the foundation for our signature series."
+            },
+            {
+              year: "1952",
+              title: "Deep Sea Exploration",
+              desc: "Chronos is commissioned to create a mechanical timepiece capable of withstand extreme underwater pressure. The 'Oceanic' prototype goes down to 1000m, establishing our mastery in robust diving cases."
+            },
+            {
+              year: "1988",
+              title: "The Flying Tourbillon",
+              desc: "We introduce a revolutionary rose gold flying tourbillon, featuring a cage mounted only on one side. This design remains a reference in watchmaking circles, admired for its lightness and elegance."
+            },
+            {
+              year: "2026",
+              title: "Titanium Evolution",
+              desc: "Embracing space-age alloys, Chronos introduces Grade 5 titanium casings, combining maximum durability with minimal weight, keeping the spirit of Leo Aris alive in a modern casing."
+            }
+          ].map((milestone, i) => (
+            <div key={i} className="relative">
+              <div className="absolute -left-[41px] md:-left-[73px] top-1 w-5 h-5 rounded-full bg-[#050505] border border-[#d4af37] flex items-center justify-center">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#d4af37]" />
+              </div>
+              <span className="text-3xl md:text-4xl font-extralight text-[#d4af37] italic block mb-2" style={{ fontFamily: "serif" }}>{milestone.year}</span>
+              <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-4">{milestone.title}</h3>
+              <p className="text-sm text-white/40 leading-relaxed font-light">{milestone.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function InnovationPage() {
+  return (
+    <section className="py-40 bg-[#050505] min-h-screen text-white border-t border-white/5">
+      <div className="max-w-[1200px] mx-auto px-6 font-sans">
+        <div className="text-center mb-24">
+          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#d4af37] block mb-4">Engineering Future</span>
+          <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>
+            Technical <span className="italic text-[#d4af37]">Innovation</span>
+          </h1>
+          <p className="text-base text-white/40 max-w-2xl mx-auto leading-relaxed">
+            While respecting our heritage, we push mechanical limits. Our watchmakers develop state-of-the-art materials and complications that redefine reliability.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            {
+              icon: Cpu,
+              title: "Silicon Escapement",
+              desc: "Using monocrystalline silicon for the escape wheel and pallet lever, our movements achieve unmatched friction reduction. This allows them to run without lubrication, significantly increasing servicing intervals."
+            },
+            {
+              icon: Clock,
+              title: "Micro-Rotor System",
+              desc: "Our ultra-thin automatic calibres utilize a hand-engraved 22k gold micro-rotor. This reduces movement thickness to just 4.2mm, allowing for exceptionally sleek and elegant casing profiles."
+            },
+            {
+              icon: Shield,
+              title: "Carbon-Silicon Alloys",
+              desc: "By merging carbon fiber matrices with silicon, we've developed balance springs that are completely immune to magnetic interference, one of the leading causes of rate variation."
+            }
+          ].map((item, i) => (
+            <div key={i} className="border border-white/5 p-12 bg-[#080808] flex flex-col items-center text-center">
+              <div className="w-16 h-16 border border-[#d4af37]/20 flex items-center justify-center mb-8">
+                <item.icon className="w-6 h-6 text-[#d4af37]" />
+              </div>
+              <h3 className="text-lg font-bold uppercase tracking-widest text-white mb-4">{item.title}</h3>
+              <p className="text-sm text-white/40 leading-relaxed font-light">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-24 border border-white/5 p-12 bg-[#0c0c0c] flex flex-col md:flex-row items-center gap-12">
+          <div className="w-full md:w-1/3 aspect-square relative">
+            <img src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200" alt="Innovation Detail" className="w-full h-full object-cover" />
+          </div>
+          <div className="w-full md:w-2/3">
+            <h3 className="text-3xl font-extralight uppercase text-[#d4af37] mb-6" style={{ fontFamily: "serif" }}>Dynamic Pressure Chambers</h3>
+            <p className="text-sm text-white/50 leading-relaxed font-light mb-6">
+              Our professional dive watches are subjected to intense static and dynamic water pressure tests. Utilizing custom-engineered hyperbaric chambers, we test each model at 125% of its rated depth to ensure absolute safety in the deepest oceans.
+            </p>
+            <div className="flex gap-12">
+              <div>
+                <span className="text-2xl font-bold text-white block">125%</span>
+                <span className="text-[9px] font-bold uppercase tracking-widest text-[#d4af37]">Safety Buffer</span>
+              </div>
+              <div>
+                <span className="text-2xl font-bold text-white block">100 Bar</span>
+                <span className="text-[9px] font-bold uppercase tracking-widest text-[#d4af37]">Pressure Limit</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function JournalPage() {
+  const articles = [
+    {
+      title: "The Art of Anglage: Hand-Beveling",
+      cat: "Craftsmanship",
+      date: "May 14, 2026",
+      desc: "An exploration of the technique of hand-polishing sharp edges in high watchmaking.",
+      img: "https://images.unsplash.com/photo-1522337360744-47309047ffcf?auto=format&fit=crop&q=80&w=1200"
+    },
+    {
+      title: "Helium Escape Valves: Deep Oceanic Design",
+      cat: "Engineering",
+      date: "April 28, 2026",
+      desc: "How our watches survive the decompression phase of professional saturation diving.",
+      img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200"
+    },
+    {
+      title: "Restoring a 1930 Perpetual Calendar",
+      cat: "Restoration",
+      date: "March 10, 2026",
+      desc: "A behind-the-scenes look at reviving one of Leo Aris's early lunar complications.",
+      img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"
+    }
+  ];
+
+  return (
+    <section className="py-40 bg-[#050505] min-h-screen text-white border-t border-white/5">
+      <div className="max-w-[1200px] mx-auto px-6 font-sans">
+        <div className="text-center mb-24">
+          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#d4af37] block mb-4">Chronos Journal</span>
+          <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>
+            Essays In <span className="italic text-[#d4af37]">Horology</span>
+          </h1>
+          <p className="text-base text-white/40 max-w-2xl mx-auto leading-relaxed">
+            Read our notes on mechanical history, technical discoveries, and behind-the-scenes insights from the Geneva atelier.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {articles.map((art, idx) => (
+            <div key={idx} className="border border-white/5 bg-[#080808] p-6 hover:border-[#d4af37]/30 transition-all duration-500 cursor-pointer">
+              <div className="aspect-[16/10] relative mb-6 overflow-hidden">
+                <img src={art.img} alt={art.title} className="w-full h-full object-cover" />
+              </div>
+              <div className="flex justify-between items-center text-[9px] font-bold uppercase tracking-widest text-[#d4af37] mb-4">
+                <span>{art.cat}</span>
+                <span className="text-white/30">{art.date}</span>
+              </div>
+              <h3 className="text-xl font-light uppercase text-white mb-4 tracking-wide leading-snug" style={{ fontFamily: "serif" }}>{art.title}</h3>
+              <p className="text-xs text-white/40 leading-relaxed mb-6 font-light">{art.desc}</p>
+              <span className="text-[9px] font-bold uppercase tracking-widest text-white hover:text-[#d4af37] transition-colors flex items-center gap-2">
+                Read Article <ArrowRight className="w-3 h-3" />
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ConciergePage() {
   return (
     <section className="py-40 bg-[#050505] min-h-screen text-white border-t border-white/5">
-      <div className="max-w-3xl mx-auto px-6">
+      <div className="max-w-3xl mx-auto px-6 font-sans">
         <div className="text-center mb-16">
           <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#d4af37] block mb-4">Concierge Desk</span>
           <h2 className="text-5xl md:text-7xl font-extralight uppercase text-white" style={{ fontFamily: "serif" }}>
@@ -482,6 +735,57 @@ function ConciergePage() {
             Submit Private Enquiry
           </button>
         </form>
+      </div>
+    </section>
+  );
+}
+
+function SupportPage() {
+  return (
+    <section className="py-40 bg-[#050505] min-h-screen text-white border-t border-white/5">
+      <div className="max-w-[1200px] mx-auto px-6 font-sans">
+        <div className="text-center mb-24">
+          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#d4af37] block mb-4">Client Care</span>
+          <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>
+            Servicing & <span className="italic text-[#d4af37]">Support</span>
+          </h1>
+          <p className="text-base text-white/40 max-w-2xl mx-auto leading-relaxed">
+            Your Chronos timepiece is designed to function flawlessly across generations. Discover our support services, authentication standards, and warranty policies.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            {
+              icon: Wrench,
+              title: "Regular Servicing",
+              desc: "We recommend a complete service every 5 to 7 years. Our watchmakers completely disassemble the movement, clean every component ultrasonically, apply modern synthetic lubricants, replace all gaskets, and recheck accuracy."
+            },
+            {
+              icon: Shield,
+              title: "Official Authentication",
+              desc: "Only our Geneva atelier can issue an official Certificate of Authenticity for vintage Chronos timepieces. We check historical serial databases, calibrate caliber numbers, and verify hand engravings to ensure origins."
+            },
+            {
+              icon: Award,
+              title: "Lifetime Warranty",
+              desc: "Chronos offers a lifetime warranty for the original purchaser, covering manufacturing defects and material failures. For secondary owners, we provide a transferable 5-year warranty from the last certified service date."
+            }
+          ].map((item, idx) => (
+            <div key={idx} className="border border-white/5 bg-[#080808] p-10 flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 border border-[#d4af37]/20 flex items-center justify-center mb-8">
+                  <item.icon className="w-5 h-5 text-[#d4af37]" />
+                </div>
+                <h3 className="text-lg font-bold uppercase tracking-widest text-white mb-4">{item.title}</h3>
+                <p className="text-sm text-white/40 leading-relaxed font-light mb-8">{item.desc}</p>
+              </div>
+              <button className="text-[9px] font-bold uppercase tracking-widest text-[#d4af37] hover:underline text-left">
+                Learn More
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
