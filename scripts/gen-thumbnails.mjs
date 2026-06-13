@@ -38,6 +38,14 @@ async function getTemplateIds() {
     .sort((a, b) => parseInt(a.split('-')[1]) - parseInt(b.split('-')[1]));
 }
 
+// Templates where scroll-0 shows empty canvas — capture mid-scroll instead
+const SCROLL_OFFSETS = {
+  'impact-217': 600,   // AirForge — partial shoe assembly
+  'impact-218': 900,   // Domaine Miroir — vine mid-growth
+  'impact-220': 800,   // Hora Viva — watch case starting to open
+  'impact-221': 400,   // Lumyx — vehicle visible with glow
+};
+
 async function main() {
   await fs.mkdir(THUMBNAILS_DIR, { recursive: true });
 
@@ -74,6 +82,13 @@ async function main() {
       });
 
       await page.goto(url, { waitUntil: 'networkidle', timeout: 20000 });
+
+      // Scroll to a better position for canvas/animation templates
+      const scrollY = SCROLL_OFFSETS[id] ?? 0;
+      if (scrollY > 0) {
+        await page.evaluate((y) => window.scrollTo(0, y), scrollY);
+        await page.waitForTimeout(800); // let scroll-driven animations update
+      }
 
       // Inject CSS to hide dev noise, webchat button, and any remaining banners
       await page.addStyleTag({ content: HIDE_DEV_UI });

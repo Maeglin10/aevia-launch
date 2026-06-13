@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "screenshots": "node scripts/screenshot-templates.js",
-    "screenshots:force": "node scripts/screenshot-templates.js --force"
+    "thumbnails": "node scripts/gen-thumbnails.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.88.0",
