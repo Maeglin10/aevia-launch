@@ -8,7 +8,7 @@ const sharp = require('/Users/milliandvalentin/skylaunch/node_modules/sharp');
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const THUMBNAILS_DIR = path.join(__dirname, '..', 'public', 'thumbnails');
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = `http://localhost:${process.env.PORT || 3000}`;
 const VIEWPORT = { width: 1280, height: 720 };
 
 // CSS injected before screenshot to hide dev UI noise
@@ -40,7 +40,7 @@ async function getTemplateIds() {
 
 // Templates where scroll-0 shows empty canvas — capture mid-scroll instead
 const SCROLL_OFFSETS = {
-  'impact-217': 600,   // AirForge — partial shoe assembly
+  'impact-217': 0,     // AirForge — parallax hero (real photo) is the money shot
   'impact-218': 900,   // Domaine Miroir — vine mid-growth
   'impact-220': 800,   // Hora Viva — watch case starting to open
   'impact-221': 400,   // Lumyx — vehicle visible with glow

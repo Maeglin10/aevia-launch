@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   motion,
   useScroll,
   useTransform,
-  useInView,
   AnimatePresence,
   type MotionValue,
+  type Variants,
 } from 'framer-motion';
 import {
   ShoppingBag,
@@ -15,637 +15,667 @@ import {
   Truck,
   ShieldCheck,
   ArrowRight,
+  ArrowUpRight,
   Plus,
-  Minus,
   Check,
   Zap,
-  Heart,
+  Camera,
+  AtSign,
+  PlayCircle,
+  ChevronDown,
 } from 'lucide-react';
 
 /* ════════════════════════════════════════════════════════════════════════════
-   AirForge — Premium Sneaker Brand E-commerce
-   Scroll-driven SVG "shoe assembly" hero (exploded → assembled)
+   AirForge — Premium Sneaker / Streetwear E-commerce
+   Real photography + reference-grade scroll choreography
+   (Nike SNKRS × rideradian.com × Apple product pages)
    ════════════════════════════════════════════════════════════════════════════ */
 
+/* ── Design tokens ───────────────────────────────────────────────────────── */
 const C = {
-  bg: '#08090b',
-  bgAlt: '#0e1013',
-  bgCard: '#14171c',
-  bgCardHover: '#1b1f26',
-  neon: '#e3ff34',
-  neonDim: '#b8cf1f',
-  white: '#f4f6f8',
-  textMuted: '#8a909c',
-  textFaint: '#565b66',
-  border: '#23272f',
-  borderLight: '#333a45',
-  red: '#ff4d4d',
-  fontDisplay:
-    "'Inter', 'Helvetica Neue', system-ui, -apple-system, sans-serif",
-  fontBody: "'Inter', system-ui, -apple-system, sans-serif",
+  bg: '#0a0a0b',
+  bgAlt: '#101012',
+  bgCard: '#141417',
+  bgCardHover: '#1b1b1f',
+  accent: '#d4ff00', // acid yellow
+  accentDim: '#aacc00',
+  white: '#f5f6f7',
+  textMuted: '#8d909a',
+  textFaint: '#5a5d66',
+  border: '#222227',
+  borderBright: '#34343b',
 } as const;
 
-/* ─── Shared style helpers ────────────────────────────────────────────────── */
-const pageStyle: React.CSSProperties = {
-  background: C.bg,
-  color: C.white,
-  fontFamily: C.fontBody,
-  overflowX: 'hidden',
-  WebkitFontSmoothing: 'antialiased',
-};
+const FONT_STACK =
+  "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
 
-const sectionPad: React.CSSProperties = {
-  paddingInline: 'clamp(20px, 6vw, 120px)',
-};
+/* ── Photography (15 pre-verified Unsplash URLs — DO NOT alter photo IDs) ──── */
+const u = (id: string, w = 1600, q = 80): string =>
+  `https://images.unsplash.com/photo-${id}?q=${q}&w=${w}&auto=format&fit=crop`;
 
-const condensed: React.CSSProperties = {
-  fontFamily: C.fontDisplay,
-  fontWeight: 900,
-  letterSpacing: '-0.03em',
-  textTransform: 'uppercase',
-};
+const IMG = {
+  hero: u('1542291026-7eec264c27ff', 2000, 85),
+  seq1: u('1460353581641-37baddab0fa2'),
+  seq2: u('1556906781-9a412961c28c'),
+  seq3: u('1595950653106-6c9ebd614d3a'),
+  drop1: u('1549298916-b41d501d3772', 1200),
+  drop2: u('1600185365926-3a2ce3cdb9eb', 1200),
+  drop3: u('1606107557195-0e29a4b5b4aa', 1200),
+  drop4: u('1543508282-6319a3e2621f', 1200),
+  story1: u('1525966222134-fcfa99b8ae77'),
+  story2: u('1514989940723-e8e51635b782'),
+  spec: u('1491553895911-0055eca6402d', 1400, 85),
+  look1: u('1597045566677-8cf032ed6634', 1000),
+  look2: u('1608231387042-66d1773070a5', 1000),
+  look3: u('1539185441755-769473a23570', 1000),
+  cta: u('1551107696-a4b0c5a0d9a2', 2000, 85),
+} as const;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   1. SCROLL HERO — exploded sneaker assembly
+   Shared motion + small helpers
    ════════════════════════════════════════════════════════════════════════════ */
 
-interface PartProps {
-  scroll: MotionValue<number>;
-  fromX: number;
-  fromY: number;
-  fromRot: number;
+const easeOut = [0.16, 1, 0.3, 1] as const;
+
+const revealUp: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9, ease: easeOut },
+  },
+};
+
+const staggerParent: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.05 } },
+};
+
+interface RevealProps {
   children: React.ReactNode;
-  delayBand?: [number, number];
+  className?: string;
+  style?: React.CSSProperties;
+  delay?: number;
+  as?: 'div' | 'section' | 'header' | 'li';
 }
 
-function ShoePart({
-  scroll,
-  fromX,
-  fromY,
-  fromRot,
-  children,
-  delayBand = [0, 1],
-}: PartProps) {
-  const [a, b] = delayBand;
-  const x = useTransform(scroll, [a, b], [fromX, 0]);
-  const y = useTransform(scroll, [a, b], [fromY, 0]);
-  const rotate = useTransform(scroll, [a, b], [fromRot, 0]);
-  const opacity = useTransform(scroll, [a, Math.min(a + 0.12, b)], [0.15, 1]);
-
+function Reveal({ children, className, style, delay = 0, as = 'div' }: RevealProps) {
+  const MotionTag = motion[as] as typeof motion.div;
   return (
-    <motion.g style={{ x, y, rotate, opacity }}>{children}</motion.g>
+    <MotionTag
+      className={className}
+      style={style}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: '-80px' }}
+      variants={{
+        hidden: { opacity: 0, y: 40 },
+        show: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.9, ease: easeOut, delay },
+        },
+      }}
+    >
+      {children}
+    </MotionTag>
   );
 }
 
-function ScrollHero() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end start'],
-  });
-
-  // Headline transforms
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.18, 0.85, 1], [1, 1, 1, 0]);
-  const titleY = useTransform(scrollYProgress, [0, 1], [0, -80]);
-  const assembledLabelOpacity = useTransform(
-    scrollYProgress,
-    [0.75, 0.95],
-    [0, 1],
+/* Tiny utility for the eyebrow accent label */
+function Eyebrow({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
+  return (
+    <span
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 10,
+        fontSize: 12,
+        fontWeight: 700,
+        letterSpacing: '0.28em',
+        textTransform: 'uppercase',
+        color: C.accent,
+        ...style,
+      }}
+    >
+      <span
+        style={{
+          width: 28,
+          height: 1.5,
+          background: C.accent,
+          display: 'inline-block',
+        }}
+      />
+      {children}
+    </span>
   );
-  const glowScale = useTransform(scrollYProgress, [0, 1], [0.6, 1.25]);
-  const glowOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.2, 0.5, 0.85]);
-  const progressWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Data
+   ════════════════════════════════════════════════════════════════════════════ */
+
+interface Product {
+  id: string;
+  name: string;
+  edition: string;
+  price: number;
+  img: string;
+  badge?: string;
+}
+
+const PRODUCTS: Product[] = [
+  {
+    id: 'af-01',
+    name: 'Forge Runner OG',
+    edition: "Vol. 01 — Carbon",
+    price: 229,
+    img: IMG.drop1,
+    badge: 'Limited',
+  },
+  {
+    id: 'af-02',
+    name: 'Street Anvil Mid',
+    edition: 'Vol. 02 — Ember',
+    price: 259,
+    img: IMG.drop2,
+    badge: 'New Drop',
+  },
+  {
+    id: 'af-03',
+    name: 'Molten Low Pro',
+    edition: 'Vol. 03 — Ash',
+    price: 199,
+    img: IMG.drop3,
+  },
+  {
+    id: 'af-04',
+    name: 'Ironclad Hi',
+    edition: 'Vol. 04 — Onyx',
+    price: 289,
+    img: IMG.drop4,
+    badge: 'Limited',
+  },
+];
+
+interface SeqPhase {
+  img: string;
+  caption: string;
+  sub: string;
+}
+
+const SEQUENCE: SeqPhase[] = [
+  {
+    img: IMG.seq1,
+    caption: 'AIR-CUSHIONED SOLE',
+    sub: 'Nitrogen-charged midsole tuned for 14% more energy return.',
+  },
+  {
+    img: IMG.seq2,
+    caption: 'PREMIUM SUEDE',
+    sub: 'Full-grain Italian suede, hand-finished in small batches.',
+  },
+  {
+    img: IMG.seq3,
+    caption: 'FORGED OUTSOLE',
+    sub: 'Vulcanized carbon-rubber traction that refuses to quit.',
+  },
+];
+
+interface Spec {
+  k: string;
+  title: string;
+  body: string;
+}
+
+const SPECS: Spec[] = [
+  {
+    k: '01',
+    title: 'Nitro-Forge midsole',
+    body: 'A pressurized nitrogen core wrapped in supercritical foam. Lighter than the air it traps, springier than anything we have built.',
+  },
+  {
+    k: '02',
+    title: 'Italian full-grain suede',
+    body: 'Tanned in Tuscany, cut by hand. Each upper develops its own patina, so no two pairs age the same way.',
+  },
+  {
+    k: '03',
+    title: 'Carbon traction plate',
+    body: 'A forged carbon-rubber outsole with directional lugs engineered for wet concrete, gravel, and everything between.',
+  },
+  {
+    k: '04',
+    title: 'Recycled knit collar',
+    body: 'A breathable, moisture-wicking ankle collar spun from 92% recycled ocean-bound plastics.',
+  },
+];
+
+interface Look {
+  img: string;
+  tall?: boolean;
+  label: string;
+}
+
+const LOOKBOOK: Look[] = [
+  { img: IMG.look1, tall: true, label: 'Concrete Editorial' },
+  { img: IMG.story1, label: 'Studio 04' },
+  { img: IMG.look2, label: 'Night Shift' },
+  { img: IMG.story2, label: 'On Foot' },
+  { img: IMG.look3, tall: true, label: 'City Run' },
+  { img: IMG.seq2, label: 'Detail Macro' },
+];
+
+interface Review {
+  name: string;
+  handle: string;
+  stars: number;
+  text: string;
+}
+
+const REVIEWS: Review[] = [
+  {
+    name: 'Marcus T.',
+    handle: '@marcusruns',
+    stars: 5,
+    text: 'These replaced three pairs in my rotation. The sole is unreal — I forget I am wearing them on a 10k.',
+  },
+  {
+    name: 'Léa B.',
+    handle: '@lea.streetwear',
+    stars: 5,
+    text: 'The suede is genuinely premium. People stop me on the street. Worth every euro and then some.',
+  },
+  {
+    name: 'Devon K.',
+    handle: '@dvnkicks',
+    stars: 4,
+    text: 'Copped the Vol. 02 drop in seconds. Build quality crushes brands twice the price. Shipping was fast too.',
+  },
+];
+
+/* ════════════════════════════════════════════════════════════════════════════
+   NAV — transparent over hero → solid on scroll
+   ════════════════════════════════════════════════════════════════════════════ */
+
+interface NavProps {
+  cartCount: number;
+}
+
+function Nav({ cartCount }: NavProps) {
+  const { scrollY } = useScroll();
+  const [solid, setSolid] = useState(false);
+
+  useEffect(() => {
+    const unsub = scrollY.on('change', (v) => setSolid(v > 80));
+    return () => unsub();
+  }, [scrollY]);
+
+  const links = ['Shop', 'Drops', 'Craft', 'Lookbook'];
 
   return (
-    <section
-      ref={containerRef}
-      style={{ height: '320vh', position: 'relative', background: C.bg }}
+    <motion.nav
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 100,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: solid ? '14px clamp(20px, 5vw, 64px)' : '24px clamp(20px, 5vw, 64px)',
+        background: solid ? 'rgba(10,10,11,0.82)' : 'transparent',
+        backdropFilter: solid ? 'blur(18px) saturate(140%)' : 'none',
+        WebkitBackdropFilter: solid ? 'blur(18px) saturate(140%)' : 'none',
+        borderBottom: solid ? `1px solid ${C.border}` : '1px solid transparent',
+        transition:
+          'padding 0.4s cubic-bezier(0.16,1,0.3,1), background 0.4s ease, border-color 0.4s ease',
+      }}
     >
       <div
         style={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
+          fontWeight: 900,
+          fontSize: 22,
+          letterSpacing: '-0.04em',
+          textTransform: 'uppercase',
+          color: C.white,
           display: 'flex',
-          flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
-          overflow: 'hidden',
+          gap: 8,
         }}
       >
-        {/* Background radial glow */}
-        <motion.div
-          aria-hidden
-          style={{
-            position: 'absolute',
-            width: '90vmin',
-            height: '90vmin',
-            borderRadius: '50%',
-            background: `radial-gradient(circle, ${C.neon}22 0%, transparent 65%)`,
-            scale: glowScale,
-            opacity: glowOpacity,
-            filter: 'blur(20px)',
-          }}
-        />
+        <Zap size={20} color={C.accent} fill={C.accent} strokeWidth={1} />
+        AirForge
+      </div>
 
-        {/* Giant background word */}
-        <motion.h1
-          style={{
-            ...condensed,
-            position: 'absolute',
-            top: '6%',
-            fontSize: 'clamp(48px, 16vw, 280px)',
-            color: 'transparent',
-            WebkitTextStroke: `1px ${C.border}`,
-            opacity: titleOpacity,
-            y: titleY,
-            zIndex: 0,
-            userSelect: 'none',
-            lineHeight: 0.85,
-            textAlign: 'center',
-          }}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'clamp(18px, 3vw, 38px)',
+        }}
+      >
+        <div
+          className="af-nav-links"
+          style={{ display: 'flex', gap: 'clamp(16px, 2.4vw, 34px)' }}
         >
-          ASSEMBLE
-        </motion.h1>
-
-        {/* The shoe SVG */}
-        <div style={{ position: 'relative', zIndex: 2 }}>
-          <svg
-            width="min(78vw, 620px)"
-            viewBox="0 0 600 360"
-            fill="none"
-            aria-label="AirForge sneaker exploded assembly animation"
-            role="img"
-          >
-            <defs>
-              <linearGradient id="af-upper" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#2b2f38" />
-                <stop offset="100%" stopColor="#15181d" />
-              </linearGradient>
-              <linearGradient id="af-sole" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={C.neon} />
-                <stop offset="100%" stopColor={C.neonDim} />
-              </linearGradient>
-              <linearGradient id="af-mid" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#f4f6f8" />
-                <stop offset="100%" stopColor="#c4c8d0" />
-              </linearGradient>
-              <filter id="af-shadow" x="-30%" y="-30%" width="160%" height="160%">
-                <feDropShadow
-                  dx="0"
-                  dy="8"
-                  stdDeviation="14"
-                  floodColor="#000"
-                  floodOpacity="0.55"
-                />
-              </filter>
-            </defs>
-
-            <g filter="url(#af-shadow)" transform="translate(70 30)">
-              {/* SOLE — comes from bottom */}
-              <ShoePart
-                scroll={scrollYProgress}
-                fromX={0}
-                fromY={260}
-                fromRot={-8}
-                delayBand={[0, 0.7]}
-              >
-                <path
-                  d="M10 250 Q20 290 70 292 L400 292 Q455 290 460 258 L455 248 L60 248 Q22 244 10 250 Z"
-                  fill="url(#af-sole)"
-                />
-                {/* tread lines */}
-                {[80, 140, 200, 260, 320, 380].map((tx) => (
-                  <rect
-                    key={tx}
-                    x={tx}
-                    y={272}
-                    width="8"
-                    height="16"
-                    rx="2"
-                    fill="#1a1d12"
-                    opacity="0.55"
-                  />
-                ))}
-              </ShoePart>
-
-              {/* MIDSOLE — comes from left */}
-              <ShoePart
-                scroll={scrollYProgress}
-                fromX={-360}
-                fromY={20}
-                fromRot={6}
-                delayBand={[0.05, 0.78]}
-              >
-                <path
-                  d="M14 246 Q14 222 55 220 L450 220 Q462 234 458 252 L60 252 Q18 254 14 246 Z"
-                  fill="url(#af-mid)"
-                />
-                <path
-                  d="M14 246 Q14 222 55 220 L450 220"
-                  stroke="#9ca0a8"
-                  strokeWidth="1.5"
-                  fill="none"
-                  opacity="0.6"
-                />
-              </ShoePart>
-
-              {/* UPPER (body) — comes from right */}
-              <ShoePart
-                scroll={scrollYProgress}
-                fromX={420}
-                fromY={-30}
-                fromRot={10}
-                delayBand={[0.12, 0.88]}
-              >
-                <path
-                  d="M60 222 Q56 150 130 132 Q190 118 240 120 Q300 122 360 150 Q430 178 450 222 Z"
-                  fill="url(#af-upper)"
-                  stroke={C.borderLight}
-                  strokeWidth="1.5"
-                />
-                {/* heel */}
-                <path
-                  d="M388 150 Q446 168 450 222 L416 222 Q410 178 372 162 Z"
-                  fill="#0f1115"
-                />
-                {/* swoosh-style accent panel */}
-                <path
-                  d="M150 200 Q230 150 360 180 Q300 168 240 175 Q190 184 158 208 Z"
-                  fill={C.neon}
-                  opacity="0.9"
-                />
-                {/* toe cap stitch */}
-                <path
-                  d="M64 216 Q70 168 120 150"
-                  stroke={C.textFaint}
-                  strokeWidth="1.5"
-                  strokeDasharray="4 4"
-                  fill="none"
-                />
-              </ShoePart>
-
-              {/* TONGUE — comes from top */}
-              <ShoePart
-                scroll={scrollYProgress}
-                fromX={-40}
-                fromY={-300}
-                fromRot={-12}
-                delayBand={[0.2, 0.92]}
-              >
-                <path
-                  d="M188 132 Q186 96 206 92 L268 92 Q286 98 282 134 Q236 122 188 132 Z"
-                  fill="#2e333d"
-                  stroke={C.borderLight}
-                  strokeWidth="1.5"
-                />
-                <rect x="220" y="100" width="32" height="9" rx="4" fill={C.neon} />
-                <text
-                  x="236"
-                  y="108"
-                  fontSize="7"
-                  fill="#0f1115"
-                  textAnchor="middle"
-                  fontWeight="900"
-                  fontFamily={C.fontDisplay}
-                >
-                  AF
-                </text>
-              </ShoePart>
-
-              {/* LACES — come from top-right, last to assemble */}
-              <ShoePart
-                scroll={scrollYProgress}
-                fromX={300}
-                fromY={-260}
-                fromRot={20}
-                delayBand={[0.3, 1]}
-              >
-                {[0, 1, 2, 3].map((i) => {
-                  const ly = 150 + i * 18;
-                  return (
-                    <g key={i}>
-                      <line
-                        x1={158}
-                        y1={ly}
-                        x2={296}
-                        y2={ly - 4}
-                        stroke={C.white}
-                        strokeWidth="4"
-                        strokeLinecap="round"
-                      />
-                      <circle cx={158} cy={ly} r="3" fill={C.neon} />
-                      <circle cx={296} cy={ly - 4} r="3" fill={C.neon} />
-                    </g>
-                  );
-                })}
-                {/* crossing lace */}
-                <line
-                  x1={170}
-                  y1={148}
-                  x2={285}
-                  y2={216}
-                  stroke={C.white}
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  opacity="0.85"
-                />
-                <line
-                  x1={285}
-                  y1={148}
-                  x2={170}
-                  y2={216}
-                  stroke={C.white}
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  opacity="0.85"
-                />
-              </ShoePart>
-            </g>
-          </svg>
-
-          {/* "Fully assembled" floating badge */}
-          <motion.div
-            style={{
-              position: 'absolute',
-              right: '-2%',
-              bottom: '8%',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '8px 16px',
-              borderRadius: 999,
-              background: C.neon,
-              color: '#0f1115',
-              fontWeight: 800,
-              fontSize: 13,
-              opacity: assembledLabelOpacity,
-              boxShadow: `0 0 30px ${C.neon}66`,
-            }}
-          >
-            <Check size={16} strokeWidth={3} /> AirForge X-1 — Built
-          </motion.div>
+          {links.map((l) => (
+            <a
+              key={l}
+              href={`#${l.toLowerCase()}`}
+              style={{
+                color: C.white,
+                textDecoration: 'none',
+                fontSize: 13,
+                fontWeight: 600,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+                opacity: 0.78,
+                transition: 'opacity 0.2s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
+              onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.78')}
+            >
+              {l}
+            </a>
+          ))}
         </div>
 
-        {/* Headline text */}
+        <button
+          aria-label="Cart"
+          style={{
+            position: 'relative',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            color: C.white,
+            display: 'flex',
+            alignItems: 'center',
+            padding: 4,
+          }}
+        >
+          <ShoppingBag size={22} strokeWidth={1.6} />
+          <AnimatePresence>
+            {cartCount > 0 && (
+              <motion.span
+                key={cartCount}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0 }}
+                transition={{ type: 'spring', stiffness: 600, damping: 22 }}
+                style={{
+                  position: 'absolute',
+                  top: -6,
+                  right: -8,
+                  minWidth: 18,
+                  height: 18,
+                  padding: '0 5px',
+                  borderRadius: 9,
+                  background: C.accent,
+                  color: '#0a0a0b',
+                  fontSize: 11,
+                  fontWeight: 800,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  lineHeight: 1,
+                }}
+              >
+                {cartCount}
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </button>
+      </div>
+    </motion.nav>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   HERO — parallax photo + parallax headline
+   ════════════════════════════════════════════════════════════════════════════ */
+
+function Hero() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end start'],
+  });
+
+  // Photo: scale + drift down slower
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+  const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '12%']);
+  // Headline parallax (moves up faster than the photo)
+  const titleY = useTransform(scrollYProgress, [0, 1], ['0%', '-60%']);
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const subY = useTransform(scrollYProgress, [0, 1], ['0%', '-30%']);
+  const cueOpacity = useTransform(scrollYProgress, [0, 0.18], [1, 0]);
+
+  return (
+    <section
+      ref={ref}
+      style={{
+        position: 'relative',
+        height: '100vh',
+        minHeight: 640,
+        overflow: 'hidden',
+        background: C.bg,
+      }}
+    >
+      {/* Parallax photo */}
+      <motion.div
+        style={{
+          position: 'absolute',
+          inset: '-6% 0 0 0',
+          height: '112%',
+          scale: imgScale,
+          y: imgY,
+          willChange: 'transform',
+        }}
+      >
+        <img
+          src={IMG.hero}
+          alt="AirForge sneaker hero"
+          loading="eager"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center 40%',
+            display: 'block',
+          }}
+        />
+      </motion.div>
+
+      {/* Scrims for legibility */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background:
+            'linear-gradient(180deg, rgba(10,10,11,0.55) 0%, rgba(10,10,11,0.15) 35%, rgba(10,10,11,0.35) 70%, rgba(10,10,11,0.92) 100%)',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background:
+            'radial-gradient(120% 80% at 50% 100%, rgba(10,10,11,0.7) 0%, transparent 55%)',
+        }}
+      />
+
+      {/* Headline cluster */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          padding: '0 clamp(20px, 5vw, 64px) clamp(56px, 9vh, 110px)',
+          zIndex: 5,
+        }}
+      >
+        <motion.div style={{ y: subY, opacity: titleOpacity }}>
+          <Eyebrow style={{ marginBottom: 20 }}>Vol. 04 — Onyx · Out now</Eyebrow>
+        </motion.div>
+
+        <motion.h1
+          style={{
+            y: titleY,
+            opacity: titleOpacity,
+            margin: 0,
+            fontWeight: 900,
+            fontSize: 'clamp(3rem, 12vw, 12rem)',
+            lineHeight: 0.86,
+            letterSpacing: '-0.045em',
+            textTransform: 'uppercase',
+            color: C.white,
+            maxWidth: '14ch',
+            willChange: 'transform',
+          }}
+        >
+          Forged for
+          <br />
+          the{' '}
+          <span
+            style={{
+              color: 'transparent',
+              WebkitTextStroke: `2px ${C.accent}`,
+            }}
+          >
+            streets
+          </span>
+        </motion.h1>
+
         <motion.div
           style={{
-            position: 'absolute',
-            bottom: '7%',
-            textAlign: 'center',
-            zIndex: 3,
+            y: subY,
             opacity: titleOpacity,
+            marginTop: 28,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 24,
+            flexWrap: 'wrap',
           }}
         >
           <p
             style={{
-              ...condensed,
-              fontSize: 'clamp(28px, 5vw, 64px)',
-              lineHeight: 0.95,
               margin: 0,
+              maxWidth: 420,
+              color: C.textMuted,
+              fontSize: 'clamp(0.95rem, 1.4vw, 1.15rem)',
+              lineHeight: 1.5,
             }}
           >
-            Engineered{' '}
-            <span style={{ color: C.neon }}>To Move.</span>
+            Performance-grade sneakers, built like industrial machinery and
+            finished like couture. Limited runs. Forged to outlast.
           </p>
-          <p style={{ color: C.textMuted, marginTop: 10, fontSize: 14 }}>
-            Scroll to assemble the AirForge X-1 — every part, in motion.
-          </p>
+          <a
+            href="#drops"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 10,
+              background: C.accent,
+              color: '#0a0a0b',
+              padding: '16px 28px',
+              fontWeight: 800,
+              fontSize: 14,
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
+              textDecoration: 'none',
+              borderRadius: 2,
+            }}
+          >
+            Shop the drop <ArrowRight size={18} strokeWidth={2.4} />
+          </a>
         </motion.div>
+      </div>
 
-        {/* Scroll progress bar */}
-        <div
+      {/* Scroll cue */}
+      <motion.div
+        style={{
+          position: 'absolute',
+          bottom: 24,
+          left: '50%',
+          x: '-50%',
+          opacity: cueOpacity,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 6,
+          zIndex: 6,
+        }}
+      >
+        <span
           style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            width: '100%',
-            height: 4,
-            background: C.border,
+            fontSize: 11,
+            letterSpacing: '0.3em',
+            textTransform: 'uppercase',
+            color: C.textMuted,
           }}
         >
-          <motion.div
-            style={{ height: '100%', background: C.neon, width: progressWidth }}
-          />
-        </div>
-      </div>
+          Scroll
+        </span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <ChevronDown size={20} color={C.accent} />
+        </motion.div>
+      </motion.div>
     </section>
   );
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   2. NAVIGATION
-   ════════════════════════════════════════════════════════════════════════════ */
-
-function Nav() {
-  const [open, setOpen] = useState(false);
-  const links = ['Drops', 'Colorways', 'Tech', 'Reviews'];
-  return (
-    <header
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        zIndex: 50,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        ...sectionPad,
-        height: 72,
-        background: 'rgba(8,9,11,0.72)',
-        backdropFilter: 'blur(14px)',
-        borderBottom: `1px solid ${C.border}`,
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <div
-          style={{
-            width: 30,
-            height: 30,
-            borderRadius: 8,
-            background: C.neon,
-            display: 'grid',
-            placeItems: 'center',
-            color: '#0f1115',
-          }}
-        >
-          <Zap size={18} strokeWidth={3} />
-        </div>
-        <span style={{ ...condensed, fontSize: 20 }}>AirForge</span>
-      </div>
-
-      <nav
-        style={{
-          display: 'flex',
-          gap: 28,
-          fontSize: 14,
-          fontWeight: 600,
-          letterSpacing: '0.02em',
-        }}
-        className="af-desktop-nav"
-      >
-        {links.map((l) => (
-          <a
-            key={l}
-            href={`#${l.toLowerCase()}`}
-            style={{ color: C.textMuted, textDecoration: 'none' }}
-          >
-            {l}
-          </a>
-        ))}
-      </nav>
-
-      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-        <button
-          aria-label="Cart"
-          onClick={() => setOpen((v) => !v)}
-          style={{
-            position: 'relative',
-            background: 'transparent',
-            border: 'none',
-            color: C.white,
-            cursor: 'pointer',
-            display: 'grid',
-            placeItems: 'center',
-          }}
-        >
-          <ShoppingBag size={20} />
-          <span
-            style={{
-              position: 'absolute',
-              top: -6,
-              right: -8,
-              background: C.neon,
-              color: '#0f1115',
-              fontSize: 10,
-              fontWeight: 800,
-              borderRadius: 999,
-              minWidth: 16,
-              height: 16,
-              display: 'grid',
-              placeItems: 'center',
-              padding: '0 4px',
-            }}
-          >
-            2
-          </span>
-        </button>
-        <a
-          href="#drops"
-          style={{
-            ...condensed,
-            fontSize: 13,
-            background: C.neon,
-            color: '#0f1115',
-            padding: '10px 18px',
-            borderRadius: 8,
-            textDecoration: 'none',
-          }}
-        >
-          Shop Now
-        </a>
-      </div>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            style={{
-              position: 'absolute',
-              top: 72,
-              right: 'clamp(20px, 6vw, 120px)',
-              width: 280,
-              background: C.bgCard,
-              border: `1px solid ${C.border}`,
-              borderRadius: 14,
-              padding: 18,
-            }}
-          >
-            <p style={{ ...condensed, fontSize: 13, marginTop: 0 }}>Your Cart (2)</p>
-            {['AirForge X-1 — Volt', 'AirForge Pro — Onyx'].map((it) => (
-              <div
-                key={it}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  padding: '8px 0',
-                  fontSize: 13,
-                  color: C.textMuted,
-                  borderTop: `1px solid ${C.border}`,
-                }}
-              >
-                <span>{it}</span>
-                <span style={{ color: C.white }}>€189</span>
-              </div>
-            ))}
-            <a
-              href="#cta"
-              style={{
-                display: 'block',
-                textAlign: 'center',
-                marginTop: 12,
-                background: C.neon,
-                color: '#0f1115',
-                padding: '10px',
-                borderRadius: 8,
-                textDecoration: 'none',
-                fontWeight: 800,
-                fontSize: 13,
-              }}
-            >
-              Checkout · €378
-            </a>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </header>
-  );
-}
-
-/* ════════════════════════════════════════════════════════════════════════════
-   3. MARQUEE STRIP
+   MARQUEE
    ════════════════════════════════════════════════════════════════════════════ */
 
 function Marquee() {
   const items = [
-    'FREE 48H DELIVERY',
-    'CARBON-NEUTRAL SHIPPING',
+    'NEW DROP',
+    'LIMITED EDITION',
+    'FREE SHIPPING OVER €150',
+    'FORGED IN ITALY',
     '30-DAY RETURNS',
-    'LIMITED DROPS WEEKLY',
-    'HANDCRAFTED IN PORTUGAL',
   ];
+  const loop = [...items, ...items, ...items];
   return (
     <div
       style={{
-        background: C.neon,
-        color: '#0f1115',
+        background: C.accent,
+        color: '#0a0a0b',
         overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        borderBlock: `1px solid ${C.neonDim}`,
+        borderTop: `1px solid ${C.bg}`,
+        borderBottom: `1px solid ${C.bg}`,
+        padding: '14px 0',
       }}
     >
       <motion.div
-        animate={{ x: ['0%', '-50%'] }}
-        transition={{ duration: 22, ease: 'linear', repeat: Infinity }}
-        style={{ display: 'inline-flex', gap: 0 }}
+        animate={{ x: ['0%', '-33.333%'] }}
+        transition={{ duration: 22, repeat: Infinity, ease: 'linear' }}
+        style={{ display: 'flex', whiteSpace: 'nowrap', gap: 0 }}
       >
-        {[...items, ...items, ...items, ...items].map((it, i) => (
+        {loop.map((t, i) => (
           <span
             key={i}
             style={{
-              ...condensed,
-              fontSize: 14,
-              padding: '12px 28px',
               display: 'inline-flex',
               alignItems: 'center',
               gap: 28,
+              paddingRight: 28,
+              fontWeight: 900,
+              fontSize: 'clamp(0.9rem, 1.4vw, 1.05rem)',
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
             }}
           >
-            {it}
-            <Zap size={13} strokeWidth={3} />
+            {t}
+            <Zap size={16} fill="#0a0a0b" strokeWidth={0} />
           </span>
         ))}
       </motion.div>
@@ -654,770 +684,1242 @@ function Marquee() {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   4. FEATURED DROPS
+   STICKY CROSSFADE SEQUENCE (Apple-style, real photos)
    ════════════════════════════════════════════════════════════════════════════ */
 
-interface Drop {
-  name: string;
-  tag: string;
-  price: string;
-  hue1: string;
-  hue2: string;
-  soldPct: number;
-}
+function SeqLayer({
+  phase,
+  index,
+  progress,
+}: {
+  phase: SeqPhase;
+  index: number;
+  progress: MotionValue<number>;
+}) {
+  const n = SEQUENCE.length;
+  const seg = 1 / n;
+  const start = index * seg;
+  const end = start + seg;
 
-const DROPS: Drop[] = [
-  { name: 'X-1 Volt', tag: 'NEW DROP', price: '€189', hue1: '#e3ff34', hue2: '#1b1f26', soldPct: 78 },
-  { name: 'Pro Onyx', tag: 'BESTSELLER', price: '€219', hue1: '#5a6172', hue2: '#0e1013', soldPct: 92 },
-  { name: 'Flux Coral', tag: 'LIMITED', price: '€199', hue1: '#ff6f61', hue2: '#1b1014', soldPct: 41 },
-];
+  // crossfade windows
+  const fadeIn = start + seg * 0.12;
+  const fadeOut = end - seg * 0.12;
 
-function FeaturedDrops() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
-  return (
-    <section id="drops" style={{ ...sectionPad, paddingBlock: 100 }} ref={ref}>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
-          flexWrap: 'wrap',
-          gap: 16,
-          marginBottom: 44,
-        }}
-      >
-        <h2 style={{ ...condensed, fontSize: 'clamp(32px, 5vw, 64px)', margin: 0, lineHeight: 0.9 }}>
-          This Week&apos;s
-          <br />
-          <span style={{ color: C.neon }}>Featured Drops</span>
-        </h2>
-        <a
-          href="#colorways"
-          style={{
-            color: C.textMuted,
-            fontSize: 14,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6,
-            textDecoration: 'none',
-          }}
-        >
-          View all releases <ArrowRight size={15} />
-        </a>
-      </div>
-
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: 24,
-        }}
-      >
-        {DROPS.map((d, i) => (
-          <motion.article
-            key={d.name}
-            initial={{ opacity: 0, y: 40 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: i * 0.12, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            whileHover={{ y: -8 }}
-            style={{
-              background: C.bgCard,
-              border: `1px solid ${C.border}`,
-              borderRadius: 20,
-              overflow: 'hidden',
-            }}
-          >
-            <div
-              style={{
-                height: 240,
-                background: `radial-gradient(circle at 50% 40%, ${d.hue1}33, ${d.hue2})`,
-                position: 'relative',
-                display: 'grid',
-                placeItems: 'center',
-              }}
-            >
-              <span
-                style={{
-                  position: 'absolute',
-                  top: 14,
-                  left: 14,
-                  ...condensed,
-                  fontSize: 11,
-                  background: C.neon,
-                  color: '#0f1115',
-                  padding: '4px 10px',
-                  borderRadius: 6,
-                }}
-              >
-                {d.tag}
-              </span>
-              {/* mini shoe glyph */}
-              <svg width="160" height="90" viewBox="0 0 160 90">
-                <path
-                  d="M8 64 Q6 40 44 36 Q80 30 110 44 Q140 56 150 66 Q152 78 130 78 L24 78 Q8 76 8 64 Z"
-                  fill={d.hue1}
-                  opacity="0.92"
-                />
-                <path d="M8 70 L150 70 Q150 80 130 80 L24 80 Q8 80 8 70 Z" fill="#0f1115" />
-                <path d="M40 50 Q80 36 120 52" stroke="#0f1115" strokeWidth="3" fill="none" />
-              </svg>
-            </div>
-            <div style={{ padding: 22 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <h3 style={{ ...condensed, fontSize: 22, margin: 0 }}>{d.name}</h3>
-                <span style={{ ...condensed, fontSize: 20, color: C.neon }}>{d.price}</span>
-              </div>
-              {/* sold bar */}
-              <div style={{ marginTop: 16 }}>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    fontSize: 11,
-                    color: C.textMuted,
-                    marginBottom: 6,
-                  }}
-                >
-                  <span>{d.soldPct}% claimed</span>
-                  <span>Limited run</span>
-                </div>
-                <div style={{ height: 6, background: C.border, borderRadius: 999 }}>
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={inView ? { width: `${d.soldPct}%` } : {}}
-                    transition={{ delay: 0.3 + i * 0.12, duration: 0.9 }}
-                    style={{ height: '100%', background: C.neon, borderRadius: 999 }}
-                  />
-                </div>
-              </div>
-              <button
-                style={{
-                  marginTop: 18,
-                  width: '100%',
-                  background: C.bgCardHover,
-                  border: `1px solid ${C.borderLight}`,
-                  color: C.white,
-                  padding: '11px',
-                  borderRadius: 10,
-                  fontWeight: 700,
-                  fontSize: 13,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 8,
-                }}
-              >
-                <Plus size={15} /> Add to bag
-              </button>
-            </div>
-          </motion.article>
-        ))}
-      </div>
-    </section>
+  const opacity = useTransform(
+    progress,
+    index === 0
+      ? [0, fadeOut, end]
+      : index === n - 1
+        ? [start, fadeIn, 1]
+        : [start, fadeIn, fadeOut, end],
+    index === 0
+      ? [1, 1, 0]
+      : index === n - 1
+        ? [0, 1, 1]
+        : [0, 1, 1, 0],
   );
-}
 
-/* ════════════════════════════════════════════════════════════════════════════
-   5. COLORWAYS GRID — hover flip cards
-   ════════════════════════════════════════════════════════════════════════════ */
+  const scale = useTransform(progress, [start, end], [1.08, 1.0]);
 
-interface Colorway {
-  name: string;
-  front: string;
-  back: string;
-  desc: string;
-}
-
-const COLORWAYS: Colorway[] = [
-  { name: 'Volt Strike', front: '#e3ff34', back: '#1b1f26', desc: 'Hi-vis upper, carbon sole.' },
-  { name: 'Onyx Mono', front: '#3a3f4a', back: '#0e1013', desc: 'Triple-black stealth build.' },
-  { name: 'Coral Flux', front: '#ff6f61', back: '#2a1714', desc: 'Coral knit, ivory midsole.' },
-  { name: 'Glacier', front: '#9fd8e0', back: '#10222a', desc: 'Ice-blue translucent shell.' },
-  { name: 'Ember', front: '#ff9d3c', back: '#241204', desc: 'Sunset gradient woven mesh.' },
-  { name: 'Lunar', front: '#c9c4ff', back: '#16142a', desc: 'Reflective lilac 3M panels.' },
-];
-
-function FlipCard({ cw, index }: { cw: Colorway; index: number }) {
-  const [flip, setFlip] = useState(false);
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.94 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ delay: index * 0.06, duration: 0.5 }}
-      onMouseEnter={() => setFlip(true)}
-      onMouseLeave={() => setFlip(false)}
-      style={{ perspective: 1000, height: 220, cursor: 'pointer' }}
+      style={{
+        position: 'absolute',
+        inset: 0,
+        opacity,
+        willChange: 'opacity',
+      }}
     >
-      <motion.div
-        animate={{ rotateY: flip ? 180 : 0 }}
-        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      <motion.img
+        src={phase.img}
+        alt={phase.caption}
+        loading="lazy"
         style={{
-          position: 'relative',
           width: '100%',
           height: '100%',
-          transformStyle: 'preserve-3d',
+          objectFit: 'cover',
+          scale,
+          willChange: 'transform',
         }}
-      >
-        {/* front */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            backfaceVisibility: 'hidden',
-            borderRadius: 18,
-            background: `linear-gradient(135deg, ${cw.front}, ${cw.back})`,
-            display: 'grid',
-            placeItems: 'center',
-            border: `1px solid ${C.border}`,
-          }}
-        >
-          <svg width="120" height="70" viewBox="0 0 160 90">
-            <path
-              d="M8 64 Q6 40 44 36 Q80 30 110 44 Q140 56 150 66 Q152 78 130 78 L24 78 Q8 76 8 64 Z"
-              fill="#0f1115"
-              opacity="0.4"
-            />
-          </svg>
-          <span
-            style={{
-              position: 'absolute',
-              bottom: 14,
-              left: 16,
-              ...condensed,
-              fontSize: 16,
-              color: '#0f1115',
-            }}
-          >
-            {cw.name}
-          </span>
-        </div>
-        {/* back */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            backfaceVisibility: 'hidden',
-            transform: 'rotateY(180deg)',
-            borderRadius: 18,
-            background: C.bgCard,
-            border: `1px solid ${C.borderLight}`,
-            padding: 20,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-          }}
-        >
-          <div>
-            <span style={{ ...condensed, fontSize: 16 }}>{cw.name}</span>
-            <p style={{ color: C.textMuted, fontSize: 13, marginTop: 8, lineHeight: 1.5 }}>
-              {cw.desc}
-            </p>
-          </div>
-          <button
-            style={{
-              background: C.neon,
-              color: '#0f1115',
-              border: 'none',
-              padding: '9px',
-              borderRadius: 8,
-              fontWeight: 800,
-              fontSize: 12,
-              cursor: 'pointer',
-            }}
-          >
-            Select colorway
-          </button>
-        </div>
-      </motion.div>
+      />
     </motion.div>
   );
 }
 
-function Colorways() {
+function CaptionLayer({
+  phase,
+  index,
+  progress,
+}: {
+  phase: SeqPhase;
+  index: number;
+  progress: MotionValue<number>;
+}) {
+  const n = SEQUENCE.length;
+  const seg = 1 / n;
+  const start = index * seg;
+  const end = start + seg;
+  const mid = start + seg / 2;
+
+  const opacity = useTransform(
+    progress,
+    [start, start + seg * 0.2, end - seg * 0.2, end],
+    [0, 1, 1, 0],
+  );
+  const y = useTransform(progress, [start, mid, end], [30, 0, -30]);
+
   return (
-    <section id="colorways" style={{ ...sectionPad, paddingBlock: 90, background: C.bgAlt }}>
-      <h2 style={{ ...condensed, fontSize: 'clamp(30px, 4.5vw, 56px)', margin: '0 0 12px' }}>
-        Pick Your <span style={{ color: C.neon }}>Colorway</span>
-      </h2>
-      <p style={{ color: C.textMuted, maxWidth: 520, marginBottom: 44, fontSize: 15 }}>
-        Six signature finishes, each engineered with the same X-1 carbon plate.
-        Hover to reveal the build spec.
+    <motion.div
+      style={{
+        position: 'absolute',
+        left: 'clamp(20px, 5vw, 64px)',
+        bottom: 'clamp(48px, 10vh, 96px)',
+        opacity,
+        y,
+        maxWidth: 560,
+        willChange: 'transform, opacity',
+      }}
+    >
+      <span
+        style={{
+          fontSize: 13,
+          fontWeight: 800,
+          letterSpacing: '0.3em',
+          color: C.accent,
+        }}
+      >
+        0{index + 1} / 0{n}
+      </span>
+      <h3
+        style={{
+          margin: '12px 0 14px',
+          fontWeight: 900,
+          fontSize: 'clamp(2rem, 6vw, 5rem)',
+          lineHeight: 0.94,
+          letterSpacing: '-0.03em',
+          textTransform: 'uppercase',
+          color: C.white,
+        }}
+      >
+        {phase.caption}
+      </h3>
+      <p style={{ margin: 0, color: C.textMuted, fontSize: 'clamp(0.95rem, 1.3vw, 1.1rem)', lineHeight: 1.5 }}>
+        {phase.sub}
       </p>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-          gap: 18,
-        }}
-      >
-        {COLORWAYS.map((cw, i) => (
-          <FlipCard key={cw.name} cw={cw} index={i} />
-        ))}
-      </div>
-    </section>
+    </motion.div>
   );
 }
 
-/* ════════════════════════════════════════════════════════════════════════════
-   6. SIZE GUIDE
-   ════════════════════════════════════════════════════════════════════════════ */
+function CrossfadeSequence() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end end'],
+  });
 
-function SizeGuide() {
-  const [selected, setSelected] = useState<number | null>(42);
-  const sizes = [38, 39, 40, 41, 42, 43, 44, 45, 46];
-  const lowStock = [39, 46];
+  // progress bar
+  const barScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
   return (
-    <section id="tech" style={{ ...sectionPad, paddingBlock: 90 }}>
+    <section
+      ref={ref}
+      style={{ position: 'relative', height: '320vh', background: C.bg }}
+    >
       <div
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: 50,
-          alignItems: 'center',
-        }}
-      >
-        <div>
-          <h2 style={{ ...condensed, fontSize: 'clamp(30px, 4.5vw, 54px)', margin: '0 0 18px' }}>
-            Find Your
-            <br />
-            Perfect Fit
-          </h2>
-          <p style={{ color: C.textMuted, fontSize: 15, lineHeight: 1.6, marginBottom: 28 }}>
-            AirForge runs true to size with our adaptive knit collar. If you&apos;re
-            between sizes, we recommend sizing down for a locked-in ride.
-          </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-            {sizes.map((s) => {
-              const isLow = lowStock.includes(s);
-              const active = selected === s;
-              return (
-                <button
-                  key={s}
-                  onClick={() => setSelected(s)}
-                  style={{
-                    width: 58,
-                    height: 58,
-                    borderRadius: 12,
-                    border: `1px solid ${active ? C.neon : C.border}`,
-                    background: active ? C.neon : C.bgCard,
-                    color: active ? '#0f1115' : C.white,
-                    fontWeight: 800,
-                    fontSize: 15,
-                    cursor: 'pointer',
-                    position: 'relative',
-                    fontFamily: C.fontDisplay,
-                  }}
-                >
-                  {s}
-                  {isLow && (
-                    <span
-                      style={{
-                        position: 'absolute',
-                        top: -5,
-                        right: -5,
-                        width: 12,
-                        height: 12,
-                        borderRadius: 999,
-                        background: C.red,
-                        border: `2px solid ${C.bg}`,
-                      }}
-                    />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-          <p style={{ color: C.textFaint, fontSize: 12, marginTop: 14 }}>
-            <span style={{ color: C.red }}>●</span> Low stock — fewer than 10 pairs left.
-          </p>
-        </div>
-
-        {/* size chart card */}
-        <div
-          style={{
-            background: C.bgCard,
-            border: `1px solid ${C.border}`,
-            borderRadius: 20,
-            padding: 28,
-          }}
-        >
-          <p style={{ ...condensed, fontSize: 16, marginTop: 0 }}>EU → US → CM</p>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
-            <thead>
-              <tr style={{ color: C.textMuted, textAlign: 'left' }}>
-                <th style={{ padding: '8px 0' }}>EU</th>
-                <th>US</th>
-                <th>UK</th>
-                <th>CM</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                [40, 7, 6, 25],
-                [42, 9, 8, 27],
-                [44, 10.5, 9.5, 28.5],
-                [46, 12, 11, 30],
-              ].map((row) => (
-                <tr
-                  key={row[0]}
-                  style={{
-                    borderTop: `1px solid ${C.border}`,
-                    color: selected === row[0] ? C.neon : C.white,
-                  }}
-                >
-                  {row.map((cell, ci) => (
-                    <td key={ci} style={{ padding: '11px 0' }}>
-                      {cell}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ════════════════════════════════════════════════════════════════════════════
-   7. REVIEWS
-   ════════════════════════════════════════════════════════════════════════════ */
-
-interface Review {
-  name: string;
-  role: string;
-  body: string;
-  rating: number;
-}
-
-const REVIEWS: Review[] = [
-  { name: 'Marcus Bell', role: 'Marathon runner', rating: 5, body: 'The carbon plate is no joke. Shaved 4 minutes off my half-marathon PB. Best €189 I have spent on running gear.' },
-  { name: 'Lena Hofer', role: 'Verified buyer', rating: 5, body: 'Fit is perfect straight out of the box. The knit collar hugs the ankle without any pressure points. Obsessed.' },
-  { name: 'Dario Costa', role: 'Sneaker collector', rating: 4, body: 'Build quality rivals shoes twice the price. Only wish the Volt colorway came in more sizes — sold out fast.' },
-  { name: 'Amara Singh', role: 'Gym coach', rating: 5, body: 'My clients keep asking what I am wearing. Stable enough for lifting, light enough for sprints. Versatile beast.' },
-];
-
-function Reviews() {
-  return (
-    <section id="reviews" style={{ ...sectionPad, paddingBlock: 90, background: C.bgAlt }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginBottom: 40, flexWrap: 'wrap' }}>
-        <h2 style={{ ...condensed, fontSize: 'clamp(30px, 4.5vw, 54px)', margin: 0 }}>
-          4.8 / 5
-        </h2>
-        <div>
-          <div style={{ display: 'flex', gap: 2 }}>
-            {[0, 1, 2, 3, 4].map((i) => (
-              <Star key={i} size={18} fill={C.neon} color={C.neon} />
-            ))}
-          </div>
-          <p style={{ color: C.textMuted, fontSize: 14, margin: '6px 0 0' }}>
-            Based on 3,412 verified reviews
-          </p>
-        </div>
-      </div>
-
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: 20,
-        }}
-      >
-        {REVIEWS.map((r, i) => (
-          <motion.div
-            key={r.name}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ delay: i * 0.08, duration: 0.5 }}
-            style={{
-              background: C.bgCard,
-              border: `1px solid ${C.border}`,
-              borderRadius: 18,
-              padding: 24,
-            }}
-          >
-            <div style={{ display: 'flex', gap: 2, marginBottom: 12 }}>
-              {Array.from({ length: 5 }).map((_, s) => (
-                <Star
-                  key={s}
-                  size={14}
-                  fill={s < r.rating ? C.neon : 'transparent'}
-                  color={s < r.rating ? C.neon : C.borderLight}
-                />
-              ))}
-            </div>
-            <p style={{ fontSize: 14, lineHeight: 1.6, color: C.white, margin: '0 0 18px' }}>
-              &ldquo;{r.body}&rdquo;
-            </p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <div
-                style={{
-                  width: 38,
-                  height: 38,
-                  borderRadius: 999,
-                  background: `linear-gradient(135deg, ${C.neon}, ${C.neonDim})`,
-                  display: 'grid',
-                  placeItems: 'center',
-                  color: '#0f1115',
-                  fontWeight: 800,
-                  fontSize: 14,
-                }}
-              >
-                {r.name.charAt(0)}
-              </div>
-              <div>
-                <p style={{ margin: 0, fontWeight: 700, fontSize: 14 }}>{r.name}</p>
-                <p style={{ margin: 0, color: C.textMuted, fontSize: 12 }}>{r.role}</p>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/* ════════════════════════════════════════════════════════════════════════════
-   8. ADD-TO-CART CTA
-   ════════════════════════════════════════════════════════════════════════════ */
-
-function FinalCTA() {
-  const [qty, setQty] = useState(1);
-  return (
-    <section id="cta" style={{ ...sectionPad, paddingBlock: 100 }}>
-      <div
-        style={{
-          background: `linear-gradient(135deg, ${C.bgCard}, ${C.bgAlt})`,
-          border: `1px solid ${C.borderLight}`,
-          borderRadius: 28,
-          padding: 'clamp(28px, 5vw, 64px)',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: 40,
-          alignItems: 'center',
-          position: 'relative',
+          position: 'sticky',
+          top: 0,
+          height: '100vh',
           overflow: 'hidden',
         }}
       >
+        {SEQUENCE.map((p, i) => (
+          <SeqLayer key={i} phase={p} index={i} progress={scrollYProgress} />
+        ))}
+
+        {/* darkening scrim */}
         <div
-          aria-hidden
           style={{
             position: 'absolute',
-            top: '-40%',
-            right: '-10%',
-            width: 420,
-            height: 420,
-            borderRadius: '50%',
-            background: `radial-gradient(circle, ${C.neon}22, transparent 70%)`,
+            inset: 0,
+            background:
+              'linear-gradient(90deg, rgba(10,10,11,0.85) 0%, rgba(10,10,11,0.25) 45%, transparent 70%), linear-gradient(0deg, rgba(10,10,11,0.7) 0%, transparent 40%)',
           }}
         />
-        <div style={{ position: 'relative', zIndex: 1 }}>
+
+        {/* section label top-right */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 'clamp(90px, 14vh, 140px)',
+            right: 'clamp(20px, 5vw, 64px)',
+            textAlign: 'right',
+          }}
+        >
+          <Eyebrow style={{ justifyContent: 'flex-end' }}>The Anatomy</Eyebrow>
+        </div>
+
+        {SEQUENCE.map((p, i) => (
+          <CaptionLayer key={i} phase={p} index={i} progress={scrollYProgress} />
+        ))}
+
+        {/* progress bar */}
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            bottom: 0,
+            height: 3,
+            width: '100%',
+            background: 'rgba(255,255,255,0.12)',
+          }}
+        >
+          <motion.div
+            style={{
+              height: '100%',
+              background: C.accent,
+              transformOrigin: 'left',
+              scaleX: barScale,
+            }}
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   FEATURED DROPS — product cards
+   ════════════════════════════════════════════════════════════════════════════ */
+
+function ProductCard({
+  product,
+  onAdd,
+}: {
+  product: Product;
+  onAdd: () => void;
+}) {
+  const [hover, setHover] = useState(false);
+  const [added, setAdded] = useState(false);
+
+  const handleAdd = () => {
+    onAdd();
+    setAdded(true);
+    window.setTimeout(() => setAdded(false), 1400);
+  };
+
+  return (
+    <motion.div
+      variants={revealUp}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        background: C.bgCard,
+        border: `1px solid ${C.border}`,
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        cursor: 'pointer',
+      }}
+    >
+      {/* image */}
+      <div style={{ position: 'relative', overflow: 'hidden', aspectRatio: '4 / 5' }}>
+        <motion.img
+          src={product.img}
+          alt={product.name}
+          loading="lazy"
+          animate={{ scale: hover ? 1.08 : 1 }}
+          transition={{ duration: 0.7, ease: easeOut }}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+          }}
+        />
+        {product.badge && (
           <span
             style={{
-              ...condensed,
+              position: 'absolute',
+              top: 14,
+              left: 14,
+              background: C.accent,
+              color: '#0a0a0b',
               fontSize: 11,
-              color: C.neon,
-              border: `1px solid ${C.neon}55`,
-              padding: '5px 12px',
-              borderRadius: 999,
+              fontWeight: 800,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              padding: '6px 10px',
+              borderRadius: 2,
             }}
           >
-            FINAL CALL
+            {product.badge}
           </span>
-          <h2 style={{ ...condensed, fontSize: 'clamp(34px, 5vw, 68px)', margin: '18px 0 12px', lineHeight: 0.92 }}>
-            Lace Up The
-            <br />
-            <span style={{ color: C.neon }}>AirForge X-1</span>
-          </h2>
-          <p style={{ color: C.textMuted, fontSize: 15, maxWidth: 420, lineHeight: 1.6 }}>
-            The drop that sold out in 11 minutes is back — for 48 hours only.
-            Free express shipping and 30-day returns on every pair.
-          </p>
-          <div style={{ display: 'flex', gap: 22, marginTop: 26, flexWrap: 'wrap' }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 8, color: C.textMuted, fontSize: 13 }}>
-              <Truck size={16} color={C.neon} /> 48h delivery
-            </span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 8, color: C.textMuted, fontSize: 13 }}>
-              <ShieldCheck size={16} color={C.neon} /> 2-year warranty
-            </span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 8, color: C.textMuted, fontSize: 13 }}>
-              <Heart size={16} color={C.neon} /> 18k wishlisted
-            </span>
+        )}
+
+        {/* Add to cart reveal */}
+        <AnimatePresence>
+          {hover && (
+            <motion.button
+              initial={{ y: 60, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 60, opacity: 0 }}
+              transition={{ duration: 0.35, ease: easeOut }}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAdd();
+              }}
+              style={{
+                position: 'absolute',
+                left: 14,
+                right: 14,
+                bottom: 14,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 10,
+                background: added ? C.accent : 'rgba(10,10,11,0.88)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                color: added ? '#0a0a0b' : C.white,
+                border: `1px solid ${added ? C.accent : C.borderBright}`,
+                padding: '14px',
+                fontWeight: 800,
+                fontSize: 13,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                borderRadius: 2,
+              }}
+            >
+              {added ? (
+                <>
+                  <Check size={16} strokeWidth={3} /> Added
+                </>
+              ) : (
+                <>
+                  <Plus size={16} strokeWidth={3} /> Add to cart
+                </>
+              )}
+            </motion.button>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* meta */}
+      <div style={{ padding: '20px 20px 24px' }}>
+        <div style={{ fontSize: 12, color: C.textFaint, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
+          {product.edition}
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'baseline',
+            gap: 12,
+          }}
+        >
+          <h3
+            style={{
+              margin: 0,
+              fontWeight: 800,
+              fontSize: '1.15rem',
+              letterSpacing: '-0.02em',
+              color: C.white,
+            }}
+          >
+            {product.name}
+          </h3>
+          <span style={{ fontWeight: 800, fontSize: '1.1rem', color: C.accent }}>
+            €{product.price}
+          </span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function FeaturedDrops({ onAdd }: { onAdd: () => void }) {
+  return (
+    <section
+      id="drops"
+      style={{
+        background: C.bg,
+        padding: 'clamp(80px, 12vh, 140px) clamp(20px, 5vw, 64px)',
+      }}
+    >
+      <div style={{ maxWidth: 1400, margin: '0 auto' }}>
+        <Reveal>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-end',
+              flexWrap: 'wrap',
+              gap: 24,
+              marginBottom: 'clamp(40px, 6vh, 72px)',
+            }}
+          >
+            <div>
+              <Eyebrow style={{ marginBottom: 18 }}>Featured Drops</Eyebrow>
+              <h2
+                style={{
+                  margin: 0,
+                  fontWeight: 900,
+                  fontSize: 'clamp(2.4rem, 6vw, 5rem)',
+                  lineHeight: 0.92,
+                  letterSpacing: '-0.035em',
+                  textTransform: 'uppercase',
+                  color: C.white,
+                }}
+              >
+                This season&apos;s
+                <br />
+                forged icons
+              </h2>
+            </div>
+            <a
+              href="#shop"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                color: C.white,
+                textDecoration: 'none',
+                fontSize: 14,
+                fontWeight: 700,
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                borderBottom: `2px solid ${C.accent}`,
+                paddingBottom: 4,
+              }}
+            >
+              View all 24 styles <ArrowUpRight size={18} />
+            </a>
+          </div>
+        </Reveal>
+
+        <motion.div
+          variants={staggerParent}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-60px' }}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
+            gap: 'clamp(16px, 2vw, 28px)',
+          }}
+        >
+          {PRODUCTS.map((p) => (
+            <ProductCard key={p.id} product={p} onAdd={onAdd} />
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   EDITORIAL SPLIT ROWS
+   ════════════════════════════════════════════════════════════════════════════ */
+
+interface StoryRow {
+  img: string;
+  index: string;
+  title: string;
+  body: string;
+  reverse?: boolean;
+}
+
+const STORY_ROWS: StoryRow[] = [
+  {
+    img: IMG.story1,
+    index: '01',
+    title: 'Built in the workshop, not the boardroom',
+    body: 'AirForge started in a Lyon garage with a heat press and an obsession. Every silhouette is prototyped by hand, stress-tested on real streets, and refined until it earns the name.',
+  },
+  {
+    img: IMG.story2,
+    index: '02',
+    title: 'Materials that age with you',
+    body: 'We source full-grain suede and recycled knits that develop character. Your pair will not look like anyone else’s after a year — that is the point.',
+    reverse: true,
+  },
+];
+
+function EditorialRows() {
+  return (
+    <section
+      id="craft"
+      style={{
+        background: C.bgAlt,
+        padding: 'clamp(80px, 12vh, 150px) clamp(20px, 5vw, 64px)',
+      }}
+    >
+      <div style={{ maxWidth: 1400, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'clamp(80px, 12vh, 140px)' }}>
+        <Reveal>
+          <div style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto' }}>
+            <Eyebrow style={{ marginBottom: 18 }}>The Craft</Eyebrow>
+            <h2
+              style={{
+                margin: 0,
+                fontWeight: 900,
+                fontSize: 'clamp(2.2rem, 5vw, 4.5rem)',
+                lineHeight: 0.95,
+                letterSpacing: '-0.035em',
+                textTransform: 'uppercase',
+                color: C.white,
+              }}
+            >
+              Obsession, forged
+              <br /> into every pair
+            </h2>
+          </div>
+        </Reveal>
+
+        {STORY_ROWS.map((row) => (
+          <div
+            key={row.index}
+            className="af-split-row"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: 'clamp(32px, 5vw, 80px)',
+              alignItems: 'center',
+            }}
+          >
+            <Reveal style={{ order: row.reverse ? 2 : 1 }}>
+              <div style={{ overflow: 'hidden', aspectRatio: '4 / 5' }}>
+                <img
+                  src={row.img}
+                  alt={row.title}
+                  loading="lazy"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.1} style={{ order: row.reverse ? 1 : 2 }}>
+              <div
+                style={{
+                  fontSize: 'clamp(3rem, 7vw, 6rem)',
+                  fontWeight: 900,
+                  lineHeight: 1,
+                  color: 'transparent',
+                  WebkitTextStroke: `1.5px ${C.borderBright}`,
+                  marginBottom: 18,
+                }}
+              >
+                {row.index}
+              </div>
+              <h3
+                style={{
+                  margin: '0 0 20px',
+                  fontWeight: 800,
+                  fontSize: 'clamp(1.7rem, 3.2vw, 2.8rem)',
+                  lineHeight: 1.05,
+                  letterSpacing: '-0.02em',
+                  color: C.white,
+                }}
+              >
+                {row.title}
+              </h3>
+              <p
+                style={{
+                  margin: 0,
+                  color: C.textMuted,
+                  fontSize: 'clamp(1rem, 1.5vw, 1.2rem)',
+                  lineHeight: 1.65,
+                  maxWidth: 480,
+                }}
+              >
+                {row.body}
+              </p>
+            </Reveal>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   STICKY-SIDE SPEC SHOWCASE
+   ════════════════════════════════════════════════════════════════════════════ */
+
+function SpecShowcase() {
+  return (
+    <section
+      style={{
+        background: C.bg,
+        padding: 'clamp(60px, 9vh, 120px) clamp(20px, 5vw, 64px)',
+      }}
+    >
+      <div
+        className="af-spec-wrap"
+        style={{
+          maxWidth: 1400,
+          margin: '0 auto',
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 'clamp(32px, 5vw, 80px)',
+          alignItems: 'flex-start',
+        }}
+      >
+        {/* sticky image side */}
+        <div
+          className="af-spec-sticky"
+          style={{
+            position: 'sticky',
+            top: 100,
+            alignSelf: 'start',
+          }}
+        >
+          <div style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3 / 4' }}>
+            <img
+              src={IMG.spec}
+              alt="AirForge construction detail"
+              loading="lazy"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(0deg, rgba(10,10,11,0.6) 0%, transparent 45%)',
+              }}
+            />
+            <div style={{ position: 'absolute', left: 24, bottom: 24 }}>
+              <Eyebrow>Tech Spec</Eyebrow>
+              <div
+                style={{
+                  marginTop: 10,
+                  fontWeight: 900,
+                  fontSize: 'clamp(1.4rem, 2.6vw, 2.2rem)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '-0.02em',
+                  color: C.white,
+                }}
+              >
+                Forge Runner OG
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* purchase panel */}
+        {/* scrolling specs */}
+        <div style={{ paddingTop: 'clamp(0px, 4vh, 40px)' }}>
+          <Reveal>
+            <h2
+              style={{
+                margin: '0 0 clamp(32px, 6vh, 64px)',
+                fontWeight: 900,
+                fontSize: 'clamp(2rem, 4.5vw, 4rem)',
+                lineHeight: 0.95,
+                letterSpacing: '-0.035em',
+                textTransform: 'uppercase',
+                color: C.white,
+              }}
+            >
+              Engineered down
+              <br /> to the stitch
+            </h2>
+          </Reveal>
+
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {SPECS.map((s, i) => (
+              <Reveal
+                key={s.k}
+                delay={i * 0.05}
+                style={{
+                  padding: 'clamp(28px, 5vh, 44px) 0',
+                  borderTop: `1px solid ${C.border}`,
+                }}
+              >
+                <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
+                  <span
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 800,
+                      color: C.accent,
+                      letterSpacing: '0.1em',
+                      paddingTop: 6,
+                      minWidth: 30,
+                    }}
+                  >
+                    {s.k}
+                  </span>
+                  <div>
+                    <h3
+                      style={{
+                        margin: '0 0 12px',
+                        fontWeight: 800,
+                        fontSize: 'clamp(1.3rem, 2.4vw, 1.9rem)',
+                        letterSpacing: '-0.02em',
+                        color: C.white,
+                      }}
+                    >
+                      {s.title}
+                    </h3>
+                    <p
+                      style={{
+                        margin: 0,
+                        color: C.textMuted,
+                        fontSize: 'clamp(0.95rem, 1.4vw, 1.1rem)',
+                        lineHeight: 1.6,
+                      }}
+                    >
+                      {s.body}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   LOOKBOOK / LIFESTYLE GALLERY
+   ════════════════════════════════════════════════════════════════════════════ */
+
+function Lookbook() {
+  return (
+    <section
+      id="lookbook"
+      style={{
+        background: C.bgAlt,
+        padding: 'clamp(80px, 12vh, 140px) clamp(20px, 5vw, 64px)',
+      }}
+    >
+      <div style={{ maxWidth: 1400, margin: '0 auto' }}>
+        <Reveal>
+          <div style={{ marginBottom: 'clamp(40px, 6vh, 64px)' }}>
+            <Eyebrow style={{ marginBottom: 18 }}>Lookbook · SS26</Eyebrow>
+            <h2
+              style={{
+                margin: 0,
+                fontWeight: 900,
+                fontSize: 'clamp(2.4rem, 6vw, 5rem)',
+                lineHeight: 0.92,
+                letterSpacing: '-0.035em',
+                textTransform: 'uppercase',
+                color: C.white,
+              }}
+            >
+              On the street
+            </h2>
+          </div>
+        </Reveal>
+
         <div
+          className="af-masonry"
           style={{
-            position: 'relative',
-            zIndex: 1,
-            background: C.bg,
-            border: `1px solid ${C.border}`,
-            borderRadius: 20,
-            padding: 28,
+            columns: 3,
+            columnGap: 'clamp(12px, 1.8vw, 22px)',
           }}
         >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-            <span style={{ ...condensed, fontSize: 22 }}>X-1 Volt</span>
-            <span style={{ ...condensed, fontSize: 30, color: C.neon }}>€189</span>
+          {LOOKBOOK.map((look, i) => (
+            <Reveal
+              key={i}
+              delay={(i % 3) * 0.08}
+              style={{
+                breakInside: 'avoid',
+                marginBottom: 'clamp(12px, 1.8vw, 22px)',
+              }}
+            >
+              <div
+                className="af-look-card"
+                style={{
+                  position: 'relative',
+                  overflow: 'hidden',
+                  aspectRatio: look.tall ? '3 / 4.4' : '3 / 3.4',
+                }}
+              >
+                <img
+                  src={look.img}
+                  alt={look.label}
+                  loading="lazy"
+                  className="af-look-img"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                    transition: 'transform 0.7s cubic-bezier(0.16,1,0.3,1)',
+                  }}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(0deg, rgba(10,10,11,0.7) 0%, transparent 50%)',
+                    opacity: 0,
+                    transition: 'opacity 0.4s ease',
+                  }}
+                  className="af-look-scrim"
+                />
+                <div
+                  className="af-look-label"
+                  style={{
+                    position: 'absolute',
+                    left: 18,
+                    bottom: 18,
+                    color: C.white,
+                    fontWeight: 700,
+                    fontSize: 13,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    opacity: 0,
+                    transform: 'translateY(8px)',
+                    transition: 'opacity 0.4s ease, transform 0.4s ease',
+                  }}
+                >
+                  {look.label}
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   REVIEWS
+   ════════════════════════════════════════════════════════════════════════════ */
+
+function Reviews() {
+  return (
+    <section
+      style={{
+        background: C.bg,
+        padding: 'clamp(80px, 12vh, 140px) clamp(20px, 5vw, 64px)',
+      }}
+    >
+      <div style={{ maxWidth: 1400, margin: '0 auto' }}>
+        <Reveal>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: 24,
+              marginBottom: 'clamp(40px, 6vh, 64px)',
+            }}
+          >
+            <div>
+              <Eyebrow style={{ marginBottom: 18 }}>Worn &amp; rated</Eyebrow>
+              <h2
+                style={{
+                  margin: 0,
+                  fontWeight: 900,
+                  fontSize: 'clamp(2.2rem, 5vw, 4.5rem)',
+                  lineHeight: 0.92,
+                  letterSpacing: '-0.035em',
+                  textTransform: 'uppercase',
+                  color: C.white,
+                }}
+              >
+                4.9 / 5 from
+                <br /> 12,400 forgers
+              </h2>
+            </div>
+            <div style={{ display: 'flex', gap: 4 }}>
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} size={26} fill={C.accent} color={C.accent} strokeWidth={0} />
+              ))}
+            </div>
           </div>
-          <p style={{ color: C.textMuted, fontSize: 13, margin: '6px 0 20px' }}>
-            <s style={{ color: C.textFaint }}>€229</s> · Save €40 today
+        </Reveal>
+
+        <motion.div
+          variants={staggerParent}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-60px' }}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+            gap: 'clamp(16px, 2vw, 28px)',
+          }}
+        >
+          {REVIEWS.map((r) => (
+            <motion.div
+              key={r.handle}
+              variants={revealUp}
+              style={{
+                background: C.bgCard,
+                border: `1px solid ${C.border}`,
+                padding: 'clamp(28px, 3vw, 40px)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 20,
+              }}
+            >
+              <div style={{ display: 'flex', gap: 3 }}>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star
+                    key={i}
+                    size={16}
+                    fill={i < r.stars ? C.accent : 'transparent'}
+                    color={i < r.stars ? C.accent : C.textFaint}
+                    strokeWidth={i < r.stars ? 0 : 1.5}
+                  />
+                ))}
+              </div>
+              <p
+                style={{
+                  margin: 0,
+                  color: C.white,
+                  fontSize: 'clamp(1rem, 1.4vw, 1.2rem)',
+                  lineHeight: 1.55,
+                  fontWeight: 500,
+                  flexGrow: 1,
+                }}
+              >
+                &ldquo;{r.text}&rdquo;
+              </p>
+              <div>
+                <div style={{ fontWeight: 700, color: C.white, fontSize: 15 }}>{r.name}</div>
+                <div style={{ color: C.textFaint, fontSize: 13 }}>{r.handle}</div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   NEWSLETTER / FINAL CTA — full-bleed parallax photo
+   ════════════════════════════════════════════════════════════════════════════ */
+
+function FinalCTA() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+  const imgY = useTransform(scrollYProgress, [0, 1], ['-12%', '12%']);
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1.1, 1.2]);
+
+  const [email, setEmail] = useState('');
+  const [done, setDone] = useState(false);
+
+  return (
+    <section
+      id="shop"
+      ref={ref}
+      style={{
+        position: 'relative',
+        overflow: 'hidden',
+        background: C.bg,
+        minHeight: '90vh',
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      <motion.div
+        style={{
+          position: 'absolute',
+          inset: '-12% 0',
+          y: imgY,
+          scale: imgScale,
+          willChange: 'transform',
+        }}
+      >
+        <img
+          src={IMG.cta}
+          alt="AirForge lifestyle"
+          loading="lazy"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+      </motion.div>
+
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background:
+            'linear-gradient(90deg, rgba(10,10,11,0.9) 0%, rgba(10,10,11,0.55) 50%, rgba(10,10,11,0.3) 100%)',
+        }}
+      />
+
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 2,
+          maxWidth: 1400,
+          margin: '0 auto',
+          padding: 'clamp(60px, 10vh, 120px) clamp(20px, 5vw, 64px)',
+          width: '100%',
+        }}
+      >
+        <Reveal>
+          <Eyebrow style={{ marginBottom: 22 }}>Join the forge</Eyebrow>
+          <h2
+            style={{
+              margin: '0 0 22px',
+              fontWeight: 900,
+              fontSize: 'clamp(2.6rem, 8vw, 7rem)',
+              lineHeight: 0.86,
+              letterSpacing: '-0.04em',
+              textTransform: 'uppercase',
+              color: C.white,
+              maxWidth: '12ch',
+            }}
+          >
+            Get the next drop first
+          </h2>
+          <p
+            style={{
+              margin: '0 0 36px',
+              color: C.textMuted,
+              fontSize: 'clamp(1rem, 1.5vw, 1.2rem)',
+              lineHeight: 1.55,
+              maxWidth: 480,
+            }}
+          >
+            Drops sell out in minutes. Members get a 24-hour early window, exclusive
+            colorways, and free express shipping.
           </p>
+
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (email.trim()) setDone(true);
+            }}
+            style={{
+              display: 'flex',
+              gap: 12,
+              maxWidth: 520,
+              flexWrap: 'wrap',
+            }}
+          >
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              aria-label="Email address"
+              style={{
+                flex: '1 1 240px',
+                background: 'rgba(10,10,11,0.6)',
+                border: `1px solid ${C.borderBright}`,
+                color: C.white,
+                padding: '17px 20px',
+                fontSize: 15,
+                outline: 'none',
+                borderRadius: 2,
+                fontFamily: FONT_STACK,
+              }}
+            />
+            <button
+              type="submit"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 10,
+                background: done ? '#1b1b1f' : C.accent,
+                color: done ? C.accent : '#0a0a0b',
+                border: done ? `1px solid ${C.accent}` : 'none',
+                padding: '17px 30px',
+                fontWeight: 800,
+                fontSize: 14,
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                borderRadius: 2,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {done ? (
+                <>
+                  <Check size={18} strokeWidth={3} /> You&apos;re in
+                </>
+              ) : (
+                <>
+                  Notify me <ArrowRight size={18} strokeWidth={2.4} />
+                </>
+              )}
+            </button>
+          </form>
 
           <div
             style={{
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              border: `1px solid ${C.border}`,
-              borderRadius: 12,
-              padding: '6px 14px',
-              marginBottom: 16,
+              gap: 28,
+              marginTop: 40,
+              flexWrap: 'wrap',
+              color: C.textMuted,
+              fontSize: 13,
             }}
           >
-            <span style={{ fontSize: 14, color: C.textMuted }}>Quantity</span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <button
-                aria-label="Decrease quantity"
-                onClick={() => setQty((q) => Math.max(1, q - 1))}
-                style={qtyBtn}
-              >
-                <Minus size={14} />
-              </button>
-              <span style={{ fontWeight: 800, minWidth: 20, textAlign: 'center' }}>{qty}</span>
-              <button
-                aria-label="Increase quantity"
-                onClick={() => setQty((q) => Math.min(5, q + 1))}
-                style={qtyBtn}
-              >
-                <Plus size={14} />
-              </button>
-            </div>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <Truck size={16} color={C.accent} /> Free express over €150
+            </span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <ShieldCheck size={16} color={C.accent} /> 30-day forge guarantee
+            </span>
           </div>
-
-          <motion.button
-            whileTap={{ scale: 0.97 }}
-            style={{
-              width: '100%',
-              background: C.neon,
-              color: '#0f1115',
-              border: 'none',
-              padding: '15px',
-              borderRadius: 12,
-              ...condensed,
-              fontSize: 15,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 10,
-            }}
-          >
-            <ShoppingBag size={18} /> Add {qty} to bag · €{189 * qty}
-          </motion.button>
-          <p style={{ textAlign: 'center', color: C.textFaint, fontSize: 12, marginTop: 12 }}>
-            Or 3× €{Math.round((189 * qty) / 3)} interest-free
-          </p>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
 }
 
-const qtyBtn: React.CSSProperties = {
-  width: 30,
-  height: 30,
-  borderRadius: 8,
-  border: `1px solid ${C.borderLight}`,
-  background: C.bgCard,
-  color: C.white,
-  display: 'grid',
-  placeItems: 'center',
-  cursor: 'pointer',
-};
-
 /* ════════════════════════════════════════════════════════════════════════════
-   9. FOOTER
+   FOOTER
    ════════════════════════════════════════════════════════════════════════════ */
 
 function Footer() {
-  const cols: { title: string; links: string[] }[] = [
-    { title: 'Shop', links: ['New Drops', 'Colorways', 'Sale', 'Gift Cards'] },
-    { title: 'Support', links: ['Size Guide', 'Shipping', 'Returns', 'Contact'] },
-    { title: 'Company', links: ['About', 'Sustainability', 'Careers', 'Press'] },
+  const cols: { title: string; items: string[] }[] = [
+    { title: 'Shop', items: ['New Drops', 'Runners', 'Mid Tops', 'Hi Tops', 'Sale'] },
+    { title: 'Brand', items: ['Our Story', 'The Forge', 'Sustainability', 'Press'] },
+    { title: 'Support', items: ['Shipping', 'Returns', 'Size Guide', 'Contact'] },
   ];
+
   return (
-    <footer style={{ ...sectionPad, paddingBlock: 60, borderTop: `1px solid ${C.border}` }}>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-          gap: 36,
-        }}
-      >
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+    <footer
+      style={{
+        background: C.bg,
+        borderTop: `1px solid ${C.border}`,
+        padding: 'clamp(60px, 8vh, 96px) clamp(20px, 5vw, 64px) 40px',
+      }}
+    >
+      <div style={{ maxWidth: 1400, margin: '0 auto' }}>
+        <div
+          className="af-footer-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1.6fr repeat(3, 1fr)',
+            gap: 'clamp(32px, 4vw, 60px)',
+            paddingBottom: 'clamp(40px, 6vh, 72px)',
+          }}
+        >
+          <div>
             <div
               style={{
-                width: 28,
-                height: 28,
-                borderRadius: 8,
-                background: C.neon,
-                display: 'grid',
-                placeItems: 'center',
-                color: '#0f1115',
+                fontWeight: 900,
+                fontSize: 28,
+                letterSpacing: '-0.04em',
+                textTransform: 'uppercase',
+                color: C.white,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                marginBottom: 18,
               }}
             >
-              <Zap size={16} strokeWidth={3} />
+              <Zap size={24} color={C.accent} fill={C.accent} strokeWidth={1} />
+              AirForge
             </div>
-            <span style={{ ...condensed, fontSize: 18 }}>AirForge</span>
+            <p style={{ margin: '0 0 24px', color: C.textMuted, fontSize: 15, lineHeight: 1.6, maxWidth: 320 }}>
+              Performance sneakers forged in Lyon. Limited runs, built to outlast
+              the hype.
+            </p>
+            <div style={{ display: 'flex', gap: 14 }}>
+              {[Camera, AtSign, PlayCircle].map((Icon, i) => (
+                <a
+                  key={i}
+                  href="#"
+                  aria-label="social"
+                  style={{
+                    width: 42,
+                    height: 42,
+                    border: `1px solid ${C.border}`,
+                    borderRadius: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: C.white,
+                    transition: 'border-color 0.2s, color 0.2s',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = C.accent;
+                    e.currentTarget.style.color = C.accent;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = C.border;
+                    e.currentTarget.style.color = C.white;
+                  }}
+                >
+                  <Icon size={18} strokeWidth={1.8} />
+                </a>
+              ))}
+            </div>
           </div>
-          <p style={{ color: C.textMuted, fontSize: 13, maxWidth: 220, lineHeight: 1.6 }}>
-            Performance footwear, engineered in Portugal. Built to move.
-          </p>
-        </div>
-        {cols.map((col) => (
-          <div key={col.title}>
-            <p style={{ ...condensed, fontSize: 13, marginBottom: 14 }}>{col.title}</p>
-            {col.links.map((l) => (
-              <a
-                key={l}
-                href="#"
+
+          {cols.map((col) => (
+            <div key={col.title}>
+              <h4
                 style={{
-                  display: 'block',
-                  color: C.textMuted,
-                  fontSize: 13,
-                  textDecoration: 'none',
-                  padding: '5px 0',
+                  margin: '0 0 18px',
+                  fontSize: 12,
+                  fontWeight: 800,
+                  letterSpacing: '0.16em',
+                  textTransform: 'uppercase',
+                  color: C.textFaint,
                 }}
               >
-                {l}
-              </a>
-            ))}
+                {col.title}
+              </h4>
+              <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {col.items.map((item) => (
+                  <li key={item}>
+                    <a
+                      href="#"
+                      style={{
+                        color: C.textMuted,
+                        textDecoration: 'none',
+                        fontSize: 14,
+                        transition: 'color 0.2s',
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = C.white)}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = C.textMuted)}
+                    >
+                      {item}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div
+          style={{
+            borderTop: `1px solid ${C.border}`,
+            paddingTop: 28,
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 16,
+            color: C.textFaint,
+            fontSize: 13,
+          }}
+        >
+          <span>© 2026 AirForge. All rights reserved.</span>
+          <div style={{ display: 'flex', gap: 24 }}>
+            <a href="#" style={{ color: C.textFaint, textDecoration: 'none' }}>
+              Privacy
+            </a>
+            <a href="#" style={{ color: C.textFaint, textDecoration: 'none' }}>
+              Terms
+            </a>
+            <a href="#" style={{ color: C.textFaint, textDecoration: 'none' }}>
+              Cookies
+            </a>
           </div>
-        ))}
-      </div>
-      <div
-        style={{
-          marginTop: 44,
-          paddingTop: 20,
-          borderTop: `1px solid ${C.border}`,
-          display: 'flex',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: 12,
-          color: C.textFaint,
-          fontSize: 12,
-        }}
-      >
-        <span>© 2026 AirForge. All rights reserved.</span>
-        <span>Privacy · Terms · Cookies</span>
+        </div>
       </div>
     </footer>
   );
@@ -1427,19 +1929,51 @@ function Footer() {
    PAGE
    ════════════════════════════════════════════════════════════════════════════ */
 
-export default function Impact217Page() {
+export default function ImpactSneakerPage() {
+  const [cart, setCart] = useState(0);
+
   return (
-    <main style={pageStyle}>
+    <main
+      suppressHydrationWarning
+      style={{
+        background: C.bg,
+        color: C.white,
+        fontFamily: FONT_STACK,
+        WebkitFontSmoothing: 'antialiased',
+        overflowX: 'hidden',
+      }}
+    >
+      {/* Scoped responsive + hover styles */}
       <style>{`
-        @media (max-width: 760px) { .af-desktop-nav { display: none !important; } }
-        html { scroll-behavior: smooth; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+        .af-look-card:hover .af-look-img { transform: scale(1.07); }
+        .af-look-card:hover .af-look-scrim { opacity: 1; }
+        .af-look-card:hover .af-look-label { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 900px) {
+          .af-nav-links { display: none !important; }
+          .af-split-row { grid-template-columns: 1fr !important; }
+          .af-split-row > * { order: unset !important; }
+          .af-spec-wrap { grid-template-columns: 1fr !important; }
+          .af-spec-sticky { position: relative !important; top: 0 !important; }
+          .af-masonry { columns: 2 !important; }
+          .af-footer-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 560px) {
+          .af-masonry { columns: 1 !important; }
+          .af-footer-grid { grid-template-columns: 1fr !important; }
+        }
       `}</style>
-      <Nav />
-      <ScrollHero />
+
+      <Nav cartCount={cart} />
+      <Hero />
       <Marquee />
-      <FeaturedDrops />
-      <Colorways />
-      <SizeGuide />
+      <CrossfadeSequence />
+      <FeaturedDrops onAdd={() => setCart((c) => c + 1)} />
+      <EditorialRows />
+      <SpecShowcase />
+      <Lookbook />
       <Reviews />
       <FinalCTA />
       <Footer />
