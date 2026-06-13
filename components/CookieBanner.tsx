@@ -85,6 +85,7 @@ export function CookieBanner() {
 
   const save = (prefs: { analytics: boolean; marketing: boolean }) => {
     localStorage.setItem(CONSENT_KEY, JSON.stringify({ essential: true, ...prefs, ts: Date.now() }));
+    window.dispatchEvent(new Event("aevia-consent-updated"));
     setVisible(false);
   };
 
