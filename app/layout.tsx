@@ -193,6 +193,12 @@ export default function RootLayout({
           `}</Script>
           {children}
           <CookieBanner />
+          <script
+            async
+            src="https://inbox.aevia.services/webchat/widget.js"
+            data-widget-id="wid_ce9571d1dd824e3704a48013699b3e91"
+            data-api-url="https://inbox.aevia.services/api"
+          />
         </LangProvider>
       </body>
     </html>
