@@ -1,544 +1,17 @@
-'use client';
+"use client";
 
-import {
-  useRef,
-  useState,
-  useEffect,
-  useCallback,
-} from 'react';
+import { useRef, useState, useEffect, useCallback } from "react";
 import {
   motion,
   useScroll,
   useTransform,
   useInView,
   useSpring,
-  useMotionValue,
-  useAnimationFrame,
   AnimatePresence,
   LayoutGroup,
-} from 'framer-motion';
-import Link from 'next/link';
-
-// ─── DESIGN TOKENS ────────────────────────────────────────────────────────────
-const C = {
-  bg: '#fafaf7',
-  bgDark: '#0f0f0f',
-  bgCard: '#f4f3ef',
-  text: '#0f0f0f',
-  textMuted: '#5a5a52',
-  textDim: '#9a9a90',
-  accent: '#c9a84c',
-  accentDim: 'rgba(201,168,76,0.18)',
-  accentBorder: 'rgba(201,168,76,0.35)',
-  border: 'rgba(15,15,15,0.08)',
-  borderLight: 'rgba(15,15,15,0.04)',
-  white: '#ffffff',
-  gold: '#c9a84c',
-};
-
-const F = {
-  serif: "'Georgia', 'Times New Roman', serif",
-  sans: "'Arial', 'Helvetica Neue', Helvetica, sans-serif",
-};
-
-// ─── GLOBAL STYLES ────────────────────────────────────────────────────────────
-const globalCss = `
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body { background: ${C.bg}; color: ${C.text}; font-family: ${F.sans}; -webkit-font-smoothing: antialiased; }
-  button { cursor: pointer; background: none; border: none; font: inherit; }
-  a { text-decoration: none; }
-
-  @keyframes draw-in {
-    from { stroke-dashoffset: var(--total-length, 2000); }
-    to   { stroke-dashoffset: 0; }
-  }
-
-  .blueprint-line {
-    stroke-dasharray: var(--total-length, 2000);
-    stroke-dashoffset: var(--total-length, 2000);
-    animation: none;
-  }
-
-  .blueprint-line.animate {
-    animation: draw-in 2.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  .blueprint-line-2 {
-    stroke-dasharray: var(--total-length, 1400);
-    stroke-dashoffset: var(--total-length, 1400);
-    animation: none;
-  }
-
-  .blueprint-line-2.animate {
-    animation: draw-in 2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
-  }
-
-  .blueprint-line-3 {
-    stroke-dasharray: var(--total-length, 800);
-    stroke-dashoffset: var(--total-length, 800);
-    animation: none;
-  }
-
-  .blueprint-line-3.animate {
-    animation: draw-in 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
-  }
-
-  @media (max-width: 900px) {
-    .two-col { grid-template-columns: 1fr !important; }
-    .three-col { grid-template-columns: 1fr !important; }
-    .four-col { grid-template-columns: 1fr 1fr !important; }
-  }
-`;
-
-// ─── DATA ─────────────────────────────────────────────────────────────────────
-const navLinks = [
-  { label: 'Philosophy', href: '#philosophy' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Process', href: '#process' },
-  { label: 'Studio', href: '#team' },
-  { label: 'Contact', href: '#contact' },
-];
-
-// ─── Multi-page navigation config ───────────────────────────────────────────
-// PATTERN (reused identically across all impact vitrine themes): a single `page`
-// state drives in-page navigation. The original single-page content is rendered
-// VERBATIM under page === "home" (additive only — nothing in it changes); every
-// other key renders a theme-native sub-page built from the SAME `C` design
-// tokens, `F` fonts (Georgia serif + Arial sans) and section/card styling. This
-// is an architecture studio vitrine (Atelier Moreau·Leroy), so the nav is
-// Accueil/Services/Projets/Blog/À propos/Contact + legal — no boutique/CGV.
-type ArchPage =
-  | 'home'
-  | 'services'
-  | 'projects'
-  | 'blog'
-  | 'about'
-  | 'contact'
-  | 'mentions'
-  | 'privacy';
-
-const NAV_PAGES: { key: ArchPage; label: string }[] = [
-  { key: 'home', label: 'Accueil' },
-  { key: 'services', label: 'Services' },
-  { key: 'projects', label: 'Projets' },
-  { key: 'blog', label: 'Blog' },
-  { key: 'about', label: 'À propos' },
-  { key: 'contact', label: 'Contact' },
-  { key: 'mentions', label: 'Mentions légales' },
-];
-
-const projects = [
-  {
-    id: 'p1',
-    title: 'Maison Éclat',
-    category: 'Private Residence',
-    location: 'Geneva, CH',
-    year: '2024',
-    area: '640 m²',
-    color: '#1a1a16',
-    description:
-      'A monolithic lakeside villa that reinterprets the Swiss chalet typology through elemental concrete and reclaimed oak. The building steps down the hillside in three planar volumes, each cantilevering over the one below to frame axial views of Lac Léman. Interior circulation is conceived as a promenade architecturale — each threshold reveals a new horizon.',
-    specs: ['Reinforced concrete', 'Reclaimed white oak', 'Cantilevered terraces', 'Passive house standard'],
-  },
-  {
-    id: 'p2',
-    title: 'Tour Silhouette',
-    category: 'Mixed-Use Tower',
-    location: 'Paris 13e, FR',
-    year: '2023',
-    area: '18 400 m²',
-    color: '#0d1a2a',
-    description:
-      'A 22-storey mixed-use tower in Paris\'s emerging Masséna district. The facade is composed of a unitised curtain wall where each panel carries a bronze anodised sunscreen fin, rotated between 0° and 45° according to solar orientation. The tower tapers at its crown, reading from the Seine as a vertical sliver that disappears into sky.',
-    specs: ['Bronze anodised aluminium', 'Unitised curtain wall', 'Underground parking', 'BREEAM Excellent'],
-  },
-  {
-    id: 'p3',
-    title: 'Bibliothèque Luce',
-    category: 'Cultural Institution',
-    location: 'Lyon, FR',
-    year: '2023',
-    area: '4 200 m²',
-    color: '#1a1208',
-    description:
-      'A public library conceived as a luminous lantern set into a 19th-century urban block. The reading rooms occupy a new top-lit volume inserted within the historic shell. Structural steel trusses transfer loads across the void, leaving the perimeter walls free of columns. The facade reopens as a sequence of bookshop vitrines activating the street.',
-    specs: ['Exposed steel trusses', 'Heritage integration', 'Zenithal daylighting', 'LEED Gold'],
-  },
-  {
-    id: 'p4',
-    title: 'Résidence Terrasses',
-    category: 'Collective Housing',
-    location: 'Bordeaux, FR',
-    year: '2022',
-    area: '8 800 m²',
-    color: '#12140a',
-    description:
-      'Seventy-two apartments organised around a communal garden court. Each unit is given a deep loggia — a private exterior room rather than a balcony — creating a layered facade that reads as solid and void in equal measure. The plan provides four apartment typologies while maintaining a consistent structural grid.',
-    specs: ['Load-bearing brick', 'In-situ concrete', 'Deep loggias', 'BBC-Effinergie label'],
-  },
-  {
-    id: 'p5',
-    title: 'Siège Heliogen',
-    category: 'Corporate HQ',
-    location: 'Luxembourg City',
-    year: '2022',
-    area: '11 600 m²',
-    color: '#0f0f14',
-    description:
-      'A headquarters building whose section is driven by workplace research rather than lettable floor plate efficiency. Three stacked "villages" of 3,800 m² are connected by generous interior staircases and shared terraces. The ground floor is fully public, containing a café, auditorium, and maker space accessible without security clearance.',
-    specs: ['CLT structure', 'Biophilic interiors', 'Public ground floor', 'Carbon neutral'],
-  },
-  {
-    id: 'p6',
-    title: 'Villa Radieuse',
-    category: 'Private Residence',
-    location: 'Côte d\'Azur, FR',
-    year: '2021',
-    area: '420 m²',
-    color: '#1a0f0a',
-    description:
-      'A clifftop house in white concrete and travertine whose plan rotates 11° from the grid to align every principal room with the sea horizon. An infinity pool at terrace level becomes a reflecting surface for the facade, doubling the building in light. All mechanical systems are buried within the hillside to the north.',
-    specs: ['White in-situ concrete', 'Roman travertine', 'Infinity pool', 'Geothermal HVAC'],
-  },
-];
-
-const teamMembers = [
-  {
-    name: 'Isabelle Moreau',
-    title: 'Founding Principal',
-    credentials: 'DPLG · Pritzker Jury 2022',
-    focus: 'Design vision, institutional work, competition strategy',
-    bio: 'Isabelle established the studio in 2001 following seven years at OMA Rotterdam. Her work has been exhibited at the Venice Biennale three times and received the Grand Prix National de l\'Architecture in 2019.',
-    projects: '62 built',
-    awards: '28 prizes',
-  },
-  {
-    name: 'Thomas Leroy',
-    title: 'Principal — Technical',
-    credentials: 'DPLG · LEED AP',
-    focus: 'Building technology, facade engineering, sustainability',
-    bio: 'Thomas leads technical delivery on all major projects. His command of structural and envelope systems bridges the gap between design ambition and construction reality, enabling forms that other offices consider unbuildable.',
-    projects: '48 built',
-    awards: '11 prizes',
-  },
-  {
-    name: 'Sadia Rahman',
-    title: 'Associate — Research',
-    credentials: 'MArch Cambridge · PhD ENSA Paris',
-    focus: 'Housing typology, post-occupancy evaluation, urban strategy',
-    bio: 'Sadia directs the studio\'s research agenda and manages relationships with academic institutions. Her doctoral work on the social life of corridors has influenced the studio\'s approach to circulation as collective space.',
-    projects: '19 built',
-    awards: '6 prizes',
-  },
-];
-
-const processSteps = [
-  { num: '01', title: 'Brief & Analysis', desc: 'We interrogate the brief until it becomes a genuine set of design questions. Site visits, precedent studies, and stakeholder workshops before a line is drawn.' },
-  { num: '02', title: 'Concept', desc: 'A single coherent idea — spatial, material, or structural — that can survive the entire project. We resist clever moves that cannot be built, maintained, or explained.' },
-  { num: '03', title: 'Design Development', desc: 'Iterative refinement through physical models, 1:20 section studies, and mock-ups. We resolve detail before RIBA Stage 3 so that Stage 4 is verification, not invention.' },
-  { num: '04', title: 'Technical & Delivery', desc: 'Full technical packages authored in-house. We prefer Design & Build tender routes that keep us close to the construction process through Practical Completion.' },
-];
-
-// ─── Detailed services (Services sub-page — FR, reuses the principle-card design)
-const serviceDetails = [
-  {
-    n: '01',
-    title: 'Architecture',
-    desc: "De la maison individuelle à l'équipement public, nous concevons des bâtiments pensés pour durer — sobres, structurellement honnêtes et généreux dans leurs espaces.",
-    points: [
-      'Maisons et villas privées',
-      'Logement collectif et résidences',
-      'Équipements culturels et publics',
-      'Sièges et bâtiments tertiaires',
-    ],
-  },
-  {
-    n: '02',
-    title: 'Urbanisme',
-    desc: "Nous travaillons à l'échelle de l'îlot, du quartier et de la ville. Chaque projet a un devoir civique : réparer le tissu urbain plutôt que de s'y refermer.",
-    points: [
-      'Plans-guides et études urbaines',
-      'Aménagement d\'espaces publics',
-      'Stratégies de densification douce',
-      'Concours et consultations urbaines',
-    ],
-  },
-  {
-    n: '03',
-    title: 'Architecture intérieure',
-    desc: "L'intérieur prolonge l'architecture : même rigueur, mêmes matériaux. Nous dessinons les ambiances, la lumière et le mobilier sur mesure jusqu'au moindre détail.",
-    points: [
-      'Aménagements résidentiels haut de gamme',
-      'Espaces de travail et lieux de réception',
-      'Mobilier et agencements sur mesure',
-      'Scénographie et muséographie',
-    ],
-  },
-  {
-    n: '04',
-    title: 'Rénovation & patrimoine',
-    desc: "Intervenir sur l'existant exige humilité et précision. Nous réhabilitons le bâti ancien en révélant sa structure et en l'adaptant aux usages contemporains.",
-    points: [
-      'Réhabilitation de bâti ancien',
-      'Intégration en site classé',
-      'Surélévations et extensions',
-      'Mise aux normes et performance énergétique',
-    ],
-  },
-  {
-    n: '05',
-    title: 'Maîtrise d\'œuvre',
-    desc: "Nous assurons la mission complète, de l'esquisse à la réception du chantier. Un interlocuteur unique, des dossiers techniques rédigés en interne, un suivi de chantier rapproché.",
-    points: [
-      'Études de faisabilité et esquisse',
-      'Avant-projet et permis de construire',
-      'Dossier de consultation des entreprises',
-      'Direction et suivi des travaux',
-    ],
-  },
-  {
-    n: '06',
-    title: 'Conseil & faisabilité',
-    desc: "En amont de tout projet, nous éclairons vos décisions : potentiel d'un terrain, programme, budget et calendrier réalistes, avant le moindre engagement.",
-    points: [
-      'Analyse de site et de constructibilité',
-      'Programmation et budgétisation',
-      'Accompagnement à l\'acquisition foncière',
-      'Expertise et second regard',
-    ],
-  },
-];
-
-// ─── Studio values (À propos) ─────────────────────────────────────────────────
-const studioValues = [
-  { n: '01', title: 'Pérennité', text: "Nous bâtissons pour le siècle à venir. Des matériaux robustes, une structure assumée et des espaces généreux : des bâtiments faits pour être aimés et entretenus, non démolis." },
-  { n: '02', title: 'Honnêteté', text: "Le béton ressemble au béton, la brique à la brique. Nous n'appliquons pas de placages pour simuler d'autres matières. L'authenticité vieillit mieux que la nouveauté." },
-  { n: '03', title: 'Générosité urbaine', text: "Chaque édifice a une responsabilité civique : un rez-de-chaussée actif, une colonnade publique, un retrait planté. De petits gestes qui réparent la ville." },
-];
-
-// ─── Blog mock data (FR architecture / design insights) ───────────────────────
-const blogPosts = [
-  {
-    slug: 'beton-brut',
-    title: 'Le béton brut : matière noble ou parti-pris radical ?',
-    date: '4 juin 2026',
-    category: 'Matériaux',
-    excerpt:
-      "Décrié puis réhabilité, le béton apparent traverse les modes. Retour sur une matière qui exige une maîtrise totale du détail pour révéler sa beauté.",
-    cover: '#1a1a16',
-    body: [
-      "Le béton brut de décoffrage — le fameux « béton apparent » — n'admet aucune approximation. Contrairement à un mur enduit, il porte la trace indélébile de sa fabrication : la texture du coffrage, les joints, les balèvres, les nuances de teinte.",
-      "Cette exigence est précisément ce qui en fait une matière noble. Réussir un béton apparent suppose un calepinage des banches dessiné comme une façade, une formulation contrôlée et un savoir-faire d'entreprise irréprochable sur le chantier.",
-      "Nous privilégions le béton matricé ou poli pour les espaces de réception, et le béton brut pour les éléments structurels que nous souhaitons exposer. Dans tous les cas, le béton n'est jamais un revêtement : il est la structure elle-même, donnée à voir.",
-      "Bien mis en œuvre, le béton vieillit avec dignité. Sa masse thermique en fait par ailleurs un allié précieux du confort d'été, enjeu majeur de l'architecture des prochaines décennies.",
-    ],
-  },
-  {
-    slug: 'lumiere-naturelle',
-    title: 'Concevoir avec la lumière naturelle',
-    date: '20 mai 2026',
-    category: 'Conception',
-    excerpt:
-      "Avant d'être une question d'énergie, la lumière naturelle est la matière première de l'architecture. Comment l'orchestrer du premier croquis au détail de menuiserie.",
-    cover: '#1a1208',
-    body: [
-      "« Nous dessinons les sections avant les plans » : cet adage du studio tient en grande partie à la lumière. C'est la coupe qui détermine la manière dont le jour pénètre, ricoche et descend dans les espaces.",
-      "Nous distinguons trois lumières : la lumière latérale, douce et orientée, qui qualifie les pièces de vie ; la lumière zénithale, égale et silencieuse, idéale pour les lieux de lecture ou d'exposition ; et la lumière rasante, qui révèle la texture des matériaux.",
-      "Chaque ouverture est un arbitrage entre apport solaire, vues et confort. Les brise-soleil, les loggias profondes et les embrasures travaillées ne sont pas des ajouts décoratifs : ce sont des instruments de maîtrise de la lumière.",
-      "Une architecture bien éclairée consomme moins, mais surtout, elle se vit mieux. La qualité d'un espace se mesure d'abord à la façon dont la lumière y évolue au fil des heures et des saisons.",
-    ],
-  },
-  {
-    slug: 'sobriete-construction',
-    title: 'Sobriété constructive : moins, mais mieux',
-    date: '6 mai 2026',
-    category: 'Durabilité',
-    excerpt:
-      "Le bâtiment le plus écologique est souvent celui qu'on ne construit pas. Plaidoyer pour une architecture qui réemploie, conserve et n'ajoute qu'à bon escient.",
-    cover: '#12140a',
-    body: [
-      "La construction neuve concentre une part considérable des émissions de carbone du secteur. La première question d'un projet responsable n'est donc pas « comment construire ? » mais « faut-il construire ? ».",
-      "La réhabilitation du bâti existant, le réemploi des matériaux et la conservation des structures porteuses permettent souvent d'éviter l'énergie grise d'une démolition-reconstruction. Nous instruisons systématiquement cette hypothèse en amont.",
-      "Lorsque la construction neuve s'impose, nous privilégions les matériaux biosourcés et géosourcés — bois, terre crue, pierre locale — et une structure dimensionnée au plus juste. La sobriété n'est pas une contrainte esthétique, c'est une discipline.",
-      "Construire moins mais mieux suppose d'accepter une forme d'humilité : renoncer au geste gratuit, préférer la durabilité au spectaculaire. C'est, selon nous, la condition d'une architecture véritablement contemporaine.",
-    ],
-  },
-  {
-    slug: 'concours-architecture',
-    title: 'Anatomie d\'un concours d\'architecture',
-    date: '22 avril 2026',
-    category: 'Studio',
-    excerpt:
-      "Comment naît un projet primé ? Coulisses de la démarche de concours, de la lecture du programme à la maquette finale, au sein de l'atelier.",
-    cover: '#0d1a2a',
-    body: [
-      "Le concours est un exercice singulier : produire, en quelques semaines, une réponse architecturale complète à partir d'un programme et d'un site que l'on découvre. C'est aussi le moment où l'identité du studio s'exprime le plus librement.",
-      "Tout commence par une lecture critique du programme. Nous cherchons la question que le maître d'ouvrage n'a pas formulée mais que le projet devra résoudre — un parti-pris fort, capable de tenir tout au long du développement.",
-      "Vient ensuite l'itération : esquisses, maquettes d'étude au 1:200, coupes successives. Nous testons, abandonnons, recommençons. Une idée qui ne survit pas à la maquette ne survivra pas au chantier.",
-      "La maquette finale et les images de concours doivent dire l'essentiel : l'ambiance, la lumière, le rapport au lieu. Un concours se gagne rarement sur la prouesse technique — il se gagne sur la justesse d'une intention clairement transmise.",
-    ],
-  },
-];
-
-// ─── NAVBAR ───────────────────────────────────────────────────────────────────
-// State-driven multi-page nav. On the home page (and before scroll) it keeps the
-// original transparent-over-dark-hero look; on sub-pages it stays solid so links
-// remain legible over the light backgrounds. Logo design unchanged.
-function Navbar({ page, goTo }: { page: ArchPage; goTo: (p: ArchPage) => void }) {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 60);
-    window.addEventListener('scroll', fn, { passive: true });
-    return () => window.removeEventListener('scroll', fn);
-  }, []);
-
-  // Solid bar whenever we are not on the home hero (sub-pages have light bg).
-  const solid = scrolled || page !== 'home';
-
-  return (
-    <nav
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 200,
-        background: solid ? 'rgba(250,250,247,0.96)' : 'transparent',
-        backdropFilter: solid ? 'blur(12px)' : 'none',
-        borderBottom: solid ? `1px solid ${C.border}` : '1px solid transparent',
-        transition: 'all 0.5s cubic-bezier(0.16,1,0.3,1)',
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 1400,
-          margin: '0 auto',
-          padding: '0 40px',
-          height: 72,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap' as const,
-          gap: 12,
-        }}
-      >
-        {/* Logo */}
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            goTo('home');
-          }}
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-            <span
-              style={{
-                fontFamily: F.sans,
-                fontSize: 15,
-                fontWeight: 700,
-                letterSpacing: '0.22em',
-                textTransform: 'uppercase' as const,
-                color: solid ? C.text : C.white,
-                transition: 'color 0.4s',
-              }}
-            >
-              ATELIER
-            </span>
-            <span
-              style={{
-                fontFamily: F.sans,
-                fontSize: 9,
-                letterSpacing: '0.32em',
-                textTransform: 'uppercase' as const,
-                color: C.accent,
-              }}
-            >
-              MOREAU · LEROY
-            </span>
-          </div>
-        </a>
-
-        {/* Nav links */}
-        <div
-          style={{
-            display: 'flex',
-            gap: 28,
-            alignItems: 'center',
-            flexWrap: 'wrap' as const,
-            justifyContent: 'flex-end',
-          }}
-        >
-          {NAV_PAGES.map((l) => {
-            const active = page === l.key;
-            return (
-              <a
-                key={l.key}
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  goTo(l.key);
-                }}
-                style={{
-                  fontFamily: F.sans,
-                  fontSize: 12,
-                  letterSpacing: '0.14em',
-                  textTransform: 'uppercase' as const,
-                  color: active
-                    ? C.accent
-                    : solid
-                      ? C.textMuted
-                      : 'rgba(255,255,255,0.6)',
-                  borderBottom: active
-                    ? `1px solid ${C.accent}`
-                    : '1px solid transparent',
-                  paddingBottom: 2,
-                  transition: 'color 0.3s',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = C.accent)}
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = active
-                    ? C.accent
-                    : solid
-                      ? C.textMuted
-                      : 'rgba(255,255,255,0.6)')
-                }
-              >
-                {l.label}
-              </a>
-            );
-          })}
-          <button
-            onClick={() => goTo('contact')}
-            style={{
-              fontFamily: F.sans,
-              fontSize: 11,
-              letterSpacing: '0.16em',
-              textTransform: 'uppercase' as const,
-              color: C.accent,
-              border: `1px solid ${C.accentBorder}`,
-              padding: '9px 22px',
-              background: 'transparent',
-              cursor: 'pointer',
-              transition: 'all 0.3s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = C.accent;
-              e.currentTarget.style.color = C.bgDark;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent';
-              e.currentTarget.style.color = C.accent;
-            }}
-          >
-            New Enquiry
-          </button>
-        </div>
-      </div>
-    </nav>
-  );
-}
+} from "framer-motion";
+import Link from "next/link";
+import { C, F, projects, teamMembers, processSteps } from "./shared";
 
 // ─── 3D BUILDING FACADE ───────────────────────────────────────────────────────
 function Building3D({ rotateX }: { rotateX: any }) {
@@ -895,58 +368,62 @@ function HeroSection() {
             transition={{ duration: 0.7, delay: 1 }}
             style={{ display: 'flex', gap: 16, flexWrap: 'wrap' as const }}
           >
-            <a
-              href="#projects"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 10,
-                background: C.accent,
-                color: C.bgDark,
-                padding: '15px 36px',
-                fontFamily: F.sans,
-                fontSize: 11,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase' as const,
-                fontWeight: 700,
-                transition: 'background 0.3s',
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = '#d9b85c')
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.background = C.accent)
-              }
-            >
-              View Projects
-            </a>
-            <a
-              href="#process"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 10,
-                border: '1px solid rgba(255,255,255,0.14)',
-                color: 'rgba(255,255,255,0.55)',
-                padding: '15px 36px',
-                fontFamily: F.sans,
-                fontSize: 11,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase' as const,
-                transition: 'all 0.3s',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = C.accentBorder;
-                e.currentTarget.style.color = C.white;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor =
-                  'rgba(255,255,255,0.14)';
-                e.currentTarget.style.color = 'rgba(255,255,255,0.55)';
-              }}
-            >
-              Our Process
-            </a>
+            <Link href="/templates/impact-48/projects" style={{ textDecoration: "none" }}>
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  background: C.accent,
+                  color: C.bgDark,
+                  padding: '15px 36px',
+                  fontFamily: F.sans,
+                  fontSize: 11,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase' as const,
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  transition: 'background 0.3s',
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.background = '#d9b85c')
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.background = C.accent)
+                }
+              >
+                View Projects
+              </span>
+            </Link>
+            <Link href="/templates/impact-48/about" style={{ textDecoration: "none" }}>
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  border: '1px solid rgba(255,255,255,0.14)',
+                  color: 'rgba(255,255,255,0.55)',
+                  padding: '15px 36px',
+                  fontFamily: F.sans,
+                  fontSize: 11,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase' as const,
+                  cursor: 'pointer',
+                  transition: 'all 0.3s',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = C.accentBorder;
+                  e.currentTarget.style.color = C.white;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor =
+                    'rgba(255,255,255,0.14)';
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.55)';
+                }}
+              >
+                Our Process
+              </span>
+            </Link>
           </motion.div>
 
           <motion.div
@@ -1362,7 +839,7 @@ function ProjectsSection() {
             className="three-col"
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(3,1fr)',
+              gridTemplateColumns: 'repeat(3, 1fr)',
               gap: 2,
             }}
           >
@@ -1600,12 +1077,13 @@ function ProjectsSection() {
                       <span
                         style={{
                           fontFamily: F.sans,
-                          fontSize: 9,
-                          letterSpacing: '0.28em',
+                          fontSize: 10,
+                          letterSpacing: '0.24em',
                           textTransform: 'uppercase' as const,
                           color: C.accent,
+                          fontWeight: 500,
                           display: 'block',
-                          marginBottom: 14,
+                          marginBottom: 12,
                         }}
                       >
                         {selectedProject.category}
@@ -1613,11 +1091,10 @@ function ProjectsSection() {
                       <h2
                         style={{
                           fontFamily: F.sans,
-                          fontSize: 'clamp(36px, 4vw, 60px)',
+                          fontSize: 'clamp(32px, 4vw, 56px)',
                           fontWeight: 700,
                           color: C.white,
-                          letterSpacing: '-0.03em',
-                          lineHeight: 1.0,
+                          letterSpacing: '-0.02em',
                           margin: '0 0 16px',
                         }}
                       >
@@ -1626,9 +1103,9 @@ function ProjectsSection() {
                       <p
                         style={{
                           fontFamily: F.sans,
-                          fontSize: 12,
-                          color: 'rgba(255,255,255,0.35)',
-                          letterSpacing: '0.1em',
+                          fontSize: 13,
+                          color: 'rgba(255,255,255,0.4)',
+                          letterSpacing: '0.08em',
                           margin: 0,
                         }}
                       >
@@ -1637,106 +1114,115 @@ function ProjectsSection() {
                     </div>
                   </div>
 
-                  {/* Right: details */}
+                  {/* Right: copy */}
                   <div
                     style={{
-                      background: C.bgDark,
-                      padding: 60,
+                      background: 'rgba(15,15,12,0.96)',
+                      borderLeft: `1px solid rgba(255,255,255,0.06)`,
+                      padding: '80px 60px',
                       display: 'flex',
                       flexDirection: 'column' as const,
                       justifyContent: 'space-between',
+                      position: 'relative',
                     }}
                   >
+                    {/* Close button */}
+                    <button
+                      onClick={() => setSelectedId(null)}
+                      style={{
+                        position: 'absolute',
+                        top: 40,
+                        right: 40,
+                        fontFamily: F.sans,
+                        fontSize: 10,
+                        letterSpacing: '0.2em',
+                        color: C.accent,
+                        textTransform: 'uppercase' as const,
+                        cursor: 'pointer',
+                        padding: 8,
+                      }}
+                    >
+                      Close [Esc]
+                    </button>
+
                     <div>
                       <p
                         style={{
                           fontFamily: F.sans,
-                          fontSize: 15,
+                          fontSize: 16,
                           color: 'rgba(255,255,255,0.55)',
                           lineHeight: 1.85,
                           letterSpacing: '0.01em',
-                          marginBottom: 48,
+                          margin: '0 0 48px',
                         }}
                       >
                         {selectedProject.description}
                       </p>
 
-                      <div style={{ marginBottom: 40 }}>
-                        <span
-                          style={{
-                            fontFamily: F.sans,
-                            fontSize: 9,
-                            letterSpacing: '0.24em',
-                            textTransform: 'uppercase' as const,
-                            color: C.accent,
-                            display: 'block',
-                            marginBottom: 16,
-                          }}
-                        >
-                          Specifications
-                        </span>
-                        <div
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'column' as const,
-                            gap: 8,
-                          }}
-                        >
-                          {selectedProject.specs.map((spec) => (
-                            <div
-                              key={spec}
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 12,
-                                fontFamily: F.sans,
-                                fontSize: 13,
-                                color: 'rgba(255,255,255,0.4)',
-                                letterSpacing: '0.02em',
-                              }}
-                            >
-                              <div
-                                style={{
-                                  width: 20,
-                                  height: 1,
-                                  background: C.accent,
-                                  flexShrink: 0,
-                                }}
-                              />
-                              {spec}
-                            </div>
-                          ))}
-                        </div>
+                      <span
+                        style={{
+                          fontFamily: F.sans,
+                          fontSize: 10,
+                          letterSpacing: '0.24em',
+                          textTransform: 'uppercase' as const,
+                          color: C.accent,
+                          display: 'block',
+                          marginBottom: 18,
+                        }}
+                      >
+                        Specifications
+                      </span>
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column' as const,
+                          gap: 12,
+                          marginBottom: 48,
+                        }}
+                      >
+                        {selectedProject.specs.map((spec) => (
+                          <div
+                            key={spec}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 12,
+                              fontFamily: F.sans,
+                              fontSize: 13,
+                              color: 'rgba(255,255,255,0.45)',
+                              letterSpacing: '0.02em',
+                            }}
+                          >
+                            <div style={{ width: 20, height: 1, background: C.accent, flexShrink: 0 }} />
+                            {spec}
+                          </div>
+                        ))}
                       </div>
                     </div>
 
-                    <button
-                      onClick={() => setSelectedId(null)}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 12,
-                        fontFamily: F.sans,
-                        fontSize: 11,
-                        letterSpacing: '0.2em',
-                        textTransform: 'uppercase' as const,
-                        color: C.accent,
-                        border: `1px solid ${C.accentBorder}`,
-                        padding: '14px 28px',
-                        alignSelf: 'flex-start',
-                        transition: 'all 0.3s',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = C.accent;
-                        e.currentTarget.style.color = C.bgDark;
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'transparent';
-                        e.currentTarget.style.color = C.accent;
-                      }}
-                    >
-                      Close — ESC
-                    </button>
+                    <Link href="/templates/impact-48/contact" style={{ textDecoration: "none" }}>
+                      <button
+                        onClick={() => setSelectedId(null)}
+                        style={{
+                          width: '100%',
+                          background: C.accent,
+                          color: C.bgDark,
+                          padding: '16px 28px',
+                          fontFamily: F.sans,
+                          fontSize: 11,
+                          letterSpacing: '0.2em',
+                          textTransform: 'uppercase' as const,
+                          fontWeight: 700,
+                          border: 'none',
+                          cursor: 'pointer',
+                          transition: 'background 0.3s',
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = '#d9b85c')}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = C.accent)}
+                      >
+                        Discuter du projet
+                      </button>
+                    </Link>
                   </div>
                 </motion.div>
               </>
@@ -1756,7 +1242,6 @@ function FloorPlanSection() {
     offset: ['start end', 'end start'],
   });
 
-  // Total SVG path length — we use a generous estimate and CSS controls the rest
   const TOTAL = 2800;
   const dashOffset = useTransform(
     scrollYProgress,
@@ -2149,7 +1634,6 @@ function useCountUp(target: number, active: boolean, duration = 1.8) {
       if (startTime.current === null) startTime.current = timestamp;
       const elapsed = (timestamp - startTime.current) / 1000;
       const progress = Math.min(elapsed / duration, 1);
-      // Ease out expo
       const eased =
         progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
       setCurrent(Math.round(eased * target));
@@ -2303,7 +1787,7 @@ function StatsSection() {
           className="four-col"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(4,1fr)',
+            gridTemplateColumns: 'repeat(4, 1fr)',
             borderTop: '1px solid rgba(255,255,255,0.06)',
           }}
         >
@@ -2600,7 +2084,7 @@ function TeamSection() {
           className="three-col"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(3,1fr)',
+            gridTemplateColumns: 'repeat(3, 1fr)',
             gap: 2,
             background: C.border,
           }}
@@ -2796,6 +2280,7 @@ function ContactSection() {
     type: '',
     message: '',
   });
+  const [sent, setSent] = useState(false);
 
   const inputStyle = {
     width: '100%',
@@ -2896,8 +2381,8 @@ function ContactSection() {
                 {[
                   { label: 'Paris Studio', val: '14 Rue du Dragon, 75006 Paris' },
                   { label: 'Geneva Office', val: '12 Quai du Mont-Blanc, 1201 Geneva' },
-                  { label: 'Email', val: 'studio@atelier-ml.fr' },
-                  { label: 'Press', val: 'presse@atelier-ml.fr' },
+                  { label: 'Email', val: 'contact@aevia.io' },
+                  { label: 'Horaires', val: 'Lun – Ven · 9h – 19h' },
                 ].map((item) => (
                   <div key={item.label} style={{ display: 'flex', gap: 20 }}>
                     <span
@@ -2943,2025 +2428,159 @@ function ContactSection() {
                 padding: 48,
               }}
             >
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column' as const,
-                  gap: 20,
-                }}
-              >
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: 12,
-                  }}
-                >
-                  <input
-                    placeholder="Full Name"
-                    value={form.name}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, name: e.target.value }))
-                    }
-                    style={inputStyle}
-                    onFocus={(e) =>
-                      (e.currentTarget.style.borderColor = C.accentBorder)
-                    }
-                    onBlur={(e) =>
-                      (e.currentTarget.style.borderColor =
-                        'rgba(255,255,255,0.1)')
-                    }
-                  />
-                  <input
-                    placeholder="Email"
-                    type="email"
-                    value={form.email}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, email: e.target.value }))
-                    }
-                    style={inputStyle}
-                    onFocus={(e) =>
-                      (e.currentTarget.style.borderColor = C.accentBorder)
-                    }
-                    onBlur={(e) =>
-                      (e.currentTarget.style.borderColor =
-                        'rgba(255,255,255,0.1)')
-                    }
-                  />
+              {sent ? (
+                <div style={{ textAlign: "center", padding: "40px 0" }}>
+                  <h3 style={{ fontFamily: F.sans, fontSize: 22, fontWeight: 700, color: C.white, marginBottom: 12 }}>Thank you!</h3>
+                  <p style={{ fontFamily: F.sans, fontSize: 14, color: "rgba(255,255,255,0.4)" }}>We will get back to you within five working days.</p>
                 </div>
-
-                <select
-                  value={form.type}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, type: e.target.value }))
-                  }
-                  style={{
-                    ...inputStyle,
-                    appearance: 'none' as const,
-                    cursor: 'pointer',
+              ) : (
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    setSent(true);
                   }}
-                >
-                  <option value="" style={{ background: C.bgDark }}>
-                    Project Type
-                  </option>
-                  {[
-                    'Private Residence',
-                    'Mixed-Use Development',
-                    'Cultural Institution',
-                    'Corporate Headquarters',
-                    'Collective Housing',
-                    'Urban Planning',
-                    'Interior Design',
-                    'Other',
-                  ].map((t) => (
-                    <option
-                      key={t}
-                      value={t}
-                      style={{ background: C.bgDark }}
-                    >
-                      {t}
-                    </option>
-                  ))}
-                </select>
-
-                <textarea
-                  placeholder="Tell us about your project — site, programme, timeline, budget if known."
-                  value={form.message}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, message: e.target.value }))
-                  }
-                  rows={6}
-                  style={{
-                    ...inputStyle,
-                    resize: 'vertical' as const,
-                    lineHeight: 1.7,
-                  }}
-                  onFocus={(e) =>
-                    (e.currentTarget.style.borderColor = C.accentBorder)
-                  }
-                  onBlur={(e) =>
-                    (e.currentTarget.style.borderColor =
-                      'rgba(255,255,255,0.1)')
-                  }
-                />
-
-                <button
-                  style={{
-                    background: C.accent,
-                    color: C.bgDark,
-                    fontFamily: F.sans,
-                    fontSize: 11,
-                    fontWeight: 700,
-                    letterSpacing: '0.22em',
-                    textTransform: 'uppercase' as const,
-                    padding: '16px 32px',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'background 0.3s',
-                    alignSelf: 'flex-start',
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.background = '#d9b85c')
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.background = C.accent)
-                  }
-                >
-                  Submit Enquiry
-                </button>
-
-                <p
-                  style={{
-                    fontFamily: F.sans,
-                    fontSize: 11,
-                    color: 'rgba(255,255,255,0.2)',
-                    letterSpacing: '0.04em',
-                    lineHeight: 1.6,
-                    margin: 0,
-                  }}
-                >
-                  We respond to all enquiries within five working days. Your information is treated with strict confidentiality and never shared with third parties.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── FOOTER ───────────────────────────────────────────────────────────────────
-function Footer({ goTo }: { goTo: (p: ArchPage) => void }) {
-  // Footer columns now drive the in-page nav (theme styling unchanged).
-  const footerCols: { title: string; links: { label: string; page: ArchPage }[] }[] = [
-    {
-      title: 'Practice',
-      links: [
-        { label: 'Architecture', page: 'services' },
-        { label: 'Urbanisme', page: 'services' },
-        { label: 'Architecture intérieure', page: 'services' },
-        { label: 'Rénovation & patrimoine', page: 'services' },
-      ],
-    },
-    {
-      title: 'Studio',
-      links: [
-        { label: 'À propos', page: 'about' },
-        { label: 'Projets', page: 'projects' },
-        { label: 'Blog', page: 'blog' },
-        { label: 'Contact', page: 'contact' },
-      ],
-    },
-    {
-      title: 'Contact',
-      links: [
-        { label: 'Nouvelle demande', page: 'contact' },
-        { label: 'Mentions légales', page: 'mentions' },
-        { label: 'Confidentialité', page: 'privacy' },
-      ],
-    },
-  ];
-  return (
-    <footer
-      style={{
-        background: '#080808',
-        borderTop: '1px solid rgba(255,255,255,0.04)',
-        padding: '72px 40px 40px',
-      }}
-    >
-      <div style={{ maxWidth: 1400, margin: '0 auto' }}>
-        <div
-          className="four-col"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '2fr 1fr 1fr 1fr',
-            gap: 60,
-            marginBottom: 64,
-          }}
-        >
-          <div>
-            <div style={{ marginBottom: 20 }}>
-              <div
-                style={{
-                  fontFamily: F.sans,
-                  fontSize: 14,
-                  fontWeight: 700,
-                  letterSpacing: '0.22em',
-                  textTransform: 'uppercase' as const,
-                  color: C.white,
-                }}
-              >
-                ATELIER
-              </div>
-              <div
-                style={{
-                  fontFamily: F.sans,
-                  fontSize: 8,
-                  letterSpacing: '0.32em',
-                  textTransform: 'uppercase' as const,
-                  color: C.accent,
-                  marginTop: 2,
-                }}
-              >
-                MOREAU · LEROY
-              </div>
-            </div>
-            <p
-              style={{
-                fontFamily: F.sans,
-                fontSize: 13,
-                color: 'rgba(255,255,255,0.24)',
-                lineHeight: 1.75,
-                maxWidth: 260,
-                letterSpacing: '0.01em',
-              }}
-            >
-              Architecture and urbanism studio founded in Paris in 2001. Buildings that resist fashion and endure time.
-            </p>
-          </div>
-
-          {footerCols.map((col) => (
-            <div key={col.title}>
-              <h4
-                style={{
-                  fontFamily: F.sans,
-                  fontSize: 9,
-                  fontWeight: 700,
-                  letterSpacing: '0.26em',
-                  textTransform: 'uppercase' as const,
-                  color: C.accent,
-                  marginBottom: 20,
-                }}
-              >
-                {col.title}
-              </h4>
-              <ul
-                style={{
-                  listStyle: 'none',
-                  padding: 0,
-                  margin: 0,
-                  display: 'flex',
-                  flexDirection: 'column' as const,
-                  gap: 10,
-                }}
-              >
-                {col.links.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        goTo(link.page);
-                      }}
-                      style={{
-                        fontFamily: F.sans,
-                        fontSize: 13,
-                        color: 'rgba(255,255,255,0.24)',
-                        letterSpacing: '0.02em',
-                        cursor: 'pointer',
-                        transition: 'color 0.3s',
-                      }}
-                      onMouseEnter={(e) =>
-                        (e.currentTarget.style.color = C.white)
-                      }
-                      onMouseLeave={(e) =>
-                        (e.currentTarget.style.color =
-                          'rgba(255,255,255,0.24)')
-                      }
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <div
-          style={{
-            borderTop: '1px solid rgba(255,255,255,0.04)',
-            paddingTop: 32,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap' as const,
-            gap: 16,
-          }}
-        >
-          <p
-            style={{
-              fontFamily: F.sans,
-              fontSize: 11,
-              color: 'rgba(255,255,255,0.16)',
-              letterSpacing: '0.06em',
-              margin: 0,
-            }}
-          >
-            © 2026 Atelier Moreau·Leroy · Société d'Architecture · SIRET 123 456 789 00012
-          </p>
-          <div style={{ display: 'flex', gap: 28 }}>
-            {['Instagram', 'LinkedIn', 'Dezeen', 'ArchDaily'].map((s) => (
-              <Link
-                key={s}
-                href="#"
-                style={{
-                  fontFamily: F.sans,
-                  fontSize: 10,
-                  letterSpacing: '0.16em',
-                  textTransform: 'uppercase' as const,
-                  color: 'rgba(255,255,255,0.2)',
-                  transition: 'color 0.3s',
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = C.accent)
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = 'rgba(255,255,255,0.2)')
-                }
-              >
-                {s}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-// ─── SHARED SUB-PAGE HERO (theme-native: dark band, gold eyebrow) ─────────────
-function PageHero({
-  eyebrow,
-  title,
-  subtitle,
-}: {
-  eyebrow: string;
-  title: React.ReactNode;
-  subtitle?: string;
-}) {
-  return (
-    <section
-      style={{
-        background: C.bgDark,
-        padding: '150px 40px 90px',
-        position: 'relative',
-        overflow: 'hidden',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
-      }}
-    >
-      {/* Top gold line — matches hero */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 1,
-          background: `linear-gradient(to right, transparent, ${C.accent}, transparent)`,
-        }}
-      />
-      {/* Blueprint grid watermark */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `
-            repeating-linear-gradient(0deg, transparent 0, transparent 47px, rgba(201,168,76,0.03) 48px),
-            repeating-linear-gradient(90deg, transparent 0, transparent 47px, rgba(201,168,76,0.03) 48px)
-          `,
-          pointerEvents: 'none',
-        }}
-      />
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        style={{ maxWidth: 1400, margin: '0 auto', position: 'relative', zIndex: 2 }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 14,
-            marginBottom: 28,
-          }}
-        >
-          <div style={{ width: 48, height: 1, background: C.accent }} />
-          <span
-            style={{
-              fontFamily: F.sans,
-              fontSize: 10,
-              letterSpacing: '0.3em',
-              textTransform: 'uppercase' as const,
-              color: C.accent,
-              fontWeight: 500,
-            }}
-          >
-            {eyebrow}
-          </span>
-        </div>
-        <h1
-          style={{
-            fontFamily: F.sans,
-            fontSize: 'clamp(44px, 5.5vw, 80px)',
-            fontWeight: 700,
-            color: C.white,
-            lineHeight: 0.98,
-            letterSpacing: '-0.03em',
-            margin: subtitle ? '0 0 28px' : 0,
-          }}
-        >
-          {title}
-        </h1>
-        {subtitle && (
-          <p
-            style={{
-              fontFamily: F.sans,
-              fontSize: 16,
-              color: 'rgba(255,255,255,0.48)',
-              lineHeight: 1.8,
-              maxWidth: 560,
-              margin: 0,
-              letterSpacing: '0.01em',
-            }}
-          >
-            {subtitle}
-          </p>
-        )}
-      </motion.div>
-    </section>
-  );
-}
-
-// ─── SERVICES PAGE (detailed services, reuses principle/process card design) ──
-function ServicesPage({ goTo }: { goTo: (p: ArchPage) => void }) {
-  return (
-    <div>
-      <PageHero
-        eyebrow="Nos expertises"
-        title={
-          <>
-            Services
-            <br />& <span style={{ color: C.accent }}>savoir-faire</span>
-          </>
-        }
-        subtitle="De l'esquisse à la livraison, nous intervenons sur l'ensemble du cycle d'un projet — architecture, urbanisme, intérieur, patrimoine — avec une même exigence de pérennité."
-      />
-
-      <section style={{ background: C.bg, padding: '120px 40px' }}>
-        <div style={{ maxWidth: 1400, margin: '0 auto' }}>
-          <div
-            className="three-col"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3,1fr)',
-              gap: 2,
-              background: C.border,
-            }}
-          >
-            {serviceDetails.map((s, i) => (
-              <motion.div
-                key={s.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: (i % 3) * 0.1 }}
-                style={{
-                  background: C.bgCard,
-                  padding: 44,
-                  borderTop: `2px solid ${i === 0 ? C.accent : 'transparent'}`,
-                  transition: 'border-top-color 0.3s',
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.borderTopColor = C.accent)
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.borderTopColor =
-                    i === 0 ? C.accent : 'transparent')
-                }
-              >
-                <span
-                  style={{
-                    fontFamily: F.sans,
-                    fontSize: 11,
-                    color: C.accent,
-                    fontWeight: 700,
-                    letterSpacing: '0.1em',
-                    display: 'block',
-                    marginBottom: 18,
-                  }}
-                >
-                  {s.n}
-                </span>
-                <h3
-                  style={{
-                    fontFamily: F.sans,
-                    fontSize: 20,
-                    fontWeight: 700,
-                    color: C.text,
-                    letterSpacing: '-0.01em',
-                    margin: '0 0 14px',
-                  }}
-                >
-                  {s.title}
-                </h3>
-                <p
-                  style={{
-                    fontFamily: F.sans,
-                    fontSize: 14,
-                    color: C.textMuted,
-                    lineHeight: 1.75,
-                    margin: '0 0 22px',
-                    letterSpacing: '0.01em',
-                  }}
-                >
-                  {s.desc}
-                </p>
-                <div
                   style={{
                     display: 'flex',
                     flexDirection: 'column' as const,
-                    gap: 10,
-                    borderTop: `1px solid ${C.border}`,
-                    paddingTop: 20,
-                  }}
-                >
-                  {s.points.map((pt) => (
-                    <div
-                      key={pt}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                        gap: 12,
-                        fontFamily: F.sans,
-                        fontSize: 13,
-                        color: C.textMuted,
-                        letterSpacing: '0.01em',
-                        lineHeight: 1.5,
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: 16,
-                          height: 1,
-                          background: C.accent,
-                          flexShrink: 0,
-                          marginTop: 8,
-                        }}
-                      />
-                      {pt}
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* CTA strip */}
-          <div
-            style={{
-              background: C.bgDark,
-              padding: '56px clamp(32px, 6vw, 72px)',
-              marginTop: 64,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap' as const,
-              gap: 24,
-              borderTop: `2px solid ${C.accent}`,
-            }}
-          >
-            <div>
-              <h2
-                style={{
-                  fontFamily: F.sans,
-                  fontSize: 'clamp(28px, 3vw, 40px)',
-                  fontWeight: 700,
-                  color: C.white,
-                  letterSpacing: '-0.02em',
-                  margin: '0 0 12px',
-                }}
-              >
-                Un projet à confier&nbsp;?
-              </h2>
-              <p
-                style={{
-                  fontFamily: F.sans,
-                  fontSize: 15,
-                  color: 'rgba(255,255,255,0.45)',
-                  lineHeight: 1.7,
-                  margin: 0,
-                  maxWidth: 480,
-                }}
-              >
-                Le premier échange est gratuit et sans engagement. Parlez-nous de votre site, de votre programme et de vos délais.
-              </p>
-            </div>
-            <button
-              onClick={() => goTo('contact')}
-              style={{
-                background: C.accent,
-                color: C.bgDark,
-                padding: '15px 36px',
-                fontFamily: F.sans,
-                fontSize: 11,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase' as const,
-                fontWeight: 700,
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'background 0.3s',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = '#d9b85c')}
-              onMouseLeave={(e) => (e.currentTarget.style.background = C.accent)}
-            >
-              Nous contacter
-            </button>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-// ─── PROJECTS PAGE (fuller portfolio grid + click-through detail view) ────────
-function ProjectsPage({ goTo }: { goTo: (p: ArchPage) => void }) {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const selected = projects.find((p) => p.id === selectedId);
-
-  useEffect(() => {
-    const fn = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSelectedId(null);
-    };
-    window.addEventListener('keydown', fn);
-    return () => window.removeEventListener('keydown', fn);
-  }, []);
-
-  // ── Project detail view ──
-  if (selected) {
-    return (
-      <div>
-        <PageHero
-          eyebrow={selected.category}
-          title={selected.title}
-          subtitle={`${selected.location} · ${selected.year} · ${selected.area}`}
-        />
-        <section style={{ background: C.bg, padding: '100px 40px 120px' }}>
-          <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-            <button
-              onClick={() => setSelectedId(null)}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 10,
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                fontFamily: F.sans,
-                fontSize: 11,
-                letterSpacing: '0.16em',
-                textTransform: 'uppercase' as const,
-                color: C.textMuted,
-                marginBottom: 40,
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = C.accent)}
-              onMouseLeave={(e) => (e.currentTarget.style.color = C.textMuted)}
-            >
-              ← Tous les projets
-            </button>
-
-            {/* Visual band — blueprint geometry over the project colour */}
-            <div
-              style={{
-                position: 'relative',
-                background: selected.color,
-                height: 'clamp(260px, 40vw, 420px)',
-                border: `1px solid ${C.border}`,
-                borderTop: `2px solid ${C.accent}`,
-                marginBottom: 56,
-                overflow: 'hidden',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  backgroundImage: `
-                    repeating-linear-gradient(0deg, transparent 0, transparent 59px, rgba(201,168,76,0.05) 60px),
-                    repeating-linear-gradient(90deg, transparent 0, transparent 59px, rgba(201,168,76,0.05) 60px)
-                  `,
-                }}
-              />
-              <svg
-                viewBox="0 0 400 400"
-                style={{ width: '46%', maxWidth: 320, opacity: 0.25, position: 'relative' }}
-                fill="none"
-              >
-                <rect x="40" y="40" width="320" height="320" stroke={C.accent} strokeWidth="1" />
-                <rect x="80" y="80" width="240" height="240" stroke={C.accent} strokeWidth="0.5" />
-                <line x1="40" y1="200" x2="360" y2="200" stroke={C.accent} strokeWidth="0.5" />
-                <line x1="200" y1="40" x2="200" y2="360" stroke={C.accent} strokeWidth="0.5" />
-                <circle cx="200" cy="200" r="80" stroke={C.accent} strokeWidth="0.5" />
-                <polygon points="200,80 320,320 80,320" stroke={C.accent} strokeWidth="0.5" fill="none" />
-              </svg>
-            </div>
-
-            <div
-              className="two-col"
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1.6fr 1fr',
-                gap: 64,
-                alignItems: 'start',
-              }}
-            >
-              <div>
-                <p
-                  style={{
-                    fontFamily: F.sans,
-                    fontSize: 16,
-                    color: C.textMuted,
-                    lineHeight: 1.9,
-                    letterSpacing: '0.01em',
-                    margin: 0,
-                  }}
-                >
-                  {selected.description}
-                </p>
-              </div>
-              <div>
-                <span
-                  style={{
-                    fontFamily: F.sans,
-                    fontSize: 10,
-                    letterSpacing: '0.24em',
-                    textTransform: 'uppercase' as const,
-                    color: C.accent,
-                    display: 'block',
-                    marginBottom: 18,
-                  }}
-                >
-                  Spécifications
-                </span>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column' as const,
-                    gap: 12,
-                    marginBottom: 32,
-                  }}
-                >
-                  {selected.specs.map((spec) => (
-                    <div
-                      key={spec}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 12,
-                        fontFamily: F.sans,
-                        fontSize: 13,
-                        color: C.textMuted,
-                        letterSpacing: '0.02em',
-                      }}
-                    >
-                      <div style={{ width: 20, height: 1, background: C.accent, flexShrink: 0 }} />
-                      {spec}
-                    </div>
-                  ))}
-                </div>
-
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: 1,
-                    background: C.border,
-                    border: `1px solid ${C.border}`,
-                  }}
-                >
-                  {[
-                    { label: 'Lieu', val: selected.location },
-                    { label: 'Année', val: selected.year },
-                    { label: 'Surface', val: selected.area },
-                    { label: 'Typologie', val: selected.category },
-                  ].map((item) => (
-                    <div key={item.label} style={{ background: C.bgCard, padding: '16px 18px' }}>
-                      <div
-                        style={{
-                          fontFamily: F.sans,
-                          fontSize: 9,
-                          color: C.textDim,
-                          letterSpacing: '0.14em',
-                          textTransform: 'uppercase' as const,
-                          marginBottom: 6,
-                        }}
-                      >
-                        {item.label}
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: F.sans,
-                          fontSize: 13,
-                          color: C.text,
-                          fontWeight: 700,
-                          letterSpacing: '-0.01em',
-                        }}
-                      >
-                        {item.val}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <button
-                  onClick={() => goTo('contact')}
-                  style={{
-                    marginTop: 32,
-                    width: '100%',
-                    background: C.accent,
-                    color: C.bgDark,
-                    padding: '15px 28px',
-                    fontFamily: F.sans,
-                    fontSize: 11,
-                    letterSpacing: '0.2em',
-                    textTransform: 'uppercase' as const,
-                    fontWeight: 700,
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'background 0.3s',
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = '#d9b85c')}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = C.accent)}
-                >
-                  Discuter d'un projet similaire
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    );
-  }
-
-  // ── Portfolio grid ──
-  return (
-    <div>
-      <PageHero
-        eyebrow="Œuvres choisies"
-        title={
-          <>
-            Nos <span style={{ color: C.accent }}>projets</span>
-          </>
-        }
-        subtitle="Une sélection de réalisations et de concours, du logement privé à l'équipement public. Cliquez sur un projet pour en découvrir le détail."
-      />
-      <section style={{ background: C.bgDark, padding: '90px 40px 120px' }}>
-        <div style={{ maxWidth: 1400, margin: '0 auto' }}>
-          <div
-            className="three-col"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3,1fr)',
-              gap: 2,
-            }}
-          >
-            {projects.map((project, i) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: (i % 3) * 0.08 }}
-                whileHover={{ scale: 1.01 }}
-                onClick={() => {
-                  setSelectedId(project.id);
-                  if (typeof window !== 'undefined')
-                    window.scrollTo({ top: 0, behavior: 'auto' });
-                }}
-                style={{
-                  background: project.color,
-                  cursor: 'pointer',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  aspectRatio: '4/5',
-                  display: 'flex',
-                  flexDirection: 'column' as const,
-                  justifyContent: 'flex-end',
-                  padding: 32,
-                  borderTop: `1px solid rgba(201,168,76,0.1)`,
-                }}
-              >
-                <div
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    backgroundImage: `
-                      repeating-linear-gradient(0deg, transparent 0, transparent 39px, rgba(201,168,76,0.04) 40px),
-                      repeating-linear-gradient(90deg, transparent 0, transparent 39px, rgba(201,168,76,0.04) 40px)
-                    `,
-                    pointerEvents: 'none',
-                  }}
-                />
-                <svg
-                  viewBox="0 0 200 200"
-                  style={{
-                    position: 'absolute',
-                    top: 20,
-                    right: 20,
-                    width: 80,
-                    opacity: 0.15,
-                    pointerEvents: 'none',
-                  }}
-                  fill="none"
-                >
-                  <rect x="20" y="20" width="160" height="160" stroke={C.accent} strokeWidth="1" />
-                  <line x1="20" y1="100" x2="180" y2="100" stroke={C.accent} strokeWidth="0.5" />
-                  <line x1="100" y1="20" x2="100" y2="180" stroke={C.accent} strokeWidth="0.5" />
-                  <circle cx="100" cy="100" r="40" stroke={C.accent} strokeWidth="0.5" />
-                </svg>
-                <div style={{ position: 'relative', zIndex: 1 }}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      marginBottom: 12,
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: F.sans,
-                        fontSize: 9,
-                        letterSpacing: '0.24em',
-                        textTransform: 'uppercase' as const,
-                        color: C.accent,
-                        fontWeight: 500,
-                      }}
-                    >
-                      {project.category}
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: F.sans,
-                        fontSize: 9,
-                        letterSpacing: '0.16em',
-                        color: 'rgba(255,255,255,0.3)',
-                      }}
-                    >
-                      {project.year}
-                    </span>
-                  </div>
-                  <h3
-                    style={{
-                      fontFamily: F.sans,
-                      fontSize: 22,
-                      fontWeight: 700,
-                      color: C.white,
-                      letterSpacing: '-0.02em',
-                      margin: '0 0 6px',
-                    }}
-                  >
-                    {project.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontFamily: F.sans,
-                      fontSize: 11,
-                      color: 'rgba(255,255,255,0.35)',
-                      letterSpacing: '0.08em',
-                      margin: 0,
-                    }}
-                  >
-                    {project.location} · {project.area}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-// ─── BLOG PAGE (index + single article, theme styling) ────────────────────────
-function BlogPage({
-  blogSlug,
-  setBlogSlug,
-}: {
-  blogSlug: string | null;
-  setBlogSlug: (s: string | null) => void;
-}) {
-  const post = blogSlug ? blogPosts.find((b) => b.slug === blogSlug) : null;
-
-  if (post) {
-    return (
-      <div>
-        <PageHero eyebrow={post.category} title={post.title} subtitle={post.date} />
-        <section style={{ background: C.bg, padding: '90px 40px 120px' }}>
-          <div style={{ maxWidth: 760, margin: '0 auto' }}>
-            <button
-              onClick={() => setBlogSlug(null)}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 10,
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                fontFamily: F.sans,
-                fontSize: 11,
-                letterSpacing: '0.16em',
-                textTransform: 'uppercase' as const,
-                color: C.textMuted,
-                marginBottom: 40,
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = C.accent)}
-              onMouseLeave={(e) => (e.currentTarget.style.color = C.textMuted)}
-            >
-              ← Tous les articles
-            </button>
-
-            <div
-              style={{
-                position: 'relative',
-                height: 'clamp(200px, 34vw, 320px)',
-                background: post.cover,
-                border: `1px solid ${C.border}`,
-                borderTop: `2px solid ${C.accent}`,
-                marginBottom: 48,
-                overflow: 'hidden',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  backgroundImage: `
-                    repeating-linear-gradient(0deg, transparent 0, transparent 47px, rgba(201,168,76,0.05) 48px),
-                    repeating-linear-gradient(90deg, transparent 0, transparent 47px, rgba(201,168,76,0.05) 48px)
-                  `,
-                }}
-              />
-              <svg viewBox="0 0 200 200" style={{ width: 120, opacity: 0.2, position: 'relative' }} fill="none">
-                <rect x="20" y="20" width="160" height="160" stroke={C.accent} strokeWidth="1" />
-                <line x1="20" y1="100" x2="180" y2="100" stroke={C.accent} strokeWidth="0.5" />
-                <line x1="100" y1="20" x2="100" y2="180" stroke={C.accent} strokeWidth="0.5" />
-                <circle cx="100" cy="100" r="40" stroke={C.accent} strokeWidth="0.5" />
-              </svg>
-            </div>
-
-            {post.body.map((para, i) => (
-              <p
-                key={i}
-                style={{
-                  fontFamily: F.sans,
-                  fontSize: 16,
-                  color: C.textMuted,
-                  lineHeight: 1.9,
-                  letterSpacing: '0.01em',
-                  marginBottom: 24,
-                }}
-              >
-                {para}
-              </p>
-            ))}
-
-            <div
-              style={{
-                borderTop: `1px solid ${C.border}`,
-                marginTop: 24,
-                paddingTop: 24,
-                fontFamily: F.serif,
-                fontStyle: 'italic',
-                fontSize: 14,
-                color: C.textMuted,
-                lineHeight: 1.7,
-              }}
-            >
-              Article rédigé par l'équipe de l'Atelier Moreau·Leroy. Ce contenu est publié à titre informatif et reflète la démarche du studio.
-            </div>
-          </div>
-        </section>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <PageHero
-        eyebrow="Le journal de l'atelier"
-        title={
-          <>
-            Blog & <span style={{ color: C.accent }}>réflexions</span>
-          </>
-        }
-        subtitle="Nos prises de position sur l'architecture, les matériaux et la fabrique de la ville. Décryptages et coulisses du studio."
-      />
-      <section style={{ background: C.bg, padding: '120px 40px' }}>
-        <div style={{ maxWidth: 1400, margin: '0 auto' }}>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-              gap: 24,
-            }}
-          >
-            {blogPosts.map((p, i) => (
-              <motion.article
-                key={p.slug}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: (i % 3) * 0.1 }}
-                whileHover={{ y: -4 }}
-                onClick={() => {
-                  setBlogSlug(p.slug);
-                  if (typeof window !== 'undefined')
-                    window.scrollTo({ top: 0, behavior: 'auto' });
-                }}
-                style={{
-                  background: C.bgCard,
-                  border: `1px solid ${C.border}`,
-                  borderTop: `2px solid ${C.accent}`,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  flexDirection: 'column' as const,
-                  overflow: 'hidden',
-                }}
-              >
-                <div
-                  style={{
-                    position: 'relative',
-                    height: 170,
-                    background: p.cover,
-                    borderBottom: `1px solid ${C.border}`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    overflow: 'hidden',
-                  }}
-                >
-                  <div
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      backgroundImage: `
-                        repeating-linear-gradient(0deg, transparent 0, transparent 39px, rgba(201,168,76,0.05) 40px),
-                        repeating-linear-gradient(90deg, transparent 0, transparent 39px, rgba(201,168,76,0.05) 40px)
-                      `,
-                    }}
-                  />
-                  <svg viewBox="0 0 200 200" style={{ width: 64, opacity: 0.2, position: 'relative' }} fill="none">
-                    <rect x="20" y="20" width="160" height="160" stroke={C.accent} strokeWidth="1.2" />
-                    <line x1="100" y1="20" x2="100" y2="180" stroke={C.accent} strokeWidth="0.6" />
-                    <circle cx="100" cy="100" r="40" stroke={C.accent} strokeWidth="0.6" />
-                  </svg>
-                </div>
-                <div
-                  style={{
-                    padding: '26px 28px 30px',
-                    display: 'flex',
-                    flexDirection: 'column' as const,
-                    flex: 1,
-                  }}
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 8,
-                      marginBottom: 14,
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: F.sans,
-                        fontSize: 9,
-                        color: C.accent,
-                        letterSpacing: '0.16em',
-                        textTransform: 'uppercase' as const,
-                        fontWeight: 700,
-                      }}
-                    >
-                      {p.category}
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: F.sans,
-                        fontSize: 11,
-                        color: C.textDim,
-                      }}
-                    >
-                      · {p.date}
-                    </span>
-                  </div>
-                  <h2
-                    style={{
-                      fontFamily: F.sans,
-                      fontSize: 19,
-                      fontWeight: 700,
-                      color: C.text,
-                      lineHeight: 1.25,
-                      letterSpacing: '-0.01em',
-                      margin: '0 0 14px',
-                    }}
-                  >
-                    {p.title}
-                  </h2>
-                  <p
-                    style={{
-                      fontFamily: F.sans,
-                      fontSize: 14,
-                      color: C.textMuted,
-                      lineHeight: 1.7,
-                      margin: '0 0 18px',
-                      flex: 1,
-                      letterSpacing: '0.01em',
-                    }}
-                  >
-                    {p.excerpt}
-                  </p>
-                  <span
-                    style={{
-                      fontFamily: F.sans,
-                      fontSize: 11,
-                      color: C.accent,
-                      letterSpacing: '0.16em',
-                      textTransform: 'uppercase' as const,
-                      fontWeight: 700,
-                    }}
-                  >
-                    Lire l'article →
-                  </span>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-// ─── À PROPOS PAGE (studio story / values / team) ─────────────────────────────
-function AboutPage({ goTo }: { goTo: (p: ArchPage) => void }) {
-  return (
-    <div>
-      <PageHero
-        eyebrow="Le studio"
-        title={
-          <>
-            Bâtir pour le
-            <br />
-            <span style={{ color: C.accent }}>siècle à venir.</span>
-          </>
-        }
-        subtitle="Atelier Moreau·Leroy est un studio d'architecture et d'urbanisme fondé à Paris en 2001, animé par une conviction : l'architecture a d'abord un devoir envers la ville qui en hérite."
-      />
-
-      {/* Story */}
-      <section style={{ background: C.bg, padding: '120px 40px' }}>
-        <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          {[
-            "Fondé en 2001 par Isabelle Moreau au retour de sept années passées chez OMA à Rotterdam, l'atelier s'est construit autour d'une exigence : concevoir des bâtiments capables de résister aux modes et de durer au-delà du programme qui les a fait naître.",
-            "Nous travaillons avec des matériaux robustes, une structure assumée et une générosité spatiale. La coupe précède le plan ; la structure est l'ornement. Cette discipline, constante depuis vingt-trois ans, donne à nos projets une cohérence reconnaissable.",
-            "En vingt-trois ans, l'atelier a livré 62 bâtiments dans 11 pays, reçu 28 distinctions et participé trois fois à la Biennale de Venise. Mais notre fierté la plus durable reste le taux d'attachement de ceux qui habitent et utilisent nos bâtiments.",
-          ].map((para, i) => (
-            <p
-              key={i}
-              style={{
-                fontFamily: F.sans,
-                fontSize: 16,
-                color: C.textMuted,
-                lineHeight: 1.9,
-                letterSpacing: '0.01em',
-                marginBottom: 24,
-              }}
-            >
-              {para}
-            </p>
-          ))}
-        </div>
-      </section>
-
-      {/* Values */}
-      <section style={{ background: C.bgDark, padding: '120px 40px' }}>
-        <div style={{ maxWidth: 1400, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center' as const, marginBottom: 72 }}>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 14,
-                marginBottom: 24,
-              }}
-            >
-              <div style={{ width: 40, height: 1, background: C.accent }} />
-              <span
-                style={{
-                  fontFamily: F.sans,
-                  fontSize: 10,
-                  letterSpacing: '0.28em',
-                  textTransform: 'uppercase' as const,
-                  color: C.accent,
-                }}
-              >
-                Nos valeurs
-              </span>
-              <div style={{ width: 40, height: 1, background: C.accent }} />
-            </div>
-            <h2
-              style={{
-                fontFamily: F.sans,
-                fontSize: 'clamp(32px, 4vw, 56px)',
-                fontWeight: 700,
-                color: C.white,
-                letterSpacing: '-0.03em',
-                lineHeight: 1.0,
-                margin: 0,
-              }}
-            >
-              Pérennité. Honnêteté. Générosité.
-            </h2>
-          </div>
-          <div
-            className="three-col"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3,1fr)',
-              gap: 2,
-            }}
-          >
-            {studioValues.map((v, i) => (
-              <motion.div
-                key={v.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: i * 0.12 }}
-                style={{
-                  background: 'rgba(255,255,255,0.02)',
-                  padding: 48,
-                  borderTop: `2px solid ${C.accent}`,
-                  border: '1px solid rgba(255,255,255,0.06)',
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: F.sans,
-                    fontSize: 11,
-                    color: C.accent,
-                    fontWeight: 700,
-                    letterSpacing: '0.1em',
-                    display: 'block',
-                    marginBottom: 20,
-                  }}
-                >
-                  {v.n}
-                </span>
-                <h3
-                  style={{
-                    fontFamily: F.sans,
-                    fontSize: 20,
-                    fontWeight: 700,
-                    color: C.white,
-                    letterSpacing: '-0.01em',
-                    margin: '0 0 14px',
-                  }}
-                >
-                  {v.title}
-                </h3>
-                <p
-                  style={{
-                    fontFamily: F.sans,
-                    fontSize: 14,
-                    color: 'rgba(255,255,255,0.45)',
-                    lineHeight: 1.8,
-                    margin: 0,
-                    letterSpacing: '0.01em',
-                  }}
-                >
-                  {v.text}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team */}
-      <section style={{ background: C.bg, padding: '120px 40px' }}>
-        <div style={{ maxWidth: 1400, margin: '0 auto' }}>
-          <div style={{ marginBottom: 64 }}>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 14,
-                marginBottom: 24,
-              }}
-            >
-              <div style={{ width: 40, height: 1, background: C.accent }} />
-              <span
-                style={{
-                  fontFamily: F.sans,
-                  fontSize: 10,
-                  letterSpacing: '0.28em',
-                  textTransform: 'uppercase' as const,
-                  color: C.accent,
-                }}
-              >
-                L'équipe
-              </span>
-            </div>
-            <h2
-              style={{
-                fontFamily: F.sans,
-                fontSize: 'clamp(36px, 4.5vw, 56px)',
-                fontWeight: 700,
-                color: C.text,
-                letterSpacing: '-0.03em',
-                lineHeight: 1.0,
-                margin: 0,
-              }}
-            >
-              Les associés
-            </h2>
-          </div>
-
-          <div
-            className="three-col"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3,1fr)',
-              gap: 2,
-              background: C.border,
-            }}
-          >
-            {teamMembers.map((member, i) => (
-              <motion.div
-                key={member.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: i * 0.12 }}
-                style={{
-                  background: C.bgCard,
-                  padding: 44,
-                  borderTop: `2px solid ${i === 0 ? C.accent : 'transparent'}`,
-                  transition: 'border-top-color 0.3s',
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.borderTopColor = C.accent)
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.borderTopColor =
-                    i === 0 ? C.accent : 'transparent')
-                }
-              >
-                <div
-                  style={{
-                    width: 64,
-                    height: 64,
-                    background: C.accentDim,
-                    border: `1px solid ${C.accentBorder}`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: 28,
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: F.sans,
-                      fontSize: 20,
-                      fontWeight: 700,
-                      color: C.accent,
-                    }}
-                  >
-                    {member.name
-                      .split(' ')
-                      .map((w) => w[0])
-                      .join('')}
-                  </span>
-                </div>
-                <h3
-                  style={{
-                    fontFamily: F.sans,
-                    fontSize: 18,
-                    fontWeight: 700,
-                    color: C.text,
-                    letterSpacing: '-0.01em',
-                    margin: '0 0 6px',
-                  }}
-                >
-                  {member.name}
-                </h3>
-                <p
-                  style={{
-                    fontFamily: F.sans,
-                    fontSize: 11,
-                    color: C.accent,
-                    letterSpacing: '0.1em',
-                    margin: '0 0 4px',
-                    fontWeight: 500,
-                  }}
-                >
-                  {member.title}
-                </p>
-                <p
-                  style={{
-                    fontFamily: F.sans,
-                    fontSize: 11,
-                    color: C.textDim,
-                    letterSpacing: '0.06em',
-                    margin: '0 0 24px',
-                  }}
-                >
-                  {member.credentials}
-                </p>
-                <p
-                  style={{
-                    fontFamily: F.sans,
-                    fontSize: 13,
-                    color: C.textMuted,
-                    lineHeight: 1.8,
-                    margin: 0,
-                    letterSpacing: '0.01em',
-                  }}
-                >
-                  {member.bio}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-
-          <div style={{ textAlign: 'center' as const, marginTop: 64 }}>
-            <button
-              onClick={() => goTo('contact')}
-              style={{
-                background: C.accent,
-                color: C.bgDark,
-                padding: '15px 40px',
-                fontFamily: F.sans,
-                fontSize: 11,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase' as const,
-                fontWeight: 700,
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'background 0.3s',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = '#d9b85c')}
-              onMouseLeave={(e) => (e.currentTarget.style.background = C.accent)}
-            >
-              Rencontrer l'atelier
-            </button>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-// ─── CONTACT PAGE (info + form, inputs ≥16px) ─────────────────────────────────
-function ContactPage() {
-  const [sent, setSent] = useState(false);
-
-  const inputStyle: React.CSSProperties = {
-    width: '100%',
-    background: 'rgba(255,255,255,0.04)',
-    border: '1px solid rgba(255,255,255,0.1)',
-    color: C.white,
-    fontFamily: F.sans,
-    fontSize: 16, // ≥16px to avoid iOS zoom on focus
-    letterSpacing: '0.01em',
-    padding: '14px 18px',
-    outline: 'none',
-    transition: 'border-color 0.3s',
-    display: 'block',
-    boxSizing: 'border-box' as const,
-    marginBottom: 18,
-  };
-  const labelStyle: React.CSSProperties = {
-    fontFamily: F.sans,
-    fontSize: 10,
-    color: C.accent,
-    letterSpacing: '0.2em',
-    textTransform: 'uppercase' as const,
-    fontWeight: 500,
-    marginBottom: 8,
-    display: 'block',
-  };
-
-  return (
-    <div>
-      <PageHero
-        eyebrow="Nouvelle demande"
-        title={
-          <>
-            Engageons la
-            <br />
-            <span style={{ color: C.accent }}>conversation.</span>
-          </>
-        }
-        subtitle="Chaque projet commence par un échange — sans brief, sans honoraires, sans engagement. Parlez-nous de votre projet ; nous organisons un premier rendez-vous sous cinq jours ouvrés."
-      />
-      <section style={{ background: C.bgDark, padding: '120px 40px' }}>
-        <div
-          className="two-col"
-          style={{
-            maxWidth: 1400,
-            margin: '0 auto',
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 100,
-            alignItems: 'start',
-          }}
-        >
-          {/* Info */}
-          <div>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column' as const,
-                gap: 28,
-              }}
-            >
-              {[
-                { label: 'Studio Paris', val: '14 Rue du Dragon, 75006 Paris' },
-                { label: 'Bureau Genève', val: '12 Quai du Mont-Blanc, 1201 Genève' },
-                { label: 'Email', val: 'contact@aevia.io' },
-                { label: 'Horaires', val: 'Lun – Ven · 9h – 19h' },
-              ].map((item) => (
-                <div
-                  key={item.label}
-                  style={{
-                    display: 'flex',
                     gap: 20,
-                    borderBottom: '1px solid rgba(255,255,255,0.06)',
-                    paddingBottom: 24,
                   }}
                 >
-                  <span
+                  <div
                     style={{
-                      fontFamily: F.sans,
-                      fontSize: 10,
-                      letterSpacing: '0.2em',
-                      textTransform: 'uppercase' as const,
-                      color: C.accent,
-                      minWidth: 110,
-                      flexShrink: 0,
-                      paddingTop: 4,
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 1fr',
+                      gap: 12,
                     }}
                   >
-                    {item.label}
-                  </span>
-                  <span
-                    style={{
-                      fontFamily: F.sans,
-                      fontSize: 17,
-                      color: C.white,
-                      lineHeight: 1.5,
-                      letterSpacing: '0.01em',
-                    }}
-                  >
-                    {item.val}
-                  </span>
-                </div>
-              ))}
-            </div>
-            <p
-              style={{
-                fontFamily: F.sans,
-                fontSize: 14,
-                color: 'rgba(255,255,255,0.4)',
-                lineHeight: 1.85,
-                marginTop: 32,
-                maxWidth: 400,
-                letterSpacing: '0.01em',
-              }}
-            >
-              Vos informations sont traitées en toute confidentialité et ne sont jamais transmises à des tiers. Nous répondons à toute demande sous cinq jours ouvrés.
-            </p>
-          </div>
-
-          {/* Form */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.8 }}
-          >
-            {sent ? (
-              <div
-                style={{
-                  border: '1px solid rgba(255,255,255,0.07)',
-                  borderTop: `2px solid ${C.accent}`,
-                  padding: '64px 48px',
-                  textAlign: 'center' as const,
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: F.sans,
-                    fontSize: 24,
-                    fontWeight: 700,
-                    color: C.white,
-                    letterSpacing: '-0.02em',
-                    marginBottom: 14,
-                  }}
-                >
-                  Demande envoyée
-                </div>
-                <p
-                  style={{
-                    fontFamily: F.sans,
-                    fontSize: 15,
-                    color: 'rgba(255,255,255,0.45)',
-                    lineHeight: 1.8,
-                    margin: 0,
-                  }}
-                >
-                  Merci. Un membre de l'atelier vous recontactera sous cinq jours ouvrés.
-                </p>
-              </div>
-            ) : (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setSent(true);
-                }}
-                style={{
-                  border: '1px solid rgba(255,255,255,0.07)',
-                  padding: 48,
-                }}
-              >
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: 12,
-                  }}
-                >
-                  <div>
-                    <label style={labelStyle}>Nom complet</label>
                     <input
-                      type="text"
+                      placeholder="Full Name"
                       required
-                      placeholder="Votre nom"
+                      value={form.name}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, name: e.target.value }))
+                      }
                       style={inputStyle}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = C.accentBorder)}
-                      onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)')}
+                      onFocus={(e) =>
+                        (e.currentTarget.style.borderColor = C.accentBorder)
+                      }
+                      onBlur={(e) =>
+                        (e.currentTarget.style.borderColor =
+                          'rgba(255,255,255,0.1)')
+                      }
                     />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Email</label>
                     <input
+                      placeholder="Email"
                       type="email"
                       required
-                      placeholder="votre@email.fr"
+                      value={form.email}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, email: e.target.value }))
+                      }
                       style={inputStyle}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = C.accentBorder)}
-                      onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)')}
+                      onFocus={(e) =>
+                        (e.currentTarget.style.borderColor = C.accentBorder)
+                      }
+                      onBlur={(e) =>
+                        (e.currentTarget.style.borderColor =
+                          'rgba(255,255,255,0.1)')
+                      }
                     />
                   </div>
-                </div>
 
-                <label style={labelStyle}>Type de projet</label>
-                <select
-                  style={{ ...inputStyle, appearance: 'none' as const, cursor: 'pointer' }}
-                  onFocus={(e) => (e.currentTarget.style.borderColor = C.accentBorder)}
-                  onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)')}
-                  defaultValue=""
-                >
-                  <option value="" style={{ background: C.bgDark }}>
-                    Sélectionnez…
-                  </option>
-                  {[
-                    'Maison / villa privée',
-                    'Logement collectif',
-                    'Équipement culturel',
-                    'Bâtiment tertiaire',
-                    'Rénovation / patrimoine',
-                    'Urbanisme',
-                    'Architecture intérieure',
-                    'Autre',
-                  ].map((t) => (
-                    <option key={t} value={t} style={{ background: C.bgDark }}>
-                      {t}
+                  <select
+                    value={form.type}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, type: e.target.value }))
+                    }
+                    style={{
+                      ...inputStyle,
+                      appearance: 'none' as const,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <option value="" style={{ background: C.bgDark }}>
+                      Project Type
                     </option>
-                  ))}
-                </select>
+                    {[
+                      'Private Residence',
+                      'Mixed-Use Development',
+                      'Cultural Institution',
+                      'Corporate Headquarters',
+                      'Collective Housing',
+                      'Urban Planning',
+                      'Interior Design',
+                      'Other',
+                    ].map((t) => (
+                      <option
+                        key={t}
+                        value={t}
+                        style={{ background: C.bgDark }}
+                      >
+                        {t}
+                      </option>
+                    ))}
+                  </select>
 
-                <label style={labelStyle}>Votre projet</label>
-                <textarea
-                  required
-                  rows={6}
-                  placeholder="Parlez-nous de votre site, de votre programme, de vos délais et de votre budget si vous le connaissez."
-                  style={{ ...inputStyle, resize: 'vertical' as const, lineHeight: 1.7, minHeight: 140 }}
-                  onFocus={(e) => (e.currentTarget.style.borderColor = C.accentBorder)}
-                  onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)')}
-                />
+                  <textarea
+                    placeholder="Tell us about your project — site, programme, timeline, budget if known."
+                    required
+                    value={form.message}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, message: e.target.value }))
+                    }
+                    rows={6}
+                    style={{ ...inputStyle, resize: 'vertical' as const, lineHeight: 1.7, minHeight: 140 }}
+                    onFocus={(e) =>
+                      (e.currentTarget.style.borderColor = C.accentBorder)
+                    }
+                    onBlur={(e) =>
+                      (e.currentTarget.style.borderColor =
+                        'rgba(255,255,255,0.1)')
+                    }
+                  />
 
-                <button
-                  type="submit"
-                  style={{
-                    background: C.accent,
-                    color: C.bgDark,
-                    fontFamily: F.sans,
-                    fontSize: 11,
-                    fontWeight: 700,
-                    letterSpacing: '0.22em',
-                    textTransform: 'uppercase' as const,
-                    padding: '16px 32px',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'background 0.3s',
-                    width: '100%',
-                    marginTop: 4,
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = '#d9b85c')}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = C.accent)}
-                >
-                  Envoyer la demande
-                </button>
-              </form>
-            )}
+                  <button
+                    type="submit"
+                    style={{
+                      background: C.accent,
+                      color: C.bgDark,
+                      fontFamily: F.sans,
+                      fontSize: 11,
+                      fontWeight: 700,
+                      letterSpacing: '0.22em',
+                      textTransform: 'uppercase' as const,
+                      padding: '16px 32px',
+                      border: 'none',
+                      cursor: 'pointer',
+                      transition: 'background 0.3s',
+                      width: '100%',
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = '#d9b85c')}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = C.accent)}
+                  >
+                    Send Enquiry
+                  </button>
+                </form>
+              )}
+            </div>
           </motion.div>
         </div>
-      </section>
-    </div>
-  );
-}
-
-// ─── MENTIONS LÉGALES & CONFIDENTIALITÉ ───────────────────────────────────────
-// `mentions` content is verbatim per legal requirement. NEVER print a street address.
-function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
-  const sectionTitle: React.CSSProperties = {
-    fontFamily: F.sans,
-    fontSize: 20,
-    fontWeight: 700,
-    color: C.text,
-    letterSpacing: '-0.01em',
-    margin: '40px 0 14px',
-  };
-  const para: React.CSSProperties = {
-    fontFamily: F.sans,
-    fontSize: 15,
-    color: C.textMuted,
-    lineHeight: 1.85,
-    marginBottom: 14,
-    letterSpacing: '0.01em',
-  };
-  const strong: React.CSSProperties = { color: C.text, fontWeight: 700 };
-
-  if (variant === 'mentions') {
-    return (
-      <div>
-        <PageHero eyebrow="Informations légales" title="Mentions légales" />
-        <section style={{ background: C.bg, padding: '90px 40px 120px' }}>
-          <div style={{ maxWidth: 760, margin: '0 auto' }}>
-            <h2 style={{ ...sectionTitle, marginTop: 0 }}>Éditeur du site</h2>
-            <p style={para}>
-              <span style={strong}>Aevia WS</span> — entrepreneur individuel (auto-entrepreneur).
-            </p>
-            <p style={para}>
-              Directeur de la publication : <span style={strong}>Valentin Milliand</span>.
-            </p>
-            <p style={para}>
-              SIREN : <span style={strong}>852 546 225</span> — RCS Bourg-en-Bresse.
-            </p>
-            <p style={para}>
-              Contact : <span style={strong}>contact@aevia.io</span>
-            </p>
-            <p style={para}>Adresse du siège social communiquée sur demande à contact@aevia.io.</p>
-
-            <h2 style={sectionTitle}>TVA</h2>
-            <p style={para}>TVA non applicable, art. 293 B du CGI.</p>
-
-            <h2 style={sectionTitle}>Hébergeur</h2>
-            <p style={para}>Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA.</p>
-
-            <h2 style={sectionTitle}>Propriété intellectuelle</h2>
-            <p style={para}>
-              L'ensemble des contenus présents sur ce site (textes, visuels, plans, logo, mise en page) est protégé par
-              le droit de la propriété intellectuelle. Toute reproduction, même partielle, est interdite sans autorisation
-              préalable de l'éditeur.
-            </p>
-
-            <h2 style={sectionTitle}>Responsabilité</h2>
-            <p style={para}>
-              Les informations diffusées sur ce site sont fournies à titre indicatif et ne sauraient engager la
-              responsabilité de l'éditeur ou de l'atelier. Les projets présentés le sont à des fins illustratives.
-            </p>
-          </div>
-        </section>
       </div>
-    );
-  }
-
-  return (
-    <div>
-      <PageHero eyebrow="Protection des données" title="Confidentialité" />
-      <section style={{ background: C.bg, padding: '90px 40px 120px' }}>
-        <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          <p style={{ ...para, fontStyle: 'italic', color: C.textDim }}>
-            Dernière mise à jour : juin 2026.
-          </p>
-
-          <h2 style={{ ...sectionTitle, marginTop: 24 }}>Responsable du traitement</h2>
-          <p style={para}>
-            Le responsable du traitement des données personnelles est <span style={strong}>Aevia WS</span>, éditeur du
-            site. Pour toute question, écrivez à <span style={strong}>contact@aevia.io</span>.
-          </p>
-
-          <h2 style={sectionTitle}>Données collectées</h2>
-          <p style={para}>
-            Nous collectons uniquement les données que vous nous transmettez volontairement via le formulaire de contact
-            (nom, email, type de projet et message), aux seules fins de répondre à votre demande.
-          </p>
-
-          <h2 style={sectionTitle}>Finalité et base légale</h2>
-          <p style={para}>
-            Vos données sont traitées sur la base de votre consentement et de l'intérêt légitime de l'atelier à répondre
-            aux sollicitations. Elles ne font l'objet d'aucune cession à des tiers à des fins commerciales.
-          </p>
-
-          <h2 style={sectionTitle}>Durée de conservation</h2>
-          <p style={para}>
-            Les données issues du formulaire de contact sont conservées le temps nécessaire au traitement de votre
-            demande, puis archivées ou supprimées conformément aux obligations légales applicables.
-          </p>
-
-          <h2 style={sectionTitle}>Vos droits</h2>
-          <p style={para}>
-            Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement, de portabilité et
-            d'opposition au traitement de vos données. Pour exercer ces droits, écrivez à contact@aevia.io.
-          </p>
-
-          <h2 style={sectionTitle}>Cookies</h2>
-          <p style={para}>
-            Ce site ne dépose pas de cookies de suivi publicitaire. Seuls des cookies techniques strictement nécessaires
-            au fonctionnement du site peuvent être utilisés.
-          </p>
-        </div>
-      </section>
-    </div>
+    </section>
   );
 }
 
 // ─── ROOT EXPORT ─────────────────────────────────────────────────────────────
 export default function ArchitectureTemplate() {
-  const [page, setPage] = useState<ArchPage>('home');
-  const [blogSlug, setBlogSlug] = useState<string | null>(null);
-
-  const goTo = (p: ArchPage) => {
-    setPage(p);
-    setBlogSlug(null);
-    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'auto' });
-  };
-
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: globalCss }} />
-      <main style={{ background: C.bg, minHeight: '100vh' }}>
-        <Navbar page={page} goTo={goTo} />
-
-        {/* ══════════ HOME (original single-page content, unchanged) ══════════ */}
-        {page === 'home' && (
-          <>
-            <HeroSection />
-            <PhilosophySection />
-            <ProjectsSection />
-            <FloorPlanSection />
-            <StatsSection />
-            <TeamSection />
-            <ContactSection />
-          </>
-        )}
-
-        {/* ══════════ EXTRA PAGES (theme-native, built from C tokens) ══════════ */}
-        {page === 'services' && <ServicesPage goTo={goTo} />}
-        {page === 'projects' && <ProjectsPage goTo={goTo} />}
-        {page === 'blog' && <BlogPage blogSlug={blogSlug} setBlogSlug={setBlogSlug} />}
-        {page === 'about' && <AboutPage goTo={goTo} />}
-        {page === 'contact' && <ContactPage />}
-        {page === 'mentions' && <LegalPage variant="mentions" />}
-        {page === 'privacy' && <LegalPage variant="privacy" />}
-
-        <Footer goTo={goTo} />
-      </main>
+      <HeroSection />
+      <PhilosophySection />
+      <ProjectsSection />
+      <FloorPlanSection />
+      <StatsSection />
+      <TeamSection />
+      <ContactSection />
     </>
   );
 }

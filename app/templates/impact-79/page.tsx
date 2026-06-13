@@ -413,12 +413,12 @@ export default function BoulangerieNoirePage() {
         </div>
 
         <div className="relative">
-          <div className="flex gap-12 px-6 md:px-12 pb-12 overflow-x-auto scrollbar-hide">
+          <div className="flex gap-12 px-6 md:px-12 pb-12 overflow-x-auto scrollbar-hide snap-x snap-mandatory">
             {PRODUCTS.map((p, i) => (
               <Reveal key={p.id} delay={i * 0.1}>
                 <div
                   onClick={() => setActiveItem(i)}
-                  className="group w-[300px] md:w-[450px] flex-shrink-0 cursor-pointer bg-white/[0.02] border border-white/5 hover:border-stone-800 transition-all rounded-none p-8 shadow-sm"
+                  className="group w-[300px] md:w-[450px] flex-shrink-0 snap-start cursor-pointer bg-white/[0.02] border border-white/5 hover:border-stone-800 transition-all rounded-none p-8 shadow-sm"
                 >
                   <div className="relative aspect-square mb-10 overflow-hidden">
                     <Image

@@ -26,12 +26,12 @@ const nextConfig: NextConfig = {
   async headers() {
     const isDev = process.env.NODE_ENV !== "production";
     const scriptSrc = isDev
-      ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://skybot-inbox-ui.onrender.com"
-      : "script-src 'self' 'unsafe-inline' https://js.stripe.com https://skybot-inbox-ui.onrender.com";
+      ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://inbox.aevia.services"
+      : "script-src 'self' 'unsafe-inline' https://js.stripe.com https://inbox.aevia.services";
 
     const connectSrc = isDev
-      ? "connect-src 'self' ws: wss: https://api.anthropic.com https://js.stripe.com https://*.public.blob.vercel-storage.com"
-      : "connect-src 'self' https://api.anthropic.com https://js.stripe.com https://*.public.blob.vercel-storage.com";
+      ? "connect-src 'self' ws: wss: https://api.anthropic.com https://js.stripe.com https://*.public.blob.vercel-storage.com https://skybot-inbox-production.up.railway.app"
+      : "connect-src 'self' https://api.anthropic.com https://js.stripe.com https://*.public.blob.vercel-storage.com https://skybot-inbox-production.up.railway.app";
 
     return [
       {
