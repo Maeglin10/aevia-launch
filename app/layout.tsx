@@ -188,8 +188,8 @@ export default function RootLayout({
           <script
             async
             src="https://inbox.aevia.services/webchat/widget.js"
-            data-widget-id="wid_ce9571d1dd824e3704a48013699b3e91"
-            data-api-url="https://inbox.aevia.services/api"
+            data-widget-id="wid_2a6ea934ea6a6404d285e9fc93cb0707"
+            data-api-url="https://skybot-inbox-production.up.railway.app/api/v1"
           />
         </LangProvider>
       </body>
