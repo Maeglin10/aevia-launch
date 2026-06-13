@@ -41,7 +41,7 @@ async function getTemplateIds() {
 // Templates where scroll-0 shows empty canvas — capture mid-scroll instead
 const SCROLL_OFFSETS = {
   'impact-217': 0,     // AirForge — parallax hero (real photo) is the money shot
-  'impact-218': 900,   // Domaine Miroir — vine mid-growth
+  'impact-218': 0,     // Domaine Miroir — parallax hero (real vineyard photo)
   'impact-220': 800,   // Hora Viva — watch case starting to open
   'impact-221': 400,   // Lumyx — vehicle visible with glow
 };

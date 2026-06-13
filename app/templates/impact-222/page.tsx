@@ -1,11 +1,10 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import {
   Building2,
   MapPin,
-  Search,
   ArrowRight,
   ArrowUpRight,
   Quote,
@@ -13,901 +12,2378 @@ import {
   Phone,
   Clock,
   Check,
+  Menu,
+  X,
+  Maximize2,
+  Compass,
+  Handshake,
+  Search,
+  ChevronDown,
 } from 'lucide-react';
 
 /* ════════════════════════════════════════════════════════════════════════════
-   SOLIS IMMOBILIER — Premium real estate & architecture (Geolava-inspired)
-   Warm-white editorial layout, Canvas building facade, count-ups, property grid
+   SOLIS IMMOBILIER — Immobilier & architecture de prestige (France)
+   Reference-grade scroll choreography with real photography.
+   Palette : blanc chaud / bleu nuit profond / champagne doré.
+   Self-contained client component. Only react / framer-motion / lucide-react.
    ════════════════════════════════════════════════════════════════════════════ */
 
+/* ─────────────────────────── DESIGN TOKENS ─────────────────────────── */
+
 const C = {
-  bg: '#fafaf8',
-  bgSoft: '#f3f2ee',
+  bg: '#faf9f6',
+  bgSoft: '#f2f0ea',
   bgCard: '#ffffff',
-  navy: '#1a1a2e',
-  navySoft: '#2c2c46',
+  navy: '#11182a',
+  navy2: '#1c2540',
+  navySoft: '#2c3654',
   gold: '#b8944a',
   goldSoft: '#cdab66',
   goldFaint: '#efe6d4',
-  text: '#1a1a2e',
-  textSoft: '#55556a',
-  muted: '#8a8a9c',
-  border: '#e6e4dc',
-  borderDark: '#d6d4c8',
-  font: "'Inter', system-ui, -apple-system, sans-serif",
-  serif: "'Cormorant Garamond', Georgia, serif",
+  text: '#11182a',
+  textSoft: '#4d5366',
+  muted: '#8a8f9e',
+  line: '#e5e2d9',
+  lineDark: '#d4d0c4',
+  white: '#ffffff',
+  font: "'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+  serif:
+    "'Cormorant Garamond', 'Playfair Display', Georgia, 'Times New Roman', serif",
 } as const;
 
-const pageStyle: React.CSSProperties = {
-  background: C.bg,
-  color: C.text,
-  fontFamily: C.font,
-  overflowX: 'hidden',
-  WebkitFontSmoothing: 'antialiased',
-};
+/* Pre-verified Unsplash photo ids (return 200). Only w/q/fit altered. */
+const PHOTO = {
+  facade:
+    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop',
+  interior:
+    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1600&auto=format&fit=crop',
+  city:
+    'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1600&auto=format&fit=crop',
+  pool:
+    'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=1600&auto=format&fit=crop',
+  living:
+    'https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=1600&auto=format&fit=crop',
+  villa:
+    'https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1600&auto=format&fit=crop',
+  modern:
+    'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop',
+} as const;
 
-const pad: React.CSSProperties = { paddingInline: 'clamp(20px, 6vw, 100px)' };
-const radius = 2;
+const hero = (w: number, q = 85): string =>
+  `https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=${q}&w=${w}&auto=format&fit=crop`;
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Canvas: 12-floor building facade, windows light up sequentially
-   ──────────────────────────────────────────────────────────────────────────── */
+/* ─────────────────────────── SHARED PRIMITIVES ─────────────────────────── */
 
-function BuildingFacade(): React.JSX.Element {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const MAXW = 1280;
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    let raf = 0;
-    let w = 0;
-    let h = 0;
-
-    const floors = 12;
-    const cols = 5;
-    // Each window gets a lit-up "on time" so they light sequentially.
-    const lit: number[] = [];
-    for (let f = 0; f < floors; f++) {
-      for (let c = 0; c < cols; c++) {
-        lit.push((f * cols + c) * 90 + Math.random() * 200);
-      }
-    }
-
-    const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const parent = canvas.parentElement;
-      w = parent ? parent.clientWidth : 400;
-      h = parent ? parent.clientHeight : 600;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      canvas.style.width = `${w}px`;
-      canvas.style.height = `${h}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-    resize();
-
-    const start = performance.now();
-    const loop = (now: number) => {
-      const t = now - start;
-      ctx.clearRect(0, 0, w, h);
-
-      const buildingW = Math.min(w * 0.7, 320);
-      const margin = h * 0.08;
-      const buildingH = h - margin * 2 - 30;
-      const bx = (w - buildingW) / 2;
-      const by = margin + 30;
-
-      // sky gradient behind
-      const sky = ctx.createLinearGradient(0, 0, 0, h);
-      sky.addColorStop(0, '#f3f2ee');
-      sky.addColorStop(1, '#e9e7df');
-      ctx.fillStyle = sky;
-      ctx.fillRect(0, 0, w, h);
-
-      // building body
-      const body = ctx.createLinearGradient(bx, 0, bx + buildingW, 0);
-      body.addColorStop(0, '#23233a');
-      body.addColorStop(0.5, '#2e2e4a');
-      body.addColorStop(1, '#1a1a2e');
-      ctx.fillStyle = body;
-      ctx.fillRect(bx, by, buildingW, buildingH);
-
-      // subtle edge highlight
-      ctx.strokeStyle = 'rgba(184,148,74,0.25)';
-      ctx.lineWidth = 1;
-      ctx.strokeRect(bx, by, buildingW, buildingH);
-
-      // spire with pulse
-      const spireH = 30 + Math.sin(t / 600) * 4;
-      ctx.beginPath();
-      ctx.moveTo(w / 2, by - spireH);
-      ctx.lineTo(w / 2 - 4, by);
-      ctx.lineTo(w / 2 + 4, by);
-      ctx.closePath();
-      ctx.fillStyle = C.gold;
-      ctx.shadowColor = C.gold;
-      ctx.shadowBlur = 12 + Math.sin(t / 400) * 8;
-      ctx.fill();
-      ctx.shadowBlur = 0;
-
-      // windows
-      const padX = buildingW * 0.1;
-      const padY = buildingH * 0.05;
-      const gridW = buildingW - padX * 2;
-      const gridH = buildingH - padY * 2;
-      const winW = (gridW / cols) * 0.62;
-      const winH = (gridH / floors) * 0.55;
-      const gapX = gridW / cols;
-      const gapY = gridH / floors;
-
-      let idx = 0;
-      for (let f = 0; f < floors; f++) {
-        for (let c = 0; c < cols; c++) {
-          const wx = bx + padX + c * gapX + (gapX - winW) / 2;
-          const wy = by + padY + f * gapY + (gapY - winH) / 2;
-          const onTime = lit[idx];
-          const isOn = t > onTime;
-          // flicker some windows off slowly
-          const flick = isOn ? 0.85 + Math.sin((t + idx * 300) / 1400) * 0.15 : 0.08;
-          ctx.fillStyle = isOn ? `rgba(255,222,150,${flick})` : 'rgba(120,124,150,0.12)';
-          if (isOn) {
-            ctx.shadowColor = 'rgba(255,210,120,0.6)';
-            ctx.shadowBlur = 6;
-          }
-          ctx.fillRect(wx, wy, winW, winH);
-          ctx.shadowBlur = 0;
-          // mullion
-          ctx.strokeStyle = 'rgba(0,0,0,0.3)';
-          ctx.lineWidth = 0.5;
-          ctx.beginPath();
-          ctx.moveTo(wx + winW / 2, wy);
-          ctx.lineTo(wx + winW / 2, wy + winH);
-          ctx.stroke();
-          idx++;
-        }
-      }
-
-      // entrance
-      ctx.fillStyle = '#11111e';
-      const doorW = buildingW * 0.22;
-      ctx.fillRect(w / 2 - doorW / 2, by + buildingH - 28, doorW, 28);
-      ctx.fillStyle = C.gold;
-      ctx.fillRect(w / 2 - doorW / 2, by + buildingH - 4, doorW, 2);
-
-      raf = requestAnimationFrame(loop);
-    };
-
-    window.addEventListener('resize', resize);
-    raf = requestAnimationFrame(loop);
-    return () => {
-      window.removeEventListener('resize', resize);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
-  return <canvas ref={canvasRef} suppressHydrationWarning style={{ display: 'block', width: '100%', height: '100%' }} />;
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   Count-up stat
-   ──────────────────────────────────────────────────────────────────────────── */
-
-function CountUp({
-  target,
-  prefix = '',
-  suffix = '',
-  decimals = 0,
-  label,
-}: {
-  target: number;
-  prefix?: string;
-  suffix?: string;
-  decimals?: number;
-  label: string;
-}): React.JSX.Element {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const inView = useInView(ref, { once: true, margin: '-50px' });
-  const [val, setVal] = useState(0);
-  useEffect(() => {
-    if (!inView) return;
-    let raf = 0;
-    const dur = 1800;
-    const start = performance.now();
-    const tick = (now: number) => {
-      const p = Math.min(1, (now - start) / dur);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setVal(target * eased);
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [inView, target]);
-  return (
-    <div
-      ref={ref}
-      style={{
-        background: C.bgCard,
-        border: `1px solid ${C.border}`,
-        borderRadius: radius,
-        padding: '34px 28px',
-        boxShadow: '0 1px 3px rgba(26,26,46,0.04)',
-      }}
-    >
-      <div style={{ fontFamily: C.serif, fontSize: 'clamp(40px, 5vw, 64px)', fontWeight: 600, color: C.navy, lineHeight: 1 }}>
-        {prefix}
-        {val.toLocaleString('fr-FR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}
-        {suffix}
-      </div>
-      <div style={{ fontSize: 13, letterSpacing: '0.1em', color: C.muted, marginTop: 14, textTransform: 'uppercase' }}>{label}</div>
+const Section: React.FC<{
+  children: React.ReactNode;
+  id?: string;
+  style?: React.CSSProperties;
+}> = ({ children, id, style }) => (
+  <section
+    id={id}
+    style={{
+      width: '100%',
+      padding: 'clamp(72px, 9vw, 132px) clamp(20px, 5vw, 64px)',
+      position: 'relative',
+      ...style,
+    }}
+  >
+    <div style={{ maxWidth: MAXW, margin: '0 auto', width: '100%' }}>
+      {children}
     </div>
-  );
-}
+  </section>
+);
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   France SVG map with animated dots
-   ──────────────────────────────────────────────────────────────────────────── */
+const Eyebrow: React.FC<{ children: React.ReactNode; light?: boolean }> = ({
+  children,
+  light,
+}) => (
+  <span
+    style={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 10,
+      fontFamily: C.font,
+      fontSize: 12,
+      fontWeight: 600,
+      letterSpacing: '0.22em',
+      textTransform: 'uppercase',
+      color: light ? C.goldSoft : C.gold,
+    }}
+  >
+    <span
+      style={{
+        width: 26,
+        height: 1,
+        background: light ? C.goldSoft : C.gold,
+        display: 'inline-block',
+      }}
+    />
+    {children}
+  </span>
+);
 
-function FranceMap(): React.JSX.Element {
-  // simplified hexagon-ish France outline
-  const outline =
-    'M120 30 L180 40 L230 30 L260 70 L300 90 L290 140 L320 180 L290 230 L250 260 L210 290 L170 280 L130 250 L90 230 L60 180 L70 130 L50 90 L80 55 Z';
-  // city coordinates within viewBox
-  const cities: { name: string; x: number; y: number }[] = [
-    { name: 'Paris', x: 175, y: 95 },
-    { name: 'Lyon', x: 235, y: 175 },
-    { name: 'Bordeaux', x: 115, y: 205 },
-    { name: 'Marseille', x: 250, y: 250 },
-    { name: 'Nantes', x: 95, y: 140 },
-    { name: 'Toulouse', x: 165, y: 245 },
-  ];
-  return (
-    <svg viewBox="0 0 360 320" style={{ width: '100%', maxWidth: 480 }}>
-      <path d={outline} fill={C.bgSoft} stroke={C.borderDark} strokeWidth={1.5} />
-      {cities.map((c, i) => (
-        <g key={c.name}>
-          <motion.circle
-            cx={c.x}
-            cy={c.y}
-            r={14}
-            fill={C.gold}
-            initial={{ opacity: 0, scale: 0 }}
-            whileInView={{ opacity: [0, 0.3, 0], scale: [0, 2.2, 2.6] }}
-            viewport={{ once: true }}
-            transition={{ duration: 2, repeat: Infinity, delay: i * 0.25 }}
-          />
-          <motion.circle
-            cx={c.x}
-            cy={c.y}
-            r={5}
-            fill={C.gold}
-            initial={{ opacity: 0, scale: 0 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.18 }}
-          />
-          <motion.text
-            x={c.x + 10}
-            y={c.y + 4}
-            fontSize={12}
-            fill={C.navy}
-            fontFamily={C.font}
-            fontWeight={600}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 + i * 0.18 }}
-          >
-            {c.name}
-          </motion.text>
-        </g>
-      ))}
-    </svg>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   Reveal wrapper
-   ──────────────────────────────────────────────────────────────────────────── */
-
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }): React.JSX.Element {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
+const Reveal: React.FC<{
+  children: React.ReactNode;
+  delay?: number;
+  y?: number;
+  style?: React.CSSProperties;
+}> = ({ children, delay = 0, y = 28, style }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-12% 0px' });
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.9, ease: EASE, delay }}
+      style={style}
     >
       {children}
     </motion.div>
   );
-}
+};
 
-function Eyebrow({ children, center = false }: { children: React.ReactNode; center?: boolean }): React.JSX.Element {
+/* Count-up that triggers on view */
+const CountUp: React.FC<{
+  to: number;
+  decimals?: number;
+  duration?: number;
+}> = ({ to, decimals = 0, duration = 1900 }) => {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-20% 0px' });
+  const [val, setVal] = useState<number>(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    let raf = 0;
+    const start = performance.now();
+    const tick = (now: number): void => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setVal(to * eased);
+      if (t < 1) raf = requestAnimationFrame(tick);
+      else setVal(to);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, to, duration]);
+
   return (
-    <div
+    <span ref={ref} suppressHydrationWarning>
+      {val.toLocaleString('fr-FR', {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+      })}
+    </span>
+  );
+};
+
+/* ─────────────────────────── NAV ─────────────────────────── */
+
+const NAV_LINKS: { label: string; href: string }[] = [
+  { label: 'Sélection', href: '#selection' },
+  { label: 'Signature', href: '#signature' },
+  { label: 'Approche', href: '#approche' },
+  { label: 'Avis', href: '#avis' },
+  { label: 'Contact', href: '#contact' },
+];
+
+const Nav: React.FC = () => {
+  const [solid, setSolid] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const onScroll = (): void => setSolid(window.scrollY > 80);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <motion.nav
+      initial={{ y: -28, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: EASE }}
       style={{
-        fontSize: 12,
-        letterSpacing: '0.26em',
-        color: C.gold,
-        marginBottom: 16,
-        display: 'flex',
-        alignItems: 'center',
-        gap: 12,
-        justifyContent: center ? 'center' : 'flex-start',
-        textTransform: 'uppercase',
-        fontWeight: 600,
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 100,
+        background: solid ? 'rgba(17,24,42,0.92)' : 'transparent',
+        backdropFilter: solid ? 'blur(14px) saturate(140%)' : 'none',
+        WebkitBackdropFilter: solid ? 'blur(14px) saturate(140%)' : 'none',
+        borderBottom: `1px solid ${
+          solid ? 'rgba(255,255,255,0.08)' : 'transparent'
+        }`,
+        transition:
+          'background .5s ease, border-color .5s ease, backdrop-filter .5s ease',
       }}
     >
-      <span style={{ width: 28, height: 1, background: C.gold }} />
-      {children}
+      <div
+        style={{
+          maxWidth: MAXW,
+          margin: '0 auto',
+          padding: '0 clamp(20px, 5vw, 64px)',
+          height: solid ? 68 : 84,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          transition: 'height .4s ease',
+        }}
+      >
+        {/* Logo */}
+        <a
+          href="#top"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            textDecoration: 'none',
+          }}
+        >
+          <span
+            style={{
+              width: 38,
+              height: 38,
+              borderRadius: 2,
+              background: C.gold,
+              display: 'grid',
+              placeItems: 'center',
+              boxShadow: '0 4px 18px rgba(184,148,74,0.4)',
+            }}
+          >
+            <Building2 size={20} color={C.navy} strokeWidth={2.2} />
+          </span>
+          <span style={{ lineHeight: 1 }}>
+            <span
+              style={{
+                display: 'block',
+                fontFamily: C.serif,
+                fontSize: 22,
+                fontWeight: 600,
+                color: C.white,
+                letterSpacing: '0.02em',
+              }}
+            >
+              Solis
+            </span>
+            <span
+              style={{
+                display: 'block',
+                fontFamily: C.font,
+                fontSize: 9.5,
+                fontWeight: 600,
+                letterSpacing: '0.34em',
+                textTransform: 'uppercase',
+                color: C.goldSoft,
+                marginTop: 2,
+              }}
+            >
+              Immobilier
+            </span>
+          </span>
+        </a>
+
+        {/* Desktop links */}
+        <div
+          className="solis-desktop-nav"
+          style={{ display: 'flex', alignItems: 'center', gap: 36 }}
+        >
+          {NAV_LINKS.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              style={{
+                fontFamily: C.font,
+                fontSize: 14,
+                fontWeight: 500,
+                color: 'rgba(255,255,255,0.82)',
+                textDecoration: 'none',
+                letterSpacing: '0.01em',
+                transition: 'color .25s',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = C.goldSoft;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'rgba(255,255,255,0.82)';
+              }}
+            >
+              {l.label}
+            </a>
+          ))}
+          <a
+            href="#contact"
+            style={{
+              fontFamily: C.font,
+              fontSize: 13.5,
+              fontWeight: 600,
+              color: C.navy,
+              background: C.gold,
+              padding: '11px 22px',
+              borderRadius: 2,
+              textDecoration: 'none',
+              letterSpacing: '0.02em',
+              transition: 'background .25s, transform .25s',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = C.goldSoft;
+              e.currentTarget.style.transform = 'translateY(-1px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = C.gold;
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+          >
+            Prendre rendez-vous
+          </a>
+        </div>
+
+        {/* Mobile toggle */}
+        <button
+          className="solis-mobile-toggle"
+          aria-label="Menu"
+          onClick={() => setOpen((o) => !o)}
+          style={{
+            display: 'none',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            color: C.white,
+            padding: 6,
+          }}
+        >
+          {open ? <X size={26} /> : <Menu size={26} />}
+        </button>
+      </div>
+
+      {/* Mobile drawer */}
+      {open && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          transition={{ duration: 0.35, ease: EASE }}
+          style={{
+            background: 'rgba(17,24,42,0.98)',
+            borderTop: '1px solid rgba(255,255,255,0.08)',
+            padding: '18px clamp(20px,5vw,64px) 28px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 4,
+          }}
+        >
+          {NAV_LINKS.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              style={{
+                fontFamily: C.font,
+                fontSize: 16,
+                fontWeight: 500,
+                color: 'rgba(255,255,255,0.88)',
+                textDecoration: 'none',
+                padding: '12px 0',
+                borderBottom: '1px solid rgba(255,255,255,0.06)',
+              }}
+            >
+              {l.label}
+            </a>
+          ))}
+          <a
+            href="#contact"
+            onClick={() => setOpen(false)}
+            style={{
+              marginTop: 14,
+              textAlign: 'center',
+              fontFamily: C.font,
+              fontSize: 15,
+              fontWeight: 600,
+              color: C.navy,
+              background: C.gold,
+              padding: '14px',
+              borderRadius: 2,
+              textDecoration: 'none',
+            }}
+          >
+            Prendre rendez-vous
+          </a>
+        </motion.div>
+      )}
+    </motion.nav>
+  );
+};
+
+/* ─────────────────────────── HERO (PARALLAX) ─────────────────────────── */
+
+const Hero: React.FC = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end start'],
+  });
+
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
+  const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '14%']);
+  const textY = useTransform(scrollYProgress, [0, 1], ['0%', '52%']);
+  const subY = useTransform(scrollYProgress, [0, 1], ['0%', '90%']);
+  const fade = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const scrimO = useTransform(scrollYProgress, [0, 1], [0.55, 0.78]);
+
+  return (
+    <div
+      ref={ref}
+      id="top"
+      style={{
+        position: 'relative',
+        height: '100vh',
+        minHeight: 640,
+        overflow: 'hidden',
+        background: C.navy,
+      }}
+    >
+      {/* Parallax image */}
+      <motion.div
+        style={{
+          position: 'absolute',
+          inset: '-6% 0 -6% 0',
+          scale: imgScale,
+          y: imgY,
+          willChange: 'transform',
+        }}
+      >
+        <img
+          src={hero(2000, 85)}
+          alt="Architecture résidentielle contemporaine baignée de lumière"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+          }}
+        />
+      </motion.div>
+
+      {/* Scrim */}
+      <motion.div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background:
+            'linear-gradient(180deg, rgba(17,24,42,0.62) 0%, rgba(17,24,42,0.32) 38%, rgba(17,24,42,0.74) 100%)',
+          opacity: scrimO,
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background:
+            'radial-gradient(120% 80% at 20% 30%, rgba(17,24,42,0.3) 0%, transparent 60%)',
+        }}
+      />
+
+      {/* Content */}
+      <motion.div
+        style={{
+          position: 'relative',
+          zIndex: 3,
+          height: '100%',
+          maxWidth: MAXW,
+          margin: '0 auto',
+          padding: '0 clamp(20px, 5vw, 64px)',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          opacity: fade,
+        }}
+      >
+        <motion.div style={{ y: textY, maxWidth: 880 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
+          >
+            <Eyebrow light>Immobilier &amp; architecture de prestige</Eyebrow>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.05, ease: EASE, delay: 0.38 }}
+            style={{
+              fontFamily: C.serif,
+              fontSize: 'clamp(44px, 7.4vw, 104px)',
+              lineHeight: 1.01,
+              fontWeight: 500,
+              color: C.white,
+              margin: '24px 0 0',
+              letterSpacing: '-0.015em',
+            }}
+          >
+            Des espaces qui
+            <br />
+            <span style={{ fontStyle: 'italic', color: C.goldSoft }}>
+              transforment
+            </span>{' '}
+            des vies
+          </motion.h1>
+
+          <motion.p
+            style={{ y: subY }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: EASE, delay: 0.55 }}
+          >
+            <span
+              style={{
+                display: 'block',
+                fontFamily: C.font,
+                fontSize: 'clamp(16px, 2vw, 20px)',
+                lineHeight: 1.65,
+                color: 'rgba(255,255,255,0.82)',
+                maxWidth: 560,
+                marginTop: 28,
+                fontWeight: 400,
+              }}
+            >
+              Solis accompagne une clientèle exigeante dans l&apos;acquisition et
+              la valorisation de biens d&apos;exception, de la Provence aux plus
+              belles adresses parisiennes.
+            </span>
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: EASE, delay: 0.72 }}
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 16,
+              marginTop: 40,
+            }}
+          >
+            <a
+              href="#selection"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 10,
+                fontFamily: C.font,
+                fontSize: 15,
+                fontWeight: 600,
+                color: C.navy,
+                background: C.gold,
+                padding: '16px 30px',
+                borderRadius: 2,
+                textDecoration: 'none',
+                letterSpacing: '0.01em',
+                transition: 'background .25s, transform .25s',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = C.goldSoft;
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = C.gold;
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              Découvrir la sélection <ArrowRight size={17} />
+            </a>
+            <a
+              href="#contact"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 10,
+                fontFamily: C.font,
+                fontSize: 15,
+                fontWeight: 600,
+                color: C.white,
+                background: 'transparent',
+                padding: '16px 30px',
+                borderRadius: 2,
+                textDecoration: 'none',
+                border: '1px solid rgba(255,255,255,0.4)',
+                letterSpacing: '0.01em',
+                transition: 'background .25s, border-color .25s',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.7)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)';
+              }}
+            >
+              Estimer mon bien
+            </a>
+          </motion.div>
+        </motion.div>
+      </motion.div>
+
+      {/* Scroll cue */}
+      <motion.div
+        style={{
+          position: 'absolute',
+          bottom: 30,
+          left: '50%',
+          x: '-50%',
+          zIndex: 4,
+          opacity: fade,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 8,
+        }}
+      >
+        <span
+          style={{
+            fontFamily: C.font,
+            fontSize: 10.5,
+            fontWeight: 600,
+            letterSpacing: '0.28em',
+            textTransform: 'uppercase',
+            color: 'rgba(255,255,255,0.6)',
+          }}
+        >
+          Faites défiler
+        </span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <ChevronDown size={20} color="rgba(255,255,255,0.7)" />
+        </motion.div>
+      </motion.div>
     </div>
   );
-}
+};
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Property card
-   ──────────────────────────────────────────────────────────────────────────── */
+/* ─────────────────────────── STATS BAND (COUNT-UP) ─────────────────────────── */
 
-function PropertyCard({
-  name,
-  area,
-  price,
-  location,
-  gradient,
-  delay,
-}: {
+type Stat = {
+  to: number;
+  decimals?: number;
+  suffix?: string;
+  prefix?: string;
+  label: string;
+};
+
+const STATS: Stat[] = [
+  { to: 847, label: 'Projets accompagnés' },
+  {
+    to: 2.3,
+    decimals: 1,
+    prefix: '€',
+    suffix: ' Md',
+    label: 'Volume transacté',
+  },
+  { to: 14, label: 'Villes en France' },
+  { to: 96, suffix: ' %', label: 'Clients satisfaits' },
+];
+
+const StatsBand: React.FC = () => (
+  <Section
+    style={{
+      background: C.navy,
+      padding: 'clamp(56px,7vw,96px) clamp(20px,5vw,64px)',
+    }}
+  >
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+        gap: 'clamp(28px, 4vw, 48px)',
+      }}
+    >
+      {STATS.map((s, i) => (
+        <Reveal key={s.label} delay={i * 0.1}>
+          <div
+            style={{
+              textAlign: 'center',
+              paddingTop: 20,
+              borderTop: '1px solid rgba(184,148,74,0.35)',
+            }}
+          >
+            <div
+              style={{
+                fontFamily: C.serif,
+                fontSize: 'clamp(44px, 6vw, 72px)',
+                fontWeight: 500,
+                color: C.white,
+                lineHeight: 1,
+                letterSpacing: '-0.02em',
+              }}
+            >
+              {s.prefix}
+              <CountUp to={s.to} decimals={s.decimals} />
+              {s.suffix && <span style={{ color: C.goldSoft }}>{s.suffix}</span>}
+            </div>
+            <div
+              style={{
+                fontFamily: C.font,
+                fontSize: 13.5,
+                fontWeight: 500,
+                color: 'rgba(255,255,255,0.6)',
+                marginTop: 14,
+                letterSpacing: '0.05em',
+              }}
+            >
+              {s.label}
+            </div>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  </Section>
+);
+
+/* ─────────────────────────── PROPERTY CARDS ─────────────────────────── */
+
+type Property = {
   name: string;
-  area: string;
+  img: string;
+  surface: string;
   price: string;
-  location: string;
-  gradient: string;
-  delay: number;
-}): React.JSX.Element {
-  const [hover, setHover] = useState(false);
+  city: string;
+  type: string;
+};
+
+const PROPERTIES: Property[] = [
+  {
+    name: 'Le Domaine des Cèdres',
+    img: PHOTO.villa,
+    surface: '450 m²',
+    price: '4 950 000 €',
+    city: 'Provence',
+    type: 'Villa contemporaine',
+  },
+  {
+    name: 'Tour Lumière',
+    img: PHOTO.city,
+    surface: '280 m²',
+    price: '6 200 000 €',
+    city: 'Paris 8ᵉ',
+    type: 'Penthouse',
+  },
+  {
+    name: 'Mas Garrigue',
+    img: PHOTO.pool,
+    surface: '320 m²',
+    price: '3 480 000 €',
+    city: 'Saint-Rémy',
+    type: 'Mas de caractère',
+  },
+];
+
+const PropertyCard: React.FC<{ p: Property; delay: number }> = ({
+  p,
+  delay,
+}) => {
+  const [hover, setHover] = useState<boolean>(false);
   return (
-    <Reveal delay={delay}>
+    <Reveal delay={delay} y={36}>
       <div
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         style={{
           background: C.bgCard,
-          border: `1px solid ${C.border}`,
-          borderRadius: radius,
+          borderRadius: 2,
           overflow: 'hidden',
-          transition: 'transform .45s ease, box-shadow .45s ease',
+          border: `1px solid ${C.line}`,
           transform: hover ? 'translateY(-10px)' : 'translateY(0)',
-          boxShadow: hover ? '0 24px 50px rgba(26,26,46,0.16)' : '0 2px 8px rgba(26,26,46,0.05)',
+          boxShadow: hover
+            ? '0 30px 60px -24px rgba(17,24,42,0.32)'
+            : '0 8px 26px -18px rgba(17,24,42,0.2)',
+          transition:
+            'transform .55s cubic-bezier(.22,1,.36,1), box-shadow .55s',
+          cursor: 'pointer',
         }}
       >
-        <div style={{ position: 'relative', aspectRatio: '4/3', background: gradient, overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,26,46,0.55), transparent 55%)' }} />
-          <div style={{ position: 'absolute', top: 16, left: 16, background: 'rgba(250,250,248,0.92)', borderRadius: radius, padding: '6px 12px', fontSize: 12, fontWeight: 600, color: C.navy, display: 'flex', alignItems: 'center', gap: 6 }}>
-            <MapPin size={13} color={C.gold} /> {location}
-          </div>
+        {/* Image */}
+        <div
+          style={{
+            position: 'relative',
+            overflow: 'hidden',
+            aspectRatio: '4 / 3',
+          }}
+        >
+          <img
+            src={p.img}
+            alt={p.name}
+            loading="lazy"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              display: 'block',
+              transform: hover ? 'scale(1.07)' : 'scale(1)',
+              transition: 'transform .9s cubic-bezier(.22,1,.36,1)',
+            }}
+          />
+          {/* City badge */}
+          <span
+            style={{
+              position: 'absolute',
+              top: 16,
+              left: 16,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              background: 'rgba(17,24,42,0.82)',
+              backdropFilter: 'blur(6px)',
+              color: C.white,
+              fontFamily: C.font,
+              fontSize: 11.5,
+              fontWeight: 600,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              padding: '7px 12px',
+              borderRadius: 2,
+            }}
+          >
+            <MapPin size={12} color={C.goldSoft} />
+            {p.city}
+          </span>
+
+          {/* Hover overlay */}
           <div
             style={{
               position: 'absolute',
               inset: 0,
+              background:
+                'linear-gradient(180deg, rgba(17,24,42,0) 40%, rgba(17,24,42,0.7) 100%)',
               display: 'flex',
-              alignItems: 'center',
+              alignItems: 'flex-end',
               justifyContent: 'center',
-              background: 'rgba(26,26,46,0.55)',
+              padding: 22,
               opacity: hover ? 1 : 0,
-              transition: 'opacity .4s',
+              transition: 'opacity .45s',
             }}
           >
-            <span style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#fff', fontWeight: 600, letterSpacing: '0.04em', border: '1px solid rgba(255,255,255,0.6)', padding: '12px 22px', borderRadius: radius }}>
-              Voir le projet <ArrowUpRight size={17} />
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                color: C.white,
+                fontFamily: C.font,
+                fontSize: 14,
+                fontWeight: 600,
+                letterSpacing: '0.02em',
+                transform: hover ? 'translateY(0)' : 'translateY(10px)',
+                transition: 'transform .45s',
+              }}
+            >
+              Voir le projet <ArrowUpRight size={16} color={C.goldSoft} />
             </span>
           </div>
         </div>
-        <div style={{ padding: '24px 26px' }}>
-          <div style={{ fontFamily: C.serif, fontSize: 26, fontWeight: 600, color: C.navy }}>{name}</div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 14 }}>
-            <span style={{ fontSize: 14, color: C.textSoft }}>{area}</span>
-            <span style={{ fontSize: 18, fontWeight: 700, color: C.gold }}>{price}</span>
+
+        {/* Body */}
+        <div style={{ padding: '24px 24px 28px' }}>
+          <span
+            style={{
+              fontFamily: C.font,
+              fontSize: 11.5,
+              fontWeight: 600,
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              color: C.gold,
+            }}
+          >
+            {p.type}
+          </span>
+          <h3
+            style={{
+              fontFamily: C.serif,
+              fontSize: 27,
+              fontWeight: 600,
+              color: C.text,
+              margin: '8px 0 18px',
+              lineHeight: 1.1,
+            }}
+          >
+            {p.name}
+          </h3>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingTop: 16,
+              borderTop: `1px solid ${C.line}`,
+            }}
+          >
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 7,
+                fontFamily: C.font,
+                fontSize: 14,
+                fontWeight: 500,
+                color: C.textSoft,
+              }}
+            >
+              <Maximize2 size={15} color={C.muted} />
+              {p.surface}
+            </span>
+            <span
+              style={{
+                fontFamily: C.serif,
+                fontSize: 22,
+                fontWeight: 600,
+                color: C.text,
+              }}
+            >
+              {p.price}
+            </span>
           </div>
         </div>
       </div>
     </Reveal>
   );
-}
+};
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Process step icons (animated SVG)
-   ──────────────────────────────────────────────────────────────────────────── */
-
-function PinIcon(): React.JSX.Element {
-  return (
-    <svg viewBox="0 0 64 64" width={48} height={48}>
-      <motion.g animate={{ y: [0, -4, 0] }} transition={{ duration: 1.8, repeat: Infinity }}>
-        <path d="M32 10 C22 10 16 18 16 27 C16 38 32 54 32 54 C32 54 48 38 48 27 C48 18 42 10 32 10 Z" fill="none" stroke={C.gold} strokeWidth={2.5} />
-        <circle cx={32} cy={26} r={6} fill={C.gold} />
-      </motion.g>
-      <motion.ellipse cx={32} cy={56} rx={10} ry={3} fill={C.gold} animate={{ opacity: [0.15, 0.4, 0.15], scaleX: [1, 1.3, 1] }} transition={{ duration: 1.8, repeat: Infinity }} style={{ originX: '32px', originY: '56px' }} />
-    </svg>
-  );
-}
-
-function HandshakeIcon(): React.JSX.Element {
-  return (
-    <svg viewBox="0 0 64 64" width={48} height={48}>
-      <motion.path
-        d="M14 30 L24 24 L34 30 L44 24 L50 30"
-        fill="none"
-        stroke={C.gold}
-        strokeWidth={2.5}
-        strokeLinecap="round"
-        animate={{ rotate: [0, 4, 0] }}
-        transition={{ duration: 1.6, repeat: Infinity }}
-        style={{ originX: '32px', originY: '30px' }}
-      />
-      <path d="M14 30 L14 42 L26 46 L40 46 L50 42 L50 30" fill="none" stroke={C.gold} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function KeyIcon(): React.JSX.Element {
-  return (
-    <svg viewBox="0 0 64 64" width={48} height={48}>
-      <motion.g animate={{ rotate: [0, 25, 0] }} transition={{ duration: 2.4, repeat: Infinity }} style={{ originX: '24px', originY: '28px' }}>
-        <circle cx={24} cy={28} r={11} fill="none" stroke={C.gold} strokeWidth={2.5} />
-        <circle cx={24} cy={28} r={4} fill={C.gold} />
-        <path d="M33 33 L50 50 M44 44 L50 38 M40 48 L46 54" stroke={C.gold} strokeWidth={2.5} fill="none" strokeLinecap="round" />
-      </motion.g>
-    </svg>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   Contact form
-   ──────────────────────────────────────────────────────────────────────────── */
-
-function ContactForm(): React.JSX.Element {
-  const [sent, setSent] = useState(false);
-  const [form, setForm] = useState({ nom: '', email: '', tel: '', type: 'Acquisition', message: '' });
-  const inputStyle: React.CSSProperties = {
-    width: '100%',
-    background: C.bg,
-    border: `1px solid ${C.border}`,
-    borderRadius: radius,
-    padding: '13px 15px',
-    color: C.text,
-    fontFamily: C.font,
-    fontSize: 15,
-    outline: 'none',
-  };
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        setSent(true);
-      }}
-      style={{ display: 'grid', gap: 14 }}
-    >
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-        <input style={inputStyle} placeholder="Nom" required value={form.nom} onChange={(e) => setForm({ ...form, nom: e.target.value })} />
-        <input style={inputStyle} type="email" placeholder="Email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-        <input style={inputStyle} placeholder="Téléphone" value={form.tel} onChange={(e) => setForm({ ...form, tel: e.target.value })} />
-        <select style={inputStyle} value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}>
-          <option>Acquisition</option>
-          <option>Vente</option>
-          <option>Investissement</option>
-          <option>Conseil patrimonial</option>
-        </select>
-      </div>
-      <textarea
-        style={{ ...inputStyle, resize: 'vertical', minHeight: 110 }}
-        placeholder="Votre projet"
-        value={form.message}
-        onChange={(e) => setForm({ ...form, message: e.target.value })}
-      />
-      <button
-        type="submit"
+const Selection: React.FC = () => (
+  <Section id="selection" style={{ background: C.bg }}>
+    <Reveal>
+      <div
         style={{
-          background: sent ? C.navySoft : C.navy,
-          color: '#fff',
-          border: 'none',
-          borderRadius: radius,
-          padding: '15px 22px',
-          fontWeight: 600,
-          fontSize: 15,
-          cursor: 'pointer',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 8,
-        }}
-      >
-        {sent ? (
-          <>
-            <Check size={17} /> Message envoyé
-          </>
-        ) : (
-          <>
-            Prendre rendez-vous <ArrowRight size={17} />
-          </>
-        )}
-      </button>
-    </form>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   FAQ accordion
-   ──────────────────────────────────────────────────────────────────────────── */
-
-function FaqItem({ q, a }: { q: string; a: string }): React.JSX.Element {
-  const [open, setOpen] = useState(false);
-  return (
-    <div style={{ borderBottom: `1px solid ${C.border}` }}>
-      <button
-        onClick={() => setOpen((o) => !o)}
-        style={{
-          width: '100%',
-          background: 'transparent',
-          border: 'none',
-          padding: '24px 4px',
-          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'flex-end',
           justifyContent: 'space-between',
-          alignItems: 'center',
-          cursor: 'pointer',
-          textAlign: 'left',
-          gap: 16,
+          gap: 24,
+          marginBottom: 'clamp(40px, 5vw, 64px)',
         }}
       >
-        <span style={{ fontFamily: C.serif, fontSize: 22, fontWeight: 600, color: C.navy }}>{q}</span>
-        <motion.span animate={{ rotate: open ? 45 : 0 }} transition={{ duration: 0.25 }} style={{ flexShrink: 0, color: C.gold, fontSize: 26, lineHeight: 1 }}>
-          +
-        </motion.span>
-      </button>
-      <motion.div
-        initial={false}
-        animate={{ height: open ? 'auto' : 0, opacity: open ? 1 : 0 }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        style={{ overflow: 'hidden' }}
-      >
-        <p style={{ fontSize: 16, lineHeight: 1.75, color: C.textSoft, margin: '0 4px 24px', maxWidth: 720 }}>{a}</p>
-      </motion.div>
+        <div style={{ maxWidth: 560 }}>
+          <Eyebrow>Sélection exclusive</Eyebrow>
+          <h2
+            style={{
+              fontFamily: C.serif,
+              fontSize: 'clamp(34px, 4.6vw, 58px)',
+              fontWeight: 500,
+              color: C.text,
+              margin: '18px 0 0',
+              lineHeight: 1.04,
+              letterSpacing: '-0.015em',
+            }}
+          >
+            Des biens choisis pour
+            <br />
+            leur singularité
+          </h2>
+        </div>
+        <p
+          style={{
+            fontFamily: C.font,
+            fontSize: 16,
+            lineHeight: 1.7,
+            color: C.textSoft,
+            maxWidth: 380,
+          }}
+        >
+          Chaque adresse de notre portefeuille est sélectionnée pour son
+          architecture, son emplacement et son potentiel patrimonial.
+        </p>
+      </div>
+    </Reveal>
+
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        gap: 'clamp(24px, 3vw, 36px)',
+      }}
+    >
+      {PROPERTIES.map((p, i) => (
+        <PropertyCard key={p.name} p={p} delay={i * 0.12} />
+      ))}
     </div>
-  );
-}
+  </Section>
+);
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Page
-   ──────────────────────────────────────────────────────────────────────────── */
+/* ─────────────────────────── STICKY-SIDE SHOWCASE ─────────────────────────── */
 
-export default function SolisPage(): React.JSX.Element {
-  const properties = [
-    { name: 'Le Domaine des Cèdres', area: 'Villa · 450 m²', price: '4,2 M€', location: 'Provence', gradient: 'linear-gradient(135deg, #c9b894, #8a7a55 60%, #5a4f38)' },
-    { name: 'Tour Lumière', area: 'Penthouse · 280 m²', price: '6,8 M€', location: 'Paris 8ème', gradient: 'linear-gradient(135deg, #9aa3b8, #5a6480 60%, #2e3450)' },
-    { name: 'Mas Garrigue', area: 'Maison · 320 m²', price: '2,9 M€', location: 'Saint-Rémy-de-Provence', gradient: 'linear-gradient(135deg, #d4c2a0, #a88f63 55%, #6e5c3c)' },
-  ];
+type Feature = {
+  num: string;
+  title: string;
+  body: string;
+};
 
-  const steps = [
-    { icon: <PinIcon />, title: 'Prospection', desc: 'Identification des biens d’exception correspondant à votre cahier des charges et à vos objectifs patrimoniaux.' },
-    { icon: <HandshakeIcon />, title: 'Négociation', desc: 'Nos experts négocient les meilleures conditions et sécurisent chaque étape juridique de la transaction.' },
-    { icon: <KeyIcon />, title: 'Accompagnement', desc: 'De la remise des clés à la gestion locative, un interlocuteur dédié vous accompagne dans la durée.' },
-  ];
+const SHOWCASE_FEATURES: Feature[] = [
+  {
+    num: '01',
+    title: 'Une lumière pensée à chaque heure',
+    body: "Orientation plein sud, baies vitrées toute hauteur et patios intérieurs : l'architecture capte la lumière naturelle du lever au coucher du soleil pour des volumes qui respirent.",
+  },
+  {
+    num: '02',
+    title: 'Matériaux nobles et durables',
+    body: 'Pierre de Provence, chêne massif, béton ciré et laiton patiné. Des matières authentiques, choisies pour traverser les décennies et gagner en caractère avec le temps.',
+  },
+  {
+    num: '03',
+    title: 'Performance énergétique maîtrisée',
+    body: "Géothermie, isolation renforcée et domotique discrète : chaque bien Solis allie l'exigence du confort contemporain à une empreinte environnementale réduite.",
+  },
+  {
+    num: '04',
+    title: 'Une intimité préservée',
+    body: "Implantation paysagère, jardins clos et espaces de réception séparés des pièces de vie privées. Le luxe discret de se sentir chez soi, à l'abri des regards.",
+  },
+];
 
-  const testimonials = [
-    { name: 'Alexandre M.', role: 'Directeur financier', text: 'Solis a transformé une recherche complexe en une expérience fluide. Leur connaissance du marché parisien est inégalée.' },
-    { name: 'Marie-Sophie L.', role: 'Architecte', text: 'Un accompagnement d’une rare exigence. Chaque détail a été anticipé, de la visite à la signature.' },
-  ];
+const StickyShowcase: React.FC = () => (
+  <Section
+    style={{
+      background: C.bgSoft,
+      paddingTop: 0,
+      paddingBottom: 'clamp(40px,6vw,90px)',
+    }}
+  >
+    <div
+      className="solis-sticky-grid"
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: 'clamp(36px, 5vw, 80px)',
+        alignItems: 'start',
+        paddingTop: 'clamp(72px, 9vw, 132px)',
+      }}
+    >
+      {/* Sticky image side */}
+      <div
+        className="solis-sticky-img"
+        style={{
+          position: 'sticky',
+          top: 96,
+          alignSelf: 'start',
+        }}
+      >
+        <div
+          style={{
+            position: 'relative',
+            borderRadius: 2,
+            overflow: 'hidden',
+            aspectRatio: '3 / 4',
+            boxShadow: '0 40px 80px -40px rgba(17,24,42,0.4)',
+          }}
+        >
+          <img
+            src={PHOTO.interior}
+            alt="Intérieur d'une villa Solis baigné de lumière naturelle"
+            loading="lazy"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              display: 'block',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              padding: '40px 28px 26px',
+              background:
+                'linear-gradient(180deg, transparent, rgba(17,24,42,0.82))',
+            }}
+          >
+            <span
+              style={{
+                fontFamily: C.font,
+                fontSize: 11.5,
+                fontWeight: 600,
+                letterSpacing: '0.16em',
+                textTransform: 'uppercase',
+                color: C.goldSoft,
+              }}
+            >
+              Étude de cas
+            </span>
+            <h4
+              style={{
+                fontFamily: C.serif,
+                fontSize: 28,
+                fontWeight: 600,
+                color: C.white,
+                margin: '8px 0 0',
+                lineHeight: 1.1,
+              }}
+            >
+              Villa Hélios, Aix-en-Provence
+            </h4>
+          </div>
+        </div>
+      </div>
 
-  const faqs = [
-    { q: 'Quels types de biens proposez-vous ?', a: 'Notre portefeuille couvre l’immobilier de prestige : villas, penthouses, hôtels particuliers, propriétés viticoles et immeubles de rapport. Chaque bien est sélectionné selon des critères stricts de qualité architecturale et d’emplacement.' },
-    { q: 'Intervenez-vous en dehors de Paris ?', a: 'Oui. Nous opérons dans 14 villes françaises, avec une présence renforcée à Paris, Lyon, Bordeaux, Marseille, Nantes et Toulouse, ainsi que sur les marchés balnéaires et de montagne.' },
-    { q: 'Comment se déroule l’accompagnement ?', a: 'Un conseiller dédié pilote l’ensemble du projet : définition du cahier des charges, sélection des biens, visites privées, négociation, montage juridique et financier, puis suivi post-acquisition incluant la gestion locative si souhaité.' },
-    { q: 'Proposez-vous du conseil en investissement ?', a: 'Absolument. Notre pôle patrimonial analyse la rentabilité, la fiscalité et le potentiel de valorisation de chaque opération afin de structurer un investissement aligné sur vos objectifs.' },
-  ];
+      {/* Scrolling text side */}
+      <div style={{ paddingTop: 8 }}>
+        <Reveal>
+          <Eyebrow>L&apos;art de bâtir</Eyebrow>
+          <h2
+            style={{
+              fontFamily: C.serif,
+              fontSize: 'clamp(30px, 3.8vw, 50px)',
+              fontWeight: 500,
+              color: C.text,
+              margin: '18px 0 56px',
+              lineHeight: 1.08,
+              letterSpacing: '-0.015em',
+            }}
+          >
+            Ce qui distingue une
+            <br />
+            réalisation d&apos;exception
+          </h2>
+        </Reveal>
+
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 'clamp(48px, 7vw, 96px)',
+          }}
+        >
+          {SHOWCASE_FEATURES.map((f, i) => (
+            <Reveal key={f.num} delay={i * 0.05} y={40}>
+              <div>
+                <span
+                  style={{
+                    fontFamily: C.serif,
+                    fontSize: 48,
+                    fontWeight: 500,
+                    color: C.goldFaint,
+                    lineHeight: 1,
+                    display: 'block',
+                  }}
+                >
+                  {f.num}
+                </span>
+                <h3
+                  style={{
+                    fontFamily: C.serif,
+                    fontSize: 'clamp(22px, 2.6vw, 30px)',
+                    fontWeight: 600,
+                    color: C.text,
+                    margin: '12px 0 14px',
+                    lineHeight: 1.15,
+                  }}
+                >
+                  {f.title}
+                </h3>
+                <p
+                  style={{
+                    fontFamily: C.font,
+                    fontSize: 16,
+                    lineHeight: 1.75,
+                    color: C.textSoft,
+                    maxWidth: 480,
+                  }}
+                >
+                  {f.body}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </div>
+  </Section>
+);
+
+/* ─────────────────────────── SIGNATURE — STICKY CROSSFADE ─────────────────────────── */
+
+type Signature = {
+  img: string;
+  city: string;
+  caption: string;
+  detail: string;
+};
+
+const SIGNATURES: Signature[] = [
+  {
+    img: PHOTO.modern,
+    city: "Côte d'Azur",
+    caption: 'Villa Belvédère',
+    detail:
+      "Une architecture en porte-à-faux ouverte sur la Méditerranée, où la piscine à débordement prolonge la ligne d'horizon.",
+  },
+  {
+    img: PHOTO.living,
+    city: 'Lyon — Presqu’île',
+    caption: 'Appartement Confluence',
+    detail:
+      'Un duplex de 240 m² aux volumes traversants, mariant pierre dorée lyonnaise et design contemporain épuré.',
+  },
+  {
+    img: PHOTO.facade,
+    city: 'Bordeaux',
+    caption: 'Hôtel particulier Chartrons',
+    detail:
+      'Une façade classée du XVIIIᵉ siècle entièrement repensée, alliant patrimoine et confort de vie moderne.',
+  },
+];
+
+const CrossImage: React.FC<{
+  src: string;
+  active: boolean;
+  index: number;
+}> = ({ src, active, index }) => (
+  <motion.div
+    initial={false}
+    animate={{ opacity: active ? 1 : 0, scale: active ? 1.04 : 1 }}
+    transition={{
+      opacity: { duration: 0.9, ease: EASE },
+      scale: { duration: 6, ease: 'linear' },
+    }}
+    style={{
+      position: 'absolute',
+      inset: 0,
+      zIndex: 1,
+      willChange: 'opacity, transform',
+    }}
+  >
+    <img
+      src={src}
+      alt={`Réalisation signature ${index + 1}`}
+      loading="lazy"
+      style={{
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        display: 'block',
+      }}
+    />
+  </motion.div>
+);
+
+const SignatureCrossfade: React.FC = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end end'],
+  });
+  const [active, setActive] = useState<number>(0);
+
+  useEffect(() => {
+    const unsub = scrollYProgress.on('change', (v: number) => {
+      const idx = Math.min(
+        SIGNATURES.length - 1,
+        Math.floor(v * SIGNATURES.length),
+      );
+      setActive(idx);
+    });
+    return () => unsub();
+  }, [scrollYProgress]);
 
   return (
-    <main style={pageStyle}>
-      {/* SECTION 1 — HERO */}
-      <section style={{ ...pad, minHeight: '100vh', display: 'flex', alignItems: 'center', paddingBlock: 'clamp(90px, 12vh, 130px)', background: C.bg }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.4fr) minmax(0, 1fr)', gap: 'clamp(30px, 5vw, 70px)', alignItems: 'center', width: '100%' }} className="solis-hero-grid">
-          <div>
-            <Reveal>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
-                <Building2 size={22} color={C.gold} />
-                <span style={{ fontFamily: C.serif, fontSize: 24, fontWeight: 600, letterSpacing: '0.04em' }}>SOLIS</span>
-                <span style={{ fontSize: 12, letterSpacing: '0.2em', color: C.muted, marginLeft: 4 }}>IMMOBILIER</span>
-              </div>
-              <h1 style={{ fontFamily: C.serif, fontSize: 'clamp(42px, 6.5vw, 88px)', fontWeight: 600, lineHeight: 1.02, letterSpacing: '-0.01em', margin: 0, color: C.navy }}>
-                Des espaces
-                <br />
-                qui <span style={{ color: C.gold }}>transforment</span>
-                <br />
-                des vies
-              </h1>
-              <p style={{ marginTop: 26, fontSize: 18, lineHeight: 1.75, color: C.textSoft, maxWidth: 480 }}>
-                Conseil en immobilier de prestige et architecture. Nous concevons, sélectionnons
-                et révélons les lieux d&apos;exception, partout en France.
-              </p>
-              <div style={{ marginTop: 36, display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-                <a
-                  href="#properties"
-                  style={{
-                    background: C.navy,
-                    color: '#fff',
-                    borderRadius: radius,
-                    padding: '15px 28px',
-                    fontWeight: 600,
-                    fontSize: 15,
-                    textDecoration: 'none',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 8,
-                  }}
-                >
-                  Découvrir nos biens <ArrowRight size={17} />
-                </a>
-                <a
-                  href="#contact"
-                  style={{
-                    background: 'transparent',
-                    color: C.navy,
-                    border: `1px solid ${C.borderDark}`,
-                    borderRadius: radius,
-                    padding: '15px 28px',
-                    fontWeight: 600,
-                    fontSize: 15,
-                    textDecoration: 'none',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 8,
-                  }}
-                >
-                  <Search size={16} /> Nous contacter
-                </a>
-              </div>
-            </Reveal>
-          </div>
-          <Reveal delay={0.2}>
-            <div style={{ height: 'min(70vh, 560px)', borderRadius: radius, overflow: 'hidden', border: `1px solid ${C.border}`, boxShadow: '0 30px 60px rgba(26,26,46,0.12)' }}>
-              <BuildingFacade />
-            </div>
-          </Reveal>
-        </div>
-      </section>
+    <section
+      id="signature"
+      ref={ref}
+      style={{
+        position: 'relative',
+        height: `${SIGNATURES.length * 100}vh`,
+        background: C.navy,
+      }}
+    >
+      <div
+        style={{
+          position: 'sticky',
+          top: 0,
+          height: '100vh',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Crossfading images */}
+        {SIGNATURES.map((s, i) => (
+          <CrossImage
+            key={s.caption}
+            src={s.img}
+            active={i === active}
+            index={i}
+          />
+        ))}
 
-      {/* SECTION 2 — CHIFFRES */}
-      <section style={{ ...pad, paddingBlock: 'clamp(70px, 10vh, 120px)', background: C.bgSoft }}>
-        <Reveal>
-          <div style={{ textAlign: 'center', marginBottom: 54 }}>
-            <Eyebrow center>Chiffres qui parlent</Eyebrow>
-            <h2 style={{ fontFamily: C.serif, fontSize: 'clamp(32px, 4.5vw, 56px)', fontWeight: 600, margin: 0, color: C.navy }}>
-              Une expertise éprouvée
-            </h2>
-          </div>
-        </Reveal>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 20, marginBottom: 70 }}>
-          <CountUp target={847} label="Projets livrés" />
-          <CountUp target={2.3} decimals={1} prefix="€" suffix=" Md" label="Investis" />
-          <CountUp target={14} label="Villes" />
-          <CountUp target={96} suffix=" %" label="Satisfaction" />
-        </div>
-        <Reveal delay={0.2}>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <FranceMap />
-          </div>
-        </Reveal>
-      </section>
+        {/* Scrim */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'linear-gradient(180deg, rgba(17,24,42,0.55) 0%, rgba(17,24,42,0.2) 40%, rgba(17,24,42,0.8) 100%)',
+            zIndex: 2,
+          }}
+        />
 
-      {/* SECTION 3 — SÉLECTION EXCLUSIVE */}
-      <section id="properties" style={{ ...pad, paddingBlock: 'clamp(70px, 10vh, 130px)', background: C.bg }}>
-        <Reveal>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 20, marginBottom: 54 }}>
-            <div>
-              <Eyebrow>Sélection exclusive</Eyebrow>
-              <h2 style={{ fontFamily: C.serif, fontSize: 'clamp(32px, 4.5vw, 56px)', fontWeight: 600, margin: 0, color: C.navy }}>
-                Biens d&apos;exception
-              </h2>
-            </div>
-            <a href="#contact" style={{ color: C.gold, fontWeight: 600, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
-              Voir tout le portefeuille <ArrowRight size={16} />
-            </a>
-          </div>
-        </Reveal>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 28 }}>
-          {properties.map((p, i) => (
-            <PropertyCard key={p.name} {...p} delay={i * 0.12} />
-          ))}
-        </div>
-      </section>
-
-      {/* SECTION 4 — NOTRE APPROCHE */}
-      <section style={{ ...pad, paddingBlock: 'clamp(70px, 10vh, 130px)', background: C.navy, color: '#fff' }}>
-        <Reveal>
-          <div style={{ textAlign: 'center', marginBottom: 64 }}>
-            <Eyebrow center>Notre approche</Eyebrow>
-            <h2 style={{ fontFamily: C.serif, fontSize: 'clamp(32px, 4.5vw, 56px)', fontWeight: 600, margin: 0, color: '#fff' }}>
-              Trois étapes, une exigence
-            </h2>
-          </div>
-        </Reveal>
-        <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 40 }}>
-          {/* dashed connector */}
-          <svg style={{ position: 'absolute', top: 30, left: '12%', right: '12%', width: '76%', height: 2, pointerEvents: 'none' }} className="solis-connector" preserveAspectRatio="none" viewBox="0 0 100 2">
-            <motion.line
-              x1={0}
-              y1={1}
-              x2={100}
-              y2={1}
-              stroke={C.gold}
-              strokeWidth={1}
-              strokeDasharray="3 3"
-              initial={{ pathLength: 0 }}
-              whileInView={{ pathLength: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.6 }}
-            />
-          </svg>
-          {steps.map((s, i) => (
-            <Reveal key={s.title} delay={i * 0.18}>
-              <div style={{ textAlign: 'center', position: 'relative' }}>
-                <div
-                  style={{
-                    width: 84,
-                    height: 84,
-                    borderRadius: '50%',
-                    background: C.navySoft,
-                    border: `1px solid rgba(184,148,74,0.4)`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '0 auto 24px',
-                  }}
-                >
-                  {s.icon}
-                </div>
-                <div style={{ fontSize: 13, letterSpacing: '0.2em', color: C.gold, marginBottom: 10 }}>0{i + 1}</div>
-                <h3 style={{ fontFamily: C.serif, fontSize: 28, fontWeight: 600, margin: '0 0 12px', color: '#fff' }}>{s.title}</h3>
-                <p style={{ fontSize: 15, lineHeight: 1.7, color: '#b8b8c8', margin: 0, maxWidth: 300, marginInline: 'auto' }}>{s.desc}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* SECTION 4.5 — FAQ */}
-      <section style={{ ...pad, paddingBlock: 'clamp(70px, 10vh, 120px)', background: C.bgSoft }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'clamp(30px, 5vw, 70px)', alignItems: 'start' }}>
-          <Reveal>
-            <div style={{ position: 'sticky', top: 40 }}>
-              <Eyebrow>Questions fréquentes</Eyebrow>
-              <h2 style={{ fontFamily: C.serif, fontSize: 'clamp(32px, 4.5vw, 56px)', fontWeight: 600, margin: 0, color: C.navy, lineHeight: 1.05 }}>
-                Tout ce que vous
-                <br />
-                devez savoir
-              </h2>
-              <p style={{ marginTop: 22, fontSize: 16, lineHeight: 1.75, color: C.textSoft, maxWidth: 360 }}>
-                Une question qui n&apos;apparaît pas ici ? Notre équipe vous répond personnellement
-                sous 24 heures.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <div>
-              {faqs.map((f) => (
-                <FaqItem key={f.q} q={f.q} a={f.a} />
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* SECTION 5 — TÉMOIGNAGES + CONTACT */}
-      <section id="contact" style={{ ...pad, paddingBlock: 'clamp(70px, 10vh, 130px)', background: C.bg }}>
-        <Reveal>
-          <div style={{ marginBottom: 50 }}>
-            <Eyebrow>Ils nous font confiance</Eyebrow>
-            <h2 style={{ fontFamily: C.serif, fontSize: 'clamp(32px, 4.5vw, 56px)', fontWeight: 600, margin: 0, color: C.navy }}>
-              Témoignages
-            </h2>
-          </div>
-        </Reveal>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 26, marginBottom: 90 }}>
-          {testimonials.map((t, i) => (
-            <Reveal key={t.name} delay={i * 0.14}>
-              <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: radius, padding: '36px 34px', boxShadow: '0 2px 10px rgba(26,26,46,0.05)' }}>
-                <Quote size={30} color={C.goldSoft} />
-                <p style={{ fontFamily: C.serif, fontSize: 24, fontStyle: 'italic', lineHeight: 1.5, color: C.navy, margin: '18px 0 26px' }}>
-                  « {t.text} »
-                </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                  <div style={{ width: 46, height: 46, borderRadius: '50%', background: `linear-gradient(135deg, ${C.gold}, ${C.navy})`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700 }}>
-                    {t.name.charAt(0)}
-                  </div>
-                  <div>
-                    <div style={{ fontWeight: 700, color: C.navy }}>{t.name}</div>
-                    <div style={{ fontSize: 13, color: C.muted }}>{t.role}</div>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-          ))}
+        {/* Header */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 'clamp(80px, 12vh, 120px)',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 3,
+            textAlign: 'center',
+            width: '90%',
+            maxWidth: 700,
+          }}
+        >
+          <Eyebrow light>Réalisations signature</Eyebrow>
+          <h2
+            style={{
+              fontFamily: C.serif,
+              fontSize: 'clamp(30px, 4.4vw, 56px)',
+              fontWeight: 500,
+              color: C.white,
+              margin: '16px 0 0',
+              lineHeight: 1.05,
+              letterSpacing: '-0.015em',
+            }}
+          >
+            Quelques adresses qui
+            <br />
+            ont marqué notre histoire
+          </h2>
         </div>
 
-        {/* Contact form + office card */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 'clamp(30px, 5vw, 60px)', alignItems: 'start' }}>
-          <Reveal>
-            <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: radius, padding: 'clamp(28px, 4vw, 44px)', boxShadow: '0 4px 20px rgba(26,26,46,0.06)' }}>
-              <h3 style={{ fontFamily: C.serif, fontSize: 30, fontWeight: 600, margin: '0 0 8px', color: C.navy }}>Parlons de votre projet</h3>
-              <p style={{ fontSize: 15, color: C.textSoft, margin: '0 0 28px' }}>Un conseiller dédié vous répond sous 24 heures.</p>
-              <ContactForm />
-            </div>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <div style={{ display: 'grid', gap: 24 }}>
-              <div style={{ background: C.navy, borderRadius: radius, padding: '34px 32px', color: '#fff' }}>
-                <h3 style={{ fontFamily: C.serif, fontSize: 26, fontWeight: 600, margin: '0 0 22px' }}>Notre bureau</h3>
-                <div style={{ display: 'grid', gap: 16, fontSize: 15, color: '#cfcfdc' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}><MapPin size={17} color={C.gold} /> 18 Avenue Montaigne, Paris 8ème</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}><Phone size={17} color={C.gold} /> +33 1 00 00 00 00</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}><Mail size={17} color={C.gold} /> contact@solis-immobilier.fr</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}><Clock size={17} color={C.gold} /> Lun – Sam · 9h – 19h</div>
-                </div>
-              </div>
-              {/* map placeholder — CSS grid lines */}
-              <div
+        {/* Caption (animated per slide) */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 'clamp(56px, 9vh, 96px)',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 3,
+            width: '90%',
+            maxWidth: 640,
+            textAlign: 'center',
+          }}
+        >
+          <div style={{ position: 'relative', minHeight: 168 }}>
+            {SIGNATURES.map((s, i) => (
+              <motion.div
+                key={s.caption}
+                initial={false}
+                animate={{
+                  opacity: i === active ? 1 : 0,
+                  y: i === active ? 0 : 16,
+                }}
+                transition={{ duration: 0.6, ease: EASE }}
                 style={{
-                  borderRadius: radius,
-                  height: 220,
-                  border: `1px solid ${C.border}`,
-                  background: `
-                    linear-gradient(${C.border} 1px, transparent 1px),
-                    linear-gradient(90deg, ${C.border} 1px, transparent 1px),
-                    ${C.bgSoft}`,
-                  backgroundSize: '28px 28px, 28px 28px, 100% 100%',
-                  position: 'relative',
-                  overflow: 'hidden',
+                  position: 'absolute',
+                  inset: 0,
+                  pointerEvents: i === active ? 'auto' : 'none',
                 }}
               >
-                <div style={{ position: 'absolute', left: '38%', top: '14%', width: '24%', height: '60%', background: 'rgba(184,148,74,0.12)', border: `1px solid ${C.goldSoft}`, borderRadius: radius }} />
-                <div style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                  <MapPin size={28} color={C.gold} />
-                  <span style={{ fontSize: 12, fontWeight: 600, color: C.navy, background: 'rgba(250,250,248,0.9)', padding: '3px 8px', borderRadius: radius }}>Solis Immobilier</span>
-                </div>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer style={{ ...pad, paddingBlock: 50, background: C.navy, color: '#fff' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20, alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <Building2 size={20} color={C.gold} />
-            <span style={{ fontFamily: C.serif, fontSize: 22, fontWeight: 600 }}>SOLIS</span>
-            <span style={{ fontSize: 12, letterSpacing: '0.2em', color: '#9a9ab0' }}>IMMOBILIER</span>
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 7,
+                    fontFamily: C.font,
+                    fontSize: 12,
+                    fontWeight: 600,
+                    letterSpacing: '0.14em',
+                    textTransform: 'uppercase',
+                    color: C.goldSoft,
+                  }}
+                >
+                  <MapPin size={13} /> {s.city}
+                </span>
+                <h3
+                  style={{
+                    fontFamily: C.serif,
+                    fontSize: 'clamp(28px, 4vw, 44px)',
+                    fontWeight: 600,
+                    color: C.white,
+                    margin: '10px 0 12px',
+                    lineHeight: 1.05,
+                  }}
+                >
+                  {s.caption}
+                </h3>
+                <p
+                  style={{
+                    fontFamily: C.font,
+                    fontSize: 16,
+                    lineHeight: 1.7,
+                    color: 'rgba(255,255,255,0.82)',
+                    maxWidth: 540,
+                    margin: '0 auto',
+                  }}
+                >
+                  {s.detail}
+                </p>
+              </motion.div>
+            ))}
           </div>
-          <div style={{ display: 'flex', gap: 26, flexWrap: 'wrap', fontSize: 14, color: '#b8b8c8' }}>
-            {['Biens', 'Approche', 'À propos', 'Mentions légales'].map((l) => (
-              <a key={l} href="#" style={{ color: '#b8b8c8', textDecoration: 'none' }}>{l}</a>
+
+          {/* Progress dots */}
+          <div
+            style={{
+              display: 'flex',
+              gap: 10,
+              justifyContent: 'center',
+              marginTop: 28,
+            }}
+          >
+            {SIGNATURES.map((s, i) => (
+              <span
+                key={s.caption}
+                style={{
+                  height: 3,
+                  width: i === active ? 36 : 16,
+                  background: i === active ? C.gold : 'rgba(255,255,255,0.35)',
+                  borderRadius: 2,
+                  transition: 'width .5s ease, background .5s ease',
+                }}
+              />
             ))}
           </div>
         </div>
-        <div style={{ marginTop: 30, paddingTop: 22, borderTop: '1px solid rgba(255,255,255,0.1)', fontSize: 12, color: '#8a8aa0' }}>
-          © 2024 Solis Immobilier · Carte professionnelle CPI 7501 · Paris
-        </div>
-      </footer>
+      </div>
+    </section>
+  );
+};
 
-      {/* responsive: stack hero on small screens */}
-      <style>{`
-        @media (max-width: 880px) {
-          .solis-hero-grid { grid-template-columns: 1fr !important; }
-          .solis-connector { display: none !important; }
-        }
-      `}</style>
+/* ─────────────────────────── EDITORIAL APPROACH ROWS ─────────────────────────── */
+
+type Row = {
+  icon: React.ReactNode;
+  step: string;
+  title: string;
+  body: string;
+  img: string;
+  reverse: boolean;
+};
+
+const ROWS: Row[] = [
+  {
+    icon: <Search size={20} />,
+    step: 'Étape 01',
+    title: 'Prospection sur mesure',
+    body: "Nous ne diffusons pas, nous sélectionnons. Notre réseau confidentiel et notre connaissance fine des marchés locaux nous donnent accès à des biens off-market, avant qu'ils n'apparaissent ailleurs. Chaque recherche débute par l'écoute de votre projet de vie.",
+    img: PHOTO.facade,
+    reverse: false,
+  },
+  {
+    icon: <Compass size={20} />,
+    step: 'Étape 02',
+    title: 'Négociation experte',
+    body: "Estimation rigoureuse, analyse patrimoniale et juridique, stratégie d'acquisition : nos négociateurs défendent vos intérêts avec discrétion et exigence. Nous obtenons les meilleures conditions sans jamais compromettre la sérénité de la transaction.",
+    img: PHOTO.modern,
+    reverse: true,
+  },
+  {
+    icon: <Handshake size={20} />,
+    step: 'Étape 03',
+    title: 'Accompagnement complet',
+    body: "Notaire, financement, architecte d'intérieur, conciergerie : nous orchestrons l'ensemble des intervenants jusqu'à la remise des clés et au-delà. Solis reste votre interlocuteur unique, du premier rendez-vous à l'installation dans votre nouveau lieu de vie.",
+    img: PHOTO.pool,
+    reverse: false,
+  },
+];
+
+const ApproachRow: React.FC<{ row: Row }> = ({ row }) => (
+  <div
+    className="solis-editorial-row"
+    style={{
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 'clamp(32px, 5vw, 80px)',
+      alignItems: 'center',
+      direction: row.reverse ? 'rtl' : 'ltr',
+    }}
+  >
+    {/* Image */}
+    <Reveal y={40} style={{ direction: 'ltr' }}>
+      <div
+        style={{
+          position: 'relative',
+          borderRadius: 2,
+          overflow: 'hidden',
+          aspectRatio: '4 / 3',
+          boxShadow: '0 30px 70px -40px rgba(17,24,42,0.4)',
+        }}
+      >
+        <img
+          src={row.img}
+          alt={row.title}
+          loading="lazy"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+          }}
+        />
+      </div>
+    </Reveal>
+
+    {/* Text */}
+    <Reveal y={40} delay={0.1} style={{ direction: 'ltr' }}>
+      <div>
+        <span
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 12,
+            color: C.gold,
+            marginBottom: 20,
+          }}
+        >
+          <span
+            style={{
+              width: 48,
+              height: 48,
+              borderRadius: 2,
+              border: `1px solid ${C.line}`,
+              display: 'grid',
+              placeItems: 'center',
+              color: C.gold,
+              background: C.bgCard,
+            }}
+          >
+            {row.icon}
+          </span>
+          <span
+            style={{
+              fontFamily: C.font,
+              fontSize: 12,
+              fontWeight: 600,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+            }}
+          >
+            {row.step}
+          </span>
+        </span>
+        <h3
+          style={{
+            fontFamily: C.serif,
+            fontSize: 'clamp(28px, 3.6vw, 44px)',
+            fontWeight: 500,
+            color: C.text,
+            margin: '0 0 18px',
+            lineHeight: 1.08,
+            letterSpacing: '-0.01em',
+          }}
+        >
+          {row.title}
+        </h3>
+        <p
+          style={{
+            fontFamily: C.font,
+            fontSize: 16.5,
+            lineHeight: 1.78,
+            color: C.textSoft,
+            maxWidth: 500,
+          }}
+        >
+          {row.body}
+        </p>
+      </div>
+    </Reveal>
+  </div>
+);
+
+const Approach: React.FC = () => (
+  <Section id="approche" style={{ background: C.bg }}>
+    <Reveal>
+      <div
+        style={{
+          textAlign: 'center',
+          maxWidth: 620,
+          margin: '0 auto clamp(56px, 7vw, 96px)',
+        }}
+      >
+        <Eyebrow>Notre approche</Eyebrow>
+        <h2
+          style={{
+            fontFamily: C.serif,
+            fontSize: 'clamp(34px, 4.6vw, 58px)',
+            fontWeight: 500,
+            color: C.text,
+            margin: '18px auto 0',
+            lineHeight: 1.04,
+            letterSpacing: '-0.015em',
+          }}
+        >
+          Une méthode, trois temps,
+          <br />
+          une seule exigence
+        </h2>
+      </div>
+    </Reveal>
+
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'clamp(64px, 9vw, 128px)',
+      }}
+    >
+      {ROWS.map((row) => (
+        <ApproachRow key={row.title} row={row} />
+      ))}
+    </div>
+  </Section>
+);
+
+/* ─────────────────────────── TESTIMONIALS ─────────────────────────── */
+
+type Testimonial = {
+  quote: string;
+  name: string;
+  role: string;
+};
+
+const TESTIMONIALS: Testimonial[] = [
+  {
+    quote:
+      "Solis a compris en un rendez-vous ce que d'autres n'avaient pas saisi en six mois. L'acquisition de notre résidence à Saint-Rémy s'est faite avec une fluidité et une discrétion remarquables.",
+    name: 'Édouard Vasseur',
+    role: 'Directeur financier, groupe coté',
+  },
+  {
+    quote:
+      "En tant qu'architecte, je suis exigeant sur la lecture d'un lieu. L'équipe de Solis parle le même langage : celui de la lumière, des proportions et de l'usage. Une collaboration d'une rare intelligence.",
+    name: 'Camille Théron',
+    role: 'Architecte DPLG, Atelier Théron',
+  },
+];
+
+const Testimonials: React.FC = () => (
+  <Section id="avis" style={{ background: C.bgSoft }}>
+    <Reveal>
+      <div style={{ textAlign: 'center', marginBottom: 'clamp(44px, 6vw, 72px)' }}>
+        <Eyebrow>Ils nous ont fait confiance</Eyebrow>
+      </div>
+    </Reveal>
+
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+        gap: 'clamp(24px, 3vw, 40px)',
+      }}
+    >
+      {TESTIMONIALS.map((t, i) => (
+        <Reveal key={t.name} delay={i * 0.12} y={36}>
+          <figure
+            style={{
+              background: C.bgCard,
+              borderRadius: 2,
+              border: `1px solid ${C.line}`,
+              padding: 'clamp(32px, 4vw, 48px)',
+              height: '100%',
+              boxSizing: 'border-box',
+              display: 'flex',
+              flexDirection: 'column',
+              margin: 0,
+            }}
+          >
+            <Quote size={36} color={C.goldFaint} fill={C.goldFaint} />
+            <blockquote
+              style={{
+                fontFamily: C.serif,
+                fontSize: 'clamp(20px, 2.2vw, 26px)',
+                lineHeight: 1.42,
+                color: C.text,
+                fontWeight: 500,
+                margin: '20px 0 28px',
+                fontStyle: 'italic',
+                flex: 1,
+              }}
+            >
+              « {t.quote} »
+            </blockquote>
+            <figcaption
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 14,
+                paddingTop: 24,
+                borderTop: `1px solid ${C.line}`,
+              }}
+            >
+              <span
+                style={{
+                  width: 46,
+                  height: 46,
+                  borderRadius: '50%',
+                  background: C.navy,
+                  color: C.goldSoft,
+                  display: 'grid',
+                  placeItems: 'center',
+                  fontFamily: C.serif,
+                  fontSize: 19,
+                  fontWeight: 600,
+                  flexShrink: 0,
+                }}
+              >
+                {t.name
+                  .split(' ')
+                  .map((w) => w[0])
+                  .join('')}
+              </span>
+              <span>
+                <span
+                  style={{
+                    display: 'block',
+                    fontFamily: C.font,
+                    fontSize: 15,
+                    fontWeight: 600,
+                    color: C.text,
+                  }}
+                >
+                  {t.name}
+                </span>
+                <span
+                  style={{
+                    display: 'block',
+                    fontFamily: C.font,
+                    fontSize: 13,
+                    color: C.muted,
+                    marginTop: 2,
+                  }}
+                >
+                  {t.role}
+                </span>
+              </span>
+            </figcaption>
+          </figure>
+        </Reveal>
+      ))}
+    </div>
+  </Section>
+);
+
+/* ─────────────────────────── CONTACT ─────────────────────────── */
+
+type FormState = {
+  nom: string;
+  email: string;
+  telephone: string;
+  type: string;
+  message: string;
+};
+
+const PROJECT_TYPES: string[] = [
+  'Acquisition',
+  'Vente / Estimation',
+  'Investissement patrimonial',
+  'Projet architectural',
+  'Autre demande',
+];
+
+const inputBase: React.CSSProperties = {
+  width: '100%',
+  fontFamily: C.font,
+  fontSize: 15,
+  color: C.text,
+  background: C.bgCard,
+  border: `1px solid ${C.line}`,
+  borderRadius: 2,
+  padding: '14px 16px',
+  outline: 'none',
+  boxSizing: 'border-box',
+  transition: 'border-color .25s, box-shadow .25s',
+};
+
+const labelBase: React.CSSProperties = {
+  display: 'block',
+  fontFamily: C.font,
+  fontSize: 12.5,
+  fontWeight: 600,
+  letterSpacing: '0.08em',
+  textTransform: 'uppercase',
+  color: C.textSoft,
+  marginBottom: 8,
+};
+
+const Field: React.FC<{
+  label: string;
+  children: React.ReactNode;
+  full?: boolean;
+}> = ({ label, children, full }) => (
+  <div style={{ gridColumn: full ? '1 / -1' : 'auto' }}>
+    <label style={labelBase}>{label}</label>
+    {children}
+  </div>
+);
+
+const Contact: React.FC = () => {
+  const [form, setForm] = useState<FormState>({
+    nom: '',
+    email: '',
+    telephone: '',
+    type: PROJECT_TYPES[0],
+    message: '',
+  });
+  const [sent, setSent] = useState<boolean>(false);
+
+  const update =
+    (key: keyof FormState) =>
+    (
+      e: React.ChangeEvent<
+        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+      >,
+    ): void =>
+      setForm((f) => ({ ...f, [key]: e.target.value }));
+
+  const onSubmit = (e: React.FormEvent): void => {
+    e.preventDefault();
+    setSent(true);
+  };
+
+  const focus = (e: React.FocusEvent<HTMLElement>): void => {
+    e.currentTarget.style.borderColor = C.gold;
+    e.currentTarget.style.boxShadow = `0 0 0 3px ${C.goldFaint}`;
+  };
+  const blur = (e: React.FocusEvent<HTMLElement>): void => {
+    e.currentTarget.style.borderColor = C.line;
+    e.currentTarget.style.boxShadow = 'none';
+  };
+
+  const OFFICE: { icon: React.ReactNode; label: string; value: string }[] = [
+    {
+      icon: <MapPin size={18} />,
+      label: 'Bureau principal',
+      value: '18 cours Mirabeau, 13100 Aix-en-Provence',
+    },
+    {
+      icon: <Phone size={18} />,
+      label: 'Téléphone',
+      value: '+33 4 42 00 18 90',
+    },
+    {
+      icon: <Mail size={18} />,
+      label: 'Email',
+      value: 'contact@solis-immobilier.fr',
+    },
+    {
+      icon: <Clock size={18} />,
+      label: 'Horaires',
+      value: 'Lun – Sam · 9h00 – 19h00',
+    },
+  ];
+
+  return (
+    <Section id="contact" style={{ background: C.navy }}>
+      <div
+        className="solis-contact-grid"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '0.9fr 1.1fr',
+          gap: 'clamp(40px, 6vw, 88px)',
+          alignItems: 'start',
+        }}
+      >
+        {/* Left — info */}
+        <Reveal>
+          <div>
+            <Eyebrow light>Parlons de votre projet</Eyebrow>
+            <h2
+              style={{
+                fontFamily: C.serif,
+                fontSize: 'clamp(32px, 4.4vw, 54px)',
+                fontWeight: 500,
+                color: C.white,
+                margin: '18px 0 22px',
+                lineHeight: 1.06,
+                letterSpacing: '-0.015em',
+              }}
+            >
+              Un conseiller dédié,
+              <br />
+              à votre écoute
+            </h2>
+            <p
+              style={{
+                fontFamily: C.font,
+                fontSize: 16.5,
+                lineHeight: 1.75,
+                color: 'rgba(255,255,255,0.72)',
+                maxWidth: 420,
+                marginBottom: 40,
+              }}
+            >
+              Acquisition, vente ou simple estimation : confiez-nous votre
+              projet. Nous vous recontactons sous 24 heures pour un premier
+              échange confidentiel.
+            </p>
+
+            <div
+              style={{ display: 'flex', flexDirection: 'column', gap: 22 }}
+            >
+              {OFFICE.map((item) => (
+                <div
+                  key={item.label}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: 16,
+                  }}
+                >
+                  <span
+                    style={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: 2,
+                      border: '1px solid rgba(184,148,74,0.4)',
+                      display: 'grid',
+                      placeItems: 'center',
+                      color: C.goldSoft,
+                      flexShrink: 0,
+                    }}
+                  >
+                    {item.icon}
+                  </span>
+                  <span style={{ paddingTop: 2 }}>
+                    <span
+                      style={{
+                        display: 'block',
+                        fontFamily: C.font,
+                        fontSize: 11.5,
+                        fontWeight: 600,
+                        letterSpacing: '0.12em',
+                        textTransform: 'uppercase',
+                        color: C.goldSoft,
+                      }}
+                    >
+                      {item.label}
+                    </span>
+                    <span
+                      style={{
+                        display: 'block',
+                        fontFamily: C.font,
+                        fontSize: 15.5,
+                        color: 'rgba(255,255,255,0.9)',
+                        marginTop: 4,
+                      }}
+                    >
+                      {item.value}
+                    </span>
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        {/* Right — form */}
+        <Reveal delay={0.12}>
+          <div
+            style={{
+              background: C.bg,
+              borderRadius: 2,
+              padding: 'clamp(28px, 3.5vw, 44px)',
+            }}
+          >
+            {sent ? (
+              <div style={{ textAlign: 'center', padding: '40px 12px' }}>
+                <span
+                  style={{
+                    width: 64,
+                    height: 64,
+                    borderRadius: '50%',
+                    background: C.goldFaint,
+                    display: 'grid',
+                    placeItems: 'center',
+                    margin: '0 auto 24px',
+                  }}
+                >
+                  <Check size={30} color={C.gold} strokeWidth={2.4} />
+                </span>
+                <h3
+                  style={{
+                    fontFamily: C.serif,
+                    fontSize: 30,
+                    fontWeight: 600,
+                    color: C.text,
+                    margin: '0 0 12px',
+                  }}
+                >
+                  Demande envoyée
+                </h3>
+                <p
+                  style={{
+                    fontFamily: C.font,
+                    fontSize: 15.5,
+                    lineHeight: 1.7,
+                    color: C.textSoft,
+                    maxWidth: 360,
+                    margin: '0 auto',
+                  }}
+                >
+                  Merci {form.nom || ''}. Un conseiller Solis vous recontactera
+                  sous 24 heures.
+                </p>
+              </div>
+            ) : (
+              <form
+                onSubmit={onSubmit}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gap: 20,
+                }}
+              >
+                <Field label="Nom complet">
+                  <input
+                    style={inputBase}
+                    type="text"
+                    required
+                    placeholder="Marie Dupont"
+                    value={form.nom}
+                    onChange={update('nom')}
+                    onFocus={focus}
+                    onBlur={blur}
+                  />
+                </Field>
+                <Field label="Téléphone">
+                  <input
+                    style={inputBase}
+                    type="tel"
+                    placeholder="+33 6 12 34 56 78"
+                    value={form.telephone}
+                    onChange={update('telephone')}
+                    onFocus={focus}
+                    onBlur={blur}
+                  />
+                </Field>
+                <Field label="Email" full>
+                  <input
+                    style={inputBase}
+                    type="email"
+                    required
+                    placeholder="marie.dupont@email.fr"
+                    value={form.email}
+                    onChange={update('email')}
+                    onFocus={focus}
+                    onBlur={blur}
+                  />
+                </Field>
+                <Field label="Type de projet" full>
+                  <select
+                    style={{
+                      ...inputBase,
+                      appearance: 'none',
+                      cursor: 'pointer',
+                    }}
+                    value={form.type}
+                    onChange={update('type')}
+                    onFocus={focus}
+                    onBlur={blur}
+                  >
+                    {PROJECT_TYPES.map((t) => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+                <Field label="Votre message" full>
+                  <textarea
+                    style={{
+                      ...inputBase,
+                      resize: 'vertical',
+                      minHeight: 120,
+                    }}
+                    required
+                    placeholder="Décrivez votre projet, vos critères, votre calendrier…"
+                    value={form.message}
+                    onChange={update('message')}
+                    onFocus={focus}
+                    onBlur={blur}
+                  />
+                </Field>
+                <button
+                  type="submit"
+                  style={{
+                    gridColumn: '1 / -1',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 10,
+                    fontFamily: C.font,
+                    fontSize: 15.5,
+                    fontWeight: 600,
+                    color: C.navy,
+                    background: C.gold,
+                    border: 'none',
+                    borderRadius: 2,
+                    padding: '16px',
+                    cursor: 'pointer',
+                    letterSpacing: '0.02em',
+                    transition: 'background .25s, transform .25s',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = C.goldSoft;
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = C.gold;
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
+                >
+                  Envoyer ma demande <ArrowRight size={17} />
+                </button>
+              </form>
+            )}
+          </div>
+        </Reveal>
+      </div>
+    </Section>
+  );
+};
+
+/* ─────────────────────────── FOOTER ─────────────────────────── */
+
+const FOOTER_COLS: { head: string; links: string[] }[] = [
+  { head: 'Agence', links: ['À propos', 'Notre équipe', 'Carrières', 'Presse'] },
+  {
+    head: 'Services',
+    links: ['Acquisition', 'Vente', 'Estimation', 'Conciergerie'],
+  },
+  {
+    head: 'Adresses',
+    links: ['Aix-en-Provence', 'Paris 8ᵉ', 'Lyon', 'Bordeaux'],
+  },
+];
+
+const Footer: React.FC = () => (
+  <footer
+    style={{
+      background: C.navy2,
+      borderTop: '1px solid rgba(255,255,255,0.07)',
+    }}
+  >
+    <div
+      style={{
+        maxWidth: MAXW,
+        margin: '0 auto',
+        padding: 'clamp(56px, 7vw, 88px) clamp(20px,5vw,64px) 40px',
+      }}
+    >
+      <div
+        className="solis-footer-grid"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1.4fr 1fr 1fr 1fr',
+          gap: 'clamp(32px, 4vw, 56px)',
+          paddingBottom: 48,
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
+        }}
+      >
+        {/* Brand */}
+        <div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              marginBottom: 18,
+            }}
+          >
+            <span
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: 2,
+                background: C.gold,
+                display: 'grid',
+                placeItems: 'center',
+              }}
+            >
+              <Building2 size={20} color={C.navy} strokeWidth={2.2} />
+            </span>
+            <span
+              style={{
+                fontFamily: C.serif,
+                fontSize: 24,
+                fontWeight: 600,
+                color: C.white,
+              }}
+            >
+              Solis
+            </span>
+          </div>
+          <p
+            style={{
+              fontFamily: C.font,
+              fontSize: 14.5,
+              lineHeight: 1.7,
+              color: 'rgba(255,255,255,0.6)',
+              maxWidth: 300,
+            }}
+          >
+            Immobilier et architecture de prestige. Nous révélons des lieux
+            d&apos;exception, de la Provence aux plus belles adresses de France.
+          </p>
+        </div>
+
+        {FOOTER_COLS.map((col) => (
+          <div key={col.head}>
+            <h5
+              style={{
+                fontFamily: C.font,
+                fontSize: 12,
+                fontWeight: 600,
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                color: C.goldSoft,
+                margin: '0 0 18px',
+              }}
+            >
+              {col.head}
+            </h5>
+            <ul
+              style={{
+                listStyle: 'none',
+                margin: 0,
+                padding: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 12,
+              }}
+            >
+              {col.links.map((l) => (
+                <li key={l}>
+                  <a
+                    href="#"
+                    style={{
+                      fontFamily: C.font,
+                      fontSize: 14.5,
+                      color: 'rgba(255,255,255,0.66)',
+                      textDecoration: 'none',
+                      transition: 'color .25s',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = C.goldSoft;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = 'rgba(255,255,255,0.66)';
+                    }}
+                  >
+                    {l}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 16,
+          paddingTop: 28,
+        }}
+      >
+        <span
+          style={{
+            fontFamily: C.font,
+            fontSize: 13,
+            color: 'rgba(255,255,255,0.5)',
+          }}
+        >
+          © 2026 Solis Immobilier — Carte professionnelle CPI 1301 2024 000 047
+          218
+        </span>
+        <div style={{ display: 'flex', gap: 24 }}>
+          {['Mentions légales', 'Confidentialité', 'Honoraires'].map((l) => (
+            <a
+              key={l}
+              href="#"
+              style={{
+                fontFamily: C.font,
+                fontSize: 13,
+                color: 'rgba(255,255,255,0.5)',
+                textDecoration: 'none',
+                transition: 'color .25s',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = C.goldSoft;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'rgba(255,255,255,0.5)';
+              }}
+            >
+              {l}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </footer>
+);
+
+/* ─────────────────────────── RESPONSIVE STYLES ─────────────────────────── */
+
+const ResponsiveStyles: React.FC = () => (
+  <style suppressHydrationWarning>{`
+    html { scroll-behavior: smooth; }
+    @media (max-width: 920px) {
+      .solis-desktop-nav { display: none !important; }
+      .solis-mobile-toggle { display: inline-flex !important; }
+      .solis-sticky-grid { grid-template-columns: 1fr !important; }
+      .solis-sticky-img { position: relative !important; top: 0 !important; }
+      .solis-editorial-row { grid-template-columns: 1fr !important; direction: ltr !important; }
+      .solis-contact-grid { grid-template-columns: 1fr !important; }
+      .solis-footer-grid { grid-template-columns: 1fr 1fr !important; }
+    }
+    @media (max-width: 560px) {
+      .solis-footer-grid { grid-template-columns: 1fr !important; }
+    }
+  `}</style>
+);
+
+/* ─────────────────────────── PAGE ─────────────────────────── */
+
+export default function ImpactTemplate(): React.ReactElement {
+  return (
+    <main
+      style={{
+        background: C.bg,
+        color: C.text,
+        fontFamily: C.font,
+        overflowX: 'hidden',
+        WebkitFontSmoothing: 'antialiased',
+      }}
+    >
+      <ResponsiveStyles />
+      <Nav />
+      <Hero />
+      <StatsBand />
+      <Selection />
+      <StickyShowcase />
+      <SignatureCrossfade />
+      <Approach />
+      <Testimonials />
+      <Contact />
+      <Footer />
     </main>
   );
 }
