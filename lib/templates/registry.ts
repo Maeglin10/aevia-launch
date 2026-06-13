@@ -2,7 +2,7 @@ export interface TemplateMetadata {
   id: string;
   name: string;
   description: string;
-  category: "Tech" | "Luxury" | "Editorial" | "Creative" | "Minimal" | "Free" | "Corporate" | "E-Commerce" | "Health" | "Hospitality" | "Services" | "Education" | "Finance" | "Food & Drink";
+  category: "Tech" | "Luxury" | "Editorial" | "Creative" | "Minimal" | "Free" | "Corporate" | "E-Commerce" | "Health" | "Hospitality" | "Services" | "Education" | "Finance" | "Food & Drink" | "SaaS" | "Real Estate" | "Sports" | "Automotive" | "Beauty" | "Events";
   style: "Dark" | "Light" | "Vibrant" | "Brutalist";
   tags: string[];
   tier?: "Essentiel" | "Pro" | "Premium";
@@ -2099,5 +2099,35 @@ export const TEMPLATES_REGISTRY: TemplateMetadata[] = [
     tags: ["SaaS", "Landing Page", "Dashboard", "Pricing", "Animated"],
     tier: "Premium",
     sections: 10,
+  },
+  {
+    id: "impact-220",
+    name: "Hora Viva",
+    description: "Ultra-luxury Swiss watch brand — Canvas 2D scroll-driven watch mechanism (case opening, gear trains, tourbillon reveal), editorial chapters, collection grid, and bespoke quote form.",
+    category: "Luxury",
+    style: "Dark",
+    tags: ["Watches", "Luxury", "Scroll Animation", "Canvas", "Heritage"],
+    tier: "Premium",
+    sections: 8,
+  },
+  {
+    id: "impact-221",
+    name: "Lumyx",
+    description: "Electric urban mobility brand — scroll-snap full-screen sections, Canvas 2D scooter with neon glow, exploded vehicle view, count-up specs, reserve form with countdown.",
+    category: "Automotive",
+    style: "Dark",
+    tags: ["Electric", "Mobility", "Automotive", "Canvas", "Scroll Snap"],
+    tier: "Premium",
+    sections: 6,
+  },
+  {
+    id: "impact-222",
+    name: "Solis Immobilier",
+    description: "Premium real estate agency — Canvas 2D building facade with lighting windows, SVG France map with animated city dots, property cards with hover overlays, count-up stats, contact form.",
+    category: "Real Estate",
+    style: "Light",
+    tags: ["Real Estate", "Property", "Canvas", "France", "Luxury"],
+    tier: "Premium",
+    sections: 7,
   },
 ];
