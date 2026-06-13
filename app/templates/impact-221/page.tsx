@@ -1,808 +1,988 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
-import { motion, useInView, useScroll, useSpring } from 'framer-motion';
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
+} from 'react';
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  AnimatePresence,
+} from 'framer-motion';
 import {
   Zap,
   Battery,
   Gauge,
-  Cpu,
   ArrowRight,
   ArrowDown,
   Check,
+  ChevronRight,
   MapPin,
-  Quote,
+  Clock,
+  Shield,
+  Leaf,
+  Star,
+  Send,
+  Play,
+  Menu,
+  Globe,
 } from 'lucide-react';
 
 /* ════════════════════════════════════════════════════════════════════════════
-   LUMYX — Electric urban mobility brand (Radian-inspired)
-   Full-screen scroll-snap sections + Canvas 2D vehicle renders
+   LUMYX — Premium Electric Urban Mobility
+   Real-photography scroll choreography
    ════════════════════════════════════════════════════════════════════════════ */
 
+// ─── Verified Unsplash images ────────────────────────────────────────────────
+const IMG = {
+  hero:     'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=90&w=2000&auto=format&fit=crop',
+  city:     'https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=85&w=1600&auto=format&fit=crop',
+  ride:     'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?q=85&w=1600&auto=format&fit=crop',
+  detail:   'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=85&w=1600&auto=format&fit=crop',
+  bike:     'https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=85&w=1600&auto=format&fit=crop',
+  lifestyle:'https://images.unsplash.com/photo-1511994298241-608e28f14fde?q=85&w=1600&auto=format&fit=crop',
+};
+
+// ─── Design tokens ───────────────────────────────────────────────────────────
 const C = {
-  bg: '#060810',
-  bgSoft: '#0a0e1a',
-  bgCard: '#0e1424',
-  border: '#1a2236',
-  borderBright: '#243150',
-  blue: '#00d4ff',
-  blueDeep: '#0096c7',
-  blueGlow: 'rgba(0,212,255,0.5)',
-  text: '#f0f4f8',
-  textSoft: '#9fb0c4',
-  muted: '#5d6e85',
-  font: "'Inter', system-ui, -apple-system, sans-serif",
-} as const;
+  bg:        '#06080d',
+  bgSoft:    '#0a0d14',
+  bgCard:    '#0d1119',
+  border:    '#161d2a',
+  borderHi:  '#1e2d44',
+  blue:      '#00d4ff',
+  blueDeep:  '#0096c7',
+  blueDim:   'rgba(0,212,255,0.12)',
+  blueGlow:  'rgba(0,212,255,0.4)',
+  white:     '#f0f4f8',
+  whiteOff:  '#c8d4e0',
+  muted:     '#6b7f97',
+};
 
 const pageStyle: React.CSSProperties = {
   background: C.bg,
-  color: C.text,
-  fontFamily: C.font,
-  WebkitFontSmoothing: 'antialiased',
+  color: C.white,
+  fontFamily: "'Inter', 'Helvetica Neue', Arial, sans-serif",
+  overflowX: 'hidden',
 };
 
-const sectionStyle: React.CSSProperties = {
-  height: '100vh',
-  width: '100%',
-  scrollSnapAlign: 'start',
-  position: 'relative',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  paddingInline: 'clamp(20px, 6vw, 96px)',
-  overflow: 'hidden',
-};
+// ─── clamp helper ────────────────────────────────────────────────────────────
+const fl = (min: number, max: number) =>
+  `clamp(${min}rem, ${min * 0.5 + (max - min) * 0.5}vw + ${min * 0.5}rem, ${max}rem)`;
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Canvas: draw the electric scooter/vehicle silhouette
-   ──────────────────────────────────────────────────────────────────────────── */
-
-function drawVehicle(
-  ctx: CanvasRenderingContext2D,
-  cx: number,
-  cy: number,
-  scale: number,
-  rotation: number,
-  glow: boolean,
-  explode: number, // 0..1 exploded view
-): void {
-  ctx.save();
-  ctx.translate(cx, cy);
-  ctx.rotate(rotation);
-  ctx.scale(scale, scale);
-
-  if (glow) {
-    ctx.shadowBlur = 20;
-    ctx.shadowColor = C.blue;
-  }
-
-  const wheelR = 56;
-  const wheelOffX = 150;
-  const ex = explode; // shortcut
-
-  // --- WHEELS ---
-  const drawWheel = (x: number, ox: number) => {
-    ctx.save();
-    ctx.translate(x + ox * ex, 0);
-    ctx.beginPath();
-    ctx.arc(0, 0, wheelR, 0, Math.PI * 2);
-    ctx.lineWidth = 12;
-    ctx.strokeStyle = '#1c2436';
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(0, 0, wheelR - 6, 0, Math.PI * 2);
-    ctx.strokeStyle = C.blue;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    // hub spokes
-    for (let i = 0; i < 6; i++) {
-      const a = (i / 6) * Math.PI * 2 + rotation * 4;
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.lineTo(Math.cos(a) * (wheelR - 10), Math.sin(a) * (wheelR - 10));
-      ctx.strokeStyle = C.borderBright;
-      ctx.lineWidth = 3;
-      ctx.stroke();
-    }
-    ctx.beginPath();
-    ctx.arc(0, 0, 10, 0, Math.PI * 2);
-    ctx.fillStyle = C.blue;
-    ctx.fill();
-    ctx.restore();
-  };
-  drawWheel(-wheelOffX, -90);
-  drawWheel(wheelOffX, 90);
-
-  // --- FRAME (sleek swoosh) ---
-  ctx.save();
-  ctx.translate(0, -ex * 80);
-  ctx.beginPath();
-  ctx.moveTo(-wheelOffX, -8);
-  ctx.quadraticCurveTo(-60, -70, 30, -64);
-  ctx.lineTo(wheelOffX - 20, -10);
-  ctx.quadraticCurveTo(60, -20, -30, -18);
-  ctx.closePath();
-  const frameGrad = ctx.createLinearGradient(-wheelOffX, -70, wheelOffX, 0);
-  frameGrad.addColorStop(0, '#16223a');
-  frameGrad.addColorStop(0.5, '#1e2e4d');
-  frameGrad.addColorStop(1, '#16223a');
-  ctx.fillStyle = frameGrad;
-  ctx.fill();
-  ctx.strokeStyle = C.blue;
-  ctx.lineWidth = 1.5;
-  ctx.stroke();
-  // handlebar stem
-  ctx.beginPath();
-  ctx.moveTo(wheelOffX - 24, -12);
-  ctx.lineTo(wheelOffX - 6, -120);
-  ctx.lineTo(wheelOffX + 26, -126);
-  ctx.lineWidth = 9;
-  ctx.strokeStyle = '#1e2e4d';
-  ctx.lineCap = 'round';
-  ctx.stroke();
-  ctx.restore();
-
-  // --- BATTERY BOX ---
-  ctx.save();
-  ctx.translate(-20, 18 + ex * 110);
-  const batGrad = ctx.createLinearGradient(0, -20, 0, 20);
-  batGrad.addColorStop(0, '#0e1a2e');
-  batGrad.addColorStop(1, '#08101e');
-  ctx.fillStyle = batGrad;
-  ctx.beginPath();
-  ctx.roundRect(-70, -22, 140, 44, 6);
-  ctx.fill();
-  ctx.strokeStyle = C.blue;
-  ctx.lineWidth = 1.5;
-  ctx.stroke();
-  // battery cells indicator
-  for (let i = 0; i < 5; i++) {
-    ctx.fillStyle = C.blue;
-    ctx.globalAlpha = 0.4 + (i % 2) * 0.4;
-    ctx.fillRect(-58 + i * 24, -8, 16, 16);
-  }
-  ctx.globalAlpha = 1;
-  ctx.restore();
-
-  // --- MOTOR HUB (on rear wheel) ---
-  ctx.save();
-  ctx.translate(-wheelOffX - 90 * ex, 0);
-  ctx.beginPath();
-  ctx.arc(0, 0, 22, 0, Math.PI * 2);
-  const motorGrad = ctx.createRadialGradient(0, 0, 4, 0, 0, 22);
-  motorGrad.addColorStop(0, C.blue);
-  motorGrad.addColorStop(1, '#0a2840');
-  ctx.fillStyle = motorGrad;
-  ctx.fill();
-  ctx.restore();
-
-  ctx.restore();
-
-  // --- LABELS in exploded view ---
-  if (ex > 0.4) {
-    ctx.save();
-    ctx.globalAlpha = (ex - 0.4) / 0.6;
-    ctx.fillStyle = C.textSoft;
-    ctx.font = `12px ${C.font}`;
-    ctx.textAlign = 'center';
-    const labels: [number, number, string][] = [
-      [cx - 20 * scale, cy + 18 * scale + 110 * scale * ex + 36, 'BATTERIE 48V'],
-      [cx - wheelOffX * scale - 90 * scale * ex, cy - 40, 'MOTEUR 350W'],
-      [cx, cy - 80 * scale - 64, 'CADRE ALU'],
-      [cx + wheelOffX * scale + 90 * scale * ex, cy + wheelR * scale + 22, 'ROUE 10"'],
-    ];
-    labels.forEach(([x, y, t]) => ctx.fillText(t, x, y));
-    ctx.restore();
-  }
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   Section 1 — Hero canvas
-   ──────────────────────────────────────────────────────────────────────────── */
-
-function HeroVehicle(): React.JSX.Element {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const hoverRef = useRef(false);
-
+// ─── Count-up hook ───────────────────────────────────────────────────────────
+function useCountUp(target: number, duration: number, active: boolean): number {
+  const [value, setValue] = useState(0);
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    let raf = 0;
-    let w = 0;
-    let h = 0;
-
-    const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const parent = canvas.parentElement;
-      w = parent ? parent.clientWidth : window.innerWidth;
-      h = parent ? parent.clientHeight : 420;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      canvas.style.width = `${w}px`;
-      canvas.style.height = `${h}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-    resize();
-
+    if (!active) return;
     const start = performance.now();
-    const loop = (now: number) => {
-      const t = (now - start) / 1000;
-      ctx.clearRect(0, 0, w, h);
-      const scale = Math.min(w, h) / 620;
-      const wobble = hoverRef.current ? Math.sin(t * 0.6) * 0.08 : Math.sin(t * 0.3) * 0.02;
-      drawVehicle(ctx, w / 2, h / 2, scale, wobble, true, 0);
-      raf = requestAnimationFrame(loop);
-    };
-    window.addEventListener('resize', resize);
-    raf = requestAnimationFrame(loop);
-    return () => {
-      window.removeEventListener('resize', resize);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
-  return (
-    <div
-      style={{ position: 'absolute', inset: 0 }}
-      onMouseEnter={() => (hoverRef.current = true)}
-      onMouseLeave={() => (hoverRef.current = false)}
-    >
-      <canvas ref={canvasRef} style={{ display: 'block' }} />
-    </div>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   Section 2 — Exploded canvas (scroll triggered)
-   ──────────────────────────────────────────────────────────────────────────── */
-
-function ExplodedVehicle({ active }: { active: boolean }): React.JSX.Element {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const explodeRef = useRef(0);
-  const activeRef = useRef(active);
-
-  useEffect(() => {
-    activeRef.current = active;
-  }, [active]);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    let raf = 0;
-    let w = 0;
-    let h = 0;
-    const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const parent = canvas.parentElement;
-      w = parent ? parent.clientWidth : 400;
-      h = parent ? parent.clientHeight : 400;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      canvas.style.width = `${w}px`;
-      canvas.style.height = `${h}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-    resize();
-    const start = performance.now();
-    const loop = (now: number) => {
-      const t = (now - start) / 1000;
-      const target = activeRef.current ? 1 : 0;
-      explodeRef.current += (target - explodeRef.current) * 0.06;
-      ctx.clearRect(0, 0, w, h);
-      const scale = Math.min(w, h) / 760;
-      drawVehicle(ctx, w / 2, h / 2, scale, Math.sin(t * 0.3) * 0.02, true, explodeRef.current);
-      raf = requestAnimationFrame(loop);
-    };
-    window.addEventListener('resize', resize);
-    raf = requestAnimationFrame(loop);
-    return () => {
-      window.removeEventListener('resize', resize);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
-  return <canvas ref={canvasRef} style={{ display: 'block', width: '100%', height: '100%' }} />;
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   Count-up stat
-   ──────────────────────────────────────────────────────────────────────────── */
-
-function CountUp({ target, suffix = '', label }: { target: number; suffix?: string; label: string }): React.JSX.Element {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const inView = useInView(ref, { once: true, margin: '-40px' });
-  const [val, setVal] = useState(0);
-
-  useEffect(() => {
-    if (!inView) return;
-    let raf = 0;
-    const dur = 1600;
-    const start = performance.now();
+    let raf: number;
     const tick = (now: number) => {
-      const p = Math.min(1, (now - start) / dur);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setVal(target * eased);
+      const p = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      setValue(Math.round(ease * target));
       if (p < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView, target]);
+  }, [active, target, duration]);
+  return value;
+}
 
-  const display = target % 1 !== 0 ? val.toFixed(1) : Math.round(val).toString();
+/* ════════════════════════════════════════════════════════════════════════════
+   NAV
+   ════════════════════════════════════════════════════════════════════════════ */
+function Nav() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const links = ['Modèles', 'Technologie', 'Galerie', 'À propos'];
+
+  const navStyle: React.CSSProperties = {
+    position:        'fixed',
+    top:             0,
+    left:            0,
+    right:           0,
+    zIndex:          100,
+    padding:         '0 clamp(1rem, 4vw, 3rem)',
+    height:          '72px',
+    display:         'flex',
+    alignItems:      'center',
+    justifyContent:  'space-between',
+    transition:      'background 0.4s ease, border-color 0.4s ease',
+    background:      scrolled ? 'rgba(6,8,13,0.92)' : 'transparent',
+    borderBottom:    scrolled ? `1px solid ${C.border}` : '1px solid transparent',
+    backdropFilter:  scrolled ? 'blur(16px)' : 'none',
+  };
+
+  const logoMarkStyle: React.CSSProperties = {
+    width:     36,
+    height:    36,
+    background: C.blue,
+    clipPath:  'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+    display:   'flex',
+    alignItems:'center',
+    justifyContent: 'center',
+  };
 
   return (
-    <div
+    <>
+      <nav style={navStyle}>
+        {/* Logo */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+          <div style={logoMarkStyle}>
+            <Zap size={16} color={C.bg} fill={C.bg} />
+          </div>
+          <span style={{ fontWeight: 900, fontSize: '1.4rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, color: C.white }}>
+            LU<span style={{ color: C.blue }}>M</span>YX
+          </span>
+        </div>
+
+        {/* Desktop links */}
+        <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
+          {links.map((l) => (
+            <a
+              key={l}
+              href="#"
+              style={{ color: C.whiteOff, textDecoration: 'none', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const, transition: 'color 0.2s', cursor: 'pointer' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = C.blue; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = C.whiteOff; }}
+            >
+              {l}
+            </a>
+          ))}
+        </div>
+
+        {/* CTA + burger */}
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <button
+            style={{ background: 'transparent', border: `1px solid ${C.blue}`, color: C.blue, padding: '10px 22px', borderRadius: '2px', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all 0.2s' }}
+            onMouseEnter={(e) => { const b = e.currentTarget; b.style.background = C.blue; b.style.color = C.bg; }}
+            onMouseLeave={(e) => { const b = e.currentTarget; b.style.background = 'transparent'; b.style.color = C.blue; }}
+          >
+            Réserver
+          </button>
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            style={{ background: 'none', border: 'none', color: C.white, cursor: 'pointer' }}
+            aria-label="Menu"
+          >
+            <Menu size={24} />
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile overlay menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            style={{ position: 'fixed', top: 72, left: 0, right: 0, background: 'rgba(6,8,13,0.97)', backdropFilter: 'blur(20px)', zIndex: 99, padding: '2rem', borderBottom: `1px solid ${C.border}` }}
+          >
+            {links.map((l) => (
+              <div key={l} style={{ padding: '1rem 0', borderBottom: `1px solid ${C.border}` }}>
+                <a href="#" style={{ color: C.white, textDecoration: 'none', fontSize: '1.1rem', fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: '0.1em' }}>{l}</a>
+              </div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root { scroll-behavior: smooth; }
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+      `}</style>
+    </>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   HERO — parallax photography
+   ════════════════════════════════════════════════════════════════════════════ */
+function Hero() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
+
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.14]);
+  const imgY     = useTransform(scrollYProgress, [0, 1], ['0%', '18%']);
+  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '-28%']);
+  const opacity  = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+  return (
+    <section
       ref={ref}
-      style={{
-        background: C.bgCard,
-        border: `1px solid ${C.border}`,
-        borderRadius: 8,
-        padding: '28px 24px',
-      }}
+      style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}
     >
-      <div style={{ fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 800, color: C.blue, lineHeight: 1, letterSpacing: '-0.02em' }}>
-        {display}
-        <span style={{ fontSize: '0.5em', color: C.textSoft, marginLeft: 4 }}>{suffix}</span>
+      {/* Parallax photo */}
+      <motion.div style={{ position: 'absolute', inset: '-12%', scale: imgScale, y: imgY }}>
+        <img
+          src={IMG.hero}
+          alt="Lumyx — scooter électrique premium en ville"
+          loading="eager"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
+        />
+      </motion.div>
+
+      {/* Scrims */}
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(6,8,13,0.87) 0%, rgba(6,8,13,0.5) 55%, rgba(6,8,13,0.15) 100%)' }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(6,8,13,0.92) 0%, transparent 50%)' }} />
+
+      {/* Glow */}
+      <div style={{ position: 'absolute', bottom: '30%', left: '4%', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,212,255,0.1) 0%, transparent 70%)', filter: 'blur(40px)', pointerEvents: 'none' }} />
+
+      {/* Content */}
+      <motion.div
+        style={{ position: 'relative', zIndex: 2, maxWidth: '1200px', width: '100%', padding: '0 clamp(1.5rem, 5vw, 4rem)', y: contentY, opacity }}
+      >
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: C.blueDim, border: `1px solid rgba(0,212,255,0.3)`, borderRadius: '2px', padding: '6px 14px', marginBottom: '2rem' }}
+        >
+          <Zap size={12} color={C.blue} />
+          <span style={{ color: C.blue, fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase' as const }}>
+            Mobilité Électrique Premium
+          </span>
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.35 }}
+          style={{ fontSize: fl(2.6, 6.5), fontWeight: 900, lineHeight: 1.0, letterSpacing: '-0.03em', textTransform: 'uppercase' as const, marginBottom: '1.5rem', maxWidth: '750px' }}
+        >
+          Redéfinir<br />le mouvement<br />
+          <span style={{ color: C.blue, textShadow: `0 0 40px ${C.blueGlow}` }}>urbain</span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.55 }}
+          style={{ fontSize: fl(1, 1.25), color: C.whiteOff, maxWidth: '480px', lineHeight: 1.65, marginBottom: '2.5rem' }}
+        >
+          Lumyx repense la mobilité électrique avec une ingénierie de précision et un design qui impose le respect.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.7 }}
+          style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}
+        >
+          <button
+            style={{ background: C.blue, border: 'none', color: C.bg, padding: '16px 36px', fontWeight: 800, fontSize: '0.85rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, cursor: 'pointer', borderRadius: '2px', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', boxShadow: `0 0 30px rgba(0,212,255,0.35)` }}
+            onMouseEnter={(e) => { const b = e.currentTarget; b.style.background = '#00eeff'; b.style.boxShadow = `0 0 50px rgba(0,212,255,0.6)`; }}
+            onMouseLeave={(e) => { const b = e.currentTarget; b.style.background = C.blue; b.style.boxShadow = `0 0 30px rgba(0,212,255,0.35)`; }}
+          >
+            Découvrir les modèles <ArrowRight size={16} />
+          </button>
+          <button
+            style={{ background: 'rgba(240,244,248,0.08)', border: `1px solid rgba(240,244,248,0.2)`, color: C.white, padding: '16px 32px', fontWeight: 700, fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const, cursor: 'pointer', borderRadius: '2px', display: 'flex', alignItems: 'center', gap: '8px', backdropFilter: 'blur(8px)', transition: 'all 0.2s' }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(240,244,248,0.15)'; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(240,244,248,0.08)'; }}
+          >
+            <Play size={14} fill={C.white} /> Voir en action
+          </button>
+        </motion.div>
+      </motion.div>
+
+      {/* Scroll cue */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.4 }}
+        style={{ position: 'absolute', bottom: '2.5rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', zIndex: 2 }}
+      >
+        <span style={{ color: C.muted, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase' as const }}>Défiler</span>
+        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}>
+          <ArrowDown size={18} color={C.blue} />
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   STATS BAND — count-up on scroll
+   ════════════════════════════════════════════════════════════════════════════ */
+interface StatItemProps {
+  value:  number;
+  suffix: string;
+  label:  string;
+  icon:   React.ReactNode;
+  active: boolean;
+}
+
+function StatItem({ value, suffix, label, icon, active }: StatItemProps) {
+  const count = useCountUp(value, 1800, active);
+  return (
+    <div style={{ flex: '1 1 200px', textAlign: 'center', padding: '2.5rem 1.5rem', borderRight: `1px solid ${C.border}` }}>
+      <div style={{ color: C.blue, marginBottom: '0.75rem', display: 'flex', justifyContent: 'center' }}>{icon}</div>
+      <div style={{ fontSize: fl(2.4, 4), fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1 }} suppressHydrationWarning>
+        <span style={{ color: C.blue }}>{count}</span>
+        <span style={{ color: C.white, fontSize: '0.5em', marginLeft: '2px' }}>{suffix}</span>
       </div>
-      <div style={{ fontSize: 13, letterSpacing: '0.14em', color: C.muted, marginTop: 12, textTransform: 'uppercase' }}>{label}</div>
+      <div style={{ color: C.muted, fontSize: '0.78rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase' as const, marginTop: '0.6rem' }}>{label}</div>
     </div>
   );
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Animated tech icons
-   ──────────────────────────────────────────────────────────────────────────── */
+function StatsBand() {
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
 
-function PulseBattery(): React.JSX.Element {
+  const stats: Array<{ value: number; suffix: string; label: string; icon: React.ReactNode }> = [
+    { value: 230, suffix: ' km',   label: 'Autonomie maximale',  icon: <Battery size={28} /> },
+    { value: 45,  suffix: ' km/h', label: 'Vitesse de pointe',   icon: <Gauge size={28} /> },
+    { value: 25,  suffix: ' h',    label: 'Charge rapide',       icon: <Zap size={28} /> },
+    { value: 95,  suffix: ' %',    label: 'Clients satisfaits',  icon: <Star size={28} /> },
+  ];
+
   return (
-    <svg viewBox="0 0 80 80" width={64} height={64}>
-      <rect x={18} y={20} width={40} height={44} rx={5} fill="none" stroke={C.blue} strokeWidth={2.5} />
-      <rect x={32} y={14} width={16} height={7} rx={2} fill={C.blue} />
-      {[0, 1, 2].map((i) => (
-        <motion.rect
-          key={i}
-          x={24}
-          y={52 - i * 12}
-          width={28}
-          height={8}
-          rx={2}
-          fill={C.blue}
-          animate={{ opacity: [0.25, 1, 0.25] }}
-          transition={{ duration: 1.6, repeat: Infinity, delay: i * 0.3 }}
-        />
-      ))}
-    </svg>
-  );
-}
-
-function SpinTurbine(): React.JSX.Element {
-  return (
-    <svg viewBox="0 0 80 80" width={64} height={64}>
-      <motion.g
-        animate={{ rotate: 360 }}
-        transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-        style={{ originX: '40px', originY: '40px' }}
-      >
-        {[0, 1, 2, 3, 4, 5].map((i) => {
-          const a = (i / 6) * Math.PI * 2;
-          const x = 40 + Math.cos(a) * 22;
-          const y = 40 + Math.sin(a) * 22;
-          return <ellipse key={i} cx={x} cy={y} rx={9} ry={4} fill={C.blue} opacity={0.8} transform={`rotate(${(a * 180) / Math.PI} ${x} ${y})`} />;
-        })}
-      </motion.g>
-      <circle cx={40} cy={40} r={9} fill={C.bg} stroke={C.blue} strokeWidth={2.5} />
-    </svg>
-  );
-}
-
-function PhoneMock(): React.JSX.Element {
-  return (
-    <svg viewBox="0 0 80 80" width={64} height={64}>
-      <rect x={26} y={12} width={28} height={56} rx={6} fill="none" stroke={C.blue} strokeWidth={2.5} />
-      {[0, 1, 2].map((i) => (
-        <motion.rect
-          key={i}
-          x={31}
-          y={24 + i * 12}
-          width={18}
-          height={6}
-          rx={2}
-          fill={C.blueDeep}
-          animate={{ width: [10, 18, 14] }}
-          transition={{ duration: 2, repeat: Infinity, delay: i * 0.4 }}
-        />
-      ))}
-      <circle cx={40} cy={62} r={2.5} fill={C.blue} />
-    </svg>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   Reserve countdown
-   ──────────────────────────────────────────────────────────────────────────── */
-
-function ReserveForm(): React.JSX.Element {
-  const [email, setEmail] = useState('');
-  const [joined, setJoined] = useState(false);
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        setJoined(true);
-      }}
-      style={{ display: 'flex', gap: 12, flexWrap: 'wrap', maxWidth: 520, width: '100%' }}
-    >
-      <input
-        type="email"
-        required
-        placeholder="votre@email.com"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        style={{
-          flex: '1 1 240px',
-          background: C.bgCard,
-          border: `1px solid ${C.borderBright}`,
-          borderRadius: 8,
-          padding: '16px 18px',
-          color: C.text,
-          fontFamily: C.font,
-          fontSize: 16,
-          outline: 'none',
-        }}
-      />
-      <button
-        type="submit"
-        style={{
-          background: joined ? C.blueDeep : C.blue,
-          color: C.bg,
-          border: 'none',
-          borderRadius: 8,
-          padding: '16px 28px',
-          fontWeight: 800,
-          fontSize: 15,
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-          boxShadow: `0 0 30px ${C.blueGlow}`,
-        }}
-      >
-        {joined ? (
-          <>
-            <Check size={18} /> Inscrit
-          </>
-        ) : (
-          <>
-            Rejoindre la liste <ArrowRight size={18} />
-          </>
-        )}
-      </button>
-    </form>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   Model lineup card
-   ──────────────────────────────────────────────────────────────────────────── */
-
-interface ModelInfo {
-  name: string;
-  tagline: string;
-  price: string;
-  range: string;
-  speed: string;
-  weight: string;
-  featured: boolean;
-}
-
-function ModelCard({ model, index }: { model: ModelInfo; index: number }): React.JSX.Element {
-  const [hover, setHover] = useState(false);
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: index * 0.12 }}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      style={{
-        position: 'relative',
-        background: model.featured ? `linear-gradient(160deg, #0d1b30, ${C.bgCard})` : C.bgCard,
-        border: `1px solid ${model.featured ? C.blueDeep : C.border}`,
-        borderRadius: 14,
-        padding: '34px 30px',
-        transition: 'transform .4s, box-shadow .4s',
-        transform: hover ? 'translateY(-8px)' : 'translateY(0)',
-        boxShadow: hover ? `0 26px 50px rgba(0,0,0,0.45)` : 'none',
-      }}
-    >
-      {model.featured && (
-        <div
-          style={{
-            position: 'absolute',
-            top: 18,
-            right: 18,
-            fontSize: 11,
-            fontWeight: 800,
-            letterSpacing: '0.12em',
-            color: C.bg,
-            background: C.blue,
-            padding: '5px 12px',
-            borderRadius: 20,
-          }}
-        >
-          POPULAIRE
-        </div>
-      )}
-      <h3 style={{ fontSize: 26, fontWeight: 800, margin: '0 0 6px', letterSpacing: '-0.01em' }}>{model.name}</h3>
-      <p style={{ fontSize: 14, color: C.textSoft, margin: '0 0 22px' }}>{model.tagline}</p>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 26 }}>
-        <span style={{ fontSize: 38, fontWeight: 800, color: model.featured ? C.blue : C.text }}>{model.price}</span>
+    <section ref={ref} style={{ background: C.bgSoft, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexWrap: 'wrap' }}>
+        {stats.map((s, i) => <StatItem key={i} {...s} active={inView} />)}
       </div>
-      <div style={{ display: 'grid', gap: 12, marginBottom: 28 }}>
-        {[
-          { l: 'Autonomie', v: model.range },
-          { l: 'Vitesse', v: model.speed },
-          { l: 'Poids', v: model.weight },
-        ].map((row) => (
-          <div key={row.l} style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: 10, borderBottom: `1px solid ${C.border}` }}>
-            <span style={{ fontSize: 14, color: C.muted }}>{row.l}</span>
-            <span style={{ fontSize: 14, fontWeight: 600 }}>{row.v}</span>
-          </div>
+    </section>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   STICKY CROSSFADE — 320vh, 3 photos
+   ════════════════════════════════════════════════════════════════════════════ */
+const SLIDES = [
+  { img: IMG.city,      caption: 'Autonomie', sub: "Jusqu'à 230 km sur une seule charge. La ville entière est à portée de roue." },
+  { img: IMG.ride,      caption: 'Puissance', sub: 'Moteur 750W Peak. Accélération instantanée, silence total.' },
+  { img: IMG.lifestyle, caption: 'Liberté',   sub: 'Aucun compromis. Aucun trajet refusé. Votre rythme, votre route.' },
+];
+
+function StickyCrossfade() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start start', 'end end'] });
+
+  const op0 = useTransform(scrollYProgress, [0, 0.28, 0.42], [1, 1, 0]);
+  const op1 = useTransform(scrollYProgress, [0.28, 0.42, 0.70, 0.82], [0, 1, 1, 0]);
+  const op2 = useTransform(scrollYProgress, [0.70, 0.82, 1], [0, 1, 1]);
+  const barW = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
+
+  const opacities = [op0, op1, op2];
+
+  return (
+    <div ref={containerRef} style={{ height: '320vh', position: 'relative' }}>
+      <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
+        {/* Progress bar */}
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: C.border, zIndex: 10 }}>
+          <motion.div style={{ height: '100%', background: C.blue, width: barW, boxShadow: `0 0 10px ${C.blueGlow}` }} />
+        </div>
+
+        {SLIDES.map((slide, i) => (
+          <motion.div key={i} style={{ position: 'absolute', inset: 0, opacity: opacities[i] }}>
+            <img
+              src={slide.img}
+              alt={slide.caption}
+              loading="lazy"
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(6,8,13,0.92) 0%, rgba(6,8,13,0.45) 55%, transparent 100%)' }} />
+
+            <div style={{ position: 'absolute', bottom: 'clamp(3rem, 7vh, 6rem)', left: 'clamp(1.5rem, 6vw, 5rem)', maxWidth: '520px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+                <div style={{ width: 3, height: 52, background: C.blue, boxShadow: `0 0 14px ${C.blueGlow}` }} />
+                <span style={{ fontSize: fl(2.5, 5.5), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em' }}>{slide.caption}</span>
+              </div>
+              <p style={{ color: C.whiteOff, fontSize: fl(0.95, 1.15), lineHeight: 1.65 }}>{slide.sub}</p>
+            </div>
+
+            {/* Slide indicators */}
+            <div style={{ position: 'absolute', top: '50%', right: 'clamp(1.5rem, 3vw, 2.5rem)', transform: 'translateY(-50%)', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {SLIDES.map((_, j) => (
+                <div key={j} style={{ width: 3, height: j === i ? 34 : 16, background: j === i ? C.blue : C.muted, borderRadius: 2, transition: 'height 0.3s' }} />
+              ))}
+            </div>
+          </motion.div>
         ))}
       </div>
-      <button
-        style={{
-          width: '100%',
-          background: model.featured ? C.blue : 'transparent',
-          color: model.featured ? C.bg : C.text,
-          border: model.featured ? 'none' : `1px solid ${C.borderBright}`,
-          borderRadius: 8,
-          padding: '13px 18px',
-          fontWeight: 700,
-          fontSize: 14,
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 8,
-        }}
-      >
-        Configurer <ArrowRight size={16} />
-      </button>
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   MODELS
+   ════════════════════════════════════════════════════════════════════════════ */
+const MODELS = [
+  { name: 'Lumyx ONE', tagline: "L'essentiel réinventé",      price: '2 490', range: '120 km', speed: '35 km/h', charge: '3.5 h', img: IMG.bike,     badge: 'Bestseller',      accent: C.blue },
+  { name: 'Lumyx PRO', tagline: 'Pour ceux qui vont plus loin',price: '3 890', range: '180 km', speed: '45 km/h', charge: '2.5 h', img: IMG.ride,     badge: 'Recommandé',      accent: '#7c3aed' },
+  { name: 'Lumyx GT',  tagline: 'La performance absolue',     price: '5 490', range: '230 km', speed: '45 km/h', charge: '1.8 h', img: IMG.hero,     badge: 'Édition limitée', accent: '#f59e0b' },
+];
+
+type ModelType = typeof MODELS[0];
+
+function ModelCard({ model, index }: { model: ModelType; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 60 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        flex:         '1 1 300px',
+        background:   C.bgCard,
+        border:       `1px solid ${hovered ? model.accent : C.border}`,
+        borderRadius: '4px',
+        overflow:     'hidden',
+        cursor:       'pointer',
+        transition:   'border-color 0.3s, box-shadow 0.3s, transform 0.3s',
+        transform:    hovered ? 'translateY(-8px)' : 'translateY(0)',
+        boxShadow:    hovered ? `0 20px 60px rgba(0,0,0,0.5), 0 0 30px ${model.accent}22` : '0 4px 20px rgba(0,0,0,0.3)',
+      }}
+    >
+      <div style={{ position: 'relative', height: '260px', overflow: 'hidden' }}>
+        <img
+          src={model.img}
+          alt={model.name}
+          loading="lazy"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease', transform: hovered ? 'scale(1.06)' : 'scale(1)' }}
+        />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(13,17,25,0.95) 100%)' }} />
+        <div style={{ position: 'absolute', top: '1rem', left: '1rem', background: model.accent, color: model.accent === C.blue ? C.bg : '#fff', padding: '4px 12px', fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase' as const, borderRadius: '2px' }}>
+          {model.badge}
+        </div>
+      </div>
+
+      <div style={{ padding: '1.5rem' }}>
+        <h3 style={{ fontSize: '1.5rem', fontWeight: 900, letterSpacing: '-0.02em', marginBottom: '0.25rem' }}>{model.name}</h3>
+        <p style={{ color: C.muted, fontSize: '0.85rem', marginBottom: '1.25rem' }}>{model.tagline}</p>
+
+        <div style={{ display: 'flex', gap: '0.65rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+          {([['Battery', model.range], ['Gauge', model.speed], ['Zap', model.charge]] as Array<[string, string]>).map(([, val], si) => {
+            const icons = [<Battery key="b" size={13} />, <Gauge key="g" size={13} />, <Zap key="z" size={13} />];
+            return (
+              <div key={si} style={{ display: 'flex', alignItems: 'center', gap: '5px', background: C.bgSoft, border: `1px solid ${C.border}`, padding: '5px 10px', borderRadius: '2px', color: C.whiteOff, fontSize: '0.75rem', fontWeight: 600 }}>
+                <span style={{ color: model.accent }}>{icons[si]}</span>{val}
+              </div>
+            );
+          })}
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <div style={{ color: C.muted, fontSize: '0.68rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const }}>À partir de</div>
+            <div style={{ fontSize: '1.8rem', fontWeight: 900, letterSpacing: '-0.02em' }}>
+              {model.price} <span style={{ fontSize: '1rem' }}>€</span>
+            </div>
+          </div>
+          <button
+            style={{ background: model.accent, border: 'none', color: model.accent === C.blue ? C.bg : '#fff', padding: '12px 20px', fontWeight: 800, fontSize: '0.78rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const, cursor: 'pointer', borderRadius: '2px', display: 'flex', alignItems: 'center', gap: '6px', transition: 'opacity 0.2s' }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.85'; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '1'; }}
+          >
+            Réserver <ChevronRight size={14} />
+          </button>
+        </div>
+      </div>
     </motion.div>
   );
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Page
-   ──────────────────────────────────────────────────────────────────────────── */
+function Models() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+  return (
+    <section style={{ background: C.bg, padding: 'clamp(5rem, 10vh, 8rem) clamp(1.5rem, 5vw, 4rem)' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} style={{ marginBottom: '4rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
+            <div style={{ width: 40, height: 2, background: C.blue }} />
+            <span style={{ color: C.blue, fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase' as const }}>La gamme</span>
+          </div>
+          <h2 style={{ fontSize: fl(2, 4), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+            Choisissez votre<br /><span style={{ color: C.blue }}>liberté</span>
+          </h2>
+        </motion.div>
+        <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+          {MODELS.map((m, i) => <ModelCard key={m.name} model={m} index={i} />)}
+        </div>
+      </div>
+    </section>
+  );
+}
 
-export default function LumyxPage(): React.JSX.Element {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({ container: containerRef });
-  const barScale = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
+/* ════════════════════════════════════════════════════════════════════════════
+   TECH EDITORIAL
+   ════════════════════════════════════════════════════════════════════════════ */
+const EDITORIAL = [
+  {
+    eyebrow: 'Ingénierie',
+    title:   'Batterie longue portée Samsung 21700',
+    body:    "Nos cellules Samsung 21700 offrent une densité d'énergie supérieure de 20% à la génération précédente. Gestion thermique active pour des performances optimales en toute saison.",
+    img:     IMG.detail,
+    pills:   ['BMS 3e génération', 'Temp. −20°C → +55°C', '1000+ cycles'],
+    reverse: false,
+  },
+  {
+    eyebrow: 'Design',
+    title:   'Cadre aluminium 6061-T6 brossé',
+    body:    "Chaque ligne du châssis Lumyx est le résultat de 18 mois de conception aérodynamique. Rigidité structurelle maximale pour un poids de 19,5 kg seulement.",
+    img:     IMG.city,
+    pills:   ['IP67 waterproof', 'Poids 19,5 kg', 'CNC usiné'],
+    reverse: true,
+  },
+];
 
-  const specsRef = useRef<HTMLDivElement | null>(null);
-  const specsInView = useInView(specsRef, { margin: '-30%' });
+type EditorialRowType = typeof EDITORIAL[0];
 
-  const testimonials = [
-    { city: 'Paris', name: 'Camille D.', text: 'Mon trajet quotidien République–Bastille est devenu un plaisir. Silencieux, rapide, et zéro émission.' },
-    { city: 'Lyon', name: 'Théo R.', text: 'L’autonomie tient toute la semaine. Je recharge le vendredi soir, et c’est reparti.' },
-    { city: 'Bordeaux', name: 'Inès M.', text: 'Le design attire tous les regards. L’appli est ultra fluide pour suivre la batterie en temps réel.' },
-  ];
+function EditorialRow({ row, index }: { row: EditorialRowType; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-100px' });
 
-  const features = [
-    { icon: <PulseBattery />, title: 'Batterie LFP 48V', desc: 'Cellules lithium fer phosphate, 1 200 cycles garantis, charge ultra-rapide et zéro perte de mémoire.' },
-    { icon: <SpinTurbine />, title: 'Moteur sans balai', desc: 'Moteur-roue 350W à couple instantané. Montée à 30% sans effort, régénération au freinage.' },
-    { icon: <PhoneMock />, title: 'Application connectée', desc: 'Verrouillage à distance, suivi GPS, diagnostic en direct et mises à jour OTA du firmware.' },
-  ];
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      style={{
+        display:       'flex',
+        gap:           'clamp(2rem, 6vw, 5rem)',
+        alignItems:    'center',
+        flexDirection: (row.reverse ? 'row-reverse' : 'row') as React.CSSProperties['flexDirection'],
+        flexWrap:      'wrap',
+        padding:       'clamp(3rem, 6vh, 5rem) 0',
+        borderBottom:  `1px solid ${C.border}`,
+      }}
+    >
+      <div style={{ flex: '1 1 360px', position: 'relative', borderRadius: '4px', overflow: 'hidden' }}>
+        <img src={row.img} alt={row.title} loading="lazy" style={{ width: '100%', height: '400px', objectFit: 'cover', display: 'block' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,212,255,0.07) 0%, transparent 60%)' }} />
+        <div style={{ position: 'absolute', top: 0, left: 0, width: 56, height: 56, borderTop: `3px solid ${C.blue}`, borderLeft: `3px solid ${C.blue}` }} />
+        <div style={{ position: 'absolute', bottom: 0, right: 0, width: 56, height: 56, borderBottom: `3px solid ${C.blue}`, borderRight: `3px solid ${C.blue}` }} />
+      </div>
 
-  const models: ModelInfo[] = [
-    { name: 'Lumyx City', tagline: 'L’essentiel urbain', price: '1 290 €', range: '90 km', speed: '25 km/h', weight: '16 kg', featured: false },
-    { name: 'Lumyx Pro', tagline: 'Performance & autonomie', price: '1 890 €', range: '160 km', speed: '45 km/h', weight: '19 kg', featured: true },
-    { name: 'Lumyx Max', tagline: 'Longue distance', price: '2 490 €', range: '230 km', speed: '45 km/h', weight: '22 kg', featured: false },
+      <div style={{ flex: '1 1 320px' }}>
+        <div style={{ color: C.blue, fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase' as const, marginBottom: '1rem' }}>{row.eyebrow}</div>
+        <h3 style={{ fontSize: fl(1.6, 2.6), fontWeight: 900, letterSpacing: '-0.02em', lineHeight: 1.15, marginBottom: '1.25rem' }}>{row.title}</h3>
+        <p style={{ color: C.whiteOff, lineHeight: 1.7, fontSize: fl(0.9, 1.05), marginBottom: '2rem' }}>{row.body}</p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+          {row.pills.map((p) => (
+            <div key={p} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: C.blueDim, border: `1px solid rgba(0,212,255,0.25)`, padding: '7px 14px', borderRadius: '2px', fontSize: '0.78rem', fontWeight: 700 }}>
+              <Check size={12} color={C.blue} /> {p}
+            </div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function TechEditorial() {
+  return (
+    <section style={{ background: C.bg, padding: 'clamp(4rem, 8vh, 7rem) clamp(1.5rem, 5vw, 4rem)' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        {EDITORIAL.map((row, i) => <EditorialRow key={i} row={row} index={i} />)}
+      </div>
+    </section>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   STICKY SPEC
+   ════════════════════════════════════════════════════════════════════════════ */
+const SPEC_BULLETS = [
+  { icon: <Battery size={20} />, title: 'Autonomie 230 km',   desc: 'Batterie 52V 25Ah — la plus longue autonomie du segment.' },
+  { icon: <Gauge size={20} />,   title: '45 km/h en pointe',  desc: 'Moteur brushless 750W avec couple de démarrage instantané.' },
+  { icon: <Zap size={20} />,     title: 'Charge rapide 1.8h', desc: 'Chargeur GaN 65W inclus. Compatible Fast Charge DC en option.' },
+  { icon: <Shield size={20} />,  title: 'IP67 certifié',      desc: 'Résistant à la pluie battante. Traversez la ville en toute saison.' },
+  { icon: <Leaf size={20} />,    title: 'Zéro émission',      desc: 'Bilan carbone neutre sur 3 ans vs voiture thermique équivalente.' },
+  { icon: <Globe size={20} />,   title: 'App connectée',      desc: 'GPS temps réel, diagnostics live, verrouillage à distance via app Lumyx.' },
+];
+
+function SpecBullet({ bullet, index }: { bullet: typeof SPEC_BULLETS[0]; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-40px' });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, x: 30 }}
+      animate={inView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 0.6, delay: index * 0.08 }}
+      style={{ display: 'flex', gap: '1.25rem', padding: '1.75rem 0', borderBottom: `1px solid ${C.border}`, alignItems: 'flex-start' }}
+    >
+      <div style={{ width: 44, height: 44, borderRadius: '2px', background: C.blueDim, border: `1px solid rgba(0,212,255,0.25)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: C.blue }}>
+        {bullet.icon}
+      </div>
+      <div>
+        <div style={{ fontWeight: 800, fontSize: '1.05rem', marginBottom: '0.4rem' }}>{bullet.title}</div>
+        <div style={{ color: C.muted, fontSize: '0.88rem', lineHeight: 1.6 }}>{bullet.desc}</div>
+      </div>
+    </motion.div>
+  );
+}
+
+function StickySpec() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start start', 'end end'] });
+  const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
+
+  return (
+    <section ref={containerRef} style={{ background: C.bgSoft, borderTop: `1px solid ${C.border}`, minHeight: '120vh', position: 'relative' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 clamp(1.5rem, 5vw, 4rem)', display: 'flex', gap: 'clamp(2rem, 5vw, 5rem)', alignItems: 'flex-start' }}>
+        {/* Sticky vehicle photo */}
+        <div style={{ flex: '0 0 45%', position: 'sticky', top: '15vh', overflow: 'hidden', borderRadius: '4px' }}>
+          <motion.div style={{ y: imgY }}>
+            <img src={IMG.detail} alt="Lumyx GT — détail technique" loading="lazy" style={{ width: '100%', height: '70vh', objectFit: 'cover', display: 'block', borderRadius: '4px' }} />
+          </motion.div>
+          <div style={{ position: 'absolute', bottom: '1.5rem', left: '1.5rem', background: 'rgba(6,8,13,0.88)', backdropFilter: 'blur(12px)', border: `1px solid ${C.border}`, padding: '1rem 1.5rem', borderRadius: '2px' }}>
+            <div style={{ color: C.blue, fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase' as const, marginBottom: '0.3rem' }}>Lumyx GT</div>
+            <div style={{ fontSize: '1.2rem', fontWeight: 900 }}>Fiche technique complète</div>
+          </div>
+        </div>
+
+        {/* Scrolling bullets */}
+        <div style={{ flex: '1', padding: 'clamp(4rem, 8vh, 7rem) 0' }}>
+          <div style={{ marginBottom: '3rem' }}>
+            <div style={{ color: C.blue, fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase' as const, marginBottom: '1rem' }}>Spécifications</div>
+            <h2 style={{ fontSize: fl(1.8, 3), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+              Rien n'a été laissé<br />au hasard
+            </h2>
+          </div>
+          {SPEC_BULLETS.map((b, i) => <SpecBullet key={i} bullet={b} index={i} />)}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   GALLERY
+   ════════════════════════════════════════════════════════════════════════════ */
+function Gallery() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+
+  const grid: Array<{ img: string; span: number; h: number }> = [
+    { img: IMG.lifestyle, span: 2, h: 440 },
+    { img: IMG.city,      span: 1, h: 200 },
+    { img: IMG.ride,      span: 1, h: 220 },
+    { img: IMG.detail,    span: 1, h: 260 },
+    { img: IMG.bike,      span: 2, h: 360 },
   ];
 
   return (
-    <div
-      ref={containerRef}
-      style={{
-        ...pageStyle,
-        height: '100vh',
-        overflowY: 'scroll',
-        scrollSnapType: 'y mandatory',
-      }}
-    >
-      {/* Progress bar */}
-      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, height: 2, background: 'rgba(255,255,255,0.06)', zIndex: 50 }}>
-        <motion.div style={{ height: '100%', background: C.blue, transformOrigin: '0%', scaleX: barScale, boxShadow: `0 0 12px ${C.blueGlow}` }} />
-      </div>
-
-      {/* Fixed brand mark */}
-      <div style={{ position: 'fixed', top: 24, left: 'clamp(20px, 6vw, 96px)', zIndex: 40, display: 'flex', alignItems: 'center', gap: 8 }}>
-        <Zap size={20} color={C.blue} fill={C.blue} />
-        <span style={{ fontWeight: 800, fontSize: 20, letterSpacing: '0.04em' }}>LUMYX</span>
-      </div>
-
-      {/* SECTION 1 — HERO */}
-      <section style={{ ...sectionStyle, alignItems: 'center', textAlign: 'center' }}>
-        <HeroVehicle />
-        <div style={{ position: 'relative', zIndex: 2, pointerEvents: 'none' }}>
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            style={{ fontSize: 13, letterSpacing: '0.4em', color: C.blue, marginBottom: 20 }}
-          >
-            MOBILITÉ ÉLECTRIQUE NOUVELLE GÉNÉRATION
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.1 }}
-            style={{ fontSize: 'clamp(44px, 8vw, 110px)', fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.03em', margin: 0 }}
-          >
-            Redéfinir le
-            <br />
-            <span style={{ color: C.blue, textShadow: `0 0 40px ${C.blueGlow}` }}>mouvement urbain</span>
-          </motion.h1>
-        </div>
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity }}
-          style={{ position: 'absolute', bottom: 40, left: '50%', transform: 'translateX(-50%)', color: C.muted, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}
-        >
-          <span style={{ fontSize: 11, letterSpacing: '0.2em' }}>DÉFILER</span>
-          <ArrowDown size={18} />
+    <section style={{ background: C.bg, padding: 'clamp(4rem, 8vh, 7rem) clamp(1.5rem, 5vw, 4rem)' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} style={{ marginBottom: '3rem', textAlign: 'center' }}>
+          <div style={{ color: C.blue, fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase' as const, marginBottom: '1rem' }}>Galerie</div>
+          <h2 style={{ fontSize: fl(1.8, 3.5), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em' }}>
+            Lumyx dans la <span style={{ color: C.blue }}>vraie vie</span>
+          </h2>
         </motion.div>
-      </section>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
+          {grid.map((p, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              style={{ gridColumn: `span ${p.span}`, position: 'relative', overflow: 'hidden', borderRadius: '4px', cursor: 'pointer' }}
+              onMouseEnter={(e) => {
+                const img = e.currentTarget.querySelector('img') as HTMLImageElement | null;
+                if (img) img.style.transform = 'scale(1.06)';
+              }}
+              onMouseLeave={(e) => {
+                const img = e.currentTarget.querySelector('img') as HTMLImageElement | null;
+                if (img) img.style.transform = 'scale(1)';
+              }}
+            >
+              <img
+                src={p.img}
+                alt={`Lumyx — galerie urbaine ${i + 1}`}
+                loading="lazy"
+                style={{ width: '100%', height: `${p.h}px`, objectFit: 'cover', display: 'block', transition: 'transform 0.5s ease' }}
+              />
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
-      {/* SECTION 2 — SPECS */}
-      <section style={{ ...sectionStyle, background: C.bgSoft }}>
-        <div ref={specsRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'clamp(30px, 5vw, 70px)', alignItems: 'center', width: '100%' }}>
-          <div style={{ height: 'min(46vh, 420px)' }}>
-            <ExplodedVehicle active={specsInView} />
-          </div>
-          <div>
-            <div style={{ fontSize: 13, letterSpacing: '0.3em', color: C.blue, marginBottom: 14 }}>VUE ÉCLATÉE</div>
-            <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 52px)', fontWeight: 800, margin: '0 0 28px', letterSpacing: '-0.02em', lineHeight: 1.05 }}>
-              L&apos;ingénierie dans le détail
-            </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
-              <CountUp target={230} suffix="km" label="Autonomie" />
-              <CountUp target={45} suffix="km/h" label="Vitesse max" />
-              <CountUp target={2.5} suffix="h" label="Charge complète" />
-              <CountUp target={95} suffix="%" label="Efficience" />
+/* ════════════════════════════════════════════════════════════════════════════
+   TESTIMONIALS
+   ════════════════════════════════════════════════════════════════════════════ */
+const TESTIMONIALS = [
+  { quote: '"Je prends le Lumyx PRO tous les matins pour aller au bureau. 22 km aller-retour sans recharge depuis 6 mois. Je n\'ai plus touché ma voiture."', name: 'Camille D.', city: 'Lyon, 69', stars: 5 },
+  { quote: '"Le design est dingue. Mes collègues pensaient que c\'était une moto italienne de luxe. Et l\'autonomie est réelle — pas juste sur papier."',  name: 'Thomas M.', city: 'Paris, 75', stars: 5 },
+];
+
+function Testimonials() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+
+  return (
+    <section style={{ background: C.bgSoft, borderTop: `1px solid ${C.border}`, padding: 'clamp(4rem, 8vh, 7rem) clamp(1.5rem, 5vw, 4rem)' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} style={{ textAlign: 'center', marginBottom: '4rem' }}>
+          <div style={{ color: C.blue, fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase' as const, marginBottom: '1rem' }}>Témoignages</div>
+          <h2 style={{ fontSize: fl(1.8, 3.5), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em' }}>
+            Ceux qui roulent <span style={{ color: C.blue }}>Lumyx</span>
+          </h2>
+        </motion.div>
+        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+          {TESTIMONIALS.map((t, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 40 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: i * 0.2 }}
+              style={{ flex: '1 1 340px', background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: '4px', padding: '2.5rem', position: 'relative' }}
+            >
+              <div style={{ position: 'absolute', top: '1.5rem', right: '2rem', opacity: 0.05, fontSize: '8rem', fontWeight: 900, color: C.blue, lineHeight: 1 }}>"</div>
+              <div style={{ display: 'flex', gap: '3px', marginBottom: '1.5rem' }}>
+                {Array.from({ length: t.stars }).map((_, si) => <Star key={si} size={16} color={C.blue} fill={C.blue} />)}
+              </div>
+              <p style={{ fontSize: fl(0.95, 1.1), lineHeight: 1.7, color: C.whiteOff, marginBottom: '2rem' }}>{t.quote}</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div style={{ width: 44, height: 44, borderRadius: '50%', background: `linear-gradient(135deg, ${C.blue}, ${C.blueDeep})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: '1.1rem', color: C.bg }}>
+                  {t.name[0]}
+                </div>
+                <div>
+                  <div style={{ fontWeight: 800 }}>{t.name}</div>
+                  <div style={{ color: C.muted, fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <MapPin size={11} /> {t.city}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   RESERVE FORM
+   ════════════════════════════════════════════════════════════════════════════ */
+function ReserveForm() {
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+
+  const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!email) return;
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false);
+      setSubmitted(true);
+    }, 1400);
+    return () => clearTimeout(timer);
+  }, [email]);
+
+  return (
+    <section
+      ref={ref}
+      style={{ background: `linear-gradient(135deg, #06080d 0%, #0a0e1a 50%, #060d12 100%)`, borderTop: `1px solid ${C.border}`, padding: 'clamp(5rem, 10vh, 9rem) clamp(1.5rem, 5vw, 4rem)', position: 'relative', overflow: 'hidden' }}
+    >
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 700, height: 700, borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 65%)', pointerEvents: 'none' }} />
+
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8 }}
+        style={{ maxWidth: '680px', margin: '0 auto', textAlign: 'center', position: 'relative' }}
+      >
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(245,158,11,0.12)', border: '1px solid rgba(245,158,11,0.35)', borderRadius: '2px', padding: '6px 16px', marginBottom: '2rem' }}>
+          <Clock size={13} color="#f59e0b" />
+          <span style={{ color: '#f59e0b', fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase' as const }}>Plus que 100 unités disponibles</span>
+        </div>
+
+        <h2 style={{ fontSize: fl(2, 4), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '1.25rem' }}>
+          Réservez votre<br /><span style={{ color: C.blue, textShadow: `0 0 30px ${C.blueGlow}` }}>Lumyx maintenant</span>
+        </h2>
+        <p style={{ color: C.whiteOff, fontSize: fl(0.95, 1.1), lineHeight: 1.65, marginBottom: '2.5rem' }}>
+          Réservez avec 0 € d'engagement. Livraison en septembre 2026. Vous serez parmi les premiers à rouler Lumyx en France.
+        </p>
+
+        <AnimatePresence mode="wait">
+          {!submitted ? (
+            <motion.form key="form" initial={{ opacity: 1 }} exit={{ opacity: 0, y: -20 }} onSubmit={handleSubmit} style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Votre adresse email"
+                required
+                aria-label="Adresse email"
+                style={{ flex: '1 1 280px', background: 'rgba(240,244,248,0.06)', border: `1px solid ${C.borderHi}`, color: C.white, padding: '16px 20px', fontSize: '1rem', borderRadius: '2px', outline: 'none', transition: 'border-color 0.2s', fontFamily: 'inherit' }}
+                onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = C.blue; }}
+                onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = C.borderHi; }}
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                style={{ background: loading ? C.borderHi : C.blue, border: 'none', color: loading ? C.muted : C.bg, padding: '16px 32px', fontWeight: 800, fontSize: '0.85rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, cursor: loading ? 'not-allowed' : 'pointer', borderRadius: '2px', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', boxShadow: loading ? 'none' : `0 0 25px rgba(0,212,255,0.3)`, minWidth: '160px', justifyContent: 'center', fontFamily: 'inherit' }}
+              >
+                {loading ? (
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
+                    style={{ width: 18, height: 18, border: `2px solid ${C.muted}`, borderTopColor: C.blue, borderRadius: '50%' }}
+                  />
+                ) : (
+                  <><Send size={16} /> Je réserve</>
+                )}
+              </button>
+            </motion.form>
+          ) : (
+            <motion.div
+              key="success"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              style={{ background: C.blueDim, border: `1px solid rgba(0,212,255,0.4)`, borderRadius: '4px', padding: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}
+            >
+              <div style={{ width: 56, height: 56, borderRadius: '50%', background: C.blue, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Check size={28} color={C.bg} strokeWidth={3} />
+              </div>
+              <div style={{ fontSize: '1.3rem', fontWeight: 900 }}>Réservation confirmée</div>
+              <div style={{ color: C.whiteOff, lineHeight: 1.6 }}>
+                Nous vous enverrons un email à <strong>{email}</strong>. Bienvenue dans la révolution Lumyx.
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <div style={{ marginTop: '2.5rem', display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+          {['Aucun engagement', 'Livraison sept. 2026', 'Garantie 3 ans'].map((item) => (
+            <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '6px', color: C.muted, fontSize: '0.8rem' }}>
+              <Check size={13} color={C.blue} /> {item}
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   FOOTER
+   ════════════════════════════════════════════════════════════════════════════ */
+function Footer() {
+  const cols = [
+    { title: 'Produits',   links: ['Lumyx ONE', 'Lumyx PRO', 'Lumyx GT', 'Accessoires', 'App Lumyx'] },
+    { title: 'Entreprise', links: ["Notre vision", 'Presse', 'Partenaires', 'Carrières', 'Contact'] },
+    { title: 'Support',    links: ['FAQ', 'Manuel utilisateur', 'Garantie', 'Réparation', 'Stations de charge'] },
+  ];
+
+  const socialIcons = [Globe, Send, Play];
+
+  return (
+    <footer style={{ background: C.bgSoft, borderTop: `1px solid ${C.border}`, padding: 'clamp(3rem, 6vh, 5rem) clamp(1.5rem, 5vw, 4rem) 2rem' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ display: 'flex', gap: '3rem', flexWrap: 'wrap', marginBottom: '4rem' }}>
+          {/* Brand block */}
+          <div style={{ flex: '2 1 260px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1.25rem' }}>
+              <div style={{ width: 36, height: 36, background: C.blue, clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Zap size={16} color={C.bg} fill={C.bg} />
+              </div>
+              <span style={{ fontWeight: 900, fontSize: '1.4rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const }}>
+                LU<span style={{ color: C.blue }}>M</span>YX
+              </span>
+            </div>
+            <p style={{ color: C.muted, fontSize: '0.9rem', lineHeight: 1.7, maxWidth: '280px', marginBottom: '1.5rem' }}>
+              La mobilité électrique repensée pour la ville moderne. Fabriqué en Europe, livré partout en France.
+            </p>
+            <div style={{ display: 'flex', gap: '0.75rem' }}>
+              {socialIcons.map((Icon, i) => (
+                <button
+                  key={i}
+                  aria-label={`Réseau social ${i + 1}`}
+                  style={{ width: 40, height: 40, background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s', color: C.muted }}
+                  onMouseEnter={(e) => { const b = e.currentTarget; b.style.borderColor = C.blue; b.style.color = C.blue; }}
+                  onMouseLeave={(e) => { const b = e.currentTarget; b.style.borderColor = C.border; b.style.color = C.muted; }}
+                >
+                  <Icon size={16} />
+                </button>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* SECTION 3 — TECHNOLOGY */}
-      <section style={{ ...sectionStyle, background: C.bg }}>
-        <div style={{ width: '100%' }}>
-          <div style={{ textAlign: 'center', marginBottom: 'clamp(30px, 5vh, 56px)' }}>
-            <div style={{ fontSize: 13, letterSpacing: '0.3em', color: C.blue, marginBottom: 14 }}>TECHNOLOGIE</div>
-            <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 52px)', fontWeight: 800, margin: 0, letterSpacing: '-0.02em' }}>
-              Pensé pour durer
-            </h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24 }}>
-            {features.map((f, i) => (
-              <motion.div
-                key={f.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: i * 0.12 }}
-                style={{
-                  background: C.bgCard,
-                  border: `1px solid ${C.border}`,
-                  borderRadius: 12,
-                  padding: '36px 30px',
-                }}
-              >
-                <div style={{ marginBottom: 22 }}>{f.icon}</div>
-                <h3 style={{ fontSize: 22, fontWeight: 700, margin: '0 0 12px' }}>{f.title}</h3>
-                <p style={{ fontSize: 15, color: C.textSoft, lineHeight: 1.7, margin: 0 }}>{f.desc}</p>
-              </motion.div>
+          {cols.map((col) => (
+            <div key={col.title} style={{ flex: '1 1 140px' }}>
+              <div style={{ fontWeight: 800, fontSize: '0.78rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, marginBottom: '1.25rem' }}>{col.title}</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+                {col.links.map((l) => (
+                  <a key={l} href="#" style={{ color: C.muted, textDecoration: 'none', fontSize: '0.88rem', transition: 'color 0.2s', cursor: 'pointer' }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = C.white; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = C.muted; }}
+                  >{l}</a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: '1.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+          <div style={{ color: C.muted, fontSize: '0.8rem' }}>© 2026 Lumyx SAS — Tous droits réservés</div>
+          <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+            {['Mentions légales', 'Politique de confidentialité', 'CGV'].map((item) => (
+              <a key={item} href="#" style={{ color: C.muted, textDecoration: 'none', fontSize: '0.78rem', transition: 'color 0.2s', cursor: 'pointer' }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = C.white; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = C.muted; }}
+              >{item}</a>
             ))}
           </div>
         </div>
-      </section>
+      </div>
+    </footer>
+  );
+}
 
-      {/* SECTION 4 — STORIES */}
-      <section style={{ ...sectionStyle, background: C.bgSoft }}>
-        <div style={{ width: '100%' }}>
-          <div style={{ marginBottom: 'clamp(24px, 4vh, 48px)' }}>
-            <div style={{ fontSize: 13, letterSpacing: '0.3em', color: C.blue, marginBottom: 14 }}>ILS ROULENT EN LUMYX</div>
-            <h2 style={{ fontSize: 'clamp(28px, 4.5vw, 50px)', fontWeight: 800, margin: 0, letterSpacing: '-0.02em' }}>
-              Des villes en mouvement
-            </h2>
-          </div>
-          <div style={{ display: 'flex', gap: 20, overflowX: 'auto', paddingBottom: 12, scrollSnapType: 'x mandatory' }}>
-            {testimonials.map((t, i) => (
-              <motion.div
-                key={t.name}
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.12 }}
-                style={{
-                  flex: '0 0 clamp(280px, 32vw, 400px)',
-                  scrollSnapAlign: 'start',
-                  background: C.bgCard,
-                  border: `1px solid ${C.border}`,
-                  borderRadius: 12,
-                  padding: '32px 30px',
-                }}
-              >
-                <Quote size={28} color={C.blueDeep} />
-                <p style={{ fontSize: 17, lineHeight: 1.7, color: C.text, margin: '18px 0 24px' }}>{t.text}</p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <MapPin size={16} color={C.blue} />
-                  <span style={{ fontWeight: 700 }}>{t.name}</span>
-                  <span style={{ color: C.muted, fontSize: 14 }}>· {t.city}</span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 4.5 — GAMME */}
-      <section style={{ ...sectionStyle, background: C.bg }}>
-        <div style={{ width: '100%' }}>
-          <div style={{ textAlign: 'center', marginBottom: 'clamp(28px, 4vh, 50px)' }}>
-            <div style={{ fontSize: 13, letterSpacing: '0.3em', color: C.blue, marginBottom: 14 }}>LA GAMME</div>
-            <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 52px)', fontWeight: 800, margin: 0, letterSpacing: '-0.02em' }}>
-              Trois modèles, un seul ADN
-            </h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24, maxWidth: 980, marginInline: 'auto' }}>
-            {models.map((m, i) => (
-              <ModelCard key={m.name} model={m} index={i} />
-            ))}
-          </div>
-          <div style={{ textAlign: 'center', marginTop: 32, fontSize: 14, color: C.muted }}>
-            Tous les modèles incluent 2 ans de garantie et l&apos;accès à l&apos;application Lumyx.
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 5 — RESERVE */}
-      <section style={{ ...sectionStyle, alignItems: 'center', textAlign: 'center', background: `radial-gradient(circle at 50% 40%, #0a1830, ${C.bg})` }}>
-        <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(circle at 50% 50%, ${C.blueGlow}, transparent 55%)`, opacity: 0.12 }} />
-        <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{ fontSize: 13, letterSpacing: '0.3em', color: C.blue, marginBottom: 18 }}>ÉDITION DE LANCEMENT</div>
-          <h2 style={{ fontSize: 'clamp(40px, 7vw, 86px)', fontWeight: 800, margin: 0, lineHeight: 0.98, letterSpacing: '-0.03em' }}>
-            Réservez le vôtre
-          </h2>
-          <p style={{ fontSize: 18, color: C.textSoft, margin: '20px 0 36px', maxWidth: 520 }}>
-            Les 1 000 premières unités bénéficient d&apos;un tarif fondateur et d&apos;un accès prioritaire.
-          </p>
-          <ReserveForm />
-          <div style={{ marginTop: 30, display: 'flex', gap: 28, flexWrap: 'wrap', justifyContent: 'center', color: C.textSoft, fontSize: 14 }}>
-            <span suppressHydrationWarning style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Battery size={16} color={C.blue} /> Plus que 100 unités
-            </span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Gauge size={16} color={C.blue} /> +12 000 inscrits
-            </span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Cpu size={16} color={C.blue} /> Livraison Q1 2025
-            </span>
-          </div>
-        </div>
-        <footer style={{ position: 'absolute', bottom: 24, left: 0, right: 0, textAlign: 'center', color: C.muted, fontSize: 13 }}>
-          © 2024 Lumyx Mobility · Conçu à Paris · Assemblé en France
-        </footer>
-      </section>
-    </div>
+/* ════════════════════════════════════════════════════════════════════════════
+   ROOT
+   ════════════════════════════════════════════════════════════════════════════ */
+export default function LumyxPage() {
+  return (
+    <main style={pageStyle}>
+      <Nav />
+      <Hero />
+      <StatsBand />
+      <StickyCrossfade />
+      <Models />
+      <TechEditorial />
+      <StickySpec />
+      <Gallery />
+      <Testimonials />
+      <ReserveForm />
+      <Footer />
+    </main>
   );
 }

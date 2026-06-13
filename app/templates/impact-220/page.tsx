@@ -1,1126 +1,2308 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
+} from 'react';
 import {
-  Cog,
-  Watch,
-  Gem,
-  Award,
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  AnimatePresence,
+  useMotionValueEvent,
+} from 'framer-motion';
+import {
+  ChevronDown,
   ArrowRight,
-  ChevronRight,
   Mail,
   MapPin,
   Phone,
   Check,
+  Star,
+  Clock,
+  Shield,
+  Gem,
+  ChevronRight,
 } from 'lucide-react';
 
 /* ════════════════════════════════════════════════════════════════════════════
-   HORA VIVA — Ultra-luxury Swiss watch manufacture (Cartier-inspired)
-   Scroll-driven Canvas 2D watch-mechanism reveal + editorial chapters
+   HORA VIVA — Manufacture Horlogère Suisse, Genève
+   Luxury Swiss watchmaking · Fondée en 1834
    ════════════════════════════════════════════════════════════════════════════ */
 
-const C = {
-  bg: '#030712',
-  bgSoft: '#070b18',
-  bgCard: '#0b1120',
-  border: '#1c2438',
-  borderGold: '#3a3018',
-  gold: '#c9a24b',
+// ─── Design Tokens ──────────────────────────────────────────────────────────
+const T = {
+  navy:       '#0a0e17',
+  navySoft:   '#0e1420',
+  navyCard:   '#121926',
+  border:     '#1e2637',
+  borderGold: '#2e2510',
+  gold:       '#c9a24b',
   goldBright: '#e3bd6a',
-  goldDeep: '#8c6f30',
-  cream: '#e8d5a3',
-  creamSoft: '#cdbd95',
-  ink: '#f4ecd8',
-  muted: '#8b8470',
-  faint: '#5a5644',
-  steel: '#9aa3b2',
-  serif: "'Cormorant Garamond', Georgia, 'Times New Roman', serif",
-  sans: "'Inter', system-ui, -apple-system, sans-serif",
+  goldDim:    '#8a6e33',
+  cream:      '#e8d5a3',
+  creamDim:   '#b09a72',
+  white:      '#f5f0e8',
+  text:       '#c8c0b0',
 } as const;
 
-const pageStyle: React.CSSProperties = {
-  background: C.bg,
-  color: C.ink,
-  fontFamily: C.serif,
-  overflowX: 'hidden',
-  WebkitFontSmoothing: 'antialiased',
-};
+// ─── Verified Unsplash Images ────────────────────────────────────────────────
+const IMGS = {
+  hero:        'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1600&auto=format&fit=crop',
+  movement:    'https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=80&w=1600&auto=format&fit=crop',
+  dial:        'https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1600&auto=format&fit=crop',
+  editorial1:  'https://images.unsplash.com/photo-1620625515032-6ed0c1790c75?q=80&w=1600&auto=format&fit=crop',
+  editorial2:  'https://images.unsplash.com/photo-1612817159949-195b6eb9e31a?q=80&w=1600&auto=format&fit=crop',
+  collection1: 'https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?q=80&w=1600&auto=format&fit=crop',
+  collection2: 'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?q=80&w=1600&auto=format&fit=crop',
+} as const;
 
-const pad: React.CSSProperties = { paddingInline: 'clamp(20px, 6vw, 110px)' };
+// ─── Global Styles (injected once) ──────────────────────────────────────────
+const GLOBAL_CSS = `
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@200;300;400;500&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: #0a0e17; color: #c8c0b0; font-family: 'Jost', sans-serif; overflow-x: hidden; }
+  ::selection { background: rgba(201,162,75,0.3); color: #e8d5a3; }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #0a0e17; }
+  ::-webkit-scrollbar-thumb { background: #2e2510; border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: #c9a24b; }
+`;
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Canvas drawing primitives
-   ──────────────────────────────────────────────────────────────────────────── */
+// ─── Reusable Components ─────────────────────────────────────────────────────
 
-function drawGear(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  r: number,
-  teeth: number,
-  rotation: number,
-  fill: string,
-  stroke: string,
-): void {
-  const toothDepth = r * 0.18;
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.rotate(rotation);
-  ctx.beginPath();
-  for (let i = 0; i < teeth; i++) {
-    const a0 = (i / teeth) * Math.PI * 2;
-    const a1 = ((i + 0.5) / teeth) * Math.PI * 2;
-    const a2 = ((i + 1) / teeth) * Math.PI * 2;
-    const rOut = r + toothDepth;
-    if (i === 0) ctx.moveTo(Math.cos(a0) * r, Math.sin(a0) * r);
-    ctx.lineTo(Math.cos(a0) * r, Math.sin(a0) * r);
-    ctx.lineTo(Math.cos(a0 + 0.04) * rOut, Math.sin(a0 + 0.04) * rOut);
-    ctx.lineTo(Math.cos(a1 - 0.04) * rOut, Math.sin(a1 - 0.04) * rOut);
-    ctx.lineTo(Math.cos(a1) * r, Math.sin(a1) * r);
-    ctx.lineTo(Math.cos(a2) * r, Math.sin(a2) * r);
-  }
-  ctx.closePath();
-  ctx.fillStyle = fill;
-  ctx.fill();
-  ctx.lineWidth = 1.2;
-  ctx.strokeStyle = stroke;
-  ctx.stroke();
-
-  // hub
-  ctx.beginPath();
-  ctx.arc(0, 0, r * 0.42, 0, Math.PI * 2);
-  ctx.fillStyle = '#0b1120';
-  ctx.fill();
-  ctx.strokeStyle = stroke;
-  ctx.lineWidth = 1.5;
-  ctx.stroke();
-
-  // spokes
-  const spokes = 5;
-  ctx.strokeStyle = stroke;
-  ctx.lineWidth = r * 0.06;
-  for (let i = 0; i < spokes; i++) {
-    const a = (i / spokes) * Math.PI * 2;
-    ctx.beginPath();
-    ctx.moveTo(Math.cos(a) * r * 0.18, Math.sin(a) * r * 0.18);
-    ctx.lineTo(Math.cos(a) * r * 0.4, Math.sin(a) * r * 0.4);
-    ctx.stroke();
-  }
-
-  // center pin
-  ctx.beginPath();
-  ctx.arc(0, 0, r * 0.1, 0, Math.PI * 2);
-  ctx.fillStyle = stroke;
-  ctx.fill();
-  ctx.restore();
-}
-
-function drawHand(
-  ctx: CanvasRenderingContext2D,
-  cx: number,
-  cy: number,
-  length: number,
-  angle: number,
-  width: number,
-  color: string,
-): void {
-  ctx.save();
-  ctx.translate(cx, cy);
-  ctx.rotate(angle);
-  ctx.beginPath();
-  ctx.moveTo(-width * 1.5, width);
-  ctx.lineTo(0, -length);
-  ctx.lineTo(width * 1.5, width);
-  ctx.lineTo(0, width * 3);
-  ctx.closePath();
-  ctx.fillStyle = color;
-  ctx.shadowColor = 'rgba(0,0,0,0.6)';
-  ctx.shadowBlur = 6;
-  ctx.fill();
-  ctx.restore();
-}
-
-function drawTourbillon(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  r: number,
-  rotation: number,
-): void {
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.rotate(rotation);
-  // cage triangle
-  ctx.beginPath();
-  for (let i = 0; i < 3; i++) {
-    const a = (i / 3) * Math.PI * 2 - Math.PI / 2;
-    const px = Math.cos(a) * r;
-    const py = Math.sin(a) * r;
-    if (i === 0) ctx.moveTo(px, py);
-    else ctx.lineTo(px, py);
-  }
-  ctx.closePath();
-  ctx.strokeStyle = C.gold;
-  ctx.lineWidth = 1.6;
-  ctx.stroke();
-  // outer ring
-  ctx.beginPath();
-  ctx.arc(0, 0, r, 0, Math.PI * 2);
-  ctx.strokeStyle = C.goldDeep;
-  ctx.lineWidth = 1;
-  ctx.stroke();
-  // balance wheel inside (counter-rotating)
-  ctx.rotate(-rotation * 2.4);
-  ctx.beginPath();
-  ctx.arc(0, 0, r * 0.6, 0, Math.PI * 2);
-  ctx.strokeStyle = C.goldBright;
-  ctx.lineWidth = 2;
-  ctx.stroke();
-  for (let i = 0; i < 4; i++) {
-    const a = (i / 4) * Math.PI * 2;
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(Math.cos(a) * r * 0.6, Math.sin(a) * r * 0.6);
-    ctx.strokeStyle = C.gold;
-    ctx.lineWidth = 1;
-    ctx.stroke();
-  }
-  ctx.beginPath();
-  ctx.arc(0, 0, r * 0.12, 0, Math.PI * 2);
-  ctx.fillStyle = C.goldBright;
-  ctx.fill();
-  ctx.restore();
-}
-
-function drawWatchCase(
-  ctx: CanvasRenderingContext2D,
-  cx: number,
-  cy: number,
-  radius: number,
-  openAmount: number,
-): void {
-  // openAmount 0 = closed, 1 = fully split. We translate top half up, bottom down.
-  const split = openAmount * radius * 0.9;
-
-  // Lugs (4 corners) — drawn behind
-  ctx.save();
-  const lugW = radius * 0.28;
-  const lugL = radius * 0.42;
-  const lugPositions = [
-    { a: -2.35, dir: -1 },
-    { a: -0.79, dir: -1 },
-    { a: 0.79, dir: 1 },
-    { a: 2.35, dir: 1 },
-  ];
-  lugPositions.forEach((l) => {
-    const lx = cx + Math.cos(l.a) * radius * 0.92;
-    const ly = cy + Math.sin(l.a) * radius * 0.92 + (Math.sin(l.a) < 0 ? -split : split);
-    ctx.save();
-    ctx.translate(lx, ly);
-    ctx.rotate(l.a + Math.PI / 2);
-    const grad = ctx.createLinearGradient(-lugW, 0, lugW, 0);
-    grad.addColorStop(0, '#3a3424');
-    grad.addColorStop(0.5, C.gold);
-    grad.addColorStop(1, '#3a3424');
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.roundRect(-lugW / 2, -lugL / 2, lugW, lugL, 6);
-    ctx.fill();
-    ctx.restore();
-  });
-  ctx.restore();
-
-  // OUTER CASE — top half (clipped) shifts up, bottom half shifts down
-  const drawCaseHalf = (top: boolean) => {
-    ctx.save();
-    ctx.beginPath();
-    if (top) ctx.rect(cx - radius * 1.6, cy - radius * 1.6, radius * 3.2, radius * 1.6);
-    else ctx.rect(cx - radius * 1.6, cy, radius * 3.2, radius * 1.6);
-    ctx.clip();
-    const offset = top ? -split : split;
-    // case ring
-    const ringGrad = ctx.createRadialGradient(cx, cy + offset, radius * 0.7, cx, cy + offset, radius * 1.12);
-    ringGrad.addColorStop(0, '#1a1407');
-    ringGrad.addColorStop(0.7, C.goldDeep);
-    ringGrad.addColorStop(0.85, C.goldBright);
-    ringGrad.addColorStop(1, C.goldDeep);
-    ctx.beginPath();
-    ctx.arc(cx, cy + offset, radius * 1.1, 0, Math.PI * 2);
-    ctx.fillStyle = ringGrad;
-    ctx.fill();
-    // bezel
-    ctx.beginPath();
-    ctx.arc(cx, cy + offset, radius * 1.02, 0, Math.PI * 2);
-    ctx.strokeStyle = C.goldDeep;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.restore();
-  };
-  drawCaseHalf(true);
-  drawCaseHalf(false);
-}
-
-function drawDial(
-  ctx: CanvasRenderingContext2D,
-  cx: number,
-  cy: number,
-  radius: number,
-  alpha: number,
-  hourAngle: number,
-  minAngle: number,
-  secAngle: number,
-): void {
-  if (alpha <= 0.01) return;
-  ctx.save();
-  ctx.globalAlpha = alpha;
-  // dial face
-  const faceGrad = ctx.createRadialGradient(cx - radius * 0.3, cy - radius * 0.3, radius * 0.1, cx, cy, radius);
-  faceGrad.addColorStop(0, '#101725');
-  faceGrad.addColorStop(0.6, '#0a0f1c');
-  faceGrad.addColorStop(1, '#05080f');
-  ctx.beginPath();
-  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-  ctx.fillStyle = faceGrad;
-  ctx.fill();
-  ctx.strokeStyle = C.goldDeep;
-  ctx.lineWidth = 1.5;
-  ctx.stroke();
-
-  // guilloché rings
-  for (let i = 1; i <= 4; i++) {
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius * (0.4 + i * 0.1), 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(201,162,75,0.07)';
-    ctx.lineWidth = 0.8;
-    ctx.stroke();
-  }
-
-  // indices
-  for (let i = 0; i < 12; i++) {
-    const a = (i / 12) * Math.PI * 2 - Math.PI / 2;
-    const isMajor = i % 3 === 0;
-    const rOuter = radius * 0.9;
-    const rInner = radius * (isMajor ? 0.78 : 0.84);
-    ctx.beginPath();
-    ctx.moveTo(cx + Math.cos(a) * rOuter, cy + Math.sin(a) * rOuter);
-    ctx.lineTo(cx + Math.cos(a) * rInner, cy + Math.sin(a) * rInner);
-    ctx.strokeStyle = C.gold;
-    ctx.lineWidth = isMajor ? 3 : 1.4;
-    ctx.stroke();
-  }
-
-  // logo text
-  ctx.fillStyle = C.cream;
-  ctx.font = `italic ${radius * 0.13}px ${C.serif}`;
-  ctx.textAlign = 'center';
-  ctx.fillText('HORA VIVA', cx, cy - radius * 0.32);
-  ctx.font = `${radius * 0.06}px ${C.sans}`;
-  ctx.fillStyle = C.muted;
-  ctx.fillText('GENÈVE', cx, cy - radius * 0.2);
-  ctx.fillStyle = C.goldDeep;
-  ctx.font = `${radius * 0.055}px ${C.sans}`;
-  ctx.fillText('TOURBILLON', cx, cy + radius * 0.5);
-
-  // hands
-  drawHand(ctx, cx, cy, radius * 0.5, hourAngle, radius * 0.022, C.cream);
-  drawHand(ctx, cx, cy, radius * 0.72, minAngle, radius * 0.016, C.cream);
-  drawHand(ctx, cx, cy, radius * 0.78, secAngle, radius * 0.007, C.goldBright);
-
-  // center cap
-  ctx.beginPath();
-  ctx.arc(cx, cy, radius * 0.035, 0, Math.PI * 2);
-  ctx.fillStyle = C.goldBright;
-  ctx.fill();
-  ctx.restore();
-}
-
-function drawMovement(
-  ctx: CanvasRenderingContext2D,
-  cx: number,
-  cy: number,
-  radius: number,
-  alpha: number,
-  rotation: number,
-): void {
-  if (alpha <= 0.01) return;
-  ctx.save();
-  ctx.globalAlpha = alpha;
-  // movement plate
-  const plate = ctx.createRadialGradient(cx, cy, radius * 0.2, cx, cy, radius);
-  plate.addColorStop(0, '#1a2236');
-  plate.addColorStop(1, '#0a1020');
-  ctx.beginPath();
-  ctx.arc(cx, cy, radius * 0.95, 0, Math.PI * 2);
-  ctx.fillStyle = plate;
-  ctx.fill();
-  ctx.strokeStyle = C.border;
-  ctx.lineWidth = 1.5;
-  ctx.stroke();
-
-  // Côtes de Genève stripes
-  ctx.save();
-  ctx.beginPath();
-  ctx.arc(cx, cy, radius * 0.95, 0, Math.PI * 2);
-  ctx.clip();
-  for (let i = -10; i < 10; i++) {
-    ctx.beginPath();
-    ctx.moveTo(cx - radius, cy + i * radius * 0.12);
-    ctx.lineTo(cx + radius, cy + i * radius * 0.12 + radius * 0.3);
-    ctx.strokeStyle = 'rgba(154,163,178,0.05)';
-    ctx.lineWidth = radius * 0.05;
-    ctx.stroke();
-  }
-  ctx.restore();
-
-  // 3 gears at different speeds
-  drawGear(ctx, cx - radius * 0.42, cy - radius * 0.3, radius * 0.28, 18, rotation, '#16203a', C.goldDeep);
-  drawGear(ctx, cx + radius * 0.38, cy - radius * 0.1, radius * 0.34, 22, -rotation * 0.6, '#16203a', C.gold);
-  drawGear(ctx, cx + radius * 0.05, cy + radius * 0.42, radius * 0.22, 14, rotation * 1.8, '#16203a', C.goldDeep);
-
-  // ruby jewels
-  const jewels = [
-    [cx - radius * 0.42, cy - radius * 0.3],
-    [cx + radius * 0.38, cy - radius * 0.1],
-    [cx + radius * 0.05, cy + radius * 0.42],
-    [cx - radius * 0.1, cy - radius * 0.55],
-  ];
-  jewels.forEach(([jx, jy]) => {
-    ctx.beginPath();
-    ctx.arc(jx, jy, radius * 0.035, 0, Math.PI * 2);
-    ctx.fillStyle = '#9b2335';
-    ctx.shadowColor = '#ff4d6d';
-    ctx.shadowBlur = 8;
-    ctx.fill();
-    ctx.shadowBlur = 0;
-  });
-
-  // tourbillon
-  drawTourbillon(ctx, cx - radius * 0.05, cy + radius * 0.02, radius * 0.28, rotation * 1.2);
-  ctx.restore();
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   Hero canvas section (scroll-driven)
-   ──────────────────────────────────────────────────────────────────────────── */
-
-function WatchHero(): React.JSX.Element {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const progressRef = useRef<number>(0);
-  const rafRef = useRef<number>(0);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let width = 0;
-    let height = 0;
-    let dpr = 1;
-
-    const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = window.innerWidth;
-      height = window.innerHeight;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-    resize();
-
-    const onScroll = () => {
-      const el = containerRef.current;
-      if (!el) return;
-      const total = el.offsetHeight - window.innerHeight;
-      const scrolled = -el.getBoundingClientRect().top;
-      const p = Math.max(0, Math.min(1, scrolled / Math.max(1, total)));
-      progressRef.current = p;
-    };
-
-    const start = performance.now();
-    const render = (now: number) => {
-      const t = (now - start) / 1000;
-      const p = progressRef.current;
-      ctx.clearRect(0, 0, width, height);
-
-      // radial bg
-      const bg = ctx.createRadialGradient(width / 2, height / 2, 60, width / 2, height / 2, Math.max(width, height) * 0.7);
-      bg.addColorStop(0, '#0a1224');
-      bg.addColorStop(1, C.bg);
-      ctx.fillStyle = bg;
-      ctx.fillRect(0, 0, width, height);
-
-      const cx = width / 2;
-      const cy = height / 2;
-      const radius = Math.min(width, height) * 0.26;
-
-      // phase mapping
-      // 0-0.3 closed → opening; 0.3-0.6 case open, dial fades, movement appears; 0.6-1 disassembly
-      const openAmount = Math.min(1, p / 0.4);
-      const dialAlpha = 1 - Math.min(1, Math.max(0, (p - 0.25) / 0.25));
-      const movementAlpha = Math.min(1, Math.max(0, (p - 0.4) / 0.25));
-
-      // 10:10 hands + subtle running seconds
-      const hourAngle = (Math.PI * 2 * 10) / 12 + t * 0.02;
-      const minAngle = (Math.PI * 2 * 10) / 60 - Math.PI;
-      const secAngle = t * (Math.PI / 30) * 4;
-
-      const gearRotation = t * 0.6 + p * 14;
-
-      // disassembly float for parts (progress 0.6-1)
-      const disassembly = Math.max(0, (p - 0.6) / 0.4);
-      const floatY = disassembly * radius * 1.4;
-
-      drawWatchCase(ctx, cx, cy, radius, openAmount);
-      drawDial(ctx, cx, cy - floatY * 0.4, radius * 0.92, dialAlpha, hourAngle, minAngle, secAngle);
-      drawMovement(ctx, cx, cy + floatY * 0.2, radius * 0.92, movementAlpha, gearRotation);
-
-      // floating disassembled gears at high progress
-      if (disassembly > 0) {
-        ctx.save();
-        ctx.globalAlpha = disassembly;
-        drawGear(ctx, cx - radius * 1.6, cy - radius * 0.8 - floatY * 0.3, radius * 0.2, 16, gearRotation, '#16203a', C.gold);
-        drawGear(ctx, cx + radius * 1.7, cy + radius * 0.4 + floatY * 0.3, radius * 0.26, 20, -gearRotation * 0.7, '#16203a', C.goldBright);
-        drawGear(ctx, cx + radius * 1.3, cy - radius * 1.1 - floatY * 0.2, radius * 0.16, 12, gearRotation * 1.5, '#16203a', C.goldDeep);
-        ctx.restore();
-      }
-
-      rafRef.current = requestAnimationFrame(render);
-    };
-
-    window.addEventListener('resize', resize);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    rafRef.current = requestAnimationFrame(render);
-
-    return () => {
-      window.removeEventListener('resize', resize);
-      window.removeEventListener('scroll', onScroll);
-      cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
-
+function GoldRule({ className = '' }: { className?: string }) {
   return (
-    <div ref={containerRef} style={{ height: '350vh', position: 'relative' }}>
-      <div
-        style={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          width: '100%',
-          overflow: 'hidden',
-        }}
-      >
-        <canvas ref={canvasRef} style={{ display: 'block', width: '100vw', height: '100vh' }} />
-        {/* Overlaid text cues */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            pointerEvents: 'none',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            padding: 'clamp(28px, 5vw, 64px)',
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <div
-              style={{
-                fontFamily: C.serif,
-                fontStyle: 'italic',
-                fontSize: 'clamp(22px, 2.2vw, 30px)',
-                letterSpacing: '0.18em',
-                color: C.cream,
-              }}
-            >
-              HORA VIVA
-            </div>
-            <div style={{ fontSize: 12, letterSpacing: '0.3em', color: C.muted, fontFamily: C.sans }}>
-              MANUFACTURE · GENÈVE 1920
-            </div>
-          </div>
-          <div style={{ textAlign: 'center', maxWidth: 760, margin: '0 auto' }}>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                fontSize: 'clamp(40px, 7vw, 96px)',
-                fontWeight: 300,
-                fontStyle: 'italic',
-                lineHeight: 1.02,
-                letterSpacing: '-0.01em',
-                color: C.ink,
-                margin: 0,
-              }}
-            >
-              L&apos;art de mesurer
-              <br />
-              <span style={{ color: C.gold }}>l&apos;éternité</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 1 }}
-              style={{
-                marginTop: 20,
-                fontSize: 'clamp(14px, 1.4vw, 18px)',
-                color: C.creamSoft,
-                fontFamily: C.sans,
-                letterSpacing: '0.04em',
-              }}
-            >
-              Faites défiler pour révéler le mouvement
-            </motion.p>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 10, opacity: 0.7 }}>
-            {['Boîtier', 'Cadran', 'Mouvement', 'Éclatée'].map((s, i) => (
-              <span
-                key={s}
-                style={{
-                  fontSize: 11,
-                  letterSpacing: '0.2em',
-                  color: i === 0 ? C.gold : C.faint,
-                  fontFamily: C.sans,
-                }}
-              >
-                {s.toUpperCase()}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
+    <div
+      className={className}
+      style={{
+        height: '1px',
+        background: `linear-gradient(90deg, transparent, ${T.gold}, transparent)`,
+        opacity: 0.4,
+      }}
+    />
   );
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Animated SVG gear cluster
-   ──────────────────────────────────────────────────────────────────────────── */
-
-interface GearProps {
-  cx: number;
-  cy: number;
-  r: number;
-  teeth: number;
-  dur: number;
-  dir: 1 | -1;
-  color: string;
-}
-
-function Gear({ cx, cy, r, teeth, dur, dir, color }: GearProps): React.JSX.Element {
-  const path: string[] = [];
-  const toothDepth = r * 0.18;
-  for (let i = 0; i < teeth; i++) {
-    const a0 = (i / teeth) * Math.PI * 2;
-    const a1 = ((i + 0.5) / teeth) * Math.PI * 2;
-    const rOut = r + toothDepth;
-    const x0 = cx + Math.cos(a0) * r;
-    const y0 = cy + Math.sin(a0) * r;
-    const x1 = cx + Math.cos(a0 + 0.05) * rOut;
-    const y1 = cy + Math.sin(a0 + 0.05) * rOut;
-    const x2 = cx + Math.cos(a1 - 0.05) * rOut;
-    const y2 = cy + Math.sin(a1 - 0.05) * rOut;
-    const x3 = cx + Math.cos(a1) * r;
-    const y3 = cy + Math.sin(a1) * r;
-    path.push(`${i === 0 ? 'M' : 'L'}${x0} ${y0} L${x1} ${y1} L${x2} ${y2} L${x3} ${y3}`);
-  }
+function Label({ children }: { children: React.ReactNode }) {
   return (
-    <motion.g
-      animate={{ rotate: dir * 360 }}
-      transition={{ duration: dur, repeat: Infinity, ease: 'linear' }}
-      style={{ originX: `${cx}px`, originY: `${cy}px` }}
+    <span
+      style={{
+        fontFamily: "'Jost', sans-serif",
+        fontSize: '10px',
+        fontWeight: 300,
+        letterSpacing: '0.25em',
+        textTransform: 'uppercase' as const,
+        color: T.gold,
+      }}
     >
-      <path d={`${path.join(' ')} Z`} fill="#0b1120" stroke={color} strokeWidth={1.5} />
-      <circle cx={cx} cy={cy} r={r * 0.4} fill="none" stroke={color} strokeWidth={1.5} />
-      <circle cx={cx} cy={cy} r={r * 0.1} fill={color} />
-    </motion.g>
+      {children}
+    </span>
   );
 }
 
-function GearCluster(): React.JSX.Element {
-  return (
-    <svg viewBox="0 0 400 400" style={{ width: '100%', maxWidth: 460 }}>
-      <Gear cx={150} cy={150} r={70} teeth={22} dur={28} dir={1} color={C.gold} />
-      <Gear cx={280} cy={200} r={50} teeth={16} dur={20} dir={-1} color={C.goldBright} />
-      <Gear cx={200} cy={290} r={42} teeth={14} dur={16} dir={1} color={C.goldDeep} />
-      <Gear cx={110} cy={280} r={30} teeth={11} dur={11} dir={-1} color={C.gold} />
-    </svg>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   Chapter section wrapper
-   ──────────────────────────────────────────────────────────────────────────── */
-
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }): React.JSX.Element {
-  const ref = useRef<HTMLDivElement | null>(null);
+function FadeUp({
+  children,
+  delay = 0,
+  className = '',
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 36 }}
+      className={className}
+      initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>
   );
 }
 
-function Eyebrow({ children }: { children: React.ReactNode }): React.JSX.Element {
-  return (
-    <div
-      style={{
-        fontFamily: C.sans,
-        fontSize: 12,
-        letterSpacing: '0.34em',
-        color: C.gold,
-        marginBottom: 18,
-        display: 'flex',
-        alignItems: 'center',
-        gap: 12,
-      }}
-    >
-      <span style={{ width: 34, height: 1, background: C.goldDeep }} />
-      {children}
-    </div>
-  );
-}
+// ─── NAV ─────────────────────────────────────────────────────────────────────
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Collection face (CSS-drawn dial)
-   ──────────────────────────────────────────────────────────────────────────── */
+function Nav() {
+  const { scrollY } = useScroll();
+  const [solid, setSolid] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-function CollectionFace({ name, ref: refLabel, accent }: { name: string; ref: string; accent: string }): React.JSX.Element {
+  useMotionValueEvent(scrollY, 'change', (v) => setSolid(v > 60));
+
+  const navStyle: React.CSSProperties = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 50,
+    transition: 'background 0.6s ease, box-shadow 0.6s ease',
+    background: solid
+      ? 'rgba(10,14,23,0.97)'
+      : 'transparent',
+    boxShadow: solid
+      ? '0 1px 0 rgba(201,162,75,0.15)'
+      : 'none',
+    backdropFilter: solid ? 'blur(20px)' : 'none',
+  };
+
+  const links = ['Collections', 'Manufacture', 'Héritage', 'Rendez-vous'];
+
   return (
-    <Reveal>
+    <nav style={navStyle}>
       <div
         style={{
-          background: C.bgCard,
-          border: `1px solid ${C.border}`,
-          borderRadius: 4,
-          padding: '38px 28px',
-          textAlign: 'center',
-          transition: 'transform .5s, border-color .5s',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-8px)';
-          e.currentTarget.style.borderColor = C.goldDeep;
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.borderColor = C.border;
-        }}
-      >
-        <div
-          style={{
-            width: 130,
-            height: 130,
-            margin: '0 auto 24px',
-            borderRadius: '50%',
-            background: `radial-gradient(circle at 35% 30%, #16203a, #05080f)`,
-            border: `4px solid ${accent}`,
-            position: 'relative',
-            boxShadow: `0 0 30px rgba(201,162,75,0.18), inset 0 0 24px rgba(0,0,0,0.6)`,
-          }}
-        >
-          {/* indices */}
-          {Array.from({ length: 12 }).map((_, i) => {
-            const a = (i / 12) * Math.PI * 2 - Math.PI / 2;
-            return (
-              <span
-                key={i}
-                style={{
-                  position: 'absolute',
-                  left: '50%',
-                  top: '50%',
-                  width: i % 3 === 0 ? 3 : 1.5,
-                  height: i % 3 === 0 ? 9 : 6,
-                  background: C.gold,
-                  transform: `translate(-50%,-50%) rotate(${(a * 180) / Math.PI + 90}deg) translateY(-52px)`,
-                }}
-              />
-            );
-          })}
-          {/* hands */}
-          <span style={{ position: 'absolute', left: '50%', top: '50%', width: 2, height: 32, background: C.cream, transformOrigin: 'bottom center', transform: 'translate(-50%,-100%) rotate(300deg)' }} />
-          <span style={{ position: 'absolute', left: '50%', top: '50%', width: 1.5, height: 46, background: C.cream, transformOrigin: 'bottom center', transform: 'translate(-50%,-100%) rotate(50deg)' }} />
-          <span style={{ position: 'absolute', left: '50%', top: '50%', width: 6, height: 6, borderRadius: '50%', background: C.goldBright, transform: 'translate(-50%,-50%)' }} />
-        </div>
-        <div style={{ fontStyle: 'italic', fontSize: 22, color: C.ink }}>{name}</div>
-        <div style={{ fontFamily: C.sans, fontSize: 12, letterSpacing: '0.2em', color: C.muted, marginTop: 6 }}>{refLabel}</div>
-      </div>
-    </Reveal>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   Order form
-   ──────────────────────────────────────────────────────────────────────────── */
-
-function QuoteForm(): React.JSX.Element {
-  const [sent, setSent] = useState(false);
-  const [form, setForm] = useState({ name: '', email: '', collection: 'La Régence' });
-  const inputStyle: React.CSSProperties = {
-    width: '100%',
-    background: C.bg,
-    border: `1px solid ${C.border}`,
-    borderRadius: 3,
-    padding: '14px 16px',
-    color: C.ink,
-    fontFamily: C.sans,
-    fontSize: 15,
-    outline: 'none',
-  };
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        setSent(true);
-      }}
-      style={{ display: 'grid', gap: 16, maxWidth: 520 }}
-    >
-      <input
-        style={inputStyle}
-        placeholder="Nom complet"
-        required
-        value={form.name}
-        onChange={(e) => setForm({ ...form, name: e.target.value })}
-      />
-      <input
-        style={inputStyle}
-        type="email"
-        placeholder="Adresse e-mail"
-        required
-        value={form.email}
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-      />
-      <select
-        style={inputStyle}
-        value={form.collection}
-        onChange={(e) => setForm({ ...form, collection: e.target.value })}
-      >
-        <option>La Régence</option>
-        <option>Tourbillon Céleste</option>
-        <option>Méridienne</option>
-        <option>Grande Complication</option>
-      </select>
-      <button
-        type="submit"
-        style={{
-          marginTop: 6,
-          background: sent ? C.goldDeep : C.gold,
-          color: C.bg,
-          border: 'none',
-          borderRadius: 3,
-          padding: '15px 20px',
-          fontFamily: C.sans,
-          fontWeight: 600,
-          letterSpacing: '0.1em',
-          fontSize: 14,
-          cursor: 'pointer',
+          maxWidth: '1400px',
+          margin: '0 auto',
+          padding: '0 40px',
+          height: '80px',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
-          gap: 8,
+          justifyContent: 'space-between',
         }}
       >
-        {sent ? (
-          <>
-            <Check size={16} /> DEMANDE ENVOYÉE
-          </>
-        ) : (
-          <>
-            DEMANDER UN DEVIS <ArrowRight size={16} />
-          </>
+        {/* Logo */}
+        <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+          <span
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: '22px',
+              fontWeight: 600,
+              letterSpacing: '0.15em',
+              color: T.cream,
+            }}
+          >
+            HORA VIVA
+          </span>
+          <span
+            style={{
+              fontFamily: "'Jost', sans-serif",
+              fontSize: '8px',
+              fontWeight: 200,
+              letterSpacing: '0.35em',
+              color: T.gold,
+              marginTop: '2px',
+            }}
+          >
+            GENÈVE · EST. 1834
+          </span>
+        </div>
+
+        {/* Desktop links */}
+        <div
+          style={{
+            display: 'flex',
+            gap: '40px',
+            alignItems: 'center',
+          }}
+          className="nav-links-desktop"
+        >
+          {links.map((l) => (
+            <a
+              key={l}
+              href={`#${l.toLowerCase()}`}
+              style={{
+                fontFamily: "'Jost', sans-serif",
+                fontSize: '11px',
+                fontWeight: 300,
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                color: T.creamDim,
+                textDecoration: 'none',
+                transition: 'color 0.3s',
+                cursor: 'pointer',
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.color = T.gold)
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color = T.creamDim)
+              }
+            >
+              {l}
+            </a>
+          ))}
+          <a
+            href="#contact"
+            style={{
+              fontFamily: "'Jost', sans-serif",
+              fontSize: '10px',
+              fontWeight: 400,
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color: T.navy,
+              background: T.gold,
+              padding: '10px 24px',
+              textDecoration: 'none',
+              transition: 'background 0.3s',
+              cursor: 'pointer',
+            }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.background = T.goldBright)
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.background = T.gold)
+            }
+          >
+            Atelier
+          </a>
+        </div>
+
+        {/* Mobile burger */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Menu principal"
+          style={{
+            display: 'none',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '8px',
+          }}
+          className="nav-burger"
+        >
+          <div
+            style={{
+              width: '24px',
+              height: '1px',
+              background: T.cream,
+              marginBottom: '6px',
+              transition: 'transform 0.3s',
+              transform: menuOpen ? 'rotate(45deg) translate(5px,5px)' : 'none',
+            }}
+          />
+          <div
+            style={{
+              width: '24px',
+              height: '1px',
+              background: T.cream,
+              transition: 'opacity 0.3s',
+              opacity: menuOpen ? 0 : 1,
+            }}
+          />
+          <div
+            style={{
+              width: '24px',
+              height: '1px',
+              background: T.cream,
+              marginTop: '6px',
+              transition: 'transform 0.3s',
+              transform: menuOpen ? 'rotate(-45deg) translate(5px,-5px)' : 'none',
+            }}
+          />
+        </button>
+      </div>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            style={{
+              background: 'rgba(10,14,23,0.98)',
+              borderTop: `1px solid ${T.borderGold}`,
+              padding: '24px 40px 32px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '20px',
+            }}
+          >
+            {links.map((l) => (
+              <a
+                key={l}
+                href={`#${l.toLowerCase()}`}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  fontFamily: "'Jost', sans-serif",
+                  fontSize: '13px',
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  color: T.creamDim,
+                  textDecoration: 'none',
+                }}
+              >
+                {l}
+              </a>
+            ))}
+          </motion.div>
         )}
-      </button>
-    </form>
+      </AnimatePresence>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .nav-links-desktop { display: none !important; }
+          .nav-burger { display: flex !important; flex-direction: column; }
+        }
+      `}</style>
+    </nav>
   );
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Page
-   ──────────────────────────────────────────────────────────────────────────── */
+// ─── HERO ────────────────────────────────────────────────────────────────────
 
-export default function HoraVivaPage(): React.JSX.Element {
-  const materials = [
-    { name: 'Titane Grade 5', detail: 'Léger, hypoallergénique, microbillé', spec: '4.43 g/cm³' },
-    { name: 'Saphir synthétique', detail: 'Verre bombé, traitement antireflet double face', spec: '9 Mohs' },
-    { name: 'Acier 904L', detail: 'Résistance supérieure à la corrosion, poli miroir', spec: '316L+' },
-    { name: 'Or rose 18 ct', detail: 'Alliage maison, teinte chaude exclusive', spec: '750‰' },
-  ];
+function Hero() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end start'],
+  });
 
-  const timeline = [
-    { year: '1920', label: 'Fondation de la manufacture à Genève' },
-    { year: '1948', label: 'Premier chronographe à rattrapante' },
-    { year: '1972', label: 'Calibre tourbillon volant maison' },
-    { year: '1999', label: 'Certification Poinçon de Genève' },
-    { year: '2024', label: 'Atelier Haute Horlogerie nouvelle génération' },
-  ];
-
-  const collections = [
-    { name: 'La Régence', ref: 'RÉF. HV-1920', accent: C.gold },
-    { name: 'Tourbillon Céleste', ref: 'RÉF. HV-TC72', accent: C.goldBright },
-    { name: 'Méridienne', ref: 'RÉF. HV-MD48', accent: C.creamSoft },
-    { name: 'Grande Complication', ref: 'RÉF. HV-GC99', accent: C.gold },
-  ];
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.14]);
+  const imgY     = useTransform(scrollYProgress, [0, 1], ['0%', '12%']);
+  const textY    = useTransform(scrollYProgress, [0, 1], ['0%', '35%']);
+  const scrimO   = useTransform(scrollYProgress, [0, 0.6], [0.85, 0.95]);
 
   return (
-    <main style={pageStyle}>
-      <WatchHero />
-
-      {/* CHAPTER 1 — Le Mouvement */}
-      <section style={{ ...pad, paddingBlock: 'clamp(80px, 12vh, 160px)', background: C.bg }}>
-        <div
+    <section
+      ref={ref}
+      style={{
+        position: 'relative',
+        height: '100vh',
+        minHeight: '700px',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      {/* Parallax photo */}
+      <motion.div
+        style={{
+          position: 'absolute',
+          inset: '-10% 0',
+          scale: imgScale,
+          y: imgY,
+        }}
+      >
+        <img
+          src={IMGS.hero}
+          alt="Montre Hora Viva — manufacture suisse"
+          loading="eager"
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: 'clamp(40px, 6vw, 90px)',
-            alignItems: 'center',
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center',
+          }}
+        />
+      </motion.div>
+
+      {/* Dark scrim — strong, the hero photo is light grey so text needs heavy darkening */}
+      <motion.div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background:
+            'radial-gradient(ellipse at center, rgba(8,11,18,0.62) 0%, rgba(8,11,18,0.9) 100%)',
+          opacity: scrimO,
+        }}
+      />
+      {/* Top + bottom gradient for nav and scroll-cue legibility */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background:
+            'linear-gradient(to bottom, rgba(8,11,18,0.75) 0%, transparent 22%, transparent 78%, rgba(8,11,18,0.8) 100%)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Gold rule top */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '120px',
+          left: '60px',
+          right: '60px',
+          height: '1px',
+          background: `linear-gradient(90deg, transparent, ${T.gold}55, transparent)`,
+        }}
+      />
+
+      {/* Headline */}
+      <motion.div
+        style={{
+          position: 'relative',
+          zIndex: 2,
+          textAlign: 'center',
+          padding: '0 24px',
+          y: textY,
+        }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.3 }}
+        >
+          <Label>Manufacture · Genève · Fondée 1834</Label>
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: 'clamp(48px, 7vw, 96px)',
+            fontWeight: 300,
+            color: T.white,
+            lineHeight: 1.05,
+            marginTop: '20px',
+            letterSpacing: '-0.01em',
           }}
         >
-          <div>
-            <Reveal>
-              <Eyebrow>CHAPITRE I · LE MOUVEMENT</Eyebrow>
-              <h2 style={{ fontSize: 'clamp(34px, 5vw, 62px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.05, margin: 0, color: C.ink }}>
-                Une mécanique
-                <br />
-                <span style={{ color: C.gold }}>vivante</span>
-              </h2>
-              <p style={{ marginTop: 24, fontFamily: C.sans, fontSize: 17, lineHeight: 1.8, color: C.creamSoft, maxWidth: 460 }}>
-                Chaque calibre Hora Viva est assemblé à la main par un seul maître horloger.
-                288 composants, 31 rubis, et un tourbillon volant qui bat à 28&apos;800 alternances
-                par heure — visible à travers le fond saphir.
-              </p>
-              <div style={{ marginTop: 32, display: 'flex', gap: 40 }}>
-                {[
-                  { v: '288', l: 'Composants' },
-                  { v: '31', l: 'Rubis' },
-                  { v: '72h', l: 'Réserve de marche' },
-                ].map((s) => (
-                  <div key={s.l}>
-                    <div style={{ fontSize: 40, fontStyle: 'italic', color: C.gold }}>{s.v}</div>
-                    <div style={{ fontFamily: C.sans, fontSize: 12, letterSpacing: '0.16em', color: C.muted, marginTop: 4 }}>
-                      {s.l.toUpperCase()}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-          </div>
-          <Reveal delay={0.15}>
-            <div style={{ display: 'flex', justifyContent: 'center', filter: 'drop-shadow(0 0 40px rgba(201,162,75,0.15))' }}>
-              <GearCluster />
-            </div>
-          </Reveal>
+          L'art de mesurer
+          <br />
+          <em style={{ fontStyle: 'italic', color: T.cream }}>le temps</em>
+        </motion.h1>
+
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1, delay: 1, ease: 'easeOut' }}
+          style={{
+            height: '1px',
+            background: `linear-gradient(90deg, transparent, ${T.gold}, transparent)`,
+            margin: '32px auto',
+            maxWidth: '200px',
+          }}
+        />
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.2 }}
+          style={{
+            fontFamily: "'EB Garamond', serif",
+            fontSize: 'clamp(15px, 1.8vw, 20px)',
+            fontStyle: 'italic',
+            color: T.creamDim,
+            maxWidth: '560px',
+            margin: '0 auto',
+            lineHeight: 1.7,
+          }}
+        >
+          Depuis six générations, nous cisèlerons chaque seconde
+          <br />
+          avec la rigueur d'un art qui ne souffre aucun compromis.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.6 }}
+          style={{ marginTop: '48px' }}
+        >
+          <a
+            href="#collections"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '12px',
+              fontFamily: "'Jost', sans-serif",
+              fontSize: '11px',
+              fontWeight: 300,
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              color: T.gold,
+              textDecoration: 'none',
+              border: `1px solid ${T.gold}`,
+              padding: '16px 36px',
+              transition: 'all 0.4s',
+              cursor: 'pointer',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = T.gold;
+              e.currentTarget.style.color = T.navy;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.color = T.gold;
+            }}
+          >
+            Découvrir les collections
+            <ArrowRight size={14} />
+          </a>
+        </motion.div>
+      </motion.div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2, duration: 1 }}
+        style={{
+          position: 'absolute',
+          bottom: '40px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '8px',
+        }}
+      >
+        <Label>Défiler</Label>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+        >
+          <ChevronDown size={16} color={T.gold} />
+        </motion.div>
+      </motion.div>
+
+      {/* Bottom rule */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '0',
+          left: '60px',
+          right: '60px',
+          height: '1px',
+          background: `linear-gradient(90deg, transparent, ${T.gold}44, transparent)`,
+        }}
+      />
+    </section>
+  );
+}
+
+// ─── MANIFESTO ───────────────────────────────────────────────────────────────
+
+function Manifesto() {
+  return (
+    <section
+      style={{
+        background: T.navy,
+        padding: 'clamp(80px, 12vw, 160px) clamp(24px, 6vw, 120px)',
+        textAlign: 'center',
+      }}
+    >
+      <FadeUp>
+        <Label>Notre philosophie</Label>
+      </FadeUp>
+
+      <FadeUp delay={0.1}>
+        <GoldRule className="" style={{ margin: '28px auto', maxWidth: '120px' } as React.CSSProperties} />
+      </FadeUp>
+
+      <FadeUp delay={0.2}>
+        <blockquote
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: 'clamp(28px, 4.5vw, 58px)',
+            fontWeight: 300,
+            fontStyle: 'italic',
+            color: T.white,
+            lineHeight: 1.25,
+            maxWidth: '900px',
+            margin: '0 auto',
+            letterSpacing: '-0.01em',
+          }}
+        >
+          "Une montre Hora Viva n'est pas un objet que l'on porte.
+          <br />
+          C'est un héritage que l'on transmet."
+        </blockquote>
+      </FadeUp>
+
+      <FadeUp delay={0.4}>
+        <div
+          style={{
+            fontFamily: "'Jost', sans-serif",
+            fontSize: '10px',
+            fontWeight: 300,
+            letterSpacing: '0.3em',
+            color: T.goldDim,
+            marginTop: '32px',
+            textTransform: 'uppercase',
+          }}
+        >
+          — Édouard Marchetti, Maître Horloger · 7ème génération
         </div>
-      </section>
+      </FadeUp>
 
-      {/* CHAPTER 2 — Le Boîtier */}
-      <section style={{ ...pad, paddingBlock: 'clamp(80px, 12vh, 160px)', background: C.bgSoft }}>
+      <FadeUp delay={0.5}>
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: 'clamp(40px, 6vw, 90px)',
-            alignItems: 'center',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '1px',
+            maxWidth: '800px',
+            margin: '80px auto 0',
+            background: T.border,
           }}
         >
-          <Reveal>
+          {[
+            { num: '190', label: 'ans de manufacture' },
+            { num: '847', label: 'pièces par an' },
+            { num: '312', label: 'composants par calibre' },
+          ].map(({ num, label }) => (
             <div
+              key={num}
               style={{
-                aspectRatio: '4/5',
-                borderRadius: 4,
-                background: `linear-gradient(135deg, #1a1407 0%, ${C.goldDeep} 30%, ${C.goldBright} 50%, ${C.goldDeep} 70%, #0a0f1c 100%)`,
-                position: 'relative',
-                overflow: 'hidden',
-                border: `1px solid ${C.borderGold}`,
+                background: T.navySoft,
+                padding: '40px 24px',
+                textAlign: 'center',
               }}
             >
               <div
                 style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'radial-gradient(circle at 30% 20%, rgba(255,255,255,0.22), transparent 50%)',
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: 'clamp(36px, 5vw, 56px)',
+                  fontWeight: 300,
+                  color: T.gold,
+                  lineHeight: 1,
                 }}
-              />
-              <Gem size={64} color={C.bg} style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)', opacity: 0.55 }} />
-              <div style={{ position: 'absolute', bottom: 24, left: 24, fontFamily: C.sans, fontSize: 12, letterSpacing: '0.2em', color: C.bg }}>
-                BOÎTIER 41 MM · FINITION MIROIR
+              >
+                {num}
+              </div>
+              <div
+                style={{
+                  fontFamily: "'Jost', sans-serif",
+                  fontSize: '10px',
+                  fontWeight: 200,
+                  letterSpacing: '0.2em',
+                  color: T.creamDim,
+                  textTransform: 'uppercase',
+                  marginTop: '12px',
+                }}
+              >
+                {label}
               </div>
             </div>
-          </Reveal>
-          <div>
-            <Reveal>
-              <Eyebrow>CHAPITRE II · LE BOÎTIER</Eyebrow>
-              <h2 style={{ fontSize: 'clamp(34px, 5vw, 62px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.05, margin: 0, color: C.ink }}>
-                Matières
-                <br />
-                <span style={{ color: C.gold }}>nobles</span>
-              </h2>
-            </Reveal>
-            <div style={{ marginTop: 34, display: 'grid', gap: 2 }}>
-              {materials.map((m, i) => (
-                <Reveal key={m.name} delay={i * 0.08}>
-                  <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: '1fr auto',
-                      gap: 16,
-                      alignItems: 'center',
-                      padding: '18px 4px',
-                      borderBottom: `1px solid ${C.border}`,
-                    }}
-                  >
-                    <div>
-                      <div style={{ fontStyle: 'italic', fontSize: 21, color: C.ink }}>{m.name}</div>
-                      <div style={{ fontFamily: C.sans, fontSize: 13, color: C.muted, marginTop: 4 }}>{m.detail}</div>
-                    </div>
-                    <div style={{ fontFamily: C.sans, fontSize: 14, color: C.gold, letterSpacing: '0.08em' }}>{m.spec}</div>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CHAPTER 3 — L'Héritage (timeline) */}
-      <section style={{ ...pad, paddingBlock: 'clamp(80px, 12vh, 160px)', background: C.bg }}>
-        <Reveal>
-          <div style={{ textAlign: 'center', marginBottom: 70 }}>
-            <Eyebrow>
-              <span style={{ marginInline: 'auto' }}>CHAPITRE III · L&apos;HÉRITAGE</span>
-            </Eyebrow>
-            <h2 style={{ fontSize: 'clamp(34px, 5vw, 62px)', fontWeight: 300, fontStyle: 'italic', margin: 0, color: C.ink }}>
-              Un siècle de <span style={{ color: C.gold }}>maîtrise</span>
-            </h2>
-          </div>
-        </Reveal>
-        <div style={{ position: 'relative', maxWidth: 920, margin: '0 auto' }}>
-          <div style={{ position: 'absolute', left: 0, right: 0, top: 7, height: 1, background: C.border }} />
-          <div style={{ display: 'grid', gridTemplateColumns: `repeat(${timeline.length}, 1fr)`, gap: 12 }}>
-            {timeline.map((t, i) => (
-              <Reveal key={t.year} delay={i * 0.1}>
-                <div style={{ position: 'relative', textAlign: 'center' }}>
-                  <span
-                    style={{
-                      display: 'block',
-                      width: 15,
-                      height: 15,
-                      borderRadius: '50%',
-                      background: C.gold,
-                      margin: '0 auto 22px',
-                      boxShadow: `0 0 0 5px rgba(201,162,75,0.15)`,
-                    }}
-                  />
-                  <div style={{ fontSize: 28, fontStyle: 'italic', color: C.gold }}>{t.year}</div>
-                  <div style={{ fontFamily: C.sans, fontSize: 13, color: C.creamSoft, marginTop: 8, lineHeight: 1.5 }}>{t.label}</div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* COLLECTIONS GRID */}
-      <section style={{ ...pad, paddingBlock: 'clamp(70px, 10vh, 130px)', background: C.bgSoft }}>
-        <Reveal>
-          <div style={{ textAlign: 'center', marginBottom: 60 }}>
-            <Eyebrow>
-              <span style={{ marginInline: 'auto' }}>COLLECTIONS</span>
-            </Eyebrow>
-            <h2 style={{ fontSize: 'clamp(32px, 4.5vw, 56px)', fontWeight: 300, fontStyle: 'italic', margin: 0, color: C.ink }}>
-              Quatre garde-temps d&apos;exception
-            </h2>
-          </div>
-        </Reveal>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 24 }}>
-          {collections.map((c) => (
-            <CollectionFace key={c.name} name={c.name} ref={c.ref} accent={c.accent} />
           ))}
         </div>
-      </section>
+      </FadeUp>
+    </section>
+  );
+}
 
-      {/* ORDER CTA + FORM */}
-      <section style={{ ...pad, paddingBlock: 'clamp(80px, 12vh, 150px)', background: C.bg }}>
+// ─── STICKY CROSSFADE ────────────────────────────────────────────────────────
+
+const CROSSFADE_CHAPTERS = [
+  {
+    img: IMGS.movement,
+    title: 'Le Mouvement',
+    subtitle: 'Calibre HV-190 · 72h de réserve',
+    desc: 'Chaque composant est usiné à une précision de ±2 microns dans nos ateliers de Plan-les-Ouates. Le rotor central en or 18 carats signe chaque rotation d\'un éclat discret.',
+  },
+  {
+    img: IMGS.dial,
+    title: 'Le Boîtier',
+    subtitle: 'Acier Grand Feu · 41mm',
+    desc: 'L\'acier inoxydable poli-brossé reçoit trente-sept passes de finition à la main. Les cornes, sculptées dans la masse, épousent le poignet avec une précision anatomique.',
+  },
+  {
+    img: IMGS.editorial1,
+    title: 'L\'Héritage',
+    subtitle: 'Six générations · Une signature',
+    desc: 'Fondée en 1834 par Léonard Marchetti, la maison a traversé deux siècles sans jamais délocaliser une seule opération. L\'ADN de Genève est inscrit dans chaque pivot.',
+  },
+] as const;
+
+function StickyCrossfade() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end end'],
+  });
+
+  const [active, setActive] = useState(0);
+
+  useMotionValueEvent(scrollYProgress, 'change', (v) => {
+    if (v < 0.33) setActive(0);
+    else if (v < 0.66) setActive(1);
+    else setActive(2);
+  });
+
+  return (
+    <section
+      ref={ref}
+      id="manufacture"
+      style={{ height: '320vh', position: 'relative' }}
+    >
+      <div
+        style={{
+          position: 'sticky',
+          top: 0,
+          height: '100vh',
+          overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        {/* Photo crossfade */}
+        <div style={{ position: 'absolute', inset: 0 }}>
+          {CROSSFADE_CHAPTERS.map((ch, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: active === i ? 1 : 0 }}
+              transition={{ duration: 0.8, ease: 'easeInOut' }}
+              style={{ position: 'absolute', inset: 0 }}
+            >
+              <img
+                src={ch.img}
+                alt={ch.title}
+                loading="lazy"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background:
+                    'linear-gradient(90deg, rgba(10,14,23,0.9) 40%, rgba(10,14,23,0.3) 100%)',
+                }}
+              />
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Content panel */}
         <div
           style={{
+            position: 'relative',
+            zIndex: 2,
+            width: '100%',
+            maxWidth: '1400px',
+            margin: '0 auto',
+            padding: '0 clamp(24px, 6vw, 120px)',
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: 'clamp(40px, 6vw, 90px)',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '80px',
             alignItems: 'center',
           }}
         >
           <div>
-            <Reveal>
-              <Eyebrow>SUR RENDEZ-VOUS</Eyebrow>
-              <h2 style={{ fontSize: 'clamp(34px, 5vw, 58px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.06, margin: 0, color: C.ink }}>
-                Composez votre
-                <br />
-                <span style={{ color: C.gold }}>garde-temps</span>
-              </h2>
-              <p style={{ marginTop: 22, fontFamily: C.sans, fontSize: 16, lineHeight: 1.8, color: C.creamSoft, maxWidth: 440 }}>
-                Nos conseillers horlogers vous accueillent en atelier pour une création
-                personnalisée. Chaque pièce est gravée, numérotée et accompagnée de son
-                certificat d&apos;authenticité.
-              </p>
-              <div style={{ marginTop: 30, display: 'grid', gap: 14, fontFamily: C.sans, fontSize: 14, color: C.creamSoft }}>
-                {([
-                  { Icon: Award, label: 'Garantie à vie sur le mouvement' },
-                  { Icon: Watch, label: 'Personnalisation complète du cadran' },
-                  { Icon: Cog, label: 'Service après-vente en manufacture' },
-                ] as const).map(({ Icon, label }) => (
-                  <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <Icon size={18} color={C.gold} /> {label}
-                  </div>
-                ))}
-              </div>
-            </Reveal>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <Label>{CROSSFADE_CHAPTERS[active].subtitle}</Label>
+                <h2
+                  style={{
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontSize: 'clamp(40px, 6vw, 72px)',
+                    fontWeight: 300,
+                    color: T.white,
+                    marginTop: '16px',
+                    lineHeight: 1.1,
+                  }}
+                >
+                  {CROSSFADE_CHAPTERS[active].title}
+                </h2>
+                <GoldRule className="" style={{ margin: '28px 0', maxWidth: '100px' } as React.CSSProperties} />
+                <p
+                  style={{
+                    fontFamily: "'EB Garamond', serif",
+                    fontSize: 'clamp(16px, 1.5vw, 19px)',
+                    lineHeight: 1.8,
+                    color: T.creamDim,
+                    maxWidth: '460px',
+                  }}
+                >
+                  {CROSSFADE_CHAPTERS[active].desc}
+                </p>
+              </motion.div>
+            </AnimatePresence>
           </div>
-          <Reveal delay={0.15}>
-            <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 4, padding: 'clamp(28px, 4vw, 44px)' }}>
-              <div style={{ fontStyle: 'italic', fontSize: 26, marginBottom: 24, color: C.ink }}>Demander un devis</div>
-              <QuoteForm />
-            </div>
-          </Reveal>
-        </div>
-      </section>
 
-      {/* FOOTER */}
-      <footer style={{ ...pad, paddingBlock: 64, background: C.bgSoft, borderTop: `1px solid ${C.border}` }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 40 }}>
-          <div>
-            <div style={{ fontStyle: 'italic', fontSize: 24, letterSpacing: '0.16em', color: C.cream }}>HORA VIVA</div>
-            <p style={{ fontFamily: C.sans, fontSize: 13, color: C.muted, marginTop: 14, lineHeight: 1.7, maxWidth: 260 }}>
-              Manufacture de haute horlogerie. Genève, depuis 1920.
+          {/* Progress indicator */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '2px',
+              alignSelf: 'flex-end',
+              paddingBottom: '60px',
+            }}
+          >
+            {CROSSFADE_CHAPTERS.map((ch, i) => (
+              <div
+                key={i}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px',
+                  padding: '16px 0',
+                  borderTop: i === 0 ? `1px solid ${T.border}` : undefined,
+                  borderBottom: `1px solid ${T.border}`,
+                  cursor: 'default',
+                }}
+              >
+                <motion.div
+                  animate={{
+                    height: active === i ? '32px' : '12px',
+                    background: active === i ? T.gold : T.border,
+                  }}
+                  transition={{ duration: 0.4 }}
+                  style={{
+                    width: '1px',
+                    flexShrink: 0,
+                  }}
+                />
+                <span
+                  style={{
+                    fontFamily: "'Jost', sans-serif",
+                    fontSize: '10px',
+                    fontWeight: 300,
+                    letterSpacing: '0.2em',
+                    textTransform: 'uppercase',
+                    color: active === i ? T.cream : T.creamDim,
+                    transition: 'color 0.4s',
+                    opacity: active === i ? 1 : 0.5,
+                  }}
+                >
+                  {ch.title}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── COLLECTIONS ─────────────────────────────────────────────────────────────
+
+const COLLECTIONS = [
+  {
+    name: 'Perpétuelle',
+    ref: 'HV-190 · Cal. 190A',
+    img: IMGS.hero,
+    desc: 'Calendrier perpétuel mécanique. Le plus abouti de nos savoir-faire, réservé aux passionnés de grande complication.',
+    complications: ['Calendrier perpétuel', 'Phases de lune', 'Tourbillon'],
+  },
+  {
+    name: 'Saphir Nuit',
+    ref: 'HV-44 · Cal. 44B',
+    img: IMGS.collection1,
+    desc: 'Cadran saphir translucide laissant apparaître le squelette du mouvement. Une fenêtre ouverte sur la mécanique.',
+    complications: ['Squelette', 'Réserve de marche', 'Seconde morte'],
+  },
+  {
+    name: 'Grand Feu',
+    ref: 'HV-31 · Cal. 31C',
+    img: IMGS.collection2,
+    desc: 'Cadran émail Grand Feu, cuit à 850 °C pendant 72 heures. Une technique ancestrale maîtrisée par deux artisans en Europe.',
+    complications: ['Émail Grand Feu', 'Heure universelle', 'Guichet date'],
+  },
+  {
+    name: 'Lune Bleue',
+    ref: 'HV-28 · Cal. 28D',
+    img: IMGS.dial,
+    desc: 'Boîtier en titane grade 5, cadran en lapis-lazuli naturel. Pour ceux qui cherchent l\'exception absolue dans la discrétion.',
+    complications: ['Phases de lune précises', 'Chronographe', 'Bicompax'],
+  },
+] as const;
+
+function CollectionCard({
+  col,
+  delay,
+}: {
+  col: (typeof COLLECTIONS)[number];
+  delay: number;
+}) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <FadeUp delay={delay}>
+      <div
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          background: T.navyCard,
+          border: `1px solid ${hovered ? T.goldDim : T.border}`,
+          overflow: 'hidden',
+          cursor: 'pointer',
+          transition: 'border-color 0.4s, transform 0.4s, box-shadow 0.4s',
+          transform: hovered ? 'translateY(-8px)' : 'translateY(0)',
+          boxShadow: hovered
+            ? `0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px ${T.goldDim}40`
+            : '0 4px 20px rgba(0,0,0,0.3)',
+        }}
+      >
+        {/* Image */}
+        <div style={{ position: 'relative', overflow: 'hidden', height: '280px' }}>
+          <img
+            src={col.img}
+            alt={col.name}
+            loading="lazy"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center',
+              transition: 'transform 0.7s ease',
+              transform: hovered ? 'scale(1.08)' : 'scale(1)',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(to top, rgba(10,14,23,0.6) 0%, transparent 60%)',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              top: '16px',
+              right: '16px',
+              background: `${T.navy}cc`,
+              border: `1px solid ${T.borderGold}`,
+              padding: '4px 10px',
+            }}
+          >
+            <Label>{col.ref}</Label>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div style={{ padding: '28px 28px 32px' }}>
+          <h3
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: '28px',
+              fontWeight: 400,
+              color: T.white,
+              marginBottom: '8px',
+            }}
+          >
+            {col.name}
+          </h3>
+          <p
+            style={{
+              fontFamily: "'EB Garamond', serif",
+              fontSize: '15px',
+              lineHeight: 1.75,
+              color: T.text,
+              marginBottom: '20px',
+            }}
+          >
+            {col.desc}
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '24px' }}>
+            {col.complications.map((c) => (
+              <div
+                key={c}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  fontFamily: "'Jost', sans-serif",
+                  fontSize: '11px',
+                  fontWeight: 300,
+                  letterSpacing: '0.1em',
+                  color: T.creamDim,
+                }}
+              >
+                <div
+                  style={{
+                    width: '4px',
+                    height: '4px',
+                    background: T.gold,
+                    borderRadius: '50%',
+                    flexShrink: 0,
+                  }}
+                />
+                {c}
+              </div>
+            ))}
+          </div>
+
+          <GoldRule />
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginTop: '20px',
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "'Jost', sans-serif",
+                fontSize: '10px',
+                fontWeight: 300,
+                letterSpacing: '0.2em',
+                color: T.goldDim,
+                textTransform: 'uppercase',
+              }}
+            >
+              Prix sur demande
+            </span>
+            <button
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'none',
+                border: 'none',
+                fontFamily: "'Jost', sans-serif",
+                fontSize: '10px',
+                fontWeight: 400,
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                color: T.gold,
+                cursor: 'pointer',
+                padding: 0,
+                transition: 'gap 0.3s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.gap = '14px')}
+              onMouseLeave={(e) => (e.currentTarget.style.gap = '8px')}
+            >
+              Demander un rendez-vous
+              <ChevronRight size={12} />
+            </button>
+          </div>
+        </div>
+      </div>
+    </FadeUp>
+  );
+}
+
+function Collections() {
+  return (
+    <section
+      id="collections"
+      style={{
+        background: T.navySoft,
+        padding: 'clamp(80px, 10vw, 140px) clamp(24px, 6vw, 80px)',
+      }}
+    >
+      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+        <FadeUp>
+          <div style={{ textAlign: 'center', marginBottom: '72px' }}>
+            <Label>Nos créations</Label>
+            <h2
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: 'clamp(36px, 5vw, 64px)',
+                fontWeight: 300,
+                color: T.white,
+                marginTop: '16px',
+                marginBottom: '20px',
+              }}
+            >
+              Les Collections
+            </h2>
+            <GoldRule className="" style={{ maxWidth: '120px', margin: '0 auto' } as React.CSSProperties} />
+          </div>
+        </FadeUp>
+
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '2px',
+          }}
+        >
+          {COLLECTIONS.map((col, i) => (
+            <CollectionCard key={col.name} col={col} delay={i * 0.1} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── CRAFTSMANSHIP EDITORIAL ──────────────────────────────────────────────────
+
+const EDITORIAL_ROWS = [
+  {
+    img: IMGS.editorial2,
+    label: 'Finitions',
+    title: 'La main avant la machine',
+    text: 'Chaque pont de calibre reçoit un anglage manuel. Cette opération, qui nécessite douze années d\'apprentissage, confère au mouvement ses reflets caractéristiques — impossibles à reproduire industriellement. Nos artisans passent jusqu\'à quarante heures sur un seul calibre avant qu\'il ne quitte l\'atelier.',
+    side: 'left' as const,
+  },
+  {
+    img: IMGS.collection1,
+    label: 'Métallurgie',
+    title: 'L\'alliage du temps',
+    text: 'Notre fonderie interne élabore des alliages exclusifs depuis 1912. Le laiton utilisé pour nos platines est enrichi de bismuth pour améliorer l\'usinabilité à l\'échelle micronique. Une propriété de la maison que personne n\'a réussi à reproduire.',
+    side: 'right' as const,
+  },
+] as const;
+
+function EditorialRow({
+  row,
+  index,
+}: {
+  row: (typeof EDITORIAL_ROWS)[number];
+  index: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-100px' });
+
+  const isLeft = row.side === 'left';
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
+      animate={inView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 1, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: '2px',
+        direction: isLeft ? 'ltr' : 'rtl',
+      }}
+    >
+      <div
+        style={{
+          overflow: 'hidden',
+          height: 'clamp(300px, 45vw, 560px)',
+          direction: 'ltr',
+        }}
+      >
+        <img
+          src={row.img}
+          alt={row.title}
+          loading="lazy"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            transition: 'transform 0.8s ease',
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
+          onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+        />
+      </div>
+
+      <div
+        style={{
+          background: T.navyCard,
+          padding: 'clamp(40px, 6vw, 80px)',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          direction: 'ltr',
+        }}
+      >
+        <Label>{row.label}</Label>
+        <h3
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: 'clamp(28px, 3.5vw, 44px)',
+            fontWeight: 300,
+            color: T.white,
+            marginTop: '16px',
+            marginBottom: '24px',
+            lineHeight: 1.2,
+          }}
+        >
+          {row.title}
+        </h3>
+        <GoldRule className="" style={{ maxWidth: '80px', marginBottom: '28px' } as React.CSSProperties} />
+        <p
+          style={{
+            fontFamily: "'EB Garamond', serif",
+            fontSize: 'clamp(16px, 1.5vw, 18px)',
+            lineHeight: 1.85,
+            color: T.text,
+          }}
+        >
+          {row.text}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+function CraftsmanshipEditorial() {
+  return (
+    <section
+      style={{
+        background: T.navy,
+        padding: 'clamp(80px, 10vw, 140px) 0',
+      }}
+    >
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 clamp(24px, 4vw, 60px)' }}>
+        <FadeUp>
+          <div style={{ textAlign: 'center', marginBottom: '72px' }}>
+            <Label>Artisanat</Label>
+            <h2
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: 'clamp(32px, 4.5vw, 56px)',
+                fontWeight: 300,
+                color: T.white,
+                marginTop: '16px',
+              }}
+            >
+              La manufacture en détail
+            </h2>
+          </div>
+        </FadeUp>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+        {EDITORIAL_ROWS.map((row, i) => (
+          <EditorialRow key={row.label} row={row} index={i} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── STICKY-SIDE SPECS ───────────────────────────────────────────────────────
+
+const SPECS = [
+  { label: 'Mouvement', value: 'Calibre HV-190A — Manufacture exclusive' },
+  { label: 'Fréquence', value: '28 800 alt/h (4 Hz)' },
+  { label: 'Réserve de marche', value: '72 heures minimum' },
+  { label: 'Composants', value: '312 pièces usinées en interne' },
+  { label: 'Boîtier', value: 'Acier inoxydable 316L — 41 mm' },
+  { label: 'Étanchéité', value: '50 mètres (5 ATM)' },
+  { label: 'Verre', value: 'Saphir anti-reflet double face' },
+  { label: 'Bracelet', value: 'Alligator Louisiana — boucle déployante or 18ct' },
+  { label: 'Finition', value: '37 étapes manuelles — 6 semaines d\'atelier' },
+] as const;
+
+function StickySpecs() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start center', 'end center'],
+  });
+
+  return (
+    <section
+      id="collections"
+      style={{
+        background: T.navySoft,
+        padding: 'clamp(80px, 10vw, 140px) clamp(24px, 6vw, 80px)',
+      }}
+    >
+      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+        <FadeUp>
+          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+            <Label>Spécifications techniques</Label>
+            <h2
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: 'clamp(32px, 4.5vw, 56px)',
+                fontWeight: 300,
+                color: T.white,
+                marginTop: '16px',
+              }}
+            >
+              Le Calibre HV-190A
+            </h2>
+          </div>
+        </FadeUp>
+
+        <div
+          ref={containerRef}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '80px',
+            alignItems: 'start',
+          }}
+        >
+          {/* Sticky watch image */}
+          <div style={{ position: 'sticky', top: '100px' }}>
+            <FadeUp>
+              <div
+                style={{
+                  position: 'relative',
+                  overflow: 'hidden',
+                  borderRadius: '0',
+                  border: `1px solid ${T.border}`,
+                }}
+              >
+                <img
+                  src={IMGS.movement}
+                  alt="Calibre HV-190A — détail du mouvement"
+                  loading="lazy"
+                  style={{
+                    width: '100%',
+                    aspectRatio: '4/5',
+                    objectFit: 'cover',
+                    objectPosition: 'center',
+                    display: 'block',
+                  }}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    padding: '32px',
+                    background: 'linear-gradient(to top, rgba(10,14,23,0.95) 0%, transparent 100%)',
+                  }}
+                >
+                  <Label>Calibre exclusif · 100% manufacture</Label>
+                </div>
+              </div>
+            </FadeUp>
+          </div>
+
+          {/* Scrolling specs */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+            {SPECS.map((spec, i) => (
+              <FadeUp key={spec.label} delay={i * 0.06}>
+                <div
+                  style={{
+                    padding: '24px 0',
+                    borderBottom: `1px solid ${T.border}`,
+                    display: 'grid',
+                    gridTemplateColumns: '140px 1fr',
+                    gap: '24px',
+                    alignItems: 'baseline',
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "'Jost', sans-serif",
+                      fontSize: '10px',
+                      fontWeight: 300,
+                      letterSpacing: '0.2em',
+                      textTransform: 'uppercase',
+                      color: T.gold,
+                    }}
+                  >
+                    {spec.label}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "'EB Garamond', serif",
+                      fontSize: '17px',
+                      color: T.cream,
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    {spec.value}
+                  </span>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── HERITAGE TIMELINE ───────────────────────────────────────────────────────
+
+const TIMELINE = [
+  { year: '1834', event: 'Fondation de la maison par Léonard Marchetti à Genève, au cœur du quartier des Eaux-Vives.' },
+  { year: '1872', event: 'Premier calibre manufacture entièrement réalisé en interne. Brevets déposés sur l\'échappement à ancre modifié.' },
+  { year: '1921', event: 'Création de l\'atelier d\'émail Grand Feu. Hora Viva devient l\'une des trois dernières maisons à maîtriser cette technique.' },
+  { year: '1967', event: 'Lancement de la Perpétuelle — premier calendrier perpétuel de petite complication suisse certifié COSC.' },
+  { year: '2001', event: 'Ouverture de la nouvelle manufacture à Plan-les-Ouates. 4 200 m² dédiés exclusivement à l\'horlogerie mécanique.' },
+  { year: '2024', event: 'Présentation du Calibre HV-190A au SIHH — 312 composants, 72h de réserve, tourbillon volant côtes de Genève.' },
+] as const;
+
+function Heritage() {
+  return (
+    <section
+      id="héritage"
+      style={{
+        background: T.navy,
+        padding: 'clamp(80px, 10vw, 140px) clamp(24px, 6vw, 80px)',
+      }}
+    >
+      <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+        <FadeUp>
+          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+            <Label>Depuis 1834</Label>
+            <h2
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: 'clamp(32px, 4.5vw, 56px)',
+                fontWeight: 300,
+                color: T.white,
+                marginTop: '16px',
+              }}
+            >
+              Une chronologie
+              <br />
+              <em style={{ fontStyle: 'italic' }}>de l'excellence</em>
+            </h2>
+          </div>
+        </FadeUp>
+
+        <div style={{ position: 'relative' }}>
+          {/* Vertical gold line */}
+          <div
+            style={{
+              position: 'absolute',
+              left: '80px',
+              top: 0,
+              bottom: 0,
+              width: '1px',
+              background: `linear-gradient(to bottom, transparent, ${T.gold}44, transparent)`,
+            }}
+          />
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+            {TIMELINE.map((item, i) => (
+              <FadeUp key={item.year} delay={i * 0.1}>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '160px 1fr',
+                    gap: '40px',
+                    padding: '32px 0',
+                    borderBottom: i < TIMELINE.length - 1 ? `1px solid ${T.border}` : 'none',
+                    alignItems: 'start',
+                  }}
+                >
+                  <div style={{ position: 'relative', paddingLeft: '0' }}>
+                    {/* Dot */}
+                    <div
+                      style={{
+                        position: 'absolute',
+                        left: '76px',
+                        top: '8px',
+                        width: '9px',
+                        height: '9px',
+                        background: T.gold,
+                        borderRadius: '50%',
+                        transform: 'translate(-50%, 0)',
+                        boxShadow: `0 0 12px ${T.gold}60`,
+                      }}
+                    />
+                    <span
+                      style={{
+                        fontFamily: "'Cormorant Garamond', serif",
+                        fontSize: '32px',
+                        fontWeight: 300,
+                        color: T.gold,
+                        display: 'block',
+                        paddingLeft: '0',
+                      }}
+                    >
+                      {item.year}
+                    </span>
+                  </div>
+                  <p
+                    style={{
+                      fontFamily: "'EB Garamond', serif",
+                      fontSize: '17px',
+                      lineHeight: 1.75,
+                      color: T.text,
+                      paddingTop: '6px',
+                    }}
+                  >
+                    {item.event}
+                  </p>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── TESTIMONIALS ─────────────────────────────────────────────────────────────
+
+const TESTIMONIALS = [
+  {
+    quote: 'Ma Perpétuelle Hora Viva accompagne chaque décision importante de ma vie depuis vingt-deux ans. Ce n\'est pas une montre — c\'est un compagnon silencieux et fidèle.',
+    author: 'Henri de Vauclaire',
+    role: 'Collectionneur, Paris',
+    stars: 5,
+  },
+  {
+    quote: 'J\'ai visité quarante manufactures dans ma vie. Chez Hora Viva, on sent immédiatement que rien n\'est fait pour l\'apparence. Tout est fait pour durer deux siècles.',
+    author: 'Kenji Watanabe',
+    role: 'Chronobiologiste & Horloger amateur, Tokyo',
+    stars: 5,
+  },
+] as const;
+
+function Testimonials() {
+  return (
+    <section
+      style={{
+        background: T.navyCard,
+        padding: 'clamp(80px, 10vw, 140px) clamp(24px, 6vw, 80px)',
+      }}
+    >
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <FadeUp>
+          <div style={{ textAlign: 'center', marginBottom: '72px' }}>
+            <Label>Collectionneurs</Label>
+            <h2
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: 'clamp(32px, 4.5vw, 56px)',
+                fontWeight: 300,
+                color: T.white,
+                marginTop: '16px',
+              }}
+            >
+              Ils portent Hora Viva
+            </h2>
+          </div>
+        </FadeUp>
+
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))',
+            gap: '2px',
+          }}
+        >
+          {TESTIMONIALS.map((t, i) => (
+            <FadeUp key={t.author} delay={i * 0.15}>
+              <div
+                style={{
+                  background: T.navySoft,
+                  border: `1px solid ${T.border}`,
+                  padding: 'clamp(32px, 4vw, 56px)',
+                  position: 'relative',
+                }}
+              >
+                {/* Opening quote mark */}
+                <div
+                  style={{
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontSize: '80px',
+                    fontWeight: 300,
+                    color: T.goldDim,
+                    lineHeight: 0.8,
+                    marginBottom: '24px',
+                    opacity: 0.4,
+                  }}
+                >
+                  "
+                </div>
+
+                <div
+                  style={{ display: 'flex', gap: '4px', marginBottom: '20px' }}
+                >
+                  {Array.from({ length: t.stars }).map((_, si) => (
+                    <Star key={si} size={12} color={T.gold} fill={T.gold} />
+                  ))}
+                </div>
+
+                <p
+                  style={{
+                    fontFamily: "'EB Garamond', serif",
+                    fontSize: 'clamp(17px, 1.8vw, 20px)',
+                    fontStyle: 'italic',
+                    lineHeight: 1.75,
+                    color: T.cream,
+                    marginBottom: '32px',
+                  }}
+                >
+                  {t.quote}
+                </p>
+
+                <GoldRule />
+
+                <div style={{ marginTop: '20px' }}>
+                  <div
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: '18px',
+                      fontWeight: 500,
+                      color: T.white,
+                    }}
+                  >
+                    {t.author}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "'Jost', sans-serif",
+                      fontSize: '11px',
+                      fontWeight: 200,
+                      letterSpacing: '0.15em',
+                      color: T.goldDim,
+                      marginTop: '4px',
+                    }}
+                  >
+                    {t.role}
+                  </div>
+                </div>
+              </div>
+            </FadeUp>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── APPOINTMENT FORM ─────────────────────────────────────────────────────────
+
+function AppointmentForm() {
+  const [form, setForm] = useState({
+    nom: '',
+    email: '',
+    collection: '',
+    message: '',
+  });
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      setForm((prev) => ({ ...prev, [name]: value }));
+    },
+    []
+  );
+
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        setSubmitted(true);
+      }, 1400);
+    },
+    []
+  );
+
+  const inputStyle: React.CSSProperties = {
+    width: '100%',
+    background: 'rgba(255,255,255,0.03)',
+    border: `1px solid ${T.border}`,
+    borderRadius: 0,
+    padding: '16px 20px',
+    fontFamily: "'EB Garamond', serif",
+    fontSize: '17px',
+    color: T.cream,
+    outline: 'none',
+    transition: 'border-color 0.3s',
+  };
+
+  const labelStyle: React.CSSProperties = {
+    display: 'block',
+    fontFamily: "'Jost', sans-serif",
+    fontSize: '10px',
+    fontWeight: 300,
+    letterSpacing: '0.25em',
+    textTransform: 'uppercase',
+    color: T.goldDim,
+    marginBottom: '8px',
+  };
+
+  return (
+    <section
+      id="rendez-vous"
+      style={{
+        background: T.navy,
+        padding: 'clamp(80px, 10vw, 140px) clamp(24px, 6vw, 80px)',
+      }}
+    >
+      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+        <FadeUp>
+          <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+            <Label>Contact & Atelier</Label>
+            <h2
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: 'clamp(32px, 4.5vw, 56px)',
+                fontWeight: 300,
+                color: T.white,
+                marginTop: '16px',
+                marginBottom: '16px',
+              }}
+            >
+              Demander un rendez-vous
+            </h2>
+            <p
+              style={{
+                fontFamily: "'EB Garamond', serif",
+                fontSize: '17px',
+                fontStyle: 'italic',
+                color: T.creamDim,
+                lineHeight: 1.7,
+              }}
+            >
+              Notre conseiller personnel vous contactera sous 48 heures pour
+              organiser une présentation privée dans nos salons genevois.
             </p>
           </div>
-          <div style={{ fontFamily: C.sans, fontSize: 14, color: C.creamSoft, display: 'grid', gap: 12 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}><MapPin size={15} color={C.gold} /> Rue du Rhône 42, Genève</div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}><Phone size={15} color={C.gold} /> +41 22 000 00 00</div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}><Mail size={15} color={C.gold} /> atelier@horaviva.ch</div>
+        </FadeUp>
+
+        <FadeUp delay={0.1}>
+          <AnimatePresence mode="wait">
+            {submitted ? (
+              <motion.div
+                key="success"
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                style={{
+                  textAlign: 'center',
+                  padding: '80px 40px',
+                  border: `1px solid ${T.goldDim}`,
+                  background: `${T.navyCard}`,
+                }}
+              >
+                <div
+                  style={{
+                    width: '56px',
+                    height: '56px',
+                    border: `1px solid ${T.gold}`,
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: '0 auto 24px',
+                  }}
+                >
+                  <Check size={20} color={T.gold} />
+                </div>
+                <h3
+                  style={{
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontSize: '32px',
+                    fontWeight: 300,
+                    color: T.white,
+                    marginBottom: '12px',
+                  }}
+                >
+                  Demande reçue
+                </h3>
+                <p
+                  style={{
+                    fontFamily: "'EB Garamond', serif",
+                    fontSize: '17px',
+                    fontStyle: 'italic',
+                    color: T.creamDim,
+                    lineHeight: 1.7,
+                  }}
+                >
+                  Notre équipe vous contactera sous 48 heures.
+                  <br />
+                  Nous vous remercions de votre intérêt pour Hora Viva.
+                </p>
+              </motion.div>
+            ) : (
+              <motion.form
+                key="form"
+                onSubmit={handleSubmit}
+                style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
+              >
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr',
+                    gap: '2px',
+                  }}
+                >
+                  <div>
+                    <label htmlFor="nom" style={labelStyle}>
+                      Nom complet
+                    </label>
+                    <input
+                      id="nom"
+                      name="nom"
+                      type="text"
+                      required
+                      placeholder="Jean-Pierre Müller"
+                      value={form.nom}
+                      onChange={handleChange}
+                      style={inputStyle}
+                      onFocus={(e) =>
+                        (e.currentTarget.style.borderColor = T.goldDim)
+                      }
+                      onBlur={(e) =>
+                        (e.currentTarget.style.borderColor = T.border)
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="email" style={labelStyle}>
+                      Adresse e-mail
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      placeholder="vous@exemple.com"
+                      value={form.email}
+                      onChange={handleChange}
+                      style={inputStyle}
+                      onFocus={(e) =>
+                        (e.currentTarget.style.borderColor = T.goldDim)
+                      }
+                      onBlur={(e) =>
+                        (e.currentTarget.style.borderColor = T.border)
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="collection" style={labelStyle}>
+                    Collection d'intérêt
+                  </label>
+                  <select
+                    id="collection"
+                    name="collection"
+                    required
+                    value={form.collection}
+                    onChange={handleChange}
+                    style={{
+                      ...inputStyle,
+                      appearance: 'none',
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a6e33' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'right 20px center',
+                      paddingRight: '48px',
+                      cursor: 'pointer',
+                    }}
+                    onFocus={(e) =>
+                      (e.currentTarget.style.borderColor = T.goldDim)
+                    }
+                    onBlur={(e) =>
+                      (e.currentTarget.style.borderColor = T.border)
+                    }
+                  >
+                    <option value="" style={{ background: T.navyCard }}>
+                      Sélectionner une collection
+                    </option>
+                    <option value="perpetuelle" style={{ background: T.navyCard }}>
+                      Perpétuelle — HV-190
+                    </option>
+                    <option value="saphir" style={{ background: T.navyCard }}>
+                      Saphir Nuit — HV-44
+                    </option>
+                    <option value="grandfeu" style={{ background: T.navyCard }}>
+                      Grand Feu — HV-31
+                    </option>
+                    <option value="lune" style={{ background: T.navyCard }}>
+                      Lune Bleue — HV-28
+                    </option>
+                    <option value="bespoke" style={{ background: T.navyCard }}>
+                      Pièce unique sur mesure
+                    </option>
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="message" style={labelStyle}>
+                    Message (optionnel)
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={4}
+                    placeholder="Précisez vos souhaits, votre budget indicatif ou toute question particulière..."
+                    value={form.message}
+                    onChange={handleChange}
+                    style={{
+                      ...inputStyle,
+                      resize: 'vertical',
+                      minHeight: '120px',
+                    }}
+                    onFocus={(e) =>
+                      (e.currentTarget.style.borderColor = T.goldDim)
+                    }
+                    onBlur={(e) =>
+                      (e.currentTarget.style.borderColor = T.border)
+                    }
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '12px',
+                    background: loading ? T.goldDim : T.gold,
+                    border: 'none',
+                    padding: '20px 40px',
+                    fontFamily: "'Jost', sans-serif",
+                    fontSize: '11px',
+                    fontWeight: 400,
+                    letterSpacing: '0.3em',
+                    textTransform: 'uppercase',
+                    color: T.navy,
+                    cursor: loading ? 'not-allowed' : 'pointer',
+                    transition: 'background 0.3s, transform 0.2s',
+                    alignSelf: 'flex-start',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!loading) e.currentTarget.style.background = T.goldBright;
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!loading) e.currentTarget.style.background = T.gold;
+                  }}
+                >
+                  {loading ? (
+                    <>
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+                        style={{
+                          width: '14px',
+                          height: '14px',
+                          border: `1px solid ${T.navy}`,
+                          borderTopColor: 'transparent',
+                          borderRadius: '50%',
+                        }}
+                      />
+                      Envoi en cours...
+                    </>
+                  ) : (
+                    <>
+                      Envoyer la demande
+                      <ArrowRight size={14} />
+                    </>
+                  )}
+                </button>
+              </motion.form>
+            )}
+          </AnimatePresence>
+        </FadeUp>
+      </div>
+    </section>
+  );
+}
+
+// ─── FOOTER ───────────────────────────────────────────────────────────────────
+
+function Footer() {
+  return (
+    <footer
+      id="contact"
+      style={{
+        background: '#070b14',
+        borderTop: `1px solid ${T.border}`,
+        padding: 'clamp(60px, 8vw, 100px) clamp(24px, 6vw, 80px) 40px',
+      }}
+    >
+      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '2fr 1fr 1fr 1fr',
+            gap: '60px',
+            marginBottom: '60px',
+          }}
+        >
+          {/* Brand */}
+          <div>
+            <div
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: '24px',
+                fontWeight: 400,
+                letterSpacing: '0.15em',
+                color: T.cream,
+                marginBottom: '4px',
+              }}
+            >
+              HORA VIVA
+            </div>
+            <div
+              style={{
+                fontFamily: "'Jost', sans-serif",
+                fontSize: '9px',
+                fontWeight: 200,
+                letterSpacing: '0.4em',
+                color: T.gold,
+                marginBottom: '24px',
+              }}
+            >
+              GENÈVE · MANUFACTURE HORLOGÈRE
+            </div>
+            <p
+              style={{
+                fontFamily: "'EB Garamond', serif",
+                fontSize: '15px',
+                lineHeight: 1.8,
+                color: T.creamDim,
+                maxWidth: '280px',
+                fontStyle: 'italic',
+              }}
+            >
+              Six générations d'horlogers genevois au service d'un seul idéal :
+              l'excellence sans compromis.
+            </p>
+
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+                marginTop: '32px',
+              }}
+            >
+              {[
+                { icon: <MapPin size={12} color={T.goldDim} />, text: '14, rue de Rive · CH-1204 Genève' },
+                { icon: <Phone size={12} color={T.goldDim} />, text: '+41 22 310 88 40' },
+                { icon: <Mail size={12} color={T.goldDim} />, text: 'atelier@horaviva.ch' },
+              ].map(({ icon, text }) => (
+                <div
+                  key={text}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    fontFamily: "'Jost', sans-serif",
+                    fontSize: '12px',
+                    fontWeight: 300,
+                    letterSpacing: '0.05em',
+                    color: T.creamDim,
+                  }}
+                >
+                  {icon}
+                  {text}
+                </div>
+              ))}
+            </div>
           </div>
-          <div style={{ fontFamily: C.sans, fontSize: 14, color: C.creamSoft, display: 'grid', gap: 10 }}>
-            {['Collections', 'Manufacture', 'Service client', 'Presse'].map((l) => (
-              <a key={l} href="#" style={{ color: C.creamSoft, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
-                <ChevronRight size={13} color={C.goldDeep} /> {l}
+
+          {/* Collections */}
+          <div>
+            <div
+              style={{
+                fontFamily: "'Jost', sans-serif",
+                fontSize: '10px',
+                fontWeight: 300,
+                letterSpacing: '0.25em',
+                textTransform: 'uppercase',
+                color: T.gold,
+                marginBottom: '24px',
+              }}
+            >
+              Collections
+            </div>
+            {['Perpétuelle', 'Saphir Nuit', 'Grand Feu', 'Lune Bleue', 'Sur mesure'].map((l) => (
+              <div key={l} style={{ marginBottom: '12px' }}>
+                <a
+                  href="#collections"
+                  style={{
+                    fontFamily: "'EB Garamond', serif",
+                    fontSize: '16px',
+                    color: T.creamDim,
+                    textDecoration: 'none',
+                    transition: 'color 0.3s',
+                    cursor: 'pointer',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = T.cream)}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = T.creamDim)}
+                >
+                  {l}
+                </a>
+              </div>
+            ))}
+          </div>
+
+          {/* Manufacture */}
+          <div>
+            <div
+              style={{
+                fontFamily: "'Jost', sans-serif",
+                fontSize: '10px',
+                fontWeight: 300,
+                letterSpacing: '0.25em',
+                textTransform: 'uppercase',
+                color: T.gold,
+                marginBottom: '24px',
+              }}
+            >
+              La Maison
+            </div>
+            {['Notre histoire', 'La manufacture', 'Les artisans', 'Certifications COSC', 'Presse'].map((l) => (
+              <div key={l} style={{ marginBottom: '12px' }}>
+                <a
+                  href="#héritage"
+                  style={{
+                    fontFamily: "'EB Garamond', serif",
+                    fontSize: '16px',
+                    color: T.creamDim,
+                    textDecoration: 'none',
+                    transition: 'color 0.3s',
+                    cursor: 'pointer',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = T.cream)}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = T.creamDim)}
+                >
+                  {l}
+                </a>
+              </div>
+            ))}
+          </div>
+
+          {/* Services */}
+          <div>
+            <div
+              style={{
+                fontFamily: "'Jost', sans-serif",
+                fontSize: '10px',
+                fontWeight: 300,
+                letterSpacing: '0.25em',
+                textTransform: 'uppercase',
+                color: T.gold,
+                marginBottom: '24px',
+              }}
+            >
+              Services
+            </div>
+            {['Rendez-vous atelier', 'Révision & entretien', 'Restauration', 'Expertise & certificat', 'Vente privée'].map((l) => (
+              <div key={l} style={{ marginBottom: '12px' }}>
+                <a
+                  href="#rendez-vous"
+                  style={{
+                    fontFamily: "'EB Garamond', serif",
+                    fontSize: '16px',
+                    color: T.creamDim,
+                    textDecoration: 'none',
+                    transition: 'color 0.3s',
+                    cursor: 'pointer',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = T.cream)}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = T.creamDim)}
+                >
+                  {l}
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <GoldRule />
+
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginTop: '32px',
+            flexWrap: 'wrap',
+            gap: '16px',
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "'Jost', sans-serif",
+              fontSize: '10px',
+              fontWeight: 200,
+              letterSpacing: '0.15em',
+              color: T.creamDim,
+              opacity: 0.5,
+            }}
+          >
+            © 2024 Hora Viva SA · Genève · Tous droits réservés
+          </span>
+          <div style={{ display: 'flex', gap: '24px' }}>
+            {['Mentions légales', 'Confidentialité', 'CGV'].map((l) => (
+              <a
+                key={l}
+                href="#"
+                style={{
+                  fontFamily: "'Jost', sans-serif",
+                  fontSize: '9px',
+                  fontWeight: 200,
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: T.creamDim,
+                  opacity: 0.4,
+                  textDecoration: 'none',
+                  transition: 'opacity 0.3s',
+                  cursor: 'pointer',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.8')}
+                onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.4')}
+              >
+                {l}
               </a>
             ))}
           </div>
         </div>
-        <div style={{ marginTop: 48, paddingTop: 24, borderTop: `1px solid ${C.border}`, fontFamily: C.sans, fontSize: 12, color: C.faint, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-          <span>© 2024 Hora Viva Manufacture SA · Poinçon de Genève</span>
-          <span>Genève · Paris · Tokyo · New York</span>
-        </div>
-      </footer>
+      </div>
+
+      {/* Responsive footer grid */}
+      <style>{`
+        @media (max-width: 1024px) {
+          footer > div > div:first-of-type {
+            grid-template-columns: 1fr 1fr !important;
+          }
+        }
+        @media (max-width: 640px) {
+          footer > div > div:first-of-type {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
+    </footer>
+  );
+}
+
+// ─── PAGE ROOT ────────────────────────────────────────────────────────────────
+
+export default function HoraVivaPage() {
+  // Inject global CSS once
+  useEffect(() => {
+    const id = 'hora-viva-global-css';
+    if (!document.getElementById(id)) {
+      const el = document.createElement('style');
+      el.id = id;
+      el.textContent = GLOBAL_CSS;
+      document.head.appendChild(el);
+    }
+    return () => {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    };
+  }, []);
+
+  return (
+    <main
+      suppressHydrationWarning
+      style={{ background: T.navy, minHeight: '100vh' }}
+    >
+      <Nav />
+      <Hero />
+      <Manifesto />
+      <StickyCrossfade />
+      <Collections />
+      <CraftsmanshipEditorial />
+      <StickySpecs />
+      <Heritage />
+      <Testimonials />
+      <AppointmentForm />
+      <Footer />
     </main>
   );
 }

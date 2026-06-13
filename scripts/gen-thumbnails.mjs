@@ -42,8 +42,8 @@ async function getTemplateIds() {
 const SCROLL_OFFSETS = {
   'impact-217': 0,     // AirForge — parallax hero (real photo) is the money shot
   'impact-218': 0,     // Domaine Miroir — parallax hero (real vineyard photo)
-  'impact-220': 800,   // Hora Viva — watch case starting to open
-  'impact-221': 400,   // Lumyx — vehicle visible with glow
+  'impact-220': 0,     // Hora Viva — parallax hero (real watch photo)
+  'impact-221': 0,     // Lumyx — parallax hero (real photo)
 };
 
 async function main() {
