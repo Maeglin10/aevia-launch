@@ -48,7 +48,9 @@ export default function ZenithLayout({
             <Link href="/templates/impact-60/atelier" className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors underline underline-offset-8 decoration-[#c9a96e]/20" style={{ textDecoration: "none" }}>Legacy Portal</Link>
             <Link href="/templates/impact-60/contact" className="px-10 py-3.5 bg-white text-black text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-[#c9a96e] hover:text-black transition-all duration-700 text-center" style={{ textDecoration: "none" }}>Request Bespoke</Link>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden p-2 bg-transparent border-none cursor-pointer"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden p-2 bg-transparent border-none cursor-pointer">
+                <Menu className="w-6 h-6 text-white" />
+              </SheetTrigger>
               <SheetContent side="right" className="bg-[#0a0c10] border-white/5 p-12 text-white">
                 <div className="flex flex-col gap-10 mt-16 text-left">
                   {NAV_LINKS.map(l => (

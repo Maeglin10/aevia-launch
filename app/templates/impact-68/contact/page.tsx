@@ -21,7 +21,7 @@ export default function ContactPage() {
   return (
     <section style={{ padding: "80px 40px", background: C.bg, minHeight: "80vh" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "80px", items: "start" }} className="grid-hero-68">
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "80px", alignItems: "start" }} className="grid-hero-68">
           <div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -129,7 +129,7 @@ export default function ContactPage() {
           <div>
             <form onSubmit={handleSubmit} style={{ background: C.bgCard, border: `1px solid ${C.border}`, padding: "40px", display: "flex", flexDirection: "column", gap: "24px" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: "8px", textAlign: "left" }}>
-                <label style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", fontWeight: 700, color: C.textMuted, uppercase: "true", letterSpacing: "0.1em" }}>YOUR NAME</label>
+                <label style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em" }}>YOUR NAME</label>
                 <input
                   type="text"
                   required
@@ -140,7 +140,7 @@ export default function ContactPage() {
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "8px", textAlign: "left" }}>
-                <label style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", fontWeight: 700, color: C.textMuted, uppercase: "true", letterSpacing: "0.1em" }}>YOUR EMAIL</label>
+                <label style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em" }}>YOUR EMAIL</label>
                 <input
                   type="email"
                   required
@@ -151,7 +151,7 @@ export default function ContactPage() {
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "8px", textAlign: "left" }}>
-                <label style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", fontWeight: 700, color: C.textMuted, uppercase: "true", letterSpacing: "0.1em" }}>ESTIMATED BUDGET</label>
+                <label style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em" }}>ESTIMATED BUDGET</label>
                 <select
                   value={formData.budget}
                   onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
@@ -165,7 +165,7 @@ export default function ContactPage() {
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "8px", textAlign: "left" }}>
-                <label style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", fontWeight: 700, color: C.textMuted, uppercase: "true", letterSpacing: "0.1em" }}>PROJECT BRIEF</label>
+                <label style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em" }}>PROJECT BRIEF</label>
                 <textarea
                   rows={4}
                   required

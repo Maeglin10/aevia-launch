@@ -61,8 +61,8 @@ export default function CarbonLayout({
               Get Quote
             </Link>
             <Sheet>
-              <SheetTrigger asChild>
-                <button className="lg:hidden p-2"><Menu className="w-6 h-6 text-white" /></button>
+              <SheetTrigger className="lg:hidden p-2">
+                <Menu className="w-6 h-6 text-white" />
               </SheetTrigger>
               <SheetContent side="right" className="bg-[#050505] border-white/5 p-12 text-white">
                 <div className="flex flex-col gap-8 mt-16 text-left font-black uppercase tracking-tighter">

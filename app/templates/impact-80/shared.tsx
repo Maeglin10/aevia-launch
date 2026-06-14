@@ -10,11 +10,11 @@ export const PROJECTS = [
   { name: "Serene Heights", loc: "Kyoto, JP", img: "https://images.unsplash.com/photo-1503387762-592cd5804557?auto=format&fit=crop&q=80&w=1200" },
 ];
 
-export function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; delay?: number; y?: number }) {
+export function Reveal({ children, delay = 0, y = 30, className = "" }: { children: React.ReactNode; delay?: number; y?: number; className?: string }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+    <motion.div ref={ref} className={className} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 1.5, delay, ease: [0.16, 1, 0.3, 1] }}>
       {children}
     </motion.div>
