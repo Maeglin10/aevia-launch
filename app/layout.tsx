@@ -42,9 +42,8 @@ export const metadata: Metadata = {
     "création site rapide",
     "site freelance pro",
     "agence digitale IA",
-    "Valentin Milliand",
   ],
-  authors: [{ name: "Valentin Milliand", url: "https://valentin-milliand.vercel.app" }],
+  authors: [{ name: "Aevia", url: "https://aevia.services" }],
   creator: "Aevia",
   publisher: "Aevia",
   icons: { icon: "/favicon.svg" },
@@ -139,11 +138,6 @@ const softwareAppSchema = {
     name: 'Aevia',
     url: 'https://aevia.services',
   },
-  author: {
-    '@type': 'Person',
-    name: 'Valentin Milliand',
-    url: 'https://valentin-milliand.vercel.app',
-  },
 };
 
 const organizationSchema = {
@@ -166,7 +160,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="fr"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
