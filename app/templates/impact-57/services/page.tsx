@@ -12,7 +12,7 @@ export default function ServicesPage() {
           <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.textDim, marginBottom: "0.75rem" }}>
             / WHAT WE DO
           </div>
-          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, letterSpacing: "-0.03em", color: C.text, leading-snug pb-2 }}>
+          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, letterSpacing: "-0.03em", color: C.text, lineHeight: "1.15", paddingBottom: "0.5rem" }}>
             Services
           </h2>
         </div>
@@ -33,7 +33,7 @@ export default function ServicesPage() {
                 <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.6rem", color: C.accent, marginBottom: "1.5rem" }}>
                   {svc.n}
                 </div>
-                <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "1.4rem", fontWeight: 700, color: C.text, marginBottom: "0.75rem", letterSpacing: "-0.02em", leading-snug pb-1 }}>
+                <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "1.4rem", fontWeight: 700, color: C.text, marginBottom: "0.75rem", letterSpacing: "-0.02em", lineHeight: "1.15", paddingBottom: "0.25rem" }}>
                   {svc.title}
                 </h3>
                 <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.8rem", color: C.textMuted, lineHeight: 1.75 }}>

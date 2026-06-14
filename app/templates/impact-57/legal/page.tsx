@@ -10,7 +10,7 @@ export default function LegalPage() {
         <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.textDim, marginBottom: "0.75rem" }}>
           / REGULATORY
         </div>
-        <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, letterSpacing: "-0.03em", color: C.text, leading-snug pb-2, marginBottom: "3rem" }}>
+        <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, letterSpacing: "-0.03em", color: C.text, lineHeight: "1.15", paddingBottom: "0.5rem", marginBottom: "3rem" }}>
           Mentions Légales
         </h2>
 
