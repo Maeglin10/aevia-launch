@@ -2,7 +2,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Radio, Shield, Binary, CPU, Activity, Terminal } from "lucide-react";
+import { Radio, Shield, Binary, Cpu, Activity, Terminal } from "lucide-react";
 import { Reveal, GridBackground } from "../shared";
 
 export default function TelemetryPage() {
@@ -57,7 +57,7 @@ export default function TelemetryPage() {
           <Reveal delay={0.2}>
             <div className="p-10 bg-white/5 border border-white/10 rounded group relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 text-cyan-500/10">
-                <CPU className="w-40 h-40" />
+                <Cpu className="w-40 h-40" />
               </div>
               <div className="relative z-10 space-y-8">
                 <div className="text-xs font-black text-cyan-500 tracking-widest uppercase italic border-b border-white/5 pb-4">

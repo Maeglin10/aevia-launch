@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { Quote font-serif } from "lucide-react";
+import { Quote } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { SCIENTIFIC_PILLARS, Reveal } from "../shared";
 
