@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { LangProvider } from "@/lib/LangContext";
 import { CookieBanner } from "@/components/CookieBanner";
 import { ConsentAwareAnalytics } from "@/components/ConsentAwareAnalytics";
+import { AeviaWebchat } from "@/components/AeviaWebchat";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -179,12 +180,7 @@ export default function RootLayout({
           <ConsentAwareAnalytics />
           {children}
           <CookieBanner />
-          <script
-            async
-            src="https://inbox.aevia.services/webchat/widget.js"
-            data-widget-id="wid_2a6ea934ea6a6404d285e9fc93cb0707"
-            data-api-url="https://skybot-inbox-production.up.railway.app/api/v1"
-          />
+          <AeviaWebchat />
         </LangProvider>
       </body>
     </html>

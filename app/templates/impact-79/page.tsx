@@ -248,7 +248,7 @@ export default function BoulangerieNoirePage() {
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-1000 ${scrolled ? "bg-black/95 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-10"}`}
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex flex-col items-start">
+          <Link href="#" className="flex flex-col items-start">
             <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-stone-600 mb-1">
               Artisanal.
             </span>
@@ -364,7 +364,7 @@ export default function BoulangerieNoirePage() {
               <Wheat className="w-3.5 h-3.5" />
               Ancestral Grains // Slow Fermentation
             </div>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.85] tracking-tighter mb-12 uppercase">
+            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-12 uppercase pb-4">
               The Architecture <br />{" "}
               <span className="text-stone-800 italic">of Crust.</span>
             </h1>
@@ -405,7 +405,7 @@ export default function BoulangerieNoirePage() {
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-24">
           <Reveal>
-            <h2 className="text-5xl md:text-8xl font-black tracking-tighter uppercase leading-[0.9] text-white italic">
+            <h2 className="text-5xl md:text-8xl font-black tracking-tighter uppercase leading-[1.15] text-white italic pb-2">
               The{" "}
               <span className="text-stone-800 not-italic">Daily Batch.</span>
             </h2>
