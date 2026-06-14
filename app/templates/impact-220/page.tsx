@@ -75,7 +75,7 @@ const GLOBAL_CSS = `
 
 // ─── Reusable Components ─────────────────────────────────────────────────────
 
-function GoldRule({ className = '' }: { className?: string }) {
+function GoldRule({ className = '', style }: { className?: string; style?: React.CSSProperties }) {
   return (
     <div
       className={className}
@@ -83,6 +83,7 @@ function GoldRule({ className = '' }: { className?: string }) {
         height: '1px',
         background: `linear-gradient(90deg, transparent, ${T.gold}, transparent)`,
         opacity: 0.4,
+        ...style,
       }}
     />
   );
