@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
+import { ExternalLink, Copy, Check } from "lucide-react";
 import { AeviaHeader } from "@/components/AeviaHeader";
 import { useLang } from "@/lib/LangContext";
 
@@ -234,13 +235,27 @@ function SuccessContent() {
   const searchParams = useSearchParams();
   const { locale } = useLang();
   const t = T[locale as keyof typeof T] ?? T.fr;
-  const name     = searchParams.get("name") ?? "Votre site";
-  const type     = searchParams.get("type") ?? "landing";
-  const typeLabel = SITE_LABELS[type] ?? type;
+  const name      = searchParams.get("name") ?? searchParams.get("siteName") ?? "Votre site";
+  const type      = searchParams.get("type") ?? "landing";
+  const sessionId = searchParams.get("sessionId") ?? "";
+  const typeLabel  = SITE_LABELS[type] ?? type;
+
+  const previewUrl = sessionId
+    ? `${typeof window !== "undefined" ? window.location.origin : "https://launch.aevia.services"}/preview/${sessionId}`
+    : null;
 
   const [showConfetti, setShowConfetti] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useOnce(() => setShowConfetti(true));
+
+  const handleCopy = () => {
+    if (previewUrl) {
+      navigator.clipboard.writeText(previewUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   const stagger: any = {
     container: {
@@ -322,6 +337,36 @@ function SuccessContent() {
 
           {/* Divider */}
           <div className="my-7 w-full border-t border-zinc-800" />
+
+          {/* Permanent preview link (when coming from preview checkout) */}
+          {previewUrl && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.4 }}
+              className="w-full mb-5 bg-zinc-950 border border-zinc-800 rounded-xl p-4 text-left"
+            >
+              <p className="text-xs text-zinc-500 uppercase tracking-widest mb-2">Votre site est en ligne :</p>
+              <p className="text-violet-400 font-mono text-xs break-all mb-3">{previewUrl}</p>
+              <div className="flex gap-2">
+                <a
+                  href={previewUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-violet-600 hover:bg-violet-500 text-white font-semibold text-xs rounded-lg transition-colors"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" /> Voir mon site
+                </a>
+                <button
+                  onClick={handleCopy}
+                  className="flex items-center gap-1.5 px-3 py-2 border border-zinc-700 hover:border-zinc-500 text-zinc-400 hover:text-white text-xs rounded-lg transition-colors"
+                >
+                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                  {copied ? "Copié !" : "Copier"}
+                </button>
+              </div>
+            </motion.div>
+          )}
 
           {/* Status badges */}
           <motion.div
