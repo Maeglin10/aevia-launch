@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Shield, MessageSquare, Sparkles, ChevronDown, ExternalLink, Globe } from "lucide-react";
+import { Menu, X, Shield, MessageSquare, Sparkles, ChevronDown, ExternalLink, Globe, User, LogOut } from "lucide-react";
 import { useLang, LOCALE_META, type Locale } from "@/lib/LangContext";
 
 // ── Logo ──────────────────────────────────────────────────────────────────────
@@ -77,6 +77,65 @@ function LangSwitcher() {
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+// ── Aevia account button ──────────────────────────────────────────────────────
+const IDP_URL =
+  typeof window !== "undefined"
+    ? process.env.NEXT_PUBLIC_AEVIA_IDP_URL ||
+      "https://skybot-inbox-production.up.railway.app"
+    : "";
+
+function AeviaAccountButton() {
+  const [user, setUser] = useState<{ email?: string } | null | "loading">("loading");
+
+  useEffect(() => {
+    fetch("/api/idp/auth/me")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => setUser(d))
+      .catch(() => setUser(null));
+  }, []);
+
+  const handleLogin = () => {
+    sessionStorage.setItem("aevia_return_to", window.location.pathname);
+    window.location.href = `${IDP_URL}/api/v1/auth/google?return_to=${encodeURIComponent(window.location.origin)}`;
+  };
+
+  const handleLogout = async () => {
+    await fetch("/api/idp/auth/logout", { method: "POST" });
+    setUser(null);
+  };
+
+  if (user === "loading") return <div className="w-8 h-8" />;
+
+  if (!user) {
+    return (
+      <button
+        onClick={handleLogin}
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition-colors"
+        aria-label="Se connecter"
+      >
+        <User size={14} />
+        <span className="hidden md:inline">Connexion</span>
+      </button>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-1">
+      <span className="hidden md:block text-xs text-zinc-500 max-w-[120px] truncate">
+        {user.email}
+      </span>
+      <button
+        onClick={handleLogout}
+        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition-colors"
+        aria-label="Se déconnecter"
+        title="Se déconnecter"
+      >
+        <LogOut size={14} />
+      </button>
     </div>
   );
 }
@@ -187,6 +246,7 @@ export function AeviaHeader() {
           </Link>
 
           <LangSwitcher />
+          <AeviaAccountButton />
 
           {!isConfigurePage && (
             <Link
@@ -230,6 +290,9 @@ export function AeviaHeader() {
           <div className="mt-2 pt-2 border-t border-zinc-800">
             <p className="text-xs text-zinc-600 px-3 py-1 uppercase tracking-wider font-medium mb-1">Langue</p>
             <LangSwitcher />
+          </div>
+          <div className="mt-2 pt-2 border-t border-zinc-800">
+            <AeviaAccountButton />
           </div>
 
           {!isConfigurePage && (
