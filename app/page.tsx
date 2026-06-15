@@ -248,6 +248,219 @@ const TYPE_CATS = [
   },
 ];
 
+/* ─── Business niches ────────────────────────────────────────── */
+const NICHES = [
+  {
+    icon: "🍽",
+    thumbId: "impact-33",
+    cat: "Food & Drink",
+    label: { fr: "Restaurant & Café", en: "Restaurant & Café", es: "Restaurante & Café", de: "Restaurant & Café", pt: "Restaurante & Café" },
+    desc: { fr: "Menu en ligne · Réservation · Google Maps", en: "Online menu · Reservation · Google Maps", es: "Menú online · Reserva · Google Maps", de: "Online-Menü · Reservierung · Google Maps", pt: "Cardápio online · Reserva · Google Maps" },
+    color: "#FB923C",
+  },
+  {
+    icon: "🔨",
+    thumbId: "impact-14",
+    cat: "Services",
+    label: { fr: "Artisan & Travaux", en: "Trades & Services", es: "Artesano & Servicios", de: "Handwerk & Service", pt: "Artesão & Serviços" },
+    desc: { fr: "Devis en ligne · Photos réalisations · Zone d'intervention", en: "Online quotes · Project photos · Service area", es: "Presupuesto online · Fotos · Zona de servicio", de: "Online-Angebote · Projektfotos · Einsatzgebiet", pt: "Orçamento online · Fotos · Área de atuação" },
+    color: "#F59E0B",
+  },
+  {
+    icon: "💚",
+    thumbId: "impact-30",
+    cat: "Health",
+    label: { fr: "Santé & Bien-être", en: "Health & Wellness", es: "Salud & Bienestar", de: "Gesundheit & Wellness", pt: "Saúde & Bem-estar" },
+    desc: { fr: "Prise de RDV · Présentation praticien · FAQ", en: "Appointment booking · Practitioner profile · FAQ", es: "Citas online · Perfil del profesional · FAQ", de: "Terminbuchung · Arztprofil · FAQ", pt: "Agendamento online · Perfil profissional · FAQ" },
+    color: "#14B8A6",
+  },
+  {
+    icon: "🛍",
+    thumbId: "impact-47",
+    cat: "E-Commerce",
+    label: { fr: "Boutique en ligne", en: "Online Store", es: "Tienda Online", de: "Online-Shop", pt: "Loja Online" },
+    desc: { fr: "Catalogue · Panier · Paiement Stripe", en: "Catalogue · Cart · Stripe payments", es: "Catálogo · Carrito · Pago Stripe", de: "Katalog · Warenkorb · Stripe-Zahlung", pt: "Catálogo · Carrinho · Pagamento Stripe" },
+    color: "#EC4899",
+  },
+  {
+    icon: "🏨",
+    thumbId: "impact-10",
+    cat: "Hospitality",
+    label: { fr: "Hôtel & Hébergement", en: "Hotel & Accommodation", es: "Hotel & Alojamiento", de: "Hotel & Unterkunft", pt: "Hotel & Hospedagem" },
+    desc: { fr: "Galerie · Tarifs · Réservation directe", en: "Gallery · Rates · Direct booking", es: "Galería · Tarifas · Reserva directa", de: "Galerie · Preise · Direktbuchung", pt: "Galeria · Tarifas · Reserva direta" },
+    color: "#C9A86C",
+  },
+  {
+    icon: "💼",
+    thumbId: "impact-39",
+    cat: "Services",
+    label: { fr: "Coach & Consultant", en: "Coach & Consultant", es: "Coach & Consultor", de: "Coach & Berater", pt: "Coach & Consultor" },
+    desc: { fr: "Bio · Offres · Prise de contact directe", en: "Bio · Offers · Direct contact", es: "Bio · Ofertas · Contacto directo", de: "Biografie · Angebote · Direktkontakt", pt: "Bio · Ofertas · Contato direto" },
+    color: "#A855F7",
+  },
+];
+
+const NICHES_T = {
+  fr: {
+    title: "Votre site, pour votre métier",
+    sub: "Des thèmes pensés pour votre secteur — avec le contenu adapté, livré en 2 heures.",
+    cta: "Commencer →",
+    stat1: "200+", stat1Label: "thèmes disponibles",
+    stat2: "2h", stat2Label: "délai de livraison",
+    stat3: "IA", stat3Label: "rédige pour vous",
+  },
+  en: {
+    title: "Your site, for your business",
+    sub: "Themes designed for your industry — with tailored content, delivered in 2 hours.",
+    cta: "Get started →",
+    stat1: "200+", stat1Label: "themes available",
+    stat2: "2h", stat2Label: "delivery time",
+    stat3: "AI", stat3Label: "writes for you",
+  },
+  es: {
+    title: "Tu sitio, para tu negocio",
+    sub: "Temas diseñados para tu sector — con el contenido adaptado, entregado en 2 horas.",
+    cta: "Empezar →",
+    stat1: "200+", stat1Label: "temas disponibles",
+    stat2: "2h", stat2Label: "tiempo de entrega",
+    stat3: "IA", stat3Label: "escribe para ti",
+  },
+  de: {
+    title: "Deine Website, für dein Unternehmen",
+    sub: "Themes für deine Branche — mit maßgeschneidertem Inhalt, in 2 Stunden geliefert.",
+    cta: "Jetzt starten →",
+    stat1: "200+", stat1Label: "Themes verfügbar",
+    stat2: "2h", stat2Label: "Lieferzeit",
+    stat3: "KI", stat3Label: "schreibt für dich",
+  },
+  pt: {
+    title: "O seu site, para o seu negócio",
+    sub: "Temas pensados para o seu setor — com conteúdo adaptado, entregue em 2 horas.",
+    cta: "Começar →",
+    stat1: "200+", stat1Label: "temas disponíveis",
+    stat2: "2h", stat2Label: "tempo de entrega",
+    stat3: "IA", stat3Label: "escreve por si",
+  },
+} as const;
+
+function NicheCard({ niche, index }: { niche: typeof NICHES[0]; index: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const [thumbOk, setThumbOk] = useState(true);
+  const [hovered, setHovered] = useState(false);
+  const { locale } = useLang();
+  const lk = (locale as keyof typeof niche.label) in niche.label ? (locale as keyof typeof niche.label) : "en";
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 24 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <Link
+        href={`/themes?cat=${encodeURIComponent(niche.cat)}`}
+        className="group flex flex-col rounded-2xl border overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer"
+        style={{ borderColor: `${niche.color}25`, background: `linear-gradient(135deg, ${niche.color}10 0%, transparent 60%)` }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {/* Thumbnail */}
+        <div className="relative aspect-video overflow-hidden border-b border-white/5 bg-zinc-900/60">
+          {thumbOk ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={`/thumbnails/${niche.thumbId}.webp`}
+              alt={niche.label[lk]}
+              className={`w-full h-full object-cover object-top transition-transform duration-700 ${hovered ? "scale-105" : "scale-100"}`}
+              onError={() => setThumbOk(false)}
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center text-4xl" style={{ background: `${niche.color}15` }}>
+              {niche.icon}
+            </div>
+          )}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            style={{ background: `linear-gradient(to top, ${niche.color}40, transparent 60%)` }} />
+          {/* Icon badge */}
+          <div className="absolute top-2 left-2 w-8 h-8 rounded-lg flex items-center justify-center text-base"
+            style={{ background: `${niche.color}25`, border: `1px solid ${niche.color}40` }}>
+            {niche.icon}
+          </div>
+        </div>
+
+        {/* Info */}
+        <div className="p-4">
+          <div className="font-bold text-white text-sm mb-1 group-hover:text-white transition-colors">{niche.label[lk]}</div>
+          <div className="text-[11px] text-zinc-500 leading-relaxed">{niche.desc[lk]}</div>
+        </div>
+      </Link>
+    </motion.div>
+  );
+}
+
+function NichesSection() {
+  const { locale } = useLang();
+  const t = NICHES_T[locale as keyof typeof NICHES_T] ?? NICHES_T.fr;
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <section ref={ref} className="px-6 pb-24">
+      <div className="mx-auto max-w-6xl">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.55 }}
+          className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4"
+        >
+          <div>
+            <h2 className="text-3xl sm:text-4xl font-black text-white mb-2" style={{ letterSpacing: "-0.02em" }}>{t.title}</h2>
+            <p className="text-zinc-500 text-sm sm:text-base max-w-xl">{t.sub}</p>
+          </div>
+          {/* Stats strip */}
+          <div className="flex gap-6 shrink-0">
+            {[
+              { val: t.stat1, label: t.stat1Label, color: "#a78bfa" },
+              { val: t.stat2, label: t.stat2Label, color: "#34d399" },
+              { val: t.stat3, label: t.stat3Label, color: "#60a5fa" },
+            ].map((s) => (
+              <div key={s.val} className="text-center">
+                <div className="text-2xl font-black" style={{ color: s.color }}>{s.val}</div>
+                <div className="text-[10px] text-zinc-600 uppercase tracking-widest whitespace-nowrap">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Niche grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          {NICHES.map((niche, i) => (
+            <NicheCard key={niche.cat + niche.thumbId} niche={niche} index={i} />
+          ))}
+        </div>
+
+        {/* CTA row */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="mt-8 text-center"
+        >
+          <Link
+            href="/configure"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-violet-600/15 border border-violet-500/30 text-violet-300 hover:bg-violet-600/25 hover:border-violet-400/60 text-sm font-semibold transition-all"
+          >
+            <Sparkles className="w-4 h-4" />
+            {t.cta}
+          </Link>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 /* ─── Type card with thumbnail ───────────────────────────────── */
 function TypeCard({ cat, index }: { cat: typeof TYPE_CATS[0]; index: number }) {
   const ref = useRef(null);
@@ -650,6 +863,7 @@ export default function HomePage() {
       <AeviaHeader />
       <HeroSection />
       <StepsSection />
+      <NichesSection />
       <ChooseTypeSection />
       <CtaSection />
       <LegalFooter />
