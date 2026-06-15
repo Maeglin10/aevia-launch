@@ -89,6 +89,8 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [checkoutError, setCheckoutError] = useState("");
 
   useEffect(() => {
     fetch(`/api/sessions?id=${sessionId}`)
@@ -101,6 +103,24 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
     navigator.clipboard.writeText(window.location.href);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleCheckout = async () => {
+    setCheckoutLoading(true);
+    setCheckoutError("");
+    try {
+      const res = await fetch("/api/checkout-preview", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId }),
+      });
+      const data = await res.json() as { url?: string; error?: string };
+      if (!res.ok || !data.url) throw new Error(data.error ?? "Stripe error");
+      window.location.href = data.url;
+    } catch (err) {
+      setCheckoutError(err instanceof Error ? err.message : "Erreur inattendue");
+      setCheckoutLoading(false);
+    }
   };
 
   if (loading) {
@@ -181,6 +201,9 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
             <p className="text-zinc-500 text-xs mb-6">
               {t.yourLink} <span className="text-zinc-300 font-mono break-all">{typeof window !== "undefined" ? window.location.href : ""}</span>
             </p>
+            {checkoutError && (
+              <p className="text-red-400 text-xs mb-3 text-center">{checkoutError}</p>
+            )}
             <div className="flex gap-3">
               <button
                 onClick={() => setShowModal(false)}
@@ -188,12 +211,14 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
               >
                 {t.backToPreview}
               </button>
-              <a
-                href={`mailto:contact@aevia.io?subject=Launch my site — ${session.formData.businessName}&body=Hi! I've configured my site and I'm ready to launch. Preview: ${typeof window !== "undefined" ? window.location.href : ""}`}
-                className="flex-1 px-4 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors text-center"
+              <button
+                onClick={handleCheckout}
+                disabled={checkoutLoading}
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-semibold transition-colors"
               >
+                {checkoutLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
                 {t.confirmLaunch}
-              </a>
+              </button>
             </div>
           </div>
         </div>

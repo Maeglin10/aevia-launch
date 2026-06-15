@@ -385,8 +385,54 @@ export async function POST(req: NextRequest) {
       const siteName   = meta.siteName   ?? meta.name ?? "Votre site";
       const withMaint  = meta.maintenance === "1";
       const typeLabel  = SITE_LABELS[siteType] ?? siteType;
+      const totalCents = session.amount_total ?? 0;
+      const totalEuros = totalCents / 100;
+      const date = new Date().toLocaleDateString("fr-FR", {
+        day: "2-digit", month: "long", year: "numeric",
+        hour: "2-digit", minute: "2-digit", timeZone: "Europe/Paris",
+      });
 
-      // ── Resolve the full brief from Blob (we only store a briefId in Stripe metadata) ──
+      // ── Preview-checkout path: content already generated, just send emails ──
+      if (meta.sessionId && !meta.briefId) {
+        const previewUrl = meta.previewUrl ?? `${process.env.NEXT_PUBLIC_BASE_URL ?? "https://launch.aevia.services"}/preview/${meta.sessionId}`;
+        const clientEmail = session.customer_details?.email ?? session.customer_email ?? undefined;
+        const successUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? "https://launch.aevia.services"}/success?sessionId=${meta.sessionId}&siteName=${encodeURIComponent(siteName)}`;
+
+        const emailPromises = [];
+
+        // Email client
+        if (resend && clientEmail) {
+          emailPromises.push(
+            resend.emails.send({
+              from: process.env.RESEND_FROM_EMAIL ?? "AeviaLaunch <noreply@aevia.io>",
+              to: [clientEmail],
+              subject: `Votre site ${siteName} est prêt ! 🚀`,
+              html: clientEmailHtml({ name: siteName, previewUrl }),
+            }).catch((e: unknown) => console.error("[webhook] client email failed", e))
+          );
+        }
+
+        // Email Valentin
+        if (resend) {
+          emailPromises.push(
+            resend.emails.send({
+              from: process.env.RESEND_FROM_EMAIL ?? "AeviaLaunch <noreply@aevia.io>",
+              to: [process.env.ADMIN_EMAIL ?? "v.milliand@gmail.com"],
+              subject: `[AeviaLaunch] Nouvelle commande — ${siteName} (${totalEuros}€)`,
+              html: orderEmailHtml({
+                name: siteName, type: siteType, typeLabel, maintenance: withMaint,
+                total: totalEuros, date, sessionId: meta.sessionId, previewUrl,
+              }),
+            }).catch((e: unknown) => console.error("[webhook] order email failed", e))
+          );
+        }
+
+        await Promise.allSettled(emailPromises);
+        console.log(`[webhook] preview-checkout: emails sent for session ${meta.sessionId}`);
+        return NextResponse.json({ received: true });
+      }
+
+      // ── Legacy path: brief-based order (from /order page) ──
       const briefId = meta.briefId;
       let brief: BriefMeta = {};
       if (briefId) {
@@ -402,18 +448,6 @@ export async function POST(req: NextRequest) {
         }
       }
 
-      // Re-derive total from Stripe's authoritative amount (server-side validation)
-      const totalCents = session.amount_total ?? 0;
-      const totalEuros = totalCents / 100;
-
-      const date = new Date().toLocaleDateString("fr-FR", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        timeZone: "Europe/Paris",
-      });
 
       // The brief from Blob is the raw onboarding payload (BriefData shape with
       // colorPrimary/colorSecondary/phone/email/etc as separate fields). We
