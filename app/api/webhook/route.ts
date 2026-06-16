@@ -428,6 +428,18 @@ export async function POST(req: NextRequest) {
         }
 
         await Promise.allSettled(emailPromises);
+
+        // Mark this preview as paid so the 48h reminder cron skips it.
+        try {
+          await put(`paid/${meta.sessionId}.json`, JSON.stringify({ paidAt: new Date().toISOString() }), {
+            access: "public",
+            addRandomSuffix: false,
+            contentType: "application/json",
+          });
+        } catch (err) {
+          console.error("[webhook] failed to write paid marker", err);
+        }
+
         console.log(`[webhook] preview-checkout: emails sent for session ${meta.sessionId}`);
         return NextResponse.json({ received: true });
       }
