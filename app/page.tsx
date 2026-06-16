@@ -207,6 +207,82 @@ const TESTIMONIALS_T = {
   ],
 };
 
+const FAQ_T = {
+  title: {
+    fr: "Questions fréquentes",
+    en: "Frequently asked questions",
+    es: "Preguntas frecuentes",
+    de: "Häufig gestellte Fragen",
+    pt: "Perguntas frequentes",
+  },
+  items: [
+    {
+      q: {
+        fr: "Les 2 heures, c'est vraiment réaliste ?",
+        en: "Is the 2-hour delivery really realistic?",
+        es: "¿Las 2 horas son realmente realistas?",
+        de: "Sind die 2 Stunden wirklich realistisch?",
+        pt: "As 2 horas são realmente realistas?",
+      },
+      a: {
+        fr: "Oui, pour un site standard (landing, vitrine, portfolio). Dès que vous validez l'aperçu et le paiement, on est en route. Les sites e-commerce et multi-pages peuvent prendre 4 à 8 heures.",
+        en: "Yes, for a standard site (landing, showcase, portfolio). Once you approve the preview and complete payment, we're underway. E-commerce and multi-page sites can take 4–8 hours.",
+        es: "Sí, para un sitio estándar (landing, vitrina, portfolio). Una vez que apruebas la vista previa y completas el pago, comenzamos. Los sitios e-commerce y multipágina pueden tardar 4–8 horas.",
+        de: "Ja, für eine Standard-Website (Landing, Vitrine, Portfolio). Sobald du die Vorschau genehmigst und zahlst, legen wir los. E-Commerce- und mehrseitige Seiten können 4–8 Stunden dauern.",
+        pt: "Sim, para um site padrão (landing, vitrina, portfolio). Assim que aprova a pré-visualização e o pagamento, começamos. Sites e-commerce e multi-página podem demorar 4–8 horas.",
+      },
+    },
+    {
+      q: {
+        fr: "Puis-je modifier mon site après livraison ?",
+        en: "Can I edit my site after delivery?",
+        es: "¿Puedo editar mi sitio después de la entrega?",
+        de: "Kann ich meine Website nach der Lieferung bearbeiten?",
+        pt: "Posso editar o meu site após a entrega?",
+      },
+      a: {
+        fr: "Oui. Vous recevez les fichiers source + l'accès Vercel. Vous pouvez tout modifier ou nous demander des mises à jour (forfaits maintenances disponibles).",
+        en: "Yes. You get the source files + Vercel access. You can edit anything yourself, or ask us for updates (maintenance plans available).",
+        es: "Sí. Recibes los archivos fuente + acceso a Vercel. Puedes editar todo tú mismo o pedirnos actualizaciones (planes de mantenimiento disponibles).",
+        de: "Ja. Du erhältst die Quelldateien + Vercel-Zugang. Du kannst alles selbst bearbeiten oder uns um Updates bitten (Wartungspläne verfügbar).",
+        pt: "Sim. Recebe os ficheiros fonte + acesso ao Vercel. Pode editar tudo sozinho ou pedir-nos atualizações (planos de manutenção disponíveis).",
+      },
+    },
+    {
+      q: {
+        fr: "Combien coûte l'hébergement après ?",
+        en: "How much does hosting cost after?",
+        es: "¿Cuánto cuesta el alojamiento después?",
+        de: "Was kostet das Hosting danach?",
+        pt: "Quanto custa o alojamento depois?",
+      },
+      a: {
+        fr: "L'hébergement Vercel est gratuit pour la plupart des sites. Le domaine coûte ~10 €/an. Aucun abonnement mensuel surprise.",
+        en: "Vercel hosting is free for most sites. A domain name costs ~€10/year. No surprise monthly fees.",
+        es: "El alojamiento en Vercel es gratuito para la mayoría de sitios. Un dominio cuesta ~10 €/año. Sin sorpresas mensuales.",
+        de: "Vercel-Hosting ist für die meisten Websites kostenlos. Ein Domainname kostet ~10 €/Jahr. Keine monatlichen Überraschungsgebühren.",
+        pt: "O alojamento Vercel é gratuito para a maioria dos sites. Um domínio custa ~10 €/ano. Sem surpresas mensais.",
+      },
+    },
+    {
+      q: {
+        fr: "Est-ce que je possède le code ?",
+        en: "Do I own the code?",
+        es: "¿Soy dueño del código?",
+        de: "Gehört mir der Code?",
+        pt: "O código é meu?",
+      },
+      a: {
+        fr: "100 % oui. Le code source + le déploiement Vercel vous appartiennent entièrement. Aucun lock-in.",
+        en: "100% yes. The source code + Vercel deployment are entirely yours. No lock-in.",
+        es: "100% sí. El código fuente + el despliegue en Vercel son completamente tuyos. Sin dependencias.",
+        de: "100 % ja. Der Quellcode + die Vercel-Bereitstellung gehören vollständig dir. Kein Lock-in.",
+        pt: "100% sim. O código fonte + o deploy no Vercel são completamente seus. Sem lock-in.",
+      },
+    },
+  ],
+};
+
 /* ─── Type categories ────────────────────────────────────────── */
 const TYPE_CATS = [
   {
@@ -907,6 +983,46 @@ function CtaSection() {
   );
 }
 
+/* ─── FAQ ────────────────────────────────────────────────────── */
+function FaqSection() {
+  const { locale } = useLang();
+  const lang = (locale in FAQ_T.title ? locale : "en") as keyof typeof FAQ_T.title;
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <section ref={ref} className="px-6 pb-20">
+      <div className="mx-auto max-w-3xl">
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="text-2xl font-bold text-white text-center mb-8"
+        >
+          {FAQ_T.title[lang]}
+        </motion.h2>
+        <div className="space-y-3">
+          {FAQ_T.items.map((item, i) => (
+            <motion.details
+              key={item.q.en}
+              initial={{ opacity: 0, y: 12 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.4, delay: i * 0.07 }}
+              className="group rounded-xl border border-zinc-800 bg-zinc-900/60 p-5 hover:border-zinc-700 transition-colors"
+            >
+              <summary className="font-medium text-white cursor-pointer list-none flex items-center justify-between gap-4">
+                <span>{item.q[lang]}</span>
+                <span className="text-zinc-500 group-open:rotate-180 transition-transform shrink-0 text-lg leading-none">▾</span>
+              </summary>
+              <p className="text-zinc-400 text-sm mt-3 leading-relaxed">{item.a[lang]}</p>
+            </motion.details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ─── Testimonials ───────────────────────────────────────────── */
 function TestimonialsSection() {
   const { locale } = useLang();
@@ -967,6 +1083,7 @@ export default function HomePage() {
       <NichesSection />
       <ChooseTypeSection />
       <TestimonialsSection />
+      <FaqSection />
       <CtaSection />
       <LegalFooter />
     </div>
