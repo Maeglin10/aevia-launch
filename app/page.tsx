@@ -156,6 +156,57 @@ const TRUST_T = {
   pt: ["Sem habilidades de design", "Redação por IA", "Implantado no Vercel", "Responsivo mobile-first", "SEO otimizado", "Entregue em 2 horas"],
 };
 
+const TESTIMONIALS_T = {
+  title: {
+    fr: "Ce que disent nos clients",
+    en: "What our clients say",
+    es: "Lo que dicen nuestros clientes",
+    de: "Was unsere Kunden sagen",
+    pt: "O que dizem os nossos clientes",
+  },
+  items: [
+    {
+      quote: {
+        fr: "Mon restaurant avait besoin d'un site professionnel rapidement. En 2 heures j'avais un site que même mes clients me complimentent. Incroyable pour le prix.",
+        en: "My restaurant needed a professional site fast. In 2 hours I had a website my customers now compliment me on. Incredible value.",
+        es: "Mi restaurante necesitaba un sitio profesional rápido. En 2 horas tenía un sitio del que mis clientes me felicitan. Un valor increíble.",
+        de: "Mein Restaurant brauchte schnell eine professionelle Website. In 2 Stunden hatte ich eine, die meine Kunden loben. Unglaubliches Preis-Leistungs-Verhältnis.",
+        pt: "O meu restaurante precisava de um site profissional rapidamente. Em 2 horas tinha um site que os meus clientes elogiam. Incrível pelo preço.",
+      },
+      name: "Sophie L.",
+      role: { fr: "Restauratrice, Lyon", en: "Restaurant owner, Lyon", es: "Restauradora, Lyon", de: "Restaurantbesitzerin, Lyon", pt: "Restauradora, Lyon" },
+      avatar: "S",
+      color: "#f97316",
+    },
+    {
+      quote: {
+        fr: "Je suis plombier, pas développeur. L'IA a rédigé tout le contenu en parlant exactement comme mes clients cherchent. Mon téléphone sonne plus.",
+        en: "I'm a plumber, not a developer. The AI wrote all my content in exactly the language my clients search for. My phone rings more now.",
+        es: "Soy fontanero, no desarrollador. La IA escribió todo mi contenido en el lenguaje exacto que buscan mis clientes. Mi teléfono suena más.",
+        de: "Ich bin Klempner, kein Entwickler. Die KI hat alle Inhalte genau in der Sprache geschrieben, nach der meine Kunden suchen. Mein Telefon klingelt öfter.",
+        pt: "Sou canalizador, não desenvolvedor. A IA escreveu todo o conteúdo exatamente na linguagem que os meus clientes procuram. O meu telefone toca mais.",
+      },
+      name: "Marc D.",
+      role: { fr: "Artisan plombier, Bordeaux", en: "Plumber, Bordeaux", es: "Fontanero artesano, Burdeos", de: "Klempner, Bordeaux", pt: "Canalizador, Bordéus" },
+      avatar: "M",
+      color: "#3b82f6",
+    },
+    {
+      quote: {
+        fr: "J'avais un devis à 3 500 € d'une agence. Aevia Launch m'a livré quelque chose de mieux pour 10× moins cher. Je recommande à tous mes collègues coachs.",
+        en: "I had a €3,500 quote from an agency. Aevia Launch delivered something better for 10× less. I recommend it to all my coach colleagues.",
+        es: "Tenía un presupuesto de 3.500 € de una agencia. Aevia Launch me entregó algo mejor por 10× menos. Lo recomiendo a todos mis colegas coaches.",
+        de: "Ich hatte ein Angebot von 3.500 € von einer Agentur. Aevia Launch lieferte etwas Besseres für 10× weniger. Ich empfehle es allen meinen Coaching-Kollegen.",
+        pt: "Tinha um orçamento de 3.500 € de uma agência. O Aevia Launch entregou algo melhor por 10× menos. Recomendo a todos os meus colegas coaches.",
+      },
+      name: "Elena V.",
+      role: { fr: "Coach de vie, Paris", en: "Life coach, Paris", es: "Coach de vida, París", de: "Life Coach, Paris", pt: "Coach de vida, Paris" },
+      avatar: "E",
+      color: "#8b5cf6",
+    },
+  ],
+};
+
 /* ─── Type categories ────────────────────────────────────────── */
 const TYPE_CATS = [
   {
@@ -856,6 +907,56 @@ function CtaSection() {
   );
 }
 
+/* ─── Testimonials ───────────────────────────────────────────── */
+function TestimonialsSection() {
+  const { locale } = useLang();
+  const lang = (locale in TESTIMONIALS_T.title ? locale : "en") as keyof typeof TESTIMONIALS_T.title;
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <section ref={ref} className="px-6 pb-24">
+      <div className="mx-auto max-w-6xl">
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="text-2xl font-bold text-white text-center mb-10"
+        >
+          {TESTIMONIALS_T.title[lang]}
+        </motion.h2>
+        <div className="grid sm:grid-cols-3 gap-5">
+          {TESTIMONIALS_T.items.map((item, i) => (
+            <motion.div
+              key={item.name}
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 flex flex-col gap-4"
+            >
+              <p className="text-zinc-300 text-sm leading-relaxed flex-1">
+                &ldquo;{item.quote[lang]}&rdquo;
+              </p>
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0"
+                  style={{ backgroundColor: item.color }}
+                >
+                  {item.avatar}
+                </div>
+                <div>
+                  <div className="text-sm font-semibold text-white">{item.name}</div>
+                  <div className="text-xs text-zinc-500">{item.role[lang]}</div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ─── Page ───────────────────────────────────────────────────── */
 export default function HomePage() {
   return (
@@ -865,6 +966,7 @@ export default function HomePage() {
       <StepsSection />
       <NichesSection />
       <ChooseTypeSection />
+      <TestimonialsSection />
       <CtaSection />
       <LegalFooter />
     </div>
