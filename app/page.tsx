@@ -984,6 +984,19 @@ function CtaSection() {
 }
 
 /* ─── FAQ ────────────────────────────────────────────────────── */
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQ_T.items.map((item) => ({
+    "@type": "Question",
+    name: item.q.fr,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.a.fr,
+    },
+  })),
+};
+
 function FaqSection() {
   const { locale } = useLang();
   const lang = (locale in FAQ_T.title ? locale : "en") as keyof typeof FAQ_T.title;
@@ -992,6 +1005,10 @@ function FaqSection() {
 
   return (
     <section ref={ref} className="px-6 pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <div className="mx-auto max-w-3xl">
         <motion.h2
           initial={{ opacity: 0, y: 16 }}
