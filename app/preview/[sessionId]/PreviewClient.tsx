@@ -10,43 +10,53 @@ import { useLang, LOCALE_META, type Locale } from "@/lib/LangContext";
 const T = {
   fr: {
     notFound: "Session introuvable.", startOver: "Recommencer →", edit: "Modifier",
-    copied: "Copié !", shareLink: "Partager le lien", launch: "Lancer mon site",
-    preview: "Aperçu", ready: "Prêt à lancer !",
-    reachOutA: "Nous vous contacterons à", reachOutB: "sous", twoHours: "2 heures",
-    reachOutC: "pour finaliser et mettre votre site en ligne.",
-    yourLink: "Votre lien d'aperçu :", backToPreview: "Retour à l'aperçu", confirmLaunch: "Confirmer le lancement",
+    copied: "Copié !", shareLink: "Partager le lien", launch: "Je veux ce site",
+    preview: "Aperçu", ready: "Votre site vous plaît ?",
+    orderIntro: "Envoyez-nous un message et nous vous recontactons sous 2h pour finaliser et mettre votre site en ligne.",
+    orderBtn: "Nous contacter →", backToPreview: "Retour à l'aperçu",
+    yourLink: "Votre lien d'aperçu :",
+    mailSubject: "Commande de site — AeviaLaunch",
+    mailBody: "Bonjour,\n\nJe suis intéressé(e) par le site que vous avez généré pour moi.\nLien d'aperçu : {{link}}\n\nMerci de me recontacter.",
   },
   en: {
     notFound: "Session not found.", startOver: "Start over →", edit: "Edit",
-    copied: "Copied!", shareLink: "Share link", launch: "Launch my site",
-    preview: "Preview", ready: "Ready to launch!",
-    reachOutA: "We'll reach out to", reachOutB: "within", twoHours: "2 hours",
-    reachOutC: "to finalise and deploy your site live.",
-    yourLink: "Your preview link:", backToPreview: "Back to preview", confirmLaunch: "Confirm launch",
+    copied: "Copied!", shareLink: "Share link", launch: "I want this site",
+    preview: "Preview", ready: "Happy with your site?",
+    orderIntro: "Send us a message and we'll get back to you within 2 hours to finalise and publish your site.",
+    orderBtn: "Contact us →", backToPreview: "Back to preview",
+    yourLink: "Your preview link:",
+    mailSubject: "Site order — AeviaLaunch",
+    mailBody: "Hello,\n\nI am interested in the site you generated for me.\nPreview link: {{link}}\n\nPlease get back to me.",
   },
   es: {
     notFound: "Sesión no encontrada.", startOver: "Empezar de nuevo →", edit: "Editar",
-    copied: "¡Copiado!", shareLink: "Compartir enlace", launch: "Lanzar mi sitio",
-    preview: "Vista previa", ready: "¡Listo para lanzar!",
-    reachOutA: "Te contactaremos a", reachOutB: "en", twoHours: "2 horas",
-    reachOutC: "para finalizar y publicar tu sitio en vivo.",
-    yourLink: "Tu enlace de vista previa:", backToPreview: "Volver a la vista previa", confirmLaunch: "Confirmar lanzamiento",
+    copied: "¡Copiado!", shareLink: "Compartir enlace", launch: "Quiero este sitio",
+    preview: "Vista previa", ready: "¿Te gusta tu sitio?",
+    orderIntro: "Envíanos un mensaje y te contactaremos en 2 horas para finalizar y publicar tu sitio.",
+    orderBtn: "Contactarnos →", backToPreview: "Volver a la vista previa",
+    yourLink: "Tu enlace de vista previa:",
+    mailSubject: "Pedido de sitio — AeviaLaunch",
+    mailBody: "Hola,\n\nEstoy interesado/a en el sitio que generaron para mí.\nEnlace de vista previa: {{link}}\n\nPor favor contáctenme.",
   },
   de: {
     notFound: "Sitzung nicht gefunden.", startOver: "Neu starten →", edit: "Bearbeiten",
-    copied: "Kopiert!", shareLink: "Link teilen", launch: "Website starten",
-    preview: "Vorschau", ready: "Bereit zum Start!",
-    reachOutA: "Wir melden uns bei", reachOutB: "innerhalb von", twoHours: "2 Stunden",
-    reachOutC: "um Ihre Website fertigzustellen und live zu schalten.",
-    yourLink: "Ihr Vorschau-Link:", backToPreview: "Zurück zur Vorschau", confirmLaunch: "Start bestätigen",
+    copied: "Kopiert!", shareLink: "Link teilen", launch: "Ich will diese Website",
+    preview: "Vorschau", ready: "Gefällt Ihnen Ihre Website?",
+    orderIntro: "Schreiben Sie uns und wir melden uns innerhalb von 2 Stunden, um Ihre Website fertigzustellen.",
+    orderBtn: "Kontakt aufnehmen →", backToPreview: "Zurück zur Vorschau",
+    yourLink: "Ihr Vorschau-Link:",
+    mailSubject: "Website-Bestellung — AeviaLaunch",
+    mailBody: "Hallo,\n\nIch bin an der für mich generierten Website interessiert.\nVorschau-Link: {{link}}\n\nBitte melden Sie sich bei mir.",
   },
   pt: {
     notFound: "Sessão não encontrada.", startOver: "Recomeçar →", edit: "Editar",
-    copied: "Copiado!", shareLink: "Partilhar link", launch: "Lançar o meu site",
-    preview: "Pré-visualização", ready: "Pronto para lançar!",
-    reachOutA: "Entraremos em contacto com", reachOutB: "em", twoHours: "2 horas",
-    reachOutC: "para finalizar e publicar o seu site.",
-    yourLink: "O seu link de pré-visualização:", backToPreview: "Voltar à pré-visualização", confirmLaunch: "Confirmar lançamento",
+    copied: "Copiado!", shareLink: "Partilhar link", launch: "Quero este site",
+    preview: "Pré-visualização", ready: "Gostou do seu site?",
+    orderIntro: "Envie-nos uma mensagem e entraremos em contacto em 2 horas para finalizar e publicar o seu site.",
+    orderBtn: "Contactar-nos →", backToPreview: "Voltar à pré-visualização",
+    yourLink: "O seu link de pré-visualização:",
+    mailSubject: "Pedido de site — AeviaLaunch",
+    mailBody: "Olá,\n\nEstou interessado/a no site que geraram para mim.\nLink de pré-visualização: {{link}}\n\nPor favor contactem-me.",
   },
 };
 
@@ -89,8 +99,6 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [checkoutLoading, setCheckoutLoading] = useState(false);
-  const [checkoutError, setCheckoutError] = useState("");
 
   useEffect(() => {
     fetch(`/api/sessions?id=${sessionId}`)
@@ -105,22 +113,10 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleCheckout = async () => {
-    setCheckoutLoading(true);
-    setCheckoutError("");
-    try {
-      const res = await fetch("/api/checkout-preview", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId }),
-      });
-      const data = await res.json() as { url?: string; error?: string };
-      if (!res.ok || !data.url) throw new Error(data.error ?? "Stripe error");
-      window.location.href = data.url;
-    } catch (err) {
-      setCheckoutError(err instanceof Error ? err.message : "Erreur inattendue");
-      setCheckoutLoading(false);
-    }
+  const handleOrder = () => {
+    const previewLink = window.location.href;
+    const body = t.mailBody.replace("{{link}}", previewLink);
+    window.location.href = `mailto:contact@aevia.io?subject=${encodeURIComponent(t.mailSubject)}&body=${encodeURIComponent(body)}`;
   };
 
   if (loading) {
@@ -194,16 +190,10 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
               <Rocket className="w-7 h-7 text-violet-400" />
             </div>
             <h2 className="text-xl font-bold text-white mb-3">{t.ready}</h2>
-            <p className="text-zinc-400 text-sm leading-relaxed mb-6">
-              {t.reachOutA} <span className="text-white font-medium">{session.formData.email}</span> {t.reachOutB}{" "}
-              <span className="text-violet-400 font-semibold">{t.twoHours}</span> {t.reachOutC}
-            </p>
+            <p className="text-zinc-400 text-sm leading-relaxed mb-6">{t.orderIntro}</p>
             <p className="text-zinc-500 text-xs mb-6">
               {t.yourLink} <span className="text-zinc-300 font-mono break-all">{typeof window !== "undefined" ? window.location.href : ""}</span>
             </p>
-            {checkoutError && (
-              <p className="text-red-400 text-xs mb-3 text-center">{checkoutError}</p>
-            )}
             <div className="flex gap-3">
               <button
                 onClick={() => setShowModal(false)}
@@ -212,12 +202,10 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
                 {t.backToPreview}
               </button>
               <button
-                onClick={handleCheckout}
-                disabled={checkoutLoading}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-semibold transition-colors"
+                onClick={handleOrder}
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors"
               >
-                {checkoutLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-                {t.confirmLaunch}
+                {t.orderBtn}
               </button>
             </div>
           </div>
