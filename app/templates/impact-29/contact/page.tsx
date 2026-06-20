@@ -232,8 +232,8 @@ export default function ContactPage() {
                     className="border border-[#00F5D4]/30 bg-[#00F5D4]/5 p-10 text-center"
                   >
                     <CheckCircle2 className="w-10 h-10 text-[#00F5D4] mx-auto mb-4" />
-                    <div className="font-bold text-lg mb-2 text-[#E2E8F0]">Message sent</div>
-                    <div className="text-[#94A3B8] text-sm mb-6">I'll reply within one business day. Check your spam folder if you don't hear from me by then.</div>
+                    <div className="font-bold text-lg mb-2 text-[#E2E8F0]">Merci</div>
+                    <div className="text-[#94A3B8] text-sm mb-6">Merci, nous vous répondrons sous 24h.</div>
                     <div className="text-xs text-[#475569]">
                       <span className="text-[#00F5D4]">✓ </span>
                       Contact form submitted successfully

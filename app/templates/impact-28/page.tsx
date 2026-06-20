@@ -44,6 +44,7 @@ export default function Home() {
   const [activeProject, setActiveProject] = useState<number | null>(null)
   const [openService, setOpenService] = useState<number | null>(null)
   const [activeTestimonial, setActiveTestimonial] = useState(0)
+  const [contactSubmitted, setContactSubmitted] = useState(false)
 
   const heroY = useTransform(scrollYProgress, [0, 0.3], [0, 80])
   const heroScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.15])
@@ -611,14 +612,21 @@ export default function Home() {
                     <div className="text-gray-400">Main Atelier: Paris, France</div>
                   </div>
                 </div>
-                <div className="space-y-4">
-                  <input type="text" placeholder="YOUR NAME" className="w-full border-4 border-black px-5 py-4 font-bold uppercase tracking-widest text-sm focus:outline-none placeholder:text-gray-300" />
-                  <input type="email" placeholder="YOUR EMAIL" className="w-full border-4 border-black px-5 py-4 font-bold uppercase tracking-widest text-sm focus:outline-none placeholder:text-gray-300" />
-                  <textarea placeholder="DESCRIBE YOUR PROJECT" rows={4} className="w-full border-4 border-black px-5 py-4 font-bold uppercase tracking-widest text-sm focus:outline-none placeholder:text-gray-300 resize-none" />
-                  <button className="w-full bg-black text-white font-black uppercase tracking-widest text-sm py-5 hover:bg-gray-900 transition-colors cursor-pointer" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "1.1rem" }}>
-                    SEND MESSAGE →
-                  </button>
-                </div>
+                {contactSubmitted ? (
+                  <div className="border-4 border-black p-8 text-center bg-gray-50 text-black">
+                    <h3 className="font-black text-2xl uppercase mb-2" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>Merci</h3>
+                    <p className="text-gray-600">Merci, nous vous répondrons sous 24h.</p>
+                  </div>
+                ) : (
+                  <form onSubmit={(e) => { e.preventDefault(); setContactSubmitted(true); }} className="space-y-4 w-full">
+                    <input required type="text" placeholder="YOUR NAME" className="w-full border-4 border-black px-5 py-4 font-bold uppercase tracking-widest text-sm focus:outline-none placeholder:text-gray-300 text-black bg-white" />
+                    <input required type="email" placeholder="YOUR EMAIL" className="w-full border-4 border-black px-5 py-4 font-bold uppercase tracking-widest text-sm focus:outline-none placeholder:text-gray-300 text-black bg-white" />
+                    <textarea required placeholder="DESCRIBE YOUR PROJECT" rows={4} className="w-full border-4 border-black px-5 py-4 font-bold uppercase tracking-widest text-sm focus:outline-none placeholder:text-gray-300 resize-none text-black bg-white" />
+                    <button type="submit" className="w-full bg-black text-white font-black uppercase tracking-widest text-sm py-5 hover:bg-gray-900 transition-colors cursor-pointer" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "1.1rem" }}>
+                      SEND MESSAGE →
+                    </button>
+                  </form>
+                )}
               </div>
             </Reveal>
           </div>

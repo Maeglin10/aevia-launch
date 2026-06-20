@@ -78,7 +78,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Link href="/templates/impact-29/contact" onClick={() => setMenuOpen(false)} className="text-left text-[#475569] hover:text-[#00F5D4] transition-colors cursor-pointer">
                 <span className="text-[#00F5D4]">// </span>contact
               </Link>
-              <Link href="/templates/impact-29/legal" onClick={() => setMenuOpen(false)} className="text-left text-[#475569] hover:text-[#00F5D4] transition-colors cursor-pointer">
+              <Link href="/legal/mentions-legales" onClick={() => setMenuOpen(false)} className="text-left text-[#475569] hover:text-[#00F5D4] transition-colors cursor-pointer">
                 <span className="text-[#00F5D4]">// </span>legal
               </Link>
             </motion.div>
@@ -104,7 +104,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link href="/templates/impact-29/timeline" className="hover:text-[#00F5D4] transition-colors cursor-pointer">Experience</Link>
             <Link href="/templates/impact-29/studio" className="hover:text-[#00F5D4] transition-colors cursor-pointer">Studio</Link>
             <Link href="/templates/impact-29/contact" className="hover:text-[#00F5D4] transition-colors cursor-pointer">Contact</Link>
-            <Link href="/templates/impact-29/legal" className="hover:text-[#00F5D4] transition-colors cursor-pointer">Legal Notice</Link>
+            <Link href="/legal/mentions-legales" className="hover:text-[#00F5D4] transition-colors cursor-pointer">Mentions légales</Link>
+            <Link href="/legal/confidentialite" className="hover:text-[#00F5D4] transition-colors cursor-pointer">Confidentialité</Link>
+            <Link href="/legal/cgu" className="hover:text-[#00F5D4] transition-colors cursor-pointer">CGU</Link>
           </div>
           <div className="text-[#475569] text-xs">© 2026 Raphaël Genet · Paris, France</div>
         </div>

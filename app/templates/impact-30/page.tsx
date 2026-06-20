@@ -42,6 +42,7 @@ export default function Home() {
   const faqRef = useRef<HTMLElement>(null);
   const faqInView = useInView(faqRef, { once: true, margin: "-60px" });
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [contactSubmitted, setContactSubmitted] = useState(false);
 
   return (
     <div>
@@ -872,17 +873,26 @@ export default function Home() {
             <p style={{ color: C.textMuted, fontSize: 15 }}>Une question ou une demande spécifique ? Laissez-nous un message.</p>
           </div>
           
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }} className="grid grid-cols-1 md:grid-cols-2">
-            <input type="text" placeholder="Votre Nom" style={{ width: "100%", padding: "14px 18px", borderRadius: 10, border: `1px solid ${C.border}`, fontSize: 14, outline: "none" }} />
-            <input type="email" placeholder="Votre E-mail" style={{ width: "100%", padding: "14px 18px", borderRadius: 10, border: `1px solid ${C.border}`, fontSize: 14, outline: "none" }} />
-          </div>
-          <textarea placeholder="Votre message..." rows={4} style={{ width: "100%", padding: "14px 18px", borderRadius: 10, border: `1px solid ${C.border}`, fontSize: 14, outline: "none", resize: "none", marginBottom: 20 }} />
-          <button 
-            onClick={() => alert("Message envoyé ! (Simulation)")}
-            style={{ width: "100%", padding: "14px", background: C.accent, color: C.white, border: "none", borderRadius: 10, fontWeight: 700, fontSize: 15, cursor: "pointer", fontFamily: FONT }}
-          >
-            Envoyer le message
-          </button>
+          {contactSubmitted ? (
+            <div style={{ textAlign: "center", padding: "40px 0", border: `1px solid ${C.border}`, borderRadius: 10, background: C.white }}>
+              <h3 style={{ fontSize: 22, fontWeight: 800, color: C.accent, marginBottom: 10 }}>Merci</h3>
+              <p style={{ color: C.textMuted, fontSize: 15 }}>Merci, nous vous répondrons sous 24h.</p>
+            </div>
+          ) : (
+            <form onSubmit={(e) => { e.preventDefault(); setContactSubmitted(true); }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }} className="grid grid-cols-1 md:grid-cols-2">
+                <input required type="text" placeholder="Votre Nom" style={{ width: "100%", padding: "14px 18px", borderRadius: 10, border: `1px solid ${C.border}`, fontSize: 14, outline: "none" }} />
+                <input required type="email" placeholder="Votre E-mail" style={{ width: "100%", padding: "14px 18px", borderRadius: 10, border: `1px solid ${C.border}`, fontSize: 14, outline: "none" }} />
+              </div>
+              <textarea required placeholder="Votre message..." rows={4} style={{ width: "100%", padding: "14px 18px", borderRadius: 10, border: `1px solid ${C.border}`, fontSize: 14, outline: "none", resize: "none", marginBottom: 20 }} />
+              <button 
+                type="submit"
+                style={{ width: "100%", padding: "14px", background: C.accent, color: C.white, border: "none", borderRadius: 10, fontWeight: 700, fontSize: 15, cursor: "pointer", fontFamily: FONT }}
+              >
+                Envoyer le message
+              </button>
+            </form>
+          )}
         </div>
       </section>
     </div>
