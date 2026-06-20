@@ -52,7 +52,7 @@ export default function ReservationPage() {
                       marginBottom: 12,
                     }}
                   >
-                    Demande reçue.
+                    Merci
                   </div>
                   <p
                     style={{
@@ -62,8 +62,7 @@ export default function ReservationPage() {
                       fontWeight: 300,
                     }}
                   >
-                    Merci. Notre maître d'hôtel vous confirmera votre table par
-                    téléphone dans les meilleurs délais.
+                    Merci, nous vous répondrons sous 24h.
                   </p>
                 </div>
               ) : (

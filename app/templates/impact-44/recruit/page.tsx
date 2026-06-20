@@ -51,8 +51,8 @@ export default function RecruitPage() {
           </div>
           {submitted ? (
             <div style={{ padding: "40px 0", textAlign: "center", color: C.green }}>
-              <div style={{ fontSize: 24, fontWeight: 900, letterSpacing: "0.1em", marginBottom: 12 }}>APPLICATION RECEIVED</div>
-              <div style={{ fontSize: 13, color: C.textMid, letterSpacing: "0.05em" }}>VOIDCORE HAS SAVED YOUR TRANSMISSION. PROCEED TO STANDBY.</div>
+              <div style={{ fontSize: 24, fontWeight: 900, letterSpacing: "0.1em", marginBottom: 12 }}>Merci</div>
+              <div style={{ fontSize: 13, color: C.textMid, letterSpacing: "0.05em" }}>Merci, nous vous répondrons sous 24h.</div>
             </div>
           ) : (
             <form onSubmit={handleSubmit}>

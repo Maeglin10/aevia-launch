@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { C, MagneticButton, TextReveal } from "../shared";
 
 export default function ContactPage() {
+  const [submitted, setSubmitted] = React.useState(false);
+
   return (
     <div style={{ background: C.cream, minHeight: "100vh", padding: "80px 5% 120px" }}>
       <div style={{ maxWidth: 800, margin: "0 auto" }}>
@@ -62,22 +64,84 @@ export default function ContactPage() {
             padding: "56px 64px",
           }}
         >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 24,
-              marginBottom: 24,
-            }}
-            className="two-col"
-          >
-            {[
-              { label: "First Name", type: "text", placeholder: "Ingrid" },
-              { label: "Last Name", type: "text", placeholder: "Halvorsen" },
-              { label: "Email Address", type: "email", placeholder: "your@email.com" },
-              { label: "Phone Number", type: "tel", placeholder: "+33 6 12 34 56 78" },
-            ].map((field) => (
-              <div key={field.label}>
+          {submitted ? (
+            <div style={{ textAlign: "center", padding: "40px 0" }}>
+              <h2
+                style={{
+                  fontFamily: C.font,
+                  fontSize: 28,
+                  fontWeight: 300,
+                  color: C.charcoal,
+                  marginBottom: 16,
+                  fontStyle: "italic",
+                }}
+              >
+                Merci
+              </h2>
+              <p
+                style={{
+                  fontFamily: C.fontSans,
+                  fontSize: 16,
+                  color: "#6b7265",
+                  lineHeight: 1.8,
+                  fontWeight: 300,
+                }}
+              >
+                Merci, nous vous répondrons sous 24h.
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 24,
+                  marginBottom: 24,
+                }}
+                className="two-col"
+              >
+                {[
+                  { label: "First Name", type: "text", placeholder: "Ingrid" },
+                  { label: "Last Name", type: "text", placeholder: "Halvorsen" },
+                  { label: "Email Address", type: "email", placeholder: "your@email.com" },
+                  { label: "Phone Number", type: "tel", placeholder: "+33 6 12 34 56 78" },
+                ].map((field) => (
+                  <div key={field.label}>
+                    <label
+                      style={{
+                        fontFamily: C.fontSans,
+                        fontSize: 11,
+                        letterSpacing: "0.18em",
+                        textTransform: "uppercase",
+                        color: C.charcoal,
+                        display: "block",
+                        marginBottom: 8,
+                      }}
+                    >
+                      {field.label}
+                    </label>
+                    <input
+                      type={field.type}
+                      placeholder={field.placeholder}
+                      required
+                      style={{
+                        width: "100%",
+                        padding: "14px 16px",
+                        border: `1px solid ${C.mist}`,
+                        background: C.cream,
+                        fontFamily: C.fontSans,
+                        fontSize: 14,
+                        color: C.charcoal,
+                        outline: "none",
+                        boxSizing: "border-box",
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ marginBottom: 24 }}>
                 <label
                   style={{
                     fontFamily: C.fontSans,
@@ -89,11 +153,9 @@ export default function ContactPage() {
                     marginBottom: 8,
                   }}
                 >
-                  {field.label}
+                  Preferred Package
                 </label>
-                <input
-                  type={field.type}
-                  placeholder={field.placeholder}
+                <select
                   style={{
                     width: "100%",
                     padding: "14px 16px",
@@ -103,94 +165,65 @@ export default function ContactPage() {
                     fontSize: 14,
                     color: C.charcoal,
                     outline: "none",
+                  }}
+                >
+                  <option>Solstice — Half Day (€290)</option>
+                  <option>Equinox — Full Day (€490)</option>
+                  <option>Zenith — 2-Night Retreat (€1,290)</option>
+                </select>
+              </div>
+
+              <div style={{ marginBottom: 36 }}>
+                <label
+                  style={{
+                    fontFamily: C.fontSans,
+                    fontSize: 11,
+                    letterSpacing: "0.18em",
+                    textTransform: "uppercase",
+                    color: C.charcoal,
+                    display: "block",
+                    marginBottom: 8,
+                  }}
+                >
+                  Special Requests
+                </label>
+                <textarea
+                  rows={4}
+                  placeholder="Any allergies, mobility considerations, or special intentions..."
+                  style={{
+                    width: "100%",
+                    padding: "14px 16px",
+                    border: `1px solid ${C.mist}`,
+                    background: C.cream,
+                    fontFamily: C.fontSans,
+                    fontSize: 14,
+                    color: C.charcoal,
+                    outline: "none",
+                    resize: "vertical",
                     boxSizing: "border-box",
                   }}
                 />
               </div>
-            ))}
-          </div>
 
-          <div style={{ marginBottom: 24 }}>
-            <label
-              style={{
-                fontFamily: C.fontSans,
-                fontSize: 11,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                color: C.charcoal,
-                display: "block",
-                marginBottom: 8,
-              }}
-            >
-              Preferred Package
-            </label>
-            <select
-              style={{
-                width: "100%",
-                padding: "14px 16px",
-                border: `1px solid ${C.mist}`,
-                background: C.cream,
-                fontFamily: C.fontSans,
-                fontSize: 14,
-                color: C.charcoal,
-                outline: "none",
-              }}
-            >
-              <option>Solstice — Half Day (€290)</option>
-              <option>Equinox — Full Day (€490)</option>
-              <option>Zenith — 2-Night Retreat (€1,290)</option>
-            </select>
-          </div>
-
-          <div style={{ marginBottom: 36 }}>
-            <label
-              style={{
-                fontFamily: C.fontSans,
-                fontSize: 11,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                color: C.charcoal,
-                display: "block",
-                marginBottom: 8,
-              }}
-            >
-              Special Requests
-            </label>
-            <textarea
-              rows={4}
-              placeholder="Any allergies, mobility considerations, or special intentions..."
-              style={{
-                width: "100%",
-                padding: "14px 16px",
-                border: `1px solid ${C.mist}`,
-                background: C.cream,
-                fontFamily: C.fontSans,
-                fontSize: 14,
-                color: C.charcoal,
-                outline: "none",
-                resize: "vertical",
-                boxSizing: "border-box",
-              }}
-            />
-          </div>
-
-          <MagneticButton
-            style={{
-              width: "100%",
-              background: C.sage,
-              color: C.white,
-              border: "none",
-              padding: "18px 40px",
-              fontFamily: C.fontSans,
-              fontSize: 12,
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
-          >
-            Request Reservation
-          </MagneticButton>
+              <MagneticButton
+                style={{
+                  width: "100%",
+                  background: C.sage,
+                  color: C.white,
+                  border: "none",
+                  padding: "18px 40px",
+                  fontFamily: C.fontSans,
+                  fontSize: 12,
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                }}
+              >
+                Request Reservation
+              </MagneticButton>
+            </form>
+          )}
         </motion.div>
 
         <div
