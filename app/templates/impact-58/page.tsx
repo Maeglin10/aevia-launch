@@ -723,7 +723,65 @@ export default function SkewOSHome() {
           </div>
         </section>
 
-        {/* ── Section 8: CTA ────────────────────────────────────────────── */}
+        {/* ── Section 8: TEAM ───────────────────────────────────────────── */}
+        <section style={{ padding: '8rem 3rem', background: '#04040A', borderTop: `1px solid ${C.border}` }}>
+          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+            <Reveal>
+              <p style={{ fontFamily: "'Syne', sans-serif", fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.4em', color: C.accent, textTransform: 'uppercase', marginBottom: '1.5rem' }}>Studio · Équipe</p>
+              <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', color: C.text, textTransform: 'uppercase', lineHeight: 1, marginBottom: '5rem' }}>
+                Les Architectes<br /><span style={{ fontWeight: 300, fontStyle: 'italic', color: C.muted }}>du Mouvement</span>
+              </h2>
+            </Reveal>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem' }}>
+              {[
+                { name: 'Léa Duval', role: 'Directrice Créative & Fondatrice', since: '2014', bio: 'Ancienne DOP chez Partizan, Léa a fondé le studio après 8 ans à diriger la photographie pour des marques comme Dior et Nike. Elle supervise toutes les directions artistiques.' },
+                { name: 'Marcus Stein', role: 'Directeur Technique / VFX Lead', since: '2015', bio: 'Formé au FxPhD, Marcus a développé le pipeline de rendu propriétaire du studio. Il a reçu deux prix AICP pour ses travaux sur la simulation de particules et de fluides.' },
+                { name: 'Camille Bouchard', role: 'Head of Strategy & Client Relations', since: '2019', bio: 'Ex-agence BBDO Paris, Camille gère les comptes stratégiques et l\'orchestration des projets multi-marchés. Elle parle 4 langues et gère simultanément 6 à 8 comptes actifs.' },
+                { name: 'Tom Iwata', role: '3D Motion Director', since: '2021', bio: 'Spécialiste Cinema 4D + Houdini, Tom a développé les identités motion de trois maisons de luxe en 2023. Ses boucles génèrent régulièrement plus de 50M d\'impressions sur les réseaux.' },
+              ].map((m, i) => (
+                <Reveal key={m.name} delay={i * 0.1}>
+                  <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: '2rem' }}>
+                    <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: `linear-gradient(135deg, ${C.accent}22 0%, ${C.accent}44 100%)`, border: `1px solid ${C.accent}44`, marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: '1.25rem', color: C.accent }}>{m.name.split(' ').map(n => n[0]).join('')}</span>
+                    </div>
+                    <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: '1.1rem', color: C.text, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.4rem' }}>{m.name}</h3>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.7rem', color: C.accent, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '1rem' }}>{m.role}</p>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.85rem', color: C.muted, lineHeight: 1.8 }}>{m.bio}</p>
+                    <p style={{ fontFamily: "'Syne', sans-serif", fontSize: '0.65rem', color: C.border, marginTop: '1.5rem', letterSpacing: '0.2em' }}>STUDIO DEPUIS {m.since}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Section 9: PROCESS ────────────────────────────────────────── */}
+        <section style={{ padding: '8rem 3rem', background: '#06060C', borderTop: `1px solid ${C.border}` }}>
+          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+            <Reveal>
+              <p style={{ fontFamily: "'Syne', sans-serif", fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.4em', color: C.accent, textTransform: 'uppercase', marginBottom: '1.5rem' }}>Process · Méthode</p>
+              <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: 'clamp(2rem, 4vw, 4rem)', color: C.text, textTransform: 'uppercase', lineHeight: 1, marginBottom: '5rem' }}>Comment on crée.</h2>
+            </Reveal>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0', borderTop: `1px solid ${C.border}` }}>
+              {[
+                { num: '01', label: 'Brief Déconstruit', desc: 'Chaque projet commence par une session de 2h où nous défaisons activement le brief. Nous cherchons ce que la marque ne sait pas encore qu\'elle veut dire.' },
+                { num: '02', label: 'Concept Cinétique', desc: 'Livraison de 3 concepts de mouvement sous forme de storyboards animatiques. Pas de moodboards statiques — seul le mouvement révèle le vrai potentiel.' },
+                { num: '03', label: 'Production Intégrée', desc: 'Direction artistique, capture, VFX et sound design sous un même toit. Zéro perte en translation entre les départements — tout le monde parle la même langue.' },
+                { num: '04', label: 'Diffusion & Adaptation', desc: 'Livraison multi-formats optimisés pour chaque plateforme : broadcast 4K, social 9:16, digital 16:9, DOOH, et declinaisons internationales si nécessaire.' },
+              ].map((s, i) => (
+                <Reveal key={s.num} delay={i * 0.1}>
+                  <div style={{ padding: '3rem 2.5rem', borderRight: i < 3 ? `1px solid ${C.border}` : 'none', borderBottom: `1px solid ${C.border}` }}>
+                    <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: '3rem', color: `${C.accent}15`, lineHeight: 1, marginBottom: '2rem' }}>{s.num}</div>
+                    <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: '0.95rem', color: C.text, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '1rem' }}>{s.label}</h3>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.85rem', color: C.muted, lineHeight: 1.8 }}>{s.desc}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Section 10: CTA ───────────────────────────────────────────── */}
         <section
           style={{
             padding: '10rem 3rem',

@@ -611,7 +611,40 @@ export default function StreamHubHome() {
       </section>
 
       {/* ==========================================
-          8. CTA — EMAIL SIGNUP
+          8. FAQ
+          ========================================== */}
+      <section className="py-24 bg-[#08090f] border-t border-white/5">
+        <div className="max-w-[900px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="text-center mb-16">
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-rose-500 mb-4">// FAQ</div>
+              <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white italic">
+                Tes questions.<br /><span className="text-white/20">Nos réponses.</span>
+              </h2>
+            </div>
+          </Reveal>
+          <div className="divide-y divide-white/5">
+            {[
+              { q: "Est-ce que Glitch Unit est vraiment gratuit ?", a: "Oui — créer un compte, diffuser en HD, et rejoindre une communauté de créateurs est 100% gratuit. On se rémunère uniquement via les abonnements Tier payants (Studio et Legend) qui débloquent des outils avancés : analytics temps réel, export brut, boutique intégrée." },
+              { q: "Combien puis-je gagner sur la plateforme ?", a: "Ça dépend de ton audience et de ta fréquence. Nos données montrent que les créateurs actifs (8+ streams/mois) gagnent en moyenne 2 300€/mois. Les Tier Legend avec une audience fidèle dépassent régulièrement 8 000€/mois via abonnements, tips et boutique." },
+              { q: "Quelle est la qualité maximale de diffusion ?", a: "Glitch Unit prend en charge jusqu'à 8K 120FPS avec encodage AV1 hardware-accelerated. En pratique, 95% de nos créateurs streamront en 4K 60FPS — suffisant pour une expérience premium sur tous les écrans." },
+              { q: "Comment fonctionne le paiement des revenus ?", a: "Les revenus sont versés chaque 7 jours sur le compte bancaire de ton choix (SEPA/SWIFT). Aucun seuil minimum de paiement. On prend 8% de commission — contre 30-50% chez les plateformes traditionnelles." },
+              { q: "Puis-je diffuser simultanément sur d'autres plateformes ?", a: "Oui. On appelle ça le multi-stream. Depuis ton tableau de bord Glitch Unit, tu peux rediffuser simultanément vers Twitch, YouTube, ou toute destination RTMP. Ton audience principale reste sur Glitch, les autres canaux amplifient ta portée." },
+              { q: "Qu'est-ce qui différencie Glitch Unit de Twitch ou YouTube ?", a: "Trois choses. Premièrement, l'économie : 92% des revenus te reviennent. Deuxièmement, la qualité : 8K natif sans compression agressive. Troisièmement, la communauté : on est spécialisé gaming et tech — pas un généraliste qui noie ta niche." },
+            ].map((faq, i) => (
+              <Reveal key={i} delay={i * 0.06}>
+                <div className="py-8 group">
+                  <h4 className="text-sm font-black text-white uppercase tracking-wide mb-4 group-hover:text-rose-400 transition-colors">{faq.q}</h4>
+                  <p className="text-sm text-white/40 leading-relaxed">{faq.a}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          9. CTA — EMAIL SIGNUP
           ========================================== */}
       <section className="py-32 bg-[#0a0c12] border-t border-white/5 relative overflow-hidden">
         {/* Background glow */}

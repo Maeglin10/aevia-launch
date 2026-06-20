@@ -416,7 +416,106 @@ export default function LuminalHome() {
       </section>
 
       {/* ==========================================
-          7. FINAL CTA
+          7. METHODOLOGY
+          ========================================== */}
+      <section className="py-32 px-6 md:px-12 bg-[#2a2a2a] text-[#f8f5f0]">
+        <div className="max-w-[1400px] mx-auto">
+          <Reveal>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[#3d7a5e] mb-6 font-sans font-bold">Approche · Méthode</p>
+            <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-20 leading-tight" style={{ fontFamily: "Cinzel, Georgia, serif" }}>
+              La Méthode<br /><span className="font-light italic" style={{ fontFamily: "Lora, Georgia, serif" }}>Nakano</span>
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-20">
+            {[
+              { num: "I", title: "Déprogrammation", desc: "Les trois premiers jours visent à interrompre les schémas cognitifs habituels. Pas de téléphone, pas d'agenda, pas de structure imposée. La transition vers la présence exige du désordre avant la clarté." },
+              { num: "II", title: "Intégration Somatique", desc: "La méthode Nakano positionne le corps comme porte d'entrée principale vers la conscience. Sessions de mouvement quotidiennes — lentes, intuitives, non-performatives — pour reconnecter pensée et sensation." },
+              { num: "III", title: "Silence Structuré", desc: "Des périodes de silence total, allant de deux heures à une journée entière selon la retraite. Non pas comme privation, mais comme espace de perception. Ce que vous entendez dans le silence vous appartient." },
+              { num: "IV", title: "Intégration & Retour", desc: "Le dernier jour est entièrement consacré à la transition vers le quotidien. Avec votre guide, vous construisez une 'boussole d'intégration' — trois pratiques concrètes à ancrer dans votre vie post-retraite." },
+            ].map((step, i) => (
+              <Reveal key={step.num} delay={i * 0.12}>
+                <div className="flex gap-8">
+                  <div className="flex-shrink-0 w-10 h-10 border border-[#3d7a5e]/30 flex items-center justify-center">
+                    <span className="text-[#3d7a5e] font-bold text-sm" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{step.num}</span>
+                  </div>
+                  <div>
+                    <h3 className="text-base font-semibold uppercase tracking-wide mb-3" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{step.title}</h3>
+                    <p className="text-sm text-white/50 leading-relaxed font-sans">{step.desc}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.3}>
+            <div className="border-t border-white/10 pt-12">
+              <p className="text-sm text-white/40 font-sans italic leading-relaxed max-w-2xl" style={{ fontFamily: "Lora, Georgia, serif" }}>
+                "La transformation ne survient pas pendant la retraite. Elle survient dans les semaines qui suivent, lorsque vous réalisez que vous réagissez différemment à ce qui ne changeait jamais."
+              </p>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#3d7a5e] mt-4 font-sans">— Dr Yuki Nakano, fondatrice de la méthode</p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ==========================================
+          8. PROCESS — CANDIDATURE
+          ========================================== */}
+      <section className="py-32 px-6 md:px-12 bg-[#f8f5f0] border-t border-black/5">
+        <div className="max-w-[1400px] mx-auto">
+          <Reveal>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[#3d7a5e] mb-6 font-sans font-bold">Processus</p>
+            <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-20" style={{ fontFamily: "Cinzel, Georgia, serif" }}>Comment ça fonctionne</h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {[
+              { num: "01", title: "Candidature", desc: "Remplissez le formulaire de candidature (15 min). Aucun prérequis en méditation ou pratique contemplative — seulement une disposition sincère à ralentir." },
+              { num: "02", title: "Entretien", desc: "Un échange de 30 minutes avec l'un de nos guides pour s'assurer que la retraite sélectionnée correspond à votre moment de vie. Confidentiel, sans engagement." },
+              { num: "03", title: "Confirmation", desc: "Si la retraite vous convient, confirmation sous 48h. Un acompte de 30% réserve votre place. Le solde est dû 30 jours avant le départ." },
+              { num: "04", title: "Préparation", desc: "Deux semaines avant la retraite, vous recevez un guide de préparation : pratiques recommandées, liste de ce qu'il faut (et ne faut pas) apporter, et une lettre personnalisée de votre guide." },
+            ].map((s, i) => (
+              <Reveal key={s.num} delay={i * 0.1}>
+                <div>
+                  <div className="text-5xl font-light text-[#3d7a5e]/20 mb-6" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{s.num}</div>
+                  <div className="w-8 h-[1px] bg-[#3d7a5e]/30 mb-6" />
+                  <h3 className="text-sm font-semibold uppercase tracking-wide mb-4 text-[#2a2a2a]" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{s.title}</h3>
+                  <p className="text-sm text-black/45 leading-relaxed font-sans">{s.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          9. FAQ
+          ========================================== */}
+      <section className="py-32 px-6 md:px-12 bg-white border-t border-black/5">
+        <div className="max-w-[900px] mx-auto">
+          <Reveal>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[#3d7a5e] mb-6 font-sans font-bold">Questions fréquentes</p>
+            <h2 className="text-4xl font-bold uppercase tracking-tight mb-20 text-[#2a2a2a]" style={{ fontFamily: "Cinzel, Georgia, serif" }}>Ce qu'on nous pose.</h2>
+          </Reveal>
+          <div className="space-y-0 divide-y divide-black/8">
+            {[
+              { q: "Dois-je avoir une expérience en méditation ?", a: "Non. La plupart de nos participants n'avaient aucune pratique contemplative avant leur première retraite Luminal. Nos guides adaptent leur accompagnement à votre point de départ. Ce qui est nécessaire, c'est une curiosité sincère — pas une expérience préalable." },
+              { q: "Que se passe-t-il si je dois annuler ?", a: "Vous pouvez annuler jusqu'à 30 jours avant la retraite avec remboursement intégral (hors frais de traitement). Entre 15 et 30 jours, nous remboursons 50% ou transférons votre réservation à une date ultérieure. Aucun remboursement pour les annulations dans les 15 jours précédant le départ." },
+              { q: "Les retraites sont-elles adaptées aux personnes souffrant d'anxiété ?", a: "Oui — beaucoup de nos participants viennent précisément pour cette raison. Notre approche n'est pas thérapeutique au sens clinique du terme, mais nos guides sont formés pour accompagner les états de vulnérabilité émotionnelle avec bienveillance et compétence. Si vous suivez un traitement psychiatrique, merci de nous le préciser dans votre candidature." },
+              { q: "Quelle est la différence entre vos retraites et d'autres offres similaires ?", a: "La plupart des retraites de bien-être proposent un programme chargé — yoga à 6h, conférences, activités, méditations guidées. Luminal fait l'inverse : nous retirons. Moins de structure, plus d'espace. Nos retraites ne sont pas des expériences à cocher, mais des processus à traverser." },
+              { q: "Y a-t-il des régimes alimentaires accommodés ?", a: "Tous nos repas sont à base de plantes, biologiques et préparés sur place. Nous accommodons toutes les intolérances alimentaires et allergies — précisez-les dans votre candidature. Aucun alcool ni caféine pendant la retraite (l'abstinence fait partie de l'expérience)." },
+            ].map((faq, i) => (
+              <Reveal key={i} delay={i * 0.06}>
+                <div className="py-8 group">
+                  <h4 className="text-base font-semibold text-[#2a2a2a] mb-4 uppercase tracking-wide" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{faq.q}</h4>
+                  <p className="text-sm text-black/45 leading-relaxed font-sans">{faq.a}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          10. FINAL CTA
           ========================================== */}
       <section className="py-40 px-6 md:px-12 bg-[#f8f5f0] border-t border-black/5 text-center">
         <div className="max-w-[900px] mx-auto">
