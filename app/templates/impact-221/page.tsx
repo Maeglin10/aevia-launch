@@ -737,6 +737,10 @@ function Gallery() {
 const TESTIMONIALS = [
   { quote: '"Je prends le Lumyx PRO tous les matins pour aller au bureau. 22 km aller-retour sans recharge depuis 6 mois. Je n\'ai plus touché ma voiture."', name: 'Camille D.', city: 'Lyon, 69', stars: 5 },
   { quote: '"Le design est dingue. Mes collègues pensaient que c\'était une moto italienne de luxe. Et l\'autonomie est réelle — pas juste sur papier."',  name: 'Thomas M.', city: 'Paris, 75', stars: 5 },
+  { quote: '"J\'habite en banlieue de Bordeaux et le Lumyx ONE couvre mes 18 km de trajet chaque jour sans sourciller. La charge rapide le soir en 3h30, c\'est parfait pour mon rythme."', name: 'Sophie L.', city: 'Bordeaux, 33', stars: 5 },
+  { quote: '"La qualité de fabrication est bluffante. Cadre aluminium, finitions impeccables. On sent que c\'est fait pour durer. Je recommande sans hésitation."', name: 'Antoine R.', city: 'Strasbourg, 67', stars: 5 },
+  { quote: '"Passée du vélo classique au Lumyx GT et je ne reviendrai jamais en arrière. La montée du Vieux-Nantes, les 45 km/h en palier — la liberté absolue."', name: 'Lucie B.', city: 'Nantes, 44', stars: 5 },
+  { quote: '"Le GPS intégré et l\'app sont vraiment bien foutus. Suivi temps réel, historique de trajets, verrouillage à distance. J\'ai même retrouvé mon scoot après une fausse alerte vol."', name: 'Maxime P.', city: 'Rennes, 35', stars: 5 },
 ];
 
 function Testimonials() {
@@ -879,7 +883,14 @@ function ReserveForm() {
           )}
         </AnimatePresence>
 
-        <div style={{ marginTop: '2.5rem', display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+        <div style={{ marginTop: '1.75rem', display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: C.blueDim, border: `1px solid rgba(0,212,255,0.28)`, borderRadius: '2px', padding: '8px 18px' }}>
+            <span style={{ fontSize: '0.88rem' }}>🚀</span>
+            <span style={{ color: C.blue, fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.05em' }}>Livraison estimée : T3 2025 — 312 commandes en attente</span>
+          </div>
+        </div>
+
+        <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
           {['Aucun engagement', 'Livraison sept. 2026', 'Garantie 3 ans'].map((item) => (
             <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '6px', color: C.muted, fontSize: '0.8rem' }}>
               <Check size={13} color={C.blue} /> {item}
