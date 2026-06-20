@@ -367,6 +367,175 @@ export default function Impact52Page() {
           </div>
         </div>
       </section>
+      {/* ── SERVICES ──────────────────────────────────────────────────────── */}
+      <section
+        style={{
+          background: "#03030d",
+          padding: "8rem 2rem",
+          borderTop: `1px solid ${C.CYAN}15`,
+        }}
+      >
+        <NeonDivider color={C.PINK} />
+        <div style={{ maxWidth: "1280px", margin: "0 auto", paddingTop: "6rem" }}>
+          <Reveal>
+            <div style={{ marginBottom: "4rem" }}>
+              <SectionLabel code="[MODULE: SERVICES.EXE]" color={C.PINK} />
+              <GlitchHeadline text="THE" outlineText="STACK" outlineColor={C.CYAN} />
+            </div>
+          </Reveal>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: "2px",
+              background: `${C.CYAN}12`,
+            }}
+          >
+            {[
+              { code: "01", title: "Design Systems", color: C.CYAN, desc: "Token-based, component-first systems engineered to scale across 100+ screens without losing coherence. Zero-drift guarantees." },
+              { code: "02", title: "Creative Direction", color: C.PINK, desc: "Brand DNA distilled into visual language. We set the aesthetic laws so your teams never have to guess what 'on-brand' means." },
+              { code: "03", title: "Motion & Film", color: C.PURPLE, desc: "Identity animation, brand films, scroll-driven experiences. We direct, produce, and deliver in WebGL, Lottie, or Cinema 4D." },
+              { code: "04", title: "WebGL Environments", color: C.CYAN, desc: "Three.js and WebGL scenes that turn product pages into immersive brand moments. 60fps on any device, any browser." },
+              { code: "05", title: "Brand Architecture", color: C.PINK, desc: "Multi-brand hierarchies, naming systems, and sub-brand structures built for scale without cannibalization." },
+              { code: "06", title: "AI Creative", color: C.PURPLE, desc: "LoRA fine-tuning, diffusion pipelines, and AI-assisted workflows integrated into your production stack." },
+            ].map((s) => (
+              <Reveal key={s.code}>
+                <div
+                  style={{
+                    background: C.BG,
+                    padding: "3.5rem 2.5rem",
+                    position: "relative",
+                    borderBottom: `1px solid ${s.color}18`,
+                    transition: "background 0.2s",
+                  }}
+                  onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = C.CARD_BG)}
+                  onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = C.BG)}
+                >
+                  <div style={{ position: "absolute", top: 0, left: 0, width: "3px", height: "100%", background: s.color, boxShadow: `0 0 12px ${s.color}` }} />
+                  <div style={{ fontFamily: F.mono, fontSize: "0.6rem", color: `${s.color}66`, letterSpacing: "0.35em", marginBottom: "1.25rem" }}>{s.code} //</div>
+                  <h3 style={{ fontFamily: F.mono, fontWeight: 900, fontSize: "1rem", color: "white", letterSpacing: "0.04em", marginBottom: "0.75rem", textTransform: "uppercase" }}>{s.title}</h3>
+                  <p style={{ fontFamily: F.mono, fontSize: "0.72rem", color: "#6666aa", lineHeight: 1.85, letterSpacing: "0.03em" }}>{s.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PORTFOLIO ─────────────────────────────────────────────────────── */}
+      <section
+        style={{
+          background: C.BG,
+          padding: "8rem 2rem",
+          borderTop: `1px solid ${C.PINK}15`,
+        }}
+      >
+        <NeonDivider color={C.PURPLE} />
+        <div style={{ maxWidth: "1280px", margin: "0 auto", paddingTop: "6rem" }}>
+          <Reveal>
+            <div style={{ marginBottom: "4rem" }}>
+              <SectionLabel code="[MODULE: PORTFOLIO.LOG]" color={C.PURPLE} />
+              <GlitchHeadline text="SELECTED" outlineText="WORKS" outlineColor={C.PINK} />
+            </div>
+          </Reveal>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1px", background: `${C.PURPLE}18` }}>
+            {[
+              { id: "PF::0049", title: "SYNTH_PROTOCOL", cat: "WebGL · Brand System", client: "[REDACTED_EU]", year: "2025" },
+              { id: "PF::0041", title: "NEON_CATHEDRAL", cat: "Creative Direction · Film", client: "AXIOM_RECORDS", year: "2025" },
+              { id: "PF::0033", title: "GHOST_UI", cat: "Design System · Motion", client: "[STEALTH_MODE]", year: "2024" },
+              { id: "PF::0027", title: "CIVIC_VIRUS", cat: "AI Creative · Campaign", client: "BUREAU_K", year: "2024" },
+            ].map((w, i) => (
+              <Reveal key={w.id} delay={i * 0.06}>
+                <div
+                  style={{
+                    background: C.CARD_BG,
+                    padding: "2rem 2.5rem",
+                    display: "grid",
+                    gridTemplateColumns: "140px 1fr 200px 80px",
+                    gap: "2rem",
+                    alignItems: "center",
+                    borderBottom: `1px solid ${C.CYAN}10`,
+                    cursor: "pointer",
+                    transition: "background 0.15s",
+                  }}
+                  onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = `${C.PINK}08`)}
+                  onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = C.CARD_BG)}
+                >
+                  <span style={{ fontFamily: F.mono, fontSize: "0.6rem", color: `${C.CYAN}55`, letterSpacing: "0.1em" }}>{w.id}</span>
+                  <h3 style={{ fontFamily: F.mono, fontWeight: 900, fontSize: "1.1rem", color: C.PINK, textShadow: `0 0 12px ${C.PINK}44`, letterSpacing: "0.04em" }}>{w.title}</h3>
+                  <span style={{ fontFamily: F.mono, fontSize: "0.65rem", color: "#6666aa", letterSpacing: "0.08em" }}>{w.cat}</span>
+                  <span style={{ fontFamily: F.mono, fontSize: "0.65rem", color: "#333366" }}>{w.year}</span>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ───────────────────────────────────────────────────────────── */}
+      <section
+        style={{
+          background: "#03030d",
+          padding: "10rem 2rem",
+          borderTop: `1px solid ${C.PINK}20`,
+          textAlign: "center",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "800px",
+            height: "500px",
+            background: `radial-gradient(ellipse, ${C.PURPLE}0d 0%, ${C.PINK}06 40%, transparent 70%)`,
+            pointerEvents: "none",
+          }}
+        />
+        <div style={{ position: "relative", maxWidth: "700px", margin: "0 auto" }}>
+          <Reveal>
+            <SectionLabel code="[MODULE: CONTACT.INIT]" color={C.CYAN} />
+            <GlitchHeadline text="START THE" outlineText="PROTOCOL" outlineColor={C.PINK} />
+            <p
+              style={{
+                fontFamily: F.mono,
+                fontSize: "0.72rem",
+                color: `${C.CYAN}55`,
+                lineHeight: 2,
+                letterSpacing: "0.18em",
+                maxWidth: "480px",
+                margin: "0 auto 3.5rem",
+                marginTop: "2rem",
+              }}
+            >
+              WE_TAKE_4_CLIENTS_PER_QUARTER. IF_YOUR_BRIEF_HAS_VOLTAGE, SEND_TRANSMISSION.
+            </p>
+            <Link
+              href="/templates/impact-52/contact"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                padding: "1.1rem 2.8rem",
+                background: C.PINK,
+                color: C.BG,
+                fontFamily: F.mono,
+                fontWeight: 900,
+                fontSize: "0.72rem",
+                letterSpacing: "0.25em",
+                textDecoration: "none",
+                boxShadow: `0 0 28px ${C.PINK}, 0 0 60px ${C.PINK}44`,
+                textTransform: "uppercase" as const,
+              }}
+            >
+              ENTER_CONTACT.EXE <Zap size={14} />
+            </Link>
+          </Reveal>
+        </div>
+      </section>
     </div>
   );
 }

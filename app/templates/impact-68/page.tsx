@@ -299,6 +299,109 @@ export default function OrbitHomePage() {
           ))}
         </div>
       </section>
+      {/* ─── WORK ────────────────────────────────────────────────────────── */}
+      <section style={{ padding: "8rem 2.5rem", background: C.bg, borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: "1300px", margin: "0 auto" }}>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.6 }} style={{ marginBottom: "5rem" }}>
+            <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "0.2em", color: C.accent, textTransform: "uppercase", marginBottom: "16px", display: "flex", alignItems: "center", gap: "12px" }}>
+              <span style={{ display: "inline-block", width: "32px", height: "1px", background: C.accent }} />
+              Selected Work
+            </div>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 700, letterSpacing: "-0.03em", color: C.text, lineHeight: 1.2 }}>
+              94 brands.<br /><span style={{ color: C.accent }}>One obsession.</span>
+            </h2>
+          </motion.div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1px", background: C.border }}>
+            {[
+              { num: "01", name: "Solstice Energy", cat: "Brand Identity · Digital", desc: "Complete brand redesign for a €2B clean energy challenger entering 8 European markets.", year: "2025" },
+              { num: "02", name: "Maison Obrecht", cat: "Visual Identity · Packaging", desc: "Heritage repositioning for a 4th-generation Alsatian wine domaine targeting international collectors.", year: "2024" },
+              { num: "03", name: "FORM Studio", cat: "Website · Art Direction", desc: "Digital experience for the Brutalist architecture studio behind the Prix d'Architecture 2024 laureate.", year: "2024" },
+              { num: "04", name: "Kova Athletics", cat: "Brand System · Campaign", desc: "Full brand system and launch campaign for a DTC athletic brand hitting €1.2M GMV in month one.", year: "2023" },
+            ].map((w, i) => (
+              <motion.div key={w.num} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07, duration: 0.5 }}>
+                <div
+                  style={{ background: C.bgAlt, padding: "2.5rem", display: "grid", gridTemplateColumns: "64px 1fr 160px 80px", gap: "2rem", alignItems: "center", cursor: "pointer", transition: "background 0.2s" }}
+                  onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = C.bg)}
+                  onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = C.bgAlt)}
+                >
+                  <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", color: C.accent, fontWeight: 700, letterSpacing: "0.1em" }}>{w.num}</div>
+                  <div>
+                    <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "18px", fontWeight: 700, color: C.text, marginBottom: "6px" }}>{w.name}</h3>
+                    <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "13px", color: C.textMuted, lineHeight: 1.5 }}>{w.desc}</p>
+                  </div>
+                  <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", color: C.textMuted, letterSpacing: "0.05em" }}>{w.cat}</span>
+                  <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "12px", color: C.textMuted }}>{w.year}</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.15, duration: 0.5 }}>
+            <div style={{ marginTop: "2.5rem", textAlign: "right" }}>
+              <Link href="/templates/impact-68/work" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "13px", fontWeight: 600, color: C.accent, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "8px", letterSpacing: "0.04em" }}>
+                See all projects <ArrowRight size={14} />
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ─── SERVICES ────────────────────────────────────────────────────── */}
+      <section style={{ padding: "8rem 2.5rem", background: C.bgAlt, borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: "1300px", margin: "0 auto" }}>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.6 }} style={{ marginBottom: "5rem" }}>
+            <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "0.2em", color: C.accent, textTransform: "uppercase", marginBottom: "16px", display: "flex", alignItems: "center", gap: "12px" }}>
+              <span style={{ display: "inline-block", width: "32px", height: "1px", background: C.accent }} />
+              Capabilities
+            </div>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 700, letterSpacing: "-0.03em", color: C.text, lineHeight: 1.2 }}>
+              What we do<br />and <span style={{ color: C.accent }}>how we do it.</span>
+            </h2>
+          </motion.div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2px", background: C.border }}>
+            {[
+              { num: "01", title: "Brand Strategy", desc: "Positioning, naming, messaging architecture, and competitive landscaping. We build the logic before the aesthetics." },
+              { num: "02", title: "Visual Identity", desc: "Logo, type system, color, motion principles, and brand guidelines that hold up from a business card to a stadium banner." },
+              { num: "03", title: "Digital Experience", desc: "Websites and interactive platforms that convert intent. Performance-first, scroll-driven, and designed to be remembered." },
+              { num: "04", title: "Art Direction", desc: "Campaign concepting, editorial systems, and production oversight for brand moments that have to land perfectly." },
+              { num: "05", title: "Packaging Design", desc: "Retail presence that earns shelf space. We design for attention at 2 meters and delight at 20 centimeters." },
+              { num: "06", title: "Brand Architecture", desc: "Multi-brand and sub-brand hierarchies that scale without cannibalizing. Built for acquirers and acquirees alike." },
+            ].map((s, i) => (
+              <motion.div key={s.num} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07, duration: 0.5 }}>
+                <div style={{ background: C.bg, padding: "3rem 2.5rem", borderBottom: `1px solid ${C.border}` }}>
+                  <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", fontWeight: 700, color: C.accent, letterSpacing: "0.1em", marginBottom: "1.5rem" }}>{s.num}</div>
+                  <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "17px", fontWeight: 700, color: C.text, marginBottom: "0.75rem" }}>{s.title}</h3>
+                  <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "13px", color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CTA ─────────────────────────────────────────────────────────── */}
+      <section style={{ padding: "10rem 2.5rem", background: C.accent, textAlign: "center" }}>
+        <div style={{ maxWidth: "700px", margin: "0 auto" }}>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+            <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "0.2em", color: C.white, opacity: 0.6, textTransform: "uppercase", marginBottom: "2rem" }}>
+              New Brief
+            </div>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(3rem, 7vw, 6rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.1, color: C.white, marginBottom: "2rem" }}>
+              Let's make<br />something<br />unforgettable.
+            </h2>
+            <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "16px", color: C.white, opacity: 0.7, lineHeight: 1.7, maxWidth: "480px", margin: "0 auto 3.5rem" }}>
+              We take on 6 projects per quarter. If your brief has ambition and your deadline has adrenaline, we want to hear it.
+            </p>
+            <Link
+              href="/templates/impact-68/contact"
+              style={{ display: "inline-flex", alignItems: "center", gap: "10px", background: C.white, color: C.accent, padding: "18px 44px", fontFamily: "'Space Grotesk', sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.04em", textDecoration: "none", transition: "transform 0.15s" }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(0.97)")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1)")}
+            >
+              Start a Project <ArrowRight size={16} />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 }

@@ -239,6 +239,83 @@ export default function ZenSpaceHome() {
       </section>
 
       {/* ==========================================
+          3. PRACTICES
+          ========================================== */}
+      <section className="py-32 bg-[#f5f3ef] border-t border-stone-200/50">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16">
+              <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#c9a84c] mb-4 block">Disciplines</span>
+              <h2 className="text-5xl md:text-7xl font-light tracking-tighter leading-tight text-[#33302c] uppercase italic pb-2">
+                Our <span className="text-[#c9a84c]">Practices.</span>
+              </h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-stone-200/30">
+            {[
+              { icon: <Leaf className="w-5 h-5" />, name: "Yin Yoga", duration: "75 min", level: "All levels", desc: "Deep connective tissue release. Long holds, breath synchronization, and complete nervous system reset." },
+              { icon: <Sun className="w-5 h-5" />, name: "Vinyasa Flow", duration: "60 min", level: "Intermediate", desc: "Dynamic sequences linking breath to movement. Build heat, strength, and fluid mobility in one practice." },
+              { icon: <Wind className="w-5 h-5" />, name: "Breathwork", duration: "45 min", level: "All levels", desc: "Pranayama and coherence breathing protocols for immediate cortisol reduction and clarity of mind." },
+              { icon: <Activity className="w-5 h-5" />, name: "Meditation", duration: "30 min", level: "All levels", desc: "Guided non-sleep deep rest sessions. Backed by neuroscience, designed for the chronically busy." },
+              { icon: <Sparkles className="w-5 h-5" />, name: "Sound Bath", duration: "60 min", level: "All levels", desc: "Immersive sessions with Tibetan singing bowls tuned to 432Hz. Profound relaxation at a cellular level." },
+              { icon: <Leaf className="w-5 h-5" />, name: "Yoga Nidra", duration: "45 min", level: "All levels", desc: "Conscious sleep state induction. Equal to 4 hours of rest. Our most-requested weekly session." },
+            ].map((p, i) => (
+              <Reveal key={p.name} delay={i * 0.07}>
+                <div className="bg-[#faf9f6] p-10 group hover:bg-white transition-colors">
+                  <div className="text-[#c9a84c] mb-6">{p.icon}</div>
+                  <h3 className="text-xl font-light uppercase tracking-wide text-[#33302c] mb-2 italic">{p.name}</h3>
+                  <div className="flex gap-4 text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-5">
+                    <span>{p.duration}</span>
+                    <span className="text-[#c9a84c]/60">·</span>
+                    <span>{p.level}</span>
+                  </div>
+                  <p className="text-sm text-stone-400 leading-relaxed font-light italic">{p.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          4. TESTIMONIALS
+          ========================================== */}
+      <section className="py-32 bg-[#faf9f6] border-t border-stone-200/50">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16">
+              <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#c9a84c] mb-4 block">Community</span>
+              <h2 className="text-5xl md:text-6xl font-light tracking-tighter text-[#33302c] uppercase italic pb-2">
+                Voices from the <span className="text-[#c9a84c]">Sanctuary.</span>
+              </h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { name: "Camille R.", role: "Member since 2023", stars: 5, text: "ZenSpace changed my relationship with stress entirely. The Yin sessions are unlike anything I've experienced. Three months in, my therapist noticed the difference before I did." },
+              { name: "Antoine M.", role: "Annual membership", stars: 5, text: "I was skeptical about sound baths. Two sessions in and I cancelled my insomnia prescription. The 432Hz environment here is something I can only describe as physical calm." },
+              { name: "Sophie L.", role: "Corporate retreat client", stars: 5, text: "We booked ZenSpace for our leadership team after a brutal Q4. The breathwork protocol reduced measurable burnout markers by 40% in our post-retreat survey. We're booking Q2 already." },
+            ].map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.1}>
+                <div className="p-10 bg-stone-50 border border-stone-200/50 flex flex-col gap-6">
+                  <div className="flex gap-1">
+                    {Array.from({ length: t.stars }).map((_, j) => (
+                      <span key={j} className="text-[#c9a84c] text-sm">★</span>
+                    ))}
+                  </div>
+                  <p className="text-stone-500 leading-relaxed font-light italic text-sm flex-1">"{t.text}"</p>
+                  <div>
+                    <div className="text-[#33302c] font-medium text-sm">{t.name}</div>
+                    <div className="text-[9px] uppercase tracking-widest text-stone-400 mt-1">{t.role}</div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
           CTA BANNER TO PRACTICES / TIMETABLE
           ========================================== */}
       <section className="py-24 bg-[#faf9f6]">
