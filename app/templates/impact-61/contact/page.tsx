@@ -24,10 +24,10 @@ export default function ContactPage() {
         {submitted ? (
           <div style={{ border: `1px solid ${C.border}`, background: C.bgOff, padding: "4rem 2rem", textAlign: "center" }}>
             <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "1.2rem", fontWeight: 600, color: C.gold, marginBottom: "1rem" }}>
-              Message Envoyé
+              Merci
             </div>
             <p style={{ fontSize: "1rem", color: C.textMuted, lineHeight: 1.75 }}>
-              Nous vous remercions pour votre intérêt. Notre équipe étudiera votre demande de projet et reviendra vers vous sous 48 heures.
+              Merci, nous vous répondrons sous 24h.
             </p>
           </div>
         ) : (

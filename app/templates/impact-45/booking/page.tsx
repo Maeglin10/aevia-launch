@@ -64,8 +64,8 @@ export default function BookingPage() {
 
           {submitted ? (
             <div style={{ textAlign: "center", padding: "40px 0", color: C.white }}>
-              <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: 24, color: C.white, marginBottom: 12 }}>Consultation Requested</h3>
-              <p style={{ color: C.textMuted }}>Thank you. We have received your request and will contact you via email shortly.</p>
+              <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: 24, color: C.white, marginBottom: 12 }}>Merci</h3>
+              <p style={{ color: C.textMuted }}>Merci, nous vous répondrons sous 24h.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit}>

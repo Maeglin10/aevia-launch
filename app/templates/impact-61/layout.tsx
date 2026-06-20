@@ -135,11 +135,14 @@ export default function SegmentLayout({
             © {new Date().getFullYear()} SEGMENT ARCHITECTES. TOUS DROITS RÉSERVÉS.
           </div>
           <div style={{ display: "flex", gap: "2rem" }}>
-            <Link href="/templates/impact-61/legal" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.6rem", color: "#444", textDecoration: "none", cursor: "pointer" }}>
+            <Link href="/legal/mentions-legales" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.6rem", color: "#444", textDecoration: "none", cursor: "pointer" }}>
               Mentions légales
             </Link>
-            <Link href="/templates/impact-61/legal" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.6rem", color: "#444", textDecoration: "none", cursor: "pointer" }}>
-              RGPD
+            <Link href="/legal/confidentialite" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.6rem", color: "#444", textDecoration: "none", cursor: "pointer" }}>
+              Confidentialité
+            </Link>
+            <Link href="/legal/cgu" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.6rem", color: "#444", textDecoration: "none", cursor: "pointer" }}>
+              CGU
             </Link>
           </div>
         </div>

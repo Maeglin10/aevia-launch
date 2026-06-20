@@ -174,7 +174,9 @@ export default function NeuronSecLayout({
               { title: "Entreprise", links: [
                 { name: "À propos", href: "/templates/impact-64" },
                 { name: "Équipe", href: "/templates/impact-64" },
-                { name: "Mentions légales", href: "/templates/impact-64/legal" },
+                { name: "Mentions légales", href: "/legal/mentions-legales" },
+                { name: "Confidentialité", href: "/legal/confidentialite" },
+                { name: "CGU", href: "/legal/cgu" },
               ] },
               { title: "Contact", links: [
                 { name: "Paris — 10ème arr.", href: "/templates/impact-64/contact" },
@@ -200,8 +202,9 @@ export default function NeuronSecLayout({
           <div style={{ borderTop: `1px solid ${C.greenBorder}`, paddingTop: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <span style={{ fontFamily: mono, fontSize: "0.65rem", color: C.textMuted }}>© 2026 NeuronSec SAS — Tous droits réservés</span>
             <div style={{ display: "flex", gap: "2rem" }}>
-              <Link href="/templates/impact-64/legal" style={{ fontFamily: mono, fontSize: "0.62rem", color: C.textMuted, textDecoration: "none", letterSpacing: "0.05em" }}>Mentions légales</Link>
-              <Link href="/templates/impact-64/legal" style={{ fontFamily: mono, fontSize: "0.62rem", color: C.textMuted, textDecoration: "none", letterSpacing: "0.05em" }}>CGU & RGPD</Link>
+              <Link href="/legal/mentions-legales" style={{ fontFamily: mono, fontSize: "0.62rem", color: C.textMuted, textDecoration: "none", letterSpacing: "0.05em" }}>Mentions légales</Link>
+              <Link href="/legal/confidentialite" style={{ fontFamily: mono, fontSize: "0.62rem", color: C.textMuted, textDecoration: "none", letterSpacing: "0.05em" }}>Confidentialité</Link>
+              <Link href="/legal/cgu" style={{ fontFamily: mono, fontSize: "0.62rem", color: C.textMuted, textDecoration: "none", letterSpacing: "0.05em" }}>CGU</Link>
             </div>
           </div>
         </div>

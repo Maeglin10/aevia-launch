@@ -104,8 +104,8 @@ export default function AtelierPage() {
               style={{ textAlign: "center", padding: "4rem", background: C.bgCard, border: `1px solid ${C.borderGold}` }}
             >
               <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", letterSpacing: "0.25em", color: C.goldDim, marginBottom: "1rem" }}>REÇU</div>
-              <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.8rem", fontWeight: 300, color: C.text, marginBottom: "1rem" }}>Votre demande a été transmise.</h3>
-              <p style={{ fontSize: "1rem", color: C.textMuted, lineHeight: 1.75 }}>Nous vous contacterons dans les 48 heures ouvrables pour convenir d'un premier entretien.</p>
+              <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.8rem", fontWeight: 300, color: C.text, marginBottom: "1rem" }}>Merci</h3>
+              <p style={{ fontSize: "1rem", color: C.textMuted, lineHeight: 1.75 }}>Merci, nous vous répondrons sous 24h.</p>
             </motion.div>
           ) : (
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.5rem", textAlign: "left" }}>

@@ -83,15 +83,21 @@ export default function ZenithLayout({
               &quot;In the silence of the gears, we find the absolute rhythm of existence. Mastered in Geneva since 1892.&quot;
             </p>
             <div className="flex gap-10">
-              <Link href="/templates/impact-60/legal" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic" style={{ textDecoration: "none" }}>[Legal Mentions]</Link>
-              <Link href="/templates/impact-60/contact" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic" style={{ textDecoration: "none" }}>[Contact]</Link>
+              <Link href="/legal/mentions-legales" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic" style={{ textDecoration: "none" }}>[Mentions Légales]</Link>
+              <Link href="/legal/confidentialite" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic" style={{ textDecoration: "none" }}>[Confidentialité]</Link>
+              <Link href="/legal/cgu" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic" style={{ textDecoration: "none" }}>[CGU]</Link>
             </div>
           </div>
           
           {[
             { t: "COLLECTIONS", l: [{ name: "Caliber Series", href: "/templates/impact-60/collections" }, { name: "Limited Editions", href: "/templates/impact-60/collections" }] },
             { t: "THE ATELIER", l: [{ name: "The Movement", href: "/templates/impact-60/movement" }, { name: "Bespoke Lab", href: "/templates/impact-60/contact" }] },
-            { t: "SERVICE", l: [{ name: "Global Registry", href: "/templates/impact-60/contact" }, { name: "LegalNotice", href: "/templates/impact-60/legal" }] }
+            { t: "SERVICE", l: [
+              { name: "Global Registry", href: "/templates/impact-60/contact" },
+              { name: "Mentions Légales", href: "/legal/mentions-legales" },
+              { name: "Confidentialité", href: "/legal/confidentialite" },
+              { name: "CGU", href: "/legal/cgu" }
+            ] }
           ].map((col, i) => (
             <div key={i} className="space-y-12">
               <h4 className="text-[10px] font-bold uppercase tracking-[0.6em] text-white/30">{col.t}</h4>

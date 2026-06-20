@@ -80,9 +80,9 @@ export default function ContactPage() {
               <div style={{ width: "56px", height: "56px", borderRadius: "50%", background: "rgba(0,230,118,0.1)", border: `1px solid ${C.green}`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 2rem" }}>
                 <Shield size={26} color={C.green} />
               </div>
-              <h3 style={{ fontFamily: mono, fontSize: "1.5rem", fontWeight: 700, color: C.text, marginBottom: "1rem" }}>Demande Transmise</h3>
-              <p style={{ fontFamily: sans, fontSize: "0.9rem", color: C.textMuted, lineHeight: 1.6 }}>
-                Votre demande d'audit ou de contact a été reçue. Un auditeur NeuronSec vous contactera sous 2 heures ouvrées pour qualifier votre demande.
+              <h3 style={{ fontFamily: mono, fontSize: "1.5rem", fontWeight: 700, color: C.text, marginBottom: "1rem" }}>Merci</h3>
+              <p style={{ fontFamily: sans, fontSize: "0.9rem", color: C.textMuted, lineHeight: 1.65 }}>
+                Merci, nous vous répondrons sous 24h.
               </p>
             </div>
           ) : (

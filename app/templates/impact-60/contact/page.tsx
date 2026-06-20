@@ -33,10 +33,10 @@ export default function ContactPage() {
                   ✓
                 </div>
                 <h3 className="text-xl font-bold uppercase tracking-widest text-white italic">
-                  Inquiry Registered
+                  Merci
                 </h3>
                 <p className="text-sm font-light text-white/40 leading-relaxed italic max-w-sm mx-auto">
-                  Your interest in Zenith Watch has been logged. An Atelier representative will contact you via secure channels.
+                  Merci, nous vous répondrons sous 24h.
                 </p>
               </div>
             ) : (

@@ -157,11 +157,14 @@ export default function MaisonDrouetLayout({
             © {new Date().getFullYear()} MAISON DROUET. TOUS DROITS RÉSERVÉS.
           </div>
           <div style={{ display: "flex", gap: "2rem" }}>
-            <Link href="/templates/impact-63/legal" style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", color: C.textDim, textDecoration: "none", cursor: "pointer" }}>
+            <Link href="/legal/mentions-legales" style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", color: C.textDim, textDecoration: "none", cursor: "pointer" }}>
               Mentions légales
             </Link>
-            <Link href="/templates/impact-63/legal" style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", color: C.textDim, textDecoration: "none", cursor: "pointer" }}>
-              RGPD
+            <Link href="/legal/confidentialite" style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", color: C.textDim, textDecoration: "none", cursor: "pointer" }}>
+              Confidentialité
+            </Link>
+            <Link href="/legal/cgu" style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", color: C.textDim, textDecoration: "none", cursor: "pointer" }}>
+              CGU
             </Link>
           </div>
         </div>

@@ -152,10 +152,13 @@ export default function TattooStudioLayout({ children }: { children: React.React
               <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: 13, color: C.white, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 20 }}>Legal</h4>
               <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                 <li style={{ marginBottom: 12 }}>
-                  <Link href="/templates/impact-45/legal" style={{ fontFamily: "'Barlow', system-ui", fontSize: 14, color: C.textMuted, textDecoration: "none" }}>Mentions Légales</Link>
+                  <Link href="/legal/mentions-legales" style={{ fontFamily: "'Barlow', system-ui", fontSize: 14, color: C.textMuted, textDecoration: "none" }}>Mentions Légales</Link>
                 </li>
                 <li style={{ marginBottom: 12 }}>
-                  <Link href="/templates/impact-45/legal" style={{ fontFamily: "'Barlow', system-ui", fontSize: 14, color: C.textMuted, textDecoration: "none" }}>Confidentialité</Link>
+                  <Link href="/legal/confidentialite" style={{ fontFamily: "'Barlow', system-ui", fontSize: 14, color: C.textMuted, textDecoration: "none" }}>Confidentialité</Link>
+                </li>
+                <li style={{ marginBottom: 12 }}>
+                  <Link href="/legal/cgu" style={{ fontFamily: "'Barlow', system-ui", fontSize: 14, color: C.textMuted, textDecoration: "none" }}>CGU</Link>
                 </li>
               </ul>
             </div>
