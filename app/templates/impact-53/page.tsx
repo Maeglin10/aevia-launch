@@ -149,6 +149,45 @@ export default function Impact53Page() {
           ))}
         </div>
       </section>
+
+      {/* ── SERVICES ─────────────────────────────────────────────────────── */}
+      <section style={{ background: C.black, padding: "8rem 2.5rem", borderTop: `1px solid ${C.dim}` }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+          <div style={{ marginBottom: "5rem" }}>
+            <SectionLabel>WHAT WE DO</SectionLabel>
+            <SectionHeading>SERVICES</SectionHeading>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2px", background: C.dim }}>
+            {[
+              { code: "01", title: "Brand Identity Systems", desc: "We architect brands as living systems — visual languages that scale from a favicon to a billboard without losing their DNA. Logo, typography, motion language, editorial system." },
+              { code: "02", title: "Digital Experience Design", desc: "High-contrast, high-performance web experiences. Micro-interactions, scroll-driven animations, WebGL environments — designed to arrest attention and convert intent." },
+              { code: "03", title: "Creative Direction", desc: "For studios, labels, and founders who need vision without compromise. We embed in your team as a fractional creative director — strategy, art direction, production oversight." },
+              { code: "04", title: "Front-End Engineering", desc: "We build what we design. React, Next.js, Three.js, GSAP — production-ready implementations with CI/CD, performance budgets, and accessibility baked in." },
+              { code: "05", title: "Campaign Architecture", desc: "Multi-touchpoint campaign systems for product launches and cultural moments. We design the logic before the aesthetics: message architecture, channel mapping, content systems." },
+              { code: "06", title: "Motion & Film", desc: "From identity animations to short-form films. We direct and produce motion content from concept to delivery — titles, brand films, social content series." },
+            ].map((s, i) => (
+              <div key={s.code} style={{ background: C.black, padding: "3rem 2.5rem", borderBottom: `1px solid ${C.dim}` }}>
+                <div style={{ fontFamily: FONT_MONO, fontSize: "0.6rem", color: C.red, letterSpacing: "0.3em", marginBottom: "1.5rem" }}>{s.code} //</div>
+                <h3 style={{ fontFamily: FONT_SYNE, fontWeight: 800, fontSize: "1.1rem", color: "rgba(255,255,255,0.9)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "1rem" }}>{s.title}</h3>
+                <p style={{ fontFamily: FONT_MONO, fontSize: "0.78rem", color: "rgba(255,255,255,0.3)", lineHeight: 1.9, letterSpacing: "0.03em" }}>{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ──────────────────────────────────────────────────────────── */}
+      <section style={{ background: C.red, padding: "10rem 2.5rem", textAlign: "center" }}>
+        <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+          <div style={{ fontFamily: FONT_MONO, fontSize: "0.6rem", color: "rgba(0,0,0,0.5)", letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: "2rem" }}>NEW BRIEF</div>
+          <h2 style={{ fontFamily: FONT_SYNE, fontWeight: 900, fontSize: "clamp(3rem,8vw,7rem)", color: C.black, textTransform: "uppercase", lineHeight: 0.95, marginBottom: "3rem", letterSpacing: "-0.02em" }}>LET'S BUILD<br />SOMETHING<br />WRONG.</h2>
+          <p style={{ fontFamily: FONT_MONO, fontSize: "0.8rem", color: "rgba(0,0,0,0.5)", lineHeight: 1.9, marginBottom: "3.5rem", letterSpacing: "0.05em" }}>
+            We work with a limited number of clients per quarter.<br />
+            If you have a brief that scares you a little, we want to hear it.
+          </p>
+          <a href="/templates/impact-53/contact" style={{ display: "inline-block", background: C.black, color: C.red, padding: "1.2rem 3.5rem", fontFamily: FONT_SYNE, fontWeight: 900, fontSize: "0.7rem", letterSpacing: "0.3em", textTransform: "uppercase", textDecoration: "none" }}>START A PROJECT →</a>
+        </div>
+      </section>
     </div>
   );
 }

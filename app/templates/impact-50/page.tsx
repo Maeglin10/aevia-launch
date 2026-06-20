@@ -195,6 +195,48 @@ export default function NeuralMeshPage() {
         </div>
       </section>
 
+      {/* ── INTEGRATIONS ──────────── */}
+      <section className="max-w-[1400px] mx-auto px-6 md:px-12 mb-40">
+        <Reveal>
+          <div className="mb-16">
+            <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em] mb-8">
+              <Share2 className="w-4 h-4" /> Ecosystem
+            </div>
+            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9] pb-4">
+              Plug Into<br /><span className="text-white/10">Everything.</span>
+            </h2>
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { name: "OpenAI", cat: "LLM Bridge", color: "bg-green-500/10 border-green-500/20 text-green-400" },
+            { name: "Anthropic", cat: "Reasoning Layer", color: "bg-orange-500/10 border-orange-500/20 text-orange-400" },
+            { name: "AWS Bedrock", cat: "Cloud Inference", color: "bg-yellow-500/10 border-yellow-500/20 text-yellow-400" },
+            { name: "LangChain", cat: "Orchestration", color: "bg-cyan-500/10 border-cyan-500/20 text-cyan-400" },
+            { name: "Pinecone", cat: "Vector DB", color: "bg-blue-500/10 border-blue-500/20 text-blue-400" },
+            { name: "Kafka", cat: "Event Streaming", color: "bg-red-500/10 border-red-500/20 text-red-400" },
+            { name: "Kubernetes", cat: "Orchestration", color: "bg-purple-500/10 border-purple-500/20 text-purple-400" },
+            { name: "Grafana", cat: "Observability", color: "bg-white/5 border-white/10 text-white/40" },
+          ].map((intg, i) => (
+            <Reveal key={intg.name} delay={i * 0.06}>
+              <div className={`p-8 rounded-2xl border ${intg.color} group hover:scale-105 transition-transform duration-300`}>
+                <div className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60">{intg.cat}</div>
+                <div className="text-xl font-black uppercase tracking-tighter">{intg.name}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal delay={0.3}>
+          <div className="mt-12 p-8 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div>
+              <div className="text-sm font-black uppercase tracking-wide mb-2">Custom Integrations</div>
+              <p className="text-sm text-white/30 font-light italic max-w-md">NeuralMesh supports any REST, GraphQL, or WebSocket endpoint via our integration SDK. Average setup time: 12 minutes.</p>
+            </div>
+            <div className="text-4xl font-black text-cyan-400 italic shrink-0">240+<span className="text-sm font-bold text-white/20 ml-2">native connectors</span></div>
+          </div>
+        </Reveal>
+      </section>
+
       {/* ── CTA ───────────────────── */}
       <section className="max-w-[1400px] mx-auto px-6 mb-20">
         <Reveal>

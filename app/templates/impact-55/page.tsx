@@ -203,6 +203,85 @@ export default function GhostShellPage() {
           </TerminalWindow>
         </div>
       </section>
+
+      {/* ── CAPABILITIES ───────────────────────────────────────────────── */}
+      <section style={{ padding: "80px 40px", borderTop: "1px solid #003300" }}>
+        <div style={{ maxWidth: "900px", margin: "0 auto" }}>
+          <div style={{ color: "#008F11", fontSize: "11px", letterSpacing: "0.2em", marginBottom: "8px" }}>■ SECTION_03</div>
+          <h2 style={{ color: "#00FF41", fontSize: "clamp(22px, 3vw, 36px)", marginBottom: "48px", letterSpacing: "0.08em", fontWeight: "normal" }}>CAPABILITIES</h2>
+          <TerminalWindow title="modules.sh — capability manifest">
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
+              {[
+                { module: "GHOST_NET", code: "v4.1.0", desc: "Stealth network penetration framework. Zero-trace lateral movement across segmented environments." },
+                { module: "CIPHER_VAULT", code: "v3.8.2", desc: "End-to-end encryption layer with quantum-resistant key exchange (Kyber-1024). No backdoors." },
+                { module: "PHANTOM_OPS", code: "v5.0.0", desc: "Adversarial red team operations. We find the holes before the attackers do. 100% authorized." },
+                { module: "SENTINEL_AI", code: "v2.4.1", desc: "ML-powered anomaly detection. 4ms response time. Trained on 12B malicious event signatures." },
+                { module: "ZERO_TRACE", code: "v1.9.3", desc: "Anti-forensics toolkit for authorized deployments. Memory scrubbing, log rotation, artifact removal." },
+                { module: "NEXUS_C2", code: "v3.3.0", desc: "Encrypted command-and-control infrastructure for red team engagements. OPSEC-hardened." },
+              ].map((cap) => (
+                <div key={cap.module} style={{ borderLeft: "1px solid #003300", paddingLeft: "16px" }}>
+                  <div style={{ color: "#00FF41", fontSize: "11px", fontWeight: "bold", letterSpacing: "0.08em", marginBottom: "4px" }}>{cap.module} <span style={{ color: "#008F11" }}>[{cap.code}]</span></div>
+                  <div style={{ color: "#008F11", fontSize: "10px", lineHeight: "1.6", letterSpacing: "0.04em" }}>{cap.desc}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop: "28px", color: "#008F11", fontSize: "11px" }}>
+              $ echo &quot;All modules loaded. Type [EXECUTE] to initiate engagement.&quot;
+            </div>
+          </TerminalWindow>
+        </div>
+      </section>
+
+      {/* ── ENGAGEMENTS ────────────────────────────────────────────────── */}
+      <section style={{ padding: "80px 40px", borderTop: "1px solid #003300" }}>
+        <div style={{ maxWidth: "900px", margin: "0 auto" }}>
+          <div style={{ color: "#008F11", fontSize: "11px", letterSpacing: "0.2em", marginBottom: "8px" }}>■ SECTION_04</div>
+          <h2 style={{ color: "#00FF41", fontSize: "clamp(22px, 3vw, 36px)", marginBottom: "48px", letterSpacing: "0.08em", fontWeight: "normal" }}>ENGAGEMENT_LOG</h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
+            {[
+              { id: "ENG-2847", client: "[REDACTED]", scope: "Full red team engagement — 14-day persistent access attempt", result: "SUCCESS — 3 critical paths found, patched before handoff", year: "2025" },
+              { id: "ENG-2831", client: "[REDACTED]", scope: "Cloud infrastructure audit — AWS multi-account, 400+ services", result: "SUCCESS — IAM misconfiguration led to privilege escalation", year: "2025" },
+              { id: "ENG-2790", client: "[REDACTED]", scope: "Zero-day research — browser extension attack surface", result: "SUCCESS — CVE-2025-XXXX (awaiting disclosure)", year: "2024" },
+              { id: "ENG-2764", client: "[REDACTED]", scope: "Physical + digital hybrid intrusion test", result: "SUCCESS — Social engineering + RF cloning combo", year: "2024" },
+            ].map((eng) => (
+              <div key={eng.id} style={{ borderTop: "1px solid #001500", padding: "20px 0", display: "grid", gridTemplateColumns: "120px 1fr 200px 60px", gap: "24px", alignItems: "start" }}>
+                <span style={{ color: "#008F11", fontSize: "10px", letterSpacing: "0.1em" }}>{eng.id}</span>
+                <div>
+                  <div style={{ color: "#008F11", fontSize: "10px", marginBottom: "4px" }}>CLIENT: {eng.client}</div>
+                  <div style={{ color: "#00FF41", fontSize: "11px", letterSpacing: "0.04em" }}>{eng.scope}</div>
+                </div>
+                <span style={{ color: "#008F11", fontSize: "10px", lineHeight: "1.5" }}>{eng.result}</span>
+                <span style={{ color: "#003300", fontSize: "10px" }}>{eng.year}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CONTACT CTA ────────────────────────────────────────────────── */}
+      <section style={{ padding: "80px 40px", borderTop: "1px solid #003300", textAlign: "center" }}>
+        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
+          <div style={{ color: "#008F11", fontSize: "11px", letterSpacing: "0.2em", marginBottom: "24px" }}>■ INITIATE_CONTACT</div>
+          <h2 style={{ color: "#00FF41", fontSize: "clamp(28px, 4vw, 48px)", marginBottom: "24px", letterSpacing: "0.04em", fontWeight: "normal" }}>DEPLOY_YOUR_BRIEF</h2>
+          <p style={{ color: "#008F11", fontSize: "12px", lineHeight: "1.8", marginBottom: "48px", letterSpacing: "0.06em" }}>
+            All engagements are confidential by default. We operate under NDA before the first message.
+            Authorized personnel only. No script kiddies.
+          </p>
+          <Link href="/templates/impact-55/contact" style={{
+            display: "inline-block",
+            backgroundColor: "#00FF41",
+            color: "#000",
+            padding: "14px 40px",
+            fontSize: "12px",
+            fontFamily: "'Courier New', monospace",
+            fontWeight: "bold",
+            letterSpacing: "0.14em",
+            textDecoration: "none",
+          }}>
+            [SEND_BRIEF]
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }
