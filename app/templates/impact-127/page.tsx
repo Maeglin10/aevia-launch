@@ -176,6 +176,104 @@ export default function PulseEventsPage() {
           </div>
         </section>
 
+        {/* ── ARTISTS ──────────────────── */}
+        <section className="py-32 bg-[#0c091a] border-t border-white/5">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex justify-between items-end mb-16 border-b border-white/5 pb-8">
+                <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase">Featured <span className="text-pink-500">Artists</span></h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">Season 2026</span>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {[
+                { name: "Nova Collective", genre: "Electronic", origin: "Berlin", img: "https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=600&q=80", events: 3, followers: "182K" },
+                { name: "The Archivists", genre: "Orchestral", origin: "London", img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&q=80", events: 2, followers: "94K" },
+                { name: "Drift Engine", genre: "Techno", origin: "London", img: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=600&q=80", events: 4, followers: "312K" },
+                { name: "Pale Waves", genre: "Indie", origin: "Manchester", img: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=600&q=80", events: 2, followers: "280K" },
+              ].map((artist, i) => (
+                <Reveal key={artist.name} delay={i * 0.08}>
+                  <motion.div
+                    className="group relative overflow-hidden rounded-2xl cursor-pointer"
+                    whileHover={{ y: -4 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="aspect-[3/4] relative overflow-hidden">
+                      <img src={artist.img} alt={artist.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale group-hover:grayscale-0" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#08050a] via-[#08050a]/40 to-transparent" />
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <div className="flex items-center gap-2 mb-2">
+                        <EqBars active={false} />
+                        <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-pink-400">{artist.genre}</span>
+                      </div>
+                      <h3 className="text-xl font-black tracking-tight mb-1">{artist.name}</h3>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-white/40">{artist.origin}</span>
+                        <span className="text-xs text-white/30">{artist.followers} followers</span>
+                      </div>
+                      <div className="mt-3 pt-3 border-t border-white/10 flex items-center justify-between">
+                        <span className="text-[10px] text-white/40">{artist.events} events this season</span>
+                        <span className="text-pink-500 text-xs">→</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── ABOUT / STATS ────────────────────── */}
+        <section className="py-32 bg-[#08050a] border-t border-white/5">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+              <Reveal>
+                <div>
+                  <div className="flex items-center gap-4 mb-8">
+                    <motion.div className="w-3 h-3 rounded-full bg-pink-500" animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 1, repeat: Infinity }} />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-pink-400">About Pulse</span>
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase mb-8">
+                    We don't book venues.<br />We <span className="text-pink-500">build moments.</span>
+                  </h2>
+                  <p className="text-white/40 text-lg font-light leading-relaxed max-w-lg mb-10">
+                    PULSE is an independent live music company operating across Europe. We partner with exceptional artists and iconic venues to produce concerts that stay with you long after the last note fades.
+                  </p>
+                  <div className="flex flex-col gap-4">
+                    {[
+                      "Independent — no major label backing, no compromise",
+                      "Artist-first booking process with full creative control",
+                      "Carbon-offset events since 2023",
+                    ].map((line) => (
+                      <div key={line} className="flex items-start gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-pink-500 mt-2.5 flex-shrink-0" />
+                        <span className="text-white/50 text-sm">{line}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { val: "120+", label: "Events per year", icon: <Calendar className="w-5 h-5 text-pink-500" /> },
+                  { val: "38", label: "Cities covered", icon: <MapPin className="w-5 h-5 text-pink-500" /> },
+                  { val: "290K", label: "Tickets sold in 2025", icon: <Ticket className="w-5 h-5 text-pink-500" /> },
+                  { val: "98%", label: "Sellout rate", icon: <Star className="w-5 h-5 text-pink-500" /> },
+                ].map((stat, i) => (
+                  <Reveal key={stat.label} delay={i * 0.1}>
+                    <div className="p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-pink-500/20 transition-colors">
+                      <div className="mb-4">{stat.icon}</div>
+                      <div className="text-4xl font-black tracking-tighter text-white mb-2">{stat.val}</div>
+                      <div className="text-xs text-white/30 uppercase tracking-widest">{stat.label}</div>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* ── CTA ────────────────────── */}
         <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">

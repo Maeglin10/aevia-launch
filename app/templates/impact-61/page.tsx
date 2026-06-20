@@ -146,6 +146,87 @@ export default function SegmentOS() {
         </div>
       </section>
 
+      {/* ── Projets récents ─────────────────────────────────────────────── */}
+      <section style={{ padding: "8rem 3rem", background: C.bgOff }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "4rem", borderBottom: `1px solid ${C.border}`, paddingBottom: "2rem" }}>
+            <div>
+              <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.65rem", letterSpacing: "0.3em", color: C.textDim, marginBottom: "0.75rem" }}>PROJETS RÉCENTS</div>
+              <h2 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 900, color: C.text, letterSpacing: "-0.03em", lineHeight: 1 }}>
+                Réalisations
+              </h2>
+            </div>
+            <Link href="/templates/impact-61/projets" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.75rem", color: C.textDim, letterSpacing: "0.1em", textDecoration: "none", display: "flex", alignItems: "center", gap: 8, borderBottom: `1px solid ${C.border}`, paddingBottom: 2 }}>
+              VOIR TOUT →
+            </Link>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px", background: C.border }}>
+            {[
+              { num: "01", name: "Maison C.", type: "Résidentiel privé", loc: "Paris 6e", year: "2024", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" },
+              { num: "02", name: "Médiathèque Évry", type: "Équipement culturel", loc: "Évry-Courcouronnes", year: "2024", img: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80" },
+              { num: "03", name: "Tour Belvedere", type: "Tertiaire — 4 200 m²", loc: "La Défense", year: "2023", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80" },
+              { num: "04", name: "Abbaye de Senlis", type: "Réhabilitation patrimoniale", loc: "Senlis, Oise", year: "2023", img: "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=800&q=80" },
+            ].map((p, i) => (
+              <motion.div
+                key={p.num}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.6 }}
+                style={{ background: C.bg, position: "relative", overflow: "hidden", cursor: "pointer" }}
+              >
+                <div style={{ aspectRatio: "3/2", overflow: "hidden", position: "relative" }}>
+                  <img src={p.img} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(0.7) brightness(0.9)", transition: "all 0.8s" }}
+                    onMouseEnter={e => { (e.target as HTMLImageElement).style.filter = "grayscale(0) brightness(1)"; (e.target as HTMLImageElement).style.transform = "scale(1.03)"; }}
+                    onMouseLeave={e => { (e.target as HTMLImageElement).style.filter = "grayscale(0.7) brightness(0.9)"; (e.target as HTMLImageElement).style.transform = "scale(1)"; }} />
+                  <div style={{ position: "absolute", top: "1rem", left: "1rem", fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.6rem", letterSpacing: "0.2em", color: C.textLight, background: "rgba(23,23,23,0.8)", padding: "3px 8px" }}>{p.num}</div>
+                </div>
+                <div style={{ padding: "1.5rem 2rem" }}>
+                  <h3 style={{ fontFamily: "'Archivo', sans-serif", fontWeight: 700, fontSize: "1.1rem", color: C.text, marginBottom: "0.4rem" }}>{p.name}</h3>
+                  <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.7rem", color: C.textDim }}>{p.type} · {p.loc}</span>
+                    <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.7rem", color: C.textDim }}>{p.year}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Services ─────────────────────────────────────────────────────── */}
+      <section style={{ padding: "8rem 3rem", background: C.bg, borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <div style={{ marginBottom: "5rem" }}>
+            <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.65rem", letterSpacing: "0.3em", color: C.textDim, marginBottom: "0.75rem" }}>APPROCHES</div>
+            <h2 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 900, color: C.text, letterSpacing: "-0.03em", lineHeight: 1 }}>
+              Typologies
+            </h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "2px", background: C.border }}>
+            {[
+              { num: "01", title: "Résidentiel", desc: "Maisons particulières et ensembles résidentiels, du studio à la villa — attention portée à chaque plan de vie." },
+              { num: "02", title: "Tertiaire", desc: "Immeubles de bureaux, hôtels et complexes mixtes. Architecture de représentation, technicité constructive." },
+              { num: "03", title: "Culturel & Public", desc: "Médiathèques, musées, équipements sportifs. Architecture au service du collectif et de la transmission." },
+              { num: "04", title: "Réhabilitation", desc: "Transformation de bâtiments existants, reconversion de friches, restauration de patrimoine classé ou vernaculaire." },
+            ].map((s, i) => (
+              <motion.div
+                key={s.num}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.6 }}
+                style={{ background: C.bg, padding: "3.5rem 2.5rem", borderBottom: `1px solid ${C.border}` }}
+              >
+                <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.6rem", color: C.gold, letterSpacing: "0.3em", marginBottom: "2rem" }}>{s.num} //</div>
+                <h3 style={{ fontFamily: "'Archivo', sans-serif", fontWeight: 900, fontSize: "1.1rem", color: C.text, letterSpacing: "-0.02em", marginBottom: "1rem" }}>{s.title.toUpperCase()}</h3>
+                <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.85rem", color: C.textMuted, lineHeight: 1.75 }}>{s.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Philosophy ──────────────────────────────────────────────────── */}
       <section ref={quoteRef} style={{ padding: "8rem 3rem", background: C.bgDark, overflow: "hidden", position: "relative" }}>
         {/* Decorative line */}
