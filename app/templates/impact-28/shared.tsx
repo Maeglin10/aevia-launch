@@ -116,3 +116,78 @@ export const team = [
   { name: "Marc Delvaux", role: "Urban Planning", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" },
   { name: "Sonia Lehmann", role: "Project Director", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face" },
 ]
+
+export const testimonials = [
+  {
+    quote: "Brutco doesn't deliver a building. They deliver a manifesto in concrete. We had no brief — only the ambition to create something that would outlast us. They made that real.",
+    author: "Jean-Luc Marais",
+    title: "CEO, Groupe Marais Développement",
+    project: "SILOS — Lyon",
+    img: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=120&h=120&fit=crop&crop=face"
+  },
+  {
+    quote: "Working with Viktor's team changed how we think about space. The Bunker Office is not a renovation — it is a resurrection. Our teams perform better inside raw concrete than they ever did in glass.",
+    author: "Caroline Dumont",
+    title: "COO, Dumont Ventures",
+    project: "BUNKER OFFICE — La Défense",
+    img: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=120&h=120&fit=crop&crop=face"
+  },
+  {
+    quote: "The Concrete Chapel has received over 12,000 visitors in its first year — not to pray, but to experience the acoustics. Brutco achieved something most architects never will: pure presence.",
+    author: "Père Antoine Séverin",
+    title: "Director, Fondation Séverin",
+    project: "CONCRETE CHAPEL — Marseille",
+    img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop&crop=face"
+  },
+]
+
+export const processSteps = [
+  {
+    n: "01",
+    phase: "Brief Deconstruction",
+    duration: "2 — 4 weeks",
+    desc: "We dismantle your brief to find the structural idea behind it. Most clients think they want a building. They actually want an institution.",
+  },
+  {
+    n: "02",
+    phase: "Material Research",
+    duration: "3 — 6 weeks",
+    desc: "Concrete is not a commodity. We test local aggregate, water tables, climate cycles, and regional formulations before a single sketch is drawn.",
+  },
+  {
+    n: "03",
+    phase: "Monolithic Concept",
+    duration: "4 — 8 weeks",
+    desc: "The design emerges from the material, not from the software. Hand models, cast plaster prototypes, and site massing studies drive the form.",
+  },
+  {
+    n: "04",
+    phase: "Engineering Integration",
+    duration: "6 — 12 weeks",
+    desc: "We collaborate with structural engineers from day one. Shear walls, post-tensioned slabs, and core geometries are resolved in the concept phase.",
+  },
+  {
+    n: "05",
+    phase: "Construction & Delivery",
+    duration: "12 — 36 months",
+    desc: "We are present on site. We work with specialised contractors trained in raw concrete shuttering, board-form impressions, and bush-hammer finishing.",
+  },
+]
+
+export const awards = [
+  { year: "2024", award: "Grand Prix d'Architecture de France", cat: "Social Housing", project: "BLOC K, Paris 19ème" },
+  { year: "2023", award: "European Concrete Award", cat: "Material Innovation", project: "Concrete Chapel, Marseille" },
+  { year: "2022", award: "Prix National de la Construction", cat: "Mixed-Use Development", project: "SILOS, Lyon" },
+  { year: "2021", award: "RIBA International Prize — Shortlist", cat: "Excellence in Architecture", project: "RAW TOWER, Bordeaux" },
+  { year: "2020", award: "Mies van der Rohe Award — Nomination", cat: "European Architecture", project: "BUNKER OFFICE, La Défense" },
+  { year: "2018", award: "Prix de la Fondation d'Architecture", cat: "Cultural Buildings", project: "Concrete Chapel, Marseille" },
+  { year: "2017", award: "Grand Prix d'Architecture de France", cat: "Cultural Heritage", project: "Concrete Chapel, Marseille" },
+  { year: "2015", award: "Prix Spécial du Jury — Equerre d'Argent", cat: "Public Architecture", project: "BLOC K, Paris 19ème" },
+]
+
+export const pressItems = [
+  { pub: "Le Monde", quote: "\"Brutco is France's most uncompromising studio — and its most necessary.\"", year: "2025" },
+  { pub: "Dezeen", quote: "\"The Paris atelier that refuses to design for Instagram.\"", year: "2024" },
+  { pub: "Domus", quote: "\"Viktor Brunel has built more raw square metres than any firm of his size in Europe.\"", year: "2024" },
+  { pub: "Le Figaro", quote: "\"In a sea of glass towers, Brutco chooses honesty.\"", year: "2023" },
+]

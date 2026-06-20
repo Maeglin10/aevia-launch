@@ -1,18 +1,43 @@
 "use client"
 
 import Image from "next/image"
-import { Reveal, team } from "../shared"
+import Link from "next/link"
+import { Reveal, ScrollImage, team, awards, pressItems } from "../shared"
+import { ArrowRight } from "lucide-react"
 
 export default function StudioPage() {
   return (
-    <div className="pt-32 min-h-screen px-6 pb-24 max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="border-b-4 border-black pb-8 mb-12">
-        <div className="text-xs font-bold tracking-[0.4em] uppercase text-gray-400 mb-2">Our Convictions</div>
-        <h1 className="font-black text-5xl md:text-8xl uppercase leading-none" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
-          ATELIER & MANIFESTO
-        </h1>
+    <div className="min-h-screen">
+
+    {/* ─── STUDIO HERO ──────────────────────────────────────────────────────── */}
+    <div className="pt-[72px] relative overflow-hidden min-h-[55vh] flex items-end bg-black">
+      <ScrollImage
+        src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1400&h=700&fit=crop&crop=center"
+        alt="Brutco Atelier"
+        width={1400}
+        height={700}
+        className="absolute inset-0 w-full h-full opacity-30"
+        dir={-1}
+        yRange={40}
+      />
+      <div className="relative z-10 max-w-7xl mx-auto px-6 pb-16 w-full">
+        <Reveal>
+          <div className="text-xs font-bold tracking-[0.4em] uppercase text-white/30 mb-6">The Firm</div>
+          <h1
+            className="font-black leading-[0.85] text-white uppercase"
+            style={{
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontSize: "clamp(48px, 9vw, 120px)",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            ATELIER &<br />MANIFESTO
+          </h1>
+        </Reveal>
       </div>
+    </div>
+
+    <div className="max-w-7xl mx-auto px-6 pt-16 pb-24">
 
       {/* Tenets Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
@@ -81,30 +106,150 @@ export default function StudioPage() {
       </div>
 
       {/* Core Team bios */}
-      <div className="border-t-4 border-black pt-12">
-        <h3 className="font-black text-4xl uppercase mb-8" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
-          ATELIER PARTNERS & DIRECTORS
-        </h3>
+      <div className="border-t-4 border-black pt-12 mb-24">
+        <Reveal>
+          <h3 className="font-black text-4xl uppercase mb-8" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
+            ATELIER PARTNERS & DIRECTORS
+          </h3>
+        </Reveal>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {team.map((m) => (
-            <div key={m.name} className="border-4 border-black p-4 bg-white">
-              <div className="aspect-square relative w-full mb-4 overflow-hidden border-2 border-black">
-                <Image 
-                  src={m.img} 
-                  alt={m.name}
-                  fill
-                  className="object-cover grayscale"
-                />
+          {team.map((m, i) => (
+            <Reveal key={m.name} delay={i * 0.07} className="group">
+              <div className="border-4 border-black p-4 bg-white h-full flex flex-col">
+                <div className="aspect-square relative w-full mb-4 overflow-hidden border-2 border-black">
+                  <Image
+                    src={m.img}
+                    alt={m.name}
+                    fill
+                    className="object-cover grayscale group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <h4 className="font-black text-lg uppercase" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{m.name}</h4>
+                <span className="text-xs text-gray-500 font-semibold uppercase tracking-widest">{m.role}</span>
+                <p className="text-gray-500 text-xs leading-relaxed mt-3 border-t border-black/10 pt-3 flex-1">
+                  Over 10 years of experience managing complex concrete structures and structural detailing for public and private clients.
+                </p>
               </div>
-              <h4 className="font-black text-lg uppercase" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{m.name}</h4>
-              <span className="text-xs text-gray-500 font-semibold uppercase tracking-widest">{m.role}</span>
-              <p className="text-gray-500 text-xs leading-relaxed mt-3 border-t border-black/10 pt-3">
-                Over 10 years of experience managing complex concrete structures and structural detailing.
-              </p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
+
+      {/* ─── AWARDS ────────────────────────────────────────────────────────── */}
+      <div className="mb-24">
+        <Reveal className="mb-12">
+          <div className="flex items-end justify-between">
+            <div>
+              <div className="text-xs font-bold tracking-[0.4em] uppercase text-gray-400 mb-3">Recognition</div>
+              <h2 className="font-black text-4xl md:text-6xl uppercase" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
+                AWARDS
+              </h2>
+            </div>
+            <div className="text-right hidden md:block">
+              <div className="font-black text-5xl" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>8</div>
+              <div className="text-xs font-bold uppercase tracking-widest text-gray-400">National prizes</div>
+            </div>
+          </div>
+        </Reveal>
+
+        <div className="space-y-0">
+          {awards.map((a, i) => (
+            <Reveal key={`${a.year}-${a.award}`} delay={i * 0.05}>
+              <div className="border-t-4 border-black group hover:bg-gray-50 transition-colors">
+                <div className="py-6 grid grid-cols-12 gap-4 items-center">
+                  <div className="col-span-2 md:col-span-1">
+                    <span className="font-black text-lg text-gray-300" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{a.year}</span>
+                  </div>
+                  <div className="col-span-10 md:col-span-5">
+                    <h4 className="font-black text-base md:text-lg uppercase leading-tight group-hover:translate-x-1 transition-transform" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
+                      {a.award}
+                    </h4>
+                  </div>
+                  <div className="col-span-6 md:col-span-3 hidden md:block">
+                    <span className="text-xs font-bold uppercase tracking-widest text-gray-400">{a.cat}</span>
+                  </div>
+                  <div className="col-span-6 md:col-span-3 hidden md:block">
+                    <span className="text-xs font-semibold text-gray-500">{a.project}</span>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+          <div className="border-t-4 border-black" />
+        </div>
+      </div>
+
+      {/* ─── PRESS ─────────────────────────────────────────────────────────── */}
+      <div className="mb-24">
+        <Reveal className="mb-12">
+          <div className="text-xs font-bold tracking-[0.4em] uppercase text-gray-400 mb-3">Press & Media</div>
+          <h2 className="font-black text-4xl md:text-6xl uppercase" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
+            IN THE PRESS
+          </h2>
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {pressItems.map((item, i) => (
+            <Reveal key={item.pub} delay={i * 0.08}>
+              <div className="border-4 border-black p-8 group hover:bg-black hover:text-white transition-colors duration-200 cursor-default">
+                <div className="flex items-start justify-between mb-6">
+                  <span className="font-black text-2xl uppercase tracking-tight" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{item.pub}</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-gray-400 group-hover:text-white/40">{item.year}</span>
+                </div>
+                <p className="text-gray-600 group-hover:text-white/70 text-base font-medium leading-relaxed italic">{item.quote}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+
+      {/* ─── RESEARCH LAB CTA ──────────────────────────────────────────────── */}
+      <div className="mb-12">
+        <div className="relative overflow-hidden border-4 border-black bg-black text-white p-12 md:p-16">
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+          <Reveal className="relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              <div>
+                <div className="text-xs font-bold tracking-[0.4em] uppercase text-white/30 mb-4">Research Program</div>
+                <h3
+                  className="font-black text-4xl md:text-5xl uppercase leading-[0.9] mb-6"
+                  style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+                >
+                  MATERIAL TRUTH LAB
+                </h3>
+                <p className="text-white/50 leading-relaxed text-base">
+                  Since 2021, our in-house research unit has tested over 140 concrete formulations, investigating the intersection of structural performance, thermal mass, and carbon footprint. We share our findings with the field.
+                </p>
+              </div>
+              <div className="space-y-4">
+                {[
+                  { label: "Formulations tested", val: "140+" },
+                  { label: "Carbon reduction vs. standard", val: "–31%" },
+                  { label: "Published research papers", val: "6" },
+                  { label: "Partner universities", val: "3" },
+                ].map((stat) => (
+                  <div key={stat.label} className="flex items-center justify-between border-b border-white/10 pb-3">
+                    <span className="text-white/50 text-xs font-bold uppercase tracking-widest">{stat.label}</span>
+                    <span className="font-black text-xl" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{stat.val}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+
+      {/* CTA */}
+      <Reveal className="text-center py-8">
+        <Link
+          href="/templates/impact-28/contact"
+          className="inline-flex items-center gap-2 bg-black text-white font-black text-sm uppercase tracking-widest px-10 py-5 hover:bg-gray-900 transition-colors cursor-pointer"
+          style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+        >
+          Work with us <ArrowRight className="w-4 h-4" />
+        </Link>
+      </Reveal>
+
+    </div>
     </div>
   )
 }
