@@ -3,8 +3,9 @@
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { useRef, useState } from "react"
 import Link from "next/link"
-import { ArrowRight, Terminal, GitBranch, ExternalLink, ChevronRight, Code2 } from "lucide-react"
-import { Reveal, ScrollImage, projects, skills, timeline } from "./shared"
+import { ArrowRight, Terminal, GitBranch, ExternalLink, ChevronRight, Code2, Star, Zap, Shield, BookOpen, Users, ArrowUpRight } from "lucide-react"
+import Image from "next/image"
+import { Reveal, ScrollImage, projects, skills, timeline, stats, services, process, testimonials, clients } from "./shared"
 
 export default function Home() {
   const containerRef = useRef(null)
@@ -241,6 +242,246 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── STATS TICKER ── */}
+      <section className="py-16 px-6 border-t border-[#00F5D4]/10 overflow-hidden">
+        <Reveal className="max-w-6xl mx-auto mb-8">
+          <div className="text-[#00F5D4] text-xs"><span className="text-[#475569]">// </span>by_the_numbers</div>
+        </Reveal>
+        <div className="relative">
+          {/* Fade edges */}
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#0A0E1A] to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#0A0E1A] to-transparent z-10 pointer-events-none" />
+          <motion.div
+            className="flex gap-8"
+            animate={{ x: [0, -1800] }}
+            transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+            style={{ width: "max-content" }}
+          >
+            {[...stats, ...stats, ...stats].map((s, i) => (
+              <div key={i} className="flex items-center gap-6 shrink-0">
+                <div className="border border-[#00F5D4]/20 bg-[#0D1323] px-6 py-4 min-w-[200px]">
+                  <div className="text-[#00F5D4] text-2xl font-bold">{s.value}</div>
+                  <div className="text-[#94A3B8] text-xs mt-1">{s.label}</div>
+                  <div className="text-[#475569] text-xs mt-0.5">{s.detail}</div>
+                </div>
+                <div className="text-[#00F5D4]/20 text-lg select-none">{"///"}</div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── SERVICES DEEP-DIVE ── */}
+      <section className="py-24 px-6 bg-[#0D1323] border-t border-[#00F5D4]/10">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="mb-12">
+            <div className="text-[#00F5D4] text-xs mb-2"><span className="text-[#475569]">// </span>what_i_do</div>
+            <div className="flex items-end justify-between flex-wrap gap-4">
+              <h2 className="font-bold text-3xl md:text-4xl">Services</h2>
+              <Link href="/templates/impact-29/contact" className="text-xs font-bold text-[#00F5D4] hover:underline flex items-center gap-1 cursor-pointer">
+                Get a quote <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {services.map((svc, i) => (
+              <Reveal key={svc.id} delay={i * 0.08}>
+                <div className="border border-[#00F5D4]/15 p-8 hover:border-[#00F5D4]/40 transition-all group cursor-default h-full flex flex-col">
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="text-[#475569] text-xs font-bold">{svc.id}</div>
+                    <div className="text-[#00F5D4] text-xs font-bold border border-[#00F5D4]/30 px-3 py-1">{svc.rate}</div>
+                  </div>
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-[#00F5D4] transition-colors">{svc.name}</h3>
+                  <div className="text-[#00F5D4] text-xs mb-4">{svc.short}</div>
+                  <p className="text-[#94A3B8] text-sm leading-relaxed mb-6 flex-1">{svc.body}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {svc.tags.map(tag => (
+                      <span key={tag} className="text-xs border border-[#00F5D4]/20 text-[#475569] px-2.5 py-1">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PROCESS STEPS ── */}
+      <section className="py-24 px-6 border-t border-[#00F5D4]/10">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="mb-12">
+            <div className="text-[#00F5D4] text-xs mb-2"><span className="text-[#475569]">// </span>how_it_works</div>
+            <h2 className="font-bold text-3xl md:text-4xl">Engagement Process</h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0">
+            {process.map((step, i) => (
+              <Reveal key={step.step} delay={i * 0.1}>
+                <div className="border border-[#00F5D4]/15 p-8 border-r-0 last:border-r border-b md:border-b-0 relative hover:bg-[#0D1323] transition-colors">
+                  {/* Connector dot */}
+                  {i < process.length - 1 && (
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-2 h-2 bg-[#00F5D4] z-10 hidden lg:block" />
+                  )}
+                  <div className="text-[#00F5D4] font-bold text-xs mb-6">{step.step}</div>
+                  <h3 className="font-bold text-sm mb-3 text-[#E2E8F0]">{step.name}</h3>
+                  <p className="text-[#94A3B8] text-xs leading-relaxed">{step.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── TESTIMONIALS ── */}
+      <section className="py-24 px-6 bg-[#0D1323] border-t border-[#00F5D4]/10">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="mb-12">
+            <div className="text-[#00F5D4] text-xs mb-2"><span className="text-[#475569]">// </span>social_proof</div>
+            <h2 className="font-bold text-3xl md:text-4xl">What engineers say</h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {testimonials.map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.08}>
+                <div className="border border-[#00F5D4]/15 p-8 hover:border-[#00F5D4]/30 transition-colors h-full flex flex-col">
+                  <div className="text-[#00F5D4] text-lg mb-6 select-none">&ldquo;</div>
+                  <blockquote className="text-[#E2E8F0] text-sm leading-relaxed flex-1 mb-8">{t.quote}</blockquote>
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-full overflow-hidden border border-[#00F5D4]/20 shrink-0">
+                      <Image src={t.avatar} alt={t.name} width={40} height={40} className="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-bold text-[#E2E8F0]">{t.name}</div>
+                      <div className="text-xs text-[#475569]">{t.role}</div>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CLIENTS LOGOS ── */}
+      <section className="py-20 px-6 border-t border-[#00F5D4]/10">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="mb-12 text-center">
+            <div className="text-[#00F5D4] text-xs mb-2"><span className="text-[#475569]">// </span>previous_employers_and_clients</div>
+            <p className="text-[#475569] text-sm">Companies I've shipped production code for</p>
+          </Reveal>
+          <div className="grid grid-cols-4 md:grid-cols-8 gap-px bg-[#00F5D4]/10">
+            {clients.map((c, i) => (
+              <Reveal key={c.name} delay={i * 0.04}>
+                <div className="bg-[#0A0E1A] flex items-center justify-center py-8 px-4 hover:bg-[#0D1323] transition-colors group cursor-default">
+                  <span className="text-[#475569] text-xs font-bold tracking-widest group-hover:text-[#00F5D4] transition-colors">{c.logo}</span>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── WORK/PROJECTS PREVIEW GRID ── */}
+      <section className="py-24 px-6 bg-[#0D1323] border-t border-[#00F5D4]/10">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="mb-12">
+            <div className="flex items-end justify-between flex-wrap gap-4">
+              <div>
+                <div className="text-[#00F5D4] text-xs mb-2"><span className="text-[#475569]">// </span>all_projects</div>
+                <h2 className="font-bold text-3xl md:text-4xl">Recent Builds</h2>
+              </div>
+              <Link href="/templates/impact-29/work" className="text-xs font-bold text-[#00F5D4] hover:underline flex items-center gap-1 cursor-pointer">
+                Full project catalogue <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              {
+                name: "vaultkey",
+                year: "2023",
+                category: "Security",
+                img: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&h=400&fit=crop&crop=center",
+                stars: "3.4k",
+              },
+              {
+                name: "noctua.dev",
+                year: "2024",
+                category: "Collaboration",
+                img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=400&fit=crop&crop=center",
+                stars: "2.1k",
+              },
+              {
+                name: "axon-query",
+                year: "2023",
+                category: "Infrastructure",
+                img: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=600&h=400&fit=crop&crop=center",
+                stars: "1.2k",
+              },
+            ].map((p, i) => (
+              <Reveal key={p.name} delay={i * 0.1}>
+                <Link href="/templates/impact-29/work" className="group block border border-[#00F5D4]/15 overflow-hidden hover:border-[#00F5D4]/40 transition-all cursor-pointer">
+                  <div className="relative aspect-video overflow-hidden">
+                    <Image
+                      src={p.img}
+                      alt={p.name}
+                      width={600}
+                      height={400}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A0E1A]/80 to-transparent" />
+                    <div className="absolute top-3 right-3 text-xs border border-[#00F5D4]/40 text-[#00F5D4] px-2 py-1 bg-[#0A0E1A]/80">{p.year}</div>
+                    <div className="absolute bottom-3 left-3 text-yellow-400 text-xs font-bold">★ {p.stars}</div>
+                  </div>
+                  <div className="p-5">
+                    <div className="text-[#475569] text-xs mb-1">{p.category}</div>
+                    <div className="font-bold text-[#E2E8F0] group-hover:text-[#00F5D4] transition-colors flex items-center gap-2">
+                      {p.name}
+                      <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                  </div>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA BANNER ── */}
+      <section className="py-24 px-6 border-t border-[#00F5D4]/10 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.04]" style={{
+          backgroundImage: `linear-gradient(rgba(0,245,212,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,245,212,1) 1px, transparent 1px)`,
+          backgroundSize: "60px 60px"
+        }} />
+        <div className="absolute top-1/2 left-1/2 w-[800px] h-[400px] -translate-x-1/2 -translate-y-1/2 bg-[#00F5D4]/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="max-w-4xl mx-auto text-center relative">
+          <Reveal>
+            <div className="text-[#00F5D4] text-xs mb-4"><span className="text-[#475569]">// </span>next_step</div>
+            <h2 className="font-bold leading-tight mb-6" style={{ fontSize: "clamp(32px, 6vw, 72px)" }}>
+              Ready to ship something great?
+            </h2>
+            <p className="text-[#94A3B8] text-lg mb-10 leading-relaxed max-w-xl mx-auto">
+              I take on 1–2 focused engagements per quarter. If your timeline fits, let's figure out if we're a match.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/templates/impact-29/contact"
+                className="bg-[#00F5D4] text-[#0A0E1A] font-bold text-sm px-8 py-4 hover:bg-[#00E5C4] transition-colors flex items-center gap-2 cursor-pointer w-full sm:w-auto justify-center"
+              >
+                Start a conversation <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/templates/impact-29/work"
+                className="border border-[#00F5D4]/30 text-[#00F5D4] text-sm px-8 py-4 hover:bg-[#00F5D4]/10 transition-colors flex items-center gap-2 cursor-pointer w-full sm:w-auto justify-center"
+              >
+                <Code2 className="w-4 h-4" /> Browse the work
+              </Link>
+            </div>
+            <div className="mt-10 text-xs text-[#475569]">
+              <span className="text-[#00F5D4]">const </span>availability = <span className="text-emerald-400">"Q3 2026 — 2 slots remaining"</span>
+            </div>
+          </Reveal>
         </div>
       </section>
 
