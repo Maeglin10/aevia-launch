@@ -33,7 +33,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link href="/templates/impact-27/services" className="hover:text-white transition-colors text-sm font-medium">Services</Link>
             <Link href="/templates/impact-27/studio" className="hover:text-white transition-colors text-sm font-medium">Studio</Link>
           </div>
-          <Link href="/templates/impact-27#contact" className="hidden md:block bg-[#9B5CF6] text-white text-sm font-semibold px-5 py-2 rounded-full hover:bg-[#7C3AED] transition-colors">
+          <Link href="/templates/impact-27/contact" className="hidden md:block bg-[#9B5CF6] text-white text-sm font-semibold px-5 py-2 rounded-full hover:bg-[#7C3AED] transition-colors">
             Start a project
           </Link>
           <button className="md:hidden p-2 cursor-pointer bg-transparent border-none flex flex-col gap-1" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
@@ -53,7 +53,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               {[
                 { label: "Work", href: "/templates/impact-27/work" },
                 { label: "Services", href: "/templates/impact-27/services" },
-                { label: "Studio", href: "/templates/impact-27/studio" }
+                { label: "Studio", href: "/templates/impact-27/studio" },
+                { label: "Contact", href: "/templates/impact-27/contact" }
               ].map(item => (
                 <Link key={item.label} href={item.href} onClick={() => setMenuOpen(false)} className="text-white/60 hover:text-white transition-colors text-sm font-medium">{item.label}</Link>
               ))}
@@ -76,10 +77,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
             <span className="font-bold">Vertex Studio</span>
           </Link>
-          <div className="flex gap-8 text-sm text-white/30">
+          <div className="flex flex-wrap gap-6 text-sm text-white/30">
             <Link href="/templates/impact-27/work" className="hover:text-white transition-colors">Work</Link>
             <Link href="/templates/impact-27/services" className="hover:text-white transition-colors">Services</Link>
             <Link href="/templates/impact-27/studio" className="hover:text-white transition-colors">Studio</Link>
+            <Link href="/templates/impact-27/contact" className="hover:text-white transition-colors">Contact</Link>
             <Link href="/templates/impact-27/legal" className="hover:text-white transition-colors">Privacy & Legal</Link>
           </div>
           <p className="text-white/20 text-sm">© 2026 Vertex Studio</p>
