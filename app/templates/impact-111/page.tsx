@@ -203,6 +203,56 @@ export default function TerraArchitecturePage() {
           </div>
         </section>
 
+        {/* ── TEAM ──────────────────── */}
+        <section className="py-40 bg-[#f2f0eb]">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex items-end justify-between mb-20 border-b border-[#3d3a35]/10 pb-12 gap-6">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#3d3a35]/40 block mb-4">The Atelier</span>
+                  <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter text-[#3d3a35]">The <span className="italic">Team.</span></h2>
+                </div>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[
+                { name: "Clara Thorn", role: "Principal Architect", exp: "18yr", spec: "Biophilic structures", tags: ["LEED", "RIBA Fellow"] },
+                { name: "Samuel Osei", role: "Landscape Lead", exp: "12yr", spec: "Rewilding & restoration", tags: ["ASLA", "RHS"] },
+                { name: "Vera Kessler", role: "Interior Systems", exp: "9yr", spec: "Material culture & craft", tags: ["Dezeen Award"] },
+                { name: "Jin Park", role: "Structural Innovator", exp: "14yr", spec: "Mass timber & earth", tags: ["SE Certified", "CIBSE"] },
+              ].map((m, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="group border border-[#3d3a35]/10 rounded-2xl p-8 hover:border-[#3d3a35]/30 transition-all duration-500 cursor-default">
+                    <div className="w-16 h-16 rounded-full bg-[#3d3a35]/5 flex items-center justify-center mb-6 group-hover:bg-[#3d3a35] transition-colors duration-500">
+                      <span className="text-xl font-light text-[#3d3a35] group-hover:text-[#f2f0eb] transition-colors" style={{ fontFamily: "serif" }}>{m.name.split(" ").map(n => n[0]).join("")}</span>
+                    </div>
+                    <div className="text-[9px] font-bold uppercase tracking-widest text-[#c4b5a2] mb-1">{m.exp} · {m.spec}</div>
+                    <h3 className="text-xl font-bold text-[#3d3a35] mb-1">{m.name}</h3>
+                    <p className="text-xs text-[#3d3a35]/40 uppercase tracking-wider mb-4">{m.role}</p>
+                    <div className="flex flex-wrap gap-2">{m.tags.map(t => <span key={t} className="text-[8px] font-bold uppercase tracking-widest px-2 py-1 border border-[#3d3a35]/10 text-[#3d3a35]/30">{t}</span>)}</div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── RECOGNITION ───────────── */}
+        <section className="py-20 bg-[#3d3a35] border-t border-white/5">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex flex-wrap items-center justify-between gap-8">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c4b5a2]">Recognised by</span>
+                <div className="flex flex-wrap gap-8">
+                  {["Architectural Digest", "Dezeen 2024 Award", "RIBA National Award", "World Architecture Festival", "Prix Europa Nostra"].map(a => (
+                    <span key={a} className="text-[10px] font-bold uppercase tracking-widest text-[#f2f0eb]/25 hover:text-[#c4b5a2] transition-colors cursor-default">{a}</span>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
         {/* ── CTA ───────────────────── */}
         <section className="py-40 bg-[#f2f0eb] text-center px-6">
           <div className="max-w-3xl mx-auto">

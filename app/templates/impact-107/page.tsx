@@ -207,6 +207,78 @@ export default function MeridianJourneyPage() {
           </div>
         </section>
 
+        {/* ── TESTIMONIALS ──────────────────── */}
+        <section className="py-32 bg-[#080d0b] border-t border-white/5">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex items-end justify-between mb-20 border-b border-white/5 pb-12 gap-6">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-teal-400 block mb-4">Field Reports</span>
+                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-2">In Their <span className="text-teal-400">Words.</span></h2>
+                </div>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { quote: "The Patagonia expedition changed my life. Not hyperbole — I genuinely made different career and family decisions in the weeks after. Meridian creates that kind of space.", name: "A. Fischer", origin: "Berlin · Software Engineer", exp: "Patagonia Wind Routes" },
+                { quote: "I've done 11 expeditions with various companies. Meridian is the only one where the guide knows when to speak and when not to. That's rare and priceless.", name: "P. Nakamura", origin: "Osaka · Surgeon", exp: "Iceland Ice Shelf" },
+                { quote: "My son and I did the Greenland coastal route. He's 14. He still talks about it. I'll never find a better investment of two weeks.", name: "D. Morel", origin: "Lyon · Architect", exp: "Greenland Coastal" },
+              ].map((t, i) => (
+                <Reveal key={i} delay={i * 0.12}>
+                  <div className="group border border-white/5 rounded-2xl p-10 flex flex-col gap-6 hover:border-teal-500/20 transition-all duration-500 h-full">
+                    <div className="flex gap-1">
+                      {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-teal-400 text-teal-400" />)}
+                    </div>
+                    <p className="text-white/50 font-light leading-relaxed italic flex-1">{`"${t.quote}"`}</p>
+                    <div className="border-t border-white/5 pt-6">
+                      <div className="font-bold text-sm text-white uppercase tracking-widest">{t.name}</div>
+                      <div className="text-xs text-white/25 tracking-widest mt-1">{t.origin}</div>
+                      <div className="flex items-center gap-2 text-xs text-teal-400 mt-2"><MapPin className="w-3 h-3" />{t.exp}</div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── GUIDES ────────────────────────── */}
+        <section className="py-32 bg-[#0d1210] border-t border-white/5">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="mb-20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-teal-400 block mb-4">Field Experts</span>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">The <span className="text-teal-400">Guides.</span></h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+              {[
+                { name: "Elin Larsen", spec: "Arctic & Polar", certs: ["IFMGA", "Wilderness First Responder"], exp: "14yr", routes: 41 },
+                { name: "Marco Ferreira", spec: "South America", certs: ["UIAGM", "Search & Rescue"], exp: "11yr", routes: 29 },
+                { name: "Priya Mehta", spec: "Himalaya & Hindu Kush", certs: ["UIAGM", "High Altitude Medicine"], exp: "9yr", routes: 23 },
+                { name: "Jack O'Brien", spec: "Patagonia & Fjords", certs: ["NOLS", "Swift Water Rescue"], exp: "7yr", routes: 18 },
+              ].map((g, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="group cursor-default">
+                    <div className="aspect-[3/4] rounded-xl overflow-hidden bg-white/[0.02] border border-white/5 mb-6 flex items-end p-8 group-hover:border-teal-500/20 transition-colors duration-500 relative">
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[5rem] font-black text-white/[0.03] uppercase">{g.name.split(" ").map(n => n[0]).join("")}</div>
+                      <div className="relative z-10">
+                        <div className="text-[9px] font-mono text-teal-400/60 mb-1">{g.routes} routes led</div>
+                        <div className="text-[8px] font-bold uppercase tracking-widest text-white/20">{g.exp} field</div>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold uppercase tracking-widest text-white mb-1">{g.name}</h3>
+                      <p className="text-[10px] text-teal-400 uppercase tracking-wider mb-2">{g.spec}</p>
+                      <div className="flex flex-wrap gap-2">{g.certs.map(c => <span key={c} className="text-[8px] font-bold uppercase tracking-widest px-2 py-1 border border-white/10 text-white/25">{c}</span>)}</div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── CTA ─────────────────────────── */}
         <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">

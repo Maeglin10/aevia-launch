@@ -147,6 +147,37 @@ export default function CypherClinicPage() {
         </div>
       </section>
 
+      {/* ── MÉDECINS */}
+      <section className="py-24 bg-[#0C0C0A] border-t border-[#2A2820]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[#C9A86C] mb-6">Notre équipe</p>
+            <h2 className="text-3xl font-light mb-16" style={{ fontFamily: "'Bodoni Moda', serif" }}>Les médecins.</h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { name: "Dr. Kenji Nakamura", spec: "Médecine esthétique faciale", exp: "14 ans", bio: "Formé à l'Académie de médecine esthétique de Paris. Spécialiste des techniques d'injection ultra-précises et de la morphologie faciale.", badge: "Certifié AME" },
+              { name: "Dr. Sophie Bellamy", spec: "Laser & Régénération cutanée", exp: "9 ans", bio: "Docteure en dermatologie, IDRM Lausanne. Experte des protocoles laser CO₂ et PRP pour les cicatrices et le vieillissement cutané.", badge: "Dermatologie" },
+              { name: "Dr. Malik Osei", spec: "Corps & Médecine anti-âge", exp: "11 ans", bio: "Médecin du sport reconverti en esthétique corporelle. Approche globale alliant nutrition, hormonal et intervention pour des résultats durables.", badge: "Anti-âge" },
+            ].map((m, i) => (
+              <Reveal key={m.name} delay={i * 0.1}>
+                <div className="p-8 border border-[#2A2820] flex flex-col gap-4">
+                  <div className="w-14 h-14 bg-[#2A2820] flex items-center justify-center">
+                    <span className="text-[#C9A86C] font-light text-xl" style={{ fontFamily: "'Bodoni Moda', serif" }}>{m.name.split(" ").filter(n => !n.startsWith("Dr")).map(n => n[0]).join("")}</span>
+                  </div>
+                  <div>
+                    <p className="text-[9px] uppercase tracking-[0.3em] text-[#C9A86C] mb-1">{m.badge} · {m.exp}</p>
+                    <h3 className="text-[#F0EBE0] font-medium" style={{ fontFamily: "'Bodoni Moda', serif" }}>{m.name}</h3>
+                    <p className="text-[10px] uppercase tracking-widest text-[#6A6258] mt-0.5">{m.spec}</p>
+                  </div>
+                  <p className="text-[#8A8278] text-sm leading-relaxed border-t border-[#2A2820] pt-4">{m.bio}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── RDV CTA */}
       <section className="py-24 bg-[#C9A86C]">
         <div className="max-w-3xl mx-auto px-6 text-center">
