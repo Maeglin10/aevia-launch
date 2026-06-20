@@ -3,7 +3,7 @@
 import React, { useRef } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { C, StatNumber, SectionLabel, OrbitalComplication, HERITAGE, PRESS, AWARDS } from "./shared";
+import { C, StatNumber, SectionLabel, OrbitalComplication, HERITAGE, PRESS, AWARDS, COLLECTIONS } from "./shared";
 
 export default function MaisonDrouetHome() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -175,6 +175,92 @@ export default function MaisonDrouetHome() {
               })}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Collections */}
+      <section style={{ padding: "8rem clamp(2rem, 6vw, 6rem)", background: C.bg, borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: "5rem" }}>
+            <SectionLabel>Nos Garde-Temps</SectionLabel>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 300, color: C.text, lineHeight: 1.15, paddingBottom: "0.15em" }}>
+              Les Collections<br /><em style={{ color: C.gold }}>Maison Drouet</em>
+            </h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2px", background: C.border }}>
+            {COLLECTIONS.map((col, i) => {
+              const ref = useRef<HTMLDivElement>(null);
+              const inView = useInView(ref, { once: true });
+              return (
+                <motion.div
+                  key={col.id}
+                  ref={ref}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.7, delay: i * 0.08 }}
+                  style={{ background: C.bgCard, position: "relative", overflow: "hidden", cursor: "pointer" }}
+                >
+                  <div style={{ aspectRatio: "4/3", overflow: "hidden", position: "relative" }}>
+                    <img
+                      src={col.image}
+                      alt={col.name}
+                      style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(0.3) brightness(0.85)", transition: "transform 0.8s, filter 0.8s" }}
+                      onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = "scale(1.05)"; (e.target as HTMLImageElement).style.filter = "grayscale(0) brightness(1)"; }}
+                      onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = "scale(1)"; (e.target as HTMLImageElement).style.filter = "grayscale(0.3) brightness(0.85)"; }}
+                    />
+                    <div style={{ position: "absolute", top: "1rem", right: "1rem", background: "rgba(14,12,10,0.85)", padding: "2px 8px" }}>
+                      <span style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.goldDim }}>{col.category.toUpperCase()}</span>
+                    </div>
+                  </div>
+                  <div style={{ padding: "1.75rem 2rem", borderTop: `1px solid ${C.borderGold}` }}>
+                    <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.3rem", fontWeight: 400, color: C.text, marginBottom: "0.3rem" }}>{col.name}</h3>
+                    <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.15em", color: C.textDim, marginBottom: "1rem" }}>{col.ref}</div>
+                    <p style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.9rem", color: C.textMuted, lineHeight: 1.7, marginBottom: "1.25rem" }}>{col.desc}</p>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "1rem", borderTop: `1px solid ${C.border}` }}>
+                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", fontWeight: 300, color: C.gold }}>{col.price}</span>
+                      <Link href="/templates/impact-63/collections" style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.goldDim, textDecoration: "none" }}>
+                        CONSULTER →
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+          <div style={{ textAlign: "center", marginTop: "4rem" }}>
+            <Link href="/templates/impact-63/collections" style={{ textDecoration: "none" }}>
+              <motion.button
+                type="button"
+                whileHover={{ borderColor: C.gold, color: C.gold }}
+                style={{ background: "transparent", color: C.textMuted, border: `1px solid ${C.border}`, padding: "0.9rem 2.5rem", fontFamily: "'Cormorant SC', serif", fontSize: "0.7rem", letterSpacing: "0.2em", cursor: "pointer", transition: "all 0.3s" }}
+              >
+                VOIR TOUTES LES COLLECTIONS
+              </motion.button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Bespoke */}
+      <section style={{ padding: "8rem clamp(2rem, 6vw, 6rem)", background: C.bgSection, borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
+          <SectionLabel>Commande Privée</SectionLabel>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 300, color: C.text, lineHeight: 1.2, paddingBottom: "0.15em", marginBottom: "1.5rem" }}>
+            Une Montre<br /><em style={{ color: C.gold }}>Créée Pour Vous</em>
+          </h2>
+          <p style={{ fontFamily: "'EB Garamond', serif", fontSize: "1.1rem", fontStyle: "italic", color: C.textMuted, lineHeight: 1.8, maxWidth: "50ch", margin: "0 auto 2.5rem" }}>
+            Chaque maison Drouet Bespoke commence par une conversation. Un maître-horloger, votre vision, 14 mois de fabrication. La montre que vous transmettrez.
+          </p>
+          <Link href="/templates/impact-63/atelier" style={{ textDecoration: "none" }}>
+            <motion.button
+              type="button"
+              whileHover={{ scale: 1.02, backgroundColor: C.goldLight }}
+              whileTap={{ scale: 0.98 }}
+              style={{ background: C.gold, color: C.bg, border: "none", padding: "0.9rem 2.5rem", fontFamily: "'Cormorant SC', serif", fontSize: "0.7rem", letterSpacing: "0.2em", cursor: "pointer", transition: "background 0.3s" }}
+            >
+              PRENDRE RENDEZ-VOUS
+            </motion.button>
+          </Link>
         </div>
       </section>
 

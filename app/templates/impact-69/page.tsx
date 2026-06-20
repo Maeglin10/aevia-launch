@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import React, { useRef, useState } from "react";
 import Link from "next/link";
-import { C, TextReveal, MagneticButton, MarqueeStrip, DepthLayers, CountUp, PRESS } from "./shared";
+import { C, TextReveal, MagneticButton, MarqueeStrip, DepthLayers, CountUp, PRESS, SERIES, SeriesCard } from "./shared";
 
 export default function LeaHomePage() {
   const [activePress, setActivePress] = useState(0);
@@ -128,6 +128,96 @@ export default function LeaHomePage() {
           </div>
         </div>
         <DepthLayers />
+      </section>
+
+      {/* ── Series Grid ── */}
+      <section style={{ padding: "80px 0", maxWidth: 1200, margin: "0 auto", paddingInline: 32 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 48 }}>
+          <div>
+            <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 12 }}>Photography Series</p>
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.03em", color: C.cream, marginBottom: 0 }}>Selected Work</h2>
+          </div>
+          <Link href="/templates/impact-69/work" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, letterSpacing: "0.15em", color: C.muted, textTransform: "uppercase", textDecoration: "none", borderBottom: `1px solid ${C.border}`, paddingBottom: 2 }}>
+            All Series →
+          </Link>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+          {SERIES.map((s) => (
+            <SeriesCard key={s.id} series={s} />
+          ))}
+        </div>
+      </section>
+
+      {/* ── Prints Shop ── */}
+      <section style={{ padding: "80px 32px", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, background: C.bgCard }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+          <div>
+            <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.amber, textTransform: "uppercase", marginBottom: 20 }}>Limited Edition Prints</p>
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.03em", color: C.cream, marginBottom: 24 }}>Bring the wilderness home.</h2>
+            <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 15, color: C.muted, lineHeight: 1.75, fontWeight: 300, marginBottom: 32, maxWidth: 420 }}>
+              Each print is produced on 300gsm Hahnemühle Fine Art Baryta, signed and numbered by Léa. Editions range from 6 to 20 — once they're gone, they're gone.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 40 }}>
+              {[
+                ["Hahnemühle Fine Art Baryta 300gsm", "Paper"],
+                ["Signed & numbered by hand", "Authenticity"],
+                ["Editions of 6–20 per image", "Scarcity"],
+                ["Ships in archival tube within 10 days", "Shipping"],
+              ].map(([detail, label]) => (
+                <div key={label} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+                  <div style={{ width: 6, height: 6, borderRadius: "50%", background: C.amber, marginTop: 6, flexShrink: 0 }} />
+                  <div>
+                    <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.cream }}>{detail}</span>
+                    <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, color: C.muted, marginLeft: 8 }}>— {label}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <Link href="/templates/impact-69/prints" style={{ textDecoration: "none" }}>
+              <MagneticButton style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.bg, background: C.cream, padding: "14px 32px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 600 }}>
+                Shop Prints
+              </MagneticButton>
+            </Link>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            {[
+              { bg: SERIES[0].bg, accent: SERIES[0].accent, title: SERIES[0].title, price: "CHF 480", prints: `Ed. ${SERIES[0].prints}` },
+              { bg: SERIES[2].bg, accent: SERIES[2].accent, title: SERIES[2].title, price: "CHF 360", prints: `Ed. ${SERIES[2].prints}` },
+              { bg: SERIES[4].bg, accent: SERIES[4].accent, title: SERIES[4].title, price: "CHF 420", prints: `Ed. ${SERIES[4].prints}` },
+              { bg: SERIES[1].bg, accent: SERIES[1].accent, title: SERIES[1].title, price: "CHF 520", prints: `Ed. ${SERIES[1].prints}` },
+            ].map((p, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ y: -4, scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+                style={{ background: p.bg, borderRadius: 4, padding: "28px 20px", border: `1px solid rgba(138,158,111,0.1)`, cursor: "pointer", position: "relative", overflow: "hidden" }}
+              >
+                <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at top, rgba(200,148,58,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
+                <p style={{ fontFamily: "'Archivo', sans-serif", fontSize: 11, fontWeight: 700, color: p.accent, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 8 }}>{p.prints}</p>
+                <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.cream, fontWeight: 600, marginBottom: 16, lineHeight: 1.3 }}>{p.title}</p>
+                <p style={{ fontFamily: "'Archivo', sans-serif", fontSize: 16, fontWeight: 900, color: p.accent }}>{p.price}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section style={{ padding: "80px 32px", textAlign: "center", background: C.bg }}>
+        <div style={{ maxWidth: 600, margin: "0 auto" }}>
+          <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 24 }}>Commission a Print</p>
+          <h2 style={{ fontSize: "clamp(28px, 5vw, 52px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.03em", color: C.cream, marginBottom: 20 }}>Looking for something specific?</h2>
+          <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, color: C.muted, lineHeight: 1.7, fontWeight: 300, marginBottom: 40 }}>
+            Commission a custom print from any series, in any size. I also license images for editorial and commercial use.
+          </p>
+          <div style={{ display: "flex", gap: 16, justifyContent: "center" }}>
+            <Link href="/templates/impact-69/prints" style={{ textDecoration: "none" }}>
+              <MagneticButton style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.bg, background: C.amber, padding: "14px 32px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 700 }}>
+                Get in Touch
+              </MagneticButton>
+            </Link>
+          </div>
+        </div>
       </section>
 
       {/* ── Press ── */}

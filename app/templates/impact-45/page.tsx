@@ -4,7 +4,7 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, ChevronDown, Star } from "lucide-react";
-import { C, stats, testimonials, NeedleAnimation } from "./shared";
+import { C, stats, testimonials, NeedleAnimation, artists, portfolioItems } from "./shared";
 
 function HeroSection() {
   const ref = useRef(null);
@@ -134,43 +134,127 @@ export default function TattooStudioHome() {
     <main style={{ background: C.bg, minHeight: "100vh" }}>
       <HeroSection />
 
-      {/* Artists overview Section */}
-      <section style={{ background: C.bgAlt, padding: "120px 24px", borderTop: `1px solid ${C.border}`, textAlign: "center" }}>
-        <div style={{ maxWidth: 800, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 20 }}>
-            <div style={{ width: 32, height: 1, background: C.accent }} />
-            <span style={{ fontFamily: "'Barlow', system-ui", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: C.accent }}>The Artists</span>
-            <div style={{ width: 32, height: 1, background: C.accent }} />
+      {/* Artists Section */}
+      <section style={{ background: C.bgAlt, padding: "120px 24px", borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 72 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 20 }}>
+              <div style={{ width: 32, height: 1, background: C.accent }} />
+              <span style={{ fontFamily: "'Barlow', system-ui", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: C.accent }}>The Artists</span>
+              <div style={{ width: 32, height: 1, background: C.accent }} />
+            </div>
+            <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(36px, 5vw, 60px)", color: C.white, margin: "0 0 16px", fontWeight: 700 }}>Two Masters. One Studio.</h2>
+            <p style={{ fontFamily: "'Barlow', system-ui", fontSize: 16, color: C.textMuted, lineHeight: 1.7, maxWidth: 520, margin: "0 auto" }}>
+              Paris's finest fine-line and blackwork artists, each with a decade-plus of mastery.
+            </p>
           </div>
-          <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(36px, 5vw, 60px)", color: C.white, margin: "0 0 24px", fontWeight: 700 }}>Two Masters. One Studio.</h2>
-          <p style={{ fontFamily: "'Barlow', system-ui", fontSize: 16, color: C.textMuted, lineHeight: 1.7, marginBottom: 40, maxWidth: 540, margin: "0 auto 40px" }}>
-            Mara Voss (Fine Line & Botanicals) and Théo Marchais (Blackwork & Dark Art) bring absolute dedication and elite craftsmanship to Paris.
-          </p>
-          <Link href="/templates/impact-45/artists" style={{ textDecoration: "none" }}>
-            <button style={{ border: `1px solid ${C.accent}`, background: "transparent", color: C.white, padding: "14px 32px", fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: "'Barlow', system-ui", fontWeight: 700, cursor: "pointer" }}>
-              Meet The Artists →
-            </button>
-          </Link>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+            {artists.map((artist, i) => (
+              <motion.div
+                key={artist.name}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: i * 0.12 }}
+                style={{ background: C.bgCard, border: `1px solid ${C.border}`, overflow: "hidden" }}
+              >
+                <div style={{ aspectRatio: "3/2", overflow: "hidden", background: "#1a1a1a", position: "relative" }}>
+                  <img
+                    src={i === 0
+                      ? "https://images.unsplash.com/photo-1604881991720-f91add269bed?w=800&q=80"
+                      : "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=800&q=80"
+                    }
+                    alt={artist.name}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(1) brightness(0.7)", transition: "filter 0.6s" }}
+                    onMouseEnter={e => { (e.target as HTMLImageElement).style.filter = "grayscale(0.3) brightness(0.9)"; }}
+                    onMouseLeave={e => { (e.target as HTMLImageElement).style.filter = "grayscale(1) brightness(0.7)"; }}
+                  />
+                  <div style={{ position: "absolute", top: 20, right: 20, background: "rgba(0,0,0,0.7)", border: `1px solid ${C.borderAccent}`, padding: "4px 12px" }}>
+                    <span style={{ fontFamily: "'Barlow', system-ui", fontSize: 10, color: C.accent, letterSpacing: "0.1em", textTransform: "uppercase" }}>{artist.experience}</span>
+                  </div>
+                </div>
+                <div style={{ padding: 40 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
+                    <div>
+                      <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: 24, color: C.white, fontWeight: 700, marginBottom: 4 }}>{artist.name}</h3>
+                      <p style={{ fontFamily: "'Barlow', system-ui", fontSize: 12, color: C.accent, letterSpacing: "0.12em", textTransform: "uppercase" }}>{artist.role}</p>
+                    </div>
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ fontFamily: "'Cinzel', serif", fontSize: 18, color: C.white, fontWeight: 600 }}>From {artist.startingAt}</div>
+                      <div style={{ fontFamily: "'Barlow', system-ui", fontSize: 11, color: C.textMuted, marginTop: 2 }}>Starting rate</div>
+                    </div>
+                  </div>
+                  <p style={{ fontFamily: "'Barlow', system-ui", fontSize: 15, color: C.textMuted, lineHeight: 1.75, marginBottom: 24 }}>{artist.bio}</p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 28 }}>
+                    {artist.styles.map(style => (
+                      <span key={style} style={{ fontFamily: "'Barlow', system-ui", fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase", border: `1px solid ${C.borderAccent}`, color: C.accent, padding: "4px 10px" }}>{style}</span>
+                    ))}
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 24, borderTop: `1px solid ${C.border}` }}>
+                    <span style={{ fontFamily: "'Barlow', system-ui", fontSize: 12, color: C.textMuted }}>Wait: {artist.bookingLead}</span>
+                    <Link href="/templates/impact-45/booking" style={{ textDecoration: "none" }}>
+                      <button
+                        style={{ background: "transparent", border: `1px solid ${C.border}`, color: C.textMuted, padding: "10px 24px", fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: "'Barlow', system-ui", fontWeight: 600, cursor: "pointer" }}
+                        onMouseEnter={e => { e.currentTarget.style.borderColor = C.accent; e.currentTarget.style.color = C.white; }}
+                        onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.color = C.textMuted; }}
+                      >
+                        Book {artist.name.split(" ")[0]} →
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Portfolio overview Section */}
-      <section style={{ background: C.bg, padding: "120px 24px", textAlign: "center" }}>
-        <div style={{ maxWidth: 800, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 20 }}>
-            <div style={{ width: 32, height: 1, background: C.accent }} />
-            <span style={{ fontFamily: "'Barlow', system-ui", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: C.accent }}>Portfolio Gallery</span>
-            <div style={{ width: 32, height: 1, background: C.accent }} />
+      {/* Portfolio Section */}
+      <section style={{ background: C.bg, padding: "120px 24px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 64, paddingBottom: 32, borderBottom: `1px solid ${C.border}` }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+                <div style={{ width: 32, height: 1, background: C.accent }} />
+                <span style={{ fontFamily: "'Barlow', system-ui", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: C.accent }}>Portfolio Gallery</span>
+              </div>
+              <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(32px, 4vw, 52px)", color: C.white, margin: 0, fontWeight: 700 }}>Selected Works</h2>
+            </div>
+            <Link href="/templates/impact-45/portfolio" style={{ textDecoration: "none", fontFamily: "'Barlow', system-ui", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: C.textMuted, borderBottom: `1px solid ${C.border}`, paddingBottom: 2 }}>
+              View All →
+            </Link>
           </div>
-          <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(36px, 5vw, 60px)", color: C.white, margin: "0 0 24px", fontWeight: 700 }}>Selected Works</h2>
-          <p style={{ fontFamily: "'Barlow', system-ui", fontSize: 16, color: C.textMuted, lineHeight: 1.7, marginBottom: 40, maxWidth: 540, margin: "0 auto 40px" }}>
-            View our selected portfolio pieces across various tattoo formats, sizes, and orientations.
-          </p>
-          <Link href="/templates/impact-45/portfolio" style={{ textDecoration: "none" }}>
-            <button style={{ border: `1px solid ${C.accent}`, background: "transparent", color: C.white, padding: "14px 32px", fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: "'Barlow', system-ui", fontWeight: 700, cursor: "pointer" }}>
-              Explore Gallery →
-            </button>
-          </Link>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 4 }}>
+            {portfolioItems.map((item, i) => (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06, duration: 0.6 }}
+                style={{ position: "relative", aspectRatio: item.size === "tall" ? "2/3" : item.size === "wide" ? "4/3" : "1/1", overflow: "hidden", background: C.bgCard, cursor: "pointer" }}
+              >
+                <img
+                  src={[
+                    "https://images.unsplash.com/photo-1566759576948-db1dc578abba?w=600&q=80",
+                    "https://images.unsplash.com/photo-1550537687-c91072c4792d?w=600&q=80",
+                    "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?w=600&q=80",
+                    "https://images.unsplash.com/photo-1579869847514-7c1a19d2d2ad?w=600&q=80",
+                    "https://images.unsplash.com/photo-1598370434575-40c5ab55e0c0?w=600&q=80",
+                    "https://images.unsplash.com/photo-1542332213-9b5a5a3fad35?w=600&q=80",
+                  ][i]}
+                  alt={item.title}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(1) brightness(0.6)", transition: "all 0.5s" }}
+                  onMouseEnter={e => { (e.target as HTMLImageElement).style.filter = "grayscale(0) brightness(0.9)"; (e.target as HTMLImageElement).style.transform = "scale(1.04)"; }}
+                  onMouseLeave={e => { (e.target as HTMLImageElement).style.filter = "grayscale(1) brightness(0.6)"; (e.target as HTMLImageElement).style.transform = "scale(1)"; }}
+                />
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "1.5rem 1rem", background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%)" }}>
+                  <p style={{ fontFamily: "'Cinzel', serif", fontSize: 13, color: C.white, fontWeight: 600, marginBottom: 2 }}>{item.title}</p>
+                  <p style={{ fontFamily: "'Barlow', system-ui", fontSize: 10, color: C.accent, letterSpacing: "0.1em", textTransform: "uppercase" }}>{item.style} · {item.artist.split(" ")[0]}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
