@@ -186,6 +186,80 @@ export default function ZenithWatchPage() {
           </div>
         </section>
 
+        {/* ── TESTIMONIALS ──────────── */}
+        <section className="py-40 bg-[#0a0c10] border-t border-white/5">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex items-end justify-between mb-20 border-b border-white/5 pb-12">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a96e] block mb-6">Connoisseurs</span>
+                  <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter italic text-white leading-none">In Their <span className="font-light not-italic opacity-10">Hands.</span></h2>
+                </div>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
+              {[
+                { quote: "The Chronos 01 is the only watch I've worn every day for four years. It has aged the way all great things do — with more character, not less.", name: "K. Lindqvist", origin: "Stockholm · Collector" },
+                { quote: "I compared it directly against Lange and Patek at my usual dealer. Zenith's movement finishing at this price point is simply audacious.", name: "H. Fournier", origin: "Paris · Horologist" },
+                { quote: "My Lunar Phase arrived with a personal letter from the atelier chief. That kind of craft and attention doesn't exist anymore. Except here.", name: "T. Okafor", origin: "Lagos · Collector" },
+              ].map((t, i) => (
+                <Reveal key={i} delay={i * 0.12}>
+                  <div className="bg-[#0a0c10] p-14 flex flex-col gap-8 group hover:bg-black transition-colors">
+                    <div className="text-6xl text-[#c9a96e]/10 font-serif leading-none">&ldquo;</div>
+                    <p className="text-white/40 font-light leading-relaxed italic flex-1 text-lg">{t.quote}</p>
+                    <div className="border-t border-white/5 pt-8">
+                      <div className="text-sm font-bold text-white uppercase tracking-widest">{t.name}</div>
+                      <div className="text-[10px] text-[#c9a96e] font-mono tracking-widest mt-2">{t.origin}</div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── ATELIER ───────────────── */}
+        <section className="py-40 bg-black border-t border-white/5">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+              <Reveal>
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a96e] block mb-8">The Workshop</span>
+                <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter italic text-white leading-none mb-12">Made By <br /><span className="font-light not-italic opacity-20">Hand.</span></h2>
+                <div className="space-y-8">
+                  {[
+                    { icon: Settings, t: "Hand-Finished Movement", d: "Every calibre is assembled and regulated by a single watchmaker. Tolerances held to 0.004mm." },
+                    { icon: Shield, t: "200-Hour Testing", d: "Each piece undergoes pressure, temperature, and magnetic resistance testing before certification." },
+                    { icon: Play, t: "Open Caseback Viewing", d: "Every client receives a private atelier session to observe their piece during final assembly." },
+                  ].map((f, i) => (
+                    <div key={i} className="flex gap-8 group">
+                      <div className="w-16 h-16 shrink-0 border border-[#c9a96e]/20 flex items-center justify-center group-hover:bg-[#c9a96e] group-hover:border-[#c9a96e] transition-all duration-700">
+                        <f.icon className="w-5 h-5 text-[#c9a96e]/60 group-hover:text-black transition-colors" />
+                      </div>
+                      <div>
+                        <h4 className="text-xl font-black italic uppercase mb-2">{f.t}</h4>
+                        <p className="text-sm text-white/30 leading-relaxed font-light">{f.d}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-14 grid grid-cols-3 gap-px bg-white/5">
+                  {[{ v: "1/24", l: "Units" }, { v: "2,400h", l: "Assembly" }, { v: "47yr", l: "Crafting" }].map(s => (
+                    <div key={s.l} className="bg-black p-8 text-center">
+                      <div className="text-2xl font-black italic text-[#c9a96e]">{s.v}</div>
+                      <div className="text-[9px] font-bold uppercase tracking-widest text-white/20 mt-1">{s.l}</div>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+              <Reveal delay={0.2}>
+                <div className="relative aspect-[3/4] overflow-hidden grayscale hover:grayscale-0 transition-all duration-[2000ms] border border-white/5">
+                  <ParallaxImg src="https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?auto=format&fit=crop&q=80&w=1200" alt="Atelier" />
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
         {/* ── CTA ───────────────────── */}
         <section className="py-60 bg-[#fafafa] text-black text-center px-6 border-t border-black/5 relative overflow-hidden">
           {/* Technical Schematic Background */}

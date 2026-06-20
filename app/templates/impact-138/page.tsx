@@ -207,6 +207,91 @@ export default function PrismAnalyticsPage() {
           </div>
         </section>
 
+        {/* ── TESTIMONIALS ──────────────── */}
+        <section className="py-32 bg-[#0d0d18] border-t border-white/5">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="text-center mb-24">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-violet-400 block mb-4">Social Proof</span>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Loved by <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400">Teams.</span></h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                { quote: "We replaced five separate tools with Velo. Our data team got three hours of their day back. That's real money.", name: "L. Fischer", role: "Head of Data, Berlin FinTech", avatar: "LF" },
+                { quote: "The real-time segmentation alone paid for a year's subscription in the first campaign. The ROI math is embarrassingly one-sided.", name: "P. Nguyen", role: "CMO, Singapore E-commerce", avatar: "PN" },
+                { quote: "I was skeptical. Enterprise analytics usually means six months of implementation. We were in production in eight days.", name: "K. Osei", role: "VP Engineering, London SaaS", avatar: "KO" },
+              ].map((t, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="group p-8 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-violet-500/20 transition-all duration-500 flex flex-col gap-6 h-full">
+                    <div className="flex gap-1">
+                      {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-violet-400 text-violet-400" />)}
+                    </div>
+                    <p className="text-sm text-white/50 leading-relaxed italic flex-1">&ldquo;{t.quote}&rdquo;</p>
+                    <div className="flex items-center gap-4 border-t border-white/5 pt-6">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-[10px] font-black text-black">{t.avatar}</div>
+                      <div>
+                        <div className="text-sm font-bold text-white">{t.name}</div>
+                        <div className="text-xs text-white/30">{t.role}</div>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal delay={0.2}>
+              <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5">
+                {[{ v: "3,400+", l: "Companies" }, { v: "99.9%", l: "Uptime SLA" }, { v: "12min", l: "Avg. onboarding" }, { v: "4.9★", l: "G2 Rating" }].map(s => (
+                  <div key={s.l} className="bg-[#0d0d18] p-8 text-center">
+                    <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400 mb-1">{s.v}</div>
+                    <div className="text-[9px] font-bold uppercase tracking-widest text-white/20">{s.l}</div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ── INTEGRATIONS ──────────────── */}
+        <section className="py-32 bg-[#0a0a12] border-t border-white/5">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="text-center mb-16">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-400 block mb-4">Ecosystem</span>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Works with <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400">Everything.</span></h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { name: "Snowflake", cat: "Data Warehouse", color: "border-sky-500/20 text-sky-400" },
+                { name: "BigQuery", cat: "Analytics DB", color: "border-blue-500/20 text-blue-400" },
+                { name: "Salesforce", cat: "CRM", color: "border-cyan-500/20 text-cyan-400" },
+                { name: "Segment", cat: "CDP", color: "border-violet-500/20 text-violet-400" },
+                { name: "Fivetran", cat: "ETL Pipeline", color: "border-purple-500/20 text-purple-400" },
+                { name: "dbt", cat: "Transformation", color: "border-pink-500/20 text-pink-400" },
+                { name: "Looker", cat: "BI Layer", color: "border-green-500/20 text-green-400" },
+                { name: "Stripe", cat: "Revenue Data", color: "border-white/10 text-white/40" },
+              ].map((intg, i) => (
+                <Reveal key={intg.name} delay={i * 0.05}>
+                  <div className={`p-6 rounded-xl border ${intg.color} bg-white/[0.02] hover:bg-white/[0.04] transition-colors cursor-default`}>
+                    <div className="text-[9px] font-bold uppercase tracking-widest mb-1 text-white/30">{intg.cat}</div>
+                    <div className="text-sm font-bold text-white">{intg.name}</div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal delay={0.3}>
+              <div className="mt-8 p-6 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between gap-8">
+                <div>
+                  <div className="text-sm font-black text-white mb-1">Custom Connector SDK</div>
+                  <p className="text-xs text-white/30">Any REST, GraphQL, or webhook source. Average integration: 45 minutes.</p>
+                </div>
+                <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400 shrink-0">240+<span className="text-xs font-bold text-white/20 ml-2">connectors</span></div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
         {/* ── CTA ─────────────────────── */}
         <section className="py-32 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-violet-600/10 via-transparent to-cyan-600/10" />
