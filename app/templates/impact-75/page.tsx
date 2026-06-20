@@ -2,14 +2,217 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Radio, Terminal } from "lucide-react";
+import {
+  Radio,
+  Terminal,
+  Star,
+  Shield,
+  RotateCcw,
+  Award,
+  Truck,
+  ChevronLeft,
+  ChevronRight,
+  Check,
+  ShoppingBag,
+} from "lucide-react";
 import { Reveal, GridBackground } from "./shared";
+
+/* ============================================================
+   DATA
+   ============================================================ */
+
+const HERO_PRODUCTS = [
+  {
+    id: 1,
+    name: "Helix Noir",
+    collection: "Monochrome Series",
+    price: "€8 400",
+    desc: "Boîtier grade 5 titane poli miroir. Mouvement mécanique automatique 72h de réserve. Verre saphir anti-reflets.",
+    badge: "Édition Limitée — 150 pièces",
+    img: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?q=80&w=1200&auto=format&fit=crop",
+    accent: "#0a0a0a",
+  },
+  {
+    id: 2,
+    name: "Aurora S",
+    collection: "Aurora Dial Series",
+    price: "€12 900",
+    desc: "Cadran en nacre rose naturelle. Complications : date, phases de lune. Bracelet alligator bordeaux cousu main.",
+    badge: "New Season",
+    img: "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?q=80&w=1200&auto=format&fit=crop",
+    accent: "#8B0000",
+  },
+  {
+    id: 3,
+    name: "Meridian GMT",
+    collection: "Exploration Series",
+    price: "€15 600",
+    desc: "Fonction GMT double fuseau. Céramique haute pression noire absolue. Étanchéité 300m. Certifié COSC.",
+    badge: "Best-Seller",
+    img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=80&w=1200&auto=format&fit=crop",
+    accent: "#1a3a5c",
+  },
+];
+
+const PRODUCTS = [
+  {
+    id: 1,
+    name: "Helix Noir",
+    price: "€8 400",
+    isNew: false,
+    img: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?q=80&w=800&auto=format&fit=crop",
+    category: "Monochrome",
+  },
+  {
+    id: 2,
+    name: "Aurora S",
+    price: "€12 900",
+    isNew: true,
+    img: "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?q=80&w=800&auto=format&fit=crop",
+    category: "Cadrans",
+  },
+  {
+    id: 3,
+    name: "Meridian GMT",
+    price: "€15 600",
+    isNew: false,
+    img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=80&w=800&auto=format&fit=crop",
+    category: "Exploration",
+  },
+  {
+    id: 4,
+    name: "Solstice Blanc",
+    price: "€6 200",
+    isNew: true,
+    img: "https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?q=80&w=800&auto=format&fit=crop",
+    category: "Classique",
+  },
+  {
+    id: 5,
+    name: "Vertex Chronograph",
+    price: "€19 800",
+    isNew: false,
+    img: "https://images.unsplash.com/photo-1461141346587-763ab02bced9?q=80&w=800&auto=format&fit=crop",
+    category: "Chronographe",
+  },
+  {
+    id: 6,
+    name: "Onyx Perpetual",
+    price: "€24 500",
+    isNew: false,
+    img: "https://images.unsplash.com/photo-1542496658-e33a6d0d655f?q=80&w=800&auto=format&fit=crop",
+    category: "Grande Complication",
+  },
+];
+
+const MATERIALS = [
+  {
+    name: "Swiss Movement",
+    subtitle: "ETA 2824-2 / In-house",
+    desc: "Chaque calibre est assemblé à la main par nos maîtres horlogers à Genève. Réglage chronomètre, 6 positions. Réserve de marche minimum 48h.",
+    img: "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    name: "Sapphire Crystal",
+    subtitle: "Grade 9 · Anti-reflective",
+    desc: "Verre saphir synthétique de grade 9, traitement anti-reflets double face. Dureté Mohs 9/10 — résistant aux rayures du quotidien.",
+    img: "https://images.unsplash.com/photo-1622434641406-a158123450f9?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    name: "Grade 5 Titanium",
+    subtitle: "Ti6Al4V · DLC Coated",
+    desc: "Alliage aérospatial grade 5 (Ti-6Al-4V), 40% plus léger que l'acier, 3× plus résistant. Revêtement DLC noir 5 microns en option.",
+    img: "https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    name: "Alligator Strap",
+    subtitle: "Mississippi · Cousu main",
+    desc: "Cuir alligator du Mississippi tannage végétal, cousu main double fil de soie, doublure veau nappa. Boucle déployante en titane massif.",
+    img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=800&auto=format&fit=crop",
+  },
+];
+
+const BESTSELLERS = [
+  {
+    name: "Meridian GMT",
+    price: "€15 600",
+    img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=80&w=800&auto=format&fit=crop",
+    specs: [
+      { label: "Mouvement", val: "Automatique In-house" },
+      { label: "Boîtier", val: "Titane grade 5, 42mm" },
+      { label: "Verre", val: "Saphir AR double face" },
+      { label: "Étanchéité", val: "300m / 30ATM" },
+      { label: "Réserve de marche", val: "72 heures" },
+    ],
+  },
+  {
+    name: "Aurora S",
+    price: "€12 900",
+    img: "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?q=80&w=800&auto=format&fit=crop",
+    specs: [
+      { label: "Mouvement", val: "ETA 2892 modifié" },
+      { label: "Cadran", val: "Nacre rose naturelle" },
+      { label: "Complications", val: "Date, Phase de Lune" },
+      { label: "Bracelet", val: "Alligator bordeaux cousu main" },
+      { label: "Boîtier", val: "Or rose 18k, 38mm" },
+    ],
+  },
+  {
+    name: "Onyx Perpetual",
+    price: "€24 500",
+    img: "https://images.unsplash.com/photo-1542496658-e33a6d0d655f?q=80&w=800&auto=format&fit=crop",
+    specs: [
+      { label: "Mouvement", val: "Calendrier Perpétuel maison" },
+      { label: "Complications", val: "Quantième perpétuel, Chrono" },
+      { label: "Boîtier", val: "Céramique noire, 44mm" },
+      { label: "Verre", val: "Saphir bombé, AR 4 couches" },
+      { label: "Réserve de marche", val: "90 heures" },
+    ],
+  },
+];
+
+const PUBLICATIONS = [
+  "Le Monde",
+  "Vogue France",
+  "Forbes",
+  "The Telegraph",
+  "Hodinkee",
+  "GQ France",
+];
+
+const GUARANTEES = [
+  {
+    icon: <Shield className="w-5 h-5" />,
+    title: "5 ans de garantie",
+    desc: "Couverture complète : mouvement, boîtier, étanchéité. Extension possible à 7 ans.",
+  },
+  {
+    icon: <RotateCcw className="w-5 h-5" />,
+    title: "Retours gratuits",
+    desc: "30 jours pour changer d'avis. Retrait à domicile inclus, remboursement sous 48h.",
+  },
+  {
+    icon: <Award className="w-5 h-5" />,
+    title: "Certificat d'authenticité",
+    desc: "Numéro de série gravé, certificat COSC, passeport de la montre en NFT optionnel.",
+  },
+  {
+    icon: <Truck className="w-5 h-5" />,
+    title: "White Glove Delivery",
+    desc: "Livraison en main propre par coursier sécurisé. Emballage signature coffret bois.",
+  },
+];
 
 export default function OrbitAIPage() {
   const heroRef = useRef(null);
+  const [heroIdx, setHeroIdx] = useState(0);
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+  const [addedToCart, setAddedToCart] = useState<number | null>(null);
+
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
@@ -17,12 +220,16 @@ export default function OrbitAIPage() {
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
+  const prevHero = () => setHeroIdx((i) => (i - 1 + HERO_PRODUCTS.length) % HERO_PRODUCTS.length);
+  const nextHero = () => setHeroIdx((i) => (i + 1) % HERO_PRODUCTS.length);
+  const currentHero = HERO_PRODUCTS[heroIdx];
+
   return (
-    <div className="relative w-full">
+    <div className="relative w-full bg-[#ffffff]">
       {/* ── HERO ──────────────────── */}
       <section
         ref={heroRef}
-        className="relative h-screen flex items-center justify-center overflow-hidden"
+        className="relative h-screen flex items-center justify-center overflow-hidden bg-[#050810]"
       >
         <GridBackground />
         <motion.div
@@ -30,96 +237,424 @@ export default function OrbitAIPage() {
           className="absolute inset-0 z-0"
         >
           <Image
-            src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=2400"
-            alt="Earth from Space"
+            src={currentHero.img}
+            alt={currentHero.name}
             fill
-            className="object-cover opacity-20 scale-110"
+            className="object-cover opacity-25 scale-110"
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#050810] via-transparent to-[#050810]/50" />
         </motion.div>
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full text-center lg:text-left">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div>
               <Reveal>
                 <div className="inline-flex items-center gap-4 mb-10 text-cyan-500 text-[10px] font-bold uppercase tracking-[0.5em] italic">
-                  <Terminal className="w-4 h-4" /> Global_Uplink_Established
+                  <Terminal className="w-4 h-4" /> {currentHero.collection}
                 </div>
               </Reveal>
-              <Reveal delay={0.1} y={100}>
-                <h1 className="text-7xl md:text-[12vw] font-black tracking-tighter leading-[1.15] uppercase mb-16 italic text-white pb-6">
-                  Eyes <br />{" "}
-                  <span className="text-white/10 not-italic">Universal.</span>
+              <Reveal delay={0.1} y={60}>
+                <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[1.1] uppercase mb-6 italic text-white">
+                  {currentHero.name}
                 </h1>
               </Reveal>
-              <Reveal delay={0.3}>
-                <p className="text-xl text-white/30 font-light max-w-xl leading-relaxed italic uppercase mb-16">
-                  Deploying the world's most advanced autonomous satellite
-                  constellation for real-time global intelligence.
+              <Reveal delay={0.2}>
+                <p className="text-white/30 text-sm leading-relaxed mb-6 max-w-md font-light">
+                  {currentHero.desc}
                 </p>
-                <div className="flex flex-col sm:flex-row gap-10 items-center justify-center lg:justify-start">
-                  <Link href="/templates/impact-75/contact">
-                    <button className="px-16 py-6 bg-cyan-500 text-black font-black uppercase tracking-widest text-[10px] hover:px-20 transition-all duration-700 shadow-[0_0_40px_rgba(6,182,212,0.2)]">
-                      Acquire Data Stream
-                    </button>
-                  </Link>
-                  <Link href="/templates/impact-75/telemetry">
-                    <div className="text-[10px] font-black uppercase tracking-widest text-white/20 flex items-center gap-4 group cursor-pointer hover:text-white transition-colors">
-                      Live Telemetry{" "}
-                      <Radio className="w-5 h-5 text-cyan-500 animate-pulse" />
-                    </div>
-                  </Link>
+                <div className="inline-block px-3 py-1.5 border border-white/10 text-[9px] text-white/40 uppercase tracking-widest font-bold rounded mb-10">
+                  {currentHero.badge}
+                </div>
+              </Reveal>
+              <Reveal delay={0.3}>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8">
+                  <div>
+                    <div className="text-[9px] text-white/20 uppercase tracking-widest mb-1 font-bold">Prix</div>
+                    <div className="text-4xl font-black text-white tracking-tighter">{currentHero.price}</div>
+                  </div>
+                  <button
+                    onClick={() => setAddedToCart(currentHero.id)}
+                    className="flex items-center gap-3 px-8 py-4 bg-white text-black text-[9px] font-black uppercase tracking-widest hover:bg-[#f0f0f0] transition-all cursor-pointer border-none rounded"
+                  >
+                    <ShoppingBag className="w-4 h-4" />
+                    {addedToCart === currentHero.id ? "Ajouté ✓" : "Ajouter au panier"}
+                  </button>
                 </div>
               </Reveal>
             </div>
 
-            <Reveal delay={0.5} y={0}>
-              <div className="relative p-10 bg-white/5 border border-white/10 rounded shadow-2xl overflow-hidden group">
-                <div className="absolute top-0 right-0 p-8 text-cyan-500/20">
-                  <Radio className="w-40 h-40 animate-ping" />
-                </div>
-                <div className="relative z-10 space-y-12">
-                  <div className="flex justify-between border-b border-white/5 pb-8">
-                    <div className="text-xs font-black text-cyan-500 tracking-widest uppercase italic">
-                      Network Overview
-                    </div>
-                    <div className="text-[10px] text-white/30 uppercase tracking-widest">
-                      v4.0.2
-                    </div>
+            {/* Carousel nav */}
+            <Reveal delay={0.4} y={0}>
+              <div className="relative">
+                <div className="relative aspect-square overflow-hidden rounded-lg border border-white/10">
+                  <Image
+                    src={currentHero.img}
+                    alt={currentHero.name}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute top-4 right-4 px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded text-[9px] text-white font-bold uppercase tracking-widest border border-white/20">
+                    3D Rotate
                   </div>
-                  <div className="grid grid-cols-2 gap-12">
-                    {[
-                      { l: "Satellites Active", v: "1,242" },
-                      { l: "Global Latency", v: "14ms" },
-                      { l: "Data Throughput", v: "4.2 PB/s" },
-                      { l: "Security Level", v: "Quantum" },
-                    ].map((stat, i) => (
-                      <div key={i}>
-                        <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest mb-2 italic">
-                          {stat.l}
-                        </div>
-                        <div className="text-2xl font-black text-white italic tracking-tighter">
-                          {stat.v}
-                        </div>
-                      </div>
+                </div>
+                <div className="flex items-center justify-between mt-4">
+                  <button
+                    onClick={prevHero}
+                    className="w-10 h-10 border border-white/10 rounded flex items-center justify-center text-white/40 hover:text-white hover:border-white/30 transition-all cursor-pointer"
+                    aria-label="Produit précédent"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <div className="flex gap-2">
+                    {HERO_PRODUCTS.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setHeroIdx(i)}
+                        className={`w-1.5 h-1.5 rounded-full transition-all cursor-pointer ${i === heroIdx ? "bg-white" : "bg-white/20"}`}
+                        aria-label={`Produit ${i + 1}`}
+                      />
                     ))}
                   </div>
-                  <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
-                    <motion.div
-                      animate={{ x: ["-100%", "100%"] }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                      className="w-[30%] h-full bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]"
-                    />
-                  </div>
+                  <button
+                    onClick={nextHero}
+                    className="w-10 h-10 border border-white/10 rounded flex items-center justify-center text-white/40 hover:text-white hover:border-white/30 transition-all cursor-pointer"
+                    aria-label="Produit suivant"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
             </Reveal>
           </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          2. PRODUCT GRID
+          ========================================== */}
+      <section className="py-24 bg-[#ffffff]">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="flex items-end justify-between mb-14">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0a0a0a]/30 mb-3">
+                  Collection
+                </p>
+                <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-[#0a0a0a]">
+                  Toutes les pièces
+                </h2>
+              </div>
+              <Link href="/templates/impact-75/telemetry">
+                <button className="text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/30 hover:text-[#0a0a0a] transition-colors cursor-pointer flex items-center gap-2 group">
+                  Voir tout
+                  <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </Link>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            {PRODUCTS.map((product, i) => (
+              <Reveal key={product.id} delay={i * 0.07}>
+                <div className="group cursor-pointer">
+                  <div className="relative aspect-square overflow-hidden rounded-lg bg-[#f5f5f5] mb-4">
+                    <Image
+                      src={product.img}
+                      alt={product.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                    {product.isNew && (
+                      <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#0a0a0a] text-white text-[8px] font-black uppercase tracking-widest rounded">
+                        New
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-[#0a0a0a]/0 group-hover:bg-[#0a0a0a]/5 transition-colors duration-300" />
+                    <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <button
+                        onClick={() => setAddedToCart(product.id)}
+                        className="flex items-center gap-2 px-4 py-2.5 bg-[#0a0a0a] text-white text-[9px] font-black uppercase tracking-widest rounded hover:bg-[#333] transition-all cursor-pointer border-none"
+                      >
+                        <ShoppingBag className="w-3 h-3" />
+                        {addedToCart === product.id ? "Ajouté ✓" : "Panier"}
+                      </button>
+                    </div>
+                  </div>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="text-[9px] text-[#0a0a0a]/30 uppercase tracking-widest font-bold mb-1">
+                        {product.category}
+                      </p>
+                      <p className="font-black text-[#0a0a0a] text-sm uppercase tracking-tight">
+                        {product.name}
+                      </p>
+                    </div>
+                    <p className="font-bold text-[#0a0a0a] text-sm">{product.price}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          3. MATERIALS & CRAFT
+          ========================================== */}
+      <section className="py-24 bg-[#0a0a0a]">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="text-center mb-16">
+              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 mb-4">
+                Savoir-Faire
+              </p>
+              <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white italic">
+                Matières d&apos;exception
+              </h2>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {MATERIALS.map((mat, i) => (
+              <Reveal key={mat.name} delay={i * 0.1}>
+                <div className="group flex gap-6 p-8 bg-white/5 border border-white/5 rounded-lg hover:border-white/10 transition-all duration-300 cursor-default">
+                  <div className="relative w-24 h-24 flex-shrink-0 rounded overflow-hidden">
+                    <Image
+                      src={mat.img}
+                      alt={mat.name}
+                      fill
+                      className="object-cover brightness-75 group-hover:brightness-90 transition-all duration-300"
+                    />
+                  </div>
+                  <div>
+                    <div className="text-[9px] text-white/20 uppercase tracking-widest font-bold mb-1">
+                      {mat.subtitle}
+                    </div>
+                    <h3 className="text-lg font-black uppercase tracking-tighter text-white mb-3 italic">
+                      {mat.name}
+                    </h3>
+                    <p className="text-xs text-white/40 leading-relaxed">
+                      {mat.desc}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          4. BESTSELLERS — DETAILED
+          ========================================== */}
+      <section className="py-24 bg-[#f8f8f8]">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-14">
+              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0a0a0a]/30 mb-3">
+                Best-Sellers
+              </p>
+              <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-[#0a0a0a]">
+                Les incontournables
+              </h2>
+            </div>
+          </Reveal>
+
+          <div className="space-y-8">
+            {BESTSELLERS.map((item, i) => (
+              <Reveal key={item.name} delay={i * 0.1}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-0 bg-white rounded-xl overflow-hidden border border-[#0a0a0a]/6 hover:shadow-md transition-shadow">
+                  <div className="relative aspect-square md:aspect-auto md:h-72">
+                    <Image
+                      src={item.img}
+                      alt={item.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="p-8 flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-2xl font-black uppercase tracking-tighter text-[#0a0a0a] mb-6 italic">
+                        {item.name}
+                      </h3>
+                      <div className="space-y-3 mb-8">
+                        {item.specs.map((spec) => (
+                          <div key={spec.label} className="flex items-center justify-between py-2 border-b border-[#0a0a0a]/5">
+                            <span className="text-[9px] text-[#0a0a0a]/30 uppercase tracking-widest font-bold">
+                              {spec.label}
+                            </span>
+                            <span className="text-[10px] font-bold text-[#0a0a0a]">
+                              {spec.val}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="text-2xl font-black text-[#0a0a0a] tracking-tighter">
+                        {item.price}
+                      </div>
+                      <button
+                        onClick={() => setAddedToCart(i + 100)}
+                        className="flex items-center gap-2 px-6 py-3.5 bg-[#0a0a0a] text-white text-[9px] font-black uppercase tracking-widest rounded hover:bg-[#333] transition-all cursor-pointer border-none"
+                      >
+                        <ShoppingBag className="w-3.5 h-3.5" />
+                        {addedToCart === i + 100 ? "Ajouté ✓" : "Ajouter au panier"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          5. SOCIAL PROOF — AS SEEN IN
+          ========================================== */}
+      <section className="py-24 bg-[#0a0a0a]">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="text-center mb-14">
+              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 mb-4">
+                Presse & Médias
+              </p>
+              <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white italic">
+                Ils parlent de nous
+              </h2>
+            </div>
+          </Reveal>
+
+          <div className="flex flex-wrap justify-center gap-8 mb-16">
+            {PUBLICATIONS.map((pub, i) => (
+              <Reveal key={pub} delay={i * 0.06}>
+                <div className="px-8 py-4 border border-white/10 rounded text-white/20 text-sm font-black uppercase tracking-widest hover:text-white/60 hover:border-white/30 transition-all duration-300 cursor-default">
+                  {pub}
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-12 py-12 border-t border-white/5">
+              <div className="text-center">
+                <div className="text-5xl font-black text-white tracking-tighter mb-2">4.9</div>
+                <div className="flex justify-center gap-1 mb-2">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <div className="text-[9px] text-white/30 uppercase tracking-widest font-bold">
+                  Note moyenne
+                </div>
+              </div>
+              <div className="w-px h-16 bg-white/10 hidden md:block" />
+              <div className="text-center">
+                <div className="text-5xl font-black text-white tracking-tighter mb-2">1 240</div>
+                <div className="text-[9px] text-white/30 uppercase tracking-widest font-bold mt-2">
+                  Avis vérifiés
+                </div>
+              </div>
+              <div className="w-px h-16 bg-white/10 hidden md:block" />
+              <div className="text-center">
+                <div className="text-5xl font-black text-white tracking-tighter mb-2">98%</div>
+                <div className="text-[9px] text-white/30 uppercase tracking-widest font-bold mt-2">
+                  Clients satisfaits
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ==========================================
+          6. GUARANTEE — 4 PILLARS
+          ========================================== */}
+      <section className="py-24 bg-[#ffffff]">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="text-center mb-14">
+              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0a0a0a]/30 mb-4">
+                Notre Engagement
+              </p>
+              <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-[#0a0a0a] italic">
+                L&apos;excellence, <br />
+                <span className="text-[#0a0a0a]/20">sans compromis.</span>
+              </h2>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {GUARANTEES.map((g, i) => (
+              <Reveal key={g.title} delay={i * 0.1}>
+                <div className="flex flex-col items-start p-8 border border-[#0a0a0a]/8 rounded-xl hover:border-[#0a0a0a]/20 hover:shadow-md transition-all duration-300">
+                  <div className="w-12 h-12 bg-[#0a0a0a] rounded flex items-center justify-center text-white mb-6">
+                    {g.icon}
+                  </div>
+                  <h3 className="font-black uppercase tracking-tight text-[#0a0a0a] text-sm mb-3">
+                    {g.title}
+                  </h3>
+                  <p className="text-xs text-[#0a0a0a]/50 leading-relaxed">{g.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          7. NEWSLETTER — MINIMAL SIGNUP
+          ========================================== */}
+      <section className="py-24 bg-[#0a0a0a]">
+        <div className="max-w-xl mx-auto px-6 text-center">
+          <Reveal>
+            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/20 mb-8">
+              Collection Privée
+            </p>
+            <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tighter text-white italic mb-4">
+              Soyez le premier informé.
+            </h2>
+            <p className="text-white/30 text-sm leading-relaxed mb-10">
+              Accès en avant-première aux nouvelles collections, éditions limitées
+              et événements privés.
+            </p>
+
+            {subscribed ? (
+              <div className="flex items-center justify-center gap-3 px-8 py-4 border border-white/10 rounded text-white/60 text-sm font-bold uppercase tracking-widest">
+                <Check className="w-4 h-4 text-white/40" />
+                Bienvenue dans l&apos;univers Helix
+              </div>
+            ) : (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (email) setSubscribed(true);
+                }}
+                className="flex gap-3"
+              >
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="votre@email.com"
+                  required
+                  className="flex-1 px-5 py-4 bg-white/5 border border-white/10 rounded text-white text-sm placeholder-white/20 focus:outline-none focus:border-white/30 transition-colors"
+                />
+                <button
+                  type="submit"
+                  className="px-6 py-4 bg-white text-[#0a0a0a] text-[9px] font-black uppercase tracking-widest rounded hover:bg-[#f0f0f0] transition-all cursor-pointer border-none whitespace-nowrap"
+                >
+                  S&apos;abonner
+                </button>
+              </form>
+            )}
+
+            <p className="mt-5 text-[9px] text-white/15 uppercase tracking-widest">
+              Données confidentielles · Désabonnement en un clic
+            </p>
+          </Reveal>
         </div>
       </section>
     </div>

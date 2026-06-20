@@ -85,6 +85,15 @@ const STATS = [
   { label: "Client Satisfaction", value: "NPS 98" },
 ];
 
+const NAV_LINKS = [
+  { label: "Estates", href: "#estates" },
+  { label: "Concierge", href: "#concierge" },
+  { label: "About", href: "#about" },
+  { label: "Testimonials", href: "#testimonials" },
+  { label: "FAQ", href: "#faq" },
+  { label: "Contact", href: "#contact" },
+];
+
 /* ==========================================================================
    UTILITY COMPONENTS
    ========================================================================= */
@@ -160,6 +169,7 @@ export default function SkylineConciergePage() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeListing, setActiveListing] = useState<number | null>(null);
+  const [contactSubmitted, setContactSubmitted] = useState(false);
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50);
@@ -189,19 +199,13 @@ export default function SkylineConciergePage() {
           </Link>
 
           <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
-            {[
-              "Estates",
-              "Concierge",
-              "Global",
-              "Private_Vault",
-              "Advisors",
-            ].map((link) => (
+            {NAV_LINKS.map((link) => (
               <Link
-                key={link}
-                href="#"
+                key={link.label}
+                href={link.href}
                 className="hover:text-[#c9a96e] transition-colors cursor-pointer"
               >
-                {link}
+                {link.label}
               </Link>
             ))}
           </div>
@@ -241,18 +245,16 @@ export default function SkylineConciergePage() {
               <X className="w-8 h-8" />
             </button>
             <div className="flex flex-col gap-6 text-5xl font-black italic uppercase text-white/10">
-              {["Estates", "Concierge", "Global", "Vault", "Contact"].map(
-                (l) => (
-                  <Link
-                    key={l}
-                    href="#"
-                    onClick={() => setMenuOpen(false)}
-                    className="hover:text-[#c9a96e] transition-colors"
-                  >
-                    {l}
-                  </Link>
-                ),
-              )}
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="hover:text-[#c9a96e] transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
             </div>
           </motion.div>
         )}
@@ -289,9 +291,11 @@ export default function SkylineConciergePage() {
               asset security.
             </p>
             <div className="flex flex-col sm:flex-row gap-6">
-              <MagneticBtn className="px-12 py-5 bg-[#c9a96e] text-black text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm hover:bg-white transition-all cursor-pointer shadow-2xl shadow-[#c9a96e]/20">
-                Request_Membership
-              </MagneticBtn>
+              <Link href="#contact">
+                <MagneticBtn className="px-12 py-5 bg-[#c9a96e] text-black text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm hover:bg-white transition-all cursor-pointer shadow-2xl shadow-[#c9a96e]/20">
+                  Request_Membership
+                </MagneticBtn>
+              </Link>
               <Link
                 href="#estates"
                 className="px-12 py-5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm hover:bg-white/5 transition-all flex items-center justify-center gap-3"
@@ -318,7 +322,7 @@ export default function SkylineConciergePage() {
       </section>
 
       {/* ── SERVICES SECTION ── */}
-      <section className="py-32 px-6 md:px-12 bg-[#0d0d0d]">
+      <section id="concierge" className="py-32 px-6 md:px-12 bg-[#0d0d0d]">
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
             <div className="text-center mb-24">
@@ -357,6 +361,55 @@ export default function SkylineConciergePage() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── ABOUT SECTION ── */}
+      <section id="about" className="py-32 px-6 md:px-12 bg-[#0a0a0a] border-b border-white/5">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a96e] mb-8 block">
+              Our Creed
+            </span>
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-8">
+              The Philosophy of <br />
+              <span className="not-italic font-thin text-white">Absolute Discretion.</span>
+            </h2>
+            <p className="text-white/40 text-lg leading-relaxed mb-8 font-light italic">
+              At Skyline Concierge Group, we operate at the unique intersection of wealth infrastructure, private security, and lifestyle orchestration.
+            </p>
+            <p className="text-white/30 text-sm leading-relaxed mb-12 font-light">
+              Our mission is to create a seamless operational environment for the world's most discerning individuals. By managing the complexities of luxury asset coordination, physical security detail, and private travel logistics, we restore the ultimate luxury: absolute freedom.
+            </p>
+            <div className="border-t border-white/10 pt-8 flex gap-8">
+              <div>
+                <div className="text-2xl font-black text-[#c9a96e]">CONFIDENTIAL</div>
+                <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">OPERATIONAL RULE</div>
+              </div>
+              <div>
+                <div className="text-2xl font-black text-white">ISO 27001</div>
+                <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">INFORMATION SECURITY</div>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div className="relative aspect-video lg:aspect-[4/3] bg-neutral-900 border border-white/5">
+              <Image
+                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80"
+                alt="Skyline Headquarter Consultation Room"
+                fill
+                className="object-cover opacity-60"
+                unoptimized
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+              <div className="absolute bottom-8 left-8 flex items-center gap-3">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#c9a96e] animate-pulse" />
+                <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-[#c9a96e]">
+                  SALON PRIVÉ // LONDON
+                </span>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -447,8 +500,62 @@ export default function SkylineConciergePage() {
         </div>
       </section>
 
+      {/* ── TESTIMONIALS SECTION ── */}
+      <section id="testimonials" className="py-32 px-6 md:px-12 bg-[#0d0d0d] border-b border-white/5">
+        <div className="max-w-[1400px] mx-auto">
+          <Reveal>
+            <div className="text-center mb-24">
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a96e] mb-4 block">
+                Client Endorsements
+              </span>
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">
+                Trusted by <br />
+                <span className="not-italic font-thin text-white">Discerning Leaders.</span>
+              </h2>
+            </div>
+          </Reveal>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                quote: "Skyline managed the off-market acquisition of our alpine estate and the security logistics for our family office within 48 hours. Absolute excellence.",
+                author: "Family Office Principal",
+                location: "Geneva",
+              },
+              {
+                quote: "The lifestyle desk is truly outstanding. From securing last-minute yacht charters to private aviation coordination, their response time is unparalleled.",
+                author: "Venture Partner",
+                location: "Silicon Valley",
+              },
+              {
+                quote: "Discretion is their currency. Skyline has become our trusted advisor for all non-financial infrastructure and global assets.",
+                author: "Managing Director",
+                location: "London",
+              },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="p-12 border border-white/5 bg-black/40 hover:border-[#c9a96e]/30 transition-all relative">
+                  <div className="text-5xl text-[#c9a96e]/20 font-serif absolute top-6 left-8 font-black leading-none">“</div>
+                  <p className="text-sm text-white/50 leading-relaxed font-light italic mb-8 relative z-10 pt-4">
+                    {t.quote}
+                  </p>
+                  <div className="border-t border-white/5 pt-6 flex items-center justify-between">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#c9a96e]">
+                      {t.author}
+                    </span>
+                    <span className="text-[8px] font-bold uppercase tracking-widest text-white/30">
+                      {t.location}
+                    </span>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── GLOBAL INFRASTRUCTURE ── */}
-      <section className="py-32 bg-[#c9a96e] text-black">
+      <section id="global" className="py-32 bg-[#c9a96e] text-black">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <Reveal>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/40 mb-8 block">
@@ -501,6 +608,181 @@ export default function SkylineConciergePage() {
                 </span>
                 <div className="w-full h-[1px] bg-white/20" />
               </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── FAQ SECTION ── */}
+      <section id="faq" className="py-32 px-6 md:px-12 bg-[#0a0a0a] border-b border-white/5">
+        <div className="max-w-[800px] mx-auto">
+          <Reveal>
+            <div className="text-center mb-20">
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a96e] mb-4 block">
+                Information Desk
+              </span>
+              <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic">
+                Frequently <br />
+                <span className="not-italic font-thin text-white">Asked Questions.</span>
+              </h2>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <Accordion type="single" collapsible className="w-full space-y-4">
+              {[
+                {
+                  q: "How do I obtain membership?",
+                  a: "Membership in Skyline Concierge Group is strictly limited. It is accessible by direct referral from an existing member, or by requesting an application via our private advisory desk for verification.",
+                },
+                {
+                  q: "What private assets do you handle?",
+                  a: "We specialize in off-market ultra-luxury real estate brokerage, yacht chartering, private aviation logistics, and bespoke security detail for high-net-worth individuals and families.",
+                },
+                {
+                  q: "Are your lifestyle concierge services globally active?",
+                  a: "Yes. With coordinate offices in Monaco, London, Dubai, and New York, our dispatch desk operates 24/7 globally to ensure continuity of service anywhere in transit.",
+                },
+                {
+                  q: "Is an NDA required for private listings?",
+                  a: "Yes. All off-market inventory viewings require a signed Non-Disclosure Agreement (NDA) and financial verification prior to sharing detailed specifications or scheduling private viewings.",
+                },
+              ].map((faq, i) => (
+                <AccordionItem key={i} value={`faq-${i}`} className="border border-white/5 bg-black/40 px-6 rounded-sm">
+                  <AccordionTrigger className="text-[11px] font-bold uppercase tracking-widest text-[#c9a96e] hover:no-underline py-5">
+                    {faq.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-white/40 text-sm font-light italic leading-relaxed pb-6">
+                    {faq.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── CONTACT SECTION ── */}
+      <section id="contact" className="py-32 px-6 md:px-12 bg-[#0d0d0d]">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a96e] mb-8 block">
+              Initiate Consultation
+            </span>
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-8">
+              Secure <br />
+              <span className="not-italic font-thin text-white">Communications.</span>
+            </h2>
+            <p className="text-white/40 text-lg leading-relaxed mb-12 font-light italic">
+              Contact our private desk for membership inquiries or asset advisory. All transmissions are encrypted and treated with absolute confidentiality.
+            </p>
+            <div className="space-y-6">
+              <div className="flex items-center gap-6">
+                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[#c9a96e]">
+                  <Mail className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">EMAIL DESK</div>
+                  <div className="text-sm font-bold">advisory@skylineconcierge.com</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-6">
+                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[#c9a96e]">
+                  <Phone className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">SECURE VOICE</div>
+                  <div className="text-sm font-bold">+377 97 97 XX XX (Monaco)</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-6">
+                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[#c9a96e]">
+                  <MapPin className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">PRINCIPAL OFFICE</div>
+                  <div className="text-sm font-bold">Monte Carlo, Monaco</div>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+          
+          <Reveal delay={0.2}>
+            <div className="p-12 border border-white/5 bg-black/40">
+              {contactSubmitted ? (
+                <div className="text-center py-12">
+                  <div className="w-16 h-16 rounded-full border border-[#c9a96e]/20 flex items-center justify-center text-[#c9a96e] mx-auto mb-6 bg-[#c9a96e]/5">
+                    <ShieldCheck className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-2xl font-black uppercase mb-4 tracking-tighter">SECURE TRANSMISSION RECEIVED</h3>
+                  <p className="text-sm text-white/40 font-light italic">
+                    Merci, nous vous répondrons sous 24h.
+                  </p>
+                </div>
+              ) : (
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    setContactSubmitted(true);
+                  }}
+                  className="space-y-6"
+                >
+                  <div className="space-y-2">
+                    <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">FULL NAME</label>
+                    <input
+                      type="text"
+                      required
+                      className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors rounded-sm"
+                      placeholder="John Doe"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">SECURE EMAIL</label>
+                      <input
+                        type="email"
+                        required
+                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors rounded-sm"
+                        placeholder="j.doe@confidential.com"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">PHONE NUMBER</label>
+                      <input
+                        type="tel"
+                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors rounded-sm"
+                        placeholder="+44 20 7946 XXXX"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">INQUIRY TYPE</label>
+                    <select
+                      className="w-full bg-black border border-white/10 px-4 py-3 text-sm text-white/60 focus:outline-none focus:border-[#c9a96e] transition-colors rounded-sm"
+                    >
+                      <option value="membership">Request Private Membership</option>
+                      <option value="acquisition">Asset Acquisition</option>
+                      <option value="security">Global Security Infrastructure</option>
+                      <option value="other">General Consultation</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">SECURE TRANSMISSION</label>
+                    <textarea
+                      required
+                      rows={4}
+                      className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors rounded-sm resize-none"
+                      placeholder="Please outline the nature of your request..."
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full py-4 bg-[#c9a96e] text-black text-[9px] font-bold uppercase tracking-widest hover:bg-white transition-colors cursor-pointer"
+                  >
+                    SEND ENCRYPTED MESSAGE
+                  </button>
+                </form>
+              )}
             </div>
           </Reveal>
         </div>
@@ -674,8 +956,9 @@ export default function SkylineConciergePage() {
             </div>
           </div>
           <div className="flex gap-10">
-            <span>Private Policy</span>
-            <span>Terms of Engagement</span>
+            <Link href="/legal/mentions-legales" className="hover:text-[#c9a96e] transition-colors">Mentions Légales</Link>
+            <Link href="/legal/confidentialite" className="hover:text-[#c9a96e] transition-colors">Confidentialité</Link>
+            <Link href="/legal/cgu" className="hover:text-[#c9a96e] transition-colors">CGU</Link>
           </div>
         </div>
       </footer>

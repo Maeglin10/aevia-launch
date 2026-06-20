@@ -59,11 +59,10 @@ const FONT_BODY = "'DM Sans', system-ui, sans-serif";
 const FONT_MONO = "'JetBrains Mono', monospace";
 
 const NAV_LINKS = [
+  { label: "Philosophie", href: "#philosophy" },
+  { label: "Services", href: "#services" },
   { label: "Portfolio", href: "#portfolio" },
-  { label: "Artists", href: "#artists" },
-  { label: "Styles", href: "#styles" },
-  { label: "Flash", href: "#flash" },
-  { label: "Process", href: "#process" },
+  { label: "Artistes", href: "#artists" },
   { label: "FAQ", href: "#faq" },
 ];
 
@@ -388,6 +387,105 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
   return <span ref={ref}>{count}{suffix}</span>;
 }
 
+
+/* ─── ABOUT SECTION ─── */
+function AboutSection() {
+  return (
+    <section id="philosophy" style={{ padding: "120px 40px", background: C.bgAlt, borderBottom: `1px solid ${C.border}` }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: 80, alignItems: "center" }}>
+          <div style={{ position: "relative" }}>
+            <div style={{
+              width: "100%",
+              aspectRatio: "3/4",
+              backgroundImage: `url("https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80")`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              border: `1px solid ${C.borderAccent}`,
+            }} />
+            <div style={{
+              position: "absolute",
+              top: -20, left: -20,
+              width: "100%", height: "100%",
+              border: `1px solid ${C.border}`,
+              zIndex: -1,
+            }} />
+          </div>
+          <div>
+            <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 4, textTransform: "uppercase", color: C.accent, marginBottom: 24 }}>
+              — Notre Philosophie
+            </div>
+            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 72px)", lineHeight: 0.95, color: C.text, marginBottom: 32 }}>
+              L'ART DANS<br /><span style={{ color: C.accent }}>LA PEAU.</span>
+            </h2>
+            <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: C.textMuted, lineHeight: 1.8, fontWeight: 300, marginBottom: 24 }}>
+              Ink & Iron n'est pas un simple salon de tatouage ; c'est un sanctuaire d'expression artistique et de rigueur technique. Situé au cœur du 11e arrondissement de Paris, notre atelier réunit trois artistes résidents de renommée internationale.
+            </p>
+            <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: C.textMuted, lineHeight: 1.8, fontWeight: 300, marginBottom: 32 }}>
+              Chaque pièce est une création sur-mesure unique, dessinée en étroite collaboration avec vous. Nous appliquons les standards d'hygiène les plus stricts de l'industrie (matériel à usage unique, stérilisation médicale) pour vous offrir une expérience d'exception en toute sécurité.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
+              <div>
+                <div style={{ fontFamily: FONT_MONO, fontSize: 12, color: C.white, marginBottom: 8 }}>HYGIÈNE MÉDICALE</div>
+                <p style={{ fontFamily: FONT_BODY, fontSize: 13, color: C.textMuted, lineHeight: 1.6 }}>Matériel stérile à usage unique ouvert devant vous, charte sanitaire stricte.</p>
+              </div>
+              <div>
+                <div style={{ fontFamily: FONT_MONO, fontSize: 12, color: C.white, marginBottom: 8 }}>CRÉATIONS UNIQUES</div>
+                <p style={{ fontFamily: FONT_BODY, fontSize: 13, color: C.textMuted, lineHeight: 1.6 }}>Aucun catalogue. Chaque tatouage est dessiné sur-mesure pour vous.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── SERVICES SECTION ─── */
+const SERVICES_89 = [
+  { name: "Consultation Projet", price: "Offert", time: "30-45 min", desc: "Discussion autour de vos idées, références, taille, emplacement et choix de l'artiste." },
+  { name: "Création Flash", price: "Dès €120", time: "1-3 heures", desc: "Sélection d'un dessin original prêt à être tatoué, proposé par l'un de nos résidents." },
+  { name: "Session Custom Intermédiaire", price: "€250 - €450", time: "2-4 heures", desc: "Réalisation d'une pièce personnalisée de taille moyenne, dessinée sur-mesure pour vous." },
+  { name: "Session Journée complète", price: "€800 - €1000", time: "6-8 heures", desc: "Pour les grands projets (sleeves, dos complet, pièces complexes nécessitant plusieurs heures)." }
+];
+
+function ServicesSection() {
+  return (
+    <section id="services" style={{ padding: "120px 40px", background: C.bgDeep, borderBottom: `1px solid ${C.border}` }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 60, flexWrap: "wrap", gap: 24 }}>
+          <div>
+            <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 4, textTransform: "uppercase", color: C.accent, marginBottom: 16 }}>
+              — Nos Services
+            </div>
+            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.95, color: C.text }}>
+              NOS PRESTATIONS
+            </h2>
+          </div>
+          <p style={{ fontFamily: FONT_BODY, fontSize: 15, color: C.textMuted, maxWidth: 360, lineHeight: 1.7, fontWeight: 300 }}>
+            Du petit flash au grand projet corporel sur-mesure, découvrez nos formules adaptées à chaque création.
+          </p>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 24 }}>
+          {SERVICES_89.map((svc, idx) => (
+            <div key={idx} style={{ background: C.bgCard, border: `1px solid ${C.border}`, padding: 32, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+                  <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: C.accent, letterSpacing: 1 }}>{svc.time}</span>
+                  <span style={{ fontFamily: FONT_HEADING, fontSize: 22, color: C.white }}>{svc.price}</span>
+                </div>
+                <h3 style={{ fontFamily: FONT_HEADING, fontSize: 20, color: C.white, marginBottom: 16, letterSpacing: 1 }}>{svc.name}</h3>
+                <p style={{ fontFamily: FONT_BODY, fontSize: 14, color: C.textMuted, lineHeight: 1.6, fontWeight: 300 }}>{svc.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Impact89Page() {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
@@ -400,6 +498,7 @@ export default function Impact89Page() {
   const [bookingOpen, setBookingOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [hoveredArtist, setHoveredArtist] = useState<number | null>(null);
+  const [bookingSubmitted, setBookingSubmitted] = useState(false);
 
   const filtered = activeFilter === "All"
     ? PORTFOLIO
@@ -741,6 +840,12 @@ export default function Impact89Page() {
           ))}
         </div>
       </section>
+
+      {/* ABOUT */}
+      <AboutSection />
+
+      {/* SERVICES */}
+      <ServicesSection />
 
       {/* PORTFOLIO */}
       <section id="portfolio" style={{ padding: "120px 40px", background: C.bg }}>
@@ -1601,8 +1706,8 @@ export default function Impact89Page() {
             </div>
             <div>
               <div style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 3, textTransform: "uppercase", color: C.accent, marginBottom: 20 }}>Navigation</div>
-              {["Portfolio", "Artistes", "Styles", "Flash Sale", "Processus", "FAQ"].map((item) => (
-                <a key={item} href={`#${item.toLowerCase()}`} style={{
+              {NAV_LINKS.map((link) => (
+                <Link key={link.label} href={link.href} style={{
                   display: "block",
                   fontFamily: FONT_BODY,
                   fontSize: 14,
@@ -1613,7 +1718,7 @@ export default function Impact89Page() {
                 }}
                   onMouseEnter={(e) => (e.currentTarget.style.color = C.white)}
                   onMouseLeave={(e) => (e.currentTarget.style.color = C.textMuted)}
-                >{item}</a>
+                >{link.label}</Link>
               ))}
             </div>
             <div>
@@ -1656,10 +1761,14 @@ export default function Impact89Page() {
               © 2025 INK & IRON STUDIO — PARIS 11E
             </span>
             <div style={{ display: "flex", gap: 24 }}>
-              {["Mentions légales", "Confidentialité", "CGV"].map((item) => (
-                <a key={item} href="#" style={{ fontFamily: FONT_MONO, fontSize: 10, color: C.textDim, textDecoration: "none", letterSpacing: 2, textTransform: "uppercase" }}>
-                  {item}
-                </a>
+              {[
+                { name: "Mentions légales", path: "/legal/mentions-legales" },
+                { name: "Confidentialité", path: "/legal/confidentialite" },
+                { name: "CGU", path: "/legal/cgu" }
+              ].map((item) => (
+                <Link key={item.name} href={item.path} style={{ fontFamily: FONT_MONO, fontSize: 10, color: C.textDim, textDecoration: "none", letterSpacing: 2, textTransform: "uppercase" }}>
+                  {item.name}
+                </Link>
               ))}
             </div>
           </div>
@@ -1715,19 +1824,100 @@ export default function Impact89Page() {
                 RÉSERVER
               </h3>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                {[
-                  { label: "Prénom & Nom", type: "text", placeholder: "Alexandre Martin" },
-                  { label: "Email", type: "email", placeholder: "alexandre@email.com" },
-                  { label: "Téléphone", type: "tel", placeholder: "+33 6 00 00 00 00" },
-                ].map((field) => (
-                  <div key={field.label}>
+              {bookingSubmitted ? (
+                <div style={{ textAlign: "center", padding: "40px 0" }}>
+                  <div style={{
+                    width: 48, height: 48,
+                    borderRadius: "50%",
+                    border: `1px solid ${C.accent}`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    margin: "0 auto 24px"
+                  }}>
+                    <span style={{ color: C.accent, fontSize: 20 }}>✓</span>
+                  </div>
+                  <h4 style={{ fontFamily: FONT_HEADING, fontSize: 24, color: C.white, marginBottom: 12 }}>Demande Transmise</h4>
+                  <p style={{ fontFamily: FONT_BODY, fontSize: 14, color: C.textMuted, lineHeight: 1.6, marginBottom: 24 }}>
+                    Merci, nous vous répondrons sous 24h.
+                  </p>
+                  <button
+                    onClick={() => { setBookingSubmitted(false); setBookingOpen(false); }}
+                    style={{
+                      background: C.accent,
+                      color: C.white,
+                      border: "none",
+                      padding: "10px 24px",
+                      fontFamily: FONT_BODY,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Fermer
+                  </button>
+                </div>
+              ) : (
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    setBookingSubmitted(true);
+                  }}
+                  style={{ display: "flex", flexDirection: "column", gap: 16 }}
+                >
+                  {[
+                    { label: "Prénom & Nom", type: "text", placeholder: "Alexandre Martin" },
+                    { label: "Email", type: "email", placeholder: "alexandre@email.com" },
+                    { label: "Téléphone", type: "tel", placeholder: "+33 6 00 00 00 00" },
+                  ].map((field) => (
+                    <div key={field.label}>
+                      <label style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 2, textTransform: "uppercase", color: C.textDim, display: "block", marginBottom: 8 }}>
+                        {field.label}
+                      </label>
+                      <input
+                        type={field.type}
+                        required
+                        placeholder={field.placeholder}
+                        style={{
+                          width: "100%",
+                          background: C.bg,
+                          border: `1px solid ${C.border}`,
+                          color: C.text,
+                          padding: "12px 16px",
+                          fontFamily: FONT_BODY,
+                          fontSize: 14,
+                          outline: "none",
+                        }}
+                      />
+                    </div>
+                  ))}
+                  <div>
                     <label style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 2, textTransform: "uppercase", color: C.textDim, display: "block", marginBottom: 8 }}>
-                      {field.label}
+                      Artiste préféré
                     </label>
-                    <input
-                      type={field.type}
-                      placeholder={field.placeholder}
+                    <select style={{
+                      width: "100%",
+                      background: C.bg,
+                      border: `1px solid ${C.border}`,
+                      color: C.text,
+                      padding: "12px 16px",
+                      fontFamily: FONT_BODY,
+                      fontSize: 14,
+                      outline: "none",
+                      cursor: "pointer",
+                    }}>
+                      <option>Viktor Rein — Réalisme & Japonais</option>
+                      <option>Léa Morel — Fine Line & Géométrique</option>
+                      <option>James Wolfe — Old School & Japonais</option>
+                      <option>Sans préférence</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 2, textTransform: "uppercase", color: C.textDim, display: "block", marginBottom: 8 }}>
+                      Décrivez votre projet
+                    </label>
+                    <textarea
+                      rows={4}
+                      required
+                      placeholder="Style, emplacement, taille, inspirations..."
                       style={{
                         width: "100%",
                         background: C.bg,
@@ -1737,70 +1927,31 @@ export default function Impact89Page() {
                         fontFamily: FONT_BODY,
                         fontSize: 14,
                         outline: "none",
+                        resize: "vertical",
                       }}
                     />
                   </div>
-                ))}
-                <div>
-                  <label style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 2, textTransform: "uppercase", color: C.textDim, display: "block", marginBottom: 8 }}>
-                    Artiste préféré
-                  </label>
-                  <select style={{
-                    width: "100%",
-                    background: C.bg,
-                    border: `1px solid ${C.border}`,
-                    color: C.text,
-                    padding: "12px 16px",
-                    fontFamily: FONT_BODY,
-                    fontSize: 14,
-                    outline: "none",
-                    cursor: "pointer",
-                  }}>
-                    <option>Viktor Rein — Réalisme & Japonais</option>
-                    <option>Léa Morel — Fine Line & Géométrique</option>
-                    <option>James Wolfe — Old School & Japonais</option>
-                    <option>Sans préférence</option>
-                  </select>
-                </div>
-                <div>
-                  <label style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 2, textTransform: "uppercase", color: C.textDim, display: "block", marginBottom: 8 }}>
-                    Décrivez votre projet
-                  </label>
-                  <textarea
-                    rows={4}
-                    placeholder="Style, emplacement, taille, inspirations..."
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.97 }}
+                    type="submit"
                     style={{
+                      background: C.accent,
+                      color: C.white,
+                      border: "none",
+                      padding: "16px 32px",
+                      fontFamily: FONT_HEADING,
+                      fontSize: 16,
+                      letterSpacing: 3,
+                      cursor: "pointer",
                       width: "100%",
-                      background: C.bg,
-                      border: `1px solid ${C.border}`,
-                      color: C.text,
-                      padding: "12px 16px",
-                      fontFamily: FONT_BODY,
-                      fontSize: 14,
-                      outline: "none",
-                      resize: "vertical",
+                      clipPath: "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)",
                     }}
-                  />
-                </div>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.97 }}
-                  style={{
-                    background: C.accent,
-                    color: C.white,
-                    border: "none",
-                    padding: "16px 32px",
-                    fontFamily: FONT_HEADING,
-                    fontSize: 16,
-                    letterSpacing: 3,
-                    cursor: "pointer",
-                    width: "100%",
-                    clipPath: "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)",
-                  }}
-                >
-                  ENVOYER MA DEMANDE
-                </motion.button>
-              </div>
+                  >
+                    ENVOYER MA DEMANDE
+                  </motion.button>
+                </form>
+              )}
             </motion.div>
           </motion.div>
         )}

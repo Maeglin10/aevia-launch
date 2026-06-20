@@ -61,7 +61,8 @@ const NAV_LINKS = [
   { label: "Bespoke", href: "#bespoke" },
   { label: "Savoir-Faire", href: "#savoir-faire" },
   { label: "Ateliers", href: "#ateliers" },
-  { label: "Presse", href: "#presse" },
+  { label: "FAQ", href: "#faq" },
+  { label: "Contact", href: "#contact" },
 ]
 
 const COLLECTIONS = [
@@ -1178,6 +1179,129 @@ function PressSection() {
 }
 
 /* ==========================================================================
+   FAQ SECTION
+   ========================================================================== */
+function FaqSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
+
+  const faqs = [
+    {
+      q: "Comment se déroule le processus de création sur mesure (Bespoke) ?",
+      a: "Chaque projet débute par une consultation privée pour comprendre votre vision. Nous réalisons ensuite des esquisses à la main, suivies d'une modélisation 3D avant de façonner le bijou dans nos ateliers parisiens.",
+    },
+    {
+      q: "Quels sont les délais de fabrication d'une pièce unique ?",
+      a: "Il faut généralement compter entre 6 et 12 semaines pour la création d'une pièce sur mesure, selon la complexité du design et la recherche de pierres précieuses spécifiques.",
+    },
+    {
+      q: "D'où proviennent vos métaux précieux et vos pierres ?",
+      a: "Nous utilisons exclusivement de l'or 18K recyclé certifié CoC (Chain of Custody) et des diamants naturels conformes au processus de Kimberley, garantissant une provenance éthique et responsable.",
+    },
+    {
+      q: "Proposez-vous un service de restauration ou de transformation ?",
+      a: "Oui, la Maison Aurelia propose de restaurer vos bijoux anciens ou de transformer vos pièces de famille pour leur donner une nouvelle vie tout en conservant leur valeur sentimentale.",
+    },
+    {
+      q: "Vos créations sont-elles garanties ?",
+      a: "Toutes nos pièces de haute joaillerie sont accompagnées d'un certificat d'authenticité certifiant la qualité des métaux et des pierres, et bénéficient d'une garantie à vie contre tout vice de fabrication.",
+    },
+  ]
+
+  return (
+    <section id="faq" className="py-28 lg:py-36" style={{ backgroundColor: C.creamSoft }}>
+      <div className="max-w-[800px] mx-auto px-6">
+        <Reveal className="text-center mb-16">
+          <p
+            className="text-[10px] tracking-[0.30em] uppercase mb-4"
+            style={{ fontFamily: "'Montserrat', sans-serif", color: C.gold, fontWeight: 500 }}
+          >
+            Des Questions ?
+          </p>
+          <h2
+            className="mb-6"
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontStyle: "italic",
+              fontWeight: 600,
+              fontSize: "clamp(36px, 4.5vw, 64px)",
+              color: C.navyDeep,
+              lineHeight: 1.1,
+            }}
+          >
+            Questions Fréquentes
+          </h2>
+          <div className="w-16 h-[1px] mx-auto" style={{ backgroundColor: C.gold }} />
+        </Reveal>
+
+        <div className="space-y-4">
+          {faqs.map((faq, i) => {
+            const isOpen = openIndex === i
+            return (
+              <Reveal key={i} delay={i * 0.05}>
+                <div
+                  className="border transition-all duration-300"
+                  style={{
+                    borderColor: isOpen ? C.gold : C.border,
+                    backgroundColor: C.cream,
+                  }}
+                >
+                  <button
+                    onClick={() => setOpenIndex(isOpen ? null : i)}
+                    className="w-full px-6 py-5 flex items-center justify-between text-left"
+                  >
+                    <span
+                      className="text-[15px] font-medium"
+                      style={{
+                        fontFamily: "'Montserrat', sans-serif",
+                        color: C.navyDeep,
+                      }}
+                    >
+                      {faq.q}
+                    </span>
+                    <span
+                      className="text-[20px] transition-transform duration-300 select-none"
+                      style={{
+                        color: C.gold,
+                        transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
+                      }}
+                    >
+                      +
+                    </span>
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="overflow-hidden"
+                      >
+                        <div
+                          className="px-6 pb-6 text-[13px] leading-[1.8]"
+                          style={{
+                            fontFamily: "'Montserrat', sans-serif",
+                            color: C.textMuted,
+                            borderTop: `1px solid ${C.border}`,
+                            paddingTop: "16px",
+                          }}
+                        >
+                          {faq.a}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </Reveal>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ==========================================================================
    CONTACT + FOOTER SECTION
    ========================================================================== */
 function ContactSection() {
@@ -1310,7 +1434,7 @@ function ContactSection() {
                     className="text-[13px]"
                     style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: `${C.cream}70` }}
                   >
-                    Notre équipe vous contactera dans les 24h.
+                    Merci, nous vous répondrons sous 24h.
                   </p>
                 </div>
               ) : (
@@ -1544,16 +1668,27 @@ function Footer() {
             © 2025 Aurelia Joaillerie. Tous droits réservés. Entreprise du Patrimoine Vivant.
           </p>
           <div className="flex gap-6">
-            {["Mentions légales", "Confidentialité", "CGV"].map((item) => (
-              <Link
-                key={item}
-                href="#"
-                className="text-[10px] tracking-[0.12em] uppercase hover:opacity-80 transition-opacity"
-                style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 400, color: `${C.cream}40` }}
-              >
-                {item}
-              </Link>
-            ))}
+            <Link
+              href="/legal/mentions-legales"
+              className="text-[10px] tracking-[0.12em] uppercase hover:opacity-80 transition-opacity"
+              style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 400, color: `${C.cream}40` }}
+            >
+              Mentions légales
+            </Link>
+            <Link
+              href="/legal/confidentialite"
+              className="text-[10px] tracking-[0.12em] uppercase hover:opacity-80 transition-opacity"
+              style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 400, color: `${C.cream}40` }}
+            >
+              Confidentialité
+            </Link>
+            <Link
+              href="/legal/cgu"
+              className="text-[10px] tracking-[0.12em] uppercase hover:opacity-80 transition-opacity"
+              style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 400, color: `${C.cream}40` }}
+            >
+              CGU
+            </Link>
           </div>
         </div>
       </div>
@@ -1589,6 +1724,7 @@ export default function Impact91Page() {
       <AteliersSection />
       <TestimonialsSection />
       <PressSection />
+      <FaqSection />
       <ContactSection />
       <Footer />
     </div>

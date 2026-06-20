@@ -547,7 +547,7 @@ export default function UrbanPulsePage() {
               {l}
             </a>
           ))}
-          <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
+          <motion.button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             style={{
@@ -570,7 +570,7 @@ export default function UrbanPulsePage() {
             }
           >
             Votre Projet
-          </button>
+          </motion.button>
           {/* Burger mobile */}
           <button
             onClick={() => setMenuOpen(true)}
@@ -815,7 +815,7 @@ export default function UrbanPulsePage() {
               transition={{ delay: 0.95, duration: 0.6 }}
               style={{ display: "flex", gap: 16, flexWrap: "wrap" }}
             >
-              <button onClick={() => document.getElementById("productions")?.scrollIntoView({behavior:"smooth"})}
+              <motion.button onClick={() => document.getElementById("productions")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.03, boxShadow: `0 0 40px ${C.amberGlow}` }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -835,8 +835,8 @@ export default function UrbanPulsePage() {
               >
                 <Play size={15} />
                 Voir les productions
-              </button>
-              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
+              </motion.button>
+              <motion.button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -864,7 +864,7 @@ export default function UrbanPulsePage() {
               >
                 Votre projet
                 <ArrowRight size={15} />
-              </button>
+              </motion.button>
             </motion.div>
           </div>
 
@@ -1346,7 +1346,7 @@ export default function UrbanPulsePage() {
                   </motion.div>
                 ))}
 
-                <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
+                <motion.button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
                   whileHover={{ scale: 1.02, color: C.amber }}
                   style={{
                     display: "inline-flex",
@@ -1365,7 +1365,7 @@ export default function UrbanPulsePage() {
                 >
                   En savoir plus
                   <ArrowRight size={14} />
-                </button>
+                </motion.button>
               </div>
             </motion.div>
           </AnimatePresence>
@@ -2479,10 +2479,14 @@ export default function UrbanPulsePage() {
               © 2026 Urban Pulse SAS · 12 rue Oberkampf, 75011 Paris · SIRET 512 XXX XXX 00024
             </div>
             <div style={{ display: "flex", gap: 24 }}>
-              {["Mentions légales", "Confidentialité", "CGV"].map((link) => (
-                <a
-                  key={link}
-                  href="#"
+              {[
+                { label: "Mentions légales", href: "/legal/mentions-legales" },
+                { label: "Confidentialité", href: "/legal/confidentialite" },
+                { label: "CGV", href: "/legal/cgu" },
+              ].map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
                   style={{
                     fontSize: "0.73rem",
                     color: C.muted,
@@ -2493,8 +2497,8 @@ export default function UrbanPulsePage() {
                   onMouseEnter={(e) => (e.currentTarget.style.color = C.text)}
                   onMouseLeave={(e) => (e.currentTarget.style.color = C.muted)}
                 >
-                  {link}
-                </a>
+                  {link.label}
+                </Link>
               ))}
             </div>
           </div>

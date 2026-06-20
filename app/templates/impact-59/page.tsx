@@ -4,7 +4,15 @@ import React, { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Reveal } from "./shared";
+import { ArrowRight } from "lucide-react";
+import {
+  RETREATS,
+  LINEAGE,
+  SCIENTIFIC_PILLARS,
+  Reveal,
+  Counter,
+  StyleInjector,
+} from "./shared";
 
 export default function LuminalHome() {
   const heroRef = useRef(null);
@@ -17,6 +25,8 @@ export default function LuminalHome() {
 
   return (
     <div>
+      <StyleInjector />
+
       {/* ==========================================
           1. HERO (Atmospheric)
           ========================================== */}
@@ -74,6 +84,381 @@ export default function LuminalHome() {
             <div className="w-[1px] h-16 bg-gradient-to-b from-black/20 to-transparent" />
           </div>
         </motion.div>
+      </section>
+
+      {/* ==========================================
+          2. RETREAT TEASERS
+          ========================================== */}
+      <section className="py-32 px-6 md:px-12 bg-[#f8f5f0]">
+        <div className="max-w-[1400px] mx-auto">
+          <Reveal>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[#3d7a5e] mb-6 font-sans font-bold">
+              Programme 2026
+            </p>
+            <h2
+              className="text-4xl md:text-6xl font-bold uppercase tracking-tight mb-20 text-[#2a2a2a]"
+              style={{ fontFamily: "Cinzel, Georgia, serif" }}
+            >
+              Trois paysages.
+              <br />
+              <span className="font-light italic" style={{ fontFamily: "Lora, Georgia, serif" }}>
+                Une seule méthode.
+              </span>
+            </h2>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {RETREATS.map((retreat, i) => (
+              <Reveal key={retreat.id} delay={i * 0.15}>
+                <Link href="/templates/impact-59/retreats" style={{ textDecoration: "none" }}>
+                  <div className="group relative overflow-hidden rounded-sm cursor-pointer bg-white/30 border border-black/5 hover:-translate-y-2 transition-all duration-500 shadow-sm hover:shadow-xl">
+                    {/* Image */}
+                    <div className="relative h-72 overflow-hidden">
+                      <Image
+                        src={retreat.img}
+                        alt={retreat.name}
+                        fill
+                        className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                      />
+                      {/* Sage green overlay on hover */}
+                      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#3d7a5e]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+                      {/* Theme badge */}
+                      <div className="absolute top-4 left-4 z-20">
+                        <span className="px-3 py-1 bg-[#f8f5f0]/90 text-[#2a2a2a] text-[9px] uppercase tracking-[0.35em] font-bold font-sans">
+                          {retreat.theme}
+                        </span>
+                      </div>
+                      {/* Price on hover */}
+                      <div className="absolute bottom-4 left-4 z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0">
+                        <span className="text-white text-sm font-light" style={{ fontFamily: "Lora, Georgia, serif" }}>
+                          {retreat.price}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6">
+                      <h3
+                        className="text-xl font-semibold uppercase tracking-wide text-[#2a2a2a] mb-2"
+                        style={{ fontFamily: "Cinzel, Georgia, serif" }}
+                      >
+                        {retreat.name}
+                      </h3>
+                      <p className="text-xs text-black/40 uppercase tracking-[0.3em] font-sans mb-3">
+                        {retreat.location}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-black/50 font-sans">
+                          {retreat.duration} · {retreat.season}
+                        </span>
+                        <ArrowRight className="w-4 h-4 text-[#3d7a5e] opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-[-4px] group-hover:translate-x-0" />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal delay={0.5}>
+            <div className="text-center mt-16">
+              <Link
+                href="/templates/impact-59/retreats"
+                className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-[#2a2a2a] border-b border-[#2a2a2a]/20 pb-1 hover:border-[#3d7a5e] hover:text-[#3d7a5e] transition-all font-sans font-bold"
+                style={{ textDecoration: "none" }}
+              >
+                Voir toutes les retraites
+                <ArrowRight className="w-3 h-3" />
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ==========================================
+          3. THE LUMINAL METHOD TEASER
+          ========================================== */}
+      <section className="py-32 px-6 md:px-12 bg-[#2a2a2a] text-[#f8f5f0]">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Left: text */}
+            <div>
+              <Reveal>
+                <p className="text-[10px] uppercase tracking-[0.4em] text-[#3d7a5e] mb-6 font-sans font-bold">
+                  Science · Contemplation · Corps
+                </p>
+                <h2
+                  className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-8 text-[#f8f5f0]"
+                  style={{ fontFamily: "Cinzel, Georgia, serif" }}
+                >
+                  La Méthode
+                  <br />
+                  <span className="font-light italic" style={{ fontFamily: "Lora, Georgia, serif" }}>
+                    Luminale
+                  </span>
+                </h2>
+                <p
+                  className="text-[#f8f5f0]/70 text-lg leading-relaxed mb-6"
+                  style={{ fontFamily: "Lora, Georgia, serif" }}
+                >
+                  Développée par le Dr. Clara Metz après une décennie de recherche clinique sur le burnout, la Méthode Luminale intègre les dernières découvertes en neurosciences avec des pratiques contemplatives éprouvées.
+                </p>
+                <p
+                  className="text-[#f8f5f0]/50 text-base leading-relaxed mb-12"
+                  style={{ fontFamily: "Lora, Georgia, serif" }}
+                >
+                  Chaque protocole est conçu pour agir simultanément sur le système nerveux, le rythme circadien et la mémoire somatique — les trois vecteurs d&apos;un repos véritable et durable.
+                </p>
+
+                {/* Scientific pillars */}
+                <div className="space-y-6">
+                  {SCIENTIFIC_PILLARS.map((pillar, i) => (
+                    <Reveal key={pillar.title} delay={i * 0.1}>
+                      <div className="flex items-start gap-4 border-t border-[#f8f5f0]/10 pt-6">
+                        <div className="text-[#3d7a5e] flex-shrink-0 mt-0.5">
+                          {pillar.icon}
+                        </div>
+                        <div>
+                          <h4
+                            className="text-sm font-semibold uppercase tracking-wider text-[#f8f5f0] mb-1"
+                            style={{ fontFamily: "Cinzel, Georgia, serif" }}
+                          >
+                            {pillar.title}
+                          </h4>
+                          <p className="text-[#f8f5f0]/50 text-sm leading-relaxed font-sans">
+                            {pillar.desc}
+                          </p>
+                        </div>
+                      </div>
+                    </Reveal>
+                  ))}
+                </div>
+
+                <Reveal delay={0.4}>
+                  <Link
+                    href="/templates/impact-59/method"
+                    className="inline-flex items-center gap-3 mt-12 text-[10px] uppercase tracking-[0.4em] text-[#f8f5f0] border-b border-[#f8f5f0]/20 pb-1 hover:border-[#3d7a5e] hover:text-[#3d7a5e] transition-all font-sans font-bold"
+                    style={{ textDecoration: "none" }}
+                  >
+                    Explorer la méthode
+                    <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </Reveal>
+              </Reveal>
+            </div>
+
+            {/* Right: image */}
+            <Reveal delay={0.2}>
+              <div className="relative h-[600px] lg:h-[700px] overflow-hidden rounded-sm">
+                <Image
+                  src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop"
+                  alt="La méthode Luminale — nature et méditation"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#2a2a2a]/40 to-transparent" />
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          4. STATISTICS
+          ========================================== */}
+      <section className="py-28 px-6 md:px-12 bg-[#f8f5f0] border-y border-black/5">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-6">
+            {[
+              { value: 9, suffix: "", label: "Participants maximum\npar retraite" },
+              { value: 27, suffix: "", label: "Retraites\naccompagnées" },
+              { value: 94, suffix: "%", label: "Taux de retour\nsaison suivante" },
+              { value: 3, suffix: "", label: "Paysages\ntransformateurs" },
+            ].map((stat, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="text-center">
+                  <div
+                    className="text-6xl md:text-7xl font-light text-[#2a2a2a] mb-4"
+                    style={{ fontFamily: "Cinzel, Georgia, serif" }}
+                  >
+                    <Counter to={stat.value} suffix={stat.suffix} />
+                  </div>
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-black/40 font-sans leading-loose whitespace-pre-line">
+                    {stat.label}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          5. TESTIMONIALS
+          ========================================== */}
+      <section className="py-32 px-6 md:px-12 bg-[#f8f5f0]">
+        <div className="max-w-[1400px] mx-auto">
+          <Reveal>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[#3d7a5e] mb-16 font-sans font-bold text-center">
+              Témoignages
+            </p>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            {[
+              {
+                quote: "Luminal m'a rendu à moi-même après 15 ans de performance intense. Je suis rentrée différente — pas reposée, transformée.",
+                name: "Caroline V.",
+                role: "CEO, Paris",
+              },
+              {
+                quote: "Rien de comparable à Sonoran. Le silence comme je ne l'avais jamais entendu. Une expérience qui redéfinit ce que signifie être présent.",
+                name: "Thomas M.",
+                role: "Partner, McKinsey",
+              },
+              {
+                quote: "La méthode Nakano a changé ma relation au temps. Je travaille moins vite, et j'accomplis infiniment plus.",
+                name: "Isabelle K.",
+                role: "Architecte",
+              },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.15}>
+                <div className="flex flex-col h-full">
+                  <div className="text-[#3d7a5e]/30 text-6xl leading-none mb-6 font-serif">&ldquo;</div>
+                  <blockquote
+                    className="text-xl md:text-2xl font-light italic text-[#2a2a2a] leading-relaxed flex-1"
+                    style={{ fontFamily: "Lora, Georgia, serif" }}
+                  >
+                    {t.quote}
+                  </blockquote>
+                  <div className="mt-8 pt-6 border-t border-black/10">
+                    <p
+                      className="text-xs font-semibold uppercase tracking-[0.3em] text-[#2a2a2a]"
+                      style={{ fontFamily: "Cinzel, Georgia, serif" }}
+                    >
+                      {t.name}
+                    </p>
+                    <p className="text-xs text-black/40 uppercase tracking-[0.2em] font-sans mt-1">
+                      {t.role}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          6. LINEAGE TEASER
+          ========================================== */}
+      <section className="py-32 px-6 md:px-12 bg-[#2a2a2a]/5 border-t border-black/5">
+        <div className="max-w-[1400px] mx-auto">
+          <Reveal>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[#3d7a5e] mb-6 font-sans font-bold">
+              Expertise · Transmission · Soin
+            </p>
+            <h2
+              className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-16 text-[#2a2a2a]"
+              style={{ fontFamily: "Cinzel, Georgia, serif" }}
+            >
+              Nos Guides
+            </h2>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {LINEAGE.map((guide, i) => (
+              <Reveal key={guide.name} delay={i * 0.15}>
+                <Link href="/templates/impact-59/lineage" style={{ textDecoration: "none" }}>
+                  <div className="group flex items-start gap-5 p-6 border border-black/5 bg-white/50 hover:bg-white hover:border-[#3d7a5e]/20 hover:shadow-md transition-all duration-400 rounded-sm cursor-pointer">
+                    {/* Avatar */}
+                    <div className="w-14 h-14 rounded-full bg-[#3d7a5e]/10 border border-[#3d7a5e]/20 flex items-center justify-center flex-shrink-0 group-hover:bg-[#3d7a5e]/20 transition-colors duration-300">
+                      <span
+                        className="text-sm font-semibold text-[#3d7a5e]"
+                        style={{ fontFamily: "Cinzel, Georgia, serif" }}
+                      >
+                        {guide.avatar}
+                      </span>
+                    </div>
+                    <div>
+                      <h3
+                        className="text-base font-semibold uppercase tracking-wide text-[#2a2a2a] mb-1"
+                        style={{ fontFamily: "Cinzel, Georgia, serif" }}
+                      >
+                        {guide.name}
+                      </h3>
+                      <p className="text-[10px] uppercase tracking-[0.25em] text-[#3d7a5e] font-sans mb-3">
+                        {guide.role}
+                      </p>
+                      <p className="text-sm text-black/50 leading-relaxed font-sans">
+                        {guide.bio.split(".")[0]}.
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal delay={0.5}>
+            <div className="text-center mt-14">
+              <Link
+                href="/templates/impact-59/lineage"
+                className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-[#2a2a2a] border-b border-[#2a2a2a]/20 pb-1 hover:border-[#3d7a5e] hover:text-[#3d7a5e] transition-all font-sans font-bold"
+                style={{ textDecoration: "none" }}
+              >
+                Rencontrer nos guides
+                <ArrowRight className="w-3 h-3" />
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ==========================================
+          7. FINAL CTA
+          ========================================== */}
+      <section className="py-40 px-6 md:px-12 bg-[#f8f5f0] border-t border-black/5 text-center">
+        <div className="max-w-[900px] mx-auto">
+          <Reveal>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[#3d7a5e] mb-8 font-sans font-bold">
+              Candidatures ouvertes — Places limitées
+            </p>
+            <h2
+              className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-8 text-[#2a2a2a] leading-tight"
+              style={{ fontFamily: "Cinzel, Georgia, serif" }}
+            >
+              Rejoindre le
+              <br />
+              <span className="font-light italic" style={{ fontFamily: "Lora, Georgia, serif" }}>
+                Programme 2026.
+              </span>
+            </h2>
+            <p
+              className="text-lg text-black/50 leading-relaxed mb-14 max-w-lg mx-auto"
+              style={{ fontFamily: "Lora, Georgia, serif" }}
+            >
+              Maximum 9 participants par retraite. Candidatures examinées individuellement. Réponse sous 48 heures.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/templates/impact-59/apply"
+                className="px-12 py-5 bg-[#3d7a5e] text-white text-[10px] uppercase tracking-[0.4em] font-bold rounded-full hover:bg-[#2a5e45] transition-all cursor-pointer shadow-xl font-sans"
+                style={{ textDecoration: "none" }}
+              >
+                Candidater maintenant →
+              </Link>
+              <Link
+                href="/templates/impact-59/retreats"
+                className="px-12 py-5 border border-black/15 text-[#2a2a2a] text-[10px] uppercase tracking-[0.4em] font-bold rounded-full hover:bg-black hover:text-white transition-all cursor-pointer font-sans"
+                style={{ textDecoration: "none" }}
+              >
+                Voir les retraites
+              </Link>
+            </div>
+          </Reveal>
+        </div>
       </section>
     </div>
   );
