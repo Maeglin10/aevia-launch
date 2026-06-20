@@ -82,7 +82,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link href="/templates/impact-27/services" className="hover:text-white transition-colors">Services</Link>
             <Link href="/templates/impact-27/studio" className="hover:text-white transition-colors">Studio</Link>
             <Link href="/templates/impact-27/contact" className="hover:text-white transition-colors">Contact</Link>
-            <Link href="/templates/impact-27/legal" className="hover:text-white transition-colors">Privacy & Legal</Link>
+            <Link href="/legal/mentions-legales" className="hover:text-white transition-colors">Mentions légales</Link>
+            <Link href="/legal/confidentialite" className="hover:text-white transition-colors">Confidentialité</Link>
+            <Link href="/legal/cgu" className="hover:text-white transition-colors">CGU</Link>
           </div>
           <p className="text-white/20 text-sm">© 2026 Vertex Studio</p>
         </div>

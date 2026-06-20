@@ -286,9 +286,9 @@ function SuccessState() {
         />
       </div>
 
-      <h2 className="text-3xl md:text-4xl font-bold mb-4">Brief received.</h2>
+      <h2 className="text-3xl md:text-4xl font-bold mb-4">Merci</h2>
       <p className="text-white/50 text-base mb-8 max-w-sm mx-auto leading-relaxed">
-        We'll review your project and get back to you within 24 hours. Check your inbox — including spam.
+        Merci, nous vous répondrons sous 24h.
       </p>
 
       <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-6 max-w-sm mx-auto mb-8 text-left">

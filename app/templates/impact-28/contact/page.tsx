@@ -216,10 +216,10 @@ export default function ContactPage() {
                   className="font-black text-3xl uppercase mb-4"
                   style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
                 >
-                  MESSAGE RECEIVED.
+                  Merci
                 </h3>
                 <p className="text-gray-500 leading-relaxed max-w-md mx-auto mb-8">
-                  We review project briefs personally. Expect a reply from Viktor or Anaïs within 48 hours.
+                  Merci, nous vous répondrons sous 24h.
                 </p>
                 <button
                   onClick={() => {

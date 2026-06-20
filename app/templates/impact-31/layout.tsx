@@ -222,8 +222,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               { label: "Essai gratuit", href: "/templates/impact-31/contact" }
             ]},
             { title: "Pratique", links: [
-              { label: "Mentions légales", href: "/templates/impact-31/legal" },
-              { label: "Confidentialité", href: "/templates/impact-31/legal" },
+              { label: "Mentions légales", href: "/legal/mentions-legales" },
+              { label: "Confidentialité", href: "/legal/confidentialite" },
+              { label: "CGU", href: "/legal/cgu" }
             ]},
           ].map((col) => (
             <div key={col.title}>
@@ -242,8 +243,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
           <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 14 }}>© 2025 Ananda Flow. Tous droits réservés.</p>
           <div style={{ display: "flex", gap: 20 }}>
-            <Link href="/templates/impact-31/legal" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>Mentions légales</Link>
-            <Link href="/templates/impact-31/legal" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>Confidentialité</Link>
+            <Link href="/legal/mentions-legales" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>Mentions légales</Link>
+            <Link href="/legal/confidentialite" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>Confidentialité</Link>
+            <Link href="/legal/cgu" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>CGU</Link>
           </div>
         </div>
       </footer>

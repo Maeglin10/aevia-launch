@@ -411,10 +411,10 @@ function ContactForm() {
               <CheckCircle size={40} color={C.sage} />
             </motion.div>
             <h2 style={{ fontFamily: FONT_HEADING, fontSize: 28, fontWeight: 700, color: C.text, marginBottom: 12 }}>
-              Demande envoyée !
+              Merci
             </h2>
             <p style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.72, marginBottom: 32, maxWidth: 400, margin: "0 auto 32px" }}>
-              Merci {form.firstName} ! Nous vous contacterons dans les 24h pour confirmer votre créneau de cours d'essai gratuit.
+              Merci, nous vous répondrons sous 24h.
             </p>
             <div style={{ background: C.bgSection, borderRadius: 16, padding: "20px 24px", marginBottom: 32, textAlign: "left" }}>
               <div style={{ fontWeight: 700, fontSize: 14, color: C.text, marginBottom: 12 }}>Récapitulatif :</div>
