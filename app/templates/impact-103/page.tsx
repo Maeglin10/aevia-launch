@@ -236,6 +236,70 @@ export default function LuminaLawPage() {
            </div>
         </section>
 
+        {/* ── TESTIMONIALS ──────────── */}
+        <section className="py-40 bg-[#fafafa] border-t border-black/5">
+          <div className="max-w-6xl mx-auto px-6 md:px-12">
+            <Reveal>
+              <p className="text-[10px] uppercase tracking-[0.5em] text-[#1a365d]/40 mb-6">Client Testimonials</p>
+              <h2 className="text-4xl md:text-6xl font-bold text-[#1a365d] mb-20 leading-tight" style={{ fontFamily: "serif" }}>
+                What Our Clients <em className="font-light">Say.</em>
+              </h2>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { quote: "Lumina Law navigated our cross-border merger with precision and discretion. Their partners think like strategists, not just lawyers. The outcome exceeded expectations at every level.", name: "C. Harding", title: "CFO · Global Ventures Ltd" },
+                { quote: "When we faced a regulatory crisis, their team assembled overnight and had a response strategy by morning. Lumina's institutional knowledge is unmatched in our industry.", name: "P. Nkosi", title: "CEO · Meridian Industries" },
+                { quote: "We've retained Lumina for eight years across litigation, M&A, and regulatory matters. They have become an indispensable extension of our executive leadership.", name: "S. Fontaine", title: "General Counsel · Arcadia Group" },
+              ].map((t, i) => (
+                <Reveal key={i} delay={i * 0.12}>
+                  <div className="bg-white p-10 border border-black/5 flex flex-col gap-6 h-full">
+                    <Quote className="w-6 h-6 text-[#1a365d]/20" />
+                    <p className="text-[#4a5568] leading-relaxed italic flex-1 text-base">{t.quote}</p>
+                    <div className="border-t border-black/5 pt-6">
+                      <div className="text-sm font-bold text-[#1a365d] uppercase tracking-widest">{t.name}</div>
+                      <div className="text-xs text-[#718096] tracking-wide mt-1">{t.title}</div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── ATTORNEYS ─────────────── */}
+        <section className="py-40 bg-white border-t border-black/5">
+          <div className="max-w-6xl mx-auto px-6 md:px-12">
+            <Reveal>
+              <p className="text-[10px] uppercase tracking-[0.5em] text-[#1a365d]/40 mb-6">Our Team</p>
+              <h2 className="text-4xl md:text-6xl font-bold text-[#1a365d] mb-20 leading-tight" style={{ fontFamily: "serif" }}>
+                Senior <em className="font-light">Partners.</em>
+              </h2>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              {[
+                { name: "Eleanor Voss", title: "Managing Partner", focus: "M&A · Corporate Governance", called: "1994", initials: "EV" },
+                { name: "David Osei", title: "Senior Partner", focus: "Litigation · Dispute Resolution", called: "2001", initials: "DO" },
+                { name: "Margaux Petit", title: "Partner", focus: "Regulatory · Compliance", called: "2008", initials: "MP" },
+                { name: "James Lim", title: "Partner", focus: "Tax · International Structuring", called: "2010", initials: "JL" },
+              ].map((a, i) => (
+                <Reveal key={a.name} delay={i * 0.1}>
+                  <div className="flex flex-col gap-5">
+                    <div className="w-16 h-16 bg-[#1a365d] flex items-center justify-center flex-shrink-0">
+                      <span className="text-white font-bold text-lg">{a.initials}</span>
+                    </div>
+                    <div>
+                      <div className="text-[9px] uppercase tracking-[0.3em] text-[#1a365d]/40 mb-1">Called {a.called}</div>
+                      <h3 className="font-bold text-[#1a365d] text-lg leading-snug" style={{ fontFamily: "serif" }}>{a.name}</h3>
+                      <p className="text-xs uppercase tracking-wider text-[#718096] mt-0.5">{a.title}</p>
+                    </div>
+                    <p className="text-xs text-[#4a5568] border-t border-black/5 pt-4 leading-relaxed">{a.focus}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── CTA ───────────────────── */}
         <section className="py-40 bg-[#1a365d] text-white text-center">
           <div className="max-w-4xl mx-auto px-6">

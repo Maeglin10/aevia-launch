@@ -234,6 +234,67 @@ export default function VanguardLegalPage() {
            </div>
         </section>
 
+        {/* ── TESTIMONIALS ──────────── */}
+        <section className="py-40 bg-[#02040a] border-t border-[#00ff41]/10">
+          <div className="max-w-6xl mx-auto px-6 md:px-12 font-mono">
+            <Reveal>
+              <p className="text-[10px] uppercase tracking-[0.5em] text-[#00ff41]/40 mb-6">// verified operators</p>
+              <h2 className="text-4xl md:text-7xl font-black text-white mb-20 leading-none tracking-tighter">
+                FIELD<br /><span className="text-[#00ff41]/10">REPORTS.</span>
+              </h2>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#00ff41]/5">
+              {[
+                { quote: "Our red team couldn't find a single gap after deployment. The threat graph identified a lateral movement path we had missed for two years. Mission critical.", handle: "// SEC_LEAD_ORION", org: "Fortune 500 · Financial Sector" },
+                { quote: "Six ransomware attempts blocked in 90 days. Zero successful intrusions. The AI intercepts attacks before our SOC analysts even see the alert.", handle: "// CISO_MERIDIAN", org: "Critical Infrastructure" },
+                { quote: "We replaced four separate tools with this single platform. Coverage increased 40%, cost dropped 60%. The ROI conversation with the board was the easiest I've had.", handle: "// INFOSEC_VOSS", org: "Global SaaS · Series C" },
+              ].map((t, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="bg-[#02040a] p-10 flex flex-col gap-6 hover:bg-black transition-colors border border-[#00ff41]/5 hover:border-[#00ff41]/20">
+                    <Terminal className="w-4 h-4 text-[#00ff41]/40" />
+                    <p className="text-white/40 leading-relaxed flex-1 text-sm">{t.quote}</p>
+                    <div className="border-t border-[#00ff41]/10 pt-6">
+                      <div className="text-[#00ff41] text-xs font-bold tracking-widest">{t.handle}</div>
+                      <div className="text-[10px] text-white/20 mt-1">{t.org}</div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── TEAM ──────────────────── */}
+        <section className="py-40 bg-black border-t border-[#00ff41]/10">
+          <div className="max-w-6xl mx-auto px-6 md:px-12 font-mono">
+            <Reveal>
+              <p className="text-[10px] uppercase tracking-[0.5em] text-[#00ff41]/40 mb-6">// core team</p>
+              <h2 className="text-4xl md:text-7xl font-black text-white mb-20 leading-none tracking-tighter">
+                OPERATORS.
+              </h2>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-[#00ff41]/5">
+              {[
+                { handle: "WRAITH", name: "Elara Voss", role: "Threat Intelligence", clearance: "ALPHA", years: "14yr" },
+                { handle: "CIPHER", name: "Ryo Tanaka", role: "Offensive Security", clearance: "BRAVO", years: "11yr" },
+                { handle: "GHOST", name: "Omar Al Farsi", role: "AI/ML Defense", clearance: "ALPHA", years: "9yr" },
+                { handle: "SPECTER", name: "Nova Chen", role: "Incident Response", clearance: "CHARLIE", years: "7yr" },
+              ].map((m, i) => (
+                <Reveal key={m.handle} delay={i * 0.08}>
+                  <div className="bg-black p-10 hover:bg-[#02040a] transition-colors group">
+                    <div className="w-12 h-12 border border-[#00ff41]/20 flex items-center justify-center mb-6 group-hover:border-[#00ff41]/60 transition-colors">
+                      <span className="text-[#00ff41] text-xs font-black">{m.handle.slice(0, 2)}</span>
+                    </div>
+                    <div className="text-[10px] text-[#00ff41]/40 mb-1">[{m.clearance}] · {m.years}</div>
+                    <div className="text-white font-bold text-sm tracking-wider mb-1">{m.name}</div>
+                    <div className="text-[10px] text-white/20 uppercase tracking-widest">{m.role}</div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── CTA ───────────────────── */}
         <section className="py-60 bg-[#00ff41] text-black text-center relative overflow-hidden">
           <div className="absolute inset-0 opacity-[0.02]">

@@ -229,6 +229,69 @@ export default function AetherSoundPage() {
           </div>
         </section>
 
+        {/* ── TESTIMONIALS ──────────── */}
+        <section className="py-40 bg-[#050505] border-t border-white/5">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex items-end justify-between mb-20 border-b border-white/5 pb-12 gap-6">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 block mb-6">Who Listens</span>
+                  <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter italic text-white leading-none">Client <span className="font-light not-italic opacity-10">Voices.</span></h2>
+                </div>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
+              {[
+                { quote: "We installed the Studio Array in our film scoring stage. The first session, the composer wept. The clarity revealed things we had been missing for a decade.", name: "J. Wren", origin: "London · Scoring Stage B" },
+                { quote: "I've designed rooms with every major brand. None hold a candle to what their engineering team achieved at this price point. Extraordinary.", name: "M. Belfort", origin: "Paris · Studio Acoustics" },
+                { quote: "The monitoring accuracy of the Reference Series changed my mixes. I'm hearing nuances I used to think only other engineers had the ears to perceive.", name: "T. Osei", origin: "Lagos · Mastering Engineer" },
+              ].map((t, i) => (
+                <Reveal key={i} delay={i * 0.12}>
+                  <div className="bg-[#050505] p-14 flex flex-col gap-8 hover:bg-black transition-colors">
+                    <div className="text-6xl text-white/5 font-serif leading-none">&ldquo;</div>
+                    <p className="text-white/40 font-light leading-relaxed italic flex-1 text-lg">{t.quote}</p>
+                    <div className="border-t border-white/5 pt-8">
+                      <div className="text-sm font-bold text-white uppercase tracking-widest">{t.name}</div>
+                      <div className="text-xs text-white/25 tracking-widest mt-2">{t.origin}</div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── ACOUSTIC AWARDS ─────────── */}
+        <section className="py-32 bg-black border-t border-white/5">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex flex-wrap items-center justify-between gap-8 mb-16 border-b border-white/5 pb-12">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Recognised by</span>
+                <div className="flex flex-wrap gap-8">
+                  {["AES Gold Medal 2024", "TEC Award Best Hardware", "Mix Magazine Premier Award", "Pro Sound Europe"].map(a => (
+                    <span key={a} className="text-[10px] font-bold uppercase tracking-widest text-white/15 hover:text-white/40 transition-colors">{a}</span>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5">
+              {[
+                { v: "140+", l: "Studios Built" },
+                { v: "0.001%", l: "THD at ref level" },
+                { v: "22Hz", l: "Low-end extension" },
+                { v: "41yr", l: "Acoustic Research" },
+              ].map((s, i) => (
+                <Reveal key={i} delay={i * 0.08}>
+                  <div className="bg-black p-12 text-center hover:bg-white/[0.02] transition-colors">
+                    <div className="text-3xl font-black italic text-white mb-2">{s.v}</div>
+                    <div className="text-[9px] font-bold uppercase tracking-widest text-white/20">{s.l}</div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── CTA ───────────────────── */}
         <section className="py-40 bg-white text-black text-center">
           <div className="max-w-4xl mx-auto px-6">
