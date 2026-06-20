@@ -192,6 +192,72 @@ export default function HavenEstatesPage() {
           </div>
         </section>
 
+        {/* ── TESTIMONIALS ──────────────────── */}
+        <section className="py-32 bg-[#faf9f6]">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="text-center mb-20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b8860b] block mb-4">Client Voices</span>
+                <h2 className="text-5xl md:text-6xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                  Trusted by the <em className="text-[#b8860b]">World&apos;s Best.</em>
+                </h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { quote: "Haven Estates found our Hampstead estate entirely off-market. Their discretion and global network are simply unmatched.", name: "Lord A. Thornton", role: "London · Private Estate" },
+                { quote: "The team navigated our Singapore acquisition with extraordinary professionalism. We closed in under three weeks.", name: "S. Nakamura", role: "Singapore · Penthouse" },
+                { quote: "Three continents, one advisor. Haven managed our entire portfolio consolidation seamlessly and discreetly.", name: "E. Volkov", role: "Geneva · Multi-Property" },
+              ].map((t, i) => (
+                <Reveal key={i} delay={i * 0.12}>
+                  <div className="p-10 border border-[#b8860b]/10 rounded-sm flex flex-col gap-6 h-full">
+                    <div className="flex gap-1">
+                      {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#b8860b] text-[#b8860b]" />)}
+                    </div>
+                    <p className="text-[#1a1a1a]/60 font-light leading-relaxed italic flex-1" style={{ fontFamily: "Georgia, serif" }}>&ldquo;{t.quote}&rdquo;</p>
+                    <div className="pt-6 border-t border-[#b8860b]/10">
+                      <div className="font-bold text-sm" style={{ fontFamily: "Georgia, serif" }}>{t.name}</div>
+                      <div className="text-xs text-[#1a1a1a]/40 tracking-widest uppercase mt-1">{t.role}</div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── WHY HAVEN ─────────────────────── */}
+        <section className="py-32 bg-[#1a1a1a] text-white">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+              <Reveal>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b8860b] block mb-4">Our Difference</span>
+                <h2 className="text-5xl md:text-6xl font-light tracking-tighter mb-8" style={{ fontFamily: "Georgia, serif" }}>
+                  The Haven <em className="text-[#b8860b]">Advantage.</em>
+                </h2>
+                <p className="text-lg text-white/40 font-light leading-relaxed max-w-md">
+                  Founded by former principals at Sotheby&apos;s Realty and Christie&apos;s International, Haven Estates brings institutional expertise to private hands — with complete discretion.
+                </p>
+              </Reveal>
+              <Reveal delay={0.15}>
+                <div className="grid grid-cols-2 gap-px bg-[#b8860b]/10">
+                  {[
+                    { v: "$4.2B+", l: "In Transactions" },
+                    { v: "280+", l: "Trophy Properties" },
+                    { v: "38", l: "Countries Served" },
+                    { v: "18yr", l: "Advisory Record" },
+                  ].map((s, i) => (
+                    <div key={i} className="bg-[#1a1a1a] p-10 text-center">
+                      <div className="text-3xl font-black text-[#b8860b] mb-2" style={{ fontFamily: "Georgia, serif" }}>{s.v}</div>
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-white/20">{s.l}</div>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
         {/* ── CTA ──────────────────────────── */}
         <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">

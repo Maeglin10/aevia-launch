@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, ChevronDown, Gem } from "lucide-react";
-import { C, FONT_HEADING, FONT_LABEL, GemStoneSVG, Reveal } from "./shared";
+import { C, FONT_HEADING, FONT_BODY, FONT_LABEL, GemStoneSVG, Reveal, STATS, TESTIMONIALS, TEAM } from "./shared";
 
 export default function Impact83Page() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -264,6 +264,84 @@ export default function Impact83Page() {
               ))}
             </div>
           </Reveal>
+        </div>
+      </section>
+
+      {/* ── STATS ───────────────────────────────────────────────────────── */}
+      <section style={{ padding: "5rem 2rem", background: C.bgAlt, borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: 1300, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "1px", background: C.border }}>
+          {STATS.map((s, i) => (
+            <Reveal key={i} delay={i * 0.08}>
+              <div style={{ background: C.bgAlt, padding: "3rem 2rem", textAlign: "center" }}>
+                <div style={{ fontFamily: FONT_HEADING, fontSize: "clamp(2rem,4vw,3.5rem)", fontWeight: 300, color: C.accent }}>
+                  {s.value}{s.suffix}
+                </div>
+                <div style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", color: C.textMuted, marginTop: 8 }}>{s.label}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── TESTIMONIALS ────────────────────────────────────────────────── */}
+      <section style={{ padding: "8rem 2rem", background: C.bg, borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: 1300, margin: "0 auto" }}>
+          <Reveal>
+            <p style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.35em", textTransform: "uppercase", color: C.accent, marginBottom: 16 }}>Témoignages</p>
+            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(2rem,4vw,4rem)", fontWeight: 300, color: C.text, lineHeight: 1.2, marginBottom: "4rem", fontStyle: "italic" }}>
+              Ce que disent nos clients.
+            </h2>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: "2rem" }}>
+            {TESTIMONIALS.slice(0, 3).map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, padding: "2.5rem", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                  <div style={{ display: "flex", gap: 4 }}>
+                    {[...Array(t.note)].map((_, j) => (
+                      <span key={j} style={{ color: C.accent, fontSize: 14 }}>★</span>
+                    ))}
+                  </div>
+                  <p style={{ fontFamily: FONT_BODY, fontSize: "1.05rem", color: C.textMuted, lineHeight: 1.8, fontStyle: "italic", flex: 1 }}>
+                    &ldquo;{t.text}&rdquo;
+                  </p>
+                  <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: "1.25rem" }}>
+                    <div style={{ fontFamily: FONT_LABEL, fontWeight: 700, fontSize: 13, color: C.text }}>{t.name}</div>
+                    <div style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: C.textMuted, marginTop: 4 }}>{t.role}</div>
+                    <div style={{ fontFamily: FONT_LABEL, fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: C.accent, marginTop: 6 }}>{t.piece}</div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ÉQUIPE ──────────────────────────────────────────────────────── */}
+      <section style={{ padding: "8rem 2rem", background: C.bgAlt, borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: 1300, margin: "0 auto" }}>
+          <Reveal>
+            <p style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.35em", textTransform: "uppercase", color: C.accent, marginBottom: 16 }}>L&apos;Équipe</p>
+            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(2rem,4vw,4rem)", fontWeight: 300, color: C.text, lineHeight: 1.2, marginBottom: "4rem" }}>
+              Maîtres artisans.
+            </h2>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: "2rem" }}>
+            {TEAM.map((m, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, padding: "2.5rem" }}>
+                  <div style={{ width: 48, height: 48, borderRadius: "50%", background: C.accentGlow, border: `1px solid ${C.borderGold}`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1.5rem" }}>
+                    <span style={{ fontFamily: FONT_HEADING, fontSize: "1.2rem", color: C.accent }}>
+                      {m.name.split(" ").map((n: string) => n[0]).join("")}
+                    </span>
+                  </div>
+                  <div style={{ fontFamily: FONT_LABEL, fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: C.accent, marginBottom: 8 }}>{m.exp} d&apos;expérience</div>
+                  <h3 style={{ fontFamily: FONT_HEADING, fontSize: "1.3rem", fontWeight: 400, color: C.text, marginBottom: 4 }}>{m.name}</h3>
+                  <p style={{ fontFamily: FONT_LABEL, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: C.textMuted, marginBottom: "1.25rem" }}>{m.role}</p>
+                  <p style={{ fontFamily: FONT_BODY, fontSize: "0.9rem", color: C.textMuted, lineHeight: 1.7, fontStyle: "italic" }}>{m.bio}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 

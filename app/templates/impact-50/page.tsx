@@ -237,6 +237,120 @@ export default function NeuralMeshPage() {
         </Reveal>
       </section>
 
+      {/* ── USE CASES ─────────────── */}
+      <section className="max-w-[1400px] mx-auto px-6 md:px-12 mb-40">
+        <Reveal>
+          <div className="mb-16">
+            <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em] mb-8">
+              <Zap className="w-4 h-4" /> Applications
+            </div>
+            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9] pb-4">
+              Built For<br /><span className="text-white/10">Everyone.</span>
+            </h2>
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {([
+            {
+              sector: "Enterprise AI",
+              headline: "Unify your intelligence layer across every model and provider.",
+              kpis: ["12× faster inference routing", "99.99% SLA guaranteed", "SOC 2 Type II certified"],
+              icon: Brain,
+              iconBg: "bg-cyan-500/10 border-cyan-500/20",
+              iconColor: "text-cyan-400",
+              labelColor: "text-cyan-400",
+              dotColor: "bg-cyan-400",
+              hoverBorder: "hover:border-cyan-500/30",
+            },
+            {
+              sector: "Research Labs",
+              headline: "Run massive parallel experiments across decentralized GPU clusters.",
+              kpis: ["Petabyte-scale data mesh", "1,000+ concurrent agents", "Zero lock-in API"],
+              icon: Activity,
+              iconBg: "bg-blue-500/10 border-blue-500/20",
+              iconColor: "text-blue-400",
+              labelColor: "text-blue-400",
+              dotColor: "bg-blue-400",
+              hoverBorder: "hover:border-blue-500/30",
+            },
+            {
+              sector: "FinTech & Trading",
+              headline: "Sub-millisecond decision pipelines with full audit trail.",
+              kpis: ["0.8ms median latency", "zk-proof audit log", "FIX protocol bridge"],
+              icon: Globe,
+              iconBg: "bg-green-500/10 border-green-500/20",
+              iconColor: "text-green-400",
+              labelColor: "text-green-400",
+              dotColor: "bg-green-400",
+              hoverBorder: "hover:border-green-500/30",
+            },
+          ] as const).map((uc, i) => (
+            <Reveal key={i} delay={i * 0.1}>
+              <div className={`group p-10 rounded-[2rem] border border-white/5 bg-white/[0.02] ${uc.hoverBorder} transition-all duration-500 flex flex-col h-full`}>
+                <div className={`w-12 h-12 rounded-xl ${uc.iconBg} border flex items-center justify-center mb-8`}>
+                  <uc.icon className={`w-6 h-6 ${uc.iconColor}`} />
+                </div>
+                <div className={`text-[10px] font-bold uppercase tracking-[0.3em] ${uc.labelColor} mb-4`}>{uc.sector}</div>
+                <h3 className="text-xl font-bold uppercase tracking-tight leading-tight mb-6">{uc.headline}</h3>
+                <ul className="space-y-3 mt-auto">
+                  {uc.kpis.map(k => (
+                    <li key={k} className="flex items-center gap-3 text-xs text-white/40">
+                      <span className={`w-1 h-1 rounded-full ${uc.dotColor} shrink-0`} />{k}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── PRICING ───────────────── */}
+      <section className="max-w-[1400px] mx-auto px-6 md:px-12 mb-40">
+        <Reveal>
+          <div className="mb-16">
+            <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em] mb-8">
+              <Shield className="w-4 h-4" /> Pricing
+            </div>
+            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9] pb-4">
+              Simple<br /><span className="text-white/10">Pricing.</span>
+            </h2>
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            { tier: "Seed", price: "$0", unit: "/ month", cap: "Up to 10M tokens/mo", desc: "Perfect for prototypes and indie builders.", features: ["10M tokens/month", "1 mesh node", "Standard latency", "Community support"], highlight: false },
+            { tier: "Growth", price: "$299", unit: "/ month", cap: "Up to 500M tokens/mo", desc: "For scaling products that need performance guarantees.", features: ["500M tokens/month", "20 mesh nodes", "Priority latency SLA", "Dedicated Slack support", "Custom integrations"], highlight: true },
+            { tier: "Enterprise", price: "Custom", unit: "", cap: "Unlimited", desc: "Full-stack deployment with compliance, security, and SLAs.", features: ["Unlimited tokens", "Dedicated cluster", "0.8ms p99 latency", "SOC 2 + HIPAA", "24/7 engineering support"], highlight: false },
+          ].map((plan, i) => (
+            <Reveal key={i} delay={i * 0.1}>
+              <div className={`flex flex-col h-full p-10 rounded-[2rem] border transition-all duration-500 ${plan.highlight ? "bg-cyan-500 text-black border-cyan-400" : "bg-white/[0.02] text-white border-white/5"}`}>
+                <div className={`text-[10px] font-bold uppercase tracking-[0.3em] mb-4 ${plan.highlight ? "text-black/60" : "text-cyan-400"}`}>{plan.cap}</div>
+                <h3 className="text-2xl font-black uppercase tracking-tight mb-1">{plan.tier}</h3>
+                <div className="flex items-baseline gap-1 mb-6">
+                  <span className={`text-5xl font-black italic ${plan.highlight ? "text-black" : "text-white"}`}>{plan.price}</span>
+                  <span className={`text-sm ${plan.highlight ? "text-black/40" : "text-white/20"}`}>{plan.unit}</span>
+                </div>
+                <p className={`text-sm leading-relaxed mb-8 ${plan.highlight ? "text-black/60" : "text-white/30"}`}>{plan.desc}</p>
+                <ul className="space-y-3 mb-10 flex-1">
+                  {plan.features.map(f => (
+                    <li key={f} className={`flex items-center gap-3 text-xs ${plan.highlight ? "text-black/70" : "text-white/40"}`}>
+                      <Zap className={`w-3 h-3 shrink-0 ${plan.highlight ? "text-black" : "text-cyan-400"}`} />{f}
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href="/templates/impact-50/contact"
+                  className={`block text-center py-4 font-bold text-[10px] uppercase tracking-widest rounded-xl transition-all duration-300 ${plan.highlight ? "bg-black text-white hover:bg-white hover:text-black" : "bg-white/5 text-white hover:bg-cyan-500 hover:text-black border border-white/10"}`}
+                >
+                  {plan.tier === "Enterprise" ? "Contact Sales" : "Get Started"}
+                </Link>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
       {/* ── CTA ───────────────────── */}
       <section className="max-w-[1400px] mx-auto px-6 mb-20">
         <Reveal>

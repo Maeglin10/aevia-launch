@@ -199,6 +199,70 @@ export default function StudioVersaPage() {
           </div>
         </section>
 
+        {/* ── TEAM ──────────────────── */}
+        <section className="py-32 bg-[#faf5f0]">
+          <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="mb-20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-orange-500 block mb-4">The People</span>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Behind the <span className="text-orange-500 italic">Work.</span></h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[
+                { name: "Mia Versa", role: "Creative Director", yrs: "10yr", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400", tags: ["Brand", "Identity"] },
+                { name: "Theo Nakamura", role: "Lead Product Designer", yrs: "7yr", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400", tags: ["UX", "Mobile"] },
+                { name: "Sasha Okafor", role: "Art Director", yrs: "8yr", img: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=400", tags: ["Campaign", "Photo"] },
+                { name: "Remi Blanc", role: "Motion & 3D Lead", yrs: "5yr", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400", tags: ["Motion", "3D"] },
+              ].map((m, i) => (
+                <Reveal key={i} delay={i * 0.08}>
+                  <div className="group">
+                    <div className="relative aspect-[3/4] overflow-hidden rounded-xl mb-6 bg-[#1a1a1a]">
+                      <ParallaxImg src={m.img} alt={m.name} />
+                      <div className="absolute inset-0 bg-orange-900/0 group-hover:bg-orange-500/10 transition-colors duration-700" />
+                      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex gap-2">
+                        {m.tags.map(t => <span key={t} className="px-3 py-1 bg-orange-500 text-white text-[9px] font-bold uppercase tracking-widest rounded-full">{t}</span>)}
+                      </div>
+                    </div>
+                    <div className="border-l-2 border-orange-500/20 pl-4">
+                      <div className="text-lg font-bold group-hover:text-orange-500 transition-colors">{m.name}</div>
+                      <div className="text-xs text-[#1a1a1a]/40 font-bold uppercase tracking-widest mt-1">{m.role}</div>
+                      <div className="text-[10px] text-orange-500 font-mono mt-1">{m.yrs}</div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── CLIENTS & AWARDS ──────────── */}
+        <section className="py-24 bg-[#1a1a1a] text-white">
+          <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex flex-wrap items-center justify-between gap-8 mb-16">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-orange-400">Trusted By</span>
+                <div className="flex flex-wrap gap-6">
+                  {["Awwwards SOTD", "CSS Design Award", "FWA of the Day", "Cannes Lions Bronze"].map(a => (
+                    <span key={a} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-orange-400">
+                      <Award className="w-3 h-3" /> {a}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5">
+              {["Flux Labs", "Prism Analytics", "Ember Magazine", "Vertex Films", "Arch Studio", "Nova Health", "Kōdo Games", "Dune Capital"].map((c, i) => (
+                <Reveal key={c} delay={i * 0.05}>
+                  <div className="bg-[#1a1a1a] p-8 flex items-center justify-center group hover:bg-orange-500/5 transition-colors duration-500 cursor-default">
+                    <span className="text-sm font-bold tracking-wider text-white/20 group-hover:text-white/60 transition-colors">{c}</span>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── CTA ─────────────────── */}
         <section className="py-32 bg-[#faf5f0]">
           <div className="max-w-[800px] mx-auto px-6 text-center">

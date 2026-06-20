@@ -202,6 +202,87 @@ export default function TorrefieCoffeePage() {
           </div>
         </section>
 
+        {/* ── TESTIMONIALS ──────────────────── */}
+        <section className="py-32 bg-[#2c1810] text-[#f5f0ea]">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="text-center mb-20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c48a5a] block mb-4">What Clients Say</span>
+                <h2 className="text-5xl md:text-6xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                  The <em className="text-[#c48a5a]">Reviews.</em>
+                </h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { quote: "The Ethiopian Yirgacheffe changed the way I think about coffee. I've tried every specialty roaster in Paris — Torréfié is in a class of its own.", name: "Hélène Duval", location: "Paris, FR", origin: "Ethiopian Yirgacheffe" },
+                { quote: "Freshness is unreal. Roasted Tuesday, on my desk Thursday. The Kenyan Nyeri AA is extraordinary — the blackcurrant notes are no marketing gimmick.", name: "James Whitfield", location: "London, UK", origin: "Kenyan Nyeri AA" },
+                { quote: "Finally a subscription that actually rotates origins intelligently. My palate has evolved more in three months than in three years.", name: "Rafael Soto", location: "Barcelona, ES", origin: "Colombian Huila" },
+              ].map((t, i) => (
+                <Reveal key={i} delay={i * 0.12}>
+                  <div className="p-10 border border-[#c48a5a]/20 flex flex-col gap-6 h-full">
+                    <div className="flex gap-1">
+                      {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#c48a5a] text-[#c48a5a]" />)}
+                    </div>
+                    <p className="text-[#f5f0ea]/60 font-light leading-relaxed italic flex-1" style={{ fontFamily: "Georgia, serif" }}>&ldquo;{t.quote}&rdquo;</p>
+                    <div className="pt-6 border-t border-[#c48a5a]/20">
+                      <div className="font-bold text-sm" style={{ fontFamily: "Georgia, serif" }}>{t.name}</div>
+                      <div className="text-xs text-[#f5f0ea]/30 tracking-widest uppercase mt-1">{t.location}</div>
+                      <div className="flex items-center gap-1 text-xs text-[#c48a5a] mt-1"><Coffee className="w-3 h-3" /> {t.origin}</div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── SUBSCRIPTIONS ─────────────────── */}
+        <section className="py-32 bg-[#f5f0ea]">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="text-center mb-20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#6b3a24] block mb-4">Subscribe</span>
+                <h2 className="text-5xl md:text-6xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                  Your <em className="text-[#6b3a24]">Plan.</em>
+                </h2>
+                <p className="text-lg text-[#2c1810]/40 font-light max-w-md mx-auto mt-4">
+                  Roasted to order, shipped every two weeks. Pause or cancel anytime.
+                </p>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { name: "Découverte", price: "€28", cadence: "/ bi-weekly", qty: "200g", desc: "One single-origin, chosen by our Q-Graders each cycle. Perfect for the curious palate.", features: ["1 origin per cycle", "Tasting notes card", "Compostable packaging"], highlight: false },
+                { name: "Connoisseur", price: "€52", cadence: "/ bi-weekly", qty: "400g", desc: "Two carefully paired origins — explore contrasts of terroir, altitude, and process.", features: ["2 origins per cycle", "Brew guide included", "SCA score transparency", "Free shipping"], highlight: true },
+                { name: "Maison", price: "€96", cadence: "/ bi-weekly", qty: "1kg", desc: "The full Torréfié experience. Four origins, access to pre-release lots, priority allocation.", features: ["4 origins per cycle", "Pre-release access", "Direct farmer profiles", "Free express shipping", "Private tastings"], highlight: false },
+              ].map((plan, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className={`flex flex-col h-full rounded-sm border p-10 ${plan.highlight ? "bg-[#2c1810] text-[#f5f0ea] border-[#6b3a24]" : "bg-white border-[#6b3a24]/10"}`}>
+                    <div className={`text-[10px] font-bold uppercase tracking-[0.3em] mb-2 ${plan.highlight ? "text-[#c48a5a]" : "text-[#6b3a24]"}`}>{plan.qty}</div>
+                    <h3 className="text-2xl font-bold mb-1" style={{ fontFamily: "Georgia, serif" }}>{plan.name}</h3>
+                    <div className="flex items-baseline gap-1 mb-6">
+                      <span className={`text-4xl font-black ${plan.highlight ? "text-[#c48a5a]" : "text-[#6b3a24]"}`}>{plan.price}</span>
+                      <span className={`text-sm font-light ${plan.highlight ? "text-[#f5f0ea]/40" : "text-[#2c1810]/30"}`}>{plan.cadence}</span>
+                    </div>
+                    <p className={`text-sm leading-relaxed mb-8 ${plan.highlight ? "text-[#f5f0ea]/50" : "text-[#2c1810]/50"}`}>{plan.desc}</p>
+                    <ul className="space-y-3 mb-10 flex-1">
+                      {plan.features.map(f => (
+                        <li key={f} className={`flex items-center gap-3 text-sm ${plan.highlight ? "text-[#f5f0ea]/70" : "text-[#2c1810]/60"}`}>
+                          <Leaf className={`w-3 h-3 shrink-0 ${plan.highlight ? "text-[#c48a5a]" : "text-[#6b3a24]"}`} /> {f}
+                        </li>
+                      ))}
+                    </ul>
+                    <button className={`w-full py-4 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full transition-all duration-500 ${plan.highlight ? "bg-[#c48a5a] text-white hover:bg-[#f5f0ea] hover:text-[#2c1810]" : "bg-[#2c1810] text-[#f5f0ea] hover:bg-[#6b3a24]"}`}>
+                      Start {plan.name}
+                    </button>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── CTA ────────────────────────────── */}
         <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
