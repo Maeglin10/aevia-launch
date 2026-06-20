@@ -939,6 +939,32 @@ export default function MaisonMariaPage() {
               {link.label}
             </button>
           ))}
+          <a
+            href="/maison-maria/ebook"
+            style={{
+              fontFamily: C.fontSans,
+              fontSize: 12,
+              fontWeight: 700,
+              color: C.roseDark,
+              textDecoration: "none",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase" as const,
+              padding: "6px 14px",
+              border: `1.5px solid ${C.rose}`,
+              borderRadius: 2,
+              transition: "all 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.background = C.rose;
+              (e.currentTarget as HTMLElement).style.color = "#fff";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.background = "transparent";
+              (e.currentTarget as HTMLElement).style.color = C.roseDark;
+            }}
+          >
+            Guide — 49€
+          </a>
           <MagneticButton
             onClick={openBooking}
             style={{
@@ -1039,6 +1065,21 @@ export default function MaisonMariaPage() {
                 {link.label}
               </button>
             ))}
+            <a
+              href="/maison-maria/ebook"
+              style={{
+                fontFamily: C.font,
+                fontSize: 22,
+                color: C.rose,
+                textDecoration: "none",
+                fontWeight: 500,
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              Guide de formation — 49€
+            </a>
           </motion.div>
         )}
       </AnimatePresence>
@@ -2012,6 +2053,93 @@ export default function MaisonMariaPage() {
               </div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      {/* Ebook Promo */}
+      <section
+        style={{
+          background: `linear-gradient(135deg, ${C.dark} 0%, #2d1a17 100%)`,
+          padding: "100px clamp(24px, 8vw, 120px)",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <div style={{ position: "absolute", top: -60, right: -60, width: 400, height: 400, borderRadius: "50%", background: `radial-gradient(circle, ${C.rose}18 0%, transparent 70%)`, pointerEvents: "none" }} />
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", alignItems: "center", gap: "clamp(48px, 8vw, 120px)", flexWrap: "wrap" }}>
+          {/* Book mockup */}
+          <div style={{ flex: "0 0 auto" }}>
+            <div style={{
+              width: "clamp(180px, 20vw, 240px)",
+              height: "clamp(240px, 28vw, 320px)",
+              background: `linear-gradient(145deg, ${C.rose} 0%, ${C.roseDark} 100%)`,
+              borderRadius: 6,
+              boxShadow: "0 32px 80px rgba(0,0,0,0.6), 8px 0 0 rgba(0,0,0,0.25) inset, -4px 0 16px rgba(0,0,0,0.3)",
+              display: "flex",
+              flexDirection: "column" as const,
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 32,
+              textAlign: "center" as const,
+              position: "relative",
+            }}>
+              <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, background: "repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 8px)", borderRadius: 6 }} />
+              <div style={{ fontFamily: C.fontSans, fontSize: 9, letterSpacing: "0.25em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.6)", marginBottom: 20 }}>Guide Professionnel</div>
+              <div style={{ fontFamily: C.font, fontSize: 26, fontWeight: 500, color: "#fff", lineHeight: 1.15, marginBottom: 16 }}>L'Art de<br/>l'Esthétique</div>
+              <div style={{ width: 32, height: 1, background: "rgba(255,255,255,0.4)", margin: "0 auto 16px" }} />
+              <div style={{ fontFamily: C.fontSans, fontSize: 10, color: "rgba(255,255,255,0.7)", letterSpacing: "0.1em" }}>Maria</div>
+              <div style={{ position: "absolute", bottom: 20, fontFamily: C.fontSans, fontSize: 9, color: "rgba(255,255,255,0.4)" }}>244 pages · 7 chapitres</div>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div style={{ flex: 1, minWidth: 280 }}>
+            <div style={{ fontFamily: C.fontSans, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: C.rose, marginBottom: 16 }}>Nouveau · Guide de Formation</div>
+            <h2 style={{ fontFamily: C.font, fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 400, color: "#fff", lineHeight: 1.1, marginBottom: 20 }}>
+              Toutes les techniques<br/>en un seul guide
+            </h2>
+            <p style={{ fontFamily: C.fontSans, fontSize: 15, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, marginBottom: 32, maxWidth: 480 }}>
+              Cils, sourcils, blanchiment dentaire, micropigmentation, madérothérapie — 244 pages de protocoles professionnels, fiches clientes et stratégies tarifaires pour lancer ou développer ton activité.
+            </p>
+            <div style={{ display: "flex", gap: 40, marginBottom: 36, flexWrap: "wrap" }}>
+              {[
+                { val: "244", label: "pages" },
+                { val: "7", label: "chapitres" },
+                { val: "4", label: "bonus inclus" },
+                { val: "49€", label: "prix unique" },
+              ].map((s) => (
+                <div key={s.label}>
+                  <div style={{ fontFamily: C.font, fontSize: 28, color: C.roseLight, lineHeight: 1 }}>{s.val}</div>
+                  <div style={{ fontFamily: C.fontSans, fontSize: 11, color: "rgba(255,255,255,0.4)", letterSpacing: "0.1em", marginTop: 4 }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
+              <a
+                href="/maison-maria/ebook"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 10,
+                  background: C.rose,
+                  color: "#fff",
+                  textDecoration: "none",
+                  fontFamily: C.fontSans,
+                  fontSize: 13,
+                  fontWeight: 700,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase" as const,
+                  padding: "16px 32px",
+                  borderRadius: 2,
+                }}
+              >
+                Commander — 49€
+              </a>
+              <div style={{ fontFamily: C.fontSans, fontSize: 12, color: "rgba(255,255,255,0.35)" }}>
+                Accès immédiat · PDF téléchargeable
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

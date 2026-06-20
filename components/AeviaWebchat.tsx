@@ -6,8 +6,12 @@ import Script from "next/script";
 export function AeviaWebchat() {
   const pathname = usePathname();
 
-  // Disable webchat widget on template previews or session preview pages to prevent console errors
-  if (pathname?.startsWith("/templates/") || pathname?.startsWith("/preview/")) {
+  // Disable webchat widget on template previews, session preview pages, and client showcase pages
+  if (
+    pathname?.startsWith("/templates/") ||
+    pathname?.startsWith("/preview/") ||
+    pathname?.startsWith("/maison-maria/")
+  ) {
     return null;
   }
 
