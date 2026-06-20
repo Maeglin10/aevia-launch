@@ -381,7 +381,118 @@ export default function AetherRoasteryPage() {
       </section>
 
       {/* ==========================================
-          7. PROJECT INQUIRY CTA
+          7. AWARDS & PRESS
+          ========================================== */}
+      <section className="py-32 bg-[#100e0c] border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
+            <div>
+              <Reveal>
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-orange-900 mb-6 block">RECOGNITION_LOG // AWARDS</span>
+                <h2 className="text-4xl font-black uppercase tracking-tighter italic text-white mb-16 leading-[1.1] pb-2">Awards.</h2>
+              </Reveal>
+              <div className="divide-y divide-white/5">
+                {[
+                  { year: "2025", title: "D&AD Gold Pencil", cat: "Brand Identity" },
+                  { year: "2024", title: "Cannes Lions Gold", cat: "Design" },
+                  { year: "2024", title: "Type Directors Club Award", cat: "Typography" },
+                  { year: "2023", title: "Red Dot Best of Best", cat: "Communication" },
+                  { year: "2023", title: "CLIO Award", cat: "Art Direction" },
+                  { year: "2022", title: "Young Guns 20", cat: "Studio" },
+                ].map((a, i) => (
+                  <Reveal key={i} delay={i * 0.06}>
+                    <div className="py-5 flex items-center gap-8 group">
+                      <span className="text-[9px] font-black text-white/10 uppercase tracking-widest w-10 flex-shrink-0 font-mono">{a.year}</span>
+                      <div className="flex-1 text-sm font-black uppercase tracking-tighter text-white/40 italic group-hover:text-white/80 transition-colors">{a.title}</div>
+                      <span className="text-[9px] font-bold text-orange-900/60 uppercase tracking-widest flex-shrink-0">{a.cat}</span>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+            <div>
+              <Reveal>
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-orange-900 mb-6 block">PRESS_LOG // AS_SEEN_IN</span>
+                <h2 className="text-4xl font-black uppercase tracking-tighter italic text-white mb-16 leading-[1.1] pb-2">Press.</h2>
+              </Reveal>
+              <div className="divide-y divide-white/5">
+                {[
+                  { pub: "Wallpaper*", title: "Aether Studio and the precision of creative systems", year: "2025" },
+                  { pub: "It's Nice That", title: "How VOID_BREW became an industry benchmark", year: "2024" },
+                  { pub: "Brand New", title: "Aether's visual alchemy for Blue Bottle Coffee", year: "2024" },
+                  { pub: "Eye Magazine", title: "When coffee meets computation", year: "2023" },
+                  { pub: "Dezeen", title: "Motion, matter, and the molecular brand", year: "2022" },
+                ].map((p, i) => (
+                  <Reveal key={i} delay={i * 0.06}>
+                    <div className="py-5 flex items-start gap-8 group cursor-pointer">
+                      <span className="text-[9px] font-black text-orange-900/50 uppercase tracking-widest w-20 flex-shrink-0 mt-0.5">{p.pub}</span>
+                      <div className="flex-1 text-sm font-bold text-white/20 italic group-hover:text-white/60 transition-colors leading-snug">{p.title}</div>
+                      <ArrowUpRight className="w-3 h-3 text-white/10 group-hover:text-orange-900 transition-colors flex-shrink-0 mt-1" />
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          8. CLIENTS TICKER
+          ========================================== */}
+      <section className="py-16 bg-[#0c0a09] border-t border-white/5 overflow-hidden">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="flex flex-wrap items-center gap-x-16 gap-y-4">
+              <span className="text-[9px] font-bold text-white/10 uppercase tracking-[0.5em] flex-shrink-0">Trusted by</span>
+              {["Nespresso Professional", "Starbucks Reserve", "Blue Bottle Coffee", "Intelligentsia", "La Marzocco", "Oatly", "Pact Coffee", "Matchless Coffee"].map((c) => (
+                <span key={c} className="text-base font-black uppercase tracking-tighter text-white/10 hover:text-orange-900/60 transition-colors cursor-default italic">{c}</span>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ==========================================
+          9. PRICING / ENGAGEMENT
+          ========================================== */}
+      <section className="py-32 bg-[#100e0c] border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-orange-900 mb-6 block">ENGAGEMENT_MODEL // PRICING</span>
+            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">Investment.</h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
+            {[
+              { tier: "Espresso_Shot", desc: "Brand audit, logo redesign, and core identity system. For startups and early-stage brands.", scope: ["Logo + wordmark", "Color palette", "Typography system", "Brand guidelines PDF"], price: "From €12,000", duration: "4 weeks" },
+              { tier: "Full_Extraction", desc: "Complete brand system with motion identity, digital templates, and campaign direction.", scope: ["Everything in Espresso", "Motion identity", "Campaign direction", "Print + digital templates"], price: "From €28,000", duration: "8 weeks" },
+              { tier: "Reserve_Roast", desc: "Long-term creative partnership with monthly retainer. Unlimited requests. Priority turnaround.", scope: ["Everything in Full Extraction", "Monthly retainer access", "Dedicated creative team", "Quarterly brand review"], price: "From €6,500/mo", duration: "Ongoing" },
+            ].map((p, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="bg-[#0c0a09] p-10 h-full flex flex-col group hover:bg-[#100e0c] transition-colors border-t-2 border-transparent hover:border-orange-900">
+                  <span className="text-[9px] font-black text-orange-900/50 uppercase tracking-[0.5em] mb-4 block">{p.tier}</span>
+                  <div className="text-3xl font-black text-orange-900 mb-2 tracking-tighter">{p.price}</div>
+                  <div className="text-[9px] font-bold text-white/20 uppercase tracking-widest mb-6">{p.duration}</div>
+                  <p className="text-[10px] text-white/20 uppercase tracking-widest leading-relaxed font-bold italic mb-8">{p.desc}</p>
+                  <ul className="space-y-2 flex-1 mb-8">
+                    {p.scope.map((s) => (
+                      <li key={s} className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-widest text-white/20">
+                        <div className="w-1 h-1 bg-orange-900 flex-shrink-0" />{s}
+                      </li>
+                    ))}
+                  </ul>
+                  <button className="w-full py-4 border border-white/10 text-white text-[9px] font-bold uppercase tracking-widest group-hover:bg-orange-900 group-hover:text-white transition-all">
+                    Discuss Brief
+                  </button>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          10. PROJECT INQUIRY CTA
           ========================================== */}
       <section className="py-40 bg-[#100e0c] border-t border-white/5">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 text-center">

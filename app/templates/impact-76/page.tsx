@@ -387,7 +387,94 @@ export default function StructuraArchPage() {
       </section>
 
       {/* ==========================================
-          7. CONTACT CTA
+          7. PROCESS
+          ========================================== */}
+      <section className="py-32 bg-[#0e0e11] border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-500 mb-6 block">PROCESS_SEQUENCE // HOW_WE_WORK</span>
+            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">Method.</h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5">
+            {[
+              { num: "01", title: "Site_Analysis", body: "We begin with a forensic study of the site — topography, light vectors, wind exposure, subsurface conditions, and contextual syntax. No design decisions before the land speaks." },
+              { num: "02", title: "Concept_Generation", body: "Parametric models and structural simulations run concurrently with sketch exploration. We generate up to twelve volumetric proposals before selecting a direction for development." },
+              { num: "03", title: "Computational_Design", body: "Every facade panel, structural joint, and material specification is derived through generative algorithms optimized for performance and resource efficiency." },
+              { num: "04", title: "Engineering_Coordination", body: "Simultaneous BIM coordination with structural, MEP, and sustainability engineers. Clash detection at every stage. Zero site surprises." },
+              { num: "05", title: "Construction_Oversight", body: "Our architects visit the site weekly and issue formal observation reports. Material substitutions require studio approval. We do not accept shortcuts." },
+              { num: "06", title: "Post_Occupancy", body: "Six and twelve month evaluations against the original performance brief. Energy consumption, acoustic comfort, and spatial quality are all measured and documented." },
+            ].map((s, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div className="bg-[#0a0a0c] p-10 h-full group hover:bg-[#0e0e11] transition-colors">
+                  <div className="text-6xl font-black text-stone-500/15 mb-8 group-hover:text-stone-500/30 transition-colors font-mono">{s.num}</div>
+                  <h3 className="text-lg font-black uppercase tracking-tighter text-white mb-4">{s.title}</h3>
+                  <p className="text-[11px] text-white/30 uppercase tracking-widest leading-relaxed font-bold italic">{s.body}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          8. AWARDS & PRESS
+          ========================================== */}
+      <section className="py-32 bg-[#0a0a0c] border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
+            <div>
+              <Reveal>
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-500 mb-6 block">RECOGNITION_LOG // AWARDS</span>
+                <h2 className="text-4xl font-black uppercase tracking-tighter italic text-white mb-16 leading-[1.1] pb-2">Honours.</h2>
+              </Reveal>
+              <div className="divide-y divide-white/5">
+                {[
+                  { year: "2025", title: "Archdaily Building of the Year", cat: "Commercial" },
+                  { year: "2024", title: "Dezeen Award", cat: "Residential" },
+                  { year: "2024", title: "Wallpaper* Award", cat: "Architecture" },
+                  { year: "2023", title: "RIBA International Prize — Shortlist", cat: "Cultural" },
+                  { year: "2022", title: "Blueprint Award — Best New Practice", cat: "Studio" },
+                  { year: "2021", title: "Frame Awards — Special Mention", cat: "Interior" },
+                ].map((a, i) => (
+                  <Reveal key={i} delay={i * 0.06}>
+                    <div className="py-6 flex items-center gap-8 group">
+                      <span className="text-[9px] font-black text-white/10 uppercase tracking-widest w-10 flex-shrink-0 font-mono">{a.year}</span>
+                      <div className="flex-1 text-sm font-black uppercase tracking-tighter text-white/40 italic group-hover:text-white/80 transition-colors">{a.title}</div>
+                      <span className="text-[9px] font-bold text-stone-500/50 uppercase tracking-widest flex-shrink-0">{a.cat}</span>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+            <div>
+              <Reveal>
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-500 mb-6 block">PRESS_LOG // AS_SEEN_IN</span>
+                <h2 className="text-4xl font-black uppercase tracking-tighter italic text-white mb-16 leading-[1.1] pb-2">Press.</h2>
+              </Reveal>
+              <div className="divide-y divide-white/5">
+                {[
+                  { pub: "Archdaily", title: "KINETIC_TOWER redefines the Dubai skyline", year: "2024" },
+                  { pub: "Dezeen", title: "Inside VOID_STUDIO: architecture as subtraction", year: "2024" },
+                  { pub: "Wallpaper*", title: "Elias Vorne and the post-digital built form", year: "2023" },
+                  { pub: "Icon Magazine", title: "Structura's parametric manifesto", year: "2023" },
+                  { pub: "Frame", title: "When computing becomes material", year: "2022" },
+                ].map((p, i) => (
+                  <Reveal key={i} delay={i * 0.06}>
+                    <div className="py-6 flex items-start gap-8 group cursor-pointer">
+                      <span className="text-[9px] font-black text-stone-500/50 uppercase tracking-widest w-20 flex-shrink-0 mt-0.5">{p.pub}</span>
+                      <div className="flex-1 text-sm font-bold text-white/20 italic group-hover:text-white/60 transition-colors leading-snug">{p.title}</div>
+                      <ArrowUpRight className="w-3 h-3 text-white/10 group-hover:text-stone-500 transition-colors flex-shrink-0 mt-1" />
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          9. CONTACT CTA
           ========================================== */}
       <section className="py-40 bg-[#0e0e11] border-t border-white/5">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 text-center">

@@ -368,7 +368,129 @@ export default function HorologsLuxePage() {
       </section>
 
       {/* ==========================================
-          6. CONTACT CTA
+          6. EXHIBITIONS & AWARDS
+          ========================================== */}
+      <section className="py-32 bg-[#080808] border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
+            <div>
+              <Reveal>
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-600 mb-6 block">EXHIBITION_LOG // SOLO_SHOWS</span>
+                <h2 className="text-4xl font-black uppercase tracking-tighter italic text-white mb-16 leading-[1.1] pb-2">Exhibitions.</h2>
+              </Reveal>
+              <div className="divide-y divide-white/5">
+                {[
+                  { year: "2025", title: "Duration & Void", venue: "Foam Amsterdam" },
+                  { year: "2024", title: "Calibration Series", venue: "Galerie Perrotin, Paris" },
+                  { year: "2024", title: "Meridian Light", venue: "ICP New York" },
+                  { year: "2023", title: "Alpine Grammar", venue: "C/O Berlin" },
+                  { year: "2022", title: "The Silent Hour", venue: "Musée de l'Élysée, Lausanne" },
+                  { year: "2021", title: "Identity Studies I–VII", venue: "Taka Ishii Gallery, Tokyo" },
+                ].map((ex, i) => (
+                  <Reveal key={i} delay={i * 0.06}>
+                    <div className="py-5 flex items-center gap-6 group">
+                      <span className="text-[9px] font-black text-white/10 uppercase tracking-widest w-10 flex-shrink-0 font-mono">{ex.year}</span>
+                      <div className="flex-1">
+                        <div className="text-sm font-black uppercase tracking-tighter text-white/40 italic group-hover:text-white/80 transition-colors">{ex.title}</div>
+                        <div className="text-[9px] font-bold text-white/15 uppercase tracking-widest mt-1">{ex.venue}</div>
+                      </div>
+                      <ArrowUpRight className="w-3 h-3 text-white/10 group-hover:text-stone-500 transition-colors flex-shrink-0" />
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+            <div>
+              <Reveal>
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-600 mb-6 block">RECOGNITION_LOG // AWARDS</span>
+                <h2 className="text-4xl font-black uppercase tracking-tighter italic text-white mb-16 leading-[1.1] pb-2">Recognition.</h2>
+              </Reveal>
+              <div className="divide-y divide-white/5">
+                {[
+                  { year: "2025", title: "World Press Photo Award", cat: "Architecture" },
+                  { year: "2024", title: "Prix Niépce", cat: "Portrait" },
+                  { year: "2024", title: "Hasselblad Foundation Grant", cat: "Landscape" },
+                  { year: "2023", title: "Sony World Photography Award", cat: "Commercial" },
+                  { year: "2022", title: "Foam Paul Huf Award", cat: "Emerging" },
+                  { year: "2021", title: "ICP Infinity Award", cat: "Fine Art" },
+                ].map((a, i) => (
+                  <Reveal key={i} delay={i * 0.06}>
+                    <div className="py-5 flex items-center gap-6 group">
+                      <span className="text-[9px] font-black text-white/10 uppercase tracking-widest w-10 flex-shrink-0 font-mono">{a.year}</span>
+                      <div className="flex-1 text-sm font-black uppercase tracking-tighter text-white/40 italic group-hover:text-white/80 transition-colors">{a.title}</div>
+                      <span className="text-[9px] font-bold text-stone-600/50 uppercase tracking-widest flex-shrink-0">{a.cat}</span>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          7. TESTIMONIALS
+          ========================================== */}
+      <section className="py-32 bg-[#050505] border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-600 mb-6 block">CLIENT_SIGNALS // TESTIMONIALS</span>
+            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">They said.</h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
+            {[
+              { quote: "Luca's ability to extract the essential from a scene is unlike anything we have encountered. His Vogue campaign doubled our newsstand numbers.", name: "Claire Deschamps", role: "Art Director, Vogue Paris" },
+              { quote: "Working with Luca on the Wallpaper* architecture series was a revelation. He sees in geometry where others see in light.", name: "Tony Chambers", role: "Editorial Director, Wallpaper*" },
+              { quote: "The Dior campaign we produced together remains the most-shared in our history. His eye for temporal precision is extraordinary.", name: "Olivier Bialobos", role: "CMO, Dior Parfums" },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="bg-[#080808] p-10 h-full flex flex-col">
+                  <div className="w-8 h-[1px] bg-stone-600 mb-8" />
+                  <p className="text-[11px] text-white/30 uppercase tracking-widest leading-relaxed font-bold italic flex-1 mb-8">"{t.quote}"</p>
+                  <div className="pt-6 border-t border-white/5">
+                    <p className="text-xs font-black uppercase tracking-widest text-white mb-1">{t.name}</p>
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-stone-600/60 italic">{t.role}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          8. FINE PRINTS PRICING
+          ========================================== */}
+      <section className="py-32 bg-[#080808] border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-600 mb-6 block">FINE_PRINTS // EDITIONS</span>
+            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">Collect.</h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
+            {[
+              { tier: "Archive Print", size: "30 × 40 cm", edition: "Edition of 50", price: "€ 1,200", detail: "Museum-grade Baryta paper · signed & numbered · certificate of authenticity" },
+              { tier: "Studio Edition", size: "50 × 70 cm", edition: "Edition of 25", price: "€ 2,800", detail: "Hahnemühle Photo Rag · hand-signed · archival box included" },
+              { tier: "Collector's Piece", size: "80 × 100 cm", edition: "Edition of 10", price: "€ 6,500", detail: "Platinum print on aluminium · bespoke framing · white-glove delivery worldwide" },
+            ].map((p, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="bg-[#050505] p-10 group hover:bg-[#080808] transition-colors border-t-2 border-transparent hover:border-stone-600 h-full flex flex-col">
+                  <span className="text-[9px] font-black text-stone-600/50 uppercase tracking-[0.5em] mb-6 block">{p.tier}</span>
+                  <div className="text-4xl font-black text-white tracking-tighter mb-2">{p.price}</div>
+                  <div className="text-[9px] font-bold text-white/20 uppercase tracking-widest mb-6">{p.size} · {p.edition}</div>
+                  <p className="text-[10px] text-white/20 uppercase tracking-widest leading-relaxed font-bold italic flex-1 mb-8">{p.detail}</p>
+                  <button className="w-full py-4 border border-white/10 text-white text-[9px] font-bold uppercase tracking-widest group-hover:bg-white group-hover:text-black transition-all">
+                    Inquire
+                  </button>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          9. CONTACT CTA
           ========================================== */}
       <section className="py-40 bg-[#050505] border-t border-white/5">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 text-center">
