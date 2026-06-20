@@ -28,9 +28,9 @@ export default function DevisPage() {
           <div style={{ width: 72, height: 72, background: C.orangeLight, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px" }}>
             <CheckCircle size={36} color={C.orange} />
           </div>
-          <h2 style={{ fontSize: 26, fontWeight: 900, color: C.navy, marginBottom: 16 }}>Demande envoyée !</h2>
+          <h2 style={{ fontSize: 26, fontWeight: 900, color: C.navy, marginBottom: 16 }}>Merci</h2>
           <p style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.75 }}>
-            Votre devis vous sera envoyé sous 24 h. Merci, {form.nom || "cher client"} !
+            Merci, nous vous répondrons sous 24h.
           </p>
         </motion.div>
       </div>

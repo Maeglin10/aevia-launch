@@ -32,6 +32,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link href="/templates/impact-25/features" className="hover:text-white transition-colors text-sm font-medium">Features</Link>
             <Link href="/templates/impact-25/integrations" className="hover:text-white transition-colors text-sm font-medium">Integrations</Link>
             <Link href="/templates/impact-25/pricing" className="hover:text-white transition-colors text-sm font-medium">Pricing</Link>
+            <Link href="/templates/impact-25/contact" className="hover:text-white transition-colors text-sm font-medium">Contact</Link>
           </div>
           <div className="hidden md:flex items-center gap-3">
             <Link href="/templates/impact-25/pricing" className="text-sm text-white/60 hover:text-white transition-colors">Log in</Link>
@@ -51,7 +52,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {[
               { label: "Features", href: "/templates/impact-25/features" },
               { label: "Integrations", href: "/templates/impact-25/integrations" },
-              { label: "Pricing", href: "/templates/impact-25/pricing" }
+              { label: "Pricing", href: "/templates/impact-25/pricing" },
+              { label: "Contact", href: "/templates/impact-25/contact" }
             ].map(item => (
               <Link key={item.label} href={item.href} onClick={() => setMenuOpen(false)} className="text-white/70 hover:text-white transition-colors text-sm font-medium">
                 {item.label}
@@ -79,6 +81,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link href="/templates/impact-25/features" className="hover:text-white transition-colors">Product</Link>
             <Link href="/templates/impact-25/integrations" className="hover:text-white transition-colors">Integrations</Link>
             <Link href="/templates/impact-25/pricing" className="hover:text-white transition-colors">Pricing</Link>
+            <Link href="/templates/impact-25/contact" className="hover:text-white transition-colors">Contact</Link>
             <Link href="/templates/impact-25/legal" className="hover:text-white transition-colors">Privacy & Legal</Link>
           </div>
           <p className="text-white/30 text-sm">© 2026 Prism Analytics, Inc.</p>

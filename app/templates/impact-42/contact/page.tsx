@@ -1,10 +1,36 @@
 'use client';
 
-import React from "react";
-import { MapPin, Phone, Mail, Clock, Share2, Volume2, Tv, Calendar } from "lucide-react";
+import React, { useState } from "react";
+import { MapPin, Phone, Mail, Clock, Share2, Volume2, Tv, Check } from "lucide-react";
 import { C } from "../shared";
 
 export default function ContactPage() {
+  const [contactSubmitted, setContactSubmitted] = useState(false);
+
+  const inputStyle = {
+    width: "100%",
+    backgroundColor: C.bgCard,
+    border: `1px solid ${C.border}`,
+    borderRadius: "8px",
+    padding: "0.8rem 1rem",
+    color: C.text,
+    fontFamily: C.bodyFont,
+    fontSize: "0.9rem",
+    outline: "none",
+    boxSizing: "border-box" as const,
+  };
+
+  const labelStyle = {
+    fontFamily: C.bodyFont,
+    fontSize: "0.78rem",
+    fontWeight: 600,
+    color: C.textLight,
+    textTransform: "uppercase" as const,
+    letterSpacing: "0.08em",
+    marginBottom: "0.4rem",
+    display: "block",
+  };
+
   return (
     <div style={{ minHeight: "100vh", backgroundColor: C.bg, paddingTop: "4rem" }}>
       <div style={{ maxWidth: 1140, margin: "0 auto", padding: "3rem 2rem 5rem" }}>
@@ -54,33 +80,62 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Right — map placeholder + booking note */}
+          {/* Right — contact form */}
           <div>
-            <div style={{ backgroundColor: C.bgCard, border: `1px solid ${C.border}`, borderRadius: "12px", overflow: "hidden", marginBottom: "1.5rem" }}>
-              <img
-                src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&q=80&fit=crop"
-                alt="Studio exterior"
-                loading="lazy"
-                style={{ width: "100%", height: 300, objectFit: "cover", display: "block" }}
-              />
-              <div style={{ padding: "1.5rem" }}>
-                <h3 style={{ fontFamily: C.headingFont, fontSize: "1.3rem", color: C.white, letterSpacing: "0.04em", marginBottom: "0.5rem" }}>COMMENT NOUS REJOINDRE</h3>
-                <p style={{ fontFamily: C.bodyFont, fontSize: "0.87rem", color: C.textLight, lineHeight: 1.75 }}>
-                  Notre adresse précise vous est communiquée après confirmation de réservation. Studio situé à Paris, facilement accessible en métro et avec parking à proximité. Contactez-nous à <strong style={{ color: C.accent }}>contact@aevia.io</strong> pour obtenir les accès.
-                </p>
-              </div>
-            </div>
-
-            <div style={{ backgroundColor: `${C.accent}18`, border: `1px solid ${C.accent}44`, borderRadius: "10px", padding: "1.25rem" }}>
-              <div style={{ display: "flex", gap: "0.6rem", alignItems: "flex-start" }}>
-                <Calendar size={18} color={C.accent} style={{ flexShrink: 0, marginTop: "0.1rem" }} />
-                <div>
-                  <div style={{ fontFamily: C.bodyFont, fontSize: "0.85rem", fontWeight: 700, color: C.white, marginBottom: "0.3rem" }}>Réservation prioritaire</div>
-                  <div style={{ fontFamily: C.bodyFont, fontSize: "0.82rem", color: C.textLight, lineHeight: 1.65 }}>
-                    Pour garantir votre créneau, utilisez notre formulaire de réservation en ligne. Réponse sous 2h ouvrées, confirmation sous 24h.
+            <div style={{ backgroundColor: C.bgCard, border: `1px solid ${C.border}`, borderRadius: "12px", padding: "2rem" }}>
+              {contactSubmitted ? (
+                <div style={{ textAlign: "center", padding: "3rem 1.5rem" }}>
+                  <div style={{ width: 64, height: 64, borderRadius: "50%", backgroundColor: `${C.accent}22`, border: `2px solid ${C.accent}`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1.5rem" }}>
+                    <Check size={28} color={C.accent} />
                   </div>
+                  <h3 style={{ fontFamily: C.headingFont, fontSize: "2rem", color: C.white, letterSpacing: "0.04em", marginBottom: "0.75rem" }}>MESSAGE ENVOYÉ</h3>
+                  <p style={{ fontFamily: C.bodyFont, color: C.textLight, fontSize: "0.95rem", lineHeight: 1.6 }}>
+                    Merci, nous vous répondrons sous 24h.
+                  </p>
                 </div>
-              </div>
+              ) : (
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    setContactSubmitted(true);
+                  }}
+                  style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}
+                >
+                  <h3 style={{ fontFamily: C.headingFont, fontSize: "1.4rem", color: C.white, letterSpacing: "0.06em", marginBottom: "0.5rem" }}>ENVOYER UN MESSAGE</h3>
+                  
+                  <div>
+                    <label style={labelStyle}>Nom complet</label>
+                    <input type="text" required style={inputStyle} placeholder="Votre nom" />
+                  </div>
+
+                  <div>
+                    <label style={labelStyle}>Adresse e-mail</label>
+                    <input type="email" required style={inputStyle} placeholder="nom@exemple.com" />
+                  </div>
+
+                  <div>
+                    <label style={labelStyle}>Sujet</label>
+                    <select required style={{ ...inputStyle, appearance: "none" }}>
+                      <option value="general">Renseignement général</option>
+                      <option value="booking">Question sur une réservation</option>
+                      <option value="gear">Équipement & studios</option>
+                      <option value="other">Autre</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label style={labelStyle}>Message</label>
+                    <textarea required rows={4} style={{ ...inputStyle, resize: "vertical" }} placeholder="Votre message..." />
+                  </div>
+
+                  <button
+                    type="submit"
+                    style={{ backgroundColor: C.accent, color: C.white, padding: "0.9rem", borderRadius: "8px", border: "none", cursor: "pointer", fontWeight: 700, fontFamily: C.bodyFont, fontSize: "0.95rem", letterSpacing: "0.03em", boxShadow: `0 4px 16px ${C.accentGlow}`, marginTop: "0.5rem" }}
+                  >
+                    Envoyer
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>

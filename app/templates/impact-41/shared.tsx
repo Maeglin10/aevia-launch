@@ -997,6 +997,7 @@ export function PressSection({ scene }: { scene: (typeof SCENES)[number] }) {
 export function ContactSection({ scene }: { scene: (typeof SCENES)[number] }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
+  const [contactSubmitted, setContactSubmitted] = useState(false);
 
   return (
     <div
@@ -1099,80 +1100,151 @@ export function ContactSection({ scene }: { scene: (typeof SCENES)[number] }) {
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1.25rem',
+          width: '100%',
         }}
       >
-        {['Prénom & Nom', 'Adresse e-mail', 'Publication / Organisation'].map((placeholder) => (
-          <div
-            key={placeholder}
+        {contactSubmitted ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
             style={{
-              borderBottom: `1px solid ${scene.borderColor}`,
-              paddingBottom: '0.75rem',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '1.5rem',
+              padding: '4rem 2rem',
+              border: `1px solid ${scene.borderColor}`,
+              backgroundColor: 'rgba(255, 255, 255, 0.01)',
+              textAlign: 'center',
             }}
           >
-            <input
-              type="text"
-              placeholder={placeholder}
+            <div
               style={{
-                width: '100%',
-                background: 'none',
-                border: 'none',
-                outline: 'none',
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontSize: '1rem',
-                color: scene.textPrimary,
-                padding: '0.5rem 0',
-                caretColor: scene.accent,
+                width: '3.5rem',
+                height: '3.5rem',
+                borderRadius: '50%',
+                border: `1.5px solid ${scene.accent}`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: scene.accent,
               }}
-            />
-          </div>
-        ))}
-
-        <div
-          style={{
-            borderBottom: `1px solid ${scene.borderColor}`,
-            paddingBottom: '0.75rem',
-          }}
-        >
-          <textarea
-            placeholder="Votre demande"
-            rows={4}
-            style={{
-              width: '100%',
-              background: 'none',
-              border: 'none',
-              outline: 'none',
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: '1rem',
-              color: scene.textPrimary,
-              padding: '0.5rem 0',
-              resize: 'none',
-              caretColor: scene.accent,
+            >
+              <svg style={{ width: '1.5rem', height: '1.5rem' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <div>
+              <h3 style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: '1.5rem',
+                color: scene.textPrimary,
+                marginBottom: '0.5rem',
+                fontWeight: 300,
+                letterSpacing: '0.05em'
+              }}>Merci</h3>
+              <p
+                style={{
+                  fontFamily: 'monospace',
+                  fontSize: '0.62rem',
+                  letterSpacing: '0.15em',
+                  color: scene.textSecondary,
+                  textTransform: 'uppercase',
+                }}
+              >
+                Merci, nous vous répondrons sous 24h.
+              </p>
+            </div>
+          </motion.div>
+        ) : (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setContactSubmitted(true);
             }}
-          />
-        </div>
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.25rem',
+              width: '100%',
+            }}
+          >
+            {['Prénom & Nom', 'Adresse e-mail', 'Publication / Organisation'].map((placeholder) => (
+              <div
+                key={placeholder}
+                style={{
+                  borderBottom: `1px solid ${scene.borderColor}`,
+                  paddingBottom: '0.75rem',
+                }}
+              >
+                <input
+                  type="text"
+                  required
+                  placeholder={placeholder}
+                  style={{
+                    width: '100%',
+                    background: 'none',
+                    border: 'none',
+                    outline: 'none',
+                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontSize: '1rem',
+                    color: scene.textPrimary,
+                    padding: '0.5rem 0',
+                    caretColor: scene.accent,
+                  }}
+                />
+              </div>
+            ))}
 
-        <motion.button
-          whileHover={{ letterSpacing: '0.35em' }}
-          transition={{ duration: 0.4 }}
-          style={{
-            marginTop: '1rem',
-            padding: '1.1rem 2.5rem',
-            backgroundColor: 'transparent',
-            border: `1px solid ${scene.accent}`,
-            color: scene.accent,
-            fontFamily: 'monospace',
-            fontSize: '0.7rem',
-            letterSpacing: '0.28em',
-            textTransform: 'uppercase',
-            cursor: 'pointer',
-            alignSelf: 'flex-start',
-          }}
-        >
-          Envoyer
-        </motion.button>
+            <div
+              style={{
+                borderBottom: `1px solid ${scene.borderColor}`,
+                paddingBottom: '0.75rem',
+              }}
+            >
+              <textarea
+                placeholder="Votre demande"
+                required
+                rows={4}
+                style={{
+                  width: '100%',
+                  background: 'none',
+                  border: 'none',
+                  outline: 'none',
+                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontSize: '1rem',
+                  color: scene.textPrimary,
+                  padding: '0.5rem 0',
+                  resize: 'none',
+                  caretColor: scene.accent,
+                }}
+              />
+            </div>
+
+            <motion.button
+              type="submit"
+              whileHover={{ letterSpacing: '0.35em' }}
+              transition={{ duration: 0.4 }}
+              style={{
+                marginTop: '1rem',
+                padding: '1.1rem 2.5rem',
+                backgroundColor: 'transparent',
+                border: `1px solid ${scene.accent}`,
+                color: scene.accent,
+                fontFamily: 'monospace',
+                fontSize: '0.7rem',
+                letterSpacing: '0.28em',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                alignSelf: 'flex-start',
+              }}
+            >
+              Envoyer
+            </motion.button>
+          </form>
+        )}
       </motion.div>
     </div>
   );

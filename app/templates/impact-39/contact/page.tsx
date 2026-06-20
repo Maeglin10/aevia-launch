@@ -76,8 +76,8 @@ export default function ContactPage() {
               {sent ? (
                 <div style={{ textAlign: "center", padding: "40px 0" }}>
                   <CheckCircle size={48} color={C.orange} style={{ margin: "0 auto 20px" }} />
-                  <h3 style={{ fontSize: 20, fontWeight: 900, color: C.navy, marginBottom: 10 }}>Message envoyé !</h3>
-                  <p style={{ color: C.textMuted }}>Nous vous répondrons dans les 24 h.</p>
+                  <h3 style={{ fontSize: 20, fontWeight: 900, color: C.navy, marginBottom: 10 }}>Merci</h3>
+                  <p style={{ color: C.textMuted, fontSize: 15 }}>Merci, nous vous répondrons sous 24h.</p>
                 </div>
               ) : (
                 <form onSubmit={(e) => { e.preventDefault(); setSent(true); }}>

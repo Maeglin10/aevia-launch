@@ -58,6 +58,7 @@ const TESTIMONIALS = [
 
 export default function KineticMarqueePage() {
   const [scrolled, setScrolled] = useState(false)
+  const [contactSubmitted, setContactSubmitted] = useState(false)
 
   const { scrollYProgress } = useScroll()
   const heroOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0])
@@ -74,16 +75,22 @@ export default function KineticMarqueePage() {
       {/* ── NAVBAR ──────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0a0506]/90 backdrop-blur-xl border-b border-orange-500/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="text-2xl font-black tracking-tighter">
+          <Link href="/templates/impact-144" className="text-2xl font-black tracking-tighter">
             KIN<span className="text-orange-500">ETIC</span>
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Work", "Services", "About", "Contact"].map(l => (
-              <Link key={l} href="#" className="hover:text-orange-400 transition-colors">{l}</Link>
+              <Link key={l} href={`#${l.toLowerCase()}`} onClick={(e) => {
+                e.preventDefault();
+                document.getElementById(l.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
+              }} className="hover:text-orange-400 transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
-            <button className="hidden md:block px-8 py-3 bg-orange-500 text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-white hover:text-black transition-all duration-500">
+            <button
+              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+              className="hidden md:block px-8 py-3 bg-orange-500 text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-white hover:text-black transition-all duration-500"
+            >
               Start a Project
             </button>
             <Sheet>
@@ -91,7 +98,10 @@ export default function KineticMarqueePage() {
               <SheetContent side="right" className="bg-[#0a0506] border-orange-500/10 p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Work", "Services", "About", "Contact"].map(l => (
-                    <Link key={l} href="#" className="text-3xl font-light uppercase tracking-widest hover:text-orange-400 transition-colors">{l}</Link>
+                    <Link key={l} href={`#${l.toLowerCase()}`} onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById(l.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
+                    }} className="text-3xl font-light uppercase tracking-widest hover:text-orange-400 transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -150,7 +160,7 @@ export default function KineticMarqueePage() {
         </section>
 
         {/* ── WORK ─────────── */}
-        <section className="py-32 bg-[#0a0506]">
+        <section id="work" className="py-32 bg-[#0a0506]">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-20">
@@ -182,7 +192,7 @@ export default function KineticMarqueePage() {
         </section>
 
         {/* ── SERVICES ─────── */}
-        <section className="py-32 bg-[#0d0708]">
+        <section id="services" className="py-32 bg-[#0d0708]">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
@@ -209,8 +219,57 @@ export default function KineticMarqueePage() {
           </div>
         </section>
 
+        {/* ── ABOUT & TEAM ──── */}
+        <section id="about" className="py-32 bg-[#0a0506] border-t border-white/5">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24">
+                <div>
+                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-8">
+                    Moving <span className="text-orange-500 italic">Forward.</span>
+                  </h2>
+                  <p className="text-lg text-white/50 leading-relaxed font-light">
+                    Kinetic is a collective of designers, developers, and strategists obsessed with motion. We believe brands shouldn't just exist — they should move, engage, and inspire. By blending motion design with cutting-edge technology, we craft digital experiences that capture attention and refuse to let go.
+                  </p>
+                </div>
+                <div className="flex flex-col justify-center gap-6">
+                  <div className="border-l-2 border-orange-500 pl-6">
+                    <h3 className="text-xl font-bold mb-2">Our Manifesto</h3>
+                    <p className="text-sm text-white/40 leading-relaxed">
+                      If it stands still, it's invisible. In a world of infinite scroll, we design for momentum, impact, and unforgettable digital interactions.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { name: "Aki Sato", role: "Creative Director", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600" },
+                { name: "Leo Croft", role: "Lead Motion Designer", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600" },
+                { name: "Zoë Vane", role: "Head of Brand Strategy", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=600" }
+              ].map((member, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="group">
+                    <div className="relative aspect-[4/5] overflow-hidden rounded-xl mb-4 bg-white/5">
+                      <Image
+                        src={member.img}
+                        alt={member.name}
+                        fill
+                        className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                      />
+                    </div>
+                    <h4 className="text-lg font-bold">{member.name}</h4>
+                    <p className="text-xs text-white/30 uppercase tracking-widest mt-1">{member.role}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── TESTIMONIALS ──── */}
-        <section className="py-32 bg-[#0a0506]">
+        <section className="py-32 bg-[#0d0708]">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <h2 className="text-4xl font-black tracking-tighter uppercase mb-16 text-center">Client <span className="text-orange-500 italic">Words.</span></h2>
@@ -243,9 +302,91 @@ export default function KineticMarqueePage() {
               <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-8">
                 Let's Make<br/>Something.
               </h2>
-              <button className="px-12 py-5 bg-black text-white font-bold rounded-full hover:bg-white hover:text-black transition-all duration-500">
+              <button
+                onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+                className="px-12 py-5 bg-black text-white font-bold rounded-full hover:bg-white hover:text-black transition-all duration-500"
+              >
                 Start a Project
               </button>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ── CONTACT ────────── */}
+        <section id="contact" className="py-32 bg-[#0a0506] border-t border-white/5">
+          <div className="max-w-[800px] mx-auto px-6">
+            <Reveal>
+              <div className="text-center mb-16">
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-4">
+                  Start a <span className="text-orange-500 italic">Project.</span>
+                </h2>
+                <p className="text-white/40 font-light">Let's build something unforgettable together.</p>
+              </div>
+
+              {contactSubmitted ? (
+                <div className="p-12 bg-white/[0.02] border border-orange-500/20 rounded-2xl text-center flex flex-col items-center justify-center gap-4">
+                  <div className="w-16 h-16 rounded-full bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-500">
+                    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold">Thank You</h3>
+                  <p className="text-sm text-white/50">Merci, nous vous répondrons sous 24h.</p>
+                </div>
+              ) : (
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    setContactSubmitted(true);
+                  }}
+                  className="space-y-6"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 mb-2">Name</label>
+                      <input
+                        type="text"
+                        required
+                        className="w-full bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-orange-500 transition-colors"
+                        placeholder="John Doe"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 mb-2">Email</label>
+                      <input
+                        type="email"
+                        required
+                        className="w-full bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-orange-500 transition-colors"
+                        placeholder="john@example.com"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 mb-2">Project Type</label>
+                    <select className="w-full bg-[#0a0506] border border-white/10 rounded-lg px-4 py-3 text-sm text-white/60 focus:outline-none focus:border-orange-500 transition-colors">
+                      <option className="bg-[#0a0506]">Brand Identity</option>
+                      <option className="bg-[#0a0506]">Web Experience</option>
+                      <option className="bg-[#0a0506]">Motion Design</option>
+                      <option className="bg-[#0a0506]">Other</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 mb-2">Message</label>
+                    <textarea
+                      required
+                      rows={5}
+                      className="w-full bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-orange-500 transition-colors"
+                      placeholder="Tell us about your project..."
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full py-4 bg-orange-500 text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-lg hover:bg-white hover:text-black transition-colors duration-500"
+                  >
+                    Send Message
+                  </button>
+                </form>
+              )}
             </Reveal>
           </div>
         </section>
@@ -266,14 +407,29 @@ export default function KineticMarqueePage() {
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-orange-400 mb-6">{col.title}</h4>
               <ul className="space-y-3 text-sm text-white/30">
-                {col.links.map(l => <li key={l}><Link href="#" className="hover:text-white transition-colors">{l}</Link></li>)}
+                {col.links.map(l => (
+                  <li key={l}>
+                    {l === "Contact" ? (
+                      <Link href="#contact" onClick={(e) => {
+                        e.preventDefault();
+                        document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+                      }} className="hover:text-white transition-colors">{l}</Link>
+                    ) : (
+                      <Link href="#" className="hover:text-white transition-colors">{l}</Link>
+                    )}
+                  </li>
+                ))}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
-          <span>© 2026 KINETIC.</span>
-          <span>BRANDS IN MOTION.</span>
+        <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex flex-col md:flex-row justify-between gap-4">
+          <span>© 2026 KINETIC. BRANDS IN MOTION.</span>
+          <div className="flex gap-6">
+            <Link href="/legal/mentions-legales" className="hover:text-white transition-colors">Mentions légales</Link>
+            <Link href="/legal/confidentialite" className="hover:text-white transition-colors">Confidentialité</Link>
+            <Link href="/legal/cgu" className="hover:text-white transition-colors">CGU</Link>
+          </div>
         </div>
       </footer>
     </div>

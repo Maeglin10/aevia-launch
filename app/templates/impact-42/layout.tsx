@@ -203,8 +203,9 @@ export default function EchoChamberLayout({ children }: { children: React.ReactN
                 title: "Infos",
                 links: [
                   { label: "Contact", href: "/templates/impact-42/contact" },
-                  { label: "Mentions légales", href: "/templates/impact-42/legal?tab=mentions" },
-                  { label: "Confidentialité", href: "/templates/impact-42/legal?tab=privacy" },
+                  { label: "Mentions légales", href: "/legal/mentions-legales" },
+                  { label: "Confidentialité", href: "/legal/confidentialite" },
+                  { label: "CGU", href: "/legal/cgu" },
                 ],
               },
             ].map((col) => (
@@ -232,16 +233,22 @@ export default function EchoChamberLayout({ children }: { children: React.ReactN
             </p>
             <div style={{ display: "flex", gap: "1.75rem" }}>
               <Link
-                href="/templates/impact-42/legal?tab=mentions"
+                href="/legal/mentions-legales"
                 style={{ fontFamily: C.bodyFont, fontSize: "0.78rem", color: C.textMuted, textDecoration: "none", transition: "color 0.2s" }}
               >
                 Mentions Légales
               </Link>
               <Link
-                href="/templates/impact-42/legal?tab=privacy"
+                href="/legal/confidentialite"
                 style={{ fontFamily: C.bodyFont, fontSize: "0.78rem", color: C.textMuted, textDecoration: "none", transition: "color 0.2s" }}
               >
                 Confidentialité
+              </Link>
+              <Link
+                href="/legal/cgu"
+                style={{ fontFamily: C.bodyFont, fontSize: "0.78rem", color: C.textMuted, textDecoration: "none", transition: "color 0.2s" }}
+              >
+                CGU
               </Link>
             </div>
           </div>
