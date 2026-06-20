@@ -183,6 +183,76 @@ export default function AetherWellnessPage() {
            </div>
         </section>
 
+        {/* ── RETREATS ──────────────── */}
+        <section className="py-40 bg-white border-t border-black/5">
+           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+              <Reveal>
+                 <div className="flex flex-col md:flex-row items-end justify-between mb-24 border-b border-black/5 pb-12 gap-6">
+                    <div>
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/30 block mb-4">Immersive Programmes</span>
+                       <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter text-[#1a1a1a] leading-none" style={{ fontFamily: "serif" }}>Choose Your <span className="italic">Journey.</span></h2>
+                    </div>
+                 </div>
+              </Reveal>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                 {[
+                    { name: "Elemental", duration: "3 days", guests: "Solo or couple", price: "€2,400", icon: Sun, desc: "Forest bathing, breathwork, cold immersion. A reset at cellular level.", includes: ["Daily thermal circuit", "2 treatments", "Plant-based cuisine"] },
+                    { name: "Deep Stillness", duration: "7 days", guests: "Max 4 guests", price: "€5,800", icon: Moon, desc: "Full sensory withdrawal programme for executives and high-performance athletes.", includes: ["Biometric assessment", "Daily guided practice", "Sleep protocol", "Weekly outcomes report"] },
+                    { name: "Inner Spring", duration: "14 days", guests: "Solo only", price: "€11,200", icon: Flower2, desc: "The complete Aether experience. Curated for transformational depth.", includes: ["Personalised ceremony", "Private chef", "6 modalities daily", "Post-retreat coaching", "2-month follow-up"] },
+                 ].map((r, i) => (
+                    <Reveal key={i} delay={i * 0.12}>
+                       <div className="group border border-black/5 rounded-[2rem] p-10 flex flex-col gap-6 hover:shadow-xl transition-all duration-700 h-full">
+                          <div className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center group-hover:bg-[#1a1a1a] group-hover:border-[#1a1a1a] transition-all duration-700">
+                             <r.icon className="w-6 h-6 text-black/30 group-hover:text-white transition-colors" />
+                          </div>
+                          <div>
+                             <div className="text-[9px] font-bold uppercase tracking-widest text-black/30 mb-1">{r.duration} · {r.guests}</div>
+                             <h3 className="text-2xl font-bold uppercase tracking-widest text-[#1a1a1a] italic" style={{ fontFamily: "serif" }}>{r.name}</h3>
+                             <div className="text-xl font-light text-black/40 mt-1">{r.price}</div>
+                          </div>
+                          <p className="text-sm text-black/40 font-light leading-relaxed italic flex-1">{r.desc}</p>
+                          <ul className="space-y-2 border-t border-black/5 pt-6">
+                             {r.includes.map(f => <li key={f} className="text-xs text-black/30 flex items-center gap-3"><Sparkles className="w-3 h-3 shrink-0 text-black/20" />{f}</li>)}
+                          </ul>
+                       </div>
+                    </Reveal>
+                 ))}
+              </div>
+           </div>
+        </section>
+
+        {/* ── TESTIMONIALS ──────────── */}
+        <section className="py-40 bg-[#faf9f6] border-t border-black/5">
+           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+              <Reveal>
+                 <div className="text-center mb-20">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/30 block mb-4">Guest Reflections</span>
+                    <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter text-[#1a1a1a] leading-none" style={{ fontFamily: "serif" }}>Voices of <span className="italic">Rest.</span></h2>
+                 </div>
+              </Reveal>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                 {[
+                    { quote: "I arrived carrying three years of accumulated burnout. After seven days at Aether, I remembered what it felt like to be in my body.", name: "Dr. Léa Fontaine", role: "Surgeon, Lyon" },
+                    { quote: "Nothing digital, nothing performative. Just the sound of water and the smell of cedar. It changed my entire relationship with stillness.", name: "M. Okafor", role: "Founder, London" },
+                    { quote: "The Deep Stillness retreat recalibrated my nervous system in ways I didn't know were possible. I sleep differently now.", name: "Y. Sato", role: "Artist, Tokyo" },
+                 ].map((t, i) => (
+                    <Reveal key={i} delay={i * 0.12}>
+                       <div className="p-12 flex flex-col gap-6 border border-black/5 rounded-[2rem] h-full">
+                          <div className="flex gap-1">
+                             {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-black/20 text-black/20" />)}
+                          </div>
+                          <p className="text-base text-black/50 font-light leading-relaxed italic flex-1" style={{ fontFamily: "serif" }}>&ldquo;{t.quote}&rdquo;</p>
+                          <div className="pt-6 border-t border-black/5">
+                             <div className="font-bold text-sm text-[#1a1a1a]">{t.name}</div>
+                             <div className="text-xs text-black/30 tracking-widest uppercase mt-1">{t.role}</div>
+                          </div>
+                       </div>
+                    </Reveal>
+                 ))}
+              </div>
+           </div>
+        </section>
+
         {/* ── CTA ───────────────────── */}
         <section className="py-60 bg-white text-[#1a1a1a] text-center relative overflow-hidden">
            <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-[0.03] pointer-events-none">

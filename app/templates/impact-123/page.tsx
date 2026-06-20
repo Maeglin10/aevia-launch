@@ -207,6 +207,87 @@ export default function VulcanMotorsPage() {
           </div>
         </section>
 
+        {/* ── SPECS TABLE ───────────── */}
+        <section className="py-40 bg-[#050505] border-t border-red-600/10">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex flex-col md:flex-row items-end justify-between mb-20 border-b border-white/5 pb-12 gap-6">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-red-600 block mb-4">Performance Data</span>
+                  <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase italic leading-none">The <span className="text-white/20">Numbers.</span></h2>
+                </div>
+                <div className="text-sm text-white/30 font-light italic">Tested at Portimão circuit under FIA-sanctioned conditions. All figures SAE certified.</div>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-red-600/10">
+              {[...SPECS,
+                { label: "Braking 100-0", value: "28m" },
+                { label: "Engine", value: "V12 Biturbo" },
+                { label: "Gearbox", value: "7-speed PDK" },
+                { label: "Active Aero Modes", value: "5" },
+              ].map((s, i) => (
+                <Reveal key={i} delay={i * 0.06}>
+                  <div className="bg-[#050505] p-12 group hover:bg-red-600/5 transition-colors duration-500">
+                    <div className="text-3xl md:text-4xl font-black italic text-white mb-3 group-hover:text-red-500 transition-colors">{s.value}</div>
+                    <div className="text-[9px] font-bold uppercase tracking-widest text-white/25">{s.label}</div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal delay={0.2}>
+              <div className="mt-8 p-10 border border-red-600/10 flex flex-col md:flex-row items-center justify-between gap-8">
+                <div>
+                  <div className="text-[9px] font-bold uppercase tracking-widest text-red-600 mb-2">Production Run</div>
+                  <div className="text-2xl font-black italic text-white">24 units per annum. Each hand-assembled.</div>
+                </div>
+                <div className="flex gap-12">
+                  {[{ v: "24", l: "Units/year" }, { v: "1,800hr", l: "Assembly time" }, { v: "8yr", l: "Delivery wait" }].map(k => (
+                    <div key={k.l} className="text-center">
+                      <div className="text-2xl font-black italic text-red-500">{k.v}</div>
+                      <div className="text-[9px] font-bold uppercase tracking-widest text-white/20 mt-1">{k.l}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ── TRACK EXPERIENCE ──────── */}
+        <section className="py-40 bg-black border-t border-white/5">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+              <Reveal>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-red-600 block mb-8">Beyond the Road</span>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic leading-none mb-12">Born On <br /><span className="font-light not-italic text-white/20">Track.</span></h2>
+                <div className="space-y-8">
+                  {[
+                    { icon: Timer, t: "Owner Track Days", d: "Quarterly invitations to Portimão, Spa, and Suzuka. Vulcan engineering crew on-site." },
+                    { icon: Gauge, t: "Tailored Calibration", d: "Every car leaves the atelier pre-mapped to the owner's preferred circuit. Updates over-the-air." },
+                    { icon: Activity, t: "Telemetry Suite", d: "Real-time data transmitted to the Vulcan server farm. Lap coaching from ex-F1 engineers." },
+                  ].map((f, i) => (
+                    <div key={i} className="flex gap-8 group">
+                      <div className="w-16 h-16 shrink-0 border border-red-600/20 flex items-center justify-center group-hover:bg-red-600 group-hover:border-red-600 transition-all duration-700 -skew-x-6">
+                        <f.icon className="w-5 h-5 text-red-600/60 group-hover:text-white transition-colors skew-x-6" />
+                      </div>
+                      <div>
+                        <h4 className="text-xl font-black uppercase italic mb-2">{f.t}</h4>
+                        <p className="text-sm text-white/30 leading-relaxed font-light">{f.d}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+              <Reveal delay={0.2}>
+                <div className="relative aspect-square grayscale hover:grayscale-0 transition-all duration-[2000ms]">
+                  <ParallaxImg src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?auto=format&fit=crop&q=80&w=1200" alt="Track" />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-red-600/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-1000" />
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
         {/* ── CTA ───────────────────── */}
         <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 bg-red-600" />

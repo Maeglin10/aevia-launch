@@ -234,6 +234,77 @@ export default function NeonPulsePage() {
            </div>
         </section>
 
+        {/* ── ROADMAP ───────────────── */}
+        <section className="py-40 bg-[#08080a] border-t border-white/5">
+           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+              <Reveal>
+                 <div className="mb-20">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-purple-500 block mb-6">Protocol Evolution</span>
+                    <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter italic leading-none">The <span className="text-white/10">Roadmap.</span></h2>
+                 </div>
+              </Reveal>
+              <div className="relative">
+                 <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-purple-500 via-pink-500 to-cyan-500 opacity-20 hidden md:block" />
+                 <div className="space-y-8 md:pl-24">
+                    {[
+                       { phase: "Phase I", title: "Genesis Drop", status: "LIVE", date: "Q1 2025", desc: "888 hand-rendered Neural Fragments minted on Ethereum mainnet. Provenance via Chainlink VRF.", icon: Box, color: "text-green-400 border-green-500/30 bg-green-500/10" },
+                       { phase: "Phase II", title: "Holder Utility", status: "IN PROGRESS", date: "Q2 2025", desc: "Staking rewards, governance voting, and access to physical art editions. Token-gated community.", icon: Wallet, color: "text-purple-400 border-purple-500/30 bg-purple-500/10" },
+                       { phase: "Phase III", title: "Protocol Bridge", status: "UPCOMING", date: "Q3 2025", desc: "Cross-chain expansion to Solana and Base. Interoperable assets across ecosystems.", icon: Globe, color: "text-cyan-400 border-cyan-500/30 bg-cyan-500/10" },
+                       { phase: "Phase IV", title: "Neural Genesis V2", status: "CONCEPT", date: "Q4 2025", desc: "Second generative series co-designed with the community. On-chain evolution based on holder behavior.", icon: Sparkles, color: "text-pink-400 border-pink-500/30 bg-pink-500/10" },
+                    ].map((r, i) => (
+                       <Reveal key={i} delay={i * 0.1}>
+                          <div className="group border border-white/5 bg-white/[0.02] rounded-2xl p-10 flex flex-col md:flex-row gap-8 items-start hover:border-white/15 transition-all duration-500">
+                             <div className={`w-14 h-14 shrink-0 rounded-xl ${r.color} border flex items-center justify-center`}>
+                                <r.icon className="w-6 h-6" />
+                             </div>
+                             <div className="flex-1">
+                                <div className="flex flex-wrap items-center gap-4 mb-3">
+                                   <span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{r.phase}</span>
+                                   <span className="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded border border-white/10 text-white/40">{r.status}</span>
+                                   <span className="text-[9px] font-mono text-white/20">{r.date}</span>
+                                </div>
+                                <h3 className="text-2xl font-black uppercase tracking-tighter italic mb-3">{r.title}</h3>
+                                <p className="text-sm text-white/30 font-light leading-relaxed">{r.desc}</p>
+                             </div>
+                          </div>
+                       </Reveal>
+                    ))}
+                 </div>
+              </div>
+           </div>
+        </section>
+
+        {/* ── COMMUNITY STATS ─────────── */}
+        <section className="py-40 bg-black border-t border-white/5">
+           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+              <Reveal>
+                 <div className="flex flex-col md:flex-row items-end justify-between mb-20 border-b border-white/5 pb-12 gap-6">
+                    <div>
+                       <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-cyan-500 block mb-4">The Network</span>
+                       <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter italic leading-none">By The <span className="text-white/10">Numbers.</span></h2>
+                    </div>
+                    <div className="text-sm text-white/25 font-light italic max-w-xs leading-relaxed">Live on-chain data. Verified via Dune Analytics dashboard.</div>
+                 </div>
+              </Reveal>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5">
+                 {[
+                    { v: "888", l: "Total Supply", sub: "hand-rendered" },
+                    { v: "0.24Ξ", l: "Floor Price", sub: "all-time high 1.8Ξ" },
+                    { v: "4,200+", l: "Unique Holders", sub: "across wallets" },
+                    { v: "98%", l: "Retention Rate", sub: "no-flip ratio" },
+                 ].map((s, i) => (
+                    <Reveal key={i} delay={i * 0.08}>
+                       <div className="bg-black p-10 text-center group hover:bg-white/[0.02] transition-colors duration-500">
+                          <div className="text-4xl font-black italic mb-2 bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">{s.v}</div>
+                          <div className="text-[10px] font-bold uppercase tracking-widest text-white/25">{s.l}</div>
+                          <div className="text-[9px] text-white/15 tracking-wider mt-1">{s.sub}</div>
+                       </div>
+                    </Reveal>
+                 ))}
+              </div>
+           </div>
+        </section>
+
         {/* ── CTA ───────────────────── */}
         <section className="py-60 bg-gradient-to-tr from-purple-600 via-pink-600 to-cyan-500 text-center relative overflow-hidden">
            <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />

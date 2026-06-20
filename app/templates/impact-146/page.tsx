@@ -193,6 +193,74 @@ export default function KuroOmakasePage() {
            </div>
         </section>
 
+        {/* ── CHEF PHILOSOPHY ────────── */}
+        <section className="py-60 bg-[#050505] border-t border-white/5">
+           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-40 items-center">
+                 <Reveal>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 block mb-8">The Artisan</span>
+                    <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter text-white leading-none italic mb-16">Chef<br /><span className="font-light not-italic opacity-30">Hiroshi.</span></h2>
+                    <div className="space-y-8">
+                       <p className="text-base text-white/40 leading-relaxed font-light italic">
+                          Trained under three Michelin-starred masters in Osaka, Kyoto, and Noma Copenhagen, Hiroshi Mori returns to his roots with Kuro — a singular meditation on Japanese restraint at the edge of flavour.
+                       </p>
+                       <p className="text-base text-white/40 leading-relaxed font-light italic">
+                          Every element of the menu changes with the lunar calendar. What you taste tonight has never been served before, and will never be served again.
+                       </p>
+                    </div>
+                    <div className="mt-16 grid grid-cols-3 gap-px bg-white/5">
+                       {[{ v: "21yr", l: "Training" }, { v: "3★", l: "Michelin" }, { v: "12", l: "Seasons" }].map(s => (
+                          <div key={s.l} className="bg-[#050505] p-8 text-center">
+                             <div className="text-3xl font-black text-white italic">{s.v}</div>
+                             <div className="text-[9px] font-bold uppercase tracking-widest text-white/25 mt-2">{s.l}</div>
+                          </div>
+                       ))}
+                    </div>
+                 </Reveal>
+                 <Reveal delay={0.2}>
+                    <div className="aspect-[3/4] relative overflow-hidden grayscale hover:grayscale-0 transition-all duration-[2000ms]">
+                       <Image src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&q=80&w=1200" alt="Chef" fill className="object-cover" />
+                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    </div>
+                 </Reveal>
+              </div>
+           </div>
+        </section>
+
+        {/* ── THE MENU ────────────────── */}
+        <section className="py-60 bg-black border-t border-white/5">
+           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+              <Reveal>
+                 <div className="flex flex-col md:flex-row items-end justify-between mb-32 border-b border-white/5 pb-16 gap-8">
+                    <div>
+                       <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 block mb-6">The Experience</span>
+                       <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter text-white leading-none italic">The <span className="font-light not-italic opacity-30">Menu.</span></h2>
+                    </div>
+                    <div className="text-sm text-white/30 font-light italic max-w-xs leading-relaxed">Courses change nightly. Wine pairings available with two weeks&apos; notice.</div>
+                 </div>
+              </Reveal>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                 {[
+                    { tier: "Kuro Omakase", courses: "12 courses", price: "¥88,000", note: "Chef&apos;s full progression. 3.5 hours. Seasonal kaiseki opening.", incl: ["House sake pairing", "Tea ceremony close", "Signed menu card"] },
+                    { tier: "Umi Course", courses: "8 courses", price: "¥52,000", note: "Ocean-focused tasting, emphasising sashimi and shellfish.", incl: ["Wine pairing available", "À la carte additions", "Private dining option"] },
+                    { tier: "Tsuki Dinner", courses: "5 courses", price: "¥32,000", note: "An introduction to the Kuro kitchen. Ideal for first visits.", incl: ["Non-alcoholic pairing", "Allergen-conscious menu", "Counter seating"] },
+                 ].map((m, i) => (
+                    <Reveal key={i} delay={i * 0.1}>
+                       <div className="border border-white/5 p-12 flex flex-col gap-6 hover:border-white/15 transition-colors duration-700">
+                          <div className="text-[9px] font-bold uppercase tracking-widest text-white/30">{m.courses}</div>
+                          <h3 className="text-2xl font-bold uppercase tracking-widest text-white italic">{m.tier}</h3>
+                          <div className="text-4xl font-light text-white/60">{m.price}</div>
+                          <p className="text-sm text-white/30 font-light leading-relaxed italic flex-1">{m.note}</p>
+                          <ul className="space-y-2 border-t border-white/5 pt-6">
+                             {m.incl.map(f => <li key={f} className="text-xs text-white/25 flex items-center gap-3"><span className="w-1 h-1 rounded-full bg-white/20 shrink-0" />{f}</li>)}
+                          </ul>
+                       </div>
+                    </Reveal>
+                 ))}
+              </div>
+           </div>
+        </section>
+
         {/* ── CTA ───────────────────── */}
         <section className="py-60 bg-[#050505] text-center px-6 border-t border-white/5">
            <div className="max-w-4xl mx-auto">

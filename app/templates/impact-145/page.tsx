@@ -203,6 +203,74 @@ export default function ArcaneRealtyPage() {
           </div>
         </section>
 
+        {/* ── TESTIMONIALS ──────────── */}
+        <section className="py-40 bg-[#0a0a0a] border-t border-white/5">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex items-end justify-between mb-20 border-b border-white/5 pb-12">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block mb-4">Client Voices</span>
+                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-white leading-none">In Their <span className="italic font-bold">Words.</span></h2>
+                </div>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
+              {[
+                { quote: "Arcane found our Notting Hill townhouse entirely off-market. Their network is unlike anything we'd encountered at Knight Frank or Savills.", name: "H. Pemberton", origin: "London W11 · £9.4M" },
+                { quote: "The level of discretion was absolute. Three continents, one advisor — the whole transaction felt effortless.", name: "A. Reinhardt", origin: "Zurich · $18.2M" },
+                { quote: "Arcane doesn't just sell properties. They understand how your life should feel. We bought exactly the wrong house twice before them.", name: "S. Miyamoto", origin: "Tokyo · ¥2.1B" },
+              ].map((t, i) => (
+                <Reveal key={i} delay={i * 0.12}>
+                  <div className="bg-[#0a0a0a] p-16 flex flex-col gap-8 group hover:bg-black transition-colors duration-500">
+                    <div className="text-5xl text-white/10 font-serif leading-none">&ldquo;</div>
+                    <p className="text-lg text-white/40 font-light leading-relaxed italic flex-1">{t.quote}</p>
+                    <div className="border-t border-white/5 pt-8">
+                      <div className="text-sm font-bold text-white uppercase tracking-widest">{t.name}</div>
+                      <div className="text-[10px] text-white/25 font-mono tracking-widest mt-2">{t.origin}</div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── ADVISORS ──────────────── */}
+        <section className="py-40 bg-black border-t border-white/5">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex items-end justify-between mb-24 border-b border-white/5 pb-12">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block mb-4">Private Advisory</span>
+                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-white leading-none">The <span className="italic font-bold">Council.</span></h2>
+                </div>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+              {[
+                { name: "Elara Voss", role: "Senior Acquisitions", markets: ["NYC", "London"], yrs: "16yr" },
+                { name: "Ryo Tanaka", role: "Asia Pacific Lead", markets: ["Tokyo", "Singapore"], yrs: "11yr" },
+                { name: "Margaux Delbos", role: "European Director", markets: ["Paris", "Monaco"], yrs: "19yr" },
+                { name: "Omar Al Farsi", role: "MENA Portfolio", markets: ["Dubai", "Riyadh"], yrs: "13yr" },
+              ].map((a, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="group cursor-default">
+                    <div className="aspect-[3/4] bg-white/[0.02] border border-white/5 mb-6 flex items-end p-8 group-hover:border-white/15 transition-colors duration-700 overflow-hidden relative">
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[6rem] font-black text-white/[0.03] uppercase">{a.name.split(" ").map((n: string) => n[0]).join("")}</div>
+                      <div className="relative z-10">
+                        <div className="text-[8px] font-bold uppercase tracking-[0.3em] text-white/30 mb-1">{a.yrs}</div>
+                        {a.markets.map(m => <span key={m} className="text-[9px] font-mono text-white/20 mr-3">/{m}/</span>)}
+                      </div>
+                    </div>
+                    <h3 className="text-lg font-bold uppercase tracking-widest text-white mb-1">{a.name}</h3>
+                    <p className="text-[10px] font-light text-white/30 uppercase tracking-wider italic">{a.role}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── CTA ───────────────────── */}
         <section className="py-40 bg-white text-black text-center relative overflow-hidden">
           <div className="max-w-4xl mx-auto px-6 relative z-10">
