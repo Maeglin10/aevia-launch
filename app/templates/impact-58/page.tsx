@@ -285,7 +285,6 @@ export default function SkewOSHome() {
                 margin: '0 auto',
                 cursor: 'pointer',
                 position: 'relative',
-                group: 'showreel',
               }}
             >
               {/* 16:9 thumbnail */}
@@ -727,9 +726,9 @@ export default function SkewOSHome() {
         <section style={{ padding: '8rem 3rem', background: '#04040A', borderTop: `1px solid ${C.border}` }}>
           <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
             <Reveal>
-              <p style={{ fontFamily: "'Syne', sans-serif", fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.4em', color: C.accent, textTransform: 'uppercase', marginBottom: '1.5rem' }}>Studio · Équipe</p>
+              <p style={{ fontFamily: "'Syne', sans-serif", fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.4em', color: C.violet, textTransform: 'uppercase', marginBottom: '1.5rem' }}>Studio · Équipe</p>
               <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', color: C.text, textTransform: 'uppercase', lineHeight: 1, marginBottom: '5rem' }}>
-                Les Architectes<br /><span style={{ fontWeight: 300, fontStyle: 'italic', color: C.muted }}>du Mouvement</span>
+                Les Architectes<br /><span style={{ fontWeight: 300, fontStyle: 'italic', color: C.textMuted }}>du Mouvement</span>
               </h2>
             </Reveal>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem' }}>
@@ -741,12 +740,12 @@ export default function SkewOSHome() {
               ].map((m, i) => (
                 <Reveal key={m.name} delay={i * 0.1}>
                   <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: '2rem' }}>
-                    <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: `linear-gradient(135deg, ${C.accent}22 0%, ${C.accent}44 100%)`, border: `1px solid ${C.accent}44`, marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <span style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: '1.25rem', color: C.accent }}>{m.name.split(' ').map(n => n[0]).join('')}</span>
+                    <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: `linear-gradient(135deg, ${C.violet}22 0%, ${C.violet}44 100%)`, border: `1px solid ${C.violet}44`, marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: '1.25rem', color: C.violet }}>{m.name.split(' ').map(n => n[0]).join('')}</span>
                     </div>
                     <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: '1.1rem', color: C.text, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.4rem' }}>{m.name}</h3>
-                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.7rem', color: C.accent, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '1rem' }}>{m.role}</p>
-                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.85rem', color: C.muted, lineHeight: 1.8 }}>{m.bio}</p>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.7rem', color: C.violet, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '1rem' }}>{m.role}</p>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.85rem', color: C.textMuted, lineHeight: 1.8 }}>{m.bio}</p>
                     <p style={{ fontFamily: "'Syne', sans-serif", fontSize: '0.65rem', color: C.border, marginTop: '1.5rem', letterSpacing: '0.2em' }}>STUDIO DEPUIS {m.since}</p>
                   </div>
                 </Reveal>
@@ -759,7 +758,7 @@ export default function SkewOSHome() {
         <section style={{ padding: '8rem 3rem', background: '#06060C', borderTop: `1px solid ${C.border}` }}>
           <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
             <Reveal>
-              <p style={{ fontFamily: "'Syne', sans-serif", fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.4em', color: C.accent, textTransform: 'uppercase', marginBottom: '1.5rem' }}>Process · Méthode</p>
+              <p style={{ fontFamily: "'Syne', sans-serif", fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.4em', color: C.violet, textTransform: 'uppercase', marginBottom: '1.5rem' }}>Process · Méthode</p>
               <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: 'clamp(2rem, 4vw, 4rem)', color: C.text, textTransform: 'uppercase', lineHeight: 1, marginBottom: '5rem' }}>Comment on crée.</h2>
             </Reveal>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0', borderTop: `1px solid ${C.border}` }}>
@@ -771,9 +770,9 @@ export default function SkewOSHome() {
               ].map((s, i) => (
                 <Reveal key={s.num} delay={i * 0.1}>
                   <div style={{ padding: '3rem 2.5rem', borderRight: i < 3 ? `1px solid ${C.border}` : 'none', borderBottom: `1px solid ${C.border}` }}>
-                    <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: '3rem', color: `${C.accent}15`, lineHeight: 1, marginBottom: '2rem' }}>{s.num}</div>
+                    <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: '3rem', color: `${C.violet}15`, lineHeight: 1, marginBottom: '2rem' }}>{s.num}</div>
                     <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: '0.95rem', color: C.text, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '1rem' }}>{s.label}</h3>
-                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.85rem', color: C.muted, lineHeight: 1.8 }}>{s.desc}</p>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.85rem', color: C.textMuted, lineHeight: 1.8 }}>{s.desc}</p>
                   </div>
                 </Reveal>
               ))}

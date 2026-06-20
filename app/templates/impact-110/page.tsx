@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Flower2, ArrowRight, Menu, Star, Sparkles, MapPin, Clock, Phone, Heart, Leaf, Wind, Droplets } from "lucide-react"
+import { Flower2, ArrowRight, Menu, Star, Sparkles, MapPin, Clock, Phone, Heart, Leaf, Wind, Droplets, CheckCircle2 } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
@@ -45,6 +45,7 @@ const PHILOSOPHY = [
 
 export default function OasisWellnessPage() {
   const [scrolled, setScrolled] = useState(false)
+  const [contactSubmitted, setContactSubmitted] = useState(false)
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
@@ -58,26 +59,26 @@ export default function OasisWellnessPage() {
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-[#faf9f6]/90 backdrop-blur-xl border-b border-[#2c3e2d]/5 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="#hero" className="flex items-center gap-3 group">
             <div className="w-10 h-10 rounded-full bg-[#2c3e2d] flex items-center justify-center group-hover:scale-110 transition-transform duration-700">
               <Flower2 className="w-5 h-5 text-[#faf9f6]" />
             </div>
             <span className="text-xl font-light tracking-[0.2em] uppercase">Oasis <span className="font-bold text-[#2c3e2d]">Wellness</span></span>
           </Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-[#2c3e2d]/40">
-            {["Treatments", "The Sanctuary", "Rituals", "About"].map(l => (
-              <Link key={l} href="#" className="hover:text-[#2c3e2d] transition-colors">{l}</Link>
+            {["Treatments", "Sanctuary", "About", "Contact"].map(l => (
+              <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="hover:text-[#2c3e2d] transition-colors">{l}</a>
             ))}
           </div>
           <div className="flex items-center gap-6">
-            <button className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-[#2c3e2d]/60 hover:text-[#2c3e2d] transition-colors">Member Login</button>
-            <button className="px-8 py-3 bg-[#2c3e2d] text-[#faf9f6] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#3d523e] transition-all duration-700">Book Ritual</button>
+            <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-[#2c3e2d]/60 hover:text-[#2c3e2d] transition-colors">Member Login</button>
+            <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-8 py-3 bg-[#2c3e2d] text-[#faf9f6] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#3d523e] transition-all duration-700">Book Ritual</button>
             <Sheet>
               <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-[#2c3e2d]" /></button></SheetTrigger>
               <SheetContent side="right" className="bg-[#faf9f6] border-[#2c3e2d]/5 p-12">
                 <div className="flex flex-col gap-10 mt-16 text-center">
-                  {["Treatments", "Sanctuary", "Pricing", "Book Now"].map(l => (
-                    <Link key={l} href="#" className="text-3xl font-light uppercase tracking-widest hover:text-[#2c3e2d] transition-colors">{l}</Link>
+                  {["Treatments", "Sanctuary", "About", "Contact"].map(l => (
+                    <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} onClick={() => document.getElementById(l.toLowerCase().replace(" ", ""))?.scrollIntoView({behavior:"smooth"})} className="text-3xl font-light uppercase tracking-widest hover:text-[#2c3e2d] transition-colors">{l}</a>
                   ))}
                 </div>
               </SheetContent>
@@ -88,7 +89,7 @@ export default function OasisWellnessPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section className="relative h-[110vh] min-h-[800px] flex items-center justify-center overflow-hidden">
+        <section id="hero" className="relative h-[110vh] min-h-[800px] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <Image src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=2400" alt="Spa Background" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-b from-[#faf9f6]/20 via-transparent to-[#faf9f6]" />
@@ -113,7 +114,7 @@ export default function OasisWellnessPage() {
                   A sanctuary dedicated to biological restoration and deep mindfulness. Rediscover your essence in the heart of the city.
                 </p>
                 <div className="w-[1px] h-20 bg-[#2c3e2d]/10 hidden md:block" />
-                <button className="px-12 py-5 bg-[#2c3e2d] text-[#faf9f6] font-bold rounded-full hover:px-14 transition-all duration-700 flex items-center gap-3">
+                <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-12 py-5 bg-[#2c3e2d] text-[#faf9f6] font-bold rounded-full hover:px-14 transition-all duration-700 flex items-center gap-3">
                   Begin Journey <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -146,7 +147,7 @@ export default function OasisWellnessPage() {
         </section>
 
         {/* ── TREATMENTS ────────────── */}
-        <section className="py-32 bg-white rounded-[4rem] mx-4">
+        <section id="treatments" className="py-32 bg-white rounded-[4rem] mx-4">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex flex-col lg:flex-row items-end justify-between mb-24 gap-8">
@@ -172,7 +173,7 @@ export default function OasisWellnessPage() {
                     </div>
                     <h4 className="text-2xl font-bold mb-4 tracking-tight">{t.title}</h4>
                     <p className="text-[#2c3e2d]/50 leading-relaxed text-sm mb-12">{t.desc}</p>
-                    <button className="w-full py-4 border border-[#2c3e2d]/10 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] group-hover:bg-[#2c3e2d] group-hover:text-white transition-all duration-700">
+                    <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="w-full py-4 border border-[#2c3e2d]/10 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] group-hover:bg-[#2c3e2d] group-hover:text-white transition-all duration-700">
                       Reserve
                     </button>
                   </div>
@@ -183,7 +184,7 @@ export default function OasisWellnessPage() {
         </section>
 
         {/* ── PARALLAX SECTION ──────── */}
-        <section className="py-32 overflow-hidden">
+        <section id="sanctuary" className="py-32 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <Reveal>
@@ -232,13 +233,128 @@ export default function OasisWellnessPage() {
                 Experience the profound power of true rest. Book your first consultation and let our practitioners guide you home.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                <button className="px-14 py-6 bg-[#2c3e2d] text-[#faf9f6] font-bold rounded-full hover:bg-[#3d523e] transition-all shadow-xl">
+                <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-14 py-6 bg-[#2c3e2d] text-[#faf9f6] font-bold rounded-full hover:bg-[#3d523e] transition-all shadow-xl">
                   Book Initial Ritual
                 </button>
-                <button className="px-14 py-6 border border-[#2c3e2d]/20 text-[#2c3e2d] font-bold rounded-full hover:bg-[#2c3e2d] hover:text-[#faf9f6] transition-all">
+                <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-14 py-6 border border-[#2c3e2d]/20 text-[#2c3e2d] font-bold rounded-full hover:bg-[#2c3e2d] hover:text-[#faf9f6] transition-all">
                   Join Membership
                 </button>
               </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ── ABOUT & PRACTITIONERS ── */}
+        <section id="about" className="py-32 bg-[#faf9f6] border-t border-[#2c3e2d]/5">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-32">
+              <div>
+                <Reveal>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2c3e2d]/40 block mb-4">Our Essence</span>
+                  <h2 className="text-5xl font-light mb-8" style={{ fontFamily: "serif" }}>Returning to Your <span className="font-bold italic">Natural Rhythms.</span></h2>
+                  <p className="text-lg text-[#2c3e2d]/60 font-light leading-relaxed mb-6">
+                    Oasis was created as a refuge from modern acceleration. We believe that true healing begins when we slow down to match the gentle cadence of nature.
+                  </p>
+                  <p className="text-lg text-[#2c3e2d]/60 font-light leading-relaxed">
+                    Our practitioners draw on ancient botanical wisdom and modern biometric insights to design restorative therapies tailored to your nervous system.
+                  </p>
+                </Reveal>
+              </div>
+              <Reveal>
+                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+                  <ParallaxImg src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&q=80&w=1200" alt="Botanical oils" />
+                </div>
+              </Reveal>
+            </div>
+
+            <Reveal>
+              <div className="text-center mb-24">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2c3e2d]/40 block mb-4">The Practitioners</span>
+                <h2 className="text-5xl font-light" style={{ fontFamily: "serif" }}>Healers in <span className="font-bold italic">Residence.</span></h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { name: "Aria Lyre", role: "Reiki Master & Sound Therapist", bio: "Over 12 years guiding vibrational meditation and acoustic resonance healing.", initials: "AL" },
+                { name: "Elena Rostova", role: "Botanical Aesthetician", bio: "Specialist in herbal alchemy, customized facial enzymes, and dermal vitality.", initials: "ER" },
+                { name: "Kavi Das", role: "Mindfulness & Breathwork Guide", bio: "Trained in Himalayan lineages, focusing on somatic stress reduction.", initials: "KD" },
+              ].map((p, i) => (
+                <Reveal key={p.name} delay={i * 0.1}>
+                  <div className="p-10 bg-white rounded-3xl border border-[#2c3e2d]/5 text-center flex flex-col items-center">
+                    <div className="w-16 h-16 bg-[#2c3e2d] rounded-full flex items-center justify-center mb-6">
+                      <span className="text-[#faf9f6] font-bold text-lg">{p.initials}</span>
+                    </div>
+                    <h3 className="text-xl font-bold mb-2">{p.name}</h3>
+                    <div className="text-[9px] uppercase tracking-widest text-[#2c3e2d]/50 font-bold mb-4">{p.role}</div>
+                    <p className="text-sm text-[#2c3e2d]/60 leading-relaxed font-light">{p.bio}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── TESTIMONIALS ── */}
+        <section className="py-32 bg-white rounded-[4rem] mx-4 border-t border-[#2c3e2d]/5">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="text-center mb-24">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2c3e2d]/40 block mb-4">Guest Reviews</span>
+                <h2 className="text-5xl font-light" style={{ fontFamily: "serif" }}>Voices of <span className="font-bold italic">Sanctuary.</span></h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { quote: "The Celestial Stone massage released a year's worth of accumulated stress in ninety minutes. The silence here is physical.", author: "Clara M.", plan: "Sanctuary Guest" },
+                { quote: "An absolute masterclass in minimalist design and somatic care. The sound-dampened suites are a dream.", author: "Julien B.", plan: "Member since 2023" },
+                { quote: "Oasis has become my weekly anchor. The breathwork sessions with Kavi have completely shifted my high-stress routine.", author: "Sophia T.", plan: "Essential Member" },
+              ].map((t, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="p-10 bg-[#faf9f6] rounded-3xl border border-[#2c3e2d]/5 flex flex-col justify-between h-full hover:border-[#2c3e2d]/25 transition-all duration-300">
+                    <p className="text-[#2c3e2d]/60 leading-relaxed font-light italic mb-8">"{t.quote}"</p>
+                    <div>
+                      <div className="font-bold text-sm text-[#2c3e2d]">{t.author}</div>
+                      <div className="text-[9px] uppercase tracking-widest text-[#2c3e2d]/50 font-bold mt-1">{t.plan}</div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── CONTACT ── */}
+        <section id="contact" className="py-32 bg-[#faf9f6] border-t border-[#2c3e2d]/5">
+          <div className="max-w-[800px] mx-auto px-6 text-center">
+            <Reveal>
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2c3e2d]/40 block mb-4">Reserve</span>
+              <h2 className="text-5xl md:text-6xl font-light mb-12" style={{ fontFamily: "serif" }}>Begin Your <span className="italic">Restoration.</span></h2>
+            </Reveal>
+            <Reveal delay={0.15}>
+              {contactSubmitted ? (
+                <div className="p-12 bg-white rounded-3xl border border-[#2c3e2d]/10 flex flex-col items-center justify-center">
+                  <CheckCircle2 className="w-12 h-12 text-[#2c3e2d] mb-4" />
+                  <p className="text-xl font-bold text-[#2c3e2d]">Merci, nous vous répondrons sous 24h.</p>
+                </div>
+              ) : (
+                <form onSubmit={(e) => { e.preventDefault(); setContactSubmitted(true); }} className="space-y-4 max-w-md mx-auto text-left">
+                  <div>
+                    <label className="block text-[9px] font-bold uppercase tracking-widest text-[#2c3e2d]/50 mb-2">Name</label>
+                    <input required type="text" placeholder="Your Name" className="w-full px-5 py-3.5 bg-white border border-[#2c3e2d]/10 rounded-full text-sm focus:outline-none focus:border-[#2c3e2d] transition-all text-[#2c3e2d]" />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] font-bold uppercase tracking-widest text-[#2c3e2d]/50 mb-2">Email</label>
+                    <input required type="email" placeholder="you@example.com" className="w-full px-5 py-3.5 bg-white border border-[#2c3e2d]/10 rounded-full text-sm focus:outline-none focus:border-[#2c3e2d] transition-all text-[#2c3e2d]" />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] font-bold uppercase tracking-widest text-[#2c3e2d]/50 mb-2">Message</label>
+                    <textarea required rows={4} placeholder="Let us know your treatment preferences or membership questions..." className="w-full px-5 py-3.5 bg-white border border-[#2c3e2d]/10 rounded-3xl text-sm focus:outline-none focus:border-[#2c3e2d] transition-all text-[#2c3e2d]" />
+                  </div>
+                  <button type="submit" className="w-full py-4 bg-[#2c3e2d] text-[#faf9f6] font-bold rounded-full hover:bg-[#3d523e] transition-all duration-300">
+                    Book Initial Consultation
+                  </button>
+                </form>
+              )}
             </Reveal>
           </div>
         </section>
@@ -248,7 +364,7 @@ export default function OasisWellnessPage() {
       <footer className="bg-[#faf9f6] pt-24 pb-12 px-6">
         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-24">
           <div className="md:col-span-2">
-             <Link href="/" className="flex items-center gap-3 mb-10">
+             <Link href="#hero" className="flex items-center gap-3 mb-10">
               <div className="w-10 h-10 rounded-full bg-[#2c3e2d] flex items-center justify-center">
                 <Flower2 className="w-5 h-5 text-[#faf9f6]" />
               </div>
@@ -265,23 +381,30 @@ export default function OasisWellnessPage() {
           </div>
           
           {[
-            { t: "Sanctuary", l: ["Signature Rituals", "Body Therapies", "Facial Arts", "Elemental Pools"] },
-            { t: "Company", l: ["Our Philosophy", "Sanctuaries", "Membership", "Journal"] },
+            { t: "Sanctuary", l: ["Treatments", "Sanctuary", "About", "Contact"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2c3e2d] mb-10">{col.t}</h4>
               <ul className="space-y-6">
-                {col.l.map(link => <li key={link}><Link href="#" className="text-sm text-[#2c3e2d]/50 hover:text-[#2c3e2d] transition-colors">{link}</Link></li>)}
+                {col.l.map(link => {
+                  let href = "#";
+                  if (link === "Treatments") href = "#treatments";
+                  if (link === "Sanctuary") href = "#sanctuary";
+                  if (link === "About") href = "#about";
+                  if (link === "Contact") href = "#contact";
+                  return <li key={link}><Link href={href} className="text-sm text-[#2c3e2d]/50 hover:text-[#2c3e2d] transition-colors">{link}</Link></li>;
+                })}
               </ul>
             </div>
           ))}
         </div>
         
-        <div className="max-w-[1600px] mx-auto pt-12 border-t border-[#2c3e2d]/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-[#2c3e2d]/30">
+        <div className="max-w-[1600px] mx-auto pt-12 border-t border-[#2c3e2d]/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-[#2c3e2d]/30">
           <span>© 2026 OASIS WELLNESS COLLECTIVE.</span>
           <div className="flex gap-10">
-            <Link href="#" className="hover:text-[#2c3e2d] transition-colors">Terms of Peace</Link>
-            <Link href="#" className="hover:text-[#2c3e2d] transition-colors">Privacy Circle</Link>
+            <Link href="/legal/mentions-legales" className="hover:text-[#2c3e2d] transition-colors">Mentions légales</Link>
+            <Link href="/legal/confidentialite" className="hover:text-[#2c3e2d] transition-colors">Confidentialité</Link>
+            <Link href="/legal/cgu" className="hover:text-[#2c3e2d] transition-colors">CGU</Link>
           </div>
         </div>
       </footer>

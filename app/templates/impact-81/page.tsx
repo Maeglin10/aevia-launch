@@ -155,6 +155,69 @@ export default function VogueNoirePage() {
         </div>
       </section>
 
+      {/* ── TESTIMONIALS ─────────── */}
+      <section className="py-32 bg-[#0A0A08] border-t border-[#2A2820]">
+        <div className="max-w-6xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-[9px] uppercase tracking-[0.5em] text-[#C9A86C]/60 mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Lectrices & Communauté</p>
+            <h2 className="text-4xl md:text-6xl font-light text-[#F0EBE0] mb-20 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Ce qu&apos;elles disent <em>de nous.</em>
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#2A2820]">
+            {[
+              { quote: "Vogue Noire est la seule publication qui parle de mode avec une intelligence que je reconnais. Chaque numéro m'apprend quelque chose.", name: "Amara K.", role: "Styliste · Paris" },
+              { quote: "J'ai découvert trois créateurs majeurs grâce à Vogue Noire avant qu'ils ne défilent à Milan. C'est la définition d'un vrai média de mode.", name: "Lilas T.", role: "Buyer · Montréal" },
+              { quote: "Le seul magazine que je garde. La photographie, les mots, le silence entre les deux — rien d'autre n'approche ce niveau d'exigence.", name: "Sonia B.", role: "Photographe · Dakar" },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="bg-[#0A0A08] p-12 flex flex-col gap-6 hover:bg-[#0F0E0B] transition-colors">
+                  <div className="text-5xl text-[#C9A86C]/10 font-serif leading-none">&ldquo;</div>
+                  <p className="text-[#8A8278] text-sm leading-relaxed italic flex-1">{t.quote}</p>
+                  <div className="border-t border-[#2A2820] pt-6">
+                    <div className="text-[#F0EBE0] font-medium text-sm">{t.name}</div>
+                    <div className="text-[9px] uppercase tracking-widest text-[#C9A86C]/50 mt-1">{t.role}</div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ÉQUIPE ÉDITORIALE ────── */}
+      <section className="py-32 bg-[#0F0E0B] border-t border-[#2A2820]">
+        <div className="max-w-6xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-[9px] uppercase tracking-[0.5em] text-[#C9A86C]/60 mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>L&apos;équipe</p>
+            <h2 className="text-4xl md:text-6xl font-light text-[#F0EBE0] mb-20 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Derrière <em>la revue.</em>
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#2A2820]">
+            {[
+              { name: "Nadia Osei", role: "Rédactrice en chef", since: "fondatrice · 2018", initials: "NO" },
+              { name: "Hawa Mbaye", role: "Directrice artistique", since: "depuis 2019", initials: "HM" },
+              { name: "Céleste Aron", role: "Photographe principale", since: "depuis 2020", initials: "CA" },
+              { name: "Inès Fontaine", role: "Éditrice mode", since: "depuis 2022", initials: "IF" },
+            ].map((m, i) => (
+              <Reveal key={m.name} delay={i * 0.08}>
+                <div className="bg-[#0F0E0B] p-10 flex flex-col gap-5 hover:bg-[#0A0A08] transition-colors">
+                  <div className="w-12 h-12 bg-[#2A2820] flex items-center justify-center">
+                    <span className="text-[#C9A86C] text-sm font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{m.initials}</span>
+                  </div>
+                  <div>
+                    <div className="text-[9px] uppercase tracking-widest text-[#C9A86C]/40 mb-1">{m.since}</div>
+                    <div className="text-[#F0EBE0] font-medium" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{m.name}</div>
+                    <div className="text-[9px] uppercase tracking-widest text-[#8A8278] mt-0.5">{m.role}</div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── NEWSLETTER */}
       <section className="py-24 bg-[#C9A86C] text-[#0A0A08]">
         <div className="max-w-2xl mx-auto px-6 text-center">

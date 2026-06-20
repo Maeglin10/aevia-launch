@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Sofa, ArrowRight, Menu, Star, Palette, Ruler, Eye, Lightbulb, Layers, ChevronRight, MapPin, Phone, Mail } from "lucide-react"
+import { Sofa, ArrowRight, Menu, Star, Palette, Ruler, Eye, Lightbulb, Layers, ChevronRight, MapPin, Phone, Mail, CheckCircle2 } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
@@ -47,10 +47,12 @@ const SERVICES = [
 const TESTIMONIALS = [
   { text: "Atelier transformed our home into something that feels like us, but elevated. Every detail was considered.", author: "Victoria & James R.", project: "Villa Serena" },
   { text: "The attention to material quality is extraordinary. They source things you didn't know existed.", author: "Marc Dubois", project: "Maison Noire" },
+  { text: "A masterful understanding of light and space. Our workspace redesign has drastically improved our team productivity and focus.", author: "Elena R.", project: "Bureau Lumière" },
 ]
 
 export default function AtelierInteriorPage() {
   const [scrolled, setScrolled] = useState(false)
+  const [contactSubmitted, setContactSubmitted] = useState(false)
 
   const { scrollYProgress } = useScroll()
   const heroY = useTransform(scrollYProgress, [0, 0.2], ["0%", "30%"])
@@ -68,15 +70,15 @@ export default function AtelierInteriorPage() {
       {/* ── NAVBAR ─────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f5f0eb]/90 backdrop-blur-xl border-b border-[#8b7355]/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="text-xl tracking-[0.2em] uppercase" style={{ fontFamily: "Georgia, serif" }}>
+          <Link href="#hero" className="text-xl tracking-[0.2em] uppercase" style={{ fontFamily: "Georgia, serif" }}>
             <span className="font-light">Atelier</span> <span className="font-bold text-[#8b7355]">Interior</span>
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#2a2520]/40">
             {["Projects", "Services", "About", "Contact"].map(l => (
-              <Link key={l} href="#" className="hover:text-[#8b7355] transition-colors">{l}</Link>
+              <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="hover:text-[#8b7355] transition-colors">{l}</a>
             ))}
           </div>
-          <button className="hidden md:block px-8 py-3 bg-[#2a2520] text-[#f5f0eb] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#8b7355] transition-colors duration-500">
+          <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="hidden md:block px-8 py-3 bg-[#2a2520] text-[#f5f0eb] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#8b7355] transition-colors duration-500">
             Book Consultation
           </button>
           <Sheet>
@@ -84,7 +86,7 @@ export default function AtelierInteriorPage() {
             <SheetContent side="right" className="bg-[#f5f0eb] p-12">
               <div className="flex flex-col gap-8 mt-16">
                 {["Projects", "Services", "About", "Contact"].map(l => (
-                  <Link key={l} href="#" className="text-3xl font-light hover:text-[#8b7355] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</Link>
+                  <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="text-3xl font-light hover:text-[#8b7355] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</a>
                 ))}
               </div>
             </SheetContent>
@@ -94,7 +96,7 @@ export default function AtelierInteriorPage() {
 
       <main>
         {/* ── HERO ─────────────── */}
-        <section className="relative h-[110vh] min-h-[800px] flex items-end overflow-hidden">
+        <section id="hero" className="relative h-[110vh] min-h-[800px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=2400" alt="Interior" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#f5f0eb] via-[#f5f0eb]/20 to-transparent" />
@@ -112,15 +114,18 @@ export default function AtelierInteriorPage() {
               </h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-[#2a2520]/50 font-light leading-relaxed">
+              <p className="max-w-lg text-lg text-[#2a2520]/50 font-light leading-relaxed mb-8">
                 Bespoke interior design for discerning clients. We create environments that elevate daily life into something extraordinary.
               </p>
+              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-8 py-4 bg-[#2a2520] text-[#f5f0eb] text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-[#8b7355] transition-colors">
+                Book Consultation
+              </button>
             </Reveal>
           </motion.div>
         </section>
 
         {/* ── PROJECTS ─────────── */}
-        <section className="py-32 bg-[#f5f0eb]">
+        <section id="projects" className="py-32 bg-[#f5f0eb]">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="mb-20">
@@ -151,7 +156,7 @@ export default function AtelierInteriorPage() {
         </section>
 
         {/* ── SERVICES ─────────── */}
-        <section className="py-32 bg-[#2a2520] text-[#f5f0eb]">
+        <section id="services" className="py-32 bg-[#2a2520] text-[#f5f0eb]">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
@@ -222,15 +227,75 @@ export default function AtelierInteriorPage() {
               <h2 className="text-5xl md:text-7xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>
                 Let's Create Your<br/><em className="text-[#c4a882]">Perfect Space.</em>
               </h2>
-              <button className="px-12 py-5 bg-[#f5f0eb] text-[#2a2520] font-bold rounded-full hover:bg-[#8b7355] hover:text-white transition-all duration-500">
+              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-12 py-5 bg-[#f5f0eb] text-[#2a2520] font-bold rounded-full hover:bg-[#8b7355] hover:text-white transition-all duration-500">
                 Book a Consultation
               </button>
             </Reveal>
           </div>
         </section>
+
+        {/* ── ABOUT ─────────── */}
+        <section id="about" className="py-32 bg-[#faf6f0] border-t border-[#8b7355]/10">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <Reveal>
+                <div className="relative aspect-[4/5] overflow-hidden rounded-sm">
+                  <ParallaxImg src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=1200" alt="Atelier workspace" />
+                </div>
+              </Reveal>
+              <div>
+                <Reveal delay={0.2}>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#8b7355] block mb-4">Our Philosophy</span>
+                  <h2 className="text-4xl md:text-5xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>Crafting Space With <em className="text-[#8b7355]">Intention.</em></h2>
+                  <p className="text-sm text-[#2a2520]/60 leading-relaxed mb-6">
+                    At Atelier Interior, we believe your home should be a physical manifestation of your journey. Founded in Paris in 2018, we work closely with local artisans to curate bespoke, tactile environments.
+                  </p>
+                  <p className="text-sm text-[#2a2520]/60 leading-relaxed">
+                    We select organic, sustainably sourced materials—travertine, brass, raw linen, and white oak—to construct spaces that age beautifully and feel deeply authentic.
+                  </p>
+                </Reveal>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── CONTACT ─────────── */}
+        <section id="contact" className="py-32 bg-[#f5f0eb] border-t border-[#8b7355]/10">
+          <div className="max-w-[800px] mx-auto px-6 text-center">
+            <Reveal>
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#8b7355] block mb-4">Connect</span>
+              <h2 className="text-5xl md:text-6xl font-light tracking-tighter mb-12" style={{ fontFamily: "Georgia, serif" }}>Begin Your <em className="text-[#8b7355]">Project.</em></h2>
+            </Reveal>
+            <Reveal delay={0.15}>
+              {contactSubmitted ? (
+                <div className="p-12 bg-white rounded-sm border border-[#8b7355]/20 shadow-sm flex flex-col items-center justify-center">
+                  <CheckCircle2 className="w-12 h-12 text-[#8b7355] mb-4" />
+                  <p className="text-xl font-bold text-[#2a2520]">Merci, nous vous répondrons sous 24h.</p>
+                </div>
+              ) : (
+                <form onSubmit={(e) => { e.preventDefault(); setContactSubmitted(true); }} className="space-y-4 max-w-md mx-auto text-left">
+                  <div>
+                    <label className="block text-[9px] font-bold uppercase tracking-widest text-[#2a2520]/50 mb-2">Name</label>
+                    <input required type="text" placeholder="Your Name" className="w-full px-5 py-3.5 bg-white border border-[#8b7355]/10 rounded-sm text-sm focus:outline-none focus:border-[#8b7355] transition-colors text-[#2a2520]" />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] font-bold uppercase tracking-widest text-[#2a2520]/50 mb-2">Email</label>
+                    <input required type="email" placeholder="you@example.com" className="w-full px-5 py-3.5 bg-white border border-[#8b7355]/10 rounded-sm text-sm focus:outline-none focus:border-[#8b7355] transition-colors text-[#2a2520]" />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] font-bold uppercase tracking-widest text-[#2a2520]/50 mb-2">Message</label>
+                    <textarea required rows={4} placeholder="Tell us about your space and timeline..." className="w-full px-5 py-3.5 bg-white border border-[#8b7355]/10 rounded-sm text-sm focus:outline-none focus:border-[#8b7355] transition-colors text-[#2a2520]" />
+                  </div>
+                  <button type="submit" className="w-full py-4 bg-[#2a2520] text-[#f5f0eb] font-bold rounded-sm hover:bg-[#8b7355] transition-colors duration-300">
+                    Submit Inquiry
+                  </button>
+                </form>
+              )}
+            </Reveal>
+          </div>
+        </section>
       </main>
 
-      {/* ── FOOTER ─────────────── */}
       <footer className="bg-[#2a2520] text-[#f5f0eb] pt-24 pb-12 px-6">
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
           <div>
@@ -238,21 +303,31 @@ export default function AtelierInteriorPage() {
             <p className="text-sm text-[#f5f0eb]/30 leading-relaxed">Bespoke interiors crafted with intention and care.</p>
           </div>
           {[
-            { title: "Studio", links: ["Projects", "Services", "Process", "Team"] },
-            { title: "Connect", links: ["Contact", "Camera", "Bookmark", "Press"] },
-            { title: "Info", links: ["Privacy", "Terms", "Cookies", "FAQ"] },
+            { title: "Studio", links: ["Projects", "Services", "About", "Contact"] },
+            { title: "Connect", links: ["Instagram", "Pinterest", "LinkedIn"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#c4a882] mb-6">{col.title}</h4>
               <ul className="space-y-3 text-sm text-[#f5f0eb]/30">
-                {col.links.map(l => <li key={l}><Link href="#" className="hover:text-[#f5f0eb] transition-colors">{l}</Link></li>)}
+                {col.links.map(l => {
+                  let href = "#";
+                  if (l === "About") href = "#about";
+                  if (l === "Contact") href = "#contact";
+                  if (l === "Projects") href = "#projects";
+                  if (l === "Services") href = "#services";
+                  return <li key={l}><Link href={href} className="hover:text-[#f5f0eb] transition-colors">{l}</Link></li>;
+                })}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-[1200px] mx-auto pt-8 border-t border-[#f5f0eb]/10 text-[10px] font-bold uppercase tracking-widest text-[#f5f0eb]/20 flex justify-between">
-          <span>© 2026 ATELIER INTERIOR.</span>
-          <span>PARIS · LONDON · MILAN</span>
+        <div className="max-w-[1200px] mx-auto pt-8 border-t border-[#f5f0eb]/10 text-[10px] font-bold uppercase tracking-widest text-[#f5f0eb]/20 flex flex-col sm:flex-row justify-between gap-4">
+          <span>© 2026 ATELIER INTERIOR. PARIS · LONDON · MILAN</span>
+          <div className="flex gap-6">
+            <Link href="/legal/mentions-legales" className="hover:text-[#f5f0eb] transition-colors">Mentions légales</Link>
+            <Link href="/legal/confidentialite" className="hover:text-[#f5f0eb] transition-colors">Confidentialité</Link>
+            <Link href="/legal/cgu" className="hover:text-[#f5f0eb] transition-colors">CGU</Link>
+          </div>
         </div>
       </footer>
     </div>
