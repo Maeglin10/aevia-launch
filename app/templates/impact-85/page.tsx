@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { Menu, X, ArrowRight, FlaskConical, Microscope, Leaf, Shield, Star, ChevronRight, Search } from "lucide-react"
+import { Menu, X, ArrowRight, FlaskConical, Microscope, Leaf, Shield, Star, ChevronRight, Search, Mail, Phone, MapPin } from "lucide-react"
 
 function useFonts() {
   useEffect(() => {
@@ -43,11 +43,21 @@ const INGREDIENTS = [
   { name: "Probiotiques lactobacillus", origin: "Fermentation contrôlée", icon: Shield, desc: "Microbiome skin-safe. Renforcement de la barrière cutanée et réduction de l'inflammation de bas grade." },
 ]
 
+const FAQS = [
+  { q: "Vos produits sont-ils adaptés aux peaux très sensibles ?", a: "Oui. Toutes nos formules sont testées sous contrôle dermatologique et exemptes d'huiles essentielles irritantes, de silicones et de parfums de synthèse pour minimiser les risques d'allergies." },
+  { q: "Qu'est-ce que la biotechnologie blanche utilisée dans vos soins ?", a: "La biotechnologie blanche utilise des micro-organismes vivants (comme des levures ou des bactéries) pour synthétiser des actifs hautement performants de manière durable, comme nos peptides EGF-like ou l'acide hyaluronique." },
+  { q: "Vos soins sont-ils certifiés biologiques ou véganes ?", a: "Oui, nos produits respectent la charte COSMOS Natural. De plus, toutes nos formules sont certifiées 100% véganes par la Vegan Society et certifiées Cruelty-Free par la PETA." },
+  { q: "Combien de temps faut-il pour voir des résultats sur ma peau ?", a: "Les premiers résultats sur l'hydratation et l'éclat sont visibles dès 7 à 10 jours. Pour les taches pigmentaires et la fermeté (renouvellement cellulaire), une utilisation constante pendant 4 à 6 semaines est recommandée." },
+  { q: "Quelle est votre politique de livraison et de retour ?", a: "Nous livrons en France sous 48h (offerte dès 80 €). Si un produit ne convient pas à votre peau, vous disposez de 14 jours pour le retourner gratuitement et obtenir un remboursement complet." }
+];
+
 export default function AetherLabsPage() {
   useFonts()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeProduct, setActiveProduct] = useState(0)
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [contactSubmitted, setContactSubmitted] = useState(false)
   const { scrollYProgress } = useScroll()
   const heroRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -74,7 +84,7 @@ export default function AetherLabsPage() {
             <span className="text-[9px] tracking-[0.2em] uppercase text-[#8B7355]">Cosmétique scientifique</span>
           </Link>
           <div className="hidden md:flex items-center gap-8 text-sm font-light text-[#6B5A40]">
-            {["Formules", "Science", "Rituels", "Journal"].map(l => (
+            {["Formules", "Science", "Rituels", "Journal", "FAQ", "Contact"].map(l => (
               <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#1C1814] transition-colors">{l}</Link>
             ))}
             <button className="cursor-pointer"><Search className="w-4 h-4 text-[#6B5A40] hover:text-[#1C1814] transition-colors" /></button>
@@ -98,7 +108,7 @@ export default function AetherLabsPage() {
               <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
             <div className="flex flex-col gap-8 p-10">
-              {["Formules", "Science", "Rituels", "Journal"].map((l, i) => (
+              {["Formules", "Science", "Rituels", "Journal", "FAQ", "Contact"].map((l, i) => (
                 <motion.div key={l} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
                   <Link href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)}
                     className="text-3xl font-light hover:text-[#8B7355] transition-colors cursor-pointer"
@@ -356,6 +366,51 @@ export default function AetherLabsPage() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section id="faq" className="py-24 bg-[#F8F6F2] border-t border-[#E4DDD4]">
+        <div className="max-w-4xl mx-auto px-6">
+          <Reveal>
+            <p className="text-xs tracking-[0.25em] uppercase text-[#8B7355] mb-4 text-center">Foire aux questions</p>
+            <h2 className="text-3xl md:text-4xl font-light text-center mb-16" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Questions <em>fréquentes</em>
+            </h2>
+          </Reveal>
+          <div className="space-y-4">
+            {FAQS.map((faq, i) => (
+              <Reveal key={i} delay={i * 0.05}>
+                <div className="border-b border-[#E4DDD4] pb-4">
+                  <button
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                    className="w-full flex items-center justify-between text-left py-4 text-[#1C1814] font-light hover:text-[#8B7355] transition-colors focus:outline-none cursor-pointer"
+                    style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "18px" }}
+                  >
+                    <span>{faq.q}</span>
+                    <span className="text-xs transform transition-transform duration-300 ml-4">
+                      {openFaq === i ? "—" : "+"}
+                    </span>
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {openFaq === i && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        <p className="text-sm text-[#6B5A40] leading-relaxed pb-4">
+                          {faq.a}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Newsletter */}
       <section className="py-20 bg-[#1C1814] text-[#F8F6F2] text-center px-6">
         <Reveal>
@@ -373,6 +428,119 @@ export default function AetherLabsPage() {
         </Reveal>
       </section>
 
+      {/* Contact */}
+      <section id="contact" className="py-24 bg-[#F0EBE0] border-t border-[#E4DDD4]">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-16">
+            <Reveal>
+              <p className="text-xs tracking-[0.25em] uppercase text-[#8B7355] mb-4">Contact</p>
+              <h2 className="text-4xl font-light mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                Prendre <em>contact</em>
+              </h2>
+              <p className="text-[#6B5A40] leading-relaxed mb-8 text-sm">
+                Vous avez des questions sur nos formulations, besoin d'un diagnostic peau sur-mesure ou d'informations sur votre commande ? Notre équipe scientifique vous répond sous 24h.
+              </p>
+              <div className="space-y-6 text-sm text-[#6B5A40]">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 border border-[#D4C9B0] flex items-center justify-center shrink-0">
+                    <Mail className="w-4 h-4 text-[#8B7355]" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-[#8A7860] uppercase tracking-wider">Email</div>
+                    <a href="mailto:contact@aetherlabs.fr" className="text-[#1C1814] hover:underline">contact@aetherlabs.fr</a>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 border border-[#D4C9B0] flex items-center justify-center shrink-0">
+                    <Phone className="w-4 h-4 text-[#8B7355]" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-[#8A7860] uppercase tracking-wider">Téléphone</div>
+                    <a href="tel:+33493000000" className="text-[#1C1814] hover:underline">+33 4 93 00 00 00</a>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 border border-[#D4C9B0] flex items-center justify-center shrink-0">
+                    <MapPin className="w-4 h-4 text-[#8B7355]" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-[#8A7860] uppercase tracking-wider">Laboratoire</div>
+                    <span className="text-[#1C1814]">12 Route de Cannes, 06130 Grasse, France</span>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.1}>
+              <div className="bg-[#F8F6F2] p-8 border border-[#E4DDD4]">
+                {contactSubmitted ? (
+                  <div className="text-center py-12">
+                    <div className="w-12 h-12 border border-[#8B7355] flex items-center justify-center mx-auto mb-6">
+                      <span className="text-[#8B7355] text-lg font-light">✓</span>
+                    </div>
+                    <h3 className="text-2xl font-light mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Message envoyé</h3>
+                    <p className="text-[#6B5A40] text-sm leading-relaxed max-w-xs mx-auto text-center">
+                      Merci, nous vous répondrons sous 24h.
+                    </p>
+                    <button
+                      onClick={() => setContactSubmitted(false)}
+                      className="mt-8 px-6 py-2.5 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widest uppercase hover:bg-[#8B7355] transition-colors cursor-pointer"
+                    >
+                      Nouveau message
+                    </button>
+                  </div>
+                ) : (
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      setContactSubmitted(true);
+                    }}
+                    className="space-y-6 text-sm"
+                  >
+                    <div>
+                      <label className="block text-xs uppercase tracking-wider text-[#8A7860] mb-2" htmlFor="c-nom">Nom complet</label>
+                      <input
+                        id="c-nom"
+                        type="text"
+                        required
+                        placeholder="Votre nom"
+                        className="w-full bg-transparent border-b border-[#D4C9B0] py-3 text-[#1C1814] outline-none focus:border-[#8B7355] transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs uppercase tracking-wider text-[#8A7860] mb-2" htmlFor="c-email">Email</label>
+                      <input
+                        id="c-email"
+                        type="email"
+                        required
+                        placeholder="vous@email.com"
+                        className="w-full bg-transparent border-b border-[#D4C9B0] py-3 text-[#1C1814] outline-none focus:border-[#8B7355] transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs uppercase tracking-wider text-[#8A7860] mb-2" htmlFor="c-message">Message</label>
+                      <textarea
+                        id="c-message"
+                        rows={4}
+                        required
+                        placeholder="Votre message..."
+                        className="w-full bg-transparent border-b border-[#D4C9B0] py-3 text-[#1C1814] outline-none focus:border-[#8B7355] transition-colors resize-none"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="w-full py-4 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widest uppercase hover:bg-[#8B7355] transition-colors cursor-pointer"
+                    >
+                      Envoyer le message
+                    </button>
+                  </form>
+                )}
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="bg-[#0E0B08] text-[#5A5040] py-14 px-6">
         <div className="max-w-7xl mx-auto">
@@ -384,7 +552,7 @@ export default function AetherLabsPage() {
             </div>
             <div>
               <p className="text-[#F8F6F2] text-xs tracking-widests uppercase mb-5">Navigation</p>
-              {["Formules", "Science", "Rituels", "Journal"].map(l => (
+              {["Formules", "Science", "Rituels", "Journal", "FAQ", "Contact"].map(l => (
                 <Link key={l} href={`#${l.toLowerCase()}`} className="block text-sm hover:text-[#F8F6F2] mb-3 transition-colors cursor-pointer">{l}</Link>
               ))}
             </div>
@@ -398,8 +566,12 @@ export default function AetherLabsPage() {
           <div className="pt-8 border-t border-[#1C1814] flex flex-col md:flex-row justify-between gap-4 text-xs">
             <span>© 2024 Aether Labs — Tous droits réservés</span>
             <div className="flex gap-6">
-              {["Mentions légales", "CGV", "Confidentialité"].map(l => (
-                <Link key={l} href="#" className="hover:text-[#F8F6F2] transition-colors cursor-pointer">{l}</Link>
+              {[
+                { name: "Mentions légales", path: "/legal/mentions-legales" },
+                { name: "CGU", path: "/legal/cgu" },
+                { name: "Confidentialité", path: "/legal/confidentialite" }
+              ].map(l => (
+                <Link key={l.name} href={l.path} className="hover:text-[#F8F6F2] transition-colors cursor-pointer">{l.name}</Link>
               ))}
             </div>
           </div>

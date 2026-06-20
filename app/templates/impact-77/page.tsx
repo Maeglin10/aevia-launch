@@ -2,20 +2,113 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Watch } from "lucide-react";
-import { Reveal, MagneticBtn } from "./shared";
+import { Watch, ArrowUpRight, Instagram, Mail } from "lucide-react";
+import { Reveal, MagneticBtn, TiltCard, Counter } from "./shared";
+
+const GRID_PHOTOS = [
+  {
+    id: 1,
+    src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=800&auto=format&fit=crop",
+    category: "Landscape",
+    title: "Alpine Meridian",
+    aspect: "aspect-[3/4]",
+  },
+  {
+    id: 2,
+    src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop",
+    category: "Portrait",
+    title: "Identity Study I",
+    aspect: "aspect-[3/4]",
+  },
+  {
+    id: 3,
+    src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop",
+    category: "Architecture",
+    title: "Glass Tension",
+    aspect: "aspect-square",
+  },
+  {
+    id: 4,
+    src: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=800&auto=format&fit=crop",
+    category: "Landscape",
+    title: "Desert Void",
+    aspect: "aspect-[4/3]",
+  },
+  {
+    id: 5,
+    src: "https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=800&auto=format&fit=crop",
+    category: "Commercial",
+    title: "Product Noir",
+    aspect: "aspect-square",
+  },
+  {
+    id: 6,
+    src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop",
+    category: "Portrait",
+    title: "Luminance",
+    aspect: "aspect-[3/4]",
+  },
+  {
+    id: 7,
+    src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&auto=format&fit=crop",
+    category: "Architecture",
+    title: "Vertical Logic",
+    aspect: "aspect-[4/3]",
+  },
+  {
+    id: 8,
+    src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=800&auto=format&fit=crop",
+    category: "Landscape",
+    title: "Horizon Line",
+    aspect: "aspect-[4/3]",
+  },
+];
+
+const CATEGORIES = ["All", "Landscape", "Portrait", "Architecture", "Commercial"];
+
+const SERVICES = [
+  {
+    code: "SVC_01",
+    title: "Editorial",
+    desc: "Magazine covers, fashion editorials, and creative direction for high-end publications worldwide.",
+  },
+  {
+    code: "SVC_02",
+    title: "Commercial",
+    desc: "Product campaigns, brand identity photography, and advertising shoots for luxury clients.",
+  },
+  {
+    code: "SVC_03",
+    title: "Events",
+    desc: "Private galas, architectural openings, and exclusive cultural events captured in documentary style.",
+  },
+  {
+    code: "SVC_04",
+    title: "Fine Prints",
+    desc: "Limited-edition archival prints on museum-grade paper. Each piece signed and numbered.",
+  },
+];
+
+const CLIENTS = ["Vogue", "Wallpaper*", "Dezeen", "Monocle", "Dior"];
 
 export default function HorologsLuxePage() {
   const heroRef = useRef(null);
+  const [activeCategory, setActiveCategory] = useState("All");
+
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
   });
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+  const filtered =
+    activeCategory === "All"
+      ? GRID_PHOTOS
+      : GRID_PHOTOS.filter((p) => p.category === activeCategory);
 
   return (
     <div className="relative w-full">
@@ -83,6 +176,232 @@ export default function HorologsLuxePage() {
             <div className="w-32 h-[1px] bg-white/10" />
           </div>
         </motion.div>
+      </section>
+
+      {/* ==========================================
+          2. PHOTO GRID WITH CATEGORY FILTER
+          ========================================== */}
+      <section className="py-32 bg-[#050505] border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-600 mb-6 block">
+              VISUAL_ARCHIVE // SERIES_2022–2026
+            </span>
+            <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter italic text-white mb-12 pb-2 leading-[1.1]">
+              Work.
+            </h2>
+          </Reveal>
+
+          {/* Filter tabs */}
+          <Reveal delay={0.1}>
+            <div className="flex flex-wrap gap-3 mb-16">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.4em] rounded-none transition-all border ${
+                    activeCategory === cat
+                      ? "bg-white text-black border-white"
+                      : "bg-transparent text-white/30 border-white/10 hover:border-white/30 hover:text-white/60"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </Reveal>
+
+          {/* Masonry-style grid */}
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+            {filtered.map((photo, i) => (
+              <Reveal key={photo.id} delay={i * 0.06}>
+                <TiltCard className="break-inside-avoid group cursor-pointer relative overflow-hidden block mb-4">
+                  <div className={`relative w-full ${photo.aspect} overflow-hidden`}>
+                    <Image
+                      src={photo.src}
+                      alt={photo.title}
+                      fill
+                      className="object-cover brightness-75 grayscale-[0.3] group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                      <span className="text-[9px] font-bold text-white/50 uppercase tracking-widest block mb-1">
+                        {photo.category}
+                      </span>
+                      <h3 className="text-base font-black uppercase tracking-tighter text-white">
+                        {photo.title}
+                      </h3>
+                    </div>
+                  </div>
+                </TiltCard>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          3. ABOUT / PHOTOGRAPHER BIO
+          ========================================== */}
+      <section className="py-40 bg-[#080808] border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+            <Reveal>
+              <div className="relative aspect-[3/4] overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1504257432389-52343af06ae3?q=80&w=800&auto=format&fit=crop"
+                  alt="Photographer portrait"
+                  fill
+                  className="object-cover grayscale-[0.4] brightness-70"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <div className="absolute bottom-8 left-8 right-8">
+                  <span className="text-[9px] font-bold text-white/30 uppercase tracking-[0.5em]">
+                    Established 1924 // Geneva, CH
+                  </span>
+                </div>
+              </div>
+            </Reveal>
+
+            <div>
+              <Reveal>
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-600 mb-8 block">
+                  THE_PHOTOGRAPHER // ABOUT
+                </span>
+                <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-10 leading-[1.1] pb-2">
+                  Luca<br />
+                  <span className="text-stone-600">Arantes.</span>
+                </h2>
+              </Reveal>
+              <Reveal delay={0.15}>
+                <p className="text-base text-white/30 font-bold uppercase tracking-widest leading-relaxed italic mb-10">
+                  Based between Geneva and Tokyo, Luca Arantes built his practice
+                  on the precision of mechanical time — transposing the watchmaker's
+                  obsession with detail into the photographic frame. Every composition
+                  is a calibration. Every exposure a deliberate act of structural
+                  intelligence. Working exclusively on medium format, his images have
+                  appeared in Vogue, Wallpaper*, and Dezeen, and hang in private
+                  collections across 12 countries.
+                </p>
+              </Reveal>
+              <Reveal delay={0.25}>
+                <div className="grid grid-cols-3 gap-8 pt-10 border-t border-white/5">
+                  {[
+                    { v: 340, s: "+", label: "Publications" },
+                    { v: 12, s: "", label: "Countries" },
+                    { v: 18, s: " ans", label: "D'expérience" },
+                  ].map((stat, i) => (
+                    <div key={i}>
+                      <div className="text-3xl font-black text-white font-mono mb-1">
+                        <Counter to={stat.v} suffix={stat.s} />
+                      </div>
+                      <div className="text-[9px] font-bold uppercase tracking-widest text-white/20 italic">
+                        {stat.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          4. SELECTED CLIENT LOGOS
+          ========================================== */}
+      <section className="py-20 bg-[#050505] border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="flex flex-wrap items-center justify-between gap-10">
+              <span className="text-[9px] font-bold text-white/10 uppercase tracking-[0.5em]">
+                Trusted by
+              </span>
+              {CLIENTS.map((client, i) => (
+                <span
+                  key={i}
+                  className="text-xl md:text-2xl font-black uppercase tracking-tighter text-white/10 hover:text-white/40 transition-colors cursor-default italic"
+                >
+                  {client}
+                </span>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ==========================================
+          5. SERVICES
+          ========================================== */}
+      <section className="py-32 bg-[#080808] border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-600 mb-6 block">
+              SERVICE_LEDGER // ACTIVE
+            </span>
+            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">
+              Services.
+            </h2>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
+            {SERVICES.map((svc, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div className="bg-[#080808] p-10 group hover:bg-[#0a0a0a] transition-colors">
+                  <span className="text-[9px] font-black text-stone-600/50 uppercase tracking-[0.5em] mb-6 block">
+                    {svc.code}
+                  </span>
+                  <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-5">
+                    {svc.title}
+                  </h3>
+                  <p className="text-[11px] text-white/30 uppercase tracking-widest leading-relaxed font-bold italic">
+                    {svc.desc}
+                  </p>
+                  <div className="mt-8 flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.4em] text-stone-600/50 group-hover:text-stone-500 transition-colors">
+                    Inquire <ArrowUpRight className="w-3 h-3" />
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          6. CONTACT CTA
+          ========================================== */}
+      <section className="py-40 bg-[#050505] border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 text-center">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-600 mb-8 block">
+              CONTACT_NODE // OPEN
+            </span>
+            <h2 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white leading-[1.05] mb-12 pb-4">
+              Work<br />
+              <span className="text-stone-600">together.</span>
+            </h2>
+            <p className="max-w-md mx-auto text-[11px] text-white/20 uppercase tracking-widest leading-relaxed font-bold italic mb-16">
+              Available for editorial, commercial, and fine print commissions. Response within 48 hours.
+            </p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <Link href="/templates/impact-77/contact">
+                <MagneticBtn className="px-16 py-6 bg-white text-black text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-stone-200 transition-all cursor-pointer shadow-2xl inline-flex items-center gap-4">
+                  Send Inquiry <Mail className="w-4 h-4" />
+                </MagneticBtn>
+              </Link>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noreferrer"
+                className="px-16 py-6 border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-white hover:text-black transition-all cursor-pointer inline-flex items-center gap-4"
+              >
+                Instagram <Instagram className="w-4 h-4" />
+              </a>
+            </div>
+          </Reveal>
+        </div>
       </section>
     </div>
   );

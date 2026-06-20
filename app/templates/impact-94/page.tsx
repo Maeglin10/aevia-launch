@@ -48,6 +48,7 @@ const NAV_LINKS = [
   { label: "Événements", href: "#evenements" },
   { label: "Studio", href: "#studio" },
   { label: "Atelier", href: "#atelier" },
+  { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ]
 
@@ -291,6 +292,81 @@ function useFonts() {
   }, [])
 }
 
+const FAQ_ITEMS = [
+  {
+    q: "Quels sont vos délais de création ?",
+    a: "Pour les bouquets standards, nous livrons sous 4 heures à Paris. Pour les compositions sur-mesure ou les événements, nous conseillons de nous contacter au moins 48 heures à l'avance.",
+  },
+  {
+    q: "D'où proviennent vos fleurs ?",
+    a: "80% de nos fleurs proviennent de producteurs français partenaires engagés dans une charte éco-responsable. Les 20% restants proviennent de producteurs d'exception en Europe.",
+  },
+  {
+    q: "Comment assurer la longévité de mon bouquet ?",
+    a: "Coupez les tiges en biseau sur 1 cm tous les deux jours, changez l'eau quotidiennement et évitez d'exposer les fleurs directement au soleil ou à proximité d'une source de chaleur.",
+  },
+  {
+    q: "Proposez-vous des abonnements floraux ?",
+    a: "Oui, nous proposons des abonnements hebdomadaires, bi-mensuels ou mensuels pour les particuliers et les entreprises. Contactez l'atelier pour personnaliser votre offre.",
+  },
+  {
+    q: "Puis-je commander pour un événement hors de Paris ?",
+    a: "Oui, notre équipe se déplace dans toute la France et en Europe pour concevoir les décors floraux de vos grands événements (mariages, lancements corporate).",
+  },
+]
+
+function FaqSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
+
+  return (
+    <section id="faq" className="py-40 px-6 md:px-16 bg-[#FAFAF8] border-t border-[#CA8A04]/10">
+      <div className="max-w-4xl mx-auto">
+        <SectionTitle subtitle="Des réponses à vos questions" title="Questions Fréquentes" />
+        
+        <div className="space-y-4 mt-12">
+          {FAQ_ITEMS.map((item, i) => (
+            <Reveal key={i} delay={i * 0.08}>
+              <div className="border border-[#CA8A04]/20 bg-white">
+                <button
+                  type="button"
+                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                  className="w-full flex items-center justify-between p-6 text-left focus:outline-none"
+                >
+                  <span className="font-medium text-[#0C0A09] text-base md:text-lg" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+                    {item.q}
+                  </span>
+                  <motion.span
+                    animate={{ rotate: openIndex === i ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-[#CA8A04] flex-shrink-0 ml-4"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </motion.span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {openIndex === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      style={{ overflow: "hidden" }}
+                    >
+                      <div className="p-6 pt-0 text-sm md:text-base text-[#0C0A09]/60 leading-relaxed font-light border-t border-[#CA8A04]/10 mt-4">
+                        {item.a}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 /* ==========================================================================
    MAIN PAGE COMPONENT
    ========================================================================== */
@@ -301,6 +377,7 @@ export default function Impact94Page() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeCollection, setActiveCollection] = useState<string | null>(null)
+  const [contactSubmitted, setContactSubmitted] = useState(false)
 
   const { scrollYProgress } = useScroll()
   const heroRef = useRef<HTMLDivElement>(null)
@@ -695,7 +772,7 @@ export default function Impact94Page() {
               <div className="absolute bottom-8 left-8 bg-[#0C0A09]/90 backdrop-blur-md border border-[#CA8A04]/20 p-6 max-w-[220px]">
                 <Flower className="w-6 h-6 text-[#CA8A04] mb-3" />
                 <p className="text-sm text-[#FAFAF9]/80 font-light leading-relaxed italic" style={{ fontFamily: "'Bodoni Moda', serif" }}>
-                  &ldquo;La fleur la plus parfaite est celle qui révèle l&apos;âme de celui qui la contemple.&rdquo;
+                  {"“La fleur la plus parfaite est celle qui révèle l'âme de celui qui la contemple.”"}
                 </p>
                 <p className="mt-3 text-[9px] uppercase tracking-[0.3em] text-[#CA8A04]">— Sophie Marchand, Fondatrice</p>
               </div>
@@ -886,6 +963,11 @@ export default function Impact94Page() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════
+          FAQ
+      ════════════════════════════════════════════════════════════ */}
+      <FaqSection />
+
+      {/* ════════════════════════════════════════════════════════════
           CONTACT
       ════════════════════════════════════════════════════════════ */}
       <section id="contact" className="py-40 px-6 md:px-16 bg-[#FAFAF9]">
@@ -971,70 +1053,88 @@ export default function Impact94Page() {
 
           {/* Right — Form */}
           <Reveal delay={0.2}>
-            <form className="space-y-6">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#0C0A09]/50 mb-2">
-                    Prénom
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[#CA8A04] transition-colors"
-                    placeholder="Sophie"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#0C0A09]/50 mb-2">
-                    Nom
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[#CA8A04] transition-colors"
-                    placeholder="Marchand"
-                  />
-                </div>
+            {contactSubmitted ? (
+              <div className="border border-[#CA8A04]/20 bg-white p-10 text-center flex flex-col items-center justify-center h-full">
+                <Flower className="w-8 h-8 text-[#CA8A04] animate-spin mb-4" style={{ animationDuration: "3s" }} />
+                <h3 className="text-2xl font-normal mb-2" style={{ fontFamily: "'Bodoni Moda', serif" }}>Merci</h3>
+                <p className="text-sm text-[#0C0A09]/60 font-light">Merci, nous vous répondrons sous 24h.</p>
               </div>
-              <div>
-                <label className="block text-[10px] uppercase tracking-[0.2em] text-[#0C0A09]/50 mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[#CA8A04] transition-colors"
-                  placeholder="sophie@exemple.fr"
-                />
-              </div>
-              <div>
-                <label className="block text-[10px] uppercase tracking-[0.2em] text-[#0C0A09]/50 mb-2">
-                  Type de commande
-                </label>
-                <select className="w-full border border-[#0C0A09]/15 bg-[#FAFAF9] px-5 py-4 text-sm text-[#0C0A09] focus:outline-none focus:border-[#CA8A04] transition-colors appearance-none">
-                  <option value="">Sélectionner...</option>
-                  <option value="bouquet">Bouquet standard</option>
-                  <option value="mariage">Mariage</option>
-                  <option value="corporate">Corporate</option>
-                  <option value="reception">Réception privée</option>
-                  <option value="abonnement">Abonnement floral</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-[10px] uppercase tracking-[0.2em] text-[#0C0A09]/50 mb-2">
-                  Votre message
-                </label>
-                <textarea
-                  rows={5}
-                  className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[#CA8A04] transition-colors resize-none"
-                  placeholder="Décrivez votre projet, l'occasion, les couleurs souhaitées..."
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full py-5 bg-[#CA8A04] text-white text-[11px] font-medium uppercase tracking-[0.3em] hover:bg-[#A16F03] transition-colors duration-300 flex items-center justify-center gap-2"
+            ) : (
+              <form
+                className="space-y-6"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setContactSubmitted(true);
+                }}
               >
-                Envoyer ma demande
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </form>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] uppercase tracking-[0.2em] text-[#0C0A09]/50 mb-2">
+                      Prénom
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[#CA8A04] transition-colors"
+                      placeholder="Sophie"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] uppercase tracking-[0.2em] text-[#0C0A09]/50 mb-2">
+                      Nom
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[#CA8A04] transition-colors"
+                      placeholder="Marchand"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#0C0A09]/50 mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[#CA8A04] transition-colors"
+                    placeholder="sophie@exemple.fr"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#0C0A09]/50 mb-2">
+                    Type de commande
+                  </label>
+                  <select required className="w-full border border-[#0C0A09]/15 bg-[#FAFAF9] px-5 py-4 text-sm text-[#0C0A09] focus:outline-none focus:border-[#CA8A04] transition-colors appearance-none">
+                    <option value="">Sélectionner...</option>
+                    <option value="bouquet">Bouquet standard</option>
+                    <option value="mariage">Mariage</option>
+                    <option value="corporate">Corporate</option>
+                    <option value="reception">Réception privée</option>
+                    <option value="abonnement">Abonnement floral</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#0C0A09]/50 mb-2">
+                    Votre message
+                  </label>
+                  <textarea
+                    rows={5}
+                    required
+                    className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[#CA8A04] transition-colors resize-none"
+                    placeholder="Décrivez votre projet, l'occasion, les couleurs souhaitées..."
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full py-5 bg-[#CA8A04] text-white text-[11px] font-medium uppercase tracking-[0.3em] hover:bg-[#A16F03] transition-colors duration-300 flex items-center justify-center gap-2"
+                >
+                  Envoyer ma demande
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </form>
+            )}
           </Reveal>
         </div>
       </section>
@@ -1061,9 +1161,9 @@ export default function Impact94Page() {
 
           <div className="flex items-center gap-4">
             {[
-              { label: "Confidentialité", href: "#" },
-              { label: "CGV", href: "#" },
-              { label: "Mentions", href: "#" },
+              { label: "Confidentialité", href: "/legal/confidentialite" },
+              { label: "CGV", href: "/legal/cgu" },
+              { label: "Mentions", href: "/legal/mentions-legales" },
             ].map((link) => (
               <Link
                 key={link.label}

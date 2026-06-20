@@ -79,7 +79,7 @@ const C = {
 /* ==========================================================================
    DATA
    ========================================================================== */
-const NAV_LINKS = ["Portfolio", "Services", "Artistes", "Soins", "Tarifs", "Contact"]
+const NAV_LINKS = ["Concept", "Portfolio", "Services", "Artistes", "FAQ", "Contact"]
 
 const PORTFOLIO_FILTERS = ["Tout", "Gel", "Nail Art", "French", "Extensions", "Seasonal"]
 
@@ -298,18 +298,19 @@ function Nav() {
           {/* Desktop links */}
           <div className="hidden lg:flex items-center gap-8">
             {NAV_LINKS.map((link) => (
-              <button
+              <Link
                 key={link}
+                href={`#${link.toLowerCase()}`}
                 className="text-[13px] font-[400] text-[#9D174D] hover:text-[#EC4899] transition-colors duration-200 tracking-wide"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 {link}
-              </button>
+              </Link>
             ))}
-            <button className="ml-2 px-6 py-2.5 bg-[#EC4899] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all duration-200 shadow-[0_4px_16px_rgba(236,72,153,0.35)]"
+            <Link href="#contact" className="ml-2 px-6 py-2.5 bg-[#EC4899] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all duration-200 shadow-[0_4px_16px_rgba(236,72,153,0.35)] text-center"
               style={{ fontFamily: "'Inter', sans-serif" }}>
               Réserver
-            </button>
+            </Link>
           </div>
 
           {/* Mobile burger */}
@@ -335,25 +336,26 @@ function Nav() {
           >
             <div className="flex flex-col gap-6 flex-1">
               {NAV_LINKS.map((link, i) => (
-                <motion.button
-                  key={link}
-                  initial={{ opacity: 0, x: 24 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06 }}
-                  className="text-left text-[28px] font-[500] italic text-[#831843] hover:text-[#EC4899] transition-colors"
-                  style={{ fontFamily: "'Playfair Display', serif" }}
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {link}
-                </motion.button>
+                <motion.div key={link} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}>
+                  <Link
+                    href={`#${link.toLowerCase()}`}
+                    className="text-left text-[28px] font-[500] italic text-[#831843] hover:text-[#EC4899] transition-colors"
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {link}
+                  </Link>
+                </motion.div>
               ))}
             </div>
-            <button
-              className="w-full py-4 bg-[#EC4899] text-white text-[14px] font-[600] uppercase tracking-[0.15em] rounded-full shadow-[0_4px_20px_rgba(236,72,153,0.35)]"
+            <Link
+              href="#contact"
+              onClick={() => setMobileOpen(false)}
+              className="w-full py-4 bg-[#EC4899] text-white text-[14px] font-[600] uppercase tracking-[0.15em] rounded-full shadow-[0_4px_20px_rgba(236,72,153,0.35)] text-center"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Réserver en ligne
-            </button>
+            </Link>
           </motion.div>
         )}
       </AnimatePresence>
@@ -1115,7 +1117,7 @@ function ContactFooter() {
   }
 
   return (
-    <footer className="bg-[#831843]" id="contact">
+    <footer className="bg-[#831843]">
       {/* Contact info band */}
       <div className="py-[80px] border-b border-white/10">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
@@ -1256,15 +1258,242 @@ function ContactFooter() {
             © 2025 Velvet Nails — Tous droits réservés
           </p>
           <div className="flex gap-5">
-            {["Mentions légales", "Confidentialité", "Instagram"].map((link) => (
-              <button key={link} className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
-                {link}
-              </button>
-            ))}
+            <Link href="/legal/mentions-legales" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
+              Mentions légales
+            </Link>
+            <Link href="/legal/confidentialite" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
+              Confidentialité
+            </Link>
+            <Link href="/legal/cgu" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
+              CGU
+            </Link>
           </div>
         </div>
       </div>
     </footer>
+  )
+}
+
+/* ==========================================================================
+   SECTION: CONCEPT (ABOUT)
+   ========================================================================== */
+function AboutSection() {
+  return (
+    <section className="py-[100px] bg-white border-b border-[rgba(236,72,153,0.08)]" id="concept">
+      <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <Reveal>
+            <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden shadow-[0_4px_30px_rgba(236,72,153,0.1)]">
+              <Image
+                src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80"
+                alt="Velvet Nails concept"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <div>
+              <p
+                className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-4"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                Notre Philosophie
+              </p>
+              <h2
+                className="text-[clamp(36px,5vw,56px)] font-[700] italic text-[#831843] leading-[1.1] mb-8"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                La beauté <br />
+                <span className="not-italic font-[400] text-[#8B5CF6]">jusqu'au bout des doigts.</span>
+              </h2>
+              <p
+                className="text-[15px] text-[#9D174D] leading-[1.8] font-[300] mb-6"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                Chez Velvet Nails, nous croyons que la manucure est une extension de votre personnalité. Notre salon parisien a été pensé comme un havre de détente où le soin de l'ongle naturel rencontre l'excellence artistique.
+              </p>
+              <p
+                className="text-[15px] text-[#9D174D] leading-[1.8] font-[300] mb-8"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                Nous travaillons uniquement avec des marques certifiées respectueuses de la santé de vos ongles (sans composants toxiques) et formons continuellement nos artistes aux dernières techniques de nail art de précision.
+              </p>
+              <div className="grid grid-cols-2 gap-6 pt-6 border-t border-[rgba(236,72,153,0.1)]">
+                <div>
+                  <h4 className="text-[18px] font-[600] italic text-[#831843] mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>Produits Clean</h4>
+                  <p className="text-[12px] text-[#BE185D] leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>Sans composants nocifs pour préserver vos ongles.</p>
+                </div>
+                <div>
+                  <h4 className="text-[18px] font-[600] italic text-[#831843] mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>Nail Art Précis</h4>
+                  <p className="text-[12px] text-[#BE185D] leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>Des tracés haute définition réalisés au pinceau fin.</p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ==========================================================================
+   SECTION: FAQ
+   ========================================================================== */
+const FAQS_88 = [
+  { q: "Quelle est la différence entre le gel et le semi-permanent ?", a: "Le semi-permanent est un vernis cuit sous lampe UV qui dure 2 à 3 semaines, idéal pour les ongles naturels sains. Le gel permet de renforcer l'ongle, de corriger sa forme ou de l'allonger (extensions) avec une tenue de 3 à 4 semaines." },
+  { q: "Vos prestations abîment-elles les ongles naturels ?", a: "Non, si la pose et surtout la dépose sont effectuées correctement. Nous utilisons des techniques douces et des produits de haute qualité. Nous recommandons de faire retirer votre gel ou semi-permanent dans notre salon pour éviter d'arracher la kératine." },
+  { q: "Comment se passe la création d'un Nail Art ?", a: "Vous pouvez venir avec des inspirations (photos, motifs, couleurs). Lors de votre rendez-vous, nous prenons quelques minutes pour discuter de votre projet et l'adapter à la longueur et à la forme de vos ongles." },
+  { q: "Puis-je annuler ou déplacer mon rendez-vous ?", a: "Oui, vous pouvez modifier ou annuler votre rendez-vous gratuitement jusqu'à 24 heures à l'avance. Au-delà, des frais peuvent s'appliquer conformément à nos conditions." }
+];
+
+function FaqSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  return (
+    <section className="py-[100px] bg-white border-b border-[rgba(236,72,153,0.08)]" id="faq">
+      <div className="max-w-[800px] mx-auto px-6">
+        <Reveal className="text-center mb-16">
+          <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>FAQ</p>
+          <h2 className="text-[clamp(36px,5vw,56px)] font-[700] italic text-[#831843] leading-[1.1]" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Questions <span className="not-italic font-[400] text-[#8B5CF6]">Fréquentes</span>
+          </h2>
+        </Reveal>
+        <div className="space-y-4">
+          {FAQS_88.map((faq, idx) => (
+            <Reveal key={idx} delay={idx * 0.05}>
+              <div className="border border-[rgba(236,72,153,0.15)] rounded-[16px] bg-[#FDF2F8]/30 overflow-hidden">
+                <button
+                  onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
+                  className="w-full px-6 py-5 flex items-center justify-between text-left font-[500] text-[#831843] hover:text-[#EC4899] transition-colors"
+                  style={{ fontFamily: "'Inter', sans-serif", fontSize: "15px" }}
+                >
+                  <span>{faq.q}</span>
+                  <span className="text-lg font-light">{openIndex === idx ? "−" : "+"}</span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {openIndex === idx && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className="px-6 pb-5 text-[14px] text-[#9D174D]/80 leading-relaxed font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                        {faq.a}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ==========================================================================
+   SECTION: CONTACT FORM
+   ========================================================================== */
+function ContactSection() {
+  const [contactSubmitted, setContactSubmitted] = useState(false);
+  return (
+    <section className="py-[100px] bg-[#FFF0F6]" id="contact">
+      <div className="max-w-[1000px] mx-auto px-6">
+        <div className="grid md:grid-cols-2 gap-16 items-center">
+          <Reveal>
+            <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>Contact</p>
+            <h2 className="text-[clamp(36px,5vw,56px)] font-[700] italic text-[#831843] leading-[1.1] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+              Écrivez-nous <span className="not-italic font-[400] text-[#8B5CF6]">un message</span>
+            </h2>
+            <p className="text-[15px] text-[#9D174D] leading-[1.75] font-[300] mb-8" style={{ fontFamily: "'Inter', sans-serif" }}>
+              Pour toute demande spécifique, projet de nail art sur-mesure ou question sur nos prestations, n'hésitez pas à nous envoyer un message. Notre équipe vous répondra sous 24h.
+            </p>
+            <div className="space-y-4 font-[300] text-[#9D174D] text-[14px]" style={{ fontFamily: "'Inter', sans-serif" }}>
+              <div className="flex items-center gap-3">
+                <Phone className="w-4 h-4 text-[#EC4899]" />
+                <span>+33 1 23 45 67 89</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Mail className="w-4 h-4 text-[#EC4899]" />
+                <span>bonjour@velvetnails.fr</span>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.15}>
+            <div className="bg-white rounded-[24px] p-8 border border-[rgba(236,72,153,0.1)] shadow-[0_4px_30px_rgba(236,72,153,0.05)] text-left">
+              {contactSubmitted ? (
+                <div className="text-center py-12">
+                  <div className="w-12 h-12 rounded-full bg-[#EC4899]/10 flex items-center justify-center mx-auto mb-6">
+                    <Check className="w-6 h-6 text-[#EC4899]" />
+                  </div>
+                  <h3 className="text-[20px] font-[600] italic text-[#831843] mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>Message envoyé</h3>
+                  <p className="text-[#9D174D] text-sm leading-relaxed max-w-xs mx-auto text-center" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    Merci, nous vous répondrons sous 24h.
+                  </p>
+                  <button
+                    onClick={() => setContactSubmitted(false)}
+                    className="mt-8 px-6 py-2.5 bg-[#EC4899] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    Nouveau message
+                  </button>
+                </div>
+              ) : (
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    setContactSubmitted(true);
+                  }}
+                  className="space-y-6 text-sm"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  <div>
+                    <label className="block text-xs font-[600] uppercase tracking-wider text-[#9D174D] mb-2" htmlFor="c-nom">Nom complet</label>
+                    <input
+                      id="c-nom"
+                      type="text"
+                      required
+                      placeholder="Votre nom"
+                      className="w-full bg-[#FDF2F8]/50 border border-[rgba(236,72,153,0.15)] rounded-xl px-4 py-3 text-[#831843] outline-none focus:border-[#EC4899] focus:bg-white transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-[600] uppercase tracking-wider text-[#9D174D] mb-2" htmlFor="c-email">Email</label>
+                    <input
+                      id="c-email"
+                      type="email"
+                      required
+                      placeholder="vous@email.com"
+                      className="w-full bg-[#FDF2F8]/50 border border-[rgba(236,72,153,0.15)] rounded-xl px-4 py-3 text-[#831843] outline-none focus:border-[#EC4899] focus:bg-white transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-[600] uppercase tracking-wider text-[#9D174D] mb-2" htmlFor="c-message">Message</label>
+                    <textarea
+                      id="c-message"
+                      rows={4}
+                      required
+                      placeholder="Votre message..."
+                      className="w-full bg-[#FDF2F8]/50 border border-[rgba(236,72,153,0.15)] rounded-xl px-4 py-3 text-[#831843] outline-none focus:border-[#EC4899] focus:bg-white transition-all resize-none"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full py-4 bg-[#EC4899] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all cursor-pointer shadow-[0_4px_16px_rgba(236,72,153,0.3)]"
+                  >
+                    Envoyer le message
+                  </button>
+                </form>
+              )}
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
   )
 }
 
@@ -1279,6 +1508,9 @@ export default function Impact88Page() {
       <ScrollProgressBar />
       <Nav />
       <Hero />
+
+      {/* Section: Concept (About) */}
+      <AboutSection />
 
       {/* Section 3: Portfolio */}
       <PortfolioSection />
@@ -1300,6 +1532,12 @@ export default function Impact88Page() {
 
       {/* Section 9: Tarifs complets */}
       <TarifsSection />
+
+      {/* Section: FAQ */}
+      <FaqSection />
+
+      {/* Section: Contact Form */}
+      <ContactSection />
 
       {/* Section 10: Contact + Footer mega */}
       <ContactFooter />

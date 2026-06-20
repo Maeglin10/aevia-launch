@@ -12,7 +12,7 @@ import {
 } from "framer-motion";
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { Shield, Lock, Eye, AlertTriangle, CheckCircle2, Terminal, Zap, ArrowRight, X, Menu, Activity, Server, Globe, Cpu, Database, Search, Radio, ChevronRight, ExternalLink } from "lucide-react";
+import { Shield, Lock, Eye, AlertTriangle, CheckCircle2, Terminal, Zap, ArrowRight, X, Menu, Activity, Server, Globe, Cpu, Database, Search, Radio, ChevronRight, ExternalLink, Mail, Phone, MapPin } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -231,6 +231,7 @@ export default function CipherShieldPage() {
   const [activeService, setActiveService] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [sector, setSector] = useState("Finance");
+  const [contactSubmitted, setContactSubmitted] = useState(false);
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 40);
@@ -275,7 +276,7 @@ export default function CipherShieldPage() {
           </span>
         </Link>
         <div className="hidden md:flex gap-10 text-[11px] font-bold uppercase tracking-widest text-white/40">
-          {["Services", "Platform", "Cases", "Intel", "Pricing"].map((l) => (
+          {["Services", "Cases", "Testimonials", "Intel", "Contact"].map((l) => (
             <Link
               key={l}
               href={`#${l.toLowerCase()}`}
@@ -313,7 +314,7 @@ export default function CipherShieldPage() {
             >
               <X className="w-8 h-8" />
             </button>
-            {["Services", "Platform", "Cases", "Intel", "Pricing"].map((l) => (
+            {["Services", "Cases", "Testimonials", "Intel", "Contact"].map((l) => (
               <Link
                 key={l}
                 href={`#${l.toLowerCase()}`}
@@ -550,6 +551,61 @@ export default function CipherShieldPage() {
         </div>
       </section>
 
+      {/* ── TESTIMONIALS ── */}
+      <section id="testimonials" className="py-32 px-6 md:px-12 bg-[#060810]">
+        <div className="max-w-[1400px] mx-auto">
+          <Reveal>
+            <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase leading-none">
+                Client <span className="text-[#00ffcc]">Intel.</span>
+              </h2>
+              <p className="text-white/30 text-[11px] font-black uppercase tracking-widest max-w-xs text-right font-mono">
+                // DEPLOYMENT_FEEDBACK_REPORTS
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                quote: "CipherShield's XDR engine flagged and isolated a multi-stage ransomware attack on our database servers within 4 minutes. Absolutely critical for our infrastructure.",
+                author: "Marcus Vance",
+                role: "CISO",
+                company: "Apex Global Finance"
+              },
+              {
+                quote: "The team delivered a complete NIST compliance audit and security hardening for our 320 clinics in record time. Zero breaches since deployment.",
+                author: "Dr. Sarah Chen",
+                role: "Director of IT",
+                company: "CareNet Health"
+              },
+              {
+                quote: "Their simulated red team engagement uncovered vulnerabilities we didn't know existed. The remediation plan was detailed and highly effective.",
+                author: "Thomas Wright",
+                role: "Head of Security",
+                company: "Federal Security Sys"
+              }
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="p-8 bg-[#0a1628]/40 border border-[#00ffcc]/10 hover:border-[#00ffcc]/30 transition-all flex flex-col justify-between h-full group">
+                  <div className="mb-8 font-sans font-light text-white/70 leading-relaxed text-sm">
+                    "{t.quote}"
+                  </div>
+                  <div className="font-mono text-left">
+                    <div className="text-[11px] font-black uppercase tracking-widest text-[#00ffcc] mb-1">
+                      {t.author}
+                    </div>
+                    <div className="text-[9px] uppercase tracking-wider text-white/30">
+                      {t.role} // {t.company}
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── 6. FAQ ── */}
       <section id="intel" className="py-32 px-6 md:px-12 bg-[#0a1628]">
         <div className="max-w-3xl mx-auto">
@@ -605,6 +661,123 @@ export default function CipherShieldPage() {
               </button>
             </div>
           </Reveal>
+        </div>
+      </section>
+
+      {/* ── CONTACT ── */}
+      <section id="contact" className="py-32 px-6 md:px-12 bg-[#060810] border-t border-[#00ffcc]/10">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <Reveal>
+              <span className="text-[10px] font-black uppercase tracking-widest text-[#00ffcc] font-mono mb-4 block">
+                // SECURE_COMMUNICATION_CHANNEL
+              </span>
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-8">
+                Get in <span className="text-[#00ffcc]">Touch.</span>
+              </h2>
+              <p className="text-white/40 leading-relaxed mb-12 text-sm max-w-md">
+                Initiate an encrypted connection. Our intelligence officers and threat responders are available 24/7.
+              </p>
+              
+              <div className="space-y-6 text-sm font-mono text-white/50">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 border border-[#00ffcc]/20 flex items-center justify-center shrink-0">
+                    <Mail className="w-4 h-4 text-[#00ffcc]" />
+                  </div>
+                  <div>
+                    <div className="text-[9px] text-white/30 uppercase tracking-widest">SECURE_EMAIL</div>
+                    <a href="mailto:contact@ciphershield.com" className="text-white hover:text-[#00ffcc] transition-colors">contact@ciphershield.com</a>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 border border-[#00ffcc]/20 flex items-center justify-center shrink-0">
+                    <Phone className="w-4 h-4 text-[#00ffcc]" />
+                  </div>
+                  <div>
+                    <div className="text-[9px] text-white/30 uppercase tracking-widest">COMMS_LINE</div>
+                    <a href="tel:+33180000000" className="text-white hover:text-[#00ffcc] transition-colors">+33 1 80 00 00 00</a>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 border border-[#00ffcc]/20 flex items-center justify-center shrink-0">
+                    <MapPin className="w-4 h-4 text-[#00ffcc]" />
+                  </div>
+                  <div>
+                    <div className="text-[9px] text-white/30 uppercase tracking-widest">HQ_COORDINATES</div>
+                    <span className="text-white">42 Rue de la Paix, 75002 Paris, France</span>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.1}>
+              <div className="border border-[#00ffcc]/20 p-8 bg-[#0a1628]/45 relative">
+                <div className="absolute top-0 right-0 p-2 text-[8px] font-mono text-[#00ffcc]/40">// ENCRYPTED_TUNNEL</div>
+                {contactSubmitted ? (
+                  <div className="text-center py-12 font-mono">
+                    <div className="w-12 h-12 border border-[#00ffcc] flex items-center justify-center mx-auto mb-6">
+                      <span className="text-[#00ffcc] text-lg font-light">✓</span>
+                    </div>
+                    <h3 className="text-xl font-black uppercase mb-3 text-white">Transmission Received</h3>
+                    <p className="text-[#00ffcc] text-xs leading-relaxed max-w-xs mx-auto text-center">
+                      Merci, nous vous répondrons sous 24h.
+                    </p>
+                    <button
+                      onClick={() => setContactSubmitted(false)}
+                      className="mt-8 px-6 py-2.5 bg-[#00ffcc] text-[#060810] text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all"
+                    >
+                      SEND_NEW_SIGNAL
+                    </button>
+                  </div>
+                ) : (
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      setContactSubmitted(true);
+                    }}
+                    className="space-y-6 text-sm font-mono"
+                  >
+                    <div>
+                      <label className="block text-[9px] uppercase tracking-widest text-[#00ffcc]/60 mb-2" htmlFor="c-name">Identity / Company</label>
+                      <input
+                        id="c-name"
+                        type="text"
+                        required
+                        placeholder="John Doe / Acme Corp"
+                        className="w-full bg-[#060810]/60 border border-[#00ffcc]/20 px-4 py-3 text-white outline-none focus:border-[#00ffcc] transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[9px] uppercase tracking-widest text-[#00ffcc]/60 mb-2" htmlFor="c-email">Comms Endpoint (Email)</label>
+                      <input
+                        id="c-email"
+                        type="email"
+                        required
+                        placeholder="operator@domain.com"
+                        className="w-full bg-[#060810]/60 border border-[#00ffcc]/20 px-4 py-3 text-white outline-none focus:border-[#00ffcc] transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[9px] uppercase tracking-widest text-[#00ffcc]/60 mb-2" htmlFor="c-message">Payload (Message)</label>
+                      <textarea
+                        id="c-message"
+                        rows={4}
+                        required
+                        placeholder="Describe threat vector or request details..."
+                        className="w-full bg-[#060810]/60 border border-[#00ffcc]/20 px-4 py-3 text-white outline-none focus:border-[#00ffcc] transition-colors resize-none"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="w-full py-4 bg-[#00ffcc] text-[#060810] text-[11px] font-black uppercase tracking-widest hover:bg-white transition-all cursor-pointer"
+                    >
+                      TRANSMIT_PAYLOAD
+                    </button>
+                  </form>
+                )}
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 
@@ -666,14 +839,14 @@ export default function CipherShieldPage() {
             reserved.
           </span>
           <div className="flex gap-8">
-            <Link href="#" className="hover:text-[#00ffcc] transition-colors">
+            <Link href="/legal/confidentialite" className="hover:text-[#00ffcc] transition-colors">
               Privacy_Protocol
             </Link>
-            <Link href="#" className="hover:text-[#00ffcc] transition-colors">
+            <Link href="/legal/cgu" className="hover:text-[#00ffcc] transition-colors">
               Terms_of_Engagement
             </Link>
-            <Link href="#" className="hover:text-[#00ffcc] transition-colors">
-              Responsible_Disclosure
+            <Link href="/legal/mentions-legales" className="hover:text-[#00ffcc] transition-colors">
+              Mentions_Legales
             </Link>
           </div>
         </div>

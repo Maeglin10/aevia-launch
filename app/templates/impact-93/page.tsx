@@ -93,6 +93,15 @@ const FLIGHT_LOGS = [
   { label: "Safety Rating", value: "Platinum" },
 ];
 
+const NAV_LINKS = [
+  { label: "Fleet", href: "#fleet" },
+  { label: "Services", href: "#services" },
+  { label: "About", href: "#about" },
+  { label: "Testimonials", href: "#testimonials" },
+  { label: "FAQ", href: "#faq" },
+  { label: "Contact", href: "#contact" },
+];
+
 /* ==========================================================================
    UTILITY COMPONENTS
    ========================================================================= */
@@ -168,6 +177,7 @@ export default function VelocityJetsPage() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeJet, setActiveJet] = useState<number | null>(null);
+  const [contactSubmitted, setContactSubmitted] = useState(false);
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50);
@@ -198,17 +208,15 @@ export default function VelocityJetsPage() {
           </Link>
 
           <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
-            {["Fleet", "Empty_Legs", "Memberships", "Corporate", "Safety"].map(
-              (link) => (
-                <Link
-                  key={link}
-                  href="#"
-                  className="hover:text-[#00f2ff] transition-colors cursor-pointer"
-                >
-                  {link}
-                </Link>
-              ),
-            )}
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="hover:text-[#00f2ff] transition-colors cursor-pointer"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
 
           <div className="flex items-center gap-8">
@@ -246,14 +254,14 @@ export default function VelocityJetsPage() {
               <X className="w-8 h-8" />
             </button>
             <div className="flex flex-col gap-6 text-5xl font-black italic uppercase text-white/5">
-              {["Fleet", "Legs", "Members", "Safety", "Contact"].map((l) => (
+              {NAV_LINKS.map((link) => (
                 <Link
-                  key={l}
-                  href="#"
+                  key={link.label}
+                  href={link.href}
                   onClick={() => setMenuOpen(false)}
                   className="hover:text-[#00f2ff] transition-colors"
                 >
-                  {l}
+                  {link.label}
                 </Link>
               ))}
             </div>
@@ -291,9 +299,11 @@ export default function VelocityJetsPage() {
               rapid super-midsize charters to ultra-long-range executive suites.
             </p>
             <div className="flex flex-col sm:flex-row gap-6">
-              <MagneticBtn className="px-12 py-5 bg-[#00f2ff] text-black text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm hover:bg-white transition-all cursor-pointer shadow-2xl shadow-[#00f2ff]/20">
-                Instant_Quote
-              </MagneticBtn>
+              <Link href="#contact">
+                <MagneticBtn className="px-12 py-5 bg-[#00f2ff] text-black text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm hover:bg-white transition-all cursor-pointer shadow-2xl shadow-[#00f2ff]/20">
+                  Instant_Quote
+                </MagneticBtn>
+              </Link>
               <Link
                 href="#fleet"
                 className="px-12 py-5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm hover:bg-white/5 transition-all flex items-center justify-center gap-3"
@@ -319,7 +329,7 @@ export default function VelocityJetsPage() {
       </section>
 
       {/* ── VALUES SECTION ── */}
-      <section className="py-32 px-6 md:px-12 border-y border-white/5 bg-[#080808]">
+      <section id="services" className="py-32 px-6 md:px-12 border-y border-white/5 bg-[#080808]">
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
             <div className="text-center mb-24">
@@ -355,6 +365,61 @@ export default function VelocityJetsPage() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── ABOUT SECTION ── */}
+      <section id="about" className="py-32 px-6 md:px-12 bg-[#050505] border-b border-white/5">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] mb-8 block">
+              Velocity Creed
+            </span>
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-8">
+              Aviation Engineered <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f2ff] via-white to-[#00f2ff]">
+                For Absolute Freedom.
+              </span>
+            </h2>
+            <p className="text-white/40 text-lg leading-relaxed mb-8 font-light italic">
+              Velocity was founded on a simple insight: time is the ultimate non-renewable asset.
+            </p>
+            <p className="text-white/30 text-sm leading-relaxed mb-12 font-light">
+              By combining machine-learning flight dispatch systems with an elite fleet of modern business jets, we bypass the bottlenecks of modern commercial terminals. We operate on your schedule, coordinating flight paths to 5,000+ global airstrips, ensuring you land closer to your destination, securely and ahead of time.
+            </p>
+            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/10">
+              <div>
+                <div className="text-2xl font-black text-[#00f2ff] font-mono italic">04 HRS</div>
+                <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">DISPATCH READY</div>
+              </div>
+              <div>
+                <div className="text-2xl font-black text-white font-mono italic">WYVERN</div>
+                <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">SAFETY RATED</div>
+              </div>
+              <div>
+                <div className="text-2xl font-black text-white font-mono italic">2,800 +</div>
+                <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">GLOBAL BUFFERS</div>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div className="relative aspect-video lg:aspect-[4/3] bg-neutral-950 border border-white/5">
+              <Image
+                src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80"
+                alt="Velocity Jet Hangar"
+                fill
+                className="object-cover opacity-60"
+                unoptimized
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+              <div className="absolute bottom-8 left-8 flex items-center gap-3">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#00f2ff] animate-ping" />
+                <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-[#00f2ff]">
+                  HANGAR ALPHA // OPERATIONS ACTIVE
+                </span>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -456,6 +521,60 @@ export default function VelocityJetsPage() {
         </div>
       </section>
 
+      {/* ── TESTIMONIALS SECTION ── */}
+      <section id="testimonials" className="py-32 px-6 md:px-12 bg-[#080808] border-b border-white/5">
+        <div className="max-w-[1400px] mx-auto">
+          <Reveal>
+            <div className="text-center mb-24">
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] mb-4 block">
+                Telemetry of Trust
+              </span>
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">
+                Endorsed by <br />
+                <span className="not-italic font-thin text-white">Global Operators.</span>
+              </h2>
+            </div>
+          </Reveal>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                quote: "Velocity has transformed how we manage our global board meetings. The ability to launch a jet in under four hours is a game-changer.",
+                author: "Chief Executive Officer",
+                location: "Tech Conglomerate",
+              },
+              {
+                quote: "The cabin comfort on the Global 7500 was exceptional, and the crew's attention to detail was flawless. Highly recommended.",
+                author: "Private Collector",
+                location: "Los Angeles",
+              },
+              {
+                quote: "Wyvern Wingman safety rating and top-tier aircraft maintenance. Velocity gives me absolute peace of mind on every journey.",
+                author: "Logistics Director",
+                location: "London",
+              },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="p-12 border border-white/5 bg-black/40 hover:border-[#00f2ff]/30 transition-all relative">
+                  <div className="text-5xl text-[#00f2ff]/20 font-serif absolute top-6 left-8 font-black leading-none">“</div>
+                  <p className="text-sm text-white/50 leading-relaxed font-light italic mb-8 relative z-10 pt-4">
+                    {t.quote}
+                  </p>
+                  <div className="border-t border-white/5 pt-6 flex items-center justify-between">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#00f2ff]">
+                      {t.author}
+                    </span>
+                    <span className="text-[8px] font-bold uppercase tracking-widest text-white/30">
+                      {t.location}
+                    </span>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── PERFORMANCE HUD ── */}
       <section className="py-32 bg-[#00f2ff] text-black">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
@@ -531,6 +650,191 @@ export default function VelocityJetsPage() {
                   ))}
                 </div>
               </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── FAQ SECTION ── */}
+      <section id="faq" className="py-32 px-6 md:px-12 bg-[#050505] border-b border-white/5">
+        <div className="max-w-[800px] mx-auto">
+          <Reveal>
+            <div className="text-center mb-20">
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] mb-4 block">
+                Aviation Operations FAQ
+              </span>
+              <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic">
+                Frequently <br />
+                <span className="not-italic font-thin text-white">Asked Questions.</span>
+              </h2>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <Accordion type="single" collapsible className="w-full space-y-4">
+              {[
+                {
+                  q: "How quickly can a flight be activated?",
+                  a: "Our global dispatch desk can activate an aircraft and have it ready for take-off in as little as 4 hours from booking confirmation.",
+                },
+                {
+                  q: "What are your safety standards?",
+                  a: "We hold Wyvern Wingman and ARGUS Gold safety ratings. Every operator in our network is audited to meet and exceed FAA Part 135 regulations.",
+                },
+                {
+                  q: "Can I choose specific catering and cabin configurations?",
+                  a: "Absolutely. All flights can be customized with bespoke catering, specific cabin layouts, and security personnel upon request.",
+                },
+                {
+                  q: "What is your cancellation policy?",
+                  a: "Cancellation terms depend on the aircraft class and flight route. Detailed terms are provided during the instant quote process.",
+                },
+              ].map((faq, i) => (
+                <AccordionItem key={i} value={`faq-${i}`} className="border border-white/5 bg-black/40 px-6 rounded-sm">
+                  <AccordionTrigger className="text-[11px] font-bold uppercase tracking-widest text-[#00f2ff] hover:no-underline py-5">
+                    {faq.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-white/40 text-sm font-light italic leading-relaxed pb-6">
+                    {faq.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── CONTACT SECTION ── */}
+      <section id="contact" className="py-32 px-6 md:px-12 bg-[#080808]">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] mb-8 block">
+              Flight Dispatch Desk
+            </span>
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-8">
+              Request <br />
+              <span className="not-italic font-thin text-white">A Quote.</span>
+            </h2>
+            <p className="text-white/40 text-lg leading-relaxed mb-12 font-light italic">
+              Contact our operations desk to coordinate your next flight. Instant logistics mapping for any destination worldwide.
+            </p>
+            <div className="space-y-6">
+              <div className="flex items-center gap-6">
+                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[#00f2ff]">
+                  <Mail className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">OPERATIONS EMAIL</div>
+                  <div className="text-sm font-bold">ops@velocityjets.com</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-6">
+                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[#00f2ff]">
+                  <Phone className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">DISPATCH VOICE</div>
+                  <div className="text-sm font-bold">+1 (800) 555-FLIGHT</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-6">
+                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[#00f2ff]">
+                  <MapPin className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">PRINCIPAL HANGAR</div>
+                  <div className="text-sm font-bold">Teterboro Airport (KTEB), NJ</div>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+          
+          <Reveal delay={0.2}>
+            <div className="p-12 border border-white/5 bg-black/40">
+              {contactSubmitted ? (
+                <div className="text-center py-12">
+                  <div className="w-16 h-16 rounded-full border border-[#00f2ff]/20 flex items-center justify-center text-[#00f2ff] mx-auto mb-6 bg-[#00f2ff]/5">
+                    <ShieldCheck className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-2xl font-black uppercase mb-4 tracking-tighter">FLIGHT INQUIRY REGISTERED</h3>
+                  <p className="text-sm text-white/40 font-light italic">
+                    Merci, nous vous répondrons sous 24h.
+                  </p>
+                </div>
+              ) : (
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    setContactSubmitted(true);
+                  }}
+                  className="space-y-6"
+                >
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">DEPARTURE AIRPORT</label>
+                      <input
+                        type="text"
+                        required
+                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00f2ff] transition-colors rounded-sm"
+                        placeholder="KTEB or New York"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">ARRIVAL AIRPORT</label>
+                      <input
+                        type="text"
+                        required
+                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00f2ff] transition-colors rounded-sm"
+                        placeholder="LSGG or Geneva"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">SECURE EMAIL</label>
+                      <input
+                        type="email"
+                        required
+                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00f2ff] transition-colors rounded-sm"
+                        placeholder="client@confidential.com"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">PHONE NUMBER</label>
+                      <input
+                        type="tel"
+                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00f2ff] transition-colors rounded-sm"
+                        placeholder="+1 (555) 019-2834"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">AIRCRAFT CLASS</label>
+                    <select
+                      className="w-full bg-black border border-white/10 px-4 py-3 text-sm text-white/60 focus:outline-none focus:border-[#00f2ff] transition-colors rounded-sm"
+                    >
+                      <option value="ultra">Ultra Long Range (e.g. Global 7500)</option>
+                      <option value="long">Long Range (e.g. Gulfstream G650)</option>
+                      <option value="mid">Super-Midsize (e.g. Citation Longitude)</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">ADDITIONAL LOGISTICS</label>
+                    <textarea
+                      required
+                      rows={3}
+                      className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00f2ff] transition-colors rounded-sm resize-none"
+                      placeholder="Catering preferences, ground transport coordination..."
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full py-4 bg-[#00f2ff] text-black text-[9px] font-bold uppercase tracking-widest hover:bg-white transition-colors cursor-pointer"
+                  >
+                    REQUEST INSTANT TELEMETRY
+                  </button>
+                </form>
+              )}
             </div>
           </Reveal>
         </div>
@@ -700,9 +1004,10 @@ export default function VelocityJetsPage() {
               <span>PLATINUM_ARGUS_SAFETY</span>
             </div>
           </div>
-          <div className="flex gap-10 font-mono">
-            <span>V_LOG_492.0</span>
-            <span>SECURE_DATA_FEED</span>
+          <div className="flex gap-10">
+            <Link href="/legal/mentions-legales" className="hover:text-[#00f2ff] transition-colors">Mentions Légales</Link>
+            <Link href="/legal/confidentialite" className="hover:text-[#00f2ff] transition-colors">Confidentialité</Link>
+            <Link href="/legal/cgu" className="hover:text-[#00f2ff] transition-colors">CGU</Link>
           </div>
         </div>
       </footer>

@@ -10,6 +10,7 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import React, { useRef, useState, useEffect } from "react";
+import Link from "next/link";
 
 /* ─── Design Tokens ─────────────────────────────────────────── */
 const C = {
@@ -29,6 +30,14 @@ const C = {
 const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Cabin:wght@400;500;600&display=swap');`;
 
 /* ─── Data ───────────────────────────────────────────────────── */
+const NAV_LINKS = [
+  { label: "Pains", href: "#pains" },
+  { label: "Services", href: "#services" },
+  { label: "Ateliers", href: "#workshops" },
+  { label: "FAQ", href: "#faq" },
+  { label: "Contact", href: "#contact" }
+];
+
 const BREADS = [
   { id: 1, name: "Miche au Levain", tag: "Signature", price: "8.50", desc: "24h fermentation, stone-ground T65 flour, open crumb, caramelised crust. Our most beloved loaf.", baked: "Daily 7:00" },
   { id: 2, name: "Pain de Seigle", tag: "Classic", price: "6.90", desc: "40% dark rye, light sour, dense and moist. Exceptional with butter and smoked salmon.", baked: "Tue / Thu / Sat" },
@@ -286,6 +295,255 @@ function ProcessStep({ step, index }: { step: typeof PROCESS[0]; index: number }
   );
 }
 
+/* ─── ServicesSection ───────────────────────────────────────── */
+const SERVICES_90 = [
+  { name: "Pain Sur-Mesure", desc: "Commandes spéciales pour événements, restaurants et banquets. Formes et farines adaptées.", icon: "🥖" },
+  { name: "Click & Collect", desc: "Réservez votre pain en ligne et venez le récupérer dès l'ouverture sans faire la queue.", icon: "🛍️" },
+  { name: "Ateliers Levain", desc: "Découvrez nos masterclass le samedi matin pour apprendre à dompter le levain sauvage.", icon: "🎓" }
+];
+
+function ServicesSection() {
+  return (
+    <section id="services" style={{ padding: "80px 0", background: C.bgCard, borderBottom: `1px solid ${C.border}` }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
+        <div style={{ marginBottom: 56, textAlign: "center" }}>
+          <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.35em", color: C.terracotta, textTransform: "uppercase", marginBottom: 16 }}>Nos Services</p>
+          <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 600, lineHeight: 1.1, color: C.brown, fontFamily: "'Playfair Display', serif" }}>
+            Au-delà de <span style={{ fontStyle: "italic", color: C.terracotta }}>la fournée</span>
+          </h2>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32 }}>
+          {SERVICES_90.map((svc, i) => (
+            <div key={i} style={{ background: C.bg, border: `1px solid ${C.border}`, borderRadius: 6, padding: 32 }}>
+              <div style={{ fontSize: 32, marginBottom: 20 }}>{svc.icon}</div>
+              <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, fontWeight: 600, color: C.brown, marginBottom: 12 }}>{svc.name}</h3>
+              <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.65 }}>{svc.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── TestimonialsSection ────────────────────────────────────── */
+const TESTIMONIALS_90 = [
+  { name: "Jean-Pierre D.", review: "Le pain de meule est extraordinaire, il se garde 5 jours sans aucun problème. La croûte est bien caramélisée, exactement comme j'aime.", origin: "Croix-Rousse" },
+  { name: "Marie-Laure G.", review: "J'ai participé à l'atelier levain du samedi matin. Une révélation ! Je fais maintenant mon propre pain à la maison grâce aux conseils du chef.", origin: "Lyon 6e" },
+  { name: "Antoine S.", review: "La brioche feuilletée du samedi matin est un chef-d'œuvre. Beurre parfait, croustillante et fondante à la fois. Pensez à réserver !", origin: "Caluire" }
+];
+
+function TestimonialsSection() {
+  return (
+    <section id="testimonials" style={{ padding: "80px 0", background: C.bg, borderBottom: `1px solid ${C.border}` }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
+        <div style={{ marginBottom: 56, textAlign: "center" }}>
+          <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.35em", color: C.terracotta, textTransform: "uppercase", marginBottom: 16 }}>Témoignages</p>
+          <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 600, lineHeight: 1.1, color: C.brown, fontFamily: "'Playfair Display', serif" }}>
+            Paroles de <span style={{ fontStyle: "italic", color: C.terracotta }}>passionnés</span>
+          </h2>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
+          {TESTIMONIALS_90.map((t, i) => (
+            <div key={i} style={{ background: C.bgCard, borderRadius: 6, padding: 28, border: `1px solid ${C.border}` }}>
+              <div style={{ color: C.amber, fontSize: 18, marginBottom: 12 }}>★★★★★</div>
+              <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.brown, lineHeight: 1.6, fontStyle: "italic", marginBottom: 20 }}>
+                "{t.review}"
+              </p>
+              <div style={{ fontSize: 12, fontFamily: "'Cabin', sans-serif", color: C.muted }}>
+                <strong>{t.name}</strong> · {t.origin}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── FaqSection ────────────────────────────────────────────── */
+const FAQS_90 = [
+  { q: "Qu'est-ce que le levain naturel ?", a: "Le levain naturel est un mélange de farine et d'eau où se développent des levures sauvages et des bactéries lactiques. Contrairement à la levure de boulangerie industrielle, il fermente lentement (24h à 48h), ce qui rend le pain plus digeste, aromatique et durable." },
+  { q: "Proposez-vous du pain sans gluten ?", a: "Nous travaillons principalement des farines de blé ancien, de seigle et d'épeautre qui contiennent du gluten. Bien que notre fermentation longue dégrade une grande partie du gluten, nous n'avons pas d'environnement certifié 'sans allergènes' pour les personnes cœliaques." },
+  { q: "Comment réserver un atelier de boulangerie ?", a: "Vous pouvez réserver directement sur notre site via la liste des ateliers ci-dessus. Les places étant limitées (6 personnes max), nous vous conseillons de réserver 3 à 4 semaines à l'avance." },
+  { q: "Peut-on commander son pain en avance ?", a: "Oui, via notre service de Click & Collect. Les commandes doivent être passées avant 16h pour un retrait le lendemain matin." }
+];
+
+function FaqSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  return (
+    <section id="faq" style={{ padding: "80px 0", background: C.bgWarm, borderBottom: `1px solid ${C.border}` }}>
+      <div style={{ maxWidth: 800, margin: "0 auto", paddingInline: 40 }}>
+        <div style={{ marginBottom: 56, textAlign: "center" }}>
+          <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.35em", color: C.terracotta, textTransform: "uppercase", marginBottom: 16 }}>Des réponses à vos questions</p>
+          <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 600, lineHeight: 1.1, color: C.brown, fontFamily: "'Playfair Display', serif" }}>
+            Questions <span style={{ fontStyle: "italic", color: C.terracotta }}>Fréquentes</span>
+          </h2>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          {FAQS_90.map((faq, idx) => (
+            <div key={idx} style={{ border: `1px solid ${C.border}`, borderRadius: 6, overflow: "hidden", background: "#FAF6EF" }}>
+              <button
+                onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
+                style={{
+                  width: "100%",
+                  padding: "20px 24px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontFamily: "'Playfair Display', serif",
+                  fontSize: 16,
+                  fontWeight: 600,
+                  color: C.brown,
+                  textAlign: "left"
+                }}
+              >
+                <span>{faq.q}</span>
+                <span style={{ fontSize: 18, color: C.amber }}>{openIndex === idx ? "−" : "+"}</span>
+              </button>
+              <AnimatePresence initial={false}>
+                {openIndex === idx && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div style={{ padding: "0 24px 20px", fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.65 }}>
+                      {faq.a}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── ContactSection ────────────────────────────────────────── */
+function ContactSection() {
+  const [contactSubmitted, setContactSubmitted] = useState(false);
+  return (
+    <section id="contact" style={{ padding: "80px 0", background: C.bg, borderBottom: `1px solid ${C.border}` }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+          <div>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.35em", color: C.terracotta, textTransform: "uppercase", marginBottom: 20 }}>Contact</p>
+            <h2 style={{ fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 600, lineHeight: 1.15, letterSpacing: "-0.02em", color: C.brown, fontFamily: "'Playfair Display', serif", marginBottom: 36 }}>
+              Écrivez à <br /><span style={{ fontStyle: "italic", color: C.terracotta }}>la Maison.</span>
+            </h2>
+            <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 15, color: C.muted, lineHeight: 1.8, marginBottom: 36 }}>
+              Une question sur nos ateliers, une commande spéciale pour un événement ou simplement envie de nous dire bonjour ? Remplissez le formulaire ci-contre et nous vous répondrons sous 24h.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16, fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.brown }}>
+              <p>📞 <strong>Téléphone :</strong> +33 4 78 28 00 00</p>
+              <p>✉ <strong>Email :</strong> contact@maisonlaval.fr</p>
+              <p>📍 <strong>Adresse :</strong> 47 Grande Rue de la Croix-Rousse, 69004 Lyon</p>
+            </div>
+          </div>
+
+          <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 6, padding: 36 }}>
+            {contactSubmitted ? (
+              <div style={{ textAlign: "center", padding: "40px 0" }}>
+                <div style={{
+                  width: 48, height: 48,
+                  borderRadius: "50%",
+                  border: `2px solid ${C.amber}`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  margin: "0 auto 24px"
+                }}>
+                  <span style={{ color: C.amber, fontSize: 20 }}>✓</span>
+                </div>
+                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 600, color: C.brown, marginBottom: 12 }}>Message envoyé</h3>
+                <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.6, marginBottom: 24 }}>
+                  Merci, nous vous répondrons sous 24h.
+                </p>
+                <button
+                  onClick={() => setContactSubmitted(false)}
+                  style={{
+                    background: C.brown,
+                    color: C.bg,
+                    border: "none",
+                    padding: "10px 24px",
+                    borderRadius: 3,
+                    fontFamily: "'Cabin', sans-serif",
+                    fontSize: 12,
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    textTransform: "uppercase"
+                  }}
+                >
+                  Nouveau message
+                </button>
+              </div>
+            ) : (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setContactSubmitted(true);
+                }}
+                style={{ display: "flex", flexDirection: "column", gap: 20 }}
+              >
+                <div>
+                  <label style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, fontWeight: 600, color: C.brown, display: "block", marginBottom: 8 }}>Nom complet</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Votre nom"
+                    style={{ width: "100%", background: C.bg, border: `1px solid ${C.border}`, borderRadius: 3, padding: "12px", fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.brown, outline: "none" }}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, fontWeight: 600, color: C.brown, display: "block", marginBottom: 8 }}>Email</label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="vous@email.com"
+                    style={{ width: "100%", background: C.bg, border: `1px solid ${C.border}`, borderRadius: 3, padding: "12px", fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.brown, outline: "none" }}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, fontWeight: 600, color: C.brown, display: "block", marginBottom: 8 }}>Message</label>
+                  <textarea
+                    rows={4}
+                    required
+                    placeholder="Votre message..."
+                    style={{ width: "100%", background: C.bg, border: `1px solid ${C.border}`, borderRadius: 3, padding: "12px", fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.brown, outline: "none", resize: "none" }}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  style={{
+                    background: C.brown,
+                    color: C.bg,
+                    border: "none",
+                    padding: "16px",
+                    borderRadius: 3,
+                    fontFamily: "'Cabin', sans-serif",
+                    fontSize: 13,
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em"
+                  }}
+                >
+                  Envoyer le message
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ─── Page ───────────────────────────────────────────────────── */
 export default function Page() {
   const [activeProcess, setActiveProcess] = useState(false);
@@ -323,14 +581,14 @@ export default function Page() {
           </div>
         </div>
         <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
-          {["Pains", "Boutique", "Ateliers", "Notre Histoire"].map(item => (
-            <button key={item} style={{ fontFamily: "'Cabin', sans-serif", fontSize: 13, color: C.muted, background: "none", border: "none", cursor: "pointer", transition: "color 0.2s" }}
+          {NAV_LINKS.map(link => (
+            <Link key={link.label} href={link.href} style={{ fontFamily: "'Cabin', sans-serif", fontSize: 13, color: C.muted, textDecoration: "none", transition: "color 0.2s" }}
               onMouseEnter={e => (e.currentTarget.style.color = C.brown)}
               onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
-              {item}
-            </button>
+              {link.label}
+            </Link>
           ))}
-          <MagneticButton style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.bg, background: C.brown, padding: "8px 20px", borderRadius: 3, letterSpacing: "0.06em", textTransform: "uppercase", fontWeight: 600 }}>
+          <MagneticButton style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.bg, background: C.brown, padding: "8px 20px", borderRadius: 3, letterSpacing: "0.06em", textTransform: "uppercase", fontWeight: 600 }} onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}>
             Commander
           </MagneticButton>
         </div>
@@ -419,8 +677,11 @@ export default function Page() {
         <SteamingLoaf />
       </section>
 
+      {/* ── Services ── */}
+      <ServicesSection />
+
       {/* ── Bread Menu ── */}
-      <section style={{ padding: "80px 0", background: C.bgWarm, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+      <section id="pains" style={{ padding: "80px 0", background: C.bgWarm, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
           <div style={{ marginBottom: 56 }}>
             <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.35em", color: C.terracotta, textTransform: "uppercase", marginBottom: 16 }}>La Gamme</p>
@@ -502,7 +763,7 @@ export default function Page() {
       </section>
 
       {/* ── Workshops ── */}
-      <section style={{ padding: "80px 0", background: C.brown }}>
+      <section id="workshops" style={{ padding: "80px 0", background: C.brown }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 48 }}>
             <div>
@@ -594,19 +855,30 @@ export default function Page() {
         </div>
       </section>
 
+      {/* ── Testimonials ── */}
+      <TestimonialsSection />
+
+      {/* ── FAQ ── */}
+      <FaqSection />
+
+      {/* ── Contact Form ── */}
+      <ContactSection />
+
       {/* ── Footer ── */}
       <footer style={{ borderTop: `1px solid ${C.border}`, padding: "28px 40px", background: C.bgWarm }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 14, color: C.brown, fontStyle: "italic" }}>Maison Laval · depuis 1987</p>
           <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 11, color: C.muted, letterSpacing: "0.05em" }}>© 2025 — Boulangerie Artisanale</p>
           <div style={{ display: "flex", gap: 20 }}>
-            {["Instagram", "Newsletter", "Commande"].map(link => (
-              <button key={link} style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.muted, background: "none", border: "none", cursor: "pointer", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = C.brown)}
-                onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
-                {link}
-              </button>
-            ))}
+            <Link href="/legal/mentions-legales" style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none" }}>
+              Mentions légales
+            </Link>
+            <Link href="/legal/confidentialite" style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none" }}>
+               Confidentialité
+            </Link>
+            <Link href="/legal/cgu" style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none" }}>
+               CGU
+            </Link>
           </div>
         </div>
       </footer>
