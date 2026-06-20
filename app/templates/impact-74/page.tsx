@@ -544,7 +544,73 @@ export default function CyberSecurityPage() {
       </section>
 
       {/* ==========================================
-          7. RESERVATION FORM
+          7. PRESSE & DISTINCTIONS
+          ========================================== */}
+      <section className="py-24 bg-[#11182a]">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+            {/* Presse */}
+            <div>
+              <Reveal>
+                <p className="text-[10px] uppercase tracking-[0.4em] text-[#c9a855] font-bold mb-6">Presse</p>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-12" style={{ fontFamily: "Playfair Display, Georgia, serif" }}>
+                  Ils ont <em>écrit</em> sur nous.
+                </h2>
+              </Reveal>
+              <div className="space-y-8">
+                {[
+                  { pub: "Le Monde", date: "Mars 2025", quote: "Une table qui réconcilie la haute gastronomie avec l'émotion. Chaque plat est une narration en soi." },
+                  { pub: "Vogue France", date: "Octobre 2024", quote: "L'adresse de l'année. Aevia Kitchen redéfinit ce que signifie dîner à Paris." },
+                  { pub: "Financial Times", date: "Septembre 2024", quote: "Rarely does a restaurant achieve this level of precision without sacrificing soul. Aevia Kitchen does both." },
+                  { pub: "Libération", date: "Juin 2024", quote: "Un lieu où l'on revient non pour ce qu'on a mangé, mais pour ce qu'on a ressenti." },
+                ].map((p, i) => (
+                  <Reveal key={p.pub} delay={i * 0.1}>
+                    <div className="border-l-2 border-[#c9a855]/30 pl-6">
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#c9a855]">{p.pub}</span>
+                        <span className="text-[10px] text-white/20">{p.date}</span>
+                      </div>
+                      <p className="text-sm text-white/50 leading-relaxed italic" style={{ fontFamily: "Playfair Display, Georgia, serif" }}>"{p.quote}"</p>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+            {/* Distinctions */}
+            <div>
+              <Reveal>
+                <p className="text-[10px] uppercase tracking-[0.4em] text-[#c9a855] font-bold mb-6">Distinctions</p>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-12" style={{ fontFamily: "Playfair Display, Georgia, serif" }}>
+                  Reconnaissances <em>officielles</em>.
+                </h2>
+              </Reveal>
+              <div className="space-y-6">
+                {[
+                  { year: "2025", award: "2 Étoiles Michelin", body: "Guide Michelin France", icon: "✦✦" },
+                  { year: "2024", award: "Meilleur Restaurant de Paris", body: "Gault & Millau — 17/20", icon: "◆" },
+                  { year: "2024", award: "Prix de la Cuisine Durable", body: "Chefs for Climate", icon: "◆" },
+                  { year: "2023", award: "Jeune Chef de l'Année", body: "Prix Omnivore — Chef Élise Mercier", icon: "◆" },
+                  { year: "2023", award: "1 Étoile Michelin", body: "Guide Michelin France", icon: "✦" },
+                ].map((a, i) => (
+                  <Reveal key={a.award} delay={i * 0.08}>
+                    <div className="flex gap-5 items-start py-5 border-b border-white/5">
+                      <span className="text-[#c9a855] text-xl flex-shrink-0 w-8 text-center">{a.icon}</span>
+                      <div className="flex-1">
+                        <p className="font-bold text-white text-sm mb-1" style={{ fontFamily: "Playfair Display, Georgia, serif" }}>{a.award}</p>
+                        <p className="text-[10px] text-white/30 uppercase tracking-wide">{a.body}</p>
+                      </div>
+                      <span className="text-[10px] text-[#c9a855]/50 font-bold flex-shrink-0">{a.year}</span>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          8. RESERVATION FORM
           ========================================== */}
       <section id="reservation" className="py-24 bg-[#11182a]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">

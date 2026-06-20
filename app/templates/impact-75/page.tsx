@@ -605,7 +605,89 @@ export default function OrbitAIPage() {
       </section>
 
       {/* ==========================================
-          7. NEWSLETTER — MINIMAL SIGNUP
+          7. REVIEWS
+          ========================================== */}
+      <section className="py-24 bg-[#0a0a0a]">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 mb-4">Avis vérifiés</p>
+                <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">
+                  Ce qu'ils disent.<br /><span className="text-white/20">Sans filtre.</span>
+                </h2>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="text-5xl font-black text-white">4.9</div>
+                <div>
+                  <div className="flex gap-1 mb-1">
+                    {[...Array(5)].map((_, i) => (
+                      <div key={i} className="w-4 h-4 bg-white rounded-sm" />
+                    ))}
+                  </div>
+                  <p className="text-[10px] text-white/30 font-bold uppercase tracking-wide">2 840 avis · Trustpilot</p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { name: "Thomas R.", product: "Orion X Pro — 4K Monitor", date: "Il y a 3 jours", stars: 5, review: "Moniteur absolument exceptionnel. Après 3 semaines d'utilisation intensive pour la production vidéo, je ne reviendrai jamais en arrière. Les couleurs sont d'une précision chirurgicale, la latence est imperceptible. Le packaging était également d'une qualité remarquable." },
+              { name: "Léa M.", product: "NeuronPad Ultra — Tablette", date: "Il y a 1 semaine", stars: 5, review: "J'hésitais longtemps à me lancer mais l'achat sur le site a été fluide, la livraison en 48h chrono, et le produit dépasse toutes mes attentes. La batterie tient facilement une journée de travail. Support client réactif sur le SAV aussi." },
+              { name: "Karim B.", product: "ChromaHub Pro — Station USB", date: "Il y a 2 semaines", stars: 5, review: "Le hub USB qui a transformé mon setup. 12 ports, aucun problème de compatibilité, charge mon laptop à 100W sans broncher. Petit mais costaud. J'en ai commandé un deuxième pour le bureau." },
+              { name: "Sarah D.", product: "CoreBlade — SSD 4To", date: "Il y a 3 semaines", stars: 5, review: "7200 MB/s en lecture, comme annoncé. Mes temps de boot sont passés de 28 secondes à 6 secondes. Pour un usage pro sur DaVinci Resolve, c'est un game-changer. Livré avec un kit de vis et un dissipateur thermique — petits détails qui font la différence." },
+              { name: "Julie F.", product: "ArcSound Pro — Casque", date: "Il y a 1 mois", stars: 5, review: "Abandonnée par mon ancien casque de 400€, j'ai sauté sur l'ArcSound Pro sur recommandation. Spatialisation 3D bluffante pour le gaming, noise-cancelling qui tient ses promesses, autonomie de 45h. Rapport qualité-prix imbattable." },
+              { name: "Marc A.", product: "ZeroDesk — Bureau motorisé", date: "Il y a 1 mois", stars: 5, review: "Installation en 20 minutes, mémoire à 4 positions, motorisation silencieuse même à 3h du matin. La stabilité est parfaite même avec 3 écrans et un setup complet. Commande un dimanche soir, livraison le mardi matin. Service impeccable." },
+            ].map((r, i) => (
+              <Reveal key={r.name} delay={i * 0.08}>
+                <div className="bg-white/3 border border-white/5 p-6 hover:border-white/10 transition-all">
+                  <div className="flex gap-0.5 mb-4">
+                    {[...Array(r.stars)].map((_, s) => (
+                      <div key={s} className="w-3 h-3 bg-white rounded-sm flex-shrink-0" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-white/60 leading-relaxed mb-6 italic">"{r.review}"</p>
+                  <div className="border-t border-white/5 pt-4">
+                    <p className="text-[10px] font-bold text-white uppercase tracking-widest mb-1">{r.name}</p>
+                    <p className="text-[9px] text-white/20 uppercase tracking-wide">{r.product} · {r.date}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          8. FAQ
+          ========================================== */}
+      <section className="py-24 bg-white">
+        <div className="max-w-[900px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/20 mb-4">Questions fréquentes</p>
+            <h2 className="text-4xl md:text-5xl font-black text-black tracking-tight mb-16">FAQ</h2>
+          </Reveal>
+          <div className="divide-y divide-black/5">
+            {[
+              { q: "Quels sont les délais de livraison ?", a: "Livraison standard : 2-3 jours ouvrés gratuite dès 200€. Express 24h disponible pour 12€ en France métropolitaine. Les produits en stock partent le jour même si la commande est passée avant 14h. Livraison internationale disponible dans 38 pays." },
+              { q: "Quelle est votre politique de retour ?", a: "30 jours de retour gratuit, sans questions. Si votre produit présente un défaut ou ne vous convient pas, nous prenons en charge l'enlèvement à domicile et le remboursement intégral sous 5 jours ouvrés. Aucun frais de restockage." },
+              { q: "Vos produits sont-ils garantis ?", a: "Tous nos produits bénéficient d'une garantie constructeur de 2 ans minimum, extensible à 5 ans avec notre programme NeuroSafe. En cas de panne, nous vous remplaçons le produit sous 48h sans attendre la fin du diagnostic." },
+              { q: "Proposez-vous des facilités de paiement ?", a: "Oui — paiement en 3x ou 12x sans frais disponible dès 150€ via notre partenaire Alma. Paiement en 24x pour les produits à partir de 1 000€. Aucun justificatif ni formulaire papier — tout se fait en 30 secondes à la caisse." },
+              { q: "Comment contacter le support ?", a: "Chat en direct disponible 7j/7 de 8h à 23h. Email avec réponse garantie en moins de 2h en semaine, 4h le week-end. Pour les produits sous garantie, ligne prioritaire au 01 88 32 XX XX. Notre NPS client est de 78 — on ne dit pas ça pour rien." },
+            ].map((faq, i) => (
+              <Reveal key={i} delay={i * 0.06}>
+                <div className="py-8">
+                  <h4 className="font-black text-black text-sm uppercase tracking-wide mb-4">{faq.q}</h4>
+                  <p className="text-sm text-black/40 leading-relaxed">{faq.a}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          9. NEWSLETTER — MINIMAL SIGNUP
           ========================================== */}
       <section className="py-24 bg-[#0a0a0a]">
         <div className="max-w-xl mx-auto px-6 text-center">
