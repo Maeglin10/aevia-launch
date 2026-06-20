@@ -12,6 +12,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [scrolled, setScrolled] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [playProgress, setPlayProgress] = useState(32)
+  const [newsletterSubmitted, setNewsletterSubmitted] = useState(false)
   const pathname = usePathname()
 
   useEffect(() => {
@@ -235,21 +236,27 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <p className="text-sm font-bold text-[#F8FAFC] mb-1">Get creator tips weekly</p>
                 <p className="text-xs text-[#64748B]">Growth strategies, platform updates, and monetization tips.</p>
               </div>
-              <form onSubmit={(e) => e.preventDefault()} className="flex gap-2 w-full md:w-auto">
-                <input
-                  type="email"
-                  placeholder="your@email.com"
-                  className="flex-1 md:w-64 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder-[#475569] outline-none focus:border-[#F97316]/50 transition-colors"
-                  required
-                />
-                <button
-                  type="submit"
-                  className="px-5 py-2.5 rounded-xl text-white text-sm font-semibold hover:opacity-90 transition-opacity whitespace-nowrap"
-                  style={{ backgroundColor: C.accent }}
-                >
-                  Subscribe
-                </button>
-              </form>
+              {newsletterSubmitted ? (
+                <div className="text-sm text-emerald-400 font-semibold">
+                  Merci, nous vous répondrons sous 24h.
+                </div>
+              ) : (
+                <form onSubmit={(e) => { e.preventDefault(); setNewsletterSubmitted(true); }} className="flex gap-2 w-full md:w-auto">
+                  <input
+                    type="email"
+                    placeholder="your@email.com"
+                    className="flex-1 md:w-64 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder-[#475569] outline-none focus:border-[#F97316]/50 transition-colors"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    className="px-5 py-2.5 rounded-xl text-white text-sm font-semibold hover:opacity-90 transition-opacity whitespace-nowrap"
+                    style={{ backgroundColor: C.accent }}
+                  >
+                    Subscribe
+                  </button>
+                </form>
+              )}
             </div>
           </div>
 
@@ -259,11 +266,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               © 2024 WaveForm. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <Link href="/templates/impact-34/legal" className="text-xs text-[#334155] hover:text-[#F97316] transition-colors">
-                Legal Notice
+              <Link href="/legal/mentions-legales" className="text-xs text-[#334155] hover:text-[#F97316] transition-colors">
+                Mentions légales
               </Link>
-              <Link href="/templates/impact-34/legal" className="text-xs text-[#334155] hover:text-[#F97316] transition-colors">
-                Privacy Policy
+              <Link href="/legal/confidentialite" className="text-xs text-[#334155] hover:text-[#F97316] transition-colors">
+                Confidentialité
+              </Link>
+              <Link href="/legal/cgu" className="text-xs text-[#334155] hover:text-[#F97316] transition-colors">
+                CGU
               </Link>
             </div>
             <div className="flex gap-3">

@@ -258,9 +258,9 @@ export default function ServicesPage() {
                 <div style={{ width: 64, height: 64, background: C.accentLight, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
                   <UserCheck size={28} color={C.accent} />
                 </div>
-                <h3 style={{ fontSize: 22, fontWeight: 800, color: C.navy, marginBottom: 10 }}>Thank you {formData.name}!</h3>
+                <h3 style={{ fontSize: 22, fontWeight: 800, color: C.navy, marginBottom: 10 }}>Merci</h3>
                 <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.6, maxWidth: 460, margin: "0 auto 24px" }}>
-                  We have received your details. One of our specialized recruiters will reach out to you at <strong style={{ color: C.navy }}>{formData.email}</strong> shortly.
+                  Merci, nous vous répondrons sous 24h.
                 </p>
                 <button
                   type="button"

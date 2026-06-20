@@ -566,19 +566,9 @@ function AppointmentForm() {
             >
               <CheckCircle size={40} color={C.accent} />
             </div>
-            <h2 style={{ fontSize: 30, fontWeight: 800, color: C.text, marginBottom: 16 }}>Demande envoyée !</h2>
-            <p style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.7, marginBottom: 12 }}>
-              Votre demande pour{" "}
-              <strong style={{ color: C.text }}>{form.petName}</strong> ({form.species}) a bien été reçue.
-              {form.urgency && (
-                <span style={{ color: "#dc2626", fontWeight: 700 }}>
-                  {" "}Marquée comme urgente — traitement prioritaire.
-                </span>
-              )}
-            </p>
-            <p style={{ fontSize: 15, color: C.textMuted, marginBottom: 32 }}>
-              Notre équipe vous confirme votre créneau à{" "}
-              <strong>{form.email}</strong> dans les 2h ouvrées.
+            <h2 style={{ fontSize: 30, fontWeight: 800, color: C.text, marginBottom: 16 }}>Merci</h2>
+            <p style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.7, marginBottom: 32 }}>
+              Merci, nous vous répondrons sous 24h.
             </p>
             <button
               type="button"

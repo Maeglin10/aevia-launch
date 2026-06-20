@@ -61,10 +61,10 @@ export default function ReservationPage() {
                 <CheckCircle size={40} color={C.accent} />
               </div>
               <h2 style={{ fontFamily: FONT_HEADING, fontSize: 30, fontWeight: 700, color: C.text, marginBottom: 16 }}>
-                Votre commande est enregistrée !
+                Merci
               </h2>
               <p style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.7, marginBottom: 32 }}>
-                Merci <strong>{form.name}</strong> ! Nous vous confirmons votre retrait pour le <strong>{form.date}</strong> à <strong>{form.time}</strong>. Vous recevrez un appel de confirmation au <strong>{form.phone}</strong>.
+                Merci, nous vous répondrons sous 24h.
               </p>
               <button
                 type="button"
