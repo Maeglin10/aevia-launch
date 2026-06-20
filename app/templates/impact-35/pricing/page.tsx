@@ -487,10 +487,9 @@ export default function PricingPage() {
                 <div style={{ width: 64, height: 64, background: C.accentLight, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
                   <Check size={28} color={C.accent} />
                 </div>
-                <h3 style={{ fontSize: 22, fontWeight: 800, color: C.slate, marginBottom: 10 }}>Demande envoyée !</h3>
+                <h3 style={{ fontSize: 22, fontWeight: 800, color: C.slate, marginBottom: 10 }}>Merci</h3>
                 <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.6, maxWidth: 460, margin: "0 auto 24px" }}>
-                  Félicitations <strong style={{ color: C.slate }}>{formData.nom}</strong>. Votre demande de visite pour le <strong style={{ color: C.slate }}>{formData.visiteDate} à {formData.visiteTime}</strong> a été enregistrée.
-                  Un membre de l'équipe Nexus Hub vous contactera par email à <strong style={{ color: C.slate }}>{formData.email}</strong> sous 2 heures pour valider votre essai.
+                  Merci, nous vous répondrons sous 24h.
                 </p>
                 <button
                   type="button"

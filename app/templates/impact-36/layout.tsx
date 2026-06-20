@@ -359,8 +359,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               © 2026 Aevia WS — SIREN 852 546 225. All rights reserved.
             </p>
             <div style={{ display: "flex", gap: 24 }}>
-              <Link href="/templates/impact-36/legal" style={{ fontSize: 13, color: "#334155", textDecoration: "none" }}>Legal Notice</Link>
-              <Link href="/templates/impact-36/legal" style={{ fontSize: 13, color: "#334155", textDecoration: "none" }}>Privacy Policy</Link>
+              <Link href="/legal/mentions-legales" style={{ fontSize: 13, color: "#334155", textDecoration: "none" }}>Legal Notice</Link>
+              <Link href="/legal/confidentialite" style={{ fontSize: 13, color: "#334155", textDecoration: "none" }}>Privacy Policy</Link>
+              <Link href="/legal/cgu" style={{ fontSize: 13, color: "#334155", textDecoration: "none" }}>CGU</Link>
             </div>
           </div>
         </div>
