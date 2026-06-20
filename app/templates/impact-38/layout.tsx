@@ -187,11 +187,14 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 32, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
             <p style={{ fontSize: 13, color: "#3d2010", margin: 0 }}>© 2025 Origin Roast — Aevia WS</p>
             <div style={{ display: "flex", gap: 24 }}>
-              <Link href="/templates/impact-38/legal?tab=privacy" style={{ fontSize: 13, color: "#3d2010", textDecoration: "none" }}>
+              <Link href="/legal/mentions-legales" style={{ fontSize: 13, color: "#3d2010", textDecoration: "none" }}>
+                Mentions légales
+              </Link>
+              <Link href="/legal/confidentialite" style={{ fontSize: 13, color: "#3d2010", textDecoration: "none" }}>
                 Confidentialité
               </Link>
-              <Link href="/templates/impact-38/legal?tab=mentions" style={{ fontSize: 13, color: "#3d2010", textDecoration: "none" }}>
-                Mentions légales
+              <Link href="/legal/cgu" style={{ fontSize: 13, color: "#3d2010", textDecoration: "none" }}>
+                CGU
               </Link>
             </div>
           </div>

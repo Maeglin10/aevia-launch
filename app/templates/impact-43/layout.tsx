@@ -269,7 +269,7 @@ export default function SereneRetreatLayout({ children }: { children: React.Reac
           © 2026 Aevia WS — SIREN 852 546 225. Tous droits réservés. Chartreuse Massif, France.
         </div>
         <div style={{ display: "flex", gap: 24 }}>
-          <Link href="/templates/impact-43/legal" style={{ textDecoration: "none" }}>
+          <Link href="/legal/mentions-legales" style={{ textDecoration: "none" }}>
             <button
               style={{
                 background: "none",
@@ -285,7 +285,7 @@ export default function SereneRetreatLayout({ children }: { children: React.Reac
               Mentions Légales
             </button>
           </Link>
-          <Link href="/templates/impact-43/legal" style={{ textDecoration: "none" }}>
+          <Link href="/legal/confidentialite" style={{ textDecoration: "none" }}>
             <button
               style={{
                 background: "none",
@@ -299,6 +299,22 @@ export default function SereneRetreatLayout({ children }: { children: React.Reac
               }}
             >
               Confidentialité
+            </button>
+          </Link>
+          <Link href="/legal/cgu" style={{ textDecoration: "none" }}>
+            <button
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                fontFamily: C.fontSans,
+                fontSize: 11,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,0.4)",
+              }}
+            >
+              CGU
             </button>
           </Link>
           <Link href="/templates/impact-43/contact" style={{ textDecoration: "none" }}>

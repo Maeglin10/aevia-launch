@@ -321,9 +321,9 @@ export default function GhostProtocolLayout({ children }: { children: React.Reac
           >
             <span>© 2026 Aevia WS — SIREN 852 546 225. ALL RIGHTS RESERVED.</span>
             <div style={{ display: "flex", gap: 24 }}>
-              <Link href="/templates/impact-44/legal" style={{ color: "inherit", textDecoration: "none" }}>LEGAL NOTICE</Link>
-              <Link href="/templates/impact-44/legal" style={{ color: "inherit", textDecoration: "none" }}>PRIVACY</Link>
-              <Link href="/templates/impact-44/legal" style={{ color: "inherit", textDecoration: "none" }}>COOKIES</Link>
+              <Link href="/legal/mentions-legales" style={{ color: "inherit", textDecoration: "none" }}>LEGAL NOTICE</Link>
+              <Link href="/legal/confidentialite" style={{ color: "inherit", textDecoration: "none" }}>PRIVACY</Link>
+              <Link href="/legal/cgu" style={{ color: "inherit", textDecoration: "none" }}>CGU</Link>
             </div>
           </div>
         </div>

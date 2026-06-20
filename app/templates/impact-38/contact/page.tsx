@@ -648,14 +648,10 @@ export default function ContactPage() {
                   <CheckCircle size={56} color={C.caramel} style={{ marginBottom: 20 }} />
                 </motion.div>
                 <h3 style={{ fontFamily: SERIF, fontSize: 26, fontWeight: 700, color: C.espresso, marginBottom: 14 }}>
-                  {activeTab === "workshop" ? "Demande d'atelier reçue !" : activeTab === "b2b" ? "Demande de devis reçue !" : "Message bien reçu !"}
+                  Merci
                 </h3>
                 <p style={{ fontSize: 15, color: C.textMuted, fontWeight: 300, lineHeight: 1.8, marginBottom: 28 }}>
-                  {activeTab === "workshop"
-                    ? "Nous vérifions les disponibilités et vous confirmons sous 24h. Un acompte de 30% sera demandé à la réservation."
-                    : activeTab === "b2b"
-                    ? "Nous préparons une proposition tarifaire personnalisée. Un conseiller vous contactera sous 4h ouvrées pour en discuter."
-                    : "Nous vous répondons sous 24h ouvrées. Merci de votre intérêt pour Origin Roast !"}
+                  Merci, nous vous répondrons sous 24h.
                 </p>
                 <button
                   type="button"

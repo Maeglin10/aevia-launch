@@ -617,10 +617,10 @@ export default function AbonnementPage() {
                   <Coffee size={56} color={C.caramel} style={{ marginBottom: 20 }} />
                 </motion.div>
                 <h3 style={{ fontFamily: SERIF, fontSize: 28, fontWeight: 700, color: C.espresso, marginBottom: 14 }}>
-                  Bienvenue chez Origin Roast !
+                  Merci
                 </h3>
                 <p style={{ fontSize: 15, color: C.textMuted, fontWeight: 300, lineHeight: 1.8, marginBottom: 28, maxWidth: 400, margin: "0 auto 28px" }}>
-                  Nous confirmons votre abonnement sous 24h et vous envoyons les détails par email. Votre premier lot sera torréfié sous 48h.
+                  Merci, nous vous répondrons sous 24h.
                 </p>
                 <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
                   <Link href="/templates/impact-38/" style={{ textDecoration: "none" }}>

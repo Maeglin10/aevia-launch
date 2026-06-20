@@ -112,7 +112,7 @@ export default function ContactPage() {
                       marginBottom: 12,
                     }}
                   >
-                    Message envoyé.
+                    Merci
                   </div>
                   <p
                     style={{
@@ -122,8 +122,7 @@ export default function ContactPage() {
                       fontWeight: 300,
                     }}
                   >
-                    Merci de nous avoir écrit. Nous vous répondrons dans les plus
-                    brefs délais.
+                    Merci, nous vous répondrons sous 24h.
                   </p>
                 </div>
               ) : (

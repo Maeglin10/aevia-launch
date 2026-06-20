@@ -161,10 +161,10 @@ export default function WorkshopsPage() {
               style={{ background: C.white, borderRadius: 16, padding: 40, border: `2px solid ${C.caramel}`, maxWidth: 600, margin: "0 auto", textAlign: "center" }}>
               <div style={{ fontSize: 48, marginBottom: 16 }}>☕</div>
               <h3 style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: 24, fontWeight: 700, color: C.espresso, marginBottom: 12 }}>
-                Demande reçue !
+                Merci
               </h3>
               <p style={{ fontSize: 15, color: C.textMuted, fontWeight: 300, lineHeight: 1.75 }}>
-                Nous revenons vers vous sous 24h pour confirmer votre réservation. Merci pour votre intérêt !
+                Merci, nous vous répondrons sous 24h.
               </p>
             </motion.div>
           )}

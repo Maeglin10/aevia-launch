@@ -99,10 +99,10 @@ export default function ReservationPage() {
                 <Check size={28} color={C.accent} />
               </div>
               <h2 style={{ fontFamily: C.headingFont, fontSize: "1.75rem", color: C.bg, fontWeight: 700, marginBottom: "1rem" }}>
-                Demande envoyée
+                Merci
               </h2>
               <p style={{ fontFamily: C.bodyFont, fontSize: "1rem", color: "rgba(253,249,238,0.65)", lineHeight: 1.8, maxWidth: 400, margin: "0 auto" }}>
-                Votre réservation est bien enregistrée. Confirmation par email sous 24h.
+                Merci, nous vous répondrons sous 24h.
               </p>
             </motion.div>
           ) : (
