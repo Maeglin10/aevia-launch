@@ -385,16 +385,22 @@ export default function Impact53Layout({
           </span>
           <div style={{ display: "flex", gap: "2rem" }}>
             <Link
-              href="/templates/impact-53/legal"
+              href="/legal/mentions-legales"
               style={{ color: C.white, textDecoration: "none" }}
             >
               MENTIONS LÉGALES
             </Link>
             <Link
-              href="/templates/impact-53/contact"
+              href="/legal/confidentialite"
               style={{ color: C.white, textDecoration: "none" }}
             >
-              CONTACT
+              CONFIDENTIALITÉ
+            </Link>
+            <Link
+              href="/legal/cgu"
+              style={{ color: C.white, textDecoration: "none" }}
+            >
+              CGU
             </Link>
           </div>
         </div>

@@ -122,7 +122,9 @@ export default function CarbonLayout({
              { t: "RESOURCES", l: [
                { name: "Lab Data", href: "/templates/impact-65/contact" },
                { name: "Safety Sheets", href: "/templates/impact-65/contact" },
-               { name: "Mentions Légales", href: "/templates/impact-65/legal" },
+               { name: "Mentions Légales", href: "/legal/mentions-legales" },
+               { name: "Confidentialité", href: "/legal/confidentialite" },
+               { name: "CGU", href: "/legal/cgu" },
              ] }
            ].map((col, i) => (
              <div key={i} className="space-y-12">
@@ -140,8 +142,9 @@ export default function CarbonLayout({
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
            <span>© 2026 CARBON LAB ADVANCED MATERIALS AG. STRENGTH IN WEIGHT.</span>
            <div className="flex gap-12">
-              <Link href="/templates/impact-65/legal" className="hover:text-white transition-all underline decoration-[#0070f3]/30">ISO_9001: CERTIFIED</Link>
-              <Link href="/templates/impact-65/legal" className="hover:text-white transition-all underline decoration-[#0070f3]/30">SYSTEM_NOMINAL</Link>
+              <Link href="/legal/mentions-legales" className="hover:text-white transition-all underline decoration-[#0070f3]/30">Mentions Légales</Link>
+              <Link href="/legal/confidentialite" className="hover:text-white transition-all underline decoration-[#0070f3]/30">Confidentialité</Link>
+              <Link href="/legal/cgu" className="hover:text-white transition-all underline decoration-[#0070f3]/30">CGU</Link>
            </div>
         </div>
       </footer>

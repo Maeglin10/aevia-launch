@@ -38,7 +38,7 @@ export default function ContactPage() {
             {connected ? (
               <div style={{ color: "#00FF41", fontSize: "14px", lineHeight: "1.8" }}>
                 <div>&gt; CONNECTION ESTABLISHED OVER SECURE TUNNEL</div>
-                <div style={{ color: "#008F11", marginTop: "8px" }}>Your payload has been queued for execution. No footprint remains.</div>
+                <div style={{ color: "#00FF41", marginTop: "8px" }}>Merci, nous vous répondrons sous 24h.</div>
               </div>
             ) : (
               <form onSubmit={handleSubmit}>

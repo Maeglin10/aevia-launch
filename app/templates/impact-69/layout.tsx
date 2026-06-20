@@ -24,6 +24,7 @@ export default function LeaLayout({
     { label: "Exhibitions", href: "/templates/impact-69/exhibitions" },
     { label: "Prints", href: "/templates/impact-69/prints" },
     { label: "About", href: "/templates/impact-69/about" },
+    { label: "Contact", href: "/templates/impact-69/contact" },
   ];
 
   return (
@@ -89,12 +90,15 @@ export default function LeaLayout({
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }} className="flex-footer-69">
           <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.muted }}>© {new Date().getFullYear()} Léa Rousseau. All prints reserved.</p>
           <div style={{ display: "flex", gap: 24 }} className="gap-16-mobile">
-            <Link href="/templates/impact-69/legal" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = C.cream} onMouseLeave={(e) => e.currentTarget.style.color = C.muted}>
-              Regulatory
+            <Link href="/legal/mentions-legales" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = C.cream} onMouseLeave={(e) => e.currentTarget.style.color = C.muted}>
+              Mentions légales
             </Link>
-            <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.muted }}>
-              contact@aevia.io
-            </span>
+            <Link href="/legal/confidentialite" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = C.cream} onMouseLeave={(e) => e.currentTarget.style.color = C.muted}>
+              Confidentialité
+            </Link>
+            <Link href="/legal/cgu" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = C.cream} onMouseLeave={(e) => e.currentTarget.style.color = C.muted}>
+              CGU
+            </Link>
           </div>
         </div>
       </footer>
