@@ -38,12 +38,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link href="/templates/impact-29/timeline" className={`hover:text-[#00F5D4] transition-colors cursor-pointer ${isActive('/templates/impact-29/timeline') ? 'text-[#00F5D4]' : ''}`}>
               <span className="text-[#00F5D4]">// </span>timeline
             </Link>
-            <Link href="/templates/impact-29#contact" className="hover:text-[#00F5D4] transition-colors cursor-pointer">
+            <Link href="/templates/impact-29/studio" className={`hover:text-[#00F5D4] transition-colors cursor-pointer ${isActive('/templates/impact-29/studio') ? 'text-[#00F5D4]' : ''}`}>
+              <span className="text-[#00F5D4]">// </span>studio
+            </Link>
+            <Link href="/templates/impact-29/contact" className={`hover:text-[#00F5D4] transition-colors cursor-pointer ${isActive('/templates/impact-29/contact') ? 'text-[#00F5D4]' : ''}`}>
               <span className="text-[#00F5D4]">// </span>contact
             </Link>
           </div>
-          <Link 
-            href="/templates/impact-29#contact"
+          <Link
+            href="/templates/impact-29/contact"
             className="hidden md:flex items-center gap-2 border border-[#00F5D4]/40 text-[#00F5D4] text-xs px-4 py-2 hover:bg-[#00F5D4]/10 transition-colors cursor-pointer"
           >
             hire me <ArrowRight className="w-3 h-3" />
@@ -69,7 +72,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Link href="/templates/impact-29/timeline" onClick={() => setMenuOpen(false)} className="text-left text-[#475569] hover:text-[#00F5D4] transition-colors cursor-pointer">
                 <span className="text-[#00F5D4]">// </span>timeline
               </Link>
-              <Link href="/templates/impact-29#contact" onClick={() => setMenuOpen(false)} className="text-left text-[#475569] hover:text-[#00F5D4] transition-colors cursor-pointer">
+              <Link href="/templates/impact-29/studio" onClick={() => setMenuOpen(false)} className="text-left text-[#475569] hover:text-[#00F5D4] transition-colors cursor-pointer">
+                <span className="text-[#00F5D4]">// </span>studio
+              </Link>
+              <Link href="/templates/impact-29/contact" onClick={() => setMenuOpen(false)} className="text-left text-[#475569] hover:text-[#00F5D4] transition-colors cursor-pointer">
                 <span className="text-[#00F5D4]">// </span>contact
               </Link>
               <Link href="/templates/impact-29/legal" onClick={() => setMenuOpen(false)} className="text-left text-[#475569] hover:text-[#00F5D4] transition-colors cursor-pointer">
@@ -92,10 +98,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Terminal className="w-4 h-4 text-[#00F5D4]" />
             <span className="text-[#00F5D4]">glitch</span><span className="text-[#475569]">.dev</span>
           </Link>
-          <div className="flex gap-6 text-xs text-[#475569]">
+          <div className="flex flex-wrap gap-6 text-xs text-[#475569]">
             <Link href="/templates/impact-29/work" className="hover:text-[#00F5D4] transition-colors cursor-pointer">Work</Link>
             <Link href="/templates/impact-29/skills" className="hover:text-[#00F5D4] transition-colors cursor-pointer">Skills</Link>
             <Link href="/templates/impact-29/timeline" className="hover:text-[#00F5D4] transition-colors cursor-pointer">Experience</Link>
+            <Link href="/templates/impact-29/studio" className="hover:text-[#00F5D4] transition-colors cursor-pointer">Studio</Link>
+            <Link href="/templates/impact-29/contact" className="hover:text-[#00F5D4] transition-colors cursor-pointer">Contact</Link>
             <Link href="/templates/impact-29/legal" className="hover:text-[#00F5D4] transition-colors cursor-pointer">Legal Notice</Link>
           </div>
           <div className="text-[#475569] text-xs">© 2026 Raphaël Genet · Paris, France</div>
