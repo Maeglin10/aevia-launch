@@ -135,6 +135,73 @@ export default function CarbonLabPage() {
         </div>
       </section>
 
+      {/* ── TECHNOLOGY ─────────────── */}
+      <section className="py-40 bg-[#050505] border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-24">
+            <Reveal>
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#0070f3] block mb-8">Materials Science</span>
+              <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-[1.1] pb-4 italic">
+                The <br /><span className="text-white/10 font-light not-italic">Formula.</span>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <p className="text-white/30 text-xl font-light italic leading-relaxed">
+                Every CarbonLab composite begins in our tensile simulation lab, where we model 900+ stress scenarios before a single fiber is laid. The result: materials that outperform steel at one-fifth the weight.
+              </p>
+            </Reveal>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
+            {[
+              { step: "01", title: "Fiber Selection", desc: "T1100G & M60J ultra-high-modulus carbon fiber sourced from TORAY. We reject batches with tensile strength variance above 0.3% — 94% of commercial fiber does not meet this threshold." },
+              { step: "02", title: "Resin Engineering", desc: "Custom epoxy-bismaleimide hybrid matrix engineered in-house for thermal resistance to 320°C while maintaining 4.2 GPa interlaminar shear strength." },
+              { step: "03", title: "Lay-up Architecture", desc: "Computational ply-stack optimization driven by finite element analysis. Each component has a unique lay-up sequence — no two programs are identical." },
+              { step: "04", title: "Autoclave Cure", desc: "4-bar/180°C pressurized cure cycle in our 7-meter autoclave. Dimensional tolerance: ±0.05mm across any axis. NDT inspection by phased-array ultrasound on 100% of parts." },
+            ].map((s, i) => (
+              <Reveal key={s.step} delay={i * 0.1}>
+                <div className="p-12 bg-[#050505] hover:bg-[#0070f3]/5 transition-all duration-700 border border-transparent hover:border-[#0070f3]/20">
+                  <span className="text-[#0070f3]/30 text-sm font-black uppercase tracking-widest italic block mb-6">{s.step}</span>
+                  <h3 className="text-2xl font-black uppercase text-white tracking-tight italic mb-6">{s.title}</h3>
+                  <p className="text-white/25 text-sm font-light italic leading-relaxed">{s.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CLIENTS ────────────────── */}
+      <section className="py-24 bg-[#070707] border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/20 block mb-20 text-center italic">
+              Engineering Partners
+            </span>
+          </Reveal>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-12 items-center opacity-30">
+            {["Dallara", "Rolls-Royce Defence", "Airbus Urban Air", "Formula 1", "SpaceX Starshield"].map((c, i) => (
+              <Reveal key={c} delay={i * 0.07}>
+                <div className="text-center text-sm font-black uppercase tracking-widest text-white/60 italic hover:text-[#0070f3] hover:opacity-100 transition-all duration-500 cursor-default">{c}</div>
+              </Reveal>
+            ))}
+          </div>
+          <div className="mt-24 border-t border-white/5 pt-16 grid grid-cols-1 md:grid-cols-3 gap-12">
+            {[
+              { v: "2,800+", l: "Parts manufactured in 2024" },
+              { v: "7", l: "Racing championships served" },
+              { v: "3", l: "Space mission structural programs" },
+            ].map((s, i) => (
+              <Reveal key={s.l} delay={i * 0.1}>
+                <div className="text-center">
+                  <div className="text-5xl font-black text-[#0070f3] italic tracking-tighter mb-4">{s.v}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-white/20 italic">{s.l}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA ───────────────────── */}
       <section className="py-60 bg-white text-black text-center relative overflow-hidden">
         <GridBackground />

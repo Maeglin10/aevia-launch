@@ -48,6 +48,122 @@ export default function CypherClinicPage() {
           </Reveal>
         </div>
       </section>
+
+      {/* ── PROTOCOLES */}
+      <section className="py-24 bg-[#0F0E0C] border-t border-[#2A2820]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[#C9A86C] mb-6">Nos Expertises</p>
+            <h2 className="text-4xl md:text-5xl font-light mb-20 max-w-xl leading-snug" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+              Des protocoles conçus<br />pour <em>votre morphologie</em>.
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { num: "01", title: "Médecine faciale", desc: "Injection de toxine botulique, acide hyaluronique, techniques de volumisation et repositionnement sans acte chirurgical. Résultats naturels garantis.", duration: "45 min", recovery: "0 jour" },
+              { num: "02", title: "Lasers & Lumières", desc: "Traitements photodynamiques, lasers fractionnels CO₂, épilation définitive et rajeunissement cutané par technologie IPL de dernière génération.", duration: "60 min", recovery: "1–2 jours" },
+              { num: "03", title: "Corps & Silhouette", desc: "Cryolipolyse, radiofréquence multipôlaire, HIFU corporel et drainage lymphatique instrumental pour un remodelage non-invasif durable.", duration: "90 min", recovery: "0 jour" },
+              { num: "04", title: "Soin du visage médical", desc: "Peelings chimiques de profondeur modulable, mésothérapie, HydraFacial MD et protocols anti-âge sur mesure selon diagnostic cutané.", duration: "60 min", recovery: "0–3 jours" },
+              { num: "05", title: "Médecine régénérative", desc: "PRP autologue, injections de polynucléotides, exosomes et bio-stimulateurs de collagène pour une régénération cellulaire profonde.", duration: "45 min", recovery: "2 jours" },
+              { num: "06", title: "Programmes Sur-Mesure", desc: "Après bilan photo-morphologique complet par notre équipe médicale, nous élaborons un protocole global sur 3 à 6 mois adapté à vos objectifs spécifiques.", duration: "Sur devis", recovery: "Variable" },
+            ].map((p, i) => (
+              <Reveal key={p.num} delay={i * 0.08}>
+                <div className="p-8 border border-[#2A2820] hover:border-[#C9A86C]/30 transition-all duration-500 group">
+                  <div className="text-[#C9A86C]/20 text-5xl font-light mb-6" style={{ fontFamily: "'Bodoni Moda', serif" }}>{p.num}</div>
+                  <h3 className="font-medium text-[#F0EBE0] text-lg mb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>{p.title}</h3>
+                  <p className="text-[#6A6258] text-sm leading-relaxed mb-6">{p.desc}</p>
+                  <div className="flex gap-6 text-[9px] text-[#C9A86C]/60 uppercase tracking-widest border-t border-[#2A2820] pt-4">
+                    <span>Durée : {p.duration}</span>
+                    <span>|</span>
+                    <span>Récupération : {p.recovery}</span>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PHILOSOPHIE */}
+      <section className="py-24 bg-[#0C0C0A] border-t border-[#2A2820]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <Reveal>
+              <div className="relative aspect-[4/5] overflow-hidden">
+                <Image src="https://images.unsplash.com/photo-1551290464-ad4e7cd5abd8?w=1200&q=85" alt="Clinique Cypher" fill className="object-cover" />
+                <div className="absolute inset-0 bg-[#0C0C0A]/20" />
+              </div>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.4em] text-[#C9A86C] mb-8">Notre philosophie</p>
+                <h2 className="text-4xl md:text-5xl font-light mb-8 leading-snug" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+                  La beauté<br />comme <em>science.</em>
+                </h2>
+                <p className="text-[#8A8278] leading-relaxed mb-6 text-base">
+                  Chez Cypher Clinic, nous rejetons l'idée de beauté standardisée. Chaque visage est un code unique que nous lisons avec précision avant d'intervenir. Notre protocole d'analyse morphologique en 14 points est réalisé par un médecin qualifié — jamais une esthéticienne.
+                </p>
+                <p className="text-[#8A8278] leading-relaxed mb-10 text-base">
+                  Nos médecins sont formés dans les instituts de référence mondiale (Académie de médecine esthétique de Paris, IDRM Lausanne). Chaque acte est documenté photographiquement avant et après pour un suivi rigoureux de votre évolution.
+                </p>
+                <div className="grid grid-cols-3 gap-6 border-t border-[#2A2820] pt-10">
+                  {[{ v: "+2400", l: "Patients traités" }, { v: "14", l: "Points d'analyse" }, { v: "9 ans", l: "D'expertise" }].map((s, i) => (
+                    <div key={i}>
+                      <div className="text-2xl font-light text-[#C9A86C] mb-1" style={{ fontFamily: "'Bodoni Moda', serif" }}>{s.v}</div>
+                      <div className="text-[9px] uppercase tracking-widest text-[#6A6258]">{s.l}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ── TÉMOIGNAGES */}
+      <section className="py-24 bg-[#0F0E0C] border-t border-[#2A2820]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[#C9A86C] mb-6">Patients</p>
+            <h2 className="text-3xl font-light mb-16" style={{ fontFamily: "'Bodoni Moda', serif" }}>Ce qu'ils ont vécu.</h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { name: "Sophia T.", protocol: "Médecine faciale", text: "Pour la première fois depuis des années, je me regarde dans le miroir avec plaisir. Le Dr Nakamura a compris exactement ce que je voulais — pas plus, pas moins. Le résultat est d'une discrétion absolue." },
+              { name: "Claire B.", protocol: "Laser CO₂ fractionnel", text: "Après 2 séances, mes cicatrices d'acné ont pratiquement disparu. L'équipe m'a accompagnée avec une vraie attention médicale, pas commerciale. Cypher Clinic est la meilleure décision que j'ai prise pour ma peau." },
+              { name: "Marc D.", protocol: "Programme sur-mesure", text: "Je m'attendais à des résultats modestes. Ce que j'ai obtenu en 4 mois dépasse tout ce que j'aurais pu imaginer. Le protocole était vraiment pensé pour mon visage spécifiquement — j'ai senti la différence." },
+            ].map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.1}>
+                <div className="p-8 border border-[#2A2820]">
+                  <p className="text-[#8A8278] text-sm leading-relaxed mb-8 italic">&ldquo;{t.text}&rdquo;</p>
+                  <div className="border-t border-[#2A2820] pt-6">
+                    <p className="text-[#F0EBE0] font-medium text-sm">{t.name}</p>
+                    <p className="text-[9px] uppercase tracking-widest text-[#C9A86C] mt-1">{t.protocol}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── RDV CTA */}
+      <section className="py-24 bg-[#C9A86C]">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <Reveal>
+            <p className="text-[9px] uppercase tracking-[0.5em] text-[#0C0C0A]/60 mb-6">Premier rendez-vous</p>
+            <h2 className="text-4xl font-light text-[#0C0C0A] mb-8 leading-snug" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+              Commençons par<br /><em>vous écouter.</em>
+            </h2>
+            <p className="text-[#0C0C0A]/60 mb-10 max-w-md mx-auto leading-relaxed text-sm">
+              Votre première consultation avec l'un de nos médecins est dédiée à l'écoute et au diagnostic. Aucun acte n'est réalisé lors de cette séance.
+            </p>
+            <Link href={`${basePath}/rdv`} className="inline-flex items-center gap-4 px-10 py-5 bg-[#0C0C0A] text-[#C9A86C] text-[10px] uppercase tracking-widest hover:gap-8 transition-all cursor-pointer">
+              Prendre rendez-vous <ArrowRight className="w-4 h-4" />
+            </Link>
+          </Reveal>
+        </div>
+      </section>
     </div>
   );
 }

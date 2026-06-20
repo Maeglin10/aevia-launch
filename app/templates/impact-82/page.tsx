@@ -110,6 +110,82 @@ export default function BlueprintPage() {
         </div>
       </section>
 
+      {/* PROGRAMMES */}
+      <section className="py-24 bg-[#F7F5F2] border-t border-[#2A2820]/10">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="flex items-end justify-between mb-16">
+              <div>
+                <p className="text-xs tracking-[0.3em] uppercase text-[#C9A86C] mb-4">Programmes en cours</p>
+                <h2 className="text-4xl font-normal leading-tight" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                  Nos réalisations<br /><em>à la livraison</em>
+                </h2>
+              </div>
+              <Link href="/templates/impact-82/programmes" className="text-sm text-[#C9A86C] flex items-center gap-2 hover:gap-4 transition-all hidden md:flex">
+                Tous les programmes <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { name: "Résidence Ithaque", loc: "Paris 16e", type: "Résidentiel premium", units: "28 appartements", delivery: "T2 2026", price: "À partir de 1,4 M€", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85", badge: "Commercialisation" },
+              { name: "Le Domaine de Chambord", loc: "Neuilly-sur-Seine", type: "Résidentiel de prestige", units: "42 appartements", delivery: "T4 2026", price: "À partir de 920 k€", img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85", badge: "Pré-vente" },
+              { name: "Horizon Business Center", loc: "La Défense", type: "Bureaux class A", units: "8 500 m² de bureaux", delivery: "T1 2027", price: "Sur demande", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=85", badge: "Investisseurs" },
+            ].map((p, i) => (
+              <Reveal key={p.name} delay={i * 0.1}>
+                <div className="group cursor-pointer">
+                  <div className="relative aspect-video overflow-hidden mb-6">
+                    <Image src={p.img} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#1A1612]/60 to-transparent" />
+                    <span className="absolute top-4 left-4 px-3 py-1 bg-[#C9A86C] text-[#1A1612] text-[9px] uppercase tracking-widest font-medium">{p.badge}</span>
+                  </div>
+                  <div>
+                    <p className="text-xs text-[#C9A86C] uppercase tracking-widest mb-2">{p.loc} · {p.type}</p>
+                    <h3 className="text-xl font-normal mb-3 group-hover:text-[#C9A86C] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif" }}>{p.name}</h3>
+                    <div className="grid grid-cols-2 gap-2 text-xs text-[#8A7860] mb-4">
+                      <span>{p.units}</span>
+                      <span>Livraison {p.delivery}</span>
+                    </div>
+                    <p className="font-medium text-[#1A1612] text-sm">{p.price}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ÉQUIPE */}
+      <section className="py-24 bg-[#1A1612] text-[#F7F5F2]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-xs tracking-[0.3em] uppercase text-[#C9A86C] mb-4">Direction</p>
+            <h2 className="text-4xl font-normal mb-16" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+              L'équipe Blueprint
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {[
+              { name: "Édouard Marchand", role: "Président Fondateur", bio: "35 ans d'immobilier. Fondateur de Blueprint en 1989, il a piloté plus de 2,4 Md€ de réalisations.", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80" },
+              { name: "Claire Fontaine", role: "DGA — Développement", bio: "15 ans dans le foncier grand Paris. En charge de l'acquisition et du montage de tous les programmes.", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80" },
+              { name: "Thomas Renard", role: "Directeur Financier", bio: "Ex-Goldman Sachs Real Estate. Pilote la relation investisseurs et la structuration des fonds.", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80" },
+              { name: "Sophie Leroux", role: "Directrice Commerciale", bio: "Spécialiste résidentiel de prestige. A lancé 18 programmes depuis 2015, avec un taux de vente VEFA de 94%.", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80" },
+            ].map((m, i) => (
+              <Reveal key={m.name} delay={i * 0.1}>
+                <div>
+                  <div className="relative aspect-[4/5] overflow-hidden mb-6 grayscale hover:grayscale-0 transition-all duration-700">
+                    <Image src={m.img} alt={m.name} fill className="object-cover" />
+                  </div>
+                  <p className="text-xs tracking-widest text-[#C9A86C] uppercase mb-2">{m.role}</p>
+                  <h3 className="font-normal text-lg mb-3" style={{ fontFamily: "'Libre Baskerville', serif" }}>{m.name}</h3>
+                  <p className="text-xs text-[#6A6058] leading-relaxed">{m.bio}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA section */}
       <section className="py-24 bg-[#F0EBE0] text-[#1A1612]">
         <div className="max-w-4xl mx-auto text-center px-6">
