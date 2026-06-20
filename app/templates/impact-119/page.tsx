@@ -235,6 +235,78 @@ export default function NebulaCloudPage() {
           </div>
         </section>
 
+        {/* ── TESTIMONIALS ──────────── */}
+        <section className="py-40 bg-[#020617] border-t border-white/5">
+          <div className="max-w-6xl mx-auto px-6 md:px-12">
+            <Reveal>
+              <p className="text-[10px] uppercase tracking-[0.5em] text-blue-400/50 mb-6">Trusted by Engineering Teams</p>
+              <h2 className="text-4xl md:text-7xl font-bold text-white mb-20 leading-tight tracking-tight">
+                What teams <span className="text-white/20 font-light">say.</span>
+              </h2>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
+              {[
+                { quote: "We migrated 140 microservices in a single weekend with zero downtime. Their orchestration layer handled the complexity we were dreading. Remarkable.", name: "R. Nakamura", title: "VP Infrastructure · Apex Financial" },
+                { quote: "Our p99 latency dropped from 380ms to 22ms after onboarding. The edge routing intelligence is genuinely next-level.", name: "L. Okafor", title: "SRE Lead · Meridian Tech" },
+                { quote: "The compliance dashboard alone was worth the migration. SOC 2 audit prep that used to take weeks now takes hours.", name: "C. Voss", title: "CTO · NovaBridge Systems" },
+              ].map((t, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="bg-[#020617] p-12 flex flex-col gap-6 hover:bg-slate-950 transition-colors">
+                    <div className="flex gap-1">
+                      {[...Array(5)].map((_, s) => <span key={s} className="text-blue-400 text-xs">★</span>)}
+                    </div>
+                    <p className="text-white/40 leading-relaxed italic flex-1">{t.quote}</p>
+                    <div className="border-t border-white/5 pt-6">
+                      <div className="text-xs font-bold text-white uppercase tracking-widest">{t.name}</div>
+                      <div className="text-[10px] text-blue-400/50 tracking-wide mt-1">{t.title}</div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── PRICING ───────────────── */}
+        <section className="py-40 bg-slate-950 border-t border-white/5">
+          <div className="max-w-6xl mx-auto px-6 md:px-12">
+            <Reveal>
+              <p className="text-[10px] uppercase tracking-[0.5em] text-blue-400/50 mb-6">Pricing</p>
+              <h2 className="text-4xl md:text-7xl font-bold text-white mb-6 leading-tight tracking-tight">
+                Simple, <span className="text-white/20 font-light">predictable.</span>
+              </h2>
+              <p className="text-white/30 mb-20 max-w-lg leading-relaxed">No egress fees. No hidden charges. Pay for what you use.</p>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
+              {[
+                { name: "Starter", price: "$299", unit: "/mo", highlight: false, features: ["Up to 10 services", "99.9% uptime SLA", "Edge PoPs in 12 regions", "Basic compliance dashboard", "Community support"] },
+                { name: "Scale", price: "$999", unit: "/mo", highlight: true, features: ["Unlimited services", "99.99% uptime SLA", "Edge PoPs in 38 regions", "SOC 2 compliance suite", "Dedicated SRE on-call"] },
+                { name: "Enterprise", price: "Custom", unit: "", highlight: false, features: ["White-label infrastructure", "Bespoke SLA", "Private edge PoPs", "Full audit toolchain", "24/7 dedicated team"] },
+              ].map((p, i) => (
+                <Reveal key={p.name} delay={i * 0.1}>
+                  <div className={`p-12 flex flex-col gap-6 ${p.highlight ? "bg-blue-600" : "bg-[#020617]"}`}>
+                    <div>
+                      <div className="text-[10px] uppercase tracking-widest text-white/40 mb-3">{p.name}</div>
+                      <div className="text-4xl font-bold text-white">{p.price}<span className="text-base font-light text-white/40">{p.unit}</span></div>
+                    </div>
+                    <ul className="flex flex-col gap-3 flex-1">
+                      {p.features.map(f => (
+                        <li key={f} className="flex items-center gap-3 text-sm text-white/60">
+                          <Activity className="w-3 h-3 text-blue-400 flex-shrink-0" />
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className={`text-[10px] uppercase tracking-widest font-bold py-3 px-6 text-center border ${p.highlight ? "border-white text-white hover:bg-white hover:text-blue-600" : "border-blue-500/30 text-blue-400 hover:border-blue-400"} transition-colors cursor-pointer`}>
+                      Get started
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── CTA ───────────────────── */}
         <section className="py-32 relative overflow-hidden">
           <div className="absolute inset-0 bg-blue-600/5" />

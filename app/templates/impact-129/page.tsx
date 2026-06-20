@@ -234,6 +234,73 @@ export default function WaveFXPage() {
           </div>
         </section>
 
+        {/* ── TESTIMONIALS ──────────── */}
+        <section className="py-32 bg-[#070a10] border-t border-white/5">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="text-center mb-20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-indigo-400 block mb-4">Developer Love</span>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Trusted by <span className="text-indigo-400">Builders.</span></h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                { quote: "Replaced our entire internal CLI tooling in a weekend. The DX is absurd — we shipped a production feature in the time our old flow took to configure.", handle: "@mia_builds", role: "Staff Engineer · Berlin", avatar: "MB" },
+                { quote: "The GitBranch integration is effortless. I've been a CLI nerd for 12 years — this is the first time I've felt genuinely excited about tooling.", handle: "@the_real_thorn", role: "Open Source Maintainer", avatar: "TR" },
+                { quote: "Our onboarding dropped from 3 days to 4 hours. Every new dev just runs one command and they're in the right environment immediately.", handle: "@priya_dev", role: "CTO, Singapore Startup", avatar: "PD" },
+              ].map((t, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="group p-8 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-indigo-500/20 transition-all duration-500 flex flex-col gap-6 h-full">
+                    <div className="flex gap-1">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-indigo-400 text-indigo-400" />)}</div>
+                    <p className="text-sm text-white/50 leading-relaxed italic flex-1">&ldquo;{t.quote}&rdquo;</p>
+                    <div className="flex items-center gap-4 border-t border-white/5 pt-6">
+                      <div className="w-10 h-10 rounded-xl bg-indigo-500/20 border border-indigo-500/20 flex items-center justify-center text-[10px] font-black text-indigo-400">{t.avatar}</div>
+                      <div>
+                        <div className="text-sm font-bold text-white font-mono">{t.handle}</div>
+                        <div className="text-xs text-white/30">{t.role}</div>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── TEAM ────────────────────── */}
+        <section className="py-32 bg-[#0d1117] border-t border-white/5">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="text-center mb-20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-indigo-400 block mb-4">Open Core Team</span>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Built by <span className="text-indigo-400">Engineers.</span></h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {[
+                { name: "Noa Stein", role: "Founder & CLI Lead", gh: "noa-s", focus: "Core runtime, DX" },
+                { name: "Remi Osei", role: "Platform Engineer", gh: "remi_dev", focus: "Cloud orchestration" },
+                { name: "Aiko Park", role: "Developer Relations", gh: "aikopark", focus: "Docs, community" },
+                { name: "Lucas Vidal", role: "Security & Infra", gh: "lv_sec", focus: "Zero-trust, audit" },
+              ].map((m, i) => (
+                <Reveal key={i} delay={i * 0.08}>
+                  <div className="group p-6 bg-white/[0.02] border border-white/5 rounded-xl hover:border-indigo-500/20 transition-all duration-500 cursor-default flex flex-col gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500/20 to-blue-500/20 border border-indigo-500/20 flex items-center justify-center">
+                      <span className="text-[10px] font-black text-indigo-400">{m.gh.slice(0,2).toUpperCase()}</span>
+                    </div>
+                    <div>
+                      <div className="font-bold text-white mb-0.5">{m.name}</div>
+                      <div className="text-xs text-indigo-400/70 font-mono mb-1">@{m.gh}</div>
+                      <div className="text-xs text-white/30">{m.role}</div>
+                    </div>
+                    <div className="text-[9px] font-bold uppercase tracking-widest text-white/15 border-t border-white/5 pt-3">{m.focus}</div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── CTA ──────── */}
         <section className="py-32 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/10 via-transparent to-blue-600/10" />
