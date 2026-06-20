@@ -54,10 +54,10 @@ export default function ContactPage() {
                   [SIGNAL ROUTED]
                 </span>
                 <h3 style={{ fontFamily: FONT_SYNE, fontWeight: 800, fontSize: "1.5rem", color: C.white, marginBottom: "1rem" }}>
-                  TRANSMISSION SUCCESSFUL
+                  MERCI
                 </h3>
-                <p style={{ fontFamily: FONT_MONO, fontSize: "0.7rem", color: "rgba(255,255,255,0.4)", lineHeight: 1.7 }}>
-                  Your request has been logged. Our agents will respond shortly.
+                <p style={{ fontFamily: FONT_MONO, fontSize: "0.78rem", color: "rgba(255,255,255,0.7)", lineHeight: 1.7 }}>
+                  Merci, nous vous répondrons sous 24h.
                 </p>
               </div>
             ) : (

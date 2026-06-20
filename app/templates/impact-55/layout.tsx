@@ -123,11 +123,17 @@ export default function GhostShellLayout({
           &gt; logout // Ghost Shell © 2026 // All systems nominal
         </span>
         <div style={{ display: "flex", gap: "24px", alignItems: "center" }}>
-          <Link href="/templates/impact-55/legal" style={{ color: "#008F11", fontSize: "11px", textDecoration: "none", letterSpacing: "0.06em" }} onMouseEnter={e => e.currentTarget.style.color = "#00FF41"} onMouseLeave={e => e.currentTarget.style.color = "#008F11"}>
-            [LEGAL MENTIONS]
+          <Link href="/legal/mentions-legales" style={{ color: "#008F11", fontSize: "11px", textDecoration: "none", letterSpacing: "0.06em" }} onMouseEnter={e => e.currentTarget.style.color = "#00FF41"} onMouseLeave={e => e.currentTarget.style.color = "#008F11"}>
+            [MENTIONS]
+          </Link>
+          <Link href="/legal/confidentialite" style={{ color: "#008F11", fontSize: "11px", textDecoration: "none", letterSpacing: "0.06em" }} onMouseEnter={e => e.currentTarget.style.color = "#00FF41"} onMouseLeave={e => e.currentTarget.style.color = "#008F11"}>
+            [PRIVACY]
+          </Link>
+          <Link href="/legal/cgu" style={{ color: "#008F11", fontSize: "11px", textDecoration: "none", letterSpacing: "0.06em" }} onMouseEnter={e => e.currentTarget.style.color = "#00FF41"} onMouseLeave={e => e.currentTarget.style.color = "#008F11"}>
+            [CGU]
           </Link>
           <span style={{ color: "#003300", fontSize: "11px", letterSpacing: "0.06em" }}>
-            [GHOST_SHELL v2.4.1] · uptime: 847d · PID 4291 · AES-256-GCM
+            [GHOST_SHELL v2.4.1]
           </span>
         </div>
       </footer>

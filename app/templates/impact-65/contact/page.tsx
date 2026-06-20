@@ -34,9 +34,9 @@ export default function ContactPage() {
               {sent ? (
                 <div className="text-center py-16">
                   <span className="text-[#0070f3] text-4xl block mb-6 font-black italic">NOMINAL</span>
-                  <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-4">Request Transmitted</h3>
+                  <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-4">Merci</h3>
                   <p className="text-sm font-light italic leading-relaxed opacity-60">
-                    Our materials scientists and engineers will review your request and contact you within 24 hours with custom carbon fiber layout recommendations.
+                    Merci, nous vous répondrons sous 24h.
                   </p>
                 </div>
               ) : (

@@ -106,8 +106,8 @@ export default function ContactPage() {
             {submitted ? (
               <div className="bg-[#2D1B0E] text-white p-16 text-center font-sans">
                 <CheckCircle2 className="w-12 h-12 text-[#C4A265] mx-auto mb-6" />
-                <h3 className="text-2xl font-serif mb-4 leading-snug pb-1">Message envoyé</h3>
-                <p className="text-zinc-300 text-sm">Nous vous répondrons dans les 48 heures ouvrées.</p>
+                <h3 className="text-2xl font-serif mb-4 leading-snug pb-1">Merci</h3>
+                <p className="text-zinc-300 text-sm">Merci, nous vous répondrons sous 24h.</p>
               </div>
             ) : (
               <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true) }} className="space-y-5 font-sans">
