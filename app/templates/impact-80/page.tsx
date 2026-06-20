@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Compass, ArrowUpRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Compass, ArrowUpRight, Plus, Minus } from "lucide-react";
 import { Reveal, ParallaxImg } from "./shared";
 
 const PROJECTS = [
@@ -11,24 +12,32 @@ const PROJECTS = [
     name: "The Obsidian Villa",
     loc: "Malibu, CA",
     type: "Residential",
+    year: "2024",
+    area: "620 m²",
     img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop",
   },
   {
     name: "Glass Monolith",
     loc: "Berlin, DE",
     type: "Commercial",
+    year: "2024",
+    area: "2 400 m²",
     img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop",
   },
   {
     name: "Serene Heights",
     loc: "Kyoto, JP",
     type: "Cultural",
+    year: "2023",
+    area: "1 100 m²",
     img: "https://images.unsplash.com/photo-1503387762-592cd5804557?q=80&w=1200&auto=format&fit=crop",
   },
   {
     name: "Meridian House",
     loc: "Oslo, NO",
     type: "Residential",
+    year: "2023",
+    area: "480 m²",
     img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop",
   },
 ];
@@ -37,29 +46,94 @@ const SERVICES = [
   {
     num: "01",
     title: "Residential Architecture",
-    desc: "Private homes and villas conceived as instruments of pure habitation, calibrated to site and season.",
+    desc: "Private homes and villas conceived as instruments of pure habitation, calibrated to site and season. We work with a limited number of residential clients per year to ensure uncompromised attention.",
+    details: ["Site Analysis", "Concept Design", "Planning Approval", "Construction Documentation", "Site Supervision"],
   },
   {
     num: "02",
     title: "Commercial Design",
-    desc: "Workspace environments and flagship buildings that express institutional identity through elemental form.",
+    desc: "Workspace environments and flagship buildings that express institutional identity through elemental form. Our commercial practice encompasses offices, galleries, cultural institutions, and mixed-use developments.",
+    details: ["Brand Architecture", "Space Programming", "Interior Systems", "Tenant Coordination", "Post-Occupancy Review"],
   },
   {
     num: "03",
     title: "Interiors & Materials",
-    desc: "Material studies, spatial sequencing, and bespoke interior programming for each unique commission.",
+    desc: "Material studies, spatial sequencing, and bespoke interior programming for each unique commission. We maintain a studio material library of over 800 tested finishes.",
+    details: ["Material Curation", "Custom Millwork", "Lighting Design", "Furniture Specification", "Art Integration"],
+  },
+  {
+    num: "04",
+    title: "Masterplanning",
+    desc: "Large-scale urban interventions and estate planning that subordinate the whole to an overarching organisational logic, creating environments that improve with time.",
+    details: ["Site Masterplan", "Infrastructure Strategy", "Phasing", "Landscape Integration", "Community Engagement"],
   },
 ];
 
 const AWARDS = [
   { year: "2025", title: "Archdaily Building of the Year", category: "Residential" },
   { year: "2024", title: "Wallpaper* Design Award", category: "Architecture" },
+  { year: "2024", title: "RIBA International Award", category: "Commercial" },
   { year: "2023", title: "Dezeen Award — Shortlisted", category: "Commercial" },
+  { year: "2023", title: "Blueprint Award", category: "Cultural" },
   { year: "2022", title: "Frame Awards — Best Newcomer", category: "Studio" },
+];
+
+const STATS = [
+  { val: "87", label: "Completed Projects" },
+  { val: "23", label: "Countries" },
+  { val: "12", label: "Years Practice" },
+  { val: "4", label: "RIBA Awards" },
+];
+
+const TEAM = [
+  {
+    name: "Elias Vorn",
+    role: "Founding Principal",
+    bio: "Trained at the ETH Zürich and the Architectural Association. Elias leads design strategy and maintains relationships with structural engineering consultants across Europe.",
+    img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    name: "Mara Solis",
+    role: "Design Director",
+    bio: "Formerly with Herzog & de Meuron. Mara oversees the development of every project from concept through construction administration, with a focus on material authenticity.",
+    img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    name: "Kenji Arao",
+    role: "Technical Director",
+    bio: "Structural specialist with a background in parametric engineering. Kenji ensures that the studio's formal ambitions are grounded in rigorous constructional logic.",
+    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=600&auto=format&fit=crop",
+  },
+];
+
+const PROCESS = [
+  { step: "01", title: "Commission", body: "An initial conversation to understand the scope, ambitions, and constraints of the project. We take on only commissions where genuine design innovation is possible." },
+  { step: "02", title: "Research", body: "Site analysis, contextual study, material investigation, and programme clarification. This phase typically spans four to six weeks and culminates in a concept brief." },
+  { step: "03", title: "Design", body: "Schematic design developed through models, drawings, and material samples. We present three distinct concepts and refine the selected direction iteratively." },
+  { step: "04", title: "Documentation", body: "Full construction documentation coordinated with structural, mechanical, and electrical engineers. We produce precise, buildable drawings that anticipate every junction." },
+  { step: "05", title: "Construction", body: "Site supervision throughout the construction phase. We conduct weekly reviews with the contractor and issue formal site observation reports." },
+  { step: "06", title: "Completion", body: "Post-occupancy evaluation at six months to assess performance against the original brief. We consider a project complete only when the client confirms the space exceeds expectation." },
+];
+
+const PRESS = [
+  { pub: "Wallpaper*", title: "The Return of the Pure Volume", year: "2024" },
+  { pub: "Dezeen", title: "Symmetry Studio's Glass Monolith redefines the Berlin skyline", year: "2024" },
+  { pub: "Architectural Digest", title: "Inside the Obsidian Villa: restraint as luxury", year: "2024" },
+  { pub: "Frame Magazine", title: "Material Memory: how Symmetry Studio chooses its palette", year: "2023" },
+  { pub: "Icon", title: "Elias Vorn: 'We subtract until only the essential remains'", year: "2023" },
+];
+
+const FAQS = [
+  { q: "What is your minimum project budget?", a: "Our residential projects typically start at £1.2m in construction value. Commercial commissions vary by complexity and scale. We are happy to discuss feasibility during an initial consultation." },
+  { q: "Do you work internationally?", a: "Yes. We currently maintain active projects across Europe, Japan, and North America. Our studio is based in London with a satellite office in Zürich." },
+  { q: "How long does a typical project take?", a: "A mid-scale residential project runs 18–24 months from commission to completion. Commercial and cultural projects typically take 24–36 months, depending on planning complexity." },
+  { q: "Can I visit your studio?", a: "We welcome site visits by appointment. Our material library and model archive are available for viewing during studio hours, Tuesday through Friday." },
 ];
 
 export default function SymmetryStudioPage() {
   const basePath = "/templates/impact-80";
+  const [openService, setOpenService] = useState<number | null>(null);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
     <main>
@@ -120,6 +194,22 @@ export default function SymmetryStudioPage() {
         </div>
       </section>
 
+      {/* ── STATS ─────────────────── */}
+      <section className="py-20 bg-[#1a1a1a] border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/5">
+            {STATS.map((s, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div className="px-8 py-6 text-center">
+                  <div className="text-5xl md:text-6xl font-light text-white italic tracking-tighter mb-2">{s.val}</div>
+                  <div className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20 italic">{s.label}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── PROJECTS GRID ─────────── */}
       <section className="py-32 bg-[#fcfcfc] border-t border-black/5">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
@@ -146,12 +236,15 @@ export default function SymmetryStudioPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {PROJECTS.map((project, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="group cursor-pointer">
+                <Link href={`${basePath}/works`} className="block group cursor-pointer">
                   <div className="relative aspect-video overflow-hidden border border-black/5 p-1 bg-white shadow-xl shadow-black/[0.02] mb-8">
                     <ParallaxImg src={project.img} alt={project.name} />
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all duration-1000" />
                     <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-black/40">
                       {project.type}
+                    </div>
+                    <div className="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-black/40">
+                      {project.area} · {project.year}
                     </div>
                   </div>
                   <div className="flex justify-between items-start">
@@ -167,7 +260,7 @@ export default function SymmetryStudioPage() {
                       <ArrowUpRight className="w-4 h-4" />
                     </div>
                   </div>
-                </div>
+                </Link>
               </Reveal>
             ))}
           </div>
@@ -211,7 +304,7 @@ export default function SymmetryStudioPage() {
         </div>
       </section>
 
-      {/* ── SERVICES ──────────────── */}
+      {/* ── SERVICES (accordion) ──── */}
       <section className="py-32 bg-[#fcfcfc] border-t border-black/5">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
@@ -226,28 +319,118 @@ export default function SymmetryStudioPage() {
 
           <div className="divide-y divide-black/5">
             {SERVICES.map((svc, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className="py-12 grid grid-cols-12 gap-8 items-start group cursor-pointer hover:bg-white/60 transition-colors -mx-6 px-6">
-                  <div className="col-span-1 text-[10px] font-bold text-black/10 italic uppercase tracking-widest pt-1">
-                    {svc.num}
-                  </div>
-                  <div className="col-span-8 md:col-span-7">
-                    <h3 className="text-2xl md:text-3xl font-light uppercase tracking-tighter text-[#1a1a1a] italic mb-4 group-hover:translate-x-2 transition-transform duration-700">
-                      {svc.title}
-                    </h3>
-                    <p className="text-sm text-black/30 font-light leading-relaxed italic max-w-lg">
-                      {svc.desc}
-                    </p>
-                  </div>
-                  <div className="col-span-3 md:col-span-4 flex justify-end">
-                    <div className="w-10 h-10 border border-black/5 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-700">
-                      <ArrowUpRight className="w-4 h-4" />
+              <Reveal key={i} delay={i * 0.08}>
+                <div
+                  className="py-10 group cursor-pointer -mx-6 px-6 hover:bg-white/60 transition-colors"
+                  onClick={() => setOpenService(openService === i ? null : i)}
+                >
+                  <div className="grid grid-cols-12 gap-8 items-start">
+                    <div className="col-span-1 text-[10px] font-bold text-black/10 italic uppercase tracking-widest pt-1">
+                      {svc.num}
+                    </div>
+                    <div className="col-span-9 md:col-span-10">
+                      <h3 className="text-2xl md:text-3xl font-light uppercase tracking-tighter text-[#1a1a1a] italic mb-0 group-hover:translate-x-2 transition-transform duration-700">
+                        {svc.title}
+                      </h3>
+                    </div>
+                    <div className="col-span-2 md:col-span-1 flex justify-end">
+                      <div className="w-8 h-8 border border-black/10 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-500">
+                        {openService === i ? <Minus className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+                      </div>
                     </div>
                   </div>
+                  <AnimatePresence>
+                    {openService === i && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <div className="pt-8 grid grid-cols-1 md:grid-cols-2 gap-12 pl-12">
+                          <p className="text-sm text-black/30 font-light leading-relaxed italic">{svc.desc}</p>
+                          <ul className="space-y-2">
+                            {svc.details.map((d, j) => (
+                              <li key={j} className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-black/20 italic">
+                                <div className="w-4 h-[1px] bg-black/10" />{d}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── PROCESS ───────────────── */}
+      <section className="py-32 bg-white border-t border-black/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/20 mb-6 block italic">
+              Method // Process
+            </span>
+            <h2 className="text-5xl md:text-6xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">
+              How we<br />
+              <span className="font-bold opacity-10 not-italic">work.</span>
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-16 gap-y-20">
+            {PROCESS.map((p, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/10 italic mb-6">{p.step}</div>
+                  <div className="w-full h-[1px] bg-black/5 mb-6" />
+                  <h4 className="text-xl font-light uppercase tracking-tighter text-[#1a1a1a] italic mb-4">{p.title}</h4>
+                  <p className="text-sm text-black/30 font-light leading-relaxed italic">{p.body}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── TEAM ──────────────────── */}
+      <section className="py-32 bg-[#fcfcfc] border-t border-black/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/20 mb-6 block italic">
+              People // Studio
+            </span>
+            <h2 className="text-5xl md:text-6xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">
+              The studio.
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            {TEAM.map((member, i) => (
+              <Reveal key={i} delay={i * 0.12}>
+                <div className="group">
+                  <div className="relative aspect-[3/4] overflow-hidden mb-8 grayscale group-hover:grayscale-0 transition-all duration-1000">
+                    <Image src={member.img} alt={member.name} fill className="object-cover" />
+                    <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-all duration-1000" />
+                  </div>
+                  <div className="text-[9px] font-bold uppercase tracking-widest text-black/20 italic mb-2">{member.role}</div>
+                  <h3 className="text-xl font-light uppercase tracking-tighter text-[#1a1a1a] italic mb-4">{member.name}</h3>
+                  <p className="text-sm text-black/30 font-light leading-relaxed italic">{member.bio}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.3}>
+            <div className="mt-20 pt-12 border-t border-black/5 flex justify-end">
+              <Link
+                href={`${basePath}/identity`}
+                className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.4em] text-black/20 hover:text-black transition-colors italic"
+              >
+                Full Studio Profile <ArrowUpRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -262,7 +445,6 @@ export default function SymmetryStudioPage() {
               Honours.
             </h2>
           </Reveal>
-
           <div className="divide-y divide-black/5">
             {AWARDS.map((award, i) => (
               <Reveal key={i} delay={i * 0.08}>
@@ -278,6 +460,82 @@ export default function SymmetryStudioPage() {
                   <span className="text-[9px] font-bold uppercase tracking-widest text-black/10 italic flex-shrink-0">
                     {award.category}
                   </span>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PRESS ─────────────────── */}
+      <section className="py-32 bg-[#fcfcfc] border-t border-black/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/20 mb-6 block italic">
+              Press // Publications
+            </span>
+            <h2 className="text-5xl md:text-6xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">
+              As seen<br />
+              <span className="font-bold opacity-10 not-italic">in.</span>
+            </h2>
+          </Reveal>
+          <div className="divide-y divide-black/5">
+            {PRESS.map((item, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div className="py-8 flex items-center gap-12 group cursor-pointer">
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-black/10 italic w-28 flex-shrink-0">{item.pub}</span>
+                  <div className="flex-1 text-lg font-light uppercase tracking-tighter text-[#1a1a1a]/40 italic group-hover:text-[#1a1a1a] transition-colors duration-500">
+                    {item.title}
+                  </div>
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-black/10 italic flex-shrink-0">{item.year}</span>
+                  <ArrowUpRight className="w-4 h-4 text-black/10 group-hover:text-black transition-colors duration-500 flex-shrink-0" />
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQ ───────────────────── */}
+      <section className="py-32 bg-white border-t border-black/5">
+        <div className="max-w-[900px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/20 mb-6 block italic">
+              Questions // Answers
+            </span>
+            <h2 className="text-5xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">
+              Common<br />
+              <span className="font-bold opacity-10 not-italic">enquiries.</span>
+            </h2>
+          </Reveal>
+          <div className="divide-y divide-black/5">
+            {FAQS.map((faq, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div
+                  className="py-8 cursor-pointer group"
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                >
+                  <div className="flex items-start justify-between gap-8">
+                    <h4 className="text-base font-light uppercase tracking-tighter text-[#1a1a1a]/60 italic group-hover:text-[#1a1a1a] transition-colors duration-300 flex-1">
+                      {faq.q}
+                    </h4>
+                    <div className="w-6 h-6 border border-black/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      {openFaq === i ? <Minus className="w-3 h-3 text-black/40" /> : <Plus className="w-3 h-3 text-black/20" />}
+                    </div>
+                  </div>
+                  <AnimatePresence>
+                    {openFaq === i && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <p className="pt-6 text-sm text-black/30 font-light leading-relaxed italic max-w-xl">{faq.a}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </Reveal>
             ))}
