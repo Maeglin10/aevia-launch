@@ -25,6 +25,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { label: "Cours", href: "/templates/impact-31/cours" },
     { label: "Tarifs", href: "/templates/impact-31/pricing" },
     { label: "Professeurs", href: "/templates/impact-31/professeurs" },
+    { label: "Contact", href: "/templates/impact-31/contact" },
   ];
 
   return (
@@ -217,7 +218,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             { title: "Studio", links: [
               { label: "Professeurs", href: "/templates/impact-31/professeurs" },
               { label: "Tarifs", href: "/templates/impact-31/pricing" },
-              { label: "Essai gratuit", href: "/templates/impact-31/pricing" }
+              { label: "Contact", href: "/templates/impact-31/contact" },
+              { label: "Essai gratuit", href: "/templates/impact-31/contact" }
             ]},
             { title: "Pratique", links: [
               { label: "Mentions légales", href: "/templates/impact-31/legal" },
