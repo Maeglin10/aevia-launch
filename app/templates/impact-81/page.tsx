@@ -53,6 +53,126 @@ export default function VogueNoirePage() {
           </div>
         </div>
       </section>
+
+      {/* ── FEATURED — Hero Editorial */}
+      <section className="py-32 bg-[#0F0E0B] border-t border-[#2A2820]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            <Reveal>
+              <div className="relative aspect-[3/4] overflow-hidden">
+                <Image src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200&q=85" alt="Editorial" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0F0E0B]/80 to-transparent" />
+                <div className="absolute bottom-8 left-8">
+                  <span className="text-[9px] uppercase tracking-[0.4em] text-[#C9A86C]">Couverture · Hiver 2025</span>
+                </div>
+              </div>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <div className="pt-8 lg:pt-24">
+                <span className="text-[9px] uppercase tracking-[0.4em] text-[#C9A86C] block mb-6">Éditorial de couverture</span>
+                <h2 className="text-4xl md:text-6xl font-light leading-[1.2] mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                  Le corps comme langage.<br /><em>La mode comme texte.</em>
+                </h2>
+                <p className="text-[#A0988A] leading-relaxed mb-10 text-base">
+                  À l'occasion de la saison Hiver 2025, Vogue Noire interroge la relation entre le corps féminin et le vêtement haut de gamme. Six photographes, douze mannequins, une idée centrale : le mouvement comme signature esthétique.
+                </p>
+                <div className="flex items-center gap-6 text-xs text-[#6A6058] mb-12">
+                  <span>Par Amara Diallo</span>
+                  <span className="w-4 h-[1px] bg-[#3A3028]" />
+                  <span>Photographie : Léa Fontaine</span>
+                  <span className="w-4 h-[1px] bg-[#3A3028]" />
+                  <span>8 min de lecture</span>
+                </div>
+                <Link href={`${basePath}/editoriaux`} className="inline-flex items-center gap-3 text-sm tracking-widest uppercase border-b border-[#C9A86C]/40 pb-1 text-[#C9A86C] hover:border-[#C9A86C] transition-colors cursor-pointer">
+                  Lire l'éditorial complet <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SELECTION — Rubriques */}
+      <section className="py-24 bg-[#0A0A08] border-t border-[#2A2820]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="flex items-end justify-between mb-16">
+              <div>
+                <p className="text-[9px] uppercase tracking-[0.4em] text-[#C9A86C] mb-4">Dans ce numéro</p>
+                <h2 className="text-4xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>La sélection Vogue Noire</h2>
+              </div>
+              <Link href={`${basePath}/editoriaux`} className="text-[9px] uppercase tracking-widest text-[#6A6058] hover:text-[#C9A86C] transition-colors hidden md:block cursor-pointer">
+                Voir tout le numéro
+              </Link>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { cat: "Mode", title: "Les silhouettes de la saison", author: "Camille Renard", time: "5 min", img: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800&q=85" },
+              { cat: "Beauté", title: "Le maquillage qui parle le plus", author: "Sasha Morel", time: "4 min", img: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=85" },
+              { cat: "Culture", title: "Derrière les coulisses du défilé", author: "Inès Kaboré", time: "6 min", img: "https://images.unsplash.com/photo-1529693662653-9d480530a697?w=800&q=85" },
+            ].map((art, i) => (
+              <Reveal key={art.title} delay={i * 0.1}>
+                <article className="group cursor-pointer">
+                  <div className="relative aspect-video overflow-hidden mb-6">
+                    <Image src={art.img} alt={art.title} fill className="object-cover grayscale-[60%] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A08]/60 to-transparent" />
+                  </div>
+                  <span className="text-[9px] uppercase tracking-[0.4em] text-[#C9A86C] block mb-3">{art.cat}</span>
+                  <h3 className="text-xl font-light leading-snug mb-4 group-hover:text-[#C9A86C] transition-colors" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{art.title}</h3>
+                  <div className="flex items-center gap-3 text-xs text-[#6A6058]">
+                    <span>{art.author}</span>
+                    <span>·</span>
+                    <span>{art.time}</span>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── MAISONS */}
+      <section className="py-24 border-t border-[#2A2820] bg-[#0F0E0B]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-[9px] uppercase tracking-[0.4em] text-[#C9A86C] mb-4">Haute couture</p>
+            <h2 className="text-4xl font-light mb-20" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Les maisons à la une</h2>
+          </Reveal>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            {["Maison Margiela", "Saint Laurent", "Balenciaga", "Valentino", "Givenchy"].map((m, i) => (
+              <Reveal key={m} delay={i * 0.07}>
+                <div className="relative aspect-[2/3] overflow-hidden group cursor-pointer">
+                  <Image src={`https://images.unsplash.com/photo-155861866${6 + i}-fcd25c85cd64?w=600&q=80`} alt={m} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                  <div className="absolute inset-0 bg-[#0A0A08]/50 group-hover:bg-transparent transition-all duration-700" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <span className="text-[9px] uppercase tracking-[0.3em] text-[#C9A86C]">{m}</span>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── NEWSLETTER */}
+      <section className="py-24 bg-[#C9A86C] text-[#0A0A08]">
+        <div className="max-w-2xl mx-auto px-6 text-center">
+          <Reveal>
+            <p className="text-[9px] uppercase tracking-[0.5em] mb-6">Abonnement · Gratuit</p>
+            <h2 className="text-4xl font-light mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              La lettre Vogue Noire.<br /><em>Chaque lundi matin.</em>
+            </h2>
+            <p className="text-[#0A0A08]/60 mb-10 text-sm">Les défilés, les éditoriaux, les tendances — avant tout le monde. 40 000 lecteurs. Sans publicité.</p>
+            <div className="flex gap-3 max-w-md mx-auto">
+              <input type="email" placeholder="votre@email.com" className="flex-1 px-5 py-3 bg-[#0A0A08]/10 border border-[#0A0A08]/20 text-[#0A0A08] placeholder-[#0A0A08]/30 text-sm focus:outline-none focus:border-[#0A0A08]/50 transition-colors" />
+              <button className="px-8 py-3 bg-[#0A0A08] text-[#C9A86C] text-[9px] uppercase tracking-widest font-medium hover:bg-[#0A0A08]/80 transition-colors cursor-pointer">
+                S'abonner
+              </button>
+            </div>
+          </Reveal>
+        </div>
+      </section>
     </div>
   );
 }
