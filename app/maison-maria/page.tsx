@@ -2077,9 +2077,26 @@ export default function MaisonMariaPage() {
           </div>
         </div>
 
-        <div style={{ maxWidth: 1200, margin: "48px auto 0", paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.1)", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12, fontFamily: C.fontSans, fontSize: 11.5, color: "rgba(255,255,255,0.4)" }}>
-          <span>© 2026 Maison Maria · Institut de beauté · Vénissieux</span>
-          <span>Majoration +10€ : prestations de nuit (21h–6h) & dimanche</span>
+        <div style={{ maxWidth: 1200, margin: "48px auto 0", paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.1)", display: "flex", flexDirection: "column", gap: 16 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 20 }}>
+            <a href="/maison-maria/ebook" style={{ fontFamily: C.fontSans, fontSize: 12.5, color: C.roseLight, textDecoration: "none", fontWeight: 600 }}>
+              📖 Guide de formation — 49€
+            </a>
+            {[
+              { label: "Mentions légales", href: "/maison-maria/legal/mentions-legales" },
+              { label: "CGV", href: "/maison-maria/legal/cgv" },
+              { label: "Confidentialité", href: "/maison-maria/legal/confidentialite" },
+              { label: "Cookies", href: "/maison-maria/legal/cookies" },
+            ].map((l) => (
+              <a key={l.href} href={l.href} style={{ fontFamily: C.fontSans, fontSize: 12, color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>
+                {l.label}
+              </a>
+            ))}
+          </div>
+          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12, fontFamily: C.fontSans, fontSize: 11.5, color: "rgba(255,255,255,0.35)" }}>
+            <span>© 2026 Maison Maria · Institut de beauté · Vénissieux</span>
+            <span>Majoration +10€ : prestations de nuit (21h–6h) & dimanche</span>
+          </div>
         </div>
       </footer>
     </div>
