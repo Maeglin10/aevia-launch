@@ -1950,7 +1950,7 @@ export default function ImpactRestaurantPage() {
                     {col.links.map((link) => (
                       <a
                         key={link}
-                        href="#"
+                        href="#menu"
                         style={{
                           fontFamily: C.fontSans,
                           fontSize: 13,
@@ -1989,7 +1989,7 @@ export default function ImpactRestaurantPage() {
               {["Privacy Policy", "Cookie", "Legal"].map((l) => (
                 <a
                   key={l}
-                  href="#"
+                  href="#menu"
                   style={{
                     color: "rgba(250,248,243,0.3)",
                     textDecoration: "none",

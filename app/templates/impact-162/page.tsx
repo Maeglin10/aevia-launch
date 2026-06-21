@@ -484,7 +484,7 @@ export default function EssentialCafePage() {
             <span>© 2024 Le Matin Doré · Tous droits réservés</span>
             <div className="flex gap-6">
               {["Mentions légales", "Confidentialité"].map(l => (
-                <Link key={l} href="#" className="hover:text-[#FDFAF5] transition-colors cursor-pointer">{l}</Link>
+                <Link key={l} href="#menu" className="hover:text-[#FDFAF5] transition-colors cursor-pointer">{l}</Link>
               ))}
             </div>
           </div>

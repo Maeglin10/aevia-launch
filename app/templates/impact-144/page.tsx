@@ -415,7 +415,7 @@ export default function KineticMarqueePage() {
                         document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
                       }} className="hover:text-white transition-colors">{l}</Link>
                     ) : (
-                      <Link href="#" className="hover:text-white transition-colors">{l}</Link>
+                      <Link href="#contact" className="hover:text-white transition-colors">{l}</Link>
                     )}
                   </li>
                 ))}

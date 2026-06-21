@@ -620,7 +620,7 @@ export default function VulcanMotorPremium() {
                <div className="flex flex-wrap gap-8">
                   <span>©2026 VULCAN MOTOR GROUP MODENA.</span>
                   <span className="hidden md:inline">//</span>
-                  <a href="#" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-blue-500 transition-colors">MENTIONS LEGALES</a>
+                  <a href="#aero-grad" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-blue-500 transition-colors">MENTIONS LEGALES</a>
                </div>
                <div className="flex gap-12 font-mono">
                   <span className="text-blue-500/40">TELEMETRY_LINK_ESTABLISHED</span>

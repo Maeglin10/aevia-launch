@@ -984,7 +984,7 @@ export default function VelocityJetsPage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#00f2ff] transition-colors"
                 >
                   Contact

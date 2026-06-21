@@ -553,7 +553,7 @@ export default function CreativePortfolioSPA() {
               </p>
               <div className="flex gap-4">
                 {[<AtSign key="tw" className="w-4 h-4"/>, <Camera key="ig" className="w-4 h-4"/>, <Mail key="ml" className="w-4 h-4"/>].map((icon, i) => (
-                  <a key={i} href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:bg-amber-400 hover:text-black transition-colors">
+                  <a key={i} href="#work" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:bg-amber-400 hover:text-black transition-colors">
                     {icon}
                   </a>
                 ))}
@@ -573,7 +573,7 @@ export default function CreativePortfolioSPA() {
               <h4 className="text-white font-medium mb-6 uppercase tracking-wider text-xs">Explore</h4>
               <ul className="space-y-4 text-white/50 text-sm">
                 {["Portfolio", "Expertise", "About", "Journal", "Contact"].map(link => (
-                  <li key={link}><a href="#" className="hover:text-amber-400 transition-colors">{link}</a></li>
+                  <li key={link}><a href="#contact" className="hover:text-amber-400 transition-colors">{link}</a></li>
                 ))}
               </ul>
             </div>

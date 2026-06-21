@@ -1547,7 +1547,7 @@ function Footer() {
             {['I', 'G', 'P'].map((s) => (
               <a
                 key={s}
-                href="#"
+                href="#maison"
                 style={{
                   width: 32,
                   height: 32,

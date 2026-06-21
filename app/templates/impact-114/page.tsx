@@ -1457,7 +1457,7 @@ export default function Impact114Page() {
             {[Globe, Mail].map((Icon, i) => (
               <a
                 key={i}
-                href="#"
+                href="#n"
                 className="text-[#2d1b0e]/25 hover:text-[#3d5a3e] transition-colors"
               >
                 <Icon className="w-4 h-4" />

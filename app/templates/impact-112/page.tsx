@@ -618,7 +618,7 @@ export default function ArtisanMinimalPage() {
           {NAV_LINKS.map((l) => (
             <a
               key={l}
-              href="#"
+              href="#boutique"
               style={{
                 color: C.muted,
                 textDecoration: "none",
@@ -2186,7 +2186,7 @@ export default function ArtisanMinimalPage() {
                 {[Camera, MessageSquare, Link2, Users2].map((Icon, i) => (
                   <a
                     key={i}
-                    href="#"
+                    href="#boutique"
                     style={{
                       width: 36,
                       height: 36,
@@ -2254,7 +2254,7 @@ export default function ArtisanMinimalPage() {
                   {col.links.map((link) => (
                     <a
                       key={link}
-                      href="#"
+                      href="#boutique"
                       style={{
                         fontSize: "0.83rem",
                         color: C.muted,
@@ -2295,7 +2295,7 @@ export default function ArtisanMinimalPage() {
               {["Mentions légales", "Confidentialité", "CGV"].map((link) => (
                 <a
                   key={link}
-                  href="#"
+                  href="#contact"
                   style={{
                     fontSize: "0.73rem",
                     color: C.muted,

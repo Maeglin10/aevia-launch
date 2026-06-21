@@ -1122,7 +1122,7 @@ export default function Impact130Page() {
                 <h4 style={{ color: C.textMuted, fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600, marginBottom: 20 }}>{col.title}</h4>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {col.links.map((link, li) => (
-                    <a key={li} href="#" style={{ color: C.textMuted, fontSize: 14, textDecoration: "none", transition: "color 0.2s" }}
+                    <a key={li} href="#stats" style={{ color: C.textMuted, fontSize: 14, textDecoration: "none", transition: "color 0.2s" }}
                       onMouseEnter={e => (e.currentTarget.style.color = C.text)}
                       onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
                     >
@@ -1137,7 +1137,7 @@ export default function Impact130Page() {
             <p style={{ color: C.textDim, fontSize: 13 }}>© 2025 Verso Studio SA, Genève. Tous droits réservés.</p>
             <div style={{ display: "flex", gap: 20 }}>
               {[{ icon: <MessageSquare size={16} />, label: "Twitter" }, { icon: <Camera size={16} />, label: "Instagram" }, { icon: <Link2 size={16} />, label: "LinkedIn" }].map((s, i) => (
-                <a key={i} href="#" style={{ color: C.textDim, transition: "color 0.2s" }}
+                <a key={i} href="#stats" style={{ color: C.textDim, transition: "color 0.2s" }}
                   onMouseEnter={e => (e.currentTarget.style.color = C.emeraldGlow)}
                   onMouseLeave={e => (e.currentTarget.style.color = C.textDim)}
                 >

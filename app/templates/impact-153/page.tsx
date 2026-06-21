@@ -2144,7 +2144,7 @@ function Footer() {
               {["IG", "FB", "YT"].map((s) => (
                 <a
                   key={s}
-                  href="#"
+                  href="#stats"
                   style={{
                     width:          36,
                     height:         36,
@@ -2189,7 +2189,7 @@ function Footer() {
                 {col.links.map((l) => (
                   <li key={l}>
                     <a
-                      href="#"
+                      href="#stats"
                       style={{
                         fontFamily:    "'Inter', sans-serif",
                         fontSize:      13,
@@ -2234,7 +2234,7 @@ function Footer() {
             {["Privacy", "Terms", "Safety"].map((l) => (
               <a
                 key={l}
-                href="#"
+                href="#stats"
                 style={{
                   fontFamily:    "'Inter', sans-serif",
                   fontSize:      12,

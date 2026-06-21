@@ -1901,7 +1901,7 @@ export default function Impact115Page() {
               {["Projects", "Philosophy", "Services", "Press", "Careers"].map((link) => (
                 <a
                   key={link}
-                  href="#"
+                  href="#services"
                   style={{
                     display: "block",
                     fontFamily: C.fontSans,
@@ -1984,7 +1984,7 @@ export default function Impact115Page() {
               {["Privacy", "Terms", "Cookies"].map((item) => (
                 <a
                   key={item}
-                  href="#"
+                  href="#contact"
                   style={{
                     fontFamily: C.fontSans,
                     fontSize: 11,

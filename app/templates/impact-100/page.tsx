@@ -185,7 +185,7 @@ export default function NovaSpacesPage() {
               (link) => (
                 <Link
                   key={link}
-                  href="#"
+                  href="#work"
                   className="hover:text-black transition-colors cursor-pointer"
                 >
                   {link}
@@ -232,7 +232,7 @@ export default function NovaSpacesPage() {
               {["Work", "Method", "Contact"].map((l) => (
                 <Link
                   key={l}
-                  href="#"
+                  href="#work"
                   onClick={() => setMenuOpen(false)}
                   className="hover:text-black hover:translate-x-4 transition-all"
                 >

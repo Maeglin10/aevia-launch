@@ -139,7 +139,7 @@ export default function PulseAppPage() {
             {["Fonctionnalités", "Tarifs", "Blog", "Docs"].map(l => (
               <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#6366F1] transition-colors duration-200">{l}</Link>
             ))}
-            <Link href="#" className="text-[#6366F1] hover:text-[#4F46E5] transition-colors">Se connecter</Link>
+            <Link href="#tarifs" className="text-[#6366F1] hover:text-[#4F46E5] transition-colors">Se connecter</Link>
             <Link href="#tarifs" className="px-5 py-2.5 bg-[#6366F1] text-white text-sm font-semibold rounded-xl hover:bg-[#4F46E5] transition-colors cursor-pointer">
               Essai gratuit
             </Link>
@@ -495,14 +495,14 @@ export default function PulseAppPage() {
             {[["Produit", ["Fonctionnalités", "Tarifs", "Changelog", "Roadmap"]], ["Ressources", ["Documentation", "API", "Blog", "Status"]], ["Société", ["À propos", "Carrières", "Presse", "Contact"]]].map(([title, links]) => (
               <div key={title as string}>
                 <p className="text-white font-semibold text-sm mb-4">{title as string}</p>
-                {(links as string[]).map(l => <Link key={l} href="#" className="block text-sm hover:text-white mb-3 transition-colors cursor-pointer">{l}</Link>)}
+                {(links as string[]).map(l => <Link key={l} href="#tarifs" className="block text-sm hover:text-white mb-3 transition-colors cursor-pointer">{l}</Link>)}
               </div>
             ))}
           </div>
           <div className="pt-8 border-t border-[#1a1740] flex flex-col md:flex-row justify-between gap-4 text-xs">
             <span>© 2024 Pulse · Tous droits réservés</span>
             <div className="flex gap-6">
-              {["Confidentialité", "CGU", "Cookies"].map(l => <Link key={l} href="#" className="hover:text-white transition-colors cursor-pointer">{l}</Link>)}
+              {["Confidentialité", "CGU", "Cookies"].map(l => <Link key={l} href="#fonctionnalités" className="hover:text-white transition-colors cursor-pointer">{l}</Link>)}
             </div>
           </div>
         </div>

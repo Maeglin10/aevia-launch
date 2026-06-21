@@ -375,7 +375,7 @@ export default function AethelgardEstatePremium() {
                  </p>
                  <div className="flex gap-12">
                     {["Camera", "Vogue", "Decanter", "Forbes"].map(s => (
-                       <Link key={s} href="#" className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-[#c4a661] transition-colors italic">{s}</Link>
+                       <Link key={s} href="#terroir" className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-[#c4a661] transition-colors italic">{s}</Link>
                     ))}
                  </div>
               </div>

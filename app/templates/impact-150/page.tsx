@@ -1962,7 +1962,7 @@ function Footer() {
                   {links.map((link) => (
                     <li key={link} style={{ marginBottom: 10 }}>
                       <motion.a
-                        href="#"
+                        href="#practice-areas"
                         whileHover={{ color: COLORS.cream }}
                         style={{
                           fontFamily: "'Inter', sans-serif",
@@ -2019,7 +2019,7 @@ function Footer() {
             {["Privacy Policy", "Terms of Use", "Cookie Policy", "Accessibility"].map((item) => (
               <motion.a
                 key={item}
-                href="#"
+                href="#practice-areas"
                 whileHover={{ color: `${COLORS.cream}70` }}
                 style={{
                   color: `${COLORS.cream}30`,

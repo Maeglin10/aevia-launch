@@ -375,7 +375,7 @@ export default function OasisWellnessPage() {
             </p>
             <div className="flex gap-8">
                {["Camera", "Journal", "Spotify"].map(s => (
-                 <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-[#2c3e2d]/40 hover:text-[#2c3e2d] transition-colors">{s}</Link>
+                 <Link key={s} href="#hero" className="text-[10px] font-bold uppercase tracking-widest text-[#2c3e2d]/40 hover:text-[#2c3e2d] transition-colors">{s}</Link>
                ))}
             </div>
           </div>

@@ -133,7 +133,7 @@ export default function AetherSoundPage() {
 
           <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Reference", "Amplification", "Source", "Consultation", "Archives"].map(link => (
-              <Link key={link} href="#" className="hover:text-[#c9a84c] transition-colors cursor-pointer">{link}</Link>
+              <Link key={link} href="#reference" className="hover:text-[#c9a84c] transition-colors cursor-pointer">{link}</Link>
             ))}
           </div>
 
@@ -156,7 +156,7 @@ export default function AetherSoundPage() {
              <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40 hover:text-[#c9a84c]"><X className="w-10 h-10"/></button>
              <div className="flex flex-col gap-6 text-6xl font-black uppercase italic text-white/5">
                 {["System", "Engineering", "Consult", "About"].map(l => (
-                   <Link key={l} href="#" onClick={() => setMenuOpen(false)} className="hover:text-[#c9a84c] transition-all">{l}</Link>
+                   <Link key={l} href="#reference" onClick={() => setMenuOpen(false)} className="hover:text-[#c9a84c] transition-all">{l}</Link>
                 ))}
              </div>
           </motion.div>

@@ -2041,7 +2041,7 @@ export default function Impact170Page() {
             {["github", "linkedin", "twitter"].map((s) => (
               <a
                 key={s}
-                href="#"
+                href="#hero"
                 style={{
                   fontFamily: C.font,
                   fontSize: 11,

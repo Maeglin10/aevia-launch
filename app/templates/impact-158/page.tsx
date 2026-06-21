@@ -433,7 +433,7 @@ export default function AtlasPage() {
             <span>© 2024 Atlas · Journal de voyage · Tous droits réservés</span>
             <div className="flex gap-6">
               {["Mentions légales", "Politique de confidentialité"].map(l => (
-                <Link key={l} href="#" className="hover:text-[#F5F0E8] transition-colors cursor-pointer">{l}</Link>
+                <Link key={l} href="#articles" className="hover:text-[#F5F0E8] transition-colors cursor-pointer">{l}</Link>
               ))}
             </div>
           </div>

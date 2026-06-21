@@ -1848,7 +1848,7 @@ function Footer() {
               {["Research Portal","Lab Updates","Open Data"].map(l => (
                 <a
                   key={l}
-                  href="#"
+                  href="#hero"
                   className="inter-semi"
                   style={{
                     fontSize: 9,
@@ -1884,7 +1884,7 @@ function Footer() {
                 {items.map(item => (
                   <li key={item}>
                     <a
-                      href="#"
+                      href="#hero"
                       className="inter-light"
                       style={{
                         fontSize: 12,
