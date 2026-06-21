@@ -2023,7 +2023,13 @@ function Footer() {
                 {col.links.map((link) => (
                   <li key={link} style={{ marginBottom: 10 }}>
                     <a
-                      href="#"
+                      href={
+                        col.title === "Services"
+                          ? "#services"
+                          : link === "About Us"
+                          ? "#stats"
+                          : "#contact"
+                      }
                       style={{
                         fontSize: 14,
                         color: T.textMuted,
@@ -2061,7 +2067,7 @@ function Footer() {
             {["Privacy Policy", "Terms of Service", "Cookie Settings"].map((item) => (
               <a
                 key={item}
-                href="#"
+                href="#contact"
                 style={{ fontSize: 13, color: T.textMuted, textDecoration: "none" }}
               >
                 {item}

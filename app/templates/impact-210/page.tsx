@@ -2054,7 +2054,13 @@ function Footer({ accentColor }: { accentColor: string }) {
         {['Instagram', 'TikTok', 'Pinterest'].map((social) => (
           <a
             key={social}
-            href="#"
+            href={
+              social === 'Instagram'
+                ? 'https://instagram.com'
+                : social === 'TikTok'
+                ? 'https://tiktok.com'
+                : 'https://pinterest.com'
+            }
             style={{
               color: 'rgba(255,255,255,0.5)',
               textDecoration: 'none',

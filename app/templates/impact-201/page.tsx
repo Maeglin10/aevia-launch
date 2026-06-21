@@ -1742,7 +1742,7 @@ export default function Impact201Page() {
 
       {/* ─── EXPERIENCES ──────────────────────────────────────────────────── */}
       <section
-        id="exp&#233;riences"
+        id="experiences"
         style={{ padding: "120px 60px", maxWidth: 1280, margin: "0 auto" }}
       >
         <TextReveal>
@@ -2482,7 +2482,15 @@ export default function Impact201Page() {
                   {col.links.map((l) => (
                     <li key={l}>
                       <a
-                        href="#"
+                        href={
+                          l === "Mentions légales" || l === "Politique de confidentialité" || l === "CGV" || l === "Demander un devis" || l === "Disponibilités" || l === "Zone d'intervention"
+                            ? "#contact"
+                            : col.title === "Menus"
+                            ? "#menus"
+                            : l === "Chef à domicile"
+                            ? "#chef"
+                            : "#experiences"
+                        }
                         style={{
                           fontSize: 13,
                           color: C.creamMuted,
@@ -2532,7 +2540,7 @@ export default function Impact201Page() {
                 (l) => (
                   <a
                     key={l}
-                    href="#"
+                    href="#contact"
                     style={{
                       fontSize: 12,
                       color: "rgba(250,248,244,0.2)",
