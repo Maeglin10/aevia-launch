@@ -202,6 +202,63 @@ export default function CarbonLabPage() {
         </div>
       </section>
 
+      {/* ── TESTIMONIALS ──────────── */}
+      <section className="py-40 bg-[#050505] border-t border-white/5">
+        <div className="max-w-6xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-[10px] uppercase tracking-[0.5em] text-[#0070f3]/60 mb-6">Trusted by builders</p>
+            <h2 className="text-5xl md:text-8xl font-black text-white leading-none tracking-tighter mb-20">
+              WHAT THEY<br /><span className="text-white/10">BUILD.</span>
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
+            {[
+              { quote: "We replaced our entire observability stack with Carbon in a weekend. The performance gain was immediate — and our infra bill dropped 40%.", name: "T. Nakamura", title: "CTO · Helix Labs" },
+              { quote: "I've been in edge computing for a decade. Carbon's routing intelligence is the first thing I've seen that actually works at 6ms global P99.", name: "A. Osei", title: "Principal Eng · Meridian" },
+              { quote: "The DX is phenomenal. I shipped a distributed service in Go in under 2 hours. Zero config, zero yak shaving. Just works.", name: "P. Leclerc", title: "Senior SWE · Phantom IO" },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="bg-[#050505] p-12 flex flex-col gap-6 hover:bg-[#0070f3]/5 transition-all duration-700 border border-transparent hover:border-[#0070f3]/20">
+                  <div className="flex gap-1">{[...Array(5)].map((_, s) => <span key={s} className="text-[#0070f3] text-xs">★</span>)}</div>
+                  <p className="text-white/40 leading-relaxed flex-1 italic">{t.quote}</p>
+                  <div className="border-t border-white/5 pt-6">
+                    <div className="text-xs font-bold text-white uppercase tracking-widest">{t.name}</div>
+                    <div className="text-[10px] text-[#0070f3]/50 mt-1">{t.title}</div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CASE STUDIES ──────────── */}
+      <section className="py-32 bg-[#070707] border-t border-white/5">
+        <div className="max-w-6xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-[10px] uppercase tracking-[0.5em] text-[#0070f3]/60 mb-6">Case studies</p>
+            <h2 className="text-5xl md:text-8xl font-black text-white leading-none tracking-tighter mb-20">
+              IN THE<br /><span className="text-white/10">WILD.</span>
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
+            {[
+              { tag: "FINTECH", title: "0→$2B transactions routed in 90 days", result: "22ms avg latency · 99.999% uptime", icon: "01" },
+              { tag: "HEALTH TECH", title: "HIPAA-compliant edge deployments across 12 hospitals", result: "Zero PHI exposure incidents · SOC2 in 3 weeks", icon: "02" },
+              { tag: "E-COMMERCE", title: "Black Friday: 400k concurrent sessions, zero downtime", result: "Revenue preserved: $18M · Infra cost: $0 extra", icon: "03" },
+            ].map((cs) => (
+              <Reveal key={cs.icon}>
+                <div className="p-12 bg-[#050505] hover:bg-[#0070f3] hover:text-white transition-all duration-700 border border-transparent hover:border-[#0070f3] group">
+                  <div className="text-[10px] font-mono text-[#0070f3] group-hover:text-white/60 uppercase tracking-widest mb-4">{cs.tag} // {cs.icon}</div>
+                  <h3 className="text-lg font-bold text-white mb-4 leading-snug">{cs.title}</h3>
+                  <p className="text-xs text-white/30 group-hover:text-white/60 leading-relaxed font-mono">{cs.result}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA ───────────────────── */}
       <section className="py-60 bg-white text-black text-center relative overflow-hidden">
         <GridBackground />

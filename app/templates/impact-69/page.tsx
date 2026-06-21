@@ -202,6 +202,51 @@ export default function LeaHomePage() {
         </div>
       </section>
 
+      {/* ── TESTIMONIALS ── */}
+      <section style={{ padding: "80px 32px", borderTop: `1px solid ${C.border}`, background: C.bgMid }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <p style={{ fontFamily: "'Archivo', sans-serif", fontSize: 10, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 16 }}>Collectors</p>
+          <h2 style={{ fontSize: "clamp(28px, 5vw, 56px)", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.03em", color: C.cream, marginBottom: 56 }}>What they say.</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 1, background: C.border }}>
+            {[
+              { quote: "I've collected fine art photography for 15 years. Lea's work is the first I've bought solely based on an emotional reaction — not investment. That's rare.", name: "D. Laurent", origin: "Paris · Collector" },
+              { quote: "The Boreal Silence series hangs in my studio. Every morning it changes the way I think about light. That's worth more than the print.", name: "M. Björn", origin: "Stockholm · Architect" },
+              { quote: "I discovered Lea through an editorial, bought the last print in the Mountain series. Three years later, I still can't imagine the room without it.", name: "R. Whitmore", origin: "London · Film Director" },
+            ].map((t, i) => (
+              <div key={i} style={{ background: C.bgMid, padding: "40px 32px" }}>
+                <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 14, color: `${C.cream}70`, lineHeight: 1.8, fontStyle: "italic", marginBottom: 28 }}>&ldquo;{t.quote}&rdquo;</p>
+                <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 20 }}>
+                  <div style={{ fontFamily: "'Archivo', sans-serif", fontSize: 11, fontWeight: 700, color: C.cream }}>{t.name}</div>
+                  <div style={{ fontFamily: "'Archivo', sans-serif", fontSize: 10, color: C.moss, marginTop: 4 }}>{t.origin}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PROCESS ── */}
+      <section style={{ padding: "80px 32px", borderTop: `1px solid ${C.border}`, background: C.bg }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <p style={{ fontFamily: "'Archivo', sans-serif", fontSize: 10, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 16 }}>Behind each print</p>
+          <h2 style={{ fontSize: "clamp(28px, 5vw, 56px)", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.03em", color: C.cream, marginBottom: 56 }}>The process.</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 1, background: C.border }}>
+            {[
+              { step: "01", title: "The Expedition", desc: "Each series begins with weeks in the field. I travel alone, no schedule, no shot list — only the landscape and the right light." },
+              { step: "02", title: "The Edit", desc: "From thousands of frames, I select at most 12 per series. The ones that survive are the ones I can't explain — only feel." },
+              { step: "03", title: "The Print", desc: "Fine-art pigment on Hahnemühle paper, 12-colour process, signed and numbered. Each print is made to last 200 years." },
+              { step: "04", title: "The Archive", desc: "Once a series sells out, it is closed forever. No reprints. The scarcity is not a marketing decision — it's a commitment to the work." },
+            ].map((p) => (
+              <div key={p.step} style={{ background: C.bg, padding: "40px 32px" }}>
+                <div style={{ fontFamily: "'Archivo', sans-serif", fontSize: 10, fontWeight: 700, color: C.amber, letterSpacing: "0.2em", marginBottom: 16 }}>{p.step}</div>
+                <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, fontWeight: 700, color: C.cream, marginBottom: 12 }}>{p.title}</div>
+                <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.muted, lineHeight: 1.7 }}>{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA ── */}
       <section style={{ padding: "80px 32px", textAlign: "center", background: C.bg }}>
         <div style={{ maxWidth: 600, margin: "0 auto" }}>
