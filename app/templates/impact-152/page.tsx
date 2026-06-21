@@ -1,473 +1,280 @@
 "use client"
 
-import React, { useState, useEffect, useRef, useMemo } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
-} from "framer-motion"
-import Image from "next/image"
+import React, { useRef, useState } from "react"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import Link from "next/link"
-import { 
-  Cpu, Zap, Radio, Activity, 
-  Terminal, Shield, Sword, Target,
-  PlayCircle, MousePointer2, Flame,
-  Ticket, Box, Database, Layers,
-  Frame, Eye, Lock, Crosshair,
-  Settings, Power, Info, AlertTriangle,
-  ChevronRight, ArrowRight, Share2,
-  Maximize2, Download, ExternalLink,
-  Archive, Hash, Wifi, BarChart3,
-  Microscope, Fingerprint, Scan, Brain
-} from "lucide-react"
+import { ArrowRight, MapPin, Mail, Phone, Clock, Star, ChevronDown } from "lucide-react"
 
-/* ==========================================================================
-   NEURAL FOUNDRY DATA MANIFEST (ULTRA DENSITY)
-   ========================================================================== */
+// ─── Design tokens ────────────────────────────────────────────────────────────
+const C = {
+  bg: "#f7f3ef",
+  bgSection: "#f0ebe4",
+  text: "#2c2420",
+  textMuted: "#7a6e68",
+  accent: "#c4a882",
+  accentDark: "#a88c68",
+  accentLight: "#f0e8dc",
+  white: "#ffffff",
+  border: "#e5ddd5",
+  shadow: "0 2px 12px rgba(44,36,32,0.08)",
+  shadowLg: "0 12px 40px rgba(44,36,32,0.14)",
+}
+const FONT = "'Cormorant Garamond', Georgia, serif"
+const FONT_SANS = "'DM Sans', system-ui, sans-serif"
 
-const HARDWARE_COMPONENTS = [
-  {
-    id: "unit-x1",
-    name: "Neural Core Alpha",
-    type: "Processor",
-    specs: { cycles: "14.2 PFLOPS", temp: "22°C", power: "1.2kW" },
-    desc: "Noyau de traitement synaptique à latence zéro pour IA de niveau 5.",
-    status: "Optimal"
-  },
-  {
-    id: "arm-v4",
-    name: "Kinetic Actuator",
-    type: "Motorics",
-    specs: { torque: "450Nm", precision: "0.001mm", weight: "4.2kg" },
-    desc: "Actionneur haute précision pour manipulation de composants nanométriques.",
-    status: "Active"
-  },
-  {
-    id: "sen-eye",
-    name: "Optic Array v.9",
-    type: "Sensing",
-    specs: { res: "128K", spectrum: "Full-Band", fps: "10,000" },
-    desc: "Capteur visuel multi-spectral avec reconnaissance d'intention intégrée.",
-    status: "Standby"
-  }
+// ─── Data ─────────────────────────────────────────────────────────────────────
+const STATS = [
+  { value: "130+", label: "Projets livrés" },
+  { value: "12 ans", label: "D'expérience" },
+  { value: "4.9★", label: "Note clients" },
+  { value: "8", label: "Prix de design" },
 ]
 
-const PROTOCOLS = [
-  { id: "P-01", title: "Asimov Integrity", status: "Enabled", level: "Lvl 5" },
-  { id: "P-04", title: "Neural Drift Limiter", status: "Active", level: "Lvl 9" },
-  { id: "P-09", title: "Quantum Encryption", status: "Shielded", level: "Max" }
+const PROJETS = [
+  { titre: "Villa contemporaine", lieu: "Lyon 5e", surface: "220 m²", style: "Minimaliste", tag: "Résidentiel", img: "https://images.unsplash.com/photo-1600210491892-03d54f9a12b1?w=800&q=80" },
+  { titre: "Penthouse panoramique", lieu: "Lyon 2e", surface: "160 m²", style: "Art Déco moderne", tag: "Prestige", img: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80" },
+  { titre: "Maison de maître", lieu: "Villeurbanne", surface: "310 m²", style: "Classique revisité", tag: "Rénovation", img: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=800&q=80" },
+  { titre: "Loft industriel", lieu: "Lyon 7e", surface: "140 m²", style: "Industriel chic", tag: "Loft", img: "https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=800&q=80" },
+  { titre: "Appartement haussmannien", lieu: "Lyon 1er", surface: "180 m²", style: "Parisien épuré", tag: "Résidentiel", img: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80" },
+  { titre: "Boutique concept store", lieu: "Part-Dieu", surface: "95 m²", style: "Retail design", tag: "Commercial", img: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80" },
 ]
 
-const SYSTEM_LOGS = [
-  "[14:02:44] NEURAL_LINK: ESTABLISHED",
-  "[14:02:46] CALIBRATION: COMPLETE",
-  "[14:02:49] SYNC_INDEX: 99.98%",
-  "[14:02:52] TARGET_DETECTED: SITE_VISITOR_402"
+const SERVICES = [
+  { titre: "Conseil & Conception", desc: "De l'esquisse au dossier complet : plan, élévations, matériaux, mobilier. Chaque détail est pensé avant la première vis.", emoji: "✏️" },
+  { titre: "Suivi de chantier", desc: "Coordination des artisans, contrôle qualité à chaque étape, livraison clé en main sans surprise de budget.", emoji: "🏗️" },
+  { titre: "Décoration complète", desc: "Sélection de mobilier, luminaires, textiles et œuvres d'art. Une cohérence visuelle de la première pièce à la dernière.", emoji: "🪑" },
 ]
 
-/* ==========================================================================
-   TECHNICAL HUD COMPONENTS
-   ========================================================================== */
+const TEMOIGNAGES = [
+  { texte: "Clémence a transformé notre appartement en un espace où il fait vraiment bon vivre. Son sens du détail et sa rigueur sont bluffants — et le budget a été parfaitement respecté.", auteur: "Marie & Thomas L.", projet: "Appartement 160 m², Lyon 2e" },
+  { texte: "Nous avions peur de perdre le caractère de notre maison ancienne. Le Studio Noma a su magnifier les volumes tout en apportant la modernité qu'on cherchait. Résultat magistral.", auteur: "Édouard V.", projet: "Maison de maître, Villeurbanne" },
+  { texte: "Un accompagnement de A à Z, professionnel et chaleureux. Notre boutique est maintenant l'une des plus belles de la galerie. Les ventes ont bondi de 40% depuis l'ouverture.", auteur: "Sophie K.", projet: "Concept store, Part-Dieu" },
+]
 
-function Reveal({ children, delay = 0, y = 30, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+// ─── Components ───────────────────────────────────────────────────────────────
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-60px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y: 28 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function GridLine({ vertical = false, position = "50%" }: { vertical?: boolean, position?: string }) {
-  return (
-    <div 
-      className={`absolute bg-white/5 pointer-events-none ${vertical ? "w-[1px] top-0 bottom-0" : "h-[1px] left-0 right-0"}`}
-      style={{ [vertical ? "left" : "top"]: position }}
-    />
-  )
-}
+// ─── Page ─────────────────────────────────────────────────────────────────────
+export default function StudioNomaPage() {
+  const heroRef = useRef<HTMLElement>(null)
+  const [scrolled, setScrolled] = useState(false)
 
-function ScanningLine() {
-  return (
-    <motion.div
-      animate={{ y: ["0%", "100%", "0%"] }}
-      transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-      className="absolute left-0 right-0 h-[2px] bg-cyan-400/20 shadow-[0_0_15px_rgba(34,211,238,0.5)] z-20 pointer-events-none"
-    />
-  )
-}
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 180])
+  const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -70])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0])
 
-/* ==========================================================================
-   THE NEURAL FOUNDRY - MAIN INTERFACE
-   ========================================================================== */
-
-export default function NeuralFoundryPremium() {
-  const [activeLog, setActiveLog] = useState(0)
-  const [isPoweringUp, setIsPoweringUp] = useState(true)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // HUD Parallax
-  const hudY = useTransform(scrollYProgress, [0, 0.5], [0, -100])
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.2])
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsPoweringUp(false), 2000)
-    const interval = setInterval(() => {
-      setActiveLog(prev => (prev + 1) % SYSTEM_LOGS.length)
-    }, 3000)
-    return () => { clearTimeout(timer); clearInterval(interval); }
+  React.useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 50)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
-    <div ref={containerRef} className="bg-[#050507] text-[#e0e0e0] font-mono selection:bg-cyan-500/30 selection:text-white min-h-screen overflow-x-hidden">
-      
-      {/* HUD OVERLAY ELEMENTS */}
-      <HUD_Overlay activeLog={activeLog} />
+    <div style={{ background: C.bg, fontFamily: FONT_SANS, overflowX: "hidden" }}>
+      <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap');`}</style>
 
-      {/* ==========================================
-          1. INITIALIZATION (HERO)
-          ========================================== */}
-      <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-        <ScanningLine />
-        
-        {/* Background Grid */}
-        <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px]" />
-        
-        <motion.div style={{ opacity: bgOpacity }} className="absolute inset-0 z-0 flex items-center justify-center">
-           <div className="w-[80vw] h-[80vw] border border-white/5 rounded-full animate-spin-slow opacity-20" />
-           <div className="absolute w-[60vw] h-[60vw] border border-white/5 rounded-full animate-reverse-spin opacity-10" />
+      {/* Navbar */}
+      <motion.nav style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72,
+        display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px",
+        background: scrolled ? "rgba(247,243,239,0.96)" : "transparent",
+        backdropFilter: scrolled ? "blur(12px)" : "none",
+        borderBottom: scrolled ? `1px solid ${C.border}` : "none",
+        transition: "all 0.4s ease",
+      }}>
+        <span style={{ fontFamily: FONT, fontSize: 22, fontWeight: 600, color: scrolled ? C.text : "#fff", letterSpacing: 1 }}>Studio <em>Noma</em></span>
+        <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="hidden md:flex">
+          {["Projets", "Services", "Atelier", "Contact"].map(l => (
+            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.75)", fontSize: 14, fontWeight: 500, textDecoration: "none", transition: "color 0.2s", fontFamily: FONT_SANS }}>{l}</a>
+          ))}
+          <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark }}>
+            Consultation gratuite
+          </motion.a>
+        </div>
+      </motion.nav>
+
+      {/* Hero */}
+      <section ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+        <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
+          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&q=80" alt="Intérieur Studio Noma" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        </motion.div>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(20,12,8,0.90) 0%, rgba(20,12,8,0.42) 45%, rgba(20,12,8,0.08) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
+
+        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 820, y: heroTextY, opacity: heroOpacity }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 28 }}>
+            <div style={{ width: 32, height: 1, background: C.accent }} />
+            <span style={{ color: C.accent, fontSize: 12, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", fontFamily: FONT_SANS }}>Architecture d'intérieur · Lyon</span>
+          </motion.div>
+
+          <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 1 }}
+            style={{ fontFamily: FONT, fontSize: "clamp(52px, 7vw, 96px)", fontWeight: 300, color: "#fff", lineHeight: 1.0, letterSpacing: -1, marginBottom: 24 }}>
+            L'espace comme<br /><em style={{ color: C.accent }}>œuvre d'art.</em>
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520, fontFamily: FONT_SANS }}>
+            Studio Noma conçoit des intérieurs qui racontent une histoire. Chaque projet naît d'une écoute profonde et d'une maîtrise artisanale des matières, des volumes et de la lumière.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+            <motion.a href="#projets" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark, scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+              Voir nos réalisations <ArrowRight size={16} />
+            </motion.a>
+            <motion.a href="#contact" style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 6, padding: "13px 28px", fontWeight: 500, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)", fontFamily: FONT_SANS }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
+              Consultation gratuite
+            </motion.a>
+          </motion.div>
         </motion.div>
 
-        <div className="relative z-10 text-center max-w-6xl">
-           <Reveal>
-              <div className="inline-flex items-center gap-4 px-4 py-1 border border-cyan-400/30 bg-cyan-400/5 text-[10px] font-bold uppercase tracking-[0.5em] text-cyan-400 mb-12">
-                 <Scan className="w-3 h-3" /> System_Boot: v.9.4.0
-              </div>
-              <h1 className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic">
-                Neural <br/> <span className="text-white/5 italic">Foundry.</span>
-              </h1>
-              <p className="max-w-2xl mx-auto text-sm md:text-base text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16">
-                 Ingénierie neuronale de nouvelle génération. Nous forgeons l'intelligence synthétique qui définira le prochain siècle de l'évolution.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                 <button className="px-12 py-5 bg-cyan-400 text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_40px_rgba(34,211,238,0.3)] flex items-center gap-3">
-                    <Power className="w-4 h-4" /> Initialize Core
-                 </button>
-                 <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-3">
-                    <Database className="w-4 h-4" /> Access Archives
-                 </button>
-              </div>
-           </Reveal>
-        </div>
-
-        {/* BOTTOM HUD DATA */}
-        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-8">
-           <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest">
-                 <div className="w-8 h-px bg-white/10" />
-                 Location: Sector_7G_SubLevel
-              </div>
-              <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest">
-                 <div className="w-8 h-px bg-white/10" />
-                 Coord: 45.2891, -122.6762
-              </div>
-           </div>
-           <div className="text-right flex flex-col items-end gap-2">
-              <span className="text-[8px] font-black uppercase tracking-[0.5em] text-cyan-400">Telemetry_Stream</span>
-              <div className="flex gap-2 h-8 items-end">
-                 {[...Array(12)].map((_, i) => (
-                   <motion.div 
-                    key={i}
-                    animate={{ height: ["20%", "100%", "40%", "80%", "20%"] }}
-                    transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                    className="w-1 bg-cyan-400/20"
-                   />
-                 ))}
-              </div>
-           </div>
-        </div>
+        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }}
+          style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 2 }}>
+          <div style={{ width: 24, height: 36, border: "2px solid rgba(255,255,255,0.35)", borderRadius: 12, display: "flex", justifyContent: "center", paddingTop: 6 }}>
+            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }} style={{ width: 6, height: 6, borderRadius: "50%", background: C.accent }} />
+          </div>
+        </motion.div>
       </section>
 
-      {/* ==========================================
-          2. HARDWARE REPOSITORY (DENSE DATA)
-          ========================================== */}
-      <section className="py-60 bg-[#08080a] relative border-y border-white/5">
-         <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-            <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-               <Reveal>
-                  <span className="text-[10px] font-black uppercase tracking-[0.6em] text-cyan-400 block mb-6 italic underline underline-offset-8">Hardware // Inventory</span>
-                  <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter italic leading-none">Modules.</h2>
-               </Reveal>
-               <div className="text-right">
-                  <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Storage // Unit_Registry</span>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-cyan-400">L'Architecture du Matériel</p>
-               </div>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5">
-               {HARDWARE_COMPONENTS.map((comp, i) => (
-                 <Reveal key={comp.id} delay={i * 0.1}>
-                    <div className="bg-[#050507] p-16 flex flex-col h-full hover:bg-white/5 transition-all group cursor-crosshair">
-                       <div className="flex justify-between items-start mb-16">
-                          <div className="w-12 h-12 bg-white/5 flex items-center justify-center group-hover:bg-cyan-400 transition-all">
-                             <Cpu className="w-6 h-6 text-cyan-400 group-hover:text-black" />
-                          </div>
-                          <span className="text-[10px] font-black text-white/20 group-hover:text-cyan-400 transition-colors">{comp.id}</span>
-                       </div>
-                       
-                       <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 italic">{comp.name}</h3>
-                       <div className="text-[10px] font-black text-cyan-400/60 uppercase tracking-widest mb-8">{comp.type}</div>
-                       <p className="text-sm font-light text-white/40 leading-relaxed uppercase tracking-widest italic mb-12">
-                          {comp.desc}
-                       </p>
-
-                       <div className="space-y-4 mb-16 relative">
-                          <div className="absolute -left-6 top-0 bottom-0 w-px bg-white/10" />
-                          {Object.entries(comp.specs).map(([key, val]) => (
-                            <div key={key} className="flex justify-between items-center text-[9px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">{key}</span>
-                               <span className="text-white group-hover:text-cyan-400 transition-colors">{val}</span>
-                            </div>
-                          ))}
-                       </div>
-
-                       <div className="mt-auto flex justify-between items-center border-t border-white/5 pt-8">
-                          <div className="flex items-center gap-3">
-                             <div className={`w-2 h-2 rounded-full ${comp.status === "Optimal" ? "bg-cyan-400" : "bg-yellow-500"} animate-pulse`} />
-                             <span className="text-[9px] font-black uppercase tracking-widest">{comp.status}</span>
-                          </div>
-                          <button className="text-white/20 group-hover:text-cyan-400 transition-colors">
-                             <Maximize2 className="w-4 h-4" />
-                          </button>
-                       </div>
-                    </div>
-                 </Reveal>
-               ))}
-            </div>
-         </div>
-      </section>
-
-      {/* ==========================================
-          3. NEURAL ARCHITECTURE (INTERACTIVE)
-          ========================================== */}
-      <section className="py-60 bg-black relative">
-         <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-            <div className="grid lg:grid-cols-2 gap-32 items-center">
-               <div className="relative aspect-square">
-                  <Reveal>
-                     <div className="h-full border border-white/10 p-12 flex flex-col justify-between bg-white/5 backdrop-blur-3xl relative group overflow-hidden">
-                        <div className="absolute top-0 right-0 p-40 bg-cyan-400 opacity-[0.03] blur-[100px] rounded-full group-hover:opacity-[0.1] transition-opacity" />
-                        <div className="flex justify-between items-start z-10">
-                           <div className="flex flex-col gap-2">
-                              <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">Interface_ID // N-SYNC</span>
-                              <span className="text-[10px] font-black text-white uppercase tracking-[0.4em]">Neural_Flow_Visualizer</span>
-                           </div>
-                           <Activity className="w-5 h-5 text-cyan-400" />
-                        </div>
-                        
-                        <div className="flex flex-col gap-12 relative z-10">
-                           <div className="flex items-center justify-center gap-8">
-                              <div className="w-16 h-16 border border-white/10 rounded-full flex items-center justify-center text-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.2)]">
-                                 <Brain className="w-8 h-8" />
-                              </div>
-                              <motion.div 
-                                animate={{ x: [0, 40, 0] }}
-                                transition={{ duration: 2, repeat: Infinity }}
-                                className="h-px flex-1 bg-gradient-to-r from-cyan-400 to-transparent" 
-                              />
-                              <div className="w-16 h-16 border border-white/10 rounded-full flex items-center justify-center text-white/40">
-                                 <Database className="w-8 h-8" />
-                              </div>
-                           </div>
-                           <div className="text-center">
-                              <span className="text-[8px] font-black text-white/20 uppercase tracking-[0.5em] block mb-4">Flow_Efficiency</span>
-                              <div className="text-4xl font-black italic text-cyan-400">99.98%</div>
-                           </div>
-                        </div>
-
-                        <div className="grid grid-cols-4 gap-2 relative z-10">
-                           {[...Array(12)].map((_, i) => (
-                             <motion.div 
-                               key={i}
-                               animate={{ opacity: [0.1, 0.4, 0.1] }}
-                               transition={{ duration: 1, delay: i * 0.05, repeat: Infinity }}
-                               className="h-1 bg-cyan-400/40"
-                             />
-                           ))}
-                        </div>
-                     </div>
-                  </Reveal>
-               </div>
-
-               <div>
-                  <Reveal delay={0.2} x={40}>
-                     <span className="text-[10px] font-black uppercase tracking-[0.5em] text-cyan-400 mb-8 block italic underline underline-offset-8">Software // Architecture</span>
-                     <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter italic leading-none mb-12">Flows.</h2>
-                     <p className="text-xl font-light text-white/30 leading-relaxed italic mb-16 uppercase tracking-widest">
-                        Nos architectures neuronales simulent la complexité biologique avec une fiabilité mathématique absolue, permettant une symbiose parfaite homme-machine.
-                     </p>
-                     <div className="space-y-12">
-                        {PROTOCOLS.map((prot) => (
-                          <div key={prot.id} className="group border-l border-white/5 pl-12 hover:border-cyan-400 transition-all cursor-pointer">
-                             <div className="flex justify-between items-center mb-4">
-                                <span className="text-[10px] font-black text-cyan-400 uppercase tracking-widest">{prot.id} // {prot.level}</span>
-                                <div className="text-[8px] font-black uppercase text-white/20 group-hover:text-white transition-colors">{prot.status}</div>
-                             </div>
-                             <h5 className="text-2xl font-bold uppercase tracking-tight text-white group-hover:text-cyan-400 transition-colors italic">{prot.title}</h5>
-                             <div className="w-full h-[1px] bg-white/5 mt-6 group-hover:bg-cyan-400/20 transition-colors" />
-                          </div>
-                        ))}
-                     </div>
-                  </Reveal>
-               </div>
-            </div>
-         </div>
-      </section>
-
-      {/* ==========================================
-          4. ETHICS PROTOCOL (DOCUMENT DENSITY)
-          ========================================== */}
-      <section className="py-60 bg-[#08080a] relative border-y border-white/5 overflow-hidden">
-         <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-            <Reveal>
-               <div className="flex flex-col md:flex-row gap-20 items-start">
-                  <div className="md:w-1/3">
-                     <h3 className="text-4xl font-black uppercase tracking-tighter italic text-white mb-12">Ethics_Protocol_v3</h3>
-                     <div className="p-8 border border-white/10 bg-white/5">
-                        <Fingerprint className="w-12 h-12 text-cyan-400 mb-8" />
-                        <div className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-4 leading-relaxed">
-                           Toute interaction avec les unités IA de classe S nécessite une accréditation de niveau 9. Toute déviation éthique sera immédiatement signalée au Conseil Central.
-                        </div>
-                        <button className="text-[9px] font-black uppercase tracking-widest text-cyan-400 border-b border-cyan-400/30 pb-1">
-                           Sign_Security_Accord
-                        </button>
-                     </div>
-                  </div>
-                  <div className="md:w-2/3 space-y-16">
-                     {[
-                       { t: "Neural Integrity", d: "Protection des droits fondamentaux de l'IA et maintien de la stabilité synaptique pour prévenir toute dérive cognitive imprévue." },
-                       { t: "Data Sovereignty", d: "Chiffrement bout-en-bout de tous les flux de données neuronales pour garantir une confidentialité absolue des processus de pensée." },
-                       { t: "Human Proxy", d: "Obligation de supervision humaine pour toutes les décisions critiques impactant l'infrastructure globale." }
-                     ].map((item, i) => (
-                       <div key={i} className="group flex gap-12 border-b border-white/5 pb-12">
-                          <span className="text-5xl font-black text-white/5 group-hover:text-cyan-400/20 transition-colors italic">0{i+1}</span>
-                          <div>
-                             <h4 className="text-xl font-black uppercase tracking-widest mb-4 italic group-hover:text-cyan-400 transition-colors">{item.t}</h4>
-                             <p className="text-sm text-white/30 leading-relaxed uppercase tracking-widest font-bold">{item.d}</p>
-                          </div>
-                       </div>
-                     ))}
-                  </div>
-               </div>
+      {/* Stats */}
+      <section style={{ background: C.text, padding: "0 80px", fontFamily: FONT_SANS }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: 1100, margin: "0 auto" }}>
+          {STATS.map((s, i) => (
+            <Reveal key={s.label} delay={i * 0.08}>
+              <div style={{ padding: "36px 0", textAlign: "center", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
+                <div style={{ fontFamily: FONT, fontSize: 42, fontWeight: 300, color: C.accent, lineHeight: 1 }}>{s.value}</div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", marginTop: 6, letterSpacing: 0.5 }}>{s.label}</div>
+              </div>
             </Reveal>
-         </div>
+          ))}
+        </div>
       </section>
 
-      {/* ==========================================
-          5. MEGA FOOTER (SYSTEM DATA)
-          ========================================== */}
-      <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-            <div className="lg:col-span-2">
-               <div className="flex items-center gap-4 mb-12">
-                  <div className="w-12 h-12 bg-cyan-400 flex items-center justify-center">
-                    <Microscope className="w-6 h-6 text-black" />
+      {/* Projets */}
+      <section id="projets" style={{ padding: "110px 80px", background: C.bg }}>
+        <Reveal>
+          <div style={{ marginBottom: 64 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent, fontFamily: FONT_SANS }}>Nos réalisations</span>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(36px, 4vw, 60px)", fontWeight: 300, color: C.text, marginTop: 12, lineHeight: 1.1 }}>
+              Chaque projet, une <em>signature</em>.
+            </h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 24, maxWidth: 1200, margin: "0 auto" }}>
+          {PROJETS.map((p, i) => (
+            <Reveal key={p.titre} delay={i * 0.07}>
+              <motion.div whileHover={{ y: -6 }} style={{ borderRadius: 12, overflow: "hidden", background: C.white, boxShadow: C.shadow, cursor: "pointer" }}>
+                <div style={{ height: 220, overflow: "hidden", position: "relative" }}>
+                  <img src={p.img} alt={p.titre} style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.6s ease" }} />
+                  <div style={{ position: "absolute", top: 16, right: 16, background: C.accent, color: C.white, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, fontFamily: FONT_SANS }}>{p.tag}</div>
+                </div>
+                <div style={{ padding: "20px 24px 24px" }}>
+                  <h3 style={{ fontFamily: FONT, fontSize: 22, fontWeight: 600, color: C.text, marginBottom: 6 }}>{p.titre}</h3>
+                  <div style={{ display: "flex", gap: 16, color: C.textMuted, fontSize: 13, fontFamily: FONT_SANS }}>
+                    <span style={{ display: "flex", alignItems: "center", gap: 4 }}><MapPin size={12} />{p.lieu}</span>
+                    <span>{p.surface}</span>
+                    <span style={{ color: C.accent, fontStyle: "italic", fontFamily: FONT }}>{p.style}</span>
                   </div>
-                  <span className="text-3xl font-black uppercase tracking-tighter italic">NEURAL<span className="text-cyan-400">_FOUNDRY.</span></span>
-               </div>
-               <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.4em] leading-loose max-w-sm mb-16 italic">
-                  "L'intelligence n'est pas un don, c'est une ingénierie de précision." — Archive Foundry V4.0
-               </p>
-               <div className="flex gap-12">
-                  {["LinkedIn", "GitHub", "Vimeo", "MessageSquare"].map(s => (
-                    <Link key={s} href="#" className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-cyan-400 transition-colors italic">{s}</Link>
-                  ))}
-               </div>
-            </div>
+                </div>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
-            {[
-              { t: "RESEARCH", l: ["Neural Core", "Synthetic Bio", "Quantum AI", "Robotics"] },
-              { t: "FACILITY", l: ["Foundry Labs", "Test Chamber", "Archive Access", "Careers"] },
-              { t: "LEGAL", l: ["Ethics Protocol", "Data Policy", "Service Log", "Contact"] }
-            ].map((col, i) => (
-              <div key={i} className="flex flex-col gap-12">
-                <h4 className="text-[10px] font-black text-cyan-400 uppercase tracking-[0.5em] italic">{col.t}</h4>
-                <ul className="flex flex-col gap-6">
-                  {col.l.map(link => (
-                    <li key={link} className="text-[10px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-widest italic">{link}</li>
-                  ))}
-                </ul>
+      {/* Services */}
+      <section id="services" style={{ padding: "100px 80px", background: C.bgSection }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent, fontFamily: FONT_SANS }}>Notre offre</span>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 3.5vw, 52px)", fontWeight: 300, color: C.text, marginTop: 12 }}>Un accompagnement <em>sur-mesure</em>.</h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 28, maxWidth: 1000, margin: "0 auto" }}>
+          {SERVICES.map((s, i) => (
+            <Reveal key={s.titre} delay={i * 0.1}>
+              <div style={{ background: C.white, borderRadius: 16, padding: "40px 36px", boxShadow: C.shadow, border: `1px solid ${C.border}` }}>
+                <div style={{ fontSize: 36, marginBottom: 20 }}>{s.emoji}</div>
+                <h3 style={{ fontFamily: FONT, fontSize: 24, fontWeight: 600, color: C.text, marginBottom: 12 }}>{s.titre}</h3>
+                <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.7, fontFamily: FONT_SANS }}>{s.desc}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* Témoignages */}
+      <section style={{ padding: "100px 80px", background: C.text }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent, fontFamily: FONT_SANS }}>Ce qu'ils disent</span>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 3.5vw, 52px)", fontWeight: 300, color: "#fff", marginTop: 12 }}>La confiance de nos <em style={{ color: C.accent }}>clients</em>.</h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24, maxWidth: 1100, margin: "0 auto" }}>
+          {TEMOIGNAGES.map((t, i) => (
+            <Reveal key={t.auteur} delay={i * 0.1}>
+              <div style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 16, padding: "32px 28px" }}>
+                <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>{[...Array(5)].map((_, j) => <Star key={j} size={14} fill="#c4a882" color="#c4a882" />)}</div>
+                <p style={{ fontFamily: FONT, fontSize: 17, fontStyle: "italic", color: "rgba(255,255,255,0.85)", lineHeight: 1.7, marginBottom: 20 }}>"{t.texte}"</p>
+                <div style={{ borderTop: "1px solid rgba(255,255,255,0.10)", paddingTop: 16 }}>
+                  <div style={{ fontWeight: 600, color: "#fff", fontSize: 14, fontFamily: FONT_SANS }}>{t.auteur}</div>
+                  <div style={{ color: C.accent, fontSize: 12, marginTop: 4, fontFamily: FONT_SANS }}>{t.projet}</div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section id="contact" style={{ padding: "110px 80px", background: C.accentLight, textAlign: "center" }}>
+        <Reveal>
+          <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark, fontFamily: FONT_SANS }}>Démarrons ensemble</span>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(36px, 4vw, 64px)", fontWeight: 300, color: C.text, margin: "16px 0 20px" }}>Votre projet mérite un <em>regard neuf</em>.</h2>
+          <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 520, margin: "0 auto 44px", lineHeight: 1.7, fontFamily: FONT_SANS }}>
+            Une consultation de 45 minutes offerte pour présenter votre projet et explorer les possibilités ensemble.
+          </p>
+          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+            <motion.a href="mailto:contact@studionoma.fr" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "16px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
+              <Mail size={18} /> Prendre rendez-vous
+            </motion.a>
+            <motion.a href="tel:+33478000000" style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "14px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accent, color: C.white }}>
+              <Phone size={18} /> 04 78 00 00 00
+            </motion.a>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Footer */}
+      <footer style={{ background: C.text, padding: "56px 80px 28px", fontFamily: FONT_SANS }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 40 }}>
+          <div>
+            <div style={{ fontFamily: FONT, fontSize: 24, fontWeight: 400, color: "#fff", marginBottom: 12 }}>Studio <em style={{ color: C.accent }}>Noma</em></div>
+            <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, lineHeight: 1.6, maxWidth: 260 }}>Architecture d'intérieur & décoration à Lyon depuis 2012.</p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {[{ icon: <MapPin size={14} />, t: "Lyon, Rhône-Alpes" }, { icon: <Mail size={14} />, t: "contact@studionoma.fr" }, { icon: <Clock size={14} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.55)", fontSize: 14 }}>
+                <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>
             ))}
-         </div>
-
-         <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-12 text-[8px] font-black text-white/10 uppercase tracking-[0.4em] italic">
-            <span>© 2026 NEURAL FOUNDRY HEAVY INDUSTRIES LTD. // ALL_RIGHTS_RESERVED</span>
-            <div className="flex gap-12">
-               <span>SYSTEM: PRESSURIZED</span>
-               <span>DATA: ENCRYPTED</span>
-               <span>v9.4.0</span>
-            </div>
-         </div>
+          </div>
+        </div>
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 20, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+          <span style={{ color: "rgba(255,255,255,0.28)", fontSize: 13 }}>© 2026 Studio Noma — Site réalisé par Aevia WS</span>
+          <a href="/legal/mentions-legales" style={{ color: "rgba(255,255,255,0.28)", fontSize: 13, textDecoration: "none" }}>Mentions légales</a>
+        </div>
       </footer>
-    </div>
-  )
-}
-
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
-
-function HUD_Overlay({ activeLog }: { activeLog: number }) {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Corners */}
-       <div className="absolute top-12 left-12 w-12 h-12 border-t-2 border-l-2 border-white/10" />
-       <div className="absolute top-12 right-12 w-12 h-12 border-t-2 border-r-2 border-white/10" />
-       <div className="absolute bottom-12 left-12 w-12 h-12 border-b-2 border-l-2 border-white/10" />
-       <div className="absolute bottom-12 right-12 w-12 h-12 border-b-2 border-r-2 border-white/10" />
-
-       {/* Top Hud */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-12">
-          <div className="flex items-center gap-4">
-             <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-             <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">Core_Active</span>
-          </div>
-          <div className="h-px w-24 bg-white/10" />
-          <div className="flex items-center gap-4">
-             <Wifi className="w-3 h-3 text-white/20" />
-             <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">Link_Stable</span>
-          </div>
-       </div>
-
-       {/* Left Logs */}
-       <div className="absolute left-12 top-1/2 -translate-y-1/2 flex flex-col gap-1 hidden lg:flex">
-          {SYSTEM_LOGS.map((log, i) => (
-            <motion.div 
-              key={i}
-              animate={{ opacity: i === activeLog ? 1 : 0.2, x: i === activeLog ? 10 : 0 }}
-              className={`text-[8px] font-mono font-bold ${i === activeLog ? "text-cyan-400" : "text-white/20"}`}
-            >
-              {log}
-            </motion.div>
-          ))}
-       </div>
-
-       {/* Sidebar Info */}
-       <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[8px] font-black uppercase tracking-[0.5em] text-white/10">Scanning_Protocol_X4.0 // Unauthorized_Access_Will_Be_Logged</span>
-       </div>
     </div>
   )
 }
