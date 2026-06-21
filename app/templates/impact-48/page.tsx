@@ -664,7 +664,7 @@ function PhilosophySection() {
               {
                 n: '03',
                 title: 'Material Honesty',
-                text: 'Concrete looks like concrete. Brick looks like brick. We don\'t apply thin veneers or use materials to simulate other materials. Authenticity ages better than novelty.',
+                text: "Concrete looks like concrete. Brick looks like brick. We don\'t apply thin veneers or use materials to simulate other materials. Authenticity ages better than novelty.",
               },
               {
                 n: '04',

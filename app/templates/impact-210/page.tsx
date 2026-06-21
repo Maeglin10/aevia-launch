@@ -88,7 +88,7 @@ const SERVICES: Service[] = [
     icon: 'nail',
     name: 'Semi-permanent',
     nameFr: 'Semi-permanent',
-    description: 'Vernis semi-permanent longue durée. Tenue parfaite jusqu\'à 3 semaines.',
+    description: "Vernis semi-permanent longue durée. Tenue parfaite jusqu\'à 3 semaines.",
     price: '45€',
     duration: '60 min',
   },
@@ -128,10 +128,10 @@ const TIMES = ['10:00', '11:30', '13:00', '14:30', '16:00', '17:30'];
 
 const generateSlots = (): Slot[] => {
   const booked = new Set([
-    'Lun-10:00', 'Lun-14:30', 'Mar-11:30', 'Mar-16:00',
-    'Mer-10:00', 'Mer-13:00', 'Mer-17:30', 'Jeu-11:30',
-    'Jeu-16:00', 'Ven-10:00', 'Ven-14:30', 'Sam-13:00',
-    'Sam-16:00', 'Sam-17:30',
+    "Lun-10:00', 'Lun-14:30', 'Mar-11:30', 'Mar-16:00",
+    "Mer-10:00', 'Mer-13:00', 'Mer-17:30', 'Jeu-11:30",
+    "Jeu-16:00', 'Ven-10:00', 'Ven-14:30', 'Sam-13:00",
+    "Sam-16:00', 'Sam-17:30",
   ]);
   return DAYS.flatMap((day) =>
     TIMES.map((time) => ({
@@ -1753,7 +1753,7 @@ const TESTIMONIALS = [
   },
   {
     name: 'Léa R.',
-    text: 'Pose gel impeccable, tient 4 semaines sans écailles. Le studio est magnifique et l\'équipe adorable.',
+    text: "Pose gel impeccable, tient 4 semaines sans écailles. Le studio est magnifique et l\'équipe adorable.",
     rating: 5,
     service: 'Pose Gel',
   },

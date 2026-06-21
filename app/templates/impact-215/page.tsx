@@ -176,19 +176,19 @@ const EXTRA_TESTIMONIALS = [
 const FAQS = [
   {
     q: 'Quels sont les délais de livraison ?',
-    a: 'Nous livrons en 48h ouvrées en France métropolitaine pour la majorité de nos produits en stock. Pour les commandes sur mesure ou les produits en précommande, comptez 2 à 3 semaines. Un email de suivi vous est envoyé dès l\'expédition.'
+    a: "Nous livrons en 48h ouvrées en France métropolitaine pour la majorité de nos produits en stock. Pour les commandes sur mesure ou les produits en précommande, comptez 2 à 3 semaines. Un email de suivi vous est envoyé dès l\'expédition."
   },
   {
-    q: 'Proposez-vous un service d\'installation ?',
-    a: 'Oui ! Nous proposons une option installation par nos techniciens certifiés RGE. Le devis est gratuit et sans engagement. Nos installateurs interviennent dans toute la France métropolitaine. L\'installation comprend la pose, le raccordement au conduit de fumée, et la mise en service.'
+    q: "Proposez-vous un service d\'installation ?",
+    a: "Oui ! Nous proposons une option installation par nos techniciens certifiés RGE. Le devis est gratuit et sans engagement. Nos installateurs interviennent dans toute la France métropolitaine. L\'installation comprend la pose, le raccordement au conduit de fumée, et la mise en service."
   },
   {
     q: 'Quelle est la différence entre un poêle à bois et un poêle à granulés ?',
-    a: 'Le poêle à bois fonctionne avec des bûches et offre une chaleur naturelle et authentique. Il ne nécessite pas d\'électricité pour fonctionner. Le poêle à granulés (pellets) est plus automatisé, programmable et souvent plus économique en combustible. Il nécessite une alimentation électrique mais offre un confort de gestion supérieur.'
+    a: "Le poêle à bois fonctionne avec des bûches et offre une chaleur naturelle et authentique. Il ne nécessite pas d\'électricité pour fonctionner. Le poêle à granulés (pellets) est plus automatisé, programmable et souvent plus économique en combustible. Il nécessite une alimentation électrique mais offre un confort de gestion supérieur."
   },
   {
     q: 'Quelles aides financières puis-je obtenir ?',
-    a: 'En France, vous pouvez bénéficier de MaPrimeRénov\' (jusqu\'à 2 500€ selon vos revenus), de l\'éco-prêt à taux zéro, et de la TVA réduite à 5,5 % pour les poêles labellisés Flamme Verte. Notre équipe vous aide à monter votre dossier d\'aides gratuitement.'
+    a: "En France, vous pouvez bénéficier de MaPrimeRénov\' (jusqu\'à 2 500€ selon vos revenus), de l\'éco-prêt à taux zéro, et de la TVA réduite à 5,5 % pour les poêles labellisés Flamme Verte. Notre équipe vous aide à monter votre dossier d\'aides gratuitement."
   },
   {
     q: 'Comment choisir la puissance de mon poêle ?',
@@ -196,11 +196,11 @@ const FAQS = [
   },
   {
     q: 'Puis-je retourner un produit si je ne suis pas satisfait ?',
-    a: 'Conformément à la loi française, vous disposez de 14 jours de rétractation à compter de la livraison. Le produit doit être retourné dans son emballage d\'origine et non installé. Pour les appareils déjà posés, nous étudions chaque situation au cas par cas. Contactez notre service client au 01 23 45 67 89.'
+    a: "Conformément à la loi française, vous disposez de 14 jours de rétractation à compter de la livraison. Le produit doit être retourné dans son emballage d\'origine et non installé. Pour les appareils déjà posés, nous étudions chaque situation au cas par cas. Contactez notre service client au 01 23 45 67 89."
   },
   {
-    q: 'Les appareils Flamme Verte ouvrent-ils droit à des crédits d\'impôt ?',
-    a: 'Oui ! Les appareils labellisés Flamme Verte 5 étoiles et plus ouvrent droit à MaPrimeRénov\'. Pour la campagne 2025, les montants d\'aide peuvent atteindre 2 000 à 3 000€ selon votre tranche de revenu et le type d\'appareil. Nous vous fournirons tous les documents nécessaires à votre demande.'
+    q: "Les appareils Flamme Verte ouvrent-ils droit à des crédits d\'impôt ?",
+    a: "Oui ! Les appareils labellisés Flamme Verte 5 étoiles et plus ouvrent droit à MaPrimeRénov\'. Pour la campagne 2025, les montants d\'aide peuvent atteindre 2 000 à 3 000€ selon votre tranche de revenu et le type d\'appareil. Nous vous fournirons tous les documents nécessaires à votre demande."
   },
 ];
 
@@ -228,28 +228,28 @@ const BLOG_POSTS = [
     slug: 'bois-ou-granules',
     title: 'Poêle à bois ou à granulés : lequel choisir ?',
     date: '14 mai 2025',
-    category: 'Guide d\'achat',
+    category: "Guide d\'achat",
     emoji: '🔥',
     excerpt:
-      'Bûches authentiques ou pellets automatisés ? On compare rendement, confort d\'usage, coût du combustible et entretien pour vous aider à trancher.',
+      "Bûches authentiques ou pellets automatisés ? On compare rendement, confort d\'usage, coût du combustible et entretien pour vous aider à trancher.",
     body: [
       'Le poêle à bois séduit par la chaleur naturelle et le crépitement des bûches. Il ne nécessite aucune électricité, fonctionne en cas de coupure de courant et offre un rendement de 75 à 85 % sur les modèles labellisés Flamme Verte. En contrepartie, il demande un rechargement manuel toutes les heures ou deux et un stockage de bois conséquent.',
-      'Le poêle à granulés, lui, mise sur l\'automatisation : réservoir de pellets, allumage programmé, régulation par sonde et pilotage Wi-Fi sur les modèles récents comme le MCZ Musa. Son rendement dépasse souvent 90 %, et le combustible est plus dense et plus facile à stocker. Il requiert toutefois une alimentation électrique et un entretien régulier du brûleur.',
-      'Notre conseil : privilégiez le bois si vous recherchez l\'ambiance et l\'autonomie énergétique, et le granulés si le confort de gestion et la programmation priment. Dans les deux cas, notre configurateur en ligne calcule la puissance idéale selon votre surface.',
+      "Le poêle à granulés, lui, mise sur l\'automatisation : réservoir de pellets, allumage programmé, régulation par sonde et pilotage Wi-Fi sur les modèles récents comme le MCZ Musa. Son rendement dépasse souvent 90 %, et le combustible est plus dense et plus facile à stocker. Il requiert toutefois une alimentation électrique et un entretien régulier du brûleur.",
+      "Notre conseil : privilégiez le bois si vous recherchez l\'ambiance et l\'autonomie énergétique, et le granulés si le confort de gestion et la programmation priment. Dans les deux cas, notre configurateur en ligne calcule la puissance idéale selon votre surface.",
     ],
   },
   {
     slug: 'aides-2025',
-    title: 'MaPrimeRénov\' 2025 : toutes les aides pour votre poêle',
+    title: "MaPrimeRénov\' 2025 : toutes les aides pour votre poêle",
     date: '2 mai 2025',
     category: 'Financement',
     emoji: '🌿',
     excerpt:
-      'MaPrimeRénov\', éco-PTZ, TVA à 5,5 % : le point complet sur les dispositifs qui peuvent réduire la facture de plusieurs milliers d\'euros.',
+      "MaPrimeRénov\', éco-PTZ, TVA à 5,5 % : le point complet sur les dispositifs qui peuvent réduire la facture de plusieurs milliers d\'euros.",
     body: [
-      'En 2025, l\'installation d\'un appareil de chauffage au bois labellisé Flamme Verte 5 étoiles et plus ouvre droit à MaPrimeRénov\'. Le montant varie de 1 000 à 3 000 € selon votre tranche de revenus et le type d\'appareil installé.',
-      'À cela s\'ajoute l\'éco-prêt à taux zéro, qui permet de financer le reste à charge sans intérêt, ainsi qu\'une TVA réduite à 5,5 % appliquée directement sur la fourniture et la pose par un professionnel certifié RGE.',
-      'Nos conseillers montent gratuitement votre dossier d\'aides et vous fournissent l\'ensemble des justificatifs (facture détaillée, attestation RGE, fiche technique). De quoi alléger sensiblement votre investissement.',
+      "En 2025, l\'installation d\'un appareil de chauffage au bois labellisé Flamme Verte 5 étoiles et plus ouvre droit à MaPrimeRénov\'. Le montant varie de 1 000 à 3 000 € selon votre tranche de revenus et le type d\'appareil installé.",
+      "À cela s\'ajoute l\'éco-prêt à taux zéro, qui permet de financer le reste à charge sans intérêt, ainsi qu\'une TVA réduite à 5,5 % appliquée directement sur la fourniture et la pose par un professionnel certifié RGE.",
+      "Nos conseillers montent gratuitement votre dossier d\'aides et vous fournissent l\'ensemble des justificatifs (facture détaillée, attestation RGE, fiche technique). De quoi alléger sensiblement votre investissement.",
     ],
   },
   {
@@ -261,14 +261,14 @@ const BLOG_POSTS = [
     excerpt:
       'Un poêle surdimensionné encrasse, un poêle sous-dimensionné peine à chauffer. Voici la méthode pour calculer les kW dont vous avez réellement besoin.',
     body: [
-      'La règle de base consiste à compter environ 1 kW pour 10 m² dans un logement bien isolé et avec une hauteur sous plafond standard de 2,5 m. Pour une maison de 80 m², un poêle de 8 kW comme l\'Invicta Prélude sera parfaitement adapté.',
-      'Dans une habitation mal isolée ou située en région froide, on resserre le ratio à 1 kW pour 7 à 8 m². À l\'inverse, dans un logement BBC très performant, un appareil légèrement moins puissant suffit et évite la surchauffe.',
+      "La règle de base consiste à compter environ 1 kW pour 10 m² dans un logement bien isolé et avec une hauteur sous plafond standard de 2,5 m. Pour une maison de 80 m², un poêle de 8 kW comme l\'Invicta Prélude sera parfaitement adapté.",
+      "Dans une habitation mal isolée ou située en région froide, on resserre le ratio à 1 kW pour 7 à 8 m². À l\'inverse, dans un logement BBC très performant, un appareil légèrement moins puissant suffit et évite la surchauffe.",
       'Attention au surdimensionnement : un poêle trop puissant tourne au ralenti, encrasse la vitre et le conduit, et perd en rendement. Mieux vaut un appareil correctement calibré, quitte à le faire fonctionner à pleine charge.',
     ],
   },
   {
     slug: 'entretien-hivernal',
-    title: 'Entretien : préparer son poêle pour l\'hiver',
+    title: "Entretien : préparer son poêle pour l\'hiver",
     date: '8 avril 2025',
     category: 'Entretien',
     emoji: '🛠️',
@@ -276,7 +276,7 @@ const BLOG_POSTS = [
       'Ramonage, joints, vitre, conduit : la check-list complète pour repartir sur une saison de chauffe sereine et performante.',
     body: [
       'Le ramonage du conduit est obligatoire au moins une fois par an, et deux fois pour les appareils à bois selon les communes. Faites-le réaliser par un professionnel qui vous remettra un certificat indispensable pour votre assurance.',
-      'Vérifiez ensuite l\'état des joints de porte et de vitre : un joint durci ou écrasé laisse entrer de l\'air parasite et dégrade la combustion. Leur remplacement est simple et peu coûteux. Nettoyez la vitre avec un produit adapté ou de la cendre humide.',
+      "Vérifiez ensuite l\'état des joints de porte et de vitre : un joint durci ou écrasé laisse entrer de l\'air parasite et dégrade la combustion. Leur remplacement est simple et peu coûteux. Nettoyez la vitre avec un produit adapté ou de la cendre humide.",
       'Pour les poêles à granulés, aspirez le creuset, videz le bac à cendres et contrôlez la vis sans fin et le ventilateur. Un appareil bien entretenu consomme moins, chauffe mieux et dure beaucoup plus longtemps.',
     ],
   },
@@ -892,7 +892,7 @@ function Configurator() {
     const budgetMap: Record<string, number> = { low: 1000, mid: 2000, high: 3500, luxury: 99999 };
     const maxBudget = budgetMap[budget] ?? 99999;
     const typeMap:   Record<string, string> = {
-      bois: 'Poêle à bois', granules: 'Poêle à granulés', insert: 'Insert cheminée', ethanol: 'Cheminée éthanol'
+      bois: "Poêle à bois', granules: 'Poêle à granulés', insert: 'Insert cheminée', ethanol: 'Cheminée éthanol"
     };
     const wantType = typeMap[type] ?? '';
     const candidates = PRODUCTS.filter(p => {
@@ -1845,8 +1845,8 @@ function ProductDetailView({
               <TagBadge tag={p.tag} />
               {discount && (
                 <span style={{
-                  position: 'absolute', top: '0.9rem', right: '0.9rem',
-                  background: '#8b2020', color: C.white, fontSize: '0.72rem',
+                  position: "absolute', top: '0.9rem', right: '0.9rem",
+                  background: "#8b2020', color: C.white, fontSize: '0.72rem",
                   fontWeight: 700, padding: '0.25rem 0.6rem', borderRadius: '4px',
                   fontFamily: 'Inter, sans-serif',
                 }}>
@@ -1900,7 +1900,7 @@ function ProductDetailView({
               }}>
                 {specs.map((s, idx) => (
                   <div key={s.label} style={{
-                    display: 'flex', justifyContent: 'space-between', gap: '1rem',
+                    display: "flex', justifyContent: 'space-between', gap: '1rem",
                     padding: '0.6rem 0',
                     borderBottom: idx < specs.length - 1 ? `1px solid ${C.borderLight}` : 'none',
                   }}>
@@ -1964,9 +1964,9 @@ function BlogPage({
             <button
               onClick={() => setBlogSlug(null)}
               style={{
-                display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-                background: 'none', border: 'none', color: C.textMuted, cursor: 'pointer',
-                fontFamily: 'Inter, sans-serif', fontSize: '0.88rem', marginBottom: '2rem',
+                display: "inline-flex', alignItems: 'center', gap: '0.5rem",
+                background: "none', border: 'none', color: C.textMuted, cursor: 'pointer",
+                fontFamily: "Inter, sans-serif', fontSize: '0.88rem', marginBottom: '2rem",
               }}
               onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = C.accentLight)}
               onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = C.textMuted)}
@@ -1974,10 +1974,10 @@ function BlogPage({
               ← Tous les articles
             </button>
             <div style={{
-              height: '220px', borderRadius: '18px',
+              height: "220px', borderRadius: '18px",
               background: `linear-gradient(145deg, #1e1208, #2a1a0a)`,
               border: `1px solid ${C.border}`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              display: "flex', alignItems: 'center', justifyContent: 'center",
               marginBottom: '2rem',
             }}>
               <TemplateIcon emoji={post.emoji} size={72} />
@@ -2032,7 +2032,7 @@ function BlogPage({
                 <div style={{
                   height: '170px',
                   background: `linear-gradient(145deg, #1e1208, #2a1a0a)`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  display: "flex', alignItems: 'center', justifyContent: 'center",
                   borderBottom: `1px solid ${C.borderLight}`,
                 }}>
                   <TemplateIcon emoji={b.emoji} size={56} />
@@ -2042,7 +2042,7 @@ function BlogPage({
                     alignSelf: 'flex-start',
                     background: `${C.accent}22`, color: C.accentLight,
                     fontSize: '0.68rem', fontFamily: 'Inter, sans-serif', fontWeight: 700,
-                    textTransform: 'uppercase', letterSpacing: '0.08em',
+                    textTransform: "uppercase', letterSpacing: '0.08em",
                     padding: '0.2rem 0.6rem', borderRadius: '20px', border: `1px solid ${C.border}`,
                     marginBottom: '0.85rem',
                   }}>
@@ -2136,7 +2136,7 @@ function AboutPage({ goTo }: { goTo: (p: FlammePage) => void }) {
                 <div style={{
                   width: '54px', height: '54px', borderRadius: '50%', flexShrink: 0,
                   background: `${C.accent}22`, border: `1px solid ${C.border}`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  display: "flex', alignItems: 'center', justifyContent: 'center",
                 }}>
                   <TemplateIcon emoji={v.icon} size={26} />
                 </div>
@@ -2156,7 +2156,7 @@ function AboutPage({ goTo }: { goTo: (p: FlammePage) => void }) {
               style={{
                 background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
                 color: C.white, border: 'none', borderRadius: '12px',
-                padding: '1rem 2.25rem', fontSize: '1rem', fontFamily: 'Inter, sans-serif',
+                padding: "1rem 2.25rem', fontSize: '1rem', fontFamily: 'Inter, sans-serif",
                 fontWeight: 700, cursor: 'pointer', letterSpacing: '0.02em',
               }}
             >
@@ -2232,7 +2232,7 @@ function ContactPage() {
                   <div style={{
                     width: '50px', height: '50px', borderRadius: '50%', flexShrink: 0,
                     background: `${C.accent}22`, border: `1px solid ${C.border}`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    display: "flex', alignItems: 'center', justifyContent: 'center",
                   }}>
                     <TemplateIcon emoji={info.icon} size={24} />
                   </div>
@@ -2306,7 +2306,7 @@ function ContactPage() {
                         width: '100%',
                         background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
                         color: C.white, border: 'none', borderRadius: '12px',
-                        padding: '1rem', fontSize: '1rem', fontFamily: 'Inter, sans-serif',
+                        padding: "1rem', fontSize: '1rem', fontFamily: 'Inter, sans-serif",
                         fontWeight: 700, cursor: 'pointer', letterSpacing: '0.02em',
                       }}
                     >

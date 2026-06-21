@@ -334,7 +334,7 @@ function Nav() {
         <Container>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 70 }}>
             {/* Logo */}
-            <a href="#" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <a href="#hero" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
               <div style={{
                 width: 36, height: 36, borderRadius: 8,
                 background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
@@ -1560,22 +1560,43 @@ function ContactSection() {
 }
 
 // ─── 12. FOOTER ───────────────────────────────────────────────────────────────
-const FOOTER_LINKS = {
-  Services:   ['Transport Express', 'Messagerie B2B', 'Logistique E-commerce', 'Entreposage', 'Transport International', 'Dernier Km'],
-  Entreprise: ['À propos', 'Nos agences', 'Recrutement', 'Presse & Médias', 'RSE', 'Blog logistique'],
-  Support:    ['Suivi de colis', 'Espace client', 'FAQ', 'Contact', 'Signaler un problème', 'CGV'],
+const FOOTER_LINKS: Record<string, { label: string; href: string }[]> = {
+  Services: [
+    { label: 'Transport Express', href: '#services' },
+    { label: 'Messagerie B2B', href: '#services' },
+    { label: 'Logistique E-commerce', href: '#services' },
+    { label: 'Entreposage', href: '#services' },
+    { label: 'Transport International', href: '#services' },
+    { label: 'Dernier Km', href: '#services' },
+  ],
+  Entreprise: [
+    { label: 'À propos', href: '#hero' },
+    { label: 'Nos agences', href: '#coverage' },
+    { label: 'Recrutement', href: '#contact' },
+    { label: 'Presse & Médias', href: '#contact' },
+    { label: 'RSE', href: '#hero' },
+    { label: 'Blog logistique', href: '#hero' },
+  ],
+  Support: [
+    { label: 'Suivi de colis', href: '#tracker' },
+    { label: 'Espace client', href: '#contact' },
+    { label: 'FAQ', href: '#faq' },
+    { label: 'Contact', href: '#contact' },
+    { label: 'Signaler un problème', href: '#contact' },
+    { label: 'CGV', href: '#contact' },
+  ],
 };
 
-function FooterColumn({ title, links }: { title: string; links: string[] }) {
+function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
   return (
     <div>
       <h4 style={{ fontFamily: C.fontDisplay, fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 18, letterSpacing: '0.04em' }}>{title}</h4>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
         {links.map((link) => (
-          <a key={link} href="#" style={{ fontFamily: C.fontBody, fontSize: 13, color: C.textMuted, textDecoration: 'none', transition: 'color 0.2s ease' }}
+          <a key={link.label} href={link.href} style={{ fontFamily: C.fontBody, fontSize: 13, color: C.textMuted, textDecoration: 'none', transition: 'color 0.2s ease' }}
             onMouseEnter={(e) => { (e.target as HTMLElement).style.color = C.text; }}
             onMouseLeave={(e) => { (e.target as HTMLElement).style.color = C.textMuted; }}>
-            {link}
+            {link.label}
           </a>
         ))}
       </div>
@@ -1592,7 +1613,7 @@ function Footer() {
           <div className="footer-grid">
             {/* Brand */}
             <div>
-              <a href="#" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
+              <a href="#hero" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
                 <div style={{
                   width: 38, height: 38, borderRadius: 9,
                   background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
@@ -1634,7 +1655,7 @@ function Footer() {
             </p>
             <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
               {['Mentions légales', 'CGV', 'Confidentialité', 'Cookies'].map((l) => (
-                <a key={l} href="#" style={{ fontFamily: C.fontBody, fontSize: 12, color: C.textMuted, textDecoration: 'none' }}>{l}</a>
+                <a key={l} href="#contact" style={{ fontFamily: C.fontBody, fontSize: 12, color: C.textMuted, textDecoration: 'none' }}>{l}</a>
               ))}
             </div>
           </div>

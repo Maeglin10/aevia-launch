@@ -1078,7 +1078,7 @@ function Process() {
       number: '03',
       title: 'Exécution',
       description:
-        'Nos équipes interviennent aux dates convenues. Points d\'avancement hebdomadaires par SMS ou e-mail.',
+        "Nos équipes interviennent aux dates convenues. Points d\'avancement hebdomadaires par SMS ou e-mail.",
     },
     {
       number: '04',
@@ -1509,7 +1509,7 @@ function Realisations() {
       location: 'Immeuble copropriété — Lyon 8e',
       surface: '620 m² de façade',
       year: '2024',
-      description: 'Isolation thermique par l\'extérieur sur immeuble R+4, enduit minéral teinté dans la masse. Subvention copropriété obtenue.',
+      description: "Isolation thermique par l\'extérieur sur immeuble R+4, enduit minéral teinté dans la masse. Subvention copropriété obtenue.",
       tag: 'Copropriété',
     },
     {
@@ -1525,7 +1525,7 @@ function Realisations() {
       location: 'Restaurant Le Gourmet — Vieux-Lyon',
       surface: '210 m² terrasse',
       year: '2023',
-      description: 'Reprise complète de l\'étanchéité bitumineuse d\'une toiture-terrasse accessible, relevés carrelés, évacuations refaites.',
+      description: "Reprise complète de l\'étanchéité bitumineuse d\'une toiture-terrasse accessible, relevés carrelés, évacuations refaites.",
       tag: 'Commercial',
     },
     {
@@ -1731,7 +1731,7 @@ function Team() {
       name: 'Sophie Lenoir',
       role: 'Conductrice de travaux',
       years: '14',
-      specialty: 'Coordination multi-lots, appels d\'offres, suivi budgétaire, relation MOA.',
+      specialty: "Coordination multi-lots, appels d\'offres, suivi budgétaire, relation MOA.",
       initials: 'SL',
     },
     {
@@ -2086,7 +2086,7 @@ function FAQ() {
         "Remplissez le formulaire de contact ci-dessous ou appelez-nous directement au 04 78 XX XX XX. Un chef de chantier vous rappelle sous 24h pour planifier une visite technique gratuite. Le devis détaillé est remis sous 48h après la visite, sans engagement de votre part.",
     },
     {
-      question: 'Quelle est votre zone d\'intervention ?',
+      question: "Quelle est votre zone d\'intervention ?",
       answer:
         "Nous intervenons principalement sur Lyon et son agglomération (métropole du Grand Lyon), le département du Rhône (69), le nord de l'Isère (Bourgoin-Jallieu, La Tour-du-Pin, Vienne) et le sud de l'Ain. Pour les gros chantiers industriels ou les copropriétés importantes, nous étudions toute demande hors de cette zone.",
     },
@@ -2101,7 +2101,7 @@ function FAQ() {
         "Cela dépend de la nature et de l'ampleur des travaux. Une extension de moins de 20 m² en zone non protégée nécessite simplement une déclaration préalable. Au-delà, un permis de construire est requis. Notre bureau d'étude interne vous aide à constituer le dossier administratif et à le déposer en mairie, le tout inclus dans notre accompagnement.",
     },
     {
-      question: 'Quel est le délai moyen d\'un chantier de maçonnerie ?',
+      question: "Quel est le délai moyen d\'un chantier de maçonnerie ?",
       answer:
         "Le délai varie selon l'envergure des travaux. Une ouverture de mur porteur se réalise en 1 à 2 jours. Une rénovation de salle de bain prend 5 à 7 jours. Un ravalement de façade d'un immeuble R+4 demande 4 à 6 semaines. Une extension de maison de 40 m² représente 8 à 12 semaines, fondations et finitions incluses. Nous vous communiquons un planning détaillé avant tout démarrage.",
     },

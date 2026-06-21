@@ -26,7 +26,7 @@ const TEAM = [
     initials: 'LM',
     name: 'Léa Moreau',
     role: 'Productrice',
-    bio: 'Ancienne productrice exécutive chez Partizan. Elle fait en sorte que l\'impossible reste dans les délais et dans le budget.',
+    bio: "Ancienne productrice exécutive chez Partizan. Elle fait en sorte que l\'impossible reste dans les délais et dans le budget.",
     accent: '#FF4DAD',
   },
 ];
@@ -36,17 +36,17 @@ const PILLARS = [
   {
     num: '01',
     title: 'Regard',
-    desc: 'Nous regardons le monde différemment. Chaque brief est un prétexte à voir ce que personne n\'a encore montré. Le point de vue avant la technique.',
+    desc: "Nous regardons le monde différemment. Chaque brief est un prétexte à voir ce que personne n\'a encore montré. Le point de vue avant la technique.",
   },
   {
     num: '02',
     title: 'Précision',
-    desc: 'Chaque frame compte. Chaque courbe d\'animation est calibrée. Chaque son est choisi. La précision n\'est pas une obsession — c\'est une marque de respect envers le spectateur.',
+    desc: "Chaque frame compte. Chaque courbe d\'animation est calibrée. Chaque son est choisi. La précision n\'est pas une obsession — c\'est une marque de respect envers le spectateur.",
   },
   {
     num: '03',
     title: 'Émotion',
-    desc: 'Les données ne mémorisent pas. Les émotions, si. Nous créons des films qui restent — pas parce qu\'ils sont beaux, mais parce qu\'ils ressentent juste.',
+    desc: "Les données ne mémorisent pas. Les émotions, si. Nous créons des films qui restent — pas parce qu\'ils sont beaux, mais parce qu\'ils ressentent juste.",
   },
 ];
 

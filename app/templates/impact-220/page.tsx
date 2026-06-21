@@ -697,19 +697,19 @@ const CROSSFADE_CHAPTERS = [
     img: IMGS.movement,
     title: 'Le Mouvement',
     subtitle: 'Calibre HV-190 · 72h de réserve',
-    desc: 'Chaque composant est usiné à une précision de ±2 microns dans nos ateliers de Plan-les-Ouates. Le rotor central en or 18 carats signe chaque rotation d\'un éclat discret.',
+    desc: "Chaque composant est usiné à une précision de ±2 microns dans nos ateliers de Plan-les-Ouates. Le rotor central en or 18 carats signe chaque rotation d\'un éclat discret.",
   },
   {
     img: IMGS.dial,
     title: 'Le Boîtier',
     subtitle: 'Acier Grand Feu · 41mm',
-    desc: 'L\'acier inoxydable poli-brossé reçoit trente-sept passes de finition à la main. Les cornes, sculptées dans la masse, épousent le poignet avec une précision anatomique.',
+    desc: "L\'acier inoxydable poli-brossé reçoit trente-sept passes de finition à la main. Les cornes, sculptées dans la masse, épousent le poignet avec une précision anatomique.",
   },
   {
     img: IMGS.editorial1,
-    title: 'L\'Héritage',
+    title: "L\'Héritage",
     subtitle: 'Six générations · Une signature',
-    desc: 'Fondée en 1834 par Léonard Marchetti, la maison a traversé deux siècles sans jamais délocaliser une seule opération. L\'ADN de Genève est inscrit dans chaque pivot.',
+    desc: "Fondée en 1834 par Léonard Marchetti, la maison a traversé deux siècles sans jamais délocaliser une seule opération. L\'ADN de Genève est inscrit dans chaque pivot.",
   },
 ] as const;
 
@@ -915,7 +915,7 @@ const COLLECTIONS = [
     name: 'Lune Bleue',
     ref: 'HV-28 · Cal. 28D',
     img: IMGS.dial,
-    desc: 'Boîtier en titane grade 5, cadran en lapis-lazuli naturel. Pour ceux qui cherchent l\'exception absolue dans la discrétion.',
+    desc: "Boîtier en titane grade 5, cadran en lapis-lazuli naturel. Pour ceux qui cherchent l\'exception absolue dans la discrétion.",
     complications: ['Phases de lune précises', 'Chronographe', 'Bicompax'],
   },
 ] as const;
@@ -1140,14 +1140,14 @@ const EDITORIAL_ROWS = [
     img: IMGS.editorial2,
     label: 'Finitions',
     title: 'La main avant la machine',
-    text: 'Chaque pont de calibre reçoit un anglage manuel. Cette opération, qui nécessite douze années d\'apprentissage, confère au mouvement ses reflets caractéristiques — impossibles à reproduire industriellement. Nos artisans passent jusqu\'à quarante heures sur un seul calibre avant qu\'il ne quitte l\'atelier.',
+    text: "Chaque pont de calibre reçoit un anglage manuel. Cette opération, qui nécessite douze années d\'apprentissage, confère au mouvement ses reflets caractéristiques — impossibles à reproduire industriellement. Nos artisans passent jusqu\'à quarante heures sur un seul calibre avant qu\'il ne quitte l\'atelier.",
     side: 'left' as const,
   },
   {
     img: IMGS.collection1,
     label: 'Métallurgie',
-    title: 'L\'alliage du temps',
-    text: 'Notre fonderie interne élabore des alliages exclusifs depuis 1912. Le laiton utilisé pour nos platines est enrichi de bismuth pour améliorer l\'usinabilité à l\'échelle micronique. Une propriété de la maison que personne n\'a réussi à reproduire.',
+    title: "L\'alliage du temps",
+    text: "Notre fonderie interne élabore des alliages exclusifs depuis 1912. Le laiton utilisé pour nos platines est enrichi de bismuth pour améliorer l\'usinabilité à l\'échelle micronique. Une propriété de la maison que personne n\'a réussi à reproduire.",
     side: 'right' as const,
   },
 ] as const;
@@ -1535,13 +1535,13 @@ function Heritage() {
 
 const TESTIMONIALS = [
   {
-    quote: 'Ma Perpétuelle Hora Viva accompagne chaque décision importante de ma vie depuis vingt-deux ans. Ce n\'est pas une montre — c\'est un compagnon silencieux et fidèle.',
+    quote: "Ma Perpétuelle Hora Viva accompagne chaque décision importante de ma vie depuis vingt-deux ans. Ce n\'est pas une montre — c\'est un compagnon silencieux et fidèle.",
     author: 'Henri de Vauclaire',
     role: 'Collectionneur, Paris',
     stars: 5,
   },
   {
-    quote: 'J\'ai visité quarante manufactures dans ma vie. Chez Hora Viva, on sent immédiatement que rien n\'est fait pour l\'apparence. Tout est fait pour durer deux siècles.',
+    quote: "J\'ai visité quarante manufactures dans ma vie. Chez Hora Viva, on sent immédiatement que rien n\'est fait pour l\'apparence. Tout est fait pour durer deux siècles.",
     author: 'Kenji Watanabe',
     role: 'Chronobiologiste & Horloger amateur, Tokyo',
     stars: 5,

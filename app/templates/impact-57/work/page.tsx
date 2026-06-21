@@ -23,8 +23,8 @@ const PROJECT_IMAGES: Record<string, string> = {
 
 // ── Available filter tags ────────────────────────────────────────────────────
 const ALL_TAGS = [
-  'All', 'Identity', 'Motion', 'Film', '3D',
-  'XR', 'Editorial', 'Campaign', 'CGI', 'Social', 'Web',
+  "All', 'Identity', 'Motion', 'Film', '3D",
+  "XR', 'Editorial', 'Campaign', 'CGI', 'Social', 'Web",
 ];
 
 // ── Project Card ─────────────────────────────────────────────────────────────

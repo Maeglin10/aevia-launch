@@ -85,8 +85,14 @@ export default function VoltProPage() {
             <span className="text-lg font-extrabold tracking-[0.15em] uppercase">VoltPro</span>
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">
-            {["Services", "Réalisations", "À propos", "Zone d'intervention", "Contact"].map(l => (
-              <Link key={l} href="#" className="hover:text-yellow-400 transition-colors">{l}</Link>
+            {[
+              { label: "Services", href: "#services" },
+              { label: "Réalisations", href: "#realisations" },
+              { label: "À propos", href: "#apropos" },
+              { label: "Zone d'intervention", href: "#zone" },
+              { label: "Contact", href: "#contact" },
+            ].map(({ label, href }) => (
+              <Link key={label} href={href} className="hover:text-yellow-400 transition-colors">{label}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
@@ -100,8 +106,13 @@ export default function VoltProPage() {
               <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5" /></button></SheetTrigger>
               <SheetContent side="right" className="bg-[#080a0c] border-yellow-400/10 p-10">
                 <div className="flex flex-col gap-8 mt-16">
-                  {["Services", "Réalisations", "À propos", "Contact"].map(l => (
-                    <Link key={l} href="#" className="text-3xl font-extrabold uppercase tracking-widest hover:text-yellow-400 transition-colors">{l}</Link>
+                  {[
+                    { label: "Services", href: "#services" },
+                    { label: "Réalisations", href: "#realisations" },
+                    { label: "À propos", href: "#apropos" },
+                    { label: "Contact", href: "#contact" },
+                  ].map(({ label, href }) => (
+                    <Link key={label} href={href} className="text-3xl font-extrabold uppercase tracking-widest hover:text-yellow-400 transition-colors">{label}</Link>
                   ))}
                   <a href="tel:0612345678" className="flex items-center gap-3 text-yellow-400 font-bold text-lg mt-4">
                     <Phone className="w-5 h-5" /> 06 12 34 56 78
@@ -115,7 +126,7 @@ export default function VoltProPage() {
 
       <main>
         {/* ── HERO ── */}
-        <section className="relative h-[110vh] min-h-[800px] flex items-end overflow-hidden">
+        <section id="hero" className="relative h-[110vh] min-h-[800px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image
               src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=85&w=2400"
@@ -203,7 +214,7 @@ export default function VoltProPage() {
         </section>
 
         {/* ── SERVICES ── */}
-        <section className="py-32">
+        <section id="services" className="py-32">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="mb-20">
@@ -233,7 +244,7 @@ export default function VoltProPage() {
         </section>
 
         {/* ── RÉALISATIONS ── */}
-        <section className="py-32 bg-[#05070a]">
+        <section id="realisations" className="py-32 bg-[#05070a]">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex items-end justify-between mb-20 gap-6">
@@ -357,7 +368,7 @@ export default function VoltProPage() {
         </section>
 
         {/* ── ZONE D'INTERVENTION ── */}
-        <section className="py-24 bg-[#05070a] border-t border-white/5">
+        <section id="zone" className="py-24 bg-[#05070a] border-t border-white/5">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-16 items-center">
             <Reveal className="flex-1">
               <div>
@@ -394,7 +405,7 @@ export default function VoltProPage() {
         </section>
 
         {/* ── CTA ── */}
-        <section className="relative py-48 flex items-center justify-center overflow-hidden">
+        <section id="contact" className="relative py-48 flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <Image src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=2400" alt="Câblage électrique moderne" fill className="object-cover opacity-30" />
             <div className="absolute inset-0 bg-[#080a0c]/80" />
@@ -443,7 +454,7 @@ export default function VoltProPage() {
             <div key={i}>
               <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-yellow-400 mb-6" style={{ fontFamily: "'Space Mono', monospace" }}>{col.title}</h4>
               <ul className="space-y-3">
-                {col.links.map(l => <li key={l}><Link href="#" className="text-sm text-white/25 hover:text-white transition-colors">{l}</Link></li>)}
+                {col.links.map((l, idx) => <li key={l}><Link href={col.title === 'Services' ? '#services' : col.title === 'Contact' ? '#contact' : '#hero'} className="text-sm text-white/25 hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}

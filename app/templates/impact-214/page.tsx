@@ -53,13 +53,13 @@ const SERVICES = [
   {
     icon: '💧',
     title: 'Dépannage Fuite',
-    desc: 'Intervention rapide pour toute fuite d\'eau, tuyauterie ou joint. Disponible 24h/24, 7j/7 pour les urgences.',
+    desc: "Intervention rapide pour toute fuite d\'eau, tuyauterie ou joint. Disponible 24h/24, 7j/7 pour les urgences.",
     badge: 'Urgence 24/7',
   },
   {
     icon: '🛁',
     title: 'Salle de Bains',
-    desc: 'Installation et rénovation complète : douche à l\'italienne, baignoire, mobilier vasque, carrelage, plomberie.',
+    desc: "Installation et rénovation complète : douche à l\'italienne, baignoire, mobilier vasque, carrelage, plomberie.",
     badge: 'Clé en main',
   },
   {
@@ -83,7 +83,7 @@ const SERVICES = [
   {
     icon: '🌬️',
     title: 'VMC & Ventilation',
-    desc: 'Installation et entretien de VMC simple ou double flux. Amélioration de la qualité de l\'air intérieur.',
+    desc: "Installation et entretien de VMC simple ou double flux. Amélioration de la qualité de l\'air intérieur.",
     badge: 'Certifié RGE',
   },
 ];
@@ -110,15 +110,15 @@ const PROCESS_STEPS = [
   {
     num: '04',
     title: 'Garantie',
-    desc: 'Tous nos travaux sont garantis 2 ans pièces et main d\'œuvre. Votre satisfaction est notre priorité.',
+    desc: "Tous nos travaux sont garantis 2 ans pièces et main d\'œuvre. Votre satisfaction est notre priorité.",
     icon: '✅',
   },
 ];
 
 const ZONES = [
-  'Paris 1-20', 'Boulogne-Billancourt', 'Neuilly-sur-Seine',
-  'Levallois-Perret', 'Vincennes', 'Saint-Denis', 'Montreuil',
-  'Nanterre', 'Créteil', 'Versailles',
+  "Paris 1-20', 'Boulogne-Billancourt', 'Neuilly-sur-Seine",
+  "Levallois-Perret', 'Vincennes', 'Saint-Denis', 'Montreuil",
+  "Nanterre', 'Créteil', 'Versailles",
 ];
 
 const PORTFOLIO = [
@@ -136,7 +136,7 @@ const TEAM = [
     role: 'Fondateur & Maître Plombier',
     exp: '15 ans',
     certs: ['CAP Plomberie', 'Qualibat RGE', 'Certifié Grohe Pro'],
-    bio: 'Passionné de plomberie depuis son apprentissage à l\'âge de 17 ans, Karim a fondé Aqua Prestige en 2010 avec l\'ambition de proposer des services haut de gamme à prix juste.',
+    bio: "Passionné de plomberie depuis son apprentissage à l\'âge de 17 ans, Karim a fondé Aqua Prestige en 2010 avec l\'ambition de proposer des services haut de gamme à prix juste.",
     emoji: '👨‍🔧',
     color: C.accent,
   },
@@ -165,7 +165,7 @@ const TESTIMONIALS = [
     name: 'Isabelle M.',
     city: 'Paris 11e',
     rating: 5,
-    text: 'Fuite sous l\'évier un dimanche soir — Karim était là en 25 minutes ! Travail impeccable, prix honnête. Je recommande vivement Aqua Prestige.',
+    text: "Fuite sous l\'évier un dimanche soir — Karim était là en 25 minutes ! Travail impeccable, prix honnête. Je recommande vivement Aqua Prestige.",
     service: 'Dépannage fuite',
   },
   {
@@ -186,21 +186,21 @@ const TESTIMONIALS = [
     name: 'Mehdi B.',
     city: 'Vincennes',
     rating: 5,
-    text: 'Débouchage efficace et rapide. Théo a utilisé l\'inspection vidéo pour identifier le problème exact. Plus de souci depuis 6 mois !',
+    text: "Débouchage efficace et rapide. Théo a utilisé l\'inspection vidéo pour identifier le problème exact. Plus de souci depuis 6 mois !",
     service: 'Débouchage',
   },
   {
     name: 'Sophie L.',
     city: 'Paris 18e',
     rating: 5,
-    text: 'Installation de mon nouveau chauffe-eau thermodynamique en une journée. Économies d\'énergie visibles dès la première facture !',
+    text: "Installation de mon nouveau chauffe-eau thermodynamique en une journée. Économies d\'énergie visibles dès la première facture !",
     service: 'Chauffe-eau',
   },
   {
     name: 'François K.',
     city: 'Levallois',
     rating: 4,
-    text: 'Très satisfait de l\'installation VMC. Marine a pris le temps d\'expliquer le fonctionnement. Appartement bien plus sain maintenant.',
+    text: "Très satisfait de l\'installation VMC. Marine a pris le temps d\'expliquer le fonctionnement. Appartement bien plus sain maintenant.",
     service: 'VMC Installation',
   },
 ];
@@ -208,15 +208,15 @@ const TESTIMONIALS = [
 const FAQ_ITEMS = [
   {
     q: 'Quels sont vos tarifs pour une urgence la nuit ou le week-end ?',
-    a: 'Nos tarifs d\'urgence nocturne (20h–8h) et week-end sont majorés de 40% par rapport au tarif normal. Nous vous communiquons toujours le devis avant toute intervention. Tarif de déplacement : 49€ en journée, 79€ la nuit.',
+    a: "Nos tarifs d\'urgence nocturne (20h–8h) et week-end sont majorés de 40% par rapport au tarif normal. Nous vous communiquons toujours le devis avant toute intervention. Tarif de déplacement : 49€ en journée, 79€ la nuit.",
   },
   {
-    q: 'Quelle est votre zone d\'intervention ?',
+    q: "Quelle est votre zone d\'intervention ?",
     a: 'Nous intervenons dans Paris intramuros (1er au 20e) et dans les communes limitrophes : Boulogne-Billancourt, Neuilly, Levallois, Vincennes, Saint-Denis, Montreuil, Nanterre, Créteil et Versailles.',
   },
   {
     q: 'Quelle garantie proposez-vous sur vos travaux ?',
-    a: 'Tous nos travaux bénéficient d\'une garantie de 2 ans sur la main d\'œuvre et les pièces posées. En cas de problème dans ce délai, nous revenons gratuitement. Nos installations sont également couvertes par notre assurance décennale.',
+    a: "Tous nos travaux bénéficient d\'une garantie de 2 ans sur la main d\'œuvre et les pièces posées. En cas de problème dans ce délai, nous revenons gratuitement. Nos installations sont également couvertes par notre assurance décennale.",
   },
   {
     q: 'Quelles marques de matériaux utilisez-vous ?',
@@ -224,7 +224,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Quel est le délai pour une rénovation complète de salle de bains ?',
-    a: 'Une rénovation complète de salle de bains prend en général 4 à 7 jours ouvrés selon la surface et les prestations. Nous réalisons un planning détaillé avant le début du chantier et vous tenons informé chaque jour de l\'avancement des travaux.',
+    a: "Une rénovation complète de salle de bains prend en général 4 à 7 jours ouvrés selon la surface et les prestations. Nous réalisons un planning détaillé avant le début du chantier et vous tenons informé chaque jour de l\'avancement des travaux.",
   },
 ];
 

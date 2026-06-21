@@ -72,7 +72,7 @@ const ROOMS = [
 
 const EXPERIENCES = [
   {
-    label: 'L\'Atelier',
+    label: "L\'Atelier",
     sub: 'Two Michelin Stars',
     desc: 'Chef Margaux Vernet elevates classical French gastronomy with ingredients sourced from our estate gardens and trusted regional producers.',
     img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=85',
@@ -86,7 +86,7 @@ const EXPERIENCES = [
   {
     label: 'Bar Lumière',
     sub: 'Rare Spirits & Cellar',
-    desc: 'An intimate bar presided over by our Maître d\'Alcools. Three thousand labels. One extraordinary conversation.',
+    desc: "An intimate bar presided over by our Maître d\'Alcools. Three thousand labels. One extraordinary conversation.",
     img: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=1000&q=85',
   },
 ];
@@ -233,13 +233,13 @@ const SERVICES = [
     glyph: '◈',
     label: 'Bar Lumière',
     sub: 'Rare Spirits & Cellar',
-    desc: 'An intimate bar presided over by our Maître d\'Alcools. Three thousand labels. One extraordinary conversation.',
+    desc: "An intimate bar presided over by our Maître d\'Alcools. Three thousand labels. One extraordinary conversation.",
     img: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=1000&q=85',
     points: ['3,000 labels', 'Dedicated Maître d\'Alcools', 'Signature cocktails', 'Private tasting evenings'],
   },
   {
     glyph: '◎',
-    label: 'Clefs d\'Or Concierge',
+    label: "Clefs d\'Or Concierge",
     sub: 'Available 24 Hours',
     desc: 'Reservations, private transfers, exceptional cultural access: our concierge composes every stay like a unique score.',
     img: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1000&q=85',
@@ -276,7 +276,7 @@ const BLOG_POSTS = [
     body: [
       'Setting a table is not a utilitarian gesture: it is a form of courtesy addressed to the one you receive. In the French manner, the arrangement obeys a precise grammar, inherited from the great houses and passed down from generation to generation.',
       'Everything begins with the cloth, whose central fold must run perfectly down the middle of the table. The cutlery is laid from the outside in, in the order of service; the glasses align on a diagonal, from largest to smallest, above the tip of the knife.',
-      'At the Grand Palais, our maîtres d\'hôtel uphold these codes without nostalgia. Cut crystal sits alongside contemporary porcelain, and every dinner becomes a discreet staging in which the comfort of the guest always prevails over display.',
+      "At the Grand Palais, our maîtres d\'hôtel uphold these codes without nostalgia. Cut crystal sits alongside contemporary porcelain, and every dinner becomes a discreet staging in which the comfort of the guest always prevails over display.",
       'For true luxury, at the table as elsewhere, is not ostentation: it is that acquired ease which makes everything appear simple, obvious, natural.',
     ],
   },
@@ -291,7 +291,7 @@ const BLOG_POSTS = [
     body: [
       'When the longing for the horizon makes itself felt, the Loire Valley offers an enchanted interlude. Barely two hours from the Grand Palais, it unrolls its Renaissance châteaux along a royal river, listed as a World Heritage site.',
       'Our concierge composes a bespoke day for you: a private château visit at opening, before the groups arrive, lunch in a guest house, then a tasting in a troglodyte cellar carved straight into the tufa.',
-      'Garden lovers will not miss the formal parterres, drawn with a string line, where the gardener\'s art rivals the architect\'s. History enthusiasts, for their part, will linger on the double-helix staircases attributed to Leonardo da Vinci.',
+      "Garden lovers will not miss the formal parterres, drawn with a string line, where the gardener\'s art rivals the architect\'s. History enthusiasts, for their part, will linger on the double-helix staircases attributed to Leonardo da Vinci.",
       'When evening comes, the car returns you to the palace, where a light dinner awaits. The Loire is the French art of travel: neither hurried nor demonstrative — simply right.',
     ],
   },
@@ -301,10 +301,10 @@ const BLOG_POSTS = [
     date: '8 May 2026',
     category: 'Gastronomy',
     excerpt:
-      'Two stars, a kitchen garden fifty metres from the stoves and a philosophy of the season. A meeting with the chef of L\'Atelier, at the Grand Palais.',
+      "Two stars, a kitchen garden fifty metres from the stoves and a philosophy of the season. A meeting with the chef of L\'Atelier, at the Grand Palais.",
     img: 'https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=1200&q=85',
     body: [
-      '"A menu is, first of all, a season you listen to." So speaks Margaux Vernet, the two-star chef of L\'Atelier, the restaurant of the Grand Palais. In her world, the menu is never fixed: it breathes to the rhythm of the kitchen garden.',
+      "\"A menu is, first of all, a season you listen to.\" So speaks Margaux Vernet, the two-star chef of L\'Atelier, the restaurant of the Grand Palais. In her world, the menu is never fixed: it breathes to the rhythm of the kitchen garden.",
       'Fifty metres separate the stoves from the growing beds. That proximity changes everything: the herbs are picked at the last minute, the vegetables harvested at perfect ripeness, and waste tends towards zero. "The shortest distance between the earth and the plate," she sums up.',
       'Her cooking revisits the French canon with rare restraint. No flourishes, no technical excess: a sauce reduced with patience, an exact cooking time, a millimetric seasoning. The emotion is born of precision, never of demonstration.',
       'When asked for her definition of luxury, she smiles: "It is being able to offer a guest a tomato that tastes of a tomato. The rest is only décor."',
@@ -2168,12 +2168,12 @@ function ContactPage() {
     width: '100%', padding: '0.85rem 1rem', background: CREAM,
     border: `1px solid ${GOLD}40`, color: DARK,
     fontSize: 16, // ≥16px to avoid iOS zoom on focus
-    outline: 'none', fontFamily: SERIF, marginBottom: '1.1rem',
+    outline: "none', fontFamily: SERIF, marginBottom: '1.1rem",
   };
   const labelStyle: React.CSSProperties = {
     fontFamily: SANS, fontSize: '0.6rem', color: GOLD_DIM,
     letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 500,
-    marginBottom: '0.45rem', display: 'block',
+    marginBottom: "0.45rem', display: 'block",
   };
 
   return (

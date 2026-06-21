@@ -81,7 +81,7 @@ const SERVICES: Service[] = [
   {
     name: 'Soin Signature',
     nameEn: 'Signature Treatment',
-    description: 'Masque reconstituant, massage crânien rituel et sérum précieux à l\'huile d\'argan.',
+    description: "Masque reconstituant, massage crânien rituel et sérum précieux à l\'huile d\'argan.",
     price: 'À partir de 65 €',
     duration: '45 min',
   },
@@ -93,7 +93,7 @@ const STYLISTS: Stylist[] = [
     title: 'Directrice Artistique',
     specialty: 'Balayage & Colorimétrie',
     color: '#c9a0a0',
-    bio: 'Formée à l\'École Nationale Supérieure de Coiffure, Camille a perfectionné son art chez Dessange à Paris avant de fonder L\'Atelier. Sa signature : des couleurs qui semblent nées du soleil.',
+    bio: "Formée à l\'École Nationale Supérieure de Coiffure, Camille a perfectionné son art chez Dessange à Paris avant de fonder L\'Atelier. Sa signature : des couleurs qui semblent nées du soleil.",
     years: 15,
   },
   {
@@ -109,7 +109,7 @@ const STYLISTS: Stylist[] = [
     title: 'Spécialiste Soin',
     specialty: 'Traitements & Lissage',
     color: '#b8a8c8',
-    bio: 'Passionnée par la santé du cheveu, Yasmine conçoit des protocoles de soin personnalisés. Experte en kératine et rituels capillaires d\'origine naturelle.',
+    bio: "Passionnée par la santé du cheveu, Yasmine conçoit des protocoles de soin personnalisés. Experte en kératine et rituels capillaires d\'origine naturelle.",
     years: 8,
   },
   {
@@ -576,9 +576,9 @@ function BookingForm() {
         style={{ textAlign: 'center', padding: '60px 40px' }}
       >
         <div style={{
-          width: '64px', height: '64px', borderRadius: '50%',
+          width: "64px', height: '64px', borderRadius: '50%",
           background: GOLD_PALE, border: `2px solid ${GOLD}`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          display: "flex', alignItems: 'center', justifyContent: 'center",
           margin: '0 auto 24px',
         }}>
           <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
@@ -616,7 +616,7 @@ function BookingForm() {
                 width: '28px', height: '28px', borderRadius: '50%', flexShrink: 0,
                 background: i < step ? GOLD : i === step ? DARK : '#fff',
                 border: `2px solid ${i <= step ? GOLD : GRAY_LIGHT}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                display: "flex', alignItems: 'center', justifyContent: 'center",
                 transition: 'all 0.3s',
                 zIndex: 1,
               }}>
