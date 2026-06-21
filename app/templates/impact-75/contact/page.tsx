@@ -41,7 +41,7 @@ export default function ContactPage() {
                   Uplink established
                 </h3>
                 <p className="text-sm text-black/50 italic leading-relaxed max-w-md mx-auto">
-                  Your mission profile request has been received. Our launch ops team will contact you via secure terminal channels.
+                  Merci, nous vous répondrons sous 24h.
                 </p>
               </div>
             ) : (

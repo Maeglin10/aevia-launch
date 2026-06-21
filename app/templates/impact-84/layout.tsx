@@ -116,8 +116,9 @@ export default function CypherClinicLayout({
             </div>
             <div>
               <p className="text-[#F0EBE0] text-[10px] tracking-widest uppercase mb-5">Support</p>
-              <Link href={`${basePath}/legal`} className="block text-sm text-[#8A8278] hover:text-[#F0EBE0] mb-3 transition-colors cursor-pointer">Mentions légales</Link>
-              <Link href={`${basePath}/legal`} className="block text-sm text-[#8A8278] hover:text-[#F0EBE0] mb-3 transition-colors cursor-pointer">Politique de confidentialité</Link>
+              <Link href="/legal/mentions-legales" className="block text-sm text-[#8A8278] hover:text-[#F0EBE0] mb-3 transition-colors cursor-pointer">Mentions légales</Link>
+              <Link href="/legal/confidentialite" className="block text-sm text-[#8A8278] hover:text-[#F0EBE0] mb-3 transition-colors cursor-pointer">Politique de confidentialité</Link>
+              <Link href="/legal/cgu" className="block text-sm text-[#8A8278] hover:text-[#F0EBE0] mb-3 transition-colors cursor-pointer">CGU</Link>
               <Link href={`${basePath}/contact`} className="block text-sm text-[#8A8278] hover:text-[#F0EBE0] mb-3 transition-colors cursor-pointer">Nous trouver</Link>
             </div>
           </div>

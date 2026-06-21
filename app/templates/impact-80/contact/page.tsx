@@ -29,7 +29,7 @@ export default function ContactPage() {
               Project Initiated
             </h2>
             <p className="text-sm text-black/30 font-light italic">
-              Thank you. Our design committee will analyze your parameters and get back to you within 3 business days.
+              Merci, nous vous répondrons sous 24h.
             </p>
           </Reveal>
         ) : (

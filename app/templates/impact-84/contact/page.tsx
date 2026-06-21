@@ -58,7 +58,7 @@ export default function ContactPage() {
             {submitted ? (
               <div className="border border-[#C9A86C] p-12 text-center bg-[#141210]">
                 <h2 className="text-2xl font-light mb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>Demande envoyée</h2>
-                <p className="text-[#8A8278]">Nous vous recontacterons sous 24h ouvrées.</p>
+                <p className="text-[#8A8278]">Merci, nous vous répondrons sous 24h.</p>
               </div>
             ) : (
               <form className="space-y-5" onSubmit={e => { e.preventDefault(); setSubmitted(true); }}>

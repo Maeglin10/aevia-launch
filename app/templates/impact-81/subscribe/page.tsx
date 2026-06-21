@@ -49,7 +49,7 @@ export default function SubscribePage() {
             </h2>
             <p className="text-[#6A6058] text-sm mb-8 max-w-md mx-auto">Actualités des maisons, portfolios exclusifs. Chaque semaine, dans votre boîte mail.</p>
             {submitted ? (
-              <p className="text-sm text-[#C9A86C]">Merci pour votre abonnement !</p>
+              <p className="text-sm text-[#C9A86C]">Merci, nous vous répondrons sous 24h.</p>
             ) : (
               <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onSubmit={e => { e.preventDefault(); setSubmitted(true); }}>
                 <input type="email" placeholder="Votre adresse email" className="flex-1 bg-transparent border border-[#2A2A20] px-5 py-3.5 text-sm text-[#F0EBE0] focus:outline-none focus:border-[#C9A86C] transition-colors" />

@@ -31,7 +31,7 @@ export default function ContactPage() {
                   Order Registered
                 </h3>
                 <p className="text-xs text-white/30 uppercase tracking-widest max-w-sm mx-auto leading-relaxed">
-                  Your request has been received. Our roasting master will reach back to confirm your order and shipping details.
+                  Merci, nous vous répondrons sous 24h.
                 </p>
               </div>
             ) : (

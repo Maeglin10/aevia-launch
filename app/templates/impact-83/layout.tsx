@@ -192,8 +192,9 @@ export default function AureliusHeritageLayout({
             </h5>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 12 }}>
               <li><Link href={`${basePath}/maison`} style={{ textDecoration: "none", color: C.textMuted, fontSize: 14 }}>Histoire & Savoir-faire</Link></li>
-              <li><Link href={`${basePath}/legal`} style={{ textDecoration: "none", color: C.textMuted, fontSize: 14 }}>Mentions Légales</Link></li>
-              <li><Link href={`${basePath}/legal`} style={{ textDecoration: "none", color: C.textMuted, fontSize: 14 }}>Sécurité & Assurance</Link></li>
+              <li><Link href="/legal/mentions-legales" style={{ textDecoration: "none", color: C.textMuted, fontSize: 14 }}>Mentions Légales</Link></li>
+              <li><Link href="/legal/confidentialite" style={{ textDecoration: "none", color: C.textMuted, fontSize: 14 }}>Confidentialité</Link></li>
+              <li><Link href="/legal/cgu" style={{ textDecoration: "none", color: C.textMuted, fontSize: 14 }}>CGU</Link></li>
             </ul>
           </div>
         </div>

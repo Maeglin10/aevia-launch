@@ -134,7 +134,7 @@ export default function StreamHubLayout({
                   {link.label}
                 </Link>
               ))}
-              <Link href="/templates/impact-73/legal" onClick={() => setMenuOpen(false)} style={{ textDecoration: "none" }}>
+              <Link href="/legal/mentions-legales" onClick={() => setMenuOpen(false)} style={{ textDecoration: "none" }}>
                 Legal
               </Link>
             </div>
@@ -231,7 +231,7 @@ export default function StreamHubLayout({
                   </Link>
                 </li>
                 <li>
-                  <Link href="/templates/impact-73/legal" className="hover:text-rose-500 transition-colors" style={{ textDecoration: "none" }}>
+                  <Link href="/legal/mentions-legales" className="hover:text-rose-500 transition-colors" style={{ textDecoration: "none" }}>
                     Mentions_Legales
                   </Link>
                 </li>
@@ -270,10 +270,10 @@ export default function StreamHubLayout({
               <span>
                 &copy; {new Date().getFullYear()} Aevia WS — SIREN 852 546 225. Tous droits réservés.
               </span>
-              <Link href="/templates/impact-73/legal" className="hover:text-white transition-colors" style={{ textDecoration: "none" }}>
+              <Link href="/legal/mentions-legales" className="hover:text-white transition-colors" style={{ textDecoration: "none" }}>
                 Regulatory_Terms
               </Link>
-              <Link href="/templates/impact-73/legal" className="hover:text-white transition-colors" style={{ textDecoration: "none" }}>
+              <Link href="/legal/mentions-legales" className="hover:text-white transition-colors" style={{ textDecoration: "none" }}>
                 Privacy_Buffer
               </Link>
             </div>

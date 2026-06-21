@@ -107,7 +107,7 @@ export default function SkewLayout({
           {[
             { title: "WORK", items: [{ label: "All Projects", href: "/templates/impact-58/work" }, { label: "Films", href: "/templates/impact-58/work" }] },
             { title: "STUDIO", items: [{ label: "About", href: "/templates/impact-58/studio" }, { label: "Awards", href: "/templates/impact-58/studio" }] },
-            { title: "CONTACT", items: [{ label: "New Projects", href: "/templates/impact-58/contact" }, { label: "Mentions Légales", href: "/templates/impact-58/legal" }] },
+            { title: "CONTACT", items: [{ label: "New Projects", href: "/templates/impact-58/contact" }, { label: "Mentions Légales", href: "/legal/mentions-legales" }] },
           ].map((col) => (
             <div key={col.title}>
               <div style={{ fontFamily: "'Syne Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.25em", color: C.textDim, marginBottom: "1.5rem" }}>

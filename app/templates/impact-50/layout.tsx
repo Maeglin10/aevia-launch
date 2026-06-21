@@ -178,7 +178,7 @@ export default function Impact50Layout({
               l: [
                 { label: "About", href: "/templates/impact-50/about" },
                 { label: "Careers", href: "#" },
-                { label: "Legal", href: "/templates/impact-50/legal" },
+                { label: "Mentions légales", href: "/legal/mentions-legales" },
                 { label: "Contact", href: "/templates/impact-50/contact" },
               ],
             },
@@ -207,7 +207,7 @@ export default function Impact50Layout({
           </span>
           <div className="flex gap-10 italic">
             <Link
-              href="/templates/impact-50/legal"
+              href="/legal/mentions-legales"
               className="hover:text-white transition-colors"
             >
               Mentions Légales

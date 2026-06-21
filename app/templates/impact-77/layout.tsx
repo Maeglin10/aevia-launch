@@ -216,7 +216,7 @@ export default function HorologsLayout({
                   </Link>
                 </li>
                 <li>
-                  <Link href="/templates/impact-77/legal" className="hover:text-white transition-colors">
+                  <Link href="/legal/mentions-legales" className="hover:text-white transition-colors">
                     Legal_Mentions
                   </Link>
                 </li>
@@ -253,10 +253,10 @@ export default function HorologsLayout({
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-white/5 text-[9px] font-bold uppercase tracking-widest text-white/10">
             <div className="flex items-center gap-10">
               <span>&copy; {new Date().getFullYear()} HOROLOGS LUXE Inc.</span>
-              <Link href="/templates/impact-77/legal" className="hover:text-white transition-colors">
+              <Link href="/legal/mentions-legales" className="hover:text-white transition-colors">
                 Regulatory_Terms
               </Link>
-              <Link href="/templates/impact-77/legal" className="hover:text-white transition-colors">
+              <Link href="/legal/mentions-legales" className="hover:text-white transition-colors">
                 Privacy_Buffer
               </Link>
             </div>

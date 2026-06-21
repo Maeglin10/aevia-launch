@@ -213,7 +213,7 @@ export default function Impact51Layout({
               {
                 title: "Legal",
                 items: [
-                  { label: "Mentions légales", href: "/templates/impact-51/legal" },
+                  { label: "Mentions légales", href: "/legal/mentions-legales" },
                   { label: "Privacy Policy", href: "#" },
                   { label: "Terms of Service", href: "#" },
                 ],
@@ -248,7 +248,7 @@ export default function Impact51Layout({
             </span>
             <div className="flex gap-8">
               <Link
-                href="/templates/impact-51/legal"
+                href="/legal/mentions-legales"
                 className="hover:text-[#0f0f0f] transition-colors"
               >
                 Mentions Légales

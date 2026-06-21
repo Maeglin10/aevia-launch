@@ -31,7 +31,7 @@ export default function RdvPage() {
               <CheckCircle className="w-12 h-12 text-[#C9A86C] mx-auto mb-6" />
               <h2 className="text-2xl font-light mb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>Demande reçue</h2>
               <p className="text-[#8A8278] leading-relaxed">
-                Votre demande de rendez-vous est reçue. Notre coordinatrice vous contacte sous 24h ouvrées pour confirmer votre créneau.
+                Merci, nous vous répondrons sous 24h.
               </p>
             </div>
           </Reveal>

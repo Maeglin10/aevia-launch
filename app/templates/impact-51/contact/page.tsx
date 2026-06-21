@@ -75,7 +75,7 @@ export default function ContactPage() {
                     Message sent!
                   </h3>
                   <p style={{ fontSize: 14, color: T.muted, fontFamily: T.bodyFont }}>
-                    Thank you. The Nexus team will review and reply within 12 hours.
+                    Merci, nous vous répondrons sous 24h.
                   </p>
                 </div>
               ) : (

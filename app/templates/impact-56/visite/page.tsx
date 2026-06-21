@@ -144,7 +144,7 @@ export default function VisitePage() {
                 <CheckCircle2 className="w-12 h-12 text-[#C4A265] mx-auto mb-6" />
                 <h4 className="text-2xl font-serif mb-4 leading-snug pb-1">Demande envoyée</h4>
                 <p className="text-zinc-300 text-sm leading-relaxed">
-                  Nous vous confirmerons votre réservation par email dans les 24 heures ouvrées.
+                  Merci, nous vous répondrons sous 24h.
                 </p>
               </div>
             ) : (

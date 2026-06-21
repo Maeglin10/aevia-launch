@@ -11,10 +11,11 @@ export default function ContactPage() {
     property: "",
     message: "",
   });
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert(`Consultation request received for property: ${formData.property}`);
+    setSubmitted(true);
   };
 
   return (
@@ -51,8 +52,13 @@ export default function ContactPage() {
             </Reveal>
           </div>
 
-          <div>
+           <div>
             <Reveal>
+              {submitted ? (
+                <div className="text-center py-16 space-y-4 bg-white/[0.01] border border-white/5 p-10 md:p-12">
+                  <p className="text-sm font-bold text-rose-600 uppercase tracking-widest">Merci, nous vous répondrons sous 24h.</p>
+                </div>
+              ) : (
               <form onSubmit={handleSubmit} className="space-y-8 bg-white/[0.01] border border-white/5 p-10 md:p-12">
                 <h3 className="text-xl font-black uppercase tracking-widest text-rose-600 mb-8 italic">
                   Node_Initialization_Form
@@ -122,6 +128,7 @@ export default function ContactPage() {
                   Submit_Scan_Request
                 </MagneticBtn>
               </form>
+              )}
             </Reveal>
           </div>
         </div>

@@ -121,7 +121,7 @@ export default function AtelierLayout({
                   {link.label}
                 </Link>
               ))}
-              <Link href="/templates/impact-66/legal" onClick={() => setMenuOpen(false)} style={{ textDecoration: "none", color: "inherit" }}>
+              <Link href="/legal/mentions-legales" onClick={() => setMenuOpen(false)} style={{ textDecoration: "none", color: "inherit" }}>
                 Mentions Légales
               </Link>
             </div>
@@ -223,7 +223,7 @@ export default function AtelierLayout({
               <span>
                 &copy; {new Date().getFullYear()} L'Atelier de Beauté.
               </span>
-              <Link href="/templates/impact-66/legal" className="hover:text-white transition-colors" style={{ textDecoration: "none", color: "inherit" }}>
+              <Link href="/legal/mentions-legales" className="hover:text-white transition-colors" style={{ textDecoration: "none", color: "inherit" }}>
                 Regulatory_Terms
               </Link>
             </div>

@@ -162,7 +162,7 @@ export default function Contact() {
                     margin: 0,
                   }}
                 >
-                  Merci. Un membre de l'atelier vous recontactera sous cinq jours ouvrés.
+                  Merci, nous vous répondrons sous 24h.
                 </p>
               </div>
             ) : (

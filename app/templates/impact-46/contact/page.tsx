@@ -55,7 +55,7 @@ export default function Contact() {
               <div style={{ border: `1px solid ${C.border}`, borderTop: `3px solid ${C.accent}`, padding: "56px 40px", textAlign: "center" as const, background: C.bgCard }}>
                 <Check size={30} color={C.accent} style={{ marginBottom: 18 }} />
                 <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 24, color: C.navy, marginBottom: 12, fontWeight: 700 }}>Message envoyé</div>
-                <p style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 15, color: C.textMuted, lineHeight: 1.7, margin: 0 }}>Merci. Un membre du cabinet vous répondra sous 24 heures ouvrées.</p>
+                <p style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 15, color: C.textMuted, lineHeight: 1.7, margin: 0 }}>Merci, nous vous répondrons sous 24h.</p>
               </div>
             ) : (
               <form onSubmit={e => { e.preventDefault(); setSent(true); }} style={{ background: C.bgCard, border: `1px solid ${C.border}`, borderTop: `3px solid ${C.accent}`, padding: "40px 36px" }}>

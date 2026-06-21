@@ -66,7 +66,7 @@ export default function ContactPage() {
                   <CheckCircle2 className="w-16 h-16 text-[#C9A86C] mx-auto mb-6" />
                   <h3 className="text-2xl font-serif text-[#1A1612] mb-2 font-normal" style={{ fontFamily: "'Libre Baskerville', serif" }}>Message envoyé</h3>
                   <p className="text-sm text-[#6B5A40] font-light max-w-sm mx-auto leading-relaxed">
-                    Merci pour votre intérêt. Notre équipe commerciale ou institutionnelle étudiera votre demande et vous répondra sous 48 heures ouvrées.
+                    Merci, nous vous répondrons sous 24h.
                   </p>
                   <button 
                     onClick={() => setFormSubmitted(false)}

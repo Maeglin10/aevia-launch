@@ -31,7 +31,7 @@ export default function ContactPage() {
                   Transmission Secure
                 </h3>
                 <p className="text-xs text-white/30 uppercase tracking-widest max-w-sm mx-auto leading-relaxed">
-                  Your project details have been archived. A senior computational architect will contact you within 24 business hours.
+                  Merci, nous vous répondrons sous 24h.
                 </p>
               </div>
             ) : (

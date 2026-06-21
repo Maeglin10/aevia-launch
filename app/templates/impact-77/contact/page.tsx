@@ -31,7 +31,7 @@ export default function ContactPage() {
                   Reservation Logged
                 </h3>
                 <p className="text-xs text-white/30 uppercase tracking-widest max-w-sm mx-auto leading-relaxed">
-                  Your reservation request has been transmitted. A concierge agent will verify your request via encrypted lines.
+                  Merci, nous vous répondrons sous 24h.
                 </p>
               </div>
             ) : (

@@ -215,7 +215,7 @@ export default function StructuraArchLayout({
                   </Link>
                 </li>
                 <li>
-                  <Link href="/templates/impact-76/legal" className="hover:text-white transition-colors">
+                  <Link href="/legal/mentions-legales" className="hover:text-white transition-colors">
                     Legal_Hub
                   </Link>
                 </li>
@@ -254,10 +254,10 @@ export default function StructuraArchLayout({
               <span>
                 &copy; {new Date().getFullYear()} STRUCTURA ARCHITECTURE Inc.
               </span>
-              <Link href="/templates/impact-76/legal" className="hover:text-white transition-colors">
+              <Link href="/legal/mentions-legales" className="hover:text-white transition-colors">
                 Regulatory_Terms
               </Link>
-              <Link href="/templates/impact-76/legal" className="hover:text-white transition-colors">
+              <Link href="/legal/mentions-legales" className="hover:text-white transition-colors">
                 Privacy_Buffer
               </Link>
             </div>

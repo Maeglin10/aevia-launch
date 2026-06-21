@@ -42,7 +42,7 @@ export default function Contact() {
               <div style={{ border: `1px solid ${C.border}`, padding: "48px 36px", textAlign: "center" as const, background: C.bgCard }}>
                 <div style={{ width: 56, height: 56, background: C.sageLight, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}><Check size={26} color={C.sage} /></div>
                 <div style={{ fontFamily: SERIF, fontSize: 24, color: C.accent, marginBottom: 10, fontWeight: 700 }}>Message envoyé</div>
-                <p style={{ fontFamily: SANS, fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>Merci ! Notre équipe vous répond sous 24h ouvrées.</p>
+                <p style={{ fontFamily: SANS, fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>Merci, nous vous répondrons sous 24h.</p>
               </div>
             ) : (
               <form onSubmit={e => { e.preventDefault(); setSent(true); }}>

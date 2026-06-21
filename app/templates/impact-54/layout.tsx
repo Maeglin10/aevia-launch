@@ -302,7 +302,7 @@ export default function Impact54Layout({
               links: [
                 { label: "About Atelier", href: "/templates/impact-54/about" },
                 { label: "Team Blog", href: "/templates/impact-54/blog" },
-                { label: "Legal Mentions", href: "/templates/impact-54/legal" },
+                { label: "Mentions légales", href: "/legal/mentions-legales" },
               ],
             },
           ].map((col, idx) => (
@@ -351,7 +351,7 @@ export default function Impact54Layout({
           </span>
           <div style={{ display: "flex", gap: 24 }}>
             <Link
-              href="/templates/impact-54/legal"
+              href="/legal/mentions-legales"
               style={{ textDecoration: "none", color: "inherit" }}
             >
               Mentions Légales
