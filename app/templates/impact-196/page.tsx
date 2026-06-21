@@ -97,9 +97,12 @@ export default function CabinetKinePage() {
           <span style={{ fontSize: 18, fontWeight: 300, color: scrolled ? C.text : "rgba(255,255,255,0.85)" }}> Mouvement</span>
         </div>
         <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="hidden md:flex">
-          {["Spécialités", "L'équipe", "Tarifs", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase().replace("'", "")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.75)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
-          ))}
+          {["Spécialités", "L'équipe", "Tarifs", "Contact"].map(l => {
+            const href = l === "Spécialités" ? "#spécialités" : l === "L'équipe" ? "#approche" : "#contact";
+            return (
+              <a key={l} href={href} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.75)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
+            );
+          })}
           <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>
             Prendre RDV
           </motion.a>
@@ -186,7 +189,7 @@ export default function CabinetKinePage() {
       </section>
 
       {/* Approche */}
-      <section style={{ padding: "100px 80px", background: C.bgSection }}>
+      <section id="approche" style={{ padding: "100px 80px", background: C.bgSection }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <Reveal>
             <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80" alt="Rééducation cabinet kiné" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
@@ -212,7 +215,7 @@ export default function CabinetKinePage() {
       </section>
 
       {/* Témoignages */}
-      <section style={{ padding: "100px 80px", background: C.text }}>
+      <section id="temoignages" style={{ padding: "100px 80px", background: C.text }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentLight }}>Témoignages</span>
@@ -271,7 +274,7 @@ export default function CabinetKinePage() {
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 18, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
           <span style={{ color: "rgba(255,255,255,0.24)", fontSize: 12 }}>© 2026 Kiné Mouvement — Site réalisé par Aevia WS</span>
-          <a href="/legal/mentions-legales" style={{ color: "rgba(255,255,255,0.24)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
+          <a href="#contact" style={{ color: "rgba(255,255,255,0.24)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
         </div>
       </footer>
     </div>
