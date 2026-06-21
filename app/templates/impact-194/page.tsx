@@ -1,513 +1,266 @@
+// @ts-nocheck
 "use client"
-
-import React, { useState, useEffect, useRef } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
-} from "framer-motion"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  Zap, Activity, Microscope, 
-  Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, Wifi, BarChart3, 
-  Fingerprint, Scan, Brain, Server, 
-  ShieldCheck, ShieldAlert, Award, 
-  Briefcase, Wind, Thermometer, 
-  Flame, Battery, Radio, Gauge, 
-  Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Satellite, 
-  Milestone, FlaskConical, FlaskRound, 
-  Ghost, Binary, Database, Search, 
-  Cpu, HeartPulse, Sun, Magnet, 
-  CircleDot, Waves, Pickaxe, Mountain, 
-  Gem, Rocket, Drill, PlaneTakeoff, 
-  GlobeIcon, Telescope, MilestoneIcon, 
-  Compass, Map, RadioIcon, Signal
-} from "lucide-react"
+import { ChefHat, Star, Phone, MapPin, Clock, CheckCircle, Utensils, Wine, Users, Truck, Gift, Camera, Menu } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-/* ==========================================================================
-   THE GRAVITY FORGE DATASET (ULTRA DENSITY)
-   ========================================================================== */
+/* ═══════════════════════════════════════════════════════════════════════════
+   TABLE D'EXCEPTION — Traiteur premium & buffets événementiels (Lyon)
+   Palette : blanc chaud #fefcf8 / champagne #d4a853 / bordeaux #7c2d3e / anthracite #1f1d1a
+   Fonts : Playfair Display (titres gastronomiques) + Source Sans 3
+   Style : gastronomique, festif, chaleur, prestige accessible
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-const GRAVITATIONAL_ASSETS = [
-  {
-    id: "gra-v4-42",
-    name: "Gravity-v4 Generator",
-    type: "Singularity Core",
-    tidal: "4.2 MG",
-    curvature: "92.4%",
-    stability: "99.8%",
-    desc: "Générateur de gravité artificielle utilisant une micro-singularité confinée pour manipuler la métrique de l'espace-temps environnant.",
-    status: "Warping"
-  },
-  {
-    id: "gra-war-08",
-    name: "Warp Link Alpha",
-    type: "Alcubierre Drive Module",
-    tidal: "1.2 MG",
-    curvature: "88.2%",
-    stability: "99.99%",
-    desc: "Module de propulsion à distorsion permettant le voyage supraluminique en pliant l'espace devant le vaisseau et en l'étirant derrière.",
-    status: "Stable Fold"
-  },
-  {
-    id: "gra-sin-15",
-    name: "Singularity Grid v5",
-    type: "Event Horizon Stabilizer",
-    tidal: "12 MG",
-    curvature: "98.8%",
-    stability: "99.4%",
-    desc: "Système de stabilisation critique pour les stations orbitales situées à proximité de trous noirs ou de zones de forte courbure spatiale.",
-    status: "Locked"
-  }
-]
-
-const SPACE_TIME_METRICS = [
-  { label: "Exotic Matter", value: "84.2%", trend: "Stable" },
-  { label: "Metric Flux", value: "0.002%", trend: "Optimal" },
-  { label: "Tidal Force", value: "4.2 MG", trend: "Increasing" },
-  { label: "Hawking Rad.", value: "NOMINAL", trend: "Controlled" }
-]
-
-const GRAVITY_LOGS = [
-  { timestamp: "24:14:42", unit: "Singularity-Core-01", status: "IGNITION", power: "1.2TW" },
-  { timestamp: "24:14:45", unit: "Warp-Bubble", status: "EXPANDING", velocity: "1.2c" },
-  { timestamp: "24:14:48", unit: "Horizon-Guard", status: "SECURE", drift: "0.001μm" }
-]
-
-/* ==========================================
-   TECHNICAL COMPONENTS
-   ========================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+function Reveal({ children, delay = 0, y = 22 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-60px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.95, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function SingularityFlowVisualizer() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+const PRESTATIONS = [
+  { icon: Users, title: "Cocktails & réceptions", desc: "Cocktail dînatoire, standing, mariage, gala. Buffets chauds et froids, bouchées minute, animations culinaires. De 20 à 800 personnes." },
+  { icon: ChefHat, title: "Repas assis & gastronomique", desc: "Menu 3 ou 5 services, carte personnalisée, régimes spéciaux. Chef à domicile ou en salle. Vaisselle premium, personnel de service inclus." },
+  { icon: Gift, title: "Plateaux repas entreprise", desc: "Plateaux livrés sous 24h. Formule midi, buffet réunion, petit-déjeuner d'équipe. Conditionnements individuels ou collectifs certifiés HACCP." },
+  { icon: Truck, title: "Livraison & installation", desc: "Livraison sur Lyon Métropole, montage des buffets, décoration de table. Équipe complète sur place selon formule. Reprise du matériel incluse." },
+  { icon: Wine, title: "Accord mets & vins", desc: "Sélection vins de la Vallée du Rhône, champagnes, cocktails sans alcool maison. Bar à eaux premium, infusions fraîches. Sommelier sur demande." },
+  { icon: Utensils, title: "Cuisine du monde & thème", desc: "Cuisine lyonnaise, méditerranéenne, asiatique, sud-américaine. Plancha, wok, live cooking, atelier dégustation. Décor de table thématique inclus." },
+]
+
+export default function TableExceptionPage() {
+  const heroRef = useRef(null)
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "22%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+  const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "8%"])
+
   useEffect(() => {
-    const handleMouse = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
-    window.addEventListener("mousemove", handleMouse)
-    return () => window.removeEventListener("mousemove", handleMouse)
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20">
-       <svg width="100%" height="100%" className="w-full h-full">
-          {[...Array(40)].map((_, i) => (
-            <motion.path 
-               key={i}
-               d={`M ${i * 50} 0 L ${i * 50} 1000 M 0 ${i * 25} L 2000 ${i * 25}`}
-               stroke="#06b6d4" 
-               strokeWidth="0.2" 
-               fill="none"
-               animate={{ 
-                  d: `M ${i * 50} 0 Q ${mousePos.x} ${mousePos.y} ${i * 50} 1000 M 0 ${i * 25} Q ${mousePos.x} ${mousePos.y} 2000 ${i * 25}` 
-               }}
-               transition={{ type: "spring", damping: 30, stiffness: 50 }}
-            />
-          ))}
-       </svg>
-    </div>
-  )
-}
+    <div className="bg-[#fefcf8] text-[#1f1d1a] overflow-x-hidden" style={{ fontFamily: "'Source Sans 3', 'Inter', system-ui, sans-serif" }}>
+      {/* ── NAVBAR ── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#fefcf8]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#d4a853]/12" : "bg-transparent py-7"}`}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <div>
+            <div className="font-bold tracking-wide text-[#1f1d1a] text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Table d'Exception</div>
+            <div className="text-[8px] font-bold uppercase tracking-[0.35em] text-[#d4a853]/60">Traiteur · Lyon & Rhône-Alpes</div>
+          </div>
+          <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1f1d1a]/28">
+            {["Formules", "Réalisations", "Devis", "Menu", "Contact"].map(l => (
+              <Link key={l} href="#" className="hover:text-[#d4a853] transition-colors">{l}</Link>
+            ))}
+          </div>
+          <div className="flex items-center gap-3">
+            <a href="tel:0478345678" className="hidden md:flex items-center gap-2 text-[#d4a853] font-bold text-sm">
+              <Phone className="w-4 h-4" /> 04 78 34 56 78
+            </a>
+            <button className="hidden md:block px-5 py-2.5 bg-[#d4a853] text-white text-[10px] font-bold uppercase tracking-[0.22em] hover:bg-[#ba9040] transition-colors">
+              Devis gratuit
+            </button>
+            <Sheet>
+              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5" /></button></SheetTrigger>
+              <SheetContent side="right" className="bg-[#fefcf8] border-slate-100 p-10">
+                <div className="flex flex-col gap-7 mt-16">
+                  {["Formules", "Réalisations", "Contact"].map(l => <Link key={l} href="#" className="text-3xl font-bold text-[#1f1d1a] hover:text-[#d4a853] transition-colors" style={{ fontFamily: "'Playfair Display', serif" }}>{l}</Link>)}
+                  <a href="tel:0478345678" className="flex items-center gap-3 text-[#d4a853] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 78 34 56 78</a>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+      </nav>
 
-function GravityForgeModel({ progress }: { progress: any }) {
-  const rotate = useTransform(progress, [0, 1], [0, 360])
-  const scale = useTransform(progress, [0, 0.5, 1], [1, 1.2, 1])
+      {/* ── HERO ── */}
+      <section ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
+        <motion.div style={{ y: heroY }} className="absolute inset-0">
+          <Image src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=88&w=2400" alt="Table gastronomique traiteur" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38)" }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#140f0a] via-[#140f0a]/45 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#140f0a]/70 to-transparent" />
+        </motion.div>
 
-  return (
-    <motion.div style={{ rotate, scale }} className="relative w-80 h-80 flex items-center justify-center">
-       <div className="absolute inset-0 border border-cyan-500/10 rounded-full animate-spin-slow shadow-[0_0_80px_rgba(6,182,212,0.05)]" />
-       <Orbit className="w-40 h-40 text-cyan-500/10 animate-pulse" />
-       <div className="absolute inset-8 border border-cyan-500/5 rounded-full" />
-    </motion.div>
-  )
-}
-
-/* ==========================================
-   THE GRAVITY FORGE - MAIN INTERFACE
-   ========================================== */
-
-export default function GravityForgePremium() {
-  const [activeAsset, setActiveAsset] = useState(0)
-  const [isWarpStable, setIsWarpStable] = useState(true)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Gravity Scroll Effects
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textX = useTransform(scrollYProgress, [0, 0.5], [0, 100])
-
-  return (
-    <div ref={containerRef} className="bg-[#02040c] text-[#e0e8ed] font-mono selection:bg-cyan-500/30 selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000">
-      
-      {/* GLOBAL HUD OVERLAY */}
-      <HUD_Overlay isWarpStable={isWarpStable} />
-
-      <main>
-        {/* ==========================================
-            1. GRAVITY IGNITION (HERO)
-            ========================================== */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-          <SingularityFlowVisualizer />
-          <motion.div style={{ opacity: heroOpacity }} className="absolute z-0 pointer-events-none flex items-center justify-center">
-             <GravityForgeModel progress={scrollYProgress} />
+        <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-30">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-10 h-[1px] bg-[#d4a853]/60" />
+              <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#d4a853]/65">Traiteur haut de gamme · Lyon & Rhône-Alpes</span>
+            </div>
           </motion.div>
 
-          <div className="relative z-10 text-center max-w-7xl">
-             <Reveal>
-                <div className="inline-flex items-center gap-4 px-6 py-2 border border-cyan-500/30 bg-cyan-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-cyan-500 mb-12 italic">
-                   <Orbit className="w-4 h-4" /> Forge_Sync: NOMINAL // Metric: STABLE
+          <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="text-5xl md:text-7xl lg:text-[90px] font-bold leading-[0.88] tracking-tight mb-4 text-[#fefcf8]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+            L'art de recevoir
+          </motion.h1>
+          <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.56, ease: [0.16, 1, 0.3, 1] }}
+            className="text-5xl md:text-7xl lg:text-[90px] font-bold italic leading-[0.88] tracking-tight mb-10 text-[#d4a853]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+            à la lyonnaise.
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
+            className="max-w-md text-sm text-[#fefcf8]/28 leading-relaxed mb-10">
+            Traiteur événementiel à Lyon. Mariages, séminaires, cocktails, repas gastronomiques. Chef et équipe complète. Devis personnalisé sous 24h.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-4 mb-8">
+            <button className="px-9 py-4 bg-[#d4a853] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#ba9040] transition-colors">
+              Devis personnalisé
+            </button>
+            <a href="tel:0478345678" className="flex items-center gap-3 px-9 py-4 border border-[#fefcf8]/12 text-[#fefcf8]/38 font-bold text-[10px] uppercase tracking-widest hover:border-[#d4a853]/40 hover:text-[#d4a853] transition-all">
+              <Phone className="w-4 h-4" /> 04 78 34 56 78
+            </a>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }} className="flex flex-wrap gap-5">
+            {["Devis 24h", "Chef & service inclus", "Certifié HACCP"].map((b, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <CheckCircle className="w-3.5 h-3.5 text-[#d4a853]" />
+                <span className="text-[10px] font-bold text-[#fefcf8]/28 uppercase tracking-wide">{b}</span>
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.4 }} className="w-[1px] h-10 bg-gradient-to-b from-[#d4a853]/50 to-transparent" />
+        </div>
+      </section>
+
+      {/* ── STATS ── */}
+      <section className="py-12 bg-[#f7f0e3]">
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-6">
+          {[
+            { v: "16 ans", l: "D'expérience" },
+            { v: "1 200+", l: "Événements réalisés" },
+            { v: "4.9★", l: "Note Google" },
+            { v: "800 pers.", l: "Capacité max" },
+          ].map((s, i) => (
+            <Reveal key={i} delay={i * 0.07}>
+              <div className="text-center p-5 bg-white shadow-sm">
+                <div className="text-2xl font-bold text-[#d4a853] mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>{s.v}</div>
+                <div className="text-[9px] font-bold uppercase tracking-widest text-[#1f1d1a]/30">{s.l}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── PRESTATIONS ── */}
+      <section className="py-28 bg-[#fefcf8]">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16">
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#d4a853] mb-4">Nos formules</div>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1f1d1a]" style={{ fontFamily: "'Playfair Display', serif" }}>
+                Pour chaque<br /><span className="italic text-[#d4a853]">occasion.</span>
+              </h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {PRESTATIONS.map((p, i) => (
+              <Reveal key={i} delay={i * 0.07}>
+                <div className="group p-8 bg-white border border-[#f0e8d5] hover:border-[#d4a853]/30 hover:shadow-xl hover:shadow-[#d4a853]/5 transition-all duration-500 h-full">
+                  <div className="w-10 h-10 bg-[#d4a853]/8 flex items-center justify-center mb-5 group-hover:bg-[#d4a853] transition-colors duration-500">
+                    <p.icon className="w-5 h-5 text-[#d4a853] group-hover:text-white transition-colors" />
+                  </div>
+                  <h3 className="font-bold text-[#1f1d1a] mb-3 group-hover:text-[#d4a853] transition-colors" style={{ fontFamily: "'Playfair Display', serif" }}>{p.title}</h3>
+                  <p className="text-sm text-[#1f1d1a]/38 leading-relaxed">{p.desc}</p>
                 </div>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic">
-                   Gravity <br/> <span className="text-white/5 italic">Forge.</span>
-                </motion.h1>
-                <p className="max-w-3xl mx-auto text-sm md:text-lg text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16 italic">
-                   La manipulation de l'espace-temps. Nous plions les lois fondamentales de la physique via des singularités contrôlées pour permettre le voyage interstellaire et la propulsion à distorsion.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                   <button className="px-12 py-6 bg-cyan-800 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(6,182,212,0.2)] flex items-center gap-4 italic">
-                      <Zap className="w-5 h-5" /> Initialize Warp
-                   </button>
-                   <button className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
-                      <Database className="w-5 h-5" /> Gravitational Registry
-                   </button>
-                </div>
-             </Reveal>
+              </Reveal>
+            ))}
           </div>
+        </div>
+      </section>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-12">
-             <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Forge_ID: GRAVITY-FORGE-01
+      {/* ── TÉMOIGNAGES ── */}
+      <section className="py-24 bg-[#1f1d1a] text-[#fefcf8]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#d4a853]/55 mb-4">— Ce qu'ils disent</div>
+            <h2 className="text-4xl font-bold text-[#fefcf8]" style={{ fontFamily: "'Playfair Display', serif" }}>
+              Des événements <span className="italic text-[#d4a853]">mémorables.</span>
+            </h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {[
+              { q: "Cocktail mariage pour 220 personnes, tout était parfait. La présentation des buffets épatante, les bouchées délicieuses, le service discret et rapide. Merci Table d'Exception !", n: "Anaïs & Pierre R.", l: "Mariage à Lyon · Mai 2025" },
+              { q: "Séminaire corporate avec repas assis 80 couverts. Menu sur mesure, chef présent, accords vins impeccables. Nos partenaires ont demandé le contact du traiteur dès le dessert.", n: "Directrice Générale · Lyon", l: "Groupe Solia · 60M€ CA" },
+              { q: "Plateaux repas récurrents pour nos 40 collaborateurs. Qualité constante, livraison à l'heure, variété impressionnante. C'est devenu un rituel d'équipe incontournable.", n: "Thomas V.", l: "RH · Startup Lyonnaise" },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="p-8 border border-[#fefcf8]/6 hover:border-[#d4a853]/20 transition-colors h-full flex flex-col">
+                  <div className="flex gap-1 mb-5">
+                    {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#d4a853] text-[#d4a853]" />)}
+                  </div>
+                  <p className="text-sm text-[#fefcf8]/30 leading-relaxed italic flex-1">{`"${t.q}"`}</p>
+                  <div className="mt-6 pt-5 border-t border-[#fefcf8]/6">
+                    <div className="font-bold text-[#fefcf8] text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>{t.n}</div>
+                    <div className="text-[10px] text-[#d4a853] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l}</div>
+                  </div>
                 </div>
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Status: SINGULARITY_LOCKED
-                </div>
-             </div>
-             <div className="text-right flex flex-col items-end gap-4">
-                <span className="text-[8px] font-black uppercase tracking-[0.5em] text-cyan-500">Space_Time_Metric_Stream</span>
-                <div className="flex gap-2 h-12 items-end">
-                   {[...Array(16)].map((_, i) => (
-                     <motion.div 
-                        key={i}
-                        animate={{ height: ["10%", "100%", "30%", "80%", "10%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                        className="w-2 bg-cyan-500/20"
-                     />
-                   ))}
-                </div>
-             </div>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ==========================================
-            2. GRAVITATIONAL REGISTRY (DENSE TECHNICAL)
-            ========================================== */}
-        <section className="py-60 bg-[#04081c] relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-              <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-                 <Reveal>
-                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-cyan-500 block mb-6 italic underline underline-offset-8 decoration-cyan-400/20">Gravitational // Assets</span>
-                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">Archives.</h2>
-                 </Reveal>
-                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Gravity_Audit</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-cyan-500">L'Architecture de la Distorsion Spatiale</p>
-                 </div>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 shadow-2xl">
-                 {GRAVITATIONAL_ASSETS.map((asset, i) => (
-                   <Reveal key={asset.id} delay={i * 0.1}>
-                      <div className="bg-[#02040c] p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
-                         <div className="flex justify-between items-start mb-16">
-                            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-cyan-800 group-hover:text-white transition-all duration-500">
-                               <Orbit className="w-8 h-8" />
-                            </div>
-                            <span className={`px-4 py-2 bg-white/5 text-[9px] font-black uppercase tracking-[0.3em] ${asset.status === "Warping" ? "text-cyan-500" : "text-white/40"}`}>{asset.status}</span>
-                         </div>
-                         
-                         <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{asset.name}</h3>
-                         <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-12">{asset.type}</div>
-                         
-                         <div className="space-y-8 mb-20 border-l border-cyan-500/20 pl-8">
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Tidal Force</span>
-                               <span className="text-white group-hover:text-cyan-400 transition-colors">{asset.tidal}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Curvature</span>
-                               <span className="text-white group-hover:text-cyan-400 transition-colors">{asset.curvature}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Stability</span>
-                               <span className="text-white group-hover:text-cyan-400 transition-colors">{asset.stability}</span>
-                            </div>
-                         </div>
-
-                         <p className="text-[12px] text-white/30 leading-loose uppercase tracking-[0.2em] font-bold italic mb-16">
-                            {asset.desc}
-                         </p>
-
-                         <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center">
-                            <span className="text-[10px] font-black text-white/10 uppercase tracking-widest">Ref: {asset.id}</span>
-                            <button className="text-[10px] font-black uppercase text-white/40 flex items-center gap-4 group-hover:text-white transition-all">
-                               Technical_Specs <ChevronRight className="w-5 h-5" />
-                            </button>
-                         </div>
-                      </div>
-                   </Reveal>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            3. SPACE-TIME MONITOR (INTERACTIVE DATA)
-            ========================================== */}
-        <section className="py-60 bg-black relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div>
-                    <Reveal>
-                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-cyan-500 block mb-12 italic underline underline-offset-8 decoration-cyan-500/20">Warp // Performance</span>
-                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">
-                          The <br/> <span className="not-italic font-black text-white/5 italic">Metric_Link.</span>
-                       </h2>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">
-                          Surveillance de la métrique de l'espace-temps en temps réel. Nos capteurs analysent la courbure et la stabilité de la bulle de distorsion pour garantir un transit interstellaire sans risque de désintégration.
-                       </p>
-                       <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
-                          {SPACE_TIME_METRICS.map((metric, i) => (
-                            <div key={i} className="p-16 bg-[#0a101c] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
-                               <div className="text-[10px] font-black uppercase text-cyan-500 mb-6 tracking-[0.4em]">{metric.label}</div>
-                               <div className="text-5xl font-black text-white italic mb-6 tracking-tighter group-hover:translate-x-4 transition-transform">{metric.value}</div>
-                               <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
-                                  <Activity className="w-4 h-4 text-cyan-500" /> {metric.trend}
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                       <button 
-                         onClick={() => setIsWarpStable(!isWarpStable)}
-                         className="w-full py-8 bg-cyan-950 text-white text-[11px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center gap-6 italic"
-                       >
-                          <Settings className="w-5 h-5" /> Re-Sync Gravity Nodes
-                       </button>
-                    </Reveal>
-                 </div>
-                 
-                 <div className="relative">
-                    <Reveal delay={0.3} x={40}>
-                       <div className="aspect-square bg-[#0a101c] border border-white/10 p-20 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 p-80 bg-cyan-400 opacity-[0.02] blur-[150px] rounded-full group-hover:opacity-[0.05] transition-opacity" />
-                          
-                          <div className="flex justify-between items-start z-10">
-                             <div className="flex flex-col gap-3">
-                                <span className="text-[10px] font-black text-white/10 uppercase tracking-[0.5em]">Forge_Link // METRIC-SYNC-v42</span>
-                                <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.6em]">Space_Time_Telemetry</span>
-                             </div>
-                             <Wifi className="w-6 h-6 text-cyan-400" />
-                          </div>
-                          
-                          {/* FORGE VISUALIZER (SVG) */}
-                          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                             <div className="w-64 h-64 border border-cyan-400/5 rounded-full flex items-center justify-center relative">
-                                <motion.div 
-                                  animate={{ rotate: 360 }}
-                                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-0 border-t-2 border-cyan-400/20 rounded-full" 
-                                />
-                                <motion.div 
-                                  animate={{ rotate: -360 }}
-                                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-8 border-b-2 border-cyan-400/10 rounded-full" 
-                                />
-                                <Zap className={`w-24 h-24 transition-colors duration-1000 ${isWarpStable ? "text-cyan-400 animate-pulse" : "text-white/5"}`} />
-                             </div>
-                             <div className="mt-16 text-center space-y-6">
-                                <div className={`text-4xl font-black italic tracking-tighter ${isWarpStable ? "text-white" : "text-white/20"}`}>
-                                   {isWarpStable ? "METRIC_SECURE" : "METRIC_DISRUPTION"}
-                                </div>
-                                <span className="text-[11px] font-bold text-white/10 uppercase tracking-[0.6em] block">Auth_Node: FORGE_UNIT_01</span>
-                             </div>
-                          </div>
-
-                          <div className="relative z-10 flex gap-6">
-                             <div className="flex-1 h-1 bg-white/5 overflow-hidden">
-                                <motion.div 
-                                   animate={isWarpStable ? { x: ["-100%", "100%"] } : {}}
-                                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-cyan-700"
-                                />
-                             </div>
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            4. GRAVITY STORY (TECH STORYTELLING)
-            ========================================== */}
-        <section className="py-60 bg-[#02040c] relative overflow-hidden border-t border-white/5">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">
-                    <Image 
-                       src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=1200&auto=format&fit=crop" 
-                       alt="Gravity Forge Infrastructure" 
-                       fill 
-                       className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"
-                    />
-                    <div className="absolute inset-0 bg-cyan-900/10 mix-blend-color group-hover:opacity-0 transition-opacity" />
-                    <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                       <div className="text-white">
-                          <span className="text-[11px] font-black uppercase tracking-[0.6em] text-cyan-500 mb-8 block italic underline underline-offset-8 decoration-cyan-400/20">Atelier // Metric // Unit</span>
-                          <h4 className="text-6xl font-black tracking-tighter uppercase italic mb-12 mix-blend-difference text-white">Singularity <br/> Fabric.</h4>
-                          <button className="flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/20 pb-4 hover:border-cyan-400 transition-all group">
-                             Warp Protocols <ExternalLink className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                          </button>
-                       </div>
-                    </div>
-                 </div>
-
-                 <div>
-                    <Reveal>
-                       <div className="mb-24 text-left">
-                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-cyan-500 mb-8 block italic">Chapitre III // Distorsion Spatiale</span>
-                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none text-white">Pure_Warp.</h2>
-                       </div>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">
-                          L'espace-temps est une membrane flexible. Nous utilisons des technologies de manipulation de gravité pour plier cette membrane, offrant une puissance de propulsion qui redéfinit les limites de l'exploration spatiale.
-                       </p>
-                       <div className="space-y-20">
-                          {[
-                            { t: "Vacuum Polarization", d: "Polarisation extrême du vide quantique pour générer l'énergie exotique nécessaire à la création d'une bulle de distorsion d'Alcubierre." },
-                            { t: "Gravity Folding", d: "Pliage contrôlé de la métrique spatiale devant le moteur à distorsion pour réduire la distance parcourue de manière exponentielle." },
-                            { t: "Horizon Management", d: "Gestion chirurgicale de l'horizon des événements de la micro-singularité pour éviter toute émission de radiation de Hawking dangereuse." }
-                          ].map((step, i) => (
-                            <div key={i} className="group flex gap-12 border-b border-white/5 pb-16 hover:border-cyan-400/20 transition-all cursor-default">
-                               <div className="text-6xl font-black text-white/5 group-hover:text-cyan-400/20 transition-colors italic leading-none">0{i+1}</div>
-                               <div>
-                                  <h5 className="text-3xl font-black uppercase tracking-tight text-white mb-6 italic group-hover:translate-x-4 transition-transform text-white">{step.t}</h5>
-                                  <p className="text-[12px] text-white/20 uppercase tracking-[0.3em] font-bold leading-loose italic">{step.d}</p>
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* MEGA FOOTER */}
-        <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-              <div className="lg:col-span-2">
-                 <div className="flex items-center gap-6 mb-16">
-                    <div className="w-16 h-16 bg-cyan-800 flex items-center justify-center">
-                      <Orbit className="w-10 h-10 text-white" />
-                    </div>
-                    <span className="text-4xl font-black uppercase tracking-tighter italic">GRAVITY<span className="text-white/20">FORGE.</span></span>
-                 </div>
-                 <p className="text-white/20 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
-                    "L'avenir de l'humanité est interstellaire." — Archive Forge V.42
-                 </p>
-                 <div className="flex gap-16">
-                    {["ForgeLog", "GravityRegistry", "GitHub", "X_Protocol"].map(s => (
-                      <Link key={s} href="#" className="text-[11px] font-black uppercase tracking-widest text-white/20 hover:text-cyan-400 transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
-                    ))}
-                 </div>
-              </div>
-
-              {[
-                { t: "GENERATORS", l: ["Gravity-v4 Gen", "Singularity Grid v5", "Warp Link Alpha", "Axiom-G"] },
-                { t: "TECHNOLOGY", l: ["Vacuum Pol.", "Metric Folding", "Horizon Sync", "SLA Reports"] },
-                { t: "ATELIER", l: ["Our Legacy", "Metric Ethics", "Locations", "Support"] }
-              ].map((col, i) => (
-                <div key={i} className="flex flex-col gap-12">
-                  <h4 className="text-[11px] font-black text-cyan-400 uppercase tracking-[0.6em] italic">{col.t}</h4>
-                  <ul className="flex flex-col gap-8">
-                    {col.l.map(link => (
-                      <li key={link} className="text-[11px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-[0.4em] italic">{link}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-           </div>
-
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 GRAVITY FORGE PROPULSION SYSTEMS AG. // ALL_RIGHTS_RESERVED</span>
-              <div className="flex gap-16">
-                 <span>STATUS: OPERATIONAL</span>
-                 <span>METRIC: STABLE</span>
-                 <span>v4.12.0-STABLE</span>
-              </div>
-           </div>
-        </footer>
-      </main>
-    </div>
-  )
-}
-
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
-
-function HUD_Overlay({ isWarpStable }: { isWarpStable: boolean }) {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Corner Brackets */}
-       <div className={`absolute top-12 left-12 w-20 h-20 border-t-2 border-l-2 transition-colors duration-1000 ${isWarpStable ? "border-cyan-400" : "border-white/10"}`} />
-       <div className={`absolute top-12 right-12 w-20 h-20 border-t-2 border-r-2 transition-colors duration-1000 ${isWarpStable ? "border-cyan-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 left-12 w-20 h-20 border-b-2 border-l-2 transition-colors duration-1000 ${isWarpStable ? "border-cyan-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 right-12 w-20 h-20 border-b-2 border-r-2 transition-colors duration-1000 ${isWarpStable ? "border-cyan-400" : "border-white/10"}`} />
-
-       {/* Top Status Bar */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-20 bg-black/60 backdrop-blur-2xl px-12 py-4 border border-white/10 rounded-none">
-          <div className="flex items-center gap-6 text-white">
-             <div className={`w-3 h-3 transition-colors duration-500 ${isWarpStable ? "bg-cyan-400 animate-pulse" : "bg-red-500 animate-ping"}`} />
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Forge_Sync: {isWarpStable ? "NOMINAL" : "METRIC_DISRUPTION"} // Status: ACTIVE</span>
+      {/* ── CTA ── */}
+      <section className="py-24 bg-[#7c2d3e] text-center">
+        <Reveal>
+          <div className="max-w-xl mx-auto px-6">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-5">Votre prochain événement</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Playfair Display', serif" }}>
+              Ensemble, créons<br /><span className="italic">l'exception.</span>
+            </h2>
+            <p className="text-white/45 mb-10 text-sm">Devis personnalisé sous 24h · Lyon & Rhône-Alpes · Chef & équipe inclus</p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <button className="px-10 py-4 bg-white text-[#7c2d3e] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#fefcf8] transition-colors shadow-lg">
+                Demander un devis
+              </button>
+              <a href="tel:0478345678" className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
+                <Phone className="w-4 h-4" /> 04 78 34 56 78
+              </a>
+            </div>
           </div>
-          <div className="h-4 w-px bg-white/20" />
-          <div className="flex items-center gap-6 text-white/20">
-             <Wifi className="w-4 h-4" /> 
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Gravitational_Grid: SECURE</span>
-          </div>
-       </div>
+        </Reveal>
+      </section>
 
-       {/* Right Rotation Info */}
-       <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-white/5 italic">Unauthorized_Duplication_Of_Metric_Patterns_Is_Strictly_Monitored_By_Global_Gravity_Alliance</span>
-       </div>
+      {/* ── FOOTER ── */}
+      <footer className="bg-[#140f0a] pt-20 pb-10 px-6">
+        <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          <div>
+            <div className="font-bold text-[#fefcf8] mb-1 text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>Table d'Exception</div>
+            <div className="text-[8px] font-bold uppercase tracking-[0.35em] text-[#d4a853]/40 mb-5">Traiteur · Lyon</div>
+            <p className="text-[#fefcf8]/15 text-sm leading-relaxed">Traiteur haut de gamme à Lyon. Mariages, corporate, cocktails, plateaux. Chef et équipe sur place.</p>
+          </div>
+          {[
+            { t: "Formules", ls: ["Cocktails & réceptions", "Repas assis", "Plateaux repas", "Livraison & installation", "Cuisine du monde"] },
+            { t: "Infos", ls: ["Notre chef", "Portfolio", "Zone d'intervention", "Tarifs", "FAQ"] },
+            { t: "Contact", ls: ["04 78 34 56 78", "contact@table-exception.fr", "Lyon & Rhône-Alpes", "Lun-Sam 8h-19h", "Devis sous 24h"] },
+          ].map((col, i) => (
+            <div key={i}>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#d4a853]/35 mb-5">{col.t}</h4>
+              <ul className="space-y-2.5">
+                {col.ls.map(l => <li key={l}><Link href="#" className="text-[#fefcf8]/15 text-sm hover:text-[#fefcf8]/50 transition-colors">{l}</Link></li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-[#fefcf8]/8">
+          <span>© 2026 Table d'Exception · SIRET 789 012 345 00066 · Traiteur agréé · Lyon (69)</span>
+          <span className="text-[#d4a853]/15">L'art de recevoir</span>
+        </div>
+      </footer>
     </div>
   )
 }

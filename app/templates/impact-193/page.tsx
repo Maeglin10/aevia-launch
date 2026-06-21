@@ -1,526 +1,276 @@
+// @ts-nocheck
 "use client"
-
-import React, { useState, useEffect, useRef } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
-} from "framer-motion"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  Zap, Activity, Microscope, 
-  Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, Wifi, BarChart3, 
-  Fingerprint, Scan, Brain, Server, 
-  ShieldCheck, ShieldAlert, Award, 
-  Briefcase, Wind, Thermometer, 
-  Flame, Battery, Radio, Gauge, 
-  Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Satellite, 
-  Milestone, FlaskConical, FlaskRound, 
-  Ghost, Binary, Database, Search, 
-  Cpu, HeartPulse, Sun, Magnet, 
-  CircleDot, Waves, Pickaxe, Mountain, 
-  Gem, Rocket, Drill, PlaneTakeoff, 
-  Dna, Heart, Stethoscope, Syringe, 
-  Tablets, Crosshair, Sparkle
-} from "lucide-react"
+import { Heart, Wind, Hand, Star, Phone, MapPin, Clock, CheckCircle, Leaf, Circle, Calendar, Menu } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-/* ==========================================================================
-   THE BIO-SYNC DATASET (ULTRA DENSITY)
-   ========================================================================== */
+/* ═══════════════════════════════════════════════════════════════════════════
+   OSTÉO GAÏA — Ostéopathe D.O. (Montpellier)
+   Palette : sable doux #f5f0e8 / terracotta #c26b4c / brun chaud #5a3825 / beige foncé #3a2e28
+   Fonts : Libre Baskerville (titres humanistes) + Lato
+   Style : bien-être, corps, soin, chaleureux, corporel, confiance
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-const BIOLOGICAL_ASSETS = [
-  {
-    id: "bio-v4-42",
-    name: "Bio-v4 Printer",
-    type: "3D Tissue Sculptor",
-    viability: "99.8%",
-    density: "1.4B cells/cm³",
-    maturation: "12 Days",
-    desc: "Unité de bio-impression haute résolution capable de structurer des tissus multicellulaires avec une précision micrométrique.",
-    status: "Printing"
-  },
-  {
-    id: "bio-tis-08",
-    name: "Tissue Link Alpha",
-    type: "Nutrient Perfusion Hub",
-    viability: "99.99%",
-    density: "850M cells/cm³",
-    maturation: "24 Days",
-    desc: "Système de perfusion automatisé garantissant l'apport optimal en nutriments et oxygène lors de la maturation tissulaire.",
-    status: "Stable Flow"
-  },
-  {
-    id: "bio-org-15",
-    name: "Organ Grid v5",
-    type: "Synthetic Organ Incubator",
-    viability: "99.4%",
-    density: "2.8B cells/cm³",
-    maturation: "45 Days",
-    desc: "Incubateur à grande échelle pour la croissance d'organes de synthèse complexes (cœurs, reins, poumons) à partir de cellules autologues.",
-    status: "Maturing"
-  }
-]
-
-const TISSUE_METRICS = [
-  { label: "Oxygenation", value: "98.2%", trend: "Optimal" },
-  { label: "Proliferation", value: "12.4%", trend: "Stable" },
-  { label: "Nutrient Flow", value: "45 ml/h", trend: "Peak" },
-  { label: "Viability", value: "99.8%", trend: "Constant" }
-]
-
-const BIO_LOGS = [
-  { timestamp: "22:14:42", unit: "Cell-Module-01", status: "MITOSIS", rate: "1.2%" },
-  { timestamp: "22:14:45", unit: "Scaffold-Sync", status: "PRINTING", layer: "442/1200" },
-  { timestamp: "22:14:48", unit: "Bio-Guard", status: "SECURE", temp: "37.2°C" }
-]
-
-/* ==========================================
-   TECHNICAL COMPONENTS
-   ========================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+function Reveal({ children, delay = 0, y = 20 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-55px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.95, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function OrganFlowVisualizer() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+const PRISES_EN_CHARGE = [
+  { icon: Wind, title: "Douleurs du dos & lombalgies", desc: "Cervicalgie, dorsalgie, lombalgie, sciatique. Traitement manuel des restrictions de mobilité articulaire et musculaire. Soins adaptés aux douleurs chroniques et aiguës." },
+  { icon: Heart, title: "Suivi grossesse & nourrissons", desc: "Accompagnement périnatal, préparation à l'accouchement, suivi post-partum. Traitement des coliques, régurgitations et troubles du sommeil chez le nourrisson." },
+  { icon: Hand, title: "Troubles musculo-squelettiques", desc: "Tendinites, entorses, tensions musculaires, troubles de la posture. Prise en charge préventive avant et récupérative après activité sportive." },
+  { icon: Circle, title: "Céphalées & migraines", desc: "Migraines de tension, céphalées cervicogéniques. Traitement des zones de tension crâniennes et cervicales. Suivi sur plusieurs séances pour réduire la fréquence." },
+  { icon: Leaf, title: "Digestion & viscéral", desc: "Syndrome de l'intestin irritable, colopathie fonctionnelle, RGO, constipation. Ostéopathie viscérale douce sur les organes et leurs attaches." },
+  { icon: Calendar, title: "Sportifs & préparation physique", desc: "Bilan ostéo préventif avant saison, récupération post-blessure, optimisation mobilité articulaire. Suivi de sportifs amateurs et semi-professionnels." },
+]
+
+export default function OsteoGaiaPage() {
+  const heroRef = useRef(null)
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+  const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "8%"])
+
   useEffect(() => {
-    const handleMouse = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
-    window.addEventListener("mousemove", handleMouse)
-    return () => window.removeEventListener("mousemove", handleMouse)
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20">
-       <svg width="100%" height="100%" className="w-full h-full">
-          {[...Array(20)].map((_, i) => (
-            <motion.circle 
-               key={i}
-               cx={mousePos.x + (Math.random() - 0.5) * 600}
-               cy={mousePos.y + (Math.random() - 0.5) * 600}
-               r={Math.random() * 20}
-               fill="#f472b6"
-               animate={{ 
-                  opacity: [0, 0.3, 0], 
-                  scale: [0.5, 1.5, 0.5],
-                  filter: ["blur(4px)", "blur(12px)", "blur(4px)"]
-               }}
-               transition={{ duration: 4, repeat: Infinity, delay: i * 0.2 }}
-            />
-          ))}
-          {[...Array(10)].map((_, i) => (
-            <motion.path 
-               key={`tissue-${i}`}
-               d={`M ${Math.random() * 2000} ${Math.random() * 1000} Q ${Math.random() * 2000} ${Math.random() * 1000} ${Math.random() * 2000} ${Math.random() * 1000}`}
-               stroke="#f472b6" 
-               strokeWidth="0.5" 
-               fill="none"
-               animate={{ d: `M ${mousePos.x} ${mousePos.y} Q ${mousePos.x + 200} ${mousePos.y - 200} ${Math.random() * 2000} ${Math.random() * 1000}` }}
-               transition={{ type: "spring", damping: 30, stiffness: 50 }}
-            />
-          ))}
-       </svg>
-    </div>
-  )
-}
+    <div className="bg-[#f5f0e8] text-[#3a2e28] overflow-x-hidden" style={{ fontFamily: "'Lato', 'Inter', system-ui, sans-serif" }}>
+      {/* ── NAVBAR ── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f5f0e8]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#c26b4c]/10" : "bg-transparent py-7"}`}>
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <div>
+            <div className="font-bold text-[#3a2e28] text-sm" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>Ostéo Gaïa</div>
+            <div className="text-[8px] font-bold uppercase tracking-[0.35em] text-[#c26b4c]/60">Ostéopathe D.O. · Montpellier</div>
+          </div>
+          <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#3a2e28]/30">
+            {["Soins", "L'approche", "Tarifs", "Agenda", "Contact"].map(l => (
+              <Link key={l} href="#" className="hover:text-[#c26b4c] transition-colors">{l}</Link>
+            ))}
+          </div>
+          <div className="flex items-center gap-3">
+            <a href="tel:0467891234" className="hidden md:flex items-center gap-2 text-[#c26b4c] font-bold text-sm">
+              <Phone className="w-4 h-4" /> 04 67 89 12 34
+            </a>
+            <button className="hidden md:block px-5 py-2.5 bg-[#c26b4c] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#a85a3c] transition-colors rounded-lg">
+              Prendre RDV
+            </button>
+            <Sheet>
+              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5" /></button></SheetTrigger>
+              <SheetContent side="right" className="bg-[#f5f0e8] border-slate-200 p-10">
+                <div className="flex flex-col gap-7 mt-16">
+                  {["Soins", "L'approche", "Contact"].map(l => <Link key={l} href="#" className="text-3xl font-bold text-[#3a2e28] hover:text-[#c26b4c] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif" }}>{l}</Link>)}
+                  <a href="tel:0467891234" className="flex items-center gap-3 text-[#c26b4c] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 67 89 12 34</a>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+      </nav>
 
-function BioSyncModel({ progress }: { progress: any }) {
-  const rotate = useTransform(progress, [0, 1], [0, 360])
-  const scale = useTransform(progress, [0, 0.5, 1], [1, 1.2, 1])
+      {/* ── HERO ── */}
+      <section ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
+        <motion.div style={{ y: heroY }} className="absolute inset-0">
+          <Image src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=85&w=2400" alt="Traitement ostéopathique manuel" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38) saturate(0.8)" }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#231a14] via-[#231a14]/45 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#231a14]/70 to-transparent" />
+        </motion.div>
 
-  return (
-    <motion.div style={{ rotate, scale }} className="relative w-80 h-80 flex items-center justify-center">
-       <div className="absolute inset-0 border border-pink-500/10 rounded-full animate-spin-slow shadow-[0_0_80px_rgba(244,114,182,0.05)]" />
-       <HeartPulse className="w-40 h-40 text-pink-500/10 animate-pulse" />
-       <div className="absolute inset-8 border border-pink-500/5 rounded-full" />
-    </motion.div>
-  )
-}
-
-/* ==========================================
-   THE BIO-SYNC - MAIN INTERFACE
-   ========================================== */
-
-export default function BioSyncPremium() {
-  const [activeAsset, setActiveAsset] = useState(0)
-  const [isViabilityStable, setIsViabilityStable] = useState(true)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Bio Scroll Effects
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textX = useTransform(scrollYProgress, [0, 0.5], [0, -100])
-
-  return (
-    <div ref={containerRef} className="bg-[#0c0206] text-[#e0e8ed] font-mono selection:bg-pink-500/30 selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000">
-      
-      {/* GLOBAL HUD OVERLAY */}
-      <HUD_Overlay isViabilityStable={isViabilityStable} />
-
-      <main>
-        {/* ==========================================
-            1. BIO IGNITION (HERO)
-            ========================================== */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-          <OrganFlowVisualizer />
-          <motion.div style={{ opacity: heroOpacity }} className="absolute z-0 pointer-events-none flex items-center justify-center">
-             <BioSyncModel progress={scrollYProgress} />
+        <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1300px] w-full mx-auto px-6 md:px-12 pb-28">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-8 h-[1px] bg-[#c26b4c]/70" />
+              <span className="text-[9px] font-bold uppercase tracking-[0.45em] text-[#d4937a]">Ostéopathe diplômée D.O. · Montpellier</span>
+            </div>
           </motion.div>
 
-          <div className="relative z-10 text-center max-w-7xl">
-             <Reveal>
-                <div className="inline-flex items-center gap-4 px-6 py-2 border border-pink-500/30 bg-pink-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-pink-500 mb-12 italic">
-                   <HeartPulse className="w-4 h-4" /> Hub_Sync: NOMINAL // Viability: 99.8%
+          <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="text-5xl md:text-7xl lg:text-[84px] font-bold leading-[0.9] tracking-tight mb-7 text-[#f5f0e8]" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>
+            Retrouvez l'équilibre<br /><span className="text-[#c26b4c] italic">de votre corps.</span>
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
+            className="max-w-md text-sm text-[#f5f0e8]/30 leading-relaxed mb-10">
+            Cabinet d'ostéopathie à Montpellier. Douleurs du dos, nourrissons, sportifs, grossesse. Approche globale, douce et personnalisée. Prise en charge mutuelle partielle.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-4">
+            <button className="px-9 py-4 bg-[#c26b4c] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#a85a3c] transition-colors rounded-lg">
+              Prendre rendez-vous
+            </button>
+            <a href="tel:0467891234" className="flex items-center gap-3 px-9 py-4 border border-[#f5f0e8]/12 text-[#f5f0e8]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[#c26b4c]/40 hover:text-[#d4937a] transition-all rounded-lg">
+              <Phone className="w-4 h-4" /> 04 67 89 12 34
+            </a>
+          </motion.div>
+        </motion.div>
+
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.5 }} className="w-[1px] h-10 bg-gradient-to-b from-[#c26b4c]/50 to-transparent" />
+        </div>
+      </section>
+
+      {/* ── CONFIANCE ── */}
+      <section className="py-10 bg-[#ede6d9]">
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12 flex flex-wrap gap-6 justify-center md:justify-between">
+          {["Diplômée IFSO Montpellier", "Remboursement mutuelle", "Nourrissons & grossesse", "Suivi sportifs"].map((b, i) => (
+            <Reveal key={i} delay={i * 0.06}>
+              <div className="flex items-center gap-3">
+                <CheckCircle className="w-4 h-4 text-[#c26b4c]" />
+                <span className="text-sm font-bold text-[#3a2e28]">{b}</span>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── SOINS ── */}
+      <section className="py-28 bg-[#f5f0e8]">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16">
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c26b4c] mb-4">Prises en charge</div>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#3a2e28]" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                Votre corps mérite<br /><span className="text-[#c26b4c] italic">d'être écouté.</span>
+              </h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {PRISES_EN_CHARGE.map((s, i) => (
+              <Reveal key={i} delay={i * 0.07}>
+                <div className="group p-8 bg-white rounded-xl border border-[#ede6d9] hover:border-[#c26b4c]/25 hover:shadow-lg hover:shadow-[#c26b4c]/5 transition-all duration-500 h-full">
+                  <div className="w-10 h-10 bg-[#c26b4c]/8 rounded-xl flex items-center justify-center mb-5 group-hover:bg-[#c26b4c] transition-colors duration-500">
+                    <s.icon className="w-5 h-5 text-[#c26b4c] group-hover:text-white transition-colors" />
+                  </div>
+                  <h3 className="font-bold text-[#3a2e28] mb-3 group-hover:text-[#c26b4c] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif" }}>{s.title}</h3>
+                  <p className="text-sm text-[#3a2e28]/38 leading-relaxed">{s.desc}</p>
                 </div>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic">
-                   Bio <br/> <span className="text-white/5 italic">Sync.</span>
-                </motion.h1>
-                <p className="max-w-3xl mx-auto text-sm md:text-lg text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16 italic">
-                   L'ingénierie de la vie. Nous sculptons des tissus et des organes de synthèse via des technologies de bio-impression haute résolution, offrant des solutions de transplantation personnalisées et durables.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                   <button className="px-12 py-6 bg-pink-800 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(244,114,182,0.2)] flex items-center gap-4 italic">
-                      <Microscope className="w-5 h-5" /> Initialize Printing
-                   </button>
-                   <button className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
-                      <Database className="w-5 h-5" /> Biological Registry
-                   </button>
-                </div>
-             </Reveal>
+              </Reveal>
+            ))}
           </div>
+        </div>
+      </section>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-12">
-             <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Bio_ID: BIO-SYNC-01
+      {/* ── L'APPROCHE ── */}
+      <section className="py-24 bg-[#3a2e28] text-[#f5f0e8]">
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          <Reveal>
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c26b4c]/60 mb-5">L'approche Gaïa</div>
+              <h2 className="text-4xl font-bold text-[#f5f0e8] mb-7" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                Traiter la cause,<br /><span className="text-[#c26b4c] italic">pas le symptôme.</span>
+              </h2>
+              <p className="text-[#f5f0e8]/40 leading-relaxed text-sm mb-6">
+                L'ostéopathie part du principe que le corps a la capacité de s'autoréguler. Mon rôle est d'identifier et de lever les restrictions qui l'en empêchent — qu'elles soient musculo-squelettiques, viscérales ou crânio-sacrées.
+              </p>
+              <p className="text-[#f5f0e8]/40 leading-relaxed text-sm mb-8">
+                Chaque consultation commence par une anamnèse complète et un bilan postural. Les techniques employées sont adaptées à votre sensibilité : jamais de geste brusque sans accord préalable.
+              </p>
+              <div className="flex gap-4">
+                <button className="px-7 py-3.5 bg-[#c26b4c] text-white font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-[#a85a3c] transition-colors rounded-lg">
+                  Prendre RDV
+                </button>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <div className="relative aspect-[4/5] overflow-hidden rounded-xl">
+              <Image src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=85&w=800" alt="Cabinet ostéopathie" fill className="object-cover" style={{ filter: "brightness(0.7) saturate(0.8)" }} />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── TÉMOIGNAGES ── */}
+      <section className="py-28 bg-white">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14 text-center">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c26b4c] mb-4">Patients</div>
+            <h2 className="text-4xl font-bold text-[#3a2e28]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Ce qu'ils <span className="text-[#c26b4c] italic">ressentent.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {[
+              { q: "Sciatique depuis 3 mois, aucun soulagement avec les médicaments. Après 2 séances avec Emma, la douleur a diminué de 70%. Je recommence à marcher normalement.", n: "Frédéric H.", l: "Montpellier" },
+              { q: "Mon fils de 6 semaines avait des coliques intenses. Deux séances d'ostéopathie crânienne et les cris nocturnes ont quasiment disparu. Je n'aurais pas cru si je ne l'avais pas vécu.", n: "Camille & Maxime D.", l: "Lattes (34)" },
+              { q: "Suivi trimestriel depuis ma grossesse jusqu'à maintenant (14 mois post-partum). Emma est bienveillante, pédagogue, ses mains savent exactement où aller. Une vraie experte.", n: "Louise M.", l: "Palavas-les-Flots" },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="p-8 bg-[#f5f0e8] rounded-xl border border-[#ede6d9] h-full flex flex-col">
+                  <div className="flex gap-1 mb-5">
+                    {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#c26b4c] text-[#c26b4c]" />)}
+                  </div>
+                  <p className="text-sm text-[#3a2e28]/45 leading-relaxed italic flex-1">{`"${t.q}"`}</p>
+                  <div className="mt-6 pt-5 border-t border-[#ede6d9]">
+                    <div className="font-bold text-[#3a2e28] text-sm">{t.n}</div>
+                    <div className="text-[10px] text-[#c26b4c] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l}</div>
+                  </div>
                 </div>
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Status: MATURATION_LOCKED_ACTIVE
-                </div>
-             </div>
-             <div className="text-right flex flex-col items-end gap-4">
-                <span className="text-[8px] font-black uppercase tracking-[0.5em] text-pink-500">Tissue_Proliferation_Stream</span>
-                <div className="flex gap-2 h-12 items-end">
-                   {[...Array(16)].map((_, i) => (
-                     <motion.div 
-                        key={i}
-                        animate={{ height: ["10%", "100%", "30%", "80%", "10%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                        className="w-2 bg-pink-500/20"
-                     />
-                   ))}
-                </div>
-             </div>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ==========================================
-            2. BIOLOGICAL REGISTRY (DENSE TECHNICAL)
-            ========================================== */}
-        <section className="py-60 bg-[#14040c] relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-              <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-                 <Reveal>
-                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-pink-500 block mb-6 italic underline underline-offset-8 decoration-pink-400/20">Biological // Assets</span>
-                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">Archives.</h2>
-                 </Reveal>
-                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Bio_Audit</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-pink-500">L'Architecture de la Sculpture Cellulaire</p>
-                 </div>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 shadow-2xl">
-                 {BIOLOGICAL_ASSETS.map((asset, i) => (
-                   <Reveal key={asset.id} delay={i * 0.1}>
-                      <div className="bg-[#0c0206] p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
-                         <div className="flex justify-between items-start mb-16">
-                            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-pink-800 group-hover:text-white transition-all duration-500">
-                               <Dna className="w-8 h-8" />
-                            </div>
-                            <span className={`px-4 py-2 bg-white/5 text-[9px] font-black uppercase tracking-[0.3em] ${asset.status === "Printing" ? "text-pink-500" : "text-white/40"}`}>{asset.status}</span>
-                         </div>
-                         
-                         <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{asset.name}</h3>
-                         <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-12">{asset.type}</div>
-                         
-                         <div className="space-y-8 mb-20 border-l border-pink-500/20 pl-8">
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Viability</span>
-                               <span className="text-white group-hover:text-pink-400 transition-colors">{asset.viability}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Cell Density</span>
-                               <span className="text-white group-hover:text-pink-400 transition-colors">{asset.density}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Maturation</span>
-                               <span className="text-white group-hover:text-pink-400 transition-colors">{asset.maturation}</span>
-                            </div>
-                         </div>
-
-                         <p className="text-[12px] text-white/30 leading-loose uppercase tracking-[0.2em] font-bold italic mb-16">
-                            {asset.desc}
-                         </p>
-
-                         <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center">
-                            <span className="text-[10px] font-black text-white/10 uppercase tracking-widest">Ref: {asset.id}</span>
-                            <button className="text-[10px] font-black uppercase text-white/40 flex items-center gap-4 group-hover:text-white transition-all">
-                               Technical_Specs <ChevronRight className="w-5 h-5" />
-                            </button>
-                         </div>
-                      </div>
-                   </Reveal>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            3. TISSUE MONITOR (INTERACTIVE DATA)
-            ========================================== */}
-        <section className="py-60 bg-black relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div>
-                    <Reveal>
-                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-pink-500 block mb-12 italic underline underline-offset-8 decoration-pink-500/20">Tissue // Performance</span>
-                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">
-                          The <br/> <span className="not-italic font-black text-white/5 italic">Bio_Link.</span>
-                       </h2>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">
-                          Surveillance de l'intégrité tissulaire en temps réel. Nos capteurs biologiques analysent l'oxygénation et la prolifération cellulaire pour garantir une maturation parfaite des organes.
-                       </p>
-                       <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
-                          {TISSUE_METRICS.map((metric, i) => (
-                            <div key={i} className="p-16 bg-[#1c0a10] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
-                               <div className="text-[10px] font-black uppercase text-pink-500 mb-6 tracking-[0.4em]">{metric.label}</div>
-                               <div className="text-5xl font-black text-white italic mb-6 tracking-tighter group-hover:translate-x-4 transition-transform">{metric.value}</div>
-                               <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
-                                  <Activity className="w-4 h-4 text-pink-500" /> {metric.trend}
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                       <button 
-                         onClick={() => setIsViabilityStable(!isViabilityStable)}
-                         className="w-full py-8 bg-pink-950 text-white text-[11px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center gap-6 italic"
-                       >
-                          <Settings className="w-5 h-5" /> Re-Sync Biological Nodes
-                       </button>
-                    </Reveal>
-                 </div>
-                 
-                 <div className="relative">
-                    <Reveal delay={0.3} x={40}>
-                       <div className="aspect-square bg-[#1c0a10] border border-white/10 p-20 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 p-80 bg-pink-400 opacity-[0.02] blur-[150px] rounded-full group-hover:opacity-[0.05] transition-opacity" />
-                          
-                          <div className="flex justify-between items-start z-10">
-                             <div className="flex flex-col gap-3">
-                                <span className="text-[10px] font-black text-white/10 uppercase tracking-[0.5em]">Bio_Link // SYNC-v42</span>
-                                <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.6em]">Tissue_Stability_Telemetry</span>
-                             </div>
-                             <Wifi className="w-6 h-6 text-pink-400" />
-                          </div>
-                          
-                          {/* BIO VISUALIZER (SVG) */}
-                          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                             <div className="w-64 h-64 border border-pink-400/5 rounded-full flex items-center justify-center relative">
-                                <motion.div 
-                                  animate={{ rotate: 360 }}
-                                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-0 border-t-2 border-pink-400/20 rounded-full" 
-                                />
-                                <motion.div 
-                                  animate={{ rotate: -360 }}
-                                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-8 border-b-2 border-pink-400/10 rounded-full" 
-                                />
-                                <HeartPulse className={`w-24 h-24 transition-colors duration-1000 ${isViabilityStable ? "text-pink-400 animate-pulse" : "text-white/5"}`} />
-                             </div>
-                             <div className="mt-16 text-center space-y-6">
-                                <div className={`text-4xl font-black italic tracking-tighter ${isViabilityStable ? "text-white" : "text-white/20"}`}>
-                                   {isViabilityStable ? "TISSUE_SECURE" : "VIABILITY_DISRUPTION"}
-                                </div>
-                                <span className="text-[11px] font-bold text-white/10 uppercase tracking-[0.6em] block">Auth_Node: BIO_UNIT_01</span>
-                             </div>
-                          </div>
-
-                          <div className="relative z-10 flex gap-6">
-                             <div className="flex-1 h-1 bg-white/5 overflow-hidden">
-                                <motion.div 
-                                   animate={isViabilityStable ? { x: ["-100%", "100%"] } : {}}
-                                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-pink-700"
-                                />
-                             </div>
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            4. BIO STORY (TECH STORYTELLING)
-            ========================================== */}
-        <section className="py-60 bg-[#0c0206] relative overflow-hidden border-t border-white/5">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">
-                    <Image 
-                       src="https://images.unsplash.com/photo-1579154235602-3c2c2aa9502a?q=80&w=1200&auto=format&fit=crop" 
-                       alt="Bio Sync Infrastructure" 
-                       fill 
-                       className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"
-                    />
-                    <div className="absolute inset-0 bg-pink-900/10 mix-blend-color group-hover:opacity-0 transition-opacity" />
-                    <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                       <div className="text-white">
-                          <span className="text-[11px] font-black uppercase tracking-[0.6em] text-pink-500 mb-8 block italic underline underline-offset-8 decoration-pink-400/20">Atelier // Biological // Unit</span>
-                          <h4 className="text-6xl font-black tracking-tighter uppercase italic mb-12 mix-blend-difference text-white">Tissue <br/> Fabric.</h4>
-                          <button className="flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/20 pb-4 hover:border-pink-400 transition-all group">
-                             Growth Protocols <ExternalLink className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                          </button>
-                       </div>
-                    </div>
-                 </div>
-
-                 <div>
-                    <Reveal>
-                       <div className="mb-24 text-left">
-                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-pink-500 mb-8 block italic">Chapitre III // Ingénierie Tissulaire</span>
-                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none text-white">Pure_Life.</h2>
-                       </div>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">
-                          La vie est une architecture de précision. Nous utilisons des technologies de bio-impression et de perfusion automatisée pour construire des tissus et des organes de synthèse d'une complexité sans précédent, offrant une nouvelle vie à ceux qui en ont le plus besoin.
-                       </p>
-                       <div className="space-y-20">
-                          {[
-                            { t: "Cell Sourcing", d: "Récolte et amplification de cellules souches autologues pour garantir une compatibilité immunologique totale sans risque de rejet." },
-                            { t: "Scaffold Printing", d: "Impression 3D de structures bio-compatibles poreuses servant de support à la croissance et à la différenciation cellulaire." },
-                            { t: "Organ Maturation", d: "Maturation dirigée des tissus imprimés dans des incubateurs simulant les conditions physiologiques exactes du corps humain." }
-                          ].map((step, i) => (
-                            <div key={i} className="group flex gap-12 border-b border-white/5 pb-16 hover:border-pink-400/20 transition-all cursor-default">
-                               <div className="text-6xl font-black text-white/5 group-hover:text-pink-400/20 transition-colors italic leading-none">0{i+1}</div>
-                               <div>
-                                  <h5 className="text-3xl font-black uppercase tracking-tight text-white mb-6 italic group-hover:translate-x-4 transition-transform text-white">{step.t}</h5>
-                                  <p className="text-[12px] text-white/20 uppercase tracking-[0.3em] font-bold leading-loose italic">{step.d}</p>
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* MEGA FOOTER */}
-        <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-              <div className="lg:col-span-2">
-                 <div className="flex items-center gap-6 mb-16">
-                    <div className="w-16 h-16 bg-pink-800 flex items-center justify-center">
-                      <HeartPulse className="w-10 h-10 text-white" />
-                    </div>
-                    <span className="text-4xl font-black uppercase tracking-tighter italic">BIO<span className="text-white/20">SYNC.</span></span>
-                 </div>
-                 <p className="text-white/20 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
-                    "L'avenir de la santé est biologique." — Archive Sync V.42
-                 </p>
-                 <div className="flex gap-16">
-                    {["BioLog", "TissueRegistry", "GitHub", "X_Protocol"].map(s => (
-                      <Link key={s} href="#" className="text-[11px] font-black uppercase tracking-widest text-white/20 hover:text-pink-400 transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
-                    ))}
-                 </div>
-              </div>
-
-              {[
-                { t: "BIOTICS", l: ["Bio-v4 Printer", "Tissue Link Alpha", "Organ Grid v5", "Cell-Amplifier"] },
-                { t: "TECHNOLOGY", l: ["Cell Sourcing", "Scaffold Tech", "Organ Maturation", "SLA Reports"] },
-                { t: "ATELIER", l: ["Our Legacy", "Bio-Ethics Policy", "Locations", "Support"] }
-              ].map((col, i) => (
-                <div key={i} className="flex flex-col gap-12">
-                  <h4 className="text-[11px] font-black text-pink-400 uppercase tracking-[0.6em] italic">{col.t}</h4>
-                  <ul className="flex flex-col gap-8">
-                    {col.l.map(link => (
-                      <li key={link} className="text-[11px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-[0.4em] italic">{link}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-           </div>
-
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 BIO SYNC TISSUE ENGINEERING SYSTEMS AG. // ALL_RIGHTS_RESERVED</span>
-              <div className="flex gap-16">
-                 <span>STATUS: OPERATIONAL</span>
-                 <span>VIABILITY: 99.8% (AVG)</span>
-                 <span>v4.12.0-STABLE</span>
-              </div>
-           </div>
-        </footer>
-      </main>
-    </div>
-  )
-}
-
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
-
-function HUD_Overlay({ isViabilityStable }: { isViabilityStable: boolean }) {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Corner Brackets */}
-       <div className={`absolute top-12 left-12 w-20 h-20 border-t-2 border-l-2 transition-colors duration-1000 ${isViabilityStable ? "border-pink-400" : "border-white/10"}`} />
-       <div className={`absolute top-12 right-12 w-20 h-20 border-t-2 border-r-2 transition-colors duration-1000 ${isViabilityStable ? "border-pink-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 left-12 w-20 h-20 border-b-2 border-l-2 transition-colors duration-1000 ${isViabilityStable ? "border-pink-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 right-12 w-20 h-20 border-b-2 border-r-2 transition-colors duration-1000 ${isViabilityStable ? "border-pink-400" : "border-white/10"}`} />
-
-       {/* Top Status Bar */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-20 bg-black/60 backdrop-blur-2xl px-12 py-4 border border-white/10 rounded-none">
-          <div className="flex items-center gap-6 text-white">
-             <div className={`w-3 h-3 transition-colors duration-500 ${isViabilityStable ? "bg-pink-400 animate-pulse" : "bg-red-500 animate-ping"}`} />
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Bio_Sync: {isViabilityStable ? "NOMINAL" : "VIABILITY_DISRUPTION"} // Status: ACTIVE</span>
+      {/* ── CTA ── */}
+      <section className="py-24 bg-[#c26b4c] text-center">
+        <Reveal>
+          <div className="max-w-xl mx-auto px-6">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-5">Rendez-vous</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+              Un corps qui<br /><span className="italic">fonctionne bien.</span>
+            </h2>
+            <p className="text-white/55 mb-10 text-sm">Consultation 60 min · Montpellier · Remboursement mutuelle partiel · Réservation en ligne</p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <button className="px-10 py-4 bg-white text-[#c26b4c] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f5f0e8] transition-colors rounded-lg shadow-lg">
+                Prendre rendez-vous
+              </button>
+              <a href="tel:0467891234" className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-lg">
+                <Phone className="w-4 h-4" /> 04 67 89 12 34
+              </a>
+            </div>
           </div>
-          <div className="h-4 w-px bg-white/20" />
-          <div className="flex items-center gap-6 text-white/20">
-             <Wifi className="w-4 h-4" /> 
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Biological_Grid: SECURE</span>
-          </div>
-       </div>
+        </Reveal>
+      </section>
 
-       {/* Right Rotation Info */}
-       <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-white/5 italic">Unauthorized_Duplication_Of_Biological_Patterns_Is_Strictly_Monitored_By_Global_Bio_Alliance</span>
-       </div>
+      {/* ── FOOTER ── */}
+      <footer className="bg-[#231a14] pt-20 pb-10 px-6">
+        <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          <div>
+            <div className="font-bold text-[#f5f0e8] mb-1 text-sm" style={{ fontFamily: "'Libre Baskerville', serif" }}>Ostéo Gaïa</div>
+            <div className="text-[8px] font-bold uppercase tracking-[0.3em] text-[#c26b4c]/50 mb-5">Emma Dubois · D.O.</div>
+            <p className="text-[#f5f0e8]/20 text-sm leading-relaxed">Ostéopathe diplômée D.O. à Montpellier. Dos, nourrissons, sportifs, grossesse, viscéral, crânio-sacré.</p>
+          </div>
+          {[
+            { t: "Soins", ls: ["Lombalgies & dos", "Nourrissons & bébés", "Grossesse & post-partum", "Sportifs", "Céphalées", "Viscéral"] },
+            { t: "Cabinet", ls: ["L'approche", "Mon parcours", "Tarifs & remboursements", "Avis patients", "FAQ"] },
+            { t: "RDV", ls: ["8 rue de la Merci", "34000 Montpellier", "Mar-Sam 8h30-19h", "04 67 89 12 34", "contact@osteo-gaia.fr"] },
+          ].map((col, i) => (
+            <div key={i}>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#c26b4c]/40 mb-5">{col.t}</h4>
+              <ul className="space-y-2.5">
+                {col.ls.map(l => <li key={l}><Link href="#" className="text-[#f5f0e8]/20 text-sm hover:text-[#f5f0e8]/60 transition-colors">{l}</Link></li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-[#f5f0e8]/8">
+          <span>© 2026 Ostéo Gaïa · Emma Dubois D.O. · ADELI 340012345 · Montpellier (34)</span>
+          <span className="text-[#c26b4c]/20">Ostéopathe · Montpellier</span>
+        </div>
+      </footer>
     </div>
   )
 }
