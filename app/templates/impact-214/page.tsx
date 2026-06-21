@@ -2520,7 +2520,7 @@ export default function AquaPrestigePage() {
               {['Mentions légales', 'Politique de confidentialité', 'CGV'].map((item) => (
                 <a
                   key={item}
-                  href="#"
+                  href="#contact"
                   style={{
                     color: C.textMuted,
                     fontSize: '0.75rem',

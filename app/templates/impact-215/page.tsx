@@ -3336,7 +3336,14 @@ export default function FlammeEtCoPage() {
                   {['Poêles à bois', 'Poêles à granulés', 'Cheminées & Inserts', 'Foyers fermés', 'Cheminées éthanol', 'Accessoires', 'Pièces détachées', 'Entretien'].map(cat => (
                     <a
                       key={cat}
-                      href="#"
+                      href="#categories"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        goTo('home');
+                        setTimeout(() => {
+                          document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' });
+                        }, 50);
+                      }}
                       style={{
                         color: C.textMuted,
                         fontFamily: 'Inter, sans-serif',
@@ -3362,7 +3369,15 @@ export default function FlammeEtCoPage() {
                   {['Devis en ligne', 'Installation à domicile', 'Entretien annuel', 'SAV & dépannage', 'Reprise ancienne cheminée', 'Financement 3×', 'Guide d\'achat', 'Configurateur'].map(svc => (
                     <a
                       key={svc}
-                      href="#"
+                      href={svc === 'Configurateur' ? '#configurateur' : '#faq'}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        goTo('home');
+                        const targetId = svc === 'Configurateur' ? 'configurateur' : 'faq';
+                        setTimeout(() => {
+                          document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+                        }, 50);
+                      }}
                       style={{
                         color: C.textMuted,
                         fontFamily: 'Inter, sans-serif',
@@ -3388,7 +3403,22 @@ export default function FlammeEtCoPage() {
                   {['Notre histoire', 'L\'équipe', 'Nos engagements', 'Flamme Verte', 'Presse', 'Recrutement', 'Contact', 'Blog chauffage'].map(lnk => (
                     <a
                       key={lnk}
-                      href="#"
+                      href={lnk === 'Contact' ? '#contact' : lnk === 'Blog chauffage' ? '#blog' : '#about'}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (lnk === 'Contact') {
+                          goTo('contact');
+                        } else if (lnk === 'Blog chauffage') {
+                          goTo('blog');
+                        } else if (lnk === 'Notre histoire' || lnk === 'L\'équipe' || lnk === 'Nos engagements') {
+                          goTo('about');
+                        } else {
+                          goTo('home');
+                          setTimeout(() => {
+                            document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' });
+                          }, 50);
+                        }
+                      }}
                       style={{
                         color: C.textMuted,
                         fontFamily: 'Inter, sans-serif',

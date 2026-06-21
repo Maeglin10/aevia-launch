@@ -1574,7 +1574,7 @@ export default function Impact211Page() {
                   {["Instagram", "Facebook"].map((social) => (
                     <motion.a
                       key={social}
-                      href="#"
+                      href={social === "Instagram" ? "https://instagram.com" : "https://facebook.com"}
                       whileHover={{ color: C.gold }}
                       style={{
                         fontFamily: font.sans,
@@ -1603,7 +1603,7 @@ export default function Impact211Page() {
               {["Mentions légales", "Politique de confidentialité", "CGV"].map((link) => (
                 <motion.a
                   key={link}
-                  href="#"
+                  href="#contact"
                   whileHover={{ color: C.gold }}
                   style={{
                     fontFamily: font.sans,

@@ -823,7 +823,7 @@ export default function ThermaProPage() {
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72,
         }}>
           {/* Logo */}
-          <a href="#" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
+          <a href="#hero" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{
               width: 38, height: 38, borderRadius: 10,
               background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
@@ -917,6 +917,7 @@ export default function ThermaProPage() {
       ════════════════════════════════════════════════════════════════════ */}
       <section
         ref={heroRef}
+        id="hero"
         style={{
           position: 'relative', minHeight: '100vh',
           display: 'flex', alignItems: 'center',
@@ -1578,7 +1579,7 @@ export default function ThermaProPage() {
               </div>
               {['Mentions légales', 'Politique de confidentialité', 'CGV', 'Certifications RGE', 'Aides & subventions', 'Blog thermique', 'Nous rejoindre'].map(l => (
                 <div key={l} style={{ marginBottom: 9 }}>
-                  <a href="#" style={{
+                  <a href="#contact" style={{
                     color: C.textMuted, textDecoration: 'none', fontSize: 13.5, transition: 'color 0.2s',
                   }}
                     onMouseEnter={e => (e.currentTarget.style.color = C.accent)}

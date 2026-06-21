@@ -261,7 +261,7 @@ function Nav() {
         }}
       >
         {/* Logo */}
-        <a href="#" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12 }}>
+        <a href="#accueil" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12 }}>
           <div
             style={{
               width: 38,
@@ -2556,7 +2556,13 @@ function Footer() {
               {['f', 'in', '▶'].map((icon) => (
                 <a
                   key={icon}
-                  href="#"
+                  href={
+                    icon === 'f'
+                      ? 'https://facebook.com'
+                      : icon === 'in'
+                      ? 'https://linkedin.com'
+                      : 'https://youtube.com'
+                  }
                   style={{
                     width: 34,
                     height: 34,
@@ -2657,7 +2663,7 @@ function Footer() {
               {['Mentions légales', 'Politique de confidentialité', 'CGV', 'Plan du site'].map((l) => (
                 <a
                   key={l}
-                  href="#"
+                  href="#contact"
                   style={{ fontSize: 13, color: C.textMuted, textDecoration: 'none', transition: 'color 0.2s' }}
                   onMouseEnter={(e) => ((e.target as HTMLElement).style.color = C.accent)}
                   onMouseLeave={(e) => ((e.target as HTMLElement).style.color = C.textMuted)}
