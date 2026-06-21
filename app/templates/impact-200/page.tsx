@@ -462,7 +462,7 @@ export default function Impact200Page() {
       >
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           {/* Logo */}
-          <Link href="#" className="flex items-center gap-3">
+          <Link href="#hero" className="flex items-center gap-3">
             <Heart className="w-5 h-5 text-[#DB2777]" fill="currentColor" />
             <span
               className="text-4xl text-[#831843]"

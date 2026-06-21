@@ -364,7 +364,7 @@ export default function Impact199Page() {
       >
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           {/* Logo */}
-          <Link href="#" className="flex items-center gap-3">
+          <Link href="#hero" className="flex items-center gap-3">
             <div className="w-8 h-8 bg-[#DC2626] flex items-center justify-center">
               <Pen className="w-4 h-4 text-white" />
             </div>
@@ -1494,7 +1494,7 @@ export default function Impact199Page() {
               <p className="text-white/15 text-xs">42 Rue Oberkampf, Paris XI</p>
               <div className="flex items-center justify-center md:justify-end gap-4 mt-2">
                 {["Mentions légales", "Confidentialité", "CGV"].map((item) => (
-                  <a key={item} href="#" className="text-white/20 text-[10px] hover:text-white/40 transition-colors">
+                  <a key={item} href="#contact" className="text-white/20 text-[10px] hover:text-white/40 transition-colors">
                     {item}
                   </a>
                 ))}

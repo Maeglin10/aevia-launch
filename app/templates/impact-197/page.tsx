@@ -398,7 +398,7 @@ export default function EvasionDoree() {
             ].map(link => (
               <a
                 key={link.name}
-                href="#"
+                href={`#${link.page}`}
                 onClick={(e) => { e.preventDefault(); goTo(link.page as any); }}
                 style={{ fontSize: 13, color: page === link.page ? C.accent : C.textMuted, textDecoration: "none", fontFamily: "system-ui", letterSpacing: "0.04em", transition: "color 0.2s" }}
                 onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
@@ -999,20 +999,31 @@ export default function EvasionDoree() {
                 </h4>
                 <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 12 }}>
                   {col.links.map(link => {
-                    let onClickHandler = (e: React.MouseEvent) => e.preventDefault();
+                    let onClickHandler: ((e: React.MouseEvent) => void) | undefined = (e: React.MouseEvent) => e.preventDefault();
+                    let destPage = "#";
                     if (link === "Maldives" || link === "Japon" || link === "Kenya" || link === "Patagonie" || link === "Grèce" || link === "Rajasthan" || col.title === "Destinations") {
                       onClickHandler = (e) => { e.preventDefault(); goTo("destinations"); };
+                      destPage = "#destinations";
                     } else if (link === "Voyages sur mesure" || link === "Conciergerie 24h" || link === "Voyages famille" || link === "Lune de miel" || link === "Classe affaires") {
                       onClickHandler = (e) => { e.preventDefault(); goTo("concept"); };
+                      destPage = "#concept";
                     } else if (link === "Consultation gratuite" || link === "CGV") {
                       onClickHandler = (e) => { e.preventDefault(); goTo("formules"); };
+                      destPage = "#formules";
                     } else if (link === "Mentions légales") {
                       onClickHandler = (e) => { e.preventDefault(); goTo("legal"); };
+                      destPage = "#legal";
+                    } else if (link.startsWith("+33")) {
+                      destPage = "tel:" + link.replace(/\s+/g, "");
+                      onClickHandler = undefined;
+                    } else if (link.includes("@")) {
+                      destPage = "mailto:" + link;
+                      onClickHandler = undefined;
                     }
                     return (
                       <li key={link}>
                         <a
-                          href="#"
+                          href={destPage}
                           onClick={onClickHandler}
                           style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", textDecoration: "none", fontFamily: "system-ui", transition: "color 0.2s" }}
                           onMouseEnter={e => (e.currentTarget.style.color = "rgba(255,255,255,0.7)")}
