@@ -1,8 +1,8 @@
 // @ts-nocheck
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ShieldCheck, ChevronRight, Star, MapPin, Clock, Car, Check } from "lucide-react";
@@ -137,69 +137,132 @@ const REVIEWS = [
 const TIME_SLOTS = ["12h00", "12h30", "14h00", "14h30", "19h30", "20h00", "21h00", "21h30"];
 const GUEST_OPTIONS = ["1 personne", "2 personnes", "3 personnes", "4 personnes", "5 personnes", "6+ personnes"];
 
-export default function CyberSecurityPage() {
+export default function AeviaKitchenPage() {
   const heroRef = useRef(null);
   const [activeMenu, setActiveMenu] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
   const [reservationSent, setReservationSent] = useState(false);
   const [form, setForm] = useState({ date: "", time: "", guests: "", request: "" });
 
+  const { scrollYProgress: globalScroll } = useScroll();
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
   });
-  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "28%"]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
+  const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
+
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", h);
+    return () => window.removeEventListener("scroll", h);
+  }, []);
 
   return (
     <div className="relative w-full bg-[#faf8f5]">
+      {/* ── NAVBAR ── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#11182a]/95 backdrop-blur-xl py-4 border-b border-[#c9a855]/10" : "bg-transparent py-8"}`}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <span className="font-serif text-xl text-white tracking-wide italic">Aevia Kitchen</span>
+          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
+            {["La carte", "Expériences", "Réserver", "Cave à vins", "À propos"].map(l => (
+              <Link key={l} href="#" className="hover:text-[#c9a855] transition-colors">{l}</Link>
+            ))}
+          </div>
+          <Link href="#reservation">
+            <button className="hidden md:block px-7 py-3 bg-[#c9a855] text-[#11182a] text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-white transition-colors duration-300">
+              Réserver
+            </button>
+          </Link>
+        </div>
+      </nav>
+
       {/* ==========================================
           1. HERO
           ========================================== */}
       <section
         ref={heroRef}
-        className="relative w-full h-[85vh] flex flex-col justify-center overflow-hidden"
+        className="relative w-full h-[115vh] min-h-[900px] flex items-end overflow-hidden"
       >
         <motion.div
-          style={{ y: heroY, opacity: heroOpacity }}
+          style={{ y: heroY }}
           className="absolute inset-0 z-0"
         >
           <Image
-            src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1600&auto=format&fit=crop"
-            alt="Aevia Kitchen"
+            src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2400&auto=format&fit=crop"
+            alt="Salle gastronomique Aevia Kitchen"
             fill
-            className="object-cover brightness-[0.45]"
+            className="object-cover brightness-[0.55]"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#11182a] via-[#11182a]/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#11182a] via-[#11182a]/40 to-[#11182a]/10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#11182a]/50 to-transparent" />
         </motion.div>
 
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
-          <Reveal>
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-[#c9a855]/10 rounded border border-[#c9a855]/30 text-[#c9a855] text-[10px] font-bold uppercase tracking-widest mb-10">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              Gastronomie Française — Paris 8ème
+        <motion.div
+          style={{ y: heroTextY, opacity: heroOpacity }}
+          className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="flex items-center gap-4 mb-7">
+              <div className="w-10 h-[1px] bg-[#c9a855]" />
+              <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#c9a855]">
+                Restaurant gastronomique · Paris 8ème
+              </div>
             </div>
-            <h1 className="font-serif text-6xl md:text-8xl lg:text-[9rem] leading-[1.05] tracking-tight mb-8 text-white">
-              L&apos;art de la <br />
-              <em className="text-[#c9a855]">table française.</em>
-            </h1>
-            <p className="max-w-lg text-lg text-white/50 leading-relaxed mb-12">
-              Une cuisine de saison ancrée dans la tradition, portée par
-              l&apos;excellence du produit et la passion de l&apos;artisanat culinaire.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="#reservation">
-                <MagneticBtn className="px-10 py-4 bg-[#c9a855] text-[#11182a] text-[10px] font-bold uppercase tracking-[0.3em] rounded hover:bg-[#e0bf74] transition-all cursor-pointer border-none shadow-lg shadow-[#c9a855]/20">
-                  Réserver une table
-                </MagneticBtn>
-              </Link>
-              <Link href="#menus">
-                <button className="px-10 py-4 border border-white/20 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded hover:bg-white hover:text-[#11182a] transition-all cursor-pointer">
-                  Découvrir les menus
-                </button>
-              </Link>
-            </div>
-          </Reveal>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="font-serif text-6xl md:text-8xl lg:text-[9.5rem] leading-[0.92] tracking-tight mb-10 text-white"
+          >
+            L&apos;art de la<br />
+            <em className="text-[#c9a855]">table française.</em>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-xl text-base md:text-lg text-white/45 leading-relaxed mb-12 font-light"
+          >
+            Une cuisine de saison ancrée dans la tradition, portée par l&apos;excellence du produit et la passion de l&apos;artisanat culinaire. Table étoilée — 12 couverts par service.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col sm:flex-row gap-4"
+          >
+            <Link href="#reservation">
+              <button className="px-10 py-4 bg-[#c9a855] text-[#11182a] text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-[#e0bf74] transition-all shadow-lg shadow-[#c9a855]/20">
+                Réserver une table
+              </button>
+            </Link>
+            <Link href="#menus">
+              <button className="px-10 py-4 border border-white/20 text-white text-[10px] font-bold uppercase tracking-[0.3em] hover:border-[#c9a855]/50 hover:text-[#c9a855] transition-all">
+                Découvrir les menus
+              </button>
+            </Link>
+          </motion.div>
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10">
+          <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-white/20">scroll</span>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ repeat: Infinity, duration: 2.2 }}
+            className="w-[1px] h-10 bg-gradient-to-b from-[#c9a855]/50 to-transparent"
+          />
         </div>
       </section>
 
@@ -663,7 +726,7 @@ export default function CyberSecurityPage() {
                       Demande reçue
                     </h3>
                     <p className="text-white/40 text-sm">
-                      Notre équipe vous confirmera votre réservation dans les 2 heures.
+                      Merci, nous vous répondrons sous 24h.
                     </p>
                   </div>
                 ) : (
