@@ -1,387 +1,649 @@
 "use client";
 
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
-import { useState, useRef, useEffect } from "react";
-import Image from "next/image";
+import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
-import { Clock, Zap, Shield, Layers, Search, Menu, X, ArrowRight, ChevronRight, Cpu, Binary, Database, Lock, Box, Fingerprint, TrendingUp, TrendingDown, BarChart3, Activity, History, Timer, ZapOff, Briefcase, Globe, Coins } from "lucide-react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { C, FONT, FONT_BODY, STATS, MISSIONS, TEMOIGNAGES, Reveal } from "./shared";
 
-import "../premium.css";
-
-/* ==========================================================================
-   DATA MANIFESTS
-   ========================================================================== */
-
-const CHRONOS_MANIFESTS = {
-  hero: {
-    latency: "0.12μs",
-    volume: "$4.8B/sec",
-    epoch: "SYNC_COMPLETE",
-    status: "TEMPORAL_LOCK_ACTIVE",
-  },
-  strategies: [
-    {
-      id: "quantum",
-      name: "QUANTUM // ARB",
-      desc: "Multi-dimensional arbitrage leveraging temporal micro-drifts across synthetic markets.",
-      icon: <Zap className="w-5 h-5" />,
-      specs: ["Sub-Nanosecond Exec", "Cross-Chain Sync", "Risk-Neutral Core"],
-    },
-    {
-      id: "neural",
-      name: "NEURAL // TICK",
-      desc: "Predictive order-flow analysis using high-throughput cortical simulation models.",
-      icon: <Cpu className="w-5 h-5" />,
-      specs: ["99.4% Accuracy", "Adversarial Shield", "Pattern-Zero Latency"],
-    },
-    {
-      id: "spectral",
-      name: "SPECTRAL // LIQ",
-      desc: "Liquidity provisioning across dark-pool fragments with spectral wave interference shielding.",
-      icon: <Layers className="w-5 h-5" />,
-      specs: ["Ghost-Order Matrix", "Adaptive Slippage", "Shadow-Pool Routing"],
-    },
-  ],
-  market_telemetry: [
-    { label: "EXECUTION_CLARITY", val: 98, color: "#ffaa00" },
-    { label: "TEMPORAL_DRIFT", val: 0.04, color: "#ffaa00" },
-    { label: "SHIELD_STABILITY", val: 100, color: "#ffaa00" },
-    { label: "YIELD_EFFICIENCY", val: 86, color: "#ffaa00" },
-  ],
-  live_tickers: [
-    { sym: "BTC/USDT", price: "64,281.24", change: "+1.2%", trend: "up" },
-    { sym: "ETH/USDT", price: "3,452.18", change: "-0.4%", trend: "down" },
-    { sym: "SOL/USDT", price: "142.09", change: "+4.8%", trend: "up" },
-    { sym: "AAPL/USD", price: "189.42", change: "+0.1%", trend: "up" },
-  ],
-};
-
-/* ==========================================================================
-   UTILITY COMPONENTS
-   ========================================================================== */
-
-function Reveal({
-  children,
-  delay = 0,
-  y = 20,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  y?: number;
-}) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function MagneticBtn({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 300, damping: 20 });
-  const sy = useSpring(y, { stiffness: 300, damping: 20 });
-  const ref = useRef<HTMLButtonElement>(null);
-
-  const handleMouse = (e: React.MouseEvent) => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (rect) {
-      x.set((e.clientX - rect.left - rect.width / 2) * 0.4);
-      y.set((e.clientY - rect.top - rect.height / 2) * 0.4);
-    }
-  };
-
-  return (
-    <motion.button
-      ref={ref}
-      style={{ x: sx, y: sy }}
-      onMouseMove={handleMouse}
-      onMouseLeave={() => {
-        x.set(0);
-        y.set(0);
-      }}
-      className={className}
-    >
-      {children}
-    </motion.button>
-  );
-}
-
-/* ==========================================================================
-   CHRONOS // ENGINE COMPONENT
-   ========================================================================== */
-
-export default function ChronosEnginePage() {
+export default function LedgerPage() {
+  const heroRef = useRef<HTMLElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 170]);
+  const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -65]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
+
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const BASE = "/templates/impact-108";
+  const navLinks = [
+    { label: "Services", href: `${BASE}#services` },
+    { label: "Expertise", href: `${BASE}#approche` },
+    { label: "L'équipe", href: `${BASE}#equipe` },
+    { label: "Contact", href: `${BASE}/contact` },
+  ];
+
   return (
-    <div className="premium-theme min-h-screen bg-[#080605] text-white font-mono selection:bg-[#ffaa00] selection:text-black overflow-x-hidden">
-      {/* ── BACKGROUND ARCHITECTURE ── */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,#1a0f0a_0%,transparent_50%)]" />
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `linear-gradient(rgba(255,170,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,170,0,0.1) 1px, transparent 1px)`,
-            backgroundSize: "80px 80px",
-          }}
-        />
-        <div className="absolute top-0 left-0 w-full h-[60vh] bg-gradient-to-b from-[#ffaa00]/5 to-transparent" />
-      </div>
+    <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, minHeight: "100vh" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Lato:wght@300;400;700&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+      `}</style>
 
-      {/* ── NAVIGATION ── */}
-      <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#080605]/90 backdrop-blur-xl py-4 border-b border-white/5 shadow-[0_0_50px_rgba(0,0,0,0.5)]" : "bg-transparent py-10"}`}
+      {/* NAVBAR */}
+      <motion.nav
+        initial={{ y: -80 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          height: 72,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0 52px",
+          background: scrolled ? "rgba(248,250,251,0.97)" : "transparent",
+          backdropFilter: scrolled ? "blur(12px)" : "none",
+          borderBottom: scrolled ? `1px solid ${C.border}` : "none",
+          transition: "background 0.3s, border-color 0.3s",
+        }}
       >
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link
-            href="/"
-            className="group flex items-center gap-3 text-xl font-black tracking-tighter"
-          >
-            <div className="w-8 h-8 bg-[#ffaa00] rounded-sm flex items-center justify-center text-black">
-              <Clock className="w-5 h-5" />
-            </div>
-            <span className="group-hover:text-[#ffaa00] transition-colors">
-              CHRONOS // <span className="text-white/40">ENGINE</span>
-            </span>
-          </Link>
-
-          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
-            {["Market_Epoch", "Strategies", "Temporal_Logs", "Node_Sync"].map((l) => (
-              <Link
-                key={l}
-                href="#"
-                className="hover:text-[#ffaa00] transition-colors"
-              >
-                {l}
-              </Link>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-6">
-            <button className="hidden md:block text-white/30 hover:text-white transition-colors">
-              <Search className="w-4 h-4" />
-            </button>
-            <MagneticBtn className="px-6 py-2.5 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[#ffaa00] transition-all">
-              Initialize_Sync
-            </MagneticBtn>
-            <button
-              onClick={() => setMenuOpen(true)}
-              className="lg:hidden text-white/60 hover:text-white transition-colors"
-            >
-              <Menu className="w-6 h-6" />
-            </button>
-          </div>
+        <div
+          style={{
+            fontFamily: FONT,
+            fontWeight: 700,
+            fontSize: 18,
+            letterSpacing: -0.3,
+            color: scrolled ? C.accent : C.white,
+          }}
+        >
+          Ledger <span style={{ fontWeight: 400, opacity: 0.7 }}>&amp; Associés</span>
         </div>
-      </nav>
+        <div style={{ display: "flex", alignItems: "center", gap: 32 }} className="nav-links-desktop">
+          {navLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              style={{
+                fontFamily: FONT,
+                fontWeight: 500,
+                fontSize: 14,
+                color: scrolled ? C.textMuted : "rgba(255,255,255,0.82)",
+                textDecoration: "none",
+                transition: "color 0.2s",
+              }}
+            >
+              {link.label}
+            </a>
+          ))}
+          <a
+            href={`${BASE}/contact`}
+            style={{
+              fontFamily: FONT,
+              fontWeight: 600,
+              fontSize: 13,
+              letterSpacing: 0.3,
+              background: C.green,
+              color: C.white,
+              padding: "10px 22px",
+              borderRadius: 6,
+              textDecoration: "none",
+              transition: "background 0.2s",
+            }}
+          >
+            Premier RDV gratuit
+          </a>
+        </div>
+        <button
+          onClick={() => setMenuOpen(true)}
+          style={{ display: "none", background: "none", border: "none", cursor: "pointer", color: scrolled ? C.text : C.white, padding: 8 }}
+          className="nav-menu-btn"
+          aria-label="Menu"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+      </motion.nav>
 
-      {/* MOBILE MENU */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            className="fixed inset-0 z-[100] bg-[#080605] p-8 flex flex-col pt-32"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 200,
+              background: C.accent,
+              display: "flex",
+              flexDirection: "column",
+              padding: "24px 36px",
+            }}
           >
-            <button
-              onClick={() => setMenuOpen(false)}
-              className="absolute top-10 right-8 text-white/40"
-            >
-              <X className="w-10 h-10" />
-            </button>
-            <div className="flex flex-col gap-10 text-5xl font-black tracking-tighter uppercase">
-              {["Market_Epoch", "Strategies", "Temporal_Logs", "Node_Sync"].map((l) => (
-                <Link key={l} href="#" onClick={() => setMenuOpen(false)}>
-                  {l}
-                </Link>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 48 }}>
+              <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: 18, color: C.white }}>Ledger &amp; Associés</span>
+              <button onClick={() => setMenuOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: C.white }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+              {navLinks.map((link, i) => (
+                <motion.a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.07 }}
+                  style={{
+                    fontFamily: FONT,
+                    fontSize: 36,
+                    fontWeight: 700,
+                    color: "rgba(255,255,255,0.9)",
+                    textDecoration: "none",
+                  }}
+                >
+                  {link.label}
+                </motion.a>
               ))}
+              <motion.a
+                href={`${BASE}/contact`}
+                onClick={() => setMenuOpen(false)}
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.28 }}
+                style={{
+                  fontFamily: FONT,
+                  fontSize: 36,
+                  fontWeight: 700,
+                  color: "#4ade80",
+                  textDecoration: "none",
+                }}
+              >
+                RDV Gratuit
+              </motion.a>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ── HERO SECTION ── */}
-      <section className="relative h-screen flex flex-col justify-center pt-20 overflow-hidden">
-        {/* Ticker Tape Animation (Background) */}
-        <div className="absolute inset-0 flex flex-col justify-between py-24 opacity-10 pointer-events-none select-none">
-          {[...Array(6)].map((_, i) => (
-            <motion.div
-              key={i}
-              animate={{ x: i % 2 === 0 ? ["0%", "-50%"] : ["-50%", "0%"] }}
-              transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-              className="whitespace-nowrap text-8xl font-black uppercase tracking-widest text-[#ffaa00]"
+      {/* HERO */}
+      <section
+        ref={heroRef}
+        style={{
+          height: "115vh",
+          minHeight: 900,
+          position: "relative",
+          display: "flex",
+          alignItems: "flex-end",
+          overflow: "hidden",
+        }}
+      >
+        <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
+          <img
+            src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1920&q=80"
+            alt="Cabinet Ledger & Associés Bordeaux"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </motion.div>
+        {/* gradient sombre */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(to top, rgba(13,33,55,0.94) 0%, rgba(13,33,55,0.55) 45%, rgba(13,33,55,0.2) 100%)",
+          }}
+        />
+        {/* gradient accent gauche */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(to right, rgba(30,58,95,0.3) 0%, transparent 60%)",
+          }}
+        />
+        <motion.div
+          style={{
+            position: "relative",
+            zIndex: 1,
+            padding: "0 80px 90px",
+            maxWidth: 760,
+            y: heroTextY,
+            opacity: heroOpacity,
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: "rgba(26,158,111,0.2)",
+              border: "1px solid rgba(26,158,111,0.5)",
+              color: "#4ade80",
+              fontFamily: FONT,
+              fontWeight: 600,
+              fontSize: 12,
+              letterSpacing: 2,
+              textTransform: "uppercase",
+              padding: "7px 16px",
+              borderRadius: 4,
+              marginBottom: 24,
+            }}
+          >
+            Expert-comptable · Bordeaux
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.7 }}
+            style={{
+              fontFamily: FONT,
+              fontSize: "clamp(40px, 6vw, 78px)",
+              fontWeight: 800,
+              lineHeight: 1.05,
+              color: C.white,
+              letterSpacing: -0.5,
+              marginBottom: 24,
+            }}
+          >
+            La comptabilité,<br />
+            <span style={{ color: "#93c5fd" }}>un outil de croissance</span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.75, duration: 0.7 }}
+            style={{
+              fontFamily: FONT_BODY,
+              fontWeight: 300,
+              fontSize: 18,
+              color: "rgba(255,255,255,0.72)",
+              lineHeight: 1.65,
+              marginBottom: 40,
+              maxWidth: 520,
+            }}
+          >
+            Cabinet d&apos;expertise comptable à Bordeaux depuis 25 ans. Nous transformons vos obligations comptables en leviers de décision pour votre entreprise.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0, duration: 0.7 }}
+            style={{ display: "flex", gap: 16, flexWrap: "wrap" }}
+          >
+            <a
+              href={`${BASE}/contact`}
+              style={{
+                fontFamily: FONT,
+                fontWeight: 700,
+                fontSize: 14,
+                letterSpacing: 0.5,
+                background: C.green,
+                color: C.white,
+                padding: "16px 36px",
+                borderRadius: 6,
+                textDecoration: "none",
+                display: "inline-block",
+              }}
             >
-              {CHRONOS_MANIFESTS.live_tickers.map((t) => (
-                <span key={t.sym} className="mx-20">
-                  {t.sym} // {t.price} // {t.change}
-                </span>
-              ))}
-            </motion.div>
+              Premier RDV gratuit →
+            </a>
+            <a
+              href={`${BASE}#services`}
+              style={{
+                fontFamily: FONT,
+                fontWeight: 600,
+                fontSize: 14,
+                background: "transparent",
+                color: C.white,
+                padding: "16px 36px",
+                borderRadius: 6,
+                textDecoration: "none",
+                border: `1.5px solid rgba(255,255,255,0.4)`,
+                display: "inline-block",
+              }}
+            >
+              Nos missions
+            </a>
+          </motion.div>
+        </motion.div>
+        {/* scroll indicator */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 40,
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 8,
+            color: "rgba(255,255,255,0.35)",
+          }}
+        >
+          <span style={{ fontFamily: FONT, fontSize: 10, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600 }}>Scroll</span>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            style={{ width: 1, height: 40, background: "rgba(147,197,253,0.4)" }}
+          />
+        </div>
+      </section>
+
+      {/* STATS */}
+      <section style={{ background: C.accent, padding: "72px 80px" }}>
+        <div
+          style={{
+            maxWidth: 1100,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: 40,
+          }}
+        >
+          {STATS.map((stat, i) => (
+            <Reveal key={stat.label} delay={i * 0.1}>
+              <div style={{ textAlign: "center" }}>
+                <div
+                  style={{
+                    fontFamily: FONT,
+                    fontSize: 52,
+                    fontWeight: 800,
+                    color: "#93c5fd",
+                    lineHeight: 1,
+                    marginBottom: 8,
+                  }}
+                >
+                  {stat.value}
+                </div>
+                <div
+                  style={{
+                    fontFamily: FONT_BODY,
+                    fontSize: 13,
+                    fontWeight: 300,
+                    color: "rgba(255,255,255,0.5)",
+                    letterSpacing: 1,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {stat.label}
+                </div>
+              </div>
+            </Reveal>
           ))}
         </div>
+      </section>
 
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-            <div className="lg:col-span-8">
-              <Reveal>
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="px-3 py-1 bg-[#ffaa00]/10 border border-[#ffaa00]/30 text-[#ffaa00] text-[9px] font-bold uppercase tracking-widest">
-                    {CHRONOS_MANIFESTS.hero.status}
+      {/* MISSIONS */}
+      <section id="services" style={{ padding: "100px 80px", background: C.bg }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ marginBottom: 60 }}>
+              <div
+                style={{
+                  fontFamily: FONT,
+                  fontWeight: 700,
+                  fontSize: 12,
+                  letterSpacing: 3,
+                  textTransform: "uppercase",
+                  color: C.green,
+                  marginBottom: 12,
+                }}
+              >
+                Nos missions
+              </div>
+              <h2
+                style={{
+                  fontFamily: FONT,
+                  fontSize: "clamp(32px, 4.5vw, 52px)",
+                  fontWeight: 800,
+                  color: C.text,
+                  letterSpacing: -0.5,
+                  lineHeight: 1.1,
+                }}
+              >
+                Une expertise complète<br />
+                <span style={{ color: C.accent }}>pour votre entreprise</span>
+              </h2>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
+            {MISSIONS.map((mission, i) => (
+              <Reveal key={mission.titre} delay={i * 0.08}>
+                <div
+                  style={{
+                    background: C.white,
+                    borderRadius: 10,
+                    padding: "32px 28px",
+                    boxShadow: C.shadow,
+                    border: `1px solid ${C.border}`,
+                  }}
+                >
+                  <div style={{ fontSize: 32, marginBottom: 16 }}>{mission.icon}</div>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                    <h3
+                      style={{
+                        fontFamily: FONT,
+                        fontSize: 18,
+                        fontWeight: 700,
+                        color: C.text,
+                        lineHeight: 1.25,
+                      }}
+                    >
+                      {mission.titre}
+                    </h3>
+                    <span
+                      style={{
+                        fontFamily: FONT,
+                        fontSize: 11,
+                        fontWeight: 600,
+                        letterSpacing: 1,
+                        textTransform: "uppercase",
+                        background: C.accentLight,
+                        color: C.accent,
+                        padding: "3px 10px",
+                        borderRadius: 3,
+                        whiteSpace: "nowrap",
+                        marginLeft: 12,
+                      }}
+                    >
+                      {mission.tag}
+                    </span>
                   </div>
-                  <div className="text-[9px] text-white/30 tracking-widest uppercase">
-                    LATENCY: {CHRONOS_MANIFESTS.hero.latency} // VOLUME:{" "}
-                    {CHRONOS_MANIFESTS.hero.volume}
-                  </div>
-                </div>
-                <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
-                  Temporal <br />{" "}
-                  <span className="text-[#ffaa00]">Execution.</span> <br />{" "}
-                  Zero <br />{" "}
-                  <span className="text-white/20">Latency.</span>
-                </h1>
-                <p className="max-w-2xl text-xl text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">
-                  Collapsing time-to-execution across global synthetic markets. 
-                  High-frequency strategies engineered with sub-microsecond 
-                  precision and quantum-resistant temporal shielding.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-6">
-                  <button className="px-12 py-5 bg-[#ffaa00] text-black text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-[0_0_50px_rgba(255,170,0,0.2)]">
-                    Access_Terminal
-                  </button>
-                  <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">
-                    View_Market_Logs
-                  </button>
+                  <p
+                    style={{
+                      fontFamily: FONT_BODY,
+                      fontWeight: 300,
+                      fontSize: 14,
+                      color: C.textMuted,
+                      lineHeight: 1.65,
+                    }}
+                  >
+                    {mission.description}
+                  </p>
                 </div>
               </Reveal>
-            </div>
-
-            <div className="lg:col-span-4 relative hidden lg:block">
-              <Reveal delay={0.2}>
-                <div className="relative aspect-square bg-[#0a0806] border border-white/5 p-12 rounded-3xl overflow-hidden group shadow-2xl">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#ffaa00]/5 to-transparent" />
-
-                  {/* Engine HUD */}
-                  <div className="relative h-full flex flex-col justify-between">
-                    <div className="flex justify-between items-start">
-                      <div className="space-y-1">
-                        <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest">
-                          EXECUTION_LATENCY
-                        </div>
-                        <div className="text-xl font-black text-[#ffaa00]">
-                          {CHRONOS_MANIFESTS.hero.latency}
-                        </div>
-                      </div>
-                      <div className="w-10 h-10 border border-white/5 rounded-full flex items-center justify-center">
-                        <Timer className="w-5 h-5 text-white/20 animate-pulse" />
-                      </div>
-                    </div>
-
-                    {/* Telemetry Metrics */}
-                    <div className="space-y-10 my-10">
-                      {CHRONOS_MANIFESTS.market_telemetry.map((stat, i) => (
-                        <div key={i}>
-                          <div className="flex justify-between text-[8px] font-bold uppercase tracking-widest mb-3">
-                            <span className="text-white/40">{stat.label}</span>
-                            <span style={{ color: stat.color }}>{stat.val}{stat.label === "TEMPORAL_DRIFT" ? "μs" : "%"}</span>
-                          </div>
-                          <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
-                            <motion.div
-                              initial={{ width: 0 }}
-                              animate={{ width: `${stat.val * (stat.label === "TEMPORAL_DRIFT" ? 10 : 1)}%` }}
-                              transition={{ duration: 2, delay: 0.5 + i * 0.1 }}
-                              className="h-full"
-                              style={{ backgroundColor: stat.color }}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="pt-6 border-t border-white/5 flex justify-between items-center text-[8px] font-bold text-white/20 uppercase tracking-widest">
-                      <span>EPOCH_SYNC_ON</span>
-                      <div className="flex items-center gap-2 text-[#ffaa00]">
-                        <div className="w-1.5 h-1.5 bg-[#ffaa00] rounded-full animate-ping" />
-                        <span>MARKET_OPEN</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── STRATEGIES SECTION ── */}
-      <section className="py-40 bg-[#0a0806] border-y border-white/5">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
-            <Reveal>
-              <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85]">
-                Execution <br />{" "}
-                <span className="text-[#ffaa00]">Strategies.</span>
-              </h2>
-            </Reveal>
-            <p className="max-w-md text-sm text-white/30 leading-relaxed uppercase tracking-widest font-light italic">
-              Algorithms designed for the micro-second domain. Select the strategy optimized for your specific liquidity and risk profile.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {CHRONOS_MANIFESTS.strategies.map((p, i) => (
-              <Reveal key={p.id} delay={i * 0.1}>
-                <div className="group p-12 bg-[#0a0806] border border-white/5 hover:border-[#ffaa00]/30 transition-all flex flex-col h-full rounded-3xl relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#ffaa00]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-
-                  <div className="w-16 h-16 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-center text-[#ffaa00] mb-12 group-hover:bg-[#ffaa00] group-hover:text-black transition-all">
-                    {p.icon}
+      {/* APPROCHE — split */}
+      <section
+        id="approche"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          minHeight: 580,
+          background: C.bgSection,
+        }}
+      >
+        <div style={{ overflow: "hidden" }}>
+          <img
+            src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80"
+            alt="Expert-comptable Bordeaux"
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "80px 72px",
+          }}
+        >
+          <Reveal>
+            <div
+              style={{
+                fontFamily: FONT,
+                fontWeight: 700,
+                fontSize: 12,
+                letterSpacing: 3,
+                textTransform: "uppercase",
+                color: C.green,
+                marginBottom: 16,
+              }}
+            >
+              Notre approche
+            </div>
+            <h2
+              style={{
+                fontFamily: FONT,
+                fontSize: "clamp(28px, 3.5vw, 44px)",
+                fontWeight: 800,
+                color: C.text,
+                letterSpacing: -0.3,
+                marginBottom: 32,
+                lineHeight: 1.15,
+              }}
+            >
+              Votre comptable devient<br />
+              <span style={{ color: C.accent }}>votre allié stratégique</span>
+            </h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              {[
+                "Un interlocuteur unique dédié à votre dossier, disponible et réactif",
+                "Des reporting mensuels clairs pour piloter votre trésorerie en temps réel",
+                "Veille fiscale et sociale permanente pour anticiper les changements",
+                "Conseils proactifs : nous vous contactons avant que les problèmes surgissent",
+              ].map((point, i) => (
+                <Reveal key={i} delay={0.1 + i * 0.1}>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
+                    <div
+                      style={{
+                        width: 24,
+                        height: 24,
+                        background: C.green,
+                        borderRadius: "50%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                        marginTop: 2,
+                      }}
+                    >
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
+                    <p style={{ fontFamily: FONT_BODY, fontWeight: 400, fontSize: 15, color: C.text, lineHeight: 1.6 }}>
+                      {point}
+                    </p>
                   </div>
-                  <h3 className="text-3xl font-black uppercase mb-6 tracking-tighter group-hover:text-[#ffaa00] transition-colors">
-                    {p.name}
-                  </h3>
-                  <p className="text-sm text-white/40 leading-relaxed mb-12 flex-1 italic">
-                    "{p.desc}"
-                  </p>
+                </Reveal>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
-                  <div className="space-y-5 pt-10 border-t border-white/5">
-                    {p.specs.map((s, j) => (
-                      <div
-                        key={j}
-                        className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest"
-                      >
-                        <div className="w-1.5 h-1.5 bg-[#ffaa00] rotate-45" />
-                        {s}
-                      </div>
+      {/* TÉMOIGNAGES */}
+      <section style={{ padding: "100px 80px", background: C.bg }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 60 }}>
+              <div
+                style={{
+                  fontFamily: FONT,
+                  fontWeight: 700,
+                  fontSize: 12,
+                  letterSpacing: 3,
+                  textTransform: "uppercase",
+                  color: C.green,
+                  marginBottom: 12,
+                }}
+              >
+                Ils nous font confiance
+              </div>
+              <h2
+                style={{
+                  fontFamily: FONT,
+                  fontSize: "clamp(28px, 4vw, 46px)",
+                  fontWeight: 800,
+                  color: C.text,
+                  letterSpacing: -0.3,
+                }}
+              >
+                Ce que disent nos clients
+              </h2>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }}>
+            {TEMOIGNAGES.map((temo, i) => (
+              <Reveal key={temo.nom} delay={i * 0.12}>
+                <div
+                  style={{
+                    background: C.white,
+                    borderRadius: 10,
+                    padding: "36px 28px",
+                    boxShadow: C.shadow,
+                    border: `1px solid ${C.border}`,
+                  }}
+                >
+                  <div style={{ display: "flex", marginBottom: 16, gap: 3 }}>
+                    {Array.from({ length: temo.note }).map((_, j) => (
+                      <span key={j} style={{ color: C.green, fontSize: 16 }}>★</span>
                     ))}
+                  </div>
+                  <p
+                    style={{
+                      fontFamily: FONT_BODY,
+                      fontWeight: 300,
+                      fontSize: 15,
+                      color: C.text,
+                      lineHeight: 1.65,
+                      marginBottom: 24,
+                      fontStyle: "italic",
+                    }}
+                  >
+                    &ldquo;{temo.texte}&rdquo;
+                  </p>
+                  <div>
+                    <div style={{ fontFamily: FONT, fontWeight: 700, fontSize: 15, color: C.text }}>{temo.nom}</div>
+                    <div style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 13, color: C.textMuted, marginTop: 2 }}>{temo.poste}</div>
                   </div>
                 </div>
               </Reveal>
@@ -390,183 +652,155 @@ export default function ChronosEnginePage() {
         </div>
       </section>
 
-      {/* ── LIVE DATA (Ticker Stream) ── */}
-      <section className="py-40 bg-[#080605]">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-center">
-            <div className="lg:col-span-6">
-              <Reveal>
-                <div className="relative aspect-video bg-[#0a0806] border border-white/5 rounded-2xl overflow-hidden p-8 group">
-                  <div className="absolute top-6 left-6 text-[8px] font-bold text-white/20 tracking-widest uppercase">
-                    TICKER_ALPHA_STREAM
-                  </div>
-                  {/* Candlestick Visualization */}
-                  <div className="absolute inset-0 flex items-end justify-around px-10 pb-16 opacity-30">
-                    {[...Array(20)].map((_, i) => {
-                      const height = Math.random() * 150 + 20;
-                      return (
-                        <motion.div
-                          key={i}
-                          initial={{ height: 0 }}
-                          animate={{ height }}
-                          transition={{ duration: 1, delay: i * 0.05 }}
-                          className="w-1 bg-[#ffaa00] relative"
-                        >
-                          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-10 bg-[#ffaa00] rounded-sm" />
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                  <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center text-[8px] font-bold text-white/20 tracking-widest uppercase">
-                    <div className="flex gap-10">
-                      <span>VOL: 242.1M</span>
-                      <span>SPREAD: 0.0012%</span>
-                    </div>
-                    <div className="text-[#ffaa00]">ORDER_LOCK</div>
-                  </div>
-                </div>
-              </Reveal>
-            </div>
-
-            <div className="lg:col-span-6">
-              <Reveal>
-                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#ffaa00] mb-6 block">
-                  Active_Tickers
-                </span>
-                <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-12 uppercase">
-                  Market <br />{" "}
-                  <span className="text-white/20">Flux.</span>
-                </h2>
-                <div className="space-y-8">
-                  {CHRONOS_MANIFESTS.live_tickers.map((t, i) => (
-                    <div
-                      key={i}
-                      className="group flex flex-col md:flex-row justify-between items-center p-8 bg-white/2 border border-white/5 hover:border-[#ffaa00]/30 transition-all"
-                    >
-                      <div className="flex items-center gap-10 mb-6 md:mb-0">
-                        <div className="text-2xl font-black uppercase tracking-tighter">
-                          {t.sym}
-                        </div>
-                        <div className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
-                          PRICE: {t.price}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-12 text-[10px] font-bold uppercase tracking-widest">
-                        <div className="flex items-center gap-3">
-                          {t.trend === "up" ? <TrendingUp className="w-4 h-4 text-green-500" /> : <TrendingDown className="w-4 h-4 text-red-500" />}
-                          <span className="text-white/40">CHANGE:</span>
-                          <span className={t.trend === "up" ? "text-green-500" : "text-red-500"}>{t.change}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </Reveal>
-            </div>
+      {/* CTA */}
+      <section
+        style={{
+          background: C.accent,
+          padding: "88px 40px",
+          textAlign: "center",
+        }}
+      >
+        <Reveal>
+          <div
+            style={{
+              fontFamily: FONT,
+              fontWeight: 700,
+              fontSize: 12,
+              letterSpacing: 3,
+              textTransform: "uppercase",
+              color: "#93c5fd",
+              marginBottom: 20,
+            }}
+          >
+            Sans engagement
           </div>
-        </div>
+          <h2
+            style={{
+              fontFamily: FONT,
+              fontSize: "clamp(32px, 4.5vw, 58px)",
+              fontWeight: 800,
+              color: C.white,
+              letterSpacing: -0.5,
+              marginBottom: 16,
+            }}
+          >
+            Premier rendez-vous offert
+          </h2>
+          <p
+            style={{
+              fontFamily: FONT_BODY,
+              fontWeight: 300,
+              fontSize: 18,
+              color: "rgba(255,255,255,0.65)",
+              marginBottom: 44,
+              maxWidth: 480,
+              margin: "0 auto 44px",
+            }}
+          >
+            Rencontrons-nous pour analyser votre situation et définir ensemble vos axes d&apos;optimisation.
+          </p>
+          <a
+            href={`${BASE}/contact`}
+            style={{
+              fontFamily: FONT,
+              fontWeight: 700,
+              fontSize: 15,
+              letterSpacing: 0.5,
+              background: C.green,
+              color: C.white,
+              padding: "18px 48px",
+              borderRadius: 8,
+              textDecoration: "none",
+              display: "inline-block",
+            }}
+          >
+            Prendre rendez-vous →
+          </a>
+        </Reveal>
       </section>
 
-      {/* ── PERFORMANCE METRICS ── */}
-      <section className="py-40 bg-[#0a0806] border-y border-white/5 text-center overflow-hidden">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 relative">
-          <Reveal>
-            <h2 className="text-7xl md:text-[12rem] font-black tracking-tighter uppercase leading-[0.85] mb-12 text-white/5">
-              Time <br /> Fold.
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-16 mt-24">
-              {[
-                { label: "MAX_TPS", val: "1.2M" },
-                { label: "UPTIME_SLA", val: "99.999%" },
-                { label: "NODE_COUNT", val: "4,281" },
-                { label: "AVG_YIELD", val: "24.2%" },
-              ].map((s, i) => (
-                <div key={i} className="group">
-                  <div className="text-5xl font-black text-white mb-4 group-hover:text-[#ffaa00] transition-colors">
-                    {s.val}
-                  </div>
-                  <div className="text-[10px] font-black text-white/20 uppercase tracking-widest">
-                    {s.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── CTA / INITIALIZE ── */}
-      <section className="py-40 bg-[#080605]">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 text-center">
-          <Reveal>
-            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">
-              Sync <br />{" "}
-              <span className="text-[#ffaa00]">Temporal.</span>
-            </h2>
-            <p className="max-w-2xl mx-auto text-sm text-white/40 leading-relaxed font-light mb-16 uppercase tracking-widest italic">
-              Market edges are measured in microseconds. Initialize your temporal execution strategy today with Chronos Engine Systems.
-            </p>
-            <MagneticBtn className="px-16 py-6 bg-white text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[#ffaa00] transition-all shadow-[0_0_60px_rgba(255,170,0,0.15)]">
-              Initialize_Epoch_Sync
-            </MagneticBtn>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── FOOTER ── */}
-      <footer className="bg-[#080605] border-t border-white/5 py-32 px-6 md:px-12">
-        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
-          <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10">
-              <div className="w-8 h-8 bg-white text-black rounded-sm flex items-center justify-center">
-                <Clock className="w-5 h-5" />
+      {/* FOOTER */}
+      <footer style={{ background: C.accentDark, padding: "60px 80px 40px", color: "rgba(255,255,255,0.5)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
+            <div>
+              <div style={{ fontFamily: FONT, fontWeight: 700, fontSize: 20, color: C.white, marginBottom: 16 }}>
+                Ledger &amp; Associés
               </div>
-              <span>CHRONOS // ENGINE</span>
-            </Link>
-            <p className="text-[11px] text-white/20 uppercase tracking-[0.2em] max-w-sm leading-relaxed mb-16 italic">
-              Engineering the temporal infrastructure for high-frequency execution in the micro-second domain.
-            </p>
-            <div className="flex gap-8">
-              {[TrendingUp, Activity, Timer].map((Icon, i) => (
-                <button key={i} className="text-white/20 hover:text-[#ffaa00] transition-colors">
-                  <Icon className="w-5 h-5" />
-                </button>
-              ))}
+              <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 1.8 }}>
+                Cabinet d&apos;expertise comptable<br />
+                Bordeaux · Depuis 1999
+              </p>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: "rgba(26,158,111,0.15)",
+                  border: "1px solid rgba(26,158,111,0.4)",
+                  color: "#4ade80",
+                  fontFamily: FONT,
+                  fontWeight: 600,
+                  fontSize: 11,
+                  letterSpacing: 1.5,
+                  textTransform: "uppercase",
+                  padding: "5px 12px",
+                  borderRadius: 4,
+                  marginTop: 16,
+                }}
+              >
+                Membre de l&apos;OEC Aquitaine
+              </div>
+            </div>
+            <div>
+              <p style={{ fontFamily: FONT, fontWeight: 700, fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.25)", marginBottom: 20 }}>
+                Adresse
+              </p>
+              <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 2 }}>
+                14 allée de Tourny<br />
+                33000 Bordeaux<br />
+                <a href="tel:+33556000000" style={{ color: "#93c5fd", textDecoration: "none" }}>05 56 XX XX XX</a><br />
+                <a href="mailto:contact@ledger-associes.fr" style={{ color: "#93c5fd", textDecoration: "none" }}>contact@ledger-associes.fr</a>
+              </p>
+            </div>
+            <div>
+              <p style={{ fontFamily: FONT, fontWeight: 700, fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.25)", marginBottom: 20 }}>
+                Horaires
+              </p>
+              <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 2 }}>
+                Lun – Ven : 8h30 – 18h30<br />
+                Accueil sur rendez-vous
+              </p>
             </div>
           </div>
-          <div>
-            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#ffaa00]">Engine</h4>
-            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
-              <li className="hover:text-white transition-colors"><Link href="#">Strategy_Vault</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Latency_Map</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Risk_Engine</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Liquidity_SLA</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#ffaa00]">Telemetry</h4>
-            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
-              <li className="hover:text-white transition-colors"><Link href="#">Live_Tickers</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Node_Sync</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">API_Explorer</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">System_Status</Link></li>
-            </ul>
-          </div>
-        </div>
-        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[9px] font-bold text-white/10 uppercase tracking-widest">
-          <div className="flex items-center gap-10">
-            <span>&copy; 2026 CHRONOS ENGINE TECHNOLOGIES. ALL RIGHTS RESERVED.</span>
-            <div className="flex gap-10 hidden lg:flex">
-              <span>FINRA_COMPLIANT</span>
-              <span>SEC_REGISTERED</span>
+          <div
+            style={{
+              borderTop: `1px solid rgba(255,255,255,0.08)`,
+              paddingTop: 24,
+              display: "flex",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: 12,
+              fontSize: 12,
+              fontFamily: FONT_BODY,
+              fontWeight: 300,
+            }}
+          >
+            <span>© 2025 Ledger &amp; Associés — Tous droits réservés</span>
+            <div style={{ display: "flex", gap: 24 }}>
+              <a href="/legal/mentions-legales" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
+              <a href="/legal/confidentialite" style={{ color: "inherit", textDecoration: "none" }}>Confidentialité</a>
             </div>
-          </div>
-          <div className="flex gap-10 font-mono">
-            <span>EPOCH_STABLE</span>
-            <span>SYNC_LATENCY_0.12μs</span>
           </div>
         </div>
       </footer>
+
+      <style>{`
+        @media (max-width: 900px) {
+          .nav-links-desktop { display: none !important; }
+          .nav-menu-btn { display: block !important; }
+        }
+      `}</style>
     </div>
   );
 }
