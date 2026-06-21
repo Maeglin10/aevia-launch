@@ -1,368 +1,603 @@
 "use client";
 
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
-import { useState, useRef, useEffect, useMemo } from "react";
-import Image from "next/image";
+import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
-import { Globe, Radio, Zap, Shield, Layers, Search, Menu, X, ArrowRight, ChevronRight, Cpu, Activity, Box, Binary, Gauge, Navigation, Satellite, Orbit, Signal, Wind, Target, Telescope } from "lucide-react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { C, FONT, FONT_BODY, STATS, PRESTATIONS, TEMOIGNAGES, GALERIE, Reveal } from "./shared";
 
-import "../premium.css";
-
-/* ==========================================================================
-   DATA MANIFESTS
-   ========================================================================== */
-
-const ORBIT_MANIFESTS = {
-  hero: {
-    altitude: "420km",
-    velocity: "7.6km/s",
-    inclination: "51.6°",
-    status: "ORBIT_LOCK_STABLE",
-  },
-  platforms: [
-    {
-      id: "low-earth",
-      name: "LEO // CARRIER",
-      desc: "High-frequency deployment for small-sat constellations with rapid re-entry capability.",
-      icon: <Satellite className="w-5 h-5" />,
-      specs: ["500kg Payload", "Sun-Sync Orbit", "98.5% Reliability"],
-    },
-    {
-      id: "geosync",
-      name: "GEO // STATIC",
-      desc: "Deep-space relay systems for global telecommunications and secure signal persistence.",
-      icon: <Radio className="w-5 h-5" />,
-      specs: ["36,000km Altitude", "Dual-Band Relay", "15 Year Lifespan"],
-    },
-    {
-      id: "deep-space",
-      name: "DEEP // PROBE",
-      desc: "Autonomous logistics for lunar and martian surface replenishment and telemetry.",
-      icon: <Target className="w-5 h-5" />,
-      specs: ["AI-Navigation", "Solar-Thermal Prop", "Long-Range Comms"],
-    },
-  ],
-  telemetry: [
-    { label: "ORBITAL_STABILITY", val: 98, color: "#ffaa00" },
-    { label: "SIGNAL_INTEGRITY", val: 94, color: "#00f2ff" },
-    { label: "FUEL_RESERVE", val: 62, color: "#ffaa00" },
-    { label: "THERMAL_SHIELD", val: 100, color: "#00f2ff" },
-  ],
-  flights: [
-    { mission: "ORB-24", payload: "Starlink-V3", destination: "LEO", status: "In-Flight" },
-    { mission: "LUNAR-7", payload: "Habitat-A", destination: "Lunar South", status: "Preparing" },
-    { mission: "GEO-91", payload: "Comms-Alpha", destination: "GTO", status: "Nominal" },
-  ],
-};
-
-/* ==========================================================================
-   UTILITY COMPONENTS
-   ========================================================================== */
-
-function Reveal({
-  children,
-  delay = 0,
-  y = 20,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  y?: number;
-}) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function MagneticBtn({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 300, damping: 20 });
-  const sy = useSpring(y, { stiffness: 300, damping: 20 });
-  const ref = useRef<HTMLButtonElement>(null);
-
-  const handleMouse = (e: React.MouseEvent) => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (rect) {
-      x.set((e.clientX - rect.left - rect.width / 2) * 0.4);
-      y.set((e.clientY - rect.top - rect.height / 2) * 0.4);
-    }
-  };
-
-  return (
-    <motion.button
-      ref={ref}
-      style={{ x: sx, y: sy }}
-      onMouseMove={handleMouse}
-      onMouseLeave={() => {
-        x.set(0);
-        y.set(0);
-      }}
-      className={className}
-    >
-      {children}
-    </motion.button>
-  );
-}
-
-/* ==========================================================================
-   ORBIT // STATION COMPONENT
-   ========================================================================== */
-
-export default function OrbitStationPage() {
+export default function LumiereDoreePage() {
+  const heroRef = useRef<HTMLElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 170]);
+  const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -65]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
+
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const BASE = "/templates/impact-104";
+  const navLinks = [
+    { label: "Galerie", href: `${BASE}#galerie` },
+    { label: "Mariages", href: `${BASE}#prestations` },
+    { label: "Portraits", href: `${BASE}#prestations` },
+    { label: "Contact", href: `${BASE}/contact` },
+  ];
+
   return (
-    <div className="premium-theme min-h-screen bg-[#050608] text-white font-mono selection:bg-[#ffaa00] selection:text-black overflow-x-hidden">
-      {/* ── BACKGROUND ARCHITECTURE ── */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,#0f1218_0%,transparent_50%)]" />
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `radial-gradient(#ffffff 1px, transparent 1px)`,
-            backgroundSize: "50px 50px",
-          }}
-        />
-        <div className="absolute bottom-0 left-0 w-full h-[60vh] bg-gradient-to-t from-[#ffaa00]/5 to-transparent" />
-      </div>
+    <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, minHeight: "100vh" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+      `}</style>
 
-      {/* ── NAVIGATION ── */}
-      <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#050608]/90 backdrop-blur-xl py-4 border-b border-white/5 shadow-[0_0_50px_rgba(0,0,0,0.5)]" : "bg-transparent py-10"}`}
+      {/* NAVBAR */}
+      <motion.nav
+        initial={{ y: -80 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          height: 72,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0 52px",
+          background: scrolled ? "rgba(250,248,245,0.97)" : "transparent",
+          backdropFilter: scrolled ? "blur(12px)" : "none",
+          borderBottom: scrolled ? `1px solid ${C.border}` : "none",
+          transition: "background 0.4s, border-color 0.4s",
+        }}
       >
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link
-            href="/"
-            className="group flex items-center gap-3 text-xl font-black tracking-tighter"
-          >
-            <div className="w-8 h-8 bg-[#ffaa00] rounded flex items-center justify-center text-black">
-              <Orbit className="w-5 h-5" />
-            </div>
-            <span className="group-hover:text-[#ffaa00] transition-colors">
-              ORBIT // <span className="text-white/40">STATION</span>
-            </span>
-          </Link>
-
-          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
-            {["Missions", "Fleet", "Telemetry", "Logistics"].map((l) => (
-              <Link
-                key={l}
-                href="#"
-                className="hover:text-[#ffaa00] transition-colors"
-              >
-                {l}
-              </Link>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-6">
-            <button className="hidden md:block text-white/30 hover:text-white transition-colors">
-              <Search className="w-4 h-4" />
-            </button>
-            <MagneticBtn className="px-6 py-2.5 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[#ffaa00] transition-all">
-              Initialize_Launch
-            </MagneticBtn>
-            <button
-              onClick={() => setMenuOpen(true)}
-              className="lg:hidden text-white/60 hover:text-white transition-colors"
-            >
-              <Menu className="w-6 h-6" />
-            </button>
-          </div>
+        <div
+          style={{
+            fontFamily: FONT,
+            fontWeight: 400,
+            fontStyle: "italic",
+            fontSize: 22,
+            letterSpacing: 1,
+            color: scrolled ? C.text : C.white,
+          }}
+        >
+          Studio Lumière Dorée
         </div>
-      </nav>
+        <div style={{ display: "flex", alignItems: "center", gap: 36 }} className="nav-links-desktop">
+          {navLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              style={{
+                fontFamily: FONT_BODY,
+                fontWeight: 400,
+                fontSize: 14,
+                letterSpacing: 0.5,
+                color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)",
+                textDecoration: "none",
+                transition: "color 0.2s",
+              }}
+            >
+              {link.label}
+            </a>
+          ))}
+          <a
+            href={`${BASE}/contact`}
+            style={{
+              fontFamily: FONT_BODY,
+              fontWeight: 500,
+              fontSize: 13,
+              letterSpacing: 1,
+              textTransform: "uppercase",
+              border: `1px solid ${scrolled ? C.accent : "rgba(255,255,255,0.6)"}`,
+              color: scrolled ? C.accent : C.white,
+              padding: "9px 22px",
+              textDecoration: "none",
+              transition: "all 0.2s",
+            }}
+          >
+            Demander un devis
+          </a>
+        </div>
+        <button
+          onClick={() => setMenuOpen(true)}
+          style={{ display: "none", background: "none", border: "none", cursor: "pointer", color: scrolled ? C.text : C.white, padding: 8 }}
+          className="nav-menu-btn"
+          aria-label="Menu"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+      </motion.nav>
 
-      {/* MOBILE MENU */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            className="fixed inset-0 z-[100] bg-[#050608] p-8 flex flex-col pt-32"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 200,
+              background: C.bgDark,
+              display: "flex",
+              flexDirection: "column",
+              padding: "24px 36px",
+            }}
           >
-            <button
-              onClick={() => setMenuOpen(false)}
-              className="absolute top-10 right-8 text-white/40"
-            >
-              <X className="w-10 h-10" />
-            </button>
-            <div className="flex flex-col gap-10 text-5xl font-black tracking-tighter uppercase">
-              {["Missions", "Fleet", "Telemetry", "Logistics"].map((l) => (
-                <Link key={l} href="#" onClick={() => setMenuOpen(false)}>
-                  {l}
-                </Link>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 48 }}>
+              <span style={{ fontFamily: FONT, fontStyle: "italic", fontSize: 20, color: C.white }}>Studio Lumière Dorée</span>
+              <button onClick={() => setMenuOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: C.white }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+              {navLinks.map((link, i) => (
+                <motion.a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.08 }}
+                  style={{
+                    fontFamily: FONT,
+                    fontSize: 42,
+                    fontWeight: 300,
+                    color: C.white,
+                    textDecoration: "none",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {link.label}
+                </motion.a>
               ))}
+              <motion.a
+                href={`${BASE}/contact`}
+                onClick={() => setMenuOpen(false)}
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.32 }}
+                style={{
+                  fontFamily: FONT,
+                  fontSize: 42,
+                  fontWeight: 300,
+                  color: C.accent,
+                  textDecoration: "none",
+                  fontStyle: "italic",
+                }}
+              >
+                Devis
+              </motion.a>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ── HERO SECTION ── */}
-      <section className="relative h-screen flex flex-col justify-center pt-20 overflow-hidden">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-            <div className="lg:col-span-8">
-              <Reveal>
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="px-3 py-1 bg-[#ffaa00]/10 border border-[#ffaa00]/30 text-[#ffaa00] text-[9px] font-bold uppercase tracking-widest">
-                    {ORBIT_MANIFESTS.hero.status}
-                  </div>
-                  <div className="text-[9px] text-white/30 tracking-widest uppercase">
-                    ALT: {ORBIT_MANIFESTS.hero.altitude} // VEL:{" "}
-                    {ORBIT_MANIFESTS.hero.velocity}
-                  </div>
+      {/* HERO */}
+      <section
+        ref={heroRef}
+        style={{
+          height: "115vh",
+          minHeight: 900,
+          position: "relative",
+          display: "flex",
+          alignItems: "flex-end",
+          overflow: "hidden",
+        }}
+      >
+        <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
+          <img
+            src="https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80"
+            alt="Cérémonie de mariage"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </motion.div>
+        {/* gradient sombre bas → haut */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(to top, rgba(26,15,8,0.88) 0%, rgba(26,15,8,0.4) 50%, transparent 100%)",
+          }}
+        />
+        {/* gradient accent gauche */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(to right, rgba(201,168,124,0.12) 0%, transparent 60%)",
+          }}
+        />
+        <motion.div
+          style={{
+            position: "relative",
+            zIndex: 1,
+            padding: "0 80px 90px",
+            maxWidth: 760,
+            y: heroTextY,
+            opacity: heroOpacity,
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              border: `1px solid rgba(201,168,124,0.6)`,
+              color: C.accent,
+              fontFamily: FONT_BODY,
+              fontWeight: 400,
+              fontSize: 13,
+              letterSpacing: 2,
+              textTransform: "uppercase",
+              padding: "7px 18px",
+              marginBottom: 28,
+            }}
+          >
+            Photographe mariage · Paris &amp; région
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.7 }}
+            style={{
+              fontFamily: FONT,
+              fontSize: "clamp(44px, 7vw, 86px)",
+              fontWeight: 300,
+              lineHeight: 1.1,
+              color: C.white,
+              letterSpacing: 1,
+              marginBottom: 24,
+              fontStyle: "italic",
+            }}
+          >
+            Chaque amour mérite<br />
+            <span style={{ color: C.accent, fontStyle: "italic" }}>d&apos;être raconté</span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.75, duration: 0.7 }}
+            style={{
+              fontFamily: FONT_BODY,
+              fontWeight: 300,
+              fontSize: 17,
+              color: "rgba(255,255,255,0.75)",
+              lineHeight: 1.7,
+              marginBottom: 40,
+              maxWidth: 500,
+            }}
+          >
+            Photographe de mariage basée à Paris, je capture vos émotions avec discrétion et sensibilité pour des souvenirs qui durent toute une vie.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0, duration: 0.7 }}
+            style={{ display: "flex", gap: 16, flexWrap: "wrap" }}
+          >
+            <a
+              href={`${BASE}/contact`}
+              style={{
+                fontFamily: FONT_BODY,
+                fontWeight: 500,
+                fontSize: 14,
+                letterSpacing: 1.5,
+                textTransform: "uppercase",
+                background: C.accent,
+                color: C.bgDark,
+                padding: "16px 36px",
+                textDecoration: "none",
+                display: "inline-block",
+              }}
+            >
+              Demander un devis
+            </a>
+            <a
+              href={`${BASE}#galerie`}
+              style={{
+                fontFamily: FONT_BODY,
+                fontWeight: 400,
+                fontSize: 14,
+                letterSpacing: 1.5,
+                textTransform: "uppercase",
+                background: "transparent",
+                color: C.white,
+                padding: "16px 36px",
+                textDecoration: "none",
+                border: `1px solid rgba(255,255,255,0.4)`,
+                display: "inline-block",
+              }}
+            >
+              Voir la galerie
+            </a>
+          </motion.div>
+        </motion.div>
+        {/* scroll indicator */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 40,
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 8,
+            color: "rgba(255,255,255,0.4)",
+          }}
+        >
+          <span style={{ fontFamily: FONT_BODY, fontSize: 11, letterSpacing: 3, textTransform: "uppercase" }}>Scroll</span>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity }}
+            style={{ width: 1, height: 40, background: "rgba(201,168,124,0.4)" }}
+          />
+        </div>
+      </section>
+
+      {/* STATS */}
+      <section style={{ background: C.bgDark, padding: "72px 80px" }}>
+        <div
+          style={{
+            maxWidth: 1100,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: 40,
+          }}
+        >
+          {STATS.map((stat, i) => (
+            <Reveal key={stat.label} delay={i * 0.1}>
+              <div style={{ textAlign: "center" }}>
+                <div
+                  style={{
+                    fontFamily: FONT,
+                    fontSize: 48,
+                    fontWeight: 300,
+                    fontStyle: "italic",
+                    color: C.accent,
+                    lineHeight: 1,
+                    marginBottom: 10,
+                  }}
+                >
+                  {stat.value}
                 </div>
-                <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
-                  Orbital <br />{" "}
-                  <span className="text-[#ffaa00]">Logistics.</span> <br />{" "}
-                  Static <br />{" "}
-                  <span className="text-white/20">Persistence.</span>
-                </h1>
-                <p className="max-w-2xl text-xl text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">
-                  Challenging the gravitational barrier. Autonomous orbital
-                  infrastructure and payload delivery for the next generation of
-                  space commerce. Precision. Stability. Persistence.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-6">
-                  <button className="px-12 py-5 bg-[#ffaa00] text-black text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-[0_0_50px_rgba(255,170,0,0.2)]">
-                    Schedule_Payload
-                  </button>
-                  <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">
-                    View_Telemetry_Live
-                  </button>
+                <div
+                  style={{
+                    fontFamily: FONT_BODY,
+                    fontSize: 13,
+                    fontWeight: 300,
+                    color: "rgba(255,255,255,0.45)",
+                    letterSpacing: 1.5,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {stat.label}
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* PRESTATIONS */}
+      <section id="prestations" style={{ padding: "100px 80px", background: C.bg }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ marginBottom: 64, textAlign: "center" }}>
+              <div
+                style={{
+                  fontFamily: FONT_BODY,
+                  fontWeight: 400,
+                  fontSize: 12,
+                  letterSpacing: 3,
+                  textTransform: "uppercase",
+                  color: C.accent,
+                  marginBottom: 16,
+                }}
+              >
+                Mes services
+              </div>
+              <h2
+                style={{
+                  fontFamily: FONT,
+                  fontSize: "clamp(36px, 5vw, 58px)",
+                  fontWeight: 300,
+                  fontStyle: "italic",
+                  color: C.text,
+                  letterSpacing: 0.5,
+                }}
+              >
+                Prestations photographiques
+              </h2>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
+            {PRESTATIONS.map((prest, i) => (
+              <Reveal key={prest.titre} delay={i * 0.08}>
+                <div
+                  style={{
+                    background: C.white,
+                    borderRadius: 4,
+                    padding: "36px 28px",
+                    boxShadow: C.shadow,
+                    border: `1px solid ${C.border}`,
+                  }}
+                >
+                  <div style={{ fontSize: 32, marginBottom: 18 }}>{prest.icon}</div>
+                  <h3
+                    style={{
+                      fontFamily: FONT,
+                      fontSize: 22,
+                      fontWeight: 600,
+                      color: C.text,
+                      marginBottom: 12,
+                      lineHeight: 1.25,
+                    }}
+                  >
+                    {prest.titre}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: FONT_BODY,
+                      fontWeight: 300,
+                      fontSize: 14,
+                      color: C.textMuted,
+                      lineHeight: 1.7,
+                    }}
+                  >
+                    {prest.description}
+                  </p>
                 </div>
               </Reveal>
-            </div>
-
-            <div className="lg:col-span-4 relative hidden lg:block">
-              <Reveal delay={0.2}>
-                <div className="relative aspect-square bg-[#0a0a0f] border border-white/5 p-12 rounded-3xl overflow-hidden group shadow-2xl">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#ffaa00]/5 to-transparent" />
-
-                  {/* Orbital HUD */}
-                  <div className="relative h-full flex flex-col justify-between">
-                    <div className="flex justify-between items-start">
-                      <div className="space-y-1">
-                        <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest">
-                          INCLINATION_LOCK
-                        </div>
-                        <div className="text-xl font-black text-[#ffaa00]">
-                          {ORBIT_MANIFESTS.hero.inclination}
-                        </div>
-                      </div>
-                      <div className="w-10 h-10 border border-white/5 rounded-full flex items-center justify-center">
-                        <Signal className="w-5 h-5 text-white/20 animate-pulse" />
-                      </div>
-                    </div>
-
-                    {/* Progress Metrics */}
-                    <div className="space-y-10 my-10">
-                      {ORBIT_MANIFESTS.telemetry.map((stat, i) => (
-                        <div key={i}>
-                          <div className="flex justify-between text-[8px] font-bold uppercase tracking-widest mb-3">
-                            <span className="text-white/40">{stat.label}</span>
-                            <span style={{ color: stat.color }}>{stat.val}%</span>
-                          </div>
-                          <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
-                            <motion.div
-                              initial={{ width: 0 }}
-                              animate={{ width: `${stat.val}%` }}
-                              transition={{ duration: 2, delay: 0.5 + i * 0.1 }}
-                              className="h-full"
-                              style={{ backgroundColor: stat.color }}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="pt-6 border-t border-white/5 flex justify-between items-center text-[8px] font-bold text-white/20 uppercase tracking-widest">
-                      <span>AUTO_CORRECT_ON</span>
-                      <div className="flex items-center gap-2 text-[#ffaa00]">
-                        <div className="w-1.5 h-1.5 bg-[#ffaa00] rounded-full animate-ping" />
-                        <span>TRACKING_ACTIVE</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── FLEET SECTION ── */}
-      <section className="py-40 bg-[#08080a] border-y border-white/5">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
-            <Reveal>
-              <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85]">
-                Fleet <br />{" "}
-                <span className="text-[#ffaa00]">Capabilities.</span>
+      {/* GALERIE */}
+      <section id="galerie" style={{ padding: "0 0 100px", background: C.bg }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 80px" }}>
+          <Reveal>
+            <div style={{ marginBottom: 48, textAlign: "center" }}>
+              <div
+                style={{
+                  fontFamily: FONT_BODY,
+                  fontWeight: 400,
+                  fontSize: 12,
+                  letterSpacing: 3,
+                  textTransform: "uppercase",
+                  color: C.accent,
+                  marginBottom: 16,
+                }}
+              >
+                Portfolio
+              </div>
+              <h2
+                style={{
+                  fontFamily: FONT,
+                  fontSize: "clamp(32px, 4vw, 52px)",
+                  fontWeight: 300,
+                  fontStyle: "italic",
+                  color: C.text,
+                }}
+              >
+                Quelques instants
               </h2>
-            </Reveal>
-            <p className="max-w-md text-sm text-white/30 leading-relaxed uppercase tracking-widest font-light italic">
-              From LEO constellations to deep-space logistics, our modular platform architecture handles every stage of orbital deployment.
-            </p>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr 1fr", gap: 16, alignItems: "stretch" }}>
+            {GALERIE.map((src, i) => (
+              <Reveal key={i} delay={i * 0.12}>
+                <div
+                  style={{
+                    overflow: "hidden",
+                    borderRadius: 4,
+                    height: i === 0 ? 520 : 250,
+                    position: "relative",
+                  }}
+                >
+                  <img
+                    src={src}
+                    alt={`Photo mariage ${i + 1}`}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      display: "block",
+                      transition: "transform 0.6s ease",
+                    }}
+                  />
+                </div>
+              </Reveal>
+            ))}
           </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {ORBIT_MANIFESTS.platforms.map((p, i) => (
-              <Reveal key={p.id} delay={i * 0.1}>
-                <div className="group p-12 bg-[#0a0a0f] border border-white/5 hover:border-[#ffaa00]/30 transition-all flex flex-col h-full rounded-3xl relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#ffaa00]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-
-                  <div className="w-16 h-16 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-center text-[#ffaa00] mb-12 group-hover:bg-[#ffaa00] group-hover:text-black transition-all">
-                    {p.icon}
-                  </div>
-                  <h3 className="text-3xl font-black uppercase mb-6 tracking-tighter group-hover:text-[#ffaa00] transition-colors">
-                    {p.name}
-                  </h3>
-                  <p className="text-sm text-white/40 leading-relaxed mb-12 flex-1 italic">
-                    "{p.desc}"
-                  </p>
-
-                  <div className="space-y-5 pt-10 border-t border-white/5">
-                    {p.specs.map((s, j) => (
-                      <div
-                        key={j}
-                        className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest"
-                      >
-                        <div className="w-1.5 h-1.5 bg-[#ffaa00] rotate-45" />
-                        {s}
-                      </div>
+      {/* TÉMOIGNAGES */}
+      <section style={{ padding: "100px 80px", background: C.accentLight }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 60 }}>
+              <div
+                style={{
+                  fontFamily: FONT_BODY,
+                  fontSize: 12,
+                  letterSpacing: 3,
+                  textTransform: "uppercase",
+                  color: C.accentDark,
+                  marginBottom: 16,
+                }}
+              >
+                Ils me font confiance
+              </div>
+              <h2
+                style={{
+                  fontFamily: FONT,
+                  fontSize: "clamp(32px, 4vw, 52px)",
+                  fontWeight: 300,
+                  fontStyle: "italic",
+                  color: C.text,
+                }}
+              >
+                Ce qu&apos;ils disent
+              </h2>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }}>
+            {TEMOIGNAGES.map((temo, i) => (
+              <Reveal key={temo.couple} delay={i * 0.12}>
+                <div
+                  style={{
+                    background: C.white,
+                    borderRadius: 4,
+                    padding: "36px 28px",
+                    boxShadow: C.shadow,
+                  }}
+                >
+                  <div style={{ display: "flex", marginBottom: 16, gap: 3 }}>
+                    {Array.from({ length: temo.note }).map((_, j) => (
+                      <span key={j} style={{ color: C.accent, fontSize: 16 }}>★</span>
                     ))}
+                  </div>
+                  <p
+                    style={{
+                      fontFamily: FONT,
+                      fontSize: 17,
+                      fontWeight: 300,
+                      fontStyle: "italic",
+                      color: C.text,
+                      lineHeight: 1.7,
+                      marginBottom: 24,
+                    }}
+                  >
+                    &ldquo;{temo.texte}&rdquo;
+                  </p>
+                  <div>
+                    <div style={{ fontFamily: FONT_BODY, fontWeight: 600, fontSize: 15, color: C.text }}>{temo.couple}</div>
+                    <div style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 13, color: C.textMuted, marginTop: 3 }}>{temo.mariage}</div>
                   </div>
                 </div>
               </Reveal>
@@ -371,191 +606,135 @@ export default function OrbitStationPage() {
         </div>
       </section>
 
-      {/* ── LIVE TRACKING (Data Visualization) ── */}
-      <section className="py-40 bg-[#050608]">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-center">
-            <div className="lg:col-span-6">
-              <Reveal>
-                <div className="relative aspect-video bg-[#0a0a0f] border border-white/5 rounded-2xl overflow-hidden p-8 group">
-                  <div className="absolute top-6 left-6 text-[8px] font-bold text-white/20 tracking-widest uppercase">
-                    GLOBAL_TELEMETRY_STREAM
-                  </div>
-                  {/* Orbit Path Visualizer */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-30">
-                    <div className="relative w-full h-full">
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                        className="absolute inset-0 m-20 border-[0.5px] border-dashed border-[#ffaa00] rounded-full"
-                      />
-                      <motion.div
-                        animate={{ rotate: -360 }}
-                        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                        className="absolute inset-0 m-10 border-[0.5px] border-dashed border-white/10 rounded-full"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <Globe className="w-20 h-20 text-white/5" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center text-[8px] font-bold text-white/20 tracking-widest uppercase">
-                    <div className="flex gap-10">
-                      <span>LAT: 34.05°N</span>
-                      <span>LNG: 118.24°W</span>
-                    </div>
-                    <div className="text-[#ffaa00]">SIGNAL_LOCKED</div>
-                  </div>
-                </div>
-              </Reveal>
-            </div>
-
-            <div className="lg:col-span-6">
-              <Reveal>
-                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#ffaa00] mb-6 block">
-                  Active_Operations
-                </span>
-                <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-12 uppercase">
-                  Launch <br />{" "}
-                  <span className="text-white/20">Telemetry.</span>
-                </h2>
-                <div className="space-y-8">
-                  {ORBIT_MANIFESTS.flights.map((flight, i) => (
-                    <div
-                      key={i}
-                      className="group flex flex-col md:flex-row justify-between items-center p-8 bg-white/2 border border-white/5 hover:border-[#ffaa00]/30 transition-all"
-                    >
-                      <div className="flex items-center gap-10 mb-6 md:mb-0">
-                        <div className="text-2xl font-black uppercase tracking-tighter">
-                          {flight.mission}
-                        </div>
-                        <div className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
-                          {flight.payload}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-12 text-[10px] font-bold uppercase tracking-widest">
-                        <div className="flex items-center gap-3">
-                          <Navigation className="w-4 h-4 text-[#ffaa00]" />
-                          <span className="text-white/40">DEST:</span>
-                          <span>{flight.destination}</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <div
-                            className={`w-1.5 h-1.5 rounded-full ${flight.status === "In-Flight" ? "bg-green-500 animate-pulse" : "bg-yellow-500"}`}
-                          />
-                          <span className="text-white/40">STATUS:</span>
-                          <span className={flight.status === "In-Flight" ? "text-green-500" : ""}>{flight.status}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </Reveal>
-            </div>
+      {/* CTA */}
+      <section
+        style={{
+          background: C.bgDark,
+          padding: "100px 40px",
+          textAlign: "center",
+        }}
+      >
+        <Reveal>
+          <div
+            style={{
+              fontFamily: FONT_BODY,
+              fontSize: 12,
+              letterSpacing: 3,
+              textTransform: "uppercase",
+              color: C.accent,
+              marginBottom: 24,
+            }}
+          >
+            Réservations 2025 — 2026
           </div>
-        </div>
+          <h2
+            style={{
+              fontFamily: FONT,
+              fontSize: "clamp(36px, 5vw, 64px)",
+              fontWeight: 300,
+              fontStyle: "italic",
+              color: C.white,
+              letterSpacing: 0.5,
+              marginBottom: 20,
+            }}
+          >
+            Votre date est disponible ?
+          </h2>
+          <p
+            style={{
+              fontFamily: FONT_BODY,
+              fontWeight: 300,
+              fontSize: 17,
+              color: "rgba(255,255,255,0.6)",
+              marginBottom: 44,
+              maxWidth: 480,
+              margin: "0 auto 44px",
+            }}
+          >
+            Les dates se réservent souvent 12 à 18 mois à l&apos;avance. Contactez-moi pour vérifier la disponibilité de votre jour J.
+          </p>
+          <a
+            href={`${BASE}/contact`}
+            style={{
+              fontFamily: FONT_BODY,
+              fontWeight: 500,
+              fontSize: 14,
+              letterSpacing: 2,
+              textTransform: "uppercase",
+              background: C.accent,
+              color: C.bgDark,
+              padding: "18px 48px",
+              textDecoration: "none",
+              display: "inline-block",
+            }}
+          >
+            Vérifier ma disponibilité →
+          </a>
+        </Reveal>
       </section>
 
-      {/* ── RELIABILITY METRICS ── */}
-      <section className="py-40 bg-[#0a0a0f] border-y border-white/5 text-center overflow-hidden">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 relative">
-          <Reveal>
-            <h2 className="text-7xl md:text-[12rem] font-black tracking-tighter uppercase leading-[0.85] mb-12 text-white/5">
-              Zero <br /> Failure.
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-16 mt-24">
-              {[
-                { label: "LAUNCH_SUCCESS", val: "99.9%" },
-                { label: "RECOVERY_RATE", val: "94.2%" },
-                { label: "ORBIT_PRECISION", val: "0.01mm" },
-                { label: "TOTAL_FLIGHTS", val: "420+" },
-              ].map((s, i) => (
-                <div key={i} className="group">
-                  <div className="text-5xl font-black text-white mb-4 group-hover:text-[#ffaa00] transition-colors">
-                    {s.val}
-                  </div>
-                  <div className="text-[10px] font-black text-white/20 uppercase tracking-widest">
-                    {s.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── CTA / INITIALIZE ── */}
-      <section className="py-40 bg-[#050608]">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 text-center">
-          <Reveal>
-            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">
-              Reach <br />{" "}
-              <span className="text-[#ffaa00]">Escape.</span>
-            </h2>
-            <p className="max-w-2xl mx-auto text-sm text-white/40 leading-relaxed font-light mb-16 uppercase tracking-widest italic">
-              Space is open for commerce. Initialize your orbital logistics strategy today with the world's most precise launch and tracking platform.
-            </p>
-            <MagneticBtn className="px-16 py-6 bg-white text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[#ffaa00] transition-all shadow-[0_0_60px_rgba(255,170,0,0.15)]">
-              Initialize_Mission_Alpha
-            </MagneticBtn>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── FOOTER ── */}
-      <footer className="bg-[#050608] border-t border-white/5 py-32 px-6 md:px-12">
-        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
-          <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10">
-              <div className="w-8 h-8 bg-white text-black rounded flex items-center justify-center">
-                <Orbit className="w-5 h-5" />
+      {/* FOOTER */}
+      <footer style={{ background: C.warm, padding: "60px 80px 36px", color: "rgba(255,255,255,0.5)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
+            <div>
+              <div style={{ fontFamily: FONT, fontStyle: "italic", fontWeight: 300, fontSize: 22, color: C.white, marginBottom: 16 }}>
+                Studio Lumière Dorée
               </div>
-              <span>ORBIT // STATION</span>
-            </Link>
-            <p className="text-[11px] text-white/20 uppercase tracking-[0.2em] max-w-sm leading-relaxed mb-16 italic">
-              Engineering the orbital infrastructure for the next century of space commerce and exploration.
-            </p>
-            <div className="flex gap-8">
-              {[Satellite, Globe, Telescope].map((Icon, i) => (
-                <button key={i} className="text-white/20 hover:text-[#ffaa00] transition-colors">
-                  <Icon className="w-5 h-5" />
-                </button>
+              <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 1.8 }}>
+                Photographe mariage &amp; portraits.<br />
+                Paris &amp; déplacements France entière.
+              </p>
+            </div>
+            <div>
+              <p style={{ fontFamily: FONT_BODY, fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.25)", marginBottom: 18 }}>
+                Contact
+              </p>
+              <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 2 }}>
+                Paris 11e<br />
+                <a href="tel:+33612345678" style={{ color: C.accent, textDecoration: "none" }}>06 12 XX XX XX</a><br />
+                <a href="mailto:contact@lumieredoree.fr" style={{ color: C.accent, textDecoration: "none" }}>contact@lumieredoree.fr</a>
+              </p>
+            </div>
+            <div>
+              <p style={{ fontFamily: FONT_BODY, fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.25)", marginBottom: 18 }}>
+                Navigation
+              </p>
+              {navLinks.map((link) => (
+                <a key={link.label} href={link.href} style={{ display: "block", fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, color: "rgba(255,255,255,0.5)", textDecoration: "none", marginBottom: 10 }}>
+                  {link.label}
+                </a>
               ))}
             </div>
           </div>
-          <div>
-            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#ffaa00]">Missions</h4>
-            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
-              <li className="hover:text-white transition-colors"><Link href="#">Launch_Schedule</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Payload_Guide</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Recovery_Stats</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Pricing_Calculator</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#ffaa00]">Telemetry</h4>
-            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
-              <li className="hover:text-white transition-colors"><Link href="#">Live_Tracking</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Signal_Integrity</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">API_Access</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Status_Logs</Link></li>
-            </ul>
-          </div>
-        </div>
-        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[9px] font-bold text-white/10 uppercase tracking-widest">
-          <div className="flex items-center gap-10">
-            <span>&copy; 2026 ORBIT STATION LOGISTICS. ALL RIGHTS RESERVED.</span>
-            <div className="flex gap-10 hidden lg:flex">
-              <span>FAA_LICENSED</span>
-              <span>ISO_9001_CERTIFIED</span>
+          <div
+            style={{
+              borderTop: `1px solid rgba(255,255,255,0.08)`,
+              paddingTop: 24,
+              display: "flex",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: 12,
+              fontSize: 12,
+              fontFamily: FONT_BODY,
+              fontWeight: 300,
+            }}
+          >
+            <span>© 2025 Studio Lumière Dorée — Tous droits réservés</span>
+            <div style={{ display: "flex", gap: 24 }}>
+              <a href="/legal/mentions-legales" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
+              <a href="/legal/confidentialite" style={{ color: "inherit", textDecoration: "none" }}>Confidentialité</a>
             </div>
-          </div>
-          <div className="flex gap-10 font-mono">
-            <span>ORBIT_LOCKED</span>
-            <span>TLE_SYNC_COMPLETE</span>
           </div>
         </div>
       </footer>
+
+      <style>{`
+        @media (max-width: 900px) {
+          .nav-links-desktop { display: none !important; }
+          .nav-menu-btn { display: block !important; }
+        }
+      `}</style>
     </div>
   );
 }
