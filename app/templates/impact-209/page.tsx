@@ -1261,7 +1261,7 @@ export default function Page() {
 
       {/* ── BEFORE / AFTER ──────────────────────────────────────────────────── */}
       <section
-        id="avant-apres"
+        id="avantapres"
         style={{
           padding: '120px 40px',
           background: DARK,
@@ -1562,7 +1562,13 @@ export default function Page() {
             {['Instagram', 'Pinterest', 'Facebook'].map((social) => (
               <a
                 key={social}
-                href="#"
+                href={
+                  social === 'Instagram'
+                    ? 'https://instagram.com'
+                    : social === 'Pinterest'
+                    ? 'https://pinterest.com'
+                    : 'https://facebook.com'
+                }
                 style={{ ...bodyFont, fontSize: '11px', color: GRAY_MID, textDecoration: 'none', letterSpacing: '0.1em', transition: 'color 0.2s' }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = GOLD)}
                 onMouseLeave={(e) => (e.currentTarget.style.color = GRAY_MID)}

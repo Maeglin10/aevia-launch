@@ -192,6 +192,7 @@ function BlueprintHero() {
   return (
     <section
       ref={ref}
+      id="hero"
       style={{
         position: 'relative',
         minHeight: '100vh',
@@ -1937,7 +1938,7 @@ function Nav() {
       }}
     >
       {/* Logo */}
-      <a href="#" style={{ textDecoration: 'none' }}>
+      <a href="#hero" style={{ textDecoration: 'none' }}>
         <div style={{
           fontFamily: FONT_HEADING,
           fontWeight: 800,
