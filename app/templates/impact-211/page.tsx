@@ -517,7 +517,7 @@ export default function Impact211Page() {
       ════════════════════════════════════════════════════════════════════════ */}
       <section
         ref={heroRef}
-        style={{ position: "relative", height: "100vh", minHeight: 700, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}
+        style={{ position: "relative", height: "115vh", minHeight: "900px", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}
       >
         {/* Background texture */}
         <div style={{
