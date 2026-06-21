@@ -186,6 +186,69 @@ export default function BlueprintPage() {
         </div>
       </section>
 
+      {/* ── TESTIMONIALS ──────────── */}
+      <section className="py-32 bg-[#F7F5F2] border-t border-[#2A2820]/10">
+        <div className="max-w-6xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-[9px] uppercase tracking-[0.5em] text-[#C9A86C] mb-6">Résultats clients</p>
+            <h2 className="text-4xl md:text-6xl font-light text-[#1A1612] mb-20 leading-snug" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+              Ils ont <em>transformé</em> leur corps.
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#2A2820]/10">
+            {[
+              { quote: "En 4 mois avec Blueprint, j'ai perdu 14 kg et retrouvé une énergie que je n'avais plus depuis mes 30 ans. L'approche est scientifique, humaine, et elle marche.", name: "Arnaud M.", stats: "−14 kg · 4 mois" },
+              { quote: "J'ai essayé 3 coaches avant Blueprint. La différence, c'est la méthode : chaque entraînement a un pourquoi, chaque repas aussi. Je ne fais plus du sport — je construis.", name: "Sarah K.", stats: "−8% BF · 6 mois" },
+              { quote: "J'avais 62 ans et une prothèse de hanche. Blueprint a adapté chaque exercice. Aujourd'hui je cours 5 km. Mon médecin n'en revient pas.", name: "Claude B.", stats: "5km · 70 ans" },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="bg-white p-12 flex flex-col gap-6 h-full">
+                  <div className="text-4xl text-[#C9A86C]/20 font-serif leading-none">&ldquo;</div>
+                  <p className="text-[#4A3F35] text-sm leading-relaxed italic flex-1">{t.quote}</p>
+                  <div className="border-t border-[#2A2820]/10 pt-6 flex items-center justify-between">
+                    <div className="text-sm font-bold text-[#1A1612]">{t.name}</div>
+                    <div className="text-[9px] uppercase tracking-widest text-[#C9A86C] font-bold">{t.stats}</div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── COACHS ────────────────── */}
+      <section className="py-32 bg-[#1A1612] text-[#F7F5F2]">
+        <div className="max-w-6xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <p className="text-[9px] uppercase tracking-[0.5em] text-[#C9A86C] mb-6">L&apos;équipe</p>
+            <h2 className="text-4xl md:text-6xl font-light mb-20 leading-snug" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+              Vos <em>coachs.</em>
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#3A3020]">
+            {[
+              { name: "Marc Delcourt", role: "Prépa physique", exp: "12 ans", initials: "MD" },
+              { name: "Léa Fontaine", role: "Nutrition & lifestyle", exp: "8 ans", initials: "LF" },
+              { name: "Samuel Osei", role: "Force & mobilité", exp: "10 ans", initials: "SO" },
+              { name: "Aiko Tanaka", role: "Récupération & mental", exp: "7 ans", initials: "AT" },
+            ].map((c, i) => (
+              <Reveal key={c.name} delay={i * 0.08}>
+                <div className="bg-[#1A1612] p-10 flex flex-col gap-5 hover:bg-[#231E14] transition-colors">
+                  <div className="w-12 h-12 bg-[#3A3020] flex items-center justify-center">
+                    <span className="text-[#C9A86C] text-sm font-bold">{c.initials}</span>
+                  </div>
+                  <div>
+                    <div className="text-[9px] uppercase tracking-widest text-[#C9A86C]/50 mb-1">{c.exp} d&apos;exp.</div>
+                    <div className="text-[#F7F5F2] font-medium" style={{ fontFamily: "'Libre Baskerville', serif" }}>{c.name}</div>
+                    <div className="text-[9px] uppercase tracking-widest text-[#8A8278] mt-0.5">{c.role}</div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA section */}
       <section className="py-24 bg-[#F0EBE0] text-[#1A1612]">
         <div className="max-w-4xl mx-auto text-center px-6">

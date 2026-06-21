@@ -176,6 +176,43 @@ export default function Impact53Page() {
         </div>
       </section>
 
+      {/* ── TESTIMONIALS ─────────────────────────────────────────────────── */}
+      <section style={{ background: C.black, padding: "8rem 2.5rem", borderTop: `1px solid ${C.dim}` }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+          <div style={{ marginBottom: "5rem" }}>
+            <div style={{ fontFamily: FONT_MONO, fontSize: "0.6rem", color: C.red, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "1rem" }}>CLIENT WORDS //</div>
+            <h2 style={{ fontFamily: FONT_SYNE, fontWeight: 900, fontSize: "clamp(2.5rem,6vw,5rem)", color: C.white, textTransform: "uppercase", lineHeight: 0.95, letterSpacing: "-0.03em" }}>WHAT THEY<br />SAY.</h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2px", background: C.dim }}>
+            {[
+              { quote: "They told us the concept was impossible. Void delivered it in 6 weeks. The brand now leads every category benchmark we track.", client: "CEO · Phantom Records", mark: "01" },
+              { quote: "We briefed three agencies. Void came back with something that scared us a little — and then it became our most successful campaign to date.", client: "CMO · Atlas Ventures", mark: "02" },
+              { quote: "The code they wrote is the first thing our engineers didn't immediately want to rewrite. That's the highest compliment in our stack.", client: "CTO · Nova Systems", mark: "03" },
+            ].map((t) => (
+              <div key={t.mark} style={{ background: C.black, padding: "3.5rem 2.5rem", borderBottom: `1px solid ${C.dim}` }}>
+                <div style={{ fontFamily: FONT_MONO, fontSize: "0.6rem", color: C.red, letterSpacing: "0.3em", marginBottom: "2rem" }}>{t.mark} //</div>
+                <p style={{ fontFamily: FONT_MONO, fontSize: "0.85rem", color: "rgba(255,255,255,0.45)", lineHeight: 1.9, letterSpacing: "0.03em", marginBottom: "2rem", fontStyle: "italic" }}>&ldquo;{t.quote}&rdquo;</p>
+                <div style={{ fontFamily: FONT_SYNE, fontSize: "0.65rem", fontWeight: 700, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.1em" }}>{t.client}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CLIENTS ──────────────────────────────────────────────────────── */}
+      <section style={{ background: C.black, padding: "6rem 2.5rem", borderTop: `1px solid ${C.dim}`, borderBottom: `1px solid ${C.dim}` }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+          <div style={{ fontFamily: FONT_MONO, fontSize: "0.6rem", color: "rgba(255,255,255,0.2)", letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: "4rem" }}>SELECT CLIENTS //</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "2px", background: C.dim }}>
+            {["PHANTOM", "ATLAS CO.", "NOVA SYS", "MERIDIAN", "CIPHER", "HELIX"].map((name) => (
+              <div key={name} style={{ background: C.black, padding: "2.5rem 2rem", textAlign: "center" }}>
+                <div style={{ fontFamily: FONT_SYNE, fontSize: "0.75rem", fontWeight: 900, color: "rgba(255,255,255,0.2)", textTransform: "uppercase", letterSpacing: "0.15em" }}>{name}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA ──────────────────────────────────────────────────────────── */}
       <section style={{ background: C.red, padding: "10rem 2.5rem", textAlign: "center" }}>
         <div style={{ maxWidth: "800px", margin: "0 auto" }}>
