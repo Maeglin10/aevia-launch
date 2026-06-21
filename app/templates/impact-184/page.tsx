@@ -1,526 +1,293 @@
+// @ts-nocheck
 "use client"
-
-import React, { useState, useEffect, useRef } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
-} from "framer-motion"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  Zap, Activity, Microscope, 
-  Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, Wifi, BarChart3, 
-  Fingerprint, Scan, Brain, Server, 
-  ShieldCheck, ShieldAlert, Award, 
-  Briefcase, Wind, Thermometer, 
-  Flame, Battery, Radio, Gauge, 
-  Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Satellite, 
-  Milestone, FlaskConical, FlaskRound, 
-  Ghost, Binary, Database, Search, 
-  Cpu, HeartPulse, Sun, Magnet, 
-  CircleDot, Waves, Pickaxe, Mountain, 
-  Gem, Rocket, Drill, PlaneTakeoff, 
-  Train, Navigation, MapPin, GaugeCircle, 
-  TimerReset, ZapOff, Compass
-} from "lucide-react"
+import { Sparkles, CheckCircle, Phone, Star, MapPin, Clock, Shield, Leaf, Home, Building, Menu } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-/* ==========================================================================
-   THE MAGLEV GRID DATASET (ULTRA DENSITY)
-   ========================================================================== */
+/* ═══════════════════════════════════════════════════════════════════════════
+   BRILLO NET — Entreprise de ménage & nettoyage professionnel (Lyon)
+   Palette : blanc pur / turquoise frais #0d9488 / fond doux #f0fafa / charbon #1c2b2b
+   Fonts : Plus Jakarta Sans (titres) + Inter (corps)
+   Style : ultra propre, aéré, confiance, professionnel
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-const TRANSIT_LINES = [
-  {
-    id: "mag-sh-42",
-    name: "Shanghai Express v4",
-    type: "Maglev High-Speed",
-    speed: "620 km/h",
-    efficiency: "18 Wh/pkm",
-    flux: "240,000 pass/day",
-    desc: "Ligne Maglev commerciale la plus rapide au monde, reliant le centre financier à l'aéroport international en 7 minutes.",
-    status: "Operational"
-  },
-  {
-    id: "mag-eu-08",
-    name: "Paris-Berlin Link",
-    type: "Superconducting Rail",
-    speed: "550 km/h",
-    efficiency: "22 Wh/pkm",
-    flux: "180,000 pass/day",
-    desc: "Infrastructures transcontinentales utilisant des aimants supraconducteurs de haute température pour un transport décarboné massif.",
-    status: "Syncing"
-  },
-  {
-    id: "mag-ht-15",
-    name: "Hyper-Tube One",
-    type: "Vacuum Tube Maglev",
-    speed: "1,100 km/h",
-    efficiency: "12 Wh/pkm",
-    flux: "45,000 pass/day",
-    desc: "Système de transport sous vide (Hyperloop) permettant des vitesses subsoniques avec une résistance à l'air quasi nulle.",
-    status: "Active Test"
-  }
-]
-
-const TRANSIT_METRICS = [
-  { label: "Cruise Speed", value: "620 km/h", trend: "Stable" },
-  { label: "Energy Efficiency", value: "18 Wh/pkm", trend: "Optimal" },
-  { label: "Rail Temp", value: "77 K", trend: "Low" },
-  { label: "Alignment Prec", value: "0.2 mm", trend: "Max" }
-]
-
-const TRANSIT_LOGS = [
-  { timestamp: "05:14:42", unit: "Propulsion-01", status: "NOMINAL", current: "4,200A" },
-  { timestamp: "05:14:45", unit: "Cryo-Line-X", status: "STABLE", nitrogen: "98%" },
-  { timestamp: "05:14:48", unit: "Auto-Pilot-v4", status: "LOCKED", drift: "0.01mm" }
-]
-
-/* ==========================================
-   TECHNICAL COMPONENTS
-   ========================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+function Reveal({ children, delay = 0, y = 24 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-60px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.85, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function MagneticGlideVisualizer() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+const SERVICES = [
+  { icon: Home, title: "Ménage domicile", desc: "Passage régulier hebdomadaire ou bihebdomadaire. Dépoussiérage, aspiration, nettoyage sols, sanitaires, cuisine. Produits écologiques certifiés." },
+  { icon: Building, title: "Nettoyage bureaux", desc: "Locaux professionnels, open spaces, salles de réunion, sanitaires. Intervention en soirée ou week-end pour ne pas perturber l'activité." },
+  { icon: Sparkles, title: "Nettoyage fin de chantier", desc: "Déblayage et nettoyage complet post-travaux. Vitres, plinthes, enduits, carrelage. Rendu prêt à emménager en 1 intervention." },
+  { icon: Leaf, title: "Ménage écologique", desc: "Produits certifiés Ecocert / Ecolabel uniquement. Zéro toxique, zéro résidu chimique. Idéal familles avec enfants en bas âge ou allergiques." },
+  { icon: Clock, title: "Ménage express & ponctuel", desc: "Avant/après emménagement, avant une réception, entre deux locataires Airbnb. Intervention rapide sous 24h sur Lyon Métropole." },
+  { icon: Shield, title: "Vitres & surfaces vitrées", desc: "Lavage de vitres intérieures et extérieures jusqu'au 3ème étage. Velux, baies, vérandas. Sans traces garanties, finition cristal." },
+]
+
+export default function BrilloNetPage() {
+  const heroRef = useRef(null)
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+  const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "8%"])
+
   useEffect(() => {
-    const handleMouse = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
-    window.addEventListener("mousemove", handleMouse)
-    return () => window.removeEventListener("mousemove", handleMouse)
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-10">
-       <svg width="100%" height="100%" className="w-full h-full">
-          {[...Array(10)].map((_, i) => (
-            <motion.rect 
-               key={i}
-               x="0" 
-               y={`${10 + i * 10}%`} 
-               width="100%" 
-               height="2" 
-               fill="#3b82f6" 
-               animate={{ x: [0, 2000, 0] }}
-               transition={{ duration: 1 + Math.random() * 2, repeat: Infinity, ease: "linear" }}
-            />
-          ))}
-          {[...Array(40)].map((_, i) => (
-            <motion.circle 
-               key={`glide-${i}`}
-               r="1.5"
-               fill="#3b82f6"
-               initial={{ opacity: 0 }}
-               animate={{ 
-                  cx: [Math.random() * 2000, Math.random() * 2000],
-                  cy: [Math.random() * 1000, Math.random() * 1000],
-                  opacity: [0, 1, 0]
-               }}
-               transition={{ duration: 0.5 + Math.random() * 1, repeat: Infinity, delay: Math.random() * 2 }}
-            />
-          ))}
-       </svg>
-    </div>
-  )
-}
+    <div className="bg-white text-[#1c2b2b] overflow-x-hidden" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', system-ui, sans-serif" }}>
+      {/* ── NAVBAR ── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-white/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#0d9488]/10" : "bg-transparent py-7"}`}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-[#0d9488]" />
+            <span className="font-bold text-[#1c2b2b] tracking-tight text-sm">Brillo<span className="text-[#0d9488]">Net</span></span>
+          </div>
+          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1c2b2b]/30">
+            {["Services", "Tarifs", "Zone", "Avis", "Contact"].map(l => (
+              <Link key={l} href="#" className="hover:text-[#0d9488] transition-colors">{l}</Link>
+            ))}
+          </div>
+          <div className="flex items-center gap-3">
+            <a href="tel:0478123456" className="hidden md:flex items-center gap-2 text-[#0d9488] font-bold text-sm">
+              <Phone className="w-4 h-4" /> 04 78 12 34 56
+            </a>
+            <button className="hidden md:block px-5 py-2.5 bg-[#0d9488] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#0b7d73] transition-colors rounded-full">
+              Devis gratuit
+            </button>
+            <Sheet>
+              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5" /></button></SheetTrigger>
+              <SheetContent side="right" className="bg-white border-slate-100 p-10">
+                <div className="flex flex-col gap-7 mt-16">
+                  {["Services", "Tarifs", "Contact"].map(l => <Link key={l} href="#" className="text-3xl font-bold text-[#1c2b2b] hover:text-[#0d9488] transition-colors">{l}</Link>)}
+                  <a href="tel:0478123456" className="flex items-center gap-3 text-[#0d9488] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 78 12 34 56</a>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+      </nav>
 
-function MaglevModel({ progress }: { progress: any }) {
-  const rotate = useTransform(progress, [0, 1], [0, 360])
-  const scale = useTransform(progress, [0, 0.5, 1], [1, 1.2, 1])
+      {/* ── HERO ── */}
+      <section ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
+        <motion.div style={{ y: heroY }} className="absolute inset-0">
+          <Image src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=85&w=2400" alt="Nettoyage professionnel intérieur" fill className="object-cover" priority style={{ filter: "brightness(0.45)" }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1e1e] via-[#0a1e1e]/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a1e1e]/60 to-transparent" />
+        </motion.div>
 
-  return (
-    <motion.div style={{ rotate, scale }} className="relative w-80 h-80 flex items-center justify-center">
-       <div className="absolute inset-0 border border-blue-500/10 rounded-full animate-spin-slow shadow-[0_0_80px_rgba(59,130,246,0.05)]" />
-       <Train className="w-40 h-40 text-blue-500/10 animate-pulse" />
-       <div className="absolute inset-8 border border-blue-500/5 rounded-full" />
-    </motion.div>
-  )
-}
+        <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.8 }}
+          className="absolute top-28 right-8 md:right-16 z-10 bg-[#0d9488]/90 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-widest px-4 py-2.5 rounded-full flex items-center gap-2 shadow-lg">
+          <Leaf className="w-3 h-3" /> Produits 100% éco
+        </motion.div>
 
-/* ==========================================
-   THE MAGLEV GRID - MAIN INTERFACE
-   ========================================== */
-
-export default function MaglevGridPremium() {
-  const [activeLine, setActiveLine] = useState(0)
-  const [isLevitationActive, setIsLevitationActive] = useState(true)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Maglev Scroll Effects
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textX = useTransform(scrollYProgress, [0, 0.5], [0, -100])
-
-  return (
-    <div ref={containerRef} className="bg-[#020408] text-[#e0e8ed] font-mono selection:bg-blue-500/30 selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000">
-      
-      {/* GLOBAL HUD OVERLAY */}
-      <HUD_Overlay isLevitationActive={isLevitationActive} />
-
-      <main>
-        {/* ==========================================
-            1. TRANSIT IGNITION (HERO)
-            ========================================== */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-          <MagneticGlideVisualizer />
-          <motion.div style={{ opacity: heroOpacity }} className="absolute z-0 pointer-events-none flex items-center justify-center">
-             <MaglevModel progress={scrollYProgress} />
+        <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-6 h-[1px] bg-[#0d9488]" />
+              <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#2dd4bf]">Ménage & Nettoyage Pro · Lyon Métropole</span>
+            </div>
           </motion.div>
 
-          <div className="relative z-10 text-center max-w-7xl">
-             <Reveal>
-                <div className="inline-flex items-center gap-4 px-6 py-2 border border-blue-500/30 bg-blue-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-12 italic">
-                   <Navigation className="w-4 h-4" /> Transit_Sync: NOMINAL // Speed: 620 km/h
+          <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="text-5xl md:text-7xl lg:text-[82px] font-bold leading-[0.88] tracking-tight mb-8 text-white">
+            Votre intérieur,<br />impeccable.
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
+            className="max-w-md text-sm text-white/38 leading-relaxed mb-10" style={{ fontFamily: "'Inter', sans-serif" }}>
+            Entreprise de ménage et nettoyage sur Lyon. Domicile, bureaux, fin de chantier. Intervenantes formées, assurées, ponctualité garantie. Premier passage sans engagement.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-3 mb-8">
+            <button className="px-8 py-4 bg-[#0d9488] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#0b7d73] transition-colors rounded-full">
+              Devis gratuit sous 2h
+            </button>
+            <a href="tel:0478123456" className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#0d9488]/50 hover:text-[#2dd4bf] transition-all rounded-full">
+              <Phone className="w-4 h-4" /> Appeler maintenant
+            </a>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2, duration: 0.7 }} className="flex flex-wrap items-center gap-6">
+            {["Assurés RC Pro", "Ponctualité garantie", "Devis gratuit 2h"].map((b, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <CheckCircle className="w-3.5 h-3.5 text-[#0d9488]" />
+                <span className="text-[10px] font-bold text-white/35 uppercase tracking-wide">{b}</span>
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.4 }} className="w-[1px] h-10 bg-gradient-to-b from-[#0d9488]/60 to-transparent mx-auto" />
+        </div>
+      </section>
+
+      {/* ── STATS ── */}
+      <section className="py-12 bg-[#f0fafa]">
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-5">
+          {[
+            { v: "12 ans", l: "D'expérience" },
+            { v: "1 400+", l: "Clients réguliers" },
+            { v: "4.9★", l: "Note Google" },
+            { v: "0 toxique", l: "Produits éco certifiés" },
+          ].map((s, i) => (
+            <Reveal key={i} delay={i * 0.07}>
+              <div className="text-center p-6 bg-white rounded-2xl shadow-sm">
+                <div className="text-3xl font-bold text-[#0d9488] mb-1">{s.v}</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-[#1c2b2b]/35">{s.l}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── SERVICES ── */}
+      <section className="py-28 bg-white">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16 flex flex-col md:flex-row md:items-end gap-8 justify-between">
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0d9488] mb-4">Nos prestations</div>
+                <h2 className="text-4xl md:text-5xl font-bold text-[#1c2b2b]">Des solutions pour<br /><span className="text-[#0d9488]">chaque besoin.</span></h2>
+              </div>
+              <p className="max-w-xs text-sm text-[#1c2b2b]/40 leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
+                Particuliers ou professionnels, ponctuel ou régulier, écologique en option standard.
+              </p>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {SERVICES.map((s, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div className="group p-7 rounded-2xl border border-[#e8f7f6] hover:border-[#0d9488]/25 hover:shadow-xl hover:shadow-[#0d9488]/5 transition-all duration-500 bg-white h-full">
+                  <div className="w-10 h-10 bg-[#0d9488]/8 rounded-xl flex items-center justify-center mb-5 group-hover:bg-[#0d9488] transition-colors duration-500">
+                    <s.icon className="w-5 h-5 text-[#0d9488] group-hover:text-white transition-colors" />
+                  </div>
+                  <h3 className="font-bold text-[#1c2b2b] mb-3 text-sm">{s.title}</h3>
+                  <p className="text-sm text-[#1c2b2b]/40 leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>{s.desc}</p>
                 </div>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic">
-                   Maglev <br/> <span className="text-white/5 italic">Grid.</span>
-                </motion.h1>
-                <p className="max-w-3xl mx-auto text-sm md:text-lg text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16 italic">
-                   L'infrastructure de transport la plus avancée au monde. Nous déployons des réseaux Maglev haute performance pour connecter les continents en un temps record.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                   <button className="px-12 py-6 bg-blue-800 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(59,130,246,0.2)] flex items-center gap-4 italic">
-                      <Zap className="w-5 h-5" /> Initialize Levitation
-                   </button>
-                   <button className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
-                      <Database className="w-5 h-5" /> Transit Registry
-                   </button>
-                </div>
-             </Reveal>
+              </Reveal>
+            ))}
           </div>
+        </div>
+      </section>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-12">
-             <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Station_ID: MAGLEV-HUB-01
+      {/* ── COMMENT ÇA MARCHE ── */}
+      <section className="py-24 bg-[#f0fafa]">
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14 text-center">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0d9488] mb-4">Simple comme bonjour</div>
+            <h2 className="text-4xl font-bold text-[#1c2b2b]">Comment ça marche ?</h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {[
+              { n: "01", t: "Devis en ligne", d: "Remplissez le formulaire ou appelez. Réponse sous 2h avec tarif et disponibilités." },
+              { n: "02", t: "On s'organise", d: "On choisit ensemble la fréquence, les horaires et les pièces à traiter." },
+              { n: "03", t: "Premier passage", d: "Une intervenante formée se présente à l'heure. Badge, blouse, matériel inclus." },
+              { n: "04", t: "Vous validez", d: "Satisfaction garantie. Retouche gratuite si quoi que ce soit ne vous convient pas." },
+            ].map((s, i) => (
+              <Reveal key={i} delay={i * 0.09}>
+                <div className="bg-white rounded-2xl p-7 shadow-sm h-full">
+                  <div className="text-4xl font-bold text-[#0d9488]/15 mb-4 tracking-tight">{s.n}</div>
+                  <div className="font-bold text-[#1c2b2b] mb-2 text-sm">{s.t}</div>
+                  <p className="text-sm text-[#1c2b2b]/40 leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>{s.d}</p>
                 </div>
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Status: LEVITATION_LOCKED
-                </div>
-             </div>
-             <div className="text-right flex flex-col items-end gap-4">
-                <span className="text-[8px] font-black uppercase tracking-[0.5em] text-blue-500">Magnetic_Flux_Stream</span>
-                <div className="flex gap-2 h-12 items-end">
-                   {[...Array(16)].map((_, i) => (
-                     <motion.div 
-                        key={i}
-                        animate={{ height: ["10%", "100%", "30%", "80%", "10%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                        className="w-2 bg-blue-500/20"
-                     />
-                   ))}
-                </div>
-             </div>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ==========================================
-            2. TRANSIT REGISTRY (DENSE TECHNICAL)
-            ========================================== */}
-        <section className="py-60 bg-[#04080c] relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-              <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-                 <Reveal>
-                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-blue-500 block mb-6 italic underline underline-offset-8 decoration-blue-400/20">Transit // Assets</span>
-                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">Archives.</h2>
-                 </Reveal>
-                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Transit_Audit</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-500">L'Architecture du Transport Maglev</p>
-                 </div>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 shadow-2xl">
-                 {TRANSIT_LINES.map((line, i) => (
-                   <Reveal key={line.id} delay={i * 0.1}>
-                      <div className="bg-[#020408] p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
-                         <div className="flex justify-between items-start mb-16">
-                            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-blue-800 group-hover:text-white transition-all duration-500">
-                               <Navigation className="w-8 h-8" />
-                            </div>
-                            <span className={`px-4 py-2 bg-white/5 text-[9px] font-black uppercase tracking-[0.3em] ${line.status === "Operational" ? "text-blue-500" : "text-white/40"}`}>{line.status}</span>
-                         </div>
-                         
-                         <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{line.name}</h3>
-                         <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-12">{line.type}</div>
-                         
-                         <div className="space-y-8 mb-20 border-l border-blue-500/20 pl-8">
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Cruise Speed</span>
-                               <span className="text-white group-hover:text-blue-400 transition-colors">{line.speed}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Efficiency</span>
-                               <span className="text-white group-hover:text-blue-400 transition-colors">{line.efficiency}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Passenger Flux</span>
-                               <span className="text-white group-hover:text-blue-400 transition-colors">{line.flux}</span>
-                            </div>
-                         </div>
-
-                         <p className="text-[12px] text-white/30 leading-loose uppercase tracking-[0.2em] font-bold italic mb-16">
-                            {line.desc}
-                         </p>
-
-                         <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center">
-                            <span className="text-[10px] font-black text-white/10 uppercase tracking-widest">Ref: {line.id}</span>
-                            <button className="text-[10px] font-black uppercase text-white/40 flex items-center gap-4 group-hover:text-white transition-all">
-                               Technical_Specs <ChevronRight className="w-5 h-5" />
-                            </button>
-                         </div>
-                      </div>
-                   </Reveal>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            3. TRANSIT MONITOR (INTERACTIVE DATA)
-            ========================================== */}
-        <section className="py-60 bg-black relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div>
-                    <Reveal>
-                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 block mb-12 italic underline underline-offset-8 decoration-blue-400/20">Transit // Performance</span>
-                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">
-                          The <br/> <span className="not-italic font-black text-white/5 italic">Levitation_Link.</span>
-                       </h2>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">
-                          Surveillance du système de lévitation en temps réel. Nos capteurs analysent la température des aimants et la précision de l'alignement pour garantir un voyage fluide et sécurisé.
-                       </p>
-                       <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
-                          {TRANSIT_METRICS.map((metric, i) => (
-                            <div key={i} className="p-16 bg-[#0a100c] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
-                               <div className="text-[10px] font-black uppercase text-blue-500 mb-6 tracking-[0.4em]">{metric.label}</div>
-                               <div className="text-5xl font-black text-white italic mb-6 tracking-tighter group-hover:translate-x-4 transition-transform">{metric.value}</div>
-                               <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
-                                  <Activity className="w-4 h-4 text-blue-500" /> {metric.trend}
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                       <button 
-                         onClick={() => setIsLevitationActive(!isLevitationActive)}
-                         className="w-full py-8 bg-blue-950 text-white text-[11px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center gap-6 italic"
-                       >
-                          <Settings className="w-5 h-5" /> Re-Sync Magnetic Nodes
-                       </button>
-                    </Reveal>
-                 </div>
-                 
-                 <div className="relative">
-                    <Reveal delay={0.3} x={40}>
-                       <div className="aspect-square bg-[#0a100c] border border-white/10 p-20 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 p-80 bg-blue-400 opacity-[0.02] blur-[150px] rounded-full group-hover:opacity-[0.05] transition-opacity" />
-                          
-                          <div className="flex justify-between items-start z-10">
-                             <div className="flex flex-col gap-3">
-                                <span className="text-[10px] font-black text-white/10 uppercase tracking-[0.5em]">Transit_Link // MAG-SYNC-v42</span>
-                                <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.6em]">Rail_Levitation_Telemetry</span>
-                             </div>
-                             <Wifi className="w-6 h-6 text-blue-400" />
-                          </div>
-                          
-                          {/* TRANSIT VISUALIZER (SVG) */}
-                          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                             <div className="w-64 h-64 border border-blue-400/5 rounded-full flex items-center justify-center relative">
-                                <motion.div 
-                                  animate={{ rotate: 360 }}
-                                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-0 border-t-2 border-blue-400/20 rounded-full" 
-                                />
-                                <motion.div 
-                                  animate={{ rotate: -360 }}
-                                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-8 border-b-2 border-blue-400/10 rounded-full" 
-                                />
-                                <Zap className={`w-24 h-24 transition-colors duration-1000 ${isLevitationActive ? "text-blue-400 animate-pulse" : "text-white/5"}`} />
-                             </div>
-                             <div className="mt-16 text-center space-y-6">
-                                <div className={`text-4xl font-black italic tracking-tighter ${isLevitationActive ? "text-white" : "text-white/20"}`}>
-                                   {isLevitationActive ? "LEVITATION_ACTIVE" : "LEVITATION_LOSS"}
-                                </div>
-                                <span className="text-[11px] font-bold text-white/10 uppercase tracking-[0.6em] block">Auth_Node: MAGLEV_UNIT_01</span>
-                             </div>
-                          </div>
-
-                          <div className="relative z-10 flex gap-6">
-                             <div className="flex-1 h-1 bg-white/5 overflow-hidden">
-                                <motion.div 
-                                   animate={isLevitationActive ? { x: ["-100%", "100%"] } : {}}
-                                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-blue-700"
-                                />
-                             </div>
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            4. TRANSIT STORY (TECH STORYTELLING)
-            ========================================== */}
-        <section className="py-60 bg-[#020408] relative overflow-hidden border-t border-white/5">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">
-                    <Image 
-                       src="https://images.unsplash.com/photo-1515162305114-8d3ad45d9bc3?q=80&w=1200&auto=format&fit=crop" 
-                       alt="Maglev Infrastructure" 
-                       fill 
-                       className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"
-                    />
-                    <div className="absolute inset-0 bg-blue-900/10 mix-blend-color group-hover:opacity-0 transition-opacity" />
-                    <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                       <div className="text-white">
-                          <span className="text-[11px] font-black uppercase tracking-[0.6em] text-blue-400 mb-8 block italic underline underline-offset-8 decoration-blue-400/20">Atelier // Speed // Unit</span>
-                          <h4 className="text-6xl font-black tracking-tighter uppercase italic mb-12 mix-blend-difference text-white">Maglev <br/> Fabric.</h4>
-                          <button className="flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/20 pb-4 hover:border-blue-400 transition-all group">
-                             Transit Protocols <ExternalLink className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                          </button>
-                       </div>
-                    </div>
-                 </div>
-
-                 <div>
-                    <Reveal>
-                       <div className="mb-24 text-left">
-                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-8 block italic">Chapitre III // Propulsion</span>
-                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none text-white">Pure_Motion.</h2>
-                       </div>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">
-                          Le mouvement est absolu. Nous utilisons l'induction linéaire pour propulser nos rames sans contact, offrant une expérience de transport silencieuse, rapide et d'une efficacité inégalée.
-                       </p>
-                       <div className="space-y-20">
-                          {[
-                            { t: "Cryo-Cooling", d: "Refroidissement des bobines supraconductrices à 77 K via un circuit d'azote liquide pour éliminer la résistance électrique." },
-                            { t: "Magnetic Alignment", d: "Ajustement précis des aimants de guidage pour maintenir la rame parfaitement centrée sur le rail à haute vitesse." },
-                            { t: "Linear Induction", d: "Accélération progressive par ondes magnétiques mobiles, éliminant le besoin de moteurs rotatifs et d'engrenages." }
-                          ].map((step, i) => (
-                            <div key={i} className="group flex gap-12 border-b border-white/5 pb-16 hover:border-blue-400/20 transition-all cursor-default">
-                               <div className="text-6xl font-black text-white/5 group-hover:text-blue-400/20 transition-colors italic leading-none">0{i+1}</div>
-                               <div>
-                                  <h5 className="text-3xl font-black uppercase tracking-tight text-white mb-6 italic group-hover:translate-x-4 transition-transform text-white">{step.t}</h5>
-                                  <p className="text-[12px] text-white/20 uppercase tracking-[0.3em] font-bold leading-loose italic">{step.d}</p>
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* MEGA FOOTER */}
-        <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-              <div className="lg:col-span-2">
-                 <div className="flex items-center gap-6 mb-16">
-                    <div className="w-16 h-16 bg-blue-800 flex items-center justify-center">
-                      <Train className="w-10 h-10 text-white" />
-                    </div>
-                    <span className="text-4xl font-black uppercase tracking-tighter italic">MAGLEV<span className="text-white/20">GRID.</span></span>
-                 </div>
-                 <p className="text-white/20 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
-                    "L'avenir du transport est magnétique." — Archive Grid V.42
-                 </p>
-                 <div className="flex gap-16">
-                    {["TransitLog", "TransitRegistry", "GitHub", "X_Protocol"].map(s => (
-                      <Link key={s} href="#" className="text-[11px] font-black uppercase tracking-widest text-white/20 hover:text-blue-400 transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
-                    ))}
-                 </div>
-              </div>
-
-              {[
-                { t: "LINES", l: ["Shanghai Express v4", "Paris-Berlin Link", "Hyper-Tube One", "Tokyo Loop"] },
-                { t: "TECHNOLOGY", l: ["Linear Induction", "Supraconductors", "Vacuum Tubes", "SLA Reports"] },
-                { t: "ATELIER", l: ["Our Legacy", "Transport Policy", "Locations", "Support"] }
-              ].map((col, i) => (
-                <div key={i} className="flex flex-col gap-12">
-                  <h4 className="text-[11px] font-black text-blue-400 uppercase tracking-[0.6em] italic">{col.t}</h4>
-                  <ul className="flex flex-col gap-8">
-                    {col.l.map(link => (
-                      <li key={link} className="text-[11px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-[0.4em] italic">{link}</li>
-                    ))}
-                  </ul>
+      {/* ── TÉMOIGNAGES ── */}
+      <section className="py-28 bg-white">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-16 text-center">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0d9488] mb-4">Ce qu'ils disent</div>
+            <h2 className="text-4xl font-bold text-[#1c2b2b]">Clients satisfaits,<br /><span className="text-[#0d9488]">maisons impeccables.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {[
+              { q: "Intervenante ponctuelle, souriante, impeccable. Notre appartement n'a jamais été aussi propre. On renouvelle chaque semaine sans hésitation.", n: "Claire & Thomas M.", l: "Lyon 6e" },
+              { q: "Nettoyage fin de chantier parfait. La cuisine et les vitres étincelaient. Équipe rapide, pro et avec les bons produits. Vraiment recommandé.", n: "Mathieu V.", l: "Villeurbanne" },
+              { q: "Nos bureaux sont nettoyés 3 fois par semaine. Zéro problème depuis 2 ans, intervenantes discrètes, travail remarquable. C'est pas donné à tout le monde.", n: "Agence ARBO", l: "Lyon 2e" },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="p-8 rounded-2xl bg-[#f0fafa] border border-[#0d9488]/10 h-full flex flex-col">
+                  <div className="flex gap-1 mb-5">
+                    {[...Array(5)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-[#0d9488] text-[#0d9488]" />)}
+                  </div>
+                  <p className="text-sm text-[#1c2b2b]/50 leading-relaxed italic flex-1" style={{ fontFamily: "'Inter', sans-serif" }}>{`"${t.q}"`}</p>
+                  <div className="mt-6 pt-5 border-t border-[#0d9488]/10">
+                    <div className="font-bold text-[#1c2b2b] text-sm">{t.n}</div>
+                    <div className="text-[10px] text-[#0d9488] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l}</div>
+                  </div>
                 </div>
-              ))}
-           </div>
-
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 MAGLEV GRID TRANSIT SYSTEMS AG. // ALL_RIGHTS_RESERVED</span>
-              <div className="flex gap-16">
-                 <span>STATUS: OPERATIONAL</span>
-                 <span>SPEED: 620 KM/H (AVG)</span>
-                 <span>v4.12.0-STABLE</span>
-              </div>
-           </div>
-        </footer>
-      </main>
-    </div>
-  )
-}
-
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
-
-function HUD_Overlay({ isLevitationActive }: { isLevitationActive: boolean }) {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Corner Brackets */}
-       <div className={`absolute top-12 left-12 w-20 h-20 border-t-2 border-l-2 transition-colors duration-1000 ${isLevitationActive ? "border-blue-400" : "border-white/10"}`} />
-       <div className={`absolute top-12 right-12 w-20 h-20 border-t-2 border-r-2 transition-colors duration-1000 ${isLevitationActive ? "border-blue-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 left-12 w-20 h-20 border-b-2 border-l-2 transition-colors duration-1000 ${isLevitationActive ? "border-blue-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 right-12 w-20 h-20 border-b-2 border-r-2 transition-colors duration-1000 ${isLevitationActive ? "border-blue-400" : "border-white/10"}`} />
-
-       {/* Top Status Bar */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-20 bg-black/60 backdrop-blur-2xl px-12 py-4 border border-white/10 rounded-none">
-          <div className="flex items-center gap-6 text-white">
-             <div className={`w-3 h-3 transition-colors duration-500 ${isLevitationActive ? "bg-blue-400 animate-pulse" : "bg-red-500 animate-ping"}`} />
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Transit_Sync: {isLevitationActive ? "NOMINAL" : "LEVITATION_LOSS"} // Status: ACTIVE</span>
+              </Reveal>
+            ))}
           </div>
-          <div className="h-4 w-px bg-white/20" />
-          <div className="flex items-center gap-6 text-white/20">
-             <Wifi className="w-4 h-4" /> 
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Transit_Grid: SECURE</span>
-          </div>
-       </div>
+        </div>
+      </section>
 
-       {/* Right Rotation Info */}
-       <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-white/5 italic">Unauthorized_Duplication_Of_Transit_Patterns_Is_Strictly_Monitored_By_Global_Grid_Alliance</span>
-       </div>
+      {/* ── CTA ── */}
+      <section className="py-28 bg-[#0d9488]">
+        <Reveal>
+          <div className="max-w-2xl mx-auto px-6 text-center">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/45 mb-6">Premier passage</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Sans engagement,<br />sans contrat forcé.</h2>
+            <p className="text-white/55 mb-10 text-sm leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
+              Devis gratuit en 2h · Premier passage sur Lyon Métropole · Résiliation libre à tout moment
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <button className="px-10 py-4 bg-white text-[#0d9488] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0fafa] transition-colors rounded-full shadow-lg">
+                Demander mon devis
+              </button>
+              <a href="tel:0478123456" className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-full">
+                <Phone className="w-4 h-4" /> 04 78 12 34 56
+              </a>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-[#1c2b2b] pt-20 pb-10 px-6">
+        <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          <div>
+            <div className="flex items-center gap-2 mb-5"><Sparkles className="w-4 h-4 text-[#0d9488]" /><span className="font-bold text-white text-sm">BrilloNet</span></div>
+            <p className="text-white/20 text-sm leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>Ménage & nettoyage professionnel sur Lyon. Particuliers et professionnels. Produits éco certifiés.</p>
+          </div>
+          {[
+            { t: "Services", ls: ["Ménage domicile", "Nettoyage bureaux", "Fin de chantier", "Nettoyage écologique", "Vitres & surfaces"] },
+            { t: "Infos", ls: ["Qui sommes-nous", "Zone d'intervention", "Tarifs indicatifs", "Avis clients", "Blog nettoyage"] },
+            { t: "Contact", ls: ["04 78 12 34 56", "contact@brillonet.fr", "Lyon Métropole", "7j/7 8h-20h", "Devis gratuit en 2h"] },
+          ].map((col, i) => (
+            <div key={i}>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#0d9488] mb-5">{col.t}</h4>
+              <ul className="space-y-2.5">
+                {col.ls.map(l => <li key={l}><Link href="#" className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-white/10">
+          <span>© 2026 BrilloNet · SIRET 789 012 345 00067 · RC Pro · Assurance décennale</span>
+          <span className="text-[#0d9488]/30">Ménage professionnel · Lyon</span>
+        </div>
+      </footer>
     </div>
   )
 }
