@@ -1,523 +1,295 @@
+// @ts-nocheck
 "use client"
-
-import React, { useState, useEffect, useRef } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
-} from "framer-motion"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  Zap, Activity, Microscope, 
-  Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, Wifi, BarChart3, 
-  Fingerprint, Scan, Brain, Server, 
-  ShieldCheck, ShieldAlert, Award, 
-  Briefcase, Wind, Thermometer, 
-  Flame, Battery, Radio, Gauge, 
-  Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Satellite, 
-  Milestone, FlaskConical, FlaskRound, 
-  Ghost, Binary, Database, Search, 
-  Cpu, HeartPulse, Sun, Magnet, 
-  CircleDot, Waves, Pickaxe, Mountain, 
-  Gem, Rocket, Drill, PlaneTakeoff, 
-  Anchor, WavesIcon, LifeBuoy, Ship, 
-  Compass, ThermometerSnowflake, 
-  CloudRain, Droplets
-} from "lucide-react"
+import { Phone, Star, MapPin, Clock, CheckCircle, Shield, Smile, Heart, Calendar, Menu } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-/* ==========================================================================
-   THE DEEP SEA FORGE DATASET (ULTRA DENSITY)
-   ========================================================================== */
+/* ═══════════════════════════════════════════════════════════════════════════
+   DR. LÉA FONTAINE — Cabinet dentaire moderne (Nantes)
+   Palette : blanc pur / bleu confiance #1d6fa4 / bleu clair #e8f4fd / anthracite #1a2332
+   Fonts : Nunito (moderne, humain, arrondi) + Inter
+   Style : médical moderne, rassurant, lumineux, accessible
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-const BENTHIC_ASSETS = [
-  {
-    id: "ben-ext-42",
-    name: "Nodule Extractor v4",
-    type: "Deep Sea Mining Rig",
-    pressure: "1,100 bar",
-    temp: "2°C",
-    integrity: "99.98%",
-    desc: "Unité d'extraction autonome conçue pour la collecte de nodules polymétalliques à des profondeurs dépassant les 10 000 mètres.",
-    status: "Operational"
-  },
-  {
-    id: "ben-sta-08",
-    name: "Thermal Station Alpha",
-    type: "Abyssal Energy Hub",
-    pressure: "850 bar",
-    temp: "350°C (Vent)",
-    integrity: "99.999%",
-    desc: "Station de conversion d'énergie géothermique située sur les dorsales océaniques, alimentant le réseau abyssal global.",
-    status: "Syncing"
-  },
-  {
-    id: "ben-cab-15",
-    name: "Quantum Subsea v5",
-    type: "Hadal Data Link",
-    pressure: "1,200 bar",
-    temp: "1.5°C",
-    integrity: "99.4%",
-    desc: "Câble à fibre optique quantique ultra-résistant permettant une communication instantanée entre les hubs sous-marins.",
-    status: "Active Test"
-  }
-]
-
-const ABYSSAL_METRICS = [
-  { label: "Current Depth", value: "10,924m", trend: "Max" },
-  { label: "Ext. Pressure", value: "1,102 bar", trend: "Stable" },
-  { label: "Hull Integrity", value: "99.8%", trend: "Optimal" },
-  { label: "O2 Saturation", value: "21%", trend: "Normal" }
-]
-
-const DIVE_LOGS = [
-  { timestamp: "09:14:42", unit: "Ballast-Pump", status: "NOMINAL", flow: "420L/m" },
-  { timestamp: "09:14:45", unit: "Sonar-Sweep-X", status: "STABLE", range: "12km" },
-  { timestamp: "09:14:48", unit: "Reactor-Core", status: "SYNCED", power: "4.2GW" }
-]
-
-/* ==========================================
-   TECHNICAL COMPONENTS
-   ========================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+function Reveal({ children, delay = 0, y = 20 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-55px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.85, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function PressureHullVisualizer() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+const SOINS = [
+  { icon: Smile, title: "Soins conservateurs", desc: "Détartrage, traitement de caries, obturations composite teintées. Matériaux sans mercure, résultat esthétique invisible." },
+  { icon: Heart, title: "Prothèses & couronnes", desc: "Couronnes céramique, bridges, prothèses amovibles. Fabrication sur mesure, teintes naturelles, ajustement précis." },
+  { icon: Star, title: "Esthétique dentaire", desc: "Blanchiment LED, facettes porcelaine, correction sourire. Résultat naturel garanti. Simulateur sourire en consultation." },
+  { icon: Shield, title: "Implantologie", desc: "Pose d'implants sous anesthésie locale. Suivi complet, implants titanium certifiés. Résultat définitif jusqu'à 25 ans." },
+  { icon: CheckCircle, title: "Orthodontie adulte", desc: "Aligneurs transparents Invisalign® ou bagues céramiques. Traitement discret, résultat durable, consultation sans engagement." },
+  { icon: Clock, title: "Urgences dentaires", desc: "Créneaux réservés urgences chaque matin dès 8h30. Douleur, fracture, dent cassée — on vous prend en charge le jour même." },
+]
+
+export default function DrFontainePage() {
+  const heroRef = useRef(null)
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+  const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "7%"])
+
   useEffect(() => {
-    const handleMouse = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
-    window.addEventListener("mousemove", handleMouse)
-    return () => window.removeEventListener("mousemove", handleMouse)
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-10">
-       <svg width="100%" height="100%" className="w-full h-full">
-          {[...Array(20)].map((_, i) => (
-            <motion.circle 
-               key={i}
-               cx={`${10 + i * 5}%`} 
-               cy="50%" 
-               r="2" 
-               fill="#3b82f6" 
-               animate={{ r: [2, 10, 2], opacity: [0.2, 0.8, 0.2] }}
-               transition={{ duration: 2 + Math.random() * 2, repeat: Infinity }}
-            />
-          ))}
-          {[...Array(40)].map((_, i) => (
-            <motion.path 
-               key={`wave-${i}`}
-               d={`M 0 ${Math.random() * 1000} Q 500 ${Math.random() * 1000} 2000 ${Math.random() * 1000}`}
-               stroke="#3b82f6" 
-               strokeWidth="0.5" 
-               fill="none"
-               animate={{ d: `M 0 ${mousePos.y + (i * 10)} Q 1000 ${mousePos.y - (i * 20)} 2000 ${mousePos.y + (i * 10)}` }}
-               transition={{ type: "spring", damping: 30, stiffness: 50 }}
-            />
-          ))}
-       </svg>
-    </div>
-  )
-}
+    <div className="bg-white text-[#1a2332] overflow-x-hidden" style={{ fontFamily: "'Nunito', 'Inter', system-ui, sans-serif" }}>
+      {/* ── NAVBAR ── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-white/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#1d6fa4]/10" : "bg-white/95 backdrop-blur-md py-5 border-b border-[#1d6fa4]/5"}`}>
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <div>
+            <div className="font-bold text-[#1a2332] text-sm leading-tight">Dr. Léa Fontaine</div>
+            <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#1d6fa4]/60">Chirurgien-dentiste · Nantes</div>
+          </div>
+          <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.2em] text-[#1a2332]/30">
+            {["Soins", "L'équipe", "Urgences", "Tarifs", "Contact"].map(l => (
+              <Link key={l} href="#" className="hover:text-[#1d6fa4] transition-colors">{l}</Link>
+            ))}
+          </div>
+          <div className="flex items-center gap-3">
+            <a href="tel:0240567890" className="hidden md:flex items-center gap-2 text-[#1d6fa4] font-bold text-sm">
+              <Phone className="w-4 h-4" /> 02 40 56 78 90
+            </a>
+            <button className="hidden md:block px-5 py-2.5 bg-[#1d6fa4] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#155d8a] transition-colors rounded-xl">
+              Prendre RDV
+            </button>
+            <Sheet>
+              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5" /></button></SheetTrigger>
+              <SheetContent side="right" className="bg-white border-slate-100 p-10">
+                <div className="flex flex-col gap-7 mt-16">
+                  {["Soins", "L'équipe", "Urgences", "Contact"].map(l => <Link key={l} href="#" className="text-3xl font-bold text-[#1a2332] hover:text-[#1d6fa4] transition-colors">{l}</Link>)}
+                  <a href="tel:0240567890" className="flex items-center gap-3 text-[#1d6fa4] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 02 40 56 78 90</a>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+      </nav>
 
-function SubmarineModel({ progress }: { progress: any }) {
-  const rotate = useTransform(progress, [0, 1], [0, 360])
-  const scale = useTransform(progress, [0, 0.5, 1], [1, 1.2, 1])
+      {/* ── HERO ── */}
+      <section ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
+        <motion.div style={{ y: heroY }} className="absolute inset-0">
+          <Image src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&q=85&w=2400" alt="Cabinet dentaire moderne lumineux" fill className="object-cover object-center" priority style={{ filter: "brightness(0.42)" }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0e1620] via-[#0e1620]/45 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0e1620]/65 to-transparent" />
+        </motion.div>
 
-  return (
-    <motion.div style={{ rotate, scale }} className="relative w-80 h-80 flex items-center justify-center">
-       <div className="absolute inset-0 border border-blue-500/10 rounded-full animate-spin-slow shadow-[0_0_80px_rgba(59,130,246,0.05)]" />
-       <Anchor className="w-40 h-40 text-blue-500/10 animate-pulse" />
-       <div className="absolute inset-8 border border-blue-500/5 rounded-full" />
-    </motion.div>
-  )
-}
-
-/* ==========================================
-   THE DEEP SEA FORGE - MAIN INTERFACE
-   ========================================== */
-
-export default function DeepSeaForgePremium() {
-  const [activeAsset, setActiveAsset] = useState(0)
-  const [isIntegrityAlertActive, setIsIntegrityAlertActive] = useState(false)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Sea Scroll Effects
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textX = useTransform(scrollYProgress, [0, 0.5], [0, 100])
-
-  return (
-    <div ref={containerRef} className="bg-[#020408] text-[#e0e8ed] font-mono selection:bg-blue-500/30 selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000">
-      
-      {/* GLOBAL HUD OVERLAY */}
-      <HUD_Overlay isIntegrityAlertActive={isIntegrityAlertActive} />
-
-      <main>
-        {/* ==========================================
-            1. ABYSSAL IGNITION (HERO)
-            ========================================== */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-          <PressureHullVisualizer />
-          <motion.div style={{ opacity: heroOpacity }} className="absolute z-0 pointer-events-none flex items-center justify-center">
-             <SubmarineModel progress={scrollYProgress} />
+        <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1300px] w-full mx-auto px-6 md:px-12 pb-28">
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-8 h-[1px] bg-[#1d6fa4]/60" />
+              <span className="text-[9px] font-bold uppercase tracking-[0.45em] text-[#7bc3f5]">Chirurgien-dentiste · Nantes Centre</span>
+            </div>
           </motion.div>
 
-          <div className="relative z-10 text-center max-w-7xl">
-             <Reveal>
-                <div className="inline-flex items-center gap-4 px-6 py-2 border border-blue-500/30 bg-blue-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-12 italic">
-                   <WavesIcon className="w-4 h-4" /> Dive_Sync: NOMINAL // Pressure: 1,102 bar
+          <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-7 text-white">
+            Votre sourire,<br /><span className="text-[#7bc3f5]">notre priorité.</span>
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
+            className="max-w-md text-sm text-white/35 leading-relaxed mb-10">
+            Cabinet dentaire moderne à Nantes. Soins conservateurs, implants, esthétique et orthodontie. Équipement numérique dernière génération. Prise de RDV en ligne 24h/24.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-3">
+            <button className="px-8 py-4 bg-[#1d6fa4] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#155d8a] transition-colors rounded-xl">
+              Prendre rendez-vous
+            </button>
+            <button className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7bc3f5]/50 hover:text-[#7bc3f5] transition-all rounded-xl">
+              <Phone className="w-4 h-4" /> 02 40 56 78 90
+            </button>
+          </motion.div>
+        </motion.div>
+
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.2 }} className="w-[1px] h-10 bg-gradient-to-b from-[#1d6fa4]/60 to-transparent" />
+        </div>
+      </section>
+
+      {/* ── CONFIANCE BAND ── */}
+      <section className="py-10 bg-[#e8f4fd]">
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12">
+          <div className="flex flex-wrap gap-6 md:gap-12 justify-center md:justify-between">
+            {[
+              { v: "18 ans", l: "D'expérience en implantologie" },
+              { v: "3 800+", l: "Patients suivis" },
+              { v: "4.9★", l: "Note Google (280 avis)" },
+              { v: "CEIRD", l: "Formation continue certifiée" },
+            ].map((s, i) => (
+              <Reveal key={i} delay={i * 0.06}>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-[#1d6fa4]">{s.v}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-[#1a2332]/40 mt-1">{s.l}</div>
                 </div>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic">
-                   Deep Sea <br/> <span className="text-white/5 italic">Forge.</span>
-                </motion.h1>
-                <p className="max-w-3xl mx-auto text-sm md:text-lg text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16 italic">
-                   L'ingénierie des profondeurs extrêmes. Nous forgeons l'infrastructure sous-marine de demain, capable de résister aux pressions hadales pour sécuriser les ressources et les données du futur.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                   <button className="px-12 py-6 bg-blue-800 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(59,130,246,0.2)] flex items-center gap-4 italic">
-                      <LifeBuoy className="w-5 h-5" /> Initialize Dive
-                   </button>
-                   <button className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
-                      <Database className="w-5 h-5" /> Benthic Registry
-                   </button>
-                </div>
-             </Reveal>
+              </Reveal>
+            ))}
           </div>
+        </div>
+      </section>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-12">
-             <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Vessel_ID: HADAL-FORGE-01
+      {/* ── SOINS ── */}
+      <section className="py-28 bg-white">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16">
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#1d6fa4] mb-4">Nos soins</div>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1a2332]">Tous vos besoins<br /><span className="text-[#1d6fa4]">en un seul cabinet.</span></h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {SOINS.map((s, i) => (
+              <Reveal key={i} delay={i * 0.07}>
+                <div className="group p-8 rounded-2xl border border-[#e8f4fd] hover:border-[#1d6fa4]/25 hover:shadow-lg hover:shadow-[#1d6fa4]/5 bg-white transition-all duration-500 h-full">
+                  <div className="w-10 h-10 bg-[#e8f4fd] rounded-xl flex items-center justify-center mb-5 group-hover:bg-[#1d6fa4] transition-colors duration-500">
+                    <s.icon className="w-5 h-5 text-[#1d6fa4] group-hover:text-white transition-colors" />
+                  </div>
+                  <h3 className="font-bold text-[#1a2332] mb-3">{s.title}</h3>
+                  <p className="text-sm text-[#1a2332]/40 leading-relaxed">{s.desc}</p>
                 </div>
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Status: PRESSURE_LOCKED
-                </div>
-             </div>
-             <div className="text-right flex flex-col items-end gap-4">
-                <span className="text-[8px] font-black uppercase tracking-[0.5em] text-blue-500">Hull_Stability_Stream</span>
-                <div className="flex gap-2 h-12 items-end">
-                   {[...Array(16)].map((_, i) => (
-                     <motion.div 
-                        key={i}
-                        animate={{ height: ["10%", "100%", "30%", "80%", "10%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                        className="w-2 bg-blue-500/20"
-                     />
-                   ))}
-                </div>
-             </div>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ==========================================
-            2. BENTHIC REGISTRY (DENSE TECHNICAL)
-            ========================================== */}
-        <section className="py-60 bg-[#04080c] relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-              <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-                 <Reveal>
-                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-blue-500 block mb-6 italic underline underline-offset-8 decoration-blue-400/20">Benthic // Assets</span>
-                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">Archives.</h2>
-                 </Reveal>
-                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Subsea_Audit</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-500">L'Architecture de la Forge Abyssale</p>
-                 </div>
-              </div>
+      {/* ── URGENCES ── */}
+      <section className="py-16 bg-[#1d6fa4]">
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/50 mb-3">Urgences dentaires</div>
+            <h2 className="text-2xl font-bold text-white">Douleur, fracture, chute de dent ?<br />Nous vous prenons en charge le jour même.</h2>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+            <a href="tel:0240567890" className="flex items-center gap-3 px-7 py-4 bg-white text-[#1d6fa4] font-bold text-sm rounded-xl hover:bg-[#e8f4fd] transition-colors whitespace-nowrap">
+              <Phone className="w-4 h-4" /> 02 40 56 78 90
+            </a>
+            <div className="flex items-center gap-2 px-7 py-4 border border-white/20 text-white/60 text-sm rounded-xl whitespace-nowrap">
+              <Clock className="w-4 h-4" /> Lun-Sam dès 8h30
+            </div>
+          </div>
+        </div>
+      </section>
 
-              <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 shadow-2xl">
-                 {BENTHIC_ASSETS.map((asset, i) => (
-                   <Reveal key={asset.id} delay={i * 0.1}>
-                      <div className="bg-[#020408] p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
-                         <div className="flex justify-between items-start mb-16">
-                            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-blue-800 group-hover:text-white transition-all duration-500">
-                               <Compass className="w-8 h-8" />
-                            </div>
-                            <span className={`px-4 py-2 bg-white/5 text-[9px] font-black uppercase tracking-[0.3em] ${asset.status === "Operational" ? "text-blue-500" : "text-white/40"}`}>{asset.status}</span>
-                         </div>
-                         
-                         <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{asset.name}</h3>
-                         <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-12">{asset.type}</div>
-                         
-                         <div className="space-y-8 mb-20 border-l border-blue-500/20 pl-8">
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Max Pressure</span>
-                               <span className="text-white group-hover:text-blue-400 transition-colors">{asset.pressure}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Op Temp</span>
-                               <span className="text-white group-hover:text-blue-400 transition-colors">{asset.temp}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Integrity</span>
-                               <span className="text-white group-hover:text-blue-400 transition-colors">{asset.integrity}</span>
-                            </div>
-                         </div>
-
-                         <p className="text-[12px] text-white/30 leading-loose uppercase tracking-[0.2em] font-bold italic mb-16">
-                            {asset.desc}
-                         </p>
-
-                         <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center">
-                            <span className="text-[10px] font-black text-white/10 uppercase tracking-widest">Ref: {asset.id}</span>
-                            <button className="text-[10px] font-black uppercase text-white/40 flex items-center gap-4 group-hover:text-white transition-all">
-                               Technical_Specs <ChevronRight className="w-5 h-5" />
-                            </button>
-                         </div>
-                      </div>
-                   </Reveal>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            3. ABYSSAL MONITOR (INTERACTIVE DATA)
-            ========================================== */}
-        <section className="py-60 bg-black relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div>
-                    <Reveal>
-                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 block mb-12 italic underline underline-offset-8 decoration-blue-500/20">Abyssal // Performance</span>
-                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">
-                          The <br/> <span className="not-italic font-black text-white/5 italic">Hadal_Link.</span>
-                       </h2>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">
-                          Surveillance de l'intégrité de coque en temps réel. Nos capteurs hadals analysent chaque micro-vibration pour détecter les signes de fatigue structurelle sous haute pression.
-                       </p>
-                       <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
-                          {ABYSSAL_METRICS.map((metric, i) => (
-                            <div key={i} className="p-16 bg-[#0a100c] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
-                               <div className="text-[10px] font-black uppercase text-blue-500 mb-6 tracking-[0.4em]">{metric.label}</div>
-                               <div className="text-5xl font-black text-white italic mb-6 tracking-tighter group-hover:translate-x-4 transition-transform">{metric.value}</div>
-                               <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
-                                  <Activity className="w-4 h-4 text-blue-500" /> {metric.trend}
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                       <button 
-                         onClick={() => setIsIntegrityAlertActive(!isIntegrityAlertActive)}
-                         className="w-full py-8 bg-blue-950 text-white text-[11px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center gap-6 italic"
-                       >
-                          <Settings className="w-5 h-5" /> Re-Sync Abyssal Nodes
-                       </button>
-                    </Reveal>
-                 </div>
-                 
-                 <div className="relative">
-                    <Reveal delay={0.3} x={40}>
-                       <div className="aspect-square bg-[#0a100c] border border-white/10 p-20 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 p-80 bg-blue-400 opacity-[0.02] blur-[150px] rounded-full group-hover:opacity-[0.05] transition-opacity" />
-                          
-                          <div className="flex justify-between items-start z-10">
-                             <div className="flex flex-col gap-3">
-                                <span className="text-[10px] font-black text-white/10 uppercase tracking-[0.5em]">Hadal_Link // SEA-SYNC-v42</span>
-                                <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.6em]">Pressure_Hull_Telemetry</span>
-                             </div>
-                             <Wifi className="w-6 h-6 text-blue-400" />
-                          </div>
-                          
-                          {/* SUB VISUALIZER (SVG) */}
-                          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                             <div className="w-64 h-64 border border-blue-400/5 rounded-full flex items-center justify-center relative">
-                                <motion.div 
-                                  animate={{ rotate: 360 }}
-                                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-0 border-t-2 border-blue-400/20 rounded-full" 
-                                />
-                                <motion.div 
-                                  animate={{ rotate: -360 }}
-                                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-8 border-b-2 border-blue-400/10 rounded-full" 
-                                />
-                                <Ship className={`w-24 h-24 transition-colors duration-1000 ${!isIntegrityAlertActive ? "text-blue-400 animate-pulse" : "text-red-500 animate-ping"}`} />
-                             </div>
-                             <div className="mt-16 text-center space-y-6">
-                                <div className={`text-4xl font-black italic tracking-tighter ${!isIntegrityAlertActive ? "text-white" : "text-red-500"}`}>
-                                   {!isIntegrityAlertActive ? "INTEGRITY_NOMINAL" : "HULL_FAILURE_DETECTED"}
-                                </div>
-                                <span className="text-[11px] font-bold text-white/10 uppercase tracking-[0.6em] block">Auth_Node: FORGE_UNIT_01</span>
-                             </div>
-                          </div>
-
-                          <div className="relative z-10 flex gap-6">
-                             <div className="flex-1 h-1 bg-white/5 overflow-hidden">
-                                <motion.div 
-                                   animate={!isIntegrityAlertActive ? { x: ["-100%", "100%"] } : {}}
-                                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-blue-700"
-                                />
-                             </div>
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            4. ABYSSAL STORY (TECH STORYTELLING)
-            ========================================== */}
-        <section className="py-60 bg-[#020408] relative overflow-hidden border-t border-white/5">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">
-                    <Image 
-                       src="https://images.unsplash.com/photo-1551244072-5d12893278ab?q=80&w=1200&auto=format&fit=crop" 
-                       alt="Deep Sea Infrastructure" 
-                       fill 
-                       className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"
-                    />
-                    <div className="absolute inset-0 bg-blue-900/10 mix-blend-color group-hover:opacity-0 transition-opacity" />
-                    <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                       <div className="text-white">
-                          <span className="text-[11px] font-black uppercase tracking-[0.6em] text-blue-500 mb-8 block italic underline underline-offset-8 decoration-blue-400/20">Atelier // Pressure // Unit</span>
-                          <h4 className="text-6xl font-black tracking-tighter uppercase italic mb-12 mix-blend-difference text-white">Abyssal <br/> Fabric.</h4>
-                          <button className="flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/20 pb-4 hover:border-blue-400 transition-all group">
-                             Descent Protocols <ExternalLink className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                          </button>
-                       </div>
-                    </div>
-                 </div>
-
-                 <div>
-                    <Reveal>
-                       <div className="mb-24 text-left">
-                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-8 block italic">Chapitre III // Forge Abyssale</span>
-                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none text-white">Pure_Depth.</h2>
-                       </div>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">
-                          Les abysses sont la dernière frontière. Nous utilisons des technologies de forgeage robotisé sous-marin pour construire les structures qui soutiendront l'économie bleue du futur, de l'énergie à la gestion des données.
-                       </p>
-                       <div className="space-y-20">
-                          {[
-                            { t: "Hull Pressurization", d: "Équilibrage dynamique des pressions internes via des fluides incompressibles pour garantir l'intégrité de la coque à -11 000 mètres." },
-                            { t: "Buoyancy Control", d: "Gestion précise de la flottabilité par ajustement de densité de mousse syntactique et ballasts haute pression." },
-                            { t: "Abyssal Forging", d: "Soudure et assemblage robotisé via lasers de puissance operant en milieu aquatique hyper-salin." }
-                          ].map((step, i) => (
-                            <div key={i} className="group flex gap-12 border-b border-white/5 pb-16 hover:border-blue-400/20 transition-all cursor-default">
-                               <div className="text-6xl font-black text-white/5 group-hover:text-blue-400/20 transition-colors italic leading-none">0{i+1}</div>
-                               <div>
-                                  <h5 className="text-3xl font-black uppercase tracking-tight text-white mb-6 italic group-hover:translate-x-4 transition-transform text-white">{step.t}</h5>
-                                  <p className="text-[12px] text-white/20 uppercase tracking-[0.3em] font-bold leading-loose italic">{step.d}</p>
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* MEGA FOOTER */}
-        <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-              <div className="lg:col-span-2">
-                 <div className="flex items-center gap-6 mb-16">
-                    <div className="w-16 h-16 bg-blue-800 flex items-center justify-center">
-                      <Anchor className="w-10 h-10 text-white" />
-                    </div>
-                    <span className="text-4xl font-black uppercase tracking-tighter italic">DEEP SEA<span className="text-white/20">FORGE.</span></span>
-                 </div>
-                 <p className="text-white/20 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
-                    "L'avenir de l'humanité est sous-marin." — Archive Forge V.42
-                 </p>
-                 <div className="flex gap-16">
-                    {["DiveLog", "BenthicRegistry", "GitHub", "X_Protocol"].map(s => (
-                      <Link key={s} href="#" className="text-[11px] font-black uppercase tracking-widest text-white/20 hover:text-blue-400 transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
-                    ))}
-                 </div>
-              </div>
-
-              {[
-                { t: "ASSETS", l: ["Nodule Extractor v4", "Thermal Station Alpha", "Quantum Subsea v5", "Hadal Drone"] },
-                { t: "TECHNOLOGY", l: ["Pressure Hulls", "Ballast Systems", "Abyssal Forging", "SLA Reports"] },
-                { t: "ATELIER", l: ["Our Legacy", "Oceanic Policy", "Locations", "Support"] }
-              ].map((col, i) => (
-                <div key={i} className="flex flex-col gap-12">
-                  <h4 className="text-[11px] font-black text-blue-400 uppercase tracking-[0.6em] italic">{col.t}</h4>
-                  <ul className="flex flex-col gap-8">
-                    {col.l.map(link => (
-                      <li key={link} className="text-[11px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-[0.4em] italic">{link}</li>
-                    ))}
-                  </ul>
+      {/* ── L'ÉQUIPE ── */}
+      <section className="py-28 bg-white">
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#1d6fa4] mb-4">L'équipe soignante</div>
+            <h2 className="text-4xl font-bold text-[#1a2332]">Des praticiens <span className="text-[#1d6fa4]">à votre écoute.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { nom: "Dr. Léa Fontaine", sp: "Omnipratique & Esthétique", f: "Diplômée Faculté de Nantes 2006, DU Implantologie Tours 2010" },
+              { nom: "Dr. Antoine Merle", sp: "Orthodontie & Invisalign®", f: "Spécialiste orthodontie, formateur Invisalign® Provider certifié" },
+              { nom: "Sophie C.", sp: "Assistante dentaire", f: "10 ans d'expérience, spécialisée chirurgie implantaire et accueil patient" },
+            ].map((p, i) => (
+              <Reveal key={i} delay={i * 0.09}>
+                <div className="p-7 rounded-2xl bg-[#f5faff] border border-[#e8f4fd]">
+                  <div className="w-14 h-14 rounded-full bg-[#1d6fa4]/10 flex items-center justify-center mb-5">
+                    <span className="text-xl font-bold text-[#1d6fa4]">{p.nom.charAt(0)}{p.nom.split(" ").pop()?.charAt(0)}</span>
+                  </div>
+                  <div className="font-bold text-[#1a2332] mb-1">{p.nom}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-[#1d6fa4] mb-3">{p.sp}</div>
+                  <p className="text-sm text-[#1a2332]/40 leading-relaxed">{p.f}</p>
                 </div>
-              ))}
-           </div>
-
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 DEEP SEA FORGE ABYSSAL SYSTEMS AG. // ALL_RIGHTS_RESERVED</span>
-              <div className="flex gap-16">
-                 <span>STATUS: OPERATIONAL</span>
-                 <span>DEPTH: 10,924M (AVG)</span>
-                 <span>v4.12.0-STABLE</span>
-              </div>
-           </div>
-        </footer>
-      </main>
-    </div>
-  )
-}
-
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
-
-function HUD_Overlay({ isIntegrityAlertActive }: { isIntegrityAlertActive: boolean }) {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Corner Brackets */}
-       <div className={`absolute top-12 left-12 w-20 h-20 border-t-2 border-l-2 transition-colors duration-1000 ${!isIntegrityAlertActive ? "border-blue-400" : "border-red-500"}`} />
-       <div className={`absolute top-12 right-12 w-20 h-20 border-t-2 border-r-2 transition-colors duration-1000 ${!isIntegrityAlertActive ? "border-blue-400" : "border-red-500"}`} />
-       <div className={`absolute bottom-12 left-12 w-20 h-20 border-b-2 border-l-2 transition-colors duration-1000 ${!isIntegrityAlertActive ? "border-blue-400" : "border-red-500"}`} />
-       <div className={`absolute bottom-12 right-12 w-20 h-20 border-b-2 border-r-2 transition-colors duration-1000 ${!isIntegrityAlertActive ? "border-blue-400" : "border-red-500"}`} />
-
-       {/* Top Status Bar */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-20 bg-black/60 backdrop-blur-2xl px-12 py-4 border border-white/10 rounded-none">
-          <div className="flex items-center gap-6 text-white">
-             <div className={`w-3 h-3 transition-colors duration-500 ${!isIntegrityAlertActive ? "bg-blue-400 animate-pulse" : "bg-red-500 animate-ping"}`} />
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Dive_Sync: {!isIntegrityAlertActive ? "NOMINAL" : "PRESSURE_FAILURE"} // Status: ACTIVE</span>
+              </Reveal>
+            ))}
           </div>
-          <div className="h-4 w-px bg-white/20" />
-          <div className="flex items-center gap-6 text-white/20">
-             <Wifi className="w-4 h-4" /> 
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Abyssal_Grid: SECURE</span>
-          </div>
-       </div>
+        </div>
+      </section>
 
-       {/* Right Rotation Info */}
-       <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-white/5 italic">Unauthorized_Duplication_Of_Abyssal_Patterns_Is_Strictly_Monitored_By_Global_Forge_Alliance</span>
-       </div>
+      {/* ── TÉMOIGNAGES ── */}
+      <section className="py-24 bg-[#f5faff]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14 text-center">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#1d6fa4] mb-4">Avis patients</div>
+            <h2 className="text-3xl font-bold text-[#1a2332]">Ils nous font <span className="text-[#1d6fa4]">confiance.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {[
+              { q: "Enfin un cabinet où on se sent à l'aise ! Le Dr. Fontaine prend le temps d'expliquer chaque soin. Pas de douleur, gestes précis, suivi parfait.", n: "Marie-Claire H.", l: "Nantes" },
+              { q: "Implant posé sans douleur ni anxiété grâce à l'équipe super rassurante. Résultat bluffant — on ne voit plus la différence avec la vraie dent.", n: "Philippe T.", l: "Saint-Nazaire" },
+              { q: "Aligneurs transparents pour ma fille de 16 ans. En 14 mois, résultat parfait. Suivi régulier, app de suivi, équipe disponible. Très satisfaits.", n: "Nathalie & Lucas B.", l: "Rezé (44)" },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="p-8 bg-white rounded-2xl border border-[#e8f4fd] shadow-sm h-full flex flex-col">
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#1d6fa4] text-[#1d6fa4]" />)}
+                  </div>
+                  <p className="text-sm text-[#1a2332]/45 leading-relaxed italic flex-1">{`"${t.q}"`}</p>
+                  <div className="mt-6 pt-5 border-t border-[#e8f4fd]">
+                    <div className="font-bold text-[#1a2332] text-sm">{t.n}</div>
+                    <div className="text-[10px] text-[#1d6fa4] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l}</div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="py-24 bg-[#1a2332] text-center">
+        <Reveal>
+          <div className="max-w-xl mx-auto px-6">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 mb-6">Prendre soin de vous</div>
+            <h2 className="text-4xl font-bold text-white mb-5">Prenez RDV<br /><span className="text-[#7bc3f5]">en moins de 2 minutes.</span></h2>
+            <p className="text-white/30 mb-10 text-sm">Disponible en ligne 24h/24 · Confirmation SMS · Rappel automatique 48h avant</p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <button className="px-10 py-4 bg-[#1d6fa4] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#155d8a] transition-colors rounded-xl">
+                Réserver en ligne
+              </button>
+              <a href="tel:0240567890" className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7bc3f5]/40 hover:text-[#7bc3f5] transition-all rounded-xl">
+                <Phone className="w-4 h-4" /> 02 40 56 78 90
+              </a>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-[#111827] pt-20 pb-10 px-6">
+        <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          <div>
+            <div className="font-bold text-white mb-1">Dr. Léa Fontaine</div>
+            <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#1d6fa4]/60 mb-5">Chirurgien-dentiste · Nantes</div>
+            <p className="text-white/20 text-sm leading-relaxed">Cabinet dentaire moderne. Omnipratique, implants, esthétique, orthodontie. Urgences tous les matins.</p>
+          </div>
+          {[
+            { t: "Soins", ls: ["Soins conservateurs", "Implantologie", "Esthétique dentaire", "Orthodontie adulte", "Urgences dentaires"] },
+            { t: "Cabinet", ls: ["L'équipe", "Équipement 3D", "Tarifs & devis", "Avis patients", "Accessibilité PMR"] },
+            { t: "Adresse", ls: ["14 rue Crébillon", "44000 Nantes", "Lun-Ven 8h30-19h", "Sam 8h30-13h", "02 40 56 78 90"] },
+          ].map((col, i) => (
+            <div key={i}>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#1d6fa4]/60 mb-5">{col.t}</h4>
+              <ul className="space-y-2.5">
+                {col.ls.map(l => <li key={l}><Link href="#" className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-white/10">
+          <span>© 2026 Dr. Léa Fontaine · RPPS 10234567890 · Secteur 2 · Nantes (44)</span>
+          <span className="text-[#1d6fa4]/25">Cabinet dentaire · Nantes</span>
+        </div>
+      </footer>
     </div>
   )
 }

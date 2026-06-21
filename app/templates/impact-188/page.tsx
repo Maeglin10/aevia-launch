@@ -1,525 +1,280 @@
+// @ts-nocheck
 "use client"
-
-import React, { useState, useEffect, useRef } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
-} from "framer-motion"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  Zap, Activity, Microscope, 
-  Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, Wifi, BarChart3, 
-  Fingerprint, Scan, Brain, Server, 
-  ShieldCheck, ShieldAlert, Award, 
-  Briefcase, Wind, Thermometer, 
-  Flame, Battery, Radio, Gauge, 
-  Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Satellite, 
-  Milestone, FlaskConical, FlaskRound, 
-  Ghost, Binary, Database, Search, 
-  Cpu, HeartPulse, Sun, Magnet, 
-  CircleDot, Waves, Pickaxe, Mountain, 
-  Gem, Rocket, Drill, PlaneTakeoff, 
-  FlameIcon, Hammer, Factory, ThermometerIcon, 
-  Droplets, HardHat, Warehouse
-} from "lucide-react"
+import { Heart, Phone, Star, MapPin, Clock, CheckCircle, Stethoscope, Scissors, Dog, Cat, Calendar, Shield, Menu } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-/* ==========================================================================
-   THE KINETIC FOUNDRY DATASET (ULTRA DENSITY)
-   ========================================================================== */
+/* ═══════════════════════════════════════════════════════════════════════════
+   CLINIQUE DU BOIS VERT — Vétérinaire (Toulouse)
+   Palette : blanc chaud #fdfaf6 / vert nature #3a7d44 / vert clair #e8f5eb / brun doux #4a3728
+   Fonts : Lora (serif chaleureux titres) + Source Sans 3 (corps)
+   Style : chaleureux, naturel, confiance, bienveillant
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-const INDUSTRIAL_ASSETS = [
-  {
-    id: "for-vul-42",
-    name: "Forge-v4 Vulcan",
-    type: "Liquid Metal 3D Printer",
-    temp: "2,400 °C",
-    rate: "45 kg / hour",
-    precision: "5 μm",
-    desc: "Unité de fabrication additive haute puissance utilisant des lasers multi-faisceaux pour le frittage de poudres métalliques complexes.",
-    status: "Forging"
-  },
-  {
-    id: "for-mol-08",
-    name: "Molten Grid Alpha",
-    type: "Robotic Industrial Forge",
-    temp: "1,850 °C",
-    rate: "120 kg / hour",
-    precision: "25 μm",
-    desc: "Système de forge robotisé automatisé pour la production massive de pièces structurelles aérospatiales en alliages de titane.",
-    status: "Stable State"
-  },
-  {
-    id: "for-tit-15",
-    name: "Titan-Print v5",
-    type: "Giga-Scale Additive",
-    temp: "1,200 °C",
-    rate: "500 kg / hour",
-    precision: "150 μm",
-    desc: "Imprimante 3D géante conçue pour la fabrication d'éléments de coques de navires et de structures de réacteurs.",
-    status: "Syncing Flow"
-  }
-]
-
-const THERMAL_METRICS = [
-  { label: "Core Temp", value: "2,402 °C", trend: "High" },
-  { label: "Laser Power", value: "12.4 kW", trend: "Optimal" },
-  { label: "Deposition Rate", value: "45 kg/h", trend: "Stable" },
-  { label: "Cooling Eff.", value: "94%", trend: "Increasing" }
-]
-
-const FORGE_LOGS = [
-  { timestamp: "13:14:42", unit: "Laser-Module-01", status: "FIRING", power: "12kW" },
-  { timestamp: "13:14:45", unit: "Chamber-01", status: "STABLE", pressure: "1.2bar" },
-  { timestamp: "13:14:48", unit: "Layer-Check", status: "SUCCESS", prec: "5μm" }
-]
-
-/* ==========================================
-   TECHNICAL COMPONENTS
-   ========================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+function Reveal({ children, delay = 0, y = 20 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-55px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function MoltenFlowVisualizer() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+const SOINS = [
+  { icon: Stethoscope, title: "Consultations & bilans", desc: "Consultations de routine, bilans de santé annuels, suivi des maladies chroniques. Écoute, examen clinique approfondi, diagnostic précis." },
+  { icon: Shield, title: "Vaccinations & prévention", desc: "Protocoles vaccinaux chats et chiens selon les recommandations WSAVA. Antiparasitaires, rappels, carnets de santé à jour." },
+  { icon: Heart, title: "Chirurgie", desc: "Stérilisation, chirurgie des tissus mous, orthopédie. Bloc opératoire équipé, monitoring anesthésique, réveil accompagné." },
+  { icon: Scissors, title: "Toilettage vétérinaire", desc: "Bain, coupe, entretien pelage, coupe des griffes, nettoyage oreilles. Réalisé par nos assistants vétérinaires sur rendez-vous." },
+  { icon: Dog, title: "Médecine d'urgence", desc: "Prise en charge urgences 7j/7 jusqu'à 20h. Trauma, intoxication, difficultés respiratoires — vous êtes toujours reçus." },
+  { icon: Cat, title: "Imagerie & analyses", desc: "Radio numérique, échographie en cabinet. Analyses sanguines et urinaires en labo partenaire avec résultats sous 2h–24h." },
+]
+
+export default function CliniqueBoisVertPage() {
+  const heroRef = useRef(null)
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+  const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "8%"])
+
   useEffect(() => {
-    const handleMouse = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
-    window.addEventListener("mousemove", handleMouse)
-    return () => window.removeEventListener("mousemove", handleMouse)
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20">
-       <svg width="100%" height="100%" className="w-full h-full">
-          {[...Array(15)].map((_, i) => (
-            <motion.path 
-               key={i}
-               d={`M ${100 + i * 150} 0 Q ${200 + i * 150} 400 ${100 + i * 150} 1000`}
-               stroke="#f97316" 
-               strokeWidth="2" 
-               fill="none"
-               animate={{ d: `M ${100 + i * 150} 0 Q ${mousePos.x + (i * 10)} ${mousePos.y} ${100 + i * 150} 1000` }}
-               transition={{ type: "spring", damping: 30, stiffness: 50 }}
-            />
-          ))}
-          {[...Array(40)].map((_, i) => (
-            <motion.circle 
-               key={`spark-${i}`}
-               r="1.5"
-               fill="#f97316"
-               initial={{ opacity: 0 }}
-               animate={{ 
-                  cx: [Math.random() * 2000, Math.random() * 2000],
-                  cy: [0, 1000],
-                  opacity: [0, 1, 0]
-               }}
-               transition={{ duration: 1 + Math.random() * 2, repeat: Infinity, delay: Math.random() * 3 }}
-            />
-          ))}
-       </svg>
-    </div>
-  )
-}
+    <div className="bg-[#fdfaf6] text-[#2d2318] overflow-x-hidden" style={{ fontFamily: "'Source Sans 3', 'Inter', system-ui, sans-serif" }}>
+      {/* ── NAVBAR ── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#fdfaf6]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#3a7d44]/10" : "bg-[#fdfaf6]/95 backdrop-blur-md py-5 border-b border-[#3a7d44]/5"}`}>
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-[#3a7d44] rounded-full flex items-center justify-center">
+              <Heart className="w-4 h-4 text-white" />
+            </div>
+            <div>
+              <div className="font-bold text-[#2d2318] text-sm leading-tight" style={{ fontFamily: "'Lora', Georgia, serif" }}>Clinique du Bois Vert</div>
+              <div className="text-[8px] font-bold uppercase tracking-[0.3em] text-[#3a7d44]/60">Vétérinaire · Toulouse</div>
+            </div>
+          </div>
+          <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.2em] text-[#2d2318]/30">
+            {["Soins", "L'équipe", "Urgences", "Tarifs", "Nous trouver"].map(l => (
+              <Link key={l} href="#" className="hover:text-[#3a7d44] transition-colors">{l}</Link>
+            ))}
+          </div>
+          <div className="flex items-center gap-3">
+            <a href="tel:0561789012" className="hidden md:flex items-center gap-2 text-[#3a7d44] font-bold text-sm">
+              <Phone className="w-4 h-4" /> 05 61 78 90 12
+            </a>
+            <button className="hidden md:block px-5 py-2.5 bg-[#3a7d44] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#2e6337] transition-colors rounded-xl">
+              Prendre RDV
+            </button>
+            <Sheet>
+              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5" /></button></SheetTrigger>
+              <SheetContent side="right" className="bg-[#fdfaf6] border-slate-100 p-10">
+                <div className="flex flex-col gap-7 mt-16">
+                  {["Soins", "L'équipe", "Urgences"].map(l => <Link key={l} href="#" className="text-3xl font-bold text-[#2d2318] hover:text-[#3a7d44] transition-colors" style={{ fontFamily: "'Lora', serif" }}>{l}</Link>)}
+                  <a href="tel:0561789012" className="flex items-center gap-3 text-[#3a7d44] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 05 61 78 90 12</a>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+      </nav>
 
-function ForgeCoreModel({ progress }: { progress: any }) {
-  const rotate = useTransform(progress, [0, 1], [0, 360])
-  const scale = useTransform(progress, [0, 0.5, 1], [1, 1.2, 1])
+      {/* ── HERO ── */}
+      <section ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
+        <motion.div style={{ y: heroY }} className="absolute inset-0">
+          <Image src="https://images.unsplash.com/photo-1559190394-df5a28aab5c5?auto=format&fit=crop&q=85&w=2400" alt="Vétérinaire avec animal" fill className="object-cover object-center" priority style={{ filter: "brightness(0.4)" }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1a2a1c] via-[#1a2a1c]/45 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1a2a1c]/70 to-transparent" />
+        </motion.div>
 
-  return (
-    <motion.div style={{ rotate, scale }} className="relative w-80 h-80 flex items-center justify-center">
-       <div className="absolute inset-0 border border-orange-500/10 rounded-full animate-spin-slow shadow-[0_0_80px_rgba(249,115,22,0.05)]" />
-       <FlameIcon className="w-40 h-40 text-orange-500/10 animate-pulse" />
-       <div className="absolute inset-8 border border-orange-500/5 rounded-full" />
-    </motion.div>
-  )
-}
-
-/* ==========================================
-   THE KINETIC FOUNDRY - MAIN INTERFACE
-   ========================================== */
-
-export default function KineticFoundryPremium() {
-  const [activeAsset, setActiveAsset] = useState(0)
-  const [isThermalGuardActive, setIsThermalGuardActive] = useState(true)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Forge Scroll Effects
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textX = useTransform(scrollYProgress, [0, 0.5], [0, -100])
-
-  return (
-    <div ref={containerRef} className="bg-[#080402] text-[#e0e8ed] font-mono selection:bg-orange-500/30 selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000">
-      
-      {/* GLOBAL HUD OVERLAY */}
-      <HUD_Overlay isThermalGuardActive={isThermalGuardActive} />
-
-      <main>
-        {/* ==========================================
-            1. FORGE IGNITION (HERO)
-            ========================================== */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-          <MoltenFlowVisualizer />
-          <motion.div style={{ opacity: heroOpacity }} className="absolute z-0 pointer-events-none flex items-center justify-center">
-             <ForgeCoreModel progress={scrollYProgress} />
+        <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1300px] w-full mx-auto px-6 md:px-12 pb-28">
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-8 h-[1px] bg-[#3a7d44]/70" />
+              <span className="text-[9px] font-bold uppercase tracking-[0.45em] text-[#6bbf78]">Clinique vétérinaire · Toulouse Rangueil</span>
+            </div>
           </motion.div>
 
-          <div className="relative z-10 text-center max-w-7xl">
-             <Reveal>
-                <div className="inline-flex items-center gap-4 px-6 py-2 border border-orange-500/30 bg-orange-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-orange-500 mb-12 italic">
-                   <FlameIcon className="w-4 h-4" /> Forge_Sync: NOMINAL // Temp: 2,402 °C
-                </div>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic">
-                   Kinetic <br/> <span className="text-white/5 italic">Foundry.</span>
-                </motion.h1>
-                <p className="max-w-3xl mx-auto text-sm md:text-lg text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16 italic">
-                   L'industrie de la fusion et de la précision. Nous forgeons les composants les plus critiques de l'ère spatiale via des technologies de fabrication additive métal haute performance.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                   <button className="px-12 py-6 bg-orange-800 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(249,115,22,0.2)] flex items-center gap-4 italic">
-                      <Zap className="w-5 h-5" /> Initialize Fusion
-                   </button>
-                   <button className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
-                      <Database className="w-5 h-5" /> Industrial Registry
-                   </button>
-                </div>
-             </Reveal>
+          <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-7 text-white" style={{ fontFamily: "'Lora', Georgia, serif" }}>
+            Prendre soin<br />de ceux qu'ils <span className="text-[#6bbf78] italic">aiment.</span>
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
+            className="max-w-md text-sm text-white/35 leading-relaxed mb-10">
+            Clinique vétérinaire à Toulouse. Consultations, chirurgie, urgences 7j/7 jusqu'à 20h. Une équipe bienveillante pour vos compagnons chats, chiens et NAC.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-3 mb-8">
+            <button className="px-8 py-4 bg-[#3a7d44] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#2e6337] transition-colors rounded-xl">
+              Prendre rendez-vous
+            </button>
+            <a href="tel:0561789012" className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#6bbf78]/50 hover:text-[#6bbf78] transition-all rounded-xl">
+              <Phone className="w-4 h-4" /> 05 61 78 90 12
+            </a>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }} className="flex flex-wrap gap-5">
+            {["Urgences 7j/7 jusqu'à 20h", "Radio & écho en cabinet", "3 vétérinaires"].map((b, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <CheckCircle className="w-3.5 h-3.5 text-[#3a7d44]" />
+                <span className="text-[10px] font-bold text-white/30 uppercase tracking-wide">{b}</span>
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.2 }} className="w-[1px] h-10 bg-gradient-to-b from-[#3a7d44]/60 to-transparent" />
+        </div>
+      </section>
+
+      {/* ── URGENCES BAND ── */}
+      <div className="py-9 bg-[#3a7d44] text-white">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <Clock className="w-5 h-5 text-white/70 shrink-0" />
+            <span className="font-bold text-sm">Urgences vétérinaires 7j/7 — Lun-Sam jusqu'à 20h, Dim jusqu'à 18h</span>
           </div>
+          <a href="tel:0561789012" className="flex items-center gap-2 px-6 py-2.5 bg-white text-[#3a7d44] font-bold text-sm rounded-xl hover:bg-[#f0f9f1] transition-colors whitespace-nowrap">
+            <Phone className="w-4 h-4" /> 05 61 78 90 12
+          </a>
+        </div>
+      </div>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-12">
-             <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Foundry_ID: VULCAN-FORGE-01
+      {/* ── SOINS ── */}
+      <section className="py-28 bg-[#fdfaf6]">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16">
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#3a7d44] mb-4">Nos soins</div>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#2d2318]" style={{ fontFamily: "'Lora', serif" }}>
+                Tout ce dont votre<br /><span className="text-[#3a7d44]">animal a besoin.</span>
+              </h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {SOINS.map((s, i) => (
+              <Reveal key={i} delay={i * 0.07}>
+                <div className="group p-8 rounded-2xl bg-white border border-[#e8f5eb] hover:border-[#3a7d44]/30 hover:shadow-lg hover:shadow-[#3a7d44]/5 transition-all duration-500 h-full">
+                  <div className="w-10 h-10 bg-[#e8f5eb] rounded-xl flex items-center justify-center mb-5 group-hover:bg-[#3a7d44] transition-colors duration-500">
+                    <s.icon className="w-5 h-5 text-[#3a7d44] group-hover:text-white transition-colors" />
+                  </div>
+                  <h3 className="font-bold text-[#2d2318] mb-3" style={{ fontFamily: "'Lora', serif" }}>{s.title}</h3>
+                  <p className="text-sm text-[#2d2318]/40 leading-relaxed">{s.desc}</p>
                 </div>
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Status: THERMAL_LOCKED
-                </div>
-             </div>
-             <div className="text-right flex flex-col items-end gap-4">
-                <span className="text-[8px] font-black uppercase tracking-[0.5em] text-orange-500">Molten_Metal_Stream</span>
-                <div className="flex gap-2 h-12 items-end">
-                   {[...Array(16)].map((_, i) => (
-                     <motion.div 
-                        key={i}
-                        animate={{ height: ["10%", "100%", "30%", "80%", "10%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                        className="w-2 bg-orange-500/20"
-                     />
-                   ))}
-                </div>
-             </div>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ==========================================
-            2. INDUSTRIAL REGISTRY (DENSE TECHNICAL)
-            ========================================== */}
-        <section className="py-60 bg-[#0c0804] relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-              <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-                 <Reveal>
-                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-orange-500 block mb-6 italic underline underline-offset-8 decoration-orange-400/20">Manufacturing // Assets</span>
-                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">Archives.</h2>
-                 </Reveal>
-                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Forge_Audit</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-orange-500">L'Architecture du Forage Industriel</p>
-                 </div>
+      {/* ── STATS ── */}
+      <section className="py-16 bg-[#e8f5eb]">
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-6">
+          {[
+            { v: "22 ans", l: "De médecine vétérinaire" },
+            { v: "4 200+", l: "Animaux suivis / an" },
+            { v: "4.9★", l: "Avis Google" },
+            { v: "3", l: "Vétérinaires diplômés" },
+          ].map((s, i) => (
+            <Reveal key={i} delay={i * 0.07}>
+              <div className="text-center p-6 bg-white rounded-2xl shadow-sm">
+                <div className="text-3xl font-bold text-[#3a7d44] mb-1">{s.v}</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-[#2d2318]/35">{s.l}</div>
               </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
-              <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 shadow-2xl">
-                 {INDUSTRIAL_ASSETS.map((asset, i) => (
-                   <Reveal key={asset.id} delay={i * 0.1}>
-                      <div className="bg-[#080402] p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
-                         <div className="flex justify-between items-start mb-16">
-                            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-orange-800 group-hover:text-white transition-all duration-500">
-                               <Factory className="w-8 h-8" />
-                            </div>
-                            <span className={`px-4 py-2 bg-white/5 text-[9px] font-black uppercase tracking-[0.3em] ${asset.status === "Forging" ? "text-orange-500" : "text-white/40"}`}>{asset.status}</span>
-                         </div>
-                         
-                         <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{asset.name}</h3>
-                         <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-12">{asset.type}</div>
-                         
-                         <div className="space-y-8 mb-20 border-l border-orange-500/20 pl-8">
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Melting Temp</span>
-                               <span className="text-white group-hover:text-orange-400 transition-colors">{asset.temp}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Deposition Rate</span>
-                               <span className="text-white group-hover:text-orange-400 transition-colors">{asset.rate}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Precision</span>
-                               <span className="text-white group-hover:text-orange-400 transition-colors">{asset.precision}</span>
-                            </div>
-                         </div>
-
-                         <p className="text-[12px] text-white/30 leading-loose uppercase tracking-[0.2em] font-bold italic mb-16">
-                            {asset.desc}
-                         </p>
-
-                         <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center">
-                            <span className="text-[10px] font-black text-white/10 uppercase tracking-widest">Ref: {asset.id}</span>
-                            <button className="text-[10px] font-black uppercase text-white/40 flex items-center gap-4 group-hover:text-white transition-all">
-                               Technical_Specs <ChevronRight className="w-5 h-5" />
-                            </button>
-                         </div>
-                      </div>
-                   </Reveal>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            3. FORGE MONITOR (INTERACTIVE DATA)
-            ========================================== */}
-        <section className="py-60 bg-black relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div>
-                    <Reveal>
-                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-orange-500 block mb-12 italic underline underline-offset-8 decoration-orange-500/20">Forge // Performance</span>
-                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">
-                          The <br/> <span className="not-italic font-black text-white/5 italic">Molten_Link.</span>
-                       </h2>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">
-                          Surveillance de la stabilité thermique en temps réel. Nos capteurs analysent la puissance du laser et la dissipation thermique pour garantir une solidification parfaite.
-                       </p>
-                       <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
-                          {THERMAL_METRICS.map((metric, i) => (
-                            <div key={i} className="p-16 bg-[#100c0a] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
-                               <div className="text-[10px] font-black uppercase text-orange-500 mb-6 tracking-[0.4em]">{metric.label}</div>
-                               <div className="text-5xl font-black text-white italic mb-6 tracking-tighter group-hover:translate-x-4 transition-transform">{metric.value}</div>
-                               <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
-                                  <Activity className="w-4 h-4 text-orange-500" /> {metric.trend}
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                       <button 
-                         onClick={() => setIsThermalGuardActive(!isThermalGuardActive)}
-                         className="w-full py-8 bg-orange-950 text-white text-[11px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center gap-6 italic"
-                       >
-                          <Settings className="w-5 h-5" /> Re-Sync Thermal Nodes
-                       </button>
-                    </Reveal>
-                 </div>
-                 
-                 <div className="relative">
-                    <Reveal delay={0.3} x={40}>
-                       <div className="aspect-square bg-[#100c0a] border border-white/10 p-20 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 p-80 bg-orange-400 opacity-[0.02] blur-[150px] rounded-full group-hover:opacity-[0.05] transition-opacity" />
-                          
-                          <div className="flex justify-between items-start z-10">
-                             <div className="flex flex-col gap-3">
-                                <span className="text-[10px] font-black text-white/10 uppercase tracking-[0.5em]">Forge_Link // MOLTEN-SYNC-v42</span>
-                                <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.6em]">Additive_Forge_Telemetry</span>
-                             </div>
-                             <Wifi className="w-6 h-6 text-orange-400" />
-                          </div>
-                          
-                          {/* FORGE VISUALIZER (SVG) */}
-                          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                             <div className="w-64 h-64 border border-orange-400/5 rounded-full flex items-center justify-center relative">
-                                <motion.div 
-                                  animate={{ rotate: 360 }}
-                                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-0 border-t-2 border-orange-400/20 rounded-full" 
-                                />
-                                <motion.div 
-                                  animate={{ rotate: -360 }}
-                                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-8 border-b-2 border-orange-400/10 rounded-full" 
-                                />
-                                <Hammer className={`w-24 h-24 transition-colors duration-1000 ${isThermalGuardActive ? "text-orange-400 animate-pulse" : "text-white/5"}`} />
-                             </div>
-                             <div className="mt-16 text-center space-y-6">
-                                <div className={`text-4xl font-black italic tracking-tighter ${isThermalGuardActive ? "text-white" : "text-white/20"}`}>
-                                   {isThermalGuardActive ? "THERMAL_SECURE" : "THERMAL_DISRUPTION"}
-                                </div>
-                                <span className="text-[11px] font-bold text-white/10 uppercase tracking-[0.6em] block">Auth_Node: VULCAN_UNIT_01</span>
-                             </div>
-                          </div>
-
-                          <div className="relative z-10 flex gap-6">
-                             <div className="flex-1 h-1 bg-white/5 overflow-hidden">
-                                <motion.div 
-                                   animate={isThermalGuardActive ? { x: ["-100%", "100%"] } : {}}
-                                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-orange-700"
-                                />
-                             </div>
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            4. FORGE STORY (TECH STORYTELLING)
-            ========================================== */}
-        <section className="py-60 bg-[#080402] relative overflow-hidden border-t border-white/5">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">
-                    <Image 
-                       src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1200&auto=format&fit=crop" 
-                       alt="Kinetic Foundry Infrastructure" 
-                       fill 
-                       className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"
-                    />
-                    <div className="absolute inset-0 bg-orange-900/10 mix-blend-color group-hover:opacity-0 transition-opacity" />
-                    <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                       <div className="text-white">
-                          <span className="text-[11px] font-black uppercase tracking-[0.6em] text-orange-500 mb-8 block italic underline underline-offset-8 decoration-orange-400/20">Atelier // Molten // Unit</span>
-                          <h4 className="text-6xl font-black tracking-tighter uppercase italic mb-12 mix-blend-difference text-white">Molten <br/> Fabric.</h4>
-                          <button className="flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/20 pb-4 hover:border-orange-400 transition-all group">
-                             Forging Protocols <ExternalLink className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                          </button>
-                       </div>
-                    </div>
-                 </div>
-
-                 <div>
-                    <Reveal>
-                       <div className="mb-24 text-left">
-                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-orange-500 mb-8 block italic">Chapitre III // Fusion Additive</span>
-                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none text-white">Pure_Fusion.</h2>
-                       </div>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">
-                          La fabrication est une symphonie de chaleur et de lumière. Nous utilisons des technologies de fusion laser pour construire des composants métalliques d'une complexité impossible à réaliser par les méthodes de forgeage conventionnelles.
-                       </p>
-                       <div className="space-y-20">
-                          {[
-                            { t: "Alloy Melting", d: "Fusion contrôlée sous atmosphère d'argon des poudres métalliques pour garantir une pureté atomique totale." },
-                            { t: "Laser Sintering", d: "Frittage laser multi-points par miroirs galvanométriques pour une solidification couche par couche ultra-rapide." },
-                            { t: "Layer Deposition", d: "Dépôt micrométrique de couches métalliques successives créant des structures internes complexes (canaux de refroidissement, treillis)." }
-                          ].map((step, i) => (
-                            <div key={i} className="group flex gap-12 border-b border-white/5 pb-16 hover:border-orange-400/20 transition-all cursor-default">
-                               <div className="text-6xl font-black text-white/5 group-hover:text-orange-400/20 transition-colors italic leading-none">0{i+1}</div>
-                               <div>
-                                  <h5 className="text-3xl font-black uppercase tracking-tight text-white mb-6 italic group-hover:translate-x-4 transition-transform text-white">{step.t}</h5>
-                                  <p className="text-[12px] text-white/20 uppercase tracking-[0.3em] font-bold leading-loose italic">{step.d}</p>
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* MEGA FOOTER */}
-        <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-              <div className="lg:col-span-2">
-                 <div className="flex items-center gap-6 mb-16">
-                    <div className="w-16 h-16 bg-orange-800 flex items-center justify-center">
-                      <FlameIcon className="w-10 h-10 text-white" />
-                    </div>
-                    <span className="text-4xl font-black uppercase tracking-tighter italic">KINETIC<span className="text-white/20">FOUNDRY.</span></span>
-                 </div>
-                 <p className="text-white/20 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
-                    "L'avenir de la fabrication est cinétique." — Archive Foundry V.42
-                 </p>
-                 <div className="flex gap-16">
-                    {["ForgeLog", "ForgeRegistry", "GitHub", "X_Protocol"].map(s => (
-                      <Link key={s} href="#" className="text-[11px] font-black uppercase tracking-widest text-white/20 hover:text-orange-400 transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
-                    ))}
-                 </div>
-              </div>
-
-              {[
-                { t: "UNITS", l: ["Forge-v4 Vulcan", "Molten Grid Alpha", "Titan-Print v5", "Plasma Arc-v1"] },
-                { t: "TECHNOLOGY", l: ["Laser Sintering", "Liquid Metal", "Additive Mfg", "SLA Reports"] },
-                { t: "ATELIER", l: ["Our Legacy", "Industrial Policy", "Locations", "Support"] }
-              ].map((col, i) => (
-                <div key={i} className="flex flex-col gap-12">
-                  <h4 className="text-[11px] font-black text-orange-400 uppercase tracking-[0.6em] italic">{col.t}</h4>
-                  <ul className="flex flex-col gap-8">
-                    {col.l.map(link => (
-                      <li key={link} className="text-[11px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-[0.4em] italic">{link}</li>
-                    ))}
-                  </ul>
+      {/* ── TÉMOIGNAGES ── */}
+      <section className="py-28 bg-white">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14 text-center">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#3a7d44] mb-4">Ils nous font confiance</div>
+            <h2 className="text-4xl font-bold text-[#2d2318]" style={{ fontFamily: "'Lora', serif" }}>Nos patients <span className="text-[#3a7d44]">& leurs familles.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {[
+              { q: "Luna a été opérée en urgence un dimanche matin. L'équipe était calme, rassurante, hyper compétente. Aujourd'hui elle galope comme avant. Merci du fond du cœur.", n: "Camille V.", l: "Toulouse · Luna, labrador" },
+              { q: "Mon chat de 14 ans a une maladie rénale chronique. Le Dr. Martin le suit depuis 3 ans avec une patience et une expertise remarquables. On ne changerait pour rien.", n: "Élisabeth M.", l: "Ramonville · Sushi, chat persan" },
+              { q: "Super clinique, accueil top, salle d'attente propre avec espaces chats/chiens séparés. Et nos deux teckels adorent le Dr. Bouchard (ce qui n'est pas commun pour des chiens de véto).", n: "Thomas & Julie K.", l: "Colomiers (31)" },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="p-8 rounded-2xl bg-[#fdfaf6] border border-[#e8f5eb] h-full flex flex-col">
+                  <div className="flex gap-1 mb-5">
+                    {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#3a7d44] text-[#3a7d44]" />)}
+                  </div>
+                  <p className="text-sm text-[#2d2318]/45 leading-relaxed italic flex-1">{`"${t.q}"`}</p>
+                  <div className="mt-6 pt-5 border-t border-[#e8f5eb]">
+                    <div className="font-bold text-[#2d2318] text-sm" style={{ fontFamily: "'Lora', serif" }}>{t.n}</div>
+                    <div className="text-[10px] text-[#3a7d44] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l}</div>
+                  </div>
                 </div>
-              ))}
-           </div>
-
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 KINETIC FOUNDRY INDUSTRIAL ADDITIVE AG. // ALL_RIGHTS_RESERVED</span>
-              <div className="flex gap-16">
-                 <span>STATUS: OPERATIONAL</span>
-                 <span>TEMP: 2,402 °C (AVG)</span>
-                 <span>v4.12.0-STABLE</span>
-              </div>
-           </div>
-        </footer>
-      </main>
-    </div>
-  )
-}
-
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
-
-function HUD_Overlay({ isThermalGuardActive }: { isThermalGuardActive: boolean }) {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Corner Brackets */}
-       <div className={`absolute top-12 left-12 w-20 h-20 border-t-2 border-l-2 transition-colors duration-1000 ${isThermalGuardActive ? "border-orange-400" : "border-white/10"}`} />
-       <div className={`absolute top-12 right-12 w-20 h-20 border-t-2 border-r-2 transition-colors duration-1000 ${isThermalGuardActive ? "border-orange-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 left-12 w-20 h-20 border-b-2 border-l-2 transition-colors duration-1000 ${isThermalGuardActive ? "border-orange-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 right-12 w-20 h-20 border-b-2 border-r-2 transition-colors duration-1000 ${isThermalGuardActive ? "border-orange-400" : "border-white/10"}`} />
-
-       {/* Top Status Bar */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-20 bg-black/60 backdrop-blur-2xl px-12 py-4 border border-white/10 rounded-none">
-          <div className="flex items-center gap-6 text-white">
-             <div className={`w-3 h-3 transition-colors duration-500 ${isThermalGuardActive ? "bg-orange-400 animate-pulse" : "bg-red-500 animate-ping"}`} />
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Forge_Sync: {isThermalGuardActive ? "NOMINAL" : "THERMAL_DISRUPTION"} // Status: ACTIVE</span>
+              </Reveal>
+            ))}
           </div>
-          <div className="h-4 w-px bg-white/20" />
-          <div className="flex items-center gap-6 text-white/20">
-             <Wifi className="w-4 h-4" /> 
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Foundry_Grid: SECURE</span>
-          </div>
-       </div>
+        </div>
+      </section>
 
-       {/* Right Rotation Info */}
-       <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-white/5 italic">Unauthorized_Duplication_Of_Forge_Patterns_Is_Strictly_Monitored_By_Global_Foundry_Alliance</span>
-       </div>
+      {/* ── CTA ── */}
+      <section className="py-24 bg-[#3a7d44] text-center">
+        <Reveal>
+          <div className="max-w-xl mx-auto px-6">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-6">Rendez-vous</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Lora', serif" }}>
+              Votre compagnon<br /><span className="italic">mérite le meilleur.</span>
+            </h2>
+            <p className="text-white/50 mb-10 text-sm">Consultation en ligne ou par téléphone · Urgences 7j/7 · Toulouse Rangueil</p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <button className="px-10 py-4 bg-white text-[#3a7d44] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f9f1] transition-colors rounded-xl shadow-lg">
+                Prendre rendez-vous
+              </button>
+              <a href="tel:0561789012" className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-xl">
+                <Phone className="w-4 h-4" /> 05 61 78 90 12
+              </a>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-[#1a2a1c] pt-20 pb-10 px-6">
+        <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          <div>
+            <div className="flex items-center gap-2.5 mb-5">
+              <div className="w-7 h-7 bg-[#3a7d44] rounded-full flex items-center justify-center"><Heart className="w-3.5 h-3.5 text-white" /></div>
+              <span className="font-bold text-white text-sm" style={{ fontFamily: "'Lora', serif" }}>Clinique du Bois Vert</span>
+            </div>
+            <p className="text-white/20 text-sm leading-relaxed">Vétérinaire à Toulouse. Consultations, chirurgie, urgences 7j/7. Chats, chiens, NAC.</p>
+          </div>
+          {[
+            { t: "Soins", ls: ["Consultations & bilans", "Vaccinations", "Chirurgie", "Toilettage", "Urgences", "Imagerie & analyses"] },
+            { t: "Cabinet", ls: ["L'équipe", "Nos équipements", "Tarifs", "Avis clients", "Accès & parkings"] },
+            { t: "Infos", ls: ["12 allée des Pins", "31400 Toulouse", "Lun-Sam 8h-20h", "Dim 9h-18h", "05 61 78 90 12"] },
+          ].map((col, i) => (
+            <div key={i}>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#3a7d44]/60 mb-5">{col.t}</h4>
+              <ul className="space-y-2.5">
+                {col.ls.map(l => <li key={l}><Link href="#" className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-white/10">
+          <span>© 2026 Clinique du Bois Vert · SIRET 012 345 678 00090 · Ordre National des Vétérinaires</span>
+          <span className="text-[#3a7d44]/25">Clinique vétérinaire · Toulouse</span>
+        </div>
+      </footer>
     </div>
   )
 }

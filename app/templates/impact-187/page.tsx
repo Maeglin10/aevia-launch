@@ -1,526 +1,291 @@
+// @ts-nocheck
 "use client"
-
-import React, { useState, useEffect, useRef } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
-} from "framer-motion"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  Zap, Activity, Microscope, 
-  Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, Wifi, BarChart3, 
-  Fingerprint, Scan, Brain, Server, 
-  ShieldCheck, ShieldAlert, Award, 
-  Briefcase, Wind, Thermometer, 
-  Flame, Battery, Radio, Gauge, 
-  Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Satellite, 
-  Milestone, FlaskConical, FlaskRound, 
-  Ghost, Binary, Database, Search, 
-  Cpu, HeartPulse, Sun, Magnet, 
-  CircleDot, Waves, Pickaxe, Mountain, 
-  Gem, Rocket, Drill, PlaneTakeoff, 
-  Dna, Lock, DatabaseIcon, HardDrive, 
-  Library, BookOpen, Shield, ThermometerSnowflake, 
-  Pipette, FlaskRoundIcon
-} from "lucide-react"
+import { Zap, Target, TrendingUp, Timer, Users, Star, Phone, MapPin, ArrowRight, CheckCircle, Dumbbell, Menu } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-/* ==========================================================================
-   THE BIO-DIGITAL CRYPT DATASET (ULTRA DENSITY)
-   ========================================================================== */
+/* ═══════════════════════════════════════════════════════════════════════════
+   MAX PERFORMANCE — Coach sportif personnel (Paris)
+   Palette : noir #0a0a0a / orange électrique #f97316 / gris foncé #1a1a1a / blanc cassé #f8f5f0
+   Fonts : Anton (titres impact) + Geist (corps)
+   Style : énergie, impact, transformation, résultats
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-const GENOMIC_ARCHIVES = [
-  {
-    id: "arc-hum-42",
-    name: "Humanity's Heritage v4",
-    type: "Global Knowledge Archive",
-    density: "215 PB / gram",
-    lifespan: "2,000 Years",
-    integrity: "99.9999%",
-    desc: "Stockage de l'intégralité de la connaissance humaine (littérature, art, science) encodé dans des brins d'ADN synthétique ultra-stables.",
-    status: "Vaulted"
-  },
-  {
-    id: "arc-gen-08",
-    name: "Seed Genome Vault",
-    type: "Biological Backup",
-    density: "18 PB / gram",
-    lifespan: "5,000 Years",
-    integrity: "99.99999%",
-    desc: "Sauvegarde numérique haute fidélité des génomes de toutes les espèces terrestres, protégée contre les radiations et le temps.",
-    status: "Syncing"
-  },
-  {
-    id: "arc-key-15",
-    name: "Post-Quantum Keys",
-    type: "Cryptographic Core",
-    density: "42 PB / gram",
-    lifespan: "1,000 Years",
-    integrity: "99.99%",
-    desc: "Clés de chiffrement universelles stockées biologiquement, indétectables par les scanners électromagnétiques conventionnels.",
-    status: "Active Link"
-  }
-]
-
-const BIO_STORAGE_METRICS = [
-  { label: "Storage Temp", value: "77 K", trend: "Cryo-Stable" },
-  { label: "Data Density", value: "215 PB/g", trend: "Max" },
-  { label: "Synthesis Fid.", value: "99.99%", trend: "Optimal" },
-  { label: "Error Correction", value: "LDPC-v4", trend: "Active" }
-]
-
-const STORAGE_LOGS = [
-  { timestamp: "11:14:42", unit: "Synth-Module-01", status: "ENCODING", gene: "BTC-PRV" },
-  { timestamp: "11:14:45", unit: "Cryo-Vault-X", status: "STABLE", temp: "77K" },
-  { timestamp: "11:14:48", unit: "Read-Pulse", status: "SUCCESS", match: "100%" }
-]
-
-/* ==========================================
-   TECHNICAL COMPONENTS
-   ========================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+function Reveal({ children, delay = 0, y = 22 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-60px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function NucleoStreamVisualizer() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+const PROGRAMMES = [
+  { icon: Target, title: "Coaching privatif", desc: "Séances 1-on-1, 60 ou 90 minutes. Programme sur mesure selon vos objectifs : perte de poids, prise de masse, endurance, rééducation." },
+  { icon: Zap, title: "Bootcamp intensif", desc: "Séances groupe de 4 max, HIIT, circuits training, cardio-renforcement. L'efficacité du collectif avec le suivi du coaching individuel." },
+  { icon: TrendingUp, title: "Bilan & suivi mensuel", desc: "Composition corporelle, VO2max, tests force. Tableau de bord personnel, courbes de progression, ajustements de programme chaque mois." },
+  { icon: Timer, title: "Nutrition & récupération", desc: "Plan alimentaire personnalisé, macros calculées, supplémentation raisonnée. Protocoles récupération, sommeil, gestion du stress sportif." },
+  { icon: Dumbbell, title: "Prépa compétition", desc: "Préparation physique spécifique à votre discipline (run, CrossFit, triathlon, tennis). Périodisation, pic de forme, stratégie de course." },
+  { icon: Users, title: "Coaching en ligne", desc: "Programme 100% digital, suivi via app dédiée, vidéos explicatives, check-in hebdo en visio. Pour les voyageurs et profils full remote." },
+]
+
+export default function MaxPerformancePage() {
+  const heroRef = useRef(null)
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "22%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+  const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "9%"])
+
   useEffect(() => {
-    const handleMouse = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
-    window.addEventListener("mousemove", handleMouse)
-    return () => window.removeEventListener("mousemove", handleMouse)
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-10">
-       <svg width="100%" height="100%" className="w-full h-full">
-          {[...Array(20)].map((_, i) => (
-            <motion.text 
-               key={i}
-               x={`${5 + i * 5}%`} 
-               y="0" 
-               fill="#a855f7" 
-               fontSize="12" 
-               fontWeight="bold"
-               animate={{ y: [0, 1000] }}
-               transition={{ duration: 5 + Math.random() * 5, repeat: Infinity, ease: "linear", delay: Math.random() * 5 }}
-            >
-               {["A", "T", "C", "G"][Math.floor(Math.random() * 4)]}
-            </motion.text>
-          ))}
-          {[...Array(30)].map((_, i) => (
-            <motion.path 
-               key={`helix-${i}`}
-               d={`M ${Math.random() * 2000} 0 Q ${Math.random() * 2000} 500 ${Math.random() * 2000} 1000`}
-               stroke="#a855f7" 
-               strokeWidth="0.5" 
-               fill="none"
-               animate={{ d: `M ${mousePos.x + (i * 20)} 0 Q ${mousePos.x - (i * 10)} 500 ${mousePos.x + (i * 20)} 1000` }}
-               transition={{ type: "spring", damping: 30, stiffness: 50 }}
-            />
-          ))}
-       </svg>
-    </div>
-  )
-}
+    <div className="bg-[#0a0a0a] text-[#f8f5f0] overflow-x-hidden" style={{ fontFamily: "'Geist', 'Inter', system-ui, sans-serif" }}>
+      {/* ── NAVBAR ── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0a0a0a]/97 backdrop-blur-xl py-3 border-b border-[#f97316]/10" : "bg-transparent py-7"}`}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <div>
+            <span className="font-black text-[#f8f5f0] tracking-widest text-sm uppercase" style={{ fontFamily: "'Anton', impact, sans-serif" }}>MAX<span className="text-[#f97316]">.</span>PERF</span>
+          </div>
+          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-[#f8f5f0]/25">
+            {["Programmes", "Méthode", "Résultats", "Tarifs", "Contact"].map(l => (
+              <Link key={l} href="#" className="hover:text-[#f97316] transition-colors">{l}</Link>
+            ))}
+          </div>
+          <div className="flex items-center gap-3">
+            <a href="tel:0612345678" className="hidden md:flex items-center gap-2 text-[#f97316] font-bold text-sm">
+              <Phone className="w-4 h-4" /> 06 12 34 56 78
+            </a>
+            <button className="hidden md:block px-5 py-2.5 bg-[#f97316] text-[#0a0a0a] text-[10px] font-black uppercase tracking-[0.25em] hover:bg-[#ea650a] transition-colors">
+              Séance offerte
+            </button>
+            <Sheet>
+              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5 text-[#f8f5f0]" /></button></SheetTrigger>
+              <SheetContent side="right" className="bg-[#111] border-[#f97316]/10 p-10">
+                <div className="flex flex-col gap-7 mt-16">
+                  {["Programmes", "Méthode", "Contact"].map(l => <Link key={l} href="#" className="text-3xl font-black uppercase text-[#f8f5f0] hover:text-[#f97316] transition-colors" style={{ fontFamily: "'Anton', sans-serif" }}>{l}</Link>)}
+                  <a href="tel:0612345678" className="flex items-center gap-3 text-[#f97316] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 06 12 34 56 78</a>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+      </nav>
 
-function BioVaultModel({ progress }: { progress: any }) {
-  const rotate = useTransform(progress, [0, 1], [0, 360])
-  const scale = useTransform(progress, [0, 0.5, 1], [1, 1.2, 1])
+      {/* ── HERO ── */}
+      <section ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
+        <motion.div style={{ y: heroY }} className="absolute inset-0">
+          <Image src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=88&w=2400" alt="Coach sportif entraînement intense" fill className="object-cover object-center" priority style={{ filter: "brightness(0.3) saturate(0.8)" }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/75 to-transparent" />
+          {/* Orange diagonal accent */}
+          <div className="absolute bottom-0 right-0 w-[40%] h-[3px] bg-[#f97316] opacity-60" />
+        </motion.div>
 
-  return (
-    <motion.div style={{ rotate, scale }} className="relative w-80 h-80 flex items-center justify-center">
-       <div className="absolute inset-0 border border-purple-500/10 rounded-full animate-spin-slow shadow-[0_0_80px_rgba(168,85,247,0.05)]" />
-       <DatabaseIcon className="w-40 h-40 text-purple-500/10 animate-pulse" />
-       <div className="absolute inset-8 border border-purple-500/5 rounded-full" />
-    </motion.div>
-  )
-}
+        {/* Stats floating card */}
+        <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.3, duration: 0.8 }}
+          className="absolute right-8 md:right-16 bottom-32 z-10 bg-[#0a0a0a]/80 backdrop-blur-sm border border-[#f97316]/20 p-5 hidden lg:block">
+          <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#f97316]/60 mb-3">En ce moment</div>
+          <div className="text-3xl font-black text-[#f97316]" style={{ fontFamily: "'Anton', sans-serif" }}>143</div>
+          <div className="text-[10px] text-[#f8f5f0]/30 mt-1">clients transformés en 2026</div>
+        </motion.div>
 
-/* ==========================================
-   THE BIO-DIGITAL CRYPT - MAIN INTERFACE
-   ========================================== */
-
-export default function BioDigitalCryptPremium() {
-  const [activeArchive, setActiveArchive] = useState(0)
-  const [isCryoLockActive, setIsCryoLockActive] = useState(true)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Vault Scroll Effects
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textX = useTransform(scrollYProgress, [0, 0.5], [0, -100])
-
-  return (
-    <div ref={containerRef} className="bg-[#050208] text-[#e0e8ed] font-mono selection:bg-purple-500/30 selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000">
-      
-      {/* GLOBAL HUD OVERLAY */}
-      <HUD_Overlay isCryoLockActive={isCryoLockActive} />
-
-      <main>
-        {/* ==========================================
-            1. CRYPT IGNITION (HERO)
-            ========================================== */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-          <NucleoStreamVisualizer />
-          <motion.div style={{ opacity: heroOpacity }} className="absolute z-0 pointer-events-none flex items-center justify-center">
-             <BioVaultModel progress={scrollYProgress} />
+        <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-32">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-10 h-[2px] bg-[#f97316]" />
+              <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#f97316]/70">Coach sportif certifié · Paris & Online</span>
+            </div>
           </motion.div>
 
-          <div className="relative z-10 text-center max-w-7xl">
-             <Reveal>
-                <div className="inline-flex items-center gap-4 px-6 py-2 border border-purple-500/30 bg-purple-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-purple-500 mb-12 italic">
-                   <Dna className="w-4 h-4" /> Storage_Sync: NOMINAL // Density: 215 PB/g
+          <motion.div initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}>
+            <h1 className="font-black uppercase leading-none tracking-tight mb-2 text-[#f8f5f0]" style={{ fontFamily: "'Anton', impact, sans-serif", fontSize: "clamp(64px,10vw,120px)" }}>
+              STOP
+            </h1>
+            <h1 className="font-black uppercase leading-none tracking-tight mb-2 text-[#f97316]" style={{ fontFamily: "'Anton', impact, sans-serif", fontSize: "clamp(64px,10vw,120px)" }}>
+              WAITING.
+            </h1>
+            <h1 className="font-black uppercase leading-none tracking-tight mb-10 text-[#f8f5f0]/20" style={{ fontFamily: "'Anton', impact, sans-serif", fontSize: "clamp(32px,4.5vw,56px)" }}>
+              Start performing.
+            </h1>
+          </motion.div>
+
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
+            className="max-w-sm text-sm text-[#f8f5f0]/30 leading-relaxed mb-10">
+            Coaching sportif personnalisé à Paris. Perte de poids, prise de masse, prépa trail/triathlon. 1ère séance offerte. Résultats visibles en 4 semaines ou remboursement.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-4">
+            <button className="px-9 py-4 bg-[#f97316] text-[#0a0a0a] font-black text-[11px] uppercase tracking-[0.3em] hover:bg-[#ea650a] transition-colors" style={{ fontFamily: "'Anton', sans-serif" }}>
+              1ère séance offerte
+            </button>
+            <a href="tel:0612345678" className="flex items-center gap-3 px-9 py-4 border border-[#f8f5f0]/10 text-[#f8f5f0]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[#f97316]/40 hover:text-[#f97316] transition-all">
+              <Phone className="w-4 h-4" /> 06 12 34 56 78
+            </a>
+          </motion.div>
+        </motion.div>
+
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
+          <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 2.2 }} className="w-[1px] h-12 bg-gradient-to-b from-[#f97316]/40 to-transparent" />
+        </div>
+      </section>
+
+      {/* ── STATS BAND ── */}
+      <section className="py-14 bg-[#1a1a1a] border-y border-[#f97316]/10">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-6">
+          {[
+            { v: "8 ans", l: "D'expérience" },
+            { v: "480+", l: "Clients coachés" },
+            { v: "94%", l: "Taux de résultats" },
+            { v: "4.9★", l: "Note Google" },
+          ].map((s, i) => (
+            <Reveal key={i} delay={i * 0.07}>
+              <div className="text-center py-4">
+                <div className="text-4xl font-black text-[#f97316] mb-1" style={{ fontFamily: "'Anton', sans-serif" }}>{s.v}</div>
+                <div className="text-[9px] font-bold uppercase tracking-widest text-[#f8f5f0]/25">{s.l}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── PROGRAMMES ── */}
+      <section className="py-28 bg-[#0a0a0a]">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16">
+              <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#f97316]/60 mb-4">— Mes programmes</div>
+              <h2 className="font-black uppercase text-[#f8f5f0]" style={{ fontFamily: "'Anton', sans-serif", fontSize: "clamp(36px,4vw,56px)" }}>
+                Ce qu'on fait<br /><span className="text-[#f97316]">ensemble.</span>
+              </h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {PROGRAMMES.map((p, i) => (
+              <Reveal key={i} delay={i * 0.07}>
+                <div className="group p-7 border border-[#f8f5f0]/5 hover:border-[#f97316]/30 hover:bg-[#1a1a1a] transition-all duration-500 h-full">
+                  <div className="w-10 h-10 bg-[#f97316]/10 flex items-center justify-center mb-5 group-hover:bg-[#f97316] transition-colors duration-500">
+                    <p.icon className="w-5 h-5 text-[#f97316] group-hover:text-[#0a0a0a] transition-colors" />
+                  </div>
+                  <h3 className="font-black uppercase text-[#f8f5f0] mb-3 text-sm group-hover:text-[#f97316] transition-colors" style={{ fontFamily: "'Anton', sans-serif", letterSpacing: "0.05em" }}>{p.title}</h3>
+                  <p className="text-sm text-[#f8f5f0]/25 leading-relaxed">{p.desc}</p>
                 </div>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic">
-                   Bio-Digital <br/> <span className="text-white/5 italic">Crypt.</span>
-                </motion.h1>
-                <p className="max-w-3xl mx-auto text-sm md:text-lg text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16 italic">
-                   La préservation éternelle de l'information. Nous codons les archives de l'humanité dans l'ADN synthétique, créant une bibliothèque millénaire résistante au temps et aux effondrements technologiques.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                   <button className="px-12 py-6 bg-purple-800 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(168,85,247,0.2)] flex items-center gap-4 italic">
-                      <Lock className="w-5 h-5" /> Initialize Encoding
-                   </button>
-                   <button className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
-                      <Archive className="w-5 h-5" /> Global Registry
-                   </button>
-                </div>
-             </Reveal>
+              </Reveal>
+            ))}
           </div>
+        </div>
+      </section>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-12">
-             <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Vault_ID: NUCLEO-CRYPT-01
+      {/* ── MÉTHODE ── */}
+      <section className="py-24 bg-[#1a1a1a]">
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#f97316]/50 mb-4">La méthode</div>
+            <h2 className="font-black uppercase text-[#f8f5f0] text-4xl" style={{ fontFamily: "'Anton', sans-serif" }}>4 semaines <span className="text-[#f97316]">pour tout changer.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {[
+              { n: "01", t: "BILAN", d: "Composition corporelle, objectifs, historique, contraintes. On part de la réalité, pas d'une fiction." },
+              { n: "02", t: "PROGRAMME", d: "Plan 100% personnalisé. Entraînements, nutrition, récupération. Rien de générique." },
+              { n: "03", t: "EXÉCUTION", d: "On s'entraîne. Dur. Mais intelligemment. Progression linéaire, technique irréprochable." },
+              { n: "04", t: "RÉSULTATS", d: "Suivi hebdo, ajustements, mesures. Les chiffres ne mentent pas — et ils seront bons." },
+            ].map((s, i) => (
+              <Reveal key={i} delay={i * 0.09}>
+                <div className="bg-[#0a0a0a] border border-[#f8f5f0]/5 p-7 h-full">
+                  <div className="font-black text-5xl text-[#f97316]/10 mb-4" style={{ fontFamily: "'Anton', sans-serif" }}>{s.n}</div>
+                  <div className="font-black uppercase text-[#f97316] mb-3 text-xs tracking-[0.2em]" style={{ fontFamily: "'Anton', sans-serif" }}>{s.t}</div>
+                  <p className="text-sm text-[#f8f5f0]/25 leading-relaxed">{s.d}</p>
                 </div>
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Status: CRYO_LOCKED_STABLE
-                </div>
-             </div>
-             <div className="text-right flex flex-col items-end gap-4">
-                <span className="text-[8px] font-black uppercase tracking-[0.5em] text-purple-500">Molecular_Data_Stream</span>
-                <div className="flex gap-2 h-12 items-end">
-                   {[...Array(16)].map((_, i) => (
-                     <motion.div 
-                        key={i}
-                        animate={{ height: ["10%", "100%", "30%", "80%", "10%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                        className="w-2 bg-purple-500/20"
-                     />
-                   ))}
-                </div>
-             </div>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ==========================================
-            2. GENOMIC REGISTRY (DENSE TECHNICAL)
-            ========================================== */}
-        <section className="py-60 bg-[#08040c] relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-              <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-                 <Reveal>
-                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-purple-500 block mb-6 italic underline underline-offset-8 decoration-purple-400/20">Genomic // Assets</span>
-                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">Archives.</h2>
-                 </Reveal>
-                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Bio_Audit</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-purple-500">L'Architecture du Stockage Moléculaire</p>
-                 </div>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 shadow-2xl">
-                 {GENOMIC_ARCHIVES.map((arc, i) => (
-                   <Reveal key={arc.id} delay={i * 0.1}>
-                      <div className="bg-[#050208] p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
-                         <div className="flex justify-between items-start mb-16">
-                            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-purple-800 group-hover:text-white transition-all duration-500">
-                               <Library className="w-8 h-8" />
-                            </div>
-                            <span className={`px-4 py-2 bg-white/5 text-[9px] font-black uppercase tracking-[0.3em] ${arc.status === "Vaulted" ? "text-purple-500" : "text-white/40"}`}>{arc.status}</span>
-                         </div>
-                         
-                         <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{arc.name}</h3>
-                         <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-12">{arc.type}</div>
-                         
-                         <div className="space-y-8 mb-20 border-l border-purple-500/20 pl-8">
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Data Density</span>
-                               <span className="text-white group-hover:text-purple-400 transition-colors">{arc.density}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Lifespan</span>
-                               <span className="text-white group-hover:text-purple-400 transition-colors">{arc.lifespan}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Integrity</span>
-                               <span className="text-white group-hover:text-purple-400 transition-colors">{arc.integrity}</span>
-                            </div>
-                         </div>
-
-                         <p className="text-[12px] text-white/30 leading-loose uppercase tracking-[0.2em] font-bold italic mb-16">
-                            {arc.desc}
-                         </p>
-
-                         <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center">
-                            <span className="text-[10px] font-black text-white/10 uppercase tracking-widest">Ref: {arc.id}</span>
-                            <button className="text-[10px] font-black uppercase text-white/40 flex items-center gap-4 group-hover:text-white transition-all">
-                               Technical_Specs <ChevronRight className="w-5 h-5" />
-                            </button>
-                         </div>
-                      </div>
-                   </Reveal>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            3. CRYO MONITOR (INTERACTIVE DATA)
-            ========================================== */}
-        <section className="py-60 bg-black relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div>
-                    <Reveal>
-                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-purple-500 block mb-12 italic underline underline-offset-8 decoration-purple-400/20">Cryo // Performance</span>
-                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">
-                          The <br/> <span className="not-italic font-black text-white/5 italic">Bio_Vault_Link.</span>
-                       </h2>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">
-                          Surveillance de la stabilité moléculaire en temps réel. Nos capteurs cryogéniques analysent la température et la fidélité de synthèse pour garantir une préservation sans faille.
-                       </p>
-                       <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
-                          {BIO_STORAGE_METRICS.map((metric, i) => (
-                            <div key={i} className="p-16 bg-[#0c0a10] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
-                               <div className="text-[10px] font-black uppercase text-purple-500 mb-6 tracking-[0.4em]">{metric.label}</div>
-                               <div className="text-5xl font-black text-white italic mb-6 tracking-tighter group-hover:translate-x-4 transition-transform">{metric.value}</div>
-                               <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
-                                  <Activity className="w-4 h-4 text-purple-500" /> {metric.trend}
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                       <button 
-                         onClick={() => setIsCryoLockActive(!isCryoLockActive)}
-                         className="w-full py-8 bg-purple-950 text-white text-[11px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center gap-6 italic"
-                       >
-                          <Settings className="w-5 h-5" /> Re-Sync Cryo Nodes
-                       </button>
-                    </Reveal>
-                 </div>
-                 
-                 <div className="relative">
-                    <Reveal delay={0.3} x={40}>
-                       <div className="aspect-square bg-[#0c0a10] border border-white/10 p-20 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 p-80 bg-purple-400 opacity-[0.02] blur-[150px] rounded-full group-hover:opacity-[0.05] transition-opacity" />
-                          
-                          <div className="flex justify-between items-start z-10">
-                             <div className="flex flex-col gap-3">
-                                <span className="text-[10px] font-black text-white/10 uppercase tracking-[0.5em]">Bio_Link // NUC-CRYPT-v42</span>
-                                <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.6em]">Molecular_Stability_Telemetry</span>
-                             </div>
-                             <Wifi className="w-6 h-6 text-purple-400" />
-                          </div>
-                          
-                          {/* VAULT VISUALIZER (SVG) */}
-                          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                             <div className="w-64 h-64 border border-purple-400/5 rounded-full flex items-center justify-center relative">
-                                <motion.div 
-                                  animate={{ rotate: 360 }}
-                                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-0 border-t-2 border-purple-400/20 rounded-full" 
-                                />
-                                <motion.div 
-                                  animate={{ rotate: -360 }}
-                                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-8 border-b-2 border-purple-400/10 rounded-full" 
-                                />
-                                <Lock className={`w-24 h-24 transition-colors duration-1000 ${isCryoLockActive ? "text-purple-400 animate-pulse" : "text-white/5"}`} />
-                             </div>
-                             <div className="mt-16 text-center space-y-6">
-                                <div className={`text-4xl font-black italic tracking-tighter ${isCryoLockActive ? "text-white" : "text-white/20"}`}>
-                                   {isCryoLockActive ? "CRYO_LOCKED" : "CRYO_LEAK_DETECTED"}
-                                </div>
-                                <span className="text-[11px] font-bold text-white/10 uppercase tracking-[0.6em] block">Auth_Node: CRYPT_UNIT_01</span>
-                             </div>
-                          </div>
-
-                          <div className="relative z-10 flex gap-6">
-                             <div className="flex-1 h-1 bg-white/5 overflow-hidden">
-                                <motion.div 
-                                   animate={isCryoLockActive ? { x: ["-100%", "100%"] } : {}}
-                                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-purple-700"
-                                />
-                             </div>
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            4. CRYPT STORY (TECH STORYTELLING)
-            ========================================== */}
-        <section className="py-60 bg-[#050208] relative overflow-hidden border-t border-white/5">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">
-                    <Image 
-                       src="https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=1200&auto=format&fit=crop" 
-                       alt="Bio-Digital Crypt Infrastructure" 
-                       fill 
-                       className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"
-                    />
-                    <div className="absolute inset-0 bg-purple-900/10 mix-blend-color group-hover:opacity-0 transition-opacity" />
-                    <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                       <div className="text-white">
-                          <span className="text-[11px] font-black uppercase tracking-[0.6em] text-purple-500 mb-8 block italic underline underline-offset-8 decoration-purple-400/20">Atelier // Molecular // Unit</span>
-                          <h4 className="text-6xl font-black tracking-tighter uppercase italic mb-12 mix-blend-difference text-white">Nucleo <br/> Fabric.</h4>
-                          <button className="flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/20 pb-4 hover:border-purple-400 transition-all group">
-                             Encoding Protocols <ExternalLink className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                          </button>
-                       </div>
-                    </div>
-                 </div>
-
-                 <div>
-                    <Reveal>
-                       <div className="mb-24 text-left">
-                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-purple-500 mb-8 block italic">Chapitre III // Encodage</span>
-                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none text-white">Pure_Code.</h2>
-                       </div>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">
-                          L'ADN est le support de données ultime. Nous utilisons les outils de la biologie synthétique pour traduire le binaire en bases nucléiques, offrant un stockage d'une densité et d'une longévité inégalées.
-                       </p>
-                       <div className="space-y-20">
-                          {[
-                            { t: "Binary Mapping", d: "Traduction des octets numériques en séquences de nucléotides A-T-C-G via des algorithmes propriétaires d'évitement de répétitions." },
-                            { t: "DNA Synthesis", d: "Synthèse chimique de haute précision des brins d'ADN porteurs de l'information, assemblés base par base." },
-                            { t: "Silica Encapsulation", d: "Protection des brins synthétisés dans des micro-capsules de silice, imitant la fossilisation naturelle pour une stabilité millénaire." }
-                          ].map((step, i) => (
-                            <div key={i} className="group flex gap-12 border-b border-white/5 pb-16 hover:border-purple-400/20 transition-all cursor-default">
-                               <div className="text-6xl font-black text-white/5 group-hover:text-purple-400/20 transition-colors italic leading-none">0{i+1}</div>
-                               <div>
-                                  <h5 className="text-3xl font-black uppercase tracking-tight text-white mb-6 italic group-hover:translate-x-4 transition-transform text-white">{step.t}</h5>
-                                  <p className="text-[12px] text-white/20 uppercase tracking-[0.3em] font-bold leading-loose italic">{step.d}</p>
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* MEGA FOOTER */}
-        <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-              <div className="lg:col-span-2">
-                 <div className="flex items-center gap-6 mb-16">
-                    <div className="w-16 h-16 bg-purple-800 flex items-center justify-center">
-                      <Dna className="w-10 h-10 text-white" />
-                    </div>
-                    <span className="text-4xl font-black uppercase tracking-tighter italic">BIO-DIGITAL<span className="text-white/20">CRYPT.</span></span>
-                 </div>
-                 <p className="text-white/20 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
-                    "L'avenir de l'information est biologique." — Archive Crypt V.42
-                 </p>
-                 <div className="flex gap-16">
-                    {["StorageLog", "ArchiveRegistry", "GitHub", "X_Protocol"].map(s => (
-                      <Link key={s} href="#" className="text-[11px] font-black uppercase tracking-widest text-white/20 hover:text-purple-400 transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
-                    ))}
-                 </div>
-              </div>
-
-              {[
-                { t: "ARCHIVES", l: ["Humanity's Heritage v4", "Seed Genome Vault", "Post-Quantum Keys", "Cultural Legacy"] },
-                { t: "TECHNOLOGY", l: ["DNA Synthesis", "Silica Encap", "Cryo-Storage", "SLA Reports"] },
-                { t: "ATELIER", l: ["Our Legacy", "Data Ethics", "Locations", "Support"] }
-              ].map((col, i) => (
-                <div key={i} className="flex flex-col gap-12">
-                  <h4 className="text-[11px] font-black text-purple-400 uppercase tracking-[0.6em] italic">{col.t}</h4>
-                  <ul className="flex flex-col gap-8">
-                    {col.l.map(link => (
-                      <li key={link} className="text-[11px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-[0.4em] italic">{link}</li>
-                    ))}
-                  </ul>
+      {/* ── TEMOIGNAGES ── */}
+      <section className="py-28 bg-[#0a0a0a]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-16">
+            <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#f97316]/50 mb-4">— Résultats clients</div>
+            <h2 className="font-black uppercase text-[#f8f5f0] text-4xl" style={{ fontFamily: "'Anton', sans-serif" }}>Ils ont <span className="text-[#f97316]">tout donné.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              { q: "J'ai perdu 14kg en 4 mois. Pas de régime miracle — juste de la méthode, de la constance, et un coach qui ne lâche rien. Je suis de retour dans ma vie.", n: "Romain V.", r: "−14kg en 4 mois" },
+              { q: "Triathlon terminé pour la première fois à 43 ans. Je n'aurais JAMAIS pensé possible. La prépa avec Maxime a tout changé : technique, mental, nutrition.", n: "Isabelle D.", r: "Premier Ironman 70.3" },
+              { q: "Coaching online depuis Dubai. Suivi nickel, programme intelligent, résultats surprenants avec très peu de matériel. Le meilleur investissement santé que j'ai fait.", n: "Karim B.", r: "+8kg de masse / 12 sem." },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="p-8 border border-[#f8f5f0]/5 hover:border-[#f97316]/20 transition-colors h-full flex flex-col">
+                  <div className="flex gap-1 mb-5">
+                    {[...Array(5)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-[#f97316] text-[#f97316]" />)}
+                  </div>
+                  <p className="text-sm text-[#f8f5f0]/30 leading-relaxed flex-1">{`"${t.q}"`}</p>
+                  <div className="mt-6 pt-5 border-t border-[#f8f5f0]/5">
+                    <div className="font-bold text-[#f8f5f0] text-sm">{t.n}</div>
+                    <div className="text-[10px] text-[#f97316] mt-1 font-bold uppercase tracking-wide">{t.r}</div>
+                  </div>
                 </div>
-              ))}
-           </div>
-
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 BIO-DIGITAL CRYPT MOLECULAR SYSTEMS AG. // ALL_RIGHTS_RESERVED</span>
-              <div className="flex gap-16">
-                 <span>STATUS: OPERATIONAL</span>
-                 <span>DENSITY: 215 PB/G (AVG)</span>
-                 <span>v4.12.0-STABLE</span>
-              </div>
-           </div>
-        </footer>
-      </main>
-    </div>
-  )
-}
-
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
-
-function HUD_Overlay({ isCryoLockActive }: { isCryoLockActive: boolean }) {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Corner Brackets */}
-       <div className={`absolute top-12 left-12 w-20 h-20 border-t-2 border-l-2 transition-colors duration-1000 ${isCryoLockActive ? "border-purple-400" : "border-white/10"}`} />
-       <div className={`absolute top-12 right-12 w-20 h-20 border-t-2 border-r-2 transition-colors duration-1000 ${isCryoLockActive ? "border-purple-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 left-12 w-20 h-20 border-b-2 border-l-2 transition-colors duration-1000 ${isCryoLockActive ? "border-purple-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 right-12 w-20 h-20 border-b-2 border-r-2 transition-colors duration-1000 ${isCryoLockActive ? "border-purple-400" : "border-white/10"}`} />
-
-       {/* Top Status Bar */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-20 bg-black/60 backdrop-blur-2xl px-12 py-4 border border-white/10 rounded-none">
-          <div className="flex items-center gap-6 text-white">
-             <div className={`w-3 h-3 transition-colors duration-500 ${isCryoLockActive ? "bg-purple-400 animate-pulse" : "bg-red-500 animate-ping"}`} />
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Storage_Sync: {isCryoLockActive ? "NOMINAL" : "CRYO_LEAK_DETECTED"} // Status: ACTIVE</span>
+              </Reveal>
+            ))}
           </div>
-          <div className="h-4 w-px bg-white/20" />
-          <div className="flex items-center gap-6 text-white/20">
-             <Wifi className="w-4 h-4" /> 
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Molecular_Grid: SECURE</span>
-          </div>
-       </div>
+        </div>
+      </section>
 
-       {/* Right Rotation Info */}
-       <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-white/5 italic">Unauthorized_Duplication_Of_Molecular_Patterns_Is_Strictly_Monitored_By_Global_Crypt_Alliance</span>
-       </div>
+      {/* ── CTA ── */}
+      <section className="py-28 bg-[#f97316]">
+        <Reveal>
+          <div className="max-w-2xl mx-auto px-6 text-center">
+            <h2 className="font-black uppercase text-[#0a0a0a] mb-6" style={{ fontFamily: "'Anton', sans-serif", fontSize: "clamp(40px,5vw,64px)" }}>
+              Prêt à vraiment<br />te dépasser ?
+            </h2>
+            <p className="text-[#0a0a0a]/55 mb-10 text-sm leading-relaxed">1ère séance gratuite · Engagement 0 · Résultats visibles en 4 semaines garantis</p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <button className="px-10 py-4 bg-[#0a0a0a] text-[#f8f5f0] font-black text-[11px] uppercase tracking-[0.3em] hover:bg-[#1a1a1a] transition-colors" style={{ fontFamily: "'Anton', sans-serif" }}>
+                Séance offerte maintenant
+              </button>
+              <a href="tel:0612345678" className="flex items-center gap-3 px-10 py-4 border-2 border-[#0a0a0a]/20 text-[#0a0a0a] font-bold text-[10px] uppercase tracking-widest hover:border-[#0a0a0a]/40 transition-all">
+                <Phone className="w-4 h-4" /> 06 12 34 56 78
+              </a>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-[#050505] pt-16 pb-8 px-6 border-t border-[#f97316]/8">
+        <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          <div>
+            <div className="font-black uppercase text-[#f8f5f0] text-sm mb-5" style={{ fontFamily: "'Anton', sans-serif" }}>MAX<span className="text-[#f97316]">.</span>PERF</div>
+            <p className="text-[#f8f5f0]/15 text-sm leading-relaxed">Coach sportif certifié BPJEPS. Paris & online worldwide. Coaching privé, bootcamp, prépa compétition.</p>
+          </div>
+          {[
+            { t: "Programmes", ls: ["Coaching privatif", "Bootcamp", "Prépa compétition", "Coaching en ligne", "Nutrition & récup"] },
+            { t: "Infos", ls: ["Méthode MAX", "Mon parcours", "Certifications", "Avis clients", "FAQ"] },
+            { t: "Contact", ls: ["06 12 34 56 78", "max@maxperf.fr", "Paris 11e", "Online worldwide", "1ère séance offerte"] },
+          ].map((col, i) => (
+            <div key={i}>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#f97316]/40 mb-5">{col.t}</h4>
+              <ul className="space-y-2.5">
+                {col.ls.map(l => <li key={l}><Link href="#" className="text-[#f8f5f0]/15 text-sm hover:text-[#f8f5f0]/50 transition-colors">{l}</Link></li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className="max-w-[1300px] mx-auto pt-6 border-t border-[#f97316]/6 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-[#f8f5f0]/8">
+          <span>© 2026 Max Performance · SIRET 123 456 789 00100 · BPJEPS AF · Paris</span>
+          <span className="text-[#f97316]/20">Stop Waiting. Start Performing.</span>
+        </div>
+      </footer>
     </div>
   )
 }
