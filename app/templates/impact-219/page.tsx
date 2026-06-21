@@ -128,7 +128,7 @@ function Nav() {
           {links.map((l) => (
             <a
               key={l}
-              href={`#${l === 'Fonctionnalités' ? 'features' : l === 'Tarifs' ? 'pricing' : 'blog'}`}
+              href={`#${l === 'Fonctionnalités' ? 'features' : l === 'Tarifs' ? 'pricing' : 'cta'}`}
               style={{ color: C.inkSoft, textDecoration: 'none', fontSize: 15, fontWeight: 500 }}
             >
               {l}
@@ -137,7 +137,7 @@ function Nav() {
         </nav>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <a href="#" className="ns-nav" style={{ color: C.inkSoft, textDecoration: 'none', fontSize: 15, fontWeight: 600 }}>
+          <a href="#cta" className="ns-nav" style={{ color: C.inkSoft, textDecoration: 'none', fontSize: 15, fontWeight: 600 }}>
             Connexion
           </a>
           <a href="#cta" style={primaryBtn}>
@@ -164,7 +164,7 @@ function Nav() {
           >
             <div style={{ ...maxw, paddingBottom: 16, display: 'flex', flexDirection: 'column', gap: 8 }}>
               {links.map((l) => (
-                <a key={l} href="#features" style={{ color: C.inkSoft, textDecoration: 'none', padding: '8px 0' }}>
+                <a key={l} href={`#${l === 'Fonctionnalités' ? 'features' : l === 'Tarifs' ? 'pricing' : 'cta'}`} style={{ color: C.inkSoft, textDecoration: 'none', padding: '8px 0' }}>
                   {l}
                 </a>
               ))}
@@ -947,7 +947,7 @@ function FinalCTA() {
             Lancez votre premier tableau de bord en moins de cinq minutes. Gratuit, sans carte bancaire.
           </p>
           <a
-            href="#"
+            href="#cta"
             style={{
               background: '#fff',
               color: C.primary,
@@ -996,6 +996,97 @@ function FinalCTA() {
    10. FOOTER
    ════════════════════════════════════════════════════════════════════════════ */
 
+function ContactSection() {
+  const [email, setEmail] = useState('');
+  const [msg, setMsg] = useState('');
+  const [done, setDone] = useState(false);
+
+  return (
+    <section
+      id="contact"
+      style={{
+        ...pad,
+        paddingBlock: 80,
+        background: C.bgSoft,
+        borderTop: `1px solid ${C.border}`,
+      }}
+    >
+      <div style={{ ...maxw, maxWidth: 600, margin: '0 auto', textAlign: 'center' }}>
+        <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, letterSpacing: '-0.025em', margin: '18px 0 14px', color: C.ink }}>
+          Contactez-nous
+        </h2>
+        <p style={{ fontSize: 16, color: C.muted, margin: '0 0 32px', lineHeight: 1.6 }}>
+          Une question ? Notre équipe vous répond sous 24 heures.
+        </p>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (email.trim() && msg.trim()) setDone(true);
+          }}
+          style={{ display: 'flex', flexDirection: 'column', gap: 16, textAlign: 'left' }}
+        >
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="votre@adresse.com"
+            aria-label="Email"
+            style={{
+              width: '100%',
+              background: '#fff',
+              border: `1px solid ${C.borderStrong}`,
+              color: C.ink,
+              padding: '14px 18px',
+              fontSize: 15,
+              outline: 'none',
+              borderRadius: 10,
+              fontFamily: C.font,
+            }}
+          />
+          <textarea
+            required
+            rows={4}
+            value={msg}
+            onChange={(e) => setMsg(e.target.value)}
+            placeholder="Votre message..."
+            aria-label="Message"
+            style={{
+              width: '100%',
+              background: '#fff',
+              border: `1px solid ${C.borderStrong}`,
+              color: C.ink,
+              padding: '14px 18px',
+              fontSize: 15,
+              outline: 'none',
+              borderRadius: 10,
+              fontFamily: C.font,
+              resize: 'vertical',
+            }}
+          />
+          <button
+            type="submit"
+            style={{
+              width: '100%',
+              background: done ? C.ink : C.primary,
+              color: '#fff',
+              border: 'none',
+              padding: '14px 28px',
+              fontWeight: 700,
+              fontSize: 15,
+              cursor: 'pointer',
+              borderRadius: 10,
+              transition: 'background 0.3s',
+            }}
+          >
+            {done ? 'Envoyé avec succès !' : 'Envoyer le message'}
+          </button>
+        </form>
+      </div>
+    </section>
+  );
+}
+
 function Footer() {
   const cols: { title: string; links: string[] }[] = [
     { title: 'Produit', links: ['Fonctionnalités', 'Tarifs', 'Intégrations', 'Changelog', 'Roadmap'] },
@@ -1003,6 +1094,21 @@ function Footer() {
     { title: 'Entreprise', links: ['À propos', 'Carrières', 'Clients', 'Presse', 'Contact'] },
     { title: 'Légal', links: ['Confidentialité', 'CGU', 'Cookies', 'RGPD', 'Sécurité'] },
   ];
+
+  const getAnchor = (item: string) => {
+    const normalized = item.toLowerCase();
+    if (normalized === 'fonctionnalités' || normalized.includes('intégration') || normalized.includes('changelog') || normalized.includes('roadmap') || normalized.includes('propos') || normalized.includes('client')) {
+      return '#features';
+    }
+    if (normalized === 'tarifs') {
+      return '#pricing';
+    }
+    if (normalized === 'contact' || normalized.includes('aide')) {
+      return '#contact';
+    }
+    return '#cta';
+  };
+
   return (
     <footer style={{ ...pad, paddingBlock: 64, borderTop: `1px solid ${C.border}`, background: C.bgSoft }}>
       <div style={{ ...maxw }}>
@@ -1034,7 +1140,7 @@ function Footer() {
               {col.links.map((l) => (
                 <a
                   key={l}
-                  href="#"
+                  href={getAnchor(l)}
                   style={{ display: 'block', fontSize: 14, color: C.muted, textDecoration: 'none', padding: '5px 0' }}
                 >
                   {l}
@@ -1088,6 +1194,7 @@ export default function Impact219Page() {
       <Testimonials />
       <FAQ />
       <FinalCTA />
+      <ContactSection />
       <Footer />
     </main>
   );

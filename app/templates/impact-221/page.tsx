@@ -107,6 +107,14 @@ function Nav() {
   }, []);
 
   const links = ['Modèles', 'Technologie', 'Galerie', 'À propos'];
+  const getLinkHref = (l: string) => {
+    const norm = l.toLowerCase();
+    if (norm.includes('modèle')) return '#modeles';
+    if (norm.includes('techno')) return '#technologie';
+    if (norm.includes('galerie')) return '#galerie';
+    if (norm.includes('propos')) return '#about';
+    return '#';
+  };
 
   const navStyle: React.CSSProperties = {
     position:        'fixed',
@@ -153,7 +161,7 @@ function Nav() {
           {links.map((l) => (
             <a
               key={l}
-              href="#"
+              href={getLinkHref(l)}
               style={{ color: C.whiteOff, textDecoration: 'none', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const, transition: 'color 0.2s', cursor: 'pointer' }}
               onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = C.blue; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = C.whiteOff; }}
@@ -165,13 +173,15 @@ function Nav() {
 
         {/* CTA + burger */}
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <button
-            style={{ background: 'transparent', border: `1px solid ${C.blue}`, color: C.blue, padding: '10px 22px', borderRadius: '2px', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all 0.2s' }}
-            onMouseEnter={(e) => { const b = e.currentTarget; b.style.background = C.blue; b.style.color = C.bg; }}
-            onMouseLeave={(e) => { const b = e.currentTarget; b.style.background = 'transparent'; b.style.color = C.blue; }}
-          >
-            Réserver
-          </button>
+          <a href="#reserve" style={{ textDecoration: 'none', display: 'inline-block' }}>
+            <button
+              style={{ background: 'transparent', border: `1px solid ${C.blue}`, color: C.blue, padding: '10px 22px', borderRadius: '2px', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all 0.2s' }}
+              onMouseEnter={(e) => { const b = e.currentTarget; b.style.background = C.blue; b.style.color = C.bg; }}
+              onMouseLeave={(e) => { const b = e.currentTarget; b.style.background = 'transparent'; b.style.color = C.blue; }}
+            >
+              Réserver
+            </button>
+          </a>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             style={{ background: 'none', border: 'none', color: C.white, cursor: 'pointer' }}
@@ -193,7 +203,7 @@ function Nav() {
           >
             {links.map((l) => (
               <div key={l} style={{ padding: '1rem 0', borderBottom: `1px solid ${C.border}` }}>
-                <a href="#" style={{ color: C.white, textDecoration: 'none', fontSize: '1.1rem', fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: '0.1em' }}>{l}</a>
+                <a href={getLinkHref(l)} style={{ color: C.white, textDecoration: 'none', fontSize: '1.1rem', fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: '0.1em' }}>{l}</a>
               </div>
             ))}
           </motion.div>
@@ -386,7 +396,7 @@ function StickyCrossfade() {
   const opacities = [op0, op1, op2];
 
   return (
-    <div ref={containerRef} style={{ height: '320vh', position: 'relative' }}>
+    <div ref={containerRef} id="about" style={{ height: '320vh', position: 'relative' }}>
       <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
         {/* Progress bar */}
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: C.border, zIndex: 10 }}>
@@ -512,7 +522,7 @@ function Models() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
   return (
-    <section style={{ background: C.bg, padding: 'clamp(5rem, 10vh, 8rem) clamp(1.5rem, 5vw, 4rem)' }}>
+    <section id="modeles" style={{ background: C.bg, padding: 'clamp(5rem, 10vh, 8rem) clamp(1.5rem, 5vw, 4rem)' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} style={{ marginBottom: '4rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
@@ -600,7 +610,7 @@ function EditorialRow({ row, index }: { row: EditorialRowType; index: number }) 
 
 function TechEditorial() {
   return (
-    <section style={{ background: C.bg, padding: 'clamp(4rem, 8vh, 7rem) clamp(1.5rem, 5vw, 4rem)' }}>
+    <section id="technologie" style={{ background: C.bg, padding: 'clamp(4rem, 8vh, 7rem) clamp(1.5rem, 5vw, 4rem)' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         {EDITORIAL.map((row, i) => <EditorialRow key={i} row={row} index={i} />)}
       </div>
@@ -692,7 +702,7 @@ function Gallery() {
   ];
 
   return (
-    <section style={{ background: C.bg, padding: 'clamp(4rem, 8vh, 7rem) clamp(1.5rem, 5vw, 4rem)' }}>
+    <section id="galerie" style={{ background: C.bg, padding: 'clamp(4rem, 8vh, 7rem) clamp(1.5rem, 5vw, 4rem)' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} style={{ marginBottom: '3rem', textAlign: 'center' }}>
           <div style={{ color: C.blue, fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase' as const, marginBottom: '1rem' }}>Galerie</div>
@@ -813,6 +823,7 @@ function ReserveForm() {
   return (
     <section
       ref={ref}
+      id="reserve"
       style={{ background: `linear-gradient(135deg, #06080d 0%, #0a0e1a 50%, #060d12 100%)`, borderTop: `1px solid ${C.border}`, padding: 'clamp(5rem, 10vh, 9rem) clamp(1.5rem, 5vw, 4rem)', position: 'relative', overflow: 'hidden' }}
     >
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 700, height: 700, borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 65%)', pointerEvents: 'none' }} />
@@ -946,26 +957,36 @@ function Footer() {
             </div>
           </div>
 
-          {cols.map((col) => (
-            <div key={col.title} style={{ flex: '1 1 140px' }}>
-              <div style={{ fontWeight: 800, fontSize: '0.78rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, marginBottom: '1.25rem' }}>{col.title}</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-                {col.links.map((l) => (
-                  <a key={l} href="#" style={{ color: C.muted, textDecoration: 'none', fontSize: '0.88rem', transition: 'color 0.2s', cursor: 'pointer' }}
-                    onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = C.white; }}
-                    onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = C.muted; }}
-                  >{l}</a>
-                ))}
+          {cols.map((col) => {
+            const getFooterLinkHref = (l: string) => {
+              const norm = l.toLowerCase();
+              if (norm.includes('lumyx') || norm.includes('accessoire')) return '#modeles';
+              if (norm.includes('vision') || norm.includes('presse') || norm.includes('partenaire') || norm.includes('carrière') || norm.includes('mentions') || norm.includes('politique') || norm.includes('cgv')) return '#about';
+              if (norm.includes('contact') || norm.includes('réparation')) return '#reserve';
+              if (norm.includes('faq') || norm.includes('manuel') || norm.includes('garantie') || norm.includes('station')) return '#technologie';
+              return '#reserve';
+            };
+            return (
+              <div key={col.title} style={{ flex: '1 1 140px' }}>
+                <div style={{ fontWeight: 800, fontSize: '0.78rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, marginBottom: '1.25rem' }}>{col.title}</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+                  {col.links.map((l) => (
+                    <a key={l} href={getFooterLinkHref(l)} style={{ color: C.muted, textDecoration: 'none', fontSize: '0.88rem', transition: 'color 0.2s', cursor: 'pointer' }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = C.white; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = C.muted; }}
+                    >{l}</a>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: '1.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
           <div style={{ color: C.muted, fontSize: '0.8rem' }}>© 2026 Lumyx SAS — Tous droits réservés</div>
           <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
             {['Mentions légales', 'Politique de confidentialité', 'CGV'].map((item) => (
-              <a key={item} href="#" style={{ color: C.muted, textDecoration: 'none', fontSize: '0.78rem', transition: 'color 0.2s', cursor: 'pointer' }}
+              <a key={item} href="#about" style={{ color: C.muted, textDecoration: 'none', fontSize: '0.78rem', transition: 'color 0.2s', cursor: 'pointer' }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = C.white; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = C.muted; }}
               >{item}</a>

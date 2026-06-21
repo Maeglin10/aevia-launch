@@ -197,7 +197,13 @@ function Nav() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const links = ['Le Domaine', 'Millésimes', 'Terroir', 'Le Chai', 'Allocation'];
+  const links = [
+    { label: 'Le Domaine', href: '#domaine' },
+    { label: 'Millésimes', href: '#millesimes' },
+    { label: 'Terroir', href: '#terroir' },
+    { label: 'Le Chai', href: '#chai' },
+    { label: 'Allocation', href: '#allocation' }
+  ];
 
   const bar: React.CSSProperties = {
     position: 'fixed',
@@ -242,11 +248,13 @@ function Nav() {
       </div>
       <div style={linkRow} className="dm-navlinks">
         {links.map((l) => (
-          <NavLink key={l} label={l} />
+          <NavLink key={l.label} label={l.label} href={l.href} />
         ))}
       </div>
       <div className="dm-navcta">
-        <GoldButton>Réserver</GoldButton>
+        <a href="#allocation" style={{ textDecoration: 'none' }}>
+          <GoldButton>Réserver</GoldButton>
+        </a>
       </div>
       <style>{`
         @media (max-width: 920px){
@@ -258,14 +266,13 @@ function Nav() {
   );
 }
 
-function NavLink({ label }: { label: string }) {
+function NavLink({ label, href }: { label: string; href: string }) {
   const [h, setH] = useState(false);
   return (
     <a
-      href="#"
+      href={href}
       onMouseEnter={() => setH(true)}
       onMouseLeave={() => setH(false)}
-      onClick={(e) => e.preventDefault()}
       style={{
         fontFamily: SANS,
         fontSize: 11.5,
@@ -472,7 +479,7 @@ function Manifesto() {
     textAlign: 'center',
   };
   return (
-    <section style={sec}>
+    <section style={sec} id="domaine">
       <Reveal>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 34 }}>
           <Eyebrow color={C.burgundyMid} align="center">
@@ -1810,6 +1817,30 @@ function Footer() {
     borderTop: `1px solid rgba(201,162,75,0.22)`,
     padding: 'clamp(70px,9vw,110px) clamp(24px,6vw,96px) 40px',
   };
+
+  const getAnchor = (item: string) => {
+    const normalized = item.toLowerCase();
+    if (normalized.includes('histoire') || normalized.includes('équipe') || normalized.includes('engagement')) {
+      return '#domaine';
+    }
+    if (normalized.includes('terroir')) {
+      return '#terroir';
+    }
+    if (normalized.includes('millésime') || normalized.includes('garde')) {
+      return '#millesimes';
+    }
+    if (normalized.includes('allocation') || normalized.includes('réserver') || normalized.includes('accès')) {
+      return '#allocation';
+    }
+    if (normalized.includes('dégustation')) {
+      return '#degustation';
+    }
+    if (normalized.includes('chai')) {
+      return '#chai';
+    }
+    return '#domaine';
+  };
+
   return (
     <footer style={foot}>
       <div
@@ -1894,8 +1925,7 @@ function Footer() {
               {c.items.map((it) => (
                 <li key={it}>
                   <a
-                    href="#"
-                    onClick={(e) => e.preventDefault()}
+                    href={getAnchor(it)}
                     style={{
                       fontFamily: SERIF,
                       fontSize: 16,
@@ -1935,15 +1965,13 @@ function Footer() {
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a
-            href="#"
-            onClick={(e) => e.preventDefault()}
+            href="#domaine"
             style={{ color: 'inherit', textDecoration: 'none' }}
           >
             Mentions légales
           </a>
           <a
-            href="#"
-            onClick={(e) => e.preventDefault()}
+            href="#domaine"
             style={{ color: 'inherit', textDecoration: 'none' }}
           >
             Confidentialité

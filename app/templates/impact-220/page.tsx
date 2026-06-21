@@ -2230,7 +2230,7 @@ function Footer() {
             {['Mentions légales', 'Confidentialité', 'CGV'].map((l) => (
               <a
                 key={l}
-                href="#"
+                href="#contact"
                 style={{
                   fontFamily: "'Jost', sans-serif",
                   fontSize: '9px',

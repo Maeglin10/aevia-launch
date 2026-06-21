@@ -1780,12 +1780,133 @@ function FinalCTA() {
    FOOTER
    ════════════════════════════════════════════════════════════════════════════ */
 
+function ContactSection() {
+  const [email, setEmail] = useState('');
+  const [msg, setMsg] = useState('');
+  const [done, setDone] = useState(false);
+
+  return (
+    <section
+      id="contact"
+      style={{
+        background: C.bgAlt,
+        borderTop: `1px solid ${C.border}`,
+        padding: 'clamp(60px, 8vh, 96px) clamp(20px, 5vw, 64px)',
+      }}
+    >
+      <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center' }}>
+        <Reveal>
+          <Eyebrow style={{ marginBottom: 16 }}>Get in touch</Eyebrow>
+          <h2
+            style={{
+              margin: '0 0 24px',
+              fontWeight: 900,
+              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              lineHeight: 1,
+              letterSpacing: '-0.04em',
+              textTransform: 'uppercase',
+              color: C.white,
+            }}
+          >
+            Contact us
+          </h2>
+          <p style={{ color: C.textMuted, fontSize: 16, marginBottom: 32, lineHeight: 1.6 }}>
+            Have a question about our drops, sizing, or shipping? Drop us a line.
+          </p>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (email.trim() && msg.trim()) setDone(true);
+            }}
+            style={{ display: 'flex', flexDirection: 'column', gap: 16, textAlign: 'left' }}
+          >
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              aria-label="Email"
+              style={{
+                width: '100%',
+                background: 'rgba(10,10,11,0.6)',
+                border: `1px solid ${C.borderBright}`,
+                color: C.white,
+                padding: '16px 20px',
+                fontSize: 15,
+                outline: 'none',
+                borderRadius: 2,
+                fontFamily: FONT_STACK,
+              }}
+            />
+            <textarea
+              required
+              rows={4}
+              value={msg}
+              onChange={(e) => setMsg(e.target.value)}
+              placeholder="Your message..."
+              aria-label="Message"
+              style={{
+                width: '100%',
+                background: 'rgba(10,10,11,0.6)',
+                border: `1px solid ${C.borderBright}`,
+                color: C.white,
+                padding: '16px 20px',
+                fontSize: 15,
+                outline: 'none',
+                borderRadius: 2,
+                fontFamily: FONT_STACK,
+                resize: 'vertical',
+              }}
+            />
+            <button
+              type="submit"
+              style={{
+                width: '100%',
+                background: done ? '#1b1b1f' : C.accent,
+                color: done ? C.accent : '#0a0a0b',
+                border: done ? `1px solid ${C.accent}` : 'none',
+                padding: '16px 30px',
+                fontWeight: 800,
+                fontSize: 14,
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                borderRadius: 2,
+              }}
+            >
+              {done ? 'Sent' : 'Send Message'}
+            </button>
+          </form>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 function Footer() {
   const cols: { title: string; items: string[] }[] = [
     { title: 'Shop', items: ['New Drops', 'Runners', 'Mid Tops', 'Hi Tops', 'Sale'] },
     { title: 'Brand', items: ['Our Story', 'The Forge', 'Sustainability', 'Press'] },
     { title: 'Support', items: ['Shipping', 'Returns', 'Size Guide', 'Contact'] },
   ];
+
+  const getAnchor = (item: string) => {
+    const normalized = item.toLowerCase();
+    if (normalized === 'contact' || normalized.includes('shipping') || normalized.includes('returns') || normalized.includes('size')) {
+      return '#contact';
+    }
+    if (normalized === 'new drops' || normalized === 'runners') {
+      return '#drops';
+    }
+    if (normalized.includes('top') || normalized === 'sale') {
+      return '#shop';
+    }
+    if (normalized.includes('story') || normalized.includes('forge') || normalized.includes('sustain') || normalized.includes('press')) {
+      return '#lookbook';
+    }
+    return '#contact';
+  };
 
   return (
     <footer
@@ -1830,7 +1951,7 @@ function Footer() {
               {[Camera, AtSign, PlayCircle].map((Icon, i) => (
                 <a
                   key={i}
-                  href="#"
+                  href="#contact"
                   aria-label="social"
                   style={{
                     width: 42,
@@ -1876,7 +1997,7 @@ function Footer() {
                 {col.items.map((item) => (
                   <li key={item}>
                     <a
-                      href="#"
+                      href={getAnchor(item)}
                       style={{
                         color: C.textMuted,
                         textDecoration: 'none',
@@ -1909,13 +2030,13 @@ function Footer() {
         >
           <span>© 2026 AirForge. All rights reserved.</span>
           <div style={{ display: 'flex', gap: 24 }}>
-            <a href="#" style={{ color: C.textFaint, textDecoration: 'none' }}>
+            <a href="#contact" style={{ color: C.textFaint, textDecoration: 'none' }}>
               Privacy
             </a>
-            <a href="#" style={{ color: C.textFaint, textDecoration: 'none' }}>
+            <a href="#contact" style={{ color: C.textFaint, textDecoration: 'none' }}>
               Terms
             </a>
-            <a href="#" style={{ color: C.textFaint, textDecoration: 'none' }}>
+            <a href="#contact" style={{ color: C.textFaint, textDecoration: 'none' }}>
               Cookies
             </a>
           </div>
@@ -1976,6 +2097,7 @@ export default function ImpactSneakerPage() {
       <Lookbook />
       <Reviews />
       <FinalCTA />
+      <ContactSection />
       <Footer />
     </main>
   );
