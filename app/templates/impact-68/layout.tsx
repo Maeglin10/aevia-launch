@@ -232,13 +232,13 @@ export default function OrbitLayout({
               </Link>
             ))}
             <Link
-              href="/templates/impact-68/legal"
+              href="/legal/mentions-legales"
               onClick={() => setMobileOpen(false)}
               style={{
                 fontFamily: "'Space Grotesk', sans-serif",
                 fontSize: "24px",
                 fontWeight: 600,
-                color: isActive("/templates/impact-68/legal") ? C.accent : C.text,
+                color: isActive("/legal/mentions-legales") ? C.accent : C.text,
                 textDecoration: "none",
                 marginTop: "20px",
               }}
@@ -354,7 +354,7 @@ export default function OrbitLayout({
             {
               title: "Regulatory",
               links: [
-                { label: "Mentions Légales", href: "/templates/impact-68/legal" },
+                { label: "Mentions Légales", href: "/legal/mentions-legales" },
               ],
             },
           ].map((col) => (

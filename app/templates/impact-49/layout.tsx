@@ -216,10 +216,10 @@ export default function Impact49Layout({
             </p>
             <div className="flex gap-6">
               {[
-                { label: "Confidentialité", href: "#" },
-                { label: "CGU", href: "#" },
-                { label: "Cookies", href: "#" },
-                { label: "Mentions légales", href: "/templates/impact-49/legal" },
+                { label: "Confidentialité", href: "/legal/confidentialite" },
+                { label: "CGU", href: "/legal/cgu" },
+                { label: "Cookies", href: "/legal/cgu" },
+                { label: "Mentions légales", href: "/legal/mentions-legales" },
               ].map((link) => (
                 <Link
                   key={link.label}

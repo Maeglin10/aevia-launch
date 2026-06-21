@@ -120,7 +120,7 @@ export default function VelvetLayout({
                   {link.label}
                 </Link>
               ))}
-              <Link href="/templates/impact-70/legal" onClick={() => setMenuOpen(false)} className="text-4xl font-light uppercase tracking-widest hover:text-[#ff00ff] transition-all italic text-white" style={{ textDecoration: "none" }}>
+              <Link href="/legal/mentions-legales" onClick={() => setMenuOpen(false)} className="text-4xl font-light uppercase tracking-widest hover:text-[#ff00ff] transition-all italic text-white" style={{ textDecoration: "none" }}>
                 Mentions Légales
               </Link>
             </div>
@@ -158,7 +158,7 @@ export default function VelvetLayout({
           {[
             { title: "THE EXPERIENCE", links: [{ label: "Atmosphere", href: "/templates/impact-70/experience" }, { label: "VIP Tables", href: "/templates/impact-70/members" }, { label: "Sound Lab", href: "/templates/impact-70/experience" }] },
             { title: "LOCATIONS", links: [{ label: "Berlin Hub", href: "/templates/impact-70/contact" }, { label: "Ibiza Retreat", href: "/templates/impact-70/contact" }, { label: "Tokyo Underground", href: "/templates/impact-70/contact" }] },
-            { title: "ENTITY", links: [{ label: "Membership", href: "/templates/impact-70/members" }, { label: "Mentions Légales", href: "/templates/impact-70/legal" }] }
+            { title: "ENTITY", links: [{ label: "Membership", href: "/templates/impact-70/members" }, { label: "Mentions Légales", href: "/legal/mentions-legales" }] }
           ].map((col, i) => (
             <div key={i} className="space-y-12">
               <h4 className="text-[10px] font-bold uppercase tracking-[0.6em] text-white/20">{col.title}</h4>
@@ -177,8 +177,8 @@ export default function VelvetLayout({
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
           <span>© {new Date().getFullYear()} VELVET NIGHT GLOBAL COMMISSIONS. THE NIGHT IS ETERNAL.</span>
           <div className="flex gap-12">
-            <Link href="/templates/impact-70/legal" className="hover:text-white transition-all underline decoration-[#ff00ff]/20" style={{ textDecoration: "none" }}>SLA: NOMINAL</Link>
-            <Link href="/templates/impact-70/legal" className="hover:text-white transition-all underline decoration-[#ff00ff]/20" style={{ textDecoration: "none" }}>DRESS_CODE: BLACK_TIE</Link>
+            <Link href="/legal/mentions-legales" className="hover:text-white transition-all underline decoration-[#ff00ff]/20" style={{ textDecoration: "none" }}>SLA: NOMINAL</Link>
+            <Link href="/legal/mentions-legales" className="hover:text-white transition-all underline decoration-[#ff00ff]/20" style={{ textDecoration: "none" }}>DRESS_CODE: BLACK_TIE</Link>
           </div>
         </div>
       </footer>

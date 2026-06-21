@@ -671,7 +671,7 @@ export default function StreamHubHome() {
             {submitted ? (
               <div className="flex items-center justify-center gap-3 px-8 py-5 bg-emerald-600/10 border border-emerald-500/30 rounded-lg text-emerald-400 text-sm font-bold uppercase tracking-widest">
                 <Check className="w-4 h-4" />
-                Bienvenue dans la révolution du streaming !
+                Merci, nous vous répondrons sous 24h.
               </div>
             ) : (
               <form

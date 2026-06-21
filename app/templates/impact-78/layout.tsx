@@ -215,7 +215,7 @@ export default function AetherRoastLayout({
                   </Link>
                 </li>
                 <li>
-                  <Link href="/templates/impact-78/legal" className="hover:text-orange-500 transition-colors">
+                  <Link href="/legal/mentions-legales" className="hover:text-orange-500 transition-colors">
                     Legal_Hub
                   </Link>
                 </li>
@@ -254,10 +254,10 @@ export default function AetherRoastLayout({
               <span>
                 &copy; {new Date().getFullYear()} AETHER ROASTS Technologies Inc.
               </span>
-              <Link href="/templates/impact-78/legal" className="hover:text-white transition-colors">
+              <Link href="/legal/mentions-legales" className="hover:text-white transition-colors">
                 Regulatory_Terms
               </Link>
-              <Link href="/templates/impact-78/legal" className="hover:text-white transition-colors">
+              <Link href="/legal/mentions-legales" className="hover:text-white transition-colors">
                 Privacy_Buffer
               </Link>
             </div>

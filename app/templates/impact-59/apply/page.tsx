@@ -193,14 +193,7 @@ export default function ApplyPage() {
                   className="text-lg text-black/50 leading-relaxed mb-4 max-w-md mx-auto"
                   style={{ fontFamily: "Lora, Georgia, serif" }}
                 >
-                  Merci, {form.prenom}. Nous avons bien reçu votre candidature pour la retraite{" "}
-                  <span className="font-medium text-[#2a2a2a]">{form.retraite}</span>.
-                </p>
-                <p
-                  className="text-sm text-black/40 leading-relaxed mb-12 max-w-md mx-auto"
-                  style={{ fontFamily: "Lora, Georgia, serif" }}
-                >
-                  Un membre de notre équipe vous contactera à l&apos;adresse <strong>{form.email}</strong> dans les 48 heures pour la suite du processus.
+                  Merci, nous vous répondrons sous 24h.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link

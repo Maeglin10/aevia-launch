@@ -2431,7 +2431,7 @@ function ContactSection() {
               {sent ? (
                 <div style={{ textAlign: "center", padding: "40px 0" }}>
                   <h3 style={{ fontFamily: F.sans, fontSize: 22, fontWeight: 700, color: C.white, marginBottom: 12 }}>Thank you!</h3>
-                  <p style={{ fontFamily: F.sans, fontSize: 14, color: "rgba(255,255,255,0.4)" }}>We will get back to you within five working days.</p>
+                  <p style={{ fontFamily: F.sans, fontSize: 14, color: "rgba(255,255,255,0.4)" }}>Merci, nous vous répondrons sous 24h.</p>
                 </div>
               ) : (
                 <form

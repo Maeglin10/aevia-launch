@@ -44,8 +44,8 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
     {
       title: "Infos",
       links: [
-        { label: "CGV", href: "/templates/impact-47/cgv" },
-        { label: "Mentions légales", href: "/templates/impact-47/legal" },
+        { label: "CGU", href: "/legal/cgu" },
+        { label: "Mentions légales", href: "/legal/mentions-legales" },
         { label: "Contact", href: "/templates/impact-47/contact" },
         { label: "Blog", href: "/templates/impact-47/blog" },
       ],
@@ -224,10 +224,10 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
               ))}
             </div>
             <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 13, color: "rgba(255,255,255,0.25)", margin: 0, display: "flex", gap: 8, flexWrap: "wrap" as const }}>
-              <Link href="/templates/impact-47/legal" style={{ color: "rgba(255,255,255,0.25)", textDecoration: "none" }}
+              <Link href="/legal/mentions-legales" style={{ color: "rgba(255,255,255,0.25)", textDecoration: "none" }}
                 onMouseEnter={e => (e.currentTarget.style.color = C.rose)} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.25)")}>Mentions légales</Link>
               ·
-              <Link href="/templates/impact-47/cgv" style={{ color: "rgba(255,255,255,0.25)", textDecoration: "none" }}
+              <Link href="/legal/cgu" style={{ color: "rgba(255,255,255,0.25)", textDecoration: "none" }}
                 onMouseEnter={e => (e.currentTarget.style.color = C.rose)} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.25)")}>CGV</Link>
               · © 2026 Pétales & Co.
             </p>

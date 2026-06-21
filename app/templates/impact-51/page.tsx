@@ -502,7 +502,7 @@ export default function NexusPage() {
                   }}
                 >
                   <Check style={{ width: 18, height: 18 }} />
-                  You're in — check your inbox!
+                  Merci, nous vous répondrons sous 24h.
                 </motion.div>
               )}
             </div>

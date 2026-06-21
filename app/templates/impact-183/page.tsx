@@ -1,525 +1,294 @@
+// @ts-nocheck
 "use client"
-
-import React, { useState, useEffect, useRef } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
-} from "framer-motion"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  Zap, Activity, Microscope, 
-  Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, Wifi, BarChart3, 
-  Fingerprint, Scan, Brain, Server, 
-  ShieldCheck, ShieldAlert, Award, 
-  Briefcase, Wind, Thermometer, 
-  Flame, Battery, Radio, Gauge, 
-  Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Satellite, 
-  Milestone, FlaskConical, FlaskRound, 
-  Ghost, Binary, Database, Search, 
-  Cpu, HeartPulse, Sun, Magnet, 
-  CircleDot, Waves, Pickaxe, Mountain, 
-  Gem, Rocket, Drill, PlaneTakeoff, 
-  Dna, Biohazard, TestTube2, FlaskConicalIcon, 
-  Pipette, Sprout, Leaf, TreeDeciduous
-} from "lucide-react"
+import { Paintbrush, Sparkles, Phone, Star, MapPin, ArrowRight, CheckCircle, Layers, Brush, Shield, Menu } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-/* ==========================================================================
-   THE BIO-HACKER DATASET (ULTRA DENSITY)
-   ========================================================================== */
+/* ═══════════════════════════════════════════════════════════════════════════
+   COULEURS & CO — Peintre en bâtiment (Lille)
+   Palette : blanc pur / vert sauge #4d7c5f / gris perle #e8e8e4 / encre #1a1a2e
+   Fonts : Montserrat (titres) + Nunito (corps)
+   Style : frais, propre, coloré, artisanal premium
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-const SYNTHETIC_ORGANISMS = [
-  {
-    id: "org-bac-42",
-    name: "Carbon-Eater v4",
-    type: "Synthetic Bacteria",
-    stability: "99.98%",
-    growth: "200% / hour",
-    biosecurity: "Level 4",
-    desc: "Bactérie modifiée pour la capture directe du CO2 atmosphérique et sa conversion en biopolymères biodégradables.",
-    status: "Cultivating"
-  },
-  {
-    id: "org-tis-08",
-    name: "Regen-Skin X",
-    type: "Self-Healing Tissue",
-    stability: "99.999%",
-    growth: "45% / day",
-    biosecurity: "Level 2",
-    desc: "Tissu épithélial synthétique capable d'auto-réparation instantanée via une libération contrôlée de facteurs de croissance.",
-    status: "Stable State"
-  },
-  {
-    id: "org-yea-15",
-    name: "Fuel-Yeast v5",
-    type: "Biosynthetic Yeast",
-    stability: "99.4%",
-    growth: "120% / hour",
-    biosecurity: "Level 3",
-    desc: "Levure optimisée pour la production de kérosène vert à partir de déchets agricoles cellulosiques.",
-    status: "Syncing Flow"
-  }
-]
-
-const GENETIC_METRICS = [
-  { label: "Mutation Rate", value: "0.0001%", trend: "Optimal" },
-  { label: "Sequencing Fidelity", value: "99.99%", trend: "Stable" },
-  { label: "Metabolic Yield", value: "85%", trend: "Increasing" },
-  { label: "Bio-Safety", value: "NOMINAL", trend: "High" }
-]
-
-const BIO_LOGS = [
-  { timestamp: "03:14:42", unit: "CRISPR-Module", status: "EDITED", gene: "CO2-FIX" },
-  { timestamp: "03:14:45", unit: "Bio-Reactor-01", status: "ACTIVE", temp: "310K" },
-  { timestamp: "03:14:48", unit: "Purity-Check", status: "SUCCESS", match: "99.99%" }
-]
-
-/* ==========================================
-   TECHNICAL COMPONENTS
-   ========================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+function Reveal({ children, delay = 0, y = 28 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-70px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function HelixRecombVisualizer() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+function ParallaxImg({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"])
+  return (
+    <div ref={ref} className="relative w-full h-full overflow-hidden">
+      <motion.div style={{ y }} className="absolute inset-[-10%] w-[120%] h-[120%]">
+        <Image src={src} alt={alt} fill className="object-cover" />
+      </motion.div>
+    </div>
+  )
+}
+
+const SERVICES = [
+  { icon: Paintbrush, title: "Peinture intérieure", desc: "Séjour, chambre, cuisine, bureau. Préparation des supports (enduit, rebouchage, ponçage), application soignée multicouche. Toutes teintes." },
+  { icon: Layers, title: "Revêtement mural", desc: "Papier peint, toile de verre, enduit décoratif, béton ciré, stuc. Pose soignée, raccords impeccables, respect des calepinages." },
+  { icon: Brush, title: "Peinture extérieure", desc: "Façade, volets, portail, clôture. Peinture microporeuse, lasure, laque. Nettoyage haute pression et imperméabilisation inclus." },
+  { icon: Sparkles, title: "Décoration & relooking", desc: "Conseil couleur personnalisé, échantillons fournis, suivi Pantone. Jeux de matières et effets décoratifs pour un résultat unique." },
+  { icon: Shield, title: "Traitement avant peinture", desc: "Démoussage, anti-humidité, traitement anti-moisissures, reprises fissures. Garantie d'adhérence pour une peinture qui dure 10 ans." },
+  { icon: Paintbrush, title: "Logements locatifs", desc: "Remise en état entre deux locataires, réparations état des lieux. Tarifs avantageux, délais rapides, facture et garantie incluses." },
+]
+
+const COULEURS = [
+  { name: "Vert Sauge", hex: "#8fae9a", desc: "Tendance 2025" },
+  { name: "Terracotta", hex: "#c87c5c", desc: "Chaleur & caractère" },
+  { name: "Bleu Orage", hex: "#3d5a80", desc: "Profondeur & élégance" },
+  { name: "Crème Douce", hex: "#f5ede3", desc: "Intemporel & lumineux" },
+]
+
+export default function CouleursCOPage() {
+  const heroRef = useRef(null)
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "22%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+  const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "8%"])
+
   useEffect(() => {
-    const handleMouse = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
-    window.addEventListener("mousemove", handleMouse)
-    return () => window.removeEventListener("mousemove", handleMouse)
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-10">
-       <svg width="100%" height="100%" className="w-full h-full">
-          {[...Array(20)].map((_, i) => (
-            <motion.path 
-               key={i}
-               d={`M ${100 + i * 100} 0 Q ${200 + i * 100} 400 ${100 + i * 100} 800`}
-               stroke="#22c55e" 
-               strokeWidth="0.5" 
-               fill="none"
-               animate={{ d: `M ${100 + i * 100} 0 Q ${mousePos.x + (i * 10)} ${mousePos.y} ${100 + i * 100} 800` }}
-               transition={{ type: "spring", damping: 30, stiffness: 50 }}
-            />
-          ))}
-          {[...Array(30)].map((_, i) => (
-            <motion.circle 
-               key={`bio-${i}`}
-               r="2"
-               fill="#22c55e"
-               initial={{ opacity: 0 }}
-               animate={{ 
-                  cx: [Math.random() * 2000, Math.random() * 2000],
-                  cy: [0, 1000],
-                  opacity: [0, 1, 0]
-               }}
-               transition={{ duration: 3 + Math.random() * 4, repeat: Infinity, delay: Math.random() * 5 }}
-            />
-          ))}
-       </svg>
-    </div>
-  )
-}
+    <div className="bg-[#fefefe] text-[#1a1a2e] overflow-x-hidden" style={{ fontFamily: "'Montserrat', 'Inter', system-ui, sans-serif" }}>
+      {/* ── NAVBAR ── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-white/97 backdrop-blur-xl py-3 shadow-sm border-b border-[#4d7c5f]/10" : "bg-transparent py-7"}`}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <Paintbrush className="w-5 h-5 text-[#4d7c5f]" />
+            <span className="font-bold text-[#1a1a2e] text-base tracking-tight">Couleurs <span className="text-[#4d7c5f]">&amp; Co</span></span>
+          </div>
+          <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1a1a2e]/35">
+            {["Services", "Réalisations", "Couleurs", "Zone", "Contact"].map(l => (
+              <Link key={l} href="#" className="hover:text-[#4d7c5f] transition-colors">{l}</Link>
+            ))}
+          </div>
+          <div className="flex items-center gap-3">
+            <a href="tel:0320456789" className="hidden md:flex items-center gap-2 text-[#4d7c5f] font-bold text-sm">
+              <Phone className="w-4 h-4" /> 03 20 45 67 89
+            </a>
+            <button className="hidden md:block px-5 py-2.5 bg-[#4d7c5f] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#3d6b50] transition-colors rounded-sm">
+              Devis Gratuit
+            </button>
+            <Sheet>
+              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5 text-[#1a1a2e]" /></button></SheetTrigger>
+              <SheetContent side="right" className="bg-white border-slate-100 p-10">
+                <div className="flex flex-col gap-7 mt-16">
+                  {["Services", "Réalisations", "Contact"].map(l => <Link key={l} href="#" className="text-3xl font-bold text-[#1a1a2e] hover:text-[#4d7c5f] transition-colors">{l}</Link>)}
+                  <a href="tel:0320456789" className="flex items-center gap-3 text-[#4d7c5f] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 03 20 45 67 89</a>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+      </nav>
 
-function BioCoreModel({ progress }: { progress: any }) {
-  const rotate = useTransform(progress, [0, 1], [0, 360])
-  const scale = useTransform(progress, [0, 0.5, 1], [1, 1.2, 1])
+      {/* ── HERO ── */}
+      <section ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
+        <motion.div style={{ y: heroY }} className="absolute inset-0">
+          <Image src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&q=85&w=2400" alt="Peintre professionnel intérieur" fill className="object-cover" priority style={{ filter: "brightness(0.55)" }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a2e] via-[#1a1a2e]/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1a1a2e]/55 to-transparent" />
+        </motion.div>
 
-  return (
-    <motion.div style={{ rotate, scale }} className="relative w-80 h-80 flex items-center justify-center">
-       <div className="absolute inset-0 border border-green-500/10 rounded-full animate-spin-slow shadow-[0_0_80px_rgba(34,197,94,0.05)]" />
-       <Dna className="w-40 h-40 text-green-500/10 animate-pulse" />
-       <div className="absolute inset-8 border border-green-500/5 rounded-full" />
-    </motion.div>
-  )
-}
-
-/* ==========================================
-   THE BIO-HACKER - MAIN INTERFACE
-   ========================================== */
-
-export default function BioHackerPremium() {
-  const [activeOrg, setActiveOrg] = useState(0)
-  const [isGeneticLockActive, setIsGeneticLockActive] = useState(true)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Bio Scroll Effects
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textX = useTransform(scrollYProgress, [0, 0.5], [0, -100])
-
-  return (
-    <div ref={containerRef} className="bg-[#020604] text-[#e0e8ed] font-mono selection:bg-green-500/30 selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000">
-      
-      {/* GLOBAL HUD OVERLAY */}
-      <HUD_Overlay isGeneticLockActive={isGeneticLockActive} />
-
-      <main>
-        {/* ==========================================
-            1. BIO IGNITION (HERO)
-            ========================================== */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-          <HelixRecombVisualizer />
-          <motion.div style={{ opacity: heroOpacity }} className="absolute z-0 pointer-events-none flex items-center justify-center">
-             <BioCoreModel progress={scrollYProgress} />
+        <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
+            <div className="inline-flex items-center gap-3 px-4 py-2 border border-[#4d7c5f]/40 bg-[#4d7c5f]/10 mb-8">
+              <Paintbrush className="w-3.5 h-3.5 text-[#7db88f]" />
+              <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#7db88f]">Peintre en bâtiment qualifié · Nord & Pas-de-Calais</span>
+            </div>
           </motion.div>
 
-          <div className="relative z-10 text-center max-w-7xl">
-             <Reveal>
-                <div className="inline-flex items-center gap-4 px-6 py-2 border border-green-500/30 bg-green-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-green-500 mb-12 italic">
-                   <Dna className="w-4 h-4" /> Genetic_Sync: NOMINAL // Stability: 99.98%
+          <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
+            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8 text-white">
+            La couleur<br />qui change <span className="text-[#7db88f]">tout.</span>
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
+            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10" style={{ fontFamily: "'Nunito', sans-serif" }}>
+            Peinture intérieure et extérieure, revêtements muraux, décorations. Artisan qualifié, conseils couleur personnalisés, préparation impeccable des supports. Devis gratuit sous 24h.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-3">
+            <button className="px-8 py-4 bg-[#4d7c5f] text-white font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-[#3d6b50] transition-colors rounded-sm">
+              Devis gratuit sous 24h
+            </button>
+            <a href="tel:0320456789" className="flex items-center gap-3 px-8 py-4 border border-white/20 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7db88f]/50 hover:text-[#7db88f] transition-all">
+              <Phone className="w-4 h-4" /> 03 20 45 67 89
+            </a>
+          </motion.div>
+        </motion.div>
+
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.2 }} className="w-[1px] h-10 bg-gradient-to-b from-[#4d7c5f]/60 to-transparent mx-auto" />
+        </div>
+      </section>
+
+      {/* ── STATS ── */}
+      <section className="py-14 bg-[#e8e8e4]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-6">
+          {[
+            { v: "14 ans", l: "D'expérience" },
+            { v: "600+", l: "Chantiers réalisés" },
+            { v: "4.9★", l: "Avis Google" },
+            { v: "5 ans", l: "Garantie travaux" },
+          ].map((s, i) => (
+            <Reveal key={i} delay={i * 0.07}>
+              <div className="text-center bg-white p-6 shadow-sm">
+                <div className="text-3xl font-bold text-[#4d7c5f] mb-1">{s.v}</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-[#1a1a2e]/40">{s.l}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── SERVICES ── */}
+      <section className="py-28 bg-white">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16">
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#4d7c5f] mb-4">Nos prestations</div>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1a1a2e]">Ce qu'on <span className="text-[#4d7c5f]">maîtrise.</span></h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {SERVICES.map((s, i) => (
+              <Reveal key={i} delay={i * 0.07}>
+                <div className="group p-8 border border-[#e8e8e4] hover:border-[#4d7c5f]/30 hover:shadow-lg transition-all duration-500">
+                  <div className="w-11 h-11 bg-[#4d7c5f]/8 flex items-center justify-center mb-6 group-hover:bg-[#4d7c5f] transition-colors duration-500">
+                    <s.icon className="w-5 h-5 text-[#4d7c5f] group-hover:text-white transition-colors" />
+                  </div>
+                  <h3 className="font-bold text-[#1a1a2e] mb-3 group-hover:text-[#4d7c5f] transition-colors">{s.title}</h3>
+                  <p className="text-sm text-[#1a1a2e]/45 leading-relaxed" style={{ fontFamily: "'Nunito', sans-serif" }}>{s.desc}</p>
                 </div>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic">
-                   Bio <br/> <span className="text-white/5 italic">Hacker.</span>
-                </motion.h1>
-                <p className="max-w-3xl mx-auto text-sm md:text-lg text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16 italic">
-                   L'ingénierie de la vie pour un futur durable. Nous codons les organismes de demain pour restaurer les écosystèmes et redéfinir la production industrielle.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                   <button className="px-12 py-6 bg-green-800 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(34,197,94,0.2)] flex items-center gap-4 italic">
-                      <Pipette className="w-5 h-5" /> Initialize Recomb
-                   </button>
-                   <button className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
-                      <Database className="w-5 h-5" /> Organism Registry
-                   </button>
-                </div>
-             </Reveal>
+              </Reveal>
+            ))}
           </div>
+        </div>
+      </section>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-12">
-             <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Lab_ID: BIO-SYNTH-01
+      {/* ── PALETTE TENDANCES ── */}
+      <section className="py-20 bg-[#f5f5f0]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-12">
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#4d7c5f] mb-4">Palette 2025-2026</div>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a2e]">Couleurs <span className="text-[#4d7c5f]">du moment.</span></h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {COULEURS.map((c, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div className="group cursor-default">
+                  <div className="aspect-square rounded-lg mb-3 transition-transform duration-500 group-hover:scale-105" style={{ background: c.hex }} />
+                  <div className="font-bold text-[#1a1a2e] text-sm mb-0.5">{c.name}</div>
+                  <div className="text-[10px] text-[#1a1a2e]/40">{c.desc}</div>
                 </div>
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Status: CULTURE_STABLE
-                </div>
-             </div>
-             <div className="text-right flex flex-col items-end gap-4">
-                <span className="text-[8px] font-black uppercase tracking-[0.5em] text-green-500">Genetic_Fire_Stream</span>
-                <div className="flex gap-2 h-12 items-end">
-                   {[...Array(16)].map((_, i) => (
-                     <motion.div 
-                        key={i}
-                        animate={{ height: ["10%", "100%", "30%", "80%", "10%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                        className="w-2 bg-green-500/20"
-                     />
-                   ))}
-                </div>
-             </div>
+              </Reveal>
+            ))}
           </div>
-        </section>
+          <Reveal delay={0.3}>
+            <p className="mt-8 text-sm text-[#1a1a2e]/40 leading-relaxed" style={{ fontFamily: "'Nunito', sans-serif" }}>
+              Nous proposons un service de conseil couleur gratuit. Apportez vos photos, votre mobilier, vos envies — on trouve ensemble la teinte parfaite.
+            </p>
+          </Reveal>
+        </div>
+      </section>
 
-        {/* ==========================================
-            2. ORGANISM REGISTRY (DENSE TECHNICAL)
-            ========================================== */}
-        <section className="py-60 bg-[#040c08] relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-              <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-                 <Reveal>
-                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-green-500 block mb-6 italic underline underline-offset-8 decoration-green-400/20">Synthetic // Assets</span>
-                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">Archives.</h2>
-                 </Reveal>
-                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Bio_Audit</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-green-500">L'Architecture du Code Organique</p>
-                 </div>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 shadow-2xl">
-                 {SYNTHETIC_ORGANISMS.map((org, i) => (
-                   <Reveal key={org.id} delay={i * 0.1}>
-                      <div className="bg-[#020604] p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
-                         <div className="flex justify-between items-start mb-16">
-                            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-green-800 group-hover:text-white transition-all duration-500">
-                               <FlaskRound className="w-8 h-8" />
-                            </div>
-                            <span className={`px-4 py-2 bg-white/5 text-[9px] font-black uppercase tracking-[0.3em] ${org.status === "Stable State" ? "text-green-500" : "text-white/40"}`}>{org.status}</span>
-                         </div>
-                         
-                         <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{org.name}</h3>
-                         <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-12">{org.type}</div>
-                         
-                         <div className="space-y-8 mb-20 border-l border-green-500/20 pl-8">
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Stability</span>
-                               <span className="text-white group-hover:text-green-400 transition-colors">{org.stability}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Growth Rate</span>
-                               <span className="text-white group-hover:text-green-400 transition-colors">{org.growth}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Bio-Safety</span>
-                               <span className="text-white group-hover:text-green-400 transition-colors">{org.biosecurity}</span>
-                            </div>
-                         </div>
-
-                         <p className="text-[12px] text-white/30 leading-loose uppercase tracking-[0.2em] font-bold italic mb-16">
-                            {org.desc}
-                         </p>
-
-                         <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center">
-                            <span className="text-[10px] font-black text-white/10 uppercase tracking-widest">Ref: {org.id}</span>
-                            <button className="text-[10px] font-black uppercase text-white/40 flex items-center gap-4 group-hover:text-white transition-all">
-                               Technical_Specs <ChevronRight className="w-5 h-5" />
-                            </button>
-                         </div>
-                      </div>
-                   </Reveal>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            3. BIO MONITOR (INTERACTIVE DATA)
-            ========================================== */}
-        <section className="py-60 bg-black relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div>
-                    <Reveal>
-                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-green-500 block mb-12 italic underline underline-offset-8 decoration-green-500/20">Bio // Performance</span>
-                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">
-                          The <br/> <span className="not-italic font-black text-white/5 italic">Recomb_Link.</span>
-                       </h2>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">
-                          Surveillance de la stabilité génétique en temps réel. Nos algorithmes de séquençage analysent chaque nucléotide pour garantir l'absence de mutations indésirables.
-                       </p>
-                       <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
-                          {GENETIC_METRICS.map((metric, i) => (
-                            <div key={i} className="p-16 bg-[#0c100a] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
-                               <div className="text-[10px] font-black uppercase text-green-500 mb-6 tracking-[0.4em]">{metric.label}</div>
-                               <div className="text-5xl font-black text-white italic mb-6 tracking-tighter group-hover:translate-x-4 transition-transform">{metric.value}</div>
-                               <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
-                                  <Activity className="w-4 h-4 text-green-500" /> {metric.trend}
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                       <button 
-                         onClick={() => setIsGeneticLockActive(!isGeneticLockActive)}
-                         className="w-full py-8 bg-green-950 text-white text-[11px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center gap-6 italic"
-                       >
-                          <Settings className="w-5 h-5" /> Re-Sync Genetic Nodes
-                       </button>
-                    </Reveal>
-                 </div>
-                 
-                 <div className="relative">
-                    <Reveal delay={0.3} x={40}>
-                       <div className="aspect-square bg-[#0c100a] border border-white/10 p-20 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 p-80 bg-green-400 opacity-[0.02] blur-[150px] rounded-full group-hover:opacity-[0.05] transition-opacity" />
-                          
-                          <div className="flex justify-between items-start z-10">
-                             <div className="flex flex-col gap-3">
-                                <span className="text-[10px] font-black text-white/10 uppercase tracking-[0.5em]">Bio_Link // NUC-SYNC-v42</span>
-                                <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.6em]">Genome_Mapping_Telemetry</span>
-                             </div>
-                             <Wifi className="w-6 h-6 text-green-400" />
-                          </div>
-                          
-                          {/* BIO VISUALIZER (SVG) */}
-                          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                             <div className="w-64 h-64 border border-green-400/5 rounded-full flex items-center justify-center relative">
-                                <motion.div 
-                                  animate={{ rotate: 360 }}
-                                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-0 border-t-2 border-green-400/20 rounded-full" 
-                                />
-                                <motion.div 
-                                  animate={{ rotate: -360 }}
-                                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-8 border-b-2 border-green-400/10 rounded-full" 
-                                />
-                                <Sprout className={`w-24 h-24 transition-colors duration-1000 ${isGeneticLockActive ? "text-green-400 animate-pulse" : "text-white/5"}`} />
-                             </div>
-                             <div className="mt-16 text-center space-y-6">
-                                <div className={`text-4xl font-black italic tracking-tighter ${isGeneticLockActive ? "text-white" : "text-white/20"}`}>
-                                   {isGeneticLockActive ? "GENETIC_LOCKED" : "GENETIC_DRIFT"}
-                                </div>
-                                <span className="text-[11px] font-bold text-white/10 uppercase tracking-[0.6em] block">Auth_Node: SYNTH_UNIT_01</span>
-                             </div>
-                          </div>
-
-                          <div className="relative z-10 flex gap-6">
-                             <div className="flex-1 h-1 bg-white/5 overflow-hidden">
-                                <motion.div 
-                                   animate={isGeneticLockActive ? { x: ["-100%", "100%"] } : {}}
-                                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-green-700"
-                                />
-                             </div>
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            4. BIO STORY (TECH STORYTELLING)
-            ========================================== */}
-        <section className="py-60 bg-[#020604] relative overflow-hidden border-t border-white/5">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">
-                    <Image 
-                       src="https://images.unsplash.com/photo-1579154235602-3c2c2aa5d72f?q=80&w=1200&auto=format&fit=crop" 
-                       alt="BioHacker Infrastructure" 
-                       fill 
-                       className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"
-                    />
-                    <div className="absolute inset-0 bg-green-900/10 mix-blend-color group-hover:opacity-0 transition-opacity" />
-                    <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                       <div className="text-white">
-                          <span className="text-[11px] font-black uppercase tracking-[0.6em] text-green-500 mb-8 block italic underline underline-offset-8 decoration-green-500/20">Atelier // Bio // Unit</span>
-                          <h4 className="text-6xl font-black tracking-tighter uppercase italic mb-12 mix-blend-difference text-white">Genetic <br/> Fabric.</h4>
-                          <button className="flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/20 pb-4 hover:border-green-400 transition-all group">
-                             Recomb Protocols <ExternalLink className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                          </button>
-                       </div>
-                    </div>
-                 </div>
-
-                 <div>
-                    <Reveal>
-                       <div className="mb-24 text-left">
-                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-green-500 mb-8 block italic">Chapitre III // Recombinaison</span>
-                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none text-white">Pure_Life.</h2>
-                       </div>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">
-                          La vie est le langage ultime. Nous utilisons les outils de la biologie synthétique pour réécrire le code de la nature, offrant des solutions organiques aux défis technologiques les plus complexes.
-                       </p>
-                       <div className="space-y-20">
-                          {[
-                            { t: "Genome Mapping", d: "Cartographie haute fidélité du génome cible pour identifier les loci d'insertion optimaux." },
-                            { t: "CRISPR-v5 Editing", d: "Édition génétique de précision via nos complexes enzymatiques propriétaires à faible taux de off-target." },
-                            { t: "Organism Cultivation", d: "Culture contrôlée en bioréacteur avec surveillance métabolique continue et optimisation du milieu." }
-                          ].map((step, i) => (
-                            <div key={i} className="group flex gap-12 border-b border-white/5 pb-16 hover:border-green-400/20 transition-all cursor-default">
-                               <div className="text-6xl font-black text-white/5 group-hover:text-green-400/20 transition-colors italic leading-none">0{i+1}</div>
-                               <div>
-                                  <h5 className="text-3xl font-black uppercase tracking-tight text-white mb-6 italic group-hover:translate-x-4 transition-transform text-white">{step.t}</h5>
-                                  <p className="text-[12px] text-white/20 uppercase tracking-[0.3em] font-bold leading-loose italic">{step.d}</p>
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* MEGA FOOTER */}
-        <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-              <div className="lg:col-span-2">
-                 <div className="flex items-center gap-6 mb-16">
-                    <div className="w-16 h-16 bg-green-800 flex items-center justify-center">
-                      <Dna className="w-10 h-10 text-white" />
-                    </div>
-                    <span className="text-4xl font-black uppercase tracking-tighter italic">BIO<span className="text-white/20">HACKER.</span></span>
-                 </div>
-                 <p className="text-white/20 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
-                    "L'avenir de l'industrie est organique." — Archive Hacker V.42
-                 </p>
-                 <div className="flex gap-16">
-                    {["RecombLog", "OrganismRegistry", "GitHub", "X_Protocol"].map(s => (
-                      <Link key={s} href="#" className="text-[11px] font-black uppercase tracking-widest text-white/20 hover:text-green-400 transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
-                    ))}
-                 </div>
-              </div>
-
-              {[
-                { t: "ORGANISMS", l: ["Carbon-Eater v4", "Regen-Skin X", "Fuel-Yeast v5", "Bio-Sensors"] },
-                { t: "TECHNOLOGY", l: ["CRISPR-v5", "Bio-Reactors", "Metabolic Eng", "SLA Reports"] },
-                { t: "ATELIER", l: ["Our Legacy", "Bioethics", "Locations", "Support"] }
-              ].map((col, i) => (
-                <div key={i} className="flex flex-col gap-12">
-                  <h4 className="text-[11px] font-black text-green-400 uppercase tracking-[0.6em] italic">{col.t}</h4>
-                  <ul className="flex flex-col gap-8">
-                    {col.l.map(link => (
-                      <li key={link} className="text-[11px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-[0.4em] italic">{link}</li>
-                    ))}
-                  </ul>
+      {/* ── TÉMOIGNAGES ── */}
+      <section className="py-28 bg-white">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-16 text-center">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#4d7c5f] mb-4">Avis clients</div>
+            <h2 className="text-4xl font-bold text-[#1a1a2e]">Ils adorent <span className="text-[#4d7c5f]">le résultat.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { q: "Notre salon relooké avec un vert sauge magnifique. Conseils couleur top, finitions parfaites, pas une trace de peinture ailleurs. Je suis bluffée.", n: "Amélie B.", l: "Lille (59)" },
+              { q: "Ravalement de façade fait proprement, avec un enduit imperméabilisant. Maison comme neuve, 20 ans de moins. Rapport qualité-prix excellent.", n: "Paul & Martine G.", l: "Roubaix (59)" },
+              { q: "Appartement entier refait avant mise en location. Couleurs neutres parfaites pour la mise en valeur. Livré en 4 jours. Très pro et réactif.", n: "Karim D.", l: "Tourcoing (59)" },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="p-8 border border-[#e8e8e4] hover:border-[#4d7c5f]/25 transition-colors h-full flex flex-col">
+                  <div className="flex gap-1 mb-5">
+                    {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#4d7c5f] text-[#4d7c5f]" />)}
+                  </div>
+                  <p className="text-[#1a1a2e]/45 text-sm leading-relaxed italic flex-1" style={{ fontFamily: "'Nunito', sans-serif" }}>{`"${t.q}"`}</p>
+                  <div className="mt-6 pt-5 border-t border-[#e8e8e4]">
+                    <div className="font-bold text-[#1a1a2e] text-sm">{t.n}</div>
+                    <div className="text-[10px] text-[#4d7c5f] mt-1"><MapPin className="w-3 h-3 inline mr-1" />{t.l}</div>
+                  </div>
                 </div>
-              ))}
-           </div>
-
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 BIOHACKER SYNTHETIC BIOLOGY AG. // ALL_RIGHTS_RESERVED</span>
-              <div className="flex gap-16">
-                 <span>STATUS: OPERATIONAL</span>
-                 <span>STABILITY: 99.98% (AVG)</span>
-                 <span>v4.12.0-STABLE</span>
-              </div>
-           </div>
-        </footer>
-      </main>
-    </div>
-  )
-}
-
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
-
-function HUD_Overlay({ isGeneticLockActive }: { isGeneticLockActive: boolean }) {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Corner Brackets */}
-       <div className={`absolute top-12 left-12 w-20 h-20 border-t-2 border-l-2 transition-colors duration-1000 ${isGeneticLockActive ? "border-green-400" : "border-white/10"}`} />
-       <div className={`absolute top-12 right-12 w-20 h-20 border-t-2 border-r-2 transition-colors duration-1000 ${isGeneticLockActive ? "border-green-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 left-12 w-20 h-20 border-b-2 border-l-2 transition-colors duration-1000 ${isGeneticLockActive ? "border-green-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 right-12 w-20 h-20 border-b-2 border-r-2 transition-colors duration-1000 ${isGeneticLockActive ? "border-green-400" : "border-white/10"}`} />
-
-       {/* Top Status Bar */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-20 bg-black/60 backdrop-blur-2xl px-12 py-4 border border-white/10 rounded-none">
-          <div className="flex items-center gap-6 text-white">
-             <div className={`w-3 h-3 transition-colors duration-500 ${isGeneticLockActive ? "bg-green-400 animate-pulse" : "bg-red-500 animate-ping"}`} />
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Genetic_Sync: {isGeneticLockActive ? "NOMINAL" : "GENETIC_DRIFT"} // Status: ACTIVE</span>
+              </Reveal>
+            ))}
           </div>
-          <div className="h-4 w-px bg-white/20" />
-          <div className="flex items-center gap-6 text-white/20">
-             <Wifi className="w-4 h-4" /> 
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Bio_Grid: SECURE</span>
-          </div>
-       </div>
+        </div>
+      </section>
 
-       {/* Right Rotation Info */}
-       <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-white/5 italic">Unauthorized_Duplication_Of_Genetic_Patterns_Is_Strictly_Monitored_By_Global_Hacker_Alliance</span>
-       </div>
+      {/* ── CTA ── */}
+      <section className="py-28 bg-[#4d7c5f] text-center">
+        <Reveal>
+          <div className="max-w-xl mx-auto px-6">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/50 mb-6">Votre projet</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Une pièce à<br />transformer ?</h2>
+            <p className="text-white/60 mb-10 text-sm leading-relaxed" style={{ fontFamily: "'Nunito', sans-serif" }}>Devis gratuit sous 24h · Conseil couleur inclus · Travaux garantis 5 ans</p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <button className="px-10 py-4 bg-white text-[#4d7c5f] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f7f3] transition-colors">
+                Demander un devis
+              </button>
+              <a href="tel:0320456789" className="flex items-center gap-3 px-10 py-4 border border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
+                <Phone className="w-4 h-4" /> 03 20 45 67 89
+              </a>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-[#1a1a2e] pt-20 pb-10 px-6 border-t border-white/5">
+        <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          <div>
+            <div className="flex items-center gap-2.5 mb-5"><Paintbrush className="w-5 h-5 text-[#4d7c5f]" /><span className="font-bold text-white text-sm">Couleurs & Co</span></div>
+            <p className="text-white/25 text-sm leading-relaxed" style={{ fontFamily: "'Nunito', sans-serif" }}>Peintre qualifié · Nord & Pas-de-Calais. Peinture intérieure/extérieure, revêtements, déco depuis 2010.</p>
+          </div>
+          {[
+            { t: "Services", ls: ["Peinture intérieure", "Revêtements muraux", "Peinture extérieure", "Conseil couleur", "Logements locatifs"] },
+            { t: "Infos", ls: ["Qui sommes-nous", "Nos réalisations", "Zone d'intervention", "Avis clients", "Blog peinture"] },
+            { t: "Contact", ls: ["03 20 45 67 89", "contact@couleurs-co.fr", "Lille Métropole", "Lundi-Vendredi 8h-18h", "Devis gratuit 24h"] },
+          ].map((col, i) => (
+            <div key={i}>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#4d7c5f] mb-5">{col.t}</h4>
+              <ul className="space-y-2.5">
+                {col.ls.map(l => <li key={l}><Link href="#" className="text-white/25 text-sm hover:text-white transition-colors">{l}</Link></li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[9px] font-bold uppercase tracking-widest text-white/15">
+          <span>© 2026 Couleurs & Co · SIRET 678 901 234 00056 · Qualibat 6312 · Artisan peintre</span>
+          <span className="text-[#4d7c5f]/40">Peintre qualifié · Nord-Pas-de-Calais</span>
+        </div>
+      </footer>
     </div>
   )
 }

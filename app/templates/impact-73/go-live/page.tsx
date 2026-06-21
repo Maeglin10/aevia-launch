@@ -100,6 +100,7 @@ export default function GoLivePage() {
                   <div className="w-12 h-12 bg-rose-600/10 border border-rose-500/20 rounded-lg flex items-center justify-center text-rose-500">
                     <Check className="w-6 h-6" />
                   </div>
+                  <p className="text-sm font-bold text-rose-500 uppercase tracking-widest">Merci, nous vous répondrons sous 24h.</p>
                   <h4 className="text-lg font-black uppercase text-white">Ingest Keys Active</h4>
                   <div className="p-4 bg-black border border-white/5 rounded-lg font-mono text-xs text-white/60 space-y-4">
                     <div>

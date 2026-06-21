@@ -100,7 +100,7 @@ export default function ContactPage() {
                 <div className="py-12 text-center space-y-4">
                   <span className="text-[#b8860b] text-xl font-bold block">✓ Inquiry Logged</span>
                   <p className="text-xs text-white/40 italic">
-                    We will review the table availability and confirm back within 24 hours.
+                    Merci, nous vous répondrons sous 24h.
                   </p>
                 </div>
               ) : (

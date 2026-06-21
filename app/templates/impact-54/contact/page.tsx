@@ -159,7 +159,7 @@ export default function ContactPage() {
                     Early Access Request Queued
                   </h3>
                   <p style={{ fontSize: 14, color: "rgba(232,232,255,0.45)", lineHeight: 1.6 }}>
-                    Our developer operations team has catalogued your request. Check your inbox for setup tokens within 24 hours.
+                    Merci, nous vous répondrons sous 24h.
                   </p>
                 </div>
               ) : (

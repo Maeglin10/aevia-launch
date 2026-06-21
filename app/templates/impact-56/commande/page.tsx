@@ -70,7 +70,7 @@ export default function CommandePage() {
               <CheckCircle2 className="w-16 h-16 text-[#C4A265] mx-auto mb-8" />
               <h2 className="text-3xl font-serif mb-6 leading-snug pb-1">Commande reçue</h2>
               <p className="text-zinc-300 leading-relaxed mb-4">
-                Merci, {formData.nom}. Votre commande a été enregistrée. Vous recevrez sous 24h un email de confirmation à <strong className="text-white">{formData.email}</strong> avec les instructions de paiement par virement.
+                Merci, nous vous répondrons sous 24h.
               </p>
               <p className="text-xs text-zinc-400 mb-10">Montant total estimé : {total.toLocaleString("fr-FR")} €</p>
               <button

@@ -43,8 +43,8 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
       title: "Informations",
       links: [
         { label: "Consultation gratuite", href: "/templates/impact-46/contact" },
-        { label: "Mentions légales", href: "/templates/impact-46/legal" },
-        { label: "Confidentialité", href: "/templates/impact-46/privacy" },
+        { label: "Mentions légales", href: "/legal/mentions-legales" },
+        { label: "Confidentialité", href: "/legal/confidentialite" },
       ],
     },
   ];

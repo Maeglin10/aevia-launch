@@ -12,10 +12,11 @@ export default function ContactPage() {
     budget: "€8,000 - €15,000",
     message: "",
   });
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert(`Thank you ${formData.name}. We will get back to you within 48 hours.`);
+    setSubmitted(true);
   };
 
   return (
@@ -127,6 +128,11 @@ export default function ContactPage() {
           </div>
 
           <div>
+            {submitted ? (
+              <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, padding: "60px", textAlign: "center" }}>
+                <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "14px", color: C.accent }}>Merci, nous vous répondrons sous 24h.</p>
+              </div>
+            ) : (
             <form onSubmit={handleSubmit} style={{ background: C.bgCard, border: `1px solid ${C.border}`, padding: "40px", display: "flex", flexDirection: "column", gap: "24px" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: "8px", textAlign: "left" }}>
                 <label style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em" }}>YOUR NAME</label>
@@ -191,6 +197,7 @@ export default function ContactPage() {
                 Send Brief
               </button>
             </form>
+            )}
           </div>
         </div>
       </div>

@@ -145,7 +145,7 @@ export default function OrbitAILayout({
                 GitHub
               </a>
               <Link
-                href="/templates/impact-75/legal"
+                href="/legal/mentions-legales"
                 className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-cyan-500 transition-colors italic"
               >
                 Legal Hub
@@ -181,7 +181,7 @@ export default function OrbitAILayout({
               l: [
                 { name: "Mission Control", href: "/templates/impact-75" },
                 { name: "Security Protocol", href: "/templates/impact-75/telemetry" },
-                { name: "Legal Hub", href: "/templates/impact-75/legal" },
+                { name: "Legal Hub", href: "/legal/mentions-legales" },
               ],
             },
           ].map((col, i) => (
@@ -212,7 +212,7 @@ export default function OrbitAILayout({
               UPLINK: ACTIVE
             </Link>
             <Link
-              href="/templates/impact-75/legal"
+              href="/legal/mentions-legales"
               className="hover:text-cyan-500 transition-all underline decoration-cyan-500/20"
             >
               SECURITY_LEVEL: OMEGA

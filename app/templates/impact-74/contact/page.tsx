@@ -38,7 +38,7 @@ export default function ContactPage() {
                   Transmission Secure
                 </h3>
                 <p className="text-xs text-white/30 uppercase tracking-widest max-w-sm mx-auto leading-relaxed">
-                  Payload encrypted and queued for neural classification. Estimated response latency: &lt; 350ms.
+                  Merci, nous vous répondrons sous 24h.
                 </p>
               </div>
             ) : (

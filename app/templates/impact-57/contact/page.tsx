@@ -239,7 +239,7 @@ export default function ContactPage() {
                       marginBottom: '1rem',
                     }}
                   >
-                    Merci, on revient vers vous !
+                    Merci, nous vous répondrons sous 24h.
                   </h3>
                   <p
                     style={{
@@ -249,7 +249,7 @@ export default function ContactPage() {
                       lineHeight: 1.8,
                     }}
                   >
-                    Nous avons bien reçu votre message. Nous vous recontactons sous 48h ouvrées.
+                    Merci, nous vous répondrons sous 24h.
                   </p>
                 </motion.div>
               ) : (

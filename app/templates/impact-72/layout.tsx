@@ -148,10 +148,10 @@ export default function StackUnitLayout({
         <div style={{ maxWidth: "1300px", margin: "2.5rem auto 0", paddingTop: "2rem", borderTop: `1px solid ${C.border}`, display: "flex", justifyContent: "space-between" }}>
           <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.55rem", color: C.textDim }}>© {new Date().getFullYear()} STACK UNIT. TOUS DROITS RÉSERVÉS.</div>
           <div style={{ display: "flex", gap: "2rem" }}>
-            <Link href="/templates/impact-72/legal" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.55rem", color: C.textDim, textDecoration: "none" }}>
+            <Link href="/legal/mentions-legales" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.55rem", color: C.textDim, textDecoration: "none" }}>
               Mentions légales
             </Link>
-            <Link href="/templates/impact-72/legal" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.55rem", color: C.textDim, textDecoration: "none" }}>
+            <Link href="/legal/mentions-legales" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.55rem", color: C.textDim, textDecoration: "none" }}>
               RGPD
             </Link>
           </div>

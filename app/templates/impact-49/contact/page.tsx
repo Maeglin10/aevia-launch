@@ -88,7 +88,7 @@ export default function ContactPage() {
                     Message bien reçu !
                   </h3>
                   <p className="text-sm text-[#6B7280] font-medium italic">
-                    Merci pour votre message. Notre équipe va l'étudier et vous répondre au plus vite.
+                    Merci, nous vous répondrons sous 24h.
                   </p>
                 </div>
               ) : (

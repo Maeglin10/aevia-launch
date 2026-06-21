@@ -1,11 +1,13 @@
 // @ts-nocheck
 "use client";
 
+import { useState } from "react";
 import { Check, Mail, Phone, MapPin, Globe } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Reveal } from "../shared";
 
 export default function ContactPage() {
+  const [submitted, setSubmitted] = useState(false);
   const triggerBooking = () => {
     window.dispatchEvent(new CustomEvent("open-zenspace-booking"));
   };
@@ -143,7 +145,12 @@ export default function ContactPage() {
 
           <div className="lg:col-span-7 bg-white border border-stone-200/50 rounded-3xl p-8 md:p-12 shadow-sm">
             <Reveal>
-              <form onSubmit={(e) => { e.preventDefault(); alert("Message Sent."); }} className="space-y-6">
+              {submitted ? (
+                <div className="bg-white border border-stone-200/50 rounded-3xl p-8 md:p-12 shadow-sm text-center py-16">
+                  <p className="text-sm font-bold uppercase tracking-widest text-[#c9a84c]">Merci, nous vous répondrons sous 24h.</p>
+                </div>
+              ) : (
+              <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-[9px] font-bold uppercase tracking-widest text-stone-400">First Name</label>
@@ -185,6 +192,7 @@ export default function ContactPage() {
                   SEND_MESSAGE
                 </button>
               </form>
+              )}
             </Reveal>
           </div>
         </section>

@@ -12,9 +12,11 @@ export default function MembersPage() {
     bio: "",
   });
 
+  const [submitted, setSubmitted] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert(`Application received. The Council will review your invitation request.`);
+    setSubmitted(true);
   };
 
   return (
@@ -41,6 +43,11 @@ export default function MembersPage() {
 
           <div>
             <Reveal>
+              {submitted ? (
+                <div className="space-y-8 bg-white/[0.02] border border-white/5 p-10 md:p-12 rounded-[2rem] text-center py-16">
+                  <p className="text-sm font-bold text-[#ff00ff] uppercase tracking-widest">Merci, nous vous répondrons sous 24h.</p>
+                </div>
+              ) : (
               <form onSubmit={handleSubmit} className="space-y-8 bg-white/[0.02] border border-white/5 p-10 md:p-12 rounded-[2rem]">
                 <h3 className="text-xl font-bold uppercase tracking-widest text-[#ff00ff] mb-6 flex items-center gap-3 italic">
                   <Sparkles className="w-5 h-5" /> Membership_Application
@@ -104,6 +111,7 @@ export default function MembersPage() {
                   Apply_For_Node_Access
                 </button>
               </form>
+              )}
             </Reveal>
           </div>
         </div>

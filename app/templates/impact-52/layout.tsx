@@ -285,7 +285,7 @@ export default function Impact52Layout({
             <ul className="space-y-3">
               <li>
                 <Link
-                  href="/templates/impact-52/legal"
+                  href="/legal/mentions-legales"
                   style={{
                     fontSize: "0.58rem",
                     color: C.CYAN,
@@ -321,7 +321,7 @@ export default function Impact52Layout({
           </span>
           <div className="flex gap-8">
             <Link
-              href="/templates/impact-52/legal"
+              href="/legal/mentions-legales"
               className="hover:text-white transition-colors"
             >
               Mentions Légales

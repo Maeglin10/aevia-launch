@@ -143,13 +143,13 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
           <div className="pt-8 border-t border-[#2A1E12] flex flex-col md:flex-row justify-between gap-4 text-xs">
             <span>© 2024 Blueprint Developments — Tous droits réservés</span>
             <div className="flex gap-6">
-              <Link href="/templates/impact-82/legal" className="hover:text-[#F7F5F2] transition-colors cursor-pointer">
+              <Link href="/legal/mentions-legales" className="hover:text-[#F7F5F2] transition-colors cursor-pointer">
                 Mentions légales
               </Link>
-              <Link href="/templates/impact-82/legal" className="hover:text-[#F7F5F2] transition-colors cursor-pointer">
+              <Link href="/legal/mentions-legales" className="hover:text-[#F7F5F2] transition-colors cursor-pointer">
                 Politique de confidentialité
               </Link>
-              <Link href="/templates/impact-82/legal" className="hover:text-[#F7F5F2] transition-colors cursor-pointer">
+              <Link href="/legal/mentions-legales" className="hover:text-[#F7F5F2] transition-colors cursor-pointer">
                 Données personnelles
               </Link>
             </div>

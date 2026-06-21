@@ -115,7 +115,7 @@ function SuccessScreen() {
           margin: 0,
         }}
       >
-        Nous avons bien reçu votre brief. L'équipe vous recontacte sous 48 heures ouvrées.
+        Merci, nous vous répondrons sous 24h.
       </p>
       <div
         style={{

@@ -40,7 +40,7 @@ export default function ContactPage() {
                   MESSAGE SECURED.
                 </h3>
                 <p className="text-white/40 leading-relaxed font-light italic">
-                  Your communication has been hash-locked and routed to our team. We will respond within 24 hours.
+                  Merci, nous vous répondrons sous 24h.
                 </p>
               </div>
             ) : (

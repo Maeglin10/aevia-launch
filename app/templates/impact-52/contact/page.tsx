@@ -79,8 +79,7 @@ export default function ContactPage() {
                     letterSpacing: "0.05em",
                   }}
                 >
-                  Your encrypted signal has been routed to the core node.
-                  Expect response via secure channel in 24 hours.
+                  Merci, nous vous répondrons sous 24h.
                 </p>
               </div>
             ) : (

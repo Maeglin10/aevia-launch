@@ -58,7 +58,7 @@ export default function ContactPage() {
                 <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, padding: 40, textAlign: "center" }}>
                   <h2 style={{ fontFamily: FONT_HEADING, fontSize: 28, color: C.accent, marginBottom: 20 }}>Demande Reçue</h2>
                   <p style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.6 }}>
-                    Votre demande de rendez-vous privé a été transmise à notre secrétariat. Nous vous recontacterons dans les 24 heures pour convenir du créneau.
+                    Merci, nous vous répondrons sous 24h.
                   </p>
                 </div>
               </Reveal>
