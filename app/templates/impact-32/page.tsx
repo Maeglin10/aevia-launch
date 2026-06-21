@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { TemplateIcon } from "@/components/TemplateIcon";
 import {
-  C, FONT, SectionBadge, AnimatedPaw, PetTabs,
+  C, FONT, SectionBadge, PetTabs,
   SERVICES_DATA, TEAM_DATA, TESTIMONIALS, FAQS
 } from "./shared";
 
@@ -111,181 +111,171 @@ const CLINIC_FEATURES = [
 function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const textY = useTransform(scrollYProgress, [0, 1], [0, -80]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 160]);
+  const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
 
   return (
     <section
       ref={ref}
       style={{
-        minHeight: "calc(100vh - 72px)",
-        background: `linear-gradient(140deg, ${C.bg} 0%, ${C.accentLight} 100%)`,
-        display: "flex",
-        alignItems: "center",
-        padding: "60px 80px",
+        height: "115vh",
+        minHeight: "900px",
         position: "relative",
+        display: "flex",
+        alignItems: "flex-end",
         overflow: "hidden",
         fontFamily: FONT,
       }}
     >
-      <div
-        style={{
-          position: "absolute",
-          top: -100,
-          right: -100,
-          width: 600,
-          height: 600,
-          borderRadius: "50%",
-          background: `radial-gradient(circle, ${C.accentLight} 0%, transparent 68%)`,
-          opacity: 0.5,
-          pointerEvents: "none",
-        }}
-      />
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: 40,
-          zIndex: 1,
-        }}
+      <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
+        <img
+          src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=1920&q=80"
+          alt="Clinique vétérinaire PawCare"
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
+      </motion.div>
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(5,20,15,0.92) 0%, rgba(5,20,15,0.45) 45%, rgba(5,20,15,0.08) 100%)" }} />
+      <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
+
+      <motion.div
+        style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}
       >
         <motion.div
-          style={{ flex: "1 1 500px", maxWidth: 580, position: "relative", zIndex: 1, y: textY, opacity: textOpacity }}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
+            background: "rgba(255,255,255,0.12)",
+            border: "1px solid rgba(255,255,255,0.25)",
+            backdropFilter: "blur(8px)",
+            borderRadius: 20,
+            padding: "7px 16px",
+            marginBottom: 24,
+          }}
         >
-          {/* Certification badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: C.white,
-              border: `1px solid ${C.accent}`,
-              borderRadius: 20,
-              padding: "7px 16px",
-              marginBottom: 24,
-            }}
-          >
-            <Shield size={14} color={C.accent} />
-            <span style={{ color: C.accent, fontSize: 13, fontWeight: 700 }}>
-              Clinique vétérinaire agréée CNOV
-            </span>
-          </motion.div>
+          <Shield size={14} color="#fff" />
+          <span style={{ color: "#fff", fontSize: 13, fontWeight: 700 }}>Clinique vétérinaire agréée CNOV</span>
+        </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 36 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            style={{
-              fontSize: "clamp(36px, 4vw, 58px)",
-              fontWeight: 800,
-              color: C.text,
-              lineHeight: 1.1,
-              letterSpacing: -1.5,
-              marginBottom: 24,
-            }}
-          >
-            Vos animaux méritent{" "}
-            <span style={{ color: C.accent }}>le meilleur soin</span>
-          </motion.h1>
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          style={{
+            fontSize: "clamp(42px, 5vw, 68px)",
+            fontWeight: 800,
+            color: "#fff",
+            lineHeight: 1.08,
+            letterSpacing: -2,
+            marginBottom: 24,
+          }}
+        >
+          Vos animaux méritent{" "}
+          <span style={{ color: C.accent }}>le meilleur soin</span>
+        </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            style={{ fontSize: 18, color: C.textMuted, lineHeight: 1.72, marginBottom: 36, maxWidth: 490 }}
-          >
-            PawCare Clinic, c'est une équipe de 6 vétérinaires passionnés à Bordeaux, dédiée à la
-            santé et au bonheur de vos compagnons à poils, plumes ou écailles depuis 18 ans.
-          </motion.p>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.75 }}
+          style={{ fontSize: 18, color: "rgba(255,255,255,0.80)", lineHeight: 1.72, marginBottom: 36, maxWidth: 490 }}
+        >
+          PawCare Clinic, c'est une équipe de 6 vétérinaires passionnés à Bordeaux, dédiée à la
+          santé et au bonheur de vos compagnons à poils, plumes ou écailles depuis 18 ans.
+        </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 48 }}
-          >
-            <Link href="/templates/impact-32/pricing" style={{ textDecoration: "none" }}>
-              <motion.button
-                type="button"
-                style={{
-                  background: C.accent,
-                  color: C.white,
-                  border: "none",
-                  borderRadius: 10,
-                  padding: "16px 32px",
-                  fontWeight: 800,
-                  fontSize: 16,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  fontFamily: FONT,
-                }}
-                whileHover={{ background: C.accentDark, scale: 1.04, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                <Calendar size={18} /> Prendre rendez-vous
-              </motion.button>
-            </Link>
-            <Link href="/templates/impact-32/contact" style={{ textDecoration: "none" }}>
-              <motion.button
-                type="button"
-                style={{
-                  background: C.sandLight,
-                  color: C.sand,
-                  border: `2px solid ${C.sand}`,
-                  borderRadius: 10,
-                  padding: "14px 24px",
-                  fontWeight: 800,
-                  fontSize: 15,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  fontFamily: FONT,
-                }}
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                <Phone size={16} /> Urgences 24h
-              </motion.button>
-            </Link>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            style={{ display: "flex", gap: 36 }}
-          >
-            {[
-              { value: "3 500+", label: "Animaux soignés" },
-              { value: "4.8★", label: "Note Google" },
-              { value: "18 ans", label: "D'expertise" },
-            ].map((s) => (
-              <div key={s.label}>
-                <div style={{ fontWeight: 900, fontSize: 22, color: C.text }}>{s.value}</div>
-                <div style={{ fontSize: 13, color: C.textMuted }}>{s.label}</div>
-              </div>
-            ))}
-          </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 1.0 }}
+          style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 48 }}
+        >
+          <Link href="/templates/impact-32/pricing" style={{ textDecoration: "none" }}>
+            <motion.button
+              type="button"
+              style={{
+                background: C.accent,
+                color: C.white,
+                border: "none",
+                borderRadius: 10,
+                padding: "16px 34px",
+                fontWeight: 700,
+                fontSize: 17,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                fontFamily: FONT,
+                boxShadow: `0 8px 32px ${C.accent}55`,
+              }}
+              whileHover={{ scale: 1.04, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <Calendar size={19} /> Prendre RDV
+            </motion.button>
+          </Link>
+          <Link href="/templates/impact-32/contact" style={{ textDecoration: "none" }}>
+            <motion.button
+              type="button"
+              style={{
+                background: "rgba(255,255,255,0.12)",
+                color: "#fff",
+                border: "1px solid rgba(255,255,255,0.30)",
+                borderRadius: 10,
+                padding: "14px 28px",
+                fontWeight: 600,
+                fontSize: 16,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                fontFamily: FONT,
+                backdropFilter: "blur(8px)",
+              }}
+              whileHover={{ background: "rgba(255,255,255,0.20)" }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <Phone size={16} /> Urgences 24h
+            </motion.button>
+          </Link>
         </motion.div>
 
         <motion.div
-          style={{ flex: "1 1 300px", display: "flex", justifyContent: "center", alignItems: "center" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 1.2 }}
+          style={{ display: "flex", gap: 36 }}
         >
-          <AnimatedPaw />
+          {[
+            { value: "3 500+", label: "Animaux soignés" },
+            { value: "4.8★", label: "Note Google" },
+            { value: "18 ans", label: "D'expertise" },
+          ].map((s) => (
+            <div key={s.label}>
+              <div style={{ fontWeight: 900, fontSize: 22, color: "#fff" }}>{s.value}</div>
+              <div style={{ fontSize: 13, color: "rgba(255,255,255,0.60)" }}>{s.label}</div>
+            </div>
+          ))}
         </motion.div>
-      </div>
+      </motion.div>
+
+      <motion.div
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 1.5, repeat: Infinity }}
+        style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 2 }}
+      >
+        <div style={{ width: 24, height: 36, border: "2px solid rgba(255,255,255,0.35)", borderRadius: 12, display: "flex", justifyContent: "center", paddingTop: 6 }}>
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            style={{ width: 6, height: 6, borderRadius: "50%", background: C.accent }}
+          />
+        </div>
+      </motion.div>
     </section>
   );
 }

@@ -44,7 +44,7 @@ export default function Home() {
       <section
         id="hero"
         ref={heroRef}
-        className="relative min-h-[90vh] flex flex-col justify-center items-center overflow-hidden pt-12 pb-20"
+        className="relative min-h-[115vh] flex flex-col justify-center items-center overflow-hidden pt-12 pb-20"
       >
         {/* Parallax BG */}
         <motion.div

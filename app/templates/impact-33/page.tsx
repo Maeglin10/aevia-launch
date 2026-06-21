@@ -11,60 +11,59 @@ import { C, FONT_HEADING, FONT_BODY, Marquee, CATEGORIES, TESTIMONIALS, FAQS } f
 function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const textY = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 160]);
+  const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   return (
     <section
       ref={ref}
-      style={{ minHeight: "calc(100vh - 72px)", position: "relative", overflow: "hidden", display: "flex", alignItems: "center", fontFamily: FONT_BODY }}
+      style={{ height: "115vh", minHeight: "900px", position: "relative", overflow: "hidden", display: "flex", alignItems: "flex-end", fontFamily: FONT_BODY }}
     >
-      <motion.div style={{ position: "absolute", inset: 0, zIndex: 0, background: `linear-gradient(160deg, ${C.bg} 0%, ${C.bgLight} 50%, ${C.cream} 100%)`, scale: bgScale }} />
-      <div style={{ position: "absolute", top: -80, right: -80, width: 500, height: 500, borderRadius: "50%", background: `radial-gradient(circle, ${C.accentLight} 0%, transparent 70%)`, opacity: 0.6, zIndex: 0 }} />
-      <div style={{ position: "absolute", bottom: -60, left: -60, width: 350, height: 350, borderRadius: "50%", background: `radial-gradient(circle, ${C.cream} 0%, transparent 70%)`, zIndex: 0 }} />
-      <motion.div
-        style={{ position: "absolute", right: "8%", top: "50%", transform: "translateY(-50%)", opacity: 0.12, zIndex: 0, userSelect: "none" }}
-        animate={{ rotate: [0, 3, 0, -3, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <TemplateIcon emoji="🥖" size={180} />
+      <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
+        <img
+          src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1920&q=80"
+          alt="Boulangerie artisanale La Fournée"
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
       </motion.div>
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(30,15,5,0.93) 0%, rgba(30,15,5,0.45) 45%, rgba(30,15,5,0.08) 100%)" }} />
+      <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}22 0%, transparent 55%)` }} />
 
-      <motion.div style={{ position: "relative", zIndex: 1, padding: "80px", maxWidth: 760, y: textY, opacity: textOpacity }}>
+      <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
         <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
-          style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.accentLight, border: `1px solid ${C.accent}`, borderRadius: 20, padding: "7px 16px", marginBottom: 28 }}
+          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
+          style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.25)", backdropFilter: "blur(8px)", borderRadius: 20, padding: "7px 16px", marginBottom: 28 }}
         >
-          <Leaf size={14} color={C.accent} />
-          <span style={{ color: C.accent, fontSize: 13, fontWeight: 700 }}>Artisan boulanger depuis 1987 · Paris 11e</span>
+          <Leaf size={14} color="#fff" />
+          <span style={{ color: "#fff", fontSize: 13, fontWeight: 700 }}>Artisan boulanger depuis 1987 · Paris 11e</span>
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-          style={{ fontFamily: FONT_HEADING, fontSize: "clamp(40px, 5vw, 72px)", fontWeight: 700, color: C.text, lineHeight: 1.08, letterSpacing: -1.5, marginBottom: 24 }}
+          initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.5 }}
+          style={{ fontFamily: FONT_HEADING, fontSize: "clamp(42px, 5vw, 72px)", fontWeight: 700, color: "#fff", lineHeight: 1.08, letterSpacing: -1.5, marginBottom: 24 }}
         >
           Le pain, l'art,{" "}
           <em style={{ color: C.accent, fontStyle: "italic" }}>la tradition</em>
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.22 }}
-          style={{ fontSize: 19, color: C.textMuted, lineHeight: 1.76, marginBottom: 40, maxWidth: 560 }}
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.75 }}
+          style={{ fontSize: 19, color: "rgba(255,255,255,0.80)", lineHeight: 1.76, marginBottom: 40, maxWidth: 560 }}
         >
           La Fournée, c'est l'amour du pain au levain, des viennoiseries pur beurre et des pâtisseries
           de saison. Tout est fait maison chaque jour dès 4h du matin dans notre fournil ouvert sur la rue.
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.32 }}
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }}
           style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 52 }}
         >
           <Link href="/templates/impact-33/reservation" style={{ textDecoration: "none" }}>
             <motion.button
               type="button"
-              style={{ background: C.accent, color: C.white, border: "none", borderRadius: 10, padding: "16px 34px", fontWeight: 700, fontSize: 17, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_BODY }}
-              whileHover={{ background: C.accentDark, scale: 1.04, y: -2 }}
+              style={{ background: C.accent, color: C.white, border: "none", borderRadius: 10, padding: "16px 34px", fontWeight: 700, fontSize: 17, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_BODY, boxShadow: `0 8px 32px ${C.accent}55` }}
+              whileHover={{ scale: 1.04, y: -2 }}
               whileTap={{ scale: 0.97 }}
             >
               <ShoppingBag size={19} /> Commander en ligne
@@ -73,8 +72,8 @@ function Hero() {
           <Link href="/templates/impact-33/boutique" style={{ textDecoration: "none" }}>
             <motion.button
               type="button"
-              style={{ background: "transparent", color: C.text, border: `2px solid ${C.border}`, borderRadius: 10, padding: "14px 28px", fontWeight: 600, fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_BODY }}
-              whileHover={{ borderColor: C.accent, color: C.accent }}
+              style={{ background: "rgba(255,255,255,0.12)", color: "#fff", border: "1px solid rgba(255,255,255,0.30)", borderRadius: 10, padding: "14px 28px", fontWeight: 600, fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_BODY, backdropFilter: "blur(8px)" }}
+              whileHover={{ background: "rgba(255,255,255,0.20)" }}
               whileTap={{ scale: 0.97 }}
             >
               Notre carte <ChevronRight size={18} />
@@ -82,14 +81,28 @@ function Hero() {
           </Link>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} style={{ display: "flex", gap: 36 }}>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }} style={{ display: "flex", gap: 36 }}>
           {[{ value: "37 ans", label: "De savoir-faire" }, { value: "4.9★", label: "Google Avis" }, { value: "100%", label: "Fait maison" }].map((s) => (
             <div key={s.label}>
               <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 24, color: C.accent }}>{s.value}</div>
-              <div style={{ fontSize: 13, color: C.textMuted }}>{s.label}</div>
+              <div style={{ fontSize: 13, color: "rgba(255,255,255,0.65)" }}>{s.label}</div>
             </div>
           ))}
         </motion.div>
+      </motion.div>
+
+      <motion.div
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 1.5, repeat: Infinity }}
+        style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 2 }}
+      >
+        <div style={{ width: 24, height: 36, border: "2px solid rgba(255,255,255,0.35)", borderRadius: 12, display: "flex", justifyContent: "center", paddingTop: 6 }}>
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            style={{ width: 6, height: 6, borderRadius: "50%", background: C.accent }}
+          />
+        </div>
       </motion.div>
     </section>
   );
