@@ -203,7 +203,7 @@ export default function HorizonYachtPage() {
             ].map((link) => (
               <Link
                 key={link}
-                href="#"
+                href="#fleet"
                 className="hover:text-[#c5a059] transition-colors cursor-pointer"
               >
                 {link}
@@ -249,7 +249,7 @@ export default function HorizonYachtPage() {
               {["Fleet", "Charter", "Brokerage", "Contact"].map((l) => (
                 <Link
                   key={l}
-                  href="#"
+                  href="#fleet"
                   onClick={() => setMenuOpen(false)}
                   className="hover:text-[#c5a059] transition-colors"
                 >

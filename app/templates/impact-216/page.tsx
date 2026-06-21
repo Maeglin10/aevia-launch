@@ -1628,7 +1628,7 @@ function Footer() {
               </p>
               <div style={{ display: 'flex', gap: 10 }}>
                 {['in', 'tw', 'fb', 'yt'].map((s) => (
-                  <a key={s} href="#" style={{
+                  <a key={s} href="#hero-glow" style={{
                     width: 34, height: 34, borderRadius: 8, background: C.bgCard,
                     border: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontFamily: C.fontDisplay, fontSize: 11, fontWeight: 700, color: C.textMuted,

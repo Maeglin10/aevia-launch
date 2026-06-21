@@ -247,7 +247,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
       >
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 flex items-center justify-between h-[72px]">
           {/* Logo */}
-          <Link href="#" className="flex items-center gap-3">
+          <Link href="#collections" className="flex items-center gap-3">
             <span
               className="text-[28px] tracking-[0.12em]"
               style={{
@@ -1600,7 +1600,7 @@ function Footer() {
               {[Phone, Mail].map((Icon, i) => (
                 <a
                   key={i}
-                  href="#"
+                  href="#collections"
                   className="w-9 h-9 flex items-center justify-center transition-all duration-300 hover:border-[#CA8A04]/60"
                   style={{ border: `1px solid ${C.goldBorder}` }}
                 >
@@ -1622,7 +1622,7 @@ function Footer() {
               {["Collections", "Bespoke", "Savoir-Faire", "Ateliers", "Presse", "Carrières"].map((item) => (
                 <li key={item}>
                   <Link
-                    href="#"
+                    href="#collections"
                     className="text-[12px] tracking-[0.06em] hover:opacity-100 transition-opacity"
                     style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: `${C.cream}60` }}
                   >
@@ -1645,7 +1645,7 @@ function Footer() {
               {["Rendez-vous privé", "Gravure personnalisée", "Entretien & restauration", "Expertise & estimations", "Livraison sécurisée"].map((item) => (
                 <li key={item}>
                   <Link
-                    href="#"
+                    href="#contact"
                     className="text-[12px] tracking-[0.06em] hover:opacity-100 transition-opacity"
                     style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: `${C.cream}60` }}
                   >

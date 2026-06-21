@@ -531,7 +531,7 @@ export default function UrbanPulsePage() {
           {NAV_LINKS.map((l) => (
             <a
               key={l}
-              href="#"
+              href="#n"
               style={{
                 color: C.muted,
                 textDecoration: "none",
@@ -636,7 +636,7 @@ export default function UrbanPulsePage() {
             {NAV_LINKS.map((l, i) => (
               <motion.a
                 key={l}
-                href="#"
+                href="#n"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.07 }}
@@ -2441,7 +2441,7 @@ export default function UrbanPulsePage() {
                   {col.links.map((link) => (
                     <a
                       key={link}
-                      href="#"
+                      href="#n"
                       style={{
                         fontSize: "0.82rem",
                         color: C.muted,

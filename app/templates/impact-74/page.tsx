@@ -167,7 +167,7 @@ export default function AeviaKitchenPage() {
           <span className="font-serif text-xl text-white tracking-wide italic">Aevia Kitchen</span>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["La carte", "Expériences", "Réserver", "Cave à vins", "À propos"].map(l => (
-              <Link key={l} href="#" className="hover:text-[#c9a855] transition-colors">{l}</Link>
+              <Link key={l} href="#menus" className="hover:text-[#c9a855] transition-colors">{l}</Link>
             ))}
           </div>
           <Link href="#reservation">

@@ -934,7 +934,7 @@ export default function SkylineConciergePage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#c9a96e] transition-colors"
                 >
                   Contact

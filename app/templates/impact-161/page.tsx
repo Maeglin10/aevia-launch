@@ -106,7 +106,7 @@ export default function EssentialSaaSPage() {
             {["Fonctionnalités", "Tarifs", "Docs", "Blog"].map(l => (
               <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#6366F1] transition-colors">{l}</Link>
             ))}
-            <Link href="#" className="text-[#6366F1]">Connexion</Link>
+            <Link href="#tarifs" className="text-[#6366F1]">Connexion</Link>
             <Link href="#tarifs" className="px-5 py-2.5 bg-[#6366F1] text-white rounded-xl font-semibold hover:bg-[#4F46E5] transition-colors cursor-pointer">
               Essai gratuit
             </Link>
@@ -164,7 +164,7 @@ export default function EssentialSaaSPage() {
             <Link href="#tarifs" className="flex items-center gap-2 px-8 py-4 bg-[#6366F1] text-white font-bold rounded-xl hover:bg-[#4F46E5] transition-colors cursor-pointer text-lg">
               Démarrer gratuitement <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link href="#" className="flex items-center gap-2 px-8 py-4 border border-slate-200 rounded-xl font-semibold hover:border-[#6366F1] transition-colors cursor-pointer">
+            <Link href="#tarifs" className="flex items-center gap-2 px-8 py-4 border border-slate-200 rounded-xl font-semibold hover:border-[#6366F1] transition-colors cursor-pointer">
               <Play className="w-4 h-4 text-[#6366F1]" /> Voir la démo (2 min)
             </Link>
           </div>
@@ -431,14 +431,14 @@ export default function EssentialSaaSPage() {
             {[["Produit", ["Fonctionnalités", "Tarifs", "Changelog", "Roadmap"]], ["Ressources", ["Docs", "API", "Blog", "Status"]], ["Société", ["À propos", "Carrières", "Contact"]]].map(([title, links]) => (
               <div key={title as string}>
                 <p className="text-white font-semibold text-sm mb-4">{title as string}</p>
-                {(links as string[]).map(l => <Link key={l} href="#" className="block text-sm hover:text-white mb-3 transition-colors cursor-pointer">{l}</Link>)}
+                {(links as string[]).map(l => <Link key={l} href="#tarifs" className="block text-sm hover:text-white mb-3 transition-colors cursor-pointer">{l}</Link>)}
               </div>
             ))}
           </div>
           <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between gap-4 text-xs">
             <span>© 2024 Flowbase · Tous droits réservés</span>
             <div className="flex gap-6">
-              {["Confidentialité", "CGU", "Cookies"].map(l => <Link key={l} href="#" className="hover:text-white transition-colors cursor-pointer">{l}</Link>)}
+              {["Confidentialité", "CGU", "Cookies"].map(l => <Link key={l} href="#fonctionnalités" className="hover:text-white transition-colors cursor-pointer">{l}</Link>)}
             </div>
           </div>
         </div>

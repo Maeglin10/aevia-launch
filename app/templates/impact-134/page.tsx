@@ -428,7 +428,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
       >
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 flex items-center justify-between h-[72px]">
           {/* Logo */}
-          <Link href="#" className="flex items-center gap-2">
+          <Link href="#collections" className="flex items-center gap-2">
             <Sparkles size={18} color={C.primary} />
             <span
               className="text-[26px] tracking-[0.06em]"
@@ -1747,7 +1747,7 @@ function Footer() {
               {[Mail, Phone].map((Icon, i) => (
                 <a
                   key={i}
-                  href="#"
+                  href="#collections"
                   className="w-9 h-9 flex items-center justify-center rounded-full transition-all duration-300 hover:border-[#EC4899]/50"
                   style={{ border: `1px solid ${C.primaryBorder}` }}
                 >
@@ -1769,7 +1769,7 @@ function Footer() {
               {["Sérum Éclat", "Crème Nuit", "Huile Précieuse", "Tonique Floral", "Masque Argile", "Contour Yeux"].map((item) => (
                 <li key={item}>
                   <Link
-                    href="#"
+                    href="#collections"
                     className="text-[12px] hover:opacity-100 transition-opacity"
                     style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.55)" }}
                   >
@@ -1792,7 +1792,7 @@ function Footer() {
               {["Mon compte", "Suivre ma commande", "Retours & remboursements", "FAQ beauté", "Nous contacter", "Programme fidélité"].map((item) => (
                 <li key={item}>
                   <Link
-                    href="#"
+                    href="#collections"
                     className="text-[12px] hover:opacity-100 transition-opacity"
                     style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.55)" }}
                   >
@@ -1818,7 +1818,7 @@ function Footer() {
             {["Mentions légales", "Confidentialité", "CGV"].map((item) => (
               <Link
                 key={item}
-                href="#"
+                href="#sets"
                 className="text-[10px] tracking-[0.10em] uppercase hover:opacity-80 transition-opacity"
                 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "rgba(255,255,255,0.35)" }}
               >

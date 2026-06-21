@@ -283,7 +283,7 @@ export default function FolioStudioPage() {
 
             {MANIFEST.projects.map((project, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <Link href="#" 
+                <Link href="#work" 
                   onMouseEnter={() => setHoveredProject(i)}
                   onMouseLeave={() => setHoveredProject(null)}
                   className="group block border-b border-zinc-200 py-12 md:py-16 hover:px-8 transition-all duration-500 relative overflow-hidden"

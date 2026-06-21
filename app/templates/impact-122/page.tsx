@@ -157,7 +157,7 @@ export default function ChronicleEditorialPage() {
               <SheetContent side="left" className="bg-[#1a1814] text-[#fcfaf7] border-r-0 p-12 w-full sm:w-[400px]">
                 <div className="mt-12 flex flex-col gap-8">
                   {["Politics", "Culture", "Science", "Environment", "Essays", "Archive"].map(link => (
-                    <Link key={link} href="#" className="text-4xl font-serif italic hover:text-[#d64000] transition-colors">
+                    <Link key={link} href="#subscribe" className="text-4xl font-serif italic hover:text-[#d64000] transition-colors">
                       {link}
                     </Link>
                   ))}
@@ -305,7 +305,7 @@ export default function ChronicleEditorialPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
               {MANIFEST.featured.map((story, i) => (
                 <Reveal key={story.id} delay={i * 0.1}>
-                  <Link href="#" className="group flex flex-col h-full">
+                  <Link href="#subscribe" className="group flex flex-col h-full">
                     <div className="relative w-full aspect-[4/3] bg-[#e5e3de] mb-6 overflow-hidden">
                       <Image src={story.img} alt={story.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                     </div>
@@ -340,7 +340,7 @@ export default function ChronicleEditorialPage() {
                 </p>
                 <div className="flex flex-col border-t border-[#1a1814]/10">
                   {MANIFEST.essays.map((essay, i) => (
-                    <Link key={i} href="#" className="group flex items-center justify-between py-6 border-b border-[#1a1814]/10 hover:bg-[#f2efe9] transition-colors -mx-6 px-6">
+                    <Link key={i} href="#subscribe" className="group flex items-center justify-between py-6 border-b border-[#1a1814]/10 hover:bg-[#f2efe9] transition-colors -mx-6 px-6">
                       <div>
                         <h4 className="text-xl font-serif mb-2 group-hover:text-[#d64000] transition-colors">{essay.title}</h4>
                         <div className="text-[10px] font-bold uppercase tracking-widest text-[#1a1814]/50">By {essay.author}</div>
@@ -484,7 +484,7 @@ export default function ChronicleEditorialPage() {
             </p>
             <div className="flex gap-4">
               {['MessageSquare', 'Users2', 'Camera', 'LinkedIn'].map(social => (
-                <Link key={social} href="#" className="w-10 h-10 border border-[#fcfaf7]/20 rounded-full flex items-center justify-center hover:bg-[#d64000] hover:text-white hover:border-[#d64000] transition-colors text-xs font-bold uppercase">
+                <Link key={social} href="#subscribe" className="w-10 h-10 border border-[#fcfaf7]/20 rounded-full flex items-center justify-center hover:bg-[#d64000] hover:text-white hover:border-[#d64000] transition-colors text-xs font-bold uppercase">
                   {social.charAt(0)}
                 </Link>
               ))}
@@ -495,7 +495,7 @@ export default function ChronicleEditorialPage() {
             <h4 className="text-[#fcfaf7] text-xs font-bold uppercase tracking-widest mb-6">Sections</h4>
             <ul className="space-y-4 text-sm font-serif">
               {["Politics", "Business", "Science", "Culture", "Essays", "Opinion"].map(link => (
-                <li key={link}><Link href="#" className="hover:text-[#d64000] transition-colors">{link}</Link></li>
+                <li key={link}><Link href="#subscribe" className="hover:text-[#d64000] transition-colors">{link}</Link></li>
               ))}
             </ul>
           </div>
@@ -504,7 +504,7 @@ export default function ChronicleEditorialPage() {
             <h4 className="text-[#fcfaf7] text-xs font-bold uppercase tracking-widest mb-6">Company</h4>
             <ul className="space-y-4 text-sm font-serif">
               {["About Us", "Careers", "Ethics Policy", "Contact", "Advertise", "Press"].map(link => (
-                <li key={link}><Link href="#" className="hover:text-white transition-colors">{link}</Link></li>
+                <li key={link}><Link href="#subscribe" className="hover:text-white transition-colors">{link}</Link></li>
               ))}
             </ul>
           </div>
@@ -513,7 +513,7 @@ export default function ChronicleEditorialPage() {
             <h4 className="text-[#fcfaf7] text-xs font-bold uppercase tracking-widest mb-6">Account</h4>
             <ul className="space-y-4 text-sm font-serif">
               {["Manage Subscription", "Gift a Subscription", "Help Center", "Newsletters", "Apps"].map(link => (
-                <li key={link}><Link href="#" className="hover:text-white transition-colors">{link}</Link></li>
+                <li key={link}><Link href="#subscribe" className="hover:text-white transition-colors">{link}</Link></li>
               ))}
             </ul>
           </div>

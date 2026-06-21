@@ -698,7 +698,7 @@ export default function NovaPlatformSaaS() {
             <p className="text-sm text-zinc-500 leading-relaxed max-w-xs mb-5">The all-in-one platform for modern engineering teams. Build, deploy, and scale without limits.</p>
             <div className="flex gap-3">
               {[<Globe key="tw" className="w-4 h-4" />, <Globe key="gh" className="w-4 h-4" />, <Globe key="sl" className="w-4 h-4" />, <Globe key="li" className="w-4 h-4" />].map((icon, i) => (
-                <a key={i} href="#" className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-zinc-500 hover:text-violet-400 hover:border-violet-500/40 transition-all duration-200 cursor-pointer">
+                <a key={i} href="#features" className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-zinc-500 hover:text-violet-400 hover:border-violet-500/40 transition-all duration-200 cursor-pointer">
                   {icon}
                 </a>
               ))}
@@ -713,7 +713,7 @@ export default function NovaPlatformSaaS() {
               <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-5">{col.title}</h4>
               <ul className="space-y-3">
                 {col.items.map(item => (
-                  <li key={item}><a href="#" className="text-sm text-zinc-400 hover:text-white transition-all duration-200 cursor-pointer">{item}</a></li>
+                  <li key={item}><a href="#features" className="text-sm text-zinc-400 hover:text-white transition-all duration-200 cursor-pointer">{item}</a></li>
                 ))}
               </ul>
             </div>
@@ -724,7 +724,7 @@ export default function NovaPlatformSaaS() {
           <span className="text-xs text-zinc-600">&copy; 2026 NovaPlatform, Inc. All rights reserved.</span>
           <div className="flex gap-6">
             {["Privacy", "Terms", "Security", "GDPR"].map(s => (
-              <a key={s} href="#" className="text-xs text-zinc-600 hover:text-white transition-all duration-200 cursor-pointer">{s}</a>
+              <a key={s} href="#features" className="text-xs text-zinc-600 hover:text-white transition-all duration-200 cursor-pointer">{s}</a>
             ))}
           </div>
         </div>

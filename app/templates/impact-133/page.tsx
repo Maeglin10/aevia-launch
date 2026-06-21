@@ -2044,7 +2044,7 @@ function ContactFooter() {
                 {col.links.map((link) => (
                   <li key={link} style={{ marginBottom: 12 }}>
                     <motion.a
-                      href="#"
+                      href="#pgFade"
                       whileHover={{ color: C.cream, x: 3 }}
                       style={{
                         fontFamily: C.fontSans,
@@ -2087,7 +2087,7 @@ function ContactFooter() {
             {["Privacy", "Terms", "Accessibility"].map((item) => (
               <motion.a
                 key={item}
-                href="#"
+                href="#pgFade"
                 whileHover={{ color: C.cream }}
                 style={{ color: C.muted, textDecoration: "none" }}
               >

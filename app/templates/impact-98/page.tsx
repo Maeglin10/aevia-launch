@@ -190,7 +190,7 @@ export default function ZenithWatchesPage() {
             ].map((link) => (
               <Link
                 key={link}
-                href="#"
+                href="#collections"
                 className="hover:text-[#d4af37] transition-colors cursor-pointer"
               >
                 {link}
@@ -237,7 +237,7 @@ export default function ZenithWatchesPage() {
                 (l) => (
                   <Link
                     key={l}
-                    href="#"
+                    href="#collections"
                     onClick={() => setMenuOpen(false)}
                     className="hover:text-[#d4af37] hover:translate-x-4 transition-all"
                   >
