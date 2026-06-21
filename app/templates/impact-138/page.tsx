@@ -1,344 +1,275 @@
-// @ts-nocheck
 "use client"
-import { motion, useScroll, useTransform, useInView } from "framer-motion"
-import { useRef, useState, useEffect } from "react"
-import Link from "next/link"
-import { BarChart3, ArrowRight, Menu, TrendingUp, Users, Globe, Shield, Zap, PieChart, Activity, Database, ChevronRight } from "lucide-react"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
+import React, { useRef, useState } from "react"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { Eye, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight } from "lucide-react"
+
+const C = {
+  bg: "#f0f7ff",
+  bgSection: "#e4f0fc",
+  text: "#0b2240",
+  textMuted: "#486887",
+  accent: "#0f3460",
+  accentDark: "#091f3d",
+  accentLight: "#cce5ff",
+  cyan: "#0ea5e9",
+  cyanLight: "#e0f4fe",
+  white: "#ffffff",
+  border: "#bfdbf7",
+  shadow: "0 2px 12px rgba(15,52,96,0.08)",
+  shadowLg: "0 16px 48px rgba(15,52,96,0.16)",
+}
+const FONT = "'Nunito', system-ui, sans-serif"
+
+const STATS = [
+  { value: "20 ans", label: "D'expertise optique" },
+  { value: "3 500+", label: "Clients équipés" },
+  { value: "4.8★", label: "Avis Google" },
+  { value: "1h", label: "Examen de vue complet" },
+]
+
+const OFFRES = [
+  { titre: "Lunettes de vue", desc: "Plus de 400 montures sélectionnées : grandes marques (Ray-Ban, Lindberg, Persol) et créateurs indépendants. Verres haute définition, anti-lumière bleue, amincis.", tag: "Vue" },
+  { titre: "Lentilles de contact", desc: "Journalières, mensuelles, toriques, multifocales. Adaptation par nos opticiens diplômés avec suivi à 1 mois. Commande en ligne disponible.", tag: "Lentilles" },
+  { titre: "Examen de vue", desc: "Bilan visuel complet avec équipements de pointe (topographe, fond d'œil). Résultats immédiats et prescription remise en main propre.", tag: "Bilan" },
+  { titre: "Lunettes solaires", desc: "Du classique au sport, avec verres polarisants, teintés ou photochromiques. Protection UV 400 certifiée sur toutes nos montures.", tag: "Solaire" },
+  { titre: "Basse vision", desc: "Matériel spécialisé pour patients malvoyants : loupes électroniques, systèmes d'agrandissement, filtres chromiques. Prise en charge 100% Sécu.", tag: "Santé" },
+  { titre: "Réparations express", desc: "Remplacement de vis, ressoudage, changement de plaquettes — réparations en 15 minutes en boutique pour la plupart des marques.", tag: "SAV" },
+]
+
+const ENGAGEMENTS = [
+  "Opticiens diplômés DSCVO sur tous nos créneaux",
+  "Tiers-payant intégral avec toutes les mutuelles",
+  "Délai de commande lunettes : 5 à 7 jours ouvrés",
+  "Garantie 2 ans sur montures et verres",
+]
+
+const AVIS = [
+  { texte: "Examen de vue très complet avec des explications claires. J'avais peur de devoir attendre longtemps pour mes lunettes, elles étaient prêtes en 5 jours. Qualité irréprochable.", auteur: "Nicolas P.", detail: "Lunettes progressives" },
+  { texte: "Enfin un opticien qui prend le temps ! 45 minutes de bilan, conseils vraiment personnalisés pour mes lentilles. Et le tiers payant fonctionne parfaitement avec ma mutuelle.", auteur: "Hélène T.", detail: "Adaptation lentilles" },
+  { texte: "Mon fils de 8 ans avait besoin de ses premières lunettes. L'accueil a été parfait, il est reparti avec des montures qui lui font vraiment envie de les porter. Merci !", auteur: "Famille Bertrand", detail: "Optique enfant" },
+]
+
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  const inView = useInView(ref, { once: true, margin: "-60px" })
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}>
+    <motion.div ref={ref} initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-const METRICS = [
-  { label: "Active Users", value: "2.4M", change: "+12.3%", color: "#8b5cf6" },
-  { label: "Revenue", value: "$847K", change: "+8.7%", color: "#06b6d4" },
-  { label: "Conversion", value: "4.2%", change: "+1.1%", color: "#f59e0b" },
-  { label: "Retention", value: "92%", change: "+3.2%", color: "#10b981" },
-]
-
-const FEATURES = [
-  { icon: PieChart, title: "Real-Time Dashboards", desc: "Live metrics with sub-second latency. No more waiting for yesterday's data." },
-  { icon: Database, title: "Data Lakehouse", desc: "Unified analytics across structured and unstructured data sources." },
-  { icon: Shield, title: "SOC 2 Compliant", desc: "Enterprise-grade security with role-based access and audit trails." },
-  { icon: Zap, title: "AI-Powered Insights", desc: "Anomaly detection and predictive forecasting built into every chart." },
-  { icon: Globe, title: "Multi-Region", desc: "Data residency controls for GDPR, CCPA, and regional compliance." },
-  { icon: Activity, title: "Custom Events", desc: "Track any user action with our SDK. 200+ integrations out of the box." },
-]
-
-const PLANS = [
-  { name: "Startup", price: "$49", desc: "For teams getting started with analytics.", features: ["10K MAU", "5 Dashboards", "7-day retention", "Email support"] },
-  { name: "Growth", price: "$199", desc: "For scaling teams that need real-time insights.", features: ["100K MAU", "Unlimited Dashboards", "90-day retention", "Priority support", "AI Insights"], popular: true },
-  { name: "Enterprise", price: "Custom", desc: "For organizations with complex data needs.", features: ["Unlimited MAU", "Data Lakehouse", "Unlimited retention", "Dedicated CSM", "SSO/SAML", "SLA 99.99%"] },
-]
-
-export default function PrismAnalyticsPage() {
+export default function VisionClairePage() {
+  const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 170])
+  const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -65])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0])
 
-  useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 60)
+  React.useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 50)
     window.addEventListener("scroll", h)
     return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
-    <div className="bg-[#0a0a12] text-white font-sans min-h-screen selection:bg-violet-500 selection:text-white overflow-x-hidden">
+    <div style={{ background: C.bg, fontFamily: FONT, overflowX: "hidden" }}>
+      <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap');`}</style>
 
-      {/* ── NAVBAR ──────────────────────── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0a0a12]/90 backdrop-blur-xl border-b border-violet-500/10 py-4" : "bg-transparent py-8"}`}>
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
-              <BarChart3 className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-xl font-black tracking-tight">Prism</span>
-          </Link>
-          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
-            {["Product", "Pricing", "Docs", "Blog"].map(l => (
-              <Link key={l} href="#" className="hover:text-violet-400 transition-colors">{l}</Link>
-            ))}
+      {/* Navbar */}
+      <motion.nav style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72,
+        display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px",
+        background: scrolled ? "rgba(240,247,255,0.97)" : "transparent",
+        backdropFilter: scrolled ? "blur(12px)" : "none",
+        borderBottom: scrolled ? `1px solid ${C.border}` : "none",
+        transition: "all 0.4s ease",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ background: C.cyan, borderRadius: 8, padding: "7px 9px", display: "flex" }}>
+            <Eye size={18} color="#fff" />
           </div>
-          <div className="flex items-center gap-4">
-            <button className="hidden md:block px-6 py-2.5 text-white/60 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Log In</button>
-            <button className="hidden md:block px-6 py-2.5 bg-gradient-to-r from-violet-500 to-cyan-500 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:opacity-90 transition-opacity">Start Free</button>
-            <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
-              <SheetContent side="right" className="bg-[#0a0a12] border-violet-500/10 p-12">
-                <div className="flex flex-col gap-8 mt-16">
-                  {["Product", "Pricing", "Docs", "Log In"].map(l => (
-                    <Link key={l} href="#" className="text-2xl font-light uppercase tracking-widest hover:text-violet-400 transition-colors">{l}</Link>
-                  ))}
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
+          <span style={{ fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>Vision<span style={{ color: C.cyan }}>Claire</span></span>
         </div>
-      </nav>
+        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+          {["Offres", "Bilan visuel", "Lentilles", "Contact"].map(l => (
+            <a key={l} href={`#${l.toLowerCase().replace(" ", "-")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>{l}</a>
+          ))}
+          <motion.a href="tel:+33240000001" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>
+            Prendre RDV
+          </motion.a>
+        </div>
+      </motion.nav>
 
-      <main>
-        {/* ── HERO ──────────────────────── */}
-        <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
-          <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-br from-violet-500/10 to-cyan-500/10 blur-[200px] rounded-full" />
+      {/* Hero */}
+      <section ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+        <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
+          <img src="https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=1920&q=80" alt="Opticien Vision Claire Nantes" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        </motion.div>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(5,18,40,0.92) 0%, rgba(5,18,40,0.42) 45%, rgba(5,18,40,0.08) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}20 0%, transparent 55%)` }} />
+
+        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(14,165,233,0.15)", border: "1px solid rgba(14,165,233,0.35)", borderRadius: 20, padding: "7px 18px" }}>
+            <Eye size={12} color={C.cyan} />
+            <span style={{ color: C.cyan, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Opticien diplômé · Nantes</span>
+          </motion.div>
+
+          <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
+            style={{ fontSize: "clamp(40px, 5.5vw, 70px)", fontWeight: 900, color: "#fff", lineHeight: 1.05, marginBottom: 24 }}>
+            Bien voir le monde,<br /><span style={{ color: C.cyan }}>avec style.</span>
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>
+            Opticien indépendant à Nantes depuis 20 ans. Lunettes, lentilles, examens de vue complets — tiers-payant toutes mutuelles, conseils personnalisés, délais rapides.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+            <motion.a href="tel:+33240000001" style={{ background: C.cyan, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.cyan}44` }} whileHover={{ scale: 1.03 }}>
+              Prendre rendez-vous
+            </motion.a>
+            <motion.a href="#offres" style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)" }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
+              Nos offres
+            </motion.a>
+          </motion.div>
+        </motion.div>
+
+        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }}
+          style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 2 }}>
+          <div style={{ width: 24, height: 36, border: "2px solid rgba(255,255,255,0.35)", borderRadius: 12, display: "flex", justifyContent: "center", paddingTop: 6 }}>
+            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }} style={{ width: 6, height: 6, borderRadius: "50%", background: C.cyan }} />
           </div>
+        </motion.div>
+      </section>
 
-          <div className="relative z-10 max-w-[1200px] mx-auto px-6 md:px-12 w-full text-center">
-            <Reveal>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-violet-500/20 bg-violet-500/10 text-violet-400 text-[10px] font-bold uppercase tracking-widest mb-8">
-                <TrendingUp className="w-3 h-3" /> Now with AI-Powered Anomaly Detection
+      {/* Stats */}
+      <section style={{ background: C.accent, padding: "0 80px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: 1100, margin: "0 auto" }}>
+          {STATS.map((s, i) => (
+            <Reveal key={s.label} delay={i * 0.08}>
+              <div style={{ padding: "30px 0", textAlign: "center", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.12)" : "none" }}>
+                <div style={{ fontSize: 36, fontWeight: 800, color: C.cyan, lineHeight: 1 }}>{s.value}</div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", marginTop: 6 }}>{s.label}</div>
               </div>
             </Reveal>
-            <Reveal delay={0.1} y={60}>
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9] mb-8">
-                Analytics That<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-cyan-300 to-violet-500">See Everything.</span>
-              </h1>
-            </Reveal>
-            <Reveal delay={0.2}>
-              <p className="text-xl text-white/40 font-light max-w-lg mx-auto leading-relaxed mb-10">
-                Real-time product analytics with AI-powered insights. Understand your users in milliseconds, not days.
-              </p>
-            </Reveal>
-            <Reveal delay={0.3}>
-              <div className="flex flex-wrap gap-4 justify-center">
-                <button className="px-10 py-4 bg-white text-black font-bold rounded-full hover:bg-gradient-to-r hover:from-violet-500 hover:to-cyan-500 hover:text-white transition-all duration-500">
-                  Start Free Trial
-                </button>
-                <button className="px-10 py-4 border border-white/10 text-white/60 font-bold rounded-full hover:border-violet-500/50 transition-all flex items-center gap-2">
-                  Watch Demo <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </Reveal>
-
-            {/* Dashboard Preview */}
-            <Reveal delay={0.4} y={30}>
-              <div className="mt-20 p-6 bg-white/[0.03] border border-white/5 rounded-2xl backdrop-blur-sm">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {METRICS.map((m, i) => (
-                    <div key={i} className="p-4 bg-white/[0.03] border border-white/5 rounded-xl text-left">
-                      <div className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-2">{m.label}</div>
-                      <div className="text-2xl font-black mb-1">{m.value}</div>
-                      <div className="text-xs font-bold" style={{ color: m.color }}>{m.change}</div>
-                      <div className="mt-3 h-8 flex items-end gap-[2px]">
-                        {Array.from({ length: 12 }).map((_, j) => (
-                          <motion.div
-                            key={j}
-                            className="flex-1 rounded-sm"
-                            style={{ background: m.color }}
-                            initial={{ height: "20%" }}
-                            animate={{ height: `${30 + Math.random() * 70}%` }}
-                            transition={{ duration: 2, delay: j * 0.1, repeat: Infinity, repeatType: "reverse" }}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ── FEATURES ──────────────────── */}
-        <section className="py-32 bg-[#0d0d18]">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-            <Reveal>
-              <div className="text-center mb-24">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-violet-400 block mb-4">Platform</span>
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Everything You <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400">Need.</span></h2>
-              </div>
-            </Reveal>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {FEATURES.map((f, i) => (
-                <Reveal key={i} delay={i * 0.08}>
-                  <div className="group p-8 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-violet-500/30 transition-all duration-500 cursor-default h-full">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500/20 to-cyan-500/20 border border-violet-500/20 flex items-center justify-center mb-6 group-hover:from-violet-500 group-hover:to-cyan-500 group-hover:border-transparent transition-all duration-500">
-                      <f.icon className="w-5 h-5 text-violet-400 group-hover:text-white transition-colors" />
-                    </div>
-                    <h3 className="text-lg font-bold mb-3">{f.title}</h3>
-                    <p className="text-sm text-white/40 leading-relaxed">{f.desc}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── PRICING ──────────────────── */}
-        <section className="py-32 bg-[#0a0a12]">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-            <Reveal>
-              <div className="text-center mb-24">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-violet-400 block mb-4">Pricing</span>
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Simple, <span className="text-violet-400">Transparent.</span></h2>
-              </div>
-            </Reveal>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {PLANS.map((p, i) => (
-                <Reveal key={i} delay={i * 0.1}>
-                  <div className={`p-8 rounded-2xl border h-full flex flex-col ${p.popular ? "bg-gradient-to-b from-violet-500/10 to-cyan-500/5 border-violet-500/30 relative" : "bg-white/[0.02] border-white/5"}`}>
-                    {p.popular && <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-1 bg-gradient-to-r from-violet-500 to-cyan-500 text-[10px] font-bold uppercase tracking-widest rounded-full">Most Popular</div>}
-                    <div className="mb-8">
-                      <h3 className="text-xl font-bold mb-2">{p.name}</h3>
-                      <div className="text-4xl font-black mb-2">{p.price}<span className="text-lg text-white/30 font-normal">{p.price !== "Custom" ? "/mo" : ""}</span></div>
-                      <p className="text-sm text-white/40">{p.desc}</p>
-                    </div>
-                    <ul className="space-y-3 flex-1 mb-8">
-                      {p.features.map((f, j) => (
-                        <li key={j} className="flex items-center gap-2 text-sm text-white/60">
-                          <div className="w-1.5 h-1.5 rounded-full bg-violet-400" /> {f}
-                        </li>
-                      ))}
-                    </ul>
-                    <button className={`w-full py-4 font-bold rounded-full transition-all duration-500 ${p.popular ? "bg-white text-black hover:bg-violet-500 hover:text-white" : "bg-white/5 text-white hover:bg-white/10"}`}>
-                      {p.price === "Custom" ? "Contact Sales" : "Start Free Trial"}
-                    </button>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── TESTIMONIALS ──────────────── */}
-        <section className="py-32 bg-[#0d0d18] border-t border-white/5">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-            <Reveal>
-              <div className="text-center mb-24">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-violet-400 block mb-4">Social Proof</span>
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Loved by <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400">Teams.</span></h2>
-              </div>
-            </Reveal>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                { quote: "We replaced five separate tools with Velo. Our data team got three hours of their day back. That's real money.", name: "L. Fischer", role: "Head of Data, Berlin FinTech", avatar: "LF" },
-                { quote: "The real-time segmentation alone paid for a year's subscription in the first campaign. The ROI math is embarrassingly one-sided.", name: "P. Nguyen", role: "CMO, Singapore E-commerce", avatar: "PN" },
-                { quote: "I was skeptical. Enterprise analytics usually means six months of implementation. We were in production in eight days.", name: "K. Osei", role: "VP Engineering, London SaaS", avatar: "KO" },
-              ].map((t, i) => (
-                <Reveal key={i} delay={i * 0.1}>
-                  <div className="group p-8 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-violet-500/20 transition-all duration-500 flex flex-col gap-6 h-full">
-                    <div className="flex gap-1">
-                      {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-violet-400 text-violet-400" />)}
-                    </div>
-                    <p className="text-sm text-white/50 leading-relaxed italic flex-1">&ldquo;{t.quote}&rdquo;</p>
-                    <div className="flex items-center gap-4 border-t border-white/5 pt-6">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-[10px] font-black text-black">{t.avatar}</div>
-                      <div>
-                        <div className="text-sm font-bold text-white">{t.name}</div>
-                        <div className="text-xs text-white/30">{t.role}</div>
-                      </div>
-                    </div>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-            <Reveal delay={0.2}>
-              <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5">
-                {[{ v: "3,400+", l: "Companies" }, { v: "99.9%", l: "Uptime SLA" }, { v: "12min", l: "Avg. onboarding" }, { v: "4.9★", l: "G2 Rating" }].map(s => (
-                  <div key={s.l} className="bg-[#0d0d18] p-8 text-center">
-                    <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400 mb-1">{s.v}</div>
-                    <div className="text-[9px] font-bold uppercase tracking-widest text-white/20">{s.l}</div>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ── INTEGRATIONS ──────────────── */}
-        <section className="py-32 bg-[#0a0a12] border-t border-white/5">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-            <Reveal>
-              <div className="text-center mb-16">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-400 block mb-4">Ecosystem</span>
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Works with <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400">Everything.</span></h2>
-              </div>
-            </Reveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                { name: "Snowflake", cat: "Data Warehouse", color: "border-sky-500/20 text-sky-400" },
-                { name: "BigQuery", cat: "Analytics DB", color: "border-blue-500/20 text-blue-400" },
-                { name: "Salesforce", cat: "CRM", color: "border-cyan-500/20 text-cyan-400" },
-                { name: "Segment", cat: "CDP", color: "border-violet-500/20 text-violet-400" },
-                { name: "Fivetran", cat: "ETL Pipeline", color: "border-purple-500/20 text-purple-400" },
-                { name: "dbt", cat: "Transformation", color: "border-pink-500/20 text-pink-400" },
-                { name: "Looker", cat: "BI Layer", color: "border-green-500/20 text-green-400" },
-                { name: "Stripe", cat: "Revenue Data", color: "border-white/10 text-white/40" },
-              ].map((intg, i) => (
-                <Reveal key={intg.name} delay={i * 0.05}>
-                  <div className={`p-6 rounded-xl border ${intg.color} bg-white/[0.02] hover:bg-white/[0.04] transition-colors cursor-default`}>
-                    <div className="text-[9px] font-bold uppercase tracking-widest mb-1 text-white/30">{intg.cat}</div>
-                    <div className="text-sm font-bold text-white">{intg.name}</div>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-            <Reveal delay={0.3}>
-              <div className="mt-8 p-6 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between gap-8">
-                <div>
-                  <div className="text-sm font-black text-white mb-1">Custom Connector SDK</div>
-                  <p className="text-xs text-white/30">Any REST, GraphQL, or webhook source. Average integration: 45 minutes.</p>
-                </div>
-                <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400 shrink-0">240+<span className="text-xs font-bold text-white/20 ml-2">connectors</span></div>
-              </div>
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ── CTA ─────────────────────── */}
-        <section className="py-32 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-violet-600/10 via-transparent to-cyan-600/10" />
-          <div className="relative z-10 max-w-[700px] mx-auto px-6 text-center">
-            <Reveal>
-              <h2 className="text-5xl md:text-6xl font-black tracking-tighter mb-6">
-                See Your Data<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400">Differently.</span>
-              </h2>
-              <p className="text-lg text-white/40 font-light max-w-md mx-auto mb-10">
-                14-day free trial. No credit card required. Set up in 5 minutes.
-              </p>
-              <button className="px-12 py-5 bg-gradient-to-r from-violet-500 to-cyan-500 text-white font-bold rounded-full hover:opacity-90 transition-opacity">
-                Get Started Free
-              </button>
-            </Reveal>
-          </div>
-        </section>
-      </main>
-
-      {/* ── FOOTER ──────────────────────── */}
-      <footer className="bg-[#050508] pt-24 pb-12 px-6">
-        <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
-          <div>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
-                <BarChart3 className="w-4 h-4 text-white" />
-              </div>
-              <span className="font-black tracking-tight">Prism</span>
-            </div>
-            <p className="text-sm text-white/30 leading-relaxed">Real-time product analytics for modern teams.</p>
-          </div>
-          {[
-            { title: "Product", links: ["Features", "Pricing", "Integrations", "API"] },
-            { title: "Resources", links: ["Docs", "Blog", "Changelog", "Status"] },
-            { title: "Company", links: ["About", "Careers", "Security", "Contact"] },
-          ].map((col, i) => (
-            <div key={i}>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-violet-400 mb-6">{col.title}</h4>
-              <ul className="space-y-3 text-sm text-white/30">
-                {col.links.map(l => <li key={l}><Link href="#" className="hover:text-white transition-colors">{l}</Link></li>)}
-              </ul>
-            </div>
           ))}
         </div>
-        <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
-          <span>© 2026 PRISM ANALYTICS.</span>
-          <span>SOC 2 TYPE II CERTIFIED</span>
+      </section>
+
+      {/* Offres */}
+      <section id="offres" style={{ padding: "110px 80px", background: C.bg }}>
+        <Reveal>
+          <div style={{ marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.cyan }}>Nos offres</span>
+            <h2 style={{ fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 800, color: C.text, marginTop: 10, lineHeight: 1.1 }}>
+              Tout pour votre confort visuel,<br />sous un même toit.
+            </h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
+          {OFFRES.map((o, i) => (
+            <Reveal key={o.titre} delay={i * 0.07}>
+              <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.white, borderRadius: 14, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
+                <span style={{ background: C.cyanLight, color: "#0369a1", borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{o.tag}</span>
+                <h3 style={{ fontSize: 17, fontWeight: 700, color: C.text, margin: "14px 0 10px" }}>{o.titre}</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{o.desc}</p>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* Engagements */}
+      <section style={{ padding: "100px 80px", background: C.bgSection }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+          <Reveal>
+            <img src="https://images.unsplash.com/photo-1516826957135-700dedea698c?w=800&q=80" alt="Opticien conseil lunettes" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
+          </Reveal>
+          <Reveal delay={0.15}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.cyan }}>Nos engagements</span>
+            <h2 style={{ fontSize: "clamp(26px, 3vw, 44px)", fontWeight: 800, color: C.text, margin: "12px 0 28px", lineHeight: 1.15 }}>
+              Un opticien indépendant<br />qui prend son temps.
+            </h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {ENGAGEMENTS.map((e, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                  <CheckCircle size={18} color={C.cyan} style={{ flexShrink: 0, marginTop: 1 }} />
+                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{e}</span>
+                </div>
+              ))}
+            </div>
+            <motion.a href="tel:+33240000001" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.accent, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
+              Prendre rendez-vous <ArrowRight size={16} />
+            </motion.a>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Avis */}
+      <section style={{ padding: "100px 80px", background: C.accent }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.cyan }}>Avis patients</span>
+            <h2 style={{ fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 800, color: "#fff", marginTop: 10 }}>Ils voient <span style={{ color: C.cyan }}>la différence</span>.</h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}>
+          {AVIS.map((a, i) => (
+            <Reveal key={a.auteur} delay={i * 0.1}>
+              <div style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 14, padding: "28px 24px" }}>
+                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.cyan} color={C.cyan} />)}</div>
+                <p style={{ fontSize: 14, color: "rgba(255,255,255,0.80)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
+                <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 14 }}>
+                  <div style={{ fontWeight: 700, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
+                  <div style={{ color: C.cyan, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section id="contact" style={{ padding: "100px 80px", background: C.cyanLight, textAlign: "center" }}>
+        <Reveal>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: "#0369a1" }}>Prise en charge</span>
+          <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 800, color: C.text, margin: "14px 0 16px" }}>Prêt à mieux voir ?</h2>
+          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>
+            Réservez votre examen de vue ou venez découvrir nos montures. Tiers-payant intégral, accueil sans rendez-vous possible du mardi au samedi.
+          </p>
+          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+            <motion.a href="tel:+33240000001" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> 02 40 00 00 01
+            </motion.a>
+            <motion.a href="mailto:contact@visionclaire.fr" style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
+              <Mail size={18} /> Nous écrire
+            </motion.a>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Footer */}
+      <footer style={{ background: C.accentDark, padding: "48px 80px 24px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
+          <div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: C.cyan, marginBottom: 8 }}>VisionClaire</div>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Opticien indépendant · Nantes<br />Mar–Sam 9h–19h</p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+            {[{ icon: <MapPin size={13} />, t: "Nantes, Loire-Atlantique" }, { icon: <Phone size={13} />, t: "02 40 00 00 01" }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–19h" }].map((item, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
+                <span style={{ color: C.cyan }}>{item.icon}</span>{item.t}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 VisionClaire — Site par Aevia WS</span>
+          <a href="/legal/mentions-legales" style={{ color: "rgba(255,255,255,0.20)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
         </div>
       </footer>
     </div>

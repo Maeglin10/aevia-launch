@@ -1,578 +1,275 @@
-"use client";
+"use client"
 
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
-import { useState, useRef, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Dna, Microscope, FlaskConical, Activity, Zap, Shield, Layers, Search, Menu, X, ArrowRight, ChevronRight, Database, Binary, Code2, Lock, Box, Fingerprint, Waves, Crosshair, Beaker } from "lucide-react";
+import React, { useRef, useState } from "react"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Leaf } from "lucide-react"
 
-import "../premium.css";
+const C = {
+  bg: "#fdf9f5",
+  bgSection: "#f5ede3",
+  text: "#1e1209",
+  textMuted: "#6b5245",
+  accent: "#2d4a22",
+  accentLight: "#e8f0e0",
+  peach: "#c8855a",
+  peachLight: "#f5e0d0",
+  white: "#ffffff",
+  border: "#e5d5c5",
+  shadow: "0 2px 14px rgba(30,18,9,0.07)",
+  shadowLg: "0 16px 48px rgba(30,18,9,0.13)",
+}
+const FONT = "'Mulish', system-ui, sans-serif"
+const FONT_SERIF = "'Playfair Display', Georgia, serif"
 
-/* ==========================================================================
-   DATA MANIFESTS
-   ========================================================================== */
+const STATS = [
+  { value: "12 ans", label: "De passion florale" },
+  { value: "800+", label: "Mariages fleuris" },
+  { value: "4.9★", label: "Avis Google" },
+  { value: "48h", label: "Délai bouquets sur mesure" },
+]
 
-const GENE_MANIFESTS = {
-  hero: {
-    sequence_rate: "4.2Tb/hr",
-    accuracy: "99.999%",
-    cost_per_genome: "$98",
-    status: "SEQUENCER_ONLINE",
-  },
-  services: [
-    {
-      id: "wgs",
-      name: "WHOLE // GENOME",
-      desc: "Full-spectrum sequencing with deep-coverage analysis for complex genetic identification.",
-      icon: <Dna className="w-5 h-5" />,
-      stats: ["30x Coverage", "Variant Discovery", "Phasing Analysis"],
-    },
-    {
-      id: "epigen",
-      name: "EPI // GENETICS",
-      desc: "Mapping DNA methylation and chromatin accessibility for environmental response tracking.",
-      icon: <Fingerprint className="w-5 h-5" />,
-      stats: ["Methylation Maps", "ATAC-Seq Support", "Temporal Analysis"],
-    },
-    {
-      id: "rna",
-      name: "RNA // TRANSCRIPT",
-      desc: "Real-time gene expression profiling for dynamic cellular state monitoring and research.",
-      icon: <Waves className="w-5 h-5" />,
-      stats: ["Single-Cell Res", "Differential Expression", "Isoform Mapping"],
-    },
-  ],
-  sequence_data: [
-    { base: "A", density: 24, drift: 0.1 },
-    { base: "C", density: 26, drift: -0.2 },
-    { base: "T", density: 24, drift: 0.1 },
-    { base: "G", density: 26, drift: 0.3 },
-  ],
-  pipeline: [
-    { step: "S_01", task: "Ligation", status: "Nominal" },
-    { step: "S_02", task: "Amplification", status: "Nominal" },
-    { step: "S_03", task: "Base_Calling", status: "Active" },
-    { step: "S_04", task: "Alignment", status: "Pending" },
-  ],
-};
+const CREATIONS = [
+  { titre: "Bouquets & compositions", desc: "Bouquets de fleurs fraîches de saison, compositions table, centres de table et décorations personnalisées pour toutes occasions.", tag: "Frais" },
+  { titre: "Mariage & cérémonie", desc: "Bouquet de mariée, boutonnières, décoration de salle et de cérémonie. Consultation offerte pour chaque projet mariage.", tag: "Mariage" },
+  { titre: "Deuil & funérailles", desc: "Couronnes, gerbes et compositions florales sobres et élégantes. Livraison directe en chambre funéraire sur Strasbourg.", tag: "Recueillement" },
+  { titre: "Abonnements entreprises", desc: "Décoration florale hebdomadaire ou bimensuelle pour accueil, salles de réunion et espaces de travail. Entretien inclus.", tag: "Entreprises" },
+  { titre: "Fleurs séchées & éternelles", desc: "Compositions en fleurs séchées, pampassi, eucalyptus et gypsophile — déco longue durée au style bohème ou minimaliste.", tag: "Séchées" },
+  { titre: "Livraison & abonnements", desc: "Livraison à domicile sur Strasbourg et alentours. Surprise florale mensuelle avec sélection de saison pour les amoureux des fleurs.", tag: "Livraison" },
+]
 
-/* ==========================================================================
-   UTILITY COMPONENTS
-   ========================================================================== */
+const ATOUTS = [
+  "Fleurs sourcées auprès de producteurs locaux et certifiés",
+  "Création sur mesure selon vos couleurs et votre budget",
+  "Livraison le jour même sur Strasbourg (commande avant 11h)",
+  "Conseil personnalisé par nos fleuristes passionnées",
+]
 
-function Reveal({
-  children,
-  delay = 0,
-  y = 20,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  y?: number;
-}) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
+const AVIS = [
+  { texte: "Le bouquet de mariée était exactement dans mes rêves. L'équipe a su capturer ce que je voulais dès le premier rendez-vous. Des fleurs magnifiques et un service hors pair.", auteur: "Juliette B.", detail: "Mariage, juin 2025" },
+  { texte: "Abonnement floral mensuel pour notre cabinet dentaire depuis 1 an. Toujours ponctuels, créatifs et avec des compositions qui durent. Nos patients adorent.", auteur: "Cabinet Dr. Engel", detail: "Abonnement entreprise" },
+  { texte: "Je commande régulièrement pour offrir. Chaque bouquet est soigné, bien emballé et les fleurs tiennent au moins 10 jours. Une vraie adresse de qualité à Strasbourg.", auteur: "Sophie K.", detail: "Cliente régulière" },
+]
+
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: "-60px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}>
       {children}
     </motion.div>
-  );
+  )
 }
 
-function MagneticBtn({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 300, damping: 20 });
-  const sy = useSpring(y, { stiffness: 300, damping: 20 });
-  const ref = useRef<HTMLButtonElement>(null);
+export default function AtelierBloomPage() {
+  const heroRef = useRef<HTMLElement>(null)
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 170])
+  const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -65])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0])
 
-  const handleMouse = (e: React.MouseEvent) => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (rect) {
-      x.set((e.clientX - rect.left - rect.width / 2) * 0.4);
-      y.set((e.clientY - rect.top - rect.height / 2) * 0.4);
-    }
-  };
+  React.useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 50)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
+  }, [])
 
   return (
-    <motion.button
-      ref={ref}
-      style={{ x: sx, y: sy }}
-      onMouseMove={handleMouse}
-      onMouseLeave={() => {
-        x.set(0);
-        y.set(0);
-      }}
-      className={className}
-    >
-      {children}
-    </motion.button>
-  );
-}
+    <div style={{ background: C.bg, fontFamily: FONT, overflowX: "hidden" }}>
+      <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Mulish:wght@300;400;600;700;800&display=swap');`}</style>
 
-/* ==========================================================================
-   GENE // SEQ COMPONENT
-   ========================================================================== */
-
-export default function GeneSeqPage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  return (
-    <div className="premium-theme min-h-screen bg-[#050605] text-white font-mono selection:bg-[#00ff88] selection:text-black overflow-x-hidden">
-      {/* ── BACKGROUND ARCHITECTURE ── */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,#0a140a_0%,transparent_60%)]" />
-        <div
-          className="absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage: `linear-gradient(45deg, #00ff88 0.5px, transparent 0.5px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <div className="absolute top-0 left-0 w-full h-[60vh] bg-gradient-to-b from-[#00ff88]/5 to-transparent" />
-      </div>
-
-      {/* ── NAVIGATION ── */}
-      <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#050605]/90 backdrop-blur-xl py-4 border-b border-white/5 shadow-[0_0_50px_rgba(0,0,0,0.5)]" : "bg-transparent py-10"}`}
-      >
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link
-            href="/"
-            className="group flex items-center gap-3 text-xl font-black tracking-tighter"
-          >
-            <div className="w-8 h-8 bg-[#00ff88] rounded-sm flex items-center justify-center text-black">
-              <Dna className="w-5 h-5" />
-            </div>
-            <span className="group-hover:text-[#00ff88] transition-colors">
-              GENE // <span className="text-white/40">SEQ</span>
-            </span>
-          </Link>
-
-          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
-            {["Sequencing", "Analysis", "Biosphere", "Pipeline"].map((l) => (
-              <Link
-                key={l}
-                href="#"
-                className="hover:text-[#00ff88] transition-colors"
-              >
-                {l}
-              </Link>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-6">
-            <button className="hidden md:block text-white/30 hover:text-white transition-colors">
-              <Search className="w-4 h-4" />
-            </button>
-            <MagneticBtn className="px-6 py-2.5 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[#00ff88] transition-all">
-              Initialize_Run
-            </MagneticBtn>
-            <button
-              onClick={() => setMenuOpen(true)}
-              className="lg:hidden text-white/60 hover:text-white transition-colors"
-            >
-              <Menu className="w-6 h-6" />
-            </button>
-          </div>
+      {/* Navbar */}
+      <motion.nav style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72,
+        display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px",
+        background: scrolled ? "rgba(253,249,245,0.97)" : "transparent",
+        backdropFilter: scrolled ? "blur(12px)" : "none",
+        borderBottom: scrolled ? `1px solid ${C.border}` : "none",
+        transition: "all 0.4s ease",
+      }}>
+        <div>
+          <span style={{ fontFamily: FONT_SERIF, fontSize: 22, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>Atelier</span>
+          <span style={{ fontFamily: FONT_SERIF, fontSize: 22, color: scrolled ? C.peach : "rgba(255,255,255,0.85)" }}> Bloom</span>
         </div>
-      </nav>
+        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+          {["Créations", "Mariage", "Entreprises", "Contact"].map(l => (
+            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
+          ))}
+          <motion.a href="tel:+33388000000" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
+            Commander
+          </motion.a>
+        </div>
+      </motion.nav>
 
-      {/* MOBILE MENU */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            className="fixed inset-0 z-[100] bg-[#050605] p-8 flex flex-col pt-32"
-          >
-            <button
-              onClick={() => setMenuOpen(false)}
-              className="absolute top-10 right-8 text-white/40"
-            >
-              <X className="w-10 h-10" />
-            </button>
-            <div className="flex flex-col gap-10 text-5xl font-black tracking-tighter uppercase">
-              {["Sequencing", "Analysis", "Biosphere", "Pipeline"].map((l) => (
-                <Link key={l} href="#" onClick={() => setMenuOpen(false)}>
-                  {l}
-                </Link>
-              ))}
-            </div>
+      {/* Hero */}
+      <section ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+        <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
+          <img src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=1920&q=80" alt="Atelier Bloom fleuriste Strasbourg" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        </motion.div>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,20,5,0.90) 0%, rgba(10,20,5,0.35) 45%, rgba(10,20,5,0.05) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}22 0%, transparent 60%)` }} />
+
+        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(45,74,34,0.20)", border: "1px solid rgba(45,74,34,0.40)", borderRadius: 20, padding: "7px 18px" }}>
+            <Leaf size={12} color="#a8d498" />
+            <span style={{ color: "#a8d498", fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Fleuriste artisanale · Strasbourg</span>
           </motion.div>
-        )}
-      </AnimatePresence>
 
-      {/* ── HERO SECTION ── */}
-      <section className="relative h-screen flex flex-col justify-center pt-20 overflow-hidden">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-            <div className="lg:col-span-8">
-              <Reveal>
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="px-3 py-1 bg-[#00ff88]/10 border border-[#00ff88]/30 text-[#00ff88] text-[9px] font-bold uppercase tracking-widest">
-                    {GENE_MANIFESTS.hero.status}
-                  </div>
-                  <div className="text-[9px] text-white/30 tracking-widest uppercase">
-                    RATE: {GENE_MANIFESTS.hero.sequence_rate} // COST:{" "}
-                    {GENE_MANIFESTS.hero.cost_per_genome}
-                  </div>
-                </div>
-                <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
-                  Molecular <br />{" "}
-                  <span className="text-[#00ff88]">Precision.</span> <br />{" "}
-                  Sequence <br />{" "}
-                  <span className="text-white/20">Truth.</span>
-                </h1>
-                <p className="max-w-2xl text-xl text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">
-                  Challenging the complexity of the genome. High-throughput
-                  sequencing, automated pipeline analysis, and structural variant
-                  discovery at the speed of light. Engineering the biological blueprint.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-6">
-                  <button className="px-12 py-5 bg-[#00ff88] text-black text-[10px] font-black uppercase tracking-[0.3em] hover:bg-white transition-all shadow-[0_0_50px_rgba(0,255,136,0.15)]">
-                    Explore_Analysis_Portal
-                  </button>
-                  <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">
-                    View_Data_Manifests
-                  </button>
-                </div>
-              </Reveal>
-            </div>
+          <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
+            style={{ fontFamily: FONT_SERIF, fontSize: "clamp(42px, 5.5vw, 72px)", fontWeight: 400, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>
+            La beauté du vivant,<br /><em>dans chaque bouquet.</em>
+          </motion.h1>
 
-            <div className="lg:col-span-4 relative hidden lg:block">
-              <Reveal delay={0.2}>
-                <div className="relative aspect-square bg-[#0a0a0f] border border-white/5 p-12 rounded-3xl overflow-hidden group shadow-2xl">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#00ff88]/5 to-transparent" />
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>
+            Créations florales sur mesure pour vos moments de vie — mariages, anniversaires, deuils et décoration. Fleurs fraîches de saison, sourçage local, passion artisanale.
+          </motion.p>
 
-                  {/* Sequencing HUD */}
-                  <div className="relative h-full flex flex-col justify-between">
-                    <div className="flex justify-between items-start">
-                      <div className="space-y-1">
-                        <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest">
-                          BASE_CALL_ACCURACY
-                        </div>
-                        <div className="text-xl font-black text-[#00ff88]">
-                          {GENE_MANIFESTS.hero.accuracy}
-                        </div>
-                      </div>
-                      <div className="w-10 h-10 border border-white/5 rounded-full flex items-center justify-center">
-                        <Microscope className="w-5 h-5 text-white/20 animate-pulse" />
-                      </div>
-                    </div>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+            <motion.a href="#créations" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}55` }} whileHover={{ scale: 1.03 }}>
+              Voir les créations <ArrowRight size={16} />
+            </motion.a>
+            <motion.a href="tel:+33388000000" style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
+              <Phone size={16} /> Commander
+            </motion.a>
+          </motion.div>
+        </motion.div>
 
-                    {/* Progress Metrics */}
-                    <div className="space-y-10 my-10">
-                      {GENE_MANIFESTS.sequence_data.map((item, i) => (
-                        <div key={i}>
-                          <div className="flex justify-between text-[8px] font-bold uppercase tracking-widest mb-3">
-                            <span className="text-white/40">BASE_{item.base}_DENSITY</span>
-                            <span className="text-[#00ff88]">{item.density}%</span>
-                          </div>
-                          <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
-                            <motion.div
-                              initial={{ width: 0 }}
-                              animate={{ width: `${item.density}%` }}
-                              transition={{ duration: 2, delay: 0.5 + i * 0.1 }}
-                              className="h-full bg-[#00ff88]"
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="pt-6 border-t border-white/5 flex justify-between items-center text-[8px] font-bold text-white/20 uppercase tracking-widest">
-                      <span>ALIGNMENT_SYNC_ON</span>
-                      <div className="flex items-center gap-2 text-[#00ff88]">
-                        <div className="w-1.5 h-1.5 bg-[#00ff88] rounded-full animate-ping" />
-                        <span>RUN_ACTIVE</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            </div>
+        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }}
+          style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 2 }}>
+          <div style={{ width: 24, height: 36, border: "2px solid rgba(255,255,255,0.35)", borderRadius: 12, display: "flex", justifyContent: "center", paddingTop: 6 }}>
+            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }} style={{ width: 6, height: 6, borderRadius: "50%", background: "#a8d498" }} />
           </div>
+        </motion.div>
+      </section>
+
+      {/* Stats */}
+      <section style={{ background: C.accent, padding: "0 80px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: 1100, margin: "0 auto" }}>
+          {STATS.map((s, i) => (
+            <Reveal key={s.label} delay={i * 0.08}>
+              <div style={{ padding: "30px 0", textAlign: "center", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.15)" : "none" }}>
+                <div style={{ fontSize: 36, fontWeight: 800, color: "#fff", lineHeight: 1 }}>{s.value}</div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", marginTop: 6 }}>{s.label}</div>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
-      {/* ── SERVICES SECTION ── */}
-      <section className="py-40 bg-[#08080a] border-y border-white/5">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
-            <Reveal>
-              <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85]">
-                Bio-Informatics <br />{" "}
-                <span className="text-[#00ff88]">Ecosystem.</span>
-              </h2>
-            </Reveal>
-            <p className="max-w-md text-sm text-white/30 leading-relaxed uppercase tracking-widest font-light italic">
-              From population-scale genomics to single-cell dynamics, our unified sequencing platform provides the resolution required for breakthrough discoveries.
-            </p>
+      {/* Créations */}
+      <section id="créations" style={{ padding: "110px 80px", background: C.bg }}>
+        <Reveal>
+          <div style={{ marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.peach }}>Nos créations</span>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>
+              Un art floral <em>pour chaque occasion</em>.
+            </h2>
           </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
+          {CREATIONS.map((c, i) => (
+            <Reveal key={c.titre} delay={i * 0.07}>
+              <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.white, borderRadius: 14, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
+                <span style={{ background: C.accentLight, color: C.accent, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{c.tag}</span>
+                <h3 style={{ fontFamily: FONT_SERIF, fontSize: 18, color: C.text, margin: "14px 0 10px" }}>{c.titre}</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{c.desc}</p>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {GENE_MANIFESTS.services.map((s, i) => (
-              <Reveal key={s.id} delay={i * 0.1}>
-                <div className="group p-12 bg-[#0a0a0f] border border-white/5 hover:border-[#00ff88]/30 transition-all flex flex-col h-full rounded-3xl relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#00ff88]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-
-                  <div className="w-16 h-16 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-center text-[#00ff88] mb-12 group-hover:bg-[#00ff88] group-hover:text-black transition-all">
-                    {s.icon}
-                  </div>
-                  <h3 className="text-3xl font-black uppercase mb-6 tracking-tighter group-hover:text-[#00ff88] transition-colors">
-                    {s.name}
-                  </h3>
-                  <p className="text-sm text-white/40 leading-relaxed mb-12 flex-1 italic">
-                    "{s.desc}"
-                  </p>
-
-                  <div className="space-y-5 pt-10 border-t border-white/5">
-                    {s.stats.map((spec, j) => (
-                      <div
-                        key={j}
-                        className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest"
-                      >
-                        <div className="w-1.5 h-1.5 bg-[#00ff88] rotate-45" />
-                        {spec}
-                      </div>
-                    ))}
-                  </div>
+      {/* Savoir-faire */}
+      <section style={{ padding: "100px 80px", background: C.bgSection }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+          <Reveal delay={0.1}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.peach }}>Notre engagement</span>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3vw, 44px)", color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>
+              Des fleurs <em>qui racontent</em><br />une histoire.
+            </h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {ATOUTS.map((a, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                  <CheckCircle size={18} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
+                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{a}</span>
                 </div>
-              </Reveal>
+              ))}
+            </div>
+            <motion.a href="tel:+33388000000" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.peach, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.03 }}>
+              Passer commande <ArrowRight size={16} />
+            </motion.a>
+          </Reveal>
+          <Reveal>
+            <img src="https://images.unsplash.com/photo-1558618047-f95b53536c01?w=800&q=80" alt="Fleurs saisonnières artisanales" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Avis */}
+      <section style={{ padding: "100px 80px", background: C.text }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.peach }}>Témoignages</span>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff", marginTop: 10 }}>Ils ont <em style={{ color: "#a8d498" }}>adoré</em>.</h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}>
+          {AVIS.map((a, i) => (
+            <Reveal key={a.auteur} delay={i * 0.1}>
+              <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 14, padding: "28px 24px" }}>
+                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.peach} color={C.peach} />)}</div>
+                <p style={{ fontFamily: FONT_SERIF, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.8)", lineHeight: 1.72, marginBottom: 18 }}>"{a.texte}"</p>
+                <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 14 }}>
+                  <div style={{ fontWeight: 700, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
+                  <div style={{ color: C.peach, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section id="contact" style={{ padding: "100px 80px", background: C.peachLight, textAlign: "center" }}>
+        <Reveal>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.peach }}>Commander</span>
+          <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>Offrez quelque chose <em>de vivant</em>.</h2>
+          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>
+            Livraison le jour même à Strasbourg pour toute commande passée avant 11h. Bouquets à partir de 35€.
+          </p>
+          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+            <motion.a href="tel:+33388000000" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> 03 88 00 00 00
+            </motion.a>
+            <motion.a href="mailto:hello@atelierbloom.fr" style={{ background: "transparent", color: C.text, border: `2px solid ${C.peach}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.peach, color: C.white, borderColor: C.peach }}>
+              <Mail size={18} /> hello@atelierbloom.fr
+            </motion.a>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Footer */}
+      <footer style={{ background: C.text, padding: "48px 80px 24px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
+          <div>
+            <div style={{ fontFamily: FONT_SERIF, fontSize: 20, fontStyle: "italic", color: "#a8d498", marginBottom: 8 }}>Atelier Bloom</div>
+            <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6 }}>Fleuriste artisanale · Strasbourg<br />Lun–Sam 9h–19h</p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+            {[{ icon: <MapPin size={13} />, t: "Strasbourg, Bas-Rhin" }, { icon: <Phone size={13} />, t: "03 88 00 00 00" }, { icon: <Clock size={13} />, t: "Lun–Sam 9h–19h" }].map((item, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13 }}>
+                <span style={{ color: C.peach }}>{item.icon}</span>{item.t}
+              </div>
             ))}
           </div>
         </div>
-      </section>
-
-      {/* ── ANALYSIS PIPELINE (Data Visualization) ── */}
-      <section className="py-40 bg-[#050605]">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-center">
-            <div className="lg:col-span-6">
-              <Reveal>
-                <div className="relative aspect-video bg-[#0a0a0f] border border-white/5 rounded-2xl overflow-hidden p-8 group">
-                  <div className="absolute top-6 left-6 text-[8px] font-bold text-white/20 tracking-widest uppercase">
-                    REALTIME_SEQUENCE_FLOW
-                  </div>
-                  {/* Helix Activity Simulation */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-30">
-                    <svg
-                      viewBox="0 0 400 100"
-                      className="w-full h-full overflow-visible"
-                    >
-                      {[...Array(20)].map((_, i) => (
-                        <motion.circle
-                          key={i}
-                          initial={{ cx: i * 20, cy: 50 }}
-                          animate={{
-                            cy: [50, 20, 80, 50],
-                            cx: [i * 20, i * 20 + 5, i * 20],
-                          }}
-                          transition={{
-                            duration: 3,
-                            repeat: Infinity,
-                            delay: i * 0.1,
-                          }}
-                          r="2"
-                          fill="#00ff88"
-                        />
-                      ))}
-                      {[...Array(20)].map((_, i) => (
-                        <motion.circle
-                          key={`b-${i}`}
-                          initial={{ cx: i * 20, cy: 50 }}
-                          animate={{
-                            cy: [50, 80, 20, 50],
-                            cx: [i * 20, i * 20 - 5, i * 20],
-                          }}
-                          transition={{
-                            duration: 3,
-                            repeat: Infinity,
-                            delay: i * 0.1,
-                          }}
-                          r="2"
-                          fill="#00ff88"
-                          opacity="0.3"
-                        />
-                      ))}
-                    </svg>
-                  </div>
-                  <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center text-[8px] font-bold text-white/20 tracking-widest uppercase">
-                    <div className="flex gap-10">
-                      <span>VAR_DISC: 1,420</span>
-                      <span>HET_RATIO: 0.82</span>
-                    </div>
-                    <div className="text-[#00ff88]">SEQUENCING_LOCKED</div>
-                  </div>
-                </div>
-              </Reveal>
-            </div>
-
-            <div className="lg:col-span-6">
-              <Reveal>
-                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#00ff88] mb-6 block">
-                  Processing_Pipeline
-                </span>
-                <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-12 uppercase">
-                  Automated <br />{" "}
-                  <span className="text-white/20">Alignment.</span>
-                </h2>
-                <div className="space-y-8">
-                  {GENE_MANIFESTS.pipeline.map((p, i) => (
-                    <div
-                      key={i}
-                      className="group flex flex-col md:flex-row justify-between items-center p-8 bg-white/2 border border-white/5 hover:border-[#00ff88]/30 transition-all"
-                    >
-                      <div className="flex items-center gap-10 mb-6 md:mb-0">
-                        <div className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
-                          {p.step}
-                        </div>
-                        <div className="text-2xl font-black uppercase tracking-tighter">
-                          {p.task}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-[#00ff88]">
-                        <div
-                          className={`w-1.5 h-1.5 rounded-full ${p.status === "Active" ? "bg-[#00ff88] animate-pulse" : "bg-white/20"}`}
-                        />
-                        <span className={p.status === "Active" ? "text-[#00ff88]" : "text-white/20"}>{p.status}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </Reveal>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── PRECISION METRICS ── */}
-      <section className="py-40 bg-[#0a0a0f] border-y border-white/5 text-center overflow-hidden">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 relative">
-          <Reveal>
-            <h2 className="text-7xl md:text-[12rem] font-black tracking-tighter uppercase leading-[0.85] mb-12 text-white/5">
-              Molecular <br /> Truth.
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-16 mt-24">
-              {[
-                { label: "CALL_ACCURACY", val: "99.999%" },
-                { label: "GENOME_TIME", val: "1.4hrs" },
-                { label: "S_INDEX_RATIO", val: "1:420" },
-                { label: "ERROR_OFFSET", val: "0.001%" },
-              ].map((s, i) => (
-                <div key={i} className="group">
-                  <div className="text-5xl font-black text-white mb-4 group-hover:text-[#00ff88] transition-colors">
-                    {s.val}
-                  </div>
-                  <div className="text-[10px] font-black text-white/20 uppercase tracking-widest">
-                    {s.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── CTA / INITIALIZE ── */}
-      <section className="py-40 bg-[#050605]">
-        <div className="max-w-[1500px] mx-auto px-6 md:px-12 text-center">
-          <Reveal>
-            <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">
-              Decode <br />{" "}
-              <span className="text-[#00ff88]">Biology.</span>
-            </h2>
-            <p className="max-w-2xl mx-auto text-sm text-white/40 leading-relaxed font-light mb-16 uppercase tracking-widest italic">
-              The blueprint of life is written in code. Decode it with the world's most precise high-throughput sequencing platform.
-            </p>
-            <MagneticBtn className="px-16 py-6 bg-white text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[#00ff88] transition-all shadow-[0_0_60px_rgba(0,255,136,0.15)]">
-              Initialize_Sequencing_Run
-            </MagneticBtn>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── FOOTER ── */}
-      <footer className="bg-[#050605] border-t border-white/5 py-32 px-6 md:px-12">
-        <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
-          <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-10">
-              <div className="w-8 h-8 bg-white text-black rounded flex items-center justify-center">
-                <Dna className="w-5 h-5" />
-              </div>
-              <span>GENE // SEQ</span>
-            </Link>
-            <p className="text-[11px] text-white/20 uppercase tracking-[0.2em] max-w-sm leading-relaxed mb-16 italic">
-              Engineering the molecular foundation for the next century of genomic discovery and personalized health.
-            </p>
-            <div className="flex gap-8">
-              {[FlaskConical, Microscope, Beaker].map((Icon, i) => (
-                <button key={i} className="text-white/20 hover:text-[#00ff88] transition-colors">
-                  <Icon className="w-5 h-5" />
-                </button>
-              ))}
-            </div>
-          </div>
-          <div>
-            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#00ff88]">Services</h4>
-            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
-              <li className="hover:text-white transition-colors"><Link href="#">WGS_Sequencing</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Transcriptomics</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Epigenetic_Maps</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Custom_Panels</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-[10px] font-black uppercase tracking-widest mb-10 text-[#00ff88]">Analytics</h4>
-            <ul className="space-y-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">
-              <li className="hover:text-white transition-colors"><Link href="#">Pipeline_Access</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Variant_Viewer</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Bio_Compute_SLA</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Status_Logs</Link></li>
-            </ul>
-          </div>
-        </div>
-        <div className="max-w-[1500px] mx-auto mt-32 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[9px] font-bold text-white/10 uppercase tracking-widest">
-          <div className="flex items-center gap-10">
-            <span>&copy; 2026 GENE SEQ RESEARCH. ALL RIGHTS RESERVED.</span>
-            <div className="flex gap-10 hidden lg:flex">
-              <span>CLIA_CERTIFIED</span>
-              <span>ISO_13485_VERIFIED</span>
-            </div>
-          </div>
-          <div className="flex gap-10 font-mono">
-            <span>SEQUENCE_STABLE</span>
-            <span>DATA_SYNC_COMPLETE</span>
-          </div>
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+          <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 12 }}>© 2026 Atelier Bloom — Site par Aevia WS</span>
+          <a href="/legal/mentions-legales" style={{ color: "rgba(255,255,255,0.22)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
         </div>
       </footer>
     </div>
-  );
+  )
 }

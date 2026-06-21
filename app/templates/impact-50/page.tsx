@@ -1,381 +1,276 @@
-"use client";
-import { motion } from "framer-motion";
-import { Brain, Zap, Activity, Globe, Shield, MoveRight, Share2 } from "lucide-react";
-import { Reveal } from "./shared";
-import Link from "next/link";
+"use client"
 
-export default function NeuralMeshPage() {
+import React, { useRef, useState } from "react"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { Heart, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Calendar } from "lucide-react"
+
+const C = {
+  bg: "#faf7f4",
+  bgSection: "#f2ece5",
+  text: "#2a1f14",
+  textMuted: "#7a6655",
+  accent: "#4a7c6f",
+  accentDark: "#355c52",
+  accentLight: "#d8ede9",
+  warm: "#9b7c5e",
+  warmLight: "#f0e6d9",
+  white: "#ffffff",
+  border: "#e0d5c8",
+  shadow: "0 2px 14px rgba(42,31,20,0.07)",
+  shadowLg: "0 16px 48px rgba(42,31,20,0.12)",
+}
+const FONT = "'Nunito', system-ui, sans-serif"
+const FONT_SERIF = "'Lora', Georgia, serif"
+
+const STATS = [
+  { value: "15 ans", label: "De pratique clinique" },
+  { value: "800+", label: "Patients accompagnés" },
+  { value: "Remboursé", label: "Complémentaires santé" },
+  { value: "48h", label: "Premier rendez-vous" },
+]
+
+const ACCOMPAGNEMENTS = [
+  { titre: "Anxiété & troubles du stress", desc: "Prise en charge des troubles anxieux généralisés, phobies, TOC, stress post-traumatique et crises de panique. Protocoles TCC et EMDR.", tag: "Anxiété" },
+  { titre: "Dépression & burnout", desc: "Accompagnement des épisodes dépressifs, épuisement professionnel et crises existentielles. Thérapie centrée sur la personne et activation comportementale.", tag: "Dépression" },
+  { titre: "Thérapie de couple", desc: "Gestion des conflits, communication non-violente, infidélité, séparation. Séances individuelles ou en couple selon les besoins.", tag: "Couple" },
+  { titre: "Suivi des adolescents", desc: "Troubles émotionnels, anxiété scolaire, crise identitaire, harcèlement. Approche adaptée aux 12-18 ans avec implication des parents si nécessaire.", tag: "Ado" },
+  { titre: "Deuil & transitions de vie", desc: "Perte d'un être cher, divorce, licenciement, retraite, déménagement. Accompagnement pour traverser et dépasser les grandes transitions.", tag: "Deuil" },
+  { titre: "Développement personnel", desc: "Confiance en soi, assertivité, gestion des émotions, pleine conscience. Pour ceux qui vont bien et souhaitent aller encore mieux.", tag: "Bien-être" },
+]
+
+const APPROCHE = [
+  "Thérapies validées scientifiquement : TCC, EMDR, pleine conscience",
+  "Confidentialité absolue et secret professionnel garantis",
+  "Consultation possible en présentiel ou en visioconférence",
+  "Remboursement partiel par de nombreuses mutuelles",
+]
+
+const AVIS = [
+  { texte: "J'hésitais à consulter depuis longtemps. Laurence m'a mise à l'aise dès la première séance. En 4 mois, ma relation à l'anxiété a complètement changé. Je regrette seulement de ne pas y être allée plus tôt.", auteur: "Camille R.", detail: "Suivi anxiété, 34 ans" },
+  { texte: "Burn-out sévère après 8 ans dans la finance. Mon médecin m'a orienté vers Mme Moreau. La progression est lente mais réelle. Je récupère des ressources que je pensais avoir perdues.", auteur: "Vincent L.", detail: "Burnout professionnel, 42 ans" },
+  { texte: "Ma fille de 15 ans traversait une période très difficile. L'approche avec les adolescents est remarquable — elle repart de chaque séance avec quelque chose de concret. Merci.", auteur: "Famille Martin", detail: "Thérapie adolescente" },
+]
+
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: "-60px" })
   return (
-    <main className="pt-40 pb-20">
-      {/* ── HERO ──────────────────── */}
-      <section className="max-w-[1400px] mx-auto px-6 md:px-12 mb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+    <motion.div ref={ref} initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  )
+}
+
+export default function CabinetMoreauPage() {
+  const heroRef = useRef<HTMLElement>(null)
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 170])
+  const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -65])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0])
+
+  React.useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 50)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
+  }, [])
+
+  return (
+    <div style={{ background: C.bg, fontFamily: FONT, overflowX: "hidden" }}>
+      <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Nunito:wght@300;400;600;700;800&display=swap');`}</style>
+
+      {/* Navbar */}
+      <motion.nav style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72,
+        display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px",
+        background: scrolled ? "rgba(250,247,244,0.97)" : "transparent",
+        backdropFilter: scrolled ? "blur(12px)" : "none",
+        borderBottom: scrolled ? `1px solid ${C.border}` : "none",
+        transition: "all 0.4s ease",
+      }}>
+        <div>
+          <span style={{ fontFamily: FONT_SERIF, fontSize: 17, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>Laurence Moreau</span>
+          <span style={{ fontSize: 13, color: scrolled ? C.textMuted : "rgba(255,255,255,0.65)", marginLeft: 8 }}>Psychologue clinicienne</span>
+        </div>
+        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+          {["Accompagnements", "Approche", "Tarifs", "Contact"].map(l => (
+            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
+          ))}
+          <motion.a href="tel:+33434000000" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: C.accentDark }}>
+            <Calendar size={14} /> Prendre RDV
+          </motion.a>
+        </div>
+      </motion.nav>
+
+      {/* Hero */}
+      <section ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+        <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
+          <img src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=1920&q=80" alt="Cabinet psychologue Laurence Moreau Montpellier" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        </motion.div>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(15,10,5,0.90) 0%, rgba(15,10,5,0.38) 45%, rgba(15,10,5,0.05) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
+
+        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(74,124,111,0.18)", border: "1px solid rgba(74,124,111,0.35)", borderRadius: 20, padding: "7px 18px" }}>
+            <Heart size={12} color="#9fd4c9" />
+            <span style={{ color: "#9fd4c9", fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Psychologue clinicienne · Montpellier</span>
+          </motion.div>
+
+          <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
+            style={{ fontFamily: FONT_SERIF, fontSize: "clamp(40px, 5.2vw, 68px)", fontWeight: 400, color: "#fff", lineHeight: 1.12, marginBottom: 24 }}>
+            Un espace pour se retrouver,<br /><em>à son propre rythme.</em>
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>
+            Psychologue clinicienne à Montpellier, je vous accompagne face aux difficultés émotionnelles, relationnelles et professionnelles avec bienveillance et méthodes fondées sur les preuves.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+            <motion.a href="tel:+33434000000" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44` }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
+              <Calendar size={18} /> Prendre rendez-vous
+            </motion.a>
+            <motion.a href="#accompagnements" style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)" }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
+              Mes accompagnements
+            </motion.a>
+          </motion.div>
+        </motion.div>
+
+        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }}
+          style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 2 }}>
+          <div style={{ width: 24, height: 36, border: "2px solid rgba(255,255,255,0.35)", borderRadius: 12, display: "flex", justifyContent: "center", paddingTop: 6 }}>
+            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }} style={{ width: 6, height: 6, borderRadius: "50%", background: "#9fd4c9" }} />
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Stats */}
+      <section style={{ background: C.accent, padding: "0 80px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: 1100, margin: "0 auto" }}>
+          {STATS.map((s, i) => (
+            <Reveal key={s.label} delay={i * 0.08}>
+              <div style={{ padding: "30px 0", textAlign: "center", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.15)" : "none" }}>
+                <div style={{ fontFamily: FONT_SERIF, fontSize: 36, fontWeight: 400, color: "#fff", lineHeight: 1 }}>{s.value}</div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.58)", marginTop: 6 }}>{s.label}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* Accompagnements */}
+      <section id="accompagnements" style={{ padding: "110px 80px", background: C.bg }}>
+        <Reveal>
+          <div style={{ marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Accompagnements</span>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>
+              Pour chaque difficulté,<br /><em>un espace d'écoute.</em>
+            </h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
+          {ACCOMPAGNEMENTS.map((a, i) => (
+            <Reveal key={a.titre} delay={i * 0.07}>
+              <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.white, borderRadius: 14, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
+                <span style={{ background: C.accentLight, color: C.accent, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{a.tag}</span>
+                <h3 style={{ fontFamily: FONT_SERIF, fontSize: 18, color: C.text, margin: "14px 0 10px" }}>{a.titre}</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{a.desc}</p>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* Approche */}
+      <section id="approche" style={{ padding: "100px 80px", background: C.bgSection }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+          <Reveal>
+            <img src="https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=800&q=80" alt="Psychologue bienveillante" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
+          </Reveal>
+          <Reveal delay={0.15}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Mon approche</span>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(26px, 3vw, 44px)", color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>
+              Un cadre sécurisant,<br /><em>sans jugement.</em>
+            </h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {APPROCHE.map((a, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                  <CheckCircle size={18} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
+                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{a}</span>
+                </div>
+              ))}
+            </div>
+            <motion.a href="tel:+33434000000" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.accent, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
+              Prendre rendez-vous <ArrowRight size={16} />
+            </motion.a>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Témoignages */}
+      <section style={{ padding: "100px 80px", background: "#2a1f14" }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: "#9fd4c9" }}>Témoignages</span>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff", marginTop: 10 }}>Des chemins <em style={{ color: "#9fd4c9" }}>retrouvés</em>.</h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}>
+          {AVIS.map((a, i) => (
+            <Reveal key={a.auteur} delay={i * 0.1}>
+              <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 14, padding: "28px 24px" }}>
+                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <Star key={j} size={13} fill="#9fd4c9" color="#9fd4c9" />)}</div>
+                <p style={{ fontFamily: FONT_SERIF, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.80)", lineHeight: 1.72, marginBottom: 18 }}>"{a.texte}"</p>
+                <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 14 }}>
+                  <div style={{ fontWeight: 700, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
+                  <div style={{ color: "#9fd4c9", fontSize: 12, marginTop: 4 }}>{a.detail}</div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section id="contact" style={{ padding: "100px 80px", background: C.warmLight, textAlign: "center" }}>
+        <Reveal>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.warm }}>Prendre rendez-vous</span>
+          <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>Le premier pas<br /><em>est souvent le plus difficile.</em></h2>
+          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>
+            Premier rendez-vous disponible sous 48h. Consultation en présentiel à Montpellier ou en visioconférence.
+          </p>
+          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+            <motion.a href="tel:+33434000000" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
+              <Phone size={18} /> 04 34 00 00 00
+            </motion.a>
+            <motion.a href="mailto:contact@laurencemoreau-psy.fr" style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
+              <Mail size={18} /> Nous écrire
+            </motion.a>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Footer */}
+      <footer style={{ background: "#2a1f14", padding: "48px 80px 24px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
-            <Reveal>
-              <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em] mb-12">
-                <Zap className="w-4 h-4" /> Cognitive Infrastructure v4.2
-              </div>
-            </Reveal>
-            <Reveal delay={0.1} y={60}>
-              <h1 className="text-6xl md:text-[8vw] font-black tracking-tighter leading-[0.9] pb-4 uppercase mb-12">
-                Sync <br /> Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Mind.</span>
-              </h1>
-            </Reveal>
-            <Reveal delay={0.3}>
-              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12 italic">
-                The first unified intelligence layer for decentralized neural networks. High-bandwidth cognition at the speed of thought.
-              </p>
-            </Reveal>
+            <div style={{ fontFamily: FONT_SERIF, fontSize: 18, fontStyle: "italic", color: "#9fd4c9", marginBottom: 8 }}>Laurence Moreau</div>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Psychologue clinicienne · Montpellier<br />Lun–Ven 9h–19h | Sam 9h–13h</p>
           </div>
-
-          <Reveal delay={0.5} y={0}>
-            <div className="relative p-1 bg-gradient-to-br from-white/10 to-transparent rounded-[2rem]">
-              <div className="bg-[#0a0f1a] rounded-[1.8rem] p-10 border border-white/5 overflow-hidden font-mono text-[10px] leading-relaxed text-cyan-400/60">
-                <div className="flex justify-between mb-8 opacity-40">
-                  <span>SYSTEM_BOOT</span>
-                  <span>STABLE</span>
-                </div>
-                <div className="space-y-2 mb-8">
-                  <p>&gt; initializing neural pathways...</p>
-                  <p>&gt; binding mesh to global consensus...</p>
-                  <p className="text-cyan-400">&gt; synchronization complete [100%]</p>
-                </div>
-                <div className="h-40 bg-white/5 rounded-xl border border-white/5 flex items-end gap-1 p-4">
-                  {Array.from({ length: 32 }).map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="flex-1 bg-cyan-500/40"
-                      animate={{ height: [`${10 + Math.random() * 40}%`, `${50 + Math.random() * 50}%`] }}
-                      transition={{ duration: 1, repeat: Infinity, repeatType: "reverse" }}
-                    />
-                  ))}
-                </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+            {[{ icon: <MapPin size={13} />, t: "Montpellier, Hérault" }, { icon: <Phone size={13} />, t: "04 34 00 00 00" }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–19h" }].map((item, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
+                <span style={{ color: "#9fd4c9" }}>{item.icon}</span>{item.t}
               </div>
-            </div>
-          </Reveal>
+            ))}
+          </div>
         </div>
-      </section>
-
-      {/* ── BENTO GRID ────────────── */}
-      <section className="max-w-[1400px] mx-auto px-6 md:px-12 mb-40">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {/* Tile 1: Massive */}
-          <Reveal className="md:col-span-2 md:row-span-2">
-            <div className="h-full p-12 rounded-[2.5rem] bg-gradient-to-br from-cyan-500/20 to-blue-600/10 border border-white/10 flex flex-col justify-between group overflow-hidden relative">
-              <div className="absolute top-0 right-0 p-12 opacity-10 group-hover:scale-110 group-hover:opacity-20 transition-all duration-1000">
-                <Brain className="w-64 h-64" />
-              </div>
-              <div>
-                <div className="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center mb-10">
-                  <Activity className="w-6 h-6 text-cyan-400" />
-                </div>
-                <h3 className="text-4xl font-bold uppercase tracking-tight mb-6">
-                  Autonomous <br /> Intelligence.
-                </h3>
-                <p className="text-white/40 leading-relaxed font-light max-w-sm italic text-lg">
-                  Self-correcting neural pathways that optimize in real-time based on global network feedback.
-                </p>
-              </div>
-              <div className="mt-20">
-                <Link
-                  href="/templates/impact-50/about"
-                  className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-cyan-400 hover:gap-6 transition-all"
-                >
-                  Read Technical Specs <MoveRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* Tile 2: Square */}
-          <Reveal delay={0.1} className="md:col-span-2">
-            <div className="p-10 rounded-[2.5rem] bg-white/[0.03] border border-white/5 flex flex-col justify-between group">
-              <div className="flex justify-between items-start">
-                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
-                  <Globe className="w-5 h-5 text-blue-400" />
-                </div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-white/20 italic">
-                  0.02ms Latency
-                </span>
-              </div>
-              <div>
-                <h4 className="text-2xl font-bold uppercase tracking-tight mb-4">
-                  Global Reach.
-                </h4>
-                <p className="text-sm text-white/40 leading-relaxed font-light">
-                  140+ nodes globally distributed for minimum latency and maximum resilience.
-                </p>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* Tile 3: Square */}
-          <Reveal delay={0.2}>
-            <div className="p-10 rounded-[2.5rem] bg-white/[0.03] border border-white/5 flex flex-col justify-between group h-full">
-              <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center mb-8">
-                <Shield className="w-5 h-5 text-green-400" />
-              </div>
-              <h4 className="text-xl font-bold uppercase tracking-tight mb-2">
-                Immutable.
-              </h4>
-              <p className="text-xs text-white/40 leading-relaxed font-light italic">
-                Secured by decentralized consensus and zk-proofs.
-              </p>
-            </div>
-          </Reveal>
-
-          {/* Tile 4: Square */}
-          <Reveal delay={0.3}>
-            <div className="p-10 rounded-[2.5rem] bg-cyan-500 text-black flex flex-col justify-between group h-full">
-              <div className="w-10 h-10 rounded-lg bg-black/10 flex items-center justify-center mb-8">
-                <Zap className="w-5 h-5 fill-current" />
-              </div>
-              <h4 className="text-xl font-bold uppercase tracking-tight mb-2 italic">
-                Scale Now.
-              </h4>
-              <p className="text-xs text-black/60 leading-relaxed font-bold">
-                Unlimited throughput on any L1/L2 network.
-              </p>
-            </div>
-          </Reveal>
-
-          {/* Tile 5: Large Horizontal */}
-          <Reveal delay={0.4} className="md:col-span-3">
-            <div className="p-12 rounded-[2.5rem] bg-white/[0.03] border border-white/5 flex flex-col md:flex-row items-center gap-12 group">
-              <div className="flex-1">
-                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-500 mb-6 block">
-                  Real-time Visualization
-                </div>
-                <h3 className="text-3xl font-bold uppercase tracking-tight mb-6 italic">
-                  The Neural Dashboard.
-                </h3>
-                <p className="text-white/40 leading-relaxed font-light text-sm italic mb-8">
-                  Manage, monitor, and evolve your neural deployment from a single high-fidelity interface.
-                </p>
-                <div className="flex gap-4">
-                  <Link
-                    href="/templates/impact-50/about"
-                    className="px-6 py-2.5 bg-white text-black text-[10px] font-bold uppercase tracking-widest rounded-lg hover:bg-cyan-500 hover:text-white transition-all duration-300"
-                  >
-                    Demo Hub
-                  </Link>
-                  <Link
-                    href="/templates/impact-50/contact"
-                    className="px-6 py-2.5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-widest rounded-lg hover:bg-white/5 transition-all duration-300"
-                  >
-                    Get API Ref
-                  </Link>
-                </div>
-              </div>
-              <div className="w-full md:w-1/3 aspect-video bg-black rounded-2xl border border-white/10 flex items-center justify-center overflow-hidden">
-                <div className="relative w-full h-full p-4 flex gap-1 items-end">
-                  {Array.from({ length: 16 }).map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="flex-1 bg-cyan-500/20 border border-cyan-500/30"
-                      animate={{ height: [`${20 + Math.random() * 30}%`, `${60 + Math.random() * 40}%`] }}
-                      transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* Tile 6: Small Vertical */}
-          <Reveal delay={0.5}>
-            <div className="p-10 rounded-[2.5rem] bg-white/[0.03] border border-white/5 flex flex-col items-center justify-center text-center group h-full">
-              <Share2 className="w-8 h-8 text-white/20 mb-6 group-hover:text-cyan-400 transition-colors" />
-              <div className="text-4xl font-black italic mb-2 tracking-tighter">84k</div>
-              <div className="text-[9px] font-bold uppercase tracking-widest text-white/30">
-                Active Mesh Nodes
-              </div>
-            </div>
-          </Reveal>
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Cabinet Laurence Moreau — Site par Aevia WS</span>
+          <a href="/legal/mentions-legales" style={{ color: "rgba(255,255,255,0.20)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
         </div>
-      </section>
-
-      {/* ── INTEGRATIONS ──────────── */}
-      <section className="max-w-[1400px] mx-auto px-6 md:px-12 mb-40">
-        <Reveal>
-          <div className="mb-16">
-            <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em] mb-8">
-              <Share2 className="w-4 h-4" /> Ecosystem
-            </div>
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9] pb-4">
-              Plug Into<br /><span className="text-white/10">Everything.</span>
-            </h2>
-          </div>
-        </Reveal>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { name: "OpenAI", cat: "LLM Bridge", color: "bg-green-500/10 border-green-500/20 text-green-400" },
-            { name: "Anthropic", cat: "Reasoning Layer", color: "bg-orange-500/10 border-orange-500/20 text-orange-400" },
-            { name: "AWS Bedrock", cat: "Cloud Inference", color: "bg-yellow-500/10 border-yellow-500/20 text-yellow-400" },
-            { name: "LangChain", cat: "Orchestration", color: "bg-cyan-500/10 border-cyan-500/20 text-cyan-400" },
-            { name: "Pinecone", cat: "Vector DB", color: "bg-blue-500/10 border-blue-500/20 text-blue-400" },
-            { name: "Kafka", cat: "Event Streaming", color: "bg-red-500/10 border-red-500/20 text-red-400" },
-            { name: "Kubernetes", cat: "Orchestration", color: "bg-purple-500/10 border-purple-500/20 text-purple-400" },
-            { name: "Grafana", cat: "Observability", color: "bg-white/5 border-white/10 text-white/40" },
-          ].map((intg, i) => (
-            <Reveal key={intg.name} delay={i * 0.06}>
-              <div className={`p-8 rounded-2xl border ${intg.color} group hover:scale-105 transition-transform duration-300`}>
-                <div className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60">{intg.cat}</div>
-                <div className="text-xl font-black uppercase tracking-tighter">{intg.name}</div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-        <Reveal delay={0.3}>
-          <div className="mt-12 p-8 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-8">
-            <div>
-              <div className="text-sm font-black uppercase tracking-wide mb-2">Custom Integrations</div>
-              <p className="text-sm text-white/30 font-light italic max-w-md">NeuralMesh supports any REST, GraphQL, or WebSocket endpoint via our integration SDK. Average setup time: 12 minutes.</p>
-            </div>
-            <div className="text-4xl font-black text-cyan-400 italic shrink-0">240+<span className="text-sm font-bold text-white/20 ml-2">native connectors</span></div>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* ── USE CASES ─────────────── */}
-      <section className="max-w-[1400px] mx-auto px-6 md:px-12 mb-40">
-        <Reveal>
-          <div className="mb-16">
-            <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em] mb-8">
-              <Zap className="w-4 h-4" /> Applications
-            </div>
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9] pb-4">
-              Built For<br /><span className="text-white/10">Everyone.</span>
-            </h2>
-          </div>
-        </Reveal>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {([
-            {
-              sector: "Enterprise AI",
-              headline: "Unify your intelligence layer across every model and provider.",
-              kpis: ["12× faster inference routing", "99.99% SLA guaranteed", "SOC 2 Type II certified"],
-              icon: Brain,
-              iconBg: "bg-cyan-500/10 border-cyan-500/20",
-              iconColor: "text-cyan-400",
-              labelColor: "text-cyan-400",
-              dotColor: "bg-cyan-400",
-              hoverBorder: "hover:border-cyan-500/30",
-            },
-            {
-              sector: "Research Labs",
-              headline: "Run massive parallel experiments across decentralized GPU clusters.",
-              kpis: ["Petabyte-scale data mesh", "1,000+ concurrent agents", "Zero lock-in API"],
-              icon: Activity,
-              iconBg: "bg-blue-500/10 border-blue-500/20",
-              iconColor: "text-blue-400",
-              labelColor: "text-blue-400",
-              dotColor: "bg-blue-400",
-              hoverBorder: "hover:border-blue-500/30",
-            },
-            {
-              sector: "FinTech & Trading",
-              headline: "Sub-millisecond decision pipelines with full audit trail.",
-              kpis: ["0.8ms median latency", "zk-proof audit log", "FIX protocol bridge"],
-              icon: Globe,
-              iconBg: "bg-green-500/10 border-green-500/20",
-              iconColor: "text-green-400",
-              labelColor: "text-green-400",
-              dotColor: "bg-green-400",
-              hoverBorder: "hover:border-green-500/30",
-            },
-          ] as const).map((uc, i) => (
-            <Reveal key={i} delay={i * 0.1}>
-              <div className={`group p-10 rounded-[2rem] border border-white/5 bg-white/[0.02] ${uc.hoverBorder} transition-all duration-500 flex flex-col h-full`}>
-                <div className={`w-12 h-12 rounded-xl ${uc.iconBg} border flex items-center justify-center mb-8`}>
-                  <uc.icon className={`w-6 h-6 ${uc.iconColor}`} />
-                </div>
-                <div className={`text-[10px] font-bold uppercase tracking-[0.3em] ${uc.labelColor} mb-4`}>{uc.sector}</div>
-                <h3 className="text-xl font-bold uppercase tracking-tight leading-tight mb-6">{uc.headline}</h3>
-                <ul className="space-y-3 mt-auto">
-                  {uc.kpis.map(k => (
-                    <li key={k} className="flex items-center gap-3 text-xs text-white/40">
-                      <span className={`w-1 h-1 rounded-full ${uc.dotColor} shrink-0`} />{k}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* ── PRICING ───────────────── */}
-      <section className="max-w-[1400px] mx-auto px-6 md:px-12 mb-40">
-        <Reveal>
-          <div className="mb-16">
-            <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em] mb-8">
-              <Shield className="w-4 h-4" /> Pricing
-            </div>
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9] pb-4">
-              Simple<br /><span className="text-white/10">Pricing.</span>
-            </h2>
-          </div>
-        </Reveal>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            { tier: "Seed", price: "$0", unit: "/ month", cap: "Up to 10M tokens/mo", desc: "Perfect for prototypes and indie builders.", features: ["10M tokens/month", "1 mesh node", "Standard latency", "Community support"], highlight: false },
-            { tier: "Growth", price: "$299", unit: "/ month", cap: "Up to 500M tokens/mo", desc: "For scaling products that need performance guarantees.", features: ["500M tokens/month", "20 mesh nodes", "Priority latency SLA", "Dedicated Slack support", "Custom integrations"], highlight: true },
-            { tier: "Enterprise", price: "Custom", unit: "", cap: "Unlimited", desc: "Full-stack deployment with compliance, security, and SLAs.", features: ["Unlimited tokens", "Dedicated cluster", "0.8ms p99 latency", "SOC 2 + HIPAA", "24/7 engineering support"], highlight: false },
-          ].map((plan, i) => (
-            <Reveal key={i} delay={i * 0.1}>
-              <div className={`flex flex-col h-full p-10 rounded-[2rem] border transition-all duration-500 ${plan.highlight ? "bg-cyan-500 text-black border-cyan-400" : "bg-white/[0.02] text-white border-white/5"}`}>
-                <div className={`text-[10px] font-bold uppercase tracking-[0.3em] mb-4 ${plan.highlight ? "text-black/60" : "text-cyan-400"}`}>{plan.cap}</div>
-                <h3 className="text-2xl font-black uppercase tracking-tight mb-1">{plan.tier}</h3>
-                <div className="flex items-baseline gap-1 mb-6">
-                  <span className={`text-5xl font-black italic ${plan.highlight ? "text-black" : "text-white"}`}>{plan.price}</span>
-                  <span className={`text-sm ${plan.highlight ? "text-black/40" : "text-white/20"}`}>{plan.unit}</span>
-                </div>
-                <p className={`text-sm leading-relaxed mb-8 ${plan.highlight ? "text-black/60" : "text-white/30"}`}>{plan.desc}</p>
-                <ul className="space-y-3 mb-10 flex-1">
-                  {plan.features.map(f => (
-                    <li key={f} className={`flex items-center gap-3 text-xs ${plan.highlight ? "text-black/70" : "text-white/40"}`}>
-                      <Zap className={`w-3 h-3 shrink-0 ${plan.highlight ? "text-black" : "text-cyan-400"}`} />{f}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/templates/impact-50/contact"
-                  className={`block text-center py-4 font-bold text-[10px] uppercase tracking-widest rounded-xl transition-all duration-300 ${plan.highlight ? "bg-black text-white hover:bg-white hover:text-black" : "bg-white/5 text-white hover:bg-cyan-500 hover:text-black border border-white/10"}`}
-                >
-                  {plan.tier === "Enterprise" ? "Contact Sales" : "Get Started"}
-                </Link>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* ── CTA ───────────────────── */}
-      <section className="max-w-[1400px] mx-auto px-6 mb-20">
-        <Reveal>
-          <div className="p-20 rounded-[3rem] bg-gradient-to-r from-cyan-600 to-blue-700 text-center relative overflow-hidden">
-            <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
-            <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-12 italic relative z-10">
-              JOIN THE <br /> <span className="text-black not-italic font-black">CONSENSUS.</span>
-            </h2>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-10 relative z-10">
-              <Link
-                href="/templates/impact-50/contact"
-                className="px-16 py-6 bg-black text-white font-bold uppercase tracking-widest text-[10px] hover:px-20 transition-all duration-700 italic rounded-lg"
-              >
-                Get Developer Access
-              </Link>
-              <Link
-                href="/templates/impact-50/contact"
-                className="px-16 py-6 border-2 border-black text-black font-bold uppercase tracking-widest text-[10px] hover:bg-black hover:text-white transition-all duration-700 italic rounded-lg"
-              >
-                Contact Sales
-              </Link>
-            </div>
-          </div>
-        </Reveal>
-      </section>
-    </main>
-  );
+      </footer>
+    </div>
+  )
 }

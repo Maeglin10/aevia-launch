@@ -1,287 +1,274 @@
-"use client";
+"use client"
 
-import React, { useRef, useState, useEffect } from "react";
-import Link from "next/link";
-import { INIT_LINES, BlinkCursor, ProgressBar, TerminalWindow } from "./shared";
+import React, { useRef, useState } from "react"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { Scale, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Shield } from "lucide-react"
 
-export default function GhostShellPage() {
-  const [typedLines, setTypedLines] = useState<string[]>([]);
-  const [currentLine, setCurrentLine] = useState("");
-  const [doneTyping, setDoneTyping] = useState(false);
-  const heroRef = useRef<HTMLDivElement>(null);
+const C = {
+  bg: "#f7f5f0",
+  bgSection: "#efece4",
+  text: "#1a1a2e",
+  textMuted: "#6b6460",
+  accent: "#1a1a2e",
+  gold: "#c9a84c",
+  goldLight: "#f5edcb",
+  white: "#ffffff",
+  border: "#ddd8cc",
+  shadow: "0 2px 14px rgba(26,26,46,0.08)",
+  shadowLg: "0 16px 48px rgba(201,168,76,0.18)",
+}
+const FONT = "'Source Serif 4', Georgia, serif"
+const FONT_BODY = "'Source Sans 3', system-ui, sans-serif"
 
-  // Typewriter effect
-  useEffect(() => {
-    let lineIdx = 0;
-    let charIdx = 0;
-    let finished = false;
+const STATS = [
+  { value: "22 ans", label: "D'exercice au barreau" },
+  { value: "1 200+", label: "Dossiers traités" },
+  { value: "94%", label: "Taux de succès" },
+  { value: "48h", label: "Premier entretien" },
+]
 
-    const tick = () => {
-      if (finished) return;
-      const line = INIT_LINES[lineIdx];
-      if (charIdx < line.length) {
-        setCurrentLine(line.slice(0, charIdx + 1));
-        charIdx++;
-        setTimeout(tick, 28 + Math.random() * 22);
-      } else {
-        setTypedLines(prev => [...prev, line]);
-        setCurrentLine("");
-        lineIdx++;
-        charIdx = 0;
-        if (lineIdx >= INIT_LINES.length) {
-          finished = true;
-          setDoneTyping(true);
-          return;
-        }
-        setTimeout(tick, 260);
-      }
-    };
+const DOMAINES = [
+  { titre: "Droit des affaires & commercial", desc: "Création d'entreprise, rédaction de contrats, litiges commerciaux, contentieux entre associés, recouvrement de créances. Conseil aux PME et ETI.", tag: "Affaires" },
+  { titre: "Droit du travail", desc: "Rupture conventionnelle, licenciement abusif, harcèlement, discrimination. Assistance salarié et employeur devant le Conseil de Prud'hommes.", tag: "Travail" },
+  { titre: "Droit de la famille", desc: "Divorce, séparation de biens, garde d'enfants, pension alimentaire, succession et héritage. Médiation familiale proposée.", tag: "Famille" },
+  { titre: "Droit immobilier", desc: "Vente, bail commercial ou d'habitation, construction, servitudes, copropriété. Contentieux immobilier et construction.", tag: "Immobilier" },
+  { titre: "Droit pénal des affaires", desc: "Abus de biens sociaux, fraude, escroquerie, blanchiment. Défense pénale et assistance aux dirigeants mis en cause.", tag: "Pénal" },
+  { titre: "Protection des données (RGPD)", desc: "Mise en conformité RGPD, rédaction de politiques de confidentialité, DPO externalisé, accompagnement en cas de violations.", tag: "RGPD" },
+]
 
-    const timer = setTimeout(tick, 700);
-    return () => clearTimeout(timer);
-  }, []);
+const ENGAGEMENTS = [
+  "Membre du Barreau de Paris depuis 2002",
+  "Devis honoraires transparents avant tout engagement",
+  "Convention d'honoraires systématique et détaillée",
+  "Aide juridictionnelle acceptée sous conditions",
+]
+
+const AVIS = [
+  { texte: "Maître Renard a géré un litige commercial complexe avec une rigueur impressionnante. Gain de cause en première instance. Communication impeccable tout au long de la procédure.", auteur: "Pierre V.", detail: "Litige commercial B2B" },
+  { texte: "Licenciement abusif après 12 ans dans l'entreprise. Maître Renard m'a accompagnée patiemment et obtenu une indemnisation bien supérieure à ce que j'espérais.", auteur: "Sandra M.", detail: "Droit du travail, CDI" },
+  { texte: "Divorce difficile après 15 ans. Maître Renard a su rester humain tout en défendant mes intérêts avec fermeté. L'accord amiable final est bien au-delà de mes attentes.", auteur: "François D.", detail: "Droit de la famille" },
+]
+
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: "-60px" })
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  )
+}
+
+export default function CabinetRenardPage() {
+  const heroRef = useRef<HTMLElement>(null)
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 170])
+  const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -65])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0])
+
+  React.useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 50)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
+  }, [])
 
   return (
-    <div>
-      {/* ── HERO ───────────────────────────────────────────────────────── */}
-      <section ref={heroRef} style={{
-        minHeight: "calc(100vh - 52px)",
-        display: "flex",
-        flexDirection: "column",
+    <div style={{ background: C.bg, fontFamily: FONT_BODY, overflowX: "hidden" }}>
+      <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap');`}</style>
+
+      {/* Navbar */}
+      <motion.nav style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72,
+        display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px",
+        background: scrolled ? "rgba(247,245,240,0.97)" : "transparent",
+        backdropFilter: scrolled ? "blur(12px)" : "none",
+        borderBottom: scrolled ? `1px solid ${C.border}` : "none",
+        transition: "all 0.4s ease",
       }}>
-        {/* Terminal title bar */}
-        <div style={{
-          backgroundColor: "#001200",
-          borderBottom: "1px solid #008F11",
-          padding: "10px 20px",
-          display: "flex",
-          alignItems: "center",
-          gap: "16px",
-        }}>
-          <span style={{ color: "#ff5f57", fontSize: "10px" }}>●</span>
-          <span style={{ color: "#febc2e", fontSize: "10px" }}>●</span>
-          <span style={{ color: "#28c840", fontSize: "10px" }}>●</span>
-          <span style={{ color: "#008F11", fontSize: "11px", marginLeft: "16px", letterSpacing: "0.1em" }}>
-            GHOST_SHELL — bash — 80x24
-          </span>
-          <span style={{ marginLeft: "auto", color: "#003300", fontSize: "10px" }}>
-            PID 4291 · SSH authenticated · AES-256
-          </span>
+        <div>
+          <span style={{ fontFamily: FONT, fontSize: 16, fontStyle: "italic", color: scrolled ? C.text : "#fff" }}>Maître Renard</span>
+          <span style={{ fontSize: 13, color: scrolled ? C.textMuted : "rgba(255,255,255,0.65)", marginLeft: 6 }}>& Associés</span>
         </div>
+        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+          {["Domaines", "L'équipe", "Honoraires", "Contact"].map(l => (
+            <a key={l} href={`#${l.toLowerCase().replace("'", "").replace("é", "e")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
+          ))}
+          <motion.a href="tel:+33144000001" style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#b8952e" }}>
+            Consultation
+          </motion.a>
+        </div>
+      </motion.nav>
 
-        {/* Terminal body */}
-        <div style={{
-          flex: 1,
-          padding: "32px 40px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "0",
-        }}>
-          {/* Init sequence */}
-          <div style={{ marginBottom: "40px" }}>
-            {typedLines.map((line, i) => (
-              <div key={i} style={{
-                fontSize: "14px",
-                lineHeight: "2",
-                color: i === typedLines.length - 1 && doneTyping ? "#00FF41" : "#008F11",
-                letterSpacing: "0.04em",
-              }}>
-                {line}
+      {/* Hero */}
+      <section ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+        <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
+          <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1920&q=80" alt="Cabinet avocat Maître Renard Paris" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        </motion.div>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(5,5,12,0.94) 0%, rgba(5,5,12,0.48) 45%, rgba(5,5,12,0.08) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.gold}14 0%, transparent 55%)` }} />
+
+        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(201,168,76,0.12)", border: "1px solid rgba(201,168,76,0.30)", borderRadius: 20, padding: "7px 18px" }}>
+            <Scale size={12} color={C.gold} />
+            <span style={{ color: C.gold, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", fontFamily: FONT_BODY }}>Cabinet d'avocats · Paris</span>
+          </motion.div>
+
+          <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
+            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5vw, 68px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>
+            La justice mérite<br /><em style={{ color: C.gold }}>d'être défendue avec rigueur.</em>
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>
+            Cabinet Renard & Associés — expertise en droit des affaires, droit du travail, droit de la famille et RGPD. 22 ans d'exercice au Barreau de Paris.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+            <motion.a href="tel:+33144000001" style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.gold}44` }} whileHover={{ background: "#b8952e", scale: 1.03 }}>
+              Prendre rendez-vous <ArrowRight size={16} />
+            </motion.a>
+            <motion.a href="#domaines" style={{ background: "rgba(255,255,255,0.08)", color: "#fff", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 4, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)" }} whileHover={{ background: "rgba(255,255,255,0.14)" }}>
+              Nos domaines
+            </motion.a>
+          </motion.div>
+        </motion.div>
+
+        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }}
+          style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 2 }}>
+          <div style={{ width: 24, height: 36, border: "2px solid rgba(255,255,255,0.30)", borderRadius: 12, display: "flex", justifyContent: "center", paddingTop: 6 }}>
+            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }} style={{ width: 6, height: 6, borderRadius: "50%", background: C.gold }} />
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Stats */}
+      <section style={{ background: C.accent, padding: "0 80px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: 1100, margin: "0 auto" }}>
+          {STATS.map((s, i) => (
+            <Reveal key={s.label} delay={i * 0.08}>
+              <div style={{ padding: "30px 0", textAlign: "center", borderRight: i < 3 ? `1px solid ${C.gold}28` : "none" }}>
+                <div style={{ fontFamily: FONT, fontSize: 36, fontWeight: 300, color: C.gold, lineHeight: 1 }}>{s.value}</div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.48)", marginTop: 6 }}>{s.label}</div>
               </div>
-            ))}
-            {!doneTyping && (
-              <div style={{ fontSize: "14px", lineHeight: "2", color: "#00FF41", letterSpacing: "0.04em" }}>
-                {currentLine}<BlinkCursor />
-              </div>
-            )}
-          </div>
-
-          {/* ASCII GHOST SHELL logotype */}
-          <div style={{
-            margin: "20px 0 32px",
-            lineHeight: "1.15",
-            overflowX: "auto",
-          }}>
-            <pre style={{
-              color: "#00FF41",
-              fontSize: "clamp(6px, 1.1vw, 13px)",
-              margin: 0,
-              fontFamily: "'Courier New', Courier, monospace",
-              textShadow: "0 0 12px rgba(0,255,65,0.6)",
-              userSelect: "none",
-            }}>{`
-  ██████╗ ██╗  ██╗ ██████╗ ███████╗████████╗    ███████╗██╗  ██╗███████╗██╗     ██╗
-  ██╔════╝ ██║  ██║██╔═══██╗██╔════╝╚══██╔══╝    ██╔════╝██║  ██║██╔════╝██║     ██║
-  ██║  ███╗███████║██║   ██║███████╗   ██║       ███████╗███████║█████╗  ██║     ██║
-  ██║   ██║██╔══██║██║   ██║╚════██║   ██║       ╚════██║██╔══██║██╔══╝  ██║     ██║
-  ╚██████╔╝██║  ██║╚██████╔╝███████║   ██║       ███████║██║  ██║███████╗███████╗███████╗
-   ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝   ╚═╝       ╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝`}</pre>
-          </div>
-
-          {/* Sub-headline */}
-          <div style={{ color: "#008F11", fontSize: "13px", marginBottom: "48px", letterSpacing: "0.14em" }}>
-            ▶ cybersecurity engineering · stealth deployment · adversarial design
-          </div>
-
-          {/* Deploy prompt */}
-          <div style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            fontSize: "15px",
-            color: "#00FF41",
-            letterSpacing: "0.06em",
-          }}>
-            <span style={{ color: "#008F11" }}>ghost@shell:~$</span>
-            <span>deploy --env production --silent --zero-trace</span>
-            <BlinkCursor />
-          </div>
-
-          <div style={{ marginTop: "48px", display: "flex", gap: "20px", flexWrap: "wrap" }}>
-            <Link href="/templates/impact-55/contact" style={{
-              backgroundColor: "#00FF41",
-              color: "#000",
-              border: "none",
-              padding: "12px 32px",
-              fontSize: "12px",
-              fontFamily: "'Courier New', Courier, monospace",
-              fontWeight: "bold",
-              letterSpacing: "0.14em",
-              cursor: "pointer",
-              textDecoration: "none",
-              transition: "opacity 0.15s",
-            }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
-            onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-            >
-              [EXECUTE]
-            </Link>
-            <Link href="/templates/impact-55/about" style={{
-              backgroundColor: "transparent",
-              color: "#00FF41",
-              border: "1px solid #008F11",
-              padding: "12px 32px",
-              fontSize: "12px",
-              fontFamily: "'Courier New', Courier, monospace",
-              letterSpacing: "0.14em",
-              cursor: "pointer",
-              textDecoration: "none",
-              transition: "border-color 0.15s, color 0.15s",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = "#00FF41"; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = "#008F11"; }}
-            >
-              ▶ man ghost_shell
-            </Link>
-          </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
-      {/* ── SYSTEM STATUS ──────────────────────────────────────────────── */}
-      <section style={{ padding: "80px 40px", borderTop: "1px solid #003300" }}>
-        <div style={{ maxWidth: "900px", margin: "0 auto" }}>
-          <div style={{ color: "#008F11", fontSize: "11px", letterSpacing: "0.2em", marginBottom: "8px" }}>
-            ■ SECTION_02
+      {/* Domaines */}
+      <section id="domaines" style={{ padding: "110px 80px", background: C.bg }}>
+        <Reveal>
+          <div style={{ marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.gold }}>Domaines d'expertise</span>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 300, color: C.text, marginTop: 10, lineHeight: 1.15 }}>
+              Une expertise pluridisciplinaire<br /><em>au service de vos intérêts.</em>
+            </h2>
           </div>
-          <h2 style={{ color: "#00FF41", fontSize: "clamp(22px, 3vw, 36px)", marginBottom: "48px", letterSpacing: "0.08em", fontWeight: "normal" }}>
-            SYSTEM_STATUS
-          </h2>
-
-          <TerminalWindow title="status.sh — live readout">
-            <div style={{ color: "#008F11", fontSize: "11px", marginBottom: "24px", letterSpacing: "0.08em" }}>
-              $ ./status.sh --verbose --live
-            </div>
-            <ProgressBar pct={99.99} label="UPTIME" value="99.99%" />
-            <ProgressBar pct={12}    label="THREAT_LEVEL" value="LOW / NOMINAL" />
-            <ProgressBar pct={91}    label="CLIENTS_ACTIVE" value="2,847" />
-            <ProgressBar pct={78}    label="COMMITS_TOTAL" value="84,291" />
-            <ProgressBar pct={100}   label="CVE_PATCHES_APPLIED" value="1,204 / 1,204" />
-            <div style={{ marginTop: "28px", color: "#008F11", fontSize: "11px", letterSpacing: "0.08em" }}>
-              <div style={{ marginBottom: "6px" }}>last_heartbeat:  {new Date().toISOString().replace("T", " ").slice(0, 19)} UTC</div>
-              <div>daemon_status:   <span style={{ color: "#00FF41" }}>RUNNING (PID 4291)</span></div>
-            </div>
-          </TerminalWindow>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
+          {DOMAINES.map((d, i) => (
+            <Reveal key={d.titre} delay={i * 0.07}>
+              <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.white, borderRadius: 4, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
+                <span style={{ background: C.goldLight, color: "#8a6a1c", borderRadius: 4, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{d.tag}</span>
+                <h3 style={{ fontFamily: FONT, fontSize: 18, fontWeight: 400, color: C.text, margin: "14px 0 10px" }}>{d.titre}</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{d.desc}</p>
+              </motion.div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
-      {/* ── CAPABILITIES ───────────────────────────────────────────────── */}
-      <section style={{ padding: "80px 40px", borderTop: "1px solid #003300" }}>
-        <div style={{ maxWidth: "900px", margin: "0 auto" }}>
-          <div style={{ color: "#008F11", fontSize: "11px", letterSpacing: "0.2em", marginBottom: "8px" }}>■ SECTION_03</div>
-          <h2 style={{ color: "#00FF41", fontSize: "clamp(22px, 3vw, 36px)", marginBottom: "48px", letterSpacing: "0.08em", fontWeight: "normal" }}>CAPABILITIES</h2>
-          <TerminalWindow title="modules.sh — capability manifest">
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
-              {[
-                { module: "GHOST_NET", code: "v4.1.0", desc: "Stealth network penetration framework. Zero-trace lateral movement across segmented environments." },
-                { module: "CIPHER_VAULT", code: "v3.8.2", desc: "End-to-end encryption layer with quantum-resistant key exchange (Kyber-1024). No backdoors." },
-                { module: "PHANTOM_OPS", code: "v5.0.0", desc: "Adversarial red team operations. We find the holes before the attackers do. 100% authorized." },
-                { module: "SENTINEL_AI", code: "v2.4.1", desc: "ML-powered anomaly detection. 4ms response time. Trained on 12B malicious event signatures." },
-                { module: "ZERO_TRACE", code: "v1.9.3", desc: "Anti-forensics toolkit for authorized deployments. Memory scrubbing, log rotation, artifact removal." },
-                { module: "NEXUS_C2", code: "v3.3.0", desc: "Encrypted command-and-control infrastructure for red team engagements. OPSEC-hardened." },
-              ].map((cap) => (
-                <div key={cap.module} style={{ borderLeft: "1px solid #003300", paddingLeft: "16px" }}>
-                  <div style={{ color: "#00FF41", fontSize: "11px", fontWeight: "bold", letterSpacing: "0.08em", marginBottom: "4px" }}>{cap.module} <span style={{ color: "#008F11" }}>[{cap.code}]</span></div>
-                  <div style={{ color: "#008F11", fontSize: "10px", lineHeight: "1.6", letterSpacing: "0.04em" }}>{cap.desc}</div>
+      {/* Engagements */}
+      <section style={{ padding: "100px 80px", background: C.bgSection }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+          <Reveal>
+            <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80" alt="Cabinet juridique Paris" style={{ width: "100%", borderRadius: 4, aspectRatio: "4/3", objectFit: "cover" }} />
+          </Reveal>
+          <Reveal delay={0.15}>
+            <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.gold }}>Nos engagements</span>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", fontWeight: 300, color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>
+              La transparence,<br /><em>une valeur fondamentale.</em>
+            </h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {ENGAGEMENTS.map((e, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                  <Shield size={16} color={C.gold} style={{ flexShrink: 0, marginTop: 2 }} />
+                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{e}</span>
                 </div>
               ))}
             </div>
-            <div style={{ marginTop: "28px", color: "#008F11", fontSize: "11px" }}>
-              $ echo &quot;All modules loaded. Type [EXECUTE] to initiate engagement.&quot;
-            </div>
-          </TerminalWindow>
+            <motion.a href="tel:+33144000001" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.gold, color: C.text, borderRadius: 4, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "#b8952e", scale: 1.02 }}>
+              Consultation <ArrowRight size={16} />
+            </motion.a>
+          </Reveal>
         </div>
       </section>
 
-      {/* ── ENGAGEMENTS ────────────────────────────────────────────────── */}
-      <section style={{ padding: "80px 40px", borderTop: "1px solid #003300" }}>
-        <div style={{ maxWidth: "900px", margin: "0 auto" }}>
-          <div style={{ color: "#008F11", fontSize: "11px", letterSpacing: "0.2em", marginBottom: "8px" }}>■ SECTION_04</div>
-          <h2 style={{ color: "#00FF41", fontSize: "clamp(22px, 3vw, 36px)", marginBottom: "48px", letterSpacing: "0.08em", fontWeight: "normal" }}>ENGAGEMENT_LOG</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
-            {[
-              { id: "ENG-2847", client: "[REDACTED]", scope: "Full red team engagement — 14-day persistent access attempt", result: "SUCCESS — 3 critical paths found, patched before handoff", year: "2025" },
-              { id: "ENG-2831", client: "[REDACTED]", scope: "Cloud infrastructure audit — AWS multi-account, 400+ services", result: "SUCCESS — IAM misconfiguration led to privilege escalation", year: "2025" },
-              { id: "ENG-2790", client: "[REDACTED]", scope: "Zero-day research — browser extension attack surface", result: "SUCCESS — CVE-2025-XXXX (awaiting disclosure)", year: "2024" },
-              { id: "ENG-2764", client: "[REDACTED]", scope: "Physical + digital hybrid intrusion test", result: "SUCCESS — Social engineering + RF cloning combo", year: "2024" },
-            ].map((eng) => (
-              <div key={eng.id} style={{ borderTop: "1px solid #001500", padding: "20px 0", display: "grid", gridTemplateColumns: "120px 1fr 200px 60px", gap: "24px", alignItems: "start" }}>
-                <span style={{ color: "#008F11", fontSize: "10px", letterSpacing: "0.1em" }}>{eng.id}</span>
-                <div>
-                  <div style={{ color: "#008F11", fontSize: "10px", marginBottom: "4px" }}>CLIENT: {eng.client}</div>
-                  <div style={{ color: "#00FF41", fontSize: "11px", letterSpacing: "0.04em" }}>{eng.scope}</div>
+      {/* Avis */}
+      <section style={{ padding: "100px 80px", background: C.accent }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.gold }}>Références clients</span>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 300, color: "#fff", marginTop: 10 }}>Ils nous <em style={{ color: C.gold }}>ont confié leurs dossiers</em>.</h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}>
+          {AVIS.map((a, i) => (
+            <Reveal key={a.auteur} delay={i * 0.1}>
+              <div style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${C.gold}20`, borderRadius: 4, padding: "28px 24px" }}>
+                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.gold} color={C.gold} />)}</div>
+                <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", fontWeight: 300, color: "rgba(255,255,255,0.80)", lineHeight: 1.72, marginBottom: 18 }}>"{a.texte}"</p>
+                <div style={{ borderTop: `1px solid ${C.gold}20`, paddingTop: 14 }}>
+                  <div style={{ fontWeight: 600, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
+                  <div style={{ color: C.gold, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
                 </div>
-                <span style={{ color: "#008F11", fontSize: "10px", lineHeight: "1.5" }}>{eng.result}</span>
-                <span style={{ color: "#003300", fontSize: "10px" }}>{eng.year}</span>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section id="contact" style={{ padding: "100px 80px", background: C.goldLight, textAlign: "center" }}>
+        <Reveal>
+          <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: "#8a6a1c" }}>Premier entretien</span>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 300, color: C.text, margin: "14px 0 16px" }}>Votre dossier mérite<br /><em>une expertise sérieuse.</em></h2>
+          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>
+            Premier entretien disponible sous 48h. Honoraires transparents communiqués avant toute intervention.
+          </p>
+          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+            <motion.a href="tel:+33144000001" style={{ background: C.accent, color: C.white, borderRadius: 4, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> 01 44 00 00 01
+            </motion.a>
+            <motion.a href="mailto:contact@cabinet-renard.fr" style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 4, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
+              <Mail size={18} /> Nous écrire
+            </motion.a>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Footer */}
+      <footer style={{ background: C.accent, padding: "48px 80px 24px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
+          <div>
+            <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", fontWeight: 300, color: C.gold, marginBottom: 8 }}>Maître Renard & Associés</div>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Cabinet d'avocats · Paris<br />Barreau de Paris</p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+            {[{ icon: <MapPin size={13} />, t: "Paris, Île-de-France" }, { icon: <Phone size={13} />, t: "01 44 00 00 01" }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
+                <span style={{ color: C.gold }}>{item.icon}</span>{item.t}
               </div>
             ))}
           </div>
         </div>
-      </section>
-
-      {/* ── CONTACT CTA ────────────────────────────────────────────────── */}
-      <section style={{ padding: "80px 40px", borderTop: "1px solid #003300", textAlign: "center" }}>
-        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
-          <div style={{ color: "#008F11", fontSize: "11px", letterSpacing: "0.2em", marginBottom: "24px" }}>■ INITIATE_CONTACT</div>
-          <h2 style={{ color: "#00FF41", fontSize: "clamp(28px, 4vw, 48px)", marginBottom: "24px", letterSpacing: "0.04em", fontWeight: "normal" }}>DEPLOY_YOUR_BRIEF</h2>
-          <p style={{ color: "#008F11", fontSize: "12px", lineHeight: "1.8", marginBottom: "48px", letterSpacing: "0.06em" }}>
-            All engagements are confidential by default. We operate under NDA before the first message.
-            Authorized personnel only. No script kiddies.
-          </p>
-          <Link href="/templates/impact-55/contact" style={{
-            display: "inline-block",
-            backgroundColor: "#00FF41",
-            color: "#000",
-            padding: "14px 40px",
-            fontSize: "12px",
-            fontFamily: "'Courier New', monospace",
-            fontWeight: "bold",
-            letterSpacing: "0.14em",
-            textDecoration: "none",
-          }}>
-            [SEND_BRIEF]
-          </Link>
+        <div style={{ borderTop: `1px solid ${C.gold}20`, paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Cabinet Renard & Associés — Site par Aevia WS</span>
+          <a href="/legal/mentions-legales" style={{ color: "rgba(255,255,255,0.20)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
         </div>
-      </section>
+      </footer>
     </div>
-  );
+  )
 }

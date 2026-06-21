@@ -1,722 +1,276 @@
-// @ts-nocheck
-"use client";
+"use client"
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import React, { useRef, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  Radio,
-  Eye,
-  Zap,
-  Users,
-  DollarSign,
-  Server,
-  Star,
-  Check,
-  ArrowRight,
-  Play,
-  TrendingUp,
-  Shield,
-} from "lucide-react";
-import { Reveal, MagneticBtn, Counter, STREAMS, CREATORS } from "./shared";
+import React, { useRef, useState } from "react"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { Music, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Guitar } from "lucide-react"
 
-const TIERS = [
-  {
-    name: "Basic",
-    price: "Gratuit",
-    priceNum: 0,
-    highlight: false,
-    features: [
-      "720p jusqu'à 30 FPS",
-      "1 Go de stockage VOD",
-      "Monétisation basique",
-      "Chat en direct",
-      "Analytics de base",
-    ],
-    cta: "Démarrer gratuitement",
-  },
-  {
-    name: "Pro",
-    price: "9,99€",
-    priceNum: 9.99,
-    highlight: true,
-    features: [
-      "4K 60 FPS sans compression",
-      "100 Go de stockage VOD",
-      "Monétisation avancée + tips",
-      "Chat + modération IA",
-      "Analytics temps réel",
-      "Badge Créateur vérifié",
-    ],
-    cta: "Passer en Pro",
-  },
-  {
-    name: "Ultra",
-    price: "19,99€",
-    priceNum: 19.99,
-    highlight: false,
-    features: [
-      "8K HDR 120 FPS",
-      "Stockage illimité",
-      "Revenus prioritaires (paiement J+1)",
-      "Multi-stream 4 plateformes",
-      "Manager dédié",
-      "API accès complet",
-      "Dashboard revenus avancé",
-    ],
-    cta: "Devenir Ultra",
-  },
-];
+const C = {
+  bg: "#fdf8f0",
+  bgSection: "#f5eddc",
+  text: "#1a0a3d",
+  textMuted: "#6b5e80",
+  accent: "#1a0a3d",
+  purple: "#5e35b1",
+  purpleLight: "#ede7f6",
+  amber: "#e67c3b",
+  amberLight: "#fdefd3",
+  white: "#ffffff",
+  border: "#e0d5c0",
+  shadow: "0 2px 14px rgba(26,10,61,0.08)",
+  shadowLg: "0 16px 48px rgba(230,124,59,0.18)",
+}
+const FONT = "'Spectral', Georgia, serif"
+const FONT_BODY = "'Poppins', system-ui, sans-serif"
 
-const TESTIMONIALS = [
-  {
-    quote:
-      "En 6 mois sur Glitch Unit, j'ai quadruplé mes revenus. La qualité 4K attire des audiences que les autres plateformes n'ont pas. C'est la seule plateforme qui me respecte.",
-    name: "AURA_VOID",
-    role: "Créateur musical — 1,2M abonnés",
-    img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=120&q=80",
-    earnings: "+340% revenus",
-  },
-  {
-    quote:
-      "Le paiement direct J+1 a changé ma vie. Plus d'attente de 30 jours. Plus d'intermédiaires. Je stream, je gagne, point final.",
-    name: "GLITCH_ONE",
-    role: "Gamer professionnel — 2,4M abonnés",
-    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&q=80",
-    earnings: "28,1K viewers en pic",
-  },
-  {
-    quote:
-      "La qualité de l'image est incomparable. Mes cours de yoga en 4K ont converti 3x plus d'abonnés premium. Glitch Unit comprend les créateurs de contenu wellness.",
-    name: "MAYA_ZEN",
-    role: "Coach Wellness — 850K abonnés",
-    img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&q=80",
-    earnings: "x3 conversions premium",
-  },
-];
+const STATS = [
+  { value: "18 ans", label: "D'enseignement" },
+  { value: "320+", label: "Élèves formés" },
+  { value: "8", label: "Professeurs certifiés" },
+  { value: "4 ans", label: "Âge minimum" },
+]
 
-const STEPS = [
-  {
-    num: "01",
-    title: "Crée ton canal",
-    desc: "Configure ta chaîne en moins de 5 minutes. Personnalise ton profil, ton branding et tes options de monétisation dès le départ.",
-    icon: <Server className="w-5 h-5" />,
-  },
-  {
-    num: "02",
-    title: "Go live",
-    desc: "Lance ton stream avec notre encodeur ultra-low latency. Compatible OBS, StreamElements et toutes les solutions pro du marché.",
-    icon: <Radio className="w-5 h-5" />,
-  },
-  {
-    num: "03",
-    title: "Encaisse",
-    desc: "Abonnements, tips, publicités algorithmiques : tes revenus arrivent directement sur ton compte sous 24h. Pas d'intermédiaire.",
-    icon: <DollarSign className="w-5 h-5" />,
-  },
-];
+const COURS = [
+  { titre: "Piano classique & contemporain", desc: "Initiation à la maîtrise, de 4 ans à l'adulte. Préparation aux concours et examens du conservatoire. Méthode Suzuki disponible pour les plus jeunes.", tag: "Piano" },
+  { titre: "Guitare acoustique & électrique", desc: "Classique, folk, rock, jazz — nous adaptons l'enseignement à votre univers musical. Cours individuels et en petits groupes à partir de 6 ans.", tag: "Guitare" },
+  { titre: "Chant & technique vocale", desc: "Travail de la voix, placement, respiration, répertoire. Chant lyrique, pop, musical. Préparation aux auditions et concours.", tag: "Chant" },
+  { titre: "Batterie & percussions", desc: "Des bases du rythme aux techniques avancées. Cours adulte le soir, enfant en journée. Kits électroniques disponibles pour les cours silencieux.", tag: "Batterie" },
+  { titre: "Formation musicale (solfège)", desc: "Lecture, écriture, oreille musicale. Cours en groupe pour les enfants (5–12 ans) et individuels pour les adultes. Prépare à tous les instruments.", tag: "Solfège" },
+  { titre: "Cours en ligne & stages", desc: "Cours en visioconférence disponibles pour tous les instruments. Stages intensifs vacances scolaires : 2 jours pour progresser comme en 3 mois.", tag: "En ligne" },
+]
 
-const TOP_CREATORS = [
-  {
-    name: "AURA_VOID",
-    specialty: "Musique & Production",
-    followers: "1,2M",
-    earnings: "12 400€ / mois",
-    badge: "TOP EARNER",
-    img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80",
-    badgeColor: "text-yellow-400 border-yellow-400/30 bg-yellow-400/10",
-  },
-  {
-    name: "GLITCH_ONE",
-    specialty: "Gaming compétitif",
-    followers: "2,4M",
-    earnings: "31 200€ / mois",
-    badge: "#1 GAMING",
-    img: "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=400&q=80",
-    badgeColor: "text-rose-400 border-rose-400/30 bg-rose-400/10",
-  },
-  {
-    name: "MAYA_ZEN",
-    specialty: "Wellness & Méditation",
-    followers: "850K",
-    earnings: "8 700€ / mois",
-    badge: "RISING STAR",
-    img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80",
-    badgeColor: "text-emerald-400 border-emerald-400/30 bg-emerald-400/10",
-  },
-];
+const POINTS_FORTS = [
+  "Professeurs diplômés d'État ou du Conservatoire National",
+  "Cours individuels et collectifs adaptés à chaque âge",
+  "Audition des élèves organisée 2 fois par an",
+  "Prêt de partitions et accès aux salles de répétition",
+]
 
-export default function StreamHubHome() {
-  const heroRef = useRef(null);
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+const TEMOIGNAGES = [
+  { texte: "Ma fille de 7 ans fait du piano depuis 2 ans. La progression est spectaculaire et surtout elle ADORE aller en cours — ce qui dit tout de la qualité des professeurs. Merci à l'équipe.", auteur: "Nathalie B.", detail: "Piano enfant, 7 ans" },
+  { texte: "J'ai repris la guitare à 45 ans après 20 ans d'arrêt. Cours parfaitement adapté à mon niveau et à mes disponibilités. Je rejoue enfin des morceaux que je croyais perdus.", auteur: "Luc D.", detail: "Guitare adulte" },
+  { texte: "Mon fils prépare son entrée au conservatoire. Les profs connaissent parfaitement les attentes des jurys — il a été admis du premier coup. Merci infiniment.", auteur: "Famille Girard", detail: "Préparation conservatoire" },
+]
 
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: "-60px" })
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  )
+}
+
+export default function ConservatoireAccordPage() {
+  const heroRef = useRef<HTMLElement>(null)
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 170])
+  const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -65])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0])
+
+  React.useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 50)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
+  }, [])
 
   return (
-    <div className="w-full bg-[#06080d]">
-      {/* ==========================================
-          1. HERO (Cyber-Entertainment)
-          ========================================== */}
-      <section
-        ref={heroRef}
-        className="relative w-full h-[calc(100vh-7rem)] flex flex-col justify-center overflow-hidden"
-      >
-        <motion.div
-          style={{ y: heroY, opacity: heroOpacity }}
-          className="absolute inset-0 z-0"
-        >
-          <Image
-            src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop"
-            alt="StreamHub Hero"
-            fill
-            className="object-cover brightness-[0.2] opacity-40"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#06080d] via-[#06080d]/40 to-transparent" />
+    <div style={{ background: C.bg, fontFamily: FONT_BODY, overflowX: "hidden" }}>
+      <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Poppins:wght@300;400;500;600;700&display=swap');`}</style>
+
+      {/* Navbar */}
+      <motion.nav style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72,
+        display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px",
+        background: scrolled ? "rgba(253,248,240,0.97)" : "transparent",
+        backdropFilter: scrolled ? "blur(12px)" : "none",
+        borderBottom: scrolled ? `1px solid ${C.border}` : "none",
+        transition: "all 0.4s ease",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <Music size={20} color={scrolled ? C.amber : "#fff"} />
+          <span style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: scrolled ? C.text : "#fff" }}>Conservatoire<span style={{ color: C.amber }}> Accord</span></span>
+        </div>
+        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+          {["Cours", "Professeurs", "Tarifs", "Contact"].map(l => (
+            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+          ))}
+          <motion.a href="#contact" style={{ background: C.amber, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: "#d06a2e" }}>
+            <Guitar size={14} /> S'inscrire
+          </motion.a>
+        </div>
+      </motion.nav>
+
+      {/* Hero */}
+      <section ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+        <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
+          <img src="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1920&q=80" alt="Conservatoire Accord école de musique Lyon" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        </motion.div>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(8,3,22,0.93) 0%, rgba(8,3,22,0.42) 45%, rgba(8,3,22,0.08) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.purple}18 0%, transparent 55%)` }} />
+
+        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(230,124,59,0.15)", border: "1px solid rgba(230,124,59,0.35)", borderRadius: 20, padding: "7px 18px" }}>
+            <Music size={12} color={C.amber} />
+            <span style={{ color: C.amber, fontSize: 12, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>École de musique · Lyon 6e</span>
+          </motion.div>
+
+          <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
+            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5.2vw, 68px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>
+            La musique s'apprend<br /><em style={{ color: C.amber }}>avec passion et méthode.</em>
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>
+            Conservatoire Accord forme les musiciens de 4 à 99 ans à Lyon depuis 18 ans. Piano, guitare, chant, batterie, solfège — cours individuels ou en groupe, enfants et adultes.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+            <motion.a href="#contact" style={{ background: C.amber, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.amber}44` }} whileHover={{ background: "#d06a2e", scale: 1.03 }}>
+              S'inscrire <ArrowRight size={16} />
+            </motion.a>
+            <motion.a href="#cours" style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 500, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)" }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
+              Nos cours
+            </motion.a>
+          </motion.div>
         </motion.div>
 
-        {/* GRID OVERLAY */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(229,0,76,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(229,0,76,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
-
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
-          <Reveal>
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-rose-600/10 rounded-md border border-rose-600/30 text-rose-400 text-[10px] font-bold uppercase tracking-widest mb-10 shadow-sm">
-              <Radio className="w-3.5 h-3.5" />
-              Live: 8K HDR 120FPS Deployment Complete
-            </div>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-12 uppercase pb-6">
-              Own The <br />{" "}
-              <span className="text-rose-500 italic">Spectrum.</span>
-            </h1>
-            <p className="max-w-xl text-lg md:text-xl text-white/30 leading-relaxed font-bold mb-12 uppercase tracking-tight italic">
-              Ultra-low latency streaming for the modern creator. Zero
-              compression. Infinite scale. Direct-to-creator monetization.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6">
-              <Link href="/templates/impact-73/browse" className="no-underline">
-                <MagneticBtn className="px-12 py-5 bg-rose-600 text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-md hover:bg-rose-500 transition-all cursor-pointer shadow-2xl shadow-rose-600/20 border-none">
-                  Join The Stream
-                </MagneticBtn>
-              </Link>
-              <Link href="/templates/impact-73/contact" className="no-underline">
-                <button className="px-12 py-5 border border-white/10 bg-transparent text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-md hover:bg-white hover:text-black transition-all cursor-pointer">
-                  Partner_Inquiry
-                </button>
-              </Link>
-            </div>
-          </Reveal>
-        </div>
-
-        <motion.div
-          style={{ opacity: heroOpacity }}
-          className="absolute bottom-10 left-12 hidden md:block"
-        >
-          <div className="flex flex-col items-start gap-3">
-            <span className="text-[9px] font-bold text-white/10 uppercase tracking-[0.5em]">
-              STREAM_HUB_OS // V8.4.2
-            </span>
-            <div className="w-32 h-[1px] bg-rose-500/40" />
+        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }}
+          style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 2 }}>
+          <div style={{ width: 24, height: 36, border: "2px solid rgba(255,255,255,0.35)", borderRadius: 12, display: "flex", justifyContent: "center", paddingTop: 6 }}>
+            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }} style={{ width: 6, height: 6, borderRadius: "50%", background: C.amber }} />
           </div>
         </motion.div>
       </section>
 
-      {/* ==========================================
-          2. LIVE COUNTER BAND
-          ========================================== */}
-      <section className="py-14 bg-[#0a0c12] border-y border-white/5 overflow-hidden">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x md:divide-white/5">
-            {[
-              {
-                icon: <Eye className="w-4 h-4" />,
-                label: "En ligne maintenant",
-                to: 142960,
-                suffix: "",
-                color: "text-rose-500",
-              },
-              {
-                icon: <DollarSign className="w-4 h-4" />,
-                label: "Versés ce mois",
-                to: 2400000,
-                prefix: "$",
-                suffix: "",
-                color: "text-emerald-400",
-              },
-              {
-                icon: <Users className="w-4 h-4" />,
-                label: "Créateurs actifs",
-                to: 38000,
-                suffix: "+",
-                color: "text-cyan-400",
-              },
-              {
-                icon: <Server className="w-4 h-4" />,
-                label: "Uptime garanti",
-                to: 9997,
-                suffix: "%",
-                color: "text-yellow-400",
-              },
-            ].map((stat, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className="flex flex-col items-center md:items-start md:px-10 gap-3">
-                  <div className={`${stat.color} flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest`}>
-                    {stat.icon}
-                    {stat.label}
-                  </div>
-                  <div className="text-4xl md:text-5xl font-black text-white tracking-tighter">
-                    <Counter
-                      to={stat.to}
-                      prefix={stat.prefix ?? ""}
-                      suffix={stat.suffix}
-                    />
-                    {stat.to === 9997 && (
-                      <span className="text-[10px] text-white/20 ml-1 font-bold normal-case tracking-normal">
-                        (÷100)
-                      </span>
-                    )}
-                  </div>
-                  <div className="w-8 h-[1px] bg-rose-500/30" />
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          3. FEATURED STREAMS GRID
-          ========================================== */}
-      <section className="py-24 bg-[#06080d]">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <div className="flex items-end justify-between mb-14">
-              <div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-rose-500 mb-3">
-                  // STREAMS EN DIRECT
-                </div>
-                <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white italic">
-                  Sur scène <br />
-                  <span className="text-white/20">maintenant.</span>
-                </h2>
+      {/* Stats */}
+      <section style={{ background: C.accent, padding: "0 80px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: 1100, margin: "0 auto" }}>
+          {STATS.map((s, i) => (
+            <Reveal key={s.label} delay={i * 0.08}>
+              <div style={{ padding: "30px 0", textAlign: "center", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.10)" : "none" }}>
+                <div style={{ fontFamily: FONT, fontSize: 36, fontWeight: 300, color: C.amber, lineHeight: 1 }}>{s.value}</div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.48)", marginTop: 6 }}>{s.label}</div>
               </div>
-              <Link href="/templates/impact-73/browse" className="no-underline hidden md:block">
-                <button className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-rose-400 transition-colors cursor-pointer group">
-                  Voir tout
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </Link>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {STREAMS.map((stream, i) => (
-              <Reveal key={stream.id} delay={i * 0.08}>
-                <div className="group relative rounded-lg overflow-hidden bg-[#0d0f17] border border-white/5 hover:border-rose-500/30 transition-all duration-300 cursor-pointer">
-                  <div className="relative aspect-video overflow-hidden">
-                    <Image
-                      src={stream.img}
-                      alt={stream.title}
-                      fill
-                      className="object-cover brightness-75 group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0d0f17] via-transparent to-transparent" />
-                    {/* LIVE badge */}
-                    <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-rose-600 rounded text-[9px] font-black uppercase tracking-widest text-white">
-                      <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-                      LIVE
-                    </div>
-                    {/* Viewers */}
-                    <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 bg-black/60 backdrop-blur-sm rounded text-[9px] font-bold text-white/80">
-                      <Eye className="w-2.5 h-2.5" />
-                      {stream.viewers}
-                    </div>
-                    {/* Play overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="w-12 h-12 bg-rose-600/80 backdrop-blur-sm rounded-full flex items-center justify-center">
-                        <Play className="w-5 h-5 text-white fill-white ml-0.5" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-4 space-y-3">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-rose-400">
-                      {stream.streamer}
-                    </p>
-                    <p className="text-sm font-bold text-white/80 leading-tight line-clamp-2">
-                      {stream.title}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {stream.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 bg-white/5 text-white/40 rounded"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
-      {/* ==========================================
-          4. CREATOR TIERS / PRICING
-          ========================================== */}
-      <section className="py-24 bg-[#0a0c12] border-t border-white/5">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <div className="text-center mb-16">
-              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-rose-500 mb-4">
-                // PLANS CRÉATEURS
-              </div>
-              <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white italic">
-                Choisis ton <span className="text-rose-500">niveau.</span>
-              </h2>
-              <p className="mt-4 text-white/30 text-sm uppercase tracking-wide font-bold max-w-md mx-auto">
-                Commence gratuitement. Évolue quand tu veux. Pas d'engagement.
-              </p>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {TIERS.map((tier, i) => (
-              <Reveal key={tier.name} delay={i * 0.1}>
-                <div
-                  className={`relative flex flex-col p-8 rounded-lg border transition-all duration-300 ${
-                    tier.highlight
-                      ? "bg-rose-600/10 border-rose-500/40 shadow-2xl shadow-rose-600/10"
-                      : "bg-[#0d0f17] border-white/5 hover:border-white/10"
-                  }`}
-                >
-                  {tier.highlight && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-rose-600 text-white text-[9px] font-black uppercase tracking-widest rounded">
-                      PLUS POPULAIRE
-                    </div>
-                  )}
-                  <div className="mb-8">
-                    <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 mb-2">
-                      {tier.name}
-                    </div>
-                    <div className="text-5xl font-black text-white tracking-tighter">
-                      {tier.price}
-                      {tier.priceNum > 0 && (
-                        <span className="text-base text-white/30 font-bold ml-1">
-                          /mois
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <ul className="flex-1 space-y-3 mb-10">
-                    {tier.features.map((f) => (
-                      <li key={f} className="flex items-start gap-3">
-                        <Check
-                          className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${
-                            tier.highlight ? "text-rose-400" : "text-white/40"
-                          }`}
-                        />
-                        <span className="text-xs font-bold text-white/60 uppercase tracking-wide">
-                          {f}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <button
-                    className={`w-full py-4 text-[10px] font-black uppercase tracking-[0.4em] rounded transition-all cursor-pointer ${
-                      tier.highlight
-                        ? "bg-rose-600 hover:bg-rose-500 text-white border-none"
-                        : "bg-transparent border border-white/10 text-white/60 hover:text-white hover:border-white/30"
-                    }`}
-                  >
-                    {tier.cta}
-                  </button>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          5. HOW IT WORKS — 3 STEPS
-          ========================================== */}
-      <section className="py-24 bg-[#06080d] border-t border-white/5">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <div className="text-center mb-20">
-              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-rose-500 mb-4">
-                // COMMENT ÇA MARCHE
-              </div>
-              <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white italic">
-                Trois étapes. <span className="text-white/20">C'est tout.</span>
-              </h2>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 relative">
-            {/* Connector line */}
-            <div className="hidden md:block absolute top-8 left-1/6 right-1/6 h-[1px] bg-gradient-to-r from-transparent via-rose-500/30 to-transparent pointer-events-none" />
-            {STEPS.map((step, i) => (
-              <Reveal key={step.num} delay={i * 0.15}>
-                <div className="relative flex flex-col items-center text-center p-10 group">
-                  <div className="w-16 h-16 rounded-full border border-rose-500/30 flex items-center justify-center mb-8 bg-rose-600/5 text-rose-400 group-hover:border-rose-500/60 group-hover:bg-rose-600/10 transition-all duration-300">
-                    {step.icon}
-                  </div>
-                  <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-rose-500/60 mb-3">
-                    {step.num}
-                  </div>
-                  <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-4 italic">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm text-white/30 leading-relaxed font-bold uppercase tracking-wide">
-                    {step.desc}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          6. CREATOR SPOTLIGHT
-          ========================================== */}
-      <section className="py-24 bg-[#0a0c12] border-t border-white/5">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <div className="mb-16">
-              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-rose-500 mb-4">
-                // CRÉATEURS SPOTLIGHT
-              </div>
-              <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white italic">
-                Ils ont choisi <br />
-                <span className="text-rose-500">Glitch Unit.</span>
-              </h2>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {TOP_CREATORS.map((creator, i) => (
-              <Reveal key={creator.name} delay={i * 0.1}>
-                <div className="group relative rounded-lg overflow-hidden bg-[#0d0f17] border border-white/5 hover:border-white/10 transition-all duration-300 cursor-pointer">
-                  <div className="relative h-56 overflow-hidden">
-                    <Image
-                      src={creator.img}
-                      alt={creator.name}
-                      fill
-                      className="object-cover brightness-50 group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0d0f17] via-[#0d0f17]/20 to-transparent" />
-                    <div className={`absolute top-4 right-4 px-2.5 py-1 rounded text-[8px] font-black uppercase tracking-widest border ${creator.badgeColor}`}>
-                      {creator.badge}
-                    </div>
-                  </div>
-                  <div className="p-6 space-y-4">
-                    <div>
-                      <div className="text-[10px] font-bold uppercase tracking-widest text-rose-400 mb-1">
-                        {creator.specialty}
-                      </div>
-                      <h3 className="text-xl font-black uppercase tracking-tighter text-white">
-                        {creator.name}
-                      </h3>
-                    </div>
-                    <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                      <div>
-                        <div className="text-[9px] text-white/30 uppercase tracking-widest font-bold mb-1">
-                          Abonnés
-                        </div>
-                        <div className="text-lg font-black text-white tracking-tighter">
-                          {creator.followers}
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-[9px] text-white/30 uppercase tracking-widest font-bold mb-1">
-                          Revenus
-                        </div>
-                        <div className="text-lg font-black text-emerald-400 tracking-tighter">
-                          {creator.earnings}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          7. TESTIMONIALS
-          ========================================== */}
-      <section className="py-24 bg-[#06080d] border-t border-white/5">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <div className="text-center mb-16">
-              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-rose-500 mb-4">
-                // TÉMOIGNAGES
-              </div>
-              <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white italic">
-                Ils parlent. <span className="text-white/20">On écoute.</span>
-              </h2>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {TESTIMONIALS.map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.1}>
-                <div className="flex flex-col justify-between h-full p-8 bg-[#0d0f17] border border-white/5 rounded-lg hover:border-white/10 transition-all">
-                  <div>
-                    <div className="flex gap-1 mb-6">
-                      {[...Array(5)].map((_, s) => (
-                        <Star key={s} className="w-3 h-3 fill-rose-500 text-rose-500" />
-                      ))}
-                    </div>
-                    <p className="text-sm text-white/60 leading-relaxed font-bold italic mb-8">
-                      &ldquo;{t.quote}&rdquo;
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-4 pt-6 border-t border-white/5">
-                    <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
-                      <Image src={t.img} alt={t.name} fill className="object-cover" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="text-[10px] font-black uppercase tracking-widest text-white">
-                        {t.name}
-                      </div>
-                      <div className="text-[9px] text-white/30 uppercase tracking-wide font-bold">
-                        {t.role}
-                      </div>
-                    </div>
-                    <div className="px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded text-[9px] font-black text-emerald-400 uppercase tracking-widest">
-                      {t.earnings}
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          8. FAQ
-          ========================================== */}
-      <section className="py-24 bg-[#08090f] border-t border-white/5">
-        <div className="max-w-[900px] mx-auto px-6 md:px-12">
-          <Reveal>
-            <div className="text-center mb-16">
-              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-rose-500 mb-4">// FAQ</div>
-              <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white italic">
-                Tes questions.<br /><span className="text-white/20">Nos réponses.</span>
-              </h2>
-            </div>
-          </Reveal>
-          <div className="divide-y divide-white/5">
-            {[
-              { q: "Est-ce que Glitch Unit est vraiment gratuit ?", a: "Oui — créer un compte, diffuser en HD, et rejoindre une communauté de créateurs est 100% gratuit. On se rémunère uniquement via les abonnements Tier payants (Studio et Legend) qui débloquent des outils avancés : analytics temps réel, export brut, boutique intégrée." },
-              { q: "Combien puis-je gagner sur la plateforme ?", a: "Ça dépend de ton audience et de ta fréquence. Nos données montrent que les créateurs actifs (8+ streams/mois) gagnent en moyenne 2 300€/mois. Les Tier Legend avec une audience fidèle dépassent régulièrement 8 000€/mois via abonnements, tips et boutique." },
-              { q: "Quelle est la qualité maximale de diffusion ?", a: "Glitch Unit prend en charge jusqu'à 8K 120FPS avec encodage AV1 hardware-accelerated. En pratique, 95% de nos créateurs streamront en 4K 60FPS — suffisant pour une expérience premium sur tous les écrans." },
-              { q: "Comment fonctionne le paiement des revenus ?", a: "Les revenus sont versés chaque 7 jours sur le compte bancaire de ton choix (SEPA/SWIFT). Aucun seuil minimum de paiement. On prend 8% de commission — contre 30-50% chez les plateformes traditionnelles." },
-              { q: "Puis-je diffuser simultanément sur d'autres plateformes ?", a: "Oui. On appelle ça le multi-stream. Depuis ton tableau de bord Glitch Unit, tu peux rediffuser simultanément vers Twitch, YouTube, ou toute destination RTMP. Ton audience principale reste sur Glitch, les autres canaux amplifient ta portée." },
-              { q: "Qu'est-ce qui différencie Glitch Unit de Twitch ou YouTube ?", a: "Trois choses. Premièrement, l'économie : 92% des revenus te reviennent. Deuxièmement, la qualité : 8K natif sans compression agressive. Troisièmement, la communauté : on est spécialisé gaming et tech — pas un généraliste qui noie ta niche." },
-            ].map((faq, i) => (
-              <Reveal key={i} delay={i * 0.06}>
-                <div className="py-8 group">
-                  <h4 className="text-sm font-black text-white uppercase tracking-wide mb-4 group-hover:text-rose-400 transition-colors">{faq.q}</h4>
-                  <p className="text-sm text-white/40 leading-relaxed">{faq.a}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          9. CTA — EMAIL SIGNUP
-          ========================================== */}
-      <section className="py-32 bg-[#0a0c12] border-t border-white/5 relative overflow-hidden">
-        {/* Background glow */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-[600px] h-[300px] bg-rose-600/5 rounded-full blur-3xl" />
-        </div>
-
-        <div className="relative z-10 max-w-2xl mx-auto px-6 text-center">
-          <Reveal>
-            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-rose-500 mb-6">
-              // START STREAMING
-            </div>
-            <h2 className="text-4xl md:text-7xl font-black uppercase tracking-tighter text-white italic mb-6">
-              C'est gratuit.
-              <br />
-              <span className="text-rose-500">Lance-toi.</span>
+      {/* Cours */}
+      <section id="cours" style={{ padding: "110px 80px", background: C.bg }}>
+        <Reveal>
+          <div style={{ marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.amber }}>Nos cours</span>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 300, color: C.text, marginTop: 10, lineHeight: 1.15 }}>
+              Un instrument pour<br /><em>chaque vocation.</em>
             </h2>
-            <p className="text-white/30 text-sm uppercase font-bold tracking-wide mb-12">
-              Rejoins 38 000 créateurs qui ont choisi la liberté.
-              <br />
-              Aucune carte de crédit requise.
-            </p>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
+          {COURS.map((c, i) => (
+            <Reveal key={c.titre} delay={i * 0.07}>
+              <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.white, borderRadius: 14, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
+                <span style={{ background: C.amberLight, color: "#b5561a", borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{c.tag}</span>
+                <h3 style={{ fontFamily: FONT, fontSize: 18, fontWeight: 400, color: C.text, margin: "14px 0 10px" }}>{c.titre}</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{c.desc}</p>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
-            {submitted ? (
-              <div className="flex items-center justify-center gap-3 px-8 py-5 bg-emerald-600/10 border border-emerald-500/30 rounded-lg text-emerald-400 text-sm font-bold uppercase tracking-widest">
-                <Check className="w-4 h-4" />
-                Merci, nous vous répondrons sous 24h.
-              </div>
-            ) : (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if (email) setSubmitted(true);
-                }}
-                className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto"
-              >
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="ton@email.com"
-                  required
-                  className="flex-1 px-6 py-4 bg-white/5 border border-white/10 rounded text-white text-sm font-bold placeholder-white/20 focus:outline-none focus:border-rose-500/50 transition-colors"
-                />
-                <button
-                  type="submit"
-                  className="px-8 py-4 bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-black uppercase tracking-[0.4em] rounded transition-all cursor-pointer border-none whitespace-nowrap"
-                >
-                  Démarrer
-                </button>
-              </form>
-            )}
-
-            <div className="mt-8 flex items-center justify-center gap-6 text-[9px] text-white/20 uppercase tracking-widest font-bold">
-              <div className="flex items-center gap-1.5">
-                <Shield className="w-3 h-3" />
-                Sans engagement
-              </div>
-              <div className="w-[1px] h-3 bg-white/10" />
-              <div className="flex items-center gap-1.5">
-                <TrendingUp className="w-3 h-3" />
-                Paiement J+1
-              </div>
-              <div className="w-[1px] h-3 bg-white/10" />
-              <div className="flex items-center gap-1.5">
-                <Zap className="w-3 h-3" />
-                8K 120FPS
-              </div>
+      {/* Points forts */}
+      <section style={{ padding: "100px 80px", background: C.bgSection }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+          <Reveal delay={0.1}>
+            <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.amber }}>Notre pédagogie</span>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", fontWeight: 300, color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>
+              L'excellence musicale,<br /><em>accessible à tous.</em>
+            </h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {POINTS_FORTS.map((p, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                  <CheckCircle size={18} color={C.amber} style={{ flexShrink: 0, marginTop: 2 }} />
+                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{p}</span>
+                </div>
+              ))}
             </div>
+            <motion.a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.amber, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "#d06a2e", scale: 1.02 }}>
+              S'inscrire <ArrowRight size={16} />
+            </motion.a>
+          </Reveal>
+          <Reveal>
+            <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&q=80" alt="Cours de musique enfant Lyon" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
         </div>
       </section>
+
+      {/* Témoignages */}
+      <section style={{ padding: "100px 80px", background: C.accent }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.amber }}>Témoignages</span>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 300, color: "#fff", marginTop: 10 }}>Des élèves <em style={{ color: C.amber }}>qui progressent.</em></h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}>
+          {TEMOIGNAGES.map((t, i) => (
+            <Reveal key={t.auteur} delay={i * 0.1}>
+              <div style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${C.amber}20`, borderRadius: 14, padding: "28px 24px" }}>
+                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.amber} color={C.amber} />)}</div>
+                <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", fontWeight: 300, color: "rgba(255,255,255,0.80)", lineHeight: 1.72, marginBottom: 18 }}>"{t.texte}"</p>
+                <div style={{ borderTop: `1px solid ${C.amber}18`, paddingTop: 14 }}>
+                  <div style={{ fontWeight: 600, color: "#fff", fontSize: 14 }}>{t.auteur}</div>
+                  <div style={{ color: C.amber, fontSize: 12, marginTop: 4 }}>{t.detail}</div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section id="contact" style={{ padding: "100px 80px", background: C.amberLight, textAlign: "center" }}>
+        <Reveal>
+          <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: "#b5561a" }}>Inscriptions ouvertes</span>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 300, color: C.text, margin: "14px 0 16px" }}>Commencez<br /><em>votre aventure musicale.</em></h2>
+          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>
+            Cours d'essai gratuit pour tout nouvel élève. Inscriptions possibles en cours d'année sous réserve de disponibilités.
+          </p>
+          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+            <motion.a href="tel:+33478000000" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> 04 78 00 00 00
+            </motion.a>
+            <motion.a href="mailto:contact@conservatoire-accord.fr" style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
+              <Mail size={18} /> Nous écrire
+            </motion.a>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Footer */}
+      <footer style={{ background: C.accent, padding: "48px 80px 24px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
+          <div>
+            <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", fontWeight: 300, color: C.amber, marginBottom: 8 }}>Conservatoire Accord</div>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>École de musique · Lyon 6e<br />Lun–Sam 10h–20h</p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+            {[{ icon: <MapPin size={13} />, t: "Lyon 6e, Rhône" }, { icon: <Phone size={13} />, t: "04 78 00 00 00" }, { icon: <Clock size={13} />, t: "Lun–Sam 10h–20h" }].map((item, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
+                <span style={{ color: C.amber }}>{item.icon}</span>{item.t}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style={{ borderTop: `1px solid ${C.amber}20`, paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Conservatoire Accord — Site par Aevia WS</span>
+          <a href="/legal/mentions-legales" style={{ color: "rgba(255,255,255,0.20)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
+        </div>
+      </footer>
     </div>
-  );
+  )
 }
