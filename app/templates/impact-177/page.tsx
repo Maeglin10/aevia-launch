@@ -1,508 +1,303 @@
+// @ts-nocheck
 "use client"
-
-import React, { useState, useEffect, useRef } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
-} from "framer-motion"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  Dna, Zap, Activity, Microscope, 
-  Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, Wifi, BarChart3, 
-  Fingerprint, Scan, Brain, Server, 
-  ShieldCheck, ShieldAlert, Award, 
-  Briefcase, Wind, Thermometer, 
-  Flame, Battery, Radio, Gauge, 
-  Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Satellite, 
-  Milestone, FlaskConical, FlaskRound, 
-  Ghost, Droplets, Leaf, TreePine, 
-  Bug, Database, Search, Code2, 
-  Binary, FileText
-} from "lucide-react"
+import { ArrowRight, ArrowUpRight, Star, Quote, MapPin, Phone, Mail, Menu } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-/* ==========================================================================
-   THE BIO-DIGITAL CORE DATASET (ULTRA DENSITY)
-   ========================================================================== */
+/* ═══════════════════════════════════════════════════════════════════════════
+   MAËLLE DUMAS — Architecte d'intérieur (Lyon)
+   Palette : blanc chaud / terracotta / lin / noir doux
+   Fonts : Cormorant Garamond (titres) + Inter (corps)
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-const GENETIC_ASSETS = [
-  {
-    id: "gen-arc-42",
-    name: "Global Seed Archive v4",
-    type: "Plant Biodiversity",
-    density: "1.4 Exabytes/g",
-    fidelity: "99.9999%",
-    stability: "50,000 Years",
-    desc: "Stockage de données génétiques pour 12 millions de variétés de plantes, encodé en ADN synthétique et encapsulé dans des microsphères de silice.",
-    status: "Encrypted"
-  },
-  {
-    id: "gen-hst-08",
-    name: "Human History Index",
-    type: "Digital Heritage",
-    density: "800 Petabytes/g",
-    fidelity: "99.9842%",
-    stability: "12,000 Years",
-    desc: "Archive complète de la littérature mondiale et des données historiques, convertie en séquences de nucléotides pour une conservation millénaire.",
-    status: "Online"
-  },
-  {
-    id: "gen-bio-15",
-    name: "Species Recovery X",
-    type: "Endangered Genomes",
-    density: "2.1 Exabytes/g",
-    fidelity: "100%",
-    stability: "Unlimited (Cooling)",
-    desc: "Génomes complets d'espèces en voie d'extinction, prêts pour des protocoles de restauration biologique future.",
-    status: "Locked"
-  }
-]
+const C = {
+  bg: "#faf8f4",
+  bgAlt: "#f2ede6",
+  terra: "#c2724f",
+  terraLight: "#e8a07e",
+  dark: "#1c1a18",
+  muted: "#8a8070",
+  line: "#e0d8cc",
+  white: "#ffffff",
+  serif: "'Cormorant Garamond', 'Playfair Display', Georgia, serif",
+  sans: "'Inter', system-ui, sans-serif",
+}
 
-const BIO_METRICS = [
-  { label: "Storage Temp", value: "-18°C", trend: "Stable" },
-  { label: "Sequencing Speed", value: "4.2 Tb/s", trend: "Optimal" },
-  { label: "Substrate Purity", value: "Grade 12", trend: "High" },
-  { label: "Encoding Error", value: "0.0001%", trend: "Decreasing" }
-]
-
-const BIO_LOGS = [
-  { timestamp: "16:14:42", unit: "Synth-Core-01", status: "ACTIVE", oligos: "4.2B" },
-  { timestamp: "16:14:45", unit: "PCR-Free-Reader", status: "SYNCED", fidelity: "100%" },
-  { timestamp: "16:14:48", unit: "Silica-Vault-Z", status: "STABLE", pressure: "1.2 ATM" }
-]
-
-/* ==========================================
-   TECHNICAL COMPONENTS
-   ========================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-70px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function NucleotideStreamVisualizer() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+function ParallaxImg({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"])
+  return (
+    <div ref={ref} className="relative w-full h-full overflow-hidden">
+      <motion.div style={{ y }} className="absolute inset-[-10%] w-[120%] h-[120%]">
+        <Image src={src} alt={alt} fill className="object-cover" />
+      </motion.div>
+    </div>
+  )
+}
+
+const PROJECTS = [
+  { title: "Appartement Presqu'île", city: "Lyon 2ème", surface: "120 m²", style: "Contemporain haussmannien", img: "https://images.unsplash.com/photo-1600210491369-e753d80a41f3?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Villa Les Pins", city: "Tassin-la-Demi-Lune", surface: "280 m²", style: "Minimalisme chaleureux", img: "https://images.unsplash.com/photo-1616137466211-f939a420be84?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Loft Croix-Rousse", city: "Lyon 4ème", surface: "90 m²", style: "Industriel doux", img: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=1200" },
+]
+
+const SERVICES = [
+  { num: "01", title: "Conception complète", desc: "De l'esquisse au chantier — plans, matériaux, mobilier, suivi d'entreprise. Un projet livré clé en main." },
+  { num: "02", title: "Conseil & mood board", desc: "Session de 2h pour définir votre style, palette chromatique, et mobilier cible. Idéal pour les petits budgets." },
+  { num: "03", title: "Rénovation partielle", desc: "Salle de bain, cuisine, chambre principale — on réinvente un espace précis avec un impact maximum." },
+  { num: "04", title: "Aménagement commercial", desc: "Boutiques, cabinets, restaurants — nous concevons des espaces qui racontent votre marque et convertissent." },
+]
+
+export default function MaelleDumasPage() {
+  const heroRef = useRef(null)
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+  const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "8%"])
+
   useEffect(() => {
-    const handleMouse = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
-    window.addEventListener("mousemove", handleMouse)
-    return () => window.removeEventListener("mousemove", handleMouse)
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-10">
-       <svg width="100%" height="100%" className="w-full h-full">
-          {[...Array(10)].map((_, i) => (
-            <motion.path 
-               key={i}
-               d={`M ${100 + i * 100} 0 Q ${200 + i * 100} 400 ${100 + i * 100} 800`}
-               stroke="#22c55e" 
-               strokeWidth="0.5" 
-               fill="none"
-               animate={{ d: `M ${100 + i * 100} 0 Q ${mousePos.x + (i * 20)} ${mousePos.y} ${100 + i * 100} 800` }}
-               transition={{ type: "spring", damping: 20, stiffness: 40 }}
-            />
-          ))}
-       </svg>
-    </div>
-  )
-}
+    <div style={{ background: C.bg, color: C.dark, fontFamily: C.sans }}>
+      {/* ── NAVBAR ── */}
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, transition: "all 0.6s", background: scrolled ? "rgba(250,248,244,0.95)" : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.line}` : "none", padding: scrolled ? "1rem 0" : "1.75rem 0" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 2.5rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontFamily: C.serif, fontSize: "1.4rem", fontWeight: 600, letterSpacing: "0.02em", fontStyle: "italic", color: C.dark }}>Maëlle Dumas</span>
+          <div style={{ display: "flex", gap: "3rem" }} className="hidden lg:flex">
+            {["Projets", "Prestations", "À propos", "Contact"].map(l => (
+              <Link key={l} href="#" style={{ fontFamily: C.sans, fontSize: "0.7rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.15em", color: C.muted, textDecoration: "none", transition: "color 0.3s" }}
+                onMouseEnter={e => (e.target as HTMLElement).style.color = C.terra}
+                onMouseLeave={e => (e.target as HTMLElement).style.color = C.muted}>{l}</Link>
+            ))}
+          </div>
+          <a href="tel:0478123456" style={{ display: "none", fontFamily: C.sans, fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: C.terra, textDecoration: "none" }} className="hidden md:block">
+            Prendre RDV
+          </a>
+        </div>
+      </nav>
 
-function BioCoreModel({ progress }: { progress: any }) {
-  const rotate = useTransform(progress, [0, 1], [0, 360])
-  const scale = useTransform(progress, [0, 0.5, 1], [1, 1.2, 1])
+      {/* ── HERO ── */}
+      <section ref={heroRef} style={{ position: "relative", height: "110vh", minHeight: 900, overflow: "hidden", display: "flex", alignItems: "flex-end" }}>
+        <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
+          <Image src="https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?auto=format&fit=crop&q=85&w=2400" alt="Architecture intérieure Maëlle Dumas" fill className="object-cover" priority style={{ filter: "brightness(0.75)" }} />
+          <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${C.dark} 0%, rgba(28,26,24,0.3) 50%, transparent 100%)` }} />
+          <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, rgba(28,26,24,0.5) 0%, transparent 60%)` }} />
+        </motion.div>
 
-  return (
-    <motion.div style={{ rotate, scale }} className="relative w-80 h-80 flex items-center justify-center">
-       <div className="absolute inset-0 border border-green-500/10 rounded-full animate-spin-slow shadow-[0_0_80px_rgba(34,197,94,0.05)]" />
-       <Dna className="w-40 h-40 text-green-500/10 animate-pulse" />
-       <div className="absolute inset-8 border border-green-500/5 rounded-full" />
-    </motion.div>
-  )
-}
-
-/* ==========================================
-   THE BIO-DIGITAL CORE - MAIN INTERFACE
-   ========================================== */
-
-export default function BioDigitalCorePremium() {
-  const [activeAsset, setActiveAsset] = useState(0)
-  const [isBioSyncActive, setIsBioSyncActive] = useState(true)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Bio Scroll Effects
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textX = useTransform(scrollYProgress, [0, 0.5], [0, -100])
-
-  return (
-    <div ref={containerRef} className="bg-[#020804] text-[#e0e8ed] font-mono selection:bg-green-500/30 selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000">
-      
-      {/* GLOBAL HUD OVERLAY */}
-      <HUD_Overlay isBioSyncActive={isBioSyncActive} />
-
-      <main>
-        {/* ==========================================
-            1. GENETIC IGNITION (HERO)
-            ========================================== */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-          <NucleotideStreamVisualizer />
-          <motion.div style={{ opacity: heroOpacity }} className="absolute z-0 pointer-events-none flex items-center justify-center">
-             <BioCoreModel progress={scrollYProgress} />
+        <motion.div style={{ y: heroTextY, opacity: heroOpacity, position: "relative", zIndex: 10, maxWidth: 1400, width: "100%", margin: "0 auto", padding: "0 2.5rem 7rem" }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem" }}>
+              <div style={{ width: 40, height: 1, background: C.terra }} />
+              <span style={{ fontFamily: C.sans, fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.35em", color: C.terra }}>Architecte d'intérieur · Lyon</span>
+            </div>
           </motion.div>
 
-          <div className="relative z-10 text-center max-w-7xl">
-             <Reveal>
-                <div className="inline-flex items-center gap-4 px-6 py-2 border border-green-500/30 bg-green-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-green-500 mb-12 italic">
-                   <Dna className="w-4 h-4" /> Bio_Sync: NOMINAL // Density: 1.4 Exabytes/g
+          <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            style={{ fontFamily: C.serif, fontSize: "clamp(3.5rem,9vw,8.5rem)", fontWeight: 400, lineHeight: 0.9, letterSpacing: "-0.01em", color: "#fff", marginBottom: "1.5rem", fontStyle: "italic" }}>
+            Des intérieurs<br />qui vous<br /><span style={{ color: C.terraLight }}>ressemblent.</span>
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
+            style={{ fontFamily: C.sans, fontSize: "0.9rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 480, marginBottom: "2.5rem" }}>
+            Conception et rénovation d'espaces de vie et professionnels en Auvergne-Rhône-Alpes. Du projet à la livraison, une approche sur-mesure et humaine.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
+            style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+            <button style={{ padding: "1rem 2.5rem", background: C.terra, color: "#fff", fontFamily: C.sans, fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase", letterSpacing: "0.2em", border: "none", cursor: "pointer", transition: "background 0.3s" }}
+              onMouseEnter={e => (e.target as HTMLElement).style.background = C.terraLight}
+              onMouseLeave={e => (e.target as HTMLElement).style.background = C.terra}>
+              Voir les projets
+            </button>
+            <button style={{ padding: "1rem 2.5rem", background: "transparent", color: "#fff", fontFamily: C.sans, fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase", letterSpacing: "0.2em", border: "1px solid rgba(255,255,255,0.2)", cursor: "pointer", transition: "all 0.3s" }}>
+              Prendre rendez-vous
+            </button>
+          </motion.div>
+        </motion.div>
+
+        <div style={{ position: "absolute", bottom: 40, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, zIndex: 10 }}>
+          <span style={{ fontFamily: C.sans, fontSize: "0.55rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.4em", color: "rgba(255,255,255,0.2)" }}>défiler</span>
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.2 }} style={{ width: 1, height: 40, background: `linear-gradient(to bottom, ${C.terra}60, transparent)` }} />
+        </div>
+      </section>
+
+      {/* ── STATS ── */}
+      <section style={{ padding: "4rem 0", borderBottom: `1px solid ${C.line}` }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 2.5rem", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "2rem" }} className="grid grid-cols-2 md:grid-cols-4">
+          {[
+            { v: "12+", l: "Années d'exercice" },
+            { v: "180+", l: "Projets livrés" },
+            { v: "4.9★", l: "Avis Google" },
+            { v: "3", l: "Prix de design" },
+          ].map((s, i) => (
+            <Reveal key={i} delay={i * 0.08}>
+              <div style={{ textAlign: "center", padding: "1.5rem" }}>
+                <div style={{ fontFamily: C.serif, fontSize: "2.5rem", fontWeight: 600, color: C.terra, lineHeight: 1, marginBottom: "0.5rem" }}>{s.v}</div>
+                <div style={{ fontFamily: C.sans, fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: C.muted }}>{s.l}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── PROJETS ── */}
+      <section style={{ padding: "7rem 0", background: C.bg }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 2.5rem" }}>
+          <Reveal>
+            <div style={{ marginBottom: "4rem" }}>
+              <div style={{ fontFamily: C.sans, fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.4em", color: C.terra, marginBottom: "1rem" }}>Portfolio</div>
+              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2.5rem,5vw,5rem)", fontWeight: 400, color: C.dark, fontStyle: "italic", lineHeight: 1 }}>Projets récents.</h2>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2rem" }}>
+            {PROJECTS.map((p, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div style={{ cursor: "pointer" }} className="group">
+                  <div style={{ position: "relative", aspectRatio: "4/3", overflow: "hidden", marginBottom: "1.5rem" }}>
+                    <ParallaxImg src={p.img} alt={p.title} />
+                    <div className="absolute inset-0 transition-all duration-700" style={{ background: `rgba(28,26,24,0)` }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "rgba(28,26,24,0.2)"}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "rgba(28,26,24,0)"} />
+                    <div style={{ position: "absolute", top: "1rem", left: "1rem", padding: "0.3rem 0.8rem", background: C.terra, fontFamily: C.sans, fontSize: "0.55rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: "#fff" }}>{p.style}</div>
+                  </div>
+                  <div style={{ fontFamily: C.sans, fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: C.muted, marginBottom: "0.5rem" }}>
+                    <MapPin style={{ display: "inline", width: 10, height: 10, marginRight: 4 }} />{p.city} · {p.surface}
+                  </div>
+                  <h3 style={{ fontFamily: C.serif, fontSize: "1.5rem", fontWeight: 600, color: C.dark, fontStyle: "italic" }}>{p.title}</h3>
                 </div>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic">
-                   Bio-Digital <br/> <span className="text-white/5 italic">Core.</span>
-                </motion.h1>
-                <p className="max-w-3xl mx-auto text-sm md:text-lg text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16 italic">
-                   L'évolution du stockage de données par la synthèse d'ADN. Nous préservons l'information mondiale dans le code le plus résilient de l'univers : la vie.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                   <button className="px-12 py-6 bg-green-800 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(34,197,94,0.2)] flex items-center gap-4 italic">
-                      <Microscope className="w-5 h-5" /> Initialize Sync
-                   </button>
-                   <button className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
-                      <Database className="w-5 h-5" /> Genetic Registry
-                   </button>
-                </div>
-             </Reveal>
+              </Reveal>
+            ))}
           </div>
+          <Reveal delay={0.2}>
+            <div style={{ textAlign: "center", marginTop: "4rem" }}>
+              <button style={{ display: "inline-flex", alignItems: "center", gap: "0.75rem", padding: "1rem 2.5rem", border: `1px solid ${C.line}`, background: "transparent", fontFamily: C.sans, fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: C.dark, cursor: "pointer", transition: "all 0.3s" }}>
+                Voir tous les projets <ArrowRight style={{ width: 14, height: 14 }} />
+              </button>
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-12">
-             <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Storage_Node: CORE-VAULT-42
+      {/* ── SERVICES ── */}
+      <section style={{ padding: "7rem 0", background: C.bgAlt }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 2.5rem" }}>
+          <Reveal>
+            <div style={{ marginBottom: "4rem" }}>
+              <div style={{ fontFamily: C.sans, fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.4em", color: C.terra, marginBottom: "1rem" }}>Prestations</div>
+              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2rem,4vw,4rem)", fontWeight: 400, color: C.dark, fontStyle: "italic" }}>Comment je travaille.</h2>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "0" }}>
+            {SERVICES.map((s, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div style={{ padding: "2.5rem", borderLeft: `1px solid ${C.line}`, borderBottom: `1px solid ${C.line}` }}>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "3rem", fontWeight: 300, color: `${C.terra}30`, lineHeight: 1, marginBottom: "1.5rem" }}>{s.num}</div>
+                  <h3 style={{ fontFamily: C.serif, fontSize: "1.2rem", fontWeight: 600, color: C.dark, marginBottom: "0.75rem", fontStyle: "italic" }}>{s.title}</h3>
+                  <p style={{ fontFamily: C.sans, fontSize: "0.8rem", color: C.muted, lineHeight: 1.7 }}>{s.desc}</p>
                 </div>
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Substrate_Status: STABLE_ENCAPSULATION
-                </div>
-             </div>
-             <div className="text-right flex flex-col items-end gap-4">
-                <span className="text-[8px] font-black uppercase tracking-[0.5em] text-green-500">Nucleotide_Vibration_Stream</span>
-                <div className="flex gap-2 h-12 items-end">
-                   {[...Array(16)].map((_, i) => (
-                     <motion.div 
-                        key={i}
-                        animate={{ height: ["10%", "100%", "30%", "80%", "10%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                        className="w-2 bg-green-500/20"
-                     />
-                   ))}
-                </div>
-             </div>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ==========================================
-            2. GENETIC REGISTRY (DENSE TECHNICAL)
-            ========================================== */}
-        <section className="py-60 bg-[#040c06] relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-              <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-                 <Reveal>
-                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-green-500 block mb-6 italic underline underline-offset-8 decoration-green-500/20">Genetic // Assets</span>
-                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">Archives.</h2>
-                 </Reveal>
-                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Genomic_Audit</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-green-500">L'Architecture du Code Bio</p>
-                 </div>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 shadow-2xl">
-                 {GENETIC_ASSETS.map((asset, i) => (
-                   <Reveal key={asset.id} delay={i * 0.1}>
-                      <div className="bg-[#020804] p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
-                         <div className="flex justify-between items-start mb-16">
-                            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-green-800 group-hover:text-white transition-all duration-500">
-                               <Code2 className="w-8 h-8" />
-                            </div>
-                            <span className={`px-4 py-2 bg-white/5 text-[9px] font-black uppercase tracking-[0.3em] ${asset.status === "Online" ? "text-green-500" : "text-white/40"}`}>{asset.status}</span>
-                         </div>
-                         
-                         <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{asset.name}</h3>
-                         <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-12">{asset.type}</div>
-                         
-                         <div className="space-y-8 mb-20 border-l border-green-500/20 pl-8">
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Density</span>
-                               <span className="text-white group-hover:text-green-400 transition-colors">{asset.density}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Fidelity</span>
-                               <span className="text-white group-hover:text-green-400 transition-colors">{asset.fidelity}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Stability</span>
-                               <span className="text-white group-hover:text-green-400 transition-colors">{asset.stability}</span>
-                            </div>
-                         </div>
-
-                         <p className="text-[12px] text-white/30 leading-loose uppercase tracking-[0.2em] font-bold italic mb-16">
-                            {asset.desc}
-                         </p>
-
-                         <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center">
-                            <span className="text-[10px] font-black text-white/10 uppercase tracking-widest">Ref: {asset.id}</span>
-                            <button className="text-[10px] font-black uppercase text-white/40 flex items-center gap-4 group-hover:text-white transition-all">
-                               Technical_Specs <ChevronRight className="w-5 h-5" />
-                            </button>
-                         </div>
-                      </div>
-                   </Reveal>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            3. BIO MONITOR (INTERACTIVE DATA)
-            ========================================== */}
-        <section className="py-60 bg-black relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div>
-                    <Reveal>
-                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-green-500 block mb-12 italic underline underline-offset-8 decoration-green-500/20">Bio // Performance</span>
-                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">
-                          The <br/> <span className="not-italic font-black text-white/5 italic">Synthesis_Link.</span>
-                       </h2>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">
-                          Surveillance de la synthèse en temps réel. Nos capteurs analysent la pureté des oligonucléotides et ajustent les paramètres d'encapsulation pour garantir une longévité millénaire.
-                       </p>
-                       <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
-                          {BIO_METRICS.map((metric, i) => (
-                            <div key={i} className="p-16 bg-[#0a100c] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
-                               <div className="text-[10px] font-black uppercase text-green-500 mb-6 tracking-[0.4em]">{metric.label}</div>
-                               <div className="text-5xl font-black text-white italic mb-6 tracking-tighter group-hover:translate-x-4 transition-transform">{metric.value}</div>
-                               <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
-                                  <Activity className="w-4 h-4 text-green-500" /> {metric.trend}
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                       <button 
-                         onClick={() => setIsBioSyncActive(!isBioSyncActive)}
-                         className="w-full py-8 bg-green-900 text-white text-[11px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center gap-6 italic"
-                       >
-                          <Settings className="w-5 h-5" /> Re-Sync Synthesis Nodes
-                       </button>
-                    </Reveal>
-                 </div>
-                 
-                 <div className="relative">
-                    <Reveal delay={0.3} x={40}>
-                       <div className="aspect-square bg-[#0a100c] border border-white/10 p-20 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 p-80 bg-green-400 opacity-[0.02] blur-[150px] rounded-full group-hover:opacity-[0.05] transition-opacity" />
-                          
-                          <div className="flex justify-between items-start z-10">
-                             <div className="flex flex-col gap-3">
-                                <span className="text-[10px] font-black text-white/10 uppercase tracking-[0.5em]">Bio_Link // SYN-SYNC-v42</span>
-                                <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.6em]">Nucleotide_Fidelity_Map</span>
-                             </div>
-                             <Wifi className="w-6 h-6 text-green-400" />
-                          </div>
-                          
-                          {/* BIO VISUALIZER (SVG) */}
-                          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                             <div className="w-64 h-64 border border-green-400/5 rounded-full flex items-center justify-center relative">
-                                <motion.div 
-                                  animate={{ rotate: 360 }}
-                                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-0 border-t-2 border-green-400/20 rounded-full" 
-                                />
-                                <motion.div 
-                                  animate={{ rotate: -360 }}
-                                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-8 border-b-2 border-green-400/10 rounded-full" 
-                                />
-                                <Dna className={`w-24 h-24 transition-colors duration-1000 ${isBioSyncActive ? "text-green-400 animate-pulse" : "text-white/5"}`} />
-                             </div>
-                             <div className="mt-16 text-center space-y-6">
-                                <div className={`text-4xl font-black italic tracking-tighter ${isBioSyncActive ? "text-white" : "text-white/20"}`}>
-                                   {isBioSyncActive ? "SYNC_ACTIVE" : "SYNC_LOST"}
-                                </div>
-                                <span className="text-[11px] font-bold text-white/10 uppercase tracking-[0.6em] block">Auth_Node: BIO_UNIT_01</span>
-                             </div>
-                          </div>
-
-                          <div className="relative z-10 flex gap-6">
-                             <div className="flex-1 h-1 bg-white/5 overflow-hidden">
-                                <motion.div 
-                                   animate={isBioSyncActive ? { x: ["-100%", "100%"] } : {}}
-                                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-green-700"
-                                />
-                             </div>
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            4. BIO STORY (TECH STORYTELLING)
-            ========================================== */}
-        <section className="py-60 bg-[#020804] relative overflow-hidden border-t border-white/5">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">
-                    <Image 
-                       src="https://images.unsplash.com/photo-1530210124550-912dc1381cb8?q=80&w=1200&auto=format&fit=crop" 
-                       alt="Bio-Storage Infrastructure" 
-                       fill 
-                       className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"
-                    />
-                    <div className="absolute inset-0 bg-green-900/10 mix-blend-color group-hover:opacity-0 transition-opacity" />
-                    <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                       <div className="text-white">
-                          <span className="text-[11px] font-black uppercase tracking-[0.6em] text-green-500 mb-8 block italic underline underline-offset-8 decoration-green-500/20">Atelier // Purity // Unit</span>
-                          <h4 className="text-6xl font-black tracking-tighter uppercase italic mb-12 mix-blend-difference text-white">Bio <br/> Fabric.</h4>
-                          <button className="flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/20 pb-4 hover:border-green-400 transition-all group">
-                             Synthesis Protocols <ExternalLink className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                          </button>
-                       </div>
-                    </div>
-                 </div>
-
-                 <div>
-                    <Reveal>
-                       <div className="mb-24 text-left">
-                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-green-500 mb-8 block italic">Chapitre III // Synthesis</span>
-                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none text-white">Pure_Code.</h2>
-                       </div>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">
-                          L'ADN est le support de stockage ultime. Nous utilisons la synthèse chimique pour écrire des données numériques dans des chaînes de nucléotides, offrant une densité et une longévité inégalées.
-                       </p>
-                       <div className="space-y-20">
-                          {[
-                            { t: "Binary to DNA Mapping", d: "Conversion des bits (0,1) en bases azotées (A, C, G, T) via des algorithmes de correction d'erreurs avancés." },
-                            { t: "Oligo Synthesis", d: "Fabrication de brins d'ADN synthétiques d'une pureté exceptionnelle pour un stockage haute fidélité." },
-                            { t: "Silica Encapsulation", d: "Protection de l'ADN dans des microsphères de verre synthétique pour résister aux facteurs environnementaux pendant des millénaires." }
-                          ].map((step, i) => (
-                            <div key={i} className="group flex gap-12 border-b border-white/5 pb-16 hover:border-green-400/20 transition-all cursor-default">
-                               <div className="text-6xl font-black text-white/5 group-hover:text-green-400/20 transition-colors italic leading-none">0{i+1}</div>
-                               <div>
-                                  <h5 className="text-3xl font-black uppercase tracking-tight text-white mb-6 italic group-hover:translate-x-4 transition-transform text-white">{step.t}</h5>
-                                  <p className="text-[12px] text-white/20 uppercase tracking-[0.3em] font-bold leading-loose italic">{step.d}</p>
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* MEGA FOOTER */}
-        <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-              <div className="lg:col-span-2">
-                 <div className="flex items-center gap-6 mb-16">
-                    <div className="w-16 h-16 bg-green-800 flex items-center justify-center">
-                      <Dna className="w-10 h-10 text-white" />
-                    </div>
-                    <span className="text-4xl font-black uppercase tracking-tighter italic">BIO-DIGITAL<span className="text-white/20">CORE.</span></span>
-                 </div>
-                 <p className="text-white/20 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
-                    "La conservation de l'information par la vie." — Archive Core V.42
-                 </p>
-                 <div className="flex gap-16">
-                    {["SynthesisLog", "GeneticRegistry", "GitHub", "X_Protocol"].map(s => (
-                      <Link key={s} href="#" className="text-[11px] font-black uppercase tracking-widest text-white/20 hover:text-green-400 transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
-                    ))}
-                 </div>
-              </div>
-
-              {[
-                { t: "ARCHIVES", l: ["Global Seed Bank", "History Index", "Species Recovery", "Encrypted Vault"] },
-                { t: "TECHNOLOGY", l: ["DNA Encoding", "Oligo Synthesis", "Encapsulation", "SLA Reports"] },
-                { t: "ATELIER", l: ["Our Legacy", "Sustainability", "Locations", "Support"] }
-              ].map((col, i) => (
-                <div key={i} className="flex flex-col gap-12">
-                  <h4 className="text-[11px] font-black text-green-400 uppercase tracking-[0.6em] italic">{col.t}</h4>
-                  <ul className="flex flex-col gap-8">
-                    {col.l.map(link => (
-                      <li key={link} className="text-[11px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-[0.4em] italic">{link}</li>
-                    ))}
-                  </ul>
+      {/* ── TÉMOIGNAGES ── */}
+      <section style={{ padding: "7rem 0", background: C.bg }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 2.5rem" }}>
+          <Reveal>
+            <div style={{ marginBottom: "4rem", textAlign: "center" }}>
+              <div style={{ fontFamily: C.sans, fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.4em", color: C.terra, marginBottom: "1rem" }}>Témoignages</div>
+              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2rem,4vw,4rem)", fontWeight: 400, color: C.dark, fontStyle: "italic" }}>Ce que disent mes clients.</h2>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem" }}>
+            {[
+              { quote: "Maëlle a su transformer notre appartement haussmannien en un espace lumineux et moderne, tout en conservant l'âme du bâtiment. Un vrai talent.", name: "Claire & Antoine R.", loc: "Lyon 6ème" },
+              { quote: "Écoute parfaite, respect du budget, délais tenus. Notre loft Croix-Rousse est devenu la maison dont on rêvait depuis des années.", name: "Thomas M.", loc: "Lyon 4ème" },
+              { quote: "La rénovation de notre cabinet a complètement changé l'accueil des patients. L'espace inspire calme et confiance. Résultat au-delà de nos espérances.", name: "Dr. Sophie L.", loc: "Tassin-la-Demi-Lune" },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div style={{ padding: "2.5rem", border: `1px solid ${C.line}`, background: C.bgAlt }}>
+                  <Quote style={{ width: 24, height: 24, color: C.terra, marginBottom: "1.5rem", opacity: 0.6 }} />
+                  <p style={{ fontFamily: C.serif, fontSize: "1.05rem", fontWeight: 400, color: C.dark, lineHeight: 1.7, fontStyle: "italic", marginBottom: "2rem" }}>{`"${t.quote}"`}</p>
+                  <div>
+                    <div style={{ fontFamily: C.sans, fontSize: "0.75rem", fontWeight: 700, color: C.dark, textTransform: "uppercase", letterSpacing: "0.1em" }}>{t.name}</div>
+                    <div style={{ fontFamily: C.sans, fontSize: "0.65rem", color: C.muted, marginTop: "0.25rem" }}>{t.loc}</div>
+                  </div>
                 </div>
-              ))}
-           </div>
-
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 BIO-DIGITAL CORE DATA STORAGE AG. // ALL_RIGHTS_RESERVED</span>
-              <div className="flex gap-16">
-                 <span>STATUS: OPERATIONAL</span>
-                 <span>DENSITY: 1.4 EB/g (AVG)</span>
-                 <span>v4.12.0-STABLE</span>
-              </div>
-           </div>
-        </footer>
-      </main>
-    </div>
-  )
-}
-
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
-
-function HUD_Overlay({ isBioSyncActive }: { isBioSyncActive: boolean }) {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Corner Brackets */}
-       <div className={`absolute top-12 left-12 w-20 h-20 border-t-2 border-l-2 transition-colors duration-1000 ${isBioSyncActive ? "border-green-400" : "border-white/10"}`} />
-       <div className={`absolute top-12 right-12 w-20 h-20 border-t-2 border-r-2 transition-colors duration-1000 ${isBioSyncActive ? "border-green-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 left-12 w-20 h-20 border-b-2 border-l-2 transition-colors duration-1000 ${isBioSyncActive ? "border-green-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 right-12 w-20 h-20 border-b-2 border-r-2 transition-colors duration-1000 ${isBioSyncActive ? "border-green-400" : "border-white/10"}`} />
-
-       {/* Top Status Bar */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-20 bg-black/60 backdrop-blur-2xl px-12 py-4 border border-white/10 rounded-none">
-          <div className="flex items-center gap-6 text-white">
-             <div className={`w-3 h-3 transition-colors duration-500 ${isBioSyncActive ? "bg-green-400 animate-pulse" : "bg-red-500 animate-ping"}`} />
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Bio_Sync: {isBioSyncActive ? "NOMINAL" : "DATA_LOSS"} // Status: ACTIVE</span>
+              </Reveal>
+            ))}
           </div>
-          <div className="h-4 w-px bg-white/20" />
-          <div className="flex items-center gap-6 text-white/20">
-             <Wifi className="w-4 h-4" /> 
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Bio_Grid: SECURE</span>
-          </div>
-       </div>
+        </div>
+      </section>
 
-       {/* Right Rotation Info */}
-       <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-white/5 italic">Unauthorized_Duplication_Of_Genomic_Patterns_Is_Strictly_Monitored_By_Global_Bio_Alliance</span>
-       </div>
+      {/* ── CTA ── */}
+      <section style={{ padding: "8rem 0", background: C.dark, textAlign: "center" }}>
+        <Reveal>
+          <div style={{ maxWidth: 700, margin: "0 auto", padding: "0 2.5rem" }}>
+            <div style={{ fontFamily: C.sans, fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.4em", color: C.terra, marginBottom: "1.5rem" }}>Démarrer un projet</div>
+            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2.5rem,6vw,5.5rem)", fontWeight: 400, color: "#fff", fontStyle: "italic", lineHeight: 1, marginBottom: "2rem" }}>
+              Parlons de votre<br /><span style={{ color: C.terraLight }}>prochain espace.</span>
+            </h2>
+            <p style={{ fontFamily: C.sans, fontSize: "0.85rem", color: "rgba(255,255,255,0.4)", lineHeight: 1.7, marginBottom: "3rem" }}>
+              Premier rendez-vous gratuit (1h). Disponible à Lyon et région Auvergne-Rhône-Alpes.
+            </p>
+            <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+              <button style={{ padding: "1.1rem 2.5rem", background: C.terra, color: "#fff", fontFamily: C.sans, fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase", letterSpacing: "0.2em", border: "none", cursor: "pointer" }}>
+                Prendre rendez-vous
+              </button>
+              <a href="tel:0478123456" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", padding: "1.1rem 2.5rem", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.6)", fontFamily: C.sans, fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase", letterSpacing: "0.2em", textDecoration: "none" }}>
+                <Phone style={{ width: 14, height: 14 }} /> 04 78 12 34 56
+              </a>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer style={{ background: "#141210", padding: "4rem 2.5rem 2rem", borderTop: `1px solid rgba(255,255,255,0.05)` }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "3rem", marginBottom: "3rem" }}>
+          <div>
+            <div style={{ fontFamily: C.serif, fontSize: "1.2rem", fontStyle: "italic", color: "#fff", marginBottom: "1rem" }}>Maëlle Dumas</div>
+            <p style={{ fontFamily: C.sans, fontSize: "0.75rem", color: "rgba(255,255,255,0.3)", lineHeight: 1.7 }}>Architecte d'intérieur CFAI. Conception et rénovation d'espaces en Auvergne-Rhône-Alpes.</p>
+          </div>
+          {[
+            { t: "Services", ls: ["Conception complète", "Conseil & moodboard", "Rénovation partielle", "Aménagement commercial"] },
+            { t: "Contact", ls: ["04 78 12 34 56", "contact@maelledumas.fr", "Lyon · Auvergne-Rhône-Alpes", "RDV sur devis"] },
+          ].map((col, i) => (
+            <div key={i}>
+              <div style={{ fontFamily: C.sans, fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.3em", color: C.terra, marginBottom: "1.25rem" }}>{col.t}</div>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                {col.ls.map(l => <li key={l} style={{ fontFamily: C.sans, fontSize: "0.75rem", color: "rgba(255,255,255,0.3)", marginBottom: "0.5rem" }}>{l}</li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div style={{ maxWidth: 1200, margin: "0 auto", paddingTop: "1.5rem", borderTop: "1px solid rgba(255,255,255,0.05)", display: "flex", justifyContent: "space-between", gap: "1rem" }}>
+          <span style={{ fontFamily: C.sans, fontSize: "0.6rem", color: "rgba(255,255,255,0.15)", textTransform: "uppercase", letterSpacing: "0.15em" }}>© 2026 Maëlle Dumas Design · SIRET 987 654 321 00045</span>
+          <span style={{ fontFamily: C.sans, fontSize: "0.6rem", color: C.terra + "60", textTransform: "uppercase", letterSpacing: "0.15em" }}>Architecte d'intérieur certifiée CFAI</span>
+        </div>
+      </footer>
     </div>
   )
 }

@@ -1,523 +1,320 @@
+// @ts-nocheck
 "use client"
-
-import React, { useState, useEffect, useRef } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
-} from "framer-motion"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  Radar, Zap, Activity, Microscope, 
-  Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, Wifi, BarChart3, 
-  Fingerprint, Scan, Brain, Server, 
-  ShieldCheck, ShieldAlert, Award, 
-  Briefcase, Wind, Thermometer, 
-  Flame, Battery, Radio, Gauge, 
-  Timer, Lightbulb, Command, Grid, 
-  Orbit, Atom, Satellite, Milestone, 
-  FlaskConical, FlaskRound, Ghost, 
-  Globe, MapPin, Database, Search, 
-  Scan as ScanIcon, Map, Signal, 
-  Crosshair, Monitor, Cpu
-} from "lucide-react"
+import { Building2, MapPin, ArrowRight, Star, Phone, Mail, Search, Bed, Bath, Square, ChevronDown, Menu } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-/* ==========================================================================
-   THE PULSE ARRAY DATASET (ULTRA DENSITY)
-   ========================================================================== */
+/* ═══════════════════════════════════════════════════════════════════════════
+   ALTA TRANSACTIONS — Agence immobilière premium (Paris)
+   Palette : bleu nuit profond / or champagne / blanc chaud
+   Fonts : Libre Baskerville (titres) + Inter (corps) — Tailwind Reveal style
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-const SATELLITE_ASSETS = [
-  {
-    id: "sat-sar-42",
-    name: "Aegis Radar-1",
-    type: "Synthetic Aperture Radar",
-    resolution: "25cm / pixel",
-    revisit: "1.2 Days",
-    throughput: "4.2 Gbps",
-    desc: "Satellite SAR haute résolution capable de pénétrer la couverture nuageuse et de détecter des déformations millimétriques de la surface terrestre.",
-    status: "Operational"
-  },
-  {
-    id: "sat-hs-08",
-    name: "Spectra-Link X",
-    type: "Hyperspectral Imaging",
-    resolution: "1.2m / pixel",
-    revisit: "4.5 Days",
-    throughput: "2.8 Gbps",
-    desc: "Capteur hyperspectral analysant 240 bandes spectrales pour la détection de minéraux et le suivi de la santé végétale globale.",
-    status: "Scanning"
-  },
-  {
-    id: "sat-ld-15",
-    name: "Lidar-Forge v5",
-    type: "Topographic LiDAR",
-    resolution: "5cm / pixel",
-    revisit: "12 Days",
-    throughput: "8.5 Gbps",
-    desc: "Array LiDAR de nouvelle génération pour la cartographie 3D ultra-précise des zones urbaines et forestières.",
-    status: "Active Link"
-  }
-]
-
-const RADAR_METRICS = [
-  { label: "Scan Coverage", value: "98.4%", trend: "Stable" },
-  { label: "Data Latency", value: "42ms", trend: "Optimal" },
-  { label: "Target Lock", value: "Level 9", trend: "High" },
-  { label: "Signal Purity", value: "99.98%", trend: "Constant" }
-]
-
-const TELEMETRY_LOGS = [
-  { timestamp: "18:14:42", unit: "SAR-Array-01", status: "LOCKED", angle: "42.0°" },
-  { timestamp: "18:14:45", unit: "Downlink-Node", status: "SYNCED", rate: "4.2 Gbps" },
-  { timestamp: "18:14:48", unit: "Orbital-Bus", status: "STABLE", temp: "285K" }
-]
-
-/* ==========================================
-   TECHNICAL COMPONENTS
-   ========================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+function Reveal({ children, delay = 0, y = 35 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-70px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1.0, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function RadarSweepVisualizer() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+function ParallaxImg({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"])
+  return (
+    <div ref={ref} className="relative w-full h-full overflow-hidden">
+      <motion.div style={{ y }} className="absolute inset-[-10%] w-[120%] h-[120%]">
+        <Image src={src} alt={alt} fill className="object-cover" />
+      </motion.div>
+    </div>
+  )
+}
+
+const BIENS = [
+  { type: "Appartement", title: "Haussmannien d'exception", loc: "Paris 8ème", price: "2 450 000 €", surface: 185, pieces: 6, chambres: 4, sdb: 2, img: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&q=80&w=1200", badge: "Exclusivité" },
+  { type: "Maison", title: "Villa contemporaine à toit-terrasse", loc: "Neuilly-sur-Seine", price: "3 200 000 €", surface: 260, pieces: 8, chambres: 5, sdb: 3, img: "https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?auto=format&fit=crop&q=80&w=1200", badge: "Nouveau" },
+  { type: "Penthouse", title: "Duplex vue panoramique", loc: "Paris 16ème", price: "4 800 000 €", surface: 220, pieces: 7, chambres: 4, sdb: 3, img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1200", badge: "Coup de cœur" },
+]
+
+const SERVICES = [
+  { num: "01", title: "Estimation gratuite", desc: "Évaluation précise de votre bien basée sur 15 ans de données de marché et une analyse comparative approfondie." },
+  { num: "02", title: "Marketing premium", desc: "Photos professionnel, visite virtuelle 3D, diffusion sur 40+ portails, newsletter auprès de 2 000 acquéreurs qualifiés." },
+  { num: "03", title: "Accompagnement acheteurs", desc: "Sélection exclusive, visites accompagnées, négociation, suivi notarial. Une seule personne de confiance du début à la fin." },
+  { num: "04", title: "Gestion locative", desc: "Mise en location, sélection locataires, états des lieux, gestion courante. Taux d'occupation moyen : 98,2%." },
+]
+
+export default function AltaTransactionsPage() {
+  const heroRef = useRef(null)
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "28%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+  const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "10%"])
+
   useEffect(() => {
-    const handleMouse = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
-    window.addEventListener("mousemove", handleMouse)
-    return () => window.removeEventListener("mousemove", handleMouse)
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-10">
-       <svg width="100%" height="100%" className="w-full h-full">
-          <motion.line 
-             x1="50%" 
-             y1="50%" 
-             x2={mousePos.x} 
-             y2={mousePos.y} 
-             stroke="cyan" 
-             strokeWidth="1" 
-             strokeDasharray="4 8"
-          />
-          {[...Array(6)].map((_, i) => (
-            <circle 
-               key={i}
-               cx="50%" 
-               cy="50%" 
-               r={100 + i * 150} 
-               stroke="cyan" 
-               strokeWidth="0.5" 
-               fill="none"
-               opacity={0.3}
-            />
-          ))}
-          <motion.div 
-             animate={{ rotate: 360 }}
-             transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-             className="absolute top-1/2 left-1/2 w-full h-1 bg-gradient-to-r from-cyan-400/0 to-cyan-400/50 origin-left"
-          />
-       </svg>
-    </div>
-  )
-}
+    <div className="bg-[#fefdfb] text-[#11182a] overflow-x-hidden" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
+      {/* ── NAVBAR ── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#11182a]/97 backdrop-blur-xl py-4 border-b border-[#b8944a]/15" : "bg-transparent py-7"}`}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-7 h-7 border border-[#b8944a] flex items-center justify-center">
+              <Building2 className="w-3.5 h-3.5 text-[#b8944a]" />
+            </div>
+            <span className="text-white font-bold tracking-[0.2em] uppercase text-sm">Alta Transactions</span>
+          </div>
+          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-white/35">
+            {["Acheter", "Vendre", "Estimer", "Programme neuf", "Contact"].map(l => (
+              <Link key={l} href="#" className="hover:text-[#b8944a] transition-colors">{l}</Link>
+            ))}
+          </div>
+          <div className="hidden md:flex items-center gap-4">
+            <a href="tel:0144876543" className="text-[10px] font-bold uppercase tracking-widest text-[#b8944a]">01 44 87 65 43</a>
+            <button className="px-6 py-2.5 bg-[#b8944a] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#cdab66] transition-colors duration-300">
+              Estimer mon bien
+            </button>
+          </div>
+          <Sheet>
+            <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5 text-white" /></button></SheetTrigger>
+            <SheetContent side="right" className="bg-[#11182a] border-[#b8944a]/10 p-10">
+              <div className="flex flex-col gap-8 mt-16">
+                {["Acheter", "Vendre", "Estimer", "Contact"].map(l => (
+                  <Link key={l} href="#" className="text-3xl font-light uppercase tracking-widest text-white hover:text-[#b8944a] transition-colors">{l}</Link>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </nav>
 
-function SatelliteModel({ progress }: { progress: any }) {
-  const rotate = useTransform(progress, [0, 1], [0, 360])
-  const scale = useTransform(progress, [0, 0.5, 1], [1, 1.2, 1])
+      {/* ── HERO ── */}
+      <section ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
+        <motion.div style={{ y: heroY }} className="absolute inset-0">
+          <Image src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=85&w=2400" alt="Immobilier prestige Paris" fill className="object-cover" priority style={{ filter: "brightness(0.55)" }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#11182a] via-[#11182a]/35 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#11182a]/60 to-transparent" />
+        </motion.div>
 
-  return (
-    <motion.div style={{ rotate, scale }} className="relative w-80 h-80 flex items-center justify-center">
-       <div className="absolute inset-0 border border-cyan-500/10 rounded-full animate-spin-slow shadow-[0_0_80px_rgba(34,211,238,0.05)]" />
-       <Satellite className="w-40 h-40 text-cyan-500/10 animate-pulse" />
-       <div className="absolute inset-8 border border-cyan-500/5 rounded-full" />
-    </motion.div>
-  )
-}
-
-/* ==========================================
-   THE PULSE ARRAY - MAIN INTERFACE
-   ========================================== */
-
-export default function PulseArrayPremium() {
-  const [activeSat, setActiveSat] = useState(0)
-  const [isRadarLockActive, setIsRadarLockActive] = useState(true)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Pulse Scroll Effects
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textX = useTransform(scrollYProgress, [0, 0.5], [0, 100])
-
-  return (
-    <div ref={containerRef} className="bg-[#020508] text-[#e0e8ed] font-mono selection:bg-cyan-500/30 selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000">
-      
-      {/* GLOBAL HUD OVERLAY */}
-      <HUD_Overlay isRadarLockActive={isRadarLockActive} />
-
-      <main>
-        {/* ==========================================
-            1. RADAR IGNITION (HERO)
-            ========================================== */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-          <RadarSweepVisualizer />
-          <motion.div style={{ opacity: heroOpacity }} className="absolute z-0 pointer-events-none flex items-center justify-center">
-             <SatelliteModel progress={scrollYProgress} />
+        <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}>
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-10 h-[1px] bg-[#b8944a]" />
+              <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#b8944a]">Immobilier de prestige · Paris & Île-de-France</span>
+            </div>
           </motion.div>
 
-          <div className="relative z-10 text-center max-w-7xl">
-             <Reveal>
-                <div className="inline-flex items-center gap-4 px-6 py-2 border border-cyan-500/30 bg-cyan-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-cyan-500 mb-12 italic">
-                   <Radar className="w-4 h-4" /> Radar_Sync: NOMINAL // Resol: 25cm/px
+          <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.92] tracking-tight mb-10 text-white"
+            style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic" }}>
+            L'immobilier de<br />
+            <span className="text-[#b8944a] not-italic">prestige</span>, autrement.
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75 }}
+            className="max-w-lg text-sm text-white/45 leading-relaxed mb-10">
+            15 ans d'expertise sur le marché parisien haut de gamme. 120 transactions par an. Une équipe de 6 experts totalement dédiés à vos ambitions patrimoniales.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.0 }} className="flex flex-wrap gap-4">
+            <button className="px-10 py-4 bg-[#b8944a] text-white text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[#cdab66] transition-colors duration-300">
+              Voir nos biens
+            </button>
+            <button className="px-10 py-4 border border-white/15 text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:border-[#b8944a]/50 hover:text-[#b8944a] transition-all">
+              Estimer gratuitement
+            </button>
+          </motion.div>
+        </motion.div>
+
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10">
+          <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-white/15">scroll</span>
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.2 }} className="w-[1px] h-10 bg-gradient-to-b from-[#b8944a]/50 to-transparent" />
+        </div>
+      </section>
+
+      {/* ── STATS ── */}
+      <section className="bg-[#11182a] py-16">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-0">
+          {[
+            { v: "2,1 Mds", l: "Volume de transactions" },
+            { v: "120+", l: "Ventes/an" },
+            { v: "98,2%", l: "Taux d'occupation gestion" },
+            { v: "15 ans", l: "D'expertise premium" },
+          ].map((s, i) => (
+            <Reveal key={i} delay={i * 0.08}>
+              <div className="text-center py-8 border-r border-white/5 last:border-r-0">
+                <div className="text-3xl font-bold text-[#b8944a] mb-2" style={{ fontFamily: "'Libre Baskerville', serif" }}>{s.v}</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-white/25">{s.l}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── BIENS EN VENTE ── */}
+      <section className="py-32 bg-[#fefdfb]">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16">
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b8944a] mb-4">Sélection exclusive</div>
+              <h2 className="text-5xl md:text-6xl font-bold text-[#11182a]" style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic" }}>
+                Nos biens en exclusivité.
+              </h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {BIENS.map((b, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="group cursor-pointer">
+                  <div className="relative aspect-[4/3] overflow-hidden mb-6">
+                    <ParallaxImg src={b.img} alt={b.title} />
+                    <div className="absolute top-4 left-4 px-3 py-1.5 bg-[#b8944a] text-white text-[9px] font-bold uppercase tracking-widest">{b.badge}</div>
+                    <div className="absolute bottom-4 right-4 px-3 py-1.5 bg-[#11182a]/80 backdrop-blur-md text-white text-[10px] font-bold tracking-wider">{b.price}</div>
+                    <div className="absolute inset-0 bg-[#11182a]/0 group-hover:bg-[#11182a]/15 transition-all duration-700" />
+                  </div>
+                  <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#b8944a] mb-2"><MapPin className="w-2.5 h-2.5 inline mr-1" />{b.loc} · {b.type}</div>
+                  <h3 className="text-xl font-bold text-[#11182a] mb-4 group-hover:text-[#b8944a] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic" }}>{b.title}</h3>
+                  <div className="flex gap-6 text-[10px] font-bold uppercase tracking-widest text-[#11182a]/40">
+                    <span className="flex items-center gap-1"><Square className="w-3 h-3" /> {b.surface} m²</span>
+                    <span className="flex items-center gap-1"><Bed className="w-3 h-3" /> {b.chambres} ch.</span>
+                    <span className="flex items-center gap-1"><Bath className="w-3 h-3" /> {b.sdb} sdb</span>
+                  </div>
                 </div>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic">
-                   Pulse <br/> <span className="text-white/5 italic">Array.</span>
-                </motion.h1>
-                <p className="max-w-3xl mx-auto text-sm md:text-lg text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16 italic">
-                   La télédétection par satellite de nouvelle génération. Nous capturons chaque pulsation de la Terre avec une précision radar inégalée pour une analyse globale en temps réel.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                   <button className="px-12 py-6 bg-cyan-800 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(34,211,238,0.2)] flex items-center gap-4 italic">
-                      <Signal className="w-5 h-5" /> Initialize Scan
-                   </button>
-                   <button className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
-                      <Database className="w-5 h-5" /> Satellite Registry
-                   </button>
-                </div>
-             </Reveal>
+              </Reveal>
+            ))}
           </div>
+          <Reveal delay={0.2}>
+            <div className="text-center mt-16">
+              <button className="inline-flex items-center gap-3 px-10 py-4 border border-[#11182a]/10 text-[10px] font-bold uppercase tracking-widest text-[#11182a] hover:bg-[#11182a] hover:text-white transition-all duration-500">
+                Voir toutes nos exclusivités <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-12">
-             <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Station_ID: PULSE-MASTER-01
+      {/* ── SERVICES ── */}
+      <section className="py-32 bg-[#f2ede6]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16">
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b8944a] mb-4">Notre approche</div>
+              <h2 className="text-5xl md:text-6xl font-bold text-[#11182a]" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic" }}>
+                Un accompagnement<br />sans compromis.
+              </h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#11182a]/5">
+            {SERVICES.map((s, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div className="bg-[#f2ede6] p-10 hover:bg-white transition-colors duration-500">
+                  <div className="text-[3rem] font-light text-[#b8944a]/20 mb-4 leading-none" style={{ fontFamily: "'Libre Baskerville', serif" }}>{s.num}</div>
+                  <div className="w-8 h-[1px] bg-[#b8944a] mb-5" />
+                  <h3 className="text-lg font-bold text-[#11182a] mb-3" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic" }}>{s.title}</h3>
+                  <p className="text-sm text-[#11182a]/50 leading-relaxed">{s.desc}</p>
                 </div>
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Lock_Status: SAR_STABLE
-                </div>
-             </div>
-             <div className="text-right flex flex-col items-end gap-4">
-                <span className="text-[8px] font-black uppercase tracking-[0.5em] text-cyan-500">Radar_Reflectivity_Stream</span>
-                <div className="flex gap-2 h-12 items-end">
-                   {[...Array(16)].map((_, i) => (
-                     <motion.div 
-                        key={i}
-                        animate={{ height: ["10%", "100%", "30%", "80%", "10%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                        className="w-2 bg-cyan-500/20"
-                     />
-                   ))}
-                </div>
-             </div>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ==========================================
-            2. SATELLITE REGISTRY (DENSE TECHNICAL)
-            ========================================== */}
-        <section className="py-60 bg-[#04080c] relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-              <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-                 <Reveal>
-                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-cyan-500 block mb-6 italic underline underline-offset-8 decoration-cyan-400/20">Satellite // Assets</span>
-                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">Archives.</h2>
-                 </Reveal>
-                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Orbital_Audit</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-cyan-400">L'Architecture de la Surveillance</p>
-                 </div>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 shadow-2xl">
-                 {SATELLITE_ASSETS.map((sat, i) => (
-                   <Reveal key={sat.id} delay={i * 0.1}>
-                      <div className="bg-[#020508] p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
-                         <div className="flex justify-between items-start mb-16">
-                            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-cyan-800 group-hover:text-white transition-all duration-500">
-                               <Radar className="w-8 h-8" />
-                            </div>
-                            <span className={`px-4 py-2 bg-white/5 text-[9px] font-black uppercase tracking-[0.3em] ${sat.status === "Operational" ? "text-cyan-500" : "text-white/40"}`}>{sat.status}</span>
-                         </div>
-                         
-                         <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{sat.name}</h3>
-                         <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-12">{sat.type}</div>
-                         
-                         <div className="space-y-8 mb-20 border-l border-cyan-500/20 pl-8">
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Resolution</span>
-                               <span className="text-white group-hover:text-cyan-400 transition-colors">{sat.resolution}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Revisit</span>
-                               <span className="text-white group-hover:text-cyan-400 transition-colors">{sat.revisit}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Throughput</span>
-                               <span className="text-white group-hover:text-cyan-400 transition-colors">{sat.throughput}</span>
-                            </div>
-                         </div>
-
-                         <p className="text-[12px] text-white/30 leading-loose uppercase tracking-[0.2em] font-bold italic mb-16">
-                            {sat.desc}
-                         </p>
-
-                         <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center">
-                            <span className="text-[10px] font-black text-white/10 uppercase tracking-widest">Ref: {sat.id}</span>
-                            <button className="text-[10px] font-black uppercase text-white/40 flex items-center gap-4 group-hover:text-white transition-all">
-                               Technical_Specs <ChevronRight className="w-5 h-5" />
-                            </button>
-                         </div>
-                      </div>
-                   </Reveal>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            3. PULSE MONITOR (INTERACTIVE DATA)
-            ========================================== */}
-        <section className="py-60 bg-black relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div>
-                    <Reveal>
-                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-cyan-500 block mb-12 italic underline underline-offset-8 decoration-cyan-400/20">Pulse // Performance</span>
-                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">
-                          The <br/> <span className="not-italic font-black text-white/5 italic">Scan_Link.</span>
-                       </h2>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">
-                          Surveillance radar en temps réel. Nos flottes SAR balaient la planète toutes les heures pour détecter des changements de surface et surveiller les infrastructures critiques.
-                       </p>
-                       <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
-                          {RADAR_METRICS.map((metric, i) => (
-                            <div key={i} className="p-16 bg-[#0a100c] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
-                               <div className="text-[10px] font-black uppercase text-cyan-400 mb-6 tracking-[0.4em]">{metric.label}</div>
-                               <div className="text-5xl font-black text-white italic mb-6 tracking-tighter group-hover:translate-x-4 transition-transform">{metric.value}</div>
-                               <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
-                                  <Activity className="w-4 h-4 text-cyan-400" /> {metric.trend}
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                       <button 
-                         onClick={() => setIsRadarLockActive(!isRadarLockActive)}
-                         className="w-full py-8 bg-cyan-900 text-white text-[11px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center gap-6 italic"
-                       >
-                          <Settings className="w-5 h-5" /> Re-Sync Orbital Nodes
-                       </button>
-                    </Reveal>
-                 </div>
-                 
-                 <div className="relative">
-                    <Reveal delay={0.3} x={40}>
-                       <div className="aspect-square bg-[#0a100c] border border-white/10 p-20 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 p-80 bg-cyan-400 opacity-[0.02] blur-[150px] rounded-full group-hover:opacity-[0.05] transition-opacity" />
-                          
-                          <div className="flex justify-between items-start z-10">
-                             <div className="flex flex-col gap-3">
-                                <span className="text-[10px] font-black text-white/10 uppercase tracking-[0.5em]">Pulse_Link // SAR-SYNC-v42</span>
-                                <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.6em]">Orbital_Ground_Map</span>
-                             </div>
-                             <Wifi className="w-6 h-6 text-cyan-400" />
-                          </div>
-                          
-                          {/* RADAR VISUALIZER (SVG) */}
-                          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                             <div className="w-64 h-64 border border-cyan-400/5 rounded-full flex items-center justify-center relative">
-                                <motion.div 
-                                  animate={{ rotate: 360 }}
-                                  transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-0 border-t-2 border-cyan-400/20 rounded-full" 
-                                />
-                                <motion.div 
-                                  animate={{ rotate: -360 }}
-                                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-8 border-b-2 border-cyan-400/10 rounded-full" 
-                                />
-                                <Crosshair className={`w-24 h-24 transition-colors duration-1000 ${isRadarLockActive ? "text-cyan-400 animate-pulse" : "text-white/5"}`} />
-                             </div>
-                             <div className="mt-16 text-center space-y-6">
-                                <div className={`text-4xl font-black italic tracking-tighter ${isRadarLockActive ? "text-white" : "text-white/20"}`}>
-                                   {isRadarLockActive ? "TARGET_LOCKED" : "TARGET_LOST"}
-                                </div>
-                                <span className="text-[11px] font-bold text-white/10 uppercase tracking-[0.6em] block">Auth_Node: PULSE_UNIT_01</span>
-                             </div>
-                          </div>
-
-                          <div className="relative z-10 flex gap-6">
-                             <div className="flex-1 h-1 bg-white/5 overflow-hidden">
-                                <motion.div 
-                                   animate={isRadarLockActive ? { x: ["-100%", "100%"] } : {}}
-                                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-cyan-700"
-                                />
-                             </div>
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            4. PULSE STORY (TECH STORYTELLING)
-            ========================================== */}
-        <section className="py-60 bg-[#020508] relative overflow-hidden border-t border-white/5">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">
-                    <Image 
-                       src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop" 
-                       alt="Orbital Radar Infrastructure" 
-                       fill 
-                       className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"
-                    />
-                    <div className="absolute inset-0 bg-cyan-900/10 mix-blend-color group-hover:opacity-0 transition-opacity" />
-                    <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                       <div className="text-white">
-                          <span className="text-[11px] font-black uppercase tracking-[0.6em] text-cyan-400 mb-8 block italic underline underline-offset-8 decoration-cyan-400/20">Atelier // Purity // Unit</span>
-                          <h4 className="text-6xl font-black tracking-tighter uppercase italic mb-12 mix-blend-difference text-white">Orbital <br/> Fabric.</h4>
-                          <button className="flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/20 pb-4 hover:border-cyan-400 transition-all group">
-                             Scan Protocols <ExternalLink className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                          </button>
-                       </div>
-                    </div>
-                 </div>
-
-                 <div>
-                    <Reveal>
-                       <div className="mb-24 text-left">
-                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-cyan-500 mb-8 block italic">Chapitre III // Analyse</span>
-                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none text-white">Pure_Scan.</h2>
-                       </div>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">
-                          L'espace est notre point de vue. Nous utilisons des micro-ondes pour voir à travers la nuit et les nuages, offrant une clarté absolue sur l'évolution de notre planète.
-                       </p>
-                       <div className="space-y-20">
-                          {[
-                            { t: "SAR Signal Capture", d: "Réception de l'écho radar et traitement par synthèse d'ouverture pour une résolution spatiale extrême." },
-                            { t: "Geometric Correction", d: "Alignement précis des données orbitales avec les modèles de terrain globaux via des éphémérides GNSS." },
-                            { t: "AI Classification", d: "Extraction automatique de caractéristiques (bâtiments, eau, végétation) par réseaux de neurones profonds." }
-                          ].map((step, i) => (
-                            <div key={i} className="group flex gap-12 border-b border-white/5 pb-16 hover:border-cyan-400/20 transition-all cursor-default">
-                               <div className="text-6xl font-black text-white/5 group-hover:text-cyan-400/20 transition-colors italic leading-none">0{i+1}</div>
-                               <div>
-                                  <h5 className="text-3xl font-black uppercase tracking-tight text-white mb-6 italic group-hover:translate-x-4 transition-transform text-white">{step.t}</h5>
-                                  <p className="text-[12px] text-white/20 uppercase tracking-[0.3em] font-bold leading-loose italic">{step.d}</p>
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* MEGA FOOTER */}
-        <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-              <div className="lg:col-span-2">
-                 <div className="flex items-center gap-6 mb-16">
-                    <div className="w-16 h-16 bg-cyan-800 flex items-center justify-center">
-                      <Satellite className="w-10 h-10 text-white" />
-                    </div>
-                    <span className="text-4xl font-black uppercase tracking-tighter italic">PULSE<span className="text-white/20">ARRAY.</span></span>
-                 </div>
-                 <p className="text-white/20 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
-                    "La vision orbitale au service de la précision terrestre." — Archive Pulse V.42
-                 </p>
-                 <div className="flex gap-16">
-                    {["ScanLog", "SatelliteRegistry", "GitHub", "X_Protocol"].map(s => (
-                      <Link key={s} href="#" className="text-[11px] font-black uppercase tracking-widest text-white/20 hover:text-cyan-400 transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
-                    ))}
-                 </div>
-              </div>
-
-              {[
-                { t: "FLEET", l: ["Aegis Radar-1", "Spectra-Link X", "Lidar-Forge v5", "Orbital Bus"] },
-                { t: "TECHNOLOGY", l: ["SAR Processing", "Geometric Sync", "AI Classification", "SLA Reports"] },
-                { t: "ATELIER", l: ["Our Legacy", "Orbital Mapping", "Locations", "Support"] }
-              ].map((col, i) => (
-                <div key={i} className="flex flex-col gap-12">
-                  <h4 className="text-[11px] font-black text-cyan-400 uppercase tracking-[0.6em] italic">{col.t}</h4>
-                  <ul className="flex flex-col gap-8">
-                    {col.l.map(link => (
-                      <li key={link} className="text-[11px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-[0.4em] italic">{link}</li>
-                    ))}
-                  </ul>
+      {/* ── TÉMOIGNAGES ── */}
+      <section className="py-32 bg-[#11182a]">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16">
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b8944a] mb-4">Avis clients</div>
+              <h2 className="text-5xl font-bold text-white" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic" }}>Ce qu'ils en pensent.</h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { q: "Vente de notre appartement en 11 jours au prix demandé. L'équipe Alta est d'une efficacité remarquable. Vrais professionnels, vrais résultats.", a: "Jean-Michel & Corinne T.", p: "Vendeurs · Paris 8ème" },
+              { q: "Après 6 mois de recherche infructueuse avec d'autres agences, Alta m'a trouvé mon appartement en 3 semaines. Un réseau et une réactivité hors norme.", a: "Sophie A.", p: "Acquéreur · Neuilly" },
+              { q: "La gestion locative d'Alta est irréprochable. Zéro vacance depuis 4 ans sur mes 3 biens. Un vrai partenaire patrimonial.", a: "François D.", p: "Bailleur · Portfoli 3 biens" },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="border border-white/5 p-10 hover:border-[#b8944a]/20 transition-colors duration-500">
+                  <div className="flex gap-1 mb-6">
+                    {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#b8944a] text-[#b8944a]" />)}
+                  </div>
+                  <p className="text-white/45 text-sm leading-relaxed italic mb-8 flex-1">{`"${t.q}"`}</p>
+                  <div className="border-t border-white/5 pt-6">
+                    <div className="font-bold text-sm text-white uppercase tracking-widest">{t.a}</div>
+                    <div className="text-[10px] text-[#b8944a]/60 tracking-widest mt-1">{t.p}</div>
+                  </div>
                 </div>
-              ))}
-           </div>
-
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 PULSE ARRAY ORBITAL REMOTE SENSING AG. // ALL_RIGHTS_RESERVED</span>
-              <div className="flex gap-16">
-                 <span>STATUS: OPERATIONAL</span>
-                 <span>RESOL: 25CM (SAR)</span>
-                 <span>v4.12.0-STABLE</span>
-              </div>
-           </div>
-        </footer>
-      </main>
-    </div>
-  )
-}
-
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
-
-function HUD_Overlay({ isRadarLockActive }: { isRadarLockActive: boolean }) {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Corner Brackets */}
-       <div className={`absolute top-12 left-12 w-20 h-20 border-t-2 border-l-2 transition-colors duration-1000 ${isRadarLockActive ? "border-cyan-400" : "border-white/10"}`} />
-       <div className={`absolute top-12 right-12 w-20 h-20 border-t-2 border-r-2 transition-colors duration-1000 ${isRadarLockActive ? "border-cyan-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 left-12 w-20 h-20 border-b-2 border-l-2 transition-colors duration-1000 ${isRadarLockActive ? "border-cyan-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 right-12 w-20 h-20 border-b-2 border-r-2 transition-colors duration-1000 ${isRadarLockActive ? "border-cyan-400" : "border-white/10"}`} />
-
-       {/* Top Status Bar */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-20 bg-black/60 backdrop-blur-2xl px-12 py-4 border border-white/10 rounded-none">
-          <div className="flex items-center gap-6 text-white">
-             <div className={`w-3 h-3 transition-colors duration-500 ${isRadarLockActive ? "bg-cyan-400 animate-pulse" : "bg-red-500 animate-ping"}`} />
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Radar_Sync: {isRadarLockActive ? "NOMINAL" : "SYNC_LOSS"} // Status: ACTIVE</span>
+              </Reveal>
+            ))}
           </div>
-          <div className="h-4 w-px bg-white/20" />
-          <div className="flex items-center gap-6 text-white/20">
-             <Wifi className="w-4 h-4" /> 
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Pulse_Grid: SECURE</span>
-          </div>
-       </div>
+        </div>
+      </section>
 
-       {/* Right Rotation Info */}
-       <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-white/5 italic">Unauthorized_Duplication_Of_Orbital_Patterns_Is_Strictly_Monitored_By_Global_Pulse_Alliance</span>
-       </div>
+      {/* ── CTA ── */}
+      <section className="relative py-48 overflow-hidden">
+        <div className="absolute inset-0">
+          <Image src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&q=80&w=2400" alt="Bien immobilier prestige" fill className="object-cover opacity-30" />
+          <div className="absolute inset-0 bg-[#fefdfb]/85" />
+        </div>
+        <Reveal className="relative z-10 text-center px-6">
+          <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#b8944a] mb-6">Estimation gratuite</div>
+          <h2 className="text-5xl md:text-7xl font-bold text-[#11182a] mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic" }}>
+            Combien vaut<br />votre bien ?
+          </h2>
+          <p className="text-[#11182a]/45 max-w-md mx-auto mb-10 text-sm leading-relaxed">
+            Obtenez une estimation précise et confidentielle en moins de 48h. Sans engagement.
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <button className="px-10 py-5 bg-[#11182a] text-white text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[#b8944a] transition-colors duration-500">
+              Demander une estimation
+            </button>
+            <a href="tel:0144876543" className="flex items-center gap-3 px-10 py-5 border border-[#11182a]/15 text-[#11182a] text-[10px] font-bold uppercase tracking-[0.2em] hover:border-[#b8944a] transition-all">
+              <Phone className="w-4 h-4 text-[#b8944a]" /> 01 44 87 65 43
+            </a>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-[#11182a] pt-24 pb-10 px-6 border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-16">
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <Building2 className="w-5 h-5 text-[#b8944a]" />
+              <span className="font-bold tracking-[0.2em] uppercase text-white text-sm">Alta Transactions</span>
+            </div>
+            <p className="text-sm text-white/25 leading-relaxed">Immobilier de prestige · Paris & Île-de-France · Expertise depuis 2009.</p>
+          </div>
+          {[
+            { t: "Acheter", ls: ["Appartements", "Maisons & villas", "Programme neuf", "Investissement locatif"] },
+            { t: "Vendre", ls: ["Estimation gratuite", "Marketing premium", "Compte rendu hebdo", "Honoraires transparents"] },
+            { t: "Agence", ls: ["Notre équipe", "Nos références", "Blog & conseils", "01 44 87 65 43"] },
+          ].map((col, i) => (
+            <div key={i}>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#b8944a] mb-6">{col.t}</h4>
+              <ul className="space-y-3">
+                {col.ls.map(l => <li key={l}><Link href="#" className="text-sm text-white/25 hover:text-white transition-colors">{l}</Link></li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/5 flex justify-between text-[9px] font-bold uppercase tracking-widest text-white/15">
+          <span>© 2026 Alta Transactions · SIRET 456 789 123 00078 · Carte professionnelle T/G/S n°C</span>
+          <span className="text-[#b8944a]/30">Immobilier de prestige Paris</span>
+        </div>
+      </footer>
     </div>
   )
 }
