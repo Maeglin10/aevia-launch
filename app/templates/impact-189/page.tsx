@@ -1,530 +1,294 @@
+// @ts-nocheck
 "use client"
-
-import React, { useState, useEffect, useRef } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
-} from "framer-motion"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  Zap, Activity, Microscope, 
-  Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, Wifi, BarChart3, 
-  Fingerprint, Scan, Brain, Server, 
-  ShieldCheck, ShieldAlert, Award, 
-  Briefcase, Wind, Thermometer, 
-  Flame, Battery, Radio, Gauge, 
-  Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Satellite, 
-  Milestone, FlaskConical, FlaskRound, 
-  Ghost, Binary, Database, Search, 
-  Cpu, HeartPulse, Sun, Magnet, 
-  CircleDot, Waves, Pickaxe, Mountain, 
-  Gem, Rocket, Drill, PlaneTakeoff, 
-  SunMedium, Bolt, BatteryCharging, 
-  CpuIcon, CloudSun, RadioReceiver, 
-  ZapOff, Cable
-} from "lucide-react"
+import { Scissors, Star, Phone, MapPin, Clock, Calendar, Sparkles, Heart, ArrowRight, Menu } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-/* ==========================================================================
-   THE SOLAR ARRAY DATASET (ULTRA DENSITY)
-   ========================================================================== */
+/* ═══════════════════════════════════════════════════════════════════════════
+   ATELIER LÉONIE — Salon de coiffure premium femmes (Paris 16e)
+   Palette : crème #faf6f1 / vieux rose #c97b7b / or rosé #d4a5a5 / encre #1a1218
+   Fonts : Bodoni Moda (titres élégants) + Lato (corps épuré)
+   Style : luxe accessible, féminin, chaud, boudoir élégant
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-const ENERGY_ASSETS = [
-  {
-    id: "sol-hel-42",
-    name: "Helios-v4 Array",
-    type: "Orbital Solar Concentrator",
-    power: "4.2 GW",
-    efficiency: "92.4%",
-    storage: "12 TWh",
-    desc: "Réseau de miroirs orbitaux concentrant le rayonnement solaire vers des récepteurs photovoltaïques de nouvelle génération.",
-    status: "Peak Output"
-  },
-  {
-    id: "sol-pho-08",
-    name: "Photon Grid Alpha",
-    type: "Terrestrial Micro-Grid",
-    power: "1.8 GW",
-    efficiency: "88.2%",
-    storage: "4.5 TWh",
-    desc: "Infrastructure de distribution d'énergie locale optimisée par IA pour minimiser les pertes de transport.",
-    status: "Stable Load"
-  },
-  {
-    id: "sol-sta-15",
-    name: "Star-Collector v5",
-    type: "Quantum Conversion Unit",
-    power: "12 GW",
-    efficiency: "98.8%",
-    storage: "50 TWh",
-    desc: "Récepteur de photons à haute fidélité utilisant des points quantiques pour une conversion quasi-parfaite de l'énergie solaire.",
-    status: "Syncing"
-  }
-]
-
-const GRID_METRICS = [
-  { label: "Grid Load", value: "84.2%", trend: "Increasing" },
-  { label: "Storage Cap", value: "142 TWh", trend: "Stable" },
-  { label: "Photon Flux", value: "1.4 kW/m²", trend: "Peak" },
-  { label: "Inverter Eff.", value: "99.4%", trend: "Optimal" }
-]
-
-const ENERGY_LOGS = [
-  { timestamp: "15:14:42", unit: "Array-Sync-01", status: "NOMINAL", sync: "100%" },
-  { timestamp: "15:14:45", unit: "Photon-Buffer", status: "CHARGING", rate: "1.2GW" },
-  { timestamp: "15:14:48", unit: "Inverter-X", status: "STABLE", heat: "42°C" }
-]
-
-/* ==========================================
-   TECHNICAL COMPONENTS
-   ========================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+function Reveal({ children, delay = 0, y = 22 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-60px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.95, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function HeliosPulseVisualizer() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+function ParallaxImg({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const y = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"])
+  return (
+    <div ref={ref} className="relative w-full h-full overflow-hidden">
+      <motion.div style={{ y }} className="absolute inset-[-10%] w-[120%] h-[120%]">
+        <Image src={src} alt={alt} fill className="object-cover" />
+      </motion.div>
+    </div>
+  )
+}
+
+const PRESTATIONS = [
+  { title: "Coupe & brushing", price: "Dès 65€", desc: "Coupe sur mesure adaptée à votre morphologie, densité et mode de vie. Brushing professionnel ou coiffage naturel." },
+  { title: "Couleur & balayage", price: "Dès 95€", desc: "Couleur pleine, balayage californien, mèches, ombré. Produits Kérastase & L'Oréal Professionnel. Bilan capillaire offert." },
+  { title: "Traitement & soin", price: "Dès 45€", desc: "Soins Olaplex, masques kératine, lissage brésilien, soins anti-chute. Résultat visible dès la première séance." },
+  { title: "Chignon & coiffure occasion", price: "Dès 85€", desc: "Chignon romantique, tresses, ondulations, coiffure de mariée. Essai inclus, disponible le dimanche sur RDV." },
+  { title: "Extensions", price: "Dès 250€", desc: "Extensions kératine, bandes, clips. Volume, longueur, densité. Pose personnalisée, entretien et dépose assurés." },
+  { title: "Consultation capillaire", price: "Offerte", desc: "Diagnostic état de la fibre, rythme colorimétrique, soins adaptés. En amont de chaque nouveau service, sur demande." },
+]
+
+export default function AtelierLeoniePage() {
+  const heroRef = useRef(null)
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "22%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+  const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "8%"])
+
   useEffect(() => {
-    const handleMouse = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
-    window.addEventListener("mousemove", handleMouse)
-    return () => window.removeEventListener("mousemove", handleMouse)
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20">
-       <svg width="100%" height="100%" className="w-full h-full">
-          {[...Array(10)].map((_, i) => (
-            <motion.circle 
-               key={i}
-               cx={mousePos.x}
-               cy={mousePos.y}
-               r={100 + i * 50}
-               stroke="#f59e0b" 
-               strokeWidth="0.5" 
-               fill="none"
-               animate={{ opacity: [0, 0.5, 0], scale: [0.8, 1.2, 0.8] }}
-               transition={{ duration: 3, repeat: Infinity, delay: i * 0.2 }}
-            />
-          ))}
-          {[...Array(40)].map((_, i) => (
-            <motion.rect 
-               key={`panel-${i}`}
-               width="40"
-               height="20"
-               fill="#f59e0b"
-               initial={{ opacity: 0 }}
-               animate={{ 
-                  x: [Math.random() * 2000, Math.random() * 2000],
-                  y: [Math.random() * 1000, Math.random() * 1000],
-                  opacity: [0, 0.2, 0],
-                  rotate: [0, 360]
-               }}
-               transition={{ duration: 10 + Math.random() * 10, repeat: Infinity, delay: Math.random() * 5 }}
-            />
-          ))}
-       </svg>
-    </div>
-  )
-}
+    <div className="bg-[#faf6f1] text-[#1a1218] overflow-x-hidden" style={{ fontFamily: "'Lato', 'Inter', system-ui, sans-serif" }}>
+      {/* ── NAVBAR ── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#faf6f1]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#c97b7b]/10" : "bg-transparent py-7"}`}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <div>
+            <div className="font-bold text-[#1a1218] tracking-widest text-sm" style={{ fontFamily: "'Bodoni Moda', 'Georgia', serif" }}>ATELIER LÉONIE</div>
+            <div className="text-[8px] font-bold uppercase tracking-[0.4em] text-[#c97b7b]/60">Salon de coiffure · Paris 16e</div>
+          </div>
+          <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1a1218]/30">
+            {["Prestations", "Tarifs", "Équipe", "Galerie", "Contact"].map(l => (
+              <Link key={l} href="#" className="hover:text-[#c97b7b] transition-colors">{l}</Link>
+            ))}
+          </div>
+          <div className="flex items-center gap-3">
+            <a href="tel:0145678901" className="hidden md:flex items-center gap-2 text-[#c97b7b] font-bold text-sm">
+              <Phone className="w-4 h-4" /> 01 45 67 89 01
+            </a>
+            <button className="hidden md:block px-5 py-2.5 bg-[#c97b7b] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#b56868] transition-colors">
+              Réserver
+            </button>
+            <Sheet>
+              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5" /></button></SheetTrigger>
+              <SheetContent side="right" className="bg-[#faf6f1] border-slate-100 p-10">
+                <div className="flex flex-col gap-7 mt-16">
+                  {["Prestations", "Tarifs", "Contact"].map(l => <Link key={l} href="#" className="text-3xl font-bold text-[#1a1218] hover:text-[#c97b7b] transition-colors" style={{ fontFamily: "'Bodoni Moda', serif" }}>{l}</Link>)}
+                  <a href="tel:0145678901" className="flex items-center gap-3 text-[#c97b7b] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 01 45 67 89 01</a>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+      </nav>
 
-function SolarArrayModel({ progress }: { progress: any }) {
-  const rotate = useTransform(progress, [0, 1], [0, 360])
-  const scale = useTransform(progress, [0, 0.5, 1], [1, 1.2, 1])
+      {/* ── HERO ── */}
+      <section ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
+        <motion.div style={{ y: heroY }} className="absolute inset-0">
+          <Image src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=88&w=2400" alt="Salon de coiffure élégant" fill className="object-cover object-center" priority style={{ filter: "brightness(0.4) saturate(0.9)" }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#110c10] via-[#110c10]/45 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#110c10]/65 to-transparent" />
+        </motion.div>
 
-  return (
-    <motion.div style={{ rotate, scale }} className="relative w-80 h-80 flex items-center justify-center">
-       <div className="absolute inset-0 border border-amber-500/10 rounded-full animate-spin-slow shadow-[0_0_80px_rgba(245,158,11,0.05)]" />
-       <SunMedium className="w-40 h-40 text-amber-500/10 animate-pulse" />
-       <div className="absolute inset-8 border border-amber-500/5 rounded-full" />
-    </motion.div>
-  )
-}
+        {/* Decorative rose element */}
+        <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.4, duration: 1.2 }}
+          className="absolute top-32 right-8 md:right-20 z-10 w-20 h-20 rounded-full border border-[#c97b7b]/20 flex items-center justify-center hidden lg:flex">
+          <Scissors className="w-8 h-8 text-[#c97b7b]/40" />
+        </motion.div>
 
-/* ==========================================
-   THE SOLAR ARRAY - MAIN INTERFACE
-   ========================================== */
-
-export default function SolarArrayPremium() {
-  const [activeAsset, setActiveAsset] = useState(0)
-  const [isGridStable, setIsGridStable] = useState(true)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Solar Scroll Effects
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textX = useTransform(scrollYProgress, [0, 0.5], [0, 100])
-
-  return (
-    <div ref={containerRef} className="bg-[#080602] text-[#e0e8ed] font-mono selection:bg-amber-500/30 selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000">
-      
-      {/* GLOBAL HUD OVERLAY */}
-      <HUD_Overlay isGridStable={isGridStable} />
-
-      <main>
-        {/* ==========================================
-            1. HELIOS IGNITION (HERO)
-            ========================================== */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-          <HeliosPulseVisualizer />
-          <motion.div style={{ opacity: heroOpacity }} className="absolute z-0 pointer-events-none flex items-center justify-center">
-             <SolarArrayModel progress={scrollYProgress} />
+        <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-8 h-[1px] bg-[#c97b7b]/60" />
+              <span className="text-[9px] font-bold uppercase tracking-[0.45em] text-[#d4a5a5]">Salon de coiffure & atelier capillaire · Paris 16e</span>
+            </div>
           </motion.div>
 
-          <div className="relative z-10 text-center max-w-7xl">
-             <Reveal>
-                <div className="inline-flex items-center gap-4 px-6 py-2 border border-amber-500/30 bg-amber-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-amber-500 mb-12 italic">
-                   <SunMedium className="w-4 h-4" /> Array_Sync: NOMINAL // Photon_Flux: 1.4 kW/m²
+          <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-4 text-white" style={{ fontFamily: "'Bodoni Moda', Georgia, serif" }}>
+            L'art de la
+          </motion.h1>
+          <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            className="text-5xl md:text-7xl lg:text-[88px] font-bold italic leading-[0.88] tracking-tight mb-10 text-[#c97b7b]" style={{ fontFamily: "'Bodoni Moda', Georgia, serif" }}>
+            coiffure.
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
+            className="max-w-sm text-sm text-white/32 leading-relaxed mb-10">
+            Salon de coiffure premium à Paris 16e. Coupe, couleur, soins, extensions, coiffure de mariée. Stylistes passionnées, produits haut de gamme, résultat sur mesure.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-4">
+            <button className="px-9 py-4 bg-[#c97b7b] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#b56868] transition-colors">
+              Prendre rendez-vous
+            </button>
+            <a href="tel:0145678901" className="flex items-center gap-3 px-9 py-4 border border-white/12 text-white/50 font-bold text-[10px] uppercase tracking-widest hover:border-[#c97b7b]/40 hover:text-[#d4a5a5] transition-all">
+              <Phone className="w-4 h-4" /> 01 45 67 89 01
+            </a>
+          </motion.div>
+        </motion.div>
+
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.5 }} className="w-[1px] h-10 bg-gradient-to-b from-[#c97b7b]/50 to-transparent" />
+        </div>
+      </section>
+
+      {/* ── STATS ── */}
+      <section className="py-12 bg-[#f3ede6]">
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-6">
+          {[
+            { v: "11 ans", l: "D'excellence capillaire" },
+            { v: "2 800+", l: "Clientes fidèles" },
+            { v: "4.9★", l: "Avis Google" },
+            { v: "8", l: "Stylistes certifiées" },
+          ].map((s, i) => (
+            <Reveal key={i} delay={i * 0.07}>
+              <div className="text-center p-5 bg-white shadow-sm">
+                <div className="text-2xl font-bold text-[#c97b7b] mb-1" style={{ fontFamily: "'Bodoni Moda', serif" }}>{s.v}</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-[#1a1218]/35">{s.l}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── PRESTATIONS ── */}
+      <section className="py-28 bg-[#faf6f1]">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16 flex flex-col md:flex-row gap-8 justify-between items-end">
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c97b7b] mb-4">Nos prestations</div>
+                <h2 className="text-4xl md:text-5xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+                  Pour chaque<br /><span className="italic text-[#c97b7b]">cheveu, un soin.</span>
+                </h2>
+              </div>
+              <p className="max-w-xs text-sm text-[#1a1218]/35 leading-relaxed">Prestations personnalisées, bilan capillaire offert, produits Kérastase & Olaplex.</p>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {PRESTATIONS.map((p, i) => (
+              <Reveal key={i} delay={i * 0.07}>
+                <div className="group p-8 bg-white border border-[#f3ede6] hover:border-[#c97b7b]/25 hover:shadow-lg hover:shadow-[#c97b7b]/5 transition-all duration-500 h-full">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="font-bold text-[#1a1218] group-hover:text-[#c97b7b] transition-colors" style={{ fontFamily: "'Bodoni Moda', serif" }}>{p.title}</h3>
+                    <div className="text-sm font-bold text-[#c97b7b] whitespace-nowrap ml-4">{p.price}</div>
+                  </div>
+                  <p className="text-sm text-[#1a1218]/38 leading-relaxed">{p.desc}</p>
                 </div>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic">
-                   Solar <br/> <span className="text-white/5 italic">Array.</span>
-                </motion.h1>
-                <p className="max-w-3xl mx-auto text-sm md:text-lg text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16 italic">
-                   L'énergie des étoiles pour la Terre. Nous capturons chaque photon via des réseaux solaires orbitaux et terrestres de haute précision, alimentant le réseau mondial avec une efficacité sans précédent.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                   <button className="px-12 py-6 bg-amber-800 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(245,158,11,0.2)] flex items-center gap-4 italic">
-                      <Zap className="w-5 h-5" /> Initialize Capture
-                   </button>
-                   <button className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
-                      <Database className="w-5 h-5" /> Energy Registry
-                   </button>
-                </div>
-             </Reveal>
+              </Reveal>
+            ))}
           </div>
+        </div>
+      </section>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-12">
-             <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Station_ID: HELIOS-ARRAY-01
-                </div>
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Status: GRID_LOCKED_STABLE
-                </div>
-             </div>
-             <div className="text-right flex flex-col items-end gap-4">
-                <span className="text-[8px] font-black uppercase tracking-[0.5em] text-amber-500">Photon_Flow_Stream</span>
-                <div className="flex gap-2 h-12 items-end">
-                   {[...Array(16)].map((_, i) => (
-                     <motion.div 
-                        key={i}
-                        animate={{ height: ["10%", "100%", "30%", "80%", "10%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                        className="w-2 bg-amber-500/20"
-                     />
-                   ))}
-                </div>
-             </div>
+      {/* ── GALERIE RÉALISATIONS ── */}
+      <section className="py-20 bg-white">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-12">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c97b7b] mb-4">Réalisations</div>
+            <h2 className="text-4xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>Le détail qui <span className="italic text-[#c97b7b]">fait tout.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 h-[60vh] min-h-[400px]">
+            <div className="col-span-2 row-span-2 relative overflow-hidden"><ParallaxImg src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=85&w=800" alt="Coiffure femme" /></div>
+            <div className="relative overflow-hidden"><ParallaxImg src="https://images.unsplash.com/photo-1620331311520-246422fd82f9?auto=format&fit=crop&q=85&w=600" alt="Couleur cheveux" /></div>
+            <div className="relative overflow-hidden"><ParallaxImg src="https://images.unsplash.com/photo-1582095133179-bfd08e2fb6b8?auto=format&fit=crop&q=85&w=600" alt="Balayage" /></div>
+            <div className="relative overflow-hidden"><ParallaxImg src="https://images.unsplash.com/photo-1487412947147-5cebf100d7fb?auto=format&fit=crop&q=85&w=600" alt="Maquillage brushing" /></div>
+            <div className="relative overflow-hidden"><ParallaxImg src="https://images.unsplash.com/photo-1554519515-242161756769?auto=format&fit=crop&q=85&w=600" alt="Coiffure updo" /></div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ==========================================
-            2. ENERGY REGISTRY (DENSE TECHNICAL)
-            ========================================== */}
-        <section className="py-60 bg-[#0c0804] relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-              <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-                 <Reveal>
-                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-amber-500 block mb-6 italic underline underline-offset-8 decoration-amber-400/20">Energy // Assets</span>
-                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">Archives.</h2>
-                 </Reveal>
-                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Energy_Audit</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-500">L'Architecture de la Captation Stellaire</p>
-                 </div>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 shadow-2xl">
-                 {ENERGY_ASSETS.map((asset, i) => (
-                   <Reveal key={asset.id} delay={i * 0.1}>
-                      <div className="bg-[#080602] p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
-                         <div className="flex justify-between items-start mb-16">
-                            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-amber-800 group-hover:text-white transition-all duration-500">
-                               <Bolt className="w-8 h-8" />
-                            </div>
-                            <span className={`px-4 py-2 bg-white/5 text-[9px] font-black uppercase tracking-[0.3em] ${asset.status === "Peak Output" ? "text-amber-500" : "text-white/40"}`}>{asset.status}</span>
-                         </div>
-                         
-                         <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{asset.name}</h3>
-                         <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-12">{asset.type}</div>
-                         
-                         <div className="space-y-8 mb-20 border-l border-amber-500/20 pl-8">
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Generated Power</span>
-                               <span className="text-white group-hover:text-amber-400 transition-colors">{asset.power}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Conv. Efficiency</span>
-                               <span className="text-white group-hover:text-amber-400 transition-colors">{asset.efficiency}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Storage Cap</span>
-                               <span className="text-white group-hover:text-amber-400 transition-colors">{asset.storage}</span>
-                            </div>
-                         </div>
-
-                         <p className="text-[12px] text-white/30 leading-loose uppercase tracking-[0.2em] font-bold italic mb-16">
-                            {asset.desc}
-                         </p>
-
-                         <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center">
-                            <span className="text-[10px] font-black text-white/10 uppercase tracking-widest">Ref: {asset.id}</span>
-                            <button className="text-[10px] font-black uppercase text-white/40 flex items-center gap-4 group-hover:text-white transition-all">
-                               Technical_Specs <ChevronRight className="w-5 h-5" />
-                            </button>
-                         </div>
-                      </div>
-                   </Reveal>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            3. GRID MONITOR (INTERACTIVE DATA)
-            ========================================== */}
-        <section className="py-60 bg-black relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div>
-                    <Reveal>
-                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-amber-500 block mb-12 italic underline underline-offset-8 decoration-amber-500/20">Grid // Performance</span>
-                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">
-                          The <br/> <span className="not-italic font-black text-white/5 italic">Energy_Mesh.</span>
-                       </h2>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">
-                          Surveillance de la stabilité du réseau en temps réel. Nos capteurs analysent la charge et la distribution de l'énergie pour garantir une alimentation continue et optimisée.
-                       </p>
-                       <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
-                          {GRID_METRICS.map((metric, i) => (
-                            <div key={i} className="p-16 bg-[#100c0a] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
-                               <div className="text-[10px] font-black uppercase text-amber-500 mb-6 tracking-[0.4em]">{metric.label}</div>
-                               <div className="text-5xl font-black text-white italic mb-6 tracking-tighter group-hover:translate-x-4 transition-transform">{metric.value}</div>
-                               <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
-                                  <Activity className="w-4 h-4 text-amber-500" /> {metric.trend}
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                       <button 
-                         onClick={() => setIsGridStable(!isGridStable)}
-                         className="w-full py-8 bg-amber-950 text-white text-[11px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center gap-6 italic"
-                       >
-                          <Settings className="w-5 h-5" /> Re-Sync Grid Nodes
-                       </button>
-                    </Reveal>
-                 </div>
-                 
-                 <div className="relative">
-                    <Reveal delay={0.3} x={40}>
-                       <div className="aspect-square bg-[#100c0a] border border-white/10 p-20 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 p-80 bg-amber-400 opacity-[0.02] blur-[150px] rounded-full group-hover:opacity-[0.05] transition-opacity" />
-                          
-                          <div className="flex justify-between items-start z-10">
-                             <div className="flex flex-col gap-3">
-                                <span className="text-[10px] font-black text-white/10 uppercase tracking-[0.5em]">Grid_Link // SOL-SYNC-v42</span>
-                                <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.6em]">Energy_Flow_Telemetry</span>
-                             </div>
-                             <Wifi className="w-6 h-6 text-amber-400" />
-                          </div>
-                          
-                          {/* GRID VISUALIZER (SVG) */}
-                          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                             <div className="w-64 h-64 border border-amber-400/5 rounded-full flex items-center justify-center relative">
-                                <motion.div 
-                                  animate={{ rotate: 360 }}
-                                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-0 border-t-2 border-amber-400/20 rounded-full" 
-                                />
-                                <motion.div 
-                                  animate={{ rotate: -360 }}
-                                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-8 border-b-2 border-amber-400/10 rounded-full" 
-                                />
-                                <Zap className={`w-24 h-24 transition-colors duration-1000 ${isGridStable ? "text-amber-400 animate-pulse" : "text-white/5"}`} />
-                             </div>
-                             <div className="mt-16 text-center space-y-6">
-                                <div className={`text-4xl font-black italic tracking-tighter ${isGridStable ? "text-white" : "text-white/20"}`}>
-                                   {isGridStable ? "GRID_STABLE" : "GRID_DISRUPTION"}
-                                </div>
-                                <span className="text-[11px] font-bold text-white/10 uppercase tracking-[0.6em] block">Auth_Node: HELIOS_UNIT_01</span>
-                             </div>
-                          </div>
-
-                          <div className="relative z-10 flex gap-6">
-                             <div className="flex-1 h-1 bg-white/5 overflow-hidden">
-                                <motion.div 
-                                   animate={isGridStable ? { x: ["-100%", "100%"] } : {}}
-                                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-amber-700"
-                                />
-                             </div>
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            4. ENERGY STORY (TECH STORYTELLING)
-            ========================================== */}
-        <section className="py-60 bg-[#080602] relative overflow-hidden border-t border-white/5">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">
-                    <Image 
-                       src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?q=80&w=1200&auto=format&fit=crop" 
-                       alt="Solar Array Infrastructure" 
-                       fill 
-                       className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"
-                    />
-                    <div className="absolute inset-0 bg-amber-900/10 mix-blend-color group-hover:opacity-0 transition-opacity" />
-                    <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                       <div className="text-white">
-                          <span className="text-[11px] font-black uppercase tracking-[0.6em] text-amber-500 mb-8 block italic underline underline-offset-8 decoration-amber-400/20">Atelier // Photon // Unit</span>
-                          <h4 className="text-6xl font-black tracking-tighter uppercase italic mb-12 mix-blend-difference text-white">Photon <br/> Fabric.</h4>
-                          <button className="flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/20 pb-4 hover:border-amber-400 transition-all group">
-                             Photon Protocols <ExternalLink className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                          </button>
-                       </div>
-                    </div>
-                 </div>
-
-                 <div>
-                    <Reveal>
-                       <div className="mb-24 text-left">
-                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-amber-500 mb-8 block italic">Chapitre III // Conversion Stellaire</span>
-                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none text-white">Pure_Power.</h2>
-                       </div>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">
-                          L'énergie est une symphonie de lumière. Nous utilisons des technologies de conversion quantique pour capturer chaque photon et le transformer en une source d'énergie propre et infinie pour l'humanité.
-                       </p>
-                       <div className="space-y-20">
-                          {[
-                            { t: "Photon Capture", d: "Captation optimisée des photons via des miroirs orbitaux et des réseaux terrestres à haute réflectivité." },
-                            { t: "Quantum Conversion", d: "Conversion directe de l'énergie lumineuse en électrons via des cellules photovoltaïques à points quantiques de haute fidélité." },
-                            { t: "Grid Synchronization", d: "Intégration instantanée de l'énergie générée dans le réseau mondial via des onduleurs synchronisés par IA." }
-                          ].map((step, i) => (
-                            <div key={i} className="group flex gap-12 border-b border-white/5 pb-16 hover:border-amber-400/20 transition-all cursor-default">
-                               <div className="text-6xl font-black text-white/5 group-hover:text-amber-400/20 transition-colors italic leading-none">0{i+1}</div>
-                               <div>
-                                  <h5 className="text-3xl font-black uppercase tracking-tight text-white mb-6 italic group-hover:translate-x-4 transition-transform text-white">{step.t}</h5>
-                                  <p className="text-[12px] text-white/20 uppercase tracking-[0.3em] font-bold leading-loose italic">{step.d}</p>
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* MEGA FOOTER */}
-        <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-              <div className="lg:col-span-2">
-                 <div className="flex items-center gap-6 mb-16">
-                    <div className="w-16 h-16 bg-amber-800 flex items-center justify-center">
-                      <SunMedium className="w-10 h-10 text-white" />
-                    </div>
-                    <span className="text-4xl font-black uppercase tracking-tighter italic">SOLAR<span className="text-white/20">ARRAY.</span></span>
-                 </div>
-                 <p className="text-white/20 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
-                    "L'avenir de l'humanité est stellaire." — Archive Array V.42
-                 </p>
-                 <div className="flex gap-16">
-                    {["PowerLog", "AssetRegistry", "GitHub", "X_Protocol"].map(s => (
-                      <Link key={s} href="#" className="text-[11px] font-black uppercase tracking-widest text-white/20 hover:text-amber-400 transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
-                    ))}
-                 </div>
-              </div>
-
-              {[
-                { t: "ARRAYS", l: ["Helios-v4 Array", "Photon Grid Alpha", "Star-Collector v5", "Quantum Cell-v1"] },
-                { t: "TECHNOLOGY", l: ["Quantum Conv.", "Orbital Mirrors", "Grid Sync", "SLA Reports"] },
-                { t: "ATELIER", l: ["Our Legacy", "Energy Policy", "Locations", "Support"] }
-              ].map((col, i) => (
-                <div key={i} className="flex flex-col gap-12">
-                  <h4 className="text-[11px] font-black text-amber-400 uppercase tracking-[0.6em] italic">{col.t}</h4>
-                  <ul className="flex flex-col gap-8">
-                    {col.l.map(link => (
-                      <li key={link} className="text-[11px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-[0.4em] italic">{link}</li>
-                    ))}
-                  </ul>
+      {/* ── TÉMOIGNAGES ── */}
+      <section className="py-28 bg-[#faf6f1]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14 text-center">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c97b7b] mb-4">Avis clients</div>
+            <h2 className="text-4xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>Elles adorent <span className="italic text-[#c97b7b]">le résultat.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {[
+              { q: "Léonie a transformé mes cheveux abîmés en quelque chose de sublime. Le balayage est naturel, la couleur exactement ce que je voulais. Enfin une vraie experte.", n: "Sophie M.", l: "Paris 16e" },
+              { q: "Coiffure de mariée parfaite le jour J. L'essai en amont m'a permis d'ajuster chaque détail. On s'est senti chouchouté du début à la fin. Merci Atelier Léonie !", n: "Clémence R.", l: "Paris 75" },
+              { q: "Lissage brésilien impeccable. Résultat qui dure 4 mois, aucun problème aux repousses. Pour moi c'est devenu un rituel bi-annuel incontournable.", n: "Aïcha D.", l: "Neuilly-sur-Seine" },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="p-8 bg-white border border-[#f3ede6] h-full flex flex-col">
+                  <div className="flex gap-1 mb-5">
+                    {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#c97b7b] text-[#c97b7b]" />)}
+                  </div>
+                  <p className="text-sm text-[#1a1218]/40 leading-relaxed italic flex-1">{`"${t.q}"`}</p>
+                  <div className="mt-6 pt-5 border-t border-[#f3ede6]">
+                    <div className="font-bold text-[#1a1218] text-sm">{t.n}</div>
+                    <div className="text-[10px] text-[#c97b7b] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l}</div>
+                  </div>
                 </div>
-              ))}
-           </div>
-
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 SOLAR ARRAY STELLAR ENERGY SYSTEMS AG. // ALL_RIGHTS_RESERVED</span>
-              <div className="flex gap-16">
-                 <span>STATUS: OPERATIONAL</span>
-                 <span>FLUX: 1.4 KW/M² (AVG)</span>
-                 <span>v4.12.0-STABLE</span>
-              </div>
-           </div>
-        </footer>
-      </main>
-    </div>
-  )
-}
-
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
-
-function HUD_Overlay({ isGridStable }: { isGridStable: boolean }) {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Corner Brackets */}
-       <div className={`absolute top-12 left-12 w-20 h-20 border-t-2 border-l-2 transition-colors duration-1000 ${isGridStable ? "border-amber-400" : "border-white/10"}`} />
-       <div className={`absolute top-12 right-12 w-20 h-20 border-t-2 border-r-2 transition-colors duration-1000 ${isGridStable ? "border-amber-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 left-12 w-20 h-20 border-b-2 border-l-2 transition-colors duration-1000 ${isGridStable ? "border-amber-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 right-12 w-20 h-20 border-b-2 border-r-2 transition-colors duration-1000 ${isGridStable ? "border-amber-400" : "border-white/10"}`} />
-
-       {/* Top Status Bar */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-20 bg-black/60 backdrop-blur-2xl px-12 py-4 border border-white/10 rounded-none">
-          <div className="flex items-center gap-6 text-white">
-             <div className={`w-3 h-3 transition-colors duration-500 ${isGridStable ? "bg-amber-400 animate-pulse" : "bg-red-500 animate-ping"}`} />
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Array_Sync: {isGridStable ? "NOMINAL" : "GRID_DISRUPTION"} // Status: ACTIVE</span>
+              </Reveal>
+            ))}
           </div>
-          <div className="h-4 w-px bg-white/20" />
-          <div className="flex items-center gap-6 text-white/20">
-             <Wifi className="w-4 h-4" /> 
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Energy_Grid: SECURE</span>
-          </div>
-       </div>
+        </div>
+      </section>
 
-       {/* Right Rotation Info */}
-       <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-white/5 italic">Unauthorized_Duplication_Of_Stellar_Patterns_Is_Strictly_Monitored_By_Global_Energy_Alliance</span>
-       </div>
+      {/* ── CTA ── */}
+      <section className="py-24 bg-[#1a1218] text-center">
+        <Reveal>
+          <div className="max-w-xl mx-auto px-6">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/25 mb-6">Votre prochain rendez-vous</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+              Révélez la beauté<br /><span className="italic text-[#c97b7b]">qui est en vous.</span>
+            </h2>
+            <p className="text-white/30 mb-10 text-sm">Réservation en ligne 24h/24 · Paris 16e · Consultation capillaire offerte</p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <button className="px-10 py-4 bg-[#c97b7b] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#b56868] transition-colors">
+                Réserver maintenant
+              </button>
+              <a href="tel:0145678901" className="flex items-center gap-3 px-10 py-4 border border-white/12 text-white/40 font-bold text-[10px] uppercase tracking-widest hover:border-[#c97b7b]/40 hover:text-[#d4a5a5] transition-all">
+                <Phone className="w-4 h-4" /> 01 45 67 89 01
+              </a>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-[#110c10] pt-20 pb-10 px-6 border-t border-white/5">
+        <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          <div>
+            <div className="font-bold text-white mb-1 text-sm" style={{ fontFamily: "'Bodoni Moda', serif" }}>Atelier Léonie</div>
+            <div className="text-[8px] font-bold uppercase tracking-[0.35em] text-[#c97b7b]/40 mb-5">Salon · Paris 16e</div>
+            <p className="text-white/20 text-sm leading-relaxed">Salon de coiffure premium. Coupe, couleur, soins, extensions, coiffure de mariée. Produits Kérastase & Olaplex.</p>
+          </div>
+          {[
+            { t: "Prestations", ls: ["Coupe & brushing", "Couleur & balayage", "Soins & traitements", "Extensions", "Coiffure mariée"] },
+            { t: "Salon", ls: ["L'équipe", "Nos produits", "Tarifs", "Galerie", "FAQ"] },
+            { t: "Nous trouver", ls: ["38 av. Victor Hugo", "75016 Paris", "Mar-Sam 9h-19h", "01 45 67 89 01", "contact@atelier-leonie.fr"] },
+          ].map((col, i) => (
+            <div key={i}>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#c97b7b]/40 mb-5">{col.t}</h4>
+              <ul className="space-y-2.5">
+                {col.ls.map(l => <li key={l}><Link href="#" className="text-white/20 text-sm hover:text-white/60 transition-colors">{l}</Link></li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-white/8">
+          <span>© 2026 Atelier Léonie · SIRET 234 567 890 00011 · Paris (75016)</span>
+          <span className="text-[#c97b7b]/20">L'art de la coiffure</span>
+        </div>
+      </footer>
     </div>
   )
 }

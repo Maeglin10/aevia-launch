@@ -1,522 +1,292 @@
+// @ts-nocheck
 "use client"
-
-import React, { useState, useEffect, useRef } from "react"
-import { 
-  motion, 
-  AnimatePresence, 
-  useScroll, 
-  useTransform, 
-  useInView, 
-  useSpring 
-} from "framer-motion"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  Zap, Activity, Microscope, 
-  Target, Layers, Box, Hexagon, 
-  Terminal, Settings, Power, Info, 
-  AlertTriangle, ChevronRight, ArrowRight, 
-  Share2, Maximize2, Download, ExternalLink, 
-  Archive, Hash, Wifi, BarChart3, 
-  Fingerprint, Scan, Brain, Server, 
-  ShieldCheck, ShieldAlert, Award, 
-  Briefcase, Wind, Thermometer, 
-  Flame, Battery, Radio, Gauge, 
-  Timer, Lightbulb, Command, Grid, 
-  Radar, Orbit, Atom, Satellite, 
-  Milestone, FlaskConical, FlaskRound, 
-  Ghost, Binary, Database, Search, 
-  Cpu, HeartPulse, Sun, Magnet, 
-  CircleDot, Waves, Pickaxe, Mountain, 
-  Gem, Rocket, Drill, PlaneTakeoff, 
-  BrainIcon, Cable, CpuIcon, Network, 
-  Eye, ZapOff, GhostIcon, RadioReceiver
-} from "lucide-react"
+import { Leaf, Sun, Trees, Flower, Phone, Star, MapPin, Clock, CheckCircle, Scissors, Sprout, Droplets, Menu } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-/* ==========================================================================
-   THE NEURAL MESH DATASET (ULTRA DENSITY)
-   ========================================================================== */
+/* ═══════════════════════════════════════════════════════════════════════════
+   JARDINS VIVANTS — Paysagiste & entretien espaces verts (Annecy)
+   Palette : blanc naturel #fafaf7 / vert profond #2d5a27 / vert clair #a8d5a0 / terre #6b4226
+   Fonts : Cardo (titres serif organique) + Source Sans 3
+   Style : vivant, naturel, organique, expertise végétale
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-const COGNITIVE_ASSETS = [
-  {
-    id: "neu-v4-42",
-    name: "Neural-v4 Link",
-    type: "Cortical Interface",
-    bandwidth: "42 Gbps",
-    latency: "0.2 ms",
-    integration: "99.8%",
-    desc: "Interface neuronale de quatrième génération permettant une symbiose totale entre le cortex humain et les systèmes de calcul décentralisés.",
-    status: "Linked"
-  },
-  {
-    id: "neu-sta-08",
-    name: "Synapse Grid Alpha",
-    type: "Collective Consciousness Hub",
-    bandwidth: "18 Tbps",
-    latency: "1.5 ms",
-    integration: "99.99%",
-    desc: "Nœud de réseau permettant le partage de pensées et de souvenirs au sein d'un cluster fermé de collaborateurs.",
-    status: "Syncing"
-  },
-  {
-    id: "neu-cry-15",
-    name: "Cortex Core v5",
-    type: "Synthetic Telepathy Unit",
-    bandwidth: "120 Gbps",
-    latency: "0.05 ms",
-    integration: "99.4%",
-    desc: "Processeur de langage naturel direct émettant des ondes radio ultra-basses fréquences pour une télépathie assistée par machine.",
-    status: "Uplink Active"
-  }
-]
-
-const NEURAL_METRICS = [
-  { label: "Mind Load", value: "42%", trend: "Stable" },
-  { label: "Synapse Count", value: "1.4B", trend: "Linked" },
-  { label: "Data Flow", value: "12 Gbps", trend: "Peak" },
-  { label: "Consciousness", value: "NOMINAL", trend: "Optimal" }
-]
-
-const NEURAL_LOGS = [
-  { timestamp: "19:14:42", unit: "Cortical-Link-01", status: "UPLINK", data: "RAW_THOUGHT" },
-  { timestamp: "19:14:45", unit: "Synapse-Buffer", status: "SYNCED", latency: "0.2ms" },
-  { timestamp: "19:14:48", unit: "Mind-Guard", status: "SECURE", auth: "VERIFIED" }
-]
-
-/* ==========================================
-   TECHNICAL COMPONENTS
-   ========================================== */
-
-function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
+function Reveal({ children, delay = 0, y = 22 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-60px" })
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   )
 }
 
-function SynapseStreamVisualizer() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+function ParallaxImg({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const y = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"])
+  return (
+    <div ref={ref} className="relative w-full h-full overflow-hidden">
+      <motion.div style={{ y }} className="absolute inset-[-10%] w-[120%] h-[120%]">
+        <Image src={src} alt={alt} fill className="object-cover" />
+      </motion.div>
+    </div>
+  )
+}
+
+const PRESTATIONS = [
+  { icon: Flower, title: "Création jardin", desc: "Étude, plan 3D, terrassement, plantations, dallage, éclairage, arrosage automatique. Conception sur mesure de A à Z, du 10m² au 2 hectares." },
+  { icon: Scissors, title: "Entretien régulier", desc: "Tonte, taille des haies et arbustes, désherbage, arrosage. Passage hebdomadaire, bihebdomadaire ou mensuel selon saison et superficie." },
+  { icon: Trees, title: "Élagage & abattage", desc: "Élagage raisonné, recépage, abattage contrôlé de grands arbres. Matériel nacelle jusqu'à 28m. Broyage et évacuation des déchets végétaux." },
+  { icon: Sprout, title: "Potager & verger", desc: "Création et entretien potager surélevé, verger, haie fruitière. Choix variétés adaptées au climat alpin, récoltes abondantes garanties." },
+  { icon: Droplets, title: "Arrosage automatique", desc: "Études, installation et maintenance. Goutte-à-goutte, asperseurs, drip line, commande connectée. Économie d'eau jusqu'à 60% vs arrosage manuel." },
+  { icon: Sun, title: "Massifs & vivaces", desc: "Composition massifs 4 saisons, rocailles, prairie fleurie, plantes locales et résistantes. Entretien minimal garanti, floraison continue d'avril à octobre." },
+]
+
+export default function JardinsVivantsPage() {
+  const heroRef = useRef(null)
+  const [scrolled, setScrolled] = useState(false)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "22%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+  const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "8%"])
+
   useEffect(() => {
-    const handleMouse = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
-    window.addEventListener("mousemove", handleMouse)
-    return () => window.removeEventListener("mousemove", handleMouse)
+    const h = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", h)
+    return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20">
-       <svg width="100%" height="100%" className="w-full h-full">
-          {[...Array(30)].map((_, i) => (
-            <motion.circle 
-               key={i}
-               cx={mousePos.x + (Math.random() - 0.5) * 400}
-               cy={mousePos.y + (Math.random() - 0.5) * 400}
-               r={1}
-               fill="#0ea5e9"
-               animate={{ opacity: [0, 1, 0], scale: [1, 5, 1] }}
-               transition={{ duration: 2, repeat: Infinity, delay: i * 0.1 }}
-            />
-          ))}
-          {[...Array(15)].map((_, i) => (
-            <motion.path 
-               key={`axon-${i}`}
-               d={`M ${Math.random() * 2000} ${Math.random() * 1000} L ${Math.random() * 2000} ${Math.random() * 1000}`}
-               stroke="#0ea5e9" 
-               strokeWidth="0.5" 
-               fill="none"
-               animate={{ d: `M ${mousePos.x} ${mousePos.y} L ${Math.random() * 2000} ${Math.random() * 1000}` }}
-               transition={{ type: "spring", damping: 30, stiffness: 50 }}
-            />
-          ))}
-       </svg>
-    </div>
-  )
-}
+    <div className="bg-[#fafaf7] text-[#1e2a1c] overflow-x-hidden" style={{ fontFamily: "'Source Sans 3', 'Inter', system-ui, sans-serif" }}>
+      {/* ── NAVBAR ── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#fafaf7]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#2d5a27]/10" : "bg-transparent py-7"}`}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <Leaf className="w-5 h-5 text-[#2d5a27]" />
+            <div>
+              <div className="font-bold text-[#1e2a1c] text-sm leading-tight" style={{ fontFamily: "'Cardo', Georgia, serif" }}>Jardins Vivants</div>
+              <div className="text-[8px] font-bold uppercase tracking-[0.3em] text-[#2d5a27]/50">Paysagiste · Annecy</div>
+            </div>
+          </div>
+          <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1e2a1c]/30">
+            {["Prestations", "Réalisations", "Devis", "Zone", "Contact"].map(l => (
+              <Link key={l} href="#" className="hover:text-[#2d5a27] transition-colors">{l}</Link>
+            ))}
+          </div>
+          <div className="flex items-center gap-3">
+            <a href="tel:0450123456" className="hidden md:flex items-center gap-2 text-[#2d5a27] font-bold text-sm">
+              <Phone className="w-4 h-4" /> 04 50 12 34 56
+            </a>
+            <button className="hidden md:block px-5 py-2.5 bg-[#2d5a27] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#1f3e1b] transition-colors rounded-lg">
+              Devis gratuit
+            </button>
+            <Sheet>
+              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5" /></button></SheetTrigger>
+              <SheetContent side="right" className="bg-[#fafaf7] border-slate-100 p-10">
+                <div className="flex flex-col gap-7 mt-16">
+                  {["Prestations", "Réalisations", "Contact"].map(l => <Link key={l} href="#" className="text-3xl font-bold text-[#1e2a1c] hover:text-[#2d5a27] transition-colors" style={{ fontFamily: "'Cardo', serif" }}>{l}</Link>)}
+                  <a href="tel:0450123456" className="flex items-center gap-3 text-[#2d5a27] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 50 12 34 56</a>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+      </nav>
 
-function NeuralMeshModel({ progress }: { progress: any }) {
-  const rotate = useTransform(progress, [0, 1], [0, 360])
-  const scale = useTransform(progress, [0, 0.5, 1], [1, 1.2, 1])
+      {/* ── HERO ── */}
+      <section ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
+        <motion.div style={{ y: heroY }} className="absolute inset-0">
+          <Image src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&q=88&w=2400" alt="Jardin paysagé luxuriant" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38)" }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#101a0e] via-[#101a0e]/45 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#101a0e]/70 to-transparent" />
+        </motion.div>
 
-  return (
-    <motion.div style={{ rotate, scale }} className="relative w-80 h-80 flex items-center justify-center">
-       <div className="absolute inset-0 border border-sky-500/10 rounded-full animate-spin-slow shadow-[0_0_80px_rgba(14,165,233,0.05)]" />
-       <BrainIcon className="w-40 h-40 text-sky-500/10 animate-pulse" />
-       <div className="absolute inset-8 border border-sky-500/5 rounded-full" />
-    </motion.div>
-  )
-}
-
-/* ==========================================
-   THE NEURAL MESH - MAIN INTERFACE
-   ========================================== */
-
-export default function NeuralMeshPremium() {
-  const [activeAsset, setActiveAsset] = useState(0)
-  const [isMindLocked, setIsMindLocked] = useState(true)
-  const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: containerRef })
-
-  // Mesh Scroll Effects
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textX = useTransform(scrollYProgress, [0, 0.5], [0, -100])
-
-  return (
-    <div ref={containerRef} className="bg-[#02040c] text-[#e0e8ed] font-mono selection:bg-sky-500/30 selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000">
-      
-      {/* GLOBAL HUD OVERLAY */}
-      <HUD_Overlay isMindLocked={isMindLocked} />
-
-      <main>
-        {/* ==========================================
-            1. NEURAL IGNITION (HERO)
-            ========================================== */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
-          <SynapseStreamVisualizer />
-          <motion.div style={{ opacity: heroOpacity }} className="absolute z-0 pointer-events-none flex items-center justify-center">
-             <NeuralMeshModel progress={scrollYProgress} />
+        <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-8 h-[1px] bg-[#a8d5a0]/60" />
+              <span className="text-[9px] font-bold uppercase tracking-[0.45em] text-[#a8d5a0]">Paysagiste & espaces verts · Annecy & Haute-Savoie</span>
+            </div>
           </motion.div>
 
-          <div className="relative z-10 text-center max-w-7xl">
-             <Reveal>
-                <div className="inline-flex items-center gap-4 px-6 py-2 border border-sky-500/30 bg-sky-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-sky-500 mb-12 italic">
-                   <BrainIcon className="w-4 h-4" /> Mesh_Sync: NOMINAL // Bandwidth: 42 Gbps
+          <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-8 text-white" style={{ fontFamily: "'Cardo', Georgia, serif" }}>
+            Un jardin qui<br /><span className="text-[#a8d5a0] italic">vous ressemble.</span>
+          </motion.h1>
+
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
+            className="max-w-md text-sm text-white/33 leading-relaxed mb-10">
+            Création et entretien de jardins en Haute-Savoie. Paysagiste qualifié, 100% local, devis gratuit sous 48h. De la terrasse au grand parc — chaque espace mérite de vivre.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-4 mb-8">
+            <button className="px-9 py-4 bg-[#2d5a27] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#1f3e1b] transition-colors rounded-lg">
+              Devis gratuit 48h
+            </button>
+            <a href="tel:0450123456" className="flex items-center gap-3 px-9 py-4 border border-white/12 text-white/45 font-bold text-[10px] uppercase tracking-widest hover:border-[#a8d5a0]/40 hover:text-[#a8d5a0] transition-all rounded-lg">
+              <Phone className="w-4 h-4" /> 04 50 12 34 56
+            </a>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }} className="flex flex-wrap gap-6">
+            {["Création & entretien", "Élagage certifié", "Arrosage automatique"].map((b, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <CheckCircle className="w-3.5 h-3.5 text-[#2d5a27]" />
+                <span className="text-[10px] font-bold text-white/28 uppercase tracking-wide">{b}</span>
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.4 }} className="w-[1px] h-10 bg-gradient-to-b from-[#2d5a27]/70 to-transparent" />
+        </div>
+      </section>
+
+      {/* ── STATS ── */}
+      <section className="py-12 bg-[#e8f5e5]">
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-6">
+          {[
+            { v: "19 ans", l: "D'expertise végétale" },
+            { v: "850+", l: "Jardins créés" },
+            { v: "4.9★", l: "Note Google" },
+            { v: "70+", l: "Communes d'intervention" },
+          ].map((s, i) => (
+            <Reveal key={i} delay={i * 0.07}>
+              <div className="text-center p-5 bg-white rounded-xl shadow-sm">
+                <div className="text-2xl font-bold text-[#2d5a27] mb-1">{s.v}</div>
+                <div className="text-[9px] font-bold uppercase tracking-widest text-[#1e2a1c]/35">{s.l}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── PRESTATIONS ── */}
+      <section className="py-28 bg-[#fafaf7]">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16">
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2d5a27] mb-4">Ce qu'on sait faire</div>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1e2a1c]" style={{ fontFamily: "'Cardo', serif" }}>
+                De la graine<br /><span className="text-[#2d5a27] italic">au paradis vert.</span>
+              </h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {PRESTATIONS.map((p, i) => (
+              <Reveal key={i} delay={i * 0.07}>
+                <div className="group p-8 bg-white rounded-xl border border-[#e8f5e5] hover:border-[#2d5a27]/25 hover:shadow-lg hover:shadow-[#2d5a27]/5 transition-all duration-500 h-full">
+                  <div className="w-10 h-10 bg-[#e8f5e5] rounded-xl flex items-center justify-center mb-5 group-hover:bg-[#2d5a27] transition-colors duration-500">
+                    <p.icon className="w-5 h-5 text-[#2d5a27] group-hover:text-white transition-colors" />
+                  </div>
+                  <h3 className="font-bold text-[#1e2a1c] mb-3 group-hover:text-[#2d5a27] transition-colors" style={{ fontFamily: "'Cardo', serif" }}>{p.title}</h3>
+                  <p className="text-sm text-[#1e2a1c]/40 leading-relaxed">{p.desc}</p>
                 </div>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic">
-                   Neural <br/> <span className="text-white/5 italic">Mesh.</span>
-                </motion.h1>
-                <p className="max-w-3xl mx-auto text-sm md:text-lg text-white/30 leading-relaxed uppercase tracking-widest font-light mb-16 italic">
-                   L'évolution de la conscience. Nous connectons l'esprit humain au réseau mondial via des interfaces neuronales de haute fidélité, permettant une communication et un apprentissage instantanés.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                   <button className="px-12 py-6 bg-sky-800 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(14,165,233,0.2)] flex items-center gap-4 italic">
-                      <Zap className="w-5 h-5" /> Initialize Uplink
-                   </button>
-                   <button className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
-                      <Database className="w-5 h-5" /> Cognitive Registry
-                   </button>
-                </div>
-             </Reveal>
+              </Reveal>
+            ))}
           </div>
+        </div>
+      </section>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-12">
-             <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Mesh_ID: NEURAL-MESH-01
-                </div>
-                <div className="flex items-center gap-4 text-[9px] font-bold text-white/20 uppercase tracking-widest italic">
-                   <div className="w-16 h-px bg-white/10" />
-                   Status: CORTEX_LINK_ACTIVE
-                </div>
-             </div>
-             <div className="text-right flex flex-col items-end gap-4">
-                <span className="text-[8px] font-black uppercase tracking-[0.5em] text-sky-500">Synaptic_Data_Stream</span>
-                <div className="flex gap-2 h-12 items-end">
-                   {[...Array(16)].map((_, i) => (
-                     <motion.div 
-                        key={i}
-                        animate={{ height: ["10%", "100%", "30%", "80%", "10%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                        className="w-2 bg-sky-500/20"
-                     />
-                   ))}
-                </div>
-             </div>
+      {/* ── RÉALISATIONS ── */}
+      <section className="py-20 bg-white">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-12">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2d5a27] mb-4">Portfolio</div>
+            <h2 className="text-4xl font-bold text-[#1e2a1c]" style={{ fontFamily: "'Cardo', serif" }}>Nos <span className="text-[#2d5a27] italic">créations.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-3 gap-3 h-[65vh] min-h-[420px]">
+            <div className="col-span-2 relative overflow-hidden rounded-xl"><ParallaxImg src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=85&w=1200" alt="Jardin créé" /></div>
+            <div className="flex flex-col gap-3">
+              <div className="flex-1 relative overflow-hidden rounded-xl"><ParallaxImg src="https://images.unsplash.com/photo-1500993855538-c6a99f437aa7?auto=format&fit=crop&q=85&w=600" alt="Potager" /></div>
+              <div className="flex-1 relative overflow-hidden rounded-xl"><ParallaxImg src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&q=85&w=600" alt="Massif fleurs" /></div>
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ==========================================
-            2. COGNITIVE REGISTRY (DENSE TECHNICAL)
-            ========================================== */}
-        <section className="py-60 bg-[#04081c] relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1600px] mx-auto px-8 md:px-24">
-              <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
-                 <Reveal>
-                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-sky-500 block mb-6 italic underline underline-offset-8 decoration-sky-400/20">Cognitive // Assets</span>
-                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">Archives.</h2>
-                 </Reveal>
-                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Mind_Audit</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-sky-500">L'Architecture de la Connexion Corticale</p>
-                 </div>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 shadow-2xl">
-                 {COGNITIVE_ASSETS.map((asset, i) => (
-                   <Reveal key={asset.id} delay={i * 0.1}>
-                      <div className="bg-[#02040c] p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
-                         <div className="flex justify-between items-start mb-16">
-                            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-sky-800 group-hover:text-white transition-all duration-500">
-                               <CpuIcon className="w-8 h-8" />
-                            </div>
-                            <span className={`px-4 py-2 bg-white/5 text-[9px] font-black uppercase tracking-[0.3em] ${asset.status === "Linked" ? "text-sky-500" : "text-white/40"}`}>{asset.status}</span>
-                         </div>
-                         
-                         <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{asset.name}</h3>
-                         <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-12">{asset.type}</div>
-                         
-                         <div className="space-y-8 mb-20 border-l border-sky-500/20 pl-8">
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Bandwidth</span>
-                               <span className="text-white group-hover:text-sky-400 transition-colors">{asset.bandwidth}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Syn. Latency</span>
-                               <span className="text-white group-hover:text-sky-400 transition-colors">{asset.latency}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Integration</span>
-                               <span className="text-white group-hover:text-sky-400 transition-colors">{asset.integration}</span>
-                            </div>
-                         </div>
-
-                         <p className="text-[12px] text-white/30 leading-loose uppercase tracking-[0.2em] font-bold italic mb-16">
-                            {asset.desc}
-                         </p>
-
-                         <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center">
-                            <span className="text-[10px] font-black text-white/10 uppercase tracking-widest">Ref: {asset.id}</span>
-                            <button className="text-[10px] font-black uppercase text-white/40 flex items-center gap-4 group-hover:text-white transition-all">
-                               Technical_Specs <ChevronRight className="w-5 h-5" />
-                            </button>
-                         </div>
-                      </div>
-                   </Reveal>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            3. MIND MONITOR (INTERACTIVE DATA)
-            ========================================== */}
-        <section className="py-60 bg-black relative border-y border-white/5 overflow-hidden">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div>
-                    <Reveal>
-                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-sky-500 block mb-12 italic underline underline-offset-8 decoration-sky-500/20">Mind // Performance</span>
-                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">
-                          The <br/> <span className="not-italic font-black text-white/5 italic">Synapse_Link.</span>
-                       </h2>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">
-                          Surveillance de l'intégrité cognitive en temps réel. Nos capteurs neuronaux analysent chaque pensée et chaque connexion pour garantir un Uplink sûr et sans perte de conscience.
-                       </p>
-                       <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
-                          {NEURAL_METRICS.map((metric, i) => (
-                            <div key={i} className="p-16 bg-[#0a101c] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
-                               <div className="text-[10px] font-black uppercase text-sky-500 mb-6 tracking-[0.4em]">{metric.label}</div>
-                               <div className="text-5xl font-black text-white italic mb-6 tracking-tighter group-hover:translate-x-4 transition-transform">{metric.value}</div>
-                               <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
-                                  <Activity className="w-4 h-4 text-sky-500" /> {metric.trend}
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                       <button 
-                         onClick={() => setIsMindLocked(!isMindLocked)}
-                         className="w-full py-8 bg-sky-950 text-white text-[11px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-2xl flex items-center justify-center gap-6 italic"
-                       >
-                          <Settings className="w-5 h-5" /> Re-Sync Neural Nodes
-                       </button>
-                    </Reveal>
-                 </div>
-                 
-                 <div className="relative">
-                    <Reveal delay={0.3} x={40}>
-                       <div className="aspect-square bg-[#0a101c] border border-white/10 p-20 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 p-80 bg-sky-400 opacity-[0.02] blur-[150px] rounded-full group-hover:opacity-[0.05] transition-opacity" />
-                          
-                          <div className="flex justify-between items-start z-10">
-                             <div className="flex flex-col gap-3">
-                                <span className="text-[10px] font-black text-white/10 uppercase tracking-[0.5em]">Mesh_Link // NUC-SYNC-v42</span>
-                                <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.6em]">Cognitive_Stability_Telemetry</span>
-                             </div>
-                             <Wifi className="w-6 h-6 text-sky-400" />
-                          </div>
-                          
-                          {/* MESH VISUALIZER (SVG) */}
-                          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                             <div className="w-64 h-64 border border-sky-400/5 rounded-full flex items-center justify-center relative">
-                                <motion.div 
-                                  animate={{ rotate: 360 }}
-                                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-0 border-t-2 border-sky-400/20 rounded-full" 
-                                />
-                                <motion.div 
-                                  animate={{ rotate: -360 }}
-                                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-8 border-b-2 border-sky-400/10 rounded-full" 
-                                />
-                                <Zap className={`w-24 h-24 transition-colors duration-1000 ${isMindLocked ? "text-sky-400 animate-pulse" : "text-white/5"}`} />
-                             </div>
-                             <div className="mt-16 text-center space-y-6">
-                                <div className={`text-4xl font-black italic tracking-tighter ${isMindLocked ? "text-white" : "text-white/20"}`}>
-                                   {isMindLocked ? "UPLINK_SECURE" : "NEURAL_DISRUPTION"}
-                                </div>
-                                <span className="text-[11px] font-bold text-white/10 uppercase tracking-[0.6em] block">Auth_Node: MESH_UNIT_01</span>
-                             </div>
-                          </div>
-
-                          <div className="relative z-10 flex gap-6">
-                             <div className="flex-1 h-1 bg-white/5 overflow-hidden">
-                                <motion.div 
-                                   animate={isMindLocked ? { x: ["-100%", "100%"] } : {}}
-                                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-sky-700"
-                                />
-                             </div>
-                          </div>
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            4. MESH STORY (TECH STORYTELLING)
-            ========================================== */}
-        <section className="py-60 bg-[#02040c] relative overflow-hidden border-t border-white/5">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-40 items-center">
-                 <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">
-                    <Image 
-                       src="https://images.unsplash.com/photo-1558494949-ef010cbdcc51?q=80&w=1200&auto=format&fit=crop" 
-                       alt="Neural Mesh Infrastructure" 
-                       fill 
-                       className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"
-                    />
-                    <div className="absolute inset-0 bg-sky-900/10 mix-blend-color group-hover:opacity-0 transition-opacity" />
-                    <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                       <div className="text-white">
-                          <span className="text-[11px] font-black uppercase tracking-[0.6em] text-sky-500 mb-8 block italic underline underline-offset-8 decoration-sky-500/20">Atelier // Cognitive // Unit</span>
-                          <h4 className="text-6xl font-black tracking-tighter uppercase italic mb-12 mix-blend-difference text-white">Synapse <br/> Fabric.</h4>
-                          <button className="flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/20 pb-4 hover:border-sky-400 transition-all group">
-                             Linking Protocols <ExternalLink className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                          </button>
-                       </div>
-                    </div>
-                 </div>
-
-                 <div>
-                    <Reveal>
-                       <div className="mb-24 text-left">
-                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-sky-500 mb-8 block italic">Chapitre III // Connexion Corticale</span>
-                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none text-white">Pure_Thought.</h2>
-                       </div>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">
-                          L'esprit est le processeur ultime. Nous utilisons des technologies d'interface cerveau-machine pour traduire les impulsions neuronales en données exploitables, offrant une communication et un partage de conscience sans précédent.
-                       </p>
-                       <div className="space-y-20">
-                          {[
-                            { t: "Cortex Mapping", d: "Cartographie haute résolution des zones corticales pour identifier les centres de langage et de pensée abstraite via imagerie photonique." },
-                            { t: "Synapse Calibration", d: "Calibrage millimétré des implants neuronaux pour une détection parfaite des potentiels d'action sans bruit de fond." },
-                            { t: "Neural Uplink", d: "Établissement du canal de communication bi-directionnel entre le cerveau et le réseau via protocoles de chiffrement quantique." }
-                          ].map((step, i) => (
-                            <div key={i} className="group flex gap-12 border-b border-white/5 pb-16 hover:border-sky-400/20 transition-all cursor-default">
-                               <div className="text-6xl font-black text-white/5 group-hover:text-sky-400/20 transition-colors italic leading-none">0{i+1}</div>
-                               <div>
-                                  <h5 className="text-3xl font-black uppercase tracking-tight text-white mb-6 italic group-hover:translate-x-4 transition-transform text-white">{step.t}</h5>
-                                  <p className="text-[12px] text-white/20 uppercase tracking-[0.3em] font-bold leading-loose italic">{step.d}</p>
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                    </Reveal>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        {/* MEGA FOOTER */}
-        <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
-              <div className="lg:col-span-2">
-                 <div className="flex items-center gap-6 mb-16">
-                    <div className="w-16 h-16 bg-sky-800 flex items-center justify-center">
-                      <BrainIcon className="w-10 h-10 text-white" />
-                    </div>
-                    <span className="text-4xl font-black uppercase tracking-tighter italic">NEURAL<span className="text-white/20">MESH.</span></span>
-                 </div>
-                 <p className="text-white/20 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
-                    "L'avenir de la conscience est synaptique." — Archive Mesh V.42
-                 </p>
-                 <div className="flex gap-16">
-                    {["MeshLog", "MindRegistry", "GitHub", "X_Protocol"].map(s => (
-                      <Link key={s} href="#" className="text-[11px] font-black uppercase tracking-widest text-white/20 hover:text-sky-400 transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
-                    ))}
-                 </div>
-              </div>
-
-              {[
-                { t: "IMPLANTS", l: ["Neural-v4 Link", "Cortex Core v5", "Synapse Grid Alpha", "Axiom-Implant"] },
-                { t: "TECHNOLOGY", l: ["Cortex Mapping", "Neural Uplink", "Quantum Sync", "SLA Reports"] },
-                { t: "ATELIER", l: ["Our Legacy", "Cognitive Ethics", "Locations", "Support"] }
-              ].map((col, i) => (
-                <div key={i} className="flex flex-col gap-12">
-                  <h4 className="text-[11px] font-black text-sky-400 uppercase tracking-[0.6em] italic">{col.t}</h4>
-                  <ul className="flex flex-col gap-8">
-                    {col.l.map(link => (
-                      <li key={link} className="text-[11px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-[0.4em] italic">{link}</li>
-                    ))}
-                  </ul>
+      {/* ── TÉMOIGNAGES ── */}
+      <section className="py-28 bg-[#fafaf7]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14 text-center">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2d5a27] mb-4">Avis clients</div>
+            <h2 className="text-4xl font-bold text-[#1e2a1c]" style={{ fontFamily: "'Cardo', serif" }}>Ils ont un <span className="text-[#2d5a27] italic">jardin dont ils sont fiers.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {[
+              { q: "Notre terrain en friche transformé en jardin à la française en 3 semaines. Plan proposé en 48h, devis clair, exécution irréprochable. On est bluffés.", n: "Marie-Claire & Paul G.", l: "Annecy-le-Vieux" },
+              { q: "Élagage d'un grand chêne de 20m de haut réalisé en sécurité totale. Pas une fleur touchée dans le jardin. Équipe pro, rapide, nettoyage parfait.", n: "Hervé T.", l: "Thônes (74)" },
+              { q: "Suivi entretien mensuel depuis 2 ans. Le jardin est toujours magnifique, même en mon absence. Ponctualité parfaite, conseils précieux sur les plantations.", n: "Charlotte S.", l: "Megève (74)" },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="p-8 bg-white rounded-xl border border-[#e8f5e5] h-full flex flex-col">
+                  <div className="flex gap-1 mb-5">
+                    {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#2d5a27] text-[#2d5a27]" />)}
+                  </div>
+                  <p className="text-sm text-[#1e2a1c]/42 leading-relaxed italic flex-1">{`"${t.q}"`}</p>
+                  <div className="mt-6 pt-5 border-t border-[#e8f5e5]">
+                    <div className="font-bold text-[#1e2a1c] text-sm">{t.n}</div>
+                    <div className="text-[10px] text-[#2d5a27] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l}</div>
+                  </div>
                 </div>
-              ))}
-           </div>
-
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 NEURAL MESH COGNITIVE SYSTEMS AG. // ALL_RIGHT_RESERVED</span>
-              <div className="flex gap-16">
-                 <span>STATUS: OPERATIONAL</span>
-                 <span>BANDWIDTH: 42 GBPS (AVG)</span>
-                 <span>v4.12.0-STABLE</span>
-              </div>
-           </div>
-        </footer>
-      </main>
-    </div>
-  )
-}
-
-/* ==========================================
-   TECHNICAL SUB-COMPONENTS
-   ========================================== */
-
-function HUD_Overlay({ isMindLocked }: { isMindLocked: boolean }) {
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Corner Brackets */}
-       <div className={`absolute top-12 left-12 w-20 h-20 border-t-2 border-l-2 transition-colors duration-1000 ${isMindLocked ? "border-sky-400" : "border-white/10"}`} />
-       <div className={`absolute top-12 right-12 w-20 h-20 border-t-2 border-r-2 transition-colors duration-1000 ${isMindLocked ? "border-sky-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 left-12 w-20 h-20 border-b-2 border-l-2 transition-colors duration-1000 ${isMindLocked ? "border-sky-400" : "border-white/10"}`} />
-       <div className={`absolute bottom-12 right-12 w-20 h-20 border-b-2 border-r-2 transition-colors duration-1000 ${isMindLocked ? "border-sky-400" : "border-white/10"}`} />
-
-       {/* Top Status Bar */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-20 bg-black/60 backdrop-blur-2xl px-12 py-4 border border-white/10 rounded-none">
-          <div className="flex items-center gap-6 text-white">
-             <div className={`w-3 h-3 transition-colors duration-500 ${isMindLocked ? "bg-sky-400 animate-pulse" : "bg-red-500 animate-ping"}`} />
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Mesh_Sync: {isMindLocked ? "NOMINAL" : "NEURAL_DISRUPTION"} // Status: ACTIVE</span>
+              </Reveal>
+            ))}
           </div>
-          <div className="h-4 w-px bg-white/20" />
-          <div className="flex items-center gap-6 text-white/20">
-             <Wifi className="w-4 h-4" /> 
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Cognitive_Grid: SECURE</span>
-          </div>
-       </div>
+        </div>
+      </section>
 
-       {/* Right Rotation Info */}
-       <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-white/5 italic">Unauthorized_Duplication_Of_Neural_Patterns_Is_Strictly_Monitored_By_Global_Mesh_Alliance</span>
-       </div>
+      {/* ── CTA ── */}
+      <section className="py-24 bg-[#2d5a27] text-center">
+        <Reveal>
+          <div className="max-w-xl mx-auto px-6">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-6">Votre projet</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Cardo', serif" }}>
+              Et si votre jardin<br /><span className="italic">devenait vivant ?</span>
+            </h2>
+            <p className="text-white/50 mb-10 text-sm">Devis gratuit sous 48h · Annecy & Haute-Savoie · Paysagiste qualifié RGE</p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <button className="px-10 py-4 bg-white text-[#2d5a27] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f7f0] transition-colors rounded-lg shadow-lg">
+                Demander un devis
+              </button>
+              <a href="tel:0450123456" className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-lg">
+                <Phone className="w-4 h-4" /> 04 50 12 34 56
+              </a>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-[#101a0e] pt-20 pb-10 px-6">
+        <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          <div>
+            <div className="flex items-center gap-2.5 mb-5"><Leaf className="w-5 h-5 text-[#2d5a27]" /><span className="font-bold text-white text-sm" style={{ fontFamily: "'Cardo', serif" }}>Jardins Vivants</span></div>
+            <p className="text-white/20 text-sm leading-relaxed">Paysagiste & entretien espaces verts · Haute-Savoie. Création, entretien, élagage, arrosage automatique.</p>
+          </div>
+          {[
+            { t: "Prestations", ls: ["Création jardin", "Entretien régulier", "Élagage & abattage", "Potager & verger", "Arrosage automatique"] },
+            { t: "Infos", ls: ["Qui sommes-nous", "Portfolio réalisations", "Zone d'intervention", "Tarifs", "Blog jardinage"] },
+            { t: "Contact", ls: ["04 50 12 34 56", "contact@jardins-vivants.fr", "Annecy & Haute-Savoie", "Lun-Sam 7h30-18h", "Devis gratuit 48h"] },
+          ].map((col, i) => (
+            <div key={i}>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#2d5a27]/60 mb-5">{col.t}</h4>
+              <ul className="space-y-2.5">
+                {col.ls.map(l => <li key={l}><Link href="#" className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-white/10">
+          <span>© 2026 Jardins Vivants · SIRET 456 789 012 00033 · Paysagiste qualifié · Annecy (74)</span>
+          <span className="text-[#2d5a27]/25">Paysagiste · Haute-Savoie</span>
+        </div>
+      </footer>
     </div>
   )
 }
