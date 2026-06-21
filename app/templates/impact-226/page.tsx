@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react"
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
-import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Instagram } from "lucide-react"
+import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Camera } from "lucide-react"
 
 const C = {
   bg: "#0d0d0d",
@@ -222,7 +222,7 @@ export default function EncreNoirePage() {
               <Mail size={18} /> contact@encrenoire-paris.fr
             </motion.a>
             <motion.a href="https://instagram.com/encrenoire.paris" style={{ background: "transparent", color: C.text, border: `2px solid ${C.border}`, borderRadius: 4, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ borderColor: C.accent, color: C.accent }}>
-              <Instagram size={18} /> @encrenoire.paris
+              <Camera size={18} /> @encrenoire.paris
             </motion.a>
           </div>
         </Reveal>

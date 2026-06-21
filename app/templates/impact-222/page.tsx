@@ -2240,56 +2240,64 @@ const Footer: React.FC = () => (
           </p>
         </div>
 
-        {FOOTER_COLS.map((col) => (
-          <div key={col.head}>
-            <h5
-              style={{
-                fontFamily: C.font,
-                fontSize: 12,
-                fontWeight: 600,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: C.goldSoft,
-                margin: '0 0 18px',
-              }}
-            >
-              {col.head}
-            </h5>
-            <ul
-              style={{
-                listStyle: 'none',
-                margin: 0,
-                padding: 0,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 12,
-              }}
-            >
-              {col.links.map((l) => (
-                <li key={l}>
-                  <a
-                    href="#"
-                    style={{
-                      fontFamily: C.font,
-                      fontSize: 14.5,
-                      color: 'rgba(255,255,255,0.66)',
-                      textDecoration: 'none',
-                      transition: 'color .25s',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = C.goldSoft;
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = 'rgba(255,255,255,0.66)';
-                    }}
-                  >
-                    {l}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        {FOOTER_COLS.map((col) => {
+          const getFooterLinkHref = (l: string) => {
+            const norm = l.toLowerCase();
+            if (norm.includes('propos') || norm.includes('équipe') || norm.includes('carrière') || norm.includes('presse')) return '#approche';
+            if (norm.includes('acquis') || norm.includes('vente') || norm.includes('estim') || norm.includes('concierg')) return '#selection';
+            return '#contact';
+          };
+          return (
+            <div key={col.head}>
+              <h5
+                style={{
+                  fontFamily: C.font,
+                  fontSize: 12,
+                  fontWeight: 600,
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: C.goldSoft,
+                  margin: '0 0 18px',
+                }}
+              >
+                {col.head}
+              </h5>
+              <ul
+                style={{
+                  listStyle: 'none',
+                  margin: 0,
+                  padding: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 12,
+                }}
+              >
+                {col.links.map((l) => (
+                  <li key={l}>
+                    <a
+                      href={getFooterLinkHref(l)}
+                      style={{
+                        fontFamily: C.font,
+                        fontSize: 14.5,
+                        color: 'rgba(255,255,255,0.66)',
+                        textDecoration: 'none',
+                        transition: 'color .25s',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = C.goldSoft;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = 'rgba(255,255,255,0.66)';
+                      }}
+                    >
+                      {l}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
       </div>
 
       <div
@@ -2316,7 +2324,7 @@ const Footer: React.FC = () => (
           {['Mentions légales', 'Confidentialité', 'Honoraires'].map((l) => (
             <a
               key={l}
-              href="#"
+              href="#contact"
               style={{
                 fontFamily: C.font,
                 fontSize: 13,
