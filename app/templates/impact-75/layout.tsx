@@ -145,7 +145,7 @@ export default function OrbitAILayout({
                 GitHub
               </a>
               <Link
-                href="/legal/mentions-legales"
+                href="/templates/impact-75/legal"
                 className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-cyan-500 transition-colors italic"
               >
                 Legal Hub
@@ -212,7 +212,7 @@ export default function OrbitAILayout({
               UPLINK: ACTIVE
             </Link>
             <Link
-              href="/legal/mentions-legales"
+              href="/templates/impact-75/legal"
               className="hover:text-cyan-500 transition-all underline decoration-cyan-500/20"
             >
               SECURITY_LEVEL: OMEGA

@@ -226,7 +226,7 @@ export default function CyberSecurityLayout({
               <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
                 <li>
                   <Link
-                    href="/legal/mentions-legales"
+                    href="/templates/impact-74/legal"
                     className="hover:text-emerald-500 transition-colors"
                   >
                     Legal_Mentions
@@ -234,7 +234,7 @@ export default function CyberSecurityLayout({
                 </li>
                 <li>
                   <Link
-                    href="/legal/mentions-legales"
+                    href="/templates/impact-74/legal"
                     className="hover:text-emerald-500 transition-colors"
                   >
                     GDPR_Protocol
@@ -242,7 +242,7 @@ export default function CyberSecurityLayout({
                 </li>
                 <li>
                   <Link
-                    href="/legal/mentions-legales"
+                    href="/templates/impact-74/legal"
                     className="hover:text-emerald-500 transition-colors"
                   >
                     Sovereign_Terms
@@ -293,10 +293,10 @@ export default function CyberSecurityLayout({
               <span>
                 &copy; {new Date().getFullYear()} AEVIA CYBER SYSTEMS Inc.
               </span>
-              <Link href="/legal/mentions-legales" className="hover:text-white transition-colors">
+              <Link href="/templates/impact-74/legal" className="hover:text-white transition-colors">
                 Privacy_Protocol
               </Link>
-              <Link href="/legal/mentions-legales" className="hover:text-white transition-colors">
+              <Link href="/templates/impact-74/legal" className="hover:text-white transition-colors">
                 Sovereign_Terms
               </Link>
             </div>

@@ -139,24 +139,6 @@ export default function HorologsLuxePage() {
 
   return (
     <div className="relative w-full bg-[#050505]">
-      {/* ── NAVBAR ── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#050505]/95 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}>
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Watch className="w-4 h-4 text-stone-500" />
-            <span className="text-sm font-black uppercase tracking-[0.3em] text-white italic">Horologs</span>
-          </div>
-          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/25">
-            {["Archive", "Editorial", "Commercial", "Prints", "Contact"].map(l => (
-              <Link key={l} href="#contact" className="hover:text-white transition-colors">{l}</Link>
-            ))}
-          </div>
-          <button className="hidden md:block px-7 py-3 border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-white hover:text-black transition-all duration-300">
-            Commission
-          </button>
-        </div>
-      </nav>
-
       {/* ==========================================
           1. HERO (Cinematic Luxury)
           ========================================== */}

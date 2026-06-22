@@ -141,7 +141,7 @@ export default function ZenSpaceLayout({
                   {link.label}
                 </Link>
               ))}
-              <Link href="/legal/mentions-legales" onClick={() => setMenuOpen(false)} style={{ textDecoration: "none" }} className="hover:text-[#c9a84c] transition-colors">
+              <Link href="/templates/impact-71/legal" onClick={() => setMenuOpen(false)} style={{ textDecoration: "none" }} className="hover:text-[#c9a84c] transition-colors">
                 Mentions Légales
               </Link>
             </div>
@@ -243,7 +243,7 @@ export default function ZenSpaceLayout({
                   </Link>
                 </li>
                 <li>
-                  <Link href="/legal/mentions-legales" className="hover:text-[#c9a84c] transition-colors" style={{ textDecoration: "none" }}>
+                  <Link href="/templates/impact-71/legal" className="hover:text-[#c9a84c] transition-colors" style={{ textDecoration: "none" }}>
                     Mentions_Legales
                   </Link>
                 </li>
@@ -291,10 +291,10 @@ export default function ZenSpaceLayout({
               <span>
                 &copy; {new Date().getFullYear()} ZEN SPACE Wellness Ltd.
               </span>
-              <Link href="/legal/mentions-legales" className="hover:text-white transition-colors" style={{ textDecoration: "none" }}>
+              <Link href="/templates/impact-71/legal" className="hover:text-white transition-colors" style={{ textDecoration: "none" }}>
                 Regulatory_Terms
               </Link>
-              <Link href="/legal/mentions-legales" className="hover:text-white transition-colors" style={{ textDecoration: "none" }}>
+              <Link href="/templates/impact-71/legal" className="hover:text-white transition-colors" style={{ textDecoration: "none" }}>
                 Privacy_Buffer
               </Link>
             </div>

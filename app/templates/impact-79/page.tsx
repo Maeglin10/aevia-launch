@@ -337,7 +337,7 @@ export default function BoulangerieNoirePage() {
       {/* ==========================================
           1. HERO (Cinematic Bakery)
           ========================================== */}
-      <section
+      <section id="hero"
         ref={heroRef}
         className="relative w-full h-[100svh] flex flex-col justify-center overflow-hidden"
       >
@@ -626,7 +626,7 @@ export default function BoulangerieNoirePage() {
       {/* ==========================================
           6. MEGA FOOTER (Premium Minimal)
           ========================================== */}
-      <footer className="bg-[#050505] pt-32 pb-12 px-6 md:px-12 border-t border-white/5 relative overflow-hidden">
+      <footer id="contact" className="bg-[#050505] pt-32 pb-12 px-6 md:px-12 border-t border-white/5 relative overflow-hidden">
         <div className="max-w-[1600px] mx-auto relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 mb-32">
             <div className="lg:col-span-5">

@@ -232,7 +232,7 @@ export default function OrbitLayout({
               </Link>
             ))}
             <Link
-              href="/legal/mentions-legales"
+              href="/templates/impact-68/legal"
               onClick={() => setMobileOpen(false)}
               style={{
                 fontFamily: "'Space Grotesk', sans-serif",
