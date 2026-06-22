@@ -124,7 +124,7 @@ export default function AethelgardEstatePremium() {
           ========================================== */}
       <nav className="fixed top-0 left-0 w-full h-24 z-[100] px-8 md:px-20 flex items-center justify-between pointer-events-none">
          <div className="pointer-events-auto">
-            <Link href="/" className="flex flex-col group">
+            <Link href="#hero" className="flex flex-col group">
                <span className="text-3xl font-light tracking-[0.4em] uppercase text-white group-hover:text-[#c4a661] transition-colors">AETHELGARD</span>
                <span className="text-[8px] font-black tracking-[0.6em] text-[#c4a661]/40 uppercase italic">The Estate & Spirits Group</span>
             </Link>
@@ -150,7 +150,7 @@ export default function AethelgardEstatePremium() {
         {/* ==========================================
             1. THE PROLOGUE (HERO)
             ========================================== */}
-        <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
           <motion.div style={{ opacity: heroOpacity, scale: heroScale }} className="absolute inset-0 z-0">
              <Image 
                 src="https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=2400&auto=format&fit=crop" 
@@ -361,7 +361,7 @@ export default function AethelgardEstatePremium() {
         {/* ==========================================
             6. MEGA FOOTER
             ========================================== */}
-        <footer className="bg-black pt-60 pb-12 px-8 md:px-20 relative z-50 border-t border-white/5">
+        <footer id="contact" className="bg-black pt-60 pb-12 px-8 md:px-20 relative z-50 border-t border-white/5">
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
               <div className="lg:col-span-2">
                  <div className="flex items-center gap-4 mb-12">

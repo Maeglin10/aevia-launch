@@ -305,7 +305,7 @@ function SectionTitle({ subtitle, title, alignment = "center" }: { subtitle: str
 // Compact page-header band reused by every sub-page (theme-native).
 function PageHeader({ chapter, title, intro }: { chapter: string, title: string, intro?: string }) {
   return (
-    <section className="relative pt-48 pb-24 px-8 md:px-20 border-b border-white/5 overflow-hidden">
+    <section id="hero" className="relative pt-48 pb-24 px-8 md:px-20 border-b border-white/5 overflow-hidden">
        <div className="absolute top-0 right-0 p-40 bg-[#b4925e] opacity-[0.04] blur-[120px] rounded-full pointer-events-none" />
        <div className="max-w-[1400px] mx-auto relative z-10">
           <Reveal>
@@ -828,7 +828,7 @@ function CollectionIndex({ onOpen }: { onOpen: (id: string) => void }) {
         title="The Collection."
         intro="Un ensemble restreint de chefs-d'œuvre conservés dans nos coffres atmosphériques, à travers les nodes de Zurich, Paris, Londres et Tokyo. Chaque pièce est documentée, expertisée et scellée."
       />
-      <section className="py-32 bg-black border-y border-white/5">
+      <section id="realisations" className="py-32 bg-black border-y border-white/5">
          <div className="max-w-[1600px] mx-auto px-8 md:px-20">
             <div className="grid md:grid-cols-3 gap-16">
                {ARCHIVE_WORKS.map((art, i) => (
@@ -1105,7 +1105,7 @@ function AboutPage({ onContact }: { onContact: () => void }) {
       />
 
       {/* Story */}
-      <section className="py-32 bg-[#0c0c0e]">
+      <section id="about" className="py-32 bg-[#0c0c0e]">
          <div className="max-w-[860px] mx-auto px-8 md:px-12">
             {ABOUT_PARAS.map((para, i) => (
               <Reveal key={i} delay={i * 0.1}>
@@ -1340,7 +1340,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
   return (
     <div>
       <PageHeader chapter="Protection des données" title="Confidentialité." />
-      <section className="py-24 bg-black border-y border-white/5">
+      <section id="contact" className="py-24 bg-black border-y border-white/5">
          <div className="max-w-[820px] mx-auto px-8 md:px-12">
             <Para><span className="italic text-white/30">Dernière mise à jour : juin 2026.</span></Para>
 

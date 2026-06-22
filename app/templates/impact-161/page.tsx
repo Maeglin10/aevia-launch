@@ -142,7 +142,7 @@ export default function EssentialSaaSPage() {
       </AnimatePresence>
 
       {/* Hero */}
-      <section className="pt-28 pb-20 px-6 max-w-7xl mx-auto text-center">
+      <section id="hero" className="pt-28 pb-20 px-6 max-w-7xl mx-auto text-center">
         <Reveal>
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#EEF2FF] rounded-full text-[#6366F1] text-sm font-semibold mb-8">
             <Zap className="w-3.5 h-3.5" />
@@ -288,7 +288,7 @@ export default function EssentialSaaSPage() {
       </section>
 
       {/* Stats */}
-      <section className="py-20 bg-[#6366F1] text-white">
+      <section id="about" className="py-20 bg-[#6366F1] text-white">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[["2 400+", "Équipes actives"], ["99.99%", "Uptime garanti"], ["4.9/5", "Note moyenne"], ["15h/sem", "Temps économisé"]].map(([val, label]) => (
@@ -407,7 +407,7 @@ export default function EssentialSaaSPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 bg-[#6366F1] text-white text-center px-6">
+      <section id="contact" className="py-24 bg-[#6366F1] text-white text-center px-6">
         <Reveal>
           <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Prêt à simplifier votre workflow ?</h2>
           <p className="text-indigo-200 text-lg mb-10">14 jours d&apos;essai gratuit. Pas de carte bancaire. Annulable à tout moment.</p>

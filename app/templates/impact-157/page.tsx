@@ -442,7 +442,7 @@ export default function Impact157Page() {
             +33 1 42 60 XX XX
           </span>
           <motion.a
-            href="#accueil"
+            href="#hero"
             whileHover={{ background: C.goldLight }}
             whileTap={{ scale: 0.97 }}
             style={{
@@ -468,7 +468,7 @@ export default function Impact157Page() {
       </div>
 
       {/* ── HERO ─────────────────────────────────────────────────────────────── */}
-      <section
+      <section id="hero"
         style={{
           minHeight: "94vh",
           display: "grid",
@@ -629,7 +629,7 @@ export default function Impact157Page() {
 
             <div style={{ display: "flex", gap: 16, marginBottom: 48 }}>
               <motion.a
-                href="#accueil"
+                href="#hero"
                 whileHover={{ background: C.goldLight }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -650,7 +650,7 @@ export default function Impact157Page() {
                 Découvrir <ArrowRight size={14} />
               </motion.a>
               <motion.a
-                href="#accueil"
+                href="#hero"
                 whileHover={{ borderColor: C.gold, color: C.gold }}
                 style={{
                   display: "inline-flex",
@@ -704,7 +704,7 @@ export default function Impact157Page() {
       </section>
 
       {/* ── STATS ─────────────────────────────────────────────────────────────── */}
-      <section
+      <section id="realisations"
         style={{
           background: C.bgAlt,
           borderTop: `1px solid ${C.border}`,
@@ -1708,7 +1708,7 @@ export default function Impact157Page() {
       </section>
 
       {/* ── CTA FINAL ─────────────────────────────────────────────────────────── */}
-      <section
+      <section id="contact"
         style={{
           padding: "160px 80px",
           textAlign: "center",
@@ -1934,7 +1934,7 @@ export default function Impact157Page() {
                 {col.links.map((l) => (
                   <a
                     key={l}
-                    href="#accueil"
+                    href="#hero"
                     style={{
                       fontSize: 14,
                       color: C.textMuted,

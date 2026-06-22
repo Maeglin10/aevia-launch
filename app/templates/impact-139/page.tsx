@@ -130,7 +130,7 @@ export default function ApexFitnessPage() {
         </section>
 
         {/* ── STATS ──── */}
-        <section className="py-16 bg-lime-500 text-black">
+        <section id="equipe" className="py-16 bg-lime-500 text-black">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { v: "2,400+", l: "Members" },
@@ -184,7 +184,7 @@ export default function ApexFitnessPage() {
         </section>
 
         {/* ── WHY APEX ──── */}
-        <section className="py-32 bg-[#0d0d0d]">
+        <section id="tarifs" className="py-32 bg-[#0d0d0d]">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
@@ -390,9 +390,9 @@ export default function ApexFitnessPage() {
         <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex flex-col sm:flex-row justify-between gap-4">
           <span>© 2026 APEX FITNESS. TRAIN HARDER.</span>
           <div className="flex gap-6">
-            <Link href="/legal/mentions-legales" className="hover:text-white transition-colors">Mentions légales</Link>
-            <Link href="/legal/confidentialite" className="hover:text-white transition-colors">Confidentialité</Link>
-            <Link href="/legal/cgu" className="hover:text-white transition-colors">CGU</Link>
+            <Link href="#contact" className="hover:text-white transition-colors">Mentions légales</Link>
+            <Link href="#contact" className="hover:text-white transition-colors">Confidentialité</Link>
+            <Link href="#contact" className="hover:text-white transition-colors">CGU</Link>
           </div>
         </div>
       </footer>

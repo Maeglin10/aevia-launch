@@ -103,7 +103,7 @@ export default function StudioNomaPage() {
       </motion.nav>
 
       {/* Hero */}
-      <section ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&q=80" alt="Intérieur Studio Noma" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
@@ -146,7 +146,7 @@ export default function StudioNomaPage() {
       </section>
 
       {/* Stats */}
-      <section style={{ background: C.text, padding: "0 80px", fontFamily: FONT_SANS }}>
+      <section id="realisations" style={{ background: C.text, padding: "0 80px", fontFamily: FONT_SANS }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: 1100, margin: "0 auto" }}>
           {STATS.map((s, i) => (
             <Reveal key={s.label} delay={i * 0.08}>
@@ -272,7 +272,7 @@ export default function StudioNomaPage() {
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 20, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
           <span style={{ color: "rgba(255,255,255,0.28)", fontSize: 13 }}>© 2026 Studio Noma — Site réalisé par Aevia WS</span>
-          <a href="/legal/mentions-legales" style={{ color: "rgba(255,255,255,0.28)", fontSize: 13, textDecoration: "none" }}>Mentions légales</a>
+          <a href="#contact" style={{ color: "rgba(255,255,255,0.28)", fontSize: 13, textDecoration: "none" }}>Mentions légales</a>
         </div>
       </footer>
     </div>

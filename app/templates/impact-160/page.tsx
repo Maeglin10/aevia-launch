@@ -147,7 +147,7 @@ export default function MonolithPremium() {
         {/* ==========================================
             1. BRUTALIST IGNITION (HERO)
             ========================================== */}
-        <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
+        <section id="hero" className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
           <GridBackground />
           
           <motion.div style={{ scale: monolithScale, rotate: monolithRotate, opacity: heroOpacity }} className="absolute z-0 pointer-events-none">
@@ -344,7 +344,7 @@ export default function MonolithPremium() {
         {/* ==========================================
             4. REDUNDANCY PROTOCOLS (BRUTALIST STORY)
             ========================================== */}
-        <section className="py-60 bg-[#050505] relative overflow-hidden border-t border-white/5">
+        <section id="contact" className="py-60 bg-[#050505] relative overflow-hidden border-t border-white/5">
            <div className="max-w-[1400px] mx-auto px-8 md:px-24">
               <div className="grid lg:grid-cols-2 gap-40 items-center">
                  <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">

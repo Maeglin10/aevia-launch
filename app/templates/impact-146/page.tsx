@@ -46,7 +46,7 @@ export default function KuroOmakasePage() {
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-black/95 backdrop-blur-xl border-b border-white/5 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-4 group">
+          <Link href="#hero" className="flex items-center gap-4 group">
             <div className="w-8 h-8 bg-white flex items-center justify-center group-hover:rotate-90 transition-transform duration-700">
               <span className="text-black font-black text-sm uppercase">K</span>
             </div>
@@ -75,7 +75,7 @@ export default function KuroOmakasePage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
              <Image src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&q=80&w=2400" alt="Chef Hands" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-[2000ms] scale-105" priority />
              <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
@@ -154,7 +154,7 @@ export default function KuroOmakasePage() {
         </section>
 
         {/* ── INGREDIENTS ───────────── */}
-        <section className="py-60 bg-black">
+        <section id="contact" className="py-60 bg-black">
            <div className="max-w-[1400px] mx-auto px-6 md:px-12">
               <Reveal>
                  <div className="flex flex-col md:flex-row items-end justify-between mb-32 gap-8 border-b border-white/5 pb-16">
@@ -289,7 +289,7 @@ export default function KuroOmakasePage() {
       <footer className="bg-black pt-32 pb-12 px-6 border-t border-white/5">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-20 mb-40">
            <div className="md:col-span-2">
-              <Link href="/" className="flex items-center gap-4 mb-10 group">
+              <Link href="#hero" className="flex items-center gap-4 mb-10 group">
                 <div className="w-8 h-8 bg-white flex items-center justify-center">
                   <span className="text-black font-black text-sm uppercase">K</span>
                 </div>

@@ -253,7 +253,7 @@ export default function VerdantImpactPage() {
         </section>
 
         {/* ── TESTIMONIALS ──── */}
-        <section className="py-32 bg-white border-t border-emerald-600/5">
+        <section id="tarifs" className="py-32 bg-white border-t border-emerald-600/5">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
@@ -349,9 +349,9 @@ export default function VerdantImpactPage() {
         <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/20 flex flex-col sm:flex-row justify-between gap-4">
           <span>© 2026 VERDANT IMPACT. B-CORP CERTIFIED</span>
           <div className="flex gap-6">
-            <Link href="/legal/mentions-legales" className="hover:text-white transition-colors">Mentions légales</Link>
-            <Link href="/legal/confidentialite" className="hover:text-white transition-colors">Confidentialité</Link>
-            <Link href="/legal/cgu" className="hover:text-white transition-colors">CGU</Link>
+            <Link href="#contact" className="hover:text-white transition-colors">Mentions légales</Link>
+            <Link href="#contact" className="hover:text-white transition-colors">Confidentialité</Link>
+            <Link href="#contact" className="hover:text-white transition-colors">CGU</Link>
           </div>
         </div>
       </footer>

@@ -267,7 +267,7 @@ function ParallaxMountainHero() {
   const opacity    = useTransform(scrollYProgress, [0, 0.6], [1, 0])
 
   return (
-    <section
+    <section id="hero"
       ref={heroRef}
       style={{
         position:   "relative",
@@ -1012,7 +1012,7 @@ function RoutePathSection() {
       .join(" ")
 
   return (
-    <section
+    <section id="equipe"
       ref={sectionRef}
       style={{
         background:   C.bgMid,
@@ -1956,7 +1956,7 @@ function Navigation() {
       >
         {/* Logo */}
         <Link
-          href="/"
+          href="#hero"
           style={{
             fontFamily:    "'Syne', sans-serif",
             fontWeight:    800,
@@ -2090,7 +2090,7 @@ function Footer() {
   ]
 
   return (
-    <footer
+    <footer id="contact"
       style={{
         background:  "#060809",
         padding:     "100px 48px 48px",

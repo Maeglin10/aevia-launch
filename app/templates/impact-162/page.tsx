@@ -137,7 +137,7 @@ export default function EssentialCafePage() {
       </AnimatePresence>
 
       {/* Hero */}
-      <section ref={heroRef} className="relative min-h-screen overflow-hidden flex items-end">
+      <section id="hero" ref={heroRef} className="relative min-h-screen overflow-hidden flex items-end">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1600&q=85" alt="Le Matin Doré" fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1A0E05]/90 via-[#1A0E05]/30 to-transparent" />
@@ -456,7 +456,7 @@ export default function EssentialCafePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#2A1F0E] text-[#8A7560] py-14 px-6">
+      <footer id="contact" className="bg-[#2A1F0E] text-[#8A7560] py-14 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-10 mb-10">
             <div className="md:col-span-2">

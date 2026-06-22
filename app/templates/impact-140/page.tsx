@@ -168,17 +168,17 @@ export default function WanderlustPage() {
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link
-            href="/"
+            href="#hero"
             className="text-xl md:text-2xl font-bold tracking-tighter uppercase flex items-center gap-2"
           >
             Wander<span className="text-amber-500">Lust.</span>
           </Link>
 
           <div className="hidden lg:flex items-center gap-10 text-[11px] font-bold uppercase tracking-widest">
-            <Link href="#accueil" className="hover:text-amber-500 transition-colors">
+            <Link href="#hero" className="hover:text-amber-500 transition-colors">
               Destinations
             </Link>
-            <Link href="#accueil" className="hover:text-amber-500 transition-colors">
+            <Link href="#hero" className="hover:text-amber-500 transition-colors">
               Expeditions
             </Link>
             <Link href="#apropos" className="hover:text-amber-500 transition-colors">
@@ -224,10 +224,10 @@ export default function WanderlustPage() {
               <X className="w-8 h-8" />
             </button>
             <div className="flex flex-col gap-8 text-3xl font-light">
-              <Link href="#accueil" onClick={() => setMenuOpen(false)}>
+              <Link href="#hero" onClick={() => setMenuOpen(false)}>
                 Destinations
               </Link>
-              <Link href="#accueil" onClick={() => setMenuOpen(false)}>
+              <Link href="#hero" onClick={() => setMenuOpen(false)}>
                 Expeditions
               </Link>
               <Link href="#apropos" onClick={() => setMenuOpen(false)}>
@@ -249,7 +249,7 @@ export default function WanderlustPage() {
       {/* ==========================================
           1. HERO CAROUSEL
           ========================================== */}
-      <section className="relative w-full h-[100svh] overflow-hidden bg-[#0c0a09]">
+      <section id="hero" className="relative w-full h-[100svh] overflow-hidden bg-[#0c0a09]">
         {/* Background Images */}
         <AnimatePresence initial={false}>
           <motion.div
@@ -390,7 +390,7 @@ export default function WanderlustPage() {
       {/* ==========================================
           3. EXPERIENCES GRID
           ========================================== */}
-      <section className="py-32 bg-[#0c0a09] border-y border-stone-800/50">
+      <section id="apropos" className="py-32 bg-[#0c0a09] border-y border-stone-800/50">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal className="text-center max-w-3xl mx-auto mb-20">
             <span className="text-[10px] text-amber-500 uppercase tracking-[0.3em] font-bold block mb-4">
@@ -427,7 +427,7 @@ export default function WanderlustPage() {
       {/* ==========================================
           4. FEATURED ITINERARY (Split Layout)
           ========================================== */}
-      <section className="py-32 bg-[#0a0807] overflow-hidden">
+      <section id="contact" className="py-32 bg-[#0a0807] overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <Reveal className="relative aspect-[4/5] rounded-2xl overflow-hidden order-2 lg:order-1">
@@ -583,7 +583,7 @@ export default function WanderlustPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pt-16 border-t border-stone-800 mb-16">
             <div className="lg:col-span-1">
               <Link
-                href="/"
+                href="#hero"
                 className="text-2xl font-bold tracking-tighter uppercase mb-6 block"
               >
                 Wander<span className="text-amber-500">Lust.</span>

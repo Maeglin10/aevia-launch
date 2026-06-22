@@ -186,7 +186,7 @@ export default function SonicPlayerPage() {
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link
-            href="/"
+            href="#hero"
             className="text-2xl font-black tracking-tighter uppercase flex items-center gap-2"
           >
             <Disc3 className="w-6 h-6 animate-spin-slow" />
@@ -194,16 +194,16 @@ export default function SonicPlayerPage() {
           </Link>
 
           <div className="hidden lg:flex items-center gap-10 text-[11px] font-bold uppercase tracking-widest">
-            <Link href="#accueil" className="hover:text-purple-400 transition-colors">
+            <Link href="#hero" className="hover:text-purple-400 transition-colors">
               Releases
             </Link>
-            <Link href="#accueil" className="hover:text-purple-400 transition-colors">
+            <Link href="#hero" className="hover:text-purple-400 transition-colors">
               Artists
             </Link>
-            <Link href="#accueil" className="hover:text-purple-400 transition-colors">
+            <Link href="#hero" className="hover:text-purple-400 transition-colors">
               Tour
             </Link>
-            <Link href="#accueil" className="hover:text-purple-400 transition-colors">
+            <Link href="#hero" className="hover:text-purple-400 transition-colors">
               Store
             </Link>
           </div>
@@ -217,7 +217,7 @@ export default function SonicPlayerPage() {
       {/* ==========================================
           1. IMMERSIVE PLAYER HERO
           ========================================== */}
-      <section className="relative w-full min-h-screen flex items-center pt-24 pb-12">
+      <section id="hero" className="relative w-full min-h-screen flex items-center pt-24 pb-12">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full z-10 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           {/* Left: Interactive Player UI */}
           <div className="lg:col-span-5 order-2 lg:order-1 flex flex-col items-center lg:items-start">
@@ -364,7 +364,7 @@ export default function SonicPlayerPage() {
       {/* ==========================================
           2. TRACKLIST & DETAILS
           ========================================== */}
-      <section className="py-24 bg-[#050318] border-y border-white/5 relative z-20">
+      <section id="about" className="py-24 bg-[#050318] border-y border-white/5 relative z-20">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16">
           <div className="lg:col-span-4">
             <Reveal>
@@ -443,7 +443,7 @@ export default function SonicPlayerPage() {
       {/* ==========================================
           3. FEATURED ARTISTS (Bento Grid)
           ========================================== */}
-      <section className="py-32 bg-[#030014]">
+      <section id="contact" className="py-32 bg-[#030014]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal className="mb-16 text-center">
             <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-4">
@@ -597,7 +597,7 @@ export default function SonicPlayerPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
             <div className="lg:col-span-1">
               <Link
-                href="/"
+                href="#hero"
                 className="text-2xl font-black tracking-tighter uppercase mb-6 flex items-center gap-2"
               >
                 <Disc3 className="w-6 h-6 text-purple-500" />

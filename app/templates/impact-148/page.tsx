@@ -45,7 +45,7 @@ export default function NeonPulsePage() {
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-black/80 backdrop-blur-xl border-b border-white/5 py-4" : "bg-transparent py-10"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="#hero" className="flex items-center gap-3 group">
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 via-pink-500 to-cyan-400 flex items-center justify-center group-hover:rotate-[360deg] transition-transform duration-1000 shadow-[0_0_20px_rgba(147,51,234,0.5)]">
               <Zap className="w-5 h-5 text-white fill-current" />
             </div>
@@ -53,7 +53,7 @@ export default function NeonPulsePage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Drops", "Market", "Curators", "Stats"].map(l => (
-              <Link key={l} href="#accueil" className="hover:text-white transition-colors">{l}</Link>
+              <Link key={l} href="#hero" className="hover:text-white transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
@@ -64,7 +64,7 @@ export default function NeonPulsePage() {
               <SheetContent side="right" className="bg-black border-white/5 p-12 text-white">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {["Gallery", "Creators", "Mint", "Profile"].map(l => (
-                    <Link key={l} href="#galerie" className="text-4xl font-black uppercase tracking-tighter hover:text-cyan-400 transition-all italic">{l}</Link>
+                    <Link key={l} href="#realisations" className="text-4xl font-black uppercase tracking-tighter hover:text-cyan-400 transition-all italic">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -75,7 +75,7 @@ export default function NeonPulsePage() {
 
       <main className="relative pt-40 pb-20">
         {/* ── HERO ──────────────────── */}
-        <section className="max-w-[1400px] mx-auto px-6 md:px-12 mb-40">
+        <section id="hero" className="max-w-[1400px] mx-auto px-6 md:px-12 mb-40">
            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
               <div className="relative z-10">
                 <Reveal>
@@ -139,7 +139,7 @@ export default function NeonPulsePage() {
         </section>
 
         {/* ── DROPS ─────────────────── */}
-        <section className="max-w-[1400px] mx-auto px-6 md:px-12 mb-40">
+        <section id="contact" className="max-w-[1400px] mx-auto px-6 md:px-12 mb-40">
            <Reveal>
               <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8 border-b border-white/5 pb-12">
                  <div className="max-w-2xl">
@@ -275,7 +275,7 @@ export default function NeonPulsePage() {
         </section>
 
         {/* ── COMMUNITY STATS ─────────── */}
-        <section className="py-40 bg-black border-t border-white/5">
+        <section id="realisations" className="py-40 bg-black border-t border-white/5">
            <div className="max-w-[1400px] mx-auto px-6 md:px-12">
               <Reveal>
                  <div className="flex flex-col md:flex-row items-end justify-between mb-20 border-b border-white/5 pb-12 gap-6">
@@ -330,7 +330,7 @@ export default function NeonPulsePage() {
       <footer className="bg-[#050505] pt-40 pb-12 px-6 border-t border-white/5">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-20 mb-40">
            <div className="md:col-span-2">
-              <Link href="/" className="flex items-center gap-3 mb-10 group">
+              <Link href="#hero" className="flex items-center gap-3 mb-10 group">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 via-pink-500 to-cyan-400 flex items-center justify-center">
                   <Zap className="w-5 h-5 text-white fill-current" />
                 </div>

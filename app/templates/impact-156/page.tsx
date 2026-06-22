@@ -108,7 +108,7 @@ export default function LumiereYogaPage() {
       </motion.nav>
 
       {/* Hero */}
-      <section ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src="https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?w=1920&q=80" alt="Lumière Yoga Studio Bordeaux" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
@@ -219,7 +219,7 @@ export default function LumiereYogaPage() {
       </section>
 
       {/* Témoignages */}
-      <section style={{ padding: "100px 80px", background: C.bgDark }}>
+      <section id="contact" style={{ padding: "100px 80px", background: C.bgDark }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Ce qu'ils vivent</span>
@@ -278,7 +278,7 @@ export default function LumiereYogaPage() {
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 18, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
           <span style={{ color: "rgba(255,255,255,0.24)", fontSize: 12 }}>© 2026 Lumière Yoga Studio — Site réalisé par Aevia WS</span>
-          <a href="/legal/mentions-legales" style={{ color: "rgba(255,255,255,0.24)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
+          <a href="#contact" style={{ color: "rgba(255,255,255,0.24)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
         </div>
       </footer>
     </div>

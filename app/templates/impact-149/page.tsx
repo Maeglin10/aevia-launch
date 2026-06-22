@@ -43,7 +43,7 @@ export default function AetherWellnessPage() {
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-white/80 backdrop-blur-xl border-b border-black/5 py-4" : "bg-transparent py-10"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-4 group">
+          <Link href="#hero" className="flex items-center gap-4 group">
             <div className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-700">
               <Wind className="w-5 h-5 text-[#3d3d3d]/60" />
             </div>
@@ -51,7 +51,7 @@ export default function AetherWellnessPage() {
           </Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-black/30">
             {["Sanctuary", "Retreats", "Essence", "Journal"].map(l => (
-              <Link key={l} href="#accueil" className="hover:text-black transition-colors">{l}</Link>
+              <Link key={l} href="#hero" className="hover:text-black transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-8">
@@ -62,7 +62,7 @@ export default function AetherWellnessPage() {
               <SheetContent side="right" className="bg-[#faf9f6] border-none p-12 text-black">
                 <div className="flex flex-col gap-10 mt-16 text-left">
                   {["Sanctuary", "Experience", "Philosophy", "Book"].map(l => (
-                    <Link key={l} href="#accueil" className="text-4xl font-light uppercase tracking-widest hover:italic transition-all">{l}</Link>
+                    <Link key={l} href="#hero" className="text-4xl font-light uppercase tracking-widest hover:italic transition-all">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -73,7 +73,7 @@ export default function AetherWellnessPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 flex items-center justify-center">
              <BreathingCircle />
           </div>
@@ -146,7 +146,7 @@ export default function AetherWellnessPage() {
                        <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/30 block mb-6">The Sanctuary</span>
                        <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-[#1a1a1a] leading-none" style={{ fontFamily: "serif" }}>Architectural <br/> <span className="italic">Healing.</span></h2>
                     </div>
-                    <Link href="#accueil" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-black text-black/40 transition-colors group italic">
+                    <Link href="#hero" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-black text-black/40 transition-colors group italic">
                        View Retreat Schedule <ChevronRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
                     </Link>
                  </div>
@@ -222,7 +222,7 @@ export default function AetherWellnessPage() {
         </section>
 
         {/* ── TESTIMONIALS ──────────── */}
-        <section className="py-40 bg-[#faf9f6] border-t border-black/5">
+        <section id="contact" className="py-40 bg-[#faf9f6] border-t border-black/5">
            <div className="max-w-[1400px] mx-auto px-6 md:px-12">
               <Reveal>
                  <div className="text-center mb-20">
@@ -254,7 +254,7 @@ export default function AetherWellnessPage() {
         </section>
 
         {/* ── CTA ───────────────────── */}
-        <section className="py-60 bg-white text-[#1a1a1a] text-center relative overflow-hidden">
+        <section id="equipe" className="py-60 bg-white text-[#1a1a1a] text-center relative overflow-hidden">
            <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-[0.03] pointer-events-none">
               <Flower2 className="w-[800px] h-[800px] animate-[spin_60s_linear_infinite]" />
            </div>
@@ -283,7 +283,7 @@ export default function AetherWellnessPage() {
       <footer className="bg-[#faf9f6] pt-32 pb-12 px-6 border-t border-black/5">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-20 mb-40">
            <div className="md:col-span-2">
-              <Link href="/" className="flex items-center gap-4 mb-10 group">
+              <Link href="#hero" className="flex items-center gap-4 mb-10 group">
                 <div className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center">
                   <Wind className="w-5 h-5 text-[#3d3d3d]/60" />
                 </div>

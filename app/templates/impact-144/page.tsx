@@ -112,7 +112,7 @@ export default function KineticMarqueePage() {
 
       <main>
         {/* ── HERO + MARQUEE ──── */}
-        <section className="relative min-h-screen flex flex-col justify-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative min-h-screen flex flex-col justify-center pt-32 pb-20 overflow-hidden">
           <motion.div style={{ opacity: heroOpacity }} className="max-w-[1600px] mx-auto px-6 md:px-12 w-full mb-20">
             <Reveal>
               <div className="flex items-center gap-4 mb-8">
@@ -426,9 +426,9 @@ export default function KineticMarqueePage() {
         <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex flex-col md:flex-row justify-between gap-4">
           <span>© 2026 KINETIC. BRANDS IN MOTION.</span>
           <div className="flex gap-6">
-            <Link href="/legal/mentions-legales" className="hover:text-white transition-colors">Mentions légales</Link>
-            <Link href="/legal/confidentialite" className="hover:text-white transition-colors">Confidentialité</Link>
-            <Link href="/legal/cgu" className="hover:text-white transition-colors">CGU</Link>
+            <Link href="#contact" className="hover:text-white transition-colors">Mentions légales</Link>
+            <Link href="#contact" className="hover:text-white transition-colors">Confidentialité</Link>
+            <Link href="#contact" className="hover:text-white transition-colors">CGU</Link>
           </div>
         </div>
       </footer>

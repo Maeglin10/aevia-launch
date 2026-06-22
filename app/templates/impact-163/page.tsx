@@ -444,7 +444,7 @@ export default function EssentialBlogPage() {
       </AnimatePresence>
 
       {/* HERO — NEWSPAPER STYLE */}
-      <section style={{ paddingTop: 58, background: C.bgDark, overflow: "hidden" }}>
+      <section id="hero" style={{ paddingTop: 58, background: C.bgDark, overflow: "hidden" }}>
         {/* Scrolling marquee headline */}
         <div style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", paddingBottom: 0 }}>
           <motion.div style={{ x: heroTitleX, display: "flex", alignItems: "center", gap: 0 }}>
@@ -942,7 +942,7 @@ export default function EssentialBlogPage() {
       </section>
 
       {/* PRICING */}
-      <section style={{ padding: "80px 48px", background: C.bg, borderBottom: `1px solid ${C.border}` }}>
+      <section id="tarifs" style={{ padding: "80px 48px", background: C.bg, borderBottom: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <Reveal>
             <div style={{ textAlign: "center", marginBottom: 16 }}>
@@ -1064,7 +1064,7 @@ export default function EssentialBlogPage() {
       </section>
 
       {/* FINAL CTA */}
-      <section style={{ background: C.accent, padding: "80px 48px", textAlign: "center" }}>
+      <section id="contact" style={{ background: C.accent, padding: "80px 48px", textAlign: "center" }}>
         <Reveal>
           <div style={{ fontFamily: C.serif, fontSize: "clamp(36px, 5vw, 72px)", fontWeight: 700, color: C.white, letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 24 }}>
             Rejoignez les 52 000<br />professionnels informés.
@@ -1128,7 +1128,7 @@ export default function EssentialBlogPage() {
                   <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
                     {col.links.map(l => (
                       <li key={l}>
-                        <motion.a href="#apropos" whileHover={{ color: C.bg }} style={{ fontSize: 12, color: "rgba(250,250,250,0.35)", textDecoration: "none", fontFamily: C.sans, transition: "color 0.2s" }}>{l}</motion.a>
+                        <motion.a href={col.title === "Légal" ? "#contact" : "#hero"} whileHover={{ color: C.bg }} style={{ fontSize: 12, color: "rgba(250,250,250,0.35)", textDecoration: "none", fontFamily: C.sans, transition: "color 0.2s" }}>{l}</motion.a>
                       </li>
                     ))}
                   </ul>

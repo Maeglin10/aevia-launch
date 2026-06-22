@@ -40,7 +40,7 @@ export default function VanguardLegalPage() {
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#02040a]/95 backdrop-blur-xl border-b border-white/5 py-4" : "bg-transparent py-10"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="#hero" className="flex items-center gap-3 group">
             <div className="w-10 h-10 border border-[#00ff41]/30 flex items-center justify-center group-hover:border-[#00ff41] transition-all duration-500">
               <Shield className="w-5 h-5 text-[#00ff41]" />
             </div>
@@ -48,7 +48,7 @@ export default function VanguardLegalPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">
             {["Offense", "Intelligence", "Global Nodes", "Archive"].map(l => (
-              <Link key={l} href="#accueil" className="hover:text-[#00ff41] transition-colors">{l}</Link>
+              <Link key={l} href="#hero" className="hover:text-[#00ff41] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
@@ -72,7 +72,7 @@ export default function VanguardLegalPage() {
         <GridBackground />
         
         {/* ── HERO ──────────────────── */}
-        <section className="relative min-h-screen flex items-center pt-32 pb-20">
+        <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div>
@@ -176,7 +176,7 @@ export default function VanguardLegalPage() {
                     <div className="text-[9px] font-bold uppercase tracking-widest text-[#00ff41]/40 mb-4 italic">Protocol: 0{i+1}</div>
                     <h3 className="text-3xl font-black uppercase mb-8 tracking-tighter italic">{item.t}</h3>
                     <p className="text-white/30 leading-relaxed text-sm font-light mb-12 italic">{item.d}</p>
-                    <Link href="#accueil" className="mt-auto flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest group-hover:gap-8 transition-all">
+                    <Link href="#hero" className="mt-auto flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest group-hover:gap-8 transition-all">
                        Initialize Protocol <ChevronRight className="w-4 h-4" />
                     </Link>
                   </div>
@@ -235,7 +235,7 @@ export default function VanguardLegalPage() {
         </section>
 
         {/* ── TESTIMONIALS ──────────── */}
-        <section className="py-40 bg-[#02040a] border-t border-[#00ff41]/10">
+        <section id="contact" className="py-40 bg-[#02040a] border-t border-[#00ff41]/10">
           <div className="max-w-6xl mx-auto px-6 md:px-12 font-mono">
             <Reveal>
               <p className="text-[10px] uppercase tracking-[0.5em] text-[#00ff41]/40 mb-6">// verified operators</p>
@@ -265,7 +265,7 @@ export default function VanguardLegalPage() {
         </section>
 
         {/* ── TEAM ──────────────────── */}
-        <section className="py-40 bg-black border-t border-[#00ff41]/10">
+        <section id="equipe" className="py-40 bg-black border-t border-[#00ff41]/10">
           <div className="max-w-6xl mx-auto px-6 md:px-12 font-mono">
             <Reveal>
               <p className="text-[10px] uppercase tracking-[0.5em] text-[#00ff41]/40 mb-6">// core team</p>
@@ -322,7 +322,7 @@ export default function VanguardLegalPage() {
       <footer className="bg-[#02040a] pt-32 pb-12 px-6 border-t border-white/5 font-mono">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-20 mb-40">
            <div className="md:col-span-2">
-              <Link href="/" className="flex items-center gap-4 mb-10 group">
+              <Link href="#hero" className="flex items-center gap-4 mb-10 group">
                 <div className="w-10 h-10 border border-[#00ff41]/30 flex items-center justify-center">
                   <Shield className="w-5 h-5 text-[#00ff41]" />
                 </div>
@@ -348,7 +348,7 @@ export default function VanguardLegalPage() {
                 <ul className="space-y-6">
                    {col.l.map(link => (
                      <li key={link} className="text-xs font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic">
-                        <Link href="#accueil">{link}</Link>
+                        <Link href="#hero">{link}</Link>
                      </li>
                    ))}
                 </ul>

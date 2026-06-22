@@ -150,9 +150,10 @@ export default function AtlasPage() {
             <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>Atlas</span>
           </Link>
           <div className="hidden md:flex items-center gap-8 text-sm text-[#6B5A40]">
-            {["Articles", "Destinations", "À propos", "Newsletter"].map(l => (
-              <Link key={l} href={`#${l.toLowerCase().replace(" ", "-")}`} className="hover:text-[#2C1F0E] transition-colors duration-200">{l}</Link>
-            ))}
+            {["Articles", "Destinations", "À propos", "Newsletter"].map(l => {
+              const cleaned = l.toLowerCase().replace(" ", "-").replace("à", "a");
+              return <Link key={l} href={`#${cleaned}`} className="hover:text-[#2C1F0E] transition-colors duration-200">{l}</Link>;
+            })}
             <button className="relative">
               <Search className="w-5 h-5 text-[#6B5A40] hover:text-[#2C1F0E] transition-colors cursor-pointer" />
             </button>
@@ -175,7 +176,7 @@ export default function AtlasPage() {
             <div className="flex flex-col gap-8 p-10">
               {["Articles", "Destinations", "À propos", "Newsletter"].map((l, i) => (
                 <motion.div key={l} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
-                  <Link href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)}
+                  <Link href={`#${l.toLowerCase().replace(" ", "-").replace("à", "a")}`} onClick={() => setMenuOpen(false)}
                     className="text-3xl font-light hover:text-[#C0392B] transition-colors cursor-pointer"
                     style={{ fontFamily: "'Playfair Display', serif" }}>{l}</Link>
                 </motion.div>
@@ -186,7 +187,7 @@ export default function AtlasPage() {
       </AnimatePresence>
 
       {/* Hero — Featured article */}
-      <section ref={heroRef} className="relative min-h-screen overflow-hidden flex items-end">
+      <section id="hero" ref={heroRef} className="relative min-h-screen overflow-hidden flex items-end">
         <motion.div className="absolute inset-0" style={{ y: heroImgY }}>
           <Image src={featuredArticle.image} alt={featuredArticle.title} fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1A0E05]/95 via-[#1A0E05]/40 to-transparent" />
@@ -264,7 +265,7 @@ export default function AtlasPage() {
       </section>
 
       {/* Articles grid */}
-      <section className="py-20 max-w-7xl mx-auto px-6 md:px-12">
+      <section id="contact" className="py-20 max-w-7xl mx-auto px-6 md:px-12">
         <AnimatePresence mode="popLayout">
           {filtered.length === 0 ? (
             <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20 text-[#8A7560]">
@@ -337,7 +338,7 @@ export default function AtlasPage() {
       </section>
 
       {/* About / à propos */}
-      <section id="à-propos" className="py-28 max-w-7xl mx-auto px-6 md:px-12">
+      <section id="apropos" className="py-28 max-w-7xl mx-auto px-6 md:px-12">
         <div className="grid md:grid-cols-2 gap-20 items-center">
           <Reveal>
             <div className="relative">
@@ -419,7 +420,7 @@ export default function AtlasPage() {
             <div>
               <p className="text-[#F5F0E8] text-xs tracking-widest uppercase mb-5">Navigation</p>
               {["Articles", "Destinations", "À propos", "Newsletter"].map(l => (
-                <Link key={l} href={`#${l.toLowerCase()}`} className="block text-sm hover:text-[#F5F0E8] mb-3 transition-colors cursor-pointer">{l}</Link>
+                <Link key={l} href={`#${l.toLowerCase().replace(" ", "-").replace("à", "a")}`} className="block text-sm hover:text-[#F5F0E8] mb-3 transition-colors cursor-pointer">{l}</Link>
               ))}
             </div>
             <div>

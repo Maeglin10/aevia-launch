@@ -1797,7 +1797,7 @@ function Footer() {
   }
 
   return (
-    <footer
+    <footer id="contact"
       style={{
         background: "#030307",
         borderTop: "1px solid rgba(240,238,255,0.06)",

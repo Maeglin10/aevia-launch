@@ -52,7 +52,7 @@ export default function ArcaneRealtyPage() {
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-black/90 backdrop-blur-xl border-b border-white/5 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="#hero" className="flex items-center gap-3 group">
             <div className="w-10 h-10 border border-white/20 flex items-center justify-center group-hover:border-white transition-all duration-700">
               <Building2 className="w-5 h-5 text-white" />
             </div>
@@ -60,7 +60,7 @@ export default function ArcaneRealtyPage() {
           </Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
             {["Portfolio", "Concierge", "Locations", "Journal"].map(l => (
-              <Link key={l} href="#portfolio" className="hover:text-white transition-colors">{l}</Link>
+              <Link key={l} href="#realisations" className="hover:text-white transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-8">
@@ -82,7 +82,7 @@ export default function ArcaneRealtyPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
              <Image src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=2400" alt="Luxury Property" fill className="object-cover opacity-50 scale-105" priority />
              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
@@ -134,7 +134,7 @@ export default function ArcaneRealtyPage() {
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block mb-4">Active Listings</span>
                   <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-white leading-none">Curated <span className="italic font-bold">Space.</span></h2>
                 </div>
-                <Link href="#accueil" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-white text-white/40 transition-colors group italic">
+                <Link href="#hero" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-white text-white/40 transition-colors group italic">
                   Private Inventory <MoveRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
                 </Link>
               </div>
@@ -167,7 +167,7 @@ export default function ArcaneRealtyPage() {
         </section>
 
         {/* ── CONCIERGE ─────────────── */}
-        <section className="py-40 relative bg-black overflow-hidden border-y border-white/5">
+        <section id="contact" className="py-40 relative bg-black overflow-hidden border-y border-white/5">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
                <div>
@@ -272,7 +272,7 @@ export default function ArcaneRealtyPage() {
         </section>
 
         {/* ── CTA ───────────────────── */}
-        <section className="py-40 bg-white text-black text-center relative overflow-hidden">
+        <section id="realisations" className="py-40 bg-white text-black text-center relative overflow-hidden">
           <div className="max-w-4xl mx-auto px-6 relative z-10">
             <Reveal>
               <h2 className="text-6xl md:text-[10rem] font-light uppercase tracking-tighter leading-[0.8] mb-12">
@@ -298,7 +298,7 @@ export default function ArcaneRealtyPage() {
       <footer className="bg-[#050505] pt-32 pb-12 px-6 border-t border-white/5">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-16 mb-32">
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-10">
+            <Link href="#hero" className="flex items-center gap-3 mb-10">
               <div className="w-10 h-10 border border-white/20 flex items-center justify-center">
                 <Building2 className="w-5 h-5 text-white" />
               </div>

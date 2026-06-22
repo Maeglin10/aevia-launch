@@ -444,7 +444,7 @@ function HeroSection() {
   const overlayOpacity = useTransform(scrollYProgress, [0, 0.6], [0, 0.6])
 
   return (
-    <section
+    <section id="hero"
       ref={ref}
       style={{
         minHeight: "100vh",

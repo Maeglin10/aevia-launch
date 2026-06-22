@@ -324,9 +324,9 @@ export default function AtelierInteriorPage() {
         <div className="max-w-[1200px] mx-auto pt-8 border-t border-[#f5f0eb]/10 text-[10px] font-bold uppercase tracking-widest text-[#f5f0eb]/20 flex flex-col sm:flex-row justify-between gap-4">
           <span>© 2026 ATELIER INTERIOR. PARIS · LONDON · MILAN</span>
           <div className="flex gap-6">
-            <Link href="/legal/mentions-legales" className="hover:text-[#f5f0eb] transition-colors">Mentions légales</Link>
-            <Link href="/legal/confidentialite" className="hover:text-[#f5f0eb] transition-colors">Confidentialité</Link>
-            <Link href="/legal/cgu" className="hover:text-[#f5f0eb] transition-colors">CGU</Link>
+            <Link href="#contact" className="hover:text-[#f5f0eb] transition-colors">Mentions légales</Link>
+            <Link href="#contact" className="hover:text-[#f5f0eb] transition-colors">Confidentialité</Link>
+            <Link href="#contact" className="hover:text-[#f5f0eb] transition-colors">CGU</Link>
           </div>
         </div>
       </footer>
