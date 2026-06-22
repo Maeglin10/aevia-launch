@@ -252,13 +252,13 @@ export default function GastronomyLayout({ children }: { children: React.ReactNo
               © 2026 Aevia WS — SIREN 852 546 225. Tous droits réservés.
             </p>
             <div style={{ display: "flex", gap: "1.5rem" }}>
-              <Link href="/legal/mentions-legales" style={{ textDecoration: "none", fontFamily: C.bodyFont, fontSize: "0.78rem", color: "rgba(253,249,238,0.35)" }}>
+              <Link href="/templates/impact-40/legal" style={{ textDecoration: "none", fontFamily: C.bodyFont, fontSize: "0.78rem", color: "rgba(253,249,238,0.35)" }}>
                 Mentions Légales
               </Link>
-              <Link href="/legal/confidentialite" style={{ textDecoration: "none", fontFamily: C.bodyFont, fontSize: "0.78rem", color: "rgba(253,249,238,0.35)" }}>
+              <Link href="/templates/impact-40/legal" style={{ textDecoration: "none", fontFamily: C.bodyFont, fontSize: "0.78rem", color: "rgba(253,249,238,0.35)" }}>
                 Confidentialité
               </Link>
-              <Link href="/legal/cgu" style={{ textDecoration: "none", fontFamily: C.bodyFont, fontSize: "0.78rem", color: "rgba(253,249,238,0.35)" }}>
+              <Link href="/templates/impact-40/legal" style={{ textDecoration: "none", fontFamily: C.bodyFont, fontSize: "0.78rem", color: "rgba(253,249,238,0.35)" }}>
                 CGU
               </Link>
             </div>

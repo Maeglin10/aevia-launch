@@ -248,7 +248,7 @@ export default function Impact51Layout({
             </span>
             <div className="flex gap-8">
               <Link
-                href="/legal/mentions-legales"
+                href="/templates/impact-51/legal"
                 className="hover:text-[#0f0f0f] transition-colors"
               >
                 Mentions Légales

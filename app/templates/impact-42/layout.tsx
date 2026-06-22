@@ -233,19 +233,19 @@ export default function EchoChamberLayout({ children }: { children: React.ReactN
             </p>
             <div style={{ display: "flex", gap: "1.75rem" }}>
               <Link
-                href="/legal/mentions-legales"
+                href="/templates/impact-42/legal"
                 style={{ fontFamily: C.bodyFont, fontSize: "0.78rem", color: C.textMuted, textDecoration: "none", transition: "color 0.2s" }}
               >
                 Mentions Légales
               </Link>
               <Link
-                href="/legal/confidentialite"
+                href="/templates/impact-42/legal"
                 style={{ fontFamily: C.bodyFont, fontSize: "0.78rem", color: C.textMuted, textDecoration: "none", transition: "color 0.2s" }}
               >
                 Confidentialité
               </Link>
               <Link
-                href="/legal/cgu"
+                href="/templates/impact-42/legal"
                 style={{ fontFamily: C.bodyFont, fontSize: "0.78rem", color: C.textMuted, textDecoration: "none", transition: "color 0.2s" }}
               >
                 CGU

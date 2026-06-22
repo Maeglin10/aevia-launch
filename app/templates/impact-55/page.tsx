@@ -266,7 +266,7 @@ export default function CabinetRenardPage() {
         </div>
         <div style={{ borderTop: `1px solid ${C.gold}20`, paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
           <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Cabinet Renard & Associés — Site par Aevia WS</span>
-          <a href="/legal/mentions-legales" style={{ color: "rgba(255,255,255,0.20)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
+          <a href="/templates/impact-55/legal" style={{ color: "rgba(255,255,255,0.20)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
         </div>
       </footer>
     </div>

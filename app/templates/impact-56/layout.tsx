@@ -234,21 +234,21 @@ export default function ChateauVestigeLayout({
             <p>&copy; 2026 Château Vestige — Valentin Milliand. L'abus d'alcool est dangereux pour la santé.</p>
             <div className="flex gap-8">
               <Link
-                href="/legal/mentions-legales"
+                href="/templates/impact-56/legal"
                 className="hover:text-white transition-colors cursor-pointer"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 Mentions Légales
               </Link>
               <Link
-                href="/legal/confidentialite"
+                href="/templates/impact-56/legal"
                 className="hover:text-white transition-colors cursor-pointer"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 Confidentialité
               </Link>
               <Link
-                href="/legal/cgu"
+                href="/templates/impact-56/legal"
                 className="hover:text-white transition-colors cursor-pointer"
                 style={{ textDecoration: "none", color: "inherit" }}
               >

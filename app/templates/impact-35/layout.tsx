@@ -367,13 +367,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               © 2026 Aevia WS — SIREN 852 546 225. Tous droits réservés.
             </p>
             <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-              <Link href="/legal/mentions-legales" style={{ fontSize: 13, color: "#475569", textDecoration: "none" }}>
+              <Link href="/templates/impact-35/legal" style={{ fontSize: 13, color: "#475569", textDecoration: "none" }}>
                 Mentions légales
               </Link>
-              <Link href="/legal/confidentialite" style={{ fontSize: 13, color: "#475569", textDecoration: "none" }}>
+              <Link href="/templates/impact-35/legal" style={{ fontSize: 13, color: "#475569", textDecoration: "none" }}>
                 Confidentialité
               </Link>
-              <Link href="/legal/cgu" style={{ fontSize: 13, color: "#475569", textDecoration: "none" }}>
+              <Link href="/templates/impact-35/legal" style={{ fontSize: 13, color: "#475569", textDecoration: "none" }}>
                 CGU
               </Link>
             </div>

@@ -58,7 +58,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <Link href="/templates/impact-28/services" onClick={() => setMenuOpen(false)} className="text-left py-2 hover:ml-2 transition-all cursor-pointer">Services</Link>
                 <Link href="/templates/impact-28/studio" onClick={() => setMenuOpen(false)} className="text-left py-2 hover:ml-2 transition-all cursor-pointer">Studio</Link>
                 <Link href="/templates/impact-28#contact" onClick={() => setMenuOpen(false)} className="text-left py-2 hover:ml-2 transition-all cursor-pointer">Contact</Link>
-                <Link href="/legal/mentions-legales" onClick={() => setMenuOpen(false)} className="text-left py-2 hover:ml-2 transition-all cursor-pointer">Mentions légales</Link>
+                <Link href="/templates/impact-28/legal" onClick={() => setMenuOpen(false)} className="text-left py-2 hover:ml-2 transition-all cursor-pointer">Mentions légales</Link>
               </div>
             </motion.div>
           )}
@@ -84,9 +84,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link href="/templates/impact-28/work" className="hover:text-white transition-colors cursor-pointer">Work</Link>
             <Link href="/templates/impact-28/services" className="hover:text-white transition-colors cursor-pointer">Services</Link>
             <Link href="/templates/impact-28/studio" className="hover:text-white transition-colors cursor-pointer">Studio</Link>
-            <Link href="/legal/mentions-legales" className="hover:text-white transition-colors cursor-pointer">Mentions légales</Link>
-            <Link href="/legal/confidentialite" className="hover:text-white transition-colors cursor-pointer">Confidentialité</Link>
-            <Link href="/legal/cgu" className="hover:text-white transition-colors cursor-pointer">CGU</Link>
+            <Link href="/templates/impact-28/legal" className="hover:text-white transition-colors cursor-pointer">Mentions légales</Link>
+            <Link href="/templates/impact-28/legal" className="hover:text-white transition-colors cursor-pointer">Confidentialité</Link>
+            <Link href="/templates/impact-28/legal" className="hover:text-white transition-colors cursor-pointer">CGU</Link>
           </div>
           <div className="text-white/30 text-xs uppercase tracking-widest">© 2026 Brutco Architecture</div>
         </div>

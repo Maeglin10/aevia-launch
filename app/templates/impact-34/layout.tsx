@@ -266,13 +266,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               © 2024 WaveForm. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <Link href="/legal/mentions-legales" className="text-xs text-[#334155] hover:text-[#F97316] transition-colors">
+              <Link href="/templates/impact-34/legal" className="text-xs text-[#334155] hover:text-[#F97316] transition-colors">
                 Mentions légales
               </Link>
-              <Link href="/legal/confidentialite" className="text-xs text-[#334155] hover:text-[#F97316] transition-colors">
+              <Link href="/templates/impact-34/legal" className="text-xs text-[#334155] hover:text-[#F97316] transition-colors">
                 Confidentialité
               </Link>
-              <Link href="/legal/cgu" className="text-xs text-[#334155] hover:text-[#F97316] transition-colors">
+              <Link href="/templates/impact-34/legal" className="text-xs text-[#334155] hover:text-[#F97316] transition-colors">
                 CGU
               </Link>
             </div>
