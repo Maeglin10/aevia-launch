@@ -328,7 +328,7 @@ const LABEL_CLASS =
 
 function CartePage() {
   return (
-    <section className="pt-44 pb-32 px-6 md:px-12 min-h-screen">
+    <section id="hero" className="pt-44 pb-32 px-6 md:px-12 min-h-screen">
       <div className="max-w-[1600px] mx-auto">
         <PageHeader
           kicker="Manifeste Saisonnier // Été 2026"
@@ -1119,7 +1119,7 @@ export default function EmberGrillPage() {
       {page === "home" && (
         <>
           {/* ── HERO ── */}
-          <section className="relative h-[100svh] flex items-center overflow-hidden">
+          <section id="about" className="relative h-[100svh] flex items-center overflow-hidden">
             <div className="absolute inset-0">
               <Image
                 src="https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&q=80"
@@ -1274,7 +1274,7 @@ export default function EmberGrillPage() {
           </section>
 
           {/* ── FIRE PHILOSOPHY ── */}
-          <section className="py-40 bg-[#0a0a0a] overflow-hidden relative border-t border-white/5">
+          <section id="contact" className="py-40 bg-[#0a0a0a] overflow-hidden relative border-t border-white/5">
             <div className="absolute -bottom-32 -left-32 w-[40rem] h-[40rem] bg-[#ff4d00]/5 blur-[120px] rounded-full" />
             <div className="max-w-[1600px] mx-auto px-6 md:px-12">
               <Reveal>

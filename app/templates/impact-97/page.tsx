@@ -179,7 +179,7 @@ export default function HorizonYachtPage() {
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-[#020a13]/90 backdrop-blur-2xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-4">
+          <Link href="#hero" className="group flex items-center gap-4">
             <div className="w-12 h-12 border border-[#c5a059] rounded-full flex items-center justify-center text-[#c5a059] group-hover:bg-[#c5a059] group-hover:text-[#020a13] transition-all duration-500">
               <Compass className="w-6 h-6" />
             </div>
@@ -262,7 +262,7 @@ export default function HorizonYachtPage() {
       </AnimatePresence>
 
       {/* ── HERO ── */}
-      <section className="relative h-[100svh] flex items-center overflow-hidden">
+      <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1600&q=80"
@@ -419,7 +419,7 @@ export default function HorizonYachtPage() {
       </section>
 
       {/* ── MARITIME SERVICES ── */}
-      <section className="py-40 bg-[#03101d] overflow-hidden relative">
+      <section id="services" className="py-40 bg-[#03101d] overflow-hidden relative">
         <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] bg-[#c5a059]/5 blur-[120px] rounded-full" />
         <div className="max-w-[1600px] mx-auto px-6 md:px-12">
           <Reveal>
@@ -476,7 +476,7 @@ export default function HorizonYachtPage() {
       </section>
 
       {/* ── DESTINATIONS ── */}
-      <section className="py-40 px-6 md:px-12 bg-[#020a13]">
+      <section id="tarifs" className="py-40 px-6 md:px-12 bg-[#020a13]">
         <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
           <Reveal>
             <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
@@ -539,7 +539,7 @@ export default function HorizonYachtPage() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="bg-[#020a13] pt-40 pb-16 px-6 md:px-12 border-t border-white/5">
+      <footer id="contact" className="bg-[#020a13] pt-40 pb-16 px-6 md:px-12 border-t border-white/5">
         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-32 mb-40">
           <div className="lg:col-span-6">
             <Reveal>
@@ -580,12 +580,12 @@ export default function HorizonYachtPage() {
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
               <li>
-                <Link href="#portfolio" className="hover:text-white transition-colors">
+                <Link href="#services" className="hover:text-white transition-colors">
                   Sales_Listings
                 </Link>
               </li>
               <li>
-                <Link href="#portfolio" className="hover:text-white transition-colors">
+                <Link href="#services" className="hover:text-white transition-colors">
                   Charter_Fleet
                 </Link>
               </li>

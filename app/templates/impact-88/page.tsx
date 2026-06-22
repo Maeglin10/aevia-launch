@@ -279,7 +279,7 @@ function Nav() {
       >
         <div className="max-w-[1280px] mx-auto px-6 lg:px-10 h-[68px] flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5">
+          <Link href="#hero" className="flex items-center gap-2.5">
             <Sparkles className="w-5 h-5 text-[#EC4899]" />
             <span
               className="text-[22px] font-[500] italic text-[#831843] tracking-wide"
@@ -376,7 +376,7 @@ function Hero() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
 
   return (
-    <section
+    <section id="hero"
       ref={heroRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
@@ -1258,13 +1258,13 @@ function ContactFooter() {
             © 2025 Velvet Nails — Tous droits réservés
           </p>
           <div className="flex gap-5">
-            <Link href="/legal/mentions-legales" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <Link href="#contact" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
               Mentions légales
             </Link>
-            <Link href="/legal/confidentialite" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <Link href="#contact" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
               Confidentialité
             </Link>
-            <Link href="/legal/cgu" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <Link href="#contact" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
               CGU
             </Link>
           </div>

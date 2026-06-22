@@ -788,8 +788,8 @@ export default function LedgerPage() {
           >
             <span>© 2025 Ledger &amp; Associés — Tous droits réservés</span>
             <div style={{ display: "flex", gap: 24 }}>
-              <a href="/legal/mentions-legales" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
-              <a href="/legal/confidentialite" style={{ color: "inherit", textDecoration: "none" }}>Confidentialité</a>
+              <a href="/templates/impact-108/legal" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
+              <a href="/templates/impact-108/legal" style={{ color: "inherit", textDecoration: "none" }}>Confidentialité</a>
             </div>
           </div>
         </div>

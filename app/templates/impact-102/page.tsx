@@ -208,7 +208,7 @@ export default function QBitLabsPage() {
         >
           {/* Logo */}
           <Link
-            href="/"
+            href="#hero"
             style={{
               display: "flex",
               alignItems: "center",
@@ -252,7 +252,7 @@ export default function QBitLabsPage() {
             {NAV_LINKS.map((l) => (
               <Link
                 key={l}
-                href="#accueil"
+                href="#hero"
                 style={{
                   fontSize: 11,
                   fontWeight: 500,
@@ -323,7 +323,7 @@ export default function QBitLabsPage() {
             {NAV_LINKS.map((l) => (
               <Link
                 key={l}
-                href="#accueil"
+                href="#hero"
                 style={{
                   fontSize: 13,
                   fontWeight: 500,
@@ -342,7 +342,7 @@ export default function QBitLabsPage() {
 
       <main style={{ paddingTop: 56 }}>
         {/* ── HERO ──────────────────────────────────────────────────────────── */}
-        <section
+        <section id="hero"
           style={{
             background: "#ffffff",
             borderBottom: "1px solid #e0e0e0",
@@ -720,7 +720,7 @@ export default function QBitLabsPage() {
                         {area.desc}
                       </p>
                       <Link
-                        href="#accueil"
+                        href="#hero"
                         style={{
                           fontSize: 12,
                           color: "#0f62fe",
@@ -795,7 +795,7 @@ export default function QBitLabsPage() {
                   </h2>
                 </div>
                 <Link
-                  href="#accueil"
+                  href="#hero"
                   style={{
                     fontSize: 12,
                     color: "#0f62fe",
@@ -1130,7 +1130,7 @@ export default function QBitLabsPage() {
         </section>
 
         {/* ── CONTACT / PARTNERSHIP ────────────────────────────────────────── */}
-        <section
+        <section id="contact"
           style={{
             background: "#ffffff",
             padding: "72px 24px",
@@ -1542,7 +1542,7 @@ export default function QBitLabsPage() {
                   {col.links.map((link) => (
                     <li key={link} style={{ marginBottom: 10 }}>
                       <Link
-                        href="#accueil"
+                        href="#hero"
                         style={{
                           fontSize: 13,
                           color: "#8d8d8d",
@@ -1577,7 +1577,7 @@ export default function QBitLabsPage() {
               {["Privacy Policy", "Terms of Use", "Accessibility"].map((l) => (
                 <Link
                   key={l}
-                  href="#accueil"
+                  href="#hero"
                   style={{ fontSize: 12, color: "#525252", textDecoration: "none" }}
                   onMouseEnter={(e) => (e.currentTarget.style.color = "#f4f4f4")}
                   onMouseLeave={(e) => (e.currentTarget.style.color = "#525252")}

@@ -760,8 +760,8 @@ export default function IronClubPage() {
           >
             <span>© 2025 Iron Club — Tous droits réservés</span>
             <div style={{ display: "flex", gap: 24 }}>
-              <a href="/legal/mentions-legales" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
-              <a href="/legal/confidentialite" style={{ color: "inherit", textDecoration: "none" }}>Politique de confidentialité</a>
+              <a href="/templates/impact-87/legal" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
+              <a href="/templates/impact-87/legal" style={{ color: "inherit", textDecoration: "none" }}>Politique de confidentialité</a>
             </div>
           </div>
         </div>

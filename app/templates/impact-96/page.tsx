@@ -463,7 +463,7 @@ export default function UrbanPulsePage() {
         }}
       >
         {/* Logo */}
-        <Link href="/" style={{ textDecoration: "none" }}>
+        <Link href="#hero" style={{ textDecoration: "none" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             {/* Film gate icon */}
             <div
@@ -661,7 +661,7 @@ export default function UrbanPulsePage() {
       </AnimatePresence>
 
       {/* ── 2. HERO ───────────────────────────────────────────────── */}
-      <section
+      <section id="hero"
         style={{
           minHeight: "100vh",
           display: "flex",

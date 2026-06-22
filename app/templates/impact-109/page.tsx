@@ -63,7 +63,7 @@ export default function AetherSoundPage() {
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-black/90 backdrop-blur-xl border-b border-white/5 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="#hero" className="flex items-center gap-3 group">
             <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-white transition-all duration-700">
               <Volume2 className="w-5 h-5 text-white" />
             </div>
@@ -71,7 +71,7 @@ export default function AetherSoundPage() {
           </Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
             {["Acoustics", "Manifesto", "Instruments", "Journal"].map(l => (
-              <Link key={l} href="#accueil" className="hover:text-white transition-colors">{l}</Link>
+              <Link key={l} href="#hero" className="hover:text-white transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-8">
@@ -93,7 +93,7 @@ export default function AetherSoundPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[radial-gradient(circle,rgba(255,255,255,0.05)_0%,transparent_70%)]" />
           </div>
@@ -135,7 +135,7 @@ export default function AetherSoundPage() {
         </section>
 
         {/* ── PRODUCTS ──────────────── */}
-        <section className="py-40 bg-[#050505]">
+        <section id="collections" className="py-40 bg-[#050505]">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex flex-col lg:flex-row items-end justify-between mb-32 gap-8 border-b border-white/5 pb-12">
@@ -230,7 +230,7 @@ export default function AetherSoundPage() {
         </section>
 
         {/* ── TESTIMONIALS ──────────── */}
-        <section className="py-40 bg-[#050505] border-t border-white/5">
+        <section id="equipe" className="py-40 bg-[#050505] border-t border-white/5">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex items-end justify-between mb-20 border-b border-white/5 pb-12 gap-6">
@@ -293,7 +293,7 @@ export default function AetherSoundPage() {
         </section>
 
         {/* ── CTA ───────────────────── */}
-        <section className="py-40 bg-white text-black text-center">
+        <section id="contact" className="py-40 bg-white text-black text-center">
           <div className="max-w-4xl mx-auto px-6">
             <Reveal>
               <h2 className="text-6xl md:text-9xl font-light uppercase tracking-tighter leading-[0.8] mb-12">
@@ -319,7 +319,7 @@ export default function AetherSoundPage() {
       <footer className="bg-black pt-24 pb-12 px-6">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-16 mb-24">
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-10">
+            <Link href="#hero" className="flex items-center gap-3 mb-10">
               <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center">
                 <Volume2 className="w-5 h-5 text-white" />
               </div>
@@ -330,7 +330,7 @@ export default function AetherSoundPage() {
             </p>
             <div className="flex gap-8">
                {["Camera", "Journal", "Technical Paper", "Discord"].map(s => (
-                 <Link key={s} href="#accueil" className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors">{s}</Link>
+                 <Link key={s} href="#hero" className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors">{s}</Link>
                ))}
             </div>
           </div>

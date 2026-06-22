@@ -870,13 +870,13 @@ export default function Page() {
           <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 14, color: C.brown, fontStyle: "italic" }}>Maison Laval · depuis 1987</p>
           <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 11, color: C.muted, letterSpacing: "0.05em" }}>© 2025 — Boulangerie Artisanale</p>
           <div style={{ display: "flex", gap: 20 }}>
-            <Link href="/legal/mentions-legales" style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none" }}>
+            <Link href="#contact" style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none" }}>
               Mentions légales
             </Link>
-            <Link href="/legal/confidentialite" style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none" }}>
+            <Link href="#contact" style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none" }}>
                Confidentialité
             </Link>
-            <Link href="/legal/cgu" style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none" }}>
+            <Link href="#contact" style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none" }}>
                CGU
             </Link>
           </div>

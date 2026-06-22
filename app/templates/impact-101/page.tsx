@@ -168,7 +168,7 @@ export default function BlockBasePage() {
       >
         <div className="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link
-            href="/"
+            href="#hero"
             className="group flex items-center gap-3 text-xl font-black tracking-tighter"
           >
             <div className="w-8 h-8 bg-gradient-to-br from-[#00f2ff] to-[#7000ff] rounded flex items-center justify-center text-black">
@@ -184,7 +184,7 @@ export default function BlockBasePage() {
               (l) => (
                 <Link
                   key={l}
-                  href="#accueil"
+                  href="#hero"
                   className="hover:text-[#00f2ff] transition-colors"
                 >
                   {l}
@@ -228,7 +228,7 @@ export default function BlockBasePage() {
             <div className="flex flex-col gap-10 text-5xl font-black tracking-tighter uppercase">
               {["Framework", "Infrastructure", "Developers", "Telemetry"].map(
                 (l) => (
-                  <Link key={l} href="#accueil" onClick={() => setMenuOpen(false)}>
+                  <Link key={l} href="#hero" onClick={() => setMenuOpen(false)}>
                     {l}
                   </Link>
                 ),
@@ -239,7 +239,7 @@ export default function BlockBasePage() {
       </AnimatePresence>
 
       {/* ── HERO SECTION ── */}
-      <section className="relative h-screen flex flex-col justify-center pt-20">
+      <section id="hero" className="relative h-screen flex flex-col justify-center pt-20">
         <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-7">
@@ -409,7 +409,7 @@ export default function BlockBasePage() {
       </section>
 
       {/* ── LIVE TELEMETRY (Interactive) ── */}
-      <section className="py-40 bg-[#050507]">
+      <section id="realisations" className="py-40 bg-[#050507]">
         <div className="max-w-[1500px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
             <Reveal>
@@ -539,7 +539,7 @@ export default function BlockBasePage() {
       </section>
 
       {/* ── CTA / INITIALIZE ── */}
-      <section className="py-40 bg-[#050507]">
+      <section id="contact" className="py-40 bg-[#050507]">
         <div className="max-w-[1500px] mx-auto px-6 md:px-12 text-center">
           <Reveal>
             <h2 className="text-5xl md:text-8xl font-black tracking-tighter uppercase mb-12">
@@ -560,7 +560,7 @@ export default function BlockBasePage() {
       <footer className="bg-[#050507] border-t border-white/5 py-24 px-6 md:px-12">
         <div className="max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-20">
           <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-8">
+            <Link href="#hero" className="flex items-center gap-3 text-xl font-black tracking-tighter mb-8">
               <div className="w-8 h-8 bg-white text-black rounded flex items-center justify-center">
                 <Box className="w-5 h-5" />
               </div>

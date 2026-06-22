@@ -722,8 +722,8 @@ export default function LumiereDoreePage() {
           >
             <span>© 2025 Studio Lumière Dorée — Tous droits réservés</span>
             <div style={{ display: "flex", gap: 24 }}>
-              <a href="/legal/mentions-legales" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
-              <a href="/legal/confidentialite" style={{ color: "inherit", textDecoration: "none" }}>Confidentialité</a>
+              <a href="/templates/impact-104/legal" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
+              <a href="/templates/impact-104/legal" style={{ color: "inherit", textDecoration: "none" }}>Confidentialité</a>
             </div>
           </div>
         </div>

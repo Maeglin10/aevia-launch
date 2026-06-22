@@ -58,7 +58,7 @@ export default function LuminaLawPage() {
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-white/95 backdrop-blur-xl border-b border-black/5 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="#hero" className="flex items-center gap-3 group">
             <div className="w-10 h-10 bg-[#1a365d] flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
               <Scale className="w-5 h-5 text-white" />
             </div>
@@ -66,7 +66,7 @@ export default function LuminaLawPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-black/40">
             {["Expertise", "Partners", "Insights", "Case Studies"].map(l => (
-              <Link key={l} href="#expertise" className="hover:text-[#1a365d] transition-colors">{l}</Link>
+              <Link key={l} href="#services" className="hover:text-[#1a365d] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
@@ -77,7 +77,7 @@ export default function LuminaLawPage() {
               <SheetContent side="right" className="bg-white border-black/5 p-12 text-black">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {["Expertise", "Partners", "Insights", "Contact"].map(l => (
-                    <Link key={l} href="#expertise" className="text-3xl font-bold tracking-tighter hover:text-[#1a365d] transition-colors">{l}</Link>
+                    <Link key={l} href="#services" className="text-3xl font-bold tracking-tighter hover:text-[#1a365d] transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -88,7 +88,7 @@ export default function LuminaLawPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div>
@@ -156,7 +156,7 @@ export default function LuminaLawPage() {
                     </div>
                     <h3 className="text-2xl font-bold mb-6 uppercase tracking-tight" style={{ fontFamily: "serif" }}>{e.title}</h3>
                     <p className="text-black/40 leading-relaxed text-sm font-light mb-10">{e.desc}</p>
-                    <Link href="#accueil" className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-[#1a365d] group-hover:gap-6 transition-all">
+                    <Link href="#hero" className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-[#1a365d] group-hover:gap-6 transition-all">
                        Learn More <ChevronRight className="w-4 h-4" />
                     </Link>
                   </div>
@@ -200,7 +200,7 @@ export default function LuminaLawPage() {
         </section>
 
         {/* ── STATS / PHILOSOPHY ────── */}
-        <section className="py-40 bg-white relative overflow-hidden">
+        <section id="services" className="py-40 bg-white relative overflow-hidden">
            <div className="absolute top-0 right-0 w-1/3 h-full bg-[#1a365d]/5 -skew-x-12 translate-x-1/4" />
            <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
@@ -267,7 +267,7 @@ export default function LuminaLawPage() {
         </section>
 
         {/* ── ATTORNEYS ─────────────── */}
-        <section className="py-40 bg-white border-t border-black/5">
+        <section id="equipe" className="py-40 bg-white border-t border-black/5">
           <div className="max-w-6xl mx-auto px-6 md:px-12">
             <Reveal>
               <p className="text-[10px] uppercase tracking-[0.5em] text-[#1a365d]/40 mb-6">Our Team</p>
@@ -301,7 +301,7 @@ export default function LuminaLawPage() {
         </section>
 
         {/* ── CTA ───────────────────── */}
-        <section className="py-40 bg-[#1a365d] text-white text-center">
+        <section id="contact" className="py-40 bg-[#1a365d] text-white text-center">
           <div className="max-w-4xl mx-auto px-6">
             <Reveal>
               <h2 className="text-6xl md:text-9xl font-bold uppercase tracking-tighter leading-[0.8] mb-12" style={{ fontFamily: "serif" }}>
@@ -327,7 +327,7 @@ export default function LuminaLawPage() {
       <footer className="bg-white pt-32 pb-12 px-6 border-t border-black/5">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-16 mb-32">
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-10">
+            <Link href="#hero" className="flex items-center gap-3 mb-10">
               <div className="w-10 h-10 bg-[#1a365d] flex items-center justify-center">
                 <Scale className="w-5 h-5 text-white" />
               </div>
@@ -351,7 +351,7 @@ export default function LuminaLawPage() {
             <div key={i} className="space-y-10">
               <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#1a365d]">{col.t}</h4>
               <ul className="space-y-6">
-                {col.l.map(link => <li key={link}><Link href="#insights" className="text-xs text-black/30 hover:text-black transition-colors">{link}</Link></li>)}
+                {col.l.map(link => <li key={link}><Link href={link === "Partners" ? "#equipe" : "#services"} className="text-xs text-black/30 hover:text-black transition-colors">{link}</Link></li>)}
               </ul>
             </div>
           ))}

@@ -420,7 +420,7 @@ function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
 
   return (
-    <section
+    <section id="hero"
       ref={ref}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       style={{ backgroundColor: C.navyDeep }}
@@ -1669,21 +1669,21 @@ function Footer() {
           </p>
           <div className="flex gap-6">
             <Link
-              href="/legal/mentions-legales"
+              href="#contact"
               className="text-[10px] tracking-[0.12em] uppercase hover:opacity-80 transition-opacity"
               style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 400, color: `${C.cream}40` }}
             >
               Mentions légales
             </Link>
             <Link
-              href="/legal/confidentialite"
+              href="#contact"
               className="text-[10px] tracking-[0.12em] uppercase hover:opacity-80 transition-opacity"
               style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 400, color: `${C.cream}40` }}
             >
               Confidentialité
             </Link>
             <Link
-              href="/legal/cgu"
+              href="#contact"
               className="text-[10px] tracking-[0.12em] uppercase hover:opacity-80 transition-opacity"
               style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 400, color: `${C.cream}40` }}
             >

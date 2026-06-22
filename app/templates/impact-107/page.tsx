@@ -63,13 +63,13 @@ export default function MeridianJourneyPage() {
       {/* ── NAVBAR ──────────────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0d1210]/90 backdrop-blur-xl border-b border-teal-500/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="#hero" className="flex items-center gap-3">
             <Compass className="w-6 h-6 text-teal-400" />
             <span className="text-xl font-bold tracking-[0.2em] uppercase">Meridian</span>
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Expeditions", "Stories", "Gear", "About"].map(l => (
-              <Link key={l} href="#apropos" className="hover:text-teal-400 transition-colors">{l}</Link>
+              <Link key={l} href="#about" className="hover:text-teal-400 transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
@@ -92,7 +92,7 @@ export default function MeridianJourneyPage() {
 
       <main>
         {/* ── HERO ──────────────────────────── */}
-        <section className="relative h-[120vh] min-h-[900px] flex items-end overflow-hidden">
+        <section id="hero" className="relative h-[120vh] min-h-[900px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2400" alt="Mountains" fill className="object-cover opacity-70" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0d1210] via-[#0d1210]/30 to-transparent" />
@@ -208,7 +208,7 @@ export default function MeridianJourneyPage() {
         </section>
 
         {/* ── TESTIMONIALS ──────────────────── */}
-        <section className="py-32 bg-[#080d0b] border-t border-white/5">
+        <section id="about" className="py-32 bg-[#080d0b] border-t border-white/5">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex items-end justify-between mb-20 border-b border-white/5 pb-12 gap-6">
@@ -280,7 +280,7 @@ export default function MeridianJourneyPage() {
         </section>
 
         {/* ── CTA ─────────────────────────── */}
-        <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+        <section id="contact" className="relative h-[80vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <Image src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&q=80&w=2400" alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-[#0d1210]/70" />
