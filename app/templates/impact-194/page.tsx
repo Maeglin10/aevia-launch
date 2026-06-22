@@ -83,7 +83,7 @@ export default function TableExceptionPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=88&w=2400" alt="Table gastronomique traiteur" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#140f0a] via-[#140f0a]/45 to-transparent" />
@@ -137,7 +137,7 @@ export default function TableExceptionPage() {
       </section>
 
       {/* ── STATS ── */}
-      <section className="py-12 bg-[#f7f0e3]">
+      <section id="services" className="py-12 bg-[#f7f0e3]">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             { v: "16 ans", l: "D'expérience" },
@@ -215,7 +215,7 @@ export default function TableExceptionPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-24 bg-[#7c2d3e] text-center">
+      <section id="contact" className="py-24 bg-[#7c2d3e] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-5">Votre prochain événement</div>

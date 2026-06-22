@@ -326,7 +326,7 @@ function Hero() {
   };
 
   return (
-    <section ref={ref} style={section}>
+    <section id="hero" ref={ref} style={section}>
       {/* Photo plein cadre */}
       <motion.div
         style={{
@@ -688,7 +688,7 @@ function ChapteredCrossfade() {
   });
 
   return (
-    <section
+    <section id="contact"
       ref={ref}
       style={{ height: '320vh', position: 'relative', background: C.burgundyDeep }}
     >

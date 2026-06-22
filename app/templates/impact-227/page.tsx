@@ -101,7 +101,7 @@ export default function LeBarberClubPage() {
         </div>
       </motion.nav>
 
-      <section ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1920&q=80" alt="Le Barber Club Lyon" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
@@ -240,7 +240,7 @@ export default function LeBarberClubPage() {
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
           <span style={{ color: "rgba(255,255,255,0.18)", fontSize: 12 }}>© 2026 Le Barber Club — Site par Aevia WS</span>
-          <a href="/legal/mentions-legales" style={{ color: "rgba(255,255,255,0.18)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
+          <a href="#contact" style={{ color: "rgba(255,255,255,0.18)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
         </div>
       </footer>
     </div>

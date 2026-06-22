@@ -541,7 +541,7 @@ function Hero() {
   const cueOpacity = useTransform(scrollYProgress, [0, 0.18], [1, 0]);
 
   return (
-    <section
+    <section id="hero"
       ref={ref}
       style={{
         position: 'relative',
@@ -708,7 +708,7 @@ function Hero() {
    ════════════════════════════════════════════════════════════════════════════ */
 function Manifesto() {
   return (
-    <section
+    <section id="contact"
       style={{
         background: C.bgAlt,
         padding: 'clamp(96px,14vw,200px) clamp(24px,8vw,160px)',
@@ -1110,7 +1110,7 @@ function TreatmentCard({ t, i }: { t: Treatment; i: number }) {
 
 function TreatmentCards() {
   return (
-    <section
+    <section id="services"
       style={{
         background: C.bg,
         padding: 'clamp(96px,13vw,180px) clamp(24px,6vw,96px)',

@@ -1679,7 +1679,7 @@ export default function Impact198Page() {
       </section>
 
       {/* Footer */}
-      <footer
+      <footer id="contact"
         style={{
           background: "#120e0c",
           color: "rgba(255,255,255,0.5)",

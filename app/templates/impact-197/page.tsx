@@ -428,7 +428,7 @@ export default function EvasionDoree() {
       {page === "home" && (
         <>
           {/* HERO */}
-      <section
+      <section id="hero"
         ref={heroRef}
         style={{ position: "relative", height: "100vh", minHeight: 700, overflow: "hidden", display: "flex", alignItems: "center" }}
       >
@@ -1067,7 +1067,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   ];
 
   return (
-    <section style={{ padding: "140px 40px", background: C.bg, minHeight: "100vh" }}>
+    <section id="realisations" style={{ padding: "140px 40px", background: C.bg, minHeight: "100vh" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 80 }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
@@ -1139,7 +1139,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 
 function ConceptPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   return (
-    <section style={{ padding: "140px 40px", background: C.bg, minHeight: "100vh" }}>
+    <section id="about" style={{ padding: "140px 40px", background: C.bg, minHeight: "100vh" }}>
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 80 }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
@@ -1265,7 +1265,7 @@ function FormulesPage() {
 
 function LegalPage() {
   return (
-    <section style={{ padding: "140px 40px", background: C.bg, minHeight: "100vh" }}>
+    <section id="contact" style={{ padding: "140px 40px", background: C.bg, minHeight: "100vh" }}>
       <div style={{ maxWidth: 800, margin: "0 auto", fontFamily: "system-ui" }}>
         <h1 style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 300, color: C.marine, marginBottom: 40, fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
           Mentions <em style={{ color: C.accent, fontStyle: "italic" }}>Légales</em>

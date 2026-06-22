@@ -96,7 +96,7 @@ export default function MaisonElisePage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=88&w=2400" alt="Mariage élégant décoration florale" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38) saturate(0.85)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#100b0f] via-[#100b0f]/45 to-transparent" />
@@ -196,7 +196,7 @@ export default function MaisonElisePage() {
       </section>
 
       {/* ── GALERIE ── */}
-      <section className="py-20 bg-white">
+      <section id="contact" className="py-20 bg-white">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-12">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c4a06a] mb-4">Portfolio</div>
@@ -243,7 +243,7 @@ export default function MaisonElisePage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-28 bg-[#1a1018] text-center">
+      <section id="about" className="py-28 bg-[#1a1018] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="flex items-center justify-center gap-4 mb-8">

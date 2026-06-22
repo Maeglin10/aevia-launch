@@ -1419,7 +1419,7 @@ export default function AquaPrestigePage() {
       {/* ════════════════════════════════════════
           2. HERO
       ════════════════════════════════════════ */}
-      <section
+      <section id="hero"
         ref={heroRef}
         style={{
           minHeight: '100vh',

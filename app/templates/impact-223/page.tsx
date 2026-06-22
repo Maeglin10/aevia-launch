@@ -78,7 +78,7 @@ export default function VoltProPage() {
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#080a0c]/95 backdrop-blur-xl border-b border-yellow-400/10 py-3" : "bg-transparent py-7"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="#hero" className="flex items-center gap-3">
             <div className="w-8 h-8 bg-yellow-400 flex items-center justify-center">
               <Zap className="w-4 h-4 text-black fill-black" />
             </div>
@@ -302,7 +302,7 @@ export default function VoltProPage() {
         </section>
 
         {/* ── TÉMOIGNAGES ── */}
-        <section className="py-32 bg-[#05070a] border-t border-white/5">
+        <section id="tarifs" className="py-32 bg-[#05070a] border-t border-white/5">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="mb-20">

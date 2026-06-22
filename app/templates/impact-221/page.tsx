@@ -235,7 +235,7 @@ function Hero() {
   const opacity  = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   return (
-    <section
+    <section id="hero"
       ref={ref}
       style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}
     >
@@ -926,7 +926,7 @@ function Footer() {
   const socialIcons = [Globe, Send, Play];
 
   return (
-    <footer style={{ background: C.bgSoft, borderTop: `1px solid ${C.border}`, padding: 'clamp(3rem, 6vh, 5rem) clamp(1.5rem, 5vw, 4rem) 2rem' }}>
+    <footer id="contact" style={{ background: C.bgSoft, borderTop: `1px solid ${C.border}`, padding: 'clamp(3rem, 6vh, 5rem) clamp(1.5rem, 5vw, 4rem) 2rem' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'flex', gap: '3rem', flexWrap: 'wrap', marginBottom: '4rem' }}>
           {/* Brand block */}

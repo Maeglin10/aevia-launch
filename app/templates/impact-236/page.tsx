@@ -494,7 +494,7 @@ function Hero() {
   };
 
   return (
-    <section ref={ref} style={section}>
+    <section id="hero" ref={ref} style={section}>
       {/* Background image with parallax */}
       <motion.div
         style={{

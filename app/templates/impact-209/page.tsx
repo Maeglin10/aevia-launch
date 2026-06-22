@@ -1026,7 +1026,7 @@ export default function Page() {
       </motion.nav>
 
       {/* ── HERO — SCISSOR REVEAL ───────────────────────────────────────────── */}
-      <section
+      <section id="hero"
         style={{
           position: 'relative',
           minHeight: '100vh',
@@ -1404,7 +1404,7 @@ export default function Page() {
       </section>
 
       {/* ── TESTIMONIALS ────────────────────────────────────────────────────── */}
-      <section style={{ padding: '120px 40px', background: BG }}>
+      <section id="about" style={{ padding: '120px 40px', background: BG }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
           <SectionHeading
             eyebrow="Témoignages"

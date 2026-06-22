@@ -515,7 +515,7 @@ export default function Impact211Page() {
       {/* ══════════════════════════════════════════════════════════════════════
           SECTION 1 — CINEMATIC HERO
       ════════════════════════════════════════════════════════════════════════ */}
-      <section
+      <section id="hero"
         ref={heroRef}
         style={{ position: "relative", height: "115vh", minHeight: "900px", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}
       >

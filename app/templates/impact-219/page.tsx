@@ -306,7 +306,7 @@ function DashboardMockup() {
 
 function Hero() {
   return (
-    <section
+    <section id="hero"
       style={{
         ...pad,
         paddingBlock: 'clamp(56px, 9vw, 120px)',
@@ -400,7 +400,7 @@ function Hero() {
 function Logos() {
   const logos = ['Stripe', 'Notion', 'Linear', 'Figma', 'Vercel', 'Supabase'];
   return (
-    <section style={{ ...pad, paddingBlock: 48, borderBlock: `1px solid ${C.border}`, background: C.bgSoft }}>
+    <section id="realisations" style={{ ...pad, paddingBlock: 48, borderBlock: `1px solid ${C.border}`, background: C.bgSoft }}>
       <div style={{ ...maxw, textAlign: 'center' }}>
         <p style={{ fontSize: 13, color: C.muted, fontWeight: 600, letterSpacing: '0.06em', marginBottom: 28 }}>
           PLUS DE 4 000 ÉQUIPES NOUS FONT CONFIANCE
@@ -767,7 +767,7 @@ const TESTIS: Testi[] = [
 
 function Testimonials() {
   return (
-    <section style={{ ...pad, paddingBlock: 100, background: C.bgSoft }}>
+    <section id="about" style={{ ...pad, paddingBlock: 100, background: C.bgSoft }}>
       <div style={{ ...maxw }}>
         <div style={{ textAlign: 'center', maxWidth: 560, margin: '0 auto 56px' }}>
           <span style={pill}>Témoignages</span>

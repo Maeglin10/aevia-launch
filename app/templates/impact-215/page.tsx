@@ -2398,7 +2398,7 @@ function LegalPage({ variant }: { variant: 'cgv' | 'mentions' }) {
   return (
     <div style={{ background: C.bg }}>
       <PageHero eyebrow="Conditions générales" title="Conditions générales de vente" />
-      <section style={{ padding: 'clamp(2.5rem, 6vw, 4rem) 0 clamp(4rem, 9vw, 7rem)' }}>
+      <section id="tarifs" style={{ padding: 'clamp(2.5rem, 6vw, 4rem) 0 clamp(4rem, 9vw, 7rem)' }}>
         <div style={{ maxWidth: '760px', margin: '0 auto', padding: '0 2rem' }}>
           <p style={{ ...para, fontStyle: 'italic', color: C.textMuted }}>Dernière mise à jour : juin 2025.</p>
 
@@ -3133,7 +3133,7 @@ export default function FlammeEtCoPage() {
         </section>
 
         {/* ── Social Proof Banner ────────────────────────────────────────────── */}
-        <section style={{ background: `linear-gradient(135deg, #1a0d06, #2a1008)`, padding: '4rem 0', borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+        <section id="about" style={{ background: `linear-gradient(135deg, #1a0d06, #2a1008)`, padding: '4rem 0', borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
           <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem' }}>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3rem', alignItems: 'center', justifyContent: 'space-around' }}>
               {[
@@ -3247,7 +3247,7 @@ export default function FlammeEtCoPage() {
         </section>
 
         {/* ── Trust Logos ───────────────────────────────────────────────────── */}
-        <section style={{ background: C.bgAlt, padding: '3rem 0', borderTop: `1px solid ${C.borderLight}` }}>
+        <section id="contact" style={{ background: C.bgAlt, padding: '3rem 0', borderTop: `1px solid ${C.borderLight}` }}>
           <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem' }}>
             <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.1em', textAlign: 'center', marginBottom: '2rem' }}>
               Nos marques partenaires

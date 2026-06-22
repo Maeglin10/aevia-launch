@@ -364,7 +364,7 @@ function Hero() {
   const scrimO   = useTransform(scrollYProgress, [0, 0.6], [0.85, 0.95]);
 
   return (
-    <section
+    <section id="hero"
       ref={ref}
       style={{
         position: 'relative',
@@ -1550,7 +1550,7 @@ const TESTIMONIALS = [
 
 function Testimonials() {
   return (
-    <section
+    <section id="realisations"
       style={{
         background: T.navyCard,
         padding: 'clamp(80px, 10vw, 140px) clamp(24px, 6vw, 80px)',
