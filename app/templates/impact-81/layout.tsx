@@ -130,9 +130,9 @@ export default function VogueNoireLayout({
           <div className="pt-8 border-t border-[#1A1A14] flex flex-col md:flex-row justify-between gap-4 text-xs text-[#3A3028]">
             <span>© 2025 Vogue Noire — Tous droits réservés</span>
             <div className="flex gap-6">
-              <Link href="/legal/mentions-legales" className="hover:text-[#F0EBE0] transition-colors cursor-pointer">Mentions légales</Link>
-              <Link href="/legal/confidentialite" className="hover:text-[#F0EBE0] transition-colors cursor-pointer">Politique de confidentialité</Link>
-              <Link href="/legal/cgu" className="hover:text-[#F0EBE0] transition-colors cursor-pointer">CGU</Link>
+              <Link href="/templates/impact-81/legal" className="hover:text-[#F0EBE0] transition-colors cursor-pointer">Mentions légales</Link>
+              <Link href="/templates/impact-81/legal" className="hover:text-[#F0EBE0] transition-colors cursor-pointer">Politique de confidentialité</Link>
+              <Link href="/templates/impact-81/legal" className="hover:text-[#F0EBE0] transition-colors cursor-pointer">CGU</Link>
             </div>
           </div>
         </div>

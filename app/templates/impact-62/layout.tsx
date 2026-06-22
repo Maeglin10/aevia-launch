@@ -196,7 +196,7 @@ export default function SatoriLayout({
               <span>
                 &copy; {new Date().getFullYear()} Satori Gastronomy Group.
               </span>
-              <Link href="/legal/mentions-legales" className="hover:text-white transition-colors" style={{ textDecoration: "none", color: "inherit" }}>
+              <Link href="/templates/impact-62/legal" className="hover:text-white transition-colors" style={{ textDecoration: "none", color: "inherit" }}>
                 Mentions_Légales
               </Link>
             </div>

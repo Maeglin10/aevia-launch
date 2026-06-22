@@ -122,7 +122,7 @@ export default function VisionLayout({
                   {link.label}
                 </Link>
               ))}
-              <Link href="/legal/mentions-legales" onClick={() => setMenuOpen(false)} style={{ textDecoration: "none", color: "inherit" }}>
+              <Link href="/templates/impact-67/legal" onClick={() => setMenuOpen(false)} style={{ textDecoration: "none", color: "inherit" }}>
                 Regulatory
               </Link>
             </div>
@@ -241,7 +241,7 @@ export default function VisionLayout({
               <span>
                 &copy; {new Date().getFullYear()} Vision Real Estate SA.
               </span>
-              <Link href="/legal/mentions-legales" className="hover:text-white transition-colors" style={{ textDecoration: "none", color: "inherit" }}>
+              <Link href="/templates/impact-67/legal" className="hover:text-white transition-colors" style={{ textDecoration: "none", color: "inherit" }}>
                 Regulatory_Terms
               </Link>
             </div>

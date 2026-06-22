@@ -268,7 +268,7 @@ export default function ConservatoireAccordPage() {
         </div>
         <div style={{ borderTop: `1px solid ${C.amber}20`, paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
           <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Conservatoire Accord — Site par Aevia WS</span>
-          <a href="/legal/mentions-legales" style={{ color: "rgba(255,255,255,0.20)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
+          <a href="/templates/impact-73/legal" style={{ color: "rgba(255,255,255,0.20)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
         </div>
       </footer>
     </div>

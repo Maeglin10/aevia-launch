@@ -83,9 +83,9 @@ export default function ZenithLayout({
               &quot;In the silence of the gears, we find the absolute rhythm of existence. Mastered in Geneva since 1892.&quot;
             </p>
             <div className="flex gap-10">
-              <Link href="/legal/mentions-legales" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic" style={{ textDecoration: "none" }}>[Mentions Légales]</Link>
-              <Link href="/legal/confidentialite" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic" style={{ textDecoration: "none" }}>[Confidentialité]</Link>
-              <Link href="/legal/cgu" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic" style={{ textDecoration: "none" }}>[CGU]</Link>
+              <Link href="/templates/impact-60/legal" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic" style={{ textDecoration: "none" }}>[Mentions Légales]</Link>
+              <Link href="/templates/impact-60/legal" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic" style={{ textDecoration: "none" }}>[Confidentialité]</Link>
+              <Link href="/templates/impact-60/legal" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic" style={{ textDecoration: "none" }}>[CGU]</Link>
             </div>
           </div>
           
