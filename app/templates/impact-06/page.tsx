@@ -244,7 +244,7 @@ export default function NeuralisPage() {
                   <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">The <br/> <span className="text-[#00f2ff]">Vault.</span></h2>
                   <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">Internal Spec // Bio-Sync 8.0 // Q4 2024</p>
                </div>
-               <Link href="#" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#00f2ff] border-b border-[#00f2ff] pb-2 hover:text-white hover:border-white transition-all">View All Research Logs</Link>
+               <Link href="#solutions" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#00f2ff] border-b border-[#00f2ff] pb-2 hover:text-white hover:border-white transition-all">View All Research Logs</Link>
             </div>
           </Reveal>
 
@@ -662,10 +662,10 @@ export default function NeuralisPage() {
            <div className="lg:col-span-2">
               <h4 className="text-[11px] font-black uppercase tracking-widest text-[#00f2ff] mb-12">Experience</h4>
               <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                 <li><Link href="#" className="hover:text-white transition-colors">Diagnostic_Scan</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Sync_Portal</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Atelier_Tour</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Boutique</Link></li>
+                 <li><Link href="#collections" className="hover:text-white transition-colors">Diagnostic_Scan</Link></li>
+                 <li><Link href="#collections" className="hover:text-white transition-colors">Sync_Portal</Link></li>
+                 <li><Link href="#collections" className="hover:text-white transition-colors">Atelier_Tour</Link></li>
+                 <li><Link href="#collections" className="hover:text-white transition-colors">Boutique</Link></li>
               </ul>
            </div>
 

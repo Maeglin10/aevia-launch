@@ -145,7 +145,7 @@ export default function AtlasPage() {
         initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="#" className="flex items-center gap-3">
+          <Link href="#apropos" className="flex items-center gap-3">
             <Globe className="w-5 h-5 text-[#C0392B]" />
             <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>Atlas</span>
           </Link>

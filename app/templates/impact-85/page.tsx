@@ -79,7 +79,7 @@ export default function AetherLabsPage() {
         initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-          <Link href="#" className="flex flex-col">
+          <Link href="#contact" className="flex flex-col">
             <span className="text-xl font-light tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.15em" }}>Aether Labs</span>
             <span className="text-[9px] tracking-[0.2em] uppercase text-[#8B7355]">Cosmétique scientifique</span>
           </Link>

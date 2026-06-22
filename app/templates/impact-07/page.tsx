@@ -231,7 +231,7 @@ export default function AetherSoundPage() {
                   <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">The <br/> <span className="text-[#c9a84c]">Line.</span></h2>
                   <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">Reference Manifest // Hand-Crafted // Series 07</p>
                </div>
-               <Link href="#" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#c9a84c] border-b border-[#c9a84c] pb-2 hover:text-white hover:border-white transition-all">Download Technical Archive</Link>
+               <Link href="#collections" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#c9a84c] border-b border-[#c9a84c] pb-2 hover:text-white hover:border-white transition-all">Download Technical Archive</Link>
             </div>
           </Reveal>
 
@@ -526,10 +526,10 @@ export default function AetherSoundPage() {
            <div className="lg:col-span-2">
               <h4 className="text-[11px] font-black uppercase tracking-widest text-[#c9a84c] mb-12">Engineering</h4>
               <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                 <li><Link href="#" className="hover:text-white transition-colors">The_Process</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Material_Science</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Room_Correction</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Consultation</Link></li>
+                 <li><Link href="#process" className="hover:text-white transition-colors">The_Process</Link></li>
+                 <li><Link href="#process" className="hover:text-white transition-colors">Material_Science</Link></li>
+                 <li><Link href="#process" className="hover:text-white transition-colors">Room_Correction</Link></li>
+                 <li><Link href="#process" className="hover:text-white transition-colors">Consultation</Link></li>
               </ul>
            </div>
 

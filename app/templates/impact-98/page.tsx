@@ -350,7 +350,7 @@ export default function ZenithWatchesPage() {
                 </p>
               </div>
               <Link
-                href="#"
+                href="#collections"
                 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#d4af37] border-b border-[#d4af37] pb-2 hover:text-white hover:border-white transition-all"
               >
                 Download Technical Deck
@@ -559,7 +559,7 @@ export default function ZenithWatchesPage() {
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#collections" className="hover:text-white transition-colors">
                   Astra_Series
                 </Link>
               </li>
@@ -620,12 +620,12 @@ export default function ZenithWatchesPage() {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#collections" className="hover:text-white transition-colors">
                   Global_Boutiques
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#collections" className="hover:text-white transition-colors">
                   Ownership_Care
                 </Link>
               </li>
