@@ -75,7 +75,7 @@ export default function JardinsVivantsPage() {
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1e2a1c]/30">
             {["Prestations", "Réalisations", "Devis", "Zone", "Contact"].map(l => (
-              <Link key={l} href="#" className="hover:text-[#2d5a27] transition-colors">{l}</Link>
+              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[#2d5a27] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -89,7 +89,7 @@ export default function JardinsVivantsPage() {
               <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5" /></button></SheetTrigger>
               <SheetContent side="right" className="bg-[#fafaf7] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Prestations", "Réalisations", "Contact"].map(l => <Link key={l} href="#" className="text-3xl font-bold text-[#1e2a1c] hover:text-[#2d5a27] transition-colors" style={{ fontFamily: "'Cardo', serif" }}>{l}</Link>)}
+                  {["Prestations", "Réalisations", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1e2a1c] hover:text-[#2d5a27] transition-colors" style={{ fontFamily: "'Cardo', serif" }}>{l}</Link>)}
                   <a href="tel:0450123456" className="flex items-center gap-3 text-[#2d5a27] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 50 12 34 56</a>
                 </div>
               </SheetContent>
@@ -277,7 +277,7 @@ export default function JardinsVivantsPage() {
             <div key={i}>
               <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#2d5a27]/60 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
-                {col.ls.map(l => <li key={l}><Link href="#" className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
+                {col.ls.map(l => <li key={l}><Link href="#contact" className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}

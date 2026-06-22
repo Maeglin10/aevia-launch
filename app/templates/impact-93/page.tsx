@@ -880,7 +880,7 @@ export default function VelocityJetsPage() {
             <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#00f2ff] transition-colors"
                 >
                   Charter_Search
@@ -888,7 +888,7 @@ export default function VelocityJetsPage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#00f2ff] transition-colors"
                 >
                   Empty_Leg_Deals
@@ -896,7 +896,7 @@ export default function VelocityJetsPage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#00f2ff] transition-colors"
                 >
                   Group_Charters
@@ -904,7 +904,7 @@ export default function VelocityJetsPage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#00f2ff] transition-colors"
                 >
                   Medical_Evac
@@ -920,7 +920,7 @@ export default function VelocityJetsPage() {
             <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#00f2ff] transition-colors"
                 >
                   Jet_Card_Login
@@ -928,7 +928,7 @@ export default function VelocityJetsPage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#00f2ff] transition-colors"
                 >
                   Concierge_Desk
@@ -936,7 +936,7 @@ export default function VelocityJetsPage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#00f2ff] transition-colors"
                 >
                   Catering_Menu
@@ -944,7 +944,7 @@ export default function VelocityJetsPage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#00f2ff] transition-colors"
                 >
                   Ground_Logistics
@@ -960,7 +960,7 @@ export default function VelocityJetsPage() {
             <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#00f2ff] transition-colors"
                 >
                   Safety_Audit

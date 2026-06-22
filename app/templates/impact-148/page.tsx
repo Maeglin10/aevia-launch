@@ -53,7 +53,7 @@ export default function NeonPulsePage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Drops", "Market", "Curators", "Stats"].map(l => (
-              <Link key={l} href="#" className="hover:text-white transition-colors">{l}</Link>
+              <Link key={l} href="#accueil" className="hover:text-white transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
@@ -64,7 +64,7 @@ export default function NeonPulsePage() {
               <SheetContent side="right" className="bg-black border-white/5 p-12 text-white">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {["Gallery", "Creators", "Mint", "Profile"].map(l => (
-                    <Link key={l} href="#" className="text-4xl font-black uppercase tracking-tighter hover:text-cyan-400 transition-all italic">{l}</Link>
+                    <Link key={l} href="#galerie" className="text-4xl font-black uppercase tracking-tighter hover:text-cyan-400 transition-all italic">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -341,7 +341,7 @@ export default function NeonPulsePage() {
               </p>
               <div className="flex gap-10">
                  {["Discord", "MessageSquare", "GitHub", "Lens"].map(s => (
-                   <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-cyan-400 transition-colors italic">{s}</Link>
+                   <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-cyan-400 transition-colors italic">{s}</Link>
                  ))}
               </div>
            </div>
@@ -356,7 +356,7 @@ export default function NeonPulsePage() {
                 <ul className="space-y-6">
                    {col.l.map(link => (
                      <li key={link} className="text-xs font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic">
-                        <Link href="#">{link}</Link>
+                        <Link href="#contact">{link}</Link>
                      </li>
                    ))}
                 </ul>
@@ -366,8 +366,8 @@ export default function NeonPulsePage() {
         <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
            <span>© 2026 NEON PULSE PROTOCOL. OWN THE VOID.</span>
            <div className="flex gap-12">
-              <Link href="#" className="hover:text-cyan-400 transition-all">SYSTEM: ONLINE</Link>
-              <Link href="#" className="hover:text-cyan-400 transition-all">PULSE: STABLE</Link>
+              <Link href="#contact" className="hover:text-cyan-400 transition-all">SYSTEM: ONLINE</Link>
+              <Link href="#contact" className="hover:text-cyan-400 transition-all">PULSE: STABLE</Link>
            </div>
         </div>
       </footer>

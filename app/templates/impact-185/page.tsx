@@ -65,7 +65,7 @@ export default function GentlemansCutPage() {
           </div>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-[#f5f0e8]/25" style={{ fontFamily: "'DM Mono', monospace" }}>
             {["Services", "Tarifs", "Réservation", "À propos", "Contact"].map(l => (
-              <Link key={l} href="#" className="hover:text-[#c9a84c] transition-colors">{l}</Link>
+              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[#c9a84c] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -79,7 +79,7 @@ export default function GentlemansCutPage() {
               <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5 text-[#f5f0e8]" /></button></SheetTrigger>
               <SheetContent side="right" className="bg-[#0f0e0c] border-[#c9a84c]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Services", "Tarifs", "Réservation"].map(l => <Link key={l} href="#" className="text-3xl font-bold text-[#f5f0e8] hover:text-[#c9a84c] transition-colors">{l}</Link>)}
+                  {["Services", "Tarifs", "Réservation"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#f5f0e8] hover:text-[#c9a84c] transition-colors">{l}</Link>)}
                   <a href="tel:0556789012" className="flex items-center gap-3 text-[#c9a84c] font-bold text-lg mt-4"><Phone className="w-5 h-5" /> 05 56 78 90 12</a>
                 </div>
               </SheetContent>
@@ -276,7 +276,7 @@ export default function GentlemansCutPage() {
             <div key={i}>
               <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#c9a84c]/50 mb-5" style={{ fontFamily: "'DM Mono', monospace" }}>{col.t}</h4>
               <ul className="space-y-2.5">
-                {col.ls.map(l => <li key={l}><Link href="#" className="text-[#f5f0e8]/15 text-sm hover:text-[#f5f0e8]/50 transition-colors" style={{ fontFamily: "'DM Mono', monospace" }}>{l}</Link></li>)}
+                {col.ls.map(l => <li key={l}><Link href="#contact" className="text-[#f5f0e8]/15 text-sm hover:text-[#f5f0e8]/50 transition-colors" style={{ fontFamily: "'DM Mono', monospace" }}>{l}</Link></li>)}
               </ul>
             </div>
           ))}

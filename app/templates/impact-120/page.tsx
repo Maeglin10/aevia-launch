@@ -600,10 +600,10 @@ export default function EclatLuxuryPage() {
             <div>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-white mb-8">Maison</h4>
               <ul className="space-y-4 text-xs font-bold tracking-[0.2em] text-zinc-500 uppercase">
-                <li><Link href="#" className="hover:text-fuchsia-400 transition-colors">Our Story</Link></li>
-                <li><Link href="#" className="hover:text-fuchsia-400 transition-colors">The Noses</Link></li>
-                <li><Link href="#" className="hover:text-fuchsia-400 transition-colors">Sustainability</Link></li>
-                <li><Link href="#" className="hover:text-fuchsia-400 transition-colors">Careers</Link></li>
+                <li><Link href="#boutique" className="hover:text-fuchsia-400 transition-colors">Our Story</Link></li>
+                <li><Link href="#boutique" className="hover:text-fuchsia-400 transition-colors">The Noses</Link></li>
+                <li><Link href="#boutique" className="hover:text-fuchsia-400 transition-colors">Sustainability</Link></li>
+                <li><Link href="#boutique" className="hover:text-fuchsia-400 transition-colors">Careers</Link></li>
               </ul>
             </div>
 
@@ -621,9 +621,9 @@ export default function EclatLuxuryPage() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-8 border-t border-white/10 text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600">
             <div>© 2026 Éclat Parfums. All Rights Reserved.</div>
             <div className="flex items-center gap-8 text-white/50">
-              <Link href="#" className="hover:text-white transition-colors">Camera</Link>
-              <Link href="#" className="hover:text-white transition-colors">MessageSquare</Link>
-              <Link href="#" className="hover:text-white transition-colors">Bookmark</Link>
+              <Link href="#boutique" className="hover:text-white transition-colors">Camera</Link>
+              <Link href="#boutique" className="hover:text-white transition-colors">MessageSquare</Link>
+              <Link href="#boutique" className="hover:text-white transition-colors">Bookmark</Link>
             </div>
           </div>
           

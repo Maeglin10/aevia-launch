@@ -148,7 +148,7 @@ export default function HorologsLuxePage() {
           </div>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/25">
             {["Archive", "Editorial", "Commercial", "Prints", "Contact"].map(l => (
-              <Link key={l} href="#" className="hover:text-white transition-colors">{l}</Link>
+              <Link key={l} href="#contact" className="hover:text-white transition-colors">{l}</Link>
             ))}
           </div>
           <button className="hidden md:block px-7 py-3 border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-white hover:text-black transition-all duration-300">

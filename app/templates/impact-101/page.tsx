@@ -184,7 +184,7 @@ export default function BlockBasePage() {
               (l) => (
                 <Link
                   key={l}
-                  href="#"
+                  href="#accueil"
                   className="hover:text-[#00f2ff] transition-colors"
                 >
                   {l}
@@ -228,7 +228,7 @@ export default function BlockBasePage() {
             <div className="flex flex-col gap-10 text-5xl font-black tracking-tighter uppercase">
               {["Framework", "Infrastructure", "Developers", "Telemetry"].map(
                 (l) => (
-                  <Link key={l} href="#" onClick={() => setMenuOpen(false)}>
+                  <Link key={l} href="#accueil" onClick={() => setMenuOpen(false)}>
                     {l}
                   </Link>
                 ),
@@ -580,19 +580,19 @@ export default function BlockBasePage() {
           <div>
             <h4 className="text-[10px] font-black uppercase tracking-widest mb-8 text-[#00f2ff]">System_Index</h4>
             <ul className="space-y-4 text-[10px] font-bold text-white/30 uppercase tracking-widest">
-              <li className="hover:text-white transition-colors"><Link href="#">API_Reference</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">SDK_Documentation</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Node_Operators</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Security_Policy</Link></li>
+              <li className="hover:text-white transition-colors"><Link href="#contact">API_Reference</Link></li>
+              <li className="hover:text-white transition-colors"><Link href="#contact">SDK_Documentation</Link></li>
+              <li className="hover:text-white transition-colors"><Link href="#contact">Node_Operators</Link></li>
+              <li className="hover:text-white transition-colors"><Link href="#contact">Security_Policy</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="text-[10px] font-black uppercase tracking-widest mb-8 text-[#00f2ff]">Telemetry</h4>
             <ul className="space-y-4 text-[10px] font-bold text-white/30 uppercase tracking-widest">
-              <li className="hover:text-white transition-colors"><Link href="#">Network_Health</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Governance_Log</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Validator_Map</Link></li>
-              <li className="hover:text-white transition-colors"><Link href="#">Status_Page</Link></li>
+              <li className="hover:text-white transition-colors"><Link href="#contact">Network_Health</Link></li>
+              <li className="hover:text-white transition-colors"><Link href="#contact">Governance_Log</Link></li>
+              <li className="hover:text-white transition-colors"><Link href="#contact">Validator_Map</Link></li>
+              <li className="hover:text-white transition-colors"><Link href="#contact">Status_Page</Link></li>
             </ul>
           </div>
         </div>

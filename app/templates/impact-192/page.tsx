@@ -59,7 +59,7 @@ export default function SecurFastPage() {
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#f0f4ff]/25">
             {["Services", "Urgences", "Tarifs", "Zone", "Contact"].map(l => (
-              <Link key={l} href="#" className="hover:text-[#2563eb] transition-colors">{l}</Link>
+              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[#2563eb] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -73,7 +73,7 @@ export default function SecurFastPage() {
               <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5 text-[#f0f4ff]" /></button></SheetTrigger>
               <SheetContent side="right" className="bg-[#111d30] border-[#2563eb]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Services", "Urgences", "Contact"].map(l => <Link key={l} href="#" className="text-3xl font-bold text-[#f0f4ff] hover:text-[#2563eb] transition-colors">{l}</Link>)}
+                  {["Services", "Urgences", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#f0f4ff] hover:text-[#2563eb] transition-colors">{l}</Link>)}
                   <a href="tel:0388234567" className="flex items-center gap-3 text-[#2563eb] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 03 88 23 45 67</a>
                 </div>
               </SheetContent>
@@ -251,7 +251,7 @@ export default function SecurFastPage() {
             <div key={i}>
               <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#2563eb]/40 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
-                {col.ls.map(l => <li key={l}><Link href="#" className="text-[#f0f4ff]/15 text-sm hover:text-[#f0f4ff]/50 transition-colors">{l}</Link></li>)}
+                {col.ls.map(l => <li key={l}><Link href="#contact" className="text-[#f0f4ff]/15 text-sm hover:text-[#f0f4ff]/50 transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}

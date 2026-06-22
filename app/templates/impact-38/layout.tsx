@@ -166,7 +166,17 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {["Notre histoire", "Producteurs partenaires", "Durabilité", "Blog"].map((link) => (
-                  <a key={link} href="#" style={{ fontSize: 13, color: "#7a5c3a", textDecoration: "none", fontWeight: 300 }}>{link}</a>
+                  <Link
+                    key={link}
+                    href={
+                      link === "Notre histoire" || link === "Producteurs partenaires" || link === "Durabilité"
+                        ? "/templates/impact-38/origins"
+                        : "/templates/impact-38/workshops"
+                    }
+                    style={{ fontSize: 13, color: "#7a5c3a", textDecoration: "none", fontWeight: 300 }}
+                  >
+                    {link}
+                  </Link>
                 ))}
               </div>
             </div>

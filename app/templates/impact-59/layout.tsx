@@ -227,22 +227,22 @@ export default function LuminalLayout({
               </h4>
               <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-black/30 list-none p-0">
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    href="/templates/impact-59/retreats"
                     className="hover:text-[#3d7a5e] transition-colors flex items-center gap-3"
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
                     <Globe className="w-3 h-3" /> Globe
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    href="/templates/impact-59/retreats"
                     className="hover:text-[#3d7a5e] transition-colors flex items-center gap-3"
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
                     <Globe className="w-3 h-3" /> X_Protocol
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>

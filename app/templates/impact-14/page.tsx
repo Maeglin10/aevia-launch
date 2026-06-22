@@ -2183,11 +2183,11 @@ export default function HorizonMaritimePage() {
                 Crafting extraordinary maritime experiences since 1997. Monaco — Geneva — Singapore.
               </p>
               <div style={{ marginTop: "2rem", display: "flex", gap: "1rem" }}>
-                <a href="#" style={{ fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "#c9a84c", letterSpacing: 2, textDecoration: "none" }}>
+                <a href="#contact" style={{ fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "#c9a84c", letterSpacing: 2, textDecoration: "none" }}>
                   Instagram
                 </a>
                 <span style={{ color: "rgba(201,168,76,0.3)" }}>·</span>
-                <a href="#" style={{ fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "#c9a84c", letterSpacing: 2, textDecoration: "none" }}>
+                <a href="#contact" style={{ fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "#c9a84c", letterSpacing: 2, textDecoration: "none" }}>
                   LinkedIn
                 </a>
               </div>

@@ -248,7 +248,7 @@ export default function BoulangerieNoirePage() {
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-1000 ${scrolled ? "bg-black/95 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-10"}`}
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="#" className="flex flex-col items-start">
+          <Link href="#collection" className="flex flex-col items-start">
             <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-stone-600 mb-1">
               Artisanal.
             </span>
@@ -673,17 +673,17 @@ export default function BoulangerieNoirePage() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#collection" className="hover:text-white transition-colors">
                     Viennoiserie_Log
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#subscription" className="hover:text-white transition-colors">
                     Patisserie_Units
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#subscription" className="hover:text-white transition-colors">
                     Seasonals
                   </Link>
                 </li>
@@ -696,22 +696,22 @@ export default function BoulangerieNoirePage() {
               </h4>
               <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#subscription" className="hover:text-white transition-colors">
                     Grain_Sourcing
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#subscription" className="hover:text-white transition-colors">
                     Fermentation_Sync
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#subscription" className="hover:text-white transition-colors">
                     Stone_Hearth_Lab
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#subscription" className="hover:text-white transition-colors">
                     Subscription
                   </Link>
                 </li>
@@ -725,7 +725,7 @@ export default function BoulangerieNoirePage() {
               <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
                 <li>
                   <Link
-                    href="#"
+                    href="#subscription"
                     className="hover:text-white transition-colors flex items-center gap-3"
                   >
                     <Globe className="w-3 h-3" /> Globe
@@ -733,7 +733,7 @@ export default function BoulangerieNoirePage() {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="#subscription"
                     className="hover:text-white transition-colors flex items-center gap-3"
                   >
                     <Globe className="w-3 h-3" /> X_Mission
@@ -741,7 +741,7 @@ export default function BoulangerieNoirePage() {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="#subscription"
                     className="hover:text-white transition-colors flex items-center gap-3"
                   >
                     <Mail className="w-3 h-3" /> Headquarters
@@ -756,10 +756,10 @@ export default function BoulangerieNoirePage() {
               <span>
                 &copy; {new Date().getFullYear()} BOULANGERIE NOIRE Systems Ltd.
               </span>
-              <Link href="#" className="hover:text-white transition-colors">
+              <Link href="#subscription" className="hover:text-white transition-colors">
                 Regulatory_Terms
               </Link>
-              <Link href="#" className="hover:text-white transition-colors">
+              <Link href="#subscription" className="hover:text-white transition-colors">
                 Privacy_Buffer
               </Link>
             </div>

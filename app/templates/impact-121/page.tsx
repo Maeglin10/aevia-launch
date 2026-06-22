@@ -549,10 +549,10 @@ export default function FolioStudioPage() {
               <div>
                 <h4 className="font-bold mb-6 text-zinc-500 uppercase tracking-widest text-xs">Social</h4>
                 <ul className="space-y-3 font-medium text-lg">
-                  <li><Link href="#" className="hover:text-zinc-400 transition-colors">MessageSquare (X)</Link></li>
-                  <li><Link href="#" className="hover:text-zinc-400 transition-colors">Camera</Link></li>
-                  <li><Link href="#" className="hover:text-zinc-400 transition-colors">Dribbble</Link></li>
-                  <li><Link href="#" className="hover:text-zinc-400 transition-colors">LinkedIn</Link></li>
+                  <li><Link href="#contact" className="hover:text-zinc-400 transition-colors">MessageSquare (X)</Link></li>
+                  <li><Link href="#contact" className="hover:text-zinc-400 transition-colors">Camera</Link></li>
+                  <li><Link href="#contact" className="hover:text-zinc-400 transition-colors">Dribbble</Link></li>
+                  <li><Link href="#contact" className="hover:text-zinc-400 transition-colors">LinkedIn</Link></li>
                 </ul>
               </div>
 
@@ -572,8 +572,8 @@ export default function FolioStudioPage() {
             <div className="mt-24 flex flex-col md:flex-row items-center justify-between text-zinc-500 font-medium">
               <div>© 2026 Folio Studio. All rights reserved.</div>
               <div className="flex gap-6 mt-4 md:mt-0">
-                <Link href="#" className="hover:text-white transition-colors">Privacy</Link>
-                <Link href="#" className="hover:text-white transition-colors">Terms</Link>
+                <Link href="#contact" className="hover:text-white transition-colors">Privacy</Link>
+                <Link href="#contact" className="hover:text-white transition-colors">Terms</Link>
               </div>
             </div>
           </div>

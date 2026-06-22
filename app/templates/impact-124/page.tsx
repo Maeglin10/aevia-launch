@@ -142,14 +142,14 @@ export default function MorphStudioPage() {
 
           <div className="hidden lg:flex items-center gap-8 text-xs font-bold tracking-[0.2em] uppercase">
             {["Engine", "Projects", "Stack", "Access"].map((link) => (
-              <Link key={link} href="#" className="text-zinc-400 hover:text-cyan-400 transition-colors relative group">
+              <Link key={link} href="#accueil" className="text-zinc-400 hover:text-cyan-400 transition-colors relative group">
                 {link}
               </Link>
             ))}
           </div>
 
           <div className="flex items-center gap-6">
-            <Link href="#" className="hidden md:flex items-center justify-center px-6 py-2.5 bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-bold uppercase tracking-widest hover:bg-cyan-500 hover:text-black transition-all rounded-full">
+            <Link href="#accueil" className="hidden md:flex items-center justify-center px-6 py-2.5 bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-bold uppercase tracking-widest hover:bg-cyan-500 hover:text-black transition-all rounded-full">
               Initialize
             </Link>
             <Sheet>
@@ -161,7 +161,7 @@ export default function MorphStudioPage() {
               <SheetContent side="right" className="bg-[#0a0a0a] border-l border-white/10 p-12 text-white">
                 <div className="flex flex-col gap-8 mt-20">
                   {["Engine", "Projects", "Stack", "Access"].map((link) => (
-                    <Link key={link} href="#" className="text-3xl font-bold tracking-widest uppercase hover:text-cyan-400 transition-colors">
+                    <Link key={link} href="#accueil" className="text-3xl font-bold tracking-widest uppercase hover:text-cyan-400 transition-colors">
                       {link}
                     </Link>
                   ))}
@@ -285,7 +285,7 @@ export default function MorphStudioPage() {
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-400 mb-4 block">Case Studies</span>
                   <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter">Rendered <span className="text-zinc-600">Outputs.</span></h2>
                 </div>
-                <Link href="#" className="hidden md:flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-cyan-400 hover:text-white transition-colors">
+                <Link href="#realisations" className="hidden md:flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-cyan-400 hover:text-white transition-colors">
                   View Repository <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -294,7 +294,7 @@ export default function MorphStudioPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
               {MANIFEST.projects.map((project, i) => (
                 <Reveal key={i} delay={i * 0.1}>
-                  <Link href="#" className="group block">
+                  <Link href="#realisations" className="group block">
                     <div className="relative aspect-video rounded-3xl overflow-hidden mb-8 border border-white/10 bg-[#111]">
                       <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent z-10 opacity-60" />
                       <Image src={project.img} alt={project.title} fill className="object-cover opacity-50 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 mix-blend-luminosity group-hover:mix-blend-normal" />
@@ -443,20 +443,20 @@ export default function MorphStudioPage() {
           <div>
             <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600 mb-8">Protocols</h4>
             <ul className="space-y-4 text-xs font-bold uppercase tracking-widest text-zinc-400">
-              <li><Link href="#" className="hover:text-cyan-400 transition-colors">Documentation</Link></li>
-              <li><Link href="#" className="hover:text-cyan-400 transition-colors">API Reference</Link></li>
-              <li><Link href="#" className="hover:text-cyan-400 transition-colors">Status</Link></li>
-              <li><Link href="#" className="hover:text-cyan-400 transition-colors">GitBranch</Link></li>
+              <li><Link href="#contact" className="hover:text-cyan-400 transition-colors">Documentation</Link></li>
+              <li><Link href="#contact" className="hover:text-cyan-400 transition-colors">API Reference</Link></li>
+              <li><Link href="#contact" className="hover:text-cyan-400 transition-colors">Status</Link></li>
+              <li><Link href="#contact" className="hover:text-cyan-400 transition-colors">GitBranch</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600 mb-8">Terminal</h4>
             <ul className="space-y-4 text-xs font-bold uppercase tracking-widest text-zinc-400">
-              <li><Link href="#" className="hover:text-white transition-colors">Transmission</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Careers</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Privacy</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Terms</Link></li>
+              <li><Link href="#contact" className="hover:text-white transition-colors">Transmission</Link></li>
+              <li><Link href="#contact" className="hover:text-white transition-colors">Careers</Link></li>
+              <li><Link href="#contact" className="hover:text-white transition-colors">Privacy</Link></li>
+              <li><Link href="#contact" className="hover:text-white transition-colors">Terms</Link></li>
             </ul>
           </div>
         </div>

@@ -412,7 +412,7 @@ function ParallaxSection({
 
 // ─── NavBar ──────────────────────────────────────────────────────────────────
 // Visual layout is IDENTICAL to the original (brand left, links + Reserve right).
-// The links now drive in-page navigation via goTo instead of dead `href="#"`.
+// The links now drive in-page navigation via goTo instead of dead `href="#accueil"`.
 function NavBar({ scrolled, page, goTo }: { scrolled: boolean; page: HotelPage; goTo: (p: HotelPage) => void }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   // NAV_PAGES already excludes legal pages (those live only in the footer), so

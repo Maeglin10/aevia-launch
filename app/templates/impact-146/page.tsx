@@ -54,7 +54,7 @@ export default function KuroOmakasePage() {
           </Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.5em] text-white/30">
             {["The Ritual", "The Origin", "Reservations", "Legacy"].map(l => (
-              <Link key={l} href="#" className="hover:text-white transition-colors">{l}</Link>
+              <Link key={l} href="#contact" className="hover:text-white transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-8">
@@ -64,7 +64,7 @@ export default function KuroOmakasePage() {
               <SheetContent side="right" className="bg-black border-white/5 p-12 text-white">
                 <div className="flex flex-col gap-10 mt-16 text-left">
                   {["Experience", "Menu", "Journal", "Book"].map(l => (
-                    <Link key={l} href="#" className="text-4xl font-light uppercase tracking-widest hover:italic transition-all">{l}</Link>
+                    <Link key={l} href="#contact" className="text-4xl font-light uppercase tracking-widest hover:italic transition-all">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -300,7 +300,7 @@ export default function KuroOmakasePage() {
               </p>
               <div className="flex gap-10">
                  {["Camera", "Journal", "Technical Paper", "Contact"].map(s => (
-                   <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic">{s}</Link>
+                   <Link key={s} href="#contact" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic">{s}</Link>
                  ))}
               </div>
            </div>
@@ -315,7 +315,7 @@ export default function KuroOmakasePage() {
                 <ul className="space-y-6">
                    {col.l.map(link => (
                      <li key={link} className="text-xs font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic">
-                        <Link href="#">{link}</Link>
+                        <Link href="#contact">{link}</Link>
                      </li>
                    ))}
                 </ul>
@@ -325,9 +325,9 @@ export default function KuroOmakasePage() {
         <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
            <span>© 2026 KURO OMAKASE GROUP. SILENCE IS FLAVOR.</span>
            <div className="flex gap-12">
-              <Link href="#" className="hover:text-white transition-all">KYOTO</Link>
-              <Link href="#" className="hover:text-white transition-all">TOKYO</Link>
-              <Link href="#" className="hover:text-white transition-all">NEW YORK</Link>
+              <Link href="#contact" className="hover:text-white transition-all">KYOTO</Link>
+              <Link href="#contact" className="hover:text-white transition-all">TOKYO</Link>
+              <Link href="#contact" className="hover:text-white transition-all">NEW YORK</Link>
            </div>
         </div>
       </footer>

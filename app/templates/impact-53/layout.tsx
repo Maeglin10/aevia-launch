@@ -352,7 +352,7 @@ export default function Impact53Layout({
               {["INSTAGRAM", "TWITTER", "LINKEDIN"].map((s) => (
                 <a
                   key={s}
-                  href="#"
+                  href={s === "INSTAGRAM" ? "https://instagram.com" : s === "TWITTER" ? "https://twitter.com" : "https://linkedin.com"}
                   style={{ color: C.white, textDecoration: "none" }}
                   className="hover:text-red-500 transition-colors"
                 >

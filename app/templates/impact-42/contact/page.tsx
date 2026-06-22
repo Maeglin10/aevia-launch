@@ -68,7 +68,7 @@ export default function ContactPage() {
               ].map((social) => (
                 <a
                   key={social.label}
-                  href="#"
+                  href={social.label === "Instagram" ? "https://instagram.com" : social.label === "SoundCloud" ? "https://soundcloud.com" : "https://youtube.com"}
                   style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem", backgroundColor: C.bgCard, border: `1px solid ${C.border}`, borderRadius: "10px", padding: "1rem 0.75rem", textDecoration: "none", transition: "border-color 0.2s" }}
                   onMouseEnter={(e) => (e.currentTarget.style.borderColor = C.accent)}
                   onMouseLeave={(e) => (e.currentTarget.style.borderColor = C.border)}

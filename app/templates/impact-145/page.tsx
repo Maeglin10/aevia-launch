@@ -60,7 +60,7 @@ export default function ArcaneRealtyPage() {
           </Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
             {["Portfolio", "Concierge", "Locations", "Journal"].map(l => (
-              <Link key={l} href="#" className="hover:text-white transition-colors">{l}</Link>
+              <Link key={l} href="#portfolio" className="hover:text-white transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-8">
@@ -71,7 +71,7 @@ export default function ArcaneRealtyPage() {
               <SheetContent side="right" className="bg-black border-white/5 p-12 text-white">
                 <div className="flex flex-col gap-10 mt-16 text-left">
                   {["Collection", "Concierge", "About", "Contact"].map(l => (
-                    <Link key={l} href="#" className="text-3xl font-light uppercase tracking-widest hover:text-white transition-all">{l}</Link>
+                    <Link key={l} href="#contact" className="text-3xl font-light uppercase tracking-widest hover:text-white transition-all">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -134,7 +134,7 @@ export default function ArcaneRealtyPage() {
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block mb-4">Active Listings</span>
                   <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-white leading-none">Curated <span className="italic font-bold">Space.</span></h2>
                 </div>
-                <Link href="#" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-white text-white/40 transition-colors group italic">
+                <Link href="#accueil" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-white text-white/40 transition-colors group italic">
                   Private Inventory <MoveRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
                 </Link>
               </div>
@@ -309,7 +309,7 @@ export default function ArcaneRealtyPage() {
             </p>
             <div className="flex gap-10">
                {["Camera", "Journal", "Technical Paper", "Contact"].map(s => (
-                 <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors">{s}</Link>
+                 <Link key={s} href="#contact" className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors">{s}</Link>
                ))}
             </div>
           </div>
@@ -322,7 +322,7 @@ export default function ArcaneRealtyPage() {
             <div key={i} className="space-y-10">
               <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">{col.t}</h4>
               <ul className="space-y-6">
-                {col.l.map(link => <li key={link} className="text-xs text-white/30 hover:text-white transition-colors italic font-light"><Link href="#">{link}</Link></li>)}
+                {col.l.map(link => <li key={link} className="text-xs text-white/30 hover:text-white transition-colors italic font-light"><Link href="#contact">{link}</Link></li>)}
               </ul>
             </div>
           ))}
@@ -331,8 +331,8 @@ export default function ArcaneRealtyPage() {
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
           <span>© 2026 ARCANE REALTY GLOBAL HOLDINGS. BUILT FOR THE INFINITE.</span>
           <div className="flex gap-12 italic">
-             <Link href="#" className="hover:text-white transition-colors">Privacy Circle</Link>
-             <Link href="#" className="hover:text-white transition-colors">Listing Verification</Link>
+             <Link href="#contact" className="hover:text-white transition-colors">Privacy Circle</Link>
+             <Link href="#contact" className="hover:text-white transition-colors">Listing Verification</Link>
           </div>
         </div>
       </footer>

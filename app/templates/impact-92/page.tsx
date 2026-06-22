@@ -830,7 +830,7 @@ export default function SkylineConciergePage() {
             <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#c9a96e] transition-colors"
                 >
                   Residential_Estates
@@ -838,7 +838,7 @@ export default function SkylineConciergePage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#c9a96e] transition-colors"
                 >
                   Yacht_Charter
@@ -846,7 +846,7 @@ export default function SkylineConciergePage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#c9a96e] transition-colors"
                 >
                   Private_Aviation
@@ -854,7 +854,7 @@ export default function SkylineConciergePage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#c9a96e] transition-colors"
                 >
                   Art_Advisory
@@ -870,7 +870,7 @@ export default function SkylineConciergePage() {
             <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#c9a96e] transition-colors"
                 >
                   Lifestyle_Mgmt
@@ -878,7 +878,7 @@ export default function SkylineConciergePage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#c9a96e] transition-colors"
                 >
                   Global_Security
@@ -886,7 +886,7 @@ export default function SkylineConciergePage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#c9a96e] transition-colors"
                 >
                   Event_Access
@@ -894,7 +894,7 @@ export default function SkylineConciergePage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#c9a96e] transition-colors"
                 >
                   Health_Concierge
@@ -910,7 +910,7 @@ export default function SkylineConciergePage() {
             <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#c9a96e] transition-colors"
                 >
                   The_Vault
@@ -918,7 +918,7 @@ export default function SkylineConciergePage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#c9a96e] transition-colors"
                 >
                   Membership
@@ -926,7 +926,7 @@ export default function SkylineConciergePage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#contact"
                   className="hover:text-[#c9a96e] transition-colors"
                 >
                   Offices

@@ -217,26 +217,26 @@ export default function NexusSaaSPage() {
           </Link>
 
           <div className="hidden lg:flex items-center gap-8 text-sm font-medium text-white/70">
-            <Link href="#" className="hover:text-white transition-colors">
+            <Link href="#accueil" className="hover:text-white transition-colors">
               Features
             </Link>
-            <Link href="#" className="hover:text-white transition-colors">
+            <Link href="#tarifs" className="hover:text-white transition-colors">
               Solutions
             </Link>
-            <Link href="#" className="hover:text-white transition-colors">
+            <Link href="#tarifs" className="hover:text-white transition-colors">
               Docs
             </Link>
-            <Link href="#" className="hover:text-white transition-colors">
+            <Link href="#tarifs" className="hover:text-white transition-colors">
               Pricing
             </Link>
-            <Link href="#" className="hover:text-white transition-colors">
+            <Link href="#tarifs" className="hover:text-white transition-colors">
               Blog
             </Link>
           </div>
 
           <div className="hidden lg:flex items-center gap-6">
             <Link
-              href="#"
+              href="#accueil"
               className="text-sm font-medium text-white/70 hover:text-white transition-colors"
             >
               Sign In
@@ -270,16 +270,16 @@ export default function NexusSaaSPage() {
             className="fixed inset-0 z-40 bg-[#05050a]/98 backdrop-blur-2xl flex flex-col pt-32 px-6"
           >
             <div className="flex flex-col gap-6 text-2xl font-medium">
-              <Link href="#" onClick={() => setMenuOpen(false)}>
+              <Link href="#accueil" onClick={() => setMenuOpen(false)}>
                 Features
               </Link>
-              <Link href="#" onClick={() => setMenuOpen(false)}>
+              <Link href="#tarifs" onClick={() => setMenuOpen(false)}>
                 Solutions
               </Link>
-              <Link href="#" onClick={() => setMenuOpen(false)}>
+              <Link href="#tarifs" onClick={() => setMenuOpen(false)}>
                 Docs
               </Link>
-              <Link href="#" onClick={() => setMenuOpen(false)}>
+              <Link href="#tarifs" onClick={() => setMenuOpen(false)}>
                 Pricing
               </Link>
             </div>
@@ -827,32 +827,32 @@ export default function NexusSaaSPage() {
               <h4 className="font-semibold mb-6 text-sm">Product</h4>
               <ul className="space-y-4 text-sm text-white/50">
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#contact" className="hover:text-white transition-colors">
                     Edge Functions
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#contact" className="hover:text-white transition-colors">
                     Global Database
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#contact" className="hover:text-white transition-colors">
                     Analytics
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#tarifs" className="hover:text-white transition-colors">
                     Integrations
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#tarifs" className="hover:text-white transition-colors">
                     Pricing
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#tarifs" className="hover:text-white transition-colors">
                     Changelog
                   </a>
                 </li>
@@ -863,32 +863,32 @@ export default function NexusSaaSPage() {
               <h4 className="font-semibold mb-6 text-sm">Resources</h4>
               <ul className="space-y-4 text-sm text-white/50">
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#contact" className="hover:text-white transition-colors">
                     Documentation
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#contact" className="hover:text-white transition-colors">
                     API Reference
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#blog" className="hover:text-white transition-colors">
                     Community
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#blog" className="hover:text-white transition-colors">
                     Blog
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#blog" className="hover:text-white transition-colors">
                     Open Source
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#blog" className="hover:text-white transition-colors">
                     System Status
                   </a>
                 </li>
@@ -899,27 +899,27 @@ export default function NexusSaaSPage() {
               <h4 className="font-semibold mb-6 text-sm">Company</h4>
               <ul className="space-y-4 text-sm text-white/50">
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#apropos" className="hover:text-white transition-colors">
                     About Us
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#apropos" className="hover:text-white transition-colors">
                     Careers
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#partners" className="hover:text-white transition-colors">
                     Customers
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#partners" className="hover:text-white transition-colors">
                     Partners
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#partners" className="hover:text-white transition-colors">
                     Contact Sales
                   </a>
                 </li>
@@ -930,27 +930,27 @@ export default function NexusSaaSPage() {
               <h4 className="font-semibold mb-6 text-sm">Legal</h4>
               <ul className="space-y-4 text-sm text-white/50">
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#contact" className="hover:text-white transition-colors">
                     Privacy Policy
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#contact" className="hover:text-white transition-colors">
                     Terms of Service
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#contact" className="hover:text-white transition-colors">
                     Cookie Policy
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#contact" className="hover:text-white transition-colors">
                     Security
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="#contact" className="hover:text-white transition-colors">
                     DPA
                   </a>
                 </li>

@@ -1161,7 +1161,7 @@ export default function ImpactEclatPage() {
             </h2>
           </div>
           <a
-            href="#"
+            href="#collections"
             style={{
               fontSize: 13,
               color: C.gold,
@@ -1440,7 +1440,7 @@ export default function ImpactEclatPage() {
               Un carnet de voyage visuel qui réinvente la garde-robe estivale.
             </p>
             <motion.a
-              href="#"
+              href="#accueil"
               whileHover={{ background: C.gold, color: C.bg }}
               whileTap={{ scale: 0.96 }}
               style={{

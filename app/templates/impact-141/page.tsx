@@ -194,16 +194,16 @@ export default function SonicPlayerPage() {
           </Link>
 
           <div className="hidden lg:flex items-center gap-10 text-[11px] font-bold uppercase tracking-widest">
-            <Link href="#" className="hover:text-purple-400 transition-colors">
+            <Link href="#accueil" className="hover:text-purple-400 transition-colors">
               Releases
             </Link>
-            <Link href="#" className="hover:text-purple-400 transition-colors">
+            <Link href="#accueil" className="hover:text-purple-400 transition-colors">
               Artists
             </Link>
-            <Link href="#" className="hover:text-purple-400 transition-colors">
+            <Link href="#accueil" className="hover:text-purple-400 transition-colors">
               Tour
             </Link>
-            <Link href="#" className="hover:text-purple-400 transition-colors">
+            <Link href="#accueil" className="hover:text-purple-400 transition-colors">
               Store
             </Link>
           </div>
@@ -626,22 +626,22 @@ export default function SonicPlayerPage() {
               </h4>
               <ul className="space-y-4 text-sm text-slate-300">
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#contact" className="hover:text-white transition-colors">
                     Latest Releases
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#contact" className="hover:text-white transition-colors">
                     Playlists
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#contact" className="hover:text-white transition-colors">
                     Stems & Samples
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#contact" className="hover:text-white transition-colors">
                     Licensing
                   </Link>
                 </li>
@@ -654,22 +654,22 @@ export default function SonicPlayerPage() {
               </h4>
               <ul className="space-y-4 text-sm text-slate-300">
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#contact" className="hover:text-white transition-colors">
                     Vinyl & Cassettes
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#contact" className="hover:text-white transition-colors">
                     Apparel
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#contact" className="hover:text-white transition-colors">
                     Posters
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#contact" className="hover:text-white transition-colors">
                     Digital Downloads
                   </Link>
                 </li>
@@ -706,10 +706,10 @@ export default function SonicPlayerPage() {
               reserved.
             </span>
             <div className="flex gap-6">
-              <Link href="#" className="hover:text-white transition-colors">
+              <Link href="#contact" className="hover:text-white transition-colors">
                 Privacy Policy
               </Link>
-              <Link href="#" className="hover:text-white transition-colors">
+              <Link href="#contact" className="hover:text-white transition-colors">
                 Terms of Use
               </Link>
             </div>

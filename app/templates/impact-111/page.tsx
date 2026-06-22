@@ -67,7 +67,7 @@ export default function TerraArchitecturePage() {
           </Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-[#3d3a35]/40">
             {["Work", "Philosophy", "Process", "Team"].map(l => (
-              <Link key={l} href="#" className="hover:text-[#3d3a35] transition-colors">{l}</Link>
+              <Link key={l} href="#equipe" className="hover:text-[#3d3a35] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
@@ -77,7 +77,7 @@ export default function TerraArchitecturePage() {
               <SheetContent side="right" className="bg-[#f2f0eb] border-[#3d3a35]/5 p-12">
                 <div className="flex flex-col gap-10 mt-16 text-left">
                   {["Projects", "Our Way", "Atelier", "Contact"].map(l => (
-                    <Link key={l} href="#" className="text-3xl font-light uppercase tracking-widest hover:text-[#3d3a35] transition-colors">{l}</Link>
+                    <Link key={l} href="#contact" className="text-3xl font-light uppercase tracking-widest hover:text-[#3d3a35] transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -289,7 +289,7 @@ export default function TerraArchitecturePage() {
             </p>
             <div className="flex gap-8">
                {["Camera", "Bookmark", "Journal", "WeWork"].map(s => (
-                 <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-[#3d3a35]/30 hover:text-[#3d3a35] transition-colors">{s}</Link>
+                 <Link key={s} href="#accueil" className="text-[10px] font-bold uppercase tracking-widest text-[#3d3a35]/30 hover:text-[#3d3a35] transition-colors">{s}</Link>
                ))}
             </div>
           </div>
@@ -302,7 +302,7 @@ export default function TerraArchitecturePage() {
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#3d3a35] mb-10">{col.t}</h4>
               <ul className="space-y-6">
-                {col.l.map(link => <li key={link}><Link href="#" className="text-xs text-[#3d3a35]/50 hover:text-[#3d3a35] transition-colors">{link}</Link></li>)}
+                {col.l.map(link => <li key={link}><Link href="#equipe" className="text-xs text-[#3d3a35]/50 hover:text-[#3d3a35] transition-colors">{link}</Link></li>)}
               </ul>
             </div>
           ))}
@@ -311,8 +311,8 @@ export default function TerraArchitecturePage() {
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-[#3d3a35]/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-[#3d3a35]/30">
           <span>© 2026 TERRA ARCHITECTURE STUDIO. BUILT WITH EARTH.</span>
           <div className="flex gap-10">
-             <Link href="#" className="hover:text-[#3d3a35] transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> BASED IN COPENHAGEN</Link>
-             <Link href="#" className="hover:text-[#3d3a35] transition-colors flex items-center gap-2"><MapPin className="w-3 h-3" /> PARIS · TOKYO</Link>
+             <Link href="#contact" className="hover:text-[#3d3a35] transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> BASED IN COPENHAGEN</Link>
+             <Link href="#contact" className="hover:text-[#3d3a35] transition-colors flex items-center gap-2"><MapPin className="w-3 h-3" /> PARIS · TOKYO</Link>
           </div>
         </div>
       </footer>

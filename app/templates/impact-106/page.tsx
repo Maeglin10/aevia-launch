@@ -71,7 +71,7 @@ export default function StudioVersaPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#1a1a1a]/40">
             {["Work", "Capabilities", "Team", "Journal"].map(l => (
-              <Link key={l} href="#" className="hover:text-orange-500 transition-colors">{l}</Link>
+              <Link key={l} href="#equipe" className="hover:text-orange-500 transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
@@ -83,7 +83,7 @@ export default function StudioVersaPage() {
               <SheetContent side="right" className="bg-[#faf5f0] p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Work", "Capabilities", "Team", "Contact"].map(l => (
-                    <Link key={l} href="#" className="text-3xl font-light uppercase tracking-widest hover:text-orange-500 transition-colors">{l}</Link>
+                    <Link key={l} href="#equipe" className="text-3xl font-light uppercase tracking-widest hover:text-orange-500 transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -299,7 +299,7 @@ export default function StudioVersaPage() {
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-orange-400 mb-6">{col.title}</h4>
               <ul className="space-y-3 text-sm text-white/30">
-                {col.links.map(l => <li key={l}><Link href="#" className="hover:text-white transition-colors">{l}</Link></li>)}
+                {col.links.map(l => <li key={l}><Link href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}

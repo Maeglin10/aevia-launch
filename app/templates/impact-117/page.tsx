@@ -53,7 +53,7 @@ export default function VoltLogisticsPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Fleet", "Network", "Technology", "Company"].map(l => (
-              <Link key={l} href="#" className="hover:text-[#ffb400] transition-colors">{l}</Link>
+              <Link key={l} href="#accueil" className="hover:text-[#ffb400] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
@@ -64,7 +64,7 @@ export default function VoltLogisticsPage() {
               <SheetContent side="right" className="bg-[#0a0a0a] border-white/5 p-12">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {["Our Fleet", "Global Network", "Tech Stack", "Pricing"].map(l => (
-                    <Link key={l} href="#" className="text-3xl font-black uppercase tracking-tighter hover:text-[#ffb400] transition-colors italic">{l}</Link>
+                    <Link key={l} href="#tarifs" className="text-3xl font-black uppercase tracking-tighter hover:text-[#ffb400] transition-colors italic">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -297,7 +297,7 @@ export default function VoltLogisticsPage() {
             </p>
             <div className="flex gap-6">
                {["LinkedIn", "X", "Vimeo", "GitHub"].map(s => (
-                 <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-[#ffb400] transition-colors">{s}</Link>
+                 <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-[#ffb400] transition-colors">{s}</Link>
                ))}
             </div>
           </div>
@@ -310,7 +310,7 @@ export default function VoltLogisticsPage() {
             <div key={i} className="space-y-8">
               <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#ffb400]">{col.t}</h4>
               <ul className="space-y-6">
-                {col.l.map(link => <li key={link}><Link href="#" className="text-sm text-white/40 hover:text-[#ffb400] transition-colors">{link}</Link></li>)}
+                {col.l.map(link => <li key={link}><Link href="#accueil" className="text-sm text-white/40 hover:text-[#ffb400] transition-colors">{link}</Link></li>)}
               </ul>
             </div>
           ))}
@@ -319,8 +319,8 @@ export default function VoltLogisticsPage() {
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/20">
           <span>© 2026 VOLT LOGISTICS GLOBAL. ALL SYSTEMS ACTIVE.</span>
           <div className="flex gap-10">
-             <Link href="#" className="hover:text-white transition-colors flex items-center gap-2"><MapPin className="w-3 h-3" /> NYC HQ</Link>
-             <Link href="#" className="hover:text-white transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> GLOBAL NETWORK</Link>
+             <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2"><MapPin className="w-3 h-3" /> NYC HQ</Link>
+             <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> GLOBAL NETWORK</Link>
           </div>
         </div>
       </footer>

@@ -252,7 +252,7 @@ export default function QBitLabsPage() {
             {NAV_LINKS.map((l) => (
               <Link
                 key={l}
-                href="#"
+                href="#accueil"
                 style={{
                   fontSize: 11,
                   fontWeight: 500,
@@ -323,7 +323,7 @@ export default function QBitLabsPage() {
             {NAV_LINKS.map((l) => (
               <Link
                 key={l}
-                href="#"
+                href="#accueil"
                 style={{
                   fontSize: 13,
                   fontWeight: 500,
@@ -720,7 +720,7 @@ export default function QBitLabsPage() {
                         {area.desc}
                       </p>
                       <Link
-                        href="#"
+                        href="#accueil"
                         style={{
                           fontSize: 12,
                           color: "#0f62fe",
@@ -795,7 +795,7 @@ export default function QBitLabsPage() {
                   </h2>
                 </div>
                 <Link
-                  href="#"
+                  href="#accueil"
                   style={{
                     fontSize: 12,
                     color: "#0f62fe",
@@ -938,7 +938,7 @@ export default function QBitLabsPage() {
                     }}
                   >
                     <Link
-                      href="#"
+                      href="#contact"
                       style={{
                         fontSize: 12,
                         color: "#0f62fe",
@@ -1102,7 +1102,7 @@ export default function QBitLabsPage() {
                           Recent paper
                         </p>
                         <Link
-                          href="#"
+                          href="#contact"
                           style={{
                             fontSize: 12,
                             color: "#0f62fe",
@@ -1542,7 +1542,7 @@ export default function QBitLabsPage() {
                   {col.links.map((link) => (
                     <li key={link} style={{ marginBottom: 10 }}>
                       <Link
-                        href="#"
+                        href="#accueil"
                         style={{
                           fontSize: 13,
                           color: "#8d8d8d",
@@ -1577,7 +1577,7 @@ export default function QBitLabsPage() {
               {["Privacy Policy", "Terms of Use", "Accessibility"].map((l) => (
                 <Link
                   key={l}
-                  href="#"
+                  href="#accueil"
                   style={{ fontSize: 12, color: "#525252", textDecoration: "none" }}
                   onMouseEnter={(e) => (e.currentTarget.style.color = "#f4f4f4")}
                   onMouseLeave={(e) => (e.currentTarget.style.color = "#525252")}

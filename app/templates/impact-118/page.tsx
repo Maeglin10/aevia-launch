@@ -286,7 +286,7 @@ export default function ChronosLuxuryPage() {
             </p>
             <div className="flex gap-8">
                {["Camera", "Vimeo", "WeChat", "LinkedIn"].map(s => (
-                 <a key={s} href="#" onClick={(e) => e.preventDefault()} className="text-[10px] font-bold uppercase tracking-widest text-[#d4af37]/40 hover:text-[#d4af37] transition-colors">{s}</a>
+                 <a key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } onClick={(e) => e.preventDefault()} className="text-[10px] font-bold uppercase tracking-widest text-[#d4af37]/40 hover:text-[#d4af37] transition-colors">{s}</a>
                ))}
             </div>
           </div>

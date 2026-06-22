@@ -1685,7 +1685,7 @@ export default function Impact170Page() {
               </div>
             </div>
             <a
-              href="#"
+              href="#contact"
               style={{
                 fontFamily: C.font,
                 fontSize: 11,

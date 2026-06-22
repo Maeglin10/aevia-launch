@@ -57,7 +57,7 @@ export default function NebulaCloudPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Engine", "Infrastructure", "Pricing", "Docs"].map(l => (
-              <Link key={l} href="#" className="hover:text-blue-400 transition-colors">{l}</Link>
+              <Link key={l} href="#tarifs" className="hover:text-blue-400 transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
@@ -68,7 +68,7 @@ export default function NebulaCloudPage() {
               <SheetContent side="right" className="bg-[#020617] border-blue-500/10 p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Engine", "Infrastructure", "Pricing", "Docs"].map(l => (
-                    <Link key={l} href="#" className="text-2xl font-light uppercase tracking-widest hover:text-blue-400 transition-colors">{l}</Link>
+                    <Link key={l} href="#tarifs" className="text-2xl font-light uppercase tracking-widest hover:text-blue-400 transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -182,7 +182,7 @@ export default function NebulaCloudPage() {
                     </div>
                     <h3 className="text-2xl font-bold mb-4">{n.title}</h3>
                     <p className="text-slate-400 leading-relaxed text-sm mb-8">{n.desc}</p>
-                    <Link href="#" className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-blue-400 group-hover:gap-4 transition-all">
+                    <Link href="#accueil" className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-blue-400 group-hover:gap-4 transition-all">
                       Learn More <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
@@ -354,7 +354,7 @@ export default function NebulaCloudPage() {
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-500 mb-8">{col.t}</h4>
               <ul className="space-y-4">
-                {col.l.map(link => <li key={link}><Link href="#" className="text-sm text-slate-500 hover:text-white transition-colors">{link}</Link></li>)}
+                {col.l.map(link => <li key={link}><Link href="#blog" className="text-sm text-slate-500 hover:text-white transition-colors">{link}</Link></li>)}
               </ul>
             </div>
           ))}
@@ -362,9 +362,9 @@ export default function NebulaCloudPage() {
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-slate-600">
           <span>© 2026 NEBULA CLOUD TECHNOLOGIES INC.</span>
           <div className="flex gap-8">
-            <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link href="#" className="hover:text-white transition-colors">SLA Status</Link>
+            <Link href="#contact" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="#contact" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="#contact" className="hover:text-white transition-colors">SLA Status</Link>
           </div>
         </div>
       </footer>

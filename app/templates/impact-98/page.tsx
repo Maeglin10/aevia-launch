@@ -564,17 +564,17 @@ export default function ZenithWatchesPage() {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#collections" className="hover:text-white transition-colors">
                   Deep_Sea_Units
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#collections" className="hover:text-white transition-colors">
                   Heritage_Line
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#collections" className="hover:text-white transition-colors">
                   Bespoke_Builds
                 </Link>
               </li>
@@ -587,22 +587,22 @@ export default function ZenithWatchesPage() {
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#collections" className="hover:text-white transition-colors">
                   Movement_Lab
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#collections" className="hover:text-white transition-colors">
                   Finishing_Dept
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#collections" className="hover:text-white transition-colors">
                   Certification
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#collections" className="hover:text-white transition-colors">
                   Sourcing
                 </Link>
               </li>
@@ -615,7 +615,7 @@ export default function ZenithWatchesPage() {
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#collections" className="hover:text-white transition-colors">
                   Our_Legacy
                 </Link>
               </li>
@@ -630,7 +630,7 @@ export default function ZenithWatchesPage() {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#collections" className="hover:text-white transition-colors">
                   Press_Archive
                 </Link>
               </li>

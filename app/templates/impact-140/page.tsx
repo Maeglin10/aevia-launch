@@ -175,16 +175,16 @@ export default function WanderlustPage() {
           </Link>
 
           <div className="hidden lg:flex items-center gap-10 text-[11px] font-bold uppercase tracking-widest">
-            <Link href="#" className="hover:text-amber-500 transition-colors">
+            <Link href="#accueil" className="hover:text-amber-500 transition-colors">
               Destinations
             </Link>
-            <Link href="#" className="hover:text-amber-500 transition-colors">
+            <Link href="#accueil" className="hover:text-amber-500 transition-colors">
               Expeditions
             </Link>
-            <Link href="#" className="hover:text-amber-500 transition-colors">
+            <Link href="#apropos" className="hover:text-amber-500 transition-colors">
               Journal
             </Link>
-            <Link href="#" className="hover:text-amber-500 transition-colors">
+            <Link href="#apropos" className="hover:text-amber-500 transition-colors">
               About
             </Link>
           </div>
@@ -224,16 +224,16 @@ export default function WanderlustPage() {
               <X className="w-8 h-8" />
             </button>
             <div className="flex flex-col gap-8 text-3xl font-light">
-              <Link href="#" onClick={() => setMenuOpen(false)}>
+              <Link href="#accueil" onClick={() => setMenuOpen(false)}>
                 Destinations
               </Link>
-              <Link href="#" onClick={() => setMenuOpen(false)}>
+              <Link href="#accueil" onClick={() => setMenuOpen(false)}>
                 Expeditions
               </Link>
-              <Link href="#" onClick={() => setMenuOpen(false)}>
+              <Link href="#apropos" onClick={() => setMenuOpen(false)}>
                 Journal
               </Link>
-              <Link href="#" onClick={() => setMenuOpen(false)}>
+              <Link href="#apropos" onClick={() => setMenuOpen(false)}>
                 About Us
               </Link>
             </div>
@@ -601,7 +601,7 @@ export default function WanderlustPage() {
               <ul className="space-y-4 text-sm text-stone-400">
                 <li>
                   <Link
-                    href="#"
+                    href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
                     Africa & Safaris
@@ -609,7 +609,7 @@ export default function WanderlustPage() {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
                     Polar Regions
@@ -617,7 +617,7 @@ export default function WanderlustPage() {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
                     Latin America
@@ -625,7 +625,7 @@ export default function WanderlustPage() {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
                     Asia & Himalayas
@@ -641,7 +641,7 @@ export default function WanderlustPage() {
               <ul className="space-y-4 text-sm text-stone-400">
                 <li>
                   <Link
-                    href="#"
+                    href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
                     Our Story
@@ -649,7 +649,7 @@ export default function WanderlustPage() {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
                     Sustainability Impact
@@ -657,7 +657,7 @@ export default function WanderlustPage() {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
                     Travel Journal
@@ -665,7 +665,7 @@ export default function WanderlustPage() {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
                     Contact Us
@@ -704,10 +704,10 @@ export default function WanderlustPage() {
               rights reserved.
             </span>
             <div className="flex gap-6">
-              <Link href="#" className="hover:text-white transition-colors">
+              <Link href="#contact" className="hover:text-white transition-colors">
                 Privacy Policy
               </Link>
-              <Link href="#" className="hover:text-white transition-colors">
+              <Link href="#contact" className="hover:text-white transition-colors">
                 Terms of Booking
               </Link>
             </div>

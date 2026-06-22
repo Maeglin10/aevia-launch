@@ -758,7 +758,7 @@ export default function Home() {
             <Link href="/templates/impact-27/work" className="bg-[#9B5CF6] hover:bg-[#7C3AED] text-white font-semibold px-8 py-4 rounded-full transition-colors flex items-center gap-2 text-base">
               View our work <ArrowRight className="w-5 h-5" />
             </Link>
-            <a href="#" className="flex items-center gap-2 text-white/60 hover:text-white transition-colors text-base">
+            <a href="/templates/impact-27/work" className="flex items-center gap-2 text-white/60 hover:text-white transition-colors text-base">
               <div className="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center hover:border-[#9B5CF6]/60 transition-colors">
                 <Play className="w-4 h-4 ml-0.5" />
               </div>

@@ -69,7 +69,7 @@ export default function MeridianJourneyPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Expeditions", "Stories", "Gear", "About"].map(l => (
-              <Link key={l} href="#" className="hover:text-teal-400 transition-colors">{l}</Link>
+              <Link key={l} href="#apropos" className="hover:text-teal-400 transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
@@ -81,7 +81,7 @@ export default function MeridianJourneyPage() {
               <SheetContent side="right" className="bg-[#0d1210] border-teal-500/10 p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Expeditions", "Stories", "Gear", "Contact"].map(l => (
-                    <Link key={l} href="#" className="text-3xl font-light uppercase tracking-widest hover:text-teal-400 transition-colors">{l}</Link>
+                    <Link key={l} href="#contact" className="text-3xl font-light uppercase tracking-widest hover:text-teal-400 transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -319,7 +319,7 @@ export default function MeridianJourneyPage() {
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-teal-400 mb-6">{col.title}</h4>
               <ul className="space-y-3 text-sm text-white/30">
-                {col.links.map(l => <li key={l}><Link href="#" className="hover:text-white transition-colors">{l}</Link></li>)}
+                {col.links.map(l => <li key={l}><Link href="#contact" className="hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}

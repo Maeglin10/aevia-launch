@@ -457,11 +457,11 @@ export default function PulseAppPage() {
             <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Téléchargez l&apos;app</h2>
             <p className="text-[#4B4570] text-lg mb-10">Disponible sur iOS et Android. Synchronisez-vous avec votre équipe partout, à tout moment.</p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="#" className="flex items-center gap-3 px-7 py-4 bg-[#0F0B2D] text-white rounded-xl hover:bg-[#1a1740] transition-colors cursor-pointer">
+              <Link href="#tarifs" className="flex items-center gap-3 px-7 py-4 bg-[#0F0B2D] text-white rounded-xl hover:bg-[#1a1740] transition-colors cursor-pointer">
                 <Apple className="w-5 h-5" />
                 <div className="text-left"><div className="text-[10px] opacity-70">Télécharger sur l&apos;</div><div className="text-sm font-semibold">App Store</div></div>
               </Link>
-              <Link href="#" className="flex items-center gap-3 px-7 py-4 bg-[#0F0B2D] text-white rounded-xl hover:bg-[#1a1740] transition-colors cursor-pointer">
+              <Link href="#tarifs" className="flex items-center gap-3 px-7 py-4 bg-[#0F0B2D] text-white rounded-xl hover:bg-[#1a1740] transition-colors cursor-pointer">
                 <Play className="w-5 h-5" />
                 <div className="text-left"><div className="text-[10px] opacity-70">Disponible sur</div><div className="text-sm font-semibold">Google Play</div></div>
               </Link>

@@ -69,7 +69,7 @@ export default function HavenEstatesPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#1a1a1a]/40">
             {["Properties", "Services", "About", "Journal"].map(l => (
-              <Link key={l} href="#" className="hover:text-[#b8860b] transition-colors">{l}</Link>
+              <Link key={l} href="#services" className="hover:text-[#b8860b] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
@@ -81,7 +81,7 @@ export default function HavenEstatesPage() {
               <SheetContent side="right" className="bg-[#faf9f6] p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Properties", "Services", "About", "Contact"].map(l => (
-                    <Link key={l} href="#" className="text-3xl font-light hover:text-[#b8860b] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</Link>
+                    <Link key={l} href="#services" className="text-3xl font-light hover:text-[#b8860b] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -295,7 +295,7 @@ export default function HavenEstatesPage() {
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#b8860b] mb-6">{col.title}</h4>
               <ul className="space-y-3 text-sm text-white/30">
-                {col.links.map(l => <li key={l}><Link href="#" className="hover:text-white transition-colors">{l}</Link></li>)}
+                {col.links.map(l => <li key={l}><Link href="#equipe" className="hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}

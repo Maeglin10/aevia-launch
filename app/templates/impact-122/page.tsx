@@ -162,8 +162,8 @@ export default function ChronicleEditorialPage() {
                     </Link>
                   ))}
                   <div className="w-full h-[1px] bg-white/10 my-4" />
-                  <Link href="#" className="text-sm font-bold uppercase tracking-widest text-[#d64000] hover:text-white transition-colors">Subscribe</Link>
-                  <Link href="#" className="text-sm font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors">Sign In</Link>
+                  <Link href="#subscribe" className="text-sm font-bold uppercase tracking-widest text-[#d64000] hover:text-white transition-colors">Subscribe</Link>
+                  <Link href="#subscribe" className="text-sm font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors">Sign In</Link>
                 </div>
               </SheetContent>
             </Sheet>
@@ -239,7 +239,7 @@ export default function ChronicleEditorialPage() {
             {/* MAIN FEATURE (CENTER/RIGHT) */}
             <div className="lg:col-span-9 order-1 lg:order-2">
               <Reveal>
-                <Link href="#" className="group block">
+                <Link href="#subscribe" className="group block">
                   <div className="relative w-full aspect-[16/9] md:aspect-[2/1] bg-[#e5e3de] mb-8 overflow-hidden">
                     <Image 
                       src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1600&q=80" 
@@ -297,7 +297,7 @@ export default function ChronicleEditorialPage() {
           <div className="max-w-[1400px] mx-auto px-6">
             <div className="flex items-center justify-between mb-12">
               <h3 className="text-3xl font-serif italic">Editors' Picks</h3>
-              <Link href="#" className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:text-[#d64000] transition-colors">
+              <Link href="#subscribe" className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:text-[#d64000] transition-colors">
                 View All <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -522,10 +522,10 @@ export default function ChronicleEditorialPage() {
         <div className="max-w-[1400px] mx-auto border-t border-[#fcfaf7]/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] font-bold uppercase tracking-widest">
           <div>© 2026 The Chronicle Media Group.</div>
           <div className="flex flex-wrap justify-center gap-6">
-            <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-white transition-colors">Cookie Settings</Link>
-            <Link href="#" className="hover:text-white transition-colors">Accessibility</Link>
+            <Link href="#subscribe" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="#subscribe" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="#subscribe" className="hover:text-white transition-colors">Cookie Settings</Link>
+            <Link href="#subscribe" className="hover:text-white transition-colors">Accessibility</Link>
           </div>
         </div>
       </footer>

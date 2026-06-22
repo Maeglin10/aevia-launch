@@ -457,7 +457,7 @@ export default function Impact173Page() {
         </div>
         <div style={{ display: "flex", gap: 40, alignItems: "center" }}>
           {NAV_LINKS.map(link => (
-            <a key={link} href="#"
+            <a key={link} href="#accueil"
               style={{ fontSize: 12, color: C.textMuted, letterSpacing: 2, textTransform: "uppercase", textDecoration: "none", fontWeight: 500, transition: "color 0.2s" }}
               onMouseEnter={e => (e.currentTarget.style.color = C.orange)}
               onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
@@ -1289,7 +1289,7 @@ export default function Impact173Page() {
                 <div style={{ fontSize: 11, color: C.orange, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, marginBottom: 20 }}>{col.title}</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {col.links.map(link => (
-                    <a key={link} href="#" style={{ fontSize: 13, color: C.textMuted, textDecoration: "none", transition: "color 0.2s" }}
+                    <a key={link} href="#contact" style={{ fontSize: 13, color: C.textMuted, textDecoration: "none", transition: "color 0.2s" }}
                       onMouseEnter={e => (e.currentTarget.style.color = C.text)}
                       onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
                     >{link}</a>
@@ -1302,7 +1302,7 @@ export default function Impact173Page() {
             <div style={{ fontSize: 12, color: C.textMuted }}>© 2025 Structure Bâtisseurs · Tous droits réservés · Grenoble, France</div>
             <div style={{ display: "flex", gap: 32 }}>
               {["Mentions légales", "RGPD", "Politique cookies"].map(l => (
-                <a key={l} href="#" style={{ fontSize: 12, color: C.textMuted, textDecoration: "none" }}>{l}</a>
+                <a key={l} href="#contact" style={{ fontSize: 12, color: C.textMuted, textDecoration: "none" }}>{l}</a>
               ))}
             </div>
           </div>

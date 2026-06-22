@@ -59,7 +59,7 @@ export default function OsteoGaiaPage() {
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#3a2e28]/30">
             {["Soins", "L'approche", "Tarifs", "Agenda", "Contact"].map(l => (
-              <Link key={l} href="#" className="hover:text-[#c26b4c] transition-colors">{l}</Link>
+              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[#c26b4c] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -73,7 +73,7 @@ export default function OsteoGaiaPage() {
               <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5" /></button></SheetTrigger>
               <SheetContent side="right" className="bg-[#f5f0e8] border-slate-200 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Soins", "L'approche", "Contact"].map(l => <Link key={l} href="#" className="text-3xl font-bold text-[#3a2e28] hover:text-[#c26b4c] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif" }}>{l}</Link>)}
+                  {["Soins", "L'approche", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#3a2e28] hover:text-[#c26b4c] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif" }}>{l}</Link>)}
                   <a href="tel:0467891234" className="flex items-center gap-3 text-[#c26b4c] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 67 89 12 34</a>
                 </div>
               </SheetContent>
@@ -261,7 +261,7 @@ export default function OsteoGaiaPage() {
             <div key={i}>
               <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#c26b4c]/40 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
-                {col.ls.map(l => <li key={l}><Link href="#" className="text-[#f5f0e8]/20 text-sm hover:text-[#f5f0e8]/60 transition-colors">{l}</Link></li>)}
+                {col.ls.map(l => <li key={l}><Link href="#contact" className="text-[#f5f0e8]/20 text-sm hover:text-[#f5f0e8]/60 transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}

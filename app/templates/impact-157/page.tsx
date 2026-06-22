@@ -411,7 +411,7 @@ export default function Impact157Page() {
             (l) => (
               <a
                 key={l}
-                href="#"
+                href="#contact"
                 style={{
                   fontSize: 12,
                   letterSpacing: 2,
@@ -442,7 +442,7 @@ export default function Impact157Page() {
             +33 1 42 60 XX XX
           </span>
           <motion.a
-            href="#"
+            href="#accueil"
             whileHover={{ background: C.goldLight }}
             whileTap={{ scale: 0.97 }}
             style={{
@@ -629,7 +629,7 @@ export default function Impact157Page() {
 
             <div style={{ display: "flex", gap: 16, marginBottom: 48 }}>
               <motion.a
-                href="#"
+                href="#accueil"
                 whileHover={{ background: C.goldLight }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -650,7 +650,7 @@ export default function Impact157Page() {
                 Découvrir <ArrowRight size={14} />
               </motion.a>
               <motion.a
-                href="#"
+                href="#accueil"
                 whileHover={{ borderColor: C.gold, color: C.gold }}
                 style={{
                   display: "inline-flex",
@@ -1787,7 +1787,7 @@ export default function Impact157Page() {
             style={{ display: "flex", gap: 16, justifyContent: "center" }}
           >
             <motion.a
-              href="#"
+              href="#contact"
               whileHover={{ background: C.goldLight }}
               whileTap={{ scale: 0.97 }}
               style={{
@@ -1808,7 +1808,7 @@ export default function Impact157Page() {
               Prendre rendez-vous <ArrowRight size={14} />
             </motion.a>
             <motion.a
-              href="#"
+              href="#contact"
               whileHover={{ borderColor: C.gold, color: C.gold }}
               style={{
                 display: "inline-flex",
@@ -1878,7 +1878,7 @@ export default function Impact157Page() {
               {[MessageSquare, Camera, Link2].map((Icon, i) => (
                 <motion.a
                   key={i}
-                  href="#"
+                  href="#contact"
                   whileHover={{ borderColor: C.goldBorder, color: C.gold }}
                   style={{
                     width: 36,
@@ -1934,7 +1934,7 @@ export default function Impact157Page() {
                 {col.links.map((l) => (
                   <a
                     key={l}
-                    href="#"
+                    href="#accueil"
                     style={{
                       fontSize: 14,
                       color: C.textMuted,

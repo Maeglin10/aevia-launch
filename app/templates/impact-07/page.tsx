@@ -516,30 +516,30 @@ export default function AetherSoundPage() {
            <div className="lg:col-span-2">
               <h4 className="text-[11px] font-black uppercase tracking-widest text-[#c9a84c] mb-12">Instruments</h4>
               <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                 <li><Link href="#" className="hover:text-white transition-colors">Aether_One</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Vortex_Amplification</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Sonic_Prism_DAC</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Legacy_Support</Link></li>
+                 <li><Link href="#reference" className="hover:text-white transition-colors">Aether_One</Link></li>
+                 <li><Link href="#reference" className="hover:text-white transition-colors">Vortex_Amplification</Link></li>
+                 <li><Link href="#reference" className="hover:text-white transition-colors">Sonic_Prism_DAC</Link></li>
+                 <li><Link href="#reference" className="hover:text-white transition-colors">Legacy_Support</Link></li>
               </ul>
            </div>
 
            <div className="lg:col-span-2">
               <h4 className="text-[11px] font-black uppercase tracking-widest text-[#c9a84c] mb-12">Engineering</h4>
               <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                 <li><Link href="#process" className="hover:text-white transition-colors">The_Process</Link></li>
-                 <li><Link href="#process" className="hover:text-white transition-colors">Material_Science</Link></li>
-                 <li><Link href="#process" className="hover:text-white transition-colors">Room_Correction</Link></li>
-                 <li><Link href="#process" className="hover:text-white transition-colors">Consultation</Link></li>
+                 <li><Link href="#reference" className="hover:text-white transition-colors">The_Process</Link></li>
+                 <li><Link href="#reference" className="hover:text-white transition-colors">Material_Science</Link></li>
+                 <li><Link href="#reference" className="hover:text-white transition-colors">Room_Correction</Link></li>
+                 <li><Link href="#reference" className="hover:text-white transition-colors">Consultation</Link></li>
               </ul>
            </div>
 
            <div className="lg:col-span-2">
               <h4 className="text-[11px] font-black uppercase tracking-widest text-[#c9a84c] mb-12">Studio</h4>
               <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                 <li><Link href="#" className="hover:text-white transition-colors">The_Maison</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Global_Units</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Technical_Kit</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Archives</Link></li>
+                 <li><Link href="#reference" className="hover:text-white transition-colors">The_Maison</Link></li>
+                 <li><Link href="#reference" className="hover:text-white transition-colors">Global_Units</Link></li>
+                 <li><Link href="#reference" className="hover:text-white transition-colors">Technical_Kit</Link></li>
+                 <li><Link href="#reference" className="hover:text-white transition-colors">Archives</Link></li>
               </ul>
            </div>
         </div>

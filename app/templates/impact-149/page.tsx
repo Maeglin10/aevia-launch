@@ -51,7 +51,7 @@ export default function AetherWellnessPage() {
           </Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-black/30">
             {["Sanctuary", "Retreats", "Essence", "Journal"].map(l => (
-              <Link key={l} href="#" className="hover:text-black transition-colors">{l}</Link>
+              <Link key={l} href="#accueil" className="hover:text-black transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-8">
@@ -62,7 +62,7 @@ export default function AetherWellnessPage() {
               <SheetContent side="right" className="bg-[#faf9f6] border-none p-12 text-black">
                 <div className="flex flex-col gap-10 mt-16 text-left">
                   {["Sanctuary", "Experience", "Philosophy", "Book"].map(l => (
-                    <Link key={l} href="#" className="text-4xl font-light uppercase tracking-widest hover:italic transition-all">{l}</Link>
+                    <Link key={l} href="#accueil" className="text-4xl font-light uppercase tracking-widest hover:italic transition-all">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -146,7 +146,7 @@ export default function AetherWellnessPage() {
                        <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/30 block mb-6">The Sanctuary</span>
                        <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-[#1a1a1a] leading-none" style={{ fontFamily: "serif" }}>Architectural <br/> <span className="italic">Healing.</span></h2>
                     </div>
-                    <Link href="#" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-black text-black/40 transition-colors group italic">
+                    <Link href="#accueil" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-black text-black/40 transition-colors group italic">
                        View Retreat Schedule <ChevronRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
                     </Link>
                  </div>
@@ -294,7 +294,7 @@ export default function AetherWellnessPage() {
               </p>
               <div className="flex gap-10">
                  {["Camera", "Journal", "Newsletter", "Contact"].map(s => (
-                   <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-black/20 hover:text-black transition-colors italic">{s}</Link>
+                   <Link key={s} href="#contact" className="text-[10px] font-bold uppercase tracking-widest text-black/20 hover:text-black transition-colors italic">{s}</Link>
                  ))}
               </div>
            </div>
@@ -309,7 +309,7 @@ export default function AetherWellnessPage() {
                 <ul className="space-y-6">
                    {col.l.map(link => (
                      <li key={link} className="text-xs font-bold uppercase tracking-widest text-black/40 hover:text-black transition-colors italic">
-                        <Link href="#">{link}</Link>
+                        <Link href="#contact">{link}</Link>
                      </li>
                    ))}
                 </ul>
@@ -319,9 +319,9 @@ export default function AetherWellnessPage() {
         <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8 border-t border-black/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-black/10 italic">
            <span>© 2026 AETHER WELLNESS GROUP. BREATHE IN.</span>
            <div className="flex gap-12">
-              <Link href="#" className="hover:text-black transition-all">SWITZERLAND</Link>
-              <Link href="#" className="hover:text-black transition-all">ICELAND</Link>
-              <Link href="#" className="hover:text-black transition-all">JAPAN</Link>
+              <Link href="#contact" className="hover:text-black transition-all">SWITZERLAND</Link>
+              <Link href="#contact" className="hover:text-black transition-all">ICELAND</Link>
+              <Link href="#contact" className="hover:text-black transition-all">JAPAN</Link>
            </div>
         </div>
       </footer>

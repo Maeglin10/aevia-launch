@@ -197,7 +197,13 @@ export default function Impact49Layout({
                   {links.map((link) => (
                     <li key={link}>
                       <Link
-                        href="#"
+                        href={
+                          link.toLowerCase().includes("tarif")
+                            ? "/templates/impact-49/pricing"
+                            : link.toLowerCase().includes("aide") || link.toLowerCase().includes("contact")
+                            ? "/templates/impact-49/contact"
+                            : "/templates/impact-49/about"
+                        }
                         className="text-sm text-[#818CF8] hover:text-white transition-colors"
                       >
                         {link}

@@ -66,7 +66,7 @@ export default function LuminaLawPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-black/40">
             {["Expertise", "Partners", "Insights", "Case Studies"].map(l => (
-              <Link key={l} href="#" className="hover:text-[#1a365d] transition-colors">{l}</Link>
+              <Link key={l} href="#expertise" className="hover:text-[#1a365d] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
@@ -77,7 +77,7 @@ export default function LuminaLawPage() {
               <SheetContent side="right" className="bg-white border-black/5 p-12 text-black">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {["Expertise", "Partners", "Insights", "Contact"].map(l => (
-                    <Link key={l} href="#" className="text-3xl font-bold tracking-tighter hover:text-[#1a365d] transition-colors">{l}</Link>
+                    <Link key={l} href="#expertise" className="text-3xl font-bold tracking-tighter hover:text-[#1a365d] transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -156,7 +156,7 @@ export default function LuminaLawPage() {
                     </div>
                     <h3 className="text-2xl font-bold mb-6 uppercase tracking-tight" style={{ fontFamily: "serif" }}>{e.title}</h3>
                     <p className="text-black/40 leading-relaxed text-sm font-light mb-10">{e.desc}</p>
-                    <Link href="#" className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-[#1a365d] group-hover:gap-6 transition-all">
+                    <Link href="#accueil" className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-[#1a365d] group-hover:gap-6 transition-all">
                        Learn More <ChevronRight className="w-4 h-4" />
                     </Link>
                   </div>
@@ -338,7 +338,7 @@ export default function LuminaLawPage() {
             </p>
             <div className="flex gap-10">
                {["LinkedIn", "Journal", "Archive", "Contact"].map(s => (
-                 <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-black/30 hover:text-[#1a365d] transition-colors">{s}</Link>
+                 <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[10px] font-bold uppercase tracking-widest text-black/30 hover:text-[#1a365d] transition-colors">{s}</Link>
                ))}
             </div>
           </div>
@@ -351,7 +351,7 @@ export default function LuminaLawPage() {
             <div key={i} className="space-y-10">
               <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#1a365d]">{col.t}</h4>
               <ul className="space-y-6">
-                {col.l.map(link => <li key={link}><Link href="#" className="text-xs text-black/30 hover:text-black transition-colors">{link}</Link></li>)}
+                {col.l.map(link => <li key={link}><Link href="#insights" className="text-xs text-black/30 hover:text-black transition-colors">{link}</Link></li>)}
               </ul>
             </div>
           ))}
@@ -360,8 +360,8 @@ export default function LuminaLawPage() {
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-black/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-black/10">
           <span>© 2026 LUMINA LAW GLOBAL PARTNERSHIP. STRENGTH IN TRUTH.</span>
           <div className="flex gap-12">
-             <Link href="#" className="hover:text-black transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> LONDON · NEW YORK · SINGAPORE</Link>
-             <Link href="#" className="hover:text-black transition-colors flex items-center gap-2"><FileText className="w-3 h-3" /> LEGAL TERMS</Link>
+             <Link href="#contact" className="hover:text-black transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> LONDON · NEW YORK · SINGAPORE</Link>
+             <Link href="#contact" className="hover:text-black transition-colors flex items-center gap-2"><FileText className="w-3 h-3" /> LEGAL TERMS</Link>
           </div>
         </div>
       </footer>

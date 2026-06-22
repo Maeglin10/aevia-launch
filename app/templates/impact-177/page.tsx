@@ -85,7 +85,7 @@ export default function MaelleDumasPage() {
           <span style={{ fontFamily: C.serif, fontSize: "1.4rem", fontWeight: 600, letterSpacing: "0.02em", fontStyle: "italic", color: C.dark }}>Maëlle Dumas</span>
           <div style={{ display: "flex", gap: "3rem" }} className="hidden lg:flex">
             {["Projets", "Prestations", "À propos", "Contact"].map(l => (
-              <Link key={l} href="#" style={{ fontFamily: C.sans, fontSize: "0.7rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.15em", color: C.muted, textDecoration: "none", transition: "color 0.3s" }}
+              <Link key={l} href="#contact" style={{ fontFamily: C.sans, fontSize: "0.7rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.15em", color: C.muted, textDecoration: "none", transition: "color 0.3s" }}
                 onMouseEnter={e => (e.target as HTMLElement).style.color = C.terra}
                 onMouseLeave={e => (e.target as HTMLElement).style.color = C.muted}>{l}</Link>
             ))}

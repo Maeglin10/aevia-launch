@@ -502,7 +502,7 @@ export default function ImpactFrequencePage() {
             {["Archives", "Auteurs", "Podcast", "À propos"].map(l => (
               <a
                 key={l}
-                href="#"
+                href="#apropos"
                 style={{
                   fontFamily: C.mono,
                   fontSize: 11,
@@ -924,7 +924,7 @@ export default function ImpactFrequencePage() {
               Dernières éditions
             </h2>
             <a
-              href="#"
+              href="#contact"
               style={{
                 fontFamily: C.mono,
                 fontSize: 10,

@@ -1171,7 +1171,7 @@ export default function Impact115Page() {
               </TextReveal>
             </div>
             <motion.a
-              href="#"
+              href="#contact"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}

@@ -816,7 +816,7 @@ export default function EssentialBlogPage() {
               <h2 style={{ fontFamily: C.serif, fontSize: "clamp(22px, 2.5vw, 36px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
                 Nos auteurs
               </h2>
-              <motion.a whileHover={{ color: C.accent }} href="#" style={{ fontSize: 12, fontFamily: C.sans, fontWeight: 600, color: C.textMuted, textDecoration: "none", letterSpacing: "0.06em", display: "flex", alignItems: "center", gap: 6 }}>
+              <motion.a whileHover={{ color: C.accent }} href="#contact" style={{ fontSize: 12, fontFamily: C.sans, fontWeight: 600, color: C.textMuted, textDecoration: "none", letterSpacing: "0.06em", display: "flex", alignItems: "center", gap: 6 }}>
                 VOIR TOUS <ArrowRight size={13} />
               </motion.a>
             </div>
@@ -1128,7 +1128,7 @@ export default function EssentialBlogPage() {
                   <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
                     {col.links.map(l => (
                       <li key={l}>
-                        <motion.a href="#" whileHover={{ color: C.bg }} style={{ fontSize: 12, color: "rgba(250,250,250,0.35)", textDecoration: "none", fontFamily: C.sans, transition: "color 0.2s" }}>{l}</motion.a>
+                        <motion.a href="#apropos" whileHover={{ color: C.bg }} style={{ fontSize: 12, color: "rgba(250,250,250,0.35)", textDecoration: "none", fontFamily: C.sans, transition: "color 0.2s" }}>{l}</motion.a>
                       </li>
                     ))}
                   </ul>

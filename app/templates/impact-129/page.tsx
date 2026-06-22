@@ -108,11 +108,11 @@ export default function WaveFXPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Docs", "Examples", "Plugins", "Blog"].map(l => (
-              <Link key={l} href="#" className="hover:text-indigo-400 transition-colors">{l}</Link>
+              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-indigo-400 transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
-            <Link href="#" className="hidden md:flex items-center gap-2 text-white/40 hover:text-white transition-colors">
+            <Link href="#blog" className="hidden md:flex items-center gap-2 text-white/40 hover:text-white transition-colors">
               <Globe className="w-5 h-5" />
             </Link>
             <button className="hidden md:block px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-blue-500 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:opacity-90 transition-opacity">
@@ -123,7 +123,7 @@ export default function WaveFXPage() {
               <SheetContent side="right" className="bg-[#070a10] border-indigo-500/10 p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Docs", "Examples", "Plugins", "GitHub"].map(l => (
-                    <Link key={l} href="#" className="text-2xl font-light uppercase tracking-widest hover:text-indigo-400 transition-colors">{l}</Link>
+                    <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-2xl font-light uppercase tracking-widest hover:text-indigo-400 transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -161,7 +161,7 @@ export default function WaveFXPage() {
                 <button className="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-indigo-500 hover:text-white transition-all duration-500 flex items-center gap-2">
                   <Download className="w-4 h-4" /> Install
                 </button>
-                <Link href="#" className="px-8 py-4 border border-white/10 text-white/60 font-bold rounded-full hover:border-indigo-500/50 transition-all flex items-center gap-2">
+                <Link href="#accueil" className="px-8 py-4 border border-white/10 text-white/60 font-bold rounded-full hover:border-indigo-500/50 transition-all flex items-center gap-2">
                   <Globe className="w-4 h-4" /> GitHub
                 </Link>
               </div>
@@ -199,7 +199,7 @@ export default function WaveFXPage() {
                 <p className="text-white/40 leading-relaxed mb-8">
                   Declarative pipeline definitions with full TypeScript support. Connect any source to any sink with composable transforms.
                 </p>
-                <Link href="#" className="inline-flex items-center gap-2 text-indigo-400 text-[10px] font-bold uppercase tracking-widest hover:gap-4 transition-all">
+                <Link href="#contact" className="inline-flex items-center gap-2 text-indigo-400 text-[10px] font-bold uppercase tracking-widest hover:gap-4 transition-all">
                   Read the Docs <ArrowRight className="w-4 h-4" />
                 </Link>
               </Reveal>
@@ -316,7 +316,7 @@ export default function WaveFXPage() {
                 <button className="px-10 py-4 bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-bold rounded-full hover:opacity-90 transition-opacity">
                   Get Started Free
                 </button>
-                <Link href="#" className="px-10 py-4 border border-white/10 text-white/60 font-bold rounded-full hover:border-indigo-500/50 transition-all flex items-center gap-2">
+                <Link href="#contact" className="px-10 py-4 border border-white/10 text-white/60 font-bold rounded-full hover:border-indigo-500/50 transition-all flex items-center gap-2">
                   Star on GitHub <ExternalLink className="w-4 h-4" />
                 </Link>
               </div>
@@ -343,7 +343,7 @@ export default function WaveFXPage() {
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-indigo-400 mb-6">{col.title}</h4>
               <ul className="space-y-3 text-sm text-white/30">
-                {col.links.map(l => <li key={l}><Link href="#" className="hover:text-white transition-colors">{l}</Link></li>)}
+                {col.links.map(l => <li key={l}><Link href="#contact" className="hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}

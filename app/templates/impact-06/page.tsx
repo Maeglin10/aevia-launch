@@ -652,30 +652,30 @@ export default function NeuralisPage() {
            <div className="lg:col-span-2">
               <h4 className="text-[11px] font-black uppercase tracking-widest text-[#00f2ff] mb-12">Innovations</h4>
               <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                 <li><Link href="#" className="hover:text-white transition-colors">Neuro_Link_V2</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Oxy_Flow_System</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Prism_Optics</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Provenance</Link></li>
+                 <li><Link href="#solutions" className="hover:text-white transition-colors">Neuro_Link_V2</Link></li>
+                 <li><Link href="#solutions" className="hover:text-white transition-colors">Oxy_Flow_System</Link></li>
+                 <li><Link href="#solutions" className="hover:text-white transition-colors">Prism_Optics</Link></li>
+                 <li><Link href="#solutions" className="hover:text-white transition-colors">Provenance</Link></li>
               </ul>
            </div>
 
            <div className="lg:col-span-2">
               <h4 className="text-[11px] font-black uppercase tracking-widest text-[#00f2ff] mb-12">Experience</h4>
               <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                 <li><Link href="#collections" className="hover:text-white transition-colors">Diagnostic_Scan</Link></li>
-                 <li><Link href="#collections" className="hover:text-white transition-colors">Sync_Portal</Link></li>
-                 <li><Link href="#collections" className="hover:text-white transition-colors">Atelier_Tour</Link></li>
-                 <li><Link href="#collections" className="hover:text-white transition-colors">Boutique</Link></li>
+                 <li><Link href="#solutions" className="hover:text-white transition-colors">Diagnostic_Scan</Link></li>
+                 <li><Link href="#solutions" className="hover:text-white transition-colors">Sync_Portal</Link></li>
+                 <li><Link href="#solutions" className="hover:text-white transition-colors">Atelier_Tour</Link></li>
+                 <li><Link href="#solutions" className="hover:text-white transition-colors">Boutique</Link></li>
               </ul>
            </div>
 
            <div className="lg:col-span-2">
               <h4 className="text-[11px] font-black uppercase tracking-widest text-[#00f2ff] mb-12">Studio</h4>
               <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                 <li><Link href="#" className="hover:text-white transition-colors">The_Maison</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Global_Units</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Research_Kit</Link></li>
-                 <li><Link href="#" className="hover:text-white transition-colors">Ethics_Board</Link></li>
+                 <li><Link href="#solutions" className="hover:text-white transition-colors">The_Maison</Link></li>
+                 <li><Link href="#solutions" className="hover:text-white transition-colors">Global_Units</Link></li>
+                 <li><Link href="#solutions" className="hover:text-white transition-colors">Research_Kit</Link></li>
+                 <li><Link href="#solutions" className="hover:text-white transition-colors">Ethics_Board</Link></li>
               </ul>
            </div>
         </div>

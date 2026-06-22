@@ -328,7 +328,7 @@ export default function NovaSpacesPage() {
                 </p>
               </div>
               <Link
-                href="#"
+                href="#work"
                 className="text-[10px] font-bold uppercase tracking-[0.3em] text-black border-b border-black pb-2 hover:text-black/40 hover:border-black/40 transition-all"
               >
                 Download Press Archive
@@ -543,22 +543,22 @@ export default function NovaSpacesPage() {
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-black/20">
               <li>
-                <Link href="#" className="hover:text-black transition-colors">
+                <Link href="#work" className="hover:text-black transition-colors">
                   Residential
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-black transition-colors">
+                <Link href="#work" className="hover:text-black transition-colors">
                   Commercial
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-black transition-colors">
+                <Link href="#work" className="hover:text-black transition-colors">
                   Hospitality
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-black transition-colors">
+                <Link href="#work" className="hover:text-black transition-colors">
                   Furniture
                 </Link>
               </li>
@@ -571,22 +571,22 @@ export default function NovaSpacesPage() {
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-black/20">
               <li>
-                <Link href="#" className="hover:text-black transition-colors">
+                <Link href="#work" className="hover:text-black transition-colors">
                   Spatial_Logic
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-black transition-colors">
+                <Link href="#work" className="hover:text-black transition-colors">
                   Material_Sourcing
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-black transition-colors">
+                <Link href="#work" className="hover:text-black transition-colors">
                   Light_Sculpting
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-black transition-colors">
+                <Link href="#work" className="hover:text-black transition-colors">
                   Sustainability
                 </Link>
               </li>
@@ -599,22 +599,22 @@ export default function NovaSpacesPage() {
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-black/20">
               <li>
-                <Link href="#" className="hover:text-black transition-colors">
+                <Link href="#work" className="hover:text-black transition-colors">
                   The_Studio
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-black transition-colors">
+                <Link href="#work" className="hover:text-black transition-colors">
                   Locations
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-black transition-colors">
+                <Link href="#work" className="hover:text-black transition-colors">
                   Press_Archive
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-black transition-colors">
+                <Link href="#work" className="hover:text-black transition-colors">
                   Careers
                 </Link>
               </li>

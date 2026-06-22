@@ -79,7 +79,7 @@ export default function CouleursCOPage() {
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1a1a2e]/35">
             {["Services", "Réalisations", "Couleurs", "Zone", "Contact"].map(l => (
-              <Link key={l} href="#" className="hover:text-[#4d7c5f] transition-colors">{l}</Link>
+              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[#4d7c5f] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -93,7 +93,7 @@ export default function CouleursCOPage() {
               <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5 text-[#1a1a2e]" /></button></SheetTrigger>
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Services", "Réalisations", "Contact"].map(l => <Link key={l} href="#" className="text-3xl font-bold text-[#1a1a2e] hover:text-[#4d7c5f] transition-colors">{l}</Link>)}
+                  {["Services", "Réalisations", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1a1a2e] hover:text-[#4d7c5f] transition-colors">{l}</Link>)}
                   <a href="tel:0320456789" className="flex items-center gap-3 text-[#4d7c5f] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 03 20 45 67 89</a>
                 </div>
               </SheetContent>
@@ -279,7 +279,7 @@ export default function CouleursCOPage() {
             <div key={i}>
               <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#4d7c5f] mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
-                {col.ls.map(l => <li key={l}><Link href="#" className="text-white/25 text-sm hover:text-white transition-colors">{l}</Link></li>)}
+                {col.ls.map(l => <li key={l}><Link href="#contact" className="text-white/25 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}

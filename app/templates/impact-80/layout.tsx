@@ -127,7 +127,7 @@ export default function SymmetryStudioLayout({
               {["Camera", "Vimeo", "ArchDaily", "Journal"].map((s) => (
                 <Link
                   key={s}
-                  href="#"
+                  href={s === "Camera" ? "https://instagram.com" : s === "Vimeo" ? "https://vimeo.com" : s === "ArchDaily" ? "https://archdaily.com" : `${basePath}/identity`}
                   className="text-[10px] font-bold uppercase tracking-widest text-black/20 hover:text-black transition-colors italic"
                 >
                   {s}
@@ -184,13 +184,13 @@ export default function SymmetryStudioLayout({
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8 border-t border-black/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-black/10 italic">
           <span>© 2026 SYMMETRY STUDIO ARCHITECTURE AG. PURE VOLUME.</span>
           <div className="flex gap-12">
-            <Link href="#" className="hover:text-black transition-all">
+            <Link href={`${basePath}/contact`} className="hover:text-black transition-all">
               BASEL
             </Link>
-            <Link href="#" className="hover:text-black transition-all">
+            <Link href={`${basePath}/contact`} className="hover:text-black transition-all">
               BERLIN
             </Link>
-            <Link href="#" className="hover:text-black transition-all">
+            <Link href={`${basePath}/contact`} className="hover:text-black transition-all">
               TOKYO
             </Link>
           </div>

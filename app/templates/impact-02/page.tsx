@@ -563,9 +563,9 @@ export default function CreativePortfolioSPA() {
             <div>
               <h4 className="text-white font-medium mb-6 uppercase tracking-wider text-xs">Studio</h4>
               <ul className="space-y-4 text-white/50 text-sm">
-                <li><a href="#" className="hover:text-amber-400 transition-colors">12 Rue de Paradis, Paris</a></li>
-                <li><a href="#" className="hover:text-amber-400 transition-colors">Aoyama, Minato City, Tokyo</a></li>
-                <li><a href="#" className="hover:text-amber-400 transition-colors">+33 (0) 1 45 67 89 00</a></li>
+                <li><a href="#contact" className="hover:text-amber-400 transition-colors">12 Rue de Paradis, Paris</a></li>
+                <li><a href="#contact" className="hover:text-amber-400 transition-colors">Aoyama, Minato City, Tokyo</a></li>
+                <li><a href="tel:+33145678900" className="hover:text-amber-400 transition-colors">+33 (0) 1 45 67 89 00</a></li>
               </ul>
             </div>
 
@@ -593,9 +593,9 @@ export default function CreativePortfolioSPA() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/10 text-xs text-white/30 uppercase tracking-widest font-mono">
             <span>&copy; {new Date().getFullYear()} Elena Korr Studio</span>
             <div className="flex gap-6">
-              <a href="#" className="hover:text-white transition-colors">Privacy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms</a>
-              <a href="#" className="hover:text-white transition-colors">Credits</a>
+              <a href="#contact" className="hover:text-white transition-colors">Privacy</a>
+              <a href="#contact" className="hover:text-white transition-colors">Terms</a>
+              <a href="#contact" className="hover:text-white transition-colors">Credits</a>
             </div>
           </div>
         </div>

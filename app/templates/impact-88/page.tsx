@@ -1176,7 +1176,7 @@ function ContactFooter() {
                     <Mail className="w-3.5 h-3.5" />
                     bonjour@velvetnails.fr
                   </a>
-                  <a href="#" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <a href="#contact" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
                     <Instagram className="w-3.5 h-3.5" />
                     @velvetnails.paris
                   </a>

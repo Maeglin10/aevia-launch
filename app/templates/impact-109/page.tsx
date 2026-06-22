@@ -71,7 +71,7 @@ export default function AetherSoundPage() {
           </Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
             {["Acoustics", "Manifesto", "Instruments", "Journal"].map(l => (
-              <Link key={l} href="#" className="hover:text-white transition-colors">{l}</Link>
+              <Link key={l} href="#accueil" className="hover:text-white transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-8">
@@ -82,7 +82,7 @@ export default function AetherSoundPage() {
               <SheetContent side="right" className="bg-black border-white/5 p-12 text-white">
                 <div className="flex flex-col gap-10 mt-16 text-left">
                   {["Acoustics", "Instruments", "About", "Contact"].map(l => (
-                    <Link key={l} href="#" className="text-2xl font-light uppercase tracking-[0.3em] hover:text-white transition-colors">{l}</Link>
+                    <Link key={l} href="#contact" className="text-2xl font-light uppercase tracking-[0.3em] hover:text-white transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -143,7 +143,7 @@ export default function AetherSoundPage() {
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block mb-4">The Collection</span>
                   <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter">Acoustic <span className="italic font-bold">Sculptures.</span></h2>
                 </div>
-                <Link href="#" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-white text-white/40 transition-colors group">
+                <Link href="#collections" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-white text-white/40 transition-colors group">
                   View Specifications <ChevronRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
                 </Link>
               </div>
@@ -330,7 +330,7 @@ export default function AetherSoundPage() {
             </p>
             <div className="flex gap-8">
                {["Camera", "Journal", "Technical Paper", "Discord"].map(s => (
-                 <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors">{s}</Link>
+                 <Link key={s} href="#accueil" className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors">{s}</Link>
                ))}
             </div>
           </div>
@@ -343,7 +343,7 @@ export default function AetherSoundPage() {
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white mb-10">{col.t}</h4>
               <ul className="space-y-6">
-                {col.l.map(link => <li key={link}><Link href="#" className="text-xs text-white/30 hover:text-white transition-colors">{link}</Link></li>)}
+                {col.l.map(link => <li key={link}><Link href="#contact" className="text-xs text-white/30 hover:text-white transition-colors">{link}</Link></li>)}
               </ul>
             </div>
           ))}
@@ -352,8 +352,8 @@ export default function AetherSoundPage() {
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
           <span>© 2026 AETHER SOUND AG. ALL RIGHTS RESERVED.</span>
           <div className="flex gap-10">
-             <Link href="#" className="hover:text-white transition-colors">Privacy Circle</Link>
-             <Link href="#" className="hover:text-white transition-colors">Technical Terms</Link>
+             <Link href="#contact" className="hover:text-white transition-colors">Privacy Circle</Link>
+             <Link href="#contact" className="hover:text-white transition-colors">Technical Terms</Link>
           </div>
         </div>
       </footer>

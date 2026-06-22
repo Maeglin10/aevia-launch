@@ -67,7 +67,7 @@ export default function VulcanMotorsPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Atelier", "Collection", "Performance", "Reserve"].map(l => (
-              <Link key={l} href="#" className="hover:text-red-500 transition-colors">{l}</Link>
+              <Link key={l} href="#collections" className="hover:text-red-500 transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
@@ -78,7 +78,7 @@ export default function VulcanMotorsPage() {
               <SheetContent side="right" className="bg-black border-red-600/20 p-12 text-white">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {["The Atelier", "Models", "Tech Specs", "Contact"].map(l => (
-                    <Link key={l} href="#" className="text-3xl font-black uppercase tracking-tighter hover:text-red-600 transition-colors italic">{l}</Link>
+                    <Link key={l} href="#contact" className="text-3xl font-black uppercase tracking-tighter hover:text-red-600 transition-colors italic">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -325,7 +325,7 @@ export default function VulcanMotorsPage() {
             </p>
             <div className="flex gap-8">
                {["Camera", "YouTube", "LinkedIn", "Registry"].map(s => (
-                 <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-red-600 transition-colors">{s}</Link>
+                 <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-red-600 transition-colors">{s}</Link>
                ))}
             </div>
           </div>
@@ -338,7 +338,7 @@ export default function VulcanMotorsPage() {
             <div key={i} className="space-y-10">
               <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-red-600">{col.t}</h4>
               <ul className="space-y-6">
-                {col.l.map(link => <li key={link}><Link href="#" className="text-xs text-white/40 hover:text-white transition-colors">{link}</Link></li>)}
+                {col.l.map(link => <li key={link}><Link href="#contact" className="text-xs text-white/40 hover:text-white transition-colors">{link}</Link></li>)}
               </ul>
             </div>
           ))}
@@ -347,8 +347,8 @@ export default function VulcanMotorsPage() {
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
           <span>© 2026 VULCAN MOTORS ATELIER. REDLINE ADDICTED.</span>
           <div className="flex gap-10">
-             <Link href="#" className="hover:text-white transition-colors flex items-center gap-2">MODENA, IT</Link>
-             <Link href="#" className="hover:text-white transition-colors flex items-center gap-2">SILVERSTONE, UK</Link>
+             <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2">MODENA, IT</Link>
+             <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2">SILVERSTONE, UK</Link>
           </div>
         </div>
       </footer>

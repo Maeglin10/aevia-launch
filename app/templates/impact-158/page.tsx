@@ -295,7 +295,7 @@ export default function AtlasPage() {
                   <p className="text-sm text-[#6B5A40] leading-relaxed mb-4 line-clamp-3" style={{ fontFamily: "'EB Garamond', serif", fontSize: "16px" }}>
                     {article.excerpt}
                   </p>
-                  <Link href="#" className="text-xs text-[#C0392B] flex items-center gap-1.5 hover:gap-3 transition-all duration-200 cursor-pointer">
+                  <Link href="#newsletter" className="text-xs text-[#C0392B] flex items-center gap-1.5 hover:gap-3 transition-all duration-200 cursor-pointer">
                     Lire le récit <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </motion.article>

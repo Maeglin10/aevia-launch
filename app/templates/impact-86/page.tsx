@@ -400,7 +400,7 @@ export default function AuraWellnessPage() {
       {/* Nav */}
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#F6F3EE]/90 backdrop-blur-md border border-[#D8D0C4] rounded-2xl px-6 py-4 flex items-center justify-between">
-          <Link href="#" className="flex items-center gap-2 cursor-pointer">
+          <Link href="#about" className="flex items-center gap-2 cursor-pointer">
             <Leaf className="w-5 h-5 text-[#7C9E87]" />
             <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>
               Aura Wellness

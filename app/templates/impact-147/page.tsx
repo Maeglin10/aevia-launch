@@ -48,7 +48,7 @@ export default function VanguardLegalPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">
             {["Offense", "Intelligence", "Global Nodes", "Archive"].map(l => (
-              <Link key={l} href="#" className="hover:text-[#00ff41] transition-colors">{l}</Link>
+              <Link key={l} href="#accueil" className="hover:text-[#00ff41] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
@@ -59,7 +59,7 @@ export default function VanguardLegalPage() {
               <SheetContent side="right" className="bg-[#02040a] border-white/5 p-12 text-white font-mono">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {["Offense", "Network", "Protocol", "Contact"].map(l => (
-                    <Link key={l} href="#" className="text-3xl font-bold uppercase tracking-tighter hover:text-[#00ff41] transition-all italic">{l}</Link>
+                    <Link key={l} href="#contact" className="text-3xl font-bold uppercase tracking-tighter hover:text-[#00ff41] transition-all italic">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -176,7 +176,7 @@ export default function VanguardLegalPage() {
                     <div className="text-[9px] font-bold uppercase tracking-widest text-[#00ff41]/40 mb-4 italic">Protocol: 0{i+1}</div>
                     <h3 className="text-3xl font-black uppercase mb-8 tracking-tighter italic">{item.t}</h3>
                     <p className="text-white/30 leading-relaxed text-sm font-light mb-12 italic">{item.d}</p>
-                    <Link href="#" className="mt-auto flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest group-hover:gap-8 transition-all">
+                    <Link href="#accueil" className="mt-auto flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest group-hover:gap-8 transition-all">
                        Initialize Protocol <ChevronRight className="w-4 h-4" />
                     </Link>
                   </div>
@@ -333,7 +333,7 @@ export default function VanguardLegalPage() {
               </p>
               <div className="flex gap-10">
                  {["GitHub", "Archive", "Signal", "Contact"].map(s => (
-                   <Link key={s} href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-[#00ff41] transition-colors underline underline-offset-8 decoration-[#00ff41]/10">{s}</Link>
+                   <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-[#00ff41] transition-colors underline underline-offset-8 decoration-[#00ff41]/10">{s}</Link>
                  ))}
               </div>
            </div>
@@ -348,7 +348,7 @@ export default function VanguardLegalPage() {
                 <ul className="space-y-6">
                    {col.l.map(link => (
                      <li key={link} className="text-xs font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic">
-                        <Link href="#">{link}</Link>
+                        <Link href="#accueil">{link}</Link>
                      </li>
                    ))}
                 </ul>
@@ -358,8 +358,8 @@ export default function VanguardLegalPage() {
         <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
            <span>© 2026 VANGUARD STRATEGIC LEGAL DEFENSE. CONNECTION ENCRYPTED.</span>
            <div className="flex gap-12">
-              <Link href="#" className="hover:text-[#00ff41] transition-all">SYSTEM_STATUS: NOMINAL</Link>
-              <Link href="#" className="hover:text-[#00ff41] transition-all">PRIVACY_PROTOCOL_ENABLED</Link>
+              <Link href="#contact" className="hover:text-[#00ff41] transition-all">SYSTEM_STATUS: NOMINAL</Link>
+              <Link href="#contact" className="hover:text-[#00ff41] transition-all">PRIVACY_PROTOCOL_ENABLED</Link>
            </div>
         </div>
       </footer>

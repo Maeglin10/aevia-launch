@@ -64,7 +64,7 @@ export default function CliniqueBoisVertPage() {
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.2em] text-[#2d2318]/30">
             {["Soins", "L'équipe", "Urgences", "Tarifs", "Nous trouver"].map(l => (
-              <Link key={l} href="#" className="hover:text-[#3a7d44] transition-colors">{l}</Link>
+              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[#3a7d44] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -78,7 +78,7 @@ export default function CliniqueBoisVertPage() {
               <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5" /></button></SheetTrigger>
               <SheetContent side="right" className="bg-[#fdfaf6] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Soins", "L'équipe", "Urgences"].map(l => <Link key={l} href="#" className="text-3xl font-bold text-[#2d2318] hover:text-[#3a7d44] transition-colors" style={{ fontFamily: "'Lora', serif" }}>{l}</Link>)}
+                  {["Soins", "L'équipe", "Urgences"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#2d2318] hover:text-[#3a7d44] transition-colors" style={{ fontFamily: "'Lora', serif" }}>{l}</Link>)}
                   <a href="tel:0561789012" className="flex items-center gap-3 text-[#3a7d44] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 05 61 78 90 12</a>
                 </div>
               </SheetContent>
@@ -265,7 +265,7 @@ export default function CliniqueBoisVertPage() {
             <div key={i}>
               <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#3a7d44]/60 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
-                {col.ls.map(l => <li key={l}><Link href="#" className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
+                {col.ls.map(l => <li key={l}><Link href="#temoignages" className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}

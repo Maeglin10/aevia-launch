@@ -583,7 +583,7 @@ export default function Impact130Page() {
           borderBottom: `1px solid ${C.border}`,
         }}
       >
-        <a href="#" style={{ textDecoration: "none" }}>
+        <a href="#contact" style={{ textDecoration: "none" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{ width: 28, height: 28, background: C.emeraldGlow, borderRadius: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <div style={{ width: 12, height: 12, background: C.bg, borderRadius: 1 }} />

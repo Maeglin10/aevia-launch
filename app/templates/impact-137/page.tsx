@@ -72,7 +72,7 @@ export default function TorrefieCoffeePage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#2c1810]/40">
             {["Origins", "Process", "Shop", "About"].map(l => (
-              <Link key={l} href="#" className="hover:text-[#6b3a24] transition-colors">{l}</Link>
+              <Link key={l} href="#apropos" className="hover:text-[#6b3a24] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
@@ -84,7 +84,7 @@ export default function TorrefieCoffeePage() {
               <SheetContent side="right" className="bg-[#f5f0ea] p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Origins", "Process", "Shop", "About"].map(l => (
-                    <Link key={l} href="#" className="text-3xl font-light hover:text-[#6b3a24] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</Link>
+                    <Link key={l} href="#apropos" className="text-3xl font-light hover:text-[#6b3a24] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -323,7 +323,7 @@ export default function TorrefieCoffeePage() {
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#c48a5a] mb-6">{col.title}</h4>
               <ul className="space-y-3 text-sm text-[#f5f0ea]/30">
-                {col.links.map(l => <li key={l}><Link href="#" className="hover:text-[#f5f0ea] transition-colors">{l}</Link></li>)}
+                {col.links.map(l => <li key={l}><Link href="#contact" className="hover:text-[#f5f0ea] transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}

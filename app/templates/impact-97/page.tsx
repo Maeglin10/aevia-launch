@@ -345,7 +345,7 @@ export default function HorizonYachtPage() {
                 </p>
               </div>
               <Link
-                href="#"
+                href="#fleet"
                 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#c5a059] border-b border-[#c5a059] pb-2 hover:text-white hover:border-white transition-all"
               >
                 Download Full Deck
@@ -585,17 +585,17 @@ export default function HorizonYachtPage() {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#portfolio" className="hover:text-white transition-colors">
                   Charter_Fleet
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#fleet" className="hover:text-white transition-colors">
                   New_Construction
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#fleet" className="hover:text-white transition-colors">
                   Case_Studies
                 </Link>
               </li>
@@ -613,17 +613,17 @@ export default function HorizonYachtPage() {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#services" className="hover:text-white transition-colors">
                   Crewing
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#fleet" className="hover:text-white transition-colors">
                   Charter_Marketing
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#fleet" className="hover:text-white transition-colors">
                   Technical_Support
                 </Link>
               </li>
@@ -641,17 +641,17 @@ export default function HorizonYachtPage() {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#contact" className="hover:text-white transition-colors">
                   Private_Consult
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#fleet" className="hover:text-white transition-colors">
                   Media_Inquiries
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#fleet" className="hover:text-white transition-colors">
                   Careers
                 </Link>
               </li>

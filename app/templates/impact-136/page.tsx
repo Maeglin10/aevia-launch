@@ -218,13 +218,13 @@ export default function TextRevealPage() {
           </Link>
 
           <div className="hidden md:flex items-center gap-8 text-[11px] font-bold uppercase tracking-widest">
-            <Link href="#" className="hover:opacity-60 transition-opacity">
+            <Link href="#accueil" className="hover:opacity-60 transition-opacity">
               Work
             </Link>
-            <Link href="#" className="hover:opacity-60 transition-opacity">
+            <Link href="#accueil" className="hover:opacity-60 transition-opacity">
               Studio
             </Link>
-            <Link href="#" className="hover:opacity-60 transition-opacity">
+            <Link href="#accueil" className="hover:opacity-60 transition-opacity">
               Journal
             </Link>
           </div>
@@ -594,22 +594,22 @@ export default function TextRevealPage() {
               </h4>
               <ul className="space-y-4 text-sm text-zinc-400">
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#contact" className="hover:text-white transition-colors">
                     Globe
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#contact" className="hover:text-white transition-colors">
                     Globe (X)
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#contact" className="hover:text-white transition-colors">
                     LinkedIn
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#contact" className="hover:text-white transition-colors">
                     Awwwards
                   </Link>
                 </li>
@@ -646,10 +646,10 @@ export default function TextRevealPage() {
               reserved.
             </span>
             <div className="flex gap-6">
-              <Link href="#" className="hover:text-white transition-colors">
+              <Link href="#contact" className="hover:text-white transition-colors">
                 Privacy Policy
               </Link>
-              <Link href="#" className="hover:text-white transition-colors">
+              <Link href="#contact" className="hover:text-white transition-colors">
                 Terms of Service
               </Link>
             </div>
