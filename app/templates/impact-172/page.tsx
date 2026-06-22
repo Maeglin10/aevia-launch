@@ -109,7 +109,7 @@ export default function LegrandPage() {
         initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-          <Link href="#" className="flex flex-col">
+          <Link href="#contact" className="flex flex-col">
             <span className="text-lg font-bold tracking-wide" style={{ fontFamily: "'Libre Baskerville', serif" }}>Legrand & Associés</span>
             <span className="text-[10px] tracking-[0.2em] uppercase text-[#C9A855]">Avocats au Barreau de Paris</span>
           </Link>

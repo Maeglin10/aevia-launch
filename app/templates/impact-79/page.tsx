@@ -668,7 +668,7 @@ export default function BoulangerieNoirePage() {
               </h4>
               <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
                 <li>
-                  <Link href="#" className="hover:text-white transition-colors">
+                  <Link href="#collection" className="hover:text-white transition-colors">
                     Sourdough_Archive
                   </Link>
                 </li>

@@ -968,7 +968,7 @@ export default function VelocityJetsPage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#equipe"
                   className="hover:text-[#00f2ff] transition-colors"
                 >
                   Our_Team
@@ -976,7 +976,7 @@ export default function VelocityJetsPage() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="#equipe"
                   className="hover:text-[#00f2ff] transition-colors"
                 >
                   Sustainability

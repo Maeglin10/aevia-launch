@@ -580,7 +580,7 @@ export default function HorizonYachtPage() {
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#portfolio" className="hover:text-white transition-colors">
                   Sales_Listings
                 </Link>
               </li>
@@ -608,7 +608,7 @@ export default function HorizonYachtPage() {
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#services" className="hover:text-white transition-colors">
                   Management
                 </Link>
               </li>
@@ -636,7 +636,7 @@ export default function HorizonYachtPage() {
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link href="#contact" className="hover:text-white transition-colors">
                   Our_Bureaus
                 </Link>
               </li>
