@@ -99,7 +99,7 @@ export default function JardinsVivantsPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&q=88&w=2400" alt="Jardin paysagé luxuriant" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#101a0e] via-[#101a0e]/45 to-transparent" />
@@ -168,7 +168,7 @@ export default function JardinsVivantsPage() {
       </section>
 
       {/* ── PRESTATIONS ── */}
-      <section className="py-28 bg-[#fafaf7]">
+      <section id="services" className="py-28 bg-[#fafaf7]">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
@@ -212,7 +212,7 @@ export default function JardinsVivantsPage() {
       </section>
 
       {/* ── TÉMOIGNAGES ── */}
-      <section className="py-28 bg-[#fafaf7]">
+      <section id="contact" className="py-28 bg-[#fafaf7]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2d5a27] mb-4">Avis clients</div>
@@ -242,7 +242,7 @@ export default function JardinsVivantsPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-24 bg-[#2d5a27] text-center">
+      <section id="realisations" className="py-24 bg-[#2d5a27] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-6">Votre projet</div>

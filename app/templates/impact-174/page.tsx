@@ -367,7 +367,7 @@ export default function Impact174Page() {
       </section>
 
       {/* ── STATS ───────────────────────────────────────────────────────── */}
-      <section className="py-20 bg-[#84cc16]">
+      <section id="equipe" className="py-20 bg-[#84cc16]">
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[

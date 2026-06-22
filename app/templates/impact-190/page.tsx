@@ -85,7 +85,7 @@ export default function AutoExpertPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=88&w=2400" alt="Garage automobile moderne" fill className="object-cover object-center" priority style={{ filter: "brightness(0.3) saturate(0.7)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0e1117] via-[#0e1117]/55 to-transparent" />
@@ -156,7 +156,7 @@ export default function AutoExpertPage() {
       </section>
 
       {/* ── SERVICES ── */}
-      <section className="py-28 bg-[#0e1117]">
+      <section id="services" className="py-28 bg-[#0e1117]">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
@@ -199,7 +199,7 @@ export default function AutoExpertPage() {
       </div>
 
       {/* ── TÉMOIGNAGES ── */}
-      <section className="py-28 bg-[#141820]">
+      <section id="tarifs" className="py-28 bg-[#141820]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#dc2626]/50 mb-4">— Avis clients</div>
@@ -229,7 +229,7 @@ export default function AutoExpertPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-24 bg-[#0e1117] border-t border-[#dc2626]/10">
+      <section id="contact" className="py-24 bg-[#0e1117] border-t border-[#dc2626]/10">
         <Reveal>
           <div className="max-w-xl mx-auto px-6 text-center">
             <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#dc2626]/40 mb-6">Intervention rapide</div>

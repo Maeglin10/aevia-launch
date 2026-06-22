@@ -104,7 +104,7 @@ export default function ToitPierrePage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=85&w=2400" alt="Couvreur sur toiture en ardoise" fill className="object-cover" priority style={{ filter: "brightness(0.55)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1f2937] via-[#1f2937]/40 to-transparent" />
@@ -164,7 +164,7 @@ export default function ToitPierrePage() {
       </section>
 
       {/* ── SERVICES ── */}
-      <section className="py-28 bg-[#f9f8f6]">
+      <section id="services" className="py-28 bg-[#f9f8f6]">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
@@ -244,7 +244,7 @@ export default function ToitPierrePage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-32 bg-[#1f2937] text-center">
+      <section id="realisations" className="py-32 bg-[#1f2937] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b91c1c] mb-6">Votre projet</div>
@@ -263,7 +263,7 @@ export default function ToitPierrePage() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="bg-[#111827] pt-20 pb-10 px-6 border-t border-white/5">
+      <footer id="contact" className="bg-[#111827] pt-20 pb-10 px-6 border-t border-white/5">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-3 mb-5">

@@ -150,7 +150,7 @@ export default function LegrandPage() {
       </AnimatePresence>
 
       {/* Hero */}
-      <section ref={heroRef} className="relative min-h-screen overflow-hidden flex items-end">
+      <section id="hero" ref={heroRef} className="relative min-h-screen overflow-hidden flex items-end">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1600&q=85" alt="Palais de justice" fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0E0A06] via-[#0E0A06]/60 to-transparent" />

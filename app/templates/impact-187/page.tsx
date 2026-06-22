@@ -82,7 +82,7 @@ export default function MaxPerformancePage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=88&w=2400" alt="Coach sportif entraînement intense" fill className="object-cover object-center" priority style={{ filter: "brightness(0.3) saturate(0.8)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent" />
@@ -212,7 +212,7 @@ export default function MaxPerformancePage() {
       </section>
 
       {/* ── TEMOIGNAGES ── */}
-      <section className="py-28 bg-[#0a0a0a]">
+      <section id="about" className="py-28 bg-[#0a0a0a]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#f97316]/50 mb-4">— Résultats clients</div>
@@ -242,7 +242,7 @@ export default function MaxPerformancePage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-28 bg-[#f97316]">
+      <section id="contact" className="py-28 bg-[#f97316]">
         <Reveal>
           <div className="max-w-2xl mx-auto px-6 text-center">
             <h2 className="font-black uppercase text-[#0a0a0a] mb-6" style={{ fontFamily: "'Anton', sans-serif", fontSize: "clamp(40px,5vw,64px)" }}>

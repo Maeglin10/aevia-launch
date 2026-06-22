@@ -83,7 +83,7 @@ export default function DrFontainePage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&q=85&w=2400" alt="Cabinet dentaire moderne lumineux" fill className="object-cover object-center" priority style={{ filter: "brightness(0.42)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0e1620] via-[#0e1620]/45 to-transparent" />
@@ -170,7 +170,7 @@ export default function DrFontainePage() {
       </section>
 
       {/* ── URGENCES ── */}
-      <section className="py-16 bg-[#1d6fa4]">
+      <section id="about" className="py-16 bg-[#1d6fa4]">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/50 mb-3">Urgences dentaires</div>
@@ -188,7 +188,7 @@ export default function DrFontainePage() {
       </section>
 
       {/* ── L'ÉQUIPE ── */}
-      <section className="py-28 bg-white">
+      <section id="contact" className="py-28 bg-white">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#1d6fa4] mb-4">L'équipe soignante</div>
@@ -246,7 +246,7 @@ export default function DrFontainePage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-24 bg-[#1a2332] text-center">
+      <section id="services" className="py-24 bg-[#1a2332] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 mb-6">Prendre soin de vous</div>
@@ -280,7 +280,7 @@ export default function DrFontainePage() {
             <div key={i}>
               <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#1d6fa4]/60 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
-                {col.ls.map(l => <li key={l}><Link href="#temoignages" className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
+                {col.ls.map(l => <li key={l}><Link href={col.t === "Soins" ? "#services" : col.t === "Cabinet" ? "#about" : "#contact"} className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}

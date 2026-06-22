@@ -97,7 +97,7 @@ export default function MaelleDumasPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} style={{ position: "relative", height: "110vh", minHeight: 900, overflow: "hidden", display: "flex", alignItems: "flex-end" }}>
+      <section id="hero" ref={heroRef} style={{ position: "relative", height: "110vh", minHeight: 900, overflow: "hidden", display: "flex", alignItems: "flex-end" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <Image src="https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?auto=format&fit=crop&q=85&w=2400" alt="Architecture intérieure Maëlle Dumas" fill className="object-cover" priority style={{ filter: "brightness(0.75)" }} />
           <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${C.dark} 0%, rgba(28,26,24,0.3) 50%, transparent 100%)` }} />
@@ -252,7 +252,7 @@ export default function MaelleDumasPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section style={{ padding: "8rem 0", background: C.dark, textAlign: "center" }}>
+      <section id="contact" style={{ padding: "8rem 0", background: C.dark, textAlign: "center" }}>
         <Reveal>
           <div style={{ maxWidth: 700, margin: "0 auto", padding: "0 2.5rem" }}>
             <div style={{ fontFamily: C.sans, fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.4em", color: C.terra, marginBottom: "1.5rem" }}>Démarrer un projet</div>

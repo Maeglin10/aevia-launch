@@ -100,7 +100,7 @@ export default function AltaTransactionsPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=85&w=2400" alt="Immobilier prestige Paris" fill className="object-cover" priority style={{ filter: "brightness(0.55)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#11182a] via-[#11182a]/35 to-transparent" />
@@ -205,7 +205,7 @@ export default function AltaTransactionsPage() {
       </section>
 
       {/* ── SERVICES ── */}
-      <section className="py-32 bg-[#f2ede6]">
+      <section id="services" className="py-32 bg-[#f2ede6]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
@@ -231,7 +231,7 @@ export default function AltaTransactionsPage() {
       </section>
 
       {/* ── TÉMOIGNAGES ── */}
-      <section className="py-32 bg-[#11182a]">
+      <section id="tarifs" className="py-32 bg-[#11182a]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
@@ -263,7 +263,7 @@ export default function AltaTransactionsPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="relative py-48 overflow-hidden">
+      <section id="contact" className="relative py-48 overflow-hidden">
         <div className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&q=80&w=2400" alt="Bien immobilier prestige" fill className="object-cover opacity-30" />
           <div className="absolute inset-0 bg-[#fefdfb]/85" />
@@ -305,7 +305,7 @@ export default function AltaTransactionsPage() {
             <div key={i}>
               <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#b8944a] mb-6">{col.t}</h4>
               <ul className="space-y-3">
-                {col.ls.map(l => <li key={l}><Link href="#blog" className="text-sm text-white/25 hover:text-white transition-colors">{l}</Link></li>)}
+                {col.ls.map(l => <li key={l}><Link href={col.t === "Acheter" ? "#services" : col.t === "Vendre" ? "#tarifs" : "#contact"} className="text-sm text-white/25 hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}

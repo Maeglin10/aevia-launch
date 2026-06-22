@@ -457,7 +457,7 @@ export default function Impact173Page() {
         </div>
         <div style={{ display: "flex", gap: 40, alignItems: "center" }}>
           {NAV_LINKS.map(link => (
-            <a key={link} href="#accueil"
+            <a key={link} href="#hero"
               style={{ fontSize: 12, color: C.textMuted, letterSpacing: 2, textTransform: "uppercase", textDecoration: "none", fontWeight: 500, transition: "color 0.2s" }}
               onMouseEnter={e => (e.currentTarget.style.color = C.orange)}
               onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
@@ -477,7 +477,7 @@ export default function Impact173Page() {
       </motion.nav>
 
       {/* ── HERO ────────────────────────────────────────────────── */}
-      <section ref={heroRef} style={{ minHeight: "100vh", position: "relative", overflow: "hidden", display: "flex", alignItems: "center" }}>
+      <section id="hero" ref={heroRef} style={{ minHeight: "100vh", position: "relative", overflow: "hidden", display: "flex", alignItems: "center" }}>
         {/* Diagonal orange panel — signature element */}
         <motion.div style={{
           position: "absolute", top: 0, right: 0,
@@ -1142,7 +1142,7 @@ export default function Impact173Page() {
       </section>
 
       {/* ── DEVIS FORM / CTA ────────────────────────────────────── */}
-      <section style={{ background: C.orange, padding: "120px 60px" }}>
+      <section id="contact" style={{ background: C.orange, padding: "120px 60px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
           <div>
             <div style={{ fontSize: 11, letterSpacing: 4, color: "rgba(255,255,255,0.7)", textTransform: "uppercase", marginBottom: 20 }}>Devis gratuit · Réponse sous 48h</div>

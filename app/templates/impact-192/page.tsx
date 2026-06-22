@@ -92,7 +92,7 @@ export default function SecurFastPage() {
       </div>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden pt-16">
+      <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden pt-16">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=85&w=2400" alt="Serrurier professionnel sécurité" fill className="object-cover object-center" priority style={{ filter: "brightness(0.22) saturate(0.6)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0d1524] via-[#0d1524]/60 to-transparent" />
@@ -188,7 +188,7 @@ export default function SecurFastPage() {
       </section>
 
       {/* ── TÉMOIGNAGES ── */}
-      <section className="py-24 bg-[#111d30]">
+      <section id="services" className="py-24 bg-[#111d30]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#2563eb]/50 mb-4">— Avis clients</div>
@@ -218,7 +218,7 @@ export default function SecurFastPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-24 bg-[#2563eb] text-center">
+      <section id="tarifs" className="py-24 bg-[#2563eb] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-5">Urgence · 24h/24 · 7j/7</div>
@@ -237,7 +237,7 @@ export default function SecurFastPage() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="bg-[#070d18] pt-16 pb-8 px-6 border-t border-[#2563eb]/8">
+      <footer id="contact" className="bg-[#070d18] pt-16 pb-8 px-6 border-t border-[#2563eb]/8">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-2.5 mb-5"><Lock className="w-4 h-4 text-[#2563eb]" /><span className="font-bold text-[#f0f4ff] text-sm">SÉC'URFAST</span></div>

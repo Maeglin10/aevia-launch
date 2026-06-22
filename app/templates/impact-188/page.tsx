@@ -88,7 +88,7 @@ export default function CliniqueBoisVertPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1559190394-df5a28aab5c5?auto=format&fit=crop&q=85&w=2400" alt="Vétérinaire avec animal" fill className="object-cover object-center" priority style={{ filter: "brightness(0.4)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1a2a1c] via-[#1a2a1c]/45 to-transparent" />
@@ -197,7 +197,7 @@ export default function CliniqueBoisVertPage() {
       </section>
 
       {/* ── TÉMOIGNAGES ── */}
-      <section className="py-28 bg-white">
+      <section id="services" className="py-28 bg-white">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#3a7d44] mb-4">Ils nous font confiance</div>
@@ -227,7 +227,7 @@ export default function CliniqueBoisVertPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-24 bg-[#3a7d44] text-center">
+      <section id="contact" className="py-24 bg-[#3a7d44] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-6">Rendez-vous</div>
@@ -265,7 +265,7 @@ export default function CliniqueBoisVertPage() {
             <div key={i}>
               <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#3a7d44]/60 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
-                {col.ls.map(l => <li key={l}><Link href="#temoignages" className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
+                {col.ls.map(l => <li key={l}><Link href={col.t === "Soins" ? "#services" : "#contact"} className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}

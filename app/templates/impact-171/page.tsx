@@ -217,7 +217,7 @@ export default function Impact171Page() {
       {/* ── NAV ─────────────────────────────────────────────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-[200] transition-all duration-300 ${scrolled ? "bg-white/90 backdrop-blur-lg shadow-sm py-3" : "bg-transparent py-5"}`}>
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="#hero" className="flex items-center gap-2">
             <Heart className="w-5 h-5 text-[#0891B2]" />
             <span className="text-xl font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>VITALITÉ</span>
             <span className="text-xs font-medium text-[#0891B2] uppercase tracking-widest">Médical</span>
@@ -507,7 +507,7 @@ export default function Impact171Page() {
       </section>
 
       {/* ── STATS (teal bg) ──────────────────────────────────────────────── */}
-      <section className="py-24 bg-[#0891B2]">
+      <section id="services" className="py-24 bg-[#0891B2]">
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
