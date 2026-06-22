@@ -385,19 +385,19 @@ export default function Impact53Layout({
           </span>
           <div style={{ display: "flex", gap: "2rem" }}>
             <Link
-              href="/legal/mentions-legales"
+              href="/templates/impact-53/legal"
               style={{ color: C.white, textDecoration: "none" }}
             >
               MENTIONS LÉGALES
             </Link>
             <Link
-              href="/legal/confidentialite"
+              href="/templates/impact-53/legal"
               style={{ color: C.white, textDecoration: "none" }}
             >
               CONFIDENTIALITÉ
             </Link>
             <Link
-              href="/legal/cgu"
+              href="/templates/impact-53/legal"
               style={{ color: C.white, textDecoration: "none" }}
             >
               CGU

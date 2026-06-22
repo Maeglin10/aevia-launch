@@ -224,10 +224,10 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
               ))}
             </div>
             <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 13, color: "rgba(255,255,255,0.25)", margin: 0, display: "flex", gap: 8, flexWrap: "wrap" as const }}>
-              <Link href="/legal/mentions-legales" style={{ color: "rgba(255,255,255,0.25)", textDecoration: "none" }}
+              <Link href="/templates/impact-47/legal" style={{ color: "rgba(255,255,255,0.25)", textDecoration: "none" }}
                 onMouseEnter={e => (e.currentTarget.style.color = C.rose)} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.25)")}>Mentions légales</Link>
               ·
-              <Link href="/legal/cgu" style={{ color: "rgba(255,255,255,0.25)", textDecoration: "none" }}
+              <Link href="/templates/impact-47/legal" style={{ color: "rgba(255,255,255,0.25)", textDecoration: "none" }}
                 onMouseEnter={e => (e.currentTarget.style.color = C.rose)} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.25)")}>CGV</Link>
               · © 2026 Pétales & Co.
             </p>

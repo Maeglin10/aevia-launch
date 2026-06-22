@@ -387,9 +387,9 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
               © 2026 Aevia WS — SIREN 852 546 225. Tous droits réservés.
             </p>
             <div style={{ display: "flex", gap: 24 }}>
-              <Link href="/legal/mentions-legales" style={{ fontSize: 13, color: "#7a5c40", textDecoration: "none" }}>Mentions Légales</Link>
-              <Link href="/legal/confidentialite" style={{ fontSize: 13, color: "#7a5c40", textDecoration: "none" }}>Confidentialité</Link>
-              <Link href="/legal/cgu" style={{ fontSize: 13, color: "#7a5c40", textDecoration: "none" }}>CGU</Link>
+              <Link href="/templates/impact-37/legal" style={{ fontSize: 13, color: "#7a5c40", textDecoration: "none" }}>Mentions Légales</Link>
+              <Link href="/templates/impact-37/legal" style={{ fontSize: 13, color: "#7a5c40", textDecoration: "none" }}>Confidentialité</Link>
+              <Link href="/templates/impact-37/legal" style={{ fontSize: 13, color: "#7a5c40", textDecoration: "none" }}>CGU</Link>
             </div>
           </div>
         </div>

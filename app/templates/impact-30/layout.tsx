@@ -278,9 +278,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
           <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 14 }}>© 2026 Smile Studio. Tous droits réservés.</p>
           <div style={{ display: "flex", gap: 20 }}>
-            <Link href="/legal/mentions-legales" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, fontFamily: FONT }}>Mentions légales</Link>
-            <Link href="/legal/confidentialite" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, fontFamily: FONT }}>Confidentialité</Link>
-            <Link href="/legal/cgu" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, fontFamily: FONT }}>CGU</Link>
+            <Link href="/templates/impact-30/legal" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, fontFamily: FONT }}>Mentions légales</Link>
+            <Link href="/templates/impact-30/legal" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, fontFamily: FONT }}>Confidentialité</Link>
+            <Link href="/templates/impact-30/legal" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, fontFamily: FONT }}>CGU</Link>
           </div>
         </div>
       </footer>

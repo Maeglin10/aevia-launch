@@ -351,7 +351,7 @@ export default function Impact54Layout({
           </span>
           <div style={{ display: "flex", gap: 24 }}>
             <Link
-              href="/legal/mentions-legales"
+              href="/templates/impact-54/legal"
               style={{ textDecoration: "none", color: "inherit" }}
             >
               Mentions Légales
