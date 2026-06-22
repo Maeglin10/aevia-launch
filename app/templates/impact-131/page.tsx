@@ -695,7 +695,7 @@ export default function WineryTemplate() {
       {/* ====================================================================
           2. HERO
           ==================================================================== */}
-      <section
+      <section id="hero"
         ref={heroRef}
         style={{
           minHeight: "100vh",
@@ -1247,7 +1247,7 @@ export default function WineryTemplate() {
       {/* ====================================================================
           7. TASTING ROOM CTA
           ==================================================================== */}
-      <section
+      <section id="about"
         style={{
           background: C.bgDark,
           padding: "120px 48px",
@@ -1620,7 +1620,7 @@ export default function WineryTemplate() {
       {/* ====================================================================
           10. CONTACT + FOOTER
           ==================================================================== */}
-      <section
+      <section id="contact"
         ref={contactRef}
         style={{
           background: C.bgDark,

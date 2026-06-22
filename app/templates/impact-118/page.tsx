@@ -118,7 +118,7 @@ export default function ChronosLuxuryPage() {
         {page === "home" && (
           <>
             {/* ── HERO ──────────────────── */}
-            <section className="relative h-screen flex items-center justify-center overflow-hidden">
+            <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
               <div className="absolute inset-0">
                 <Image src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=2400" alt="Chronos Watch" fill className="object-cover opacity-40 scale-105" priority />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
@@ -500,7 +500,7 @@ function CraftsmanshipPage() {
 
 function HeritagePage() {
   return (
-    <section className="py-40 bg-[#050505] min-h-screen text-white border-t border-white/5">
+    <section id="realisations" className="py-40 bg-[#050505] min-h-screen text-white border-t border-white/5">
       <div className="max-w-[1200px] mx-auto px-6 font-sans">
         <div className="text-center mb-24">
           <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#d4af37] block mb-4">Our Legacy</span>
@@ -742,7 +742,7 @@ function ConciergePage() {
 
 function SupportPage() {
   return (
-    <section className="py-40 bg-[#050505] min-h-screen text-white border-t border-white/5">
+    <section id="services" className="py-40 bg-[#050505] min-h-screen text-white border-t border-white/5">
       <div className="max-w-[1200px] mx-auto px-6 font-sans">
         <div className="text-center mb-24">
           <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#d4af37] block mb-4">Client Care</span>
@@ -793,7 +793,7 @@ function SupportPage() {
 
 function LegalPage() {
   return (
-    <section className="py-40 bg-[#050505] min-h-screen text-white border-t border-white/5">
+    <section id="contact" className="py-40 bg-[#050505] min-h-screen text-white border-t border-white/5">
       <div className="max-w-3xl mx-auto px-6 font-sans">
         <h1 className="text-4xl md:text-6xl font-extralight uppercase text-white mb-12" style={{ fontFamily: "serif" }}>
           Legal <span className="italic text-[#d4af37]">Information</span>

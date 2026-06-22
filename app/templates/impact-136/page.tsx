@@ -211,20 +211,20 @@ export default function TextRevealPage() {
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between mix-blend-difference text-white">
           <Link
-            href="/"
+            href="#hero"
             className="text-xl md:text-2xl font-bold tracking-tighter uppercase flex items-center gap-2"
           >
             <Sparkles className="w-5 h-5" /> REVEAL
           </Link>
 
           <div className="hidden md:flex items-center gap-8 text-[11px] font-bold uppercase tracking-widest">
-            <Link href="#accueil" className="hover:opacity-60 transition-opacity">
+            <Link href="#hero" className="hover:opacity-60 transition-opacity">
               Work
             </Link>
-            <Link href="#accueil" className="hover:opacity-60 transition-opacity">
+            <Link href="#hero" className="hover:opacity-60 transition-opacity">
               Studio
             </Link>
-            <Link href="#accueil" className="hover:opacity-60 transition-opacity">
+            <Link href="#hero" className="hover:opacity-60 transition-opacity">
               Journal
             </Link>
           </div>
@@ -238,7 +238,7 @@ export default function TextRevealPage() {
       {/* ==========================================
           1. TEXT MASK SCROLL HERO
           ========================================== */}
-      <section ref={containerRef} className="relative w-full h-[200vh]">
+      <section id="hero" ref={containerRef} className="relative w-full h-[200vh]">
         <div className="sticky top-0 w-full h-screen overflow-hidden bg-[#0a0a0a] flex items-center justify-center">
           {/* Background Image that reveals */}
           <motion.div
@@ -436,7 +436,7 @@ export default function TextRevealPage() {
       {/* ==========================================
           4.5 MANIFESTO / VISION
           ========================================== */}
-      <section className="py-32 bg-[#050505] relative overflow-hidden">
+      <section id="contact" className="py-32 bg-[#050505] relative overflow-hidden">
         <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.03)_0%,rgba(0,0,0,0)_50%)] pointer-events-none" />
         <div className="max-w-[1000px] mx-auto px-6 md:px-12 relative z-10 text-center">
           <Reveal>
@@ -476,7 +476,7 @@ export default function TextRevealPage() {
       {/* ==========================================
           5. PROCESS MARQUEE & LIST
           ========================================== */}
-      <section className="py-32 bg-[#050505] border-y border-white/5 overflow-hidden">
+      <section id="realisations" className="py-32 bg-[#050505] border-y border-white/5 overflow-hidden">
         {/* Giant Marquee */}
         <div className="relative flex whitespace-nowrap mb-32 opacity-10 pointer-events-none">
           <motion.div

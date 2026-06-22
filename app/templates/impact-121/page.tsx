@@ -181,7 +181,7 @@ export default function FolioStudioPage() {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-white/90 backdrop-blur-md py-4 shadow-sm" : "bg-transparent py-8"}`}
       >
         <div className="max-w-[1800px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold tracking-tight flex items-center gap-2 group">
+          <Link href="#hero" className="text-xl font-bold tracking-tight flex items-center gap-2 group">
             <div className="w-6 h-6 bg-zinc-900 rounded-sm group-hover:rotate-45 transition-transform duration-500" />
             FOLIO
           </Link>
@@ -226,7 +226,7 @@ export default function FolioStudioPage() {
 
       <main>
         {/* ─── HERO ──────────────────────────────────────────────────────── */}
-        <section className="relative pt-40 md:pt-60 pb-20 px-6 md:px-12 max-w-[1800px] mx-auto min-h-[90vh] flex flex-col justify-center">
+        <section id="hero" className="relative pt-40 md:pt-60 pb-20 px-6 md:px-12 max-w-[1800px] mx-auto min-h-[90vh] flex flex-col justify-center">
           <motion.div style={{ y: heroY, opacity: heroOpacity }} className="max-w-[1400px]">
             <Reveal>
               <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-medium tracking-tighter leading-[0.9] mb-12">
@@ -447,7 +447,7 @@ export default function FolioStudioPage() {
         </section>
 
         {/* ─── PRICING TIERS ─────────────────────────────────────────────── */}
-        <section className="py-32 px-6 md:px-12 max-w-[1800px] mx-auto">
+        <section id="tarifs" className="py-32 px-6 md:px-12 max-w-[1800px] mx-auto">
           <Reveal>
             <div className="text-center mb-24">
               <h2 className="text-5xl md:text-7xl font-medium tracking-tighter mb-6">Engagement Models</h2>
@@ -537,7 +537,7 @@ export default function FolioStudioPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-12 text-left border-t border-white/10 pt-16">
               <div className="md:col-span-2">
-                <Link href="/" className="text-2xl font-bold tracking-tight flex items-center gap-2 mb-6">
+                <Link href="#hero" className="text-2xl font-bold tracking-tight flex items-center gap-2 mb-6">
                   <div className="w-6 h-6 bg-white rounded-sm" />
                   FOLIO
                 </Link>

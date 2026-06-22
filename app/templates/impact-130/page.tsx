@@ -330,7 +330,7 @@ function SplitRevealHero() {
   }, []);
 
   return (
-    <section
+    <section id="hero"
       ref={containerRef}
       style={{
         position: "relative",

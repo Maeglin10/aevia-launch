@@ -100,7 +100,7 @@ export default function WaveFXPage() {
       {/* ── NAVBAR ────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#070a10]/90 backdrop-blur-xl border-b border-indigo-500/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="#hero" className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center">
               <Code2 className="w-4 h-4 text-white" />
             </div>
@@ -108,11 +108,11 @@ export default function WaveFXPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Docs", "Examples", "Plugins", "Blog"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-indigo-400 transition-colors">{l}</Link>
+              <Link key={l} href={ l === "Blog" ? "#contact" : "#docs" } className="hover:text-indigo-400 transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
-            <Link href="#blog" className="hidden md:flex items-center gap-2 text-white/40 hover:text-white transition-colors">
+             <Link href="#contact" className="hidden md:flex items-center gap-2 text-white/40 hover:text-white transition-colors">
               <Globe className="w-5 h-5" />
             </Link>
             <button className="hidden md:block px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-blue-500 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:opacity-90 transition-opacity">
@@ -122,8 +122,8 @@ export default function WaveFXPage() {
               <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
               <SheetContent side="right" className="bg-[#070a10] border-indigo-500/10 p-12">
                 <div className="flex flex-col gap-8 mt-16">
-                  {["Docs", "Examples", "Plugins", "GitHub"].map(l => (
-                    <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-2xl font-light uppercase tracking-widest hover:text-indigo-400 transition-colors">{l}</Link>
+                   {["Docs", "Examples", "Plugins", "GitHub"].map(l => (
+                    <Link key={l} href={ l === "GitHub" ? "https://github.com" : "#docs" } className="text-2xl font-light uppercase tracking-widest hover:text-indigo-400 transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -134,7 +134,7 @@ export default function WaveFXPage() {
 
       <main>
         {/* ── HERO ────── */}
-        <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-indigo-500/8 blur-[200px] rounded-full" />
@@ -161,7 +161,7 @@ export default function WaveFXPage() {
                 <button className="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-indigo-500 hover:text-white transition-all duration-500 flex items-center gap-2">
                   <Download className="w-4 h-4" /> Install
                 </button>
-                <Link href="#accueil" className="px-8 py-4 border border-white/10 text-white/60 font-bold rounded-full hover:border-indigo-500/50 transition-all flex items-center gap-2">
+                <Link href="#hero" className="px-8 py-4 border border-white/10 text-white/60 font-bold rounded-full hover:border-indigo-500/50 transition-all flex items-center gap-2">
                   <Globe className="w-4 h-4" /> GitHub
                 </Link>
               </div>
@@ -188,7 +188,7 @@ export default function WaveFXPage() {
         </section>
 
         {/* ── USAGE ────── */}
-        <section className="py-32 bg-[#070a10]">
+        <section id="docs" className="py-32 bg-[#070a10]">
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <Reveal>
@@ -235,7 +235,7 @@ export default function WaveFXPage() {
         </section>
 
         {/* ── TESTIMONIALS ──────────── */}
-        <section className="py-32 bg-[#070a10] border-t border-white/5">
+        <section id="equipe" className="py-32 bg-[#070a10] border-t border-white/5">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-20">
@@ -302,7 +302,7 @@ export default function WaveFXPage() {
         </section>
 
         {/* ── CTA ──────── */}
-        <section className="py-32 relative overflow-hidden">
+        <section id="contact" className="py-32 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/10 via-transparent to-blue-600/10" />
           <div className="relative z-10 max-w-[700px] mx-auto px-6 text-center">
             <Reveal>

@@ -541,7 +541,7 @@ export default function Impact132() {
       </motion.header>
 
       {/* ── SECTION 2: Hero with TypewriterHeadline ─────────────────────────── */}
-      <section
+      <section id="hero"
         ref={heroRef}
         style={{
           minHeight: "100vh",
@@ -1148,7 +1148,7 @@ export default function Impact132() {
       </section>
 
       {/* ── SECTION 9: About / Mission ───────────────────────────────────────── */}
-      <section style={{
+      <section id="contact" style={{
         background: C.bgDark,
         padding: "96px 80px",
         position: "relative",

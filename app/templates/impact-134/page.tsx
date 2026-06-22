@@ -593,7 +593,7 @@ function Hero() {
   const yText = useTransform(scrollYProgress, [0, 1], ["0%", "10%"])
 
   return (
-    <section
+    <section id="hero"
       ref={ref}
       className="relative min-h-screen flex items-center overflow-hidden"
       style={{ backgroundColor: C.pink }}
@@ -1659,7 +1659,7 @@ function Footer() {
   const [subscribed, setSubscribed] = useState(false)
 
   return (
-    <footer style={{ backgroundColor: C.text, borderTop: `1px solid ${C.primaryBorder}` }}>
+    <footer id="contact" style={{ backgroundColor: C.text, borderTop: `1px solid ${C.primaryBorder}` }}>
       {/* Newsletter */}
       <div
         className="py-16"

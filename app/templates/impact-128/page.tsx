@@ -63,7 +63,7 @@ export default function HavenEstatesPage() {
       {/* ── NAVBAR ────────────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#faf9f6]/90 backdrop-blur-xl border-b border-[#b8860b]/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="#hero" className="flex items-center gap-3">
             <Home className="w-5 h-5 text-[#b8860b]" />
             <span className="text-xl font-light tracking-[0.15em] uppercase" style={{ fontFamily: "Georgia, serif" }}>Haven <span className="font-bold text-[#b8860b]">Estates</span></span>
           </Link>
@@ -92,7 +92,7 @@ export default function HavenEstatesPage() {
 
       <main>
         {/* ── HERO ────────────────────────── */}
-        <section className="relative h-[110vh] min-h-[800px] flex items-end overflow-hidden">
+        <section id="hero" className="relative h-[110vh] min-h-[800px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2400" alt="Estate" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#faf9f6] via-[#faf9f6]/20 to-transparent" />
@@ -166,7 +166,7 @@ export default function HavenEstatesPage() {
         </section>
 
         {/* ── SERVICES ────────────────────── */}
-        <section className="py-32 bg-[#1a1a1a] text-white">
+        <section id="services" className="py-32 bg-[#1a1a1a] text-white">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
@@ -193,7 +193,7 @@ export default function HavenEstatesPage() {
         </section>
 
         {/* ── TESTIMONIALS ──────────────────── */}
-        <section className="py-32 bg-[#faf9f6]">
+        <section id="realisations" className="py-32 bg-[#faf9f6]">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-20">
@@ -259,7 +259,7 @@ export default function HavenEstatesPage() {
         </section>
 
         {/* ── CTA ──────────────────────────── */}
-        <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+        <section id="contact" className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <Image src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=2400" alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-black/50" />
@@ -295,7 +295,7 @@ export default function HavenEstatesPage() {
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#b8860b] mb-6">{col.title}</h4>
               <ul className="space-y-3 text-sm text-white/30">
-                {col.links.map(l => <li key={l}><Link href="#equipe" className="hover:text-white transition-colors">{l}</Link></li>)}
+                {col.links.map(l => <li key={l}><Link href={col.title === "Properties" ? "#realisations" : col.title === "Services" ? "#services" : l === "About" ? "#hero" : "#contact"} className="hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}

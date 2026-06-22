@@ -49,7 +49,7 @@ export default function NebulaCloudPage() {
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#020617]/80 backdrop-blur-2xl border-b border-blue-500/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="#hero" className="flex items-center gap-3 group">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center group-hover:rotate-12 transition-transform duration-500">
               <Cloud className="w-5 h-5 text-white" />
             </div>
@@ -79,7 +79,7 @@ export default function NebulaCloudPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
           {/* Animated Background */}
           <div className="absolute inset-0">
             <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600/10 blur-[120px] rounded-full animate-pulse" />
@@ -182,7 +182,7 @@ export default function NebulaCloudPage() {
                     </div>
                     <h3 className="text-2xl font-bold mb-4">{n.title}</h3>
                     <p className="text-slate-400 leading-relaxed text-sm mb-8">{n.desc}</p>
-                    <Link href="#accueil" className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-blue-400 group-hover:gap-4 transition-all">
+                    <Link href="#hero" className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-blue-400 group-hover:gap-4 transition-all">
                       Learn More <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
@@ -236,7 +236,7 @@ export default function NebulaCloudPage() {
         </section>
 
         {/* ── TESTIMONIALS ──────────── */}
-        <section className="py-40 bg-[#020617] border-t border-white/5">
+        <section id="services" className="py-40 bg-[#020617] border-t border-white/5">
           <div className="max-w-6xl mx-auto px-6 md:px-12">
             <Reveal>
               <p className="text-[10px] uppercase tracking-[0.5em] text-blue-400/50 mb-6">Trusted by Engineering Teams</p>
@@ -268,7 +268,7 @@ export default function NebulaCloudPage() {
         </section>
 
         {/* ── PRICING ───────────────── */}
-        <section className="py-40 bg-slate-950 border-t border-white/5">
+        <section id="tarifs" className="py-40 bg-slate-950 border-t border-white/5">
           <div className="max-w-6xl mx-auto px-6 md:px-12">
             <Reveal>
               <p className="text-[10px] uppercase tracking-[0.5em] text-blue-400/50 mb-6">Pricing</p>
@@ -308,7 +308,7 @@ export default function NebulaCloudPage() {
         </section>
 
         {/* ── CTA ───────────────────── */}
-        <section className="py-32 relative overflow-hidden">
+        <section id="contact" className="py-32 relative overflow-hidden">
           <div className="absolute inset-0 bg-blue-600/5" />
           <div className="relative z-10 max-w-[800px] mx-auto px-6 text-center">
             <Reveal>
@@ -331,7 +331,7 @@ export default function NebulaCloudPage() {
       <footer className="bg-slate-950 pt-24 pb-12 px-6">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-16 mb-20">
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-8">
+            <Link href="#hero" className="flex items-center gap-3 mb-8">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center">
                 <Cloud className="w-4 h-4 text-white" />
               </div>
@@ -354,7 +354,7 @@ export default function NebulaCloudPage() {
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-500 mb-8">{col.t}</h4>
               <ul className="space-y-4">
-                {col.l.map(link => <li key={link}><Link href="#blog" className="text-sm text-slate-500 hover:text-white transition-colors">{link}</Link></li>)}
+                {col.l.map(link => <li key={link}><Link href={link === "About" ? "#hero" : link === "Blog" || col.t === "Platform" ? "#services" : "#contact"} className="text-sm text-slate-500 hover:text-white transition-colors">{link}</Link></li>)}
               </ul>
             </div>
           ))}

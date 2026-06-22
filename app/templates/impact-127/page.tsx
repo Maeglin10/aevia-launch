@@ -66,7 +66,7 @@ export default function PulseEventsPage() {
       {/* ── NAVBAR ─────────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#08050a]/90 backdrop-blur-xl border-b border-pink-500/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="#hero" className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-pink-500 flex items-center justify-center relative">
               <Music className="w-5 h-5 text-white" />
               <motion.div className="absolute inset-0 rounded-full border-2 border-pink-500" animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }} transition={{ duration: 2, repeat: Infinity }} />
@@ -75,7 +75,7 @@ export default function PulseEventsPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Events", "Artists", "Venues", "About"].map(l => (
-              <Link key={l} href="#apropos" className="hover:text-pink-400 transition-colors">{l}</Link>
+              <Link key={l} href="#about" className="hover:text-pink-400 transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
@@ -87,7 +87,7 @@ export default function PulseEventsPage() {
               <SheetContent side="right" className="bg-[#08050a] border-pink-500/10 p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Events", "Artists", "Venues", "Tickets"].map(l => (
-                    <Link key={l} href="#apropos" className="text-3xl font-light uppercase tracking-widest hover:text-pink-400 transition-colors">{l}</Link>
+                    <Link key={l} href="#about" className="text-3xl font-light uppercase tracking-widest hover:text-pink-400 transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -98,7 +98,7 @@ export default function PulseEventsPage() {
 
       <main>
         {/* ── HERO ─────────────────────── */}
-        <section className="relative h-[110vh] min-h-[800px] flex items-center overflow-hidden">
+        <section id="hero" className="relative h-[110vh] min-h-[800px] flex items-center overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&q=80&w=2400" alt="Concert" fill className="object-cover opacity-50" priority />
             <div className="absolute inset-0 bg-gradient-to-r from-[#08050a] via-[#08050a]/40 to-transparent" />
@@ -225,7 +225,7 @@ export default function PulseEventsPage() {
         </section>
 
         {/* ── ABOUT / STATS ────────────────────── */}
-        <section className="py-32 bg-[#08050a] border-t border-white/5">
+        <section id="about" className="py-32 bg-[#08050a] border-t border-white/5">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <Reveal>
@@ -275,7 +275,7 @@ export default function PulseEventsPage() {
         </section>
 
         {/* ── CTA ────────────────────── */}
-        <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+        <section id="contact" className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <Image src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=2400" alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-pink-900/60 mix-blend-multiply" />
