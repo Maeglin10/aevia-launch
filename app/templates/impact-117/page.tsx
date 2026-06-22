@@ -45,7 +45,7 @@ export default function VoltLogisticsPage() {
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#0a0a0a]/90 backdrop-blur-md border-b border-white/5 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="#hero" className="flex items-center gap-3">
             <div className="w-10 h-10 bg-[#ffb400] flex items-center justify-center -skew-x-12">
               <Zap className="w-6 h-6 text-black fill-black" />
             </div>
@@ -53,7 +53,7 @@ export default function VoltLogisticsPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Fleet", "Network", "Technology", "Company"].map(l => (
-              <Link key={l} href="#accueil" className="hover:text-[#ffb400] transition-colors">{l}</Link>
+              <Link key={l} href={l === "Fleet" ? "#fleet" : l === "Technology" ? "#technology" : l === "Company" ? "#contact" : "#hero"} className="hover:text-[#ffb400] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
@@ -64,7 +64,7 @@ export default function VoltLogisticsPage() {
               <SheetContent side="right" className="bg-[#0a0a0a] border-white/5 p-12">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {["Our Fleet", "Global Network", "Tech Stack", "Pricing"].map(l => (
-                    <Link key={l} href="#tarifs" className="text-3xl font-black uppercase tracking-tighter hover:text-[#ffb400] transition-colors italic">{l}</Link>
+                    <Link key={l} href={l === "Our Fleet" ? "#fleet" : l === "Tech Stack" ? "#technology" : l === "Pricing" ? "#contact" : "#hero"} className="text-3xl font-black uppercase tracking-tighter hover:text-[#ffb400] transition-colors italic">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -75,7 +75,7 @@ export default function VoltLogisticsPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
           {/* Grid Pattern */}
           <div className="absolute inset-0 opacity-20" 
                style={{ backgroundImage: `linear-gradient(#ffb4001a 1px, transparent 1px), linear-gradient(90deg, #ffb4001a 1px, transparent 1px)`, backgroundSize: '60px 60px' }} />
@@ -160,7 +160,7 @@ export default function VoltLogisticsPage() {
         </section>
 
         {/* ── FLEET SHOWCASE ────────── */}
-        <section className="py-32 bg-[#0a0a0a]">
+        <section id="fleet" className="py-32 bg-[#0a0a0a]">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8">
@@ -202,7 +202,7 @@ export default function VoltLogisticsPage() {
         </section>
 
         {/* ── TECHNOLOGY ────────────── */}
-        <section className="py-32 bg-[#0d0d0d]">
+        <section id="technology" className="py-32 bg-[#0d0d0d]">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div>
@@ -263,7 +263,7 @@ export default function VoltLogisticsPage() {
         </section>
 
         {/* ── CTA ───────────────────── */}
-        <section className="py-32 bg-[#ffb400]">
+        <section id="contact" className="py-32 bg-[#ffb400]">
           <div className="max-w-[1000px] mx-auto px-6 text-center">
             <Reveal>
               <h2 className="text-6xl md:text-[8rem] font-black tracking-tighter uppercase italic leading-[0.8] text-black mb-12">
@@ -286,7 +286,7 @@ export default function VoltLogisticsPage() {
       <footer className="bg-black pt-24 pb-12 px-6">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-16 mb-24">
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-10">
+            <Link href="#hero" className="flex items-center gap-3 mb-10">
               <div className="w-10 h-10 bg-[#ffb400] flex items-center justify-center -skew-x-12">
                 <Zap className="w-5 h-5 text-black fill-black" />
               </div>
@@ -310,7 +310,7 @@ export default function VoltLogisticsPage() {
             <div key={i} className="space-y-8">
               <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#ffb400]">{col.t}</h4>
               <ul className="space-y-6">
-                {col.l.map(link => <li key={link}><Link href="#accueil" className="text-sm text-white/40 hover:text-[#ffb400] transition-colors">{link}</Link></li>)}
+                {col.l.map(link => <li key={link}><Link href="#hero" className="text-sm text-white/40 hover:text-[#ffb400] transition-colors">{link}</Link></li>)}
               </ul>
             </div>
           ))}

@@ -195,7 +195,7 @@ export default function EclatLuxuryPage() {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#050308]/80 backdrop-blur-xl border-b border-white/5 py-4" : "bg-transparent py-8"}`}
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-4 group">
+          <Link href="#hero" className="flex items-center gap-4 group">
             <div className="w-10 h-10 rounded-full border border-fuchsia-900/50 flex items-center justify-center bg-fuchsia-900/10 group-hover:bg-fuchsia-900/30 transition-all duration-500">
               <FlaskConical className="w-4 h-4 text-fuchsia-300" />
             </div>
@@ -237,7 +237,7 @@ export default function EclatLuxuryPage() {
 
       <main className="relative z-10">
         {/* ─── HERO ──────────────────────────────────────────────────────── */}
-        <section className="relative h-[100vh] min-h-[800px] flex items-center justify-center overflow-hidden">
+        <section id="hero" className="relative h-[100vh] min-h-[800px] flex items-center justify-center overflow-hidden">
           <motion.div style={{ y: heroY, opacity: opacityFade, scale: scaleDown }} className="absolute inset-0 flex items-center justify-center">
             {/* Massive Abstract Bottle / Orb shape */}
             <div className="relative w-[300px] h-[500px] md:w-[400px] md:h-[600px]">
@@ -289,7 +289,7 @@ export default function EclatLuxuryPage() {
         </section>
 
         {/* ─── METRICS BAR ───────────────────────────────────────────────── */}
-        <section className="border-y border-white/5 bg-[#08050d] relative z-20">
+        <section id="realisations" className="border-y border-white/5 bg-[#08050d] relative z-20">
           <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/5">
             {MANIFEST.hero.metrics.map((metric, i) => (
               <div key={i} className="flex items-center justify-center gap-8 py-12 px-6 group">
@@ -560,7 +560,7 @@ export default function EclatLuxuryPage() {
         </section>
 
         {/* ─── CTA BANNER ────────────────────────────────────────────────── */}
-        <section className="py-40 relative overflow-hidden">
+        <section id="contact" className="py-40 relative overflow-hidden">
           <div className="absolute inset-0 bg-fuchsia-950/20" />
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=1600&q=80')] bg-cover bg-center opacity-20 mix-blend-luminosity" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#050308] via-transparent to-[#050308]" />
@@ -586,7 +586,7 @@ export default function EclatLuxuryPage() {
         <div className="max-w-[1600px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-8 mb-32">
             <div className="col-span-1 md:col-span-2">
-              <Link href="/" className="flex items-center gap-4 mb-8">
+              <Link href="#hero" className="flex items-center gap-4 mb-8">
                 <div className="w-8 h-8 rounded-full border border-fuchsia-900/50 flex items-center justify-center bg-fuchsia-900/10">
                   <FlaskConical className="w-3 h-3 text-fuchsia-300" />
                 </div>

@@ -135,21 +135,21 @@ export default function MorphStudioPage() {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#050505]/80 backdrop-blur-lg border-b border-white/10 py-4" : "bg-transparent py-8"}`}
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="#hero" className="flex items-center gap-3 group">
             <Orbit className="w-8 h-8 text-cyan-400 group-hover:rotate-180 transition-transform duration-1000" />
             <span className="text-xl font-bold tracking-widest text-white uppercase">MORPH</span>
           </Link>
 
           <div className="hidden lg:flex items-center gap-8 text-xs font-bold tracking-[0.2em] uppercase">
             {["Engine", "Projects", "Stack", "Access"].map((link) => (
-              <Link key={link} href="#accueil" className="text-zinc-400 hover:text-cyan-400 transition-colors relative group">
+              <Link key={link} href="#hero" className="text-zinc-400 hover:text-cyan-400 transition-colors relative group">
                 {link}
               </Link>
             ))}
           </div>
 
           <div className="flex items-center gap-6">
-            <Link href="#accueil" className="hidden md:flex items-center justify-center px-6 py-2.5 bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-bold uppercase tracking-widest hover:bg-cyan-500 hover:text-black transition-all rounded-full">
+            <Link href="#hero" className="hidden md:flex items-center justify-center px-6 py-2.5 bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-bold uppercase tracking-widest hover:bg-cyan-500 hover:text-black transition-all rounded-full">
               Initialize
             </Link>
             <Sheet>
@@ -161,7 +161,7 @@ export default function MorphStudioPage() {
               <SheetContent side="right" className="bg-[#0a0a0a] border-l border-white/10 p-12 text-white">
                 <div className="flex flex-col gap-8 mt-20">
                   {["Engine", "Projects", "Stack", "Access"].map((link) => (
-                    <Link key={link} href="#accueil" className="text-3xl font-bold tracking-widest uppercase hover:text-cyan-400 transition-colors">
+                    <Link key={link} href="#hero" className="text-3xl font-bold tracking-widest uppercase hover:text-cyan-400 transition-colors">
                       {link}
                     </Link>
                   ))}
@@ -174,7 +174,7 @@ export default function MorphStudioPage() {
 
       <main className="relative z-10">
         {/* ─── HERO ──────────────────────────────────────────────────────── */}
-        <section className="relative h-screen min-h-[800px] flex items-center pt-20">
+        <section id="hero" className="relative h-screen min-h-[800px] flex items-center pt-20">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
             <div className="relative z-10">
@@ -231,7 +231,7 @@ export default function MorphStudioPage() {
         </section>
 
         {/* ─── SCROLLING STATS MARQUEE ───────────────────────────────────── */}
-        <section className="py-10 border-y border-white/10 bg-black/50 backdrop-blur-md overflow-hidden flex whitespace-nowrap">
+        <section id="services" className="py-10 border-y border-white/10 bg-black/50 backdrop-blur-md overflow-hidden flex whitespace-nowrap">
           <motion.div 
             animate={{ x: [0, -1000] }} 
             transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
@@ -277,7 +277,7 @@ export default function MorphStudioPage() {
         </section>
 
         {/* ─── PROJECTS GALLERY ──────────────────────────────────────────── */}
-        <section className="py-32 relative">
+        <section id="realisations" className="py-32 relative">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex items-end justify-between mb-20">
@@ -335,7 +335,7 @@ export default function MorphStudioPage() {
         </section>
 
         {/* ─── PRICING ───────────────────────────────────────────────────── */}
-        <section className="py-32 relative">
+        <section id="tarifs" className="py-32 relative">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-20">
@@ -405,7 +405,7 @@ export default function MorphStudioPage() {
         </section>
 
         {/* ─── CTA BANNER ────────────────────────────────────────────────── */}
-        <section className="py-40 relative overflow-hidden border-y border-white/10">
+        <section id="about" className="py-40 relative overflow-hidden border-y border-white/10">
           <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-cyan-900/20" />
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-full max-w-4xl aspect-video rounded-full bg-cyan-500/10 blur-[120px] mix-blend-screen animate-pulse" />
@@ -428,10 +428,10 @@ export default function MorphStudioPage() {
       </main>
 
       {/* ─── FOOTER ──────────────────────────────────────────────────────── */}
-      <footer className="bg-[#050505] pt-32 pb-12 px-6 md:px-12 relative z-20">
+      <footer id="contact" className="bg-[#050505] pt-32 pb-12 px-6 md:px-12 relative z-20">
         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-24">
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-8">
+            <Link href="#hero" className="flex items-center gap-3 mb-8">
               <Orbit className="w-6 h-6 text-cyan-400" />
               <span className="text-xl font-bold tracking-widest text-white uppercase">MORPH</span>
             </Link>

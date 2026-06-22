@@ -152,7 +152,7 @@ export default function KineticStudio() {
         </div>
       </motion.section>
 
-      <section className="py-24 px-6 md:px-12">
+      <section id="hero" className="py-24 px-6 md:px-12">
         <Reveal>
           <h2 className="text-5xl font-light mb-12" style={{ color: "#ff5500" }}>Our Services</h2>
         </Reveal>
@@ -286,7 +286,7 @@ export default function KineticStudio() {
         </div>
       </section>
 
-      <section className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
+      <section id="equipe" className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
           <h2 className="text-5xl font-light mb-12" style={{ color: "#ff5500" }}>The Team</h2>
         </Reveal>
@@ -371,7 +371,7 @@ export default function KineticStudio() {
         </Accordion>
       </section>
 
-      <section className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
+      <section id="realisations" className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
           <h2 className="text-5xl font-light mb-12" style={{ color: "#ff5500" }}>About KINETIC</h2>
         </Reveal>
@@ -388,7 +388,7 @@ export default function KineticStudio() {
         </div>
       </section>
 
-      <section className="py-24 px-6 md:px-12">
+      <section id="contact" className="py-24 px-6 md:px-12">
         <Reveal>
           <h2 className="text-5xl font-light mb-12" style={{ color: "#ff5500" }}>Project Workflow</h2>
         </Reveal>
@@ -419,7 +419,7 @@ export default function KineticStudio() {
         </Accordion>
       </section>
 
-      <section className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
+      <section id="services" className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
           <h2 className="text-5xl font-light mb-12" style={{ color: "#ff5500" }}>Our Expertise</h2>
         </Reveal>
@@ -487,7 +487,7 @@ export default function KineticStudio() {
         </div>
       </section>
 
-      <section className="py-24 px-6 md:px-12">
+      <section id="tarifs" className="py-24 px-6 md:px-12">
         <Reveal>
           <h2 className="text-5xl font-light mb-12" style={{ color: "#ff5500" }}>Pricing Guide</h2>
         </Reveal>

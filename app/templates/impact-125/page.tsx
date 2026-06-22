@@ -58,7 +58,7 @@ export default function AstrumReachPage() {
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#02040a]/90 backdrop-blur-xl border-b border-cyan-500/20 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="#hero" className="flex items-center gap-3 group">
             <div className="w-10 h-10 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center group-hover:bg-cyan-500 transition-all duration-500">
               <Rocket className="w-5 h-5 text-cyan-400 group-hover:text-black" />
             </div>
@@ -66,7 +66,7 @@ export default function AstrumReachPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">
             {["Missions", "Fleet", "Technology", "Control"].map(l => (
-              <Link key={l} href="#accueil" className="hover:text-cyan-400 transition-colors">{l}</Link>
+              <Link key={l} href="#hero" className="hover:text-cyan-400 transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
@@ -77,7 +77,7 @@ export default function AstrumReachPage() {
               <SheetContent side="right" className="bg-[#02040a] border-cyan-500/20 p-12 text-white">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {["Missions", "Fleet", "Tech", "Support"].map(l => (
-                    <Link key={l} href="#accueil" className="text-3xl font-light uppercase tracking-widest hover:text-cyan-400 transition-colors">{l}</Link>
+                    <Link key={l} href="#hero" className="text-3xl font-light uppercase tracking-widest hover:text-cyan-400 transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -88,7 +88,7 @@ export default function AstrumReachPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
           {/* Star Field Background */}
           <div className="absolute inset-0 opacity-40">
              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] bg-repeat" />
@@ -283,7 +283,7 @@ export default function AstrumReachPage() {
         </section>
 
         {/* ── CTA ───────────────────── */}
-        <section className="py-40 bg-cyan-600 text-white text-center relative overflow-hidden">
+        <section id="equipe" className="py-40 bg-cyan-600 text-white text-center relative overflow-hidden">
            <div className="absolute inset-0 opacity-10">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] bg-repeat" />
            </div>
@@ -309,10 +309,10 @@ export default function AstrumReachPage() {
       </main>
 
       {/* ── FOOTER ────────────────── */}
-      <footer className="bg-[#02040a] pt-32 pb-12 px-6 border-t border-white/5">
+      <footer id="contact" className="bg-[#02040a] pt-32 pb-12 px-6 border-t border-white/5">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-16 mb-32">
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-10">
+            <Link href="#hero" className="flex items-center gap-3 mb-10">
               <div className="w-10 h-10 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center">
                 <Rocket className="w-5 h-5 text-cyan-400" />
               </div>

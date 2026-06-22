@@ -64,7 +64,7 @@ export default function TorrefieCoffeePage() {
       {/* ── NAVBAR ────────────────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f5f0ea]/90 backdrop-blur-xl border-b border-[#6b3a24]/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="#hero" className="flex items-center gap-3">
             <Coffee className="w-6 h-6 text-[#6b3a24]" />
             <span className="text-xl tracking-tight" style={{ fontFamily: "Georgia, serif" }}>
               <span className="font-light">Torré</span><span className="font-bold text-[#6b3a24]">fié</span>
@@ -72,7 +72,7 @@ export default function TorrefieCoffeePage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#2c1810]/40">
             {["Origins", "Process", "Shop", "About"].map(l => (
-              <Link key={l} href="#apropos" className="hover:text-[#6b3a24] transition-colors">{l}</Link>
+              <Link key={l} href="#about" className="hover:text-[#6b3a24] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
@@ -84,7 +84,7 @@ export default function TorrefieCoffeePage() {
               <SheetContent side="right" className="bg-[#f5f0ea] p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Origins", "Process", "Shop", "About"].map(l => (
-                    <Link key={l} href="#apropos" className="text-3xl font-light hover:text-[#6b3a24] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</Link>
+                    <Link key={l} href="#about" className="text-3xl font-light hover:text-[#6b3a24] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -95,7 +95,7 @@ export default function TorrefieCoffeePage() {
 
       <main>
         {/* ── HERO ────────────────────────────── */}
-        <section className="relative h-[110vh] min-h-[800px] flex items-center overflow-hidden">
+        <section id="hero" className="relative h-[110vh] min-h-[800px] flex items-center overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image src="https://picsum.photos/seed/coffee/2400/1500" alt="Coffee" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-r from-[#f5f0ea] via-[#f5f0ea]/60 to-transparent" />
@@ -203,7 +203,7 @@ export default function TorrefieCoffeePage() {
         </section>
 
         {/* ── TESTIMONIALS ──────────────────── */}
-        <section className="py-32 bg-[#2c1810] text-[#f5f0ea]">
+        <section id="about" className="py-32 bg-[#2c1810] text-[#f5f0ea]">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-20">
@@ -238,7 +238,7 @@ export default function TorrefieCoffeePage() {
         </section>
 
         {/* ── SUBSCRIPTIONS ─────────────────── */}
-        <section className="py-32 bg-[#f5f0ea]">
+        <section id="tarifs" className="py-32 bg-[#f5f0ea]">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-20">
@@ -284,7 +284,7 @@ export default function TorrefieCoffeePage() {
         </section>
 
         {/* ── CTA ────────────────────────────── */}
-        <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+        <section id="contact" className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <Image src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=2400" alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-[#2c1810]/70" />

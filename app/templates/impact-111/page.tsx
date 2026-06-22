@@ -59,7 +59,7 @@ export default function TerraArchitecturePage() {
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-[#f2f0eb]/90 backdrop-blur-xl border-b border-[#3d3a35]/5 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-4 group">
+          <Link href="#hero" className="flex items-center gap-4 group">
             <div className="w-10 h-10 bg-[#3d3a35] flex items-center justify-center group-hover:rotate-90 transition-transform duration-700">
               <Ruler className="w-5 h-5 text-[#f2f0eb]" />
             </div>
@@ -88,7 +88,7 @@ export default function TerraArchitecturePage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
               <div>
@@ -147,7 +147,7 @@ export default function TerraArchitecturePage() {
         </section>
 
         {/* ── PROJECTS GRID ─────────── */}
-        <section className="py-32 bg-[#f2f0eb]">
+        <section id="realisations" className="py-32 bg-[#f2f0eb]">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8">
@@ -188,7 +188,7 @@ export default function TerraArchitecturePage() {
         </section>
 
         {/* ── QUOTE ─────────────────── */}
-        <section className="py-40 bg-[#3d3a35] text-[#f2f0eb] overflow-hidden relative">
+        <section id="contact" className="py-40 bg-[#3d3a35] text-[#f2f0eb] overflow-hidden relative">
           <div className="absolute top-0 right-0 opacity-5 -translate-y-1/2 translate-x-1/4">
              <Mountain className="w-[800px] h-[800px]" />
           </div>
@@ -204,7 +204,7 @@ export default function TerraArchitecturePage() {
         </section>
 
         {/* ── TEAM ──────────────────── */}
-        <section className="py-40 bg-[#f2f0eb]">
+        <section id="equipe" className="py-40 bg-[#f2f0eb]">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex items-end justify-between mb-20 border-b border-[#3d3a35]/10 pb-12 gap-6">
@@ -238,7 +238,7 @@ export default function TerraArchitecturePage() {
         </section>
 
         {/* ── RECOGNITION ───────────── */}
-        <section className="py-20 bg-[#3d3a35] border-t border-white/5">
+        <section id="tarifs" className="py-20 bg-[#3d3a35] border-t border-white/5">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex flex-wrap items-center justify-between gap-8">
@@ -278,7 +278,7 @@ export default function TerraArchitecturePage() {
       <footer className="bg-[#f2f0eb] pt-24 pb-12 px-6 border-t border-[#3d3a35]/5">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-16 mb-24">
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-4 mb-10">
+            <Link href="#hero" className="flex items-center gap-4 mb-10">
               <div className="w-10 h-10 bg-[#3d3a35] flex items-center justify-center">
                 <Ruler className="w-5 h-5 text-[#f2f0eb]" />
               </div>
@@ -289,7 +289,7 @@ export default function TerraArchitecturePage() {
             </p>
             <div className="flex gap-8">
                {["Camera", "Bookmark", "Journal", "WeWork"].map(s => (
-                 <Link key={s} href="#accueil" className="text-[10px] font-bold uppercase tracking-widest text-[#3d3a35]/30 hover:text-[#3d3a35] transition-colors">{s}</Link>
+                 <Link key={s} href="#hero" className="text-[10px] font-bold uppercase tracking-widest text-[#3d3a35]/30 hover:text-[#3d3a35] transition-colors">{s}</Link>
                ))}
             </div>
           </div>

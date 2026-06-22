@@ -677,7 +677,7 @@ function HeroSection() {
   }));
 
   return (
-    <section
+    <section id="hero"
       ref={ref}
       style={{
         position: "relative",

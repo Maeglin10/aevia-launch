@@ -561,7 +561,7 @@ export default function ArtisanMinimalPage() {
           borderBottom: `1px solid ${C.border}`,
         }}
       >
-        <Link href="/" style={{ textDecoration: "none" }}>
+        <Link href="#hero" style={{ textDecoration: "none" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             {/* Potter wheel icon */}
             <div
@@ -657,7 +657,7 @@ export default function ArtisanMinimalPage() {
       </motion.nav>
 
       {/* ── 2. HERO ───────────────────────────────────────────────── */}
-      <section
+      <section id="hero"
         style={{
           minHeight: "100vh",
           display: "flex",

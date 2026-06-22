@@ -59,7 +59,7 @@ export default function VulcanMotorsPage() {
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-black/90 backdrop-blur-xl border-b border-red-600/20 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="#hero" className="flex items-center gap-3 group">
             <div className="w-10 h-10 bg-red-600 flex items-center justify-center -skew-x-12 group-hover:scale-110 transition-transform duration-500">
               <Car className="w-6 h-6 text-black fill-current" />
             </div>
@@ -67,7 +67,7 @@ export default function VulcanMotorsPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Atelier", "Collection", "Performance", "Reserve"].map(l => (
-              <Link key={l} href="#collections" className="hover:text-red-500 transition-colors">{l}</Link>
+              <Link key={l} href="#realisations" className="hover:text-red-500 transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
@@ -89,7 +89,7 @@ export default function VulcanMotorsPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section className="relative h-screen flex items-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative h-screen flex items-center pt-32 pb-20 overflow-hidden">
           <div className="absolute inset-0">
             <Image src="https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=2400" alt="Hypercar Detail" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent" />
@@ -128,7 +128,7 @@ export default function VulcanMotorsPage() {
         </section>
 
         {/* ── ATELIER ───────────────── */}
-        <section className="py-40 bg-[#050505] relative overflow-hidden">
+        <section id="realisations" className="py-40 bg-[#050505] relative overflow-hidden">
           <div className="absolute top-0 right-0 w-1/2 h-full bg-red-600/5 -skew-x-12 translate-x-1/2" />
           <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
@@ -208,7 +208,7 @@ export default function VulcanMotorsPage() {
         </section>
 
         {/* ── SPECS TABLE ───────────── */}
-        <section className="py-40 bg-[#050505] border-t border-red-600/10">
+        <section id="contact" className="py-40 bg-[#050505] border-t border-red-600/10">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex flex-col md:flex-row items-end justify-between mb-20 border-b border-white/5 pb-12 gap-6">
@@ -314,7 +314,7 @@ export default function VulcanMotorsPage() {
       <footer className="bg-black pt-32 pb-12 px-6 border-t border-white/5">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-16 mb-32">
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-10">
+            <Link href="#hero" className="flex items-center gap-3 mb-10">
               <div className="w-10 h-10 bg-red-600 flex items-center justify-center -skew-x-12">
                 <Car className="w-6 h-6 text-black fill-current" />
               </div>

@@ -170,7 +170,7 @@ export default function ChronicleEditorialPage() {
             <button className="hidden md:block hover:text-[#d64000] transition-colors"><Search className="w-5 h-5" /></button>
           </div>
 
-          <Link href="/" className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
+          <Link href="#hero" className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
             <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
               Chronicle.
             </h1>
@@ -204,7 +204,7 @@ export default function ChronicleEditorialPage() {
         </div>
 
         {/* ─── HERO SPLIT LAYOUT ───────────────────────────────────────── */}
-        <section className="max-w-[1400px] mx-auto px-6 mb-24">
+        <section id="hero" className="max-w-[1400px] mx-auto px-6 mb-24">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             
             {/* LATEST NEWS SIDEBAR (LEFT) */}
@@ -448,7 +448,7 @@ export default function ChronicleEditorialPage() {
         </section>
 
         {/* ─── NEWSLETTER BANNER ─────────────────────────────────────────── */}
-        <section className="py-24 bg-[#f2efe9] border-y border-[#1a1814]/10">
+        <section id="contact" className="py-24 bg-[#f2efe9] border-y border-[#1a1814]/10">
           <div className="max-w-[1000px] mx-auto px-6 text-center">
             <Reveal>
               <Newspaper className="w-10 h-10 mx-auto text-[#d64000] mb-8" />

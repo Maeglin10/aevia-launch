@@ -758,7 +758,7 @@ export default function ImpactRestaurantPage() {
       {/* ============================================================
           SECTION 2 — HERO
           ============================================================ */}
-      <section
+      <section id="hero"
         style={{
           position: "relative",
           width: "100%",
@@ -1717,7 +1717,7 @@ export default function ImpactRestaurantPage() {
       {/* ============================================================
           SECTION 9 — LOCATION + HOURS
           ============================================================ */}
-      <section
+      <section id="contact"
         style={{ background: C.bgCard, padding: "100px 32px" }}
       >
         <div

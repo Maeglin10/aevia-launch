@@ -209,7 +209,7 @@ export default function NexusSaaSPage() {
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-[#05050a]/80 backdrop-blur-xl border-b border-white/5 py-4" : "bg-transparent py-6"}`}
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 relative z-50">
+          <Link href="#hero" className="flex items-center gap-3 relative z-50">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center">
               <Zap className="w-4 h-4 text-white" />
             </div>
@@ -217,7 +217,7 @@ export default function NexusSaaSPage() {
           </Link>
 
           <div className="hidden lg:flex items-center gap-8 text-sm font-medium text-white/70">
-            <Link href="#accueil" className="hover:text-white transition-colors">
+            <Link href="#hero" className="hover:text-white transition-colors">
               Features
             </Link>
             <Link href="#tarifs" className="hover:text-white transition-colors">
@@ -236,7 +236,7 @@ export default function NexusSaaSPage() {
 
           <div className="hidden lg:flex items-center gap-6">
             <Link
-              href="#accueil"
+              href="#hero"
               className="text-sm font-medium text-white/70 hover:text-white transition-colors"
             >
               Sign In
@@ -270,7 +270,7 @@ export default function NexusSaaSPage() {
             className="fixed inset-0 z-40 bg-[#05050a]/98 backdrop-blur-2xl flex flex-col pt-32 px-6"
           >
             <div className="flex flex-col gap-6 text-2xl font-medium">
-              <Link href="#accueil" onClick={() => setMenuOpen(false)}>
+              <Link href="#hero" onClick={() => setMenuOpen(false)}>
                 Features
               </Link>
               <Link href="#tarifs" onClick={() => setMenuOpen(false)}>
@@ -298,7 +298,7 @@ export default function NexusSaaSPage() {
       {/* ==========================================
           1. HERO SECTION
           ========================================== */}
-      <section className="relative pt-40 pb-20 md:pt-52 md:pb-32 px-6 overflow-hidden">
+      <section id="hero" className="relative pt-40 pb-20 md:pt-52 md:pb-32 px-6 overflow-hidden">
         <div className="max-w-[1200px] mx-auto text-center relative z-10 flex flex-col items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -450,7 +450,7 @@ export default function NexusSaaSPage() {
       {/* ==========================================
           2. LOGOS MARQUEE
           ========================================== */}
-      <section className="py-12 border-y border-white/5 bg-black/20 overflow-hidden">
+      <section id="partners" className="py-12 border-y border-white/5 bg-black/20 overflow-hidden">
         <div className="max-w-[1200px] mx-auto px-6 mb-8 text-center text-xs font-semibold tracking-widest text-white/40 uppercase">
           Trusted by innovative engineering teams worldwide
         </div>
@@ -475,7 +475,7 @@ export default function NexusSaaSPage() {
       {/* ==========================================
           3. FEATURES GRID (Bento)
           ========================================== */}
-      <section className="py-32 md:py-48 px-6 max-w-[1400px] mx-auto">
+      <section id="apropos" className="py-32 md:py-48 px-6 max-w-[1400px] mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-20">
           <Reveal>
             <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
@@ -508,7 +508,7 @@ export default function NexusSaaSPage() {
       {/* ==========================================
           4. PERFORMANCE HIGHLIGHT
           ========================================== */}
-      <section className="py-32 border-y border-white/5 bg-gradient-to-b from-[#0a0a14] to-[#05050a] px-6">
+      <section id="realisations" className="py-32 border-y border-white/5 bg-gradient-to-b from-[#0a0a14] to-[#05050a] px-6">
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <Reveal>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-6">
@@ -634,7 +634,7 @@ export default function NexusSaaSPage() {
       {/* ==========================================
           6. PRICING
           ========================================== */}
-      <section className="py-32 bg-[#0a0a14] px-6 border-y border-white/5">
+      <section id="tarifs" className="py-32 bg-[#0a0a14] px-6 border-y border-white/5">
         <div className="max-w-[1200px] mx-auto">
           <Reveal className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
@@ -763,7 +763,7 @@ export default function NexusSaaSPage() {
       {/* ==========================================
           8. BOTTOM CTA
           ========================================== */}
-      <section className="py-32 px-6 relative overflow-hidden">
+      <section id="contact" className="py-32 px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-violet-600/20 blur-[100px] z-0 pointer-events-none rounded-full scale-150" />
         <div className="max-w-[800px] mx-auto text-center relative z-10 border border-white/10 bg-white/[0.02] backdrop-blur-xl rounded-3xl p-12 md:p-20 shadow-2xl">
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
@@ -791,7 +791,7 @@ export default function NexusSaaSPage() {
         <div className="max-w-[1400px] mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 mb-16">
             <div className="col-span-2">
-              <Link href="/" className="flex items-center gap-2 mb-6">
+              <Link href="#hero" className="flex items-center gap-2 mb-6">
                 <div className="w-6 h-6 rounded bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center">
                   <Zap className="w-3 h-3 text-white" />
                 </div>
@@ -873,22 +873,22 @@ export default function NexusSaaSPage() {
                   </a>
                 </li>
                 <li>
-                  <a href="#blog" className="hover:text-white transition-colors">
+                  <a href="#contact" className="hover:text-white transition-colors">
                     Community
                   </a>
                 </li>
                 <li>
-                  <a href="#blog" className="hover:text-white transition-colors">
+                  <a href="#contact" className="hover:text-white transition-colors">
                     Blog
                   </a>
                 </li>
                 <li>
-                  <a href="#blog" className="hover:text-white transition-colors">
+                  <a href="#contact" className="hover:text-white transition-colors">
                     Open Source
                   </a>
                 </li>
                 <li>
-                  <a href="#blog" className="hover:text-white transition-colors">
+                  <a href="#contact" className="hover:text-white transition-colors">
                     System Status
                   </a>
                 </li>

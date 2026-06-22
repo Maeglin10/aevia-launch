@@ -363,7 +363,7 @@ function CurtainSlider() {
   const prevSlide = prev !== null ? SLIDES[prev] : null
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-[#1a1a1a]">
+    <div id="hero" className="relative w-full h-screen overflow-hidden bg-[#1a1a1a]">
       {/* Previous slide — stays underneath */}
       {prevSlide && (
         <div className="absolute inset-0 z-0">
@@ -573,7 +573,7 @@ export default function Impact114Page() {
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
+          <Link href="#hero" className="flex items-center gap-2 group">
             <Leaf className="w-4 h-4 text-[#3d5a3e] group-hover:rotate-12 transition-transform" />
             <span
               className="text-2xl tracking-[0.15em] text-[#2d1b0e]"
@@ -1167,7 +1167,7 @@ export default function Impact114Page() {
       {/* ================================================================
           8. STATS
           ================================================================ */}
-      <section className="py-20 px-6 md:px-12 bg-[#3d5a3e]">
+      <section id="realisations" className="py-20 px-6 md:px-12 bg-[#3d5a3e]">
         <div className="max-w-[1400px] mx-auto">
           <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-[#faf8f3]/10">
             {[
