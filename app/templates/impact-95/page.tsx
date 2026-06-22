@@ -904,8 +904,8 @@ export default function LumiereCliniquePage() {
           <div className="pt-8 border-t border-[#2A1E12] flex flex-col md:flex-row justify-between gap-4 text-xs">
             <span>© 2025 Lumière Clinic — Aevia WS · SIREN 852 546 225 · Ordre National des Médecins</span>
             <div className="flex gap-6">
-              <Link href="/legal/mentions-legales" className="hover:text-[#FAFAF8] transition-colors cursor-pointer">Mentions légales</Link>
-              <Link href="/legal/confidentialite" className="hover:text-[#FAFAF8] transition-colors cursor-pointer">Confidentialité</Link>
+              <Link href="#contact" className="hover:text-[#FAFAF8] transition-colors cursor-pointer">Mentions légales</Link>
+              <Link href="#contact" className="hover:text-[#FAFAF8] transition-colors cursor-pointer">Confidentialité</Link>
             </div>
           </div>
         </div>

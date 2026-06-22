@@ -184,7 +184,7 @@ export default function SkylineConciergePage() {
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-black/90 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3">
+          <Link href="#hero" className="group flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-br from-[#c9a96e] to-[#8c7246] rounded-sm flex items-center justify-center rotate-45 group-hover:rotate-0 transition-transform duration-500">
               <Building2 className="w-5 h-5 text-black -rotate-45 group-hover:rotate-0 transition-transform duration-500" />
             </div>
@@ -261,7 +261,7 @@ export default function SkylineConciergePage() {
       </AnimatePresence>
 
       {/* ── HERO ── */}
-      <section className="relative h-[100svh] flex items-center overflow-hidden">
+      <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&q=80"
@@ -956,9 +956,9 @@ export default function SkylineConciergePage() {
             </div>
           </div>
           <div className="flex gap-10">
-            <Link href="/legal/mentions-legales" className="hover:text-[#c9a96e] transition-colors">Mentions Légales</Link>
-            <Link href="/legal/confidentialite" className="hover:text-[#c9a96e] transition-colors">Confidentialité</Link>
-            <Link href="/legal/cgu" className="hover:text-[#c9a96e] transition-colors">CGU</Link>
+            <Link href="#contact" className="hover:text-[#c9a96e] transition-colors">Mentions Légales</Link>
+            <Link href="#contact" className="hover:text-[#c9a96e] transition-colors">Confidentialité</Link>
+            <Link href="#contact" className="hover:text-[#c9a96e] transition-colors">CGU</Link>
           </div>
         </div>
       </footer>

@@ -121,7 +121,7 @@ export default function AetherLabsPage() {
       </AnimatePresence>
 
       {/* Hero */}
-      <section ref={heroRef} className="relative min-h-screen overflow-hidden grid md:grid-cols-2">
+      <section id="hero" ref={heroRef} className="relative min-h-screen overflow-hidden grid md:grid-cols-2">
         <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-28 pb-16 md:py-0">
           <Reveal>
             <p className="text-xs tracking-[0.3em] uppercase text-[#8B7355] mb-8">Laboratoire cosmétique — Grasse, France</p>

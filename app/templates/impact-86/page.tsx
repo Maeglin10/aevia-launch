@@ -1080,9 +1080,9 @@ export default function AuraWellnessPage() {
         <div className="max-w-6xl mx-auto border-t border-[#D8D0C4] mt-10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[#6B5E52]">
           <span>© 2026 Aura Wellness. Tous droits réservés.</span>
           <div className="flex gap-6">
-            <Link href="/legal/mentions-legales" className="hover:text-[#7C9E87] transition-colors cursor-pointer">Mentions légales</Link>
-            <Link href="/legal/cgu" className="hover:text-[#7C9E87] transition-colors cursor-pointer">CGU</Link>
-            <Link href="/legal/confidentialite" className="hover:text-[#7C9E87] transition-colors cursor-pointer">Confidentialité</Link>
+            <Link href="#contact" className="hover:text-[#7C9E87] transition-colors cursor-pointer">Mentions légales</Link>
+            <Link href="#contact" className="hover:text-[#7C9E87] transition-colors cursor-pointer">CGU</Link>
+            <Link href="#contact" className="hover:text-[#7C9E87] transition-colors cursor-pointer">Confidentialité</Link>
           </div>
         </div>
       </footer>

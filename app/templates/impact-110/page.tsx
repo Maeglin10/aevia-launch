@@ -402,9 +402,9 @@ export default function OasisWellnessPage() {
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-[#2c3e2d]/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-[#2c3e2d]/30">
           <span>© 2026 OASIS WELLNESS COLLECTIVE.</span>
           <div className="flex gap-10">
-            <Link href="/legal/mentions-legales" className="hover:text-[#2c3e2d] transition-colors">Mentions légales</Link>
-            <Link href="/legal/confidentialite" className="hover:text-[#2c3e2d] transition-colors">Confidentialité</Link>
-            <Link href="/legal/cgu" className="hover:text-[#2c3e2d] transition-colors">CGU</Link>
+            <Link href="#contact" className="hover:text-[#2c3e2d] transition-colors">Mentions légales</Link>
+            <Link href="#contact" className="hover:text-[#2c3e2d] transition-colors">Confidentialité</Link>
+            <Link href="#contact" className="hover:text-[#2c3e2d] transition-colors">CGU</Link>
           </div>
         </div>
       </footer>

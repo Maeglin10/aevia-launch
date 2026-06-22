@@ -192,7 +192,7 @@ export default function VelocityJetsPage() {
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-black/80 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3">
+          <Link href="#hero" className="group flex items-center gap-3">
             <div className="relative">
               <Plane className="w-8 h-8 text-[#00f2ff] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-500" />
               <div className="absolute inset-0 bg-[#00f2ff]/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -270,7 +270,7 @@ export default function VelocityJetsPage() {
       </AnimatePresence>
 
       {/* ── HERO ── */}
-      <section className="relative h-[100svh] flex items-center overflow-hidden">
+      <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=1600&q=80"
@@ -576,7 +576,7 @@ export default function VelocityJetsPage() {
       </section>
 
       {/* ── PERFORMANCE HUD ── */}
-      <section className="py-32 bg-[#00f2ff] text-black">
+      <section id="realisations" className="py-32 bg-[#00f2ff] text-black">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <Reveal>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/40 mb-8 block">
@@ -968,7 +968,7 @@ export default function VelocityJetsPage() {
               </li>
               <li>
                 <Link
-                  href="#equipe"
+                  href="#about"
                   className="hover:text-[#00f2ff] transition-colors"
                 >
                   Our_Team
@@ -976,7 +976,7 @@ export default function VelocityJetsPage() {
               </li>
               <li>
                 <Link
-                  href="#equipe"
+                  href="#about"
                   className="hover:text-[#00f2ff] transition-colors"
                 >
                   Sustainability
@@ -1005,9 +1005,9 @@ export default function VelocityJetsPage() {
             </div>
           </div>
           <div className="flex gap-10">
-            <Link href="/legal/mentions-legales" className="hover:text-[#00f2ff] transition-colors">Mentions Légales</Link>
-            <Link href="/legal/confidentialite" className="hover:text-[#00f2ff] transition-colors">Confidentialité</Link>
-            <Link href="/legal/cgu" className="hover:text-[#00f2ff] transition-colors">CGU</Link>
+            <Link href="#contact" className="hover:text-[#00f2ff] transition-colors">Mentions Légales</Link>
+            <Link href="#contact" className="hover:text-[#00f2ff] transition-colors">Confidentialité</Link>
+            <Link href="#contact" className="hover:text-[#00f2ff] transition-colors">CGU</Link>
           </div>
         </div>
       </footer>

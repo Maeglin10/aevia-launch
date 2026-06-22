@@ -171,7 +171,7 @@ export default function NovaSpacesPage() {
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-white/90 backdrop-blur-2xl py-4 border-b border-black/5" : "bg-transparent py-8"}`}
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex flex-col items-center">
+          <Link href="#hero" className="group flex flex-col items-center">
             <span className="text-3xl font-light tracking-[0.3em] uppercase leading-none">
               Nova
             </span>
@@ -245,7 +245,7 @@ export default function NovaSpacesPage() {
       </AnimatePresence>
 
       {/* ── HERO ── */}
-      <section className="relative h-[100svh] flex items-center overflow-hidden">
+      <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1600&q=80"
@@ -295,7 +295,7 @@ export default function NovaSpacesPage() {
       </section>
 
       {/* ── STATS SECTION ── */}
-      <section className="py-24 border-y border-black/5 bg-white">
+      <section id="realisations" className="py-24 border-y border-black/5 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
             {STATS.map((stat, i) => (
@@ -399,7 +399,7 @@ export default function NovaSpacesPage() {
       </section>
 
       {/* ── METHODOLOGY ── */}
-      <section className="py-40 bg-white overflow-hidden relative border-t border-black/5">
+      <section id="contact" className="py-40 bg-white overflow-hidden relative border-t border-black/5">
         <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] bg-black/5 blur-[120px] rounded-full" />
         <div className="max-w-[1600px] mx-auto px-6 md:px-12">
           <Reveal>

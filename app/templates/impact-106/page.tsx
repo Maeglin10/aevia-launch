@@ -63,7 +63,7 @@ export default function StudioVersaPage() {
       {/* ── NAVBAR ─────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#faf5f0]/90 backdrop-blur-xl border-b border-orange-500/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="#hero" className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center">
               <PenTool className="w-5 h-5 text-white" />
             </div>
@@ -94,7 +94,7 @@ export default function StudioVersaPage() {
 
       <main>
         {/* ── HERO ─────────────────── */}
-        <section className="relative min-h-[90vh] flex items-center pt-40 pb-20 overflow-hidden">
+        <section id="hero" className="relative min-h-[90vh] flex items-center pt-40 pb-20 overflow-hidden">
           <div className="absolute top-0 right-0 w-[50vw] h-full hidden lg:block">
             <ParallaxImg src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?auto=format&fit=crop&q=80&w=1600" alt="Studio" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#faf5f0] via-[#faf5f0]/40 to-transparent" />
@@ -135,7 +135,7 @@ export default function StudioVersaPage() {
         </section>
 
         {/* ── WORK ──────────────────── */}
-        <section className="py-32 bg-[#faf5f0]">
+        <section id="realisations" className="py-32 bg-[#faf5f0]">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex justify-between items-end mb-20">
@@ -171,7 +171,7 @@ export default function StudioVersaPage() {
         </section>
 
         {/* ── CAPABILITIES ──────────── */}
-        <section className="py-32 bg-[#1a1a1a] text-white">
+        <section id="equipe" className="py-32 bg-[#1a1a1a] text-white">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
@@ -264,7 +264,7 @@ export default function StudioVersaPage() {
         </section>
 
         {/* ── CTA ─────────────────── */}
-        <section className="py-32 bg-[#faf5f0]">
+        <section id="contact" className="py-32 bg-[#faf5f0]">
           <div className="max-w-[800px] mx-auto px-6 text-center">
             <Reveal>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-6">

@@ -171,7 +171,7 @@ export default function ZenithWatchesPage() {
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-black/90 backdrop-blur-2xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex flex-col items-center">
+          <Link href="#hero" className="group flex flex-col items-center">
             <span className="text-3xl font-black tracking-[0.2em] uppercase leading-none italic">
               Zenith
             </span>
@@ -251,7 +251,7 @@ export default function ZenithWatchesPage() {
       </AnimatePresence>
 
       {/* ── HERO ── */}
-      <section className="relative h-[100svh] flex items-center overflow-hidden">
+      <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1600&q=80"
@@ -317,7 +317,7 @@ export default function ZenithWatchesPage() {
       </section>
 
       {/* ── STATS SECTION ── */}
-      <section className="py-24 border-y border-white/5 bg-[#0d0d0d]">
+      <section id="realisations" className="py-24 border-y border-white/5 bg-[#0d0d0d]">
         <div className="max-w-[1600px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
             {STATS.map((stat, i) => (
@@ -421,7 +421,7 @@ export default function ZenithWatchesPage() {
       </section>
 
       {/* ── SAVOIR-FAIRE ── */}
-      <section className="py-40 bg-[#0d0d0d] overflow-hidden relative">
+      <section id="contact" className="py-40 bg-[#0d0d0d] overflow-hidden relative">
         <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-[#d4af37]/5 blur-[120px] rounded-full" />
         <div className="max-w-[1600px] mx-auto px-6 md:px-12">
           <Reveal>

@@ -540,7 +540,7 @@ export default function Impact89Page() {
           borderBottom: `1px solid ${C.border}`,
         }}
       >
-        <Link href="/" style={{ textDecoration: "none" }}>
+        <Link href="#hero" style={{ textDecoration: "none" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{
               width: 36, height: 36,
@@ -598,7 +598,7 @@ export default function Impact89Page() {
       </motion.nav>
 
       {/* HERO */}
-      <section
+      <section id="hero"
         style={{
           position: "relative",
           height: "100vh",
@@ -1592,7 +1592,7 @@ export default function Impact89Page() {
       </section>
 
       {/* FINAL CTA */}
-      <section style={{
+      <section id="contact" style={{
         padding: "120px 40px",
         background: C.bg,
         textAlign: "center",

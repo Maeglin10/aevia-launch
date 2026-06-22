@@ -421,7 +421,7 @@ export default function Impact94Page() {
         }`}
       >
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
+        <Link href="#hero" className="flex items-center gap-3 group">
           <Flower className="w-5 h-5 text-[#CA8A04] group-hover:rotate-45 transition-transform duration-500" />
           <span
             className="text-xl font-normal tracking-[0.25em] uppercase text-[#0C0A09]"
@@ -611,7 +611,7 @@ export default function Impact94Page() {
       {/* ════════════════════════════════════════════════════════════
           MARQUEE
       ════════════════════════════════════════════════════════════ */}
-      <section className="bg-[#CA8A04] py-5 overflow-hidden">
+      <section id="realisations" className="bg-[#CA8A04] py-5 overflow-hidden">
         <motion.div
           className="flex gap-12 whitespace-nowrap"
           animate={{ x: ["0%", "-50%"] }}
