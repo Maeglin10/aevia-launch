@@ -379,7 +379,7 @@ export default function AuraWellnessPage() {
   }, []);
 
   const navItems = [
-    { label: "Accueil", href: "#" },
+    { label: "Accueil", href: "#hero" },
     { label: "Soins", href: "#soins" },
     { label: "Espace", href: "#amenities" },
     { label: "Équipe", href: "#equipe" },
@@ -467,7 +467,7 @@ export default function AuraWellnessPage() {
       </AnimatePresence>
 
       {/* Hero */}
-      <section ref={heroRef} className="relative h-screen overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
             src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=1600&q=85"

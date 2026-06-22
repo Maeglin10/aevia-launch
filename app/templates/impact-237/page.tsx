@@ -1866,9 +1866,9 @@ function Footer() {
     {
       title: 'Légal',
       items: [
-        { label: 'Mentions légales', href: '#' },
-        { label: 'Confidentialité', href: '#' },
-        { label: 'Accessibilité', href: '#' },
+        { label: 'Mentions légales', href: '#rdv' },
+        { label: 'Confidentialité', href: '#rdv' },
+        { label: 'Accessibilité', href: '#rdv' },
       ],
     },
   ];

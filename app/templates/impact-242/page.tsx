@@ -1893,10 +1893,10 @@ function Footer() {
     {
       title: 'Légal',
       items: [
-        { label: 'Mentions légales', href: '#' },
-        { label: 'Politique de confidentialité', href: '#' },
-        { label: 'CGV', href: '#' },
-        { label: 'Ordre des experts-comptables', href: '#' },
+        { label: 'Mentions légales', href: '#contact' },
+        { label: 'Politique de confidentialité', href: '#contact' },
+        { label: 'CGV', href: '#contact' },
+        { label: 'Ordre des experts-comptables', href: 'https://www.experts-comptables.fr' },
       ],
     },
   ];

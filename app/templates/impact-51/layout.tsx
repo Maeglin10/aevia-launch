@@ -213,9 +213,9 @@ export default function Impact51Layout({
               {
                 title: "Legal",
                 items: [
-                  { label: "Mentions légales", href: "/legal/mentions-legales" },
-                  { label: "Privacy Policy", href: "#" },
-                  { label: "Terms of Service", href: "#" },
+                  { label: "Mentions légales", href: "/templates/impact-51/legal" },
+                  { label: "Privacy Policy", href: "/templates/impact-51/legal" },
+                  { label: "Terms of Service", href: "/templates/impact-51/legal" },
                 ],
               },
             ].map((col, idx) => (

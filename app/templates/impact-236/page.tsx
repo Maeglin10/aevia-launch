@@ -1820,9 +1820,9 @@ function Footer() {
     {
       title: 'Légal',
       items: [
-        { label: 'Mentions légales', href: '#' },
-        { label: 'Politique de confidentialité', href: '#' },
-        { label: 'CGV', href: '#' },
+        { label: 'Mentions légales', href: '#contact' },
+        { label: 'Politique de confidentialité', href: '#contact' },
+        { label: 'CGV', href: '#contact' },
       ],
     },
   ];
