@@ -96,7 +96,7 @@ export default function AtelierLeoniePage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=88&w=2400" alt="Salon de coiffure élégant" fill className="object-cover object-center" priority style={{ filter: "brightness(0.4) saturate(0.9)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#110c10] via-[#110c10]/45 to-transparent" />
@@ -166,7 +166,7 @@ export default function AtelierLeoniePage() {
       </section>
 
       {/* ── PRESTATIONS ── */}
-      <section className="py-28 bg-[#faf6f1]">
+      <section id="realisations" className="py-28 bg-[#faf6f1]">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16 flex flex-col md:flex-row gap-8 justify-between items-end">
@@ -213,7 +213,7 @@ export default function AtelierLeoniePage() {
       </section>
 
       {/* ── TÉMOIGNAGES ── */}
-      <section className="py-28 bg-[#faf6f1]">
+      <section id="contact" className="py-28 bg-[#faf6f1]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c97b7b] mb-4">Avis clients</div>
@@ -243,7 +243,7 @@ export default function AtelierLeoniePage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-24 bg-[#1a1218] text-center">
+      <section id="services" className="py-24 bg-[#1a1218] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/25 mb-6">Votre prochain rendez-vous</div>

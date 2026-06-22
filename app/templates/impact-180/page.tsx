@@ -96,7 +96,7 @@ export default function ThermotekChauffagePage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&q=85&w=2400" alt="Chauffagiste intervention chaudière" fill className="object-cover" priority style={{ filter: "brightness(0.5)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0906] via-[#0a0906]/45 to-transparent" />
@@ -195,7 +195,7 @@ export default function ThermotekChauffagePage() {
       </section>
 
       {/* ── TÉMOIGNAGES ── */}
-      <section className="py-28 bg-[#06040a] border-t border-white/5">
+      <section id="services" className="py-28 bg-[#06040a] border-t border-white/5">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#ea580c] mb-4" style={{ fontFamily: "'Fira Code', monospace" }}>// Avis clients</div>
@@ -225,7 +225,7 @@ export default function ThermotekChauffagePage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-36 bg-[#ea580c] text-center">
+      <section id="contact" className="py-36 bg-[#ea580c] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/60 mb-6" style={{ fontFamily: "'Fira Code', monospace" }}>// Prendre contact</div>

@@ -83,7 +83,7 @@ export default function BrilloNetPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=85&w=2400" alt="Nettoyage professionnel intérieur" fill className="object-cover" priority style={{ filter: "brightness(0.45)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a1e1e] via-[#0a1e1e]/40 to-transparent" />
@@ -187,7 +187,7 @@ export default function BrilloNetPage() {
       </section>
 
       {/* ── COMMENT ÇA MARCHE ── */}
-      <section className="py-24 bg-[#f0fafa]">
+      <section id="contact" className="py-24 bg-[#f0fafa]">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0d9488] mb-4">Simple comme bonjour</div>
@@ -213,7 +213,7 @@ export default function BrilloNetPage() {
       </section>
 
       {/* ── TÉMOIGNAGES ── */}
-      <section className="py-28 bg-white">
+      <section id="about" className="py-28 bg-white">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0d9488] mb-4">Ce qu'ils disent</div>
@@ -243,7 +243,7 @@ export default function BrilloNetPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-28 bg-[#0d9488]">
+      <section id="services" className="py-28 bg-[#0d9488]">
         <Reveal>
           <div className="max-w-2xl mx-auto px-6 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/45 mb-6">Premier passage</div>

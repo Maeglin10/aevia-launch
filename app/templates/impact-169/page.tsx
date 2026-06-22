@@ -502,7 +502,7 @@ export default function ImpactFrequencePage() {
             {["Archives", "Auteurs", "Podcast", "À propos"].map(l => (
               <a
                 key={l}
-                href="#apropos"
+                href={l === "Archives" ? "#archives" : l === "Auteurs" ? "#auteurs" : l === "À propos" ? "#apropos" : "#contact"}
                 style={{
                   fontFamily: C.mono,
                   fontSize: 11,
@@ -582,7 +582,7 @@ export default function ImpactFrequencePage() {
       </nav>
 
       {/* HERO — featured article newspaper layout */}
-      <section
+      <section id="hero"
         ref={heroRef}
         style={{
           display: "grid",
@@ -1077,7 +1077,7 @@ export default function ImpactFrequencePage() {
       </section>
 
       {/* AUTHORS */}
-      <section style={{ padding: "80px 64px", borderBottom: `2px solid ${C.text}` }}>
+      <section id="auteurs" style={{ padding: "80px 64px", borderBottom: `2px solid ${C.text}` }}>
         <div
           style={{
             display: "flex",
@@ -1180,7 +1180,7 @@ export default function ImpactFrequencePage() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section style={{ background: C.bgAlt, padding: "80px 64px", borderBottom: `2px solid ${C.text}` }}>
+      <section id="apropos" style={{ background: C.bgAlt, padding: "80px 64px", borderBottom: `2px solid ${C.text}` }}>
         <div style={{ textAlign: "center", marginBottom: 56 }}>
           <h2
             style={{
@@ -1422,7 +1422,7 @@ export default function ImpactFrequencePage() {
       </section>
 
       {/* ARCHIVE */}
-      <section style={{ padding: "80px 64px", borderBottom: `2px solid ${C.text}` }}>
+      <section id="archives" style={{ padding: "80px 64px", borderBottom: `2px solid ${C.text}` }}>
         <div
           style={{
             display: "flex",
@@ -1586,7 +1586,7 @@ export default function ImpactFrequencePage() {
       </section>
 
       {/* BIG NEWSLETTER CTA */}
-      <section
+      <section id="contact"
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",

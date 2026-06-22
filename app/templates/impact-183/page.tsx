@@ -103,7 +103,7 @@ export default function CouleursCOPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&q=85&w=2400" alt="Peintre professionnel intérieur" fill className="object-cover" priority style={{ filter: "brightness(0.55)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a2e] via-[#1a1a2e]/40 to-transparent" />
@@ -163,7 +163,7 @@ export default function CouleursCOPage() {
       </section>
 
       {/* ── SERVICES ── */}
-      <section className="py-28 bg-white">
+      <section id="services" className="py-28 bg-white">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
@@ -216,7 +216,7 @@ export default function CouleursCOPage() {
       </section>
 
       {/* ── TÉMOIGNAGES ── */}
-      <section className="py-28 bg-white">
+      <section id="tarifs" className="py-28 bg-white">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#4d7c5f] mb-4">Avis clients</div>
@@ -246,7 +246,7 @@ export default function CouleursCOPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-28 bg-[#4d7c5f] text-center">
+      <section id="contact" className="py-28 bg-[#4d7c5f] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/50 mb-6">Votre projet</div>

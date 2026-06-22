@@ -175,7 +175,7 @@ export default function PulseAppPage() {
       </AnimatePresence>
 
       {/* Hero */}
-      <section className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+      <section id="hero" className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <Reveal>
@@ -351,7 +351,7 @@ export default function PulseAppPage() {
       </section>
 
       {/* Stats */}
-      <section className="py-20 bg-[#6366F1] text-white">
+      <section id="about" className="py-20 bg-[#6366F1] text-white">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[["2 400+", "Équipes actives"], ["99.97%", "Uptime garanti"], ["4.9/5", "Note App Store"], ["2h/jour", "Temps économisé"]].map(([val, label]) => (
@@ -471,7 +471,7 @@ export default function PulseAppPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-24 bg-[#6366F1] text-white text-center px-6">
+      <section id="contact" className="py-24 bg-[#6366F1] text-white text-center px-6">
         <Reveal>
           <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Prêt à passer à Pulse ?</h2>
           <p className="text-indigo-200 text-lg mb-10">14 jours gratuits. Pas de carte bancaire requise. Annulez à tout moment.</p>

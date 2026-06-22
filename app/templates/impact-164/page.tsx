@@ -352,7 +352,7 @@ export default function BureauPage() {
       </nav>
 
       {/* HERO — full viewport, split asymmetric */}
-      <section style={{ minHeight: "100vh", paddingTop: 60, display: "grid", gridTemplateColumns: "1fr 1fr", borderBottom: `2px solid ${C.bgDark}` }}>
+      <section id="hero" style={{ minHeight: "100vh", paddingTop: 60, display: "grid", gridTemplateColumns: "1fr 1fr", borderBottom: `2px solid ${C.bgDark}` }}>
         {/* Left: oversized headline */}
         <div style={{ borderRight: `2px solid ${C.bgDark}`, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "80px 64px" }}>
           <div style={{ fontFamily: C.mono, fontSize: 11, letterSpacing: 4, color: C.textMuted, textTransform: "uppercase" }}>
@@ -749,7 +749,7 @@ export default function BureauPage() {
       </section>
 
       {/* CTA CONTACT */}
-      <section style={{ borderBottom: `2px solid ${C.bgDark}`, display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+      <section id="contact" style={{ borderBottom: `2px solid ${C.bgDark}`, display: "grid", gridTemplateColumns: "1fr 1fr" }}>
         <div style={{ borderRight: `2px solid ${C.bgDark}`, padding: "80px 64px" }}>
           <div style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: 4, color: C.accent, marginBottom: 24, textTransform: "uppercase" }}>
             → On prend 5 nouveaux clients par trimestre

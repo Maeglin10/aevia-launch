@@ -89,7 +89,7 @@ export default function GentlemansCutPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=88&w=2400" alt="Barbier rasage traditionnel" fill className="object-cover object-top" priority style={{ filter: "brightness(0.35) contrast(1.05)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0908] via-[#0a0908]/55 to-transparent" />
@@ -147,7 +147,7 @@ export default function GentlemansCutPage() {
       </div>
 
       {/* ── SERVICES ── */}
-      <section className="py-28 bg-[#0a0908]">
+      <section id="services" className="py-28 bg-[#0a0908]">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
@@ -176,7 +176,7 @@ export default function GentlemansCutPage() {
       </section>
 
       {/* ── RÉSERVATION RAPIDE ── */}
-      <section className="py-24 bg-[#1e1c1a]">
+      <section id="contact" className="py-24 bg-[#1e1c1a]">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">

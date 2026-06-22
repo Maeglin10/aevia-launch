@@ -859,7 +859,7 @@ export default function ImpactEclatPage() {
       {page === "home" && (
       <>
       {/* HERO — plein écran editorial dark */}
-      <section
+      <section id="hero"
         ref={heroRef}
         style={{
           position: "relative",
@@ -1087,7 +1087,7 @@ export default function ImpactEclatPage() {
       </section>
 
       {/* STATS BAR */}
-      <section style={{ background: "#111", borderBottom: `1px solid ${C.border}`, borderTop: `1px solid ${C.border}` }}>
+      <section id="realisations" style={{ background: "#111", borderBottom: `1px solid ${C.border}`, borderTop: `1px solid ${C.border}` }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
           {STATS.map((s, i) => (
             <motion.div
@@ -1161,7 +1161,7 @@ export default function ImpactEclatPage() {
             </h2>
           </div>
           <a
-            href="#collections"
+            href="#realisations"
             style={{
               fontSize: 13,
               color: C.gold,
@@ -1440,7 +1440,7 @@ export default function ImpactEclatPage() {
               Un carnet de voyage visuel qui réinvente la garde-robe estivale.
             </p>
             <motion.a
-              href="#accueil"
+              href="#hero"
               whileHover={{ background: C.gold, color: C.bg }}
               whileTap={{ scale: 0.96 }}
               style={{
@@ -3116,7 +3116,7 @@ function LegalPage({ variant }: { variant: "cgv" | "mentions" }) {
   return (
     <div>
       <PageHero eyebrow="Conditions générales" title="Conditions générales de vente" />
-      <section style={{ padding: "clamp(40px, 6vw, 64px) clamp(20px, 6vw, 64px) clamp(72px, 9vw, 100px)" }}>
+      <section id="contact" style={{ padding: "clamp(40px, 6vw, 64px) clamp(20px, 6vw, 64px) clamp(72px, 9vw, 100px)" }}>
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
           <p style={{ ...para, fontStyle: "italic", color: C.muted }}>Dernière mise à jour : juin 2025.</p>
 

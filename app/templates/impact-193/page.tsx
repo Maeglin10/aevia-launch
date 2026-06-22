@@ -83,7 +83,7 @@ export default function OsteoGaiaPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=85&w=2400" alt="Traitement ostéopathique manuel" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38) saturate(0.8)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#231a14] via-[#231a14]/45 to-transparent" />
@@ -165,7 +165,7 @@ export default function OsteoGaiaPage() {
       </section>
 
       {/* ── L'APPROCHE ── */}
-      <section className="py-24 bg-[#3a2e28] text-[#f5f0e8]">
+      <section id="contact" className="py-24 bg-[#3a2e28] text-[#f5f0e8]">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           <Reveal>
             <div>
@@ -225,7 +225,7 @@ export default function OsteoGaiaPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-24 bg-[#c26b4c] text-center">
+      <section id="services" className="py-24 bg-[#c26b4c] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-5">Rendez-vous</div>

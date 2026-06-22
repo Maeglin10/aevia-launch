@@ -1912,7 +1912,7 @@ export default function Impact176Page() {
       </section>
 
       {/* ── CTA ── */}
-      <section
+      <section id="contact"
         style={{
           background: `linear-gradient(135deg, #111827 0%, #0f172a 100%)`,
           borderTop: `1px solid ${C.border}`,
