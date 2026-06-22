@@ -1035,7 +1035,7 @@ function SpecialtyCards() {
     margin: '0 auto',
   };
   return (
-    <section style={sec}>
+    <section id="contact" style={sec}>
       <div style={{ maxWidth: 1240, margin: '0 auto 56px' }}>
         <Reveal>
           <Eyebrow color={C.textMuted}>Domaines d&apos;expertise</Eyebrow>

@@ -484,7 +484,7 @@ function Hero() {
   };
 
   return (
-    <section ref={ref} style={section}>
+    <section id="hero" ref={ref} style={section}>
       {/* Photo plein cadre avec parallaxe */}
       <motion.div
         style={{

@@ -759,7 +759,7 @@ function Hero() {
    ════════════════════════════════════════════════════════════════════════════ */
 function Intro() {
   return (
-    <section
+    <section id="hero"
       style={{
         background: C.bgAlt,
         padding: 'clamp(90px,13vw,190px) clamp(24px,8vw,160px)',
@@ -1590,7 +1590,7 @@ function TestimonialCard({
 
 function Testimonials() {
   return (
-    <section
+    <section id="contact"
       style={{
         background: C.bgAlt,
         padding: 'clamp(90px,12vw,170px) clamp(24px,6vw,96px)',

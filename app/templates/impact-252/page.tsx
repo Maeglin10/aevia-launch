@@ -632,7 +632,7 @@ function Intro() {
     textAlign: 'center',
   };
   return (
-    <section style={sec}>
+    <section id="contact" style={sec}>
       <Reveal>
         <p
           style={{

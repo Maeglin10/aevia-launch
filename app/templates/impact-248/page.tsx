@@ -1245,7 +1245,7 @@ function PrinciplesPanel() {
   };
 
   return (
-    <section style={sec}>
+    <section id="contact" style={sec}>
       <div style={grid} className="or-prinpanel">
         {/* Image collante */}
         <div style={stickySide} className="or-prinpanel-sticky">
