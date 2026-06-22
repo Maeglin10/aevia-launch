@@ -79,7 +79,7 @@ export default function StudioVersaPage() {
               Start a Project
             </button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#faf5f0] p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Work", "Capabilities", "Team", "Contact"].map(l => (

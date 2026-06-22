@@ -90,7 +90,7 @@ export default function CouleursCOPage() {
               Devis Gratuit
             </button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5 text-[#1a1a2e]" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5 text-[#1a1a2e]" /></SheetTrigger>
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Services", "Réalisations", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1a1a2e] hover:text-[#4d7c5f] transition-colors">{l}</Link>)}

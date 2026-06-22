@@ -114,9 +114,7 @@ export default function ObscuraPage() {
             Réserver
           </button>
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetTrigger asChild>
-               <button className="md:hidden text-white cursor-pointer"><Menu className="w-5 h-5" /></button>
-            </SheetTrigger>
+            <SheetTrigger className="md:hidden text-white cursor-pointer"><Menu className="w-5 h-5" /></SheetTrigger>
             <SheetContent side="right" className="bg-[#0A0806] border-[#C9A86C]/10 text-white p-8">
                <div className="flex items-center justify-between mb-12">
                   <span className="text-[#C9A86C] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Obscura</span>

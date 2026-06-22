@@ -103,7 +103,7 @@ export default function VoltProPage() {
               Devis Gratuit
             </button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#080a0c] border-yellow-400/10 p-10">
                 <div className="flex flex-col gap-8 mt-16">
                   {[

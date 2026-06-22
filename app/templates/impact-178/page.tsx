@@ -87,7 +87,7 @@ export default function AltaTransactionsPage() {
             </button>
           </div>
           <Sheet>
-            <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5 text-white" /></button></SheetTrigger>
+            <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5 text-white" /></SheetTrigger>
             <SheetContent side="right" className="bg-[#11182a] border-[#b8944a]/10 p-10">
               <div className="flex flex-col gap-8 mt-16">
                 {["Acheter", "Vendre", "Estimer", "Contact"].map(l => (

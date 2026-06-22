@@ -91,7 +91,7 @@ export default function AquanovaPlomberiePage() {
               Devis Gratuit
             </button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5 text-[#0f172a]" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5 text-[#0f172a]" /></SheetTrigger>
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Services", "Réalisations", "Contact"].map(l => (

@@ -153,11 +153,9 @@ export default function MorphStudioPage() {
               Initialize
             </Link>
             <Sheet>
-              <SheetTrigger asChild>
-                <button className="lg:hidden text-white hover:text-cyan-400 transition-colors">
+              <SheetTrigger className="lg:hidden text-white hover:text-cyan-400 transition-colors">
                   <Menu className="w-8 h-8" />
-                </button>
-              </SheetTrigger>
+                </SheetTrigger>
               <SheetContent side="right" className="bg-[#0a0a0a] border-l border-white/10 p-12 text-white">
                 <div className="flex flex-col gap-8 mt-20">
                   {["Engine", "Projects", "Stack", "Access"].map((link) => (

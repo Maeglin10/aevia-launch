@@ -214,9 +214,7 @@ export default function LEtoileRestaurant() {
           </div>
 
           <Sheet>
-            <SheetTrigger asChild>
-              <button className="lg:hidden cursor-pointer"><Menu className="w-5 h-5" /></button>
-            </SheetTrigger>
+            <SheetTrigger className="lg:hidden cursor-pointer"><Menu className="w-5 h-5" /></SheetTrigger>
             <SheetContent side="right" className="bg-[#0c0a08] border-white/10 text-[#f5efe6]">
               <div className="flex flex-col gap-8 mt-12">
                 <span className="text-xl mb-6"><span className="font-light">L&apos;</span><span className="italic">Étoile</span></span>

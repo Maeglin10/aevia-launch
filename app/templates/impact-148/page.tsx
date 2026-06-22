@@ -60,7 +60,7 @@ export default function NeonPulsePage() {
             <button className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors">Connect Wallet</button>
             <button className="px-8 py-3 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-cyan-400 hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.2)]">Explore Drops</button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden p-2"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden p-2"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-black border-white/5 p-12 text-white">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {["Gallery", "Creators", "Mint", "Profile"].map(l => (

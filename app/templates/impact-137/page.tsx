@@ -80,7 +80,7 @@ export default function TorrefieCoffeePage() {
               Shop Coffee
             </button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#f5f0ea] p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Origins", "Process", "Shop", "About"].map(l => (

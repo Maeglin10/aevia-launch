@@ -91,7 +91,7 @@ export default function ToitPierrePage() {
               Devis Gratuit
             </button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5 text-[#1f2937]" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5 text-[#1f2937]" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#f9f8f6] border-slate-200 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Prestations", "Réalisations", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1f2937] hover:text-[#b91c1c] transition-colors">{l}</Link>)}

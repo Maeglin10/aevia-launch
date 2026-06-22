@@ -307,11 +307,9 @@ export default function VulcanMotorPremium() {
             </div>
             
             <Sheet>
-               <SheetTrigger asChild>
-                  <button className="md:hidden p-3 border border-white/10 rounded-full hover:border-blue-500 transition-colors">
+               <SheetTrigger className="md:hidden p-3 border border-white/10 rounded-full hover:border-blue-500 transition-colors">
                      <Menu className="w-5 h-5 text-white" />
-                  </button>
-               </SheetTrigger>
+                  </SheetTrigger>
                <SheetContent side="right" className="bg-[#050505] border-white/5 p-12 overflow-y-auto">
                   <div className="flex flex-col gap-8 mt-16 text-left font-mono">
                      {[

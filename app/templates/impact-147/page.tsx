@@ -55,7 +55,7 @@ export default function VanguardLegalPage() {
             <button className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors underline underline-offset-8 decoration-[#00ff41]/20">Secure Portal</button>
             <button className="px-8 py-3 bg-[#00ff41] text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white transition-all duration-500 shadow-[0_0_20px_rgba(0,255,65,0.2)]">Enlist</button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden p-2"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden p-2"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#02040a] border-white/5 p-12 text-white font-mono">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {["Offense", "Network", "Protocol", "Contact"].map(l => (

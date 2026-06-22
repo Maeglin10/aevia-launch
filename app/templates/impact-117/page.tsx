@@ -60,7 +60,7 @@ export default function VoltLogisticsPage() {
             <button className="hidden md:block px-6 py-2.5 text-white/60 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Client Portal</button>
             <button className="px-8 py-3 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ffb400] transition-all duration-500">Track Cargo</button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#0a0a0a] border-white/5 p-12">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {["Our Fleet", "Global Network", "Tech Stack", "Pricing"].map(l => (

@@ -85,7 +85,7 @@ export default function ApexFitnessPage() {
             Start Free Trial
           </button>
           <Sheet>
-            <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
+            <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
             <SheetContent side="right" className="bg-[#0a0a0a] border-lime-500/10 p-12">
               <div className="flex flex-col gap-8 mt-16">
                 {["Programs", "Pricing", "Team", "Contact"].map(l => (

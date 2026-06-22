@@ -237,11 +237,9 @@ export default function AstrumReachPremium() {
             </div>
 
             <Sheet>
-               <SheetTrigger asChild>
-                  <button className="lg:hidden p-3 border border-white/10 rounded-full hover:border-indigo-500 transition-colors">
+               <SheetTrigger className="lg:hidden p-3 border border-white/10 rounded-full hover:border-indigo-500 transition-colors">
                      <Menu className="w-5 h-5 text-white" />
-                  </button>
-               </SheetTrigger>
+                  </SheetTrigger>
                <SheetContent side="right" className="bg-[#020205] border-white/5 p-12 overflow-y-auto">
                   <div className="flex flex-col gap-8 mt-16 text-left font-mono">
                      {[

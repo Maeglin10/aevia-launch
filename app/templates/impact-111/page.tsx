@@ -73,7 +73,7 @@ export default function TerraArchitecturePage() {
           <div className="flex items-center gap-6">
             <button className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-[#3d3a35]/60 hover:text-[#3d3a35] transition-colors">Start a Project</button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-[#3d3a35]" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-[#3d3a35]" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#f2f0eb] border-[#3d3a35]/5 p-12">
                 <div className="flex flex-col gap-10 mt-16 text-left">
                   {["Projects", "Our Way", "Atelier", "Contact"].map(l => (

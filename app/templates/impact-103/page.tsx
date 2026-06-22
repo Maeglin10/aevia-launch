@@ -73,7 +73,7 @@ export default function LuminaLawPage() {
             <button className="hidden md:block px-6 py-2.5 text-black/40 text-[10px] font-bold uppercase tracking-widest hover:text-black transition-colors">Client Portal</button>
             <button className="px-8 py-3 bg-[#1a365d] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-[#2c5282] transition-all duration-500">Consultation</button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-black" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-black" /></SheetTrigger>
               <SheetContent side="right" className="bg-white border-black/5 p-12 text-black">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {["Expertise", "Partners", "Insights", "Contact"].map(l => (

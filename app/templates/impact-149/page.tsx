@@ -58,7 +58,7 @@ export default function AetherWellnessPage() {
             <button className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-black/40 hover:text-black transition-colors">Member Portal</button>
             <button className="px-8 py-3 bg-[#1a1a1a] text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-transparent hover:text-black border border-transparent hover:border-black/20 transition-all duration-700">Inquire</button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden p-2"><Menu className="w-6 h-6 text-black" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden p-2"><Menu className="w-6 h-6 text-black" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#faf9f6] border-none p-12 text-black">
                 <div className="flex flex-col gap-10 mt-16 text-left">
                   {["Sanctuary", "Experience", "Philosophy", "Book"].map(l => (
