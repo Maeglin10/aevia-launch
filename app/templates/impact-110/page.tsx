@@ -74,7 +74,7 @@ export default function OasisWellnessPage() {
             <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-[#2c3e2d]/60 hover:text-[#2c3e2d] transition-colors">Member Login</button>
             <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-8 py-3 bg-[#2c3e2d] text-[#faf9f6] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#3d523e] transition-all duration-700">Book Ritual</button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-[#2c3e2d]" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-[#2c3e2d]" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#faf9f6] border-[#2c3e2d]/5 p-12">
                 <div className="flex flex-col gap-10 mt-16 text-center">
                   {["Treatments", "Sanctuary", "About", "Contact"].map(l => (

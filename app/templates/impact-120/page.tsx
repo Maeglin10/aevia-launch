@@ -216,11 +216,9 @@ export default function EclatLuxuryPage() {
               Acquire
             </Link>
             <Sheet>
-              <SheetTrigger asChild>
-                <button className="lg:hidden w-10 h-10 flex items-center justify-center text-zinc-300 hover:text-white transition-colors">
+              <SheetTrigger className="lg:hidden w-10 h-10 flex items-center justify-center text-zinc-300 hover:text-white transition-colors">
                   <Menu className="w-6 h-6" />
-                </button>
-              </SheetTrigger>
+                </SheetTrigger>
               <SheetContent side="right" className="bg-[#050308] border-l border-white/10 p-12">
                 <div className="flex flex-col gap-12 mt-20">
                   {["Collection", "Atelier", "Science", "Bespoke", "Boutique"].map((link) => (

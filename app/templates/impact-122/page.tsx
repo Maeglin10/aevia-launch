@@ -149,11 +149,9 @@ export default function ChronicleEditorialPage() {
         <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <Sheet>
-              <SheetTrigger asChild>
-                <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest hover:text-[#d64000] transition-colors">
+              <SheetTrigger className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest hover:text-[#d64000] transition-colors">
                   <Menu className="w-5 h-5" /> Menu
-                </button>
-              </SheetTrigger>
+                </SheetTrigger>
               <SheetContent side="left" className="bg-[#1a1814] text-[#fcfaf7] border-r-0 p-12 w-full sm:w-[400px]">
                 <div className="mt-12 flex flex-col gap-8">
                   {["Politics", "Culture", "Science", "Environment", "Essays", "Archive"].map(link => (

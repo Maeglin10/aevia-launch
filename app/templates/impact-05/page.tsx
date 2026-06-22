@@ -246,22 +246,21 @@ export default function NovaPlatformSaaS() {
           </Link>
 
           <div className="hidden lg:flex items-center gap-8">
-            {["Features", "Pricing", "Docs", "Blog"].map(item => (
-              <a key={item} href={`#${item.toLowerCase()}`} className="text-sm text-zinc-400 hover:text-white transition-all duration-200 cursor-pointer">{item}</a>
-            ))}
+            {(["Features", "Pricing", "FAQ", "Contact"] as const).map((item, i) => {
+              const ids = ["features", "pricing", "faq", "contact"];
+              return <a key={item} href={`#${ids[i]}`} className="text-sm text-zinc-400 hover:text-white transition-all duration-200 cursor-pointer">{item}</a>;
+            })}
           </div>
 
           <div className="hidden lg:flex items-center gap-4">
-            <button className="text-sm text-zinc-400 hover:text-white transition-all duration-200 cursor-pointer">Log in</button>
+            <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="text-sm text-zinc-400 hover:text-white transition-all duration-200 cursor-pointer">Log in</button>
             <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})} className="px-5 py-2.5 bg-violet-600 hover:bg-violet-500 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer">
               Get Started Free
             </button>
           </div>
 
           <Sheet>
-            <SheetTrigger asChild>
-              <button className="lg:hidden cursor-pointer"><Menu className="w-5 h-5" /></button>
-            </SheetTrigger>
+            <SheetTrigger className="lg:hidden cursor-pointer"><Menu className="w-5 h-5" /></SheetTrigger>
             <SheetContent side="right" className="bg-[#09090b] border-white/10 text-white">
               <div className="flex items-center gap-2 mb-10 mt-2">
                 <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
@@ -270,9 +269,10 @@ export default function NovaPlatformSaaS() {
                 <span className="font-bold">NovaPlatform</span>
               </div>
               <div className="flex flex-col gap-6">
-                {["Features", "Pricing", "Docs", "Blog"].map(item => (
-                  <a key={item} href={`#${item.toLowerCase()}`} className="text-xl font-semibold hover:text-violet-400 transition-all duration-200 cursor-pointer">{item}</a>
-                ))}
+                {(["Features", "Pricing", "FAQ", "Contact"] as const).map((item, i) => {
+                  const ids = ["features", "pricing", "faq", "contact"];
+                  return <a key={item} href={`#${ids[i]}`} className="text-xl font-semibold hover:text-violet-400 transition-all duration-200 cursor-pointer">{item}</a>;
+                })}
                 <Separator className="bg-white/10 my-2" />
                 <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})} className="px-8 py-3 bg-violet-600 rounded-full font-semibold text-center cursor-pointer">Get Started Free</button>
               </div>

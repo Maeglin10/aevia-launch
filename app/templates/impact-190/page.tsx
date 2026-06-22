@@ -72,7 +72,7 @@ export default function AutoExpertPage() {
               Devis gratuit
             </button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5 text-[#f1f3f5]" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5 text-[#f1f3f5]" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#141820] border-[#dc2626]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Services", "Devis rapide", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#f1f3f5] hover:text-[#dc2626] transition-colors">{l}</Link>)}

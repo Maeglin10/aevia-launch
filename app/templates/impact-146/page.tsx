@@ -60,7 +60,7 @@ export default function KuroOmakasePage() {
           <div className="flex items-center gap-8">
             <button className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors underline underline-offset-8 decoration-white/10 hover:decoration-white transition-all">Select Seat</button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden p-2"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden p-2"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-black border-white/5 p-12 text-white">
                 <div className="flex flex-col gap-10 mt-16 text-left">
                   {["Experience", "Menu", "Journal", "Book"].map(l => (

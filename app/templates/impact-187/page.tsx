@@ -69,7 +69,7 @@ export default function MaxPerformancePage() {
               Séance offerte
             </button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5 text-[#f8f5f0]" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5 text-[#f8f5f0]" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#111] border-[#f97316]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Programmes", "Méthode", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-black uppercase text-[#f8f5f0] hover:text-[#f97316] transition-colors" style={{ fontFamily: "'Anton', sans-serif" }}>{l}</Link>)}

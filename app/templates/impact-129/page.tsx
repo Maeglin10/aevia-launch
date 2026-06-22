@@ -119,7 +119,7 @@ export default function WaveFXPage() {
               Get Started
             </button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#070a10] border-indigo-500/10 p-12">
                 <div className="flex flex-col gap-8 mt-16">
                    {["Docs", "Examples", "Plugins", "GitHub"].map(l => (

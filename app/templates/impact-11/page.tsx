@@ -111,9 +111,7 @@ export default function EduPathPage() {
             <button onClick={() => goTo("tarifs")} className="bg-[#7C3AED] text-white text-sm px-5 py-2.5 rounded-xl hover:bg-[#6D28D9] transition-colors cursor-pointer font-medium">Commencer</button>
           </div>
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetTrigger asChild>
-               <button className="md:hidden text-gray-900 cursor-pointer"><Menu className="w-5 h-5" /></button>
-            </SheetTrigger>
+            <SheetTrigger className="md:hidden text-gray-900 cursor-pointer"><Menu className="w-5 h-5" /></SheetTrigger>
             <SheetContent side="right" className="bg-white border-gray-100 p-8">
                <div className="flex items-center gap-2 mb-12">
                   <div className="w-8 h-8 bg-[#7C3AED] rounded-lg flex items-center justify-center"><BookOpen className="w-4 h-4 text-white" /></div>

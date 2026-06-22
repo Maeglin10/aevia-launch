@@ -76,7 +76,7 @@ export default function GentlemansCutPage() {
               Réserver
             </button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5 text-[#f5f0e8]" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5 text-[#f5f0e8]" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#0f0e0c] border-[#c9a84c]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Services", "Tarifs", "Réservation"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#f5f0e8] hover:text-[#c9a84c] transition-colors">{l}</Link>)}

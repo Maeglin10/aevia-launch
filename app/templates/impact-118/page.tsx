@@ -91,7 +91,7 @@ export default function ChronosLuxuryPage() {
             <button onClick={() => goTo("concierge")} className={`hidden md:block text-[9px] font-bold uppercase tracking-widest transition-colors ${page === "concierge" ? "text-[#d4af37]" : "text-[#d4af37]/60 hover:text-[#d4af37]"}`}>Private Concierge</button>
             <button onClick={() => goTo("collection")} className="px-8 py-3 border border-[#d4af37] text-[#d4af37] text-[9px] font-bold uppercase tracking-[0.3em] hover:bg-[#d4af37] hover:text-black transition-all duration-700">Explore</button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-[#d4af37]" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-[#d4af37]" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#050505] border-[#d4af37]/10 p-12 overflow-y-auto">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {[

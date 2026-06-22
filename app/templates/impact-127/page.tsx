@@ -83,7 +83,7 @@ export default function PulseEventsPage() {
               Get Tickets
             </button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#08050a] border-pink-500/10 p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Events", "Artists", "Venues", "Tickets"].map(l => (

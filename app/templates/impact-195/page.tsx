@@ -83,7 +83,7 @@ export default function MaisonElisePage() {
               Consultation gratuite
             </button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-5 h-5" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#fdfaf7] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Formules", "Portfolio", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1a1018] hover:text-[#c4a06a] transition-colors" style={{ fontFamily: "'Lora', serif" }}>{l}</Link>)}

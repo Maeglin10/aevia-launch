@@ -73,7 +73,7 @@ export default function AstrumReachPage() {
             <button className="hidden md:block px-6 py-2.5 text-white/40 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Command Login</button>
             <button className="px-8 py-3 bg-cyan-600 text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-cyan-400 transition-all duration-500 shadow-[0_0_20px_rgba(6,182,212,0.3)]">Book Payload</button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#02040a] border-cyan-500/20 p-12 text-white">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {["Missions", "Fleet", "Tech", "Support"].map(l => (

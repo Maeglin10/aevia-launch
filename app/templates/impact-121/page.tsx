@@ -205,11 +205,9 @@ export default function FolioStudioPage() {
             </Magnetic>
             
             <Sheet>
-              <SheetTrigger asChild>
-                <button className="lg:hidden w-12 h-12 flex items-center justify-center bg-zinc-100 rounded-full hover:bg-zinc-200 transition-colors">
+              <SheetTrigger className="lg:hidden w-12 h-12 flex items-center justify-center bg-zinc-100 rounded-full hover:bg-zinc-200 transition-colors">
                   <Menu className="w-5 h-5" />
-                </button>
-              </SheetTrigger>
+                </SheetTrigger>
               <SheetContent side="right" className="bg-white border-none p-12">
                 <div className="flex flex-col gap-8 mt-20">
                   {["Work", "Services", "Studio", "Contact"].map((link) => (

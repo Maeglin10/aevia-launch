@@ -94,7 +94,7 @@ export default function KineticMarqueePage() {
               Start a Project
             </button>
             <Sheet>
-              <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6 text-white" /></button></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#0a0506] border-orange-500/10 p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Work", "Services", "About", "Contact"].map(l => (

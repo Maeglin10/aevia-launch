@@ -82,7 +82,7 @@ export default function AtelierInteriorPage() {
             Book Consultation
           </button>
           <Sheet>
-            <SheetTrigger asChild><button className="lg:hidden"><Menu className="w-6 h-6" /></button></SheetTrigger>
+            <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6" /></SheetTrigger>
             <SheetContent side="right" className="bg-[#f5f0eb] p-12">
               <div className="flex flex-col gap-8 mt-16">
                 {["Projects", "Services", "About", "Contact"].map(l => (
