@@ -605,7 +605,7 @@ function HeroButton({
    ════════════════════════════════════════════════════════════════════════════ */
 function Intro() {
   return (
-    <section
+    <section id="hero"
       style={{
         background: C.bgAlt,
         padding: 'clamp(96px,14vw,200px) clamp(24px,8vw,160px)',

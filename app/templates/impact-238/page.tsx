@@ -1888,7 +1888,7 @@ function Footer() {
   };
 
   return (
-    <footer style={foot}>
+    <footer id="contact" style={foot}>
       <div
         className="ka-footgrid"
         style={{

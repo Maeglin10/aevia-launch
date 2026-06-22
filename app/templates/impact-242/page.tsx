@@ -473,7 +473,7 @@ function Hero() {
   const cueOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
 
   return (
-    <section
+    <section id="hero"
       ref={ref}
       style={{
         position: 'relative',

@@ -503,7 +503,7 @@ function Hero() {
   };
 
   return (
-    <section ref={ref} style={section}>
+    <section id="hero" ref={ref} style={section}>
       {/* Photo parallaxe */}
       <motion.div
         style={{

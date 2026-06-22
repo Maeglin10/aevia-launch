@@ -1005,7 +1005,7 @@ function SpecialtyCards() {
     margin: '0 auto',
   };
   return (
-    <section style={sec}>
+    <section id="contact" style={sec}>
       <div style={{ maxWidth: 1280, margin: '0 auto 56px' }}>
         <Reveal>
           <Eyebrow>Nos spécialités</Eyebrow>
@@ -1380,7 +1380,7 @@ function Testimonials() {
     margin: '0 auto',
   };
   return (
-    <section style={sec}>
+    <section id="about" style={sec}>
       <div style={{ maxWidth: 1220, margin: '0 auto 60px', textAlign: 'center' }}>
         <Reveal>
           <Eyebrow align="center">Ils témoignent</Eyebrow>
