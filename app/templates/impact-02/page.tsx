@@ -172,7 +172,7 @@ export default function CreativePortfolioSPA() {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 w-full z-50 mix-blend-difference">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-8 flex justify-between items-center">
-          <Link href="/" className="relative z-50 group">
+          <Link href="#hero" className="relative z-50 group">
             <span className="text-lg font-light tracking-[0.3em] uppercase transition-colors group-hover:text-amber-400">
               Elena<span className="font-black">Korr</span>
             </span>
@@ -212,7 +212,7 @@ export default function CreativePortfolioSPA() {
       {/* ==========================================
           1. HERO SECTION
           ========================================== */}
-      <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+      <section id="hero" className="relative h-screen w-full flex items-center justify-center overflow-hidden">
         <motion.div style={{ y: heroY, scale: scaleProgress }} className="absolute inset-0 z-0 origin-bottom">
           <Image src="https://picsum.photos/seed/photo/1600/1000" fill className="object-cover" alt="Hero" priority />
           <div className="absolute inset-0 bg-black/50" />

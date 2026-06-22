@@ -149,7 +149,7 @@ export default function ObscuraPage() {
         {page === "home" && (
           <>
             {/* Hero */}
-            <section ref={heroRef} className="relative h-screen overflow-hidden">
+            <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden">
               <motion.div className="absolute inset-0" style={{ y: heroY }}>
                 <Image src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=1600&q=85" alt="Obscura Photography" fill className="object-cover" priority />
                 <div className="absolute inset-0 bg-gradient-to-b from-[#0A0806]/70 via-[#0A0806]/20 to-[#0A0806]/90" />
@@ -252,7 +252,7 @@ function PortfolioPage({ activeCategory, setActiveCategory }: { activeCategory: 
   const filteredWorks = activeCategory === "Tous" ? WORKS : WORKS.filter(w => w.category === activeCategory)
 
   return (
-    <section className="py-24 px-6 bg-[#0A0806] border-t border-white/5">
+    <section id="realisations" className="py-24 px-6 bg-[#0A0806] border-t border-white/5">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[#C9A86C] text-xs tracking-widest uppercase mb-4 block font-mono">Galerie</span>
@@ -407,7 +407,7 @@ function ProposPage() {
 
 function LegalPage() {
   return (
-    <section className="py-24 px-6 bg-[#0A0806] border-t border-white/5 font-mono text-xs">
+    <section id="contact" className="py-24 px-6 bg-[#0A0806] border-t border-white/5 font-mono text-xs">
       <div className="max-w-3xl mx-auto space-y-16">
         <div>
           <span className="text-[#C9A86C] text-[10px] uppercase tracking-widest mb-4 block">Compliance</span>

@@ -151,7 +151,7 @@ export default function KeopsPage() {
         {page === "home" && (
           <>
             {/* Hero */}
-            <section ref={heroRef} className="relative h-screen overflow-hidden">
+            <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden">
               <motion.div className="absolute inset-0" style={{ y: heroY }}>
                 <Image src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=1600&q=85" alt="Kéops Architecture" fill className="object-cover" priority />
                 <div className="absolute inset-0 bg-gradient-to-b from-[#1A1510]/50 to-[#F5F2ED]/80" />
@@ -227,7 +227,7 @@ export default function KeopsPage() {
             </section>
 
             {/* Services Preview */}
-            <section className="py-24 px-6 bg-[#F5F2ED]">
+            <section id="realisations" className="py-24 px-6 bg-[#F5F2ED]">
               <div className="max-w-6xl mx-auto">
                 <Reveal>
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
@@ -424,7 +424,7 @@ function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 
 function AgencePage() {
   return (
-    <section className="py-20 px-6 bg-white">
+    <section id="tarifs" className="py-20 px-6 bg-white">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center mb-20">
           <div className="lg:col-span-5 relative aspect-[4/3] rounded-2xl overflow-hidden shadow-sm">
@@ -563,7 +563,7 @@ function ContactPage() {
 
 function LegalPage() {
   return (
-    <section className="py-20 px-6 bg-white font-mono text-xs text-[#1A1510]/80">
+    <section id="contact" className="py-20 px-6 bg-white font-mono text-xs text-[#1A1510]/80">
       <div className="max-w-3xl mx-auto space-y-12">
         <div>
           <span className="text-[#C46A3E] text-[10px] uppercase tracking-widest mb-3 block font-bold">Réglementation</span>

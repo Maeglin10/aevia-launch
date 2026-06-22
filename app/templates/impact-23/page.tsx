@@ -179,7 +179,7 @@ export default function StudioPelikanPage() {
       {/* ====== HOME PAGE ====== */}
       <div style={{ display: page === "home" ? "block" : "none" }}>
           {/* Hero */}
-          <section ref={heroRef} className="relative h-screen overflow-hidden">
+          <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden">
             <motion.div className="absolute inset-0" style={{ y: heroY }}>
               <Image src="https://picsum.photos/seed/cinema/1600/1000" alt="Studio Pelikan" fill className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-b from-[#100D08]/70 via-[#100D08]/30 to-[#100D08]/95" />
@@ -207,7 +207,7 @@ export default function StudioPelikanPage() {
           </section>
 
           {/* Stats */}
-          <section className="py-12 bg-[#C9A05A]">
+          <section id="tarifs" className="py-12 bg-[#C9A05A]">
             <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6">
               {[["38", "Films produits"], ["12", "Prix internationaux"], ["14 pays", "Distribution"], ["2012", "Fondé à Paris"]].map(([n, l]) => (
                 <div key={l} className="text-center">
@@ -345,7 +345,7 @@ export default function StudioPelikanPage() {
             </div>
           </section>
 
-          <section className="py-8 px-6">
+          <section id="equipe" className="py-8 px-6">
             <div className="max-w-6xl mx-auto space-y-24">
               {filmsCatalogue.map((film, i) => (
                 <Reveal key={film.title} delay={0.1}>
@@ -473,7 +473,7 @@ export default function StudioPelikanPage() {
           </section>
 
           {/* Réalisation & Tournage */}
-          <section className="py-20 px-6">
+          <section id="services" className="py-20 px-6">
             <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
               <Reveal delay={0.1}>
                 <div className="relative overflow-hidden rounded-2xl order-2 lg:order-1" style={{ aspectRatio: "4/3" }}>
@@ -575,7 +575,7 @@ export default function StudioPelikanPage() {
           </section>
 
           {/* Équipement */}
-          <section className="py-20 px-6 bg-[#150F09]">
+          <section id="realisations" className="py-20 px-6 bg-[#150F09]">
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
                 <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-3">Parc technique</p>
@@ -785,7 +785,7 @@ export default function StudioPelikanPage() {
           </section>
 
           {/* Presse */}
-          <section className="py-20 px-6 bg-[#150F09]">
+          <section id="about" className="py-20 px-6 bg-[#150F09]">
             <div className="max-w-4xl mx-auto">
               <Reveal className="mb-12">
                 <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-3">Presse</p>
@@ -845,7 +845,7 @@ export default function StudioPelikanPage() {
             </div>
           </section>
 
-          <section className="py-20 px-6 bg-[#150F09]">
+          <section id="contact" className="py-20 px-6 bg-[#150F09]">
             <div className="max-w-4xl mx-auto space-y-12">
               {[
                 { title: "Éditeur du site", content: "Aevia WS — Valentin Milliand, entrepreneur individuel.\nSIREN : 852 546 225 — RCS Bourg-en-Bresse." },

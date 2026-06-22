@@ -154,7 +154,7 @@ export default function StreamlinePage() {
         {page === "home" && (
           <>
             {/* Hero */}
-            <section className="relative min-h-screen flex items-center pt-32 pb-20 px-6 overflow-hidden">
+            <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20 px-6 overflow-hidden">
               <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#3B82F6]/10 rounded-full blur-3xl" />
                 <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#8B5CF6]/10 rounded-full blur-3xl" />
@@ -213,7 +213,7 @@ export default function StreamlinePage() {
             </section>
 
             {/* Stats */}
-            <section className="py-16 bg-[#161B27] border-y border-white/5">
+            <section id="about" className="py-16 bg-[#161B27] border-y border-white/5">
               <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6">
                 {[["12 000+", "Équipes actives"], ["350+", "Intégrations"], ["99.99%", "Uptime SLA"], ["-40%", "Temps de réunion"]].map(([n, l]) => (
                   <div key={l} className="text-center">
@@ -406,7 +406,7 @@ function IntegrationsPage() {
 
 function TarifsPage({ billingAnnual, setBillingAnnual }: { billingAnnual: boolean; setBillingAnnual: (v: boolean) => void }) {
   return (
-    <section className="py-24 px-6 bg-[#0D1117] border-t border-white/5">
+    <section id="tarifs" className="py-24 px-6 bg-[#0D1117] border-t border-white/5">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
           <span className="text-[#3B82F6] text-sm font-semibold mb-3 block">Tarification</span>
@@ -517,7 +517,7 @@ function BlogPage() {
 
 function LegalPage() {
   return (
-    <section className="py-24 px-6 bg-[#0D1117] border-t border-white/5 font-mono text-xs text-gray-400">
+    <section id="contact" className="py-24 px-6 bg-[#0D1117] border-t border-white/5 font-mono text-xs text-gray-400">
       <div className="max-w-3xl mx-auto space-y-12">
         <div>
           <span className="text-[#3B82F6] text-[10px] uppercase tracking-widest mb-3 block font-bold">Sécurité & Conformité</span>

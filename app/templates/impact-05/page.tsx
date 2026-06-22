@@ -238,7 +238,7 @@ export default function NovaPlatformSaaS() {
       {/* ── NAVBAR ── */}
       <nav className="fixed top-0 left-0 w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex justify-between items-center">
-          <Link href="/" className="flex items-center gap-2 cursor-pointer">
+          <Link href="#hero" className="flex items-center gap-2 cursor-pointer">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
               <Zap className="w-4 h-4 text-white" />
             </div>
@@ -282,7 +282,7 @@ export default function NovaPlatformSaaS() {
       </nav>
 
       {/* ── HERO ── */}
-      <section ref={heroRef} onMouseMove={handleMouseMove} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      <section id="hero" ref={heroRef} onMouseMove={handleMouseMove} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         {/* Gradient mesh background */}
         <div className="absolute inset-0 z-0">
           <motion.div animate={{ x: [0, 40, 0], y: [0, -25, 0] }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
@@ -398,7 +398,7 @@ export default function NovaPlatformSaaS() {
       </section>
 
       {/* ── LOGO BAR ── */}
-      <section className="border-y border-white/5 py-12 px-6 bg-[#0b0b0f]">
+      <section id="equipe" className="border-y border-white/5 py-12 px-6 bg-[#0b0b0f]">
         <div className="max-w-5xl mx-auto">
           <p className="text-center text-[10px] text-zinc-600 uppercase tracking-[0.3em] mb-8 font-semibold">Trusted by teams at the world's best companies</p>
           <div className="flex flex-wrap items-center justify-center gap-x-14 gap-y-5">
@@ -485,7 +485,7 @@ export default function NovaPlatformSaaS() {
       </section>
 
       {/* ── HOW IT WORKS ── */}
-      <section className="py-32 md:py-40 px-6 md:px-12">
+      <section id="realisations" className="py-32 md:py-40 px-6 md:px-12">
         <div className="max-w-5xl mx-auto">
           <Reveal>
             <div className="text-center mb-20">
@@ -657,7 +657,7 @@ export default function NovaPlatformSaaS() {
       </section>
 
       {/* ── CTA BANNER ── */}
-      <section className="py-32 md:py-40 px-6 md:px-12">
+      <section id="contact" className="py-32 md:py-40 px-6 md:px-12">
         <Reveal>
           <div className="max-w-4xl mx-auto text-center relative">
             <div className="absolute inset-0 -z-10" style={{ background: "radial-gradient(ellipse at center, rgba(139,92,246,0.18) 0%, transparent 65%)" }} />

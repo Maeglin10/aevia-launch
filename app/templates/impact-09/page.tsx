@@ -275,7 +275,7 @@ export default function AstrumReachPremium() {
         {page === "home" && (
           <>
             {/* 2. LAUNCH IGNITION (HERO / SPACEMAN STYLE) */}
-            <section className="relative h-screen flex flex-col justify-center items-center px-12 pt-32 overflow-hidden">
+            <section id="hero" className="relative h-screen flex flex-col justify-center items-center px-12 pt-32 overflow-hidden">
                <OrbitVisualizer />
                
                <div className="relative z-10 w-full max-w-7xl flex flex-col items-center text-center">
@@ -574,7 +574,7 @@ export default function AstrumReachPremium() {
 
 function ManifestPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   return (
-    <section className="py-32 px-12 bg-black border-t border-white/5">
+    <section id="about" className="py-32 px-12 bg-black border-t border-white/5">
       <div className="max-w-7xl mx-auto">
         <div className="mb-24">
           <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-6 font-mono">Manifest_Index</div>
@@ -767,7 +767,7 @@ function BriefingPage() {
 
 function LegalPage() {
   return (
-    <section className="py-32 px-12 bg-[#020205] text-[#f0f0f0] border-t border-white/5 font-mono text-xs">
+    <section id="contact" className="py-32 px-12 bg-[#020205] text-[#f0f0f0] border-t border-white/5 font-mono text-xs">
       <div className="max-w-3xl mx-auto space-y-16">
         <div>
           <span className="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4 block">Astrum_Compliance</span>

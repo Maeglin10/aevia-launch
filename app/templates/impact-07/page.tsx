@@ -126,7 +126,7 @@ export default function AetherSoundPage() {
       {/* ── NAVIGATION ── */}
       <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-black/90 backdrop-blur-2xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex flex-col items-center">
+          <Link href="#hero" className="group flex flex-col items-center">
              <span className="text-3xl font-black tracking-[0.1em] uppercase leading-none italic">Aether</span>
              <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-[#c9a84c] -mt-1 ml-1">Sound Labs</span>
           </Link>
@@ -164,7 +164,7 @@ export default function AetherSoundPage() {
       </AnimatePresence>
 
       {/* ── HERO ── */}
-      <section className="relative h-[100svh] flex items-center overflow-hidden">
+      <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1545454675-3531b543be5d?w=1600&q=80" alt="Audio Studio" fill className="object-cover opacity-40 mix-blend-luminosity grayscale contrast-150" priority />
           <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent" />
@@ -231,7 +231,7 @@ export default function AetherSoundPage() {
                   <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">The <br/> <span className="text-[#c9a84c]">Line.</span></h2>
                   <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">Reference Manifest // Hand-Crafted // Series 07</p>
                </div>
-               <Link href="#collections" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#c9a84c] border-b border-[#c9a84c] pb-2 hover:text-white hover:border-white transition-all">Download Technical Archive</Link>
+               <Link href="#realisations" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#c9a84c] border-b border-[#c9a84c] pb-2 hover:text-white hover:border-white transition-all">Download Technical Archive</Link>
             </div>
           </Reveal>
 
@@ -349,7 +349,7 @@ export default function AetherSoundPage() {
       </section>
 
       {/* ── HERITAGE & ORIGIN ── */}
-      <section className="py-40 bg-black relative overflow-hidden">
+      <section id="realisations" className="py-40 bg-black relative overflow-hidden">
          <div className="absolute top-0 right-0 w-[60rem] h-[60rem] bg-[#c9a84c]/5 blur-[180px] rounded-full" />
          <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
@@ -460,7 +460,7 @@ export default function AetherSoundPage() {
       </section>
 
       {/* ── FAQ ── */}
-      <section className="py-40 bg-[#080808]">
+      <section id="contact" className="py-40 bg-[#080808]">
         <div className="max-w-4xl mx-auto px-6">
            <Reveal>
               <div className="mb-24 text-center">

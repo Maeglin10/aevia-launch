@@ -146,7 +146,7 @@ export default function EduPathPage() {
         {page === "home" && (
           <>
             {/* Hero */}
-            <section ref={heroRef} className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#F5F3FF] via-white to-[#EFF6FF] pt-20 pb-24 px-6">
+            <section id="hero" ref={heroRef} className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#F5F3FF] via-white to-[#EFF6FF] pt-20 pb-24 px-6">
               <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
                 <div className="absolute top-20 right-10 w-96 h-96 bg-[#7C3AED]/8 rounded-full blur-3xl" />
                 <div className="absolute bottom-20 left-10 w-80 h-80 bg-[#0EA5E9]/8 rounded-full blur-3xl" />
@@ -198,7 +198,7 @@ export default function EduPathPage() {
             </section>
 
             {/* Features */}
-            <section className="py-24 px-6 bg-white border-t border-gray-100">
+            <section id="services" className="py-24 px-6 bg-white border-t border-gray-100">
               <div className="max-w-6xl mx-auto">
                 <Reveal className="text-center mb-16">
                   <p className="text-[#7C3AED] text-sm font-semibold mb-3">Pourquoi EduPath</p>
@@ -539,7 +539,7 @@ function TarifsPage() {
 
 function LegalPage() {
   return (
-    <section className="py-20 px-6 bg-white border-t border-gray-100">
+    <section id="contact" className="py-20 px-6 bg-white border-t border-gray-100">
       <div className="max-w-3xl mx-auto text-sm leading-relaxed text-gray-600">
         <h1 className="text-4xl font-bold text-gray-900 mb-10">Mentions Légales</h1>
         

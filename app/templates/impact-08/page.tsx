@@ -345,7 +345,7 @@ export default function VulcanMotorPremium() {
         {page === "home" && (
           <>
             {/* 2. AERODYNAMIC IGNITION (HERO) */}
-            <section className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
+            <section id="hero" className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
               <FluidAeroVisualizer />
               
               <motion.div 
@@ -698,7 +698,7 @@ function EngineeringPage() {
   ];
 
   return (
-    <section className="py-32 px-8 md:px-24 bg-[#050505] border-t border-white/5">
+    <section id="about" className="py-32 px-8 md:px-24 bg-[#050505] border-t border-white/5">
       <div className="max-w-7xl mx-auto">
         <div className="mb-20 text-center">
           <div className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-6">Dynamics_Lab</div>
@@ -842,7 +842,7 @@ function SupportPage() {
 
 function LegalPage() {
   return (
-    <section className="py-32 px-8 md:px-24 bg-[#050505] text-[#f0f0f0] border-t border-white/5 font-mono text-xs">
+    <section id="contact" className="py-32 px-8 md:px-24 bg-[#050505] text-[#f0f0f0] border-t border-white/5 font-mono text-xs">
       <div className="max-w-3xl mx-auto space-y-16">
         <div>
           <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-4 block">Vulcan_Compliance</span>
