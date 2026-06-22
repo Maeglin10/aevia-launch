@@ -151,7 +151,7 @@ export default function NoirCouturePage() {
       {page === "home" && (
         <>
           {/* Hero — B&W split */}
-          <section ref={heroRef} className="relative h-screen overflow-hidden pt-20">
+          <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden pt-20">
             <div className="grid grid-cols-2 h-full">
               <motion.div className="relative overflow-hidden" style={{ y: heroY }}>
                 <Image src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=900&q=90" alt="Noir Couture" fill className="object-cover" priority />
@@ -182,7 +182,7 @@ export default function NoirCouturePage() {
           </section>
 
           {/* Collections */}
-          <section className="py-24 px-6 bg-black">
+          <section id="realisations" className="py-24 px-6 bg-black">
             <div className="max-w-6xl mx-auto">
               <Reveal>
                 <div className="flex items-end justify-between mb-12">
@@ -583,7 +583,7 @@ function BoutiqueSubPage({ cartCount, setCartCount }: { cartCount: number; setCa
 
 function AtelierSubPage({ goTo }: { goTo: (p: any) => void }) {
   return (
-    <section className="py-32 px-6 bg-white text-black min-h-screen">
+    <section id="about" className="py-32 px-6 bg-white text-black min-h-screen">
       <div className="max-w-5xl mx-auto space-y-16">
         <Reveal>
           <div className="text-center space-y-4">
@@ -771,7 +771,7 @@ function ContactSubPage() {
 
 function LegalSubPage() {
   return (
-    <section className="py-32 px-6 bg-white text-black min-h-screen">
+    <section id="contact" className="py-32 px-6 bg-white text-black min-h-screen">
       <div className="max-w-3xl mx-auto space-y-8" style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
         <h1 className="text-4xl font-light mb-8" style={{ fontFamily: "'Playfair Display', serif" }}>
           Mentions <em>Légales</em>

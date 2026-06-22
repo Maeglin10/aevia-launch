@@ -1075,7 +1075,7 @@ export default function HorizonMaritimePage() {
         <>
 
       {/* ── HERO: MULTI-SPEED PARALLAX ── */}
-      <section
+      <section id="hero"
         ref={heroRef}
         style={{
           position: "relative",
@@ -2923,7 +2923,7 @@ function ContactPage() {
 
 function LegalPage() {
   return (
-    <section style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100vh" }}>
+    <section id="contact" style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100vh" }}>
       <div style={{ maxWidth: 800, margin: "0 auto", fontFamily: "Montserrat, sans-serif" }}>
         <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "3rem", fontWeight: 300, color: "#f0ece0", borderBottom: "1px solid rgba(201,168,76,0.2)", paddingBottom: "1.5rem", marginBottom: "2.5rem" }}>
           Legal Mentions & Terms

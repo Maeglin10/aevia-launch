@@ -137,7 +137,7 @@ export default function Impact24() {
       {/* === HOME PAGE === */}
       <div style={{ display: page === "home" ? "block" : "none" }}>
           {/* Hero */}
-          <section className="min-h-screen flex items-center relative overflow-hidden pt-24 pb-16">
+          <section id="hero" className="min-h-screen flex items-center relative overflow-hidden pt-24 pb-16">
             <div className="absolute inset-0">
               <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#A3E635]/10 rounded-full blur-3xl" />
               <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-[#3B82F6]/10 rounded-full blur-3xl" />
@@ -614,7 +614,7 @@ export default function Impact24() {
 
       {/* --- PROGRAM PAGE --- */}
       <div style={{ display: page === "program" ? "block" : "none" }}>
-        <section className="pt-32 pb-24 px-6">
+        <section id="realisations" className="pt-32 pb-24 px-6">
           <div className="max-w-6xl mx-auto">
             <Reveal>
               <p className="text-[#A3E635] text-sm font-semibold tracking-widest uppercase mb-4">The Program</p>
@@ -1040,7 +1040,7 @@ export default function Impact24() {
 
       {/* --- LEGAL PAGE --- */}
       <div style={{ display: page === "legal" ? "block" : "none" }}>
-        <section className="pt-32 pb-24 px-6">
+        <section id="contact" className="pt-32 pb-24 px-6">
           <div className="max-w-4xl mx-auto">
             <Reveal>
               <div className="flex items-center gap-3 mb-8">

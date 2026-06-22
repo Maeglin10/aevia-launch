@@ -103,7 +103,7 @@ export default function VoltExpertPage() {
       </motion.nav>
 
       {/* Hero */}
-      <section ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1920&q=80" alt="Électricien professionnel Toulouse" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
@@ -271,7 +271,7 @@ export default function VoltExpertPage() {
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
           <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 12 }}>© 2026 VoltExpert — Site réalisé par Aevia WS</span>
-          <a href="/legal/mentions-legales" style={{ color: "rgba(255,255,255,0.22)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
+          <a href="#contact" style={{ color: "rgba(255,255,255,0.22)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
         </div>
       </footer>
     </div>

@@ -151,7 +151,7 @@ export default function SummitCapitalPage() {
         {page === "home" && (
           <>
             {/* Hero */}
-            <section ref={heroRef} className="relative h-screen overflow-hidden flex items-center">
+            <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden flex items-center">
               <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
                 <Image src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=85" alt="Summit Capital" fill className="object-cover opacity-30" priority />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#09090B] via-[#09090B]/80 to-[#09090B]" />
@@ -255,7 +255,7 @@ export default function SummitCapitalPage() {
 
 function ThesesPage() {
   return (
-    <section className="py-20 px-6 bg-[#0F0F11] border-t border-white/5">
+    <section id="realisations" className="py-20 px-6 bg-[#0F0F11] border-t border-white/5">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[#C9A86C] text-xs tracking-widest uppercase mb-4 block">Manifeste</span>
@@ -341,7 +341,7 @@ function PortefeuillePage({ activeFilter, setActiveFilter, filtered }: { activeF
 
 function EquipePage() {
   return (
-    <section className="py-20 px-6 bg-[#0F0F11] border-t border-white/5">
+    <section id="services" className="py-20 px-6 bg-[#0F0F11] border-t border-white/5">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[#C9A86C] text-xs tracking-widest uppercase mb-4 block">Gouvernance</span>
@@ -467,7 +467,7 @@ function ContactPage() {
 
 function LegalPage() {
   return (
-    <section className="py-20 px-6 bg-[#09090B] border-t border-white/5 font-mono text-xs text-white/40">
+    <section id="contact" className="py-20 px-6 bg-[#09090B] border-t border-white/5 font-mono text-xs text-white/40">
       <div className="max-w-3xl mx-auto space-y-12">
         <div>
           <span className="text-[#C9A86C] text-[10px] uppercase tracking-widest mb-3 block font-bold">Sécurité financière</span>

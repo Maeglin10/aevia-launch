@@ -225,7 +225,7 @@ export default function FormeStudioPage() {
       {/* ============================== HOME ============================== */}
       <div style={{ display: page === "home" ? "block" : "none" }}>
           {/* Hero */}
-          <section ref={heroRef} className="relative min-h-screen flex items-center pt-32 pb-16 px-6 overflow-hidden bg-[#F8F4F0]">
+          <section id="hero" ref={heroRef} className="relative min-h-screen flex items-center pt-32 pb-16 px-6 overflow-hidden bg-[#F8F4F0]">
             <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
               <div className="absolute top-20 right-0 w-1/2 h-full opacity-20">
                 <Image src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80" alt="bg" fill className="object-cover" priority />
@@ -388,7 +388,7 @@ export default function FormeStudioPage() {
 
       {/* ============================== TRAVAUX ============================== */}
       <div style={{ display: page === "travaux" ? "block" : "none" }}>
-          <section className="pt-32 pb-16 px-6 bg-[#F8F4F0]">
+          <section id="realisations" className="pt-32 pb-16 px-6 bg-[#F8F4F0]">
             <div className="max-w-6xl mx-auto">
               <Reveal>
                 <div className="inline-flex items-center gap-2 bg-[#F97316]/10 text-[#F97316] text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
@@ -470,7 +470,7 @@ export default function FormeStudioPage() {
 
       {/* ============================== EXPERTISES ============================== */}
       <div style={{ display: page === "expertises" ? "block" : "none" }}>
-          <section className="pt-32 pb-16 px-6 bg-[#F8F4F0]">
+          <section id="services" className="pt-32 pb-16 px-6 bg-[#F8F4F0]">
             <div className="max-w-6xl mx-auto">
               <Reveal>
                 <div className="inline-flex items-center gap-2 bg-[#F97316]/10 text-[#F97316] text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
@@ -491,7 +491,7 @@ export default function FormeStudioPage() {
           </section>
 
           {/* Discipline deep dives */}
-          <section className="py-24 px-6 bg-white">
+          <section id="about" className="py-24 px-6 bg-white">
             <div className="max-w-6xl mx-auto space-y-20">
               {/* Packaging & Branding */}
               <Reveal>
@@ -737,7 +737,7 @@ export default function FormeStudioPage() {
           </section>
 
           {/* Awards */}
-          <section className="py-24 px-6 bg-gray-900">
+          <section id="tarifs" className="py-24 px-6 bg-gray-900">
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
                 <p className="text-[#F97316] text-sm font-semibold mb-3">Reconnaissance</p>
@@ -946,7 +946,7 @@ export default function FormeStudioPage() {
             </div>
           </section>
 
-          <section className="py-24 px-6 bg-white">
+          <section id="contact" className="py-24 px-6 bg-white">
             <div className="max-w-4xl mx-auto prose prose-gray">
               <Reveal>
                 <div className="space-y-8">

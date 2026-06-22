@@ -412,7 +412,7 @@ function ParallaxSection({
 
 // ─── NavBar ──────────────────────────────────────────────────────────────────
 // Visual layout is IDENTICAL to the original (brand left, links + Reserve right).
-// The links now drive in-page navigation via goTo instead of dead `href="#accueil"`.
+// The links now drive in-page navigation via goTo instead of dead `href="#hero"`.
 function NavBar({ scrolled, page, goTo }: { scrolled: boolean; page: HotelPage; goTo: (p: HotelPage) => void }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   // NAV_PAGES already excludes legal pages (those live only in the footer), so
@@ -576,7 +576,7 @@ function HeroSection() {
   const headingY = useTransform(heroProgress, [0, 0.5], ['0px', '-25px']);
 
   return (
-    <section
+    <section id="hero"
       ref={heroRef}
       style={{
         position: 'relative',
@@ -2313,7 +2313,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
         title="Privacy Policy"
         img="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1800&q=85"
       />
-      <section style={{ background: CREAM, padding: '5rem 0 7rem' }}>
+      <section id="contact" style={{ background: CREAM, padding: '5rem 0 7rem' }}>
         <div style={{ maxWidth: '44rem', margin: '0 auto', padding: '0 1.75rem' }}>
           <p style={{ ...para, fontStyle: 'italic', color: `${DARK}60` }}>Last updated: June 2026.</p>
 

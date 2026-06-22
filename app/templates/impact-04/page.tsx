@@ -651,7 +651,7 @@ export default function LEtoileRestaurant() {
       {page === 'privacy' && <LegalPage variant="privacy" />}
 
       {/* ── FOOTER ── */}
-      <footer className="border-t border-white/5 bg-[#0a0806] py-16 px-6 md:px-12">
+      <footer id="contact" className="border-t border-white/5 bg-[#0a0806] py-16 px-6 md:px-12">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
           <div className="col-span-2 md:col-span-1">
             <span className="text-2xl mb-4 block"><span className="font-light">L&apos;</span><span className="italic">Étoile</span></span>

@@ -217,7 +217,7 @@ export default function Impact26() {
       {page === "home" && (
         <>
           {/* Hero */}
-          <section className="min-h-screen flex items-end relative overflow-hidden pt-20">
+          <section id="hero" className="min-h-screen flex items-end relative overflow-hidden pt-20">
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1590736704728-f4730bb30770?w=1600&h=900&fit=crop&crop=center"

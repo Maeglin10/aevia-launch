@@ -144,7 +144,7 @@ export default function AtelierMecaniquePage() {
       {page === "home" && (
         <>
           {/* Hero */}
-          <section ref={heroRef} className="relative h-screen overflow-hidden">
+          <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden">
             <motion.div className="absolute inset-0" style={{ y: heroY }}>
               <Image src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1600&q=85" alt="Atelier Mécanique — Horlogerie de prestige" fill className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-r from-[#0C0B09]/90 via-[#0C0B09]/50 to-transparent" />
@@ -191,7 +191,7 @@ export default function AtelierMecaniquePage() {
           </section>
 
           {/* Collections tab */}
-          <section className="py-24 px-6">
+          <section id="realisations" className="py-24 px-6">
             <div className="max-w-6xl mx-auto">
               <Reveal>
                 <div className="mb-12">
@@ -524,7 +524,7 @@ function MontresSubPage({ goTo, activeModel, setActiveModel }: { goTo: (p: any) 
 
 function ManufactureSubPage({ goTo }: { goTo: (p: any) => void }) {
   return (
-    <section className="py-32 px-6 bg-[#0F0E0C] text-white min-h-screen">
+    <section id="about" className="py-32 px-6 bg-[#0F0E0C] text-white min-h-screen">
       <div className="max-w-5xl mx-auto space-y-16">
         <Reveal>
           <div className="text-center space-y-4">
@@ -734,7 +734,7 @@ function ContactSubPage() {
 
 function LegalSubPage() {
   return (
-    <section className="py-32 px-6 bg-white text-black min-h-screen">
+    <section id="contact" className="py-32 px-6 bg-white text-black min-h-screen">
       <div className="max-w-3xl mx-auto space-y-8" style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
         <h1 className="text-4xl font-light mb-8" style={{ fontFamily: "'Libre Baskerville', serif" }}>
           Mentions <em>Légales</em>

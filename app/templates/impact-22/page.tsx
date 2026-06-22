@@ -140,7 +140,7 @@ export default function NimbusAIPage() {
       {/* ============================== HOME ============================== */}
       <div style={{ display: page === "home" ? "block" : "none" }}>
           {/* Hero */}
-          <section className="relative min-h-screen flex items-center pt-32 pb-20 px-6 overflow-hidden">
+          <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20 px-6 overflow-hidden">
             <div className="absolute inset-0 pointer-events-none">
               <div className="absolute top-1/3 left-1/3 w-[600px] h-[600px] bg-[#06B6D4]/5 rounded-full blur-3xl" />
               <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-[#8B5CF6]/8 rounded-full blur-3xl" />
@@ -556,7 +556,7 @@ export default function NimbusAIPage() {
           </section>
 
           {/* Volume discounts */}
-          <section className="py-20 px-6">
+          <section id="tarifs" className="py-20 px-6">
             <div className="max-w-4xl mx-auto">
               <Reveal className="text-center mb-12">
                 <h2 className="text-white text-3xl font-bold">Volume discounts automatiques</h2>
@@ -585,7 +585,7 @@ export default function NimbusAIPage() {
 
       {/* ============================== DOCS PAGE ============================== */}
       <div style={{ display: page === "docs" ? "block" : "none" }}>
-          <section className="pt-32 pb-16 px-6">
+          <section id="about" className="pt-32 pb-16 px-6">
             <div className="max-w-4xl mx-auto">
               <Reveal>
                 <div className="inline-flex items-center gap-2 bg-[#10B981]/10 border border-[#10B981]/20 text-[#10B981] px-4 py-1.5 rounded-full text-xs font-semibold mb-6">
@@ -922,7 +922,7 @@ app.post("/webhooks/nimbus", (req, res) => {
 
       {/* ============================== LEGAL PAGE ============================== */}
       <div style={{ display: page === "legal" ? "block" : "none" }}>
-          <section className="pt-32 pb-20 px-6">
+          <section id="contact" className="pt-32 pb-20 px-6">
             <div className="max-w-3xl mx-auto">
               <Reveal>
                 <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 text-gray-400 px-4 py-1.5 rounded-full text-xs font-semibold mb-6">

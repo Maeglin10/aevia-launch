@@ -126,7 +126,7 @@ export default function NeuralisPage() {
       {/* ── NAVIGATION ── */}
       <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-[#020204]/90 backdrop-blur-3xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="group flex flex-col items-center">
+          <Link href="#hero" className="group flex flex-col items-center">
              <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none">Neuralis</span>
              <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] -mt-1 ml-1">Augmentation Lab</span>
           </Link>
@@ -164,7 +164,7 @@ export default function NeuralisPage() {
       </AnimatePresence>
 
       {/* ── HERO ── */}
-      <section className="relative h-[100svh] flex items-center overflow-hidden">
+      <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1600&q=80" alt="Cyber Grid" fill className="object-cover opacity-20 mix-blend-screen" priority />
           <div className="absolute inset-0 bg-gradient-to-b from-[#020204] via-transparent to-[#020204]" />
@@ -389,7 +389,7 @@ export default function NeuralisPage() {
       </section>
 
       {/* ── NEURAL SECURITY ── */}
-      <section className="py-40 bg-black">
+      <section id="contact" className="py-40 bg-black">
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
            <Reveal>
               <div className="relative aspect-video rounded-sm overflow-hidden border border-white/5 group">
@@ -561,7 +561,7 @@ export default function NeuralisPage() {
       </section>
 
       {/* ── TESTIMONIALS & CASE STUDIES ── */}
-      <section className="py-40 bg-black overflow-hidden relative">
+      <section id="realisations" className="py-40 bg-black overflow-hidden relative">
         <div className="absolute top-0 right-0 w-[50rem] h-[50rem] bg-[#00f2ff]/5 blur-[150px] rounded-full" />
         <div className="max-w-[1600px] mx-auto px-6 md:px-12">
            <Reveal>
@@ -596,7 +596,7 @@ export default function NeuralisPage() {
       </section>
 
       {/* ── FAQ ── */}
-      <section className="py-40 bg-[#020204]">
+      <section id="about" className="py-40 bg-[#020204]">
         <div className="max-w-4xl mx-auto px-6">
            <Reveal>
               <div className="mb-24 text-center">

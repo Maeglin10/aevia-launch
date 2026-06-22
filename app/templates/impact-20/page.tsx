@@ -1122,7 +1122,7 @@ export default function LuxuryJewelryTemplate() {
       {page === "home" && (
         <>
           {/* ── HERO ── */}
-          <section
+          <section id="hero"
             ref={heroRef}
         style={{
           position: "relative",
@@ -2116,7 +2116,7 @@ export default function LuxuryJewelryTemplate() {
       </section>
 
       {/* ── CTA — EMAIL CAPTURE ── */}
-      <section
+      <section id="contact"
         style={{
           padding: "120px 40px",
           background:

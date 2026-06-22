@@ -2076,7 +2076,7 @@ export default function FashionEditorialTemplate() {
       {/* ─────────────────────────────────────────────────────────────────────
           FOOTER
       ───────────────────────────────────────────────────────────────────── */}
-      <footer
+      <footer id="contact"
         style={{
           background: '#0a0a0a',
           color: '#fafafa',
