@@ -566,11 +566,11 @@ type CrossfadeSlide = {
 const SLIDES: CrossfadeSlide[] = [
   {
     src: PHOTO.training,
-    alt: 'Séance d'entraînement avec Thomas Lebrun Coach',
+    alt: "Séance d'entraînement avec Thomas Lebrun Coach",
     num: '01',
     tag: 'Entraînement',
     title: 'CHAQUE SÉANCE\nCOMPTE',
-    sub: 'Des programmes d'entraînement taillés pour votre corps, votre niveau et vos objectifs. Intensité progressive, technique irréprochable.',
+    sub: "Des programmes d'entraînement taillés pour votre corps, votre niveau et vos objectifs. Intensité progressive, technique irréprochable.",
   },
   {
     src: PHOTO.nutrition,
@@ -1200,13 +1200,13 @@ const METHOD_STEPS = [
   {
     num: '03',
     title: 'Coaching Individuel',
-    desc: 'Séances en face-à-face ou en ligne avec Thomas. Correction technique en temps réel, motivation, ajustements permanents. Vous n'êtes jamais seul dans votre parcours.',
+    desc: "Séances en face-à-face ou en ligne avec Thomas. Correction technique en temps réel, motivation, ajustements permanents. Vous n'êtes jamais seul dans votre parcours.",
     icon: Users,
   },
   {
     num: '04',
     title: 'Suivi Nutrition',
-    desc: 'Un plan alimentaire flexible et réaliste qui s'intègre à votre vie. Pas de régimes drastiques — une éducation nutritionnelle qui dure toute la vie.',
+    desc: "Un plan alimentaire flexible et réaliste qui s'intègre à votre vie. Pas de régimes drastiques — une éducation nutritionnelle qui dure toute la vie.",
     icon: Leaf,
   },
 ];
