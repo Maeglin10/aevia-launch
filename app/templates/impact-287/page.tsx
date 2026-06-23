@@ -14,7 +14,7 @@ import {
   Award,
   ChevronDown,
   Heart,
-  Instagram,
+  Camera,
   MapPin,
   Mountain,
   Quote,
@@ -2436,7 +2436,7 @@ function OutdoorSpotCard({ spot, i }: { spot: OutdoorSpot; i: number }) {
             transition: 'background .4s',
           }}
         >
-          {React.cloneElement(spot.icon as React.ReactElement, {
+          {React.cloneElement(spot.icon as React.ReactElement<{ color?: string }>, {
             color: hover ? C.white : undefined,
           })}
         </div>
@@ -2822,7 +2822,7 @@ function FooterSection() {
               (e.currentTarget.style.background = 'rgba(255,255,255,0.06)')
             }
           >
-            <Instagram size={16} strokeWidth={2} />
+            <Camera size={16} strokeWidth={2} />
             @cotedazurcoaching
           </a>
 

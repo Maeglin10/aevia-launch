@@ -19,9 +19,8 @@ import {
   MapPin,
   Phone,
   Mail,
-  Instagram,
-  Facebook,
-  Youtube,
+  Camera,
+  Play,
   Clock,
   Award,
   Target,
@@ -2630,17 +2629,12 @@ function NutritionSection() {
 function FooterSection() {
   const SOCIALS = [
     {
-      icon: Instagram,
+      icon: Camera,
       label: 'Instagram',
       href: 'https://instagram.com',
     },
     {
-      icon: Facebook,
-      label: 'Facebook',
-      href: 'https://facebook.com',
-    },
-    {
-      icon: Youtube,
+      icon: Play,
       label: 'YouTube',
       href: 'https://youtube.com',
     },

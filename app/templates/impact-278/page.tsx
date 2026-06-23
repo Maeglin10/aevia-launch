@@ -837,12 +837,12 @@ const SERVICES: Service[] = [
   {
     icon: <Home size={36} strokeWidth={1.5} />,
     title: 'Salle de bain clé en main',
-    desc: 'De la démolition au carrelage en passant par la plomberie, l'électricité et la faïence : votre salle de bain renovée de A à Z, dans le respect du cahier des charges et du budget.',
+    desc: "De la démolition au carrelage en passant par la plomberie, l'électricité et la faïence : votre salle de bain renovée de A à Z, dans le respect du cahier des charges et du budget.",
     items: [
       'Conception sur mesure',
       'Fourniture et pose sanitaires',
       'Carrelage & faïence',
-      'Douche à l'italienne',
+      "Douche à l'italienne",
       'Accessibilité PMR',
     ],
   },

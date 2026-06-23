@@ -517,7 +517,7 @@ const CROSSFADE_PANELS: CrossfadePanel[] = [
     alt: 'Consultation médicale au cabinet du Dr. Lecomte',
     index: 'I',
     caption: 'La Consultation',
-    sub: 'Un espace d'écoute, un suivi attentif, une médecine centrée sur la personne.',
+    sub: "Un espace d'écoute, un suivi attentif, une médecine centrée sur la personne.",
   },
   {
     src: PHOTO.bilan,
@@ -966,7 +966,7 @@ const CONSULT_TYPES: ConsultType[] = [
   {
     num: '01',
     titre: 'Consultation standard',
-    body: 'Prise en charge des pathologies courantes, renouvellement d'ordonnances, prescriptions et avis médicaux. Consultation en secteur 1, carte vitale acceptée.',
+    body: "Prise en charge des pathologies courantes, renouvellement d'ordonnances, prescriptions et avis médicaux. Consultation en secteur 1, carte vitale acceptée.",
     duree: '20 min',
   },
   {
@@ -984,7 +984,7 @@ const CONSULT_TYPES: ConsultType[] = [
   {
     num: '04',
     titre: 'Téléconsultation',
-    body: 'Consultation vidéo sécurisée depuis chez vous. Idéale pour le renouvellement d'ordonnances, avis médicaux rapides et suivi des pathologies chroniques stables.',
+    body: "Consultation vidéo sécurisée depuis chez vous. Idéale pour le renouvellement d'ordonnances, avis médicaux rapides et suivi des pathologies chroniques stables.",
     duree: '15 min',
   },
 ];
@@ -1198,7 +1198,7 @@ type Testimonial = {
 const TESTIMONIALS: Testimonial[] = [
   {
     quote:
-      'Le Dr. Lecomte suit mon diabète depuis cinq ans avec une rigueur et une humanité remarquables. Il prend le temps d'expliquer chaque résultat et adapte le traitement sans jamais perdre le contact humain. Je me sens vraiment entre de bonnes mains.',
+      "Le Dr. Lecomte suit mon diabète depuis cinq ans avec une rigueur et une humanité remarquables. Il prend le temps d'expliquer chaque résultat et adapte le traitement sans jamais perdre le contact humain. Je me sens vraiment entre de bonnes mains.",
     name: 'Christine M.',
     context: 'Suivi diabète de type 2 · Nantes',
     stars: 5,
@@ -1212,7 +1212,7 @@ const TESTIMONIALS: Testimonial[] = [
   },
   {
     quote:
-      'Nous avons choisi le Dr. Lecomte comme médecin traitant pour toute la famille. Il connaît nos antécédents, prend en charge les petits comme les adultes, et répond toujours présent. C'est exactement la médecine de famille dont on avait besoin.',
+      "Nous avons choisi le Dr. Lecomte comme médecin traitant pour toute la famille. Il connaît nos antécédents, prend en charge les petits comme les adultes, et répond toujours présent. C'est exactement la médecine de famille dont on avait besoin.",
     name: 'Famille Garnier',
     context: 'Médecin traitant famille · Nantes Centre',
     stars: 5,
@@ -1365,10 +1365,9 @@ function RdvFormSection() {
     borderBottom: `1px solid rgba(245,240,232,0.30)`,
     padding: '15px 2px',
     fontFamily: SERIF,
-    fontSize: 17,
+    fontSize: '16px',
     color: C.white,
     outline: 'none',
-    fontSize16: '16px',
     WebkitAppearance: 'none',
     appearance: 'none',
   };
@@ -1971,7 +1970,7 @@ const INFO_ITEMS: InfoItem[] = [
     icon: <CreditCard size={22} color={C.emerald} strokeWidth={1.7} />,
     titre: 'Secteur 1',
     valeur: 'Tarifs conventionnés',
-    detail: 'Pas de dépassement d'honoraires. Consultation à 26,50 €.',
+    detail: "Pas de dépassement d'honoraires. Consultation à 26,50 €.",
   },
   {
     icon: <Heart size={22} color={C.salmon} strokeWidth={1.7} />,
@@ -1989,13 +1988,13 @@ const INFO_ITEMS: InfoItem[] = [
     icon: <Video size={22} color={C.salmon} strokeWidth={1.7} />,
     titre: 'Téléconsultation',
     valeur: 'Disponible',
-    detail: 'Via Doctolib Vidéo. Remboursée à 100 % par l'Assurance Maladie avec médecin traitant.',
+    detail: "Via Doctolib Vidéo. Remboursée à 100 % par l'Assurance Maladie avec médecin traitant.",
   },
   {
     icon: <CreditCard size={22} color={C.emerald} strokeWidth={1.7} />,
     titre: 'Carte Vitale',
     valeur: 'Obligatoire',
-    detail: 'Merci d'apporter votre carte vitale à jour à chaque consultation.',
+    detail: "Merci d'apporter votre carte vitale à jour à chaque consultation.",
   },
   {
     icon: <Clock size={22} color={C.salmon} strokeWidth={1.7} />,
@@ -2139,7 +2138,7 @@ const TEAM: TeamMember[] = [
   {
     nom: 'Isabelle Renaud',
     role: 'Secrétaire médicale',
-    bio: 'Isabelle gère l'accueil et les rendez-vous depuis 2015. Elle est votre premier interlocuteur pour toute prise de contact avec le cabinet, la gestion des dossiers et les formalités administratives.',
+    bio: "Isabelle gère l'accueil et les rendez-vous depuis 2015. Elle est votre premier interlocuteur pour toute prise de contact avec le cabinet, la gestion des dossiers et les formalités administratives.",
     img: PHOTO.cabinet,
     accent: C.salmon,
   },

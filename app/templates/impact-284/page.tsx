@@ -836,7 +836,7 @@ const SOINS: Soin[] = [
     icon: <Sparkles size={32} strokeWidth={1.4} color={C.gold} />,
     titre: 'Blanchiment & esthétique',
     description:
-      'Facettes en céramique, blanchiment professionnel et composite : révélez l'éclat de votre sourire avec des techniques douces et durables.',
+      "Facettes en céramique, blanchiment professionnel et composite : révélez l'éclat de votre sourire avec des techniques douces et durables.",
     details: [
       'Facettes céramique ultra-minces',
       'Blanchiment au laser Phillips Zoom',
@@ -1055,13 +1055,13 @@ const TECHNIQUES: Technique[] = [
     num: '02',
     titre: 'Scanner d\'empreinte intraoral',
     corps:
-      'Fini les empreintes à l'alginate ! Notre scanner iTero Element 5D réalise une empreinte numérique précise à 20 microns en quelques minutes. Le modèle 3D est transmis directement au laboratoire de prothèse pour des couronnes et facettes ajustées au dixième de millimètre.',
+      "Fini les empreintes à l'alginate ! Notre scanner iTero Element 5D réalise une empreinte numérique précise à 20 microns en quelques minutes. Le modèle 3D est transmis directement au laboratoire de prothèse pour des couronnes et facettes ajustées au dixième de millimètre.",
   },
   {
     num: '03',
     titre: 'Pose d\'implant guidée par ordinateur',
     corps:
-      'À partir du CBCT, nous concevons un guide chirurgical stéréolithographique qui positionne l'implant exactement à l'endroit planifié — à 0,2 mm près. La chirurgie sans lambeaux (flapless) réduit le temps d'intervention, les suites post-opératoires et accélère la cicatrisation.',
+      "À partir du CBCT, nous concevons un guide chirurgical stéréolithographique qui positionne l'implant exactement à l'endroit planifié — à 0,2 mm près. La chirurgie sans lambeaux (flapless) réduit le temps d'intervention, les suites post-opératoires et accélère la cicatrisation.",
   },
   {
     num: '04',
@@ -1766,13 +1766,13 @@ const FINANCES: Finance[] = [
     icon: <Shield size={28} strokeWidth={1.4} color={C.gold} />,
     titre: 'CB en 3-4× sans frais',
     corps:
-      'Réglez vos soins en 3 ou 4 fois par carte bancaire, sans frais supplémentaires. Disponible à partir de 300 € et jusqu'à 3 000 €.',
+      "Réglez vos soins en 3 ou 4 fois par carte bancaire, sans frais supplémentaires. Disponible à partir de 300 € et jusqu'à 3 000 €.",
   },
   {
     icon: <CheckCircle size={28} strokeWidth={1.4} color={C.gold} />,
     titre: 'Cetelem Santé',
     corps:
-      'Pour les traitements de plus grande ampleur, nous proposons le crédit Cetelem Santé — de 6 à 48 mensualités avec des taux préférentiels, sous réserve d'acceptation.',
+      "Pour les traitements de plus grande ampleur, nous proposons le crédit Cetelem Santé — de 6 à 48 mensualités avec des taux préférentiels, sous réserve d'acceptation.",
   },
   {
     icon: <Star size={28} strokeWidth={1.4} color={C.gold} />,
@@ -1938,21 +1938,21 @@ const EQUIPEMENTS: Equip[] = [
     icon: <Zap size={30} strokeWidth={1.4} color={C.gold} />,
     nom: 'Scanner intraoral',
     description:
-      'L'iTero Element 5D capte 6 000 images par seconde pour reconstituer une empreinte 3D parfaite en moins de 3 minutes. Visualisation NIRI des caries proximales sans radiation.',
+      "L'iTero Element 5D capte 6 000 images par seconde pour reconstituer une empreinte 3D parfaite en moins de 3 minutes. Visualisation NIRI des caries proximales sans radiation.",
     badge: 'iTero Element 5D',
   },
   {
     icon: <Activity size={30} strokeWidth={1.4} color={C.gold} />,
     nom: 'Laser dentaire',
     description:
-      'Notre laser Er:YAG remplace le bistouri pour les chirurgies parodontales et les décontaminations d'implants — cicatrisation accélérée, moins de douleurs, pas de points de suture.',
+      "Notre laser Er:YAG remplace le bistouri pour les chirurgies parodontales et les décontaminations d'implants — cicatrisation accélérée, moins de douleurs, pas de points de suture.",
     badge: 'Fotona LightWalker',
   },
   {
     icon: <Shield size={30} strokeWidth={1.4} color={C.gold} />,
     nom: 'Fauteuil connecté',
     description:
-      'Fauteuil Sirona Intego avec écran patient intégré, caméra intra-orale haute définition et connexion directe au dossier médical numérique pour un accès instantané à toute l'historique.',
+      "Fauteuil Sirona Intego avec écran patient intégré, caméra intra-orale haute définition et connexion directe au dossier médical numérique pour un accès instantané à toute l'historique.",
     badge: 'Sirona Intego Pro',
   },
 ];
@@ -2133,7 +2133,7 @@ const EQUIPE: Membre[] = [
     prenom: 'Dr. Mathieu',
     nom: 'Prévost',
     titre: 'Chirurgien-dentiste · Directeur du cabinet',
-    bio: 'Diplômé de l'Université de Bordeaux en 2009, le Dr Prévost a complété sa formation par un diplôme universitaire d'implantologie à Paris et un certificat Invisalign Diamond. Il exerce aux Chartrons depuis 2014 avec une passion pour les traitements complexes et la dentisterie esthétique. Chaque patient bénéficie d'un plan de traitement individualisé et d'une explication détaillée des options disponibles.',
+    bio: "Diplômé de l'Université de Bordeaux en 2009, le Dr Prévost a complété sa formation par un diplôme universitaire d'implantologie à Paris et un certificat Invisalign Diamond. Il exerce aux Chartrons depuis 2014 avec une passion pour les traitements complexes et la dentisterie esthétique. Chaque patient bénéficie d'un plan de traitement individualisé et d'une explication détaillée des options disponibles.",
     specialites: ['Implantologie avancée', 'Facettes céramique', 'Invisalign Diamond Provider', 'Chirurgie parodontale'],
   },
   {
@@ -2141,7 +2141,7 @@ const EQUIPE: Membre[] = [
     prenom: 'Camille',
     nom: 'Fontaine',
     titre: 'Assistante dentaire qualifiée',
-    bio: 'Camille accompagne les patients depuis leur arrivée jusqu'à la fin de leur traitement. Spécialisée en implantologie, elle assiste le Dr Prévost lors des interventions chirurgicales et assure la coordination des rendez-vous de suivi. Sa bienveillance naturelle met à l'aise les patients les plus appréhensifs.',
+    bio: "Camille accompagne les patients depuis leur arrivée jusqu'à la fin de leur traitement. Spécialisée en implantologie, elle assiste le Dr Prévost lors des interventions chirurgicales et assure la coordination des rendez-vous de suivi. Sa bienveillance naturelle met à l'aise les patients les plus appréhensifs.",
     specialites: ['Assistance chirurgicale', 'Stérilisation', 'Accueil & coordination'],
   },
   {
@@ -2149,7 +2149,7 @@ const EQUIPE: Membre[] = [
     prenom: 'Inès',
     nom: 'Blanchard',
     titre: 'Assistante dentaire & secrétaire médicale',
-    bio: 'Inès gère le secrétariat médical, les prises en charge mutuelle et l'accompagnement administratif des patients. Elle est votre interlocutrice privilégiée pour les devis, les remboursements et la prise de rendez-vous. Sa maîtrise des logiciels de facturation médicale assure des dossiers toujours à jour.',
+    bio: "Inès gère le secrétariat médical, les prises en charge mutuelle et l'accompagnement administratif des patients. Elle est votre interlocutrice privilégiée pour les devis, les remboursements et la prise de rendez-vous. Sa maîtrise des logiciels de facturation médicale assure des dossiers toujours à jour.",
     specialites: ['Gestion administrative', 'Suivi mutuelle & tiers payant', 'Devis & facturation CCAM'],
   },
 ];

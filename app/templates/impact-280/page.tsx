@@ -15,7 +15,7 @@ import {
   Star,
   ChevronDown,
   ArrowRight,
-  Instagram,
+  Camera,
   ExternalLink,
   Check,
   Phone,
@@ -2851,7 +2851,7 @@ function FooterSection() {
                   el.style.borderColor = 'rgba(255,255,255,0.14)';
                 }}
               >
-                <Instagram size={16} color={C.roseLight} strokeWidth={1.6} />
+                <Camera size={16} color={C.roseLight} strokeWidth={1.6} />
               </a>
               <a
                 href="https://pinterest.fr/epousaillesalsace"

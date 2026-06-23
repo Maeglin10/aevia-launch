@@ -6,6 +6,7 @@ import {
   useScroll,
   useTransform,
   useInView,
+  type MotionValue,
 } from 'framer-motion';
 import {
   Activity,
@@ -576,13 +577,13 @@ function ScrollCrossfade() {
       src: PHOTO.balnео,
       alt: 'Balnéothérapie — piscine thérapeutique',
       title: 'Balnéothérapie',
-      sub: 'La puissance thérapeutique de l'eau pour une rééducation douce et efficace. Nos bassins chauffés accompagnent votre récupération à chaque séance.',
+      sub: "La puissance thérapeutique de l'eau pour une rééducation douce et efficace. Nos bassins chauffés accompagnent votre récupération à chaque séance.",
     },
     {
       src: PHOTO.reeducation,
       alt: 'Rééducation fonctionnelle guidée par kiné',
       title: 'Rééducation fonctionnelle',
-      sub: 'Protocoles personnalisés conçus pour restaurer mobilité, force et autonomie — du post-opératoire au retour à l'activité sportive.',
+      sub: "Protocoles personnalisés conçus pour restaurer mobilité, force et autonomie — du post-opératoire au retour à l'activité sportive.",
     },
     {
       src: PHOTO.therapeute,
@@ -702,11 +703,11 @@ function ProgressDot({
   dotIndex,
 }: {
   index: number;
-  dotIndex: ReturnType<typeof useTransform>;
+  dotIndex: MotionValue<number>;
 }) {
   const [active, setActive] = useState(false);
   React.useEffect(() => {
-    const unsub = dotIndex.on('change', (v) => {
+    const unsub = dotIndex.on('change', (v: number) => {
       setActive(Math.round(v) === index);
     });
     return unsub;
@@ -735,22 +736,22 @@ function SpecialitesSection() {
       icon: Activity,
       title: 'Rééducation orthopédique',
       sub: 'Post-opératoire & traumatologie',
-      desc: 'Prise en charge complète après chirurgies (prothèse de hanche, genou, ligaments), fractures, entorses et pathologies musculo-squelettiques. Protocoles adaptés de la phase aiguë au retour à l'activité physique.',
+      desc: "Prise en charge complète après chirurgies (prothèse de hanche, genou, ligaments), fractures, entorses et pathologies musculo-squelettiques. Protocoles adaptés de la phase aiguë au retour à l'activité physique.",
       highlights: ['Prothèse de genou & hanche', 'Ligamentoplasties', 'Fractures & entorses', 'Tendinopathies chroniques'],
     },
     {
       icon: Wind,
       title: 'Kinésithérapie respiratoire',
       sub: 'Drainage & réentraînement',
-      desc: 'Techniques de drainage bronchique, désencombrement des voies aériennes et réentraînement à l'effort pour patients BPCO, asthmatiques, mucoviscidose ou en post-COVID. Prise en charge de tous âges.',
-      highlights: ['BPCO & emphysème', 'Post-COVID pulmonaire', 'Mucoviscidose', 'Réentraînement à l'effort'],
+      desc: "Techniques de drainage bronchique, désencombrement des voies aériennes et réentraînement à l'effort pour patients BPCO, asthmatiques, mucoviscidose ou en post-COVID. Prise en charge de tous âges.",
+      highlights: ["BPCO & emphysème', 'Post-COVID pulmonaire', 'Mucoviscidose', 'Réentraînement à l'effort"],
     },
     {
       icon: Brain,
       title: 'Rééducation neurologique',
       sub: 'AVC · SEP · Parkinson',
       desc: 'Accompagnement spécialisé des patients présentant des séquelles neurologiques : AVC, sclérose en plaques, maladie de Parkinson, traumatismes crâniens. Approche pluridisciplinaire et travail de la plasticité cérébrale.',
-      highlights: ['Rééducation post-AVC', 'Sclérose en plaques', 'Maladie de Parkinson', 'Troubles de l'équilibre'],
+      highlights: ["Rééducation post-AVC', 'Sclérose en plaques', 'Maladie de Parkinson', 'Troubles de l'équilibre"],
     },
   ];
 
@@ -959,14 +960,14 @@ function TechniqueSection() {
       icon: Droplets,
       number: '03',
       title: 'Balnéothérapie',
-      desc: 'Rééducation en milieu aquatique dans notre bain à remous professionnel. La chaleur de l'eau (35–37 °C) et la poussée d'Archimède permettent des mobilisations impossibles à sec, idéales en phase post-opératoire précoce.',
+      desc: "Rééducation en milieu aquatique dans notre bain à remous professionnel. La chaleur de l'eau (35–37 °C) et la poussée d'Archimède permettent des mobilisations impossibles à sec, idéales en phase post-opératoire précoce.",
       detail: 'Bain à jets · Hydrokinésithérapie · Rééducation aquatique · Relaxation musculaire',
     },
     {
       icon: Dumbbell,
       number: '04',
       title: 'Exercices actifs',
-      desc: 'Programmes de renforcement musculaire, proprioception et réathlétisation sur plateau de rééducation, tapis roulant instrumenté et équipements isocinétiques. L'objectif : vous rendre autonome et prévenir les récidives.',
+      desc: "Programmes de renforcement musculaire, proprioception et réathlétisation sur plateau de rééducation, tapis roulant instrumenté et équipements isocinétiques. L'objectif : vous rendre autonome et prévenir les récidives.",
       detail: 'Proprioception · Renforcement isocinétique · Réathlétisation · Bilan fonctionnel',
     },
   ];
@@ -1836,7 +1837,7 @@ function EquipeSection() {
       specialite: 'Rééducation orthopédique & sportive',
       diplome: 'D.E. Kinésithérapie · Université de Montpellier 2006',
       formation: 'DU Traumatologie du sport · Physiothérapie manuelle ORTHO',
-      annees: '18 ans d'expérience',
+      annees: "18 ans d'expérience",
       langues: 'Français · Anglais · Italien',
     },
     {
@@ -1845,8 +1846,8 @@ function EquipeSection() {
       nom: 'Ferrara',
       specialite: 'Kinésithérapie respiratoire & cardio',
       diplome: 'D.E. Kinésithérapie · Université Lyon 1 2012',
-      formation: 'Certificat Drainage bronchique · Réentraînement à l'effort',
-      annees: '12 ans d'expérience',
+      formation: "Certificat Drainage bronchique · Réentraînement à l'effort",
+      annees: "12 ans d'expérience",
       langues: 'Français · Anglais',
     },
     {
@@ -1856,7 +1857,7 @@ function EquipeSection() {
       specialite: 'Rééducation neurologique & gériatrique',
       diplome: 'D.E. Kinésithérapie · Université Aix-Marseille 2016',
       formation: 'DU Rééducation neurologique · Bobath avancé',
-      annees: '8 ans d'expérience',
+      annees: "8 ans d'expérience",
       langues: 'Français · Arabe · Anglais',
     },
   ];
@@ -2105,7 +2106,7 @@ function MaterialSection() {
       icon: PersonStanding,
       titre: 'Plateau de rééducation',
       description:
-        'Plateforme proprioceptive dynamique couplée à un système de biofeedback visuel. Utilisée pour la rééducation des entorses, prothèses et l'entraînement de l'équilibre neurologique.',
+        "Plateforme proprioceptive dynamique couplée à un système de biofeedback visuel. Utilisée pour la rééducation des entorses, prothèses et l'entraînement de l'équilibre neurologique.",
       specs: 'Proprioception · Biofeedback visuel · Posturologie',
     },
   ];
@@ -2410,7 +2411,7 @@ function PracticalSection() {
               >
                 {[
                   'Tram ligne 1 — arrêt Antigone (2 min à pied)',
-                  'Parking gratuit Place du Nombre d'Or',
+                  "Parking gratuit Place du Nombre d'Or",
                   'Accessible PMR — ascenseur + rampe',
                   'À 10 min du centre-ville à vélo',
                 ].map((t) => (
@@ -2560,7 +2561,7 @@ function PracticalSection() {
                   },
                   {
                     label: 'Secteur 2',
-                    val: 'Dépassements d'honoraires selon acte',
+                    val: "Dépassements d'honoraires selon acte",
                     highlight: false,
                   },
                   {

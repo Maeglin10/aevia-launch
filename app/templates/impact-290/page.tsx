@@ -507,9 +507,9 @@ function ScrollCrossfade() {
       photo: PHOTO.pac,
       alt: 'Installation pompe à chaleur air-eau',
       eyebrow: 'Pompe à chaleur',
-      title: 'Jusqu'à -70% sur votre facture de chauffage',
+      title: "Jusqu'à -70% sur votre facture de chauffage",
       text:
-        'Installation et mise en service de PAC air-eau certifiées QualiPAC. Dimensionnement sur mesure, aides MaPrimeRénov' déduites d'emblée.',
+        "Installation et mise en service de PAC air-eau certifiées QualiPAC. Dimensionnement sur mesure, aides MaPrimeRénov' déduites d'emblée.",
       op: op0,
       textOp: textOp0,
     },
@@ -527,7 +527,7 @@ function ScrollCrossfade() {
       photo: PHOTO.solar,
       alt: 'Panneaux solaires thermiques pour chauffe-eau',
       eyebrow: 'Solaire thermique',
-      title: 'L'énergie du soleil pour votre eau chaude',
+      title: "L'énergie du soleil pour votre eau chaude",
       text:
         'Chauffe-eau solaires individuels certifiés QualiSol. Production couvrant 60 à 80% de vos besoins en eau chaude sanitaire.',
       op: op2,
@@ -700,7 +700,7 @@ function ServicesSection() {
         'Audit énergétique préalable gratuit',
         'PAC air-eau toutes marques',
         'Certification QualiPAC',
-        'Dossier MaPrimeRénov' inclus',
+        "Dossier MaPrimeRénov' inclus",
       ],
       color: C.forest,
     },
@@ -708,9 +708,9 @@ function ServicesSection() {
       Icon: Sun,
       title: 'Chauffe-eau solaires',
       description:
-        'Chauffe-eau solaires individuels (CESI) et systèmes solaires combinés (SSC). Installation optimisée selon l'exposition de votre toiture.',
+        "Chauffe-eau solaires individuels (CESI) et systèmes solaires combinés (SSC). Installation optimisée selon l'exposition de votre toiture.",
       points: [
-        '60 à 80% d'eau chaude gratuite',
+        "60 à 80% d'eau chaude gratuite",
         'Certification QualiSol',
         'Aide CEE et TVA 5,5%',
         'Garantie décennale',
@@ -905,14 +905,14 @@ function ProcessSection() {
       num: '02',
       title: 'Devis aides déduites',
       text:
-        'Devis transparent avec MaPrimeRénov', CEE et TVA réduite déduites d'emblée. Vous ne payez que le reste à charge réel — aucune avance sur aides à faire.',
+        "Devis transparent avec MaPrimeRénov', CEE et TVA réduite déduites d'emblée. Vous ne payez que le reste à charge réel — aucune avance sur aides à faire.",
     },
     {
       Icon: Wrench,
       num: '03',
       title: 'Pose certifiée RGE',
       text:
-        'Installation par nos techniciens certifiés. Chantier propre, respectueux de votre habitat. Mise en service complète et formation à l'utilisation.',
+        "Installation par nos techniciens certifiés. Chantier propre, respectueux de votre habitat. Mise en service complète et formation à l'utilisation.",
     },
     {
       Icon: CalendarCheck,
@@ -1130,7 +1130,7 @@ function TestimonialsSection() {
       service: 'Installation PAC air-eau',
       stars: 5,
       text:
-        'Installation parfaite de notre pompe à chaleur en février dernier. L'équipe a géré le dossier MaPrimeRénov' de A à Z. Résultat : notre facture de chauffage a été divisée par trois dès le premier hiver. Un professionnalisme exemplaire.',
+        "Installation parfaite de notre pompe à chaleur en février dernier. L'équipe a géré le dossier MaPrimeRénov' de A à Z. Résultat : notre facture de chauffage a été divisée par trois dès le premier hiver. Un professionnalisme exemplaire.",
       savings: '-68% sur la facture de chauffage',
     },
     {
@@ -1139,7 +1139,7 @@ function TestimonialsSection() {
       service: 'Rénovation salle de bain',
       stars: 5,
       text:
-        'Rénovation complète de notre salle de bain en deux semaines chrono, comme promis. Chantier propre, devis respecté à l'euro près, finitions soignées. On recommande sans hésiter — toute la famille est ravie du résultat.',
+        "Rénovation complète de notre salle de bain en deux semaines chrono, comme promis. Chantier propre, devis respecté à l'euro près, finitions soignées. On recommande sans hésiter — toute la famille est ravie du résultat.",
       savings: 'Chantier livré dans les délais',
     },
     {
@@ -1148,8 +1148,8 @@ function TestimonialsSection() {
       service: 'Chauffe-eau solaire',
       stars: 5,
       text:
-        'Chauffe-eau solaire posé en novembre. Malgré la météo bretonne, 70% de notre eau chaude est produite gratuitement depuis l'installation. Très satisfaite du suivi et de la qualité des explications de l'équipe.',
-      savings: '70% d'eau chaude gratuite',
+        "Chauffe-eau solaire posé en novembre. Malgré la météo bretonne, 70% de notre eau chaude est produite gratuitement depuis l'installation. Très satisfaite du suivi et de la qualité des explications de l'équipe.",
+      savings: "70% d'eau chaude gratuite",
     },
   ];
 
@@ -1762,17 +1762,17 @@ function DevisFormSection() {
 function AidesSection() {
   const aides = [
     {
-      label: 'MaPrimeRénov'',
-      montant: 'Jusqu'à 11 000€',
+      label: "MaPrimeRénov'",
+      montant: "Jusqu'à 11 000€",
       description:
-        'Aide de l'État pour le remplacement de votre système de chauffage par une PAC ou un chauffe-eau solaire. Cumulable avec d'autres aides.',
+        "Aide de l'État pour le remplacement de votre système de chauffage par une PAC ou un chauffe-eau solaire. Cumulable avec d'autres aides.",
       color: C.forest,
     },
     {
       label: 'CEE',
-      montant: 'Jusqu'à 4 000€',
+      montant: "Jusqu'à 4 000€",
       description:
-        'Certificats d'Économie d'Énergie versés par les fournisseurs d'énergie. Accordés automatiquement pour les travaux réalisés par un artisan RGE.',
+        "Certificats d'Économie d'Énergie versés par les fournisseurs d'énergie. Accordés automatiquement pour les travaux réalisés par un artisan RGE.",
       color: C.slate,
     },
     {
@@ -1784,16 +1784,16 @@ function AidesSection() {
     },
     {
       label: 'Éco-PTZ',
-      montant: 'Jusqu'à 30 000€',
+      montant: "Jusqu'à 30 000€",
       description:
-        'Prêt à taux zéro pour financer vos travaux d'économies d'énergie sans avance de trésorerie. Remboursement sur 15 ans sans intérêts.',
+        "Prêt à taux zéro pour financer vos travaux d'économies d'énergie sans avance de trésorerie. Remboursement sur 15 ans sans intérêts.",
       color: C.forestMid,
     },
     {
       label: 'ANAH',
-      montant: 'Jusqu'à 50% du coût',
+      montant: "Jusqu'à 50% du coût",
       description:
-        'Programme MaPrimeAdapt' pour les ménages modestes et très modestes. Peut couvrir jusqu'à 70% des travaux sous conditions de ressources.',
+        "Programme MaPrimeAdapt' pour les ménages modestes et très modestes. Peut couvrir jusqu'à 70% des travaux sous conditions de ressources.",
       color: C.slateDark,
     },
   ];
@@ -1989,7 +1989,7 @@ function EcologieSection() {
     },
     {
       Icon: Zap,
-      title: 'Économies d'énergie',
+      title: "Économies d'énergie",
       text:
         'Chaque installation est dimensionnée pour maximiser les économies réelles — nous ne vendons pas de la puissance, nous vendons de la performance.',
     },
@@ -1997,13 +1997,13 @@ function EcologieSection() {
       Icon: Wind,
       title: 'Bilan carbone optimisé',
       text:
-        'Remplacement des chaudières fioul et gaz par des solutions électriques basse température : -70% d'émissions de CO₂ pour votre logement.',
+        "Remplacement des chaudières fioul et gaz par des solutions électriques basse température : -70% d'émissions de CO₂ pour votre logement.",
     },
     {
       Icon: Shield,
       title: 'Label RGE actif',
       text:
-        'Notre certification Reconnu Garant de l'Environnement est renouvelée chaque année. Gage de qualité et condition d'accès à toutes les aides.',
+        "Notre certification Reconnu Garant de l'Environnement est renouvelée chaque année. Gage de qualité et condition d'accès à toutes les aides.",
     },
   ];
 
@@ -2217,7 +2217,7 @@ function CertifSection() {
       sublabel: 'Pompes à chaleur',
       Icon: Wind,
       color: C.slate,
-      description: 'Qualification pour l'installation et la maintenance des pompes à chaleur air-eau et géothermiques.',
+      description: "Qualification pour l'installation et la maintenance des pompes à chaleur air-eau et géothermiques.",
     },
     {
       label: 'QualiSol',
@@ -2228,17 +2228,17 @@ function CertifSection() {
     },
     {
       label: 'RGE',
-      sublabel: 'Reconnu Garant\nde l'Env.',
+      sublabel: "Reconnu Garant\nde l'Env.",
       Icon: Leaf,
       color: C.forest,
-      description: 'Label national qui conditionne l'accès de vos travaux aux aides de l'État (MaPrimeRénov', CEE…).',
+      description: "Label national qui conditionne l'accès de vos travaux aux aides de l'État (MaPrimeRénov', CEE…).",
     },
     {
       label: 'Qualibat',
       sublabel: 'Plomberie & CVC',
       Icon: Droplets,
       color: C.forestMid,
-      description: 'Qualification professionnelle couvrant l'ensemble des travaux de plomberie et chauffage-ventilation.',
+      description: "Qualification professionnelle couvrant l'ensemble des travaux de plomberie et chauffage-ventilation.",
     },
     {
       label: 'Décennale',
@@ -2491,7 +2491,7 @@ function FooterSection() {
     'Betton',
     'Chartres-de-Bretagne',
     'Acigné',
-    'Toute l'Ille-et-Vilaine',
+    "Toute l'Ille-et-Vilaine",
   ];
 
   const links = [

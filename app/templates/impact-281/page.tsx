@@ -774,7 +774,7 @@ const SERVICES: Service[] = [
     titre: 'Robe sur mesure',
     sous: 'De la toile à la tenue finale',
     detail:
-      'Chaque robe naît d'un patron unique tracé à vos mensurations. De la mousseline de calage à l'étoffe définitive, trois essayages jalonnent un savoir-faire de plus de trente ans.',
+      "Chaque robe naît d'un patron unique tracé à vos mensurations. De la mousseline de calage à l'étoffe définitive, trois essayages jalonnent un savoir-faire de plus de trente ans.",
   },
   {
     icon: <Ruler size={32} strokeWidth={1.3} color={C.gold} />,
@@ -788,7 +788,7 @@ const SERVICES: Service[] = [
     titre: 'Retouches prestige',
     sous: 'Préserver, ajuster, sublimer',
     detail:
-      'Robe de mariée, couture de maison, pièce de collection : notre atelier reçoit et retouche des vêtements d'exception. Chaque intervention respecte la structure d'origine et le fil de la matière.',
+      "Robe de mariée, couture de maison, pièce de collection : notre atelier reçoit et retouche des vêtements d'exception. Chaque intervention respecte la structure d'origine et le fil de la matière.",
   },
 ];
 
@@ -966,12 +966,12 @@ const PROCESS_STEPS: ProcessStep[] = [
   {
     num: '03',
     titre: 'Essayages',
-    body: 'Deux à trois essayages permettent d'affiner la coupe, ajuster chaque couture et s'assurer que le vêtement épouse parfaitement votre corps en mouvement.',
+    body: "Deux à trois essayages permettent d'affiner la coupe, ajuster chaque couture et s'assurer que le vêtement épouse parfaitement votre corps en mouvement.",
   },
   {
     num: '04',
     titre: 'Livraison',
-    body: 'Votre création vous est remise dans une housse de protection sur mesure, accompagnée d'une fiche d'entretien personnalisée. La maison reste disponible pour tout ajustement.',
+    body: "Votre création vous est remise dans une housse de protection sur mesure, accompagnée d'une fiche d'entretien personnalisée. La maison reste disponible pour tout ajustement.",
   },
 ];
 
@@ -1156,7 +1156,7 @@ type Testimonial = {
 const TESTIMONIALS: Testimonial[] = [
   {
     quote:
-      'Maison Céleste a réalisé ma robe de mariée. Du premier essayage à la livraison, chaque détail a été pensé avec une attention que je n'avais jamais rencontrée. Je n'ai jamais été aussi belle de ma vie.',
+      "Maison Céleste a réalisé ma robe de mariée. Du premier essayage à la livraison, chaque détail a été pensé avec une attention que je n'avais jamais rencontrée. Je n'ai jamais été aussi belle de ma vie.",
     name: 'Claire Fontaine',
     role: 'Mariée',
     occasion: 'Robe de mariée sur mesure',
@@ -1164,7 +1164,7 @@ const TESTIMONIALS: Testimonial[] = [
   },
   {
     quote:
-      'Mon costume pour la remise de la Légion d'honneur devait être irréprochable. Maison Céleste a su capter mon style et livrer une pièce d'une élégance rare, taillée comme une seconde peau.',
+      "Mon costume pour la remise de la Légion d'honneur devait être irréprochable. Maison Céleste a su capter mon style et livrer une pièce d'une élégance rare, taillée comme une seconde peau.",
     name: 'Antoine de Mauroy',
     role: 'Dirigeant, Paris',
     occasion: 'Costume cérémonie sur mesure',
@@ -1172,7 +1172,7 @@ const TESTIMONIALS: Testimonial[] = [
   },
   {
     quote:
-      'J'avais une robe de gala héritée de ma mère, fragilisée et démodée. L'atelier a su la restaurer et la moderniser sans trahir son âme. Un travail d'orfèvre, incomparable.',
+      "J'avais une robe de gala héritée de ma mère, fragilisée et démodée. L'atelier a su la restaurer et la moderniser sans trahir son âme. Un travail d'orfèvre, incomparable.",
     name: 'Isabelle Theron',
     role: 'Collectionneuse de mode',
     occasion: 'Retouche prestige robe de gala',
@@ -1622,12 +1622,12 @@ const MATERIALS: Material[] = [
     nom: 'Soie',
     origine: 'Soie de Lyon · France',
     description:
-      'Tissée sur les métiers jacquard lyonnais, notre soie charmeuse capte la lumière avec une fluidité incomparable. Elle habille aussi bien une robe de cocktail qu'un chemisier de soirée.',
+      "Tissée sur les métiers jacquard lyonnais, notre soie charmeuse capte la lumière avec une fluidité incomparable. Elle habille aussi bien une robe de cocktail qu'un chemisier de soirée.",
     accent: 'Légèreté · Lumière · Sensualité',
   },
   {
     nom: 'Cachemire',
-    origine: 'Cachemire d'Écosse · Grande-Bretagne',
+    origine: "Cachemire d'Écosse · Grande-Bretagne",
     description:
       'Issu des chèvres du Cachemire, sélectionné et filé en Écosse, notre cachemire deux épaisseurs est la matière de prédilection des costumes homme et des manteaux sur mesure.',
     accent: 'Chaleur · Douceur · Noblesse',
@@ -1636,14 +1636,14 @@ const MATERIALS: Material[] = [
     nom: 'Dentelle de Calais',
     origine: 'Dentelle · Calais, France',
     description:
-      'Fabriquée sur des métiers Leavers datant du XIXe siècle, la dentelle de Calais est l'âme de nos robes de mariée. Chaque motif est tissé fil à fil, dans une tradition centenaire.',
+      "Fabriquée sur des métiers Leavers datant du XIXe siècle, la dentelle de Calais est l'âme de nos robes de mariée. Chaque motif est tissé fil à fil, dans une tradition centenaire.",
     accent: 'Élégance · Tradition · Finesse',
   },
   {
     nom: 'Lin premium',
     origine: 'Lin de Normandie · France',
     description:
-      'Cultivé sur les terres normandes et rouie à l'ancienne, notre lin haut de gamme est le choix idéal pour les tenues estivales : structuré, respirant, d'une beauté naturelle incomparable.',
+      "Cultivé sur les terres normandes et rouie à l'ancienne, notre lin haut de gamme est le choix idéal pour les tenues estivales : structuré, respirant, d'une beauté naturelle incomparable.",
     accent: 'Naturel · Structure · Authenticité',
   },
 ];
@@ -1984,7 +1984,7 @@ const CREATIONS: Creation[] = [
     titre: 'La Robe de Mariée',
     sous: 'Dentelle Leavers · Sur mesure',
     description:
-      'Robe de mariée en dentelle de Calais sur fond de soie, traîne amovible et dos travaillé bouton par bouton. Chaque robe est unique, aucun patron n'est réutilisé.',
+      "Robe de mariée en dentelle de Calais sur fond de soie, traîne amovible et dos travaillé bouton par bouton. Chaque robe est unique, aucun patron n'est réutilisé.",
   },
 ];
 
