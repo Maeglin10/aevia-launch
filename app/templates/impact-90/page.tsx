@@ -27,7 +27,11 @@ const C = {
   cream:    "#FAF6EF",
 };
 
-const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Cabin:wght@400;500;600&display=swap');`;
+const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Cabin:wght@400;500;600&display=swap');
+@media (max-width: 900px) {
+  .ml90-navlinks { display: none !important; }
+  .ml90-burger { display: flex !important; }
+}`;
 
 /* ─── Data ───────────────────────────────────────────────────── */
 const NAV_LINKS = [
@@ -547,6 +551,7 @@ function ContactSection() {
 /* ─── Page ───────────────────────────────────────────────────── */
 export default function Page() {
   const [activeProcess, setActiveProcess] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
@@ -580,7 +585,7 @@ export default function Page() {
             <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 9, color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase" }}>Boulangerie Artisanale</p>
           </div>
         </div>
-        <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
+        <div className="ml90-navlinks" style={{ display: "flex", gap: 28, alignItems: "center" }}>
           {NAV_LINKS.map(link => (
             <Link key={link.label} href={link.href} style={{ fontFamily: "'Cabin', sans-serif", fontSize: 13, color: C.muted, textDecoration: "none", transition: "color 0.2s" }}
               onMouseEnter={e => (e.currentTarget.style.color = C.brown)}
@@ -592,7 +597,28 @@ export default function Page() {
             Commander
           </MagneticButton>
         </div>
+        {/* Mobile hamburger */}
+        <button onClick={() => setMobileOpen(!mobileOpen)} className="ml90-burger" aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}>
+          <span style={{ width: 22, height: 2, background: C.brown, borderRadius: 1, display: "block", transition: "transform 0.3s", transform: mobileOpen ? "rotate(45deg) translate(0, 7px)" : "none" }} />
+          <span style={{ width: 22, height: 2, background: C.brown, borderRadius: 1, display: "block", opacity: mobileOpen ? 0 : 1, transition: "opacity 0.3s" }} />
+          <span style={{ width: 22, height: 2, background: C.brown, borderRadius: 1, display: "block", transition: "transform 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(0, -7px)" : "none" }} />
+        </button>
       </nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 64, left: 0, right: 0, zIndex: 49, background: "rgba(250,246,239,0.97)", borderTop: `1px solid ${C.border}`, padding: "20px 28px 28px", display: "flex", flexDirection: "column", gap: 18 }}>
+          {NAV_LINKS.map(link => (
+            <Link key={link.label} href={link.href} onClick={() => setMobileOpen(false)}
+              style={{ fontFamily: "'Cabin', sans-serif", fontSize: 15, color: C.brown, textDecoration: "none", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 600 }}>
+              {link.label}
+            </Link>
+          ))}
+          <button onClick={() => { setMobileOpen(false); document.getElementById("contact")?.scrollIntoView({behavior:"smooth"}); }}
+            style={{ fontFamily: "'Cabin', sans-serif", fontSize: 13, color: C.bg, background: C.brown, padding: "12px 20px", borderRadius: 3, letterSpacing: "0.06em", textTransform: "uppercase", fontWeight: 600, border: "none", cursor: "pointer", marginTop: 8 }}>
+            Commander
+          </button>
+        </div>
+      )}
 
       {/* ── Hero ── */}
       <section ref={heroRef} style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", paddingTop: 64, overflow: "hidden", background: C.bgWarm }}>
