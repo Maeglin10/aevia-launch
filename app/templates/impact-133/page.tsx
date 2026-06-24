@@ -637,8 +637,8 @@ function Nav() {
         </div>
 
         {/* CTA — hidden on mobile */}
+        <div className="forma-cta">
         <MagneticButton
-          className="forma-cta"
           style={{
             padding: "10px 24px",
             background: C.violetDim,
@@ -654,6 +654,7 @@ function Nav() {
         >
           Commission
         </MagneticButton>
+        </div>
 
         {/* Hamburger — mobile only */}
         <button
