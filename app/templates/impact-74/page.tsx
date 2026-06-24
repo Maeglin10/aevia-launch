@@ -139,7 +139,8 @@ const GUEST_OPTIONS = ["1 personne", "2 personnes", "3 personnes", "4 personnes"
 
 export default function AeviaKitchenPage() {
   const heroRef = useRef(null);
-  const [activeMenu, setActiveMenu] = useState(0);
+  const [activeMenu, setActiveMenu] = useState(0)
+  const [mobileOpen, setMobileOpen] = useState(false);;
   const [scrolled, setScrolled] = useState(false);
   const [reservationSent, setReservationSent] = useState(false);
   const [form, setForm] = useState({ date: "", time: "", guests: "", request: "" });
@@ -170,6 +171,16 @@ export default function AeviaKitchenPage() {
               <Link key={l} href="#menus" className="hover:text-[#c9a855] transition-colors">{l}</Link>
             ))}
           </div>
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="lg:hidden flex flex-col gap-[5px] p-1 bg-transparent border-none cursor-pointer"
+            aria-label="Menu"
+          >
+            <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-transform duration-300" style={{ transform: mobileOpen ? 'rotate(45deg) translate(0, 7px)' : 'none' }} />
+            <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-opacity duration-300" style={{ opacity: mobileOpen ? 0 : 1 }} />
+            <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-transform duration-300" style={{ transform: mobileOpen ? 'rotate(-45deg) translate(0, -7px)' : 'none' }} />
+          </button>
           <Link href="#reservation">
             <button className="hidden md:block px-7 py-3 bg-[#c9a855] text-[#11182a] text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-white transition-colors duration-300">
               Réserver
@@ -177,6 +188,16 @@ export default function AeviaKitchenPage() {
           </Link>
         </div>
       </nav>
+      {mobileOpen && (
+        <div className="fixed inset-x-0 top-[58px] z-[98] flex flex-col gap-4 px-6 py-6 lg:hidden" style={{ background: 'rgba(10,10,10,0.97)', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+          {["La carte", "Expériences", "Réserver", "Cave à vins", "À propos"].map((l) => (
+            <a key={l} href={`#${l.toLowerCase().replace(/ /g, '-')}`} onClick={() => setMobileOpen(false)}
+              className="text-white/80 text-sm uppercase tracking-wider no-underline hover:text-white transition-colors">
+              {l}
+            </a>
+          ))}
+        </div>
+      )}
 
       {/* ==========================================
           1. HERO

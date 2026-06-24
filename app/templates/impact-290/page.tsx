@@ -2848,6 +2848,7 @@ function Impact290Page() {
         /* Responsive global */
         @media (max-width: 860px) {
           .r290-navlinks { display: none !important; }
+          .r290-burger { display: flex !important; flex-direction: column; }
           .r290-navcta { display: none !important; }
         }
       `}</style>
@@ -2873,6 +2874,7 @@ function Impact290Page() {
 /* ── Navigation interne ───────────────────────────────────────────────────── */
 function Nav290() {
   const [solid, setSolid] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   React.useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 80);
@@ -2914,7 +2916,8 @@ function Nav290() {
   };
 
   return (
-    <nav style={bar}>
+    <>
+      <nav style={bar}>
       <a href="#hero" style={brand}>
         <div
           style={{
@@ -2971,7 +2974,61 @@ function Nav290() {
           <ForestButton filled>Devis gratuit</ForestButton>
         </a>
       </div>
-    </nav>
+    
+        {/* Mobile hamburger */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="r290-burger"
+          aria-label="Menu"
+          style={{
+            display: 'none',
+            flexDirection: 'column',
+            gap: 5,
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 4,
+          }}
+        >
+          <span style={{ width: 22, height: 2, background: '#1a1a1a', borderRadius: 1, display: 'block', transition: 'transform 0.3s', transform: mobileOpen ? 'rotate(45deg) translate(0, 7px)' : 'none' }} />
+          <span style={{ width: 22, height: 2, background: '#1a1a1a', borderRadius: 1, display: 'block', opacity: mobileOpen ? 0 : 1, transition: 'opacity 0.3s' }} />
+          <span style={{ width: 22, height: 2, background: '#1a1a1a', borderRadius: 1, display: 'block', transition: 'transform 0.3s', transform: mobileOpen ? 'rotate(-45deg) translate(0, -7px)' : 'none' }} />
+        </button>
+        </nav>
+      {mobileOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 58,
+          left: 0,
+          right: 0,
+          zIndex: 98,
+          background: 'rgba(250,248,244,0.98)',
+          borderTop: '1px solid rgba(255,255,255,0.08)',
+          padding: '20px clamp(20px,5vw,48px) 28px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 18,
+        }}>
+          {navLinks.map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              onClick={() => setMobileOpen(false)}
+              style={{
+                color: '#1a1a1a',
+                textDecoration: 'none',
+                fontSize: 15,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                opacity: 0.85,
+              }}
+            >
+              {l.label}
+            </a>
+          ))}
+        </div>
+      )}
+    </>
   );
 }
 

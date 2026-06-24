@@ -306,6 +306,7 @@ interface NavProps {
 function Nav({ cartCount }: NavProps) {
   const { scrollY } = useScroll();
   const [solid, setSolid] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const unsub = scrollY.on('change', (v) => setSolid(v > 80));
@@ -315,7 +316,8 @@ function Nav({ cartCount }: NavProps) {
   const links = ['Shop', 'Drops', 'Craft', 'Lookbook'];
 
   return (
-    <motion.nav
+    <>
+      <motion.nav
       style={{
         position: 'fixed',
         top: 0,
@@ -429,7 +431,26 @@ function Nav({ cartCount }: NavProps) {
           </AnimatePresence>
         </button>
       </div>
+      {/* Mobile hamburger */}
+      <button
+        onClick={() => setMobileOpen(!mobileOpen)}
+        className="af-burger"
+        aria-label="Menu"
+        style={{ display: 'none', flexDirection: 'column', gap: 5, background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
+      >
+        <span style={{ width: 22, height: 2, background: '#fff', borderRadius: 1, display: 'block', transition: 'transform 0.3s', transform: mobileOpen ? 'rotate(45deg) translate(0, 7px)' : 'none' }} />
+        <span style={{ width: 22, height: 2, background: '#fff', borderRadius: 1, display: 'block', opacity: mobileOpen ? 0 : 1, transition: 'opacity 0.3s' }} />
+        <span style={{ width: 22, height: 2, background: '#fff', borderRadius: 1, display: 'block', transition: 'transform 0.3s', transform: mobileOpen ? 'rotate(-45deg) translate(0, -7px)' : 'none' }} />
+      </button>
     </motion.nav>
+    {mobileOpen && (
+      <div style={{ position: 'fixed', top: 58, left: 0, right: 0, zIndex: 98, background: 'rgba(10,10,11,0.97)', borderTop: '1px solid rgba(255,255,255,0.08)', padding: '20px clamp(20px,5vw,48px) 28px', display: 'flex', flexDirection: 'column', gap: 18 }}>
+        {links.map((l) => (
+          <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setMobileOpen(false)} style={{ color: '#fff', textDecoration: 'none', fontSize: 15, letterSpacing: '0.1em', textTransform: 'uppercase', opacity: 0.85 }}>{l}</a>
+        ))}
+      </div>
+    )}
+  </>
   );
 }
 
@@ -2089,6 +2110,7 @@ export default function ImpactSneakerPage() {
 
         @media (max-width: 900px) {
           .af-nav-links { display: none !important; }
+          .af-burger { display: flex !important; flex-direction: column; }
           .af-split-row { grid-template-columns: 1fr !important; }
           .af-split-row > * { order: unset !important; }
           .af-spec-wrap { grid-template-columns: 1fr !important; }
