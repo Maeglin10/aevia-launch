@@ -7,7 +7,6 @@ import {
   useTransform,
   useInView,
   useMotionValue,
-  animate,
 } from 'framer-motion';
 import {
   ArrowRight,
@@ -216,7 +215,7 @@ function ForestButton({
    ════════════════════════════════════════════════════════════════════════════ */
 function HeroSection() {
   const ref = useRef<HTMLElement>(null);
-  const { progress } = useScroll({
+  const { scrollYProgress: progress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
   });
@@ -483,12 +482,12 @@ function HeroSection() {
    2 · SCROLL CROSSFADE — 320vh sticky, 3 visuels
    ════════════════════════════════════════════════════════════════════════════ */
 function ScrollCrossfade() {
-  const n = panels.length;
+  const n = 3;
   const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
   const goTo = (i: number) => {
     setActive(i);
-    animate(progress, (i + 0.5) / n, { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] });
+    progress.set((i + 0.5) / n);
   };
 
   // Opacités des 3 photos (entrée/sortie smooth)
