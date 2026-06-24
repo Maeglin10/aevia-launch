@@ -405,6 +405,7 @@ export default function ImpactFrequencePage() {
   const [activePlan, setActivePlan] = useState(1);
   const [archiveOpen, setArchiveOpen] = useState<number | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
@@ -497,8 +498,8 @@ export default function ImpactFrequencePage() {
             Fréquence
           </motion.div>
 
-          {/* Nav links */}
-          <div style={{ display: "flex", gap: 36, alignItems: "center" }}>
+          {/* Nav links — hidden on mobile */}
+          <div className="freq-navlinks" style={{ display: "flex", gap: 36, alignItems: "center" }}>
             {["Archives", "Auteurs", "Podcast", "À propos"].map(l => (
               <a
                 key={l}
@@ -522,11 +523,12 @@ export default function ImpactFrequencePage() {
 
           {/* Actions */}
           <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-            <Search size={16} style={{ color: C.textMuted, cursor: "pointer" }} />
-            <User size={16} style={{ color: C.textMuted, cursor: "pointer" }} />
+            <Search size={16} className="freq-search" style={{ color: C.textMuted, cursor: "pointer" }} />
+            <User size={16} className="freq-user" style={{ color: C.textMuted, cursor: "pointer" }} />
             <motion.button
               whileHover={{ background: C.redDark }}
               whileTap={{ scale: 0.96 }}
+              className="freq-subscribe"
               style={{
                 padding: "9px 22px",
                 background: C.red,
@@ -543,6 +545,17 @@ export default function ImpactFrequencePage() {
             >
               S'abonner
             </motion.button>
+            {/* Hamburger — mobile only */}
+            <button
+              className="freq-burger"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Menu"
+              style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+            >
+              <span style={{ display: "block", width: 22, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4px, 4px)" : "none" }} />
+              <span style={{ display: "block", width: 22, height: 1.5, background: C.text, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+              <span style={{ display: "block", width: 22, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4px, -4px)" : "none" }} />
+            </button>
           </div>
         </div>
 
@@ -580,6 +593,29 @@ export default function ImpactFrequencePage() {
           ))}
         </div>
       </nav>
+
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 128, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `2px solid ${C.text}`, padding: "24px", display: "flex", flexDirection: "column", gap: 20 }}>
+          {[{ label: "Archives", href: "#archives" }, { label: "Auteurs", href: "#auteurs" }, { label: "Podcast", href: "#contact" }, { label: "À propos", href: "#apropos" }].map(({ label, href }) => (
+            <a key={label} href={href} onClick={() => setMobileOpen(false)} style={{ fontFamily: C.mono, fontSize: 13, letterSpacing: 2, color: C.textMuted, textDecoration: "none", textTransform: "uppercase" }}>
+              {label}
+            </a>
+          ))}
+          <motion.button whileHover={{ background: C.redDark }} style={{ marginTop: 8, padding: "12px 22px", background: C.red, color: "#fff", border: "none", fontFamily: C.mono, fontSize: 11, letterSpacing: 2, textTransform: "uppercase", cursor: "pointer", fontWeight: 700, width: "fit-content" }}>
+            S'abonner
+          </motion.button>
+        </div>
+      )}
+
+      <style>{`
+        @media (max-width: 900px) {
+          .freq-navlinks { display: none !important; }
+          .freq-search { display: none !important; }
+          .freq-user { display: none !important; }
+          .freq-subscribe { display: none !important; }
+          .freq-burger { display: flex !important; }
+        }
+      `}</style>
 
       {/* HERO — featured article newspaper layout */}
       <section id="hero"

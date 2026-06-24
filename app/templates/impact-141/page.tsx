@@ -136,6 +136,7 @@ export default function SonicPlayerPage() {
   const [activeRelease, setActiveRelease] = useState(0);
   const [progress, setProgress] = useState(35); // simulated percentage
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -208,11 +209,32 @@ export default function SonicPlayerPage() {
             </Link>
           </div>
 
-          <button className="px-6 py-2 border border-purple-500/30 text-purple-400 text-[10px] font-bold uppercase tracking-widest hover:bg-purple-500 hover:text-white transition-all rounded-full flex items-center gap-2">
+          <button className="px-6 py-2 border border-purple-500/30 text-purple-400 text-[10px] font-bold uppercase tracking-widest hover:bg-purple-500 hover:text-white transition-all rounded-full hidden lg:flex items-center gap-2">
             <Headphones className="w-4 h-4" /> Listen Live
+          </button>
+          <button
+            className="lg:hidden flex flex-col gap-1.5 p-2"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Menu"
+          >
+            <span className={`block w-6 h-0.5 bg-white transition-all ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
+            <span className={`block w-6 h-0.5 bg-white transition-all ${mobileOpen ? "opacity-0" : ""}`} />
+            <span className={`block w-6 h-0.5 bg-white transition-all ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
           </button>
         </div>
       </nav>
+      {mobileOpen && (
+        <div className="fixed inset-x-0 top-[72px] z-40 bg-[#030014]/95 backdrop-blur-md border-b border-white/5 flex flex-col gap-6 px-6 py-8 lg:hidden">
+          {["Releases", "Artists", "Tour", "Store"].map(item => (
+            <a key={item} href="#hero" onClick={() => setMobileOpen(false)} className="text-sm font-bold uppercase tracking-widest text-slate-400 hover:text-purple-400 transition-colors">
+              {item}
+            </a>
+          ))}
+          <button className="mt-2 px-6 py-3 border border-purple-500/30 text-purple-400 text-[10px] font-bold uppercase tracking-widest hover:bg-purple-500 hover:text-white transition-all rounded-full flex items-center gap-2 w-fit">
+            <Headphones className="w-4 h-4" /> Listen Live
+          </button>
+        </div>
+      )}
 
       {/* ==========================================
           1. IMMERSIVE PLAYER HERO

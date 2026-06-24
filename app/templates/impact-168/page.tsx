@@ -680,6 +680,7 @@ export default function ImpactEclatPage() {
   const [navScrolled, setNavScrolled] = useState(false);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
   const [cartOpen, setCartOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   // Multi-page state
   const [page, setPage] = useState<EclatPage>("home");
@@ -768,8 +769,8 @@ export default function ImpactEclatPage() {
           Éclat
         </motion.div>
 
-        {/* Nav links */}
-        <div style={{ display: "flex", gap: 30, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
+        {/* Nav links — hidden on mobile */}
+        <div className="eclat-navlinks" style={{ display: "flex", gap: 30, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
           {NAV_PAGES.map(({ key, label }) => (
             <a
               key={key}
@@ -799,11 +800,12 @@ export default function ImpactEclatPage() {
 
         {/* Actions */}
         <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
-          <Search size={18} style={{ color: C.muted, cursor: "pointer" }} />
-          <User size={18} style={{ color: C.muted, cursor: "pointer" }} />
+          <Search size={18} className="eclat-search" style={{ color: C.muted, cursor: "pointer" }} />
+          <User size={18} className="eclat-user" style={{ color: C.muted, cursor: "pointer" }} />
           <motion.button
             whileTap={{ scale: 0.94 }}
             onClick={() => setCartOpen(true)}
+            className="eclat-cart"
             style={{
               position: "relative",
               display: "flex",
@@ -852,8 +854,42 @@ export default function ImpactEclatPage() {
               </span>
             )}
           </motion.button>
+          {/* Hamburger — mobile only */}
+          <button
+            className="eclat-burger"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Menu"
+            style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+          >
+            <span style={{ display: "block", width: 22, height: 1.5, background: C.gold, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4px, 4px)" : "none" }} />
+            <span style={{ display: "block", width: 22, height: 1.5, background: C.gold, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+            <span style={{ display: "block", width: 22, height: 1.5, background: C.gold, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4px, -4px)" : "none" }} />
+          </button>
         </div>
       </nav>
+
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 68, left: 0, right: 0, zIndex: 99, background: "rgba(13,13,13,0.98)", borderBottom: `1px solid ${C.border}`, padding: "24px", display: "flex", flexDirection: "column", gap: 20 }}>
+          {NAV_PAGES.map(({ key, label }) => (
+            <a key={key} href="#" onClick={e => { e.preventDefault(); goTo(key); setMobileOpen(false); }} style={{ fontSize: 14, color: page === key ? C.cream : C.muted, textDecoration: "none", fontWeight: 500, borderBottom: page === key ? `1px solid ${C.gold}` : "none", paddingBottom: 2, width: "fit-content" }}>
+              {label}
+            </a>
+          ))}
+          <button onClick={() => { setCartOpen(true); setMobileOpen(false); }} style={{ marginTop: 8, display: "flex", alignItems: "center", gap: 8, padding: "10px 20px", background: "transparent", color: C.gold, border: `1px solid ${C.gold}`, fontSize: 13, fontWeight: 600, cursor: "pointer", width: "fit-content" }}>
+            <ShoppingBag size={15} /> Panier {cartCount > 0 && `(${cartCount})`}
+          </button>
+        </div>
+      )}
+
+      <style>{`
+        @media (max-width: 900px) {
+          .eclat-navlinks { display: none !important; }
+          .eclat-search { display: none !important; }
+          .eclat-user { display: none !important; }
+          .eclat-cart { display: none !important; }
+          .eclat-burger { display: flex !important; }
+        }
+      `}</style>
 
       {/* ══════════ HOME PAGE (original single-page content, unchanged) ══════════ */}
       {page === "home" && (
