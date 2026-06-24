@@ -345,6 +345,7 @@ export default function Impact157Page() {
   const [selectedFont, setSelectedFont] = useState(0);
   const [engravingText, setEngravingText] = useState("");
   const [activeFilter, setActiveFilter] = useState("Tous");
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const filters = ["Tous", "Bagues", "Colliers", "Boucles d'oreilles", "Bracelets", "Bespoke"];
   const filteredCollections =
@@ -405,8 +406,8 @@ export default function Impact157Page() {
           AURUM
         </div>
 
-        {/* Nav links */}
-        <div style={{ display: "flex", gap: 40, alignItems: "center" }}>
+        {/* Nav links — hidden on mobile */}
+        <div className="aurum-navlinks" style={{ display: "flex", gap: 40, alignItems: "center" }}>
           {["Collections", "Sur-Mesure", "Certifications", "Maison", "Contact"].map(
             (l) => (
               <a
@@ -434,11 +435,9 @@ export default function Impact157Page() {
           )}
         </div>
 
-        {/* CTA */}
-        <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          <span
-            style={{ fontSize: 12, color: C.textMuted, letterSpacing: 1 }}
-          >
+        {/* CTA — hidden on mobile */}
+        <div className="aurum-cta" style={{ display: "flex", alignItems: "center", gap: 24 }}>
+          <span style={{ fontSize: 12, color: C.textMuted, letterSpacing: 1 }}>
             +33 1 42 60 XX XX
           </span>
           <motion.a
@@ -460,7 +459,40 @@ export default function Impact157Page() {
             Rendez-vous
           </motion.a>
         </div>
+
+        {/* Hamburger — mobile only */}
+        <button
+          className="aurum-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.gold, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.gold, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.gold, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
       </nav>
+
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(10,10,10,0.98)", borderBottom: `1px solid ${C.border}`, padding: "32px 24px", display: "flex", flexDirection: "column", gap: 24 }}>
+          {["Collections", "Sur-Mesure", "Certifications", "Maison", "Contact"].map(l => (
+            <a key={l} href="#contact" onClick={() => setMobileOpen(false)} style={{ fontSize: 13, letterSpacing: 2, textTransform: "uppercase", color: C.textMuted, textDecoration: "none", fontWeight: 500 }}>
+              {l}
+            </a>
+          ))}
+          <a href="#hero" onClick={() => setMobileOpen(false)} style={{ marginTop: 8, padding: "12px 24px", background: C.gold, color: C.bg, fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", textDecoration: "none", textAlign: "center" }}>
+            Rendez-vous
+          </a>
+        </div>
+      )}
+
+      <style>{`
+        @media (max-width: 900px) {
+          .aurum-navlinks { display: none !important; }
+          .aurum-cta { display: none !important; }
+          .aurum-burger { display: flex !important; }
+        }
+      `}</style>
 
       {/* ── MARQUEE ─────────────────────────────────────────────────────────── */}
       <div style={{ paddingTop: 72 }}>

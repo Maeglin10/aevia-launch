@@ -544,6 +544,7 @@ function ParametricGrid() {
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40);
@@ -608,8 +609,9 @@ function Nav() {
           </span>
         </div>
 
-        {/* Nav links */}
+        {/* Nav links — hidden on mobile */}
         <div
+          className="forma-navlinks"
           style={{
             display: "flex",
             gap: 40,
@@ -626,7 +628,7 @@ function Nav() {
                 key={item}
                 onClick={() => document.getElementById(item.toLowerCase())?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ color: C.cream }}
-                style={{ color: C.muted, textDecoration: "none", transition: "color 0.2s" }}
+                style={{ color: C.muted, textDecoration: "none", transition: "color 0.2s", cursor: "pointer" }}
               >
                 {item}
               </motion.a>
@@ -634,8 +636,9 @@ function Nav() {
           )}
         </div>
 
-        {/* CTA */}
+        {/* CTA — hidden on mobile */}
         <MagneticButton
+          className="forma-cta"
           style={{
             padding: "10px 24px",
             background: C.violetDim,
@@ -651,7 +654,50 @@ function Nav() {
         >
           Commission
         </MagneticButton>
+
+        {/* Hamburger — mobile only */}
+        <button
+          className="forma-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.cream, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.cream, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.cream, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
       </div>
+
+      {/* Mobile overlay */}
+      {mobileOpen && (
+        <div style={{ display: "none" }} className="forma-mobile-menu">
+          <div style={{
+            padding: "32px 24px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 28,
+          }}>
+            {["Projects", "Services", "Manifesto", "Technology", "Contact"].map(item => (
+              <a
+                key={item}
+                onClick={() => { document.getElementById(item.toLowerCase())?.scrollIntoView({behavior:"smooth"}); setMobileOpen(false); }}
+                style={{ fontFamily: C.fontMono, fontSize: 13, letterSpacing: "0.14em", textTransform: "uppercase", color: C.muted, textDecoration: "none", cursor: "pointer" }}
+              >
+                {item}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        @media (max-width: 900px) {
+          .forma-navlinks { display: none !important; }
+          .forma-cta { display: none !important; }
+          .forma-burger { display: flex !important; }
+          .forma-mobile-menu { display: block !important; background: rgba(5,5,8,0.97); border-top: 1px solid rgba(255,255,255,0.08); }
+        }
+      `}</style>
     </nav>
   );
 }
