@@ -37,7 +37,6 @@ const SOINS = [
 export default function CliniqueBoisVertPage() {
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"])
   const heroOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
@@ -68,16 +67,6 @@ export default function CliniqueBoisVertPage() {
               <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[#3a7d44] transition-colors">{l}</Link>
             ))}
           </div>
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden flex flex-col gap-[5px] p-1 bg-transparent border-none cursor-pointer"
-            aria-label="Menu"
-          >
-            <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-transform duration-300" style={{ transform: mobileOpen ? 'rotate(45deg) translate(0, 7px)' : 'none' }} />
-            <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-opacity duration-300" style={{ opacity: mobileOpen ? 0 : 1 }} />
-            <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-transform duration-300" style={{ transform: mobileOpen ? 'rotate(-45deg) translate(0, -7px)' : 'none' }} />
-          </button>
           <div className="flex items-center gap-3">
             <a href="tel:0561789012" className="hidden md:flex items-center gap-2 text-[#3a7d44] font-bold text-sm">
               <Phone className="w-4 h-4" /> 05 61 78 90 12

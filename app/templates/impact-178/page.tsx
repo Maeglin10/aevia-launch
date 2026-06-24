@@ -53,7 +53,6 @@ const SERVICES = [
 export default function AltaTransactionsPage() {
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "28%"])
   const heroOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
@@ -81,16 +80,6 @@ export default function AltaTransactionsPage() {
               <Link key={l} href="#contact" className="hover:text-[#b8944a] transition-colors">{l}</Link>
             ))}
           </div>
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden flex flex-col gap-[5px] p-1 bg-transparent border-none cursor-pointer"
-            aria-label="Menu"
-          >
-            <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-transform duration-300" style={{ transform: mobileOpen ? 'rotate(45deg) translate(0, 7px)' : 'none' }} />
-            <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-opacity duration-300" style={{ opacity: mobileOpen ? 0 : 1 }} />
-            <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-transform duration-300" style={{ transform: mobileOpen ? 'rotate(-45deg) translate(0, -7px)' : 'none' }} />
-          </button>
           <div className="hidden md:flex items-center gap-4">
             <a href="tel:0144876543" className="text-[10px] font-bold uppercase tracking-widest text-[#b8944a]">01 44 87 65 43</a>
             <button className="px-6 py-2.5 bg-[#b8944a] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#cdab66] transition-colors duration-300">
@@ -109,16 +98,6 @@ export default function AltaTransactionsPage() {
           </Sheet>
         </div>
       </nav>
-      {mobileOpen && (
-        <div className="fixed inset-x-0 top-[58px] z-[98] flex flex-col gap-4 px-6 py-6 lg:hidden" style={{ background: 'rgba(10,10,10,0.97)', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-          {["Acheter", "Vendre", "Estimer", "Programme neuf", "Contact"].map((l) => (
-            <a key={l} href={`#${l.toLowerCase().replace(/ /g, '-')}`} onClick={() => setMobileOpen(false)}
-              className="text-white/80 text-sm uppercase tracking-wider no-underline hover:text-white transition-colors">
-              {l}
-            </a>
-          ))}
-        </div>
-      )}
 
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">

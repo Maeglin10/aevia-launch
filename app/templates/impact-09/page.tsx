@@ -190,9 +190,10 @@ export default function AstrumReachPremium() {
   const { scrollYProgress } = useScroll({ target: containerRef })
 
   const goTo = (p: ActivePage) => {
-    setPage(p)
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "auto" })
+    if (p === "home") {
+      window.location.href = "/templates/impact-09";
+    } else {
+      window.location.href = `/templates/impact-09/${p}`;
     }
   }
 

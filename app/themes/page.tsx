@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, Suspense, useMemo } from "react";
+import { useState, useRef, useEffect, Suspense, useMemo } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { ArrowRight, Sparkles, Search, Star } from "lucide-react";
@@ -167,12 +167,20 @@ interface ThemeItem {
 // ─── Thumbnail card (Showcase-style design) ────────────────────────────────────
 function ThumbCard({ item, index }: { item: ThemeItem; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
   const accent = CAT_COLOR[item.category] ?? "#7c3aed";
   const [thumbFailed, setThumbFailed] = useState(false);
   const [thumbLoaded, setThumbLoaded] = useState(false);
   const [hovered, setHovered] = useState(false);
   const thumbSrc = `/thumbnails/${item.id}.webp`;
+
+  // Handle case where browser already has image cached — onLoad won't fire
+  useEffect(() => {
+    if (imgRef.current?.complete && imgRef.current.naturalWidth > 0) {
+      setThumbLoaded(true);
+    }
+  }, []);
 
   return (
     <motion.div
@@ -212,6 +220,7 @@ function ThumbCard({ item, index }: { item: ThemeItem; index: number }) {
             {!thumbFailed && (
               // eslint-disable-next-line @next/next/no-img-element
               <img
+                ref={imgRef}
                 src={thumbSrc}
                 alt={item.label}
                 loading={index < 8 ? "eager" : "lazy"}

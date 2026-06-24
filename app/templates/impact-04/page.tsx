@@ -172,7 +172,6 @@ const FAQS = [
 
 export default function LEtoileRestaurant() {
   const [reservationOpen, setReservationOpen] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [guests, setGuests] = useState(2)
   const heroRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -213,16 +212,6 @@ export default function LEtoileRestaurant() {
               Reserve a Table
             </button>
           </div>
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden flex flex-col gap-[5px] p-1 bg-transparent border-none cursor-pointer"
-            aria-label="Menu"
-          >
-            <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-transform duration-300" style={{ transform: mobileOpen ? 'rotate(45deg) translate(0, 7px)' : 'none' }} />
-            <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-opacity duration-300" style={{ opacity: mobileOpen ? 0 : 1 }} />
-            <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-transform duration-300" style={{ transform: mobileOpen ? 'rotate(-45deg) translate(0, -7px)' : 'none' }} />
-          </button>
 
           <Sheet>
             <SheetTrigger className="lg:hidden cursor-pointer"><Menu className="w-5 h-5" /></SheetTrigger>
@@ -243,16 +232,6 @@ export default function LEtoileRestaurant() {
           </Sheet>
         </div>
       </nav>
-      {mobileOpen && (
-        <div className="fixed inset-x-0 top-[58px] z-[98] flex flex-col gap-4 px-6 py-6 lg:hidden" style={{ background: 'rgba(10,10,10,0.97)', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-          {['Home', 'Menu', 'Reservation', 'About', 'Contact'].map((l) => (
-            <a key={l} href={`#${l.toLowerCase().replace(/ /g, '-')}`} onClick={() => setMobileOpen(false)}
-              className="text-white/80 text-sm uppercase tracking-wider no-underline hover:text-white transition-colors">
-              {l}
-            </a>
-          ))}
-        </div>
-      )}
 
       {page === 'home' && (
       <>

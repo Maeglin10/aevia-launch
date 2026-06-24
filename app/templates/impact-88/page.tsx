@@ -1258,13 +1258,13 @@ function ContactFooter() {
             © 2025 Velvet Nails — Tous droits réservés
           </p>
           <div className="flex gap-5">
-            <Link href="#contact" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <Link href="/templates/impact-88/mentions-legales" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
               Mentions légales
             </Link>
-            <Link href="#contact" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <Link href="/templates/impact-88/confidentialite" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
               Confidentialité
             </Link>
-            <Link href="#contact" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <Link href="/templates/impact-88/cgu" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
               CGU
             </Link>
           </div>

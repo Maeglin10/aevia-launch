@@ -712,9 +712,12 @@ export default function NovaPlatformSaaS() {
             <div key={col.title}>
               <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-5">{col.title}</h4>
               <ul className="space-y-3">
-                {col.items.map(item => (
-                  <li key={item}><a href="#features" className="text-sm text-zinc-400 hover:text-white transition-all duration-200 cursor-pointer">{item}</a></li>
-                ))}
+                {col.items.map(item => {
+                  const href = `/templates/impact-05/${item.toLowerCase().replace(/ /g, '-')}`;
+                  return (
+                    <li key={item}><Link href={href} className="text-sm text-zinc-400 hover:text-white transition-all duration-200 cursor-pointer">{item}</Link></li>
+                  );
+                })}
               </ul>
             </div>
           ))}
@@ -723,9 +726,12 @@ export default function NovaPlatformSaaS() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <span className="text-xs text-zinc-600">&copy; 2026 NovaPlatform, Inc. All rights reserved.</span>
           <div className="flex gap-6">
-            {["Privacy", "Terms", "Security", "GDPR"].map(s => (
-              <a key={s} href="#features" className="text-xs text-zinc-600 hover:text-white transition-all duration-200 cursor-pointer">{s}</a>
-            ))}
+            {["Privacy", "Terms", "Security", "GDPR"].map(s => {
+              const href = `/templates/impact-05/${s.toLowerCase()}`;
+              return (
+                <Link key={s} href={href} className="text-xs text-zinc-600 hover:text-white transition-all duration-200 cursor-pointer">{s}</Link>
+              );
+            })}
           </div>
         </div>
       </footer>

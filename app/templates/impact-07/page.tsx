@@ -133,17 +133,17 @@ export default function AetherSoundPage() {
 
           <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Reference", "Amplification", "Source", "Consultation", "Archives"].map(link => (
-              <Link key={link} href="#reference" className="hover:text-[#c9a84c] transition-colors cursor-pointer">{link}</Link>
+              <Link key={link} href={`/templates/impact-07/${link.toLowerCase()}`} className="hover:text-[#c9a84c] transition-colors cursor-pointer">{link}</Link>
             ))}
           </div>
 
           <div className="flex items-center gap-8">
-             <button className="hidden md:flex items-center gap-3 group">
+             <Link href="/templates/impact-07/client-lounge" className="hidden md:flex items-center gap-3 group">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[#c9a84c] transition-colors">Client_Lounge</span>
                 <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 group-hover:bg-[#c9a84c] group-hover:text-black group-hover:border-[#c9a84c] transition-all">
                    <Volume2 className="w-4 h-4" />
                 </div>
-             </button>
+             </Link>
              <button onClick={() => setMenuOpen(true)} className="lg:hidden text-[#c9a84c]"><Menu className="w-6 h-6" /></button>
           </div>
         </div>
@@ -156,7 +156,7 @@ export default function AetherSoundPage() {
              <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40 hover:text-[#c9a84c]"><X className="w-10 h-10"/></button>
              <div className="flex flex-col gap-6 text-6xl font-black uppercase italic text-white/5">
                 {["System", "Engineering", "Consult", "About"].map(l => (
-                   <Link key={l} href="#reference" onClick={() => setMenuOpen(false)} className="hover:text-[#c9a84c] transition-all">{l}</Link>
+                   <Link key={l} href={`/templates/impact-07/${l.toLowerCase()}`} onClick={() => setMenuOpen(false)} className="hover:text-[#c9a84c] transition-all">{l}</Link>
                 ))}
              </div>
           </motion.div>
@@ -185,7 +185,7 @@ export default function AetherSoundPage() {
                 <MagneticBtn className="px-12 py-5 bg-[#c9a84c] text-black text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all cursor-pointer shadow-[0_0_40px_rgba(201,168,76,0.3)]">
                   Request Audition
                 </MagneticBtn>
-                <Link href="#reference" className="px-12 py-5 border border-white/20 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-white hover:text-black transition-all flex items-center justify-center gap-3">
+                <Link href="/templates/impact-07/current-collection" className="px-12 py-5 border border-white/20 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-white hover:text-black transition-all flex items-center justify-center gap-3">
                   Current Collection <ArrowRight className="w-4 h-4" />
                 </Link>
              </div>
@@ -231,7 +231,7 @@ export default function AetherSoundPage() {
                   <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">The <br/> <span className="text-[#c9a84c]">Line.</span></h2>
                   <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">Reference Manifest // Hand-Crafted // Series 07</p>
                </div>
-               <Link href="#realisations" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#c9a84c] border-b border-[#c9a84c] pb-2 hover:text-white hover:border-white transition-all">Download Technical Archive</Link>
+               <Link href="/templates/impact-07/technical-archive" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#c9a84c] border-b border-[#c9a84c] pb-2 hover:text-white hover:border-white transition-all">Download Technical Archive</Link>
             </div>
           </Reveal>
 
@@ -516,30 +516,30 @@ export default function AetherSoundPage() {
            <div className="lg:col-span-2">
               <h4 className="text-[11px] font-black uppercase tracking-widest text-[#c9a84c] mb-12">Instruments</h4>
               <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                 <li><Link href="#reference" className="hover:text-white transition-colors">Aether_One</Link></li>
-                 <li><Link href="#reference" className="hover:text-white transition-colors">Vortex_Amplification</Link></li>
-                 <li><Link href="#reference" className="hover:text-white transition-colors">Sonic_Prism_DAC</Link></li>
-                 <li><Link href="#reference" className="hover:text-white transition-colors">Legacy_Support</Link></li>
+                 <li><Link href="/templates/impact-07/aether-one" className="hover:text-white transition-colors">Aether_One</Link></li>
+                 <li><Link href="/templates/impact-07/vortex-amplification" className="hover:text-white transition-colors">Vortex_Amplification</Link></li>
+                 <li><Link href="/templates/impact-07/sonic-prism-dac" className="hover:text-white transition-colors">Sonic_Prism_DAC</Link></li>
+                 <li><Link href="/templates/impact-07/legacy-support" className="hover:text-white transition-colors">Legacy_Support</Link></li>
               </ul>
            </div>
 
            <div className="lg:col-span-2">
               <h4 className="text-[11px] font-black uppercase tracking-widest text-[#c9a84c] mb-12">Engineering</h4>
               <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                 <li><Link href="#reference" className="hover:text-white transition-colors">The_Process</Link></li>
-                 <li><Link href="#reference" className="hover:text-white transition-colors">Material_Science</Link></li>
-                 <li><Link href="#reference" className="hover:text-white transition-colors">Room_Correction</Link></li>
-                 <li><Link href="#reference" className="hover:text-white transition-colors">Consultation</Link></li>
+                 <li><Link href="/templates/impact-07/the-process" className="hover:text-white transition-colors">The_Process</Link></li>
+                 <li><Link href="/templates/impact-07/material-science" className="hover:text-white transition-colors">Material_Science</Link></li>
+                 <li><Link href="/templates/impact-07/room-correction" className="hover:text-white transition-colors">Room_Correction</Link></li>
+                 <li><Link href="/templates/impact-07/consultation" className="hover:text-white transition-colors">Consultation</Link></li>
               </ul>
            </div>
 
            <div className="lg:col-span-2">
               <h4 className="text-[11px] font-black uppercase tracking-widest text-[#c9a84c] mb-12">Studio</h4>
               <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                 <li><Link href="#reference" className="hover:text-white transition-colors">The_Maison</Link></li>
-                 <li><Link href="#reference" className="hover:text-white transition-colors">Global_Units</Link></li>
-                 <li><Link href="#reference" className="hover:text-white transition-colors">Technical_Kit</Link></li>
-                 <li><Link href="#reference" className="hover:text-white transition-colors">Archives</Link></li>
+                 <li><Link href="/templates/impact-07/the-maison" className="hover:text-white transition-colors">The_Maison</Link></li>
+                 <li><Link href="/templates/impact-07/global-units" className="hover:text-white transition-colors">Global_Units</Link></li>
+                 <li><Link href="/templates/impact-07/technical-kit" className="hover:text-white transition-colors">Technical_Kit</Link></li>
+                 <li><Link href="/templates/impact-07/archives" className="hover:text-white transition-colors">Archives</Link></li>
               </ul>
            </div>
         </div>
