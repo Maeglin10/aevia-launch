@@ -37,6 +37,7 @@ const SERVICES = [
 export default function SecurFastPage() {
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"])
   const heroOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
@@ -62,6 +63,16 @@ export default function SecurFastPage() {
               <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[#2563eb] transition-colors">{l}</Link>
             ))}
           </div>
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="lg:hidden flex flex-col gap-[5px] p-1 bg-transparent border-none cursor-pointer"
+            aria-label="Menu"
+          >
+            <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-transform duration-300" style={{ transform: mobileOpen ? 'rotate(45deg) translate(0, 7px)' : 'none' }} />
+            <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-opacity duration-300" style={{ opacity: mobileOpen ? 0 : 1 }} />
+            <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-transform duration-300" style={{ transform: mobileOpen ? 'rotate(-45deg) translate(0, -7px)' : 'none' }} />
+          </button>
           <div className="flex items-center gap-3">
             <a href="tel:0388234567" className="hidden md:flex items-center gap-2 text-[#2563eb] font-bold text-sm">
               <Phone className="w-4 h-4" /> 03 88 23 45 67
@@ -81,6 +92,16 @@ export default function SecurFastPage() {
           </div>
         </div>
       </nav>
+      {mobileOpen && (
+        <div className="fixed inset-x-0 top-[58px] z-[98] flex flex-col gap-4 px-6 py-6 lg:hidden" style={{ background: 'rgba(10,10,10,0.97)', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+          {["Services", "Urgences", "Tarifs", "Zone", "Contact"].map((l) => (
+            <a key={l} href={`#${l.toLowerCase().replace(/ /g, '-')}`} onClick={() => setMobileOpen(false)}
+              className="text-white/80 text-sm uppercase tracking-wider no-underline hover:text-white transition-colors">
+              {l}
+            </a>
+          ))}
+        </div>
+      )}
 
       {/* ── URGENCE TOP BANNER ── */}
       <div className="pt-0 fixed top-0 left-0 right-0 z-40 translate-y-[72px]">

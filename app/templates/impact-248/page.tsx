@@ -373,6 +373,7 @@ function AccentButton({
    ════════════════════════════════════════════════════════════════════════════ */
 function Nav() {
   const [solid, setSolid] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   React.useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 72);
@@ -425,7 +426,8 @@ function Nav() {
   };
 
   return (
-    <nav style={bar} aria-label="Navigation principale">
+    <>
+      <nav style={bar} aria-label="Navigation principale">
       <a href="#haut" style={brand}>
         Ostéo&nbsp;République
       </a>
@@ -439,13 +441,68 @@ function Nav() {
           Prendre RDV
         </AccentButton>
       </div>
-      <style>{`
+      
+        {/* Mobile hamburger */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="or-burger"
+          aria-label="Menu"
+          style={{
+            display: 'none',
+            flexDirection: 'column',
+            gap: 5,
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 4,
+          }}
+        >
+          <span style={{ width: 22, height: 2, background: '#ffffff', borderRadius: 1, display: 'block', transition: 'transform 0.3s', transform: mobileOpen ? 'rotate(45deg) translate(0, 7px)' : 'none' }} />
+          <span style={{ width: 22, height: 2, background: '#ffffff', borderRadius: 1, display: 'block', opacity: mobileOpen ? 0 : 1, transition: 'opacity 0.3s' }} />
+          <span style={{ width: 22, height: 2, background: '#ffffff', borderRadius: 1, display: 'block', transition: 'transform 0.3s', transform: mobileOpen ? 'rotate(-45deg) translate(0, -7px)' : 'none' }} />
+        </button>
+        <style>{`
         @media (max-width: 860px) {
           .or-navlinks { display: none !important; }
+          .or-burger { display: flex !important; flex-direction: column; }
           .or-navcta { display: none !important; }
         }
       `}</style>
     </nav>
+      {mobileOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 58,
+          left: 0,
+          right: 0,
+          zIndex: 98,
+          background: 'rgba(10,10,10,0.97)',
+          borderTop: '1px solid rgba(255,255,255,0.08)',
+          padding: '20px clamp(20px,5vw,48px) 28px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 18,
+        }}>
+          {links.map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              onClick={() => setMobileOpen(false)}
+              style={{
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: 15,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                opacity: 0.85,
+              }}
+            >
+              {l.label}
+            </a>
+          ))}
+        </div>
+      )}
+    </>
   );
 }
 
