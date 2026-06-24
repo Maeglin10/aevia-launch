@@ -7,6 +7,8 @@ import {
   useTransform,
   useInView,
   MotionValue,
+  useMotionValue,
+  animate,
 } from 'framer-motion';
 import {
   ArrowRight,
@@ -764,11 +766,13 @@ function ProgressDot({
 }
 
 function ScrollCrossfade() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start start', 'end end'],
-  });
+  const n = SLIDES.length;
+  const progress = useMotionValue(0.5 / n);
+  const [active, setActive] = useState(0);
+  const goTo = (i: number) => {
+    setActive(i);
+    animate(progress, (i + 0.5) / n, { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] });
+  };
 
   return (
     <>
@@ -781,7 +785,7 @@ function ScrollCrossfade() {
       <section
         id="crossfade"
         ref={ref}
-        style={{ height: '320vh', position: 'relative', background: C.blackDeep }}
+        style={{ height: '100vh', overflow: 'hidden', position: 'relative', background: C.blackDeep }}
       >
         <div
           style={{
@@ -798,7 +802,7 @@ function ScrollCrossfade() {
               slide={slide}
               i={i}
               total={SLIDES.length}
-              progress={scrollYProgress}
+              progress={progress}
             />
           ))}
 
@@ -807,7 +811,7 @@ function ScrollCrossfade() {
             const seg = 1 / SLIDES.length;
             // eslint-disable-next-line react-hooks/rules-of-hooks
             const numOpacity = useTransform(
-              scrollYProgress,
+              progress,
               [i * seg, (i + 0.15) * seg, (i + 0.85) * seg, (i + 1) * seg],
               i === 0 ? [1, 1, 1, 0] : i === SLIDES.length - 1 ? [0, 1, 1, 1] : [0, 1, 1, 0],
             );
@@ -840,7 +844,7 @@ function ScrollCrossfade() {
               slide={slide}
               i={i}
               total={SLIDES.length}
-              progress={scrollYProgress}
+              progress={progress}
             />
           ))}
 
@@ -862,7 +866,7 @@ function ScrollCrossfade() {
                 key={i}
                 i={i}
                 total={SLIDES.length}
-                progress={scrollYProgress}
+                progress={progress}
               />
             ))}
           </div>

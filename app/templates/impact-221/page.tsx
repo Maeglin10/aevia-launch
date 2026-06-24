@@ -12,6 +12,8 @@ import {
   useTransform,
   useInView,
   AnimatePresence,
+  useMotionValue,
+  animate,
 } from 'framer-motion';
 import {
   Zap,
@@ -385,19 +387,39 @@ const SLIDES = [
 ];
 
 function StickyCrossfade() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start start', 'end end'] });
-
-  const op0 = useTransform(scrollYProgress, [0, 0.28, 0.42], [1, 1, 0]);
-  const op1 = useTransform(scrollYProgress, [0.28, 0.42, 0.70, 0.82], [0, 1, 1, 0]);
-  const op2 = useTransform(scrollYProgress, [0.70, 0.82, 1], [0, 1, 1]);
-  const barW = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
+  const n = SLIDES.length;
+  const progress = useMotionValue(0.5 / n);
+  const [active, setActive] = useState(0);
+  const op0 = useTransform(progress, [0, 0.28, 0.42], [1, 1, 0]);
+  const op1 = useTransform(progress, [0.28, 0.42, 0.70, 0.82], [0, 1, 1, 0]);
+  const op2 = useTransform(progress, [0.70, 0.82, 1], [0, 1, 1]);
+  const barW = useTransform(progress, [0, 1], ['0%', '100%']);
 
   const opacities = [op0, op1, op2];
+  const goTo = (i: number) => {
+    setActive(i);
+    animate(progress, (i + 0.5) / n, { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] });
+  };
 
   return (
-    <div ref={containerRef} id="about" style={{ height: '320vh', position: 'relative' }}>
-      <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
+    <div id="about" style={{ height: '100vh', overflow: 'hidden', position: 'relative' }}>
+      <div style={{ position: 'relative', height: '100%', overflow: 'hidden' }}>
+        {/* Carousel navigation */}
+        <button
+          onClick={() => goTo((active - 1 + n) % n)}
+          aria-label="Slide précédent"
+          style={{ position: 'absolute', left: 'clamp(16px,3vw,36px)', top: '50%', transform: 'translateY(-50%)', zIndex: 10, background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.3)', color: '#fff', width: 44, height: 44, borderRadius: '50%', cursor: 'pointer', fontSize: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}
+        >&#8249;</button>
+        <button
+          onClick={() => goTo((active + 1) % n)}
+          aria-label="Slide suivant"
+          style={{ position: 'absolute', right: 'clamp(16px,3vw,36px)', top: '50%', transform: 'translateY(-50%)', zIndex: 10, background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.3)', color: '#fff', width: 44, height: 44, borderRadius: '50%', cursor: 'pointer', fontSize: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}
+        >&#8250;</button>
+        <div style={{ position: 'absolute', bottom: 28, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 8, zIndex: 10 }}>
+          {Array.from({ length: n }, (_, i) => (
+            <button key={i} onClick={() => goTo(i)} aria-label={`Slide ${i + 1}`} style={{ width: 8, height: 8, borderRadius: '50%', background: active === i ? '#fff' : 'rgba(255,255,255,0.35)', border: 'none', cursor: 'pointer', padding: 0, transition: 'background 0.3s' }} />
+          ))}
+        </div>
         {/* Progress bar */}
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: C.border, zIndex: 10 }}>
           <motion.div style={{ height: '100%', background: C.blue, width: barW, boxShadow: `0 0 10px ${C.blueGlow}` }} />

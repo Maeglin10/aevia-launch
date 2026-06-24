@@ -6,6 +6,8 @@ import {
   useScroll,
   useTransform,
   useInView,
+  useMotionValue,
+  animate,
 } from 'framer-motion';
 import {
   Scale,
@@ -349,16 +351,16 @@ function NavLink({ label, href }: { label: string; href: string }) {
    ════════════════════════════════════════════════════════════════════════════ */
 function HeroSection() {
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
+  const { progress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
   });
 
-  const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.10]);
-  const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '12%']);
-  const titleY = useTransform(scrollYProgress, [0, 1], ['0%', '-40%']);
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
-  const cueOpacity = useTransform(scrollYProgress, [0, 0.20], [1, 0]);
+  const imgScale = useTransform(progress, [0, 1], [1, 1.10]);
+  const imgY = useTransform(progress, [0, 1], ['0%', '12%']);
+  const titleY = useTransform(progress, [0, 1], ['0%', '-40%']);
+  const titleOpacity = useTransform(progress, [0, 0.75], [1, 0]);
+  const cueOpacity = useTransform(progress, [0, 0.20], [1, 0]);
 
   const heroWrap: React.CSSProperties = {
     position: 'relative',
@@ -613,23 +615,25 @@ function HeroSection() {
    2 · SCROLL CROSSFADE — 3 visuels en sticky + progress dots
    ════════════════════════════════════════════════════════════════════════════ */
 function ScrollCrossfade() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start start', 'end end'],
-  });
+  const n = slides.length;
+  const progress = useMotionValue(0.5 / n);
+  const [active, setActive] = useState(0);
+  const goTo = (i: number) => {
+    setActive(i);
+    animate(progress, (i + 0.5) / n, { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] });
+  };
 
-  const opacity1 = useTransform(scrollYProgress, [0, 0.25, 0.40], [1, 1, 0]);
-  const opacity2 = useTransform(scrollYProgress, [0.30, 0.45, 0.62, 0.75], [0, 1, 1, 0]);
-  const opacity3 = useTransform(scrollYProgress, [0.65, 0.80, 1.0], [0, 1, 1]);
+  const opacity1 = useTransform(progress, [0, 0.25, 0.40], [1, 1, 0]);
+  const opacity2 = useTransform(progress, [0.30, 0.45, 0.62, 0.75], [0, 1, 1, 0]);
+  const opacity3 = useTransform(progress, [0.65, 0.80, 1.0], [0, 1, 1]);
 
-  const scale1 = useTransform(scrollYProgress, [0, 0.40], [1.0, 1.08]);
-  const scale2 = useTransform(scrollYProgress, [0.30, 0.75], [1.0, 1.08]);
-  const scale3 = useTransform(scrollYProgress, [0.65, 1.0], [1.0, 1.06]);
+  const scale1 = useTransform(progress, [0, 0.40], [1.0, 1.08]);
+  const scale2 = useTransform(progress, [0.30, 0.75], [1.0, 1.08]);
+  const scale3 = useTransform(progress, [0.65, 1.0], [1.0, 1.06]);
 
-  const dot1 = useTransform(scrollYProgress, [0, 0.33], [1, 0]);
-  const dot2 = useTransform(scrollYProgress, [0.25, 0.50, 0.67], [0, 1, 0]);
-  const dot3 = useTransform(scrollYProgress, [0.60, 0.80], [0, 1]);
+  const dot1 = useTransform(progress, [0, 0.33], [1, 0]);
+  const dot2 = useTransform(progress, [0.25, 0.50, 0.67], [0, 1, 0]);
+  const dot3 = useTransform(progress, [0.60, 0.80], [0, 1]);
 
   const slides = [
     {
@@ -663,7 +667,7 @@ function ScrollCrossfade() {
 
   const wrapStyle: React.CSSProperties = {
     position: 'relative',
-    height: '320vh',
+    height: '100vh', overflow: 'hidden',
     background: C.marineDark,
   };
 
@@ -675,7 +679,7 @@ function ScrollCrossfade() {
   };
 
   return (
-    <div ref={ref} style={wrapStyle}>
+    <div style={wrapStyle}>
       <div style={sticky}>
         {/* Images empilées */}
         {slides.map((s, i) => (
@@ -833,6 +837,22 @@ function ScrollCrossfade() {
             </motion.div>
           );
         })}
+        {/* Carousel navigation */}
+        <button
+          onClick={() => goTo((active - 1 + n) % n)}
+          aria-label="Slide précédent"
+          style={{ position: 'absolute', left: 'clamp(16px,3vw,36px)', top: '50%', transform: 'translateY(-50%)', zIndex: 10, background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.3)', color: '#fff', width: 44, height: 44, borderRadius: '50%', cursor: 'pointer', fontSize: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}
+        >&#8249;</button>
+        <button
+          onClick={() => goTo((active + 1) % n)}
+          aria-label="Slide suivant"
+          style={{ position: 'absolute', right: 'clamp(16px,3vw,36px)', top: '50%', transform: 'translateY(-50%)', zIndex: 10, background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.3)', color: '#fff', width: 44, height: 44, borderRadius: '50%', cursor: 'pointer', fontSize: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}
+        >&#8250;</button>
+        <div style={{ position: 'absolute', bottom: 28, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 8, zIndex: 10 }}>
+          {Array.from({ length: n }, (_, i) => (
+            <button key={i} onClick={() => goTo(i)} aria-label={`Slide ${i + 1}`} style={{ width: 8, height: 8, borderRadius: '50%', background: active === i ? '#fff' : 'rgba(255,255,255,0.35)', border: 'none', cursor: 'pointer', padding: 0, transition: 'background 0.3s' }} />
+          ))}
+        </div>
       </div>
     </div>
   );

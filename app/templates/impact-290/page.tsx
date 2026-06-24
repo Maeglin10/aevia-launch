@@ -6,6 +6,8 @@ import {
   useScroll,
   useTransform,
   useInView,
+  useMotionValue,
+  animate,
 } from 'framer-motion';
 import {
   ArrowRight,
@@ -214,16 +216,16 @@ function ForestButton({
    ════════════════════════════════════════════════════════════════════════════ */
 function HeroSection() {
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
+  const { progress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
   });
 
-  const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
-  const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '12%']);
-  const titleY = useTransform(scrollYProgress, [0, 1], ['0%', '-40%']);
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.72], [1, 0]);
-  const cueOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const imgScale = useTransform(progress, [0, 1], [1, 1.1]);
+  const imgY = useTransform(progress, [0, 1], ['0%', '12%']);
+  const titleY = useTransform(progress, [0, 1], ['0%', '-40%']);
+  const titleOpacity = useTransform(progress, [0, 0.72], [1, 0]);
+  const cueOpacity = useTransform(progress, [0, 0.2], [1, 0]);
 
   return (
     <section
@@ -481,26 +483,28 @@ function HeroSection() {
    2 · SCROLL CROSSFADE — 320vh sticky, 3 visuels
    ════════════════════════════════════════════════════════════════════════════ */
 function ScrollCrossfade() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start start', 'end end'],
-  });
+  const n = panels.length;
+  const progress = useMotionValue(0.5 / n);
+  const [active, setActive] = useState(0);
+  const goTo = (i: number) => {
+    setActive(i);
+    animate(progress, (i + 0.5) / n, { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] });
+  };
 
   // Opacités des 3 photos (entrée/sortie smooth)
-  const op0 = useTransform(scrollYProgress, [0, 0.2, 0.38, 0.5], [1, 1, 0, 0]);
-  const op1 = useTransform(scrollYProgress, [0.3, 0.48, 0.64, 0.75], [0, 1, 1, 0]);
-  const op2 = useTransform(scrollYProgress, [0.62, 0.78, 1, 1], [0, 1, 1, 1]);
+  const op0 = useTransform(progress, [0, 0.2, 0.38, 0.5], [1, 1, 0, 0]);
+  const op1 = useTransform(progress, [0.3, 0.48, 0.64, 0.75], [0, 1, 1, 0]);
+  const op2 = useTransform(progress, [0.62, 0.78, 1, 1], [0, 1, 1, 1]);
 
   // Textes superposés
-  const textOp0 = useTransform(scrollYProgress, [0, 0.16, 0.36, 0.44], [1, 1, 0, 0]);
-  const textOp1 = useTransform(scrollYProgress, [0.34, 0.50, 0.62, 0.70], [0, 1, 1, 0]);
-  const textOp2 = useTransform(scrollYProgress, [0.62, 0.76, 1, 1], [0, 1, 1, 1]);
+  const textOp0 = useTransform(progress, [0, 0.16, 0.36, 0.44], [1, 1, 0, 0]);
+  const textOp1 = useTransform(progress, [0.34, 0.50, 0.62, 0.70], [0, 1, 1, 0]);
+  const textOp2 = useTransform(progress, [0.62, 0.76, 1, 1], [0, 1, 1, 1]);
 
   // ProgressDots
-  const dot0 = useTransform(scrollYProgress, [0, 0.38], [1, 0.3]);
-  const dot1 = useTransform(scrollYProgress, [0.3, 0.5, 0.72], [0.3, 1, 0.3]);
-  const dot2 = useTransform(scrollYProgress, [0.62, 0.78], [0.3, 1]);
+  const dot0 = useTransform(progress, [0, 0.38], [1, 0.3]);
+  const dot1 = useTransform(progress, [0.3, 0.5, 0.72], [0.3, 1, 0.3]);
+  const dot2 = useTransform(progress, [0.62, 0.78], [0.3, 1]);
 
   const panels = [
     {
@@ -536,12 +540,11 @@ function ScrollCrossfade() {
   ];
 
   return (
-    <div ref={ref} style={{ height: '320vh', position: 'relative' }}>
+    <div style={{ height: '100vh', overflow: 'hidden', position: 'relative' }}>
       <div
         style={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
+          position: 'relative',
+          height: '100%',
           overflow: 'hidden',
           background: C.forestDeep,
         }}
@@ -667,6 +670,22 @@ function ScrollCrossfade() {
           >
             Nos spécialités
           </span>
+        {/* Carousel navigation */}
+        <button
+          onClick={() => goTo((active - 1 + n) % n)}
+          aria-label="Slide précédent"
+          style={{ position: 'absolute', left: 'clamp(16px,3vw,36px)', top: '50%', transform: 'translateY(-50%)', zIndex: 10, background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.3)', color: '#fff', width: 44, height: 44, borderRadius: '50%', cursor: 'pointer', fontSize: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}
+        >&#8249;</button>
+        <button
+          onClick={() => goTo((active + 1) % n)}
+          aria-label="Slide suivant"
+          style={{ position: 'absolute', right: 'clamp(16px,3vw,36px)', top: '50%', transform: 'translateY(-50%)', zIndex: 10, background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.3)', color: '#fff', width: 44, height: 44, borderRadius: '50%', cursor: 'pointer', fontSize: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}
+        >&#8250;</button>
+        <div style={{ position: 'absolute', bottom: 28, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 8, zIndex: 10 }}>
+          {Array.from({ length: n }, (_, i) => (
+            <button key={i} onClick={() => goTo(i)} aria-label={`Slide ${i + 1}`} style={{ width: 8, height: 8, borderRadius: '50%', background: active === i ? '#fff' : 'rgba(255,255,255,0.35)', border: 'none', cursor: 'pointer', padding: 0, transition: 'background 0.3s' }} />
+          ))}
+        </div>
         </div>
       </div>
     </div>

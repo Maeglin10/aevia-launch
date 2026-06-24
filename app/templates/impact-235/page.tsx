@@ -7,6 +7,8 @@ import {
   useTransform,
   AnimatePresence,
   type MotionValue,
+  useMotionValue,
+  animate,
 } from 'framer-motion';
 import {
   ArrowRight,
@@ -725,31 +727,31 @@ function SeqCaption({
 }
 
 function CollectionSequence() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start start', 'end end'],
-  });
+  const n = COLLECTIONS.length;
+  const progress = useMotionValue(0.5 / n);
+  const [active, setActive] = useState(0);
+  const goTo = (i: number) => {
+    setActive(i);
+    animate(progress, (i + 0.5) / n, { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] });
+  };
 
-  const barScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const barScale = useTransform(progress, [0, 1], [0, 1]);
 
   return (
     <section
-      ref={ref}
       id="collections"
-      style={{ position: 'relative', height: '320vh', background: C.ink }}
+      style={{ position: 'relative', height: '100vh', overflow: 'hidden', background: C.ink }}
     >
       <div
         style={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
+          position: 'relative',
+          height: '100%',
           overflow: 'hidden',
         }}
       >
         {/* Layers */}
         {COLLECTIONS.map((col, i) => (
-          <SeqLayer key={i} col={col} index={i} progress={scrollYProgress} />
+          <SeqLayer key={i} col={col} index={i} progress={progress} />
         ))}
 
         {/* Scrim */}
@@ -776,9 +778,25 @@ function CollectionSequence() {
 
         {/* Captions */}
         {COLLECTIONS.map((col, i) => (
-          <SeqCaption key={i} col={col} index={i} progress={scrollYProgress} />
+          <SeqCaption key={i} col={col} index={i} progress={progress} />
         ))}
 
+        {/* Carousel navigation */}
+        <button
+          onClick={() => goTo((active - 1 + n) % n)}
+          aria-label="Slide précédent"
+          style={{ position: 'absolute', left: 'clamp(16px,3vw,36px)', top: '50%', transform: 'translateY(-50%)', zIndex: 10, background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.3)', color: '#fff', width: 44, height: 44, borderRadius: '50%', cursor: 'pointer', fontSize: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}
+        >&#8249;</button>
+        <button
+          onClick={() => goTo((active + 1) % n)}
+          aria-label="Slide suivant"
+          style={{ position: 'absolute', right: 'clamp(16px,3vw,36px)', top: '50%', transform: 'translateY(-50%)', zIndex: 10, background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.3)', color: '#fff', width: 44, height: 44, borderRadius: '50%', cursor: 'pointer', fontSize: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}
+        >&#8250;</button>
+        <div style={{ position: 'absolute', bottom: 28, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 8, zIndex: 10 }}>
+          {Array.from({ length: n }, (_, i) => (
+            <button key={i} onClick={() => goTo(i)} aria-label={`Slide ${i + 1}`} style={{ width: 8, height: 8, borderRadius: '50%', background: active === i ? '#fff' : 'rgba(255,255,255,0.35)', border: 'none', cursor: 'pointer', padding: 0, transition: 'background 0.3s' }} />
+          ))}
+        </div>
         {/* Progress bar */}
         <div
           style={{

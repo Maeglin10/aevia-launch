@@ -7,6 +7,8 @@ import {
   useTransform,
   useInView,
   MotionValue,
+  useMotionValue,
+  animate,
 } from 'framer-motion';
 import {
   ArrowRight,
@@ -664,22 +666,23 @@ function ProgressDot({
 }
 
 function ScrollCrossfade() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start start', 'end end'],
-  });
+  const n = SCENES.length;
+  const progress = useMotionValue(0.5 / n);
+  const [active, setActive] = useState(0);
+  const goTo = (i: number) => {
+    setActive(i);
+    animate(progress, (i + 0.5) / n, { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] });
+  };
 
   return (
     <div
       ref={ref}
-      style={{ height: '320vh', position: 'relative', background: C.bordeauxDeep }}
+      style={{ height: '100vh', overflow: 'hidden', position: 'relative', background: C.bordeauxDeep }}
     >
       <div
         style={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
+          position: 'relative',
+          height: '100%',
           overflow: 'hidden',
         }}
       >
@@ -689,7 +692,7 @@ function ScrollCrossfade() {
             scene={s}
             i={i}
             total={SCENES.length}
-            progress={scrollYProgress}
+            progress={progress}
           />
         ))}
         {/* voile lisibilité */}
@@ -707,7 +710,7 @@ function ScrollCrossfade() {
             scene={s}
             i={i}
             total={SCENES.length}
-            progress={scrollYProgress}
+            progress={progress}
           />
         ))}
 
@@ -727,7 +730,7 @@ function ScrollCrossfade() {
               key={s.index}
               i={i}
               total={SCENES.length}
-              progress={scrollYProgress}
+              progress={progress}
             />
           ))}
         </div>
