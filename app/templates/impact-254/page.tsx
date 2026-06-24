@@ -8,7 +8,6 @@ import {
   useInView,
   MotionValue,
   useMotionValue,
-  animate,
 } from 'framer-motion';
 import { ArrowRight, Briefcase, ChevronDown, Star } from 'lucide-react';
 
@@ -827,7 +826,7 @@ function DomainSequence() {
   const [active, setActive] = useState(0);
   const goTo = (i: number) => {
     setActive(i);
-    animate(progress, (i + 0.5) / n, { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] });
+    progress.set((i + 0.5) / n);
   };
 
   return (

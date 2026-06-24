@@ -7,7 +7,6 @@ import {
   useTransform,
   useInView,
   useMotionValue,
-  animate,
 } from 'framer-motion';
 import {
   Scale,
@@ -351,7 +350,7 @@ function NavLink({ label, href }: { label: string; href: string }) {
    ════════════════════════════════════════════════════════════════════════════ */
 function HeroSection() {
   const ref = useRef<HTMLElement>(null);
-  const { progress } = useScroll({
+  const { scrollYProgress: progress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
   });
@@ -615,12 +614,13 @@ function HeroSection() {
    2 · SCROLL CROSSFADE — 3 visuels en sticky + progress dots
    ════════════════════════════════════════════════════════════════════════════ */
 function ScrollCrossfade() {
-  const n = slides.length;
+  
+const n = 3;
   const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
   const goTo = (i: number) => {
     setActive(i);
-    animate(progress, (i + 0.5) / n, { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] });
+    progress.set((i + 0.5) / n);
   };
 
   const opacity1 = useTransform(progress, [0, 0.25, 0.40], [1, 1, 0]);
@@ -664,6 +664,7 @@ function ScrollCrossfade() {
       scale: scale3,
     },
   ];
+
 
   const wrapStyle: React.CSSProperties = {
     position: 'relative',

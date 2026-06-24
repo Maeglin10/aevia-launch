@@ -7,7 +7,6 @@ import {
   useTransform,
   useInView,
   useMotionValue,
-  animate,
 } from 'framer-motion';
 import {
   Heart,
@@ -334,7 +333,7 @@ function NavLink({
    ════════════════════════════════════════════════════════════════════════════ */
 function HeroSection() {
   const ref = useRef<HTMLElement>(null);
-  const { progress } = useScroll({
+  const { scrollYProgress: progress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
   });
@@ -555,24 +554,7 @@ function HeroSection() {
    2 · SCROLL CROSSFADE — 3 visuels en sticky
    ════════════════════════════════════════════════════════════════════════════ */
 function ScrollCrossfade() {
-  const n = panels.length;
-  const progress = useMotionValue(0.5 / n);
-  const [active, setActive] = useState(0);
-  const goTo = (i: number) => {
-    setActive(i);
-    animate(progress, (i + 0.5) / n, { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] });
-  };
-
-  // Chaque panneau occupe 1/3 de la séquence
-  const op0 = useTransform(progress, [0, 0.25, 0.38], [1, 1, 0]);
-  const op1 = useTransform(progress, [0.28, 0.40, 0.62, 0.72], [0, 1, 1, 0]);
-  const op2 = useTransform(progress, [0.62, 0.76, 1], [0, 1, 1]);
-
-  // Dots progress
-  const dot0w = useTransform(progress, [0, 0.33], [34, 10]);
-  const dot1w = useTransform(progress, [0.20, 0.50, 0.68], [10, 34, 10]);
-  const dot2w = useTransform(progress, [0.62, 1], [10, 34]);
-
+  
   const panels = [
     {
       img: PHOTO.ceremony,
@@ -593,6 +575,24 @@ function ScrollCrossfade() {
       desc: "Dîner gastronomique, scénographie de salle, animation et fin de soirée : nous coordonnons chaque prestataire pour que vous profitiez pleinement de chaque instant.",
     },
   ];
+const n = panels.length;
+  const progress = useMotionValue(0.5 / n);
+  const [active, setActive] = useState(0);
+  const goTo = (i: number) => {
+    setActive(i);
+    progress.set((i + 0.5) / n);
+  };
+
+  // Chaque panneau occupe 1/3 de la séquence
+  const op0 = useTransform(progress, [0, 0.25, 0.38], [1, 1, 0]);
+  const op1 = useTransform(progress, [0.28, 0.40, 0.62, 0.72], [0, 1, 1, 0]);
+  const op2 = useTransform(progress, [0.62, 0.76, 1], [0, 1, 1]);
+
+  // Dots progress
+  const dot0w = useTransform(progress, [0, 0.33], [34, 10]);
+  const dot1w = useTransform(progress, [0.20, 0.50, 0.68], [10, 34, 10]);
+  const dot2w = useTransform(progress, [0.62, 1], [10, 34]);
+
 
   const opacities = [op0, op1, op2];
 
