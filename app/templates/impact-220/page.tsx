@@ -723,14 +723,6 @@ function StickyCrossfade() {
     animate(progress, (i + 0.5) / n, { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] });
   };
 
-  const [active, setActive] = useState(0);
-
-  useMotionValueEvent(progress, 'change', (v) => {
-    if (v < 0.33) setActive(0);
-    else if (v < 0.66) setActive(1);
-    else setActive(2);
-  });
-
   return (
     <section
       id="manufacture"
