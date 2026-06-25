@@ -24,6 +24,7 @@ export default function AureliusHeritageLayout({
     { label: "Maison", href: `${basePath}/maison` },
     { label: "Contact", href: `${basePath}/contact` },
   ];
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
     <div
@@ -105,7 +106,57 @@ export default function AureliusHeritageLayout({
           </span>
         </Link>
 
-        <div style={{ display: "flex", gap: 40, alignItems: "center" }}>
+        <div id="mb83-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {links.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.label}
+                href={link.href}
+                style={{
+                  fontFamily: FONT_LABEL,
+                  fontSize: 11,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: isActive ? C.accent : C.textMuted,
+                  textDecoration: "none",
+                  transition: "color 0.3s",
+                }}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+          <Link href={`${basePath}/contact`}>
+            <button
+              style={{
+                fontFamily: FONT_LABEL,
+                fontSize: 10,
+                letterSpacing: "0.25em",
+                textTransform: "uppercase",
+                color: C.bg,
+                background: C.accent,
+                padding: "10px 24px",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              Rendez-vous privé
+            </button>
+          </Link>
+      </div>
+        <button
+          className="mb83-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
+      </motion.nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 68, left: 0, right: 0, zIndex: 99, background: "rgba(10,10,10,0.97)", borderBottom: "1px solid rgba(255,255,255,0.1)", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
           {links.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -144,7 +195,8 @@ export default function AureliusHeritageLayout({
             </button>
           </Link>
         </div>
-      </motion.nav>
+      )}
+      <style>{`@media (max-width: 900px) { #mb83-nav { display: none !important; } .mb83-burger { display: flex !important; } }`}</style>
 
       <div style={{ paddingTop: 72 }}>{children}</div>
 

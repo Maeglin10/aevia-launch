@@ -330,6 +330,7 @@ function Reveal({
 
 function Navigation() {
   const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -388,6 +389,7 @@ function Navigation() {
 
       {/* Nav links */}
       <div
+        id="mb150-nav"
         style={{
           display: "flex",
           alignItems: "center",
@@ -429,6 +431,28 @@ function Navigation() {
           Request Counsel
         </motion.button>
       </div>
+
+      <button
+        className="mb150-burger"
+        onClick={() => setMobileOpen(!mobileOpen)}
+        aria-label="Menu"
+        style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+      >
+        <span style={{ display: "block", width: 24, height: 1.5, background: COLORS.ink, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+        <span style={{ display: "block", width: 24, height: 1.5, background: COLORS.ink, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+        <span style={{ display: "block", width: 24, height: 1.5, background: COLORS.ink, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+      </button>
+
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 80, left: 0, right: 0, zIndex: 99, background: "rgba(248,246,240,0.98)", borderBottom: `1px solid ${COLORS.stone}`, padding: "24px 40px", display: "flex", flexDirection: "column", gap: 24, backdropFilter: "blur(16px)" }}>
+          {["Practice Areas", "Landmark Cases", "Partners", "Contact"].map(item => (
+            <a key={item} href={`#${item.toLowerCase().replace(/\s+/g, "-")}`} onClick={() => setMobileOpen(false)} style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: COLORS.ink, textDecoration: "none" }}>
+              {item}
+            </a>
+          ))}
+        </div>
+      )}
+      <style>{`@media (max-width: 900px) { #mb150-nav { display: none !important; } .mb150-burger { display: flex !important; } }`}</style>
     </motion.nav>
   )
 }

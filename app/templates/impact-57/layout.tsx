@@ -21,6 +21,7 @@ export default function MaskUnitLayout({
     if (href === "/templates/impact-57") return pathname === href;
     return pathname.startsWith(href);
   };
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
     <div ref={containerRef} style={{ background: C.bg, color: C.text, fontFamily: "'Space Grotesk', sans-serif", minHeight: "100vh", overflowX: "hidden", position: "relative" }}>
@@ -59,8 +60,7 @@ export default function MaskUnitLayout({
         <Link href="/templates/impact-57" style={{ textDecoration: "none", color: C.text, fontFamily: "'Space Mono', monospace", fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.05em" }}>
           MASK<span style={{ color: C.accent }}>_</span>UNIT
         </Link>
-        <div style={{ display: "flex", gap: "3rem" }}>
-          {NAV_LINKS.map((item) => (
+        <div id="mb57-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV_LINKS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -78,7 +78,17 @@ export default function MaskUnitLayout({
               {item.label.toUpperCase()}
             </Link>
           ))}
-        </div>
+      </div>
+        <button
+          className="mb57-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
         <Link
           href="/templates/impact-57/contact"
           style={{
@@ -99,6 +109,29 @@ export default function MaskUnitLayout({
           START A PROJECT
         </Link>
       </motion.nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 68, left: 0, right: 0, zIndex: 99, background: "rgba(10,10,10,0.97)", borderBottom: "1px solid rgba(255,255,255,0.1)", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
+          {NAV_LINKS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              style={{
+                fontFamily: "'Space Mono', monospace",
+                fontSize: "0.7rem",
+                color: isActive(item.href) ? C.accent : C.textMuted,
+                textDecoration: "none",
+                cursor: "pointer",
+                transition: "color 0.2s"
+              }}
+              onMouseEnter={e => e.currentTarget.style.color = C.accent}
+              onMouseLeave={e => e.currentTarget.style.color = isActive(item.href) ? C.accent : C.textMuted}
+            >
+              {item.label.toUpperCase()}
+            </Link>
+          ))}
+        </div>
+      )}
+      <style>{`@media (max-width: 900px) { #mb57-nav { display: none !important; } .mb57-burger { display: flex !important; } }`}</style>
 
       {/* ── Main Content ───────────────────────────────────────────────── */}
       <div style={{ paddingTop: "60px" }}>

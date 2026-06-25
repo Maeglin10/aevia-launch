@@ -14,6 +14,7 @@ export default function NeuronSecLayout({
 }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40);
@@ -67,8 +68,7 @@ export default function NeuronSecLayout({
               NEURON<span style={{ color: C.text }}>SEC</span>
             </span>
           </Link>
-          <div style={{ display: "flex", gap: "2rem", alignItems: "center" }}>
-            {navLinks.map((l) => (
+          <div id="mb64-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {navLinks.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
@@ -106,9 +106,62 @@ export default function NeuronSecLayout({
             >
               AUDIT GRATUIT
             </Link>
-          </div>
+      </div>
+        <button
+          className="mb64-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
         </div>
       </motion.nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 68, left: 0, right: 0, zIndex: 99, background: "rgba(10,10,10,0.97)", borderBottom: "1px solid rgba(255,255,255,0.1)", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
+          {navLinks.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                style={{
+                  fontFamily: mono,
+                  fontSize: "0.72rem",
+                  color: isActive(l.href) ? C.green : C.textMuted,
+                  textDecoration: "none",
+                  letterSpacing: "0.08em",
+                  transition: "color 0.2s",
+                  fontWeight: isActive(l.href) ? 700 : 400,
+                }}
+                onMouseEnter={e => { if (!isActive(l.href)) e.currentTarget.style.color = C.green; }}
+                onMouseLeave={e => { if (!isActive(l.href)) e.currentTarget.style.color = C.textMuted; }}
+              >
+                {l.label.toUpperCase()}
+              </Link>
+            ))}
+            <Link
+              href="/templates/impact-64/contact"
+              style={{
+                fontFamily: mono,
+                fontSize: "0.7rem",
+                fontWeight: 700,
+                letterSpacing: "0.1em",
+                background: C.green,
+                color: C.bg,
+                padding: "0.55rem 1.2rem",
+                borderRadius: "4px",
+                textDecoration: "none",
+                transition: "box-shadow 0.2s",
+              }}
+              onMouseEnter={e => (e.currentTarget.style.boxShadow = `0 0 20px rgba(0,230,118,0.4)`)}
+              onMouseLeave={e => (e.currentTarget.style.boxShadow = "none")}
+            >
+              AUDIT GRATUIT
+            </Link>
+        </div>
+      )}
+      <style>{`@media (max-width: 900px) { #mb64-nav { display: none !important; } .mb64-burger { display: flex !important; } }`}</style>
 
       {/* Spacer for Fixed Navbar */}
       <div style={{ height: "68px" }} />

@@ -500,15 +500,38 @@ export default function Impact211Page() {
                 textDecoration: "none",
                 letterSpacing: "0.15em",
               }}
+              className="nav-cta-211"
               whileHover={{ background: C.goldLight }}
             >
               Réserver
             </motion.a>
+
+            <button
+              className="mb211-burger"
+              onClick={() => setNavOpen(!navOpen)}
+              aria-label="Menu"
+              style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+            >
+              <span style={{ display: "block", width: 24, height: 1.5, background: C.creamMuted, transition: "all 0.3s", transform: navOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+              <span style={{ display: "block", width: 24, height: 1.5, background: C.creamMuted, transition: "all 0.3s", opacity: navOpen ? 0 : 1 }} />
+              <span style={{ display: "block", width: 24, height: 1.5, background: C.creamMuted, transition: "all 0.3s", transform: navOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+            </button>
           </nav>
         </div>
 
+        {navOpen && (
+          <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(13,11,8,0.97)", borderBottom: `1px solid ${C.border}`, padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
+            {["Histoire", "Menu", "Terroir", "Chef", "Réservation"].map(item => (
+              <a key={item} href={`#${item.toLowerCase().replace("é", "e")}`} onClick={() => setNavOpen(false)} style={{ fontFamily: font.sans, fontSize: "0.85rem", letterSpacing: "0.2em", textTransform: "uppercase", color: C.creamMuted, textDecoration: "none" }}>
+                {item}
+              </a>
+            ))}
+          </div>
+        )}
+
         <style>{`
-          @media (min-width: 800px) { .nav-link { display: block !important; } }
+          @media (min-width: 800px) { .nav-link { display: block !important; } .nav-cta-211 { display: inline-flex !important; } }
+          @media (max-width: 799px) { .nav-cta-211 { display: none !important; } .mb211-burger { display: flex !important; } }
         `}</style>
       </motion.nav>
 

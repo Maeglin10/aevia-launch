@@ -34,6 +34,7 @@ export default function StackUnitLayout({
     { label: "Studio", href: "/templates/impact-72/studio" },
     { label: "Contact", href: "/templates/impact-72/contact" },
   ];
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: "'Space Grotesk', sans-serif", minHeight: "100vh", overflowX: "hidden", position: "relative" }}>
@@ -71,8 +72,7 @@ export default function StackUnitLayout({
             </span>
           </div>
         </Link>
-        <div style={{ display: "flex", gap: "3rem" }}>
-          {navLinks.map(({ label, href }) => (
+        <div id="mb72-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {navLinks.map(({ label, href }) => (
             <Link
               key={label}
               href={href}
@@ -87,7 +87,17 @@ export default function StackUnitLayout({
               {label}
             </Link>
           ))}
-        </div>
+      </div>
+        <button
+          className="mb72-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
         <MagneticButton
           onClick={() => router.push("/templates/impact-72/contact")}
           style={{
@@ -104,6 +114,26 @@ export default function StackUnitLayout({
           SOUMETTRE UN PROJET
         </MagneticButton>
       </nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 68, left: 0, right: 0, zIndex: 99, background: "rgba(10,10,10,0.97)", borderBottom: "1px solid rgba(255,255,255,0.1)", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
+          {navLinks.map(({ label, href }) => (
+            <Link
+              key={label}
+              href={href}
+              style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontSize: "0.78rem",
+                color: isActive(href) ? C.amberLight : C.textMuted,
+                textDecoration: "none",
+                transition: "color 0.2s"
+              }}
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
+      )}
+      <style>{`@media (max-width: 900px) { #mb72-nav { display: none !important; } .mb72-burger { display: flex !important; } }`}</style>
 
       <div style={{ height: "60px" }} />
 
