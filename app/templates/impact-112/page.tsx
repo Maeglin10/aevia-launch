@@ -288,7 +288,6 @@ function StatItem({ val, label }: { val: string; label: string }) {
 /* ─── PRODUCT CARD ───────────────────────────────────────────── */
 function ProductCard({ p, idx }: { p: (typeof PRODUCTS)[0]; idx: number }) {
   const [hovered, setHovered] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false)
   const [cartAdded, setCartAdded] = useState(false);
 
   function handleCart() {
@@ -563,7 +562,8 @@ export default function ArtisanMinimalPage() {
         }}
       >
         <Link href="#hero" style={{ textDecoration: "none" }}>
-          <div id="mb112-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {/* Potter wheel icon */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            {/* Potter wheel icon */}
             <div
               style={{
                 width: 34,
@@ -585,17 +585,7 @@ export default function ArtisanMinimalPage() {
                   opacity: 0.6,
                 }}
               />
-      </div>
-        <button
-          className="mb112-burger"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Menu"
-          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
-        >
-          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
-        </button>
+            </div>
             <div>
               <div
                 style={{
@@ -624,7 +614,7 @@ export default function ArtisanMinimalPage() {
           </div>
         </Link>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
+        <div id="mb112-nav" style={{ display: "flex", alignItems: "center", gap: 32 }}>
           {NAV_LINKS.map((l) => (
             <a
               key={l}
@@ -644,8 +634,6 @@ export default function ArtisanMinimalPage() {
             </a>
           ))}
           <button onClick={() => document.getElementById("boutique")?.scrollIntoView({behavior:"smooth"})}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
             style={{
               background: C.terracotta,
               color: C.white,
@@ -653,7 +641,8 @@ export default function ArtisanMinimalPage() {
               borderRadius: 3,
               fontWeight: 700,
               fontSize: "0.82rem",
-              textDecoration: "none",
+              border: "none",
+              cursor: "pointer",
               letterSpacing: "0.04em",
               display: "flex",
               alignItems: "center",
@@ -664,31 +653,26 @@ export default function ArtisanMinimalPage() {
             Boutique
           </button>
         </div>
+
+        <button
+          className="mb112-burger"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: menuOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", opacity: menuOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: menuOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
       </motion.nav>
-      {mobileOpen && (
-        <div style={{ position: "fixed", top: 68, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
-          {/* Potter wheel icon */}
-            <div
-              style={{
-                width: 34,
-                height: 34,
-                borderRadius: "50%",
-                border: `1.5px solid ${C.terracotta}`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: C.terracottaSoft,
-              }}
-            >
-              <div
-                style={{
-                  width: 12,
-                  height: 12,
-                  borderRadius: "50%",
-                  background: C.terracotta,
-                  opacity: 0.6,
-                }}
-              />
+
+      {menuOpen && (
+        <div style={{ position: "fixed", top: 68, left: 0, right: 0, zIndex: 99, background: "rgba(250,247,244,0.98)", borderBottom: `1px solid ${C.border}`, padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
+          {NAV_LINKS.map(l => (
+            <a key={l} href="#boutique" onClick={() => setMenuOpen(false)} style={{ color: C.muted, textDecoration: "none", fontSize: "1rem", fontWeight: 500 }}>
+              {l}
+            </a>
+          ))}
         </div>
       )}
       <style>{`@media (max-width: 900px) { #mb112-nav { display: none !important; } .mb112-burger { display: flex !important; } }`}</style>

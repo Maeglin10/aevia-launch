@@ -173,8 +173,8 @@ function Reveal({
 
 export default function TextRevealPage() {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false)
   const [hoveredWork, setHoveredWork] = useState<string | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   // For the massive text mask effect
   const containerRef = useRef(null);
@@ -230,40 +230,30 @@ export default function TextRevealPage() {
             </Link>
           </div>
 
-          <button className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest hover:opacity-60 transition-opacity">
+          <button className="hidden md:flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest hover:opacity-60 transition-opacity">
             Start a Project <ArrowRight className="w-4 h-4" />
           </button>
-        </div>
-        
-        <button
-          className="md:hidden flex flex-col gap-1.5 p-2"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Menu"
-        >
-          <span className={`block w-6 h-0.5 bg-current transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
-          <span className={`block w-6 h-0.5 bg-current transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
-          <span className={`block w-6 h-0.5 bg-current transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
-        </button>
-      </motion.nav>
-      
-      {mobileOpen && (
-        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.97)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
-          <Link href="#hero" className="hover:opacity-60 transition-opacity">
-              Work
-            </Link>
-            <Link href="#hero" className="hover:opacity-60 transition-opacity">
-              Studio
-            </Link>
-            <Link href="#hero" className="hover:opacity-60 transition-opacity">
-              Journal
-            </Link>
-          </div>
 
-          <button className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest hover:opacity-60 transition-opacity">
-            Start a Project <ArrowRight className="w-4 h-4" />
+          <button
+            className="md:hidden flex flex-col gap-1.5 p-2"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Menu"
+          >
+            <span className={`block w-6 h-0.5 bg-current transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
+            <span className={`block w-6 h-0.5 bg-current transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
+            <span className={`block w-6 h-0.5 bg-current transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
           </button>
         </div>
-      )}
+
+        {mobileOpen && (
+          <div className="md:hidden bg-[#0a0a0a]/95 backdrop-blur-md border-t border-white/5 px-6 py-6 flex flex-col gap-6">
+            <Link href="#hero" onClick={() => setMobileOpen(false)} className="text-[11px] font-bold uppercase tracking-widest text-zinc-300 hover:text-white">Work</Link>
+            <Link href="#hero" onClick={() => setMobileOpen(false)} className="text-[11px] font-bold uppercase tracking-widest text-zinc-300 hover:text-white">Studio</Link>
+            <Link href="#hero" onClick={() => setMobileOpen(false)} className="text-[11px] font-bold uppercase tracking-widest text-zinc-300 hover:text-white">Journal</Link>
+            <Link href="#hero" onClick={() => setMobileOpen(false)} className="text-[11px] font-bold uppercase tracking-widest text-zinc-300 hover:text-white">Start a Project</Link>
+          </div>
+        )}
+      </nav>
 
       {/* ==========================================
           1. TEXT MASK SCROLL HERO

@@ -416,7 +416,6 @@ function MaterialCard({
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-60px" })
   const [activeColorIdx, setActiveColorIdx] = useState(0)
-  const [mobileOpen, setMobileOpen] = useState(false)
   const [hovered, setHovered] = useState(false)
 
   const accent = material.palette[activeColorIdx]
@@ -656,6 +655,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
+    <>
     <motion.nav
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -678,7 +678,8 @@ function Nav({ scrolled }: { scrolled: boolean }) {
       }}
     >
       {/* Logo */}
-      <div id="mb159-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      <div
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <div
           style={{
             width: 32,
             height: 32,
@@ -693,19 +694,10 @@ function Nav({ scrolled }: { scrolled: boolean }) {
           AEVIA MATERIALS
         </span>
       </div>
-        <button
-          className="mb159-burger"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Menu"
-          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
-        >
-          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
-        </button>
 
       {/* Desktop links */}
       <div
+        id="mb159-nav"
         className="inter-semi"
         style={{
           display: "flex",
@@ -730,6 +722,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
 
       {/* CTA */}
       <motion.button
+        className="mb159-cta"
         whileHover={{ scale: 1.04 }}
         whileTap={{ scale: 0.97 }}
         style={{
@@ -747,26 +740,30 @@ function Nav({ scrolled }: { scrolled: boolean }) {
       >
         Request Sample
       </motion.button>
+
+      <button
+        className="mb159-burger"
+        onClick={() => setMenuOpen(!menuOpen)}
+        aria-label="Menu"
+        style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+      >
+        <span style={{ display: "block", width: 24, height: 1.5, background: "rgba(240,238,255,0.6)", transition: "all 0.3s", transform: menuOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+        <span style={{ display: "block", width: 24, height: 1.5, background: "rgba(240,238,255,0.6)", transition: "all 0.3s", opacity: menuOpen ? 0 : 1 }} />
+        <span style={{ display: "block", width: 24, height: 1.5, background: "rgba(240,238,255,0.6)", transition: "all 0.3s", transform: menuOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+      </button>
     </motion.nav>
-      {mobileOpen && (
-        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
-          <div
-          style={{
-            width: 32,
-            height: 32,
-            background: "linear-gradient(135deg,#c084fc,#67e8f9)",
-            clipPath: "polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)",
-          }}
-        />
-        <span
-          className="syne"
-          style={{ fontSize: 16, color: "#f0eeff", letterSpacing: "-0.02em" }}
-        >
-          AEVIA MATERIALS
-        </span>
-        </div>
-      )}
-      <style>{`@media (max-width: 900px) { #mb159-nav { display: none !important; } .mb159-burger { display: flex !important; } }`}</style>
+
+    {menuOpen && (
+      <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 199, background: "rgba(3,3,7,0.97)", borderBottom: "1px solid rgba(240,238,255,0.06)", padding: "24px 48px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(20px)" }}>
+        {["Materials","Specs","Applications","Research","Contact"].map(l => (
+          <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)} className="inter-semi" style={{ fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(240,238,255,0.6)", textDecoration: "none" }}>
+            {l}
+          </a>
+        ))}
+      </div>
+    )}
+    <style>{`@media (max-width: 900px) { #mb159-nav { display: none !important; } .mb159-cta { display: none !important; } .mb159-burger { display: flex !important; } }`}</style>
+  </>
   )
 }
 
