@@ -288,6 +288,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 export default function BureauPage() {
   const [activeService, setActiveService] = useState<number | null>(null);
   const [activeCase, setActiveCase] = useState(0);
+  const [mobileOpen, setMobileOpen] = useState(false)
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -325,7 +326,42 @@ export default function BureauPage() {
         <span style={{ fontFamily: C.mono, fontSize: 14, letterSpacing: 4, textTransform: "uppercase", color: C.white, fontWeight: 700 }}>
           BUREAU
         </span>
-        <div style={{ display: "flex", gap: 48, alignItems: "center" }}>
+        <div id="mb164-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {[
+            { label: "Services", href: "#services" },
+            { label: "Travaux", href: "#travaux" },
+            { label: "Manifeste", href: "#manifeste" },
+            { label: "Tarifs", href: "#tarifs" },
+          ].map(link => (
+            <motion.a
+              key={link.label}
+              href={link.href}
+              whileHover={{ color: C.accent }}
+              style={{ fontFamily: C.mono, fontSize: 11, letterSpacing: 3, textTransform: "uppercase", textDecoration: "none", color: "rgba(245,245,240,0.45)", transition: "color 0.15s" }}
+            >
+              {link.label}
+            </motion.a>
+          ))}
+          <motion.button
+            whileHover={{ background: C.accent, color: C.text, borderColor: C.accent }}
+            whileTap={{ scale: 0.97 }}
+            style={{ fontFamily: C.mono, fontSize: 11, letterSpacing: 2, textTransform: "uppercase", border: `1.5px solid ${C.white}`, background: "transparent", color: C.white, padding: "9px 22px", cursor: "pointer", transition: "all 0.15s" }}
+          >
+            Call 30 min →
+          </motion.button>
+      </div>
+        <button
+          className="mb164-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
+      </nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
           {[
             { label: "Services", href: "#services" },
             { label: "Travaux", href: "#travaux" },
@@ -349,7 +385,8 @@ export default function BureauPage() {
             Call 30 min →
           </motion.button>
         </div>
-      </nav>
+      )}
+      <style>{`@media (max-width: 900px) { #mb164-nav { display: none !important; } .mb164-burger { display: flex !important; } }`}</style>
 
       {/* HERO — full viewport, split asymmetric */}
       <section id="hero" style={{ minHeight: "100vh", paddingTop: 60, display: "grid", gridTemplateColumns: "1fr 1fr", borderBottom: `2px solid ${C.bgDark}` }}>

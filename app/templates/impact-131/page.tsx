@@ -587,6 +587,7 @@ export default function WineryTemplate() {
   useFonts();
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false)
   const [terroirTab, setTerroirTab] = useState("soil");
   const [vintageSelected, setVintageSelected] = useState<string | null>(null);
 
@@ -646,7 +647,62 @@ export default function WineryTemplate() {
           </span>
         </div>
 
-        <div style={{ display: "flex", gap: 36, alignItems: "center" }}>
+        <div id="mb131-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Vins", "Terroir", "Visites", "Contact"].map((item) => (
+            <button
+              key={item}
+              onClick={() => {
+                const map: Record<string, React.RefObject<HTMLDivElement | null>> = {
+                  Vins: winesRef,
+                  Terroir: terroirRef,
+                  Visites: visitesRef,
+                  Contact: contactRef,
+                };
+                map[item]?.current?.scrollIntoView({ behavior: "smooth" });
+              }}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                fontFamily: C.fontSans,
+                fontSize: 11,
+                fontWeight: 500,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: C.dark,
+                padding: 0,
+              }}
+            >
+              {item}
+            </button>
+          ))}
+          <MagneticButton
+            style={{
+              background: C.burgundy,
+              color: C.bg,
+              fontFamily: C.fontSans,
+              fontSize: 10,
+              fontWeight: 600,
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              padding: "10px 22px",
+            }}
+          >
+            Commander
+          </MagneticButton>
+      </div>
+        <button
+          className="mb131-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
+      </nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
           {["Vins", "Terroir", "Visites", "Contact"].map((item) => (
             <button
               key={item}
@@ -690,7 +746,8 @@ export default function WineryTemplate() {
             Commander
           </MagneticButton>
         </div>
-      </nav>
+      )}
+      <style>{`@media (max-width: 900px) { #mb131-nav { display: none !important; } .mb131-burger { display: flex !important; } }`}</style>
 
       {/* ====================================================================
           2. HERO

@@ -257,6 +257,7 @@ function SpotlightCard({
   accentColor?: string;
 }) {
   const [spotlight, setSpotlight] = useState({ x: 50, y: 50, active: false });
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -1023,7 +1024,77 @@ export default function Impact170Page() {
           </motion.span>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 36 }}>
+        <div id="mb170-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV_LINKS.map((link) => (
+            <button
+              key={link.id}
+              onClick={() => scrollTo(link.id)}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                fontFamily: C.font,
+                fontSize: 11,
+                letterSpacing: "0.1em",
+                color: C.muted,
+                padding: 0,
+                transition: "color 0.25s ease",
+              }}
+              onMouseEnter={(e) =>
+                ((e.target as HTMLButtonElement).style.color = C.green)
+              }
+              onMouseLeave={(e) =>
+                ((e.target as HTMLButtonElement).style.color = C.muted)
+              }
+            >
+              ./{link.label}
+            </button>
+          ))}
+          <MagneticButton
+            onClick={() => scrollTo("contact")}
+            style={{
+              background: "none",
+              border: `1px solid ${C.green}`,
+              color: C.green,
+              fontFamily: C.font,
+              fontSize: 11,
+              letterSpacing: "0.12em",
+              padding: "8px 20px",
+              cursor: "pointer",
+              borderRadius: 2,
+            }}
+          >
+            hire_me()
+          </MagneticButton>
+      </div>
+        <button
+          className="mb170-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
+
+        {/* Hamburger */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: 8,
+            display: "none",
+          }}
+        >
+          <div style={{ width: 22, height: 1.5, background: C.green, marginBottom: 5 }} />
+          <div style={{ width: 22, height: 1.5, background: C.green, marginBottom: 5, opacity: menuOpen ? 0 : 1 }} />
+          <div style={{ width: 22, height: 1.5, background: C.green }} />
+        </button>
+      </motion.nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 64, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
           {NAV_LINKS.map((link) => (
             <button
               key={link.id}
@@ -1066,23 +1137,8 @@ export default function Impact170Page() {
             hire_me()
           </MagneticButton>
         </div>
-
-        {/* Hamburger */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            padding: 8,
-            display: "none",
-          }}
-        >
-          <div style={{ width: 22, height: 1.5, background: C.green, marginBottom: 5 }} />
-          <div style={{ width: 22, height: 1.5, background: C.green, marginBottom: 5, opacity: menuOpen ? 0 : 1 }} />
-          <div style={{ width: 22, height: 1.5, background: C.green }} />
-        </button>
-      </motion.nav>
+      )}
+      <style>{`@media (max-width: 900px) { #mb170-nav { display: none !important; } .mb170-burger { display: flex !important; } }`}</style>
 
       {/* Mobile menu */}
       <AnimatePresence>

@@ -408,6 +408,7 @@ function MenuItem({
   index: number;
 }) {
   const [hovered, setHovered] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false)
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -664,8 +665,7 @@ export default function ImpactRestaurantPage() {
           </div>
 
           {/* Right CTA */}
-          <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-            <span
+          <div id="mb126-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      <span
               style={{
                 fontFamily: C.fontSans,
                 fontSize: 11,
@@ -693,9 +693,52 @@ export default function ImpactRestaurantPage() {
             >
               Prenota
             </MagneticButton>
-          </div>
+      </div>
+        <button
+          className="mb126-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
         </div>
       </motion.nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
+          <span
+              style={{
+                fontFamily: C.fontSans,
+                fontSize: 11,
+                letterSpacing: "0.12em",
+                color: C.muted,
+              }}
+            >
+              +39 06 9876 543
+            </span>
+            <MagneticButton
+              onClick={() => setReservationOpen(true)}
+              style={{
+                fontFamily: C.fontSans,
+                fontSize: 10,
+                fontWeight: 600,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: C.white,
+                background: C.terracotta,
+                border: "none",
+                padding: "12px 24px",
+                cursor: "pointer",
+                borderRadius: 2,
+              }}
+            >
+              Prenota
+            </MagneticButton>
+        </div>
+      )}
+      <style>{`@media (max-width: 900px) { #mb126-nav { display: none !important; } .mb126-burger { display: flex !important; } }`}</style>
 
       {/* Mobile menu overlay */}
       <AnimatePresence>

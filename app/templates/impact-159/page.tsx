@@ -416,6 +416,7 @@ function MaterialCard({
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-60px" })
   const [activeColorIdx, setActiveColorIdx] = useState(0)
+  const [mobileOpen, setMobileOpen] = useState(false)
   const [hovered, setHovered] = useState(false)
 
   const accent = material.palette[activeColorIdx]
@@ -677,8 +678,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
       }}
     >
       {/* Logo */}
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <div
+      <div id="mb159-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      <div
           style={{
             width: 32,
             height: 32,
@@ -693,6 +693,16 @@ function Nav({ scrolled }: { scrolled: boolean }) {
           AEVIA MATERIALS
         </span>
       </div>
+        <button
+          className="mb159-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
 
       {/* Desktop links */}
       <div
@@ -738,6 +748,25 @@ function Nav({ scrolled }: { scrolled: boolean }) {
         Request Sample
       </motion.button>
     </motion.nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
+          <div
+          style={{
+            width: 32,
+            height: 32,
+            background: "linear-gradient(135deg,#c084fc,#67e8f9)",
+            clipPath: "polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)",
+          }}
+        />
+        <span
+          className="syne"
+          style={{ fontSize: 16, color: "#f0eeff", letterSpacing: "-0.02em" }}
+        >
+          AEVIA MATERIALS
+        </span>
+        </div>
+      )}
+      <style>{`@media (max-width: 900px) { #mb159-nav { display: none !important; } .mb159-burger { display: flex !important; } }`}</style>
   )
 }
 

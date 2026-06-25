@@ -48,6 +48,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 export default function VertNaturePage() {
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 170])
   const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -65])
@@ -63,13 +64,31 @@ export default function VertNaturePage() {
           <Sprout size={18} color={scrolled ? C.accent : "#fff"} />
           <span style={{ fontFamily: FONT, fontSize: 19, color: scrolled ? C.text : "#fff" }}>Vert <em>Nature</em></span>
         </div>
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+        <div id="mb232-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Prestations", "Notre approche", "Réalisations", "Contact"].map(l => (
+            <a key={l} href={`#${l.toLowerCase().replace(/\s/g, "-")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+          ))}
+          <motion.a href="tel:+33556100000" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>Devis gratuit</motion.a>
+      </div>
+        <button
+          className="mb232-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
+      </motion.nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
           {["Prestations", "Notre approche", "Réalisations", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase().replace(/\s/g, "-")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href="tel:+33556100000" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>Devis gratuit</motion.a>
         </div>
-      </motion.nav>
+      )}
+      <style>{`@media (max-width: 900px) { #mb232-nav { display: none !important; } .mb232-burger { display: flex !important; } }`}</style>
 
       <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>

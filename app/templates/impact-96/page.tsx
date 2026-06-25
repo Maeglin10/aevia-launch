@@ -330,6 +330,7 @@ function FilmStripSVG({ count = 8 }: { count?: number }) {
 /* ─── ANIMATED FILM COUNTER — Hero Signature ─────────────────── */
 function FilmCounter() {
   const [frame, setFrame] = useState(1);
+  const [mobileOpen, setMobileOpen] = useState(false)
   useEffect(() => {
     const id = setInterval(() => setFrame((f) => (f >= 24 ? 1 : f + 1)), 120);
     return () => clearInterval(id);
@@ -464,8 +465,7 @@ export default function UrbanPulsePage() {
       >
         {/* Logo */}
         <Link href="#hero" style={{ textDecoration: "none" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            {/* Film gate icon */}
+          <div id="mb96-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {/* Film gate icon */}
             <div
               style={{
                 width: 38,
@@ -491,7 +491,17 @@ export default function UrbanPulsePage() {
                   }}
                 />
               ))}
-            </div>
+      </div>
+        <button
+          className="mb96-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
             <div>
               <div
                 style={{
@@ -593,6 +603,37 @@ export default function UrbanPulsePage() {
           </button>
         </div>
       </motion.nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
+          {/* Film gate icon */}
+            <div
+              style={{
+                width: 38,
+                height: 38,
+                background: C.amberSoft,
+                border: `1.5px solid ${C.borderMid}`,
+                borderRadius: 4,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+                gap: 3,
+              }}
+            >
+              {[0, 1, 2].map((i) => (
+                <div
+                  key={i}
+                  style={{
+                    width: 18,
+                    height: 3,
+                    background: i === 1 ? C.amber : "rgba(200,150,30,0.35)",
+                    borderRadius: 1,
+                  }}
+                />
+              ))}
+        </div>
+      )}
+      <style>{`@media (max-width: 900px) { #mb96-nav { display: none !important; } .mb96-burger { display: flex !important; } }`}</style>
 
       {/* Mobile menu overlay */}
       <AnimatePresence>
