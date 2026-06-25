@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Script from "next/script";
 
-const GA_ID = "G-9XTKCZLYVF";
+const GA_ID = process.env.NEXT_PUBLIC_GA4_ID ?? "G-9XTKCZLYVF";
 const CONSENT_KEY = "aevia-cookie-consent";
 
 export function ConsentAwareAnalytics() {
