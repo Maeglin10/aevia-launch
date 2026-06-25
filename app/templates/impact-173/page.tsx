@@ -355,6 +355,7 @@ const PARTENAIRES = [
 
 function CountUp({ target, suffix = "", duration = 2 }: { target: number; suffix?: string; duration?: number }) {
   const [count, setCount] = useState(0);
+  const [mobileOpen, setMobileOpen] = useState(false)
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true });
   useEffect(() => {
@@ -455,7 +456,37 @@ export default function Impact173Page() {
             Structure Bâtisseurs
           </div>
         </div>
-        <div style={{ display: "flex", gap: 40, alignItems: "center" }}>
+        <div id="mb173-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV_LINKS.map(link => (
+            <a key={link} href="#hero"
+              style={{ fontSize: 12, color: C.textMuted, letterSpacing: 2, textTransform: "uppercase", textDecoration: "none", fontWeight: 500, transition: "color 0.2s" }}
+              onMouseEnter={e => (e.currentTarget.style.color = C.orange)}
+              onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
+            >{link}</a>
+          ))}
+          <motion.button
+            whileHover={{ background: C.orangeLight, color: "#fff" }}
+            whileTap={{ scale: 0.97 }}
+            style={{
+              padding: "10px 28px", background: C.orange, color: "#fff",
+              border: "none", fontFamily: FONT_HEADING, fontWeight: 600,
+              fontSize: 13, letterSpacing: 2, textTransform: "uppercase",
+              cursor: "pointer", transition: "all 0.2s",
+            }}
+          >Devis →</motion.button>
+      </div>
+        <button
+          className="mb173-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
+      </motion.nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 64, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
           {NAV_LINKS.map(link => (
             <a key={link} href="#hero"
               style={{ fontSize: 12, color: C.textMuted, letterSpacing: 2, textTransform: "uppercase", textDecoration: "none", fontWeight: 500, transition: "color 0.2s" }}
@@ -474,7 +505,8 @@ export default function Impact173Page() {
             }}
           >Devis →</motion.button>
         </div>
-      </motion.nav>
+      )}
+      <style>{`@media (max-width: 900px) { #mb173-nav { display: none !important; } .mb173-burger { display: flex !important; } }`}</style>
 
       {/* ── HERO ────────────────────────────────────────────────── */}
       <section id="hero" ref={heroRef} style={{ minHeight: "100vh", position: "relative", overflow: "hidden", display: "flex", alignItems: "center" }}>

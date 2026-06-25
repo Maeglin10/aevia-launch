@@ -64,6 +64,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 export default function ConservatoireAccordPage() {
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 170])
   const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -65])
@@ -92,7 +93,26 @@ export default function ConservatoireAccordPage() {
           <Music size={20} color={scrolled ? C.amber : "#fff"} />
           <span style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: scrolled ? C.text : "#fff" }}>Conservatoire<span style={{ color: C.amber }}> Accord</span></span>
         </div>
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+        <div id="mb73-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Cours", "Professeurs", "Tarifs", "Contact"].map(l => (
+            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+          ))}
+          <motion.a href="#contact" style={{ background: C.amber, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: "#d06a2e" }}>
+            <Guitar size={14} /> S'inscrire
+          </motion.a>
+      </div>
+        <button
+          className="mb73-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
+      </motion.nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
           {["Cours", "Professeurs", "Tarifs", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
@@ -100,7 +120,8 @@ export default function ConservatoireAccordPage() {
             <Guitar size={14} /> S'inscrire
           </motion.a>
         </div>
-      </motion.nav>
+      )}
+      <style>{`@media (max-width: 900px) { #mb73-nav { display: none !important; } .mb73-burger { display: flex !important; } }`}</style>
 
       {/* Hero */}
       <section ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>

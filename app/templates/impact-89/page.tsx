@@ -364,6 +364,7 @@ const FAQS = [
 
 function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [count, setCount] = useState(0);
+  const [mobileOpen, setMobileOpen] = useState(false)
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
@@ -554,7 +555,59 @@ export default function Impact89Page() {
           </div>
         </Link>
 
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+        <div id="mb89-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV_LINKS.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              style={{
+                color: C.textMuted,
+                textDecoration: "none",
+                fontSize: 13,
+                fontWeight: 500,
+                letterSpacing: 2,
+                textTransform: "uppercase",
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = C.white)}
+              onMouseLeave={(e) => (e.currentTarget.style.color = C.textMuted)}
+            >
+              {link.label}
+            </a>
+          ))}
+          <motion.button
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
+            onClick={() => setBookingOpen(true)}
+            style={{
+              background: C.accent,
+              color: C.white,
+              border: "none",
+              padding: "10px 24px",
+              fontFamily: FONT_BODY,
+              fontSize: 13,
+              fontWeight: 600,
+              letterSpacing: 2,
+              textTransform: "uppercase",
+              cursor: "pointer",
+              clipPath: "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)",
+            }}
+          >
+            Réserver
+          </motion.button>
+      </div>
+        <button
+          className="mb89-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
+      </motion.nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
           {NAV_LINKS.map((link) => (
             <a
               key={link.label}
@@ -595,7 +648,8 @@ export default function Impact89Page() {
             Réserver
           </motion.button>
         </div>
-      </motion.nav>
+      )}
+      <style>{`@media (max-width: 900px) { #mb89-nav { display: none !important; } .mb89-burger { display: flex !important; } }`}</style>
 
       {/* HERO */}
       <section id="hero"
