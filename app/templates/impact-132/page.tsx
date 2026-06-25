@@ -391,6 +391,7 @@ function ArticleCard({ article, index }: { article: typeof ARTICLES[0]; index: n
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function Impact132() {
   const [activeTopic, setActiveTopic] = useState("All")
+  const [mobileOpen, setMobileOpen] = useState(false)
   const [email, setEmail] = useState("")
   const [subscribed, setSubscribed] = useState(false)
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
@@ -502,7 +503,7 @@ export default function Impact132() {
           </div>
 
           {/* Nav links */}
-          <nav style={{ display: "flex", gap: 36, alignItems: "center" }}>
+          <nav id="mb132-nav" style={{ display: "flex", gap: 36, alignItems: "center" }}>
             {TOPICS.map(t => (
               <button key={t} style={{
                 fontFamily: C.sans, fontWeight: 500, fontSize: 13,
@@ -523,22 +524,46 @@ export default function Impact132() {
           </nav>
 
           {/* Subscribe CTA */}
-          <MagneticButton style={{
-            padding: "10px 22px",
-            background: C.accent,
-            border: "none",
-            borderRadius: 2,
-            fontFamily: C.sans,
-            fontWeight: 700,
-            fontSize: 13,
-            color: C.white,
-            letterSpacing: "0.06em",
-            textTransform: "uppercase",
-          }}>
-            Subscribe
-          </MagneticButton>
+          <div className="mb132-cta">
+            <MagneticButton style={{
+              padding: "10px 22px",
+              background: C.accent,
+              border: "none",
+              borderRadius: 2,
+              fontFamily: C.sans,
+              fontWeight: 700,
+              fontSize: 13,
+              color: C.white,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+            }}>
+              Subscribe
+            </MagneticButton>
+          </div>
+
+          <button
+            className="mb132-burger"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Menu"
+            style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+          >
+            <span style={{ display: "block", width: 24, height: 1.5, background: "rgba(255,255,255,0.8)", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+            <span style={{ display: "block", width: 24, height: 1.5, background: "rgba(255,255,255,0.8)", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+            <span style={{ display: "block", width: 24, height: 1.5, background: "rgba(255,255,255,0.8)", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+          </button>
         </div>
       </motion.header>
+
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 120, left: 0, right: 0, zIndex: 99, background: "rgba(10,10,20,0.97)", borderBottom: `1px solid rgba(255,255,255,0.1)`, padding: "24px 32px", display: "flex", flexDirection: "column", gap: 16, backdropFilter: "blur(12px)" }}>
+          {TOPICS.map(t => (
+            <button key={t} onClick={() => { setActiveTopic(t); setMobileOpen(false); document.getElementById("topics")?.scrollIntoView({ behavior: "smooth" }); }} style={{ fontFamily: C.sans, fontWeight: 500, fontSize: 15, color: "rgba(255,255,255,0.7)", background: "none", border: "none", cursor: "pointer", textAlign: "left", letterSpacing: "0.04em", padding: "4px 0" }}>
+              {t}
+            </button>
+          ))}
+        </div>
+      )}
+      <style>{`@media (max-width: 900px) { #mb132-nav { display: none !important; } .mb132-cta { display: none !important; } .mb132-burger { display: flex !important; } }`}</style>
 
       {/* ── SECTION 2: Hero with TypewriterHeadline ─────────────────────────── */}
       <section id="hero"
