@@ -292,6 +292,7 @@ const FAQS = [
 // Counter animé
 function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [count, setCount] = useState(0);
+  const [mb130Open, setMb130Open] = useState(false);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
   useEffect(() => {
@@ -592,7 +593,7 @@ export default function Impact130Page() {
           </div>
         </a>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 40 }}>
+        <div id="mb130-nav" style={{ display: "flex", alignItems: "center", gap: 40 }}>
           {["Projets", "Services", "Studio", "Process", "Contact"].map(item => (
             <a
               key={item}
@@ -605,8 +606,6 @@ export default function Impact130Page() {
             </a>
           ))}
           <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
             style={{
               background: C.emeraldGlow,
               color: C.bg,
@@ -614,14 +613,37 @@ export default function Impact130Page() {
               borderRadius: 4,
               fontSize: 13,
               fontWeight: 600,
-              textDecoration: "none",
+              border: "none",
+              cursor: "pointer",
               letterSpacing: "0.03em",
             }}
           >
             Nouveau projet
           </button>
         </div>
+
+        <button
+          className="mb130-burger"
+          onClick={() => setMb130Open(!mb130Open)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mb130Open ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", opacity: mb130Open ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mb130Open ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
       </motion.nav>
+
+      {mb130Open && (
+        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: `${C.bg}f5`, borderBottom: `1px solid ${C.border}`, padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
+          {["Projets", "Services", "Studio", "Process", "Contact"].map(item => (
+            <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMb130Open(false)} style={{ color: C.textMuted, fontSize: 15, textDecoration: "none", fontWeight: 500 }}>
+              {item}
+            </a>
+          ))}
+        </div>
+      )}
+      <style>{`@media (max-width: 900px) { #mb130-nav { display: none !important; } .mb130-burger { display: flex !important; } }`}</style>
 
       {/* HERO — SPLIT REVEAL SIGNATURE ELEMENT */}
       <SplitRevealHero />

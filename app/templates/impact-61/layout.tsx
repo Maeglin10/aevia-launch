@@ -26,6 +26,7 @@ export default function SegmentLayout({
     { label: "Studio", href: "/templates/impact-61/studio" },
     { label: "Contact", href: "/templates/impact-61/contact" },
   ] as const;
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: "'Space Grotesk', sans-serif", minHeight: "100vh", overflowX: "hidden", position: "relative" }}>
@@ -51,8 +52,7 @@ export default function SegmentLayout({
         <Link href="/templates/impact-61" style={{ fontFamily: "'Archivo', sans-serif", fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.12em", color: C.text, textDecoration: "none" }}>
           SEGMENT
         </Link>
-        <div style={{ display: "flex", gap: "3rem" }}>
-          {navLinks.map((link) => (
+        <div id="mb61-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -68,7 +68,17 @@ export default function SegmentLayout({
               {link.label.toUpperCase()}
             </Link>
           ))}
-        </div>
+      </div>
+        <button
+          className="mb61-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
         <Link href="/templates/impact-61/contact" style={{ textDecoration: "none" }}>
           <MagneticButton
             style={{
@@ -87,6 +97,27 @@ export default function SegmentLayout({
           </MagneticButton>
         </Link>
       </motion.nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 68, left: 0, right: 0, zIndex: 99, background: "rgba(10,10,10,0.97)", borderBottom: "1px solid rgba(255,255,255,0.1)", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontSize: "0.8rem",
+                color: isActive(link.href) ? C.text : C.textMuted,
+                fontWeight: isActive(link.href) ? 600 : 400,
+                textDecoration: "none",
+                cursor: "pointer",
+              }}
+            >
+              {link.label.toUpperCase()}
+            </Link>
+          ))}
+        </div>
+      )}
+      <style>{`@media (max-width: 900px) { #mb61-nav { display: none !important; } .mb61-burger { display: flex !important; } }`}</style>
 
       {/* ── Main content ───────────────────────────────────────────────── */}
       <div style={{ paddingTop: "60px" }}>

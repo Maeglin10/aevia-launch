@@ -21,6 +21,7 @@ export default function SkewLayout({
     if (href === "/templates/impact-58") return pathname === href;
     return pathname.startsWith(href);
   };
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
     <div ref={containerRef} style={{ background: C.bg, color: C.text, fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", overflowX: "hidden", position: "relative" }}>
@@ -47,8 +48,7 @@ export default function SkewLayout({
         <Link href="/templates/impact-58" style={{ textDecoration: "none", color: C.text, fontFamily: "'Syne', sans-serif", fontSize: "0.85rem", fontWeight: 800, letterSpacing: "0.05em" }}>
           SKEW<span style={{ color: C.violet }}>.</span>
         </Link>
-        <div style={{ display: "flex", gap: "3rem" }}>
-          {NAV_LINKS.map((item) => (
+        <div id="mb58-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV_LINKS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -66,7 +66,17 @@ export default function SkewLayout({
               {item.label}
             </Link>
           ))}
-        </div>
+      </div>
+        <button
+          className="mb58-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
         <Link
           href="/templates/impact-58/contact"
           style={{
@@ -87,6 +97,29 @@ export default function SkewLayout({
           START PROJECT
         </Link>
       </motion.nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 68, left: 0, right: 0, zIndex: 99, background: "rgba(10,10,10,0.97)", borderBottom: "1px solid rgba(255,255,255,0.1)", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
+          {NAV_LINKS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              style={{
+                fontFamily: "'Syne Mono', monospace",
+                fontSize: "0.7rem",
+                color: isActive(item.href) ? C.violetLight : C.textMuted,
+                textDecoration: "none",
+                cursor: "pointer",
+                transition: "color 0.2s"
+              }}
+              onMouseEnter={e => e.currentTarget.style.color = C.violetLight}
+              onMouseLeave={e => e.currentTarget.style.color = isActive(item.href) ? C.violetLight : C.textMuted}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
+      <style>{`@media (max-width: 900px) { #mb58-nav { display: none !important; } .mb58-burger { display: flex !important; } }`}</style>
 
       {/* ── Main Content ───────────────────────────────────────────────── */}
       <div style={{ paddingTop: "60px" }}>

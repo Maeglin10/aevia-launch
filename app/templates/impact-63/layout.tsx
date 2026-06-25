@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -30,6 +30,8 @@ export default function MaisonDrouetLayout({
     { label: "Contact", href: "/templates/impact-63/contact" },
   ] as const;
 
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: "'EB Garamond', serif", minHeight: "100vh", overflowX: "clip" }}>
       <StyleInjector />
@@ -53,7 +55,7 @@ export default function MaisonDrouetLayout({
         }}
       >
         {/* Left nav links */}
-        <div style={{ display: "flex", gap: "2rem", flex: 1 }}>
+        <div id="mb63-left" style={{ display: "flex", gap: "2rem", flex: 1 }}>
           {leftLinks.map((link) => (
             <Link
               key={link.href}
@@ -87,7 +89,7 @@ export default function MaisonDrouetLayout({
         </Link>
 
         {/* Right nav links */}
-        <div style={{ display: "flex", gap: "2rem", flex: 1, justifyContent: "flex-end" }}>
+        <div id="mb63-right" style={{ display: "flex", gap: "2rem", flex: 1, justifyContent: "flex-end" }}>
           {rightLinks.map((link) => (
             <Link
               key={link.href}
@@ -110,7 +112,29 @@ export default function MaisonDrouetLayout({
             </Link>
           ))}
         </div>
+
+        <button
+          className="mb63-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4, position: "absolute", right: "1.5rem" }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.textMuted, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.textMuted, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.textMuted, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
       </motion.nav>
+
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 70, left: 0, right: 0, zIndex: 99, background: "rgba(14,12,10,0.98)", borderBottom: `1px solid ${C.border}`, padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
+          {[...leftLinks, ...rightLinks].map((link) => (
+            <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)} style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.85rem", letterSpacing: "0.2em", color: isActive(link.href) ? C.gold : C.textMuted, textDecoration: "none" }}>
+              {link.label.toUpperCase()}
+            </Link>
+          ))}
+        </div>
+      )}
+      <style>{`@media (max-width: 900px) { #mb63-left { display: none !important; } #mb63-right { display: none !important; } .mb63-burger { display: flex !important; } }`}</style>
 
       {/* ── Main content ── */}
       <div style={{ paddingTop: "70px" }}>

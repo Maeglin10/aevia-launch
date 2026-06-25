@@ -26,6 +26,7 @@ export default function LeaLayout({
     { label: "About", href: "/templates/impact-69/about" },
     { label: "Contact", href: "/templates/impact-69/contact" },
   ];
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
     <div style={{ background: C.bg, color: C.cream, minHeight: "100vh", fontFamily: "'Archivo', sans-serif", overflowX: "hidden" }}>
@@ -49,7 +50,47 @@ export default function LeaLayout({
           </svg>
           <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.15em", color: C.cream, textTransform: "uppercase" }}>Léa Rousseau</span>
         </Link>
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="flex-nav-69">
+        <div id="mb69-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontSize: 13,
+                color: isActive(link.href) ? C.cream : C.muted,
+                textDecoration: "none",
+                letterSpacing: "0.05em",
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                if (!isActive(link.href)) e.currentTarget.style.color = C.cream;
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive(link.href)) e.currentTarget.style.color = C.muted;
+              }}
+            >
+              {link.label}
+            </Link>
+          ))}
+          <Link href="/templates/impact-69/prints" style={{ textDecoration: "none" }}>
+            <MagneticButton style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, color: C.bg, background: C.moss, padding: "8px 18px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+              Print Shop
+            </MagneticButton>
+          </Link>
+      </div>
+        <button
+          className="mb69-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
+      </nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 68, left: 0, right: 0, zIndex: 99, background: "rgba(10,10,10,0.97)", borderBottom: "1px solid rgba(255,255,255,0.1)", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -78,7 +119,8 @@ export default function LeaLayout({
             </MagneticButton>
           </Link>
         </div>
-      </nav>
+      )}
+      <style>{`@media (max-width: 900px) { #mb69-nav { display: none !important; } .mb69-burger { display: flex !important; } }`}</style>
 
       <div style={{ paddingTop: "64px" }} />
 
