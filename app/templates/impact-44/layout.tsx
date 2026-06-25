@@ -8,6 +8,7 @@ import { C, NAV_LINKS } from "./shared";
 
 export default function GhostProtocolLayout({ children }: { children: React.ReactNode }) {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false)
   const pathname = usePathname();
   const { scrollYProgress } = useScroll();
 
@@ -211,7 +212,57 @@ export default function GhostProtocolLayout({ children }: { children: React.Reac
         >
           GHOST<span style={{ color: C.white }}>PROTOCOL</span>
         </Link>
-        <div style={{ display: "flex", gap: 36, alignItems: "center" }}>
+        <div id="mb44-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV_LINKS.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <Link
+                key={link.label}
+                href={link.href}
+                style={{
+                  color: active ? C.green : C.textMid,
+                  fontSize: 11,
+                  letterSpacing: "0.25em",
+                  textDecoration: "none",
+                  textTransform: "uppercase",
+                  transition: "color 0.2s",
+                  fontWeight: active ? 700 : 400,
+                }}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+          <Link
+            href="/templates/impact-44/recruit"
+            style={{
+              padding: "10px 24px",
+              background: pathname === "/templates/impact-44/recruit" ? C.green : "transparent",
+              border: `1px solid ${C.green}`,
+              color: pathname === "/templates/impact-44/recruit" ? C.bg : C.green,
+              fontSize: 11,
+              letterSpacing: "0.25em",
+              textDecoration: "none",
+              textTransform: "uppercase",
+              boxShadow: `0 0 12px rgba(0,255,100,0.15)`,
+              transition: "all 0.2s",
+            }}
+          >
+            RECRUIT
+          </Link>
+      </div>
+        <button
+          className="mb44-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
+      </nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
           {NAV_LINKS.map((link) => {
             const active = pathname === link.href;
             return (
@@ -250,7 +301,8 @@ export default function GhostProtocolLayout({ children }: { children: React.Reac
             RECRUIT
           </Link>
         </div>
-      </nav>
+      )}
+      <style>{`@media (max-width: 900px) { #mb44-nav { display: none !important; } .mb44-burger { display: flex !important; } }`}</style>
 
       {/* Main Content */}
       <main style={{ flex: 1, paddingTop: isHome ? 0 : 72 }}>
