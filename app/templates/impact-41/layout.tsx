@@ -8,6 +8,7 @@ import { SCENES } from './shared';
 
 export default function VMMaisonLayout({ children }: { children: React.ReactNode }) {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -81,6 +82,7 @@ export default function VMMaisonLayout({ children }: { children: React.ReactNode
 
         {/* Nav Links */}
         <div
+          id="mb41-nav"
           style={{
             display: 'flex',
             gap: '2.5rem',
@@ -110,7 +112,7 @@ export default function VMMaisonLayout({ children }: { children: React.ReactNode
         </div>
 
         {/* CTA */}
-        <Link href="/templates/impact-41/contact" style={{ textDecoration: 'none' }}>
+        <Link href="/templates/impact-41/contact" style={{ textDecoration: 'none' }} className="mb41-cta">
           <motion.div
             whileHover={{ letterSpacing: '0.32em' }}
             transition={{ duration: 0.35 }}
@@ -128,7 +130,29 @@ export default function VMMaisonLayout({ children }: { children: React.ReactNode
             Prendre Contact
           </motion.div>
         </Link>
+
+        <button
+          className="mb41-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: 'none', flexDirection: 'column', gap: 5, background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
+        >
+          <span style={{ display: 'block', width: 24, height: 1.5, background: SCENES[0].textPrimary, transition: 'all 0.3s', transform: mobileOpen ? 'rotate(45deg) translate(4.5px, 4.5px)' : 'none' }} />
+          <span style={{ display: 'block', width: 24, height: 1.5, background: SCENES[0].textPrimary, transition: 'all 0.3s', opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: 'block', width: 24, height: 1.5, background: SCENES[0].textPrimary, transition: 'all 0.3s', transform: mobileOpen ? 'rotate(-45deg) translate(4.5px, -4.5px)' : 'none' }} />
+        </button>
       </motion.nav>
+
+      {mobileOpen && (
+        <div style={{ position: 'fixed', top: 72, left: 0, right: 0, zIndex: 199, background: `${SCENES[0].bg}f5`, borderBottom: `1px solid ${SCENES[0].borderColor}`, padding: '24px 32px', display: 'flex', flexDirection: 'column', gap: 20, backdropFilter: 'blur(16px)' }}>
+          {navLinks.map(link => (
+            <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)} style={{ fontFamily: 'monospace', fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: SCENES[0].textSecondary, textDecoration: 'none' }}>
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      )}
+      <style>{`@media (max-width: 900px) { #mb41-nav { display: none !important; } .mb41-cta { display: none !important; } .mb41-burger { display: flex !important; } }`}</style>
 
       {/* Main Content */}
       <main style={{ flex: 1, paddingTop: isHome ? 0 : '80px' }}>
