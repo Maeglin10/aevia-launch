@@ -176,19 +176,19 @@ const EXTRA_TESTIMONIALS = [
 const FAQS = [
   {
     q: 'Quels sont les délais de livraison ?',
-    a: "Nous livrons en 48h ouvrées en France métropolitaine pour la majorité de nos produits en stock. Pour les commandes sur mesure ou les produits en précommande, comptez 2 à 3 semaines. Un email de suivi vous est envoyé dès l\'expédition."
+    a: 'Nous livrons en 48h ouvrées en France métropolitaine pour la majorité de nos produits en stock. Pour les commandes sur mesure ou les produits en précommande, comptez 2 à 3 semaines. Un email de suivi vous est envoyé dès l\'expédition.'
   },
   {
-    q: "Proposez-vous un service d\'installation ?",
-    a: "Oui ! Nous proposons une option installation par nos techniciens certifiés RGE. Le devis est gratuit et sans engagement. Nos installateurs interviennent dans toute la France métropolitaine. L\'installation comprend la pose, le raccordement au conduit de fumée, et la mise en service."
+    q: 'Proposez-vous un service d\'installation ?',
+    a: 'Oui ! Nous proposons une option installation par nos techniciens certifiés RGE. Le devis est gratuit et sans engagement. Nos installateurs interviennent dans toute la France métropolitaine. L\'installation comprend la pose, le raccordement au conduit de fumée, et la mise en service.'
   },
   {
     q: 'Quelle est la différence entre un poêle à bois et un poêle à granulés ?',
-    a: "Le poêle à bois fonctionne avec des bûches et offre une chaleur naturelle et authentique. Il ne nécessite pas d\'électricité pour fonctionner. Le poêle à granulés (pellets) est plus automatisé, programmable et souvent plus économique en combustible. Il nécessite une alimentation électrique mais offre un confort de gestion supérieur."
+    a: 'Le poêle à bois fonctionne avec des bûches et offre une chaleur naturelle et authentique. Il ne nécessite pas d\'électricité pour fonctionner. Le poêle à granulés (pellets) est plus automatisé, programmable et souvent plus économique en combustible. Il nécessite une alimentation électrique mais offre un confort de gestion supérieur.'
   },
   {
     q: 'Quelles aides financières puis-je obtenir ?',
-    a: "En France, vous pouvez bénéficier de MaPrimeRénov\' (jusqu\'à 2 500€ selon vos revenus), de l\'éco-prêt à taux zéro, et de la TVA réduite à 5,5 % pour les poêles labellisés Flamme Verte. Notre équipe vous aide à monter votre dossier d\'aides gratuitement."
+    a: 'En France, vous pouvez bénéficier de MaPrimeRénov\' (jusqu\'à 2 500€ selon vos revenus), de l\'éco-prêt à taux zéro, et de la TVA réduite à 5,5 % pour les poêles labellisés Flamme Verte. Notre équipe vous aide à monter votre dossier d\'aides gratuitement.'
   },
   {
     q: 'Comment choisir la puissance de mon poêle ?',
@@ -196,89 +196,11 @@ const FAQS = [
   },
   {
     q: 'Puis-je retourner un produit si je ne suis pas satisfait ?',
-    a: "Conformément à la loi française, vous disposez de 14 jours de rétractation à compter de la livraison. Le produit doit être retourné dans son emballage d\'origine et non installé. Pour les appareils déjà posés, nous étudions chaque situation au cas par cas. Contactez notre service client au 01 23 45 67 89."
+    a: 'Conformément à la loi française, vous disposez de 14 jours de rétractation à compter de la livraison. Le produit doit être retourné dans son emballage d\'origine et non installé. Pour les appareils déjà posés, nous étudions chaque situation au cas par cas. Contactez notre service client au 01 23 45 67 89.'
   },
   {
-    q: "Les appareils Flamme Verte ouvrent-ils droit à des crédits d\'impôt ?",
-    a: "Oui ! Les appareils labellisés Flamme Verte 5 étoiles et plus ouvrent droit à MaPrimeRénov\'. Pour la campagne 2025, les montants d\'aide peuvent atteindre 2 000 à 3 000€ selon votre tranche de revenu et le type d\'appareil. Nous vous fournirons tous les documents nécessaires à votre demande."
-  },
-];
-
-// ─── Multi-page navigation config ───────────────────────────────────────────
-// PATTERN (reused across impact themes): a single `page` state drives in-page
-// navigation. NAV_PAGES maps the route key -> nav label. The existing single-page
-// content renders verbatim under page === "home"; every other key renders a
-// theme-native sub-page built from the same `C` tokens, fonts (Playfair + Inter)
-// and section/card styling. Nav, footer and cart stay mounted across all pages.
-type FlammePage = 'home' | 'boutique' | 'blog' | 'about' | 'contact' | 'cgv' | 'mentions';
-
-const NAV_PAGES: { key: FlammePage; label: string }[] = [
-  { key: 'home',     label: 'Accueil' },
-  { key: 'boutique', label: 'Boutique' },
-  { key: 'blog',     label: 'Blog' },
-  { key: 'about',    label: 'À propos' },
-  { key: 'contact',  label: 'Contact' },
-  { key: 'cgv',      label: 'CGV' },
-  { key: 'mentions', label: 'Mentions' },
-];
-
-// ─── Blog mock data (FR — chauffage / poêles) ─────────────────────────────────
-const BLOG_POSTS = [
-  {
-    slug: 'bois-ou-granules',
-    title: 'Poêle à bois ou à granulés : lequel choisir ?',
-    date: '14 mai 2025',
-    category: "Guide d\'achat",
-    emoji: '🔥',
-    excerpt:
-      "Bûches authentiques ou pellets automatisés ? On compare rendement, confort d\'usage, coût du combustible et entretien pour vous aider à trancher.",
-    body: [
-      'Le poêle à bois séduit par la chaleur naturelle et le crépitement des bûches. Il ne nécessite aucune électricité, fonctionne en cas de coupure de courant et offre un rendement de 75 à 85 % sur les modèles labellisés Flamme Verte. En contrepartie, il demande un rechargement manuel toutes les heures ou deux et un stockage de bois conséquent.',
-      "Le poêle à granulés, lui, mise sur l\'automatisation : réservoir de pellets, allumage programmé, régulation par sonde et pilotage Wi-Fi sur les modèles récents comme le MCZ Musa. Son rendement dépasse souvent 90 %, et le combustible est plus dense et plus facile à stocker. Il requiert toutefois une alimentation électrique et un entretien régulier du brûleur.",
-      "Notre conseil : privilégiez le bois si vous recherchez l\'ambiance et l\'autonomie énergétique, et le granulés si le confort de gestion et la programmation priment. Dans les deux cas, notre configurateur en ligne calcule la puissance idéale selon votre surface.",
-    ],
-  },
-  {
-    slug: 'aides-2025',
-    title: "MaPrimeRénov\' 2025 : toutes les aides pour votre poêle",
-    date: '2 mai 2025',
-    category: 'Financement',
-    emoji: '🌿',
-    excerpt:
-      "MaPrimeRénov\', éco-PTZ, TVA à 5,5 % : le point complet sur les dispositifs qui peuvent réduire la facture de plusieurs milliers d\'euros.",
-    body: [
-      "En 2025, l\'installation d\'un appareil de chauffage au bois labellisé Flamme Verte 5 étoiles et plus ouvre droit à MaPrimeRénov\'. Le montant varie de 1 000 à 3 000 € selon votre tranche de revenus et le type d\'appareil installé.",
-      "À cela s\'ajoute l\'éco-prêt à taux zéro, qui permet de financer le reste à charge sans intérêt, ainsi qu\'une TVA réduite à 5,5 % appliquée directement sur la fourniture et la pose par un professionnel certifié RGE.",
-      "Nos conseillers montent gratuitement votre dossier d\'aides et vous fournissent l\'ensemble des justificatifs (facture détaillée, attestation RGE, fiche technique). De quoi alléger sensiblement votre investissement.",
-    ],
-  },
-  {
-    slug: 'puissance-poele',
-    title: 'Bien dimensionner la puissance de son poêle',
-    date: '21 avril 2025',
-    category: 'Conseils',
-    emoji: '⚡',
-    excerpt:
-      'Un poêle surdimensionné encrasse, un poêle sous-dimensionné peine à chauffer. Voici la méthode pour calculer les kW dont vous avez réellement besoin.',
-    body: [
-      "La règle de base consiste à compter environ 1 kW pour 10 m² dans un logement bien isolé et avec une hauteur sous plafond standard de 2,5 m. Pour une maison de 80 m², un poêle de 8 kW comme l\'Invicta Prélude sera parfaitement adapté.",
-      "Dans une habitation mal isolée ou située en région froide, on resserre le ratio à 1 kW pour 7 à 8 m². À l\'inverse, dans un logement BBC très performant, un appareil légèrement moins puissant suffit et évite la surchauffe.",
-      'Attention au surdimensionnement : un poêle trop puissant tourne au ralenti, encrasse la vitre et le conduit, et perd en rendement. Mieux vaut un appareil correctement calibré, quitte à le faire fonctionner à pleine charge.',
-    ],
-  },
-  {
-    slug: 'entretien-hivernal',
-    title: "Entretien : préparer son poêle pour l\'hiver",
-    date: '8 avril 2025',
-    category: 'Entretien',
-    emoji: '🛠️',
-    excerpt:
-      'Ramonage, joints, vitre, conduit : la check-list complète pour repartir sur une saison de chauffe sereine et performante.',
-    body: [
-      'Le ramonage du conduit est obligatoire au moins une fois par an, et deux fois pour les appareils à bois selon les communes. Faites-le réaliser par un professionnel qui vous remettra un certificat indispensable pour votre assurance.',
-      "Vérifiez ensuite l\'état des joints de porte et de vitre : un joint durci ou écrasé laisse entrer de l\'air parasite et dégrade la combustion. Leur remplacement est simple et peu coûteux. Nettoyez la vitre avec un produit adapté ou de la cendre humide.",
-      'Pour les poêles à granulés, aspirez le creuset, videz le bac à cendres et contrôlez la vis sans fin et le ventilateur. Un appareil bien entretenu consomme moins, chauffe mieux et dure beaucoup plus longtemps.',
-    ],
+    q: 'Les appareils Flamme Verte ouvrent-ils droit à des crédits d\'impôt ?',
+    a: 'Oui ! Les appareils labellisés Flamme Verte 5 étoiles et plus ouvrent droit à MaPrimeRénov\'. Pour la campagne 2025, les montants d\'aide peuvent atteindre 2 000 à 3 000€ selon votre tranche de revenu et le type d\'appareil. Nous vous fournirons tous les documents nécessaires à votre demande.'
   },
 ];
 
@@ -892,7 +814,7 @@ function Configurator() {
     const budgetMap: Record<string, number> = { low: 1000, mid: 2000, high: 3500, luxury: 99999 };
     const maxBudget = budgetMap[budget] ?? 99999;
     const typeMap:   Record<string, string> = {
-      bois: "Poêle à bois', granules: 'Poêle à granulés', insert: 'Insert cheminée', ethanol: 'Cheminée éthanol"
+      bois: 'Poêle à bois', granules: 'Poêle à granulés', insert: 'Insert cheminée', ethanol: 'Cheminée éthanol'
     };
     const wantType = typeMap[type] ?? '';
     const candidates = PRODUCTS.filter(p => {
@@ -1340,15 +1262,11 @@ function CartDrawer({
 function MobileNavDrawer({
   open,
   onClose,
-  navPages,
-  currentPage,
-  goTo,
+  navLinks,
 }: {
   open: boolean;
   onClose: () => void;
-  navPages: { key: FlammePage; label: string }[];
-  currentPage: FlammePage;
-  goTo: (p: FlammePage) => void;
+  navLinks: { label: string; href: string }[];
 }) {
   return (
     <AnimatePresence>
@@ -1393,32 +1311,28 @@ function MobileNavDrawer({
                 ×
               </motion.button>
             </div>
-            {navPages.map((lnk, idx) => (
-              <motion.button
-                key={lnk.key}
+            {navLinks.map((lnk, idx) => (
+              <motion.a
+                key={lnk.href}
+                href={lnk.href}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: idx * 0.07 }}
-                onClick={() => goTo(lnk.key)}
+                onClick={onClose}
                 style={{
-                  background: 'none',
-                  border: 'none',
-                  borderBottom: `1px solid ${C.borderLight}`,
-                  color: currentPage === lnk.key ? C.accentLight : C.text,
+                  color: C.text,
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '1.05rem',
-                  fontWeight: currentPage === lnk.key ? 700 : 500,
+                  fontWeight: 500,
                   textDecoration: 'none',
                   padding: '0.85rem 0',
+                  borderBottom: `1px solid ${C.borderLight}`,
                   display: 'block',
-                  width: '100%',
-                  textAlign: 'left',
-                  cursor: 'pointer',
                   transition: 'color 0.2s',
                 }}
               >
                 {lnk.label}
-              </motion.button>
+              </motion.a>
             ))}
             <motion.button
               whileHover={{ scale: 1.03 }}
@@ -1683,804 +1597,12 @@ function PromoBanner() {
   );
 }
 
-// ─── Sub-page hero (shared by all inner pages) ────────────────────────────────
-function PageHero({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle?: string }) {
-  return (
-    <section style={{
-      position: 'relative',
-      overflow: 'hidden',
-      padding: 'clamp(5rem, 12vw, 8rem) 2rem clamp(3rem, 7vw, 4.5rem)',
-      background: `radial-gradient(ellipse at 50% 0%, rgba(212,96,26,0.16) 0%, transparent 60%), ${C.bg}`,
-      textAlign: 'center',
-      borderBottom: `1px solid ${C.borderLight}`,
-    }}>
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        backgroundImage: `linear-gradient(${C.borderLight} 1px, transparent 1px), linear-gradient(90deg, ${C.borderLight} 1px, transparent 1px)`,
-        backgroundSize: '60px 60px',
-        opacity: 0.3,
-        pointerEvents: 'none',
-      }} />
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        style={{ position: 'relative', zIndex: 1, maxWidth: '780px', margin: '0 auto' }}
-      >
-        <p style={{ color: C.accentLight, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '0.75rem' }}>
-          {eyebrow}
-        </p>
-        <h1 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(2.1rem, 5.5vw, 3.6rem)', fontWeight: 800, lineHeight: 1.12 }}>
-          {title}
-        </h1>
-        {subtitle && (
-          <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: 'clamp(1rem, 2.2vw, 1.1rem)', lineHeight: 1.7, maxWidth: '560px', margin: '1.25rem auto 0' }}>
-            {subtitle}
-          </p>
-        )}
-      </motion.div>
-    </section>
-  );
-}
-
-// ─── Boutique sub-page (grid reuses ProductCard + detail view) ────────────────
-function BoutiquePage({
-  productDetail,
-  setProductDetail,
-  onAddToCart,
-}: {
-  productDetail: number | null;
-  setProductDetail: (i: number | null) => void;
-  onAddToCart: (item: { id: number; name: string; price: number; emoji: string }) => void;
-}) {
-  if (productDetail !== null && PRODUCTS[productDetail]) {
-    return (
-      <ProductDetailView
-        p={PRODUCTS[productDetail]}
-        onBack={() => setProductDetail(null)}
-        onAddToCart={onAddToCart}
-      />
-    );
-  }
-
-  return (
-    <div style={{ background: C.bg }}>
-      <PageHero
-        eyebrow="Toute la boutique"
-        title="Notre catalogue chauffage"
-        subtitle="Poêles à bois, poêles à granulés, inserts et cheminées design. Cliquez sur un appareil pour consulter sa fiche détaillée et l'ajouter au panier."
-      />
-      <section style={{ padding: 'clamp(3rem, 7vw, 5rem) 0 clamp(4rem, 9vw, 7rem)' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem' }}>
-          <div className="fc-grid-products">
-            {PRODUCTS.map((p, i) => (
-              <div
-                key={p.id}
-                onClick={() => {
-                  setProductDetail(i);
-                  if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'auto' });
-                }}
-              >
-                <ProductCard p={p} i={i} onAddToCart={onAddToCart} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-// ─── Product detail view (theme styling: image panel + specs + add to cart) ───
-function ProductDetailView({
-  p,
-  onBack,
-  onAddToCart,
-}: {
-  p: typeof PRODUCTS[number];
-  onBack: () => void;
-  onAddToCart: (item: { id: number; name: string; price: number; emoji: string }) => void;
-}) {
-  const [added, setAdded] = useState(false);
-  const discount = p.priceOld ? Math.round((1 - p.price / p.priceOld) * 100) : null;
-
-  const handleAdd = useCallback(() => {
-    onAddToCart({ id: p.id, name: p.name, price: p.price, emoji: p.emoji });
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1600);
-  }, [p, onAddToCart]);
-
-  const specs = [
-    { label: 'Type', value: p.type },
-    { label: 'Puissance', value: p.kw ? `${p.kw} kW` : 'Décoratif' },
-    { label: 'Surface chauffée', value: p.surface },
-    { label: 'Marque', value: p.brand },
-    { label: 'Label', value: p.label },
-  ];
-
-  return (
-    <div style={{ background: C.bg, minHeight: '70vh' }}>
-      <section style={{ padding: 'clamp(4.5rem, 9vw, 7rem) 0 clamp(4rem, 9vw, 7rem)' }}>
-        <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '0 2rem' }}>
-          <button
-            onClick={onBack}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              background: 'none',
-              border: 'none',
-              color: C.textMuted,
-              cursor: 'pointer',
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '0.88rem',
-              marginBottom: '2.5rem',
-            }}
-            onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = C.accentLight)}
-            onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = C.textMuted)}
-          >
-            ← Retour à la boutique
-          </button>
-
-          <div className="fc-grid-2" style={{ alignItems: 'start' }}>
-            {/* Image panel */}
-            <motion.div
-              initial={{ opacity: 0, x: -28 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.55 }}
-              style={{
-                background: `linear-gradient(145deg, #1e1208, #2a1a0a)`,
-                border: `1px solid ${C.border}`,
-                borderRadius: '20px',
-                height: 'clamp(340px, 50vw, 520px)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                overflow: 'hidden',
-                boxShadow: C.cardShadow,
-              }}
-            >
-              <TagBadge tag={p.tag} />
-              {discount && (
-                <span style={{
-                  position: "absolute', top: '0.9rem', right: '0.9rem",
-                  background: "#8b2020', color: C.white, fontSize: '0.72rem",
-                  fontWeight: 700, padding: '0.25rem 0.6rem', borderRadius: '4px',
-                  fontFamily: 'Inter, sans-serif',
-                }}>
-                  -{discount}%
-                </span>
-              )}
-              <TemplateIcon emoji={p.emoji} size={140} />
-            </motion.div>
-
-            {/* Info */}
-            <motion.div
-              initial={{ opacity: 0, x: 28 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.55, delay: 0.08 }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.6rem' }}>
-                <span style={{ color: C.accentLight, fontSize: '0.75rem', fontFamily: 'Inter, sans-serif', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{p.brand}</span>
-                <span style={{ color: C.textMuted, fontSize: '0.7rem' }}>·</span>
-                <span style={{ color: C.textMuted, fontSize: '0.78rem', fontFamily: 'Inter, sans-serif' }}>{p.type}</span>
-              </div>
-              <h1 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', fontWeight: 800, lineHeight: 1.18, marginBottom: '1rem' }}>
-                {p.name}
-              </h1>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.5rem' }}>
-                <Stars rating={p.rating} />
-                <span style={{ color: C.textMuted, fontSize: '0.82rem', fontFamily: 'Inter, sans-serif' }}>
-                  {p.rating} · {p.reviews} avis vérifiés
-                </span>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.8rem', marginBottom: '1.75rem' }}>
-                <span style={{ color: C.gold, fontFamily: 'Playfair Display, serif', fontSize: '2.2rem', fontWeight: 800 }}>{fmt(p.price)}</span>
-                {p.priceOld && (
-                  <span style={{ color: C.textMuted, fontSize: '1rem', fontFamily: 'Inter, sans-serif', textDecoration: 'line-through' }}>{fmt(p.priceOld)}</span>
-                )}
-              </div>
-
-              <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', lineHeight: 1.8, marginBottom: '2rem', maxWidth: '480px' }}>
-                Le {p.shortName} allie performance et design pour réchauffer jusqu'à {p.surface} avec élégance.
-                Appareil {p.certEco ? 'éco-certifié, ' : ''}livré sous 48 h en France métropolitaine, installation par technicien
-                certifié RGE disponible en option.
-              </p>
-
-              {/* Specs */}
-              <div style={{
-                background: C.bgCard,
-                border: `1px solid ${C.borderLight}`,
-                borderRadius: '16px',
-                padding: '1.5rem',
-                marginBottom: '2rem',
-              }}>
-                {specs.map((s, idx) => (
-                  <div key={s.label} style={{
-                    display: "flex', justifyContent: 'space-between', gap: '1rem",
-                    padding: '0.6rem 0',
-                    borderBottom: idx < specs.length - 1 ? `1px solid ${C.borderLight}` : 'none',
-                  }}>
-                    <span style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.85rem' }}>{s.label}</span>
-                    <span style={{ color: C.text, fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', fontWeight: 600, textAlign: 'right' }}>{s.value}</span>
-                  </div>
-                ))}
-              </div>
-
-              <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={handleAdd}
-                style={{
-                  width: '100%',
-                  maxWidth: '360px',
-                  background: added
-                    ? `linear-gradient(135deg, #2a7a4f, #3aad6f)`
-                    : `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
-                  color: C.white,
-                  border: 'none',
-                  borderRadius: '12px',
-                  padding: '1rem',
-                  fontSize: '1rem',
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  letterSpacing: '0.02em',
-                  transition: 'background 0.3s',
-                }}
-              >
-                {added ? '✓ Ajouté au panier' : 'Ajouter au panier'}
-              </motion.button>
-              <p style={{ color: C.textMuted, fontSize: '0.75rem', fontFamily: 'Inter, sans-serif', marginTop: '0.85rem' }}>
-                Livraison offerte · Paiement 3× sans frais · Garantie SAV 5 ans
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-// ─── Blog sub-page (index + single article) ───────────────────────────────────
-function BlogPage({
-  blogSlug,
-  setBlogSlug,
-}: {
-  blogSlug: string | null;
-  setBlogSlug: (s: string | null) => void;
-}) {
-  const post = blogSlug ? BLOG_POSTS.find(b => b.slug === blogSlug) : null;
-
-  if (post) {
-    return (
-      <div style={{ background: C.bg }}>
-        <PageHero eyebrow={post.category} title={post.title} />
-        <section style={{ padding: 'clamp(3rem, 7vw, 4.5rem) 0 clamp(4rem, 9vw, 7rem)' }}>
-          <div style={{ maxWidth: '760px', margin: '0 auto', padding: '0 2rem' }}>
-            <button
-              onClick={() => setBlogSlug(null)}
-              style={{
-                display: "inline-flex', alignItems: 'center', gap: '0.5rem",
-                background: "none', border: 'none', color: C.textMuted, cursor: 'pointer",
-                fontFamily: "Inter, sans-serif', fontSize: '0.88rem', marginBottom: '2rem",
-              }}
-              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = C.accentLight)}
-              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = C.textMuted)}
-            >
-              ← Tous les articles
-            </button>
-            <div style={{
-              height: "220px', borderRadius: '18px",
-              background: `linear-gradient(145deg, #1e1208, #2a1a0a)`,
-              border: `1px solid ${C.border}`,
-              display: "flex', alignItems: 'center', justifyContent: 'center",
-              marginBottom: '2rem',
-            }}>
-              <TemplateIcon emoji={post.emoji} size={72} />
-            </div>
-            <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', marginBottom: '2rem' }}>
-              {post.date} · {post.category}
-            </p>
-            {post.body.map((para, idx) => (
-              <p key={idx} style={{ color: C.text, fontFamily: 'Inter, sans-serif', fontSize: '1rem', lineHeight: 1.85, marginBottom: '1.5rem' }}>
-                {para}
-              </p>
-            ))}
-          </div>
-        </section>
-      </div>
-    );
-  }
-
-  return (
-    <div style={{ background: C.bg }}>
-      <PageHero
-        eyebrow="Le journal Flamme & Co"
-        title="Conseils & guides chauffage"
-        subtitle="Guides d'achat, aides financières, dimensionnement, entretien : nos experts partagent leurs conseils pour bien chauffer votre intérieur."
-      />
-      <section style={{ padding: 'clamp(3rem, 7vw, 5rem) 0 clamp(4rem, 9vw, 7rem)' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem' }}>
-          <div className="fc-grid-2">
-            {BLOG_POSTS.map((b, i) => (
-              <motion.div
-                key={b.slug}
-                initial={{ opacity: 0, y: 36 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ delay: (i % 2) * 0.08, duration: 0.55 }}
-                onClick={() => {
-                  setBlogSlug(b.slug);
-                  if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'auto' });
-                }}
-                whileHover={{ y: -6 }}
-                style={{
-                  background: C.bgCard,
-                  border: `1px solid ${C.borderLight}`,
-                  borderRadius: '18px',
-                  overflow: 'hidden',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  boxShadow: C.cardShadow,
-                }}
-              >
-                <div style={{
-                  height: '170px',
-                  background: `linear-gradient(145deg, #1e1208, #2a1a0a)`,
-                  display: "flex', alignItems: 'center', justifyContent: 'center",
-                  borderBottom: `1px solid ${C.borderLight}`,
-                }}>
-                  <TemplateIcon emoji={b.emoji} size={56} />
-                </div>
-                <div style={{ padding: '1.5rem 1.5rem 1.75rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                  <span style={{
-                    alignSelf: 'flex-start',
-                    background: `${C.accent}22`, color: C.accentLight,
-                    fontSize: '0.68rem', fontFamily: 'Inter, sans-serif', fontWeight: 700,
-                    textTransform: "uppercase', letterSpacing: '0.08em",
-                    padding: '0.2rem 0.6rem', borderRadius: '20px', border: `1px solid ${C.border}`,
-                    marginBottom: '0.85rem',
-                  }}>
-                    {b.category}
-                  </span>
-                  <h3 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: '1.25rem', fontWeight: 700, lineHeight: 1.3, marginBottom: '0.6rem' }}>
-                    {b.title}
-                  </h3>
-                  <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.88rem', lineHeight: 1.7, marginBottom: '1.25rem', flex: 1 }}>
-                    {b.excerpt}
-                  </p>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem' }}>{b.date}</span>
-                    <span style={{ color: C.accentLight, fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', fontWeight: 600 }}>Lire →</span>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-// ─── À propos sub-page ────────────────────────────────────────────────────────
-function AboutPage({ goTo }: { goTo: (p: FlammePage) => void }) {
-  const values = [
-    { icon: '🌿', title: 'Engagement écologique', desc: 'Tous nos appareils respectent les normes Flamme Verte et Écoconception 2022. Chauffer mieux en consommant moins, c\'est notre priorité.' },
-    { icon: '🤝', title: 'Conseil humain', desc: 'Une équipe de passionnés basée en France, joignable par téléphone, qui vous accompagne du choix de l\'appareil au montage de votre dossier d\'aides.' },
-    { icon: '🏅', title: 'Marques sélectionnées', desc: 'Nous travaillons exclusivement avec les meilleurs fabricants européens : MCZ, Invicta, Godin, Stuv, Edilkamin, Planika.' },
-    { icon: '🛡️', title: 'SAV réactif', desc: 'Garantie constructeur jusqu\'à 5 ans et service après-vente basé en France, pour une tranquillité totale, saison après saison.' },
-  ];
-
-  return (
-    <div style={{ background: C.bg }}>
-      <PageHero
-        eyebrow="Notre histoire"
-        title="Flamme & Co, l'art de chauffer"
-        subtitle="Spécialiste du chauffage au bois et à granulés depuis 2008, nous réchauffons les foyers français avec exigence et passion."
-      />
-
-      <section className="fc-section-pad" style={{ background: C.bg }}>
-        <div style={{ maxWidth: '780px', margin: '0 auto', padding: '0 2rem' }}>
-          <p style={{ color: C.text, fontFamily: 'Inter, sans-serif', fontSize: '1.05rem', lineHeight: 1.85, marginBottom: '1.5rem' }}>
-            Fondée en 2008 par une famille de passionnés de chauffage, Flamme & Co est née d'une conviction simple :
-            la chaleur d'un poêle ne devrait jamais se résumer à un radiateur. C'est une ambiance, un rituel, un confort
-            qui transforme une maison en foyer.
-          </p>
-          <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '1rem', lineHeight: 1.85, marginBottom: '1.5rem' }}>
-            En plus de quinze ans, nous avons équipé plus de 4 200 foyers à travers toute la France. De la sélection
-            rigoureuse des meilleures marques européennes à l'installation par nos techniciens certifiés RGE, nous
-            maîtrisons chaque étape pour vous offrir un appareil parfaitement adapté à votre logement.
-          </p>
-          <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '1rem', lineHeight: 1.85 }}>
-            Aujourd'hui, notre catalogue couvre poêles à bois, poêles à granulés, inserts, foyers fermés et cheminées
-            design. Et notre engagement reste le même : des produits performants, certifiés Flamme Verte, et un
-            accompagnement humain de bout en bout.
-          </p>
-        </div>
-      </section>
-
-      <section className="fc-section-pad" style={{ background: C.bgAlt, paddingTop: 0 }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '4rem 2rem 0' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-            <p style={{ color: C.accentLight, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '0.65rem' }}>
-              Nos valeurs
-            </p>
-            <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800 }}>
-              Ce qui nous guide
-            </h2>
-          </div>
-          <div className="fc-grid-2">
-            {values.map((v, i) => (
-              <motion.div
-                key={v.title}
-                initial={{ opacity: 0, y: 32 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ delay: (i % 2) * 0.1, duration: 0.5 }}
-                style={{
-                  background: C.bgCard,
-                  border: `1px solid ${C.borderLight}`,
-                  borderRadius: '18px',
-                  padding: '2rem 1.75rem',
-                  display: 'flex',
-                  gap: '1.25rem',
-                  alignItems: 'flex-start',
-                }}
-              >
-                <div style={{
-                  width: '54px', height: '54px', borderRadius: '50%', flexShrink: 0,
-                  background: `${C.accent}22`, border: `1px solid ${C.border}`,
-                  display: "flex', alignItems: 'center', justifyContent: 'center",
-                }}>
-                  <TemplateIcon emoji={v.icon} size={26} />
-                </div>
-                <div>
-                  <h3 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: '1.15rem', fontWeight: 700, marginBottom: '0.5rem' }}>{v.title}</h3>
-                  <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.88rem', lineHeight: 1.7 }}>{v.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <div style={{ textAlign: 'center', marginTop: '3.5rem' }}>
-            <motion.button
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.96 }}
-              onClick={() => goTo('boutique')}
-              style={{
-                background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
-                color: C.white, border: 'none', borderRadius: '12px',
-                padding: "1rem 2.25rem', fontSize: '1rem', fontFamily: 'Inter, sans-serif",
-                fontWeight: 700, cursor: 'pointer', letterSpacing: '0.02em',
-              }}
-            >
-              Découvrir la boutique →
-            </motion.button>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-// ─── Contact sub-page ─────────────────────────────────────────────────────────
-function ContactPage() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
-  const [sent, setSent] = useState(false);
-
-  const handleSubmit = useCallback((e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.name || !form.email || !form.message) return;
-    setSent(true);
-  }, [form]);
-
-  const inputStyle: React.CSSProperties = {
-    width: '100%',
-    background: C.bgCard,
-    border: `1px solid ${C.border}`,
-    borderRadius: '10px',
-    padding: '0.9rem 1.1rem',
-    color: C.text,
-    fontFamily: 'Inter, sans-serif',
-    fontSize: '16px',
-    outline: 'none',
-  };
-  const labelStyle: React.CSSProperties = {
-    display: 'block',
-    color: C.textMuted,
-    fontFamily: 'Inter, sans-serif',
-    fontSize: '0.82rem',
-    fontWeight: 600,
-    marginBottom: '0.5rem',
-    letterSpacing: '0.02em',
-  };
-
-  const infos = [
-    { icon: '📞', label: 'Téléphone', value: '01 23 45 67 89', sub: 'Lun–Ven, 9h–18h' },
-    { icon: '✉️', label: 'Email', value: 'contact@flammeetco.fr', sub: 'Réponse sous 24 h' },
-    { icon: '📍', label: 'Showroom', value: 'France métropolitaine', sub: 'Livraison & installation partout' },
-  ];
-
-  return (
-    <div style={{ background: C.bg }}>
-      <PageHero
-        eyebrow="Nous contacter"
-        title="Parlons de votre projet"
-        subtitle="Une question sur un appareil, un devis d'installation ou les aides disponibles ? Notre équipe vous répond rapidement."
-      />
-      <section style={{ padding: 'clamp(3rem, 7vw, 5rem) 0 clamp(4rem, 9vw, 7rem)' }}>
-        <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '0 2rem' }}>
-          <div className="fc-grid-2" style={{ alignItems: 'start', gap: '3rem' }}>
-            {/* Infos */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              {infos.map(info => (
-                <div key={info.label} style={{
-                  background: C.bgCard,
-                  border: `1px solid ${C.borderLight}`,
-                  borderRadius: '16px',
-                  padding: '1.5rem',
-                  display: 'flex',
-                  gap: '1.1rem',
-                  alignItems: 'center',
-                }}>
-                  <div style={{
-                    width: '50px', height: '50px', borderRadius: '50%', flexShrink: 0,
-                    background: `${C.accent}22`, border: `1px solid ${C.border}`,
-                    display: "flex', alignItems: 'center', justifyContent: 'center",
-                  }}>
-                    <TemplateIcon emoji={info.icon} size={24} />
-                  </div>
-                  <div>
-                    <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.25rem' }}>{info.label}</p>
-                    <p style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: '1.1rem', fontWeight: 700 }}>{info.value}</p>
-                    <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', marginTop: '0.15rem' }}>{info.sub}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Form */}
-            <div style={{
-              background: C.bgCard,
-              border: `1px solid ${C.border}`,
-              borderRadius: '20px',
-              padding: 'clamp(1.5rem, 4vw, 2.5rem)',
-              boxShadow: C.cardShadow,
-            }}>
-              <AnimatePresence mode="wait">
-                {!sent ? (
-                  <motion.form
-                    key="contact-form"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    onSubmit={handleSubmit}
-                  >
-                    <div style={{ marginBottom: '1.25rem' }}>
-                      <label htmlFor="contact-name" style={labelStyle}>Nom complet</label>
-                      <input
-                        id="contact-name"
-                        type="text"
-                        value={form.name}
-                        onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                        placeholder="Jean Dupont"
-                        required
-                        style={inputStyle}
-                      />
-                    </div>
-                    <div style={{ marginBottom: '1.25rem' }}>
-                      <label htmlFor="contact-email" style={labelStyle}>Email</label>
-                      <input
-                        id="contact-email"
-                        type="email"
-                        value={form.email}
-                        onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                        placeholder="jean@email.fr"
-                        required
-                        style={inputStyle}
-                      />
-                    </div>
-                    <div style={{ marginBottom: '1.5rem' }}>
-                      <label htmlFor="contact-message" style={labelStyle}>Votre message</label>
-                      <textarea
-                        id="contact-message"
-                        value={form.message}
-                        onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-                        placeholder="Décrivez votre projet (surface, type de logement, budget...)"
-                        required
-                        rows={5}
-                        style={{ ...inputStyle, resize: 'vertical', lineHeight: 1.6 }}
-                      />
-                    </div>
-                    <motion.button
-                      type="submit"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.97 }}
-                      style={{
-                        width: '100%',
-                        background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
-                        color: C.white, border: 'none', borderRadius: '12px',
-                        padding: "1rem', fontSize: '1rem', fontFamily: 'Inter, sans-serif",
-                        fontWeight: 700, cursor: 'pointer', letterSpacing: '0.02em',
-                      }}
-                    >
-                      Envoyer le message
-                    </motion.button>
-                  </motion.form>
-                ) : (
-                  <motion.div
-                    key="contact-success"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ type: 'spring', stiffness: 200, damping: 18 }}
-                    style={{ textAlign: 'center', padding: '2rem 0' }}
-                  >
-                    <div style={{ marginBottom: '1rem' }}><PartyPopper style={{ width: 48, height: 48 }} /></div>
-                    <h3 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: '1.4rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-                      Message envoyé !
-                    </h3>
-                    <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem' }}>
-                      Merci, notre équipe vous recontacte sous 24 heures.
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-// ─── Legal sub-page (CGV + Mentions) ──────────────────────────────────────────
-function LegalPage({ variant }: { variant: 'cgv' | 'mentions' }) {
-  const sectionTitle: React.CSSProperties = {
-    fontFamily: 'Playfair Display, serif',
-    fontSize: '1.4rem',
-    fontWeight: 700,
-    color: C.text,
-    marginTop: '2.5rem',
-    marginBottom: '0.85rem',
-  };
-  const para: React.CSSProperties = {
-    fontFamily: 'Inter, sans-serif',
-    fontSize: '0.95rem',
-    color: C.textMuted,
-    lineHeight: 1.85,
-    marginBottom: '0.9rem',
-  };
-  const strong: React.CSSProperties = { color: C.text, fontWeight: 600 };
-
-  if (variant === 'mentions') {
-    return (
-      <div style={{ background: C.bg }}>
-        <PageHero eyebrow="Informations légales" title="Mentions légales" />
-        <section style={{ padding: 'clamp(2.5rem, 6vw, 4rem) 0 clamp(4rem, 9vw, 7rem)' }}>
-          <div style={{ maxWidth: '760px', margin: '0 auto', padding: '0 2rem' }}>
-            <h2 style={sectionTitle}>Éditeur du site</h2>
-            <p style={para}><span style={strong}>Aevia WS</span> — entrepreneur individuel (auto-entrepreneur).</p>
-            <p style={para}>Directeur de la publication : <span style={strong}>Valentin Milliand</span>.</p>
-            <p style={para}>SIREN : <span style={strong}>852 546 225</span> — RCS Bourg-en-Bresse.</p>
-            <p style={para}>Contact : <span style={strong}>contact@aevia.io</span></p>
-            <p style={para}>Adresse du siège social communiquée sur demande à contact@aevia.io.</p>
-
-            <h2 style={sectionTitle}>TVA</h2>
-            <p style={para}>TVA non applicable, art. 293 B du CGI.</p>
-
-            <h2 style={sectionTitle}>Hébergeur</h2>
-            <p style={para}>Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA.</p>
-
-            <h2 style={sectionTitle}>Propriété intellectuelle</h2>
-            <p style={para}>
-              L'ensemble des contenus présents sur ce site (textes, visuels, logo, mise en page) est protégé par le droit
-              de la propriété intellectuelle. Toute reproduction, même partielle, est interdite sans autorisation préalable
-              de l'éditeur.
-            </p>
-
-            <h2 style={sectionTitle}>Données personnelles</h2>
-            <p style={para}>
-              Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression des données vous
-              concernant. Pour exercer ce droit, écrivez à contact@aevia.io.
-            </p>
-          </div>
-        </section>
-      </div>
-    );
-  }
-
-  return (
-    <div style={{ background: C.bg }}>
-      <PageHero eyebrow="Conditions générales" title="Conditions générales de vente" />
-      <section id="tarifs" style={{ padding: 'clamp(2.5rem, 6vw, 4rem) 0 clamp(4rem, 9vw, 7rem)' }}>
-        <div style={{ maxWidth: '760px', margin: '0 auto', padding: '0 2rem' }}>
-          <p style={{ ...para, fontStyle: 'italic', color: C.textMuted }}>Dernière mise à jour : juin 2025.</p>
-
-          <h2 style={sectionTitle}>Article 1 — Objet</h2>
-          <p style={para}>
-            Les présentes conditions générales de vente régissent les relations contractuelles entre Flamme & Co et tout
-            client effectuant un achat sur le site. Toute commande implique l'acceptation sans réserve des présentes CGV.
-          </p>
-
-          <h2 style={sectionTitle}>Article 2 — Prix</h2>
-          <p style={para}>
-            Les prix sont indiqués en euros, toutes taxes comprises. Flamme & Co se réserve le droit de modifier ses prix à
-            tout moment ; les articles sont facturés sur la base des tarifs en vigueur au moment de la validation de la commande.
-          </p>
-
-          <h2 style={sectionTitle}>Article 3 — Commande</h2>
-          <p style={para}>
-            La commande est validée après confirmation du paiement. Un email récapitulatif est adressé au client. Flamme & Co
-            se réserve le droit d'annuler toute commande en cas de litige de paiement ou de rupture de stock.
-          </p>
-
-          <h2 style={sectionTitle}>Article 4 — Paiement</h2>
-          <p style={para}>
-            Le règlement s'effectue par carte bancaire via un prestataire de paiement sécurisé, ou en 3× sans frais selon
-            éligibilité. Aucune donnée bancaire n'est conservée par Flamme & Co.
-          </p>
-
-          <h2 style={sectionTitle}>Article 5 — Livraison</h2>
-          <p style={para}>
-            Les délais de livraison sont de 48 heures ouvrées en France métropolitaine pour les produits en stock. La livraison
-            est offerte. Les risques liés au transport sont transférés au client à la réception du colis.
-          </p>
-
-          <h2 style={sectionTitle}>Article 6 — Installation</h2>
-          <p style={para}>
-            L'installation par nos techniciens certifiés RGE est proposée en option, sur devis gratuit. Elle comprend la pose,
-            le raccordement au conduit de fumée et la mise en service de l'appareil.
-          </p>
-
-          <h2 style={sectionTitle}>Article 7 — Droit de rétractation</h2>
-          <p style={para}>
-            Conformément au Code de la consommation, le client dispose d'un délai de 14 jours à compter de la réception pour
-            retourner un article non installé, dans son emballage d'origine, sans avoir à justifier de motif. Le remboursement
-            intervient sous 14 jours après réception du retour.
-          </p>
-
-          <h2 style={sectionTitle}>Article 8 — Garanties</h2>
-          <p style={para}>
-            Tous les produits bénéficient des garanties légales de conformité et contre les vices cachés, ainsi que de la
-            garantie constructeur pouvant aller jusqu'à 5 ans selon l'appareil.
-          </p>
-
-          <h2 style={sectionTitle}>Article 9 — Droit applicable</h2>
-          <p style={para}>
-            Les présentes CGV sont soumises au droit français. En cas de litige, une solution amiable sera recherchée avant
-            toute action judiciaire.
-          </p>
-        </div>
-      </section>
-    </div>
-  );
-}
-
 // ─── Main Page Component ───────────────────────────────────────────────────────
 export default function FlammeEtCoPage() {
   const [cartItems,    setCartItems]    = useState<CartItem[]>([]);
   const [cartOpen,     setCartOpen]     = useState(false);
   const [navOpen,      setNavOpen]      = useState(false);
   const [scrolled,     setScrolled]     = useState(false);
-
-  // Multi-page state
-  const [page,          setPage]          = useState<FlammePage>('home');
-  const [productDetail, setProductDetail] = useState<number | null>(null);
-  const [blogSlug,      setBlogSlug]      = useState<string | null>(null);
-
-  const goTo = useCallback((p: FlammePage) => {
-    setPage(p);
-    setProductDetail(null);
-    setBlogSlug(null);
-    setNavOpen(false);
-    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'auto' });
-  }, []);
 
   const { scrollY } = useScroll();
   const heroOpacity = useTransform(scrollY, [0, 500], [1, 0]);
@@ -2491,6 +1613,14 @@ export default function FlammeEtCoPage() {
     const unsub = scrollY.on('change', v => setScrolled(v > 60));
     return () => unsub();
   }, [scrollY]);
+
+  const navLinks = [
+    { label: 'Poêles à bois',      href: '#categories' },
+    { label: 'Granulés',           href: '#categories' },
+    { label: 'Cheminées',          href: '#categories' },
+    { label: 'Accessoires',        href: '#categories' },
+    { label: 'Configurateur',      href: '#configurateur' },
+  ];
 
   const addToCart = useCallback((item: { id: number; name: string; price: number; emoji: string }) => {
     setCartItems(prev => {
@@ -2596,41 +1726,36 @@ export default function FlammeEtCoPage() {
             gap: '1.5rem',
           }}>
             {/* Logo */}
-            <button onClick={() => goTo('home')} style={{ background: 'none', border: 'none', textDecoration: 'none', flexShrink: 0, cursor: 'pointer', padding: 0 }}>
+            <a href="#" style={{ textDecoration: 'none', flexShrink: 0 }}>
               <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.4rem', fontWeight: 800, color: C.text }}>
                 <span style={{ background: `linear-gradient(90deg, ${C.accent}, ${C.gold})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Flamme</span>{' '}
                 <span style={{ color: C.text }}>&amp; Co</span>
               </span>
-            </button>
+            </a>
 
             {/* Desktop nav links */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flex: 1, justifyContent: 'center' }}>
-              {NAV_PAGES.map(lnk => {
-                const active = page === lnk.key;
-                return (
-                  <button
-                    key={lnk.key}
-                    onClick={() => goTo(lnk.key)}
-                    className="fc-nav-lnk"
-                    style={{
-                      background: active ? C.borderLight : 'transparent',
-                      border: 'none',
-                      color: active ? C.text : C.textMuted,
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '0.875rem',
-                      fontWeight: active ? 600 : 500,
-                      cursor: 'pointer',
-                      padding: '0.45rem 0.85rem',
-                      borderRadius: '6px',
-                      transition: 'color 0.2s, background 0.2s',
-                    }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = C.text; (e.currentTarget as HTMLButtonElement).style.background = C.borderLight; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = active ? C.text : C.textMuted; (e.currentTarget as HTMLButtonElement).style.background = active ? C.borderLight : 'transparent'; }}
-                  >
-                    {lnk.label}
-                  </button>
-                );
-              })}
+              {navLinks.map(lnk => (
+                <a
+                  key={lnk.href + lnk.label}
+                  href={lnk.href}
+                  className="fc-nav-lnk"
+                  style={{
+                    color: C.textMuted,
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '0.875rem',
+                    fontWeight: 500,
+                    textDecoration: 'none',
+                    padding: '0.45rem 0.85rem',
+                    borderRadius: '6px',
+                    transition: 'color 0.2s, background 0.2s',
+                  }}
+                  onMouseEnter={e => { (e.target as HTMLAnchorElement).style.color = C.text; (e.target as HTMLAnchorElement).style.background = C.borderLight; }}
+                  onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = C.textMuted; (e.target as HTMLAnchorElement).style.background = 'transparent'; }}
+                >
+                  {lnk.label}
+                </a>
+              ))}
             </div>
 
             {/* Right actions */}
@@ -2731,8 +1856,6 @@ export default function FlammeEtCoPage() {
           </div>
         </motion.nav>
 
-        {/* ── HOME PAGE (gated; renders exactly as before) ──────────────────── */}
-        {page === 'home' && (<>
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <section
           id="hero"
@@ -3133,7 +2256,7 @@ export default function FlammeEtCoPage() {
         </section>
 
         {/* ── Social Proof Banner ────────────────────────────────────────────── */}
-        <section id="about" style={{ background: `linear-gradient(135deg, #1a0d06, #2a1008)`, padding: '4rem 0', borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+        <section style={{ background: `linear-gradient(135deg, #1a0d06, #2a1008)`, padding: '4rem 0', borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
           <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem' }}>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3rem', alignItems: 'center', justifyContent: 'space-around' }}>
               {[
@@ -3247,7 +2370,7 @@ export default function FlammeEtCoPage() {
         </section>
 
         {/* ── Trust Logos ───────────────────────────────────────────────────── */}
-        <section id="contact" style={{ background: C.bgAlt, padding: '3rem 0', borderTop: `1px solid ${C.borderLight}` }}>
+        <section style={{ background: C.bgAlt, padding: '3rem 0', borderTop: `1px solid ${C.borderLight}` }}>
           <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem' }}>
             <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.1em', textAlign: 'center', marginBottom: '2rem' }}>
               Nos marques partenaires
@@ -3274,21 +2397,6 @@ export default function FlammeEtCoPage() {
             </div>
           </div>
         </section>
-        </>)}
-
-        {/* ── INNER PAGES (theme-native, same tokens/fonts/nav/footer) ───────── */}
-        {page === 'boutique' && (
-          <BoutiquePage
-            productDetail={productDetail}
-            setProductDetail={setProductDetail}
-            onAddToCart={addToCart}
-          />
-        )}
-        {page === 'blog' && <BlogPage blogSlug={blogSlug} setBlogSlug={setBlogSlug} />}
-        {page === 'about' && <AboutPage goTo={goTo} />}
-        {page === 'contact' && <ContactPage />}
-        {page === 'cgv' && <LegalPage variant="cgv" />}
-        {page === 'mentions' && <LegalPage variant="mentions" />}
 
         {/* ── Footer ───────────────────────────────────────────────────────── */}
         <footer style={{ background: '#0a0806', borderTop: `1px solid ${C.border}`, padding: '5rem 0 2rem' }}>
@@ -3336,14 +2444,7 @@ export default function FlammeEtCoPage() {
                   {['Poêles à bois', 'Poêles à granulés', 'Cheminées & Inserts', 'Foyers fermés', 'Cheminées éthanol', 'Accessoires', 'Pièces détachées', 'Entretien'].map(cat => (
                     <a
                       key={cat}
-                      href="#categories"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        goTo('home');
-                        setTimeout(() => {
-                          document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' });
-                        }, 50);
-                      }}
+                      href="#"
                       style={{
                         color: C.textMuted,
                         fontFamily: 'Inter, sans-serif',
@@ -3369,15 +2470,7 @@ export default function FlammeEtCoPage() {
                   {['Devis en ligne', 'Installation à domicile', 'Entretien annuel', 'SAV & dépannage', 'Reprise ancienne cheminée', 'Financement 3×', 'Guide d\'achat', 'Configurateur'].map(svc => (
                     <a
                       key={svc}
-                      href={svc === 'Configurateur' ? '#configurateur' : '#faq'}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        goTo('home');
-                        const targetId = svc === 'Configurateur' ? 'configurateur' : 'faq';
-                        setTimeout(() => {
-                          document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
-                        }, 50);
-                      }}
+                      href="#"
                       style={{
                         color: C.textMuted,
                         fontFamily: 'Inter, sans-serif',
@@ -3403,22 +2496,7 @@ export default function FlammeEtCoPage() {
                   {['Notre histoire', 'L\'équipe', 'Nos engagements', 'Flamme Verte', 'Presse', 'Recrutement', 'Contact', 'Blog chauffage'].map(lnk => (
                     <a
                       key={lnk}
-                      href={lnk === 'Contact' ? '#contact' : lnk === 'Blog chauffage' ? '#blog' : '#about'}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (lnk === 'Contact') {
-                          goTo('contact');
-                        } else if (lnk === 'Blog chauffage') {
-                          goTo('blog');
-                        } else if (lnk === 'Notre histoire' || lnk === 'L\'équipe' || lnk === 'Nos engagements') {
-                          goTo('about');
-                        } else {
-                          goTo('home');
-                          setTimeout(() => {
-                            document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' });
-                          }, 50);
-                        }
-                      }}
+                      href="#"
                       style={{
                         color: C.textMuted,
                         fontFamily: 'Inter, sans-serif',
@@ -3477,11 +2555,11 @@ export default function FlammeEtCoPage() {
               </div>
               <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem' }}>
                 © 2025 Flamme & Co · Tous droits réservés ·{' '}
-                <button onClick={() => goTo('mentions')} style={{ background: 'none', border: 'none', padding: 0, color: C.textMuted, textDecoration: 'underline', cursor: 'pointer', fontFamily: 'Inter, sans-serif', fontSize: '0.78rem' }}>Mentions légales</button>
+                <a href="#" style={{ color: C.textMuted, textDecoration: 'underline' }}>Mentions légales</a>
                 {' · '}
-                <button onClick={() => goTo('cgv')} style={{ background: 'none', border: 'none', padding: 0, color: C.textMuted, textDecoration: 'underline', cursor: 'pointer', fontFamily: 'Inter, sans-serif', fontSize: '0.78rem' }}>CGV</button>
+                <a href="#" style={{ color: C.textMuted, textDecoration: 'underline' }}>CGV</a>
                 {' · '}
-                <button onClick={() => goTo('mentions')} style={{ background: 'none', border: 'none', padding: 0, color: C.textMuted, textDecoration: 'underline', cursor: 'pointer', fontFamily: 'Inter, sans-serif', fontSize: '0.78rem' }}>Confidentialité</button>
+                <a href="#" style={{ color: C.textMuted, textDecoration: 'underline' }}>Confidentialité</a>
               </p>
             </div>
           </div>
@@ -3500,9 +2578,7 @@ export default function FlammeEtCoPage() {
         <MobileNavDrawer
           open={navOpen}
           onClose={() => setNavOpen(false)}
-          navPages={NAV_PAGES}
-          currentPage={page}
-          goTo={goTo}
+          navLinks={navLinks}
         />
 
         {/* ── Sticky CTA Bar (mobile) ────────────────────────────────────────── */}
@@ -3527,16 +2603,9 @@ export default function FlammeEtCoPage() {
             maxWidth: 'calc(100vw - 2rem)',
           }}
         >
-          <motion.button
+          <motion.a
+            href="#configurateur"
             whileTap={{ scale: 0.95 }}
-            onClick={() => {
-              if (page !== 'home') { goTo('home'); }
-              if (typeof window !== 'undefined') {
-                setTimeout(() => {
-                  document.getElementById('configurateur')?.scrollIntoView({ behavior: 'smooth' });
-                }, page !== 'home' ? 80 : 0);
-              }
-            }}
             style={{
               background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
               color: C.white,
@@ -3552,7 +2621,7 @@ export default function FlammeEtCoPage() {
             }}
           >
             Configurateur
-          </motion.button>
+          </motion.a>
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => setCartOpen(true)}

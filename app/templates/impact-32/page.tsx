@@ -1,547 +1,178 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
-  Shield, Calendar, Phone, Stethoscope, Syringe, Heart, Award, Users, Star,
-  ChevronDown, ArrowRight, CheckCircle, Clock, MapPin, Zap, Activity,
-  ThumbsUp, AlertCircle, Microscope
+  Star,
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  ChevronDown,
+  ChevronRight,
+  CheckCircle,
+  Calendar,
+  Menu,
+  X,
+  Users,
+  Heart,
+  Shield,
+  Award,
+  Stethoscope,
+  Syringe,
 } from "lucide-react";
-import { TemplateIcon } from "@/components/TemplateIcon";
-import {
-  C, FONT, SectionBadge, PetTabs,
-  SERVICES_DATA, TEAM_DATA, TESTIMONIALS, FAQS
-} from "./shared";
+import { TemplateIcon } from '@/components/TemplateIcon';
 
-// ─── DATA ─────────────────────────────────────────────────────────────────────
+// ─── Design Tokens ─────────────────────────────────────────────────────────────
+const C = {
+  bg: "#fafffe",
+  bgLight: "#d8f3dc",
+  bgSection: "#f2fbf5",
+  text: "#1a3a2a",
+  textMuted: "#4a7060",
+  accent: "#2d6a4f",
+  accentLight: "#d8f3dc",
+  accentDark: "#1e4d38",
+  sand: "#f4a261",
+  sandLight: "#fef3e8",
+  white: "#FFFFFF",
+  border: "#b7d9c4",
+  shadow: "0 4px 24px rgba(45,106,79,0.09)",
+  shadowLg: "0 12px 48px rgba(45,106,79,0.16)",
+};
 
-const STATS_BAR = [
-  { value: "1 400+", label: "Consultations / an", icon: <Stethoscope size={22} color={C.accent} /> },
-  { value: "24h/7j", label: "Service urgences", icon: <AlertCircle size={22} color={C.sand} /> },
-  { value: "6", label: "Vétérinaires", icon: <Users size={22} color={C.accent} /> },
-  { value: "18 ans", label: "D'expérience", icon: <Award size={22} color={C.accent} /> },
-];
+const FONT = "'Nunito', system-ui, sans-serif";
 
-const ANIMALS_DATA = [
-  {
-    emoji: "🐕",
-    label: "Chiens",
-    desc: "Toutes races, du chiot au senior. Médecine préventive, chirurgie, oncologie.",
-    tags: ["Consultation", "Vaccination", "Chirurgie", "Dentisterie"],
-    color: C.accent,
-  },
-  {
-    emoji: "🐈",
-    label: "Chats",
-    desc: "Soins félins adaptés. Identification, stérilisation, pathologies chroniques.",
-    tags: ["Primo-vaccination", "Puce électronique", "Diabète félin", "Castration"],
-    color: "#4a7aa0",
-  },
-  {
-    emoji: "🐇",
-    label: "Lapins",
-    desc: "Dr. Sall est spécialisée lapins — stérilisation, entérotoxémie, soins dentaires.",
-    tags: ["Stérilisation", "Dentisterie", "Chirurgie douce", "Nutrition"],
-    color: "#7a5ea0",
-  },
-  {
-    emoji: "🦎",
-    label: "NAC & Reptiles",
-    desc: "Oiseaux, rongeurs, reptiles, poissons — consultation et chirurgie spécialisées.",
-    tags: ["Oiseaux", "Reptiles", "Amphibiens", "Rongeurs"],
-    color: "#a05e5e",
-  },
-];
-
-const EXTENDED_TESTIMONIALS = [
-  {
-    name: "Julie & Max",
-    animal: "Border Collie, 4 ans",
-    text: "L'équipe PawCare a sauvé la vie de Max lors d'une urgence nocturne. Réactivité exemplaire, soins impeccables. Nous ne changerons jamais de clinique.",
-    stars: 5,
-    photo: "photo-1587300003388-59208cc962cb",
-  },
-  {
-    name: "Antoine Berniers",
-    animal: "2 chats, Milo & Pixel",
-    text: "Dr. Fontaine est une perle. Elle prend le temps d'expliquer chaque diagnostic, elle est douce et toujours disponible pour nos questions.",
-    stars: 5,
-    photo: "photo-1514888286974-6c03e2ca1dba",
-  },
-  {
-    name: "Léa Marchand",
-    animal: "Noisette, lapine angora",
-    text: "Difficile de trouver un vétérinaire pour les lapins. Dr. Sall est une vraie spécialiste NAC — Noisette est en parfaite santé grâce à elle !",
-    stars: 5,
-    photo: "photo-1585110396000-c9ffd4e4b308",
-  },
-  {
-    name: "Marc & Sasha",
-    animal: "Berger Australien, 7 ans",
-    text: "Nous venons de Paris exprès pour consulter Dr. Leroy en cardiologie. Son expertise a permis de diagnostiquer une anomalie cardiaque avant qu'elle ne devienne critique.",
-    stars: 5,
-    photo: "photo-1560807707-8cc77767d783",
-  },
-  {
-    name: "Sophie Girard",
-    animal: "Ara de Buffon, Coco",
-    text: "Un vétérinaire qui connaît les perroquets c'est rare ! Dr. Sall a diagnostiqué une infection fongique en quelques minutes. Coco va très bien maintenant.",
-    stars: 5,
-    photo: "photo-1552728089-57bdde30beb3",
-  },
-];
-
-const APPOINTMENT_SLOTS = [
-  { day: "Lundi", date: "23 juin", slots: ["08:30", "10:00", "14:30", "16:00"] },
-  { day: "Mardi", date: "24 juin", slots: ["09:00", "11:00", "15:00", "17:30"] },
-  { day: "Mercredi", date: "25 juin", slots: ["08:30", "09:30", "14:00"] },
-  { day: "Jeudi", date: "26 juin", slots: ["10:00", "11:30", "15:00", "16:30"] },
-  { day: "Vendredi", date: "27 juin", slots: ["09:00", "14:00", "17:00"] },
-];
-
-const CLINIC_FEATURES = [
-  { icon: <Microscope size={20} color={C.accent} />, title: "Bloc opératoire équipé", desc: "Monitoring cardiaque, respirateur, écho Doppler, salle de réveil soins intensifs." },
-  { icon: <Activity size={20} color={C.accent} />, title: "Imagerie médicale", desc: "Radiographie numérique, échographie abdominale et cardiaque, endoscopie." },
-  { icon: <Zap size={20} color={C.sand} />, title: "Laboratoire embarqué", desc: "Résultats bilan sanguin en 45 min. Urinalyse, cytologie, bactériologie sur place." },
-  { icon: <ThumbsUp size={20} color={C.accent} />, title: "Hospitalisation", desc: "Boxes individuels climatisés 24h/24. Suivi continu avec caméra de surveillance." },
-];
-
-// ─── Hero ─────────────────────────────────────────────────────────────────────
-function Hero() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 160]);
-  const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -60]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
-
+// ─── Animated Paw SVG ─────────────────────────────────────────────────────────
+function AnimatedPaw() {
   return (
-    <section
-      ref={ref}
-      style={{
-        height: "115vh",
-        minHeight: "900px",
-        position: "relative",
-        display: "flex",
-        alignItems: "flex-end",
-        overflow: "hidden",
-        fontFamily: FONT,
-      }}
+    <motion.div
+      style={{ position: "relative", width: 380, height: 400, display: "flex", alignItems: "center", justifyContent: "center" }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
     >
-      <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-        <img
-          src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=1920&q=80"
-          alt="Clinique vétérinaire PawCare"
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+      {/* Glow */}
+      <motion.div
+        style={{
+          position: "absolute",
+          width: 300,
+          height: 300,
+          borderRadius: "50%",
+          background: `radial-gradient(circle, ${C.accentLight} 0%, transparent 70%)`,
+        }}
+        animate={{ scale: [1, 1.15, 1], opacity: [0.7, 1, 0.7] }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      {/* Bouncing paw SVG */}
+      <motion.svg
+        viewBox="0 0 200 200"
+        width={230}
+        height={230}
+        style={{ position: "relative", zIndex: 1 }}
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.9, type: "spring", stiffness: 120, damping: 10 }}
+      >
+        {/* Main pad */}
+        <motion.ellipse
+          cx="100" cy="130"
+          rx="42" ry="38"
+          fill={C.accent}
+          animate={{ scale: [1, 1.03, 1] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
         />
-      </motion.div>
-      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(5,20,15,0.92) 0%, rgba(5,20,15,0.45) 45%, rgba(5,20,15,0.08) 100%)" }} />
-      <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
+        {/* Toe pads */}
+        <motion.circle cx="60" cy="82" r="22" fill={C.accent}
+          animate={{ y: [0, -4, 0] }} transition={{ duration: 2.5, repeat: Infinity, delay: 0.1 }} />
+        <motion.circle cx="100" cy="68" r="24" fill={C.accent}
+          animate={{ y: [0, -6, 0] }} transition={{ duration: 2.5, repeat: Infinity, delay: 0.25 }} />
+        <motion.circle cx="140" cy="82" r="22" fill={C.accent}
+          animate={{ y: [0, -4, 0] }} transition={{ duration: 2.5, repeat: Infinity, delay: 0.15 }} />
+        {/* Heart inside main pad */}
+        <motion.path
+          d="M100 115 C100 115, 86 100, 86 90 C86 84, 91 79, 100 88 C109 79, 114 84, 114 90 C114 100, 100 115, 100 115 Z"
+          fill="rgba(255,255,255,0.85)"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.8, duration: 0.5, type: "spring" }}
+        />
+      </motion.svg>
 
+      {/* Floating badges */}
       <motion.div
-        style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            background: "rgba(255,255,255,0.12)",
-            border: "1px solid rgba(255,255,255,0.25)",
-            backdropFilter: "blur(8px)",
-            borderRadius: 20,
-            padding: "7px 16px",
-            marginBottom: 24,
-          }}
-        >
-          <Shield size={14} color="#fff" />
-          <span style={{ color: "#fff", fontSize: 13, fontWeight: 700 }}>Clinique vétérinaire agréée CNOV</span>
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          style={{
-            fontSize: "clamp(42px, 5vw, 68px)",
-            fontWeight: 800,
-            color: "#fff",
-            lineHeight: 1.08,
-            letterSpacing: -2,
-            marginBottom: 24,
-          }}
-        >
-          Vos animaux méritent{" "}
-          <span style={{ color: C.accent }}>le meilleur soin</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.75 }}
-          style={{ fontSize: 18, color: "rgba(255,255,255,0.80)", lineHeight: 1.72, marginBottom: 36, maxWidth: 490 }}
-        >
-          PawCare Clinic, c'est une équipe de 6 vétérinaires passionnés à Bordeaux, dédiée à la
-          santé et au bonheur de vos compagnons à poils, plumes ou écailles depuis 18 ans.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 1.0 }}
-          style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 48 }}
-        >
-          <Link href="/templates/impact-32/pricing" style={{ textDecoration: "none" }}>
-            <motion.button
-              type="button"
-              style={{
-                background: C.accent,
-                color: C.white,
-                border: "none",
-                borderRadius: 10,
-                padding: "16px 34px",
-                fontWeight: 700,
-                fontSize: 17,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                fontFamily: FONT,
-                boxShadow: `0 8px 32px ${C.accent}55`,
-              }}
-              whileHover={{ scale: 1.04, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <Calendar size={19} /> Prendre RDV
-            </motion.button>
-          </Link>
-          <Link href="/templates/impact-32/contact" style={{ textDecoration: "none" }}>
-            <motion.button
-              type="button"
-              style={{
-                background: "rgba(255,255,255,0.12)",
-                color: "#fff",
-                border: "1px solid rgba(255,255,255,0.30)",
-                borderRadius: 10,
-                padding: "14px 28px",
-                fontWeight: 600,
-                fontSize: 16,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                fontFamily: FONT,
-                backdropFilter: "blur(8px)",
-              }}
-              whileHover={{ background: "rgba(255,255,255,0.20)" }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <Phone size={16} /> Urgences 24h
-            </motion.button>
-          </Link>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          style={{ display: "flex", gap: 36 }}
-        >
-          {[
-            { value: "3 500+", label: "Animaux soignés" },
-            { value: "4.8★", label: "Note Google" },
-            { value: "18 ans", label: "D'expertise" },
-          ].map((s) => (
-            <div key={s.label}>
-              <div style={{ fontWeight: 900, fontSize: 22, color: "#fff" }}>{s.value}</div>
-              <div style={{ fontSize: 13, color: "rgba(255,255,255,0.60)" }}>{s.label}</div>
-            </div>
-          ))}
-        </motion.div>
-      </motion.div>
-
-      <motion.div
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 1.5, repeat: Infinity }}
-        style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 2 }}
-      >
-        <div style={{ width: 24, height: 36, border: "2px solid rgba(255,255,255,0.35)", borderRadius: 12, display: "flex", justifyContent: "center", paddingTop: 6 }}>
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            style={{ width: 6, height: 6, borderRadius: "50%", background: C.accent }}
-          />
-        </div>
-      </motion.div>
-    </section>
-  );
-}
-
-// ─── Stats Bar ────────────────────────────────────────────────────────────────
-function StatsBar() {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-40px" });
-
-  return (
-    <section
-      ref={ref}
-      style={{
-        background: C.white,
-        borderTop: `3px solid ${C.accent}`,
-        borderBottom: `1px solid ${C.border}`,
-        padding: "0 80px",
-        fontFamily: FONT,
-      }}
-    >
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: 1100, margin: "0 auto" }}>
-        {STATS_BAR.map((s, i) => (
-          <motion.div
-            key={s.label}
-            initial={{ opacity: 0, y: 16 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.45, delay: i * 0.1 }}
-            style={{
-              padding: "32px 24px",
-              display: "flex",
-              alignItems: "center",
-              gap: 18,
-              borderRight: i < 3 ? `1px solid ${C.border}` : "none",
-            }}
-          >
-            <div
-              style={{
-                width: 48,
-                height: 48,
-                background: C.bgSection,
-                borderRadius: 14,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-              }}
-            >
-              {s.icon}
-            </div>
-            <div>
-              <div style={{ fontSize: 26, fontWeight: 900, color: C.text, letterSpacing: -0.5, lineHeight: 1 }}>
-                {s.value}
-              </div>
-              <div style={{ fontSize: 13, color: C.textMuted, marginTop: 4 }}>{s.label}</div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── Home Services Preview ─────────────────────────────────────────────────────
-function HomeServices() {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
-  return (
-    <section ref={ref} style={{ padding: "100px 80px", background: C.bgSection, fontFamily: FONT }}>
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        style={{ textAlign: "center", marginBottom: 60 }}
-      >
-        <SectionBadge label="Nos services" />
-        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1, marginBottom: 14 }}>
-          Des soins adaptés à chaque animal
-        </h2>
-        <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 500, margin: "0 auto" }}>
-          Technologies de pointe, équipe bienveillante — pour que votre compagnon soit entre les meilleures mains.
-        </p>
-      </motion.div>
-      <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: 24,
-          maxWidth: 1100,
-          margin: "0 auto 48px",
+          position: "absolute", top: 24, right: 8,
+          background: C.sand, color: C.white,
+          borderRadius: 12, padding: "7px 15px",
+          fontSize: 13, fontWeight: 800, fontFamily: FONT,
+          boxShadow: "0 4px 16px rgba(244,162,97,0.4)", zIndex: 2,
         }}
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1.4, duration: 0.5 }}
       >
-        {SERVICES_DATA.map((s, i) => (
-          <motion.div
-            key={s.title}
-            initial={{ opacity: 0, y: 44 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: i * 0.08 }}
-            whileHover={{ y: -6, boxShadow: C.shadowLg }}
-            style={{
-              background: s.urgent ? C.text : C.white,
-              borderRadius: 18,
-              padding: "28px 26px",
-              border: `1px solid ${s.urgent ? C.text : C.border}`,
-              boxShadow: C.shadow,
-              position: "relative",
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                top: 16,
-                right: 16,
-                background: s.urgent ? C.sand : C.accentLight,
-                color: s.urgent ? C.white : C.accent,
-                borderRadius: 20,
-                padding: "4px 12px",
-                fontSize: 12,
-                fontWeight: 700,
-              }}
-            >
-              {s.tag}
-            </div>
-            <div
-              style={{
-                width: 52,
-                height: 52,
-                background: s.urgent ? "rgba(255,255,255,0.12)" : C.accentLight,
-                borderRadius: 14,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: 18,
-              }}
-            >
-              {s.urgent ? <Heart size={26} color="#fff" /> : s.icon}
-            </div>
-            <h3 style={{ fontSize: 19, fontWeight: 800, color: s.urgent ? C.white : C.text, marginBottom: 10 }}>
-              {s.title}
-            </h3>
-            <p style={{ fontSize: 14, color: s.urgent ? "rgba(255,255,255,0.7)" : C.textMuted, lineHeight: 1.65 }}>
-              {s.desc}
-            </p>
-          </motion.div>
-        ))}
-      </div>
-      <div style={{ textAlign: "center" }}>
-        <Link href="/templates/impact-32/services" style={{ textDecoration: "none" }}>
-          <motion.button
-            type="button"
-            style={{
-              background: C.accent,
-              color: C.white,
-              border: "none",
-              borderRadius: 10,
-              padding: "14px 32px",
-              fontWeight: 800,
-              fontSize: 15,
-              cursor: "pointer",
-              fontFamily: FONT,
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-            }}
-            whileHover={{ background: C.accentDark, scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Voir tous nos services <ArrowRight size={16} />
-          </motion.button>
-        </Link>
-      </div>
-    </section>
+        Urgences 24h/7j
+      </motion.div>
+      <motion.div
+        style={{
+          position: "absolute", bottom: 36, left: 0,
+          background: C.white, border: `1px solid ${C.border}`,
+          borderRadius: 12, padding: "9px 17px",
+          fontSize: 13, fontWeight: 700, fontFamily: FONT,
+          color: C.text, boxShadow: C.shadow, zIndex: 2,
+        }}
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1.6, duration: 0.5 }}
+      >
+        4.8 / 5 — 2 400+ avis
+      </motion.div>
+    </motion.div>
   );
 }
 
-// ─── Stats Banner ─────────────────────────────────────────────────────────────
-function Stats() {
-  const ref = useRef<HTMLElement>(null);
+// ─── Pet Species Tabs ──────────────────────────────────────────────────────────
+function PetTabs() {
+  const [active, setActive] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
-  const stats = [
-    { value: "3 500+", label: "Animaux soignés / an", icon: "🐾" },
-    { value: "4.8/5", label: "Note Google Maps", icon: "⭐" },
-    { value: "18 ans", label: "D'expertise vétérinaire", icon: "🏆" },
-    { value: "24h/7j", label: "Service urgences", icon: "🚨" },
+
+  const species = [
+    {
+      label: "Chiens",
+      emoji: "🐕",
+      services: ["Vaccination annuelle", "Stérilisation", "Bilan santé senior", "Traitement antiparasitaire", "Chirurgie douce", "Dentisterie vétérinaire"],
+    },
+    {
+      label: "Chats",
+      emoji: "🐈",
+      services: ["Primo-vaccination", "Identification puce", "Castration / Stérilisation", "Traitement leucose FIV", "Soins dermatologiques", "Gestion diabète félin"],
+    },
+    {
+      label: "Exotiques",
+      emoji: "🐇",
+      services: ["Lapins & rongeurs", "Oiseaux & reptiles", "Poissons & tortues", "Examen complet", "Chirurgie spécialisée", "Alimentation conseils"],
+    },
   ];
-  return (
-    <section
-      ref={ref}
-      style={{
-        padding: "90px 80px",
-        background: `linear-gradient(135deg, ${C.accent} 0%, ${C.accentDark} 100%)`,
-        fontFamily: FONT,
-      }}
-    >
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: 40,
-          maxWidth: 960,
-          margin: "0 auto",
-        }}
-      >
-        {stats.map((s, i) => (
-          <motion.div
-            key={s.label}
-            initial={{ opacity: 0, scale: 0.82 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-            style={{ textAlign: "center" }}
-          >
-            <div style={{ marginBottom: 12 }}>
-              <TemplateIcon emoji={s.icon} size={36} />
-            </div>
-            <div
-              style={{
-                fontSize: "clamp(28px, 3vw, 42px)",
-                fontWeight: 900,
-                color: C.white,
-                letterSpacing: -1,
-                marginBottom: 8,
-              }}
-            >
-              {s.value}
-            </div>
-            <div style={{ color: "rgba(255,255,255,0.68)", fontSize: 15 }}>{s.label}</div>
-          </motion.div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── Animals We Treat ─────────────────────────────────────────────────────────
-function AnimalsWeTreat() {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
-  const [activeAnimal, setActiveAnimal] = useState(0);
 
   return (
-    <section ref={ref} style={{ padding: "100px 80px", background: C.bg, fontFamily: FONT }}>
+    <div ref={ref} style={{ fontFamily: FONT }}>
       <motion.div
-        initial={{ opacity: 0, y: 32 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
-        style={{ textAlign: "center", marginBottom: 56 }}
+        style={{ display: "flex", gap: 12, justifyContent: "center", marginBottom: 40 }}
       >
-        <SectionBadge label="Nos patients" />
-        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1, marginBottom: 14 }}>
-          Chiens, chats, lapins & NAC
-        </h2>
-        <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 520, margin: "0 auto" }}>
-          Notre équipe pluridisciplinaire prend en charge toutes les espèces avec la même rigueur et la même bienveillance.
-        </p>
-      </motion.div>
-
-      {/* Animal selector tabs */}
-      <div style={{ display: "flex", gap: 12, justifyContent: "center", marginBottom: 48, flexWrap: "wrap" }}>
-        {ANIMALS_DATA.map((a, i) => (
+        {species.map((s, i) => (
           <motion.button
-            key={a.label}
-            type="button"
-            onClick={() => setActiveAnimal(i)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
+            key={s.label}
+            onClick={() => setActive(i)}
             style={{
-              background: activeAnimal === i ? C.accent : C.white,
-              color: activeAnimal === i ? C.white : C.text,
-              border: `2px solid ${activeAnimal === i ? C.accent : C.border}`,
+              background: active === i ? C.accent : C.white,
+              color: active === i ? C.white : C.text,
+              border: `2px solid ${active === i ? C.accent : C.border}`,
               borderRadius: 30,
               padding: "10px 24px",
               fontWeight: 700,
@@ -553,148 +184,310 @@ function AnimalsWeTreat() {
               gap: 8,
               transition: "all 0.2s",
             }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
           >
-            <TemplateIcon emoji={a.emoji} size={18} />
-            {a.label}
+            <TemplateIcon emoji={s.emoji} size={18} />
+            {s.label}
           </motion.button>
         ))}
-      </div>
+      </motion.div>
 
-      {/* Animal detail panel */}
       <AnimatePresence mode="wait">
         <motion.div
-          key={activeAnimal}
+          key={active}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
           style={{
-            maxWidth: 900,
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+            gap: 14,
+            maxWidth: 800,
             margin: "0 auto",
-            background: C.bgSection,
-            borderRadius: 24,
-            padding: "48px",
-            border: `1px solid ${C.border}`,
-            display: "flex",
-            gap: 48,
-            alignItems: "center",
-            flexWrap: "wrap",
           }}
         >
-          <div style={{ fontSize: 72, flexShrink: 0 }}>
-            <TemplateIcon emoji={ANIMALS_DATA[activeAnimal].emoji} size={72} />
-          </div>
-          <div style={{ flex: 1, minWidth: 260 }}>
-            <h3
+          {species[active].services.map((service) => (
+            <div
+              key={service}
               style={{
-                fontSize: 26,
-                fontWeight: 800,
-                color: ANIMALS_DATA[activeAnimal].color,
-                marginBottom: 12,
+                background: C.white,
+                borderRadius: 12,
+                padding: "16px 20px",
+                border: `1px solid ${C.border}`,
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                boxShadow: C.shadow,
               }}
             >
-              {ANIMALS_DATA[activeAnimal].label}
-            </h3>
-            <p style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.7, marginBottom: 24 }}>
-              {ANIMALS_DATA[activeAnimal].desc}
-            </p>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              {ANIMALS_DATA[activeAnimal].tags.map((tag) => (
-                <span
-                  key={tag}
-                  style={{
-                    background: C.white,
-                    border: `1px solid ${C.border}`,
-                    color: C.text,
-                    borderRadius: 20,
-                    padding: "6px 14px",
-                    fontSize: 13,
-                    fontWeight: 700,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 6,
-                  }}
-                >
-                  <CheckCircle size={12} color={C.accent} />
-                  {tag}
-                </span>
-              ))}
+              <CheckCircle size={16} color={C.accent} />
+              <span style={{ fontSize: 14, fontWeight: 600, color: C.text }}>{service}</span>
             </div>
-          </div>
+          ))}
         </motion.div>
       </AnimatePresence>
-    </section>
+    </div>
   );
 }
 
-// ─── Clinic Features ──────────────────────────────────────────────────────────
-function ClinicFeatures() {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
+// ─── Navbar ───────────────────────────────────────────────────────────────────
+function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", handler);
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
+
+  const links = ["Accueil", "Services", "Équipe", "Tarifs", "Contact"];
+
+  return (
+    <>
+      <motion.nav
+        style={{
+          position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+          padding: "0 48px", height: 72,
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          background: scrolled ? "rgba(250,255,254,0.97)" : "transparent",
+          backdropFilter: scrolled ? "blur(12px)" : "none",
+          borderBottom: scrolled ? `1px solid ${C.border}` : "none",
+          boxShadow: scrolled ? C.shadow : "none",
+          transition: "all 0.3s ease", fontFamily: FONT,
+        }}
+      >
+        <motion.div style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }} whileHover={{ scale: 1.03 }}>
+          <div style={{ width: 38, height: 38, background: C.accent, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <TemplateIcon emoji="🐾" size={20} color="#fff" />
+          </div>
+          <span style={{ fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: -0.5 }}>
+            Paw<span style={{ color: C.accent }}>Care</span>
+          </span>
+        </motion.div>
+
+        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+          {links.map((link) => (
+            <motion.a key={link} href="#" style={{ color: C.text, fontWeight: 600, fontSize: 15, textDecoration: "none" }} whileHover={{ color: C.accent }} transition={{ duration: 0.15 }}>
+              {link}
+            </motion.a>
+          ))}
+          <motion.button
+            style={{ background: C.accent, color: C.white, border: "none", borderRadius: 10, padding: "10px 22px", fontWeight: 800, fontSize: 15, cursor: "pointer", fontFamily: FONT }}
+            whileHover={{ background: C.accentDark, scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            Prendre RDV
+          </motion.button>
+        </div>
+
+        <motion.button
+          onClick={() => setMenuOpen(!menuOpen)}
+          style={{ display: "none", background: "none", border: "none", cursor: "pointer", color: C.text }}
+        >
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </motion.button>
+      </motion.nav>
+
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
+            style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: C.bg, padding: "24px 48px", borderBottom: `1px solid ${C.border}`, boxShadow: C.shadow, fontFamily: FONT }}
+          >
+            {links.map((link) => (
+              <a key={link} href="#" style={{ display: "block", padding: "12px 0", color: C.text, fontWeight: 600, textDecoration: "none", borderBottom: `1px solid ${C.border}` }}>{link}</a>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+function Hero() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const textY = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
 
   return (
     <section
       ref={ref}
       style={{
-        padding: "100px 80px",
-        background: C.bgSection,
-        fontFamily: FONT,
+        minHeight: "100vh",
+        background: `linear-gradient(140deg, ${C.bg} 0%, ${C.accentLight} 100%)`,
+        display: "flex", alignItems: "center",
+        padding: "100px 80px 60px",
+        position: "relative", overflow: "hidden", fontFamily: FONT,
       }}
     >
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        style={{ textAlign: "center", marginBottom: 60 }}
-      >
-        <SectionBadge label="Nos équipements" />
+      {/* Bg deco */}
+      <div style={{ position: "absolute", top: -100, right: -100, width: 600, height: 600, borderRadius: "50%", background: `radial-gradient(circle, ${C.accentLight} 0%, transparent 68%)`, opacity: 0.5, pointerEvents: "none" }} />
+
+      {/* Left text */}
+      <motion.div style={{ flex: 1, maxWidth: 580, position: "relative", zIndex: 1, y: textY, opacity: textOpacity }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+          style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.white, border: `1px solid ${C.accent}`, borderRadius: 20, padding: "7px 16px", marginBottom: 24 }}
+        >
+          <Shield size={14} color={C.accent} />
+          <span style={{ color: C.accent, fontSize: 13, fontWeight: 700 }}>Clinique vétérinaire agréée CNOV</span>
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
+          style={{ fontSize: "clamp(36px, 4vw, 58px)", fontWeight: 800, color: C.text, lineHeight: 1.1, letterSpacing: -1.5, marginBottom: 24 }}
+        >
+          Vos animaux méritent{" "}
+          <span style={{ color: C.accent }}>le meilleur soin</span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
+          style={{ fontSize: 18, color: C.textMuted, lineHeight: 1.72, marginBottom: 36, maxWidth: 490 }}
+        >
+          PawCare Clinic, c'est une équipe de vétérinaires passionnés à Bordeaux, dédiée à la
+          santé et au bonheur de vos compagnons à poils, plumes ou écailles.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
+          style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 48 }}
+        >
+          <motion.button
+            style={{ background: C.accent, color: C.white, border: "none", borderRadius: 10, padding: "16px 32px", fontWeight: 800, fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT }}
+            whileHover={{ background: C.accentDark, scale: 1.04, y: -2 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <Calendar size={18} /> Prendre rendez-vous
+          </motion.button>
+          <motion.button
+            style={{ background: C.sandLight, color: C.sand, border: `2px solid ${C.sand}`, borderRadius: 10, padding: "14px 24px", fontWeight: 800, fontSize: 15, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT }}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <Phone size={16} /> Urgences 24h
+          </motion.button>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} style={{ display: "flex", gap: 36 }}>
+          {[{ value: "3 500+", label: "Animaux soignés" }, { value: "4.8★", label: "Note Google" }, { value: "20 ans", label: "D'expertise" }].map((s) => (
+            <div key={s.label}>
+              <div style={{ fontWeight: 900, fontSize: 22, color: C.text }}>{s.value}</div>
+              <div style={{ fontSize: 13, color: C.textMuted }}>{s.label}</div>
+            </div>
+          ))}
+        </motion.div>
+      </motion.div>
+
+      {/* Right: paw */}
+      <motion.div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+        <AnimatedPaw />
+      </motion.div>
+    </section>
+  );
+}
+
+// ─── Services ─────────────────────────────────────────────────────────────────
+const SERVICES = [
+  { icon: <Stethoscope size={26} color="#2d6a4f" />, title: "Consultations", desc: "Bilan de santé complet, suivi régulier et prévention pour votre animal.", tag: "Essentiel" },
+  { icon: <Syringe size={26} color="#2d6a4f" />, title: "Vaccinations", desc: "Protocoles vaccinaux adaptés à chaque espèce et mode de vie.", tag: "Prévention" },
+  { icon: <Shield size={26} color="#2d6a4f" />, title: "Chirurgie", desc: "Chirurgie douce avec anesthésie sécurisée et monitoring cardiaque.", tag: "Spécialisé" },
+  { icon: <Heart size={26} color="#2d6a4f" />, title: "Cardiologie", desc: "Échographie cardiaque et suivi des pathologies cardiovasculaires.", tag: "Expert" },
+  { icon: <Award size={26} color="#2d6a4f" />, title: "Dermatologie", desc: "Diagnostic et traitement des affections cutanées chroniques.", tag: "Spécialisé" },
+  { icon: <Users size={26} color="#2d6a4f" />, title: "Urgences 24h/7j", desc: "Équipe d'astreinte pour les urgences vitales, 24h/24, 7j/7.", tag: "Urgent", urgent: true },
+];
+
+function Services() {
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
+
+  return (
+    <section id="services" ref={ref} style={{ padding: "100px 80px", background: C.bgSection, fontFamily: FONT }}>
+      <motion.div initial={{ opacity: 0, y: 32 }} animate={isInView ? { opacity: 1, y: 0 } : {}} style={{ textAlign: "center", marginBottom: 60 }}>
+        <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
+          Nos services
+        </div>
         <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1, marginBottom: 14 }}>
-          Un plateau technique de haut niveau
+          Des soins adaptés à chaque animal
         </h2>
-        <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 520, margin: "0 auto" }}>
-          Nos installations répondent aux standards des hôpitaux vétérinaires universitaires pour des diagnostics précis et des soins sécurisés.
+        <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 500, margin: "0 auto" }}>
+          Technologies de pointe, équipe bienveillante — pour que votre compagnon soit entre les meilleures mains.
         </p>
       </motion.div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-          gap: 24,
-          maxWidth: 1100,
-          margin: "0 auto",
-        }}
-      >
-        {CLINIC_FEATURES.map((f, i) => (
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, maxWidth: 1100, margin: "0 auto 60px" }}>
+        {SERVICES.map((s, i) => (
           <motion.div
-            key={f.title}
-            initial={{ opacity: 0, y: 36 }}
+            key={s.title}
+            initial={{ opacity: 0, y: 44 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-            whileHover={{ y: -5, boxShadow: C.shadowLg }}
+            transition={{ duration: 0.5, delay: i * 0.08 }}
+            whileHover={{ y: -6, boxShadow: C.shadowLg }}
             style={{
-              background: C.white,
+              background: (s as any).urgent ? C.text : C.white,
               borderRadius: 18,
-              padding: "32px 28px",
-              border: `1px solid ${C.border}`,
+              padding: "28px 26px",
+              border: `1px solid ${(s as any).urgent ? C.text : C.border}`,
               boxShadow: C.shadow,
+              position: "relative",
             }}
           >
-            <div
-              style={{
-                width: 50,
-                height: 50,
-                background: C.accentLight,
-                borderRadius: 14,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: 20,
-              }}
-            >
-              {f.icon}
+            <div style={{ position: "absolute", top: 16, right: 16, background: (s as any).urgent ? C.sand : C.accentLight, color: (s as any).urgent ? C.white : C.accent, borderRadius: 20, padding: "4px 12px", fontSize: 12, fontWeight: 700 }}>
+              {s.tag}
             </div>
-            <h3 style={{ fontSize: 17, fontWeight: 800, color: C.text, marginBottom: 10 }}>{f.title}</h3>
-            <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.65 }}>{f.desc}</p>
+            <div style={{ width: 52, height: 52, background: (s as any).urgent ? "rgba(255,255,255,0.12)" : C.accentLight, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 18 }}>
+              {(s as any).urgent ? <Heart size={26} color="#fff" /> : s.icon}
+            </div>
+            <h3 style={{ fontSize: 19, fontWeight: 800, color: (s as any).urgent ? C.white : C.text, marginBottom: 10 }}>{s.title}</h3>
+            <p style={{ fontSize: 14, color: (s as any).urgent ? "rgba(255,255,255,0.7)" : C.textMuted, lineHeight: 1.65 }}>{s.desc}</p>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Pet species tabs */}
+      <motion.div initial={{ opacity: 0, y: 24 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.4 }}>
+        <h3 style={{ textAlign: "center", fontSize: 22, fontWeight: 800, color: C.text, marginBottom: 32 }}>
+          Soins par espèce
+        </h3>
+        <PetTabs />
+      </motion.div>
+    </section>
+  );
+}
+
+// ─── Stats ────────────────────────────────────────────────────────────────────
+function Stats() {
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const stats = [
+    { value: "3 500+", label: "Animaux soignés / an", icon: "🐾" },
+    { value: "4.8/5", label: "Note Google Maps", icon: "⭐" },
+    { value: "20 ans", label: "D'expertise vétérinaire", icon: "🏆" },
+    { value: "24h/7j", label: "Service urgences", icon: "🚨" },
+  ];
+
+  return (
+    <section
+      ref={ref}
+      style={{ padding: "90px 80px", background: `linear-gradient(135deg, ${C.accent} 0%, ${C.accentDark} 100%)`, fontFamily: FONT }}
+    >
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 40, maxWidth: 960, margin: "0 auto" }}>
+        {stats.map((s, i) => (
+          <motion.div
+            key={s.label}
+            initial={{ opacity: 0, scale: 0.82 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
+            style={{ textAlign: "center" }}
+          >
+            <div style={{ marginBottom: 12 }}><TemplateIcon emoji={s.icon} size={36} /></div>
+            <div style={{ fontSize: "clamp(28px, 3vw, 42px)", fontWeight: 900, color: C.white, letterSpacing: -1, marginBottom: 8 }}>{s.value}</div>
+            <div style={{ color: "rgba(255,255,255,0.68)", fontSize: 15 }}>{s.label}</div>
           </motion.div>
         ))}
       </div>
@@ -702,186 +495,90 @@ function ClinicFeatures() {
   );
 }
 
-// ─── Team preview (home) ───────────────────────────────────────────────────────
-function HomeTeam() {
+// ─── Team ─────────────────────────────────────────────────────────────────────
+const TEAM = [
+  { name: "Dr. Marie Fontaine", role: "Vétérinaire généraliste", specialty: "Chiens & chats, chirurgie douce", exp: "14 ans", initials: "MF", color: C.accent },
+  { name: "Dr. Pierre Leroy", role: "Vétérinaire spécialisé", specialty: "Cardiologie & imagerie médicale", exp: "10 ans", initials: "PL", color: "#4a7aa0" },
+  { name: "Dr. Nadia Sall", role: "Vétérinaire exotiques", specialty: "NAC — oiseaux, reptiles, rongeurs", exp: "8 ans", initials: "NS", color: "#7a5ea0" },
+];
+
+function Team() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
+
   return (
-    <section ref={ref} style={{ padding: "100px 80px", background: C.bg, fontFamily: FONT }}>
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        style={{ textAlign: "center", marginBottom: 60 }}
-      >
-        <SectionBadge label="Notre équipe" />
+    <section id="team" ref={ref} style={{ padding: "100px 80px", background: C.bg, fontFamily: FONT }}>
+      <motion.div initial={{ opacity: 0, y: 32 }} animate={isInView ? { opacity: 1, y: 0 } : {}} style={{ textAlign: "center", marginBottom: 60 }}>
+        <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
+          Notre équipe
+        </div>
         <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1 }}>
           Des vétérinaires passionnés
         </h2>
       </motion.div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: 28,
-          maxWidth: 960,
-          margin: "0 auto 48px",
-        }}
-      >
-        {TEAM_DATA.slice(0, 3).map((doc, i) => (
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 28, maxWidth: 960, margin: "0 auto" }}>
+        {TEAM.map((doc, i) => (
           <motion.div
             key={doc.name}
             initial={{ opacity: 0, y: 44 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.55, delay: i * 0.12 }}
             whileHover={{ y: -6, boxShadow: C.shadowLg }}
-            style={{
-              background: C.bgSection,
-              borderRadius: 20,
-              padding: 32,
-              textAlign: "center",
-              border: `1px solid ${C.border}`,
-              boxShadow: C.shadow,
-            }}
+            style={{ background: C.bgSection, borderRadius: 20, padding: 32, textAlign: "center", border: `1px solid ${C.border}`, boxShadow: C.shadow }}
           >
-            <div
-              style={{
-                width: 80,
-                height: 80,
-                borderRadius: "50%",
-                background: doc.color,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                margin: "0 auto 20px",
-                fontSize: 24,
-                fontWeight: 800,
-                color: C.white,
-                letterSpacing: 1,
-              }}
-            >
+            <div style={{ width: 80, height: 80, borderRadius: "50%", background: doc.color, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: 24, fontWeight: 800, color: C.white, letterSpacing: 1 }}>
               {doc.initials}
             </div>
             <h3 style={{ fontSize: 19, fontWeight: 800, color: C.text, marginBottom: 4 }}>{doc.name}</h3>
             <div style={{ fontSize: 14, fontWeight: 700, color: doc.color, marginBottom: 8 }}>{doc.role}</div>
             <p style={{ fontSize: 14, color: C.textMuted, marginBottom: 16, lineHeight: 1.55 }}>{doc.specialty}</p>
-            <div
-              style={{
-                display: "inline-block",
-                background: C.accentLight,
-                borderRadius: 20,
-                padding: "5px 14px",
-                fontSize: 13,
-                fontWeight: 700,
-                color: C.accent,
-              }}
-            >
+            <div style={{ display: "inline-block", background: C.accentLight, borderRadius: 20, padding: "5px 14px", fontSize: 13, fontWeight: 700, color: C.accent }}>
               {doc.exp} d'expérience
             </div>
           </motion.div>
         ))}
       </div>
-      <div style={{ textAlign: "center" }}>
-        <Link href="/templates/impact-32/equipe" style={{ textDecoration: "none" }}>
-          <motion.button
-            type="button"
-            style={{
-              background: "transparent",
-              color: C.accent,
-              border: `2px solid ${C.accent}`,
-              borderRadius: 10,
-              padding: "13px 32px",
-              fontWeight: 800,
-              fontSize: 15,
-              cursor: "pointer",
-              fontFamily: FONT,
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-            }}
-            whileHover={{ background: C.accentLight, scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Rencontrer toute l'équipe <ArrowRight size={16} />
-          </motion.button>
-        </Link>
-      </div>
     </section>
   );
 }
 
-// ─── Testimonials (extended, 5 cards) ─────────────────────────────────────────
+// ─── Testimonials ─────────────────────────────────────────────────────────────
+const TESTIMONIALS = [
+  { name: "Julie & Max (Border Collie)", text: "L'équipe PawCare a sauvé la vie de Max lors d'une urgence nocturne. Réactivité exemplaire, soins impeccables. Nous ne changerons jamais de clinique.", stars: 5 },
+  { name: "Antoine & ses 2 chats", text: "Dr. Fontaine est une perle. Elle prend le temps d'expliquer chaque diagnostic, elle est douce avec les chats et toujours disponible pour répondre à nos questions.", stars: 5 },
+  { name: "Léa & Noisette (lapin)", text: "Difficile de trouver un vétérinaire pour les lapins. Dr. Sall est une vraie spécialiste NAC — Noisette est en parfaite santé grâce à elle !", stars: 5 },
+];
+
 function Testimonials() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
+
   return (
     <section ref={ref} style={{ padding: "100px 80px", background: C.bgSection, fontFamily: FONT }}>
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        style={{ textAlign: "center", marginBottom: 60 }}
-      >
-        <SectionBadge label="Témoignages" />
+      <motion.div initial={{ opacity: 0, y: 32 }} animate={isInView ? { opacity: 1, y: 0 } : {}} style={{ textAlign: "center", marginBottom: 60 }}>
+        <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
+          Témoignages
+        </div>
         <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1 }}>
           Des propriétaires heureux
         </h2>
-        <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 440, margin: "16px auto 0" }}>
-          Plus de 2 400 avis — une note de 4.8/5 sur Google Maps
-        </p>
       </motion.div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: 24,
-          maxWidth: 1100,
-          margin: "0 auto",
-        }}
-      >
-        {EXTENDED_TESTIMONIALS.map((t, i) => (
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, maxWidth: 1000, margin: "0 auto" }}>
+        {TESTIMONIALS.map((t, i) => (
           <motion.div
             key={t.name}
             initial={{ opacity: 0, y: 40 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-            style={{
-              background: C.white,
-              borderRadius: 18,
-              padding: 28,
-              border: `1px solid ${C.border}`,
-              boxShadow: C.shadow,
-            }}
+            transition={{ duration: 0.5, delay: i * 0.12 }}
+            style={{ background: C.white, borderRadius: 18, padding: 28, border: `1px solid ${C.border}`, boxShadow: C.shadow }}
           >
-            {/* Animal photo */}
-            <div
-              style={{
-                width: "100%",
-                height: 160,
-                borderRadius: 12,
-                overflow: "hidden",
-                marginBottom: 20,
-                background: C.bgSection,
-              }}
-            >
-              <img
-                src={`https://images.unsplash.com/${t.photo}?w=600&q=80&fit=crop`}
-                alt={t.animal}
-                loading="lazy"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = "none";
-                }}
-              />
-            </div>
             <div style={{ display: "flex", gap: 3, marginBottom: 14 }}>
-              {Array.from({ length: t.stars }).map((_, k) => (
-                <Star key={k} size={14} color="#f59e0b" fill="#f59e0b" />
-              ))}
+              {Array.from({ length: t.stars }).map((_, k) => (<Star key={k} size={14} color="#f59e0b" fill="#f59e0b" />))}
             </div>
-            <p style={{ fontSize: 15, color: C.text, lineHeight: 1.7, marginBottom: 18, fontStyle: "italic" }}>
-              "{t.text}"
-            </p>
+            <p style={{ fontSize: 15, color: C.text, lineHeight: 1.7, marginBottom: 18, fontStyle: "italic" }}>"{t.text}"</p>
             <div style={{ fontWeight: 800, fontSize: 14, color: C.accent }}>— {t.name}</div>
-            <div style={{ fontSize: 12, color: C.textMuted, marginTop: 2 }}>{t.animal}</div>
           </motion.div>
         ))}
       </div>
@@ -889,304 +586,155 @@ function Testimonials() {
   );
 }
 
-// ─── Appointment CTA with calendar preview ────────────────────────────────────
-function AppointmentCTA() {
+// ─── Pricing ──────────────────────────────────────────────────────────────────
+const PLANS = [
+  {
+    name: "Basic Care",
+    price: "25",
+    period: "/ consultation",
+    desc: "Pour les soins courants et le suivi préventif.",
+    features: ["Consultation vétérinaire", "Déparasitage interne", "Conseils nutrition", "Carnet de santé digital", "Devis gratuit"],
+    cta: "Prendre RDV",
+    highlight: false,
+    emoji: "🐾",
+  },
+  {
+    name: "Complete Care",
+    price: "89",
+    period: "/ mois",
+    desc: "La formule tout-inclus pour un suivi serein.",
+    features: ["Consultations illimitées", "Vaccinations annuelles", "Bilan sanguin semestriel", "Détartrage dentaire", "Urgences prioritaires", "Application suivi santé"],
+    cta: "S'abonner",
+    highlight: true,
+    emoji: "⭐",
+  },
+  {
+    name: "Premium Care",
+    price: "149",
+    period: "/ mois",
+    desc: "Le meilleur pour les animaux qui méritent tout.",
+    features: ["Tout Complete Care", "Chirurgies incluses (hors implants)", "Suivi nutritionnel personnalisé", "Téléconsultation 7j/7", "Assurance accidents incluse", "Livraison médicaments"],
+    cta: "Choisir Premium",
+    highlight: false,
+    emoji: "💎",
+  },
+];
+
+function Pricing() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
-  const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-  const [selectedDay, setSelectedDay] = useState(0);
 
   return (
-    <section
-      ref={ref}
-      style={{
-        padding: "100px 80px",
-        background: `linear-gradient(140deg, ${C.accentDark} 0%, ${C.accent} 100%)`,
-        fontFamily: FONT,
-      }}
-    >
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        style={{ textAlign: "center", marginBottom: 60 }}
-      >
-        <div
-          style={{
-            display: "inline-block",
-            background: "rgba(255,255,255,0.15)",
-            color: C.white,
-            borderRadius: 20,
-            padding: "6px 18px",
-            fontSize: 13,
-            fontWeight: 700,
-            marginBottom: 16,
-            textTransform: "uppercase" as const,
-            letterSpacing: 0.8,
-          }}
-        >
-          Prise de rendez-vous
+    <section id="pricing" ref={ref} style={{ padding: "100px 80px", background: C.bg, fontFamily: FONT }}>
+      <motion.div initial={{ opacity: 0, y: 32 }} animate={isInView ? { opacity: 1, y: 0 } : {}} style={{ textAlign: "center", marginBottom: 60 }}>
+        <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
+          Tarifs
         </div>
-        <h2
-          style={{
-            fontSize: "clamp(28px, 3vw, 44px)",
-            fontWeight: 800,
-            color: C.white,
-            letterSpacing: -1,
-            marginBottom: 14,
-          }}
-        >
-          Choisissez votre créneau
+        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1, marginBottom: 14 }}>
+          Plans de soins transparents
         </h2>
-        <p style={{ fontSize: 16, color: "rgba(255,255,255,0.72)", maxWidth: 480, margin: "0 auto" }}>
-          Confirmé par email sous 2h ouvrées. Annulation gratuite jusqu'à 24h avant.
-        </p>
+        <p style={{ color: C.textMuted, fontSize: 16 }}>Remboursement assurance animaux partenaires — Sans engagement</p>
       </motion.div>
 
-      <div
-        style={{
-          maxWidth: 860,
-          margin: "0 auto",
-          background: C.white,
-          borderRadius: 24,
-          padding: "40px",
-          boxShadow: "0 24px 80px rgba(0,0,0,0.2)",
-        }}
-      >
-        {/* Day selector */}
-        <div style={{ display: "flex", gap: 10, marginBottom: 32, overflowX: "auto", paddingBottom: 4 }}>
-          {APPOINTMENT_SLOTS.map((day, i) => (
-            <motion.button
-              key={day.day}
-              type="button"
-              onClick={() => { setSelectedDay(i); setSelectedSlot(null); }}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              style={{
-                flexShrink: 0,
-                background: selectedDay === i ? C.accent : C.bgSection,
-                color: selectedDay === i ? C.white : C.text,
-                border: `1.5px solid ${selectedDay === i ? C.accent : C.border}`,
-                borderRadius: 12,
-                padding: "12px 20px",
-                fontFamily: FONT,
-                cursor: "pointer",
-                textAlign: "center" as const,
-              }}
-            >
-              <div style={{ fontWeight: 800, fontSize: 14 }}>{day.day}</div>
-              <div style={{ fontSize: 12, opacity: 0.75, marginTop: 2 }}>{day.date}</div>
-            </motion.button>
-          ))}
-        </div>
-
-        {/* Time slots */}
-        <div style={{ marginBottom: 32 }}>
-          <p style={{ fontSize: 13, fontWeight: 700, color: C.textMuted, marginBottom: 14, textTransform: "uppercase" as const, letterSpacing: 0.5 }}>
-            Créneaux disponibles
-          </p>
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            {APPOINTMENT_SLOTS[selectedDay].slots.map((slot) => (
-              <motion.button
-                key={slot}
-                type="button"
-                onClick={() => setSelectedSlot(slot)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.97 }}
-                style={{
-                  background: selectedSlot === slot ? C.accent : C.white,
-                  color: selectedSlot === slot ? C.white : C.text,
-                  border: `1.5px solid ${selectedSlot === slot ? C.accent : C.border}`,
-                  borderRadius: 10,
-                  padding: "10px 20px",
-                  fontSize: 15,
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  fontFamily: FONT,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                  transition: "all 0.15s",
-                }}
-              >
-                <Clock size={14} />
-                {slot}
-              </motion.button>
-            ))}
-          </div>
-        </div>
-
-        {/* Info + CTA */}
-        <div
-          style={{
-            display: "flex",
-            gap: 16,
-            alignItems: "center",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-          }}
-        >
-          <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, color: C.textMuted }}>
-              <MapPin size={14} color={C.accent} /> 15 Rue des Platanes, Bordeaux
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 28, maxWidth: 980, margin: "0 auto", alignItems: "start" }}>
+        {PLANS.map((p, i) => (
+          <motion.div
+            key={p.name}
+            initial={{ opacity: 0, y: 44 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.55, delay: i * 0.1 }}
+            style={{
+              background: p.highlight ? C.text : C.bgSection,
+              borderRadius: 24, padding: "38px 32px",
+              border: p.highlight ? "none" : `1.5px solid ${C.border}`,
+              boxShadow: p.highlight ? C.shadowLg : C.shadow,
+              position: "relative", overflow: "hidden",
+            }}
+          >
+            {p.highlight && (
+              <>
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 4, background: `linear-gradient(90deg, ${C.accent}, #52b788)` }} />
+                <div style={{ position: "absolute", top: 20, right: 20, background: C.accent, color: C.white, borderRadius: 20, padding: "4px 14px", fontSize: 12, fontWeight: 700 }}>
+                  Le plus choisi
+                </div>
+              </>
+            )}
+            <div style={{ marginBottom: 14 }}><TemplateIcon emoji={p.emoji} size={28} /></div>
+            <h3 style={{ fontSize: 22, fontWeight: 800, color: p.highlight ? C.white : C.text, marginBottom: 8 }}>{p.name}</h3>
+            <p style={{ fontSize: 14, color: p.highlight ? "rgba(255,255,255,0.6)" : C.textMuted, marginBottom: 24, lineHeight: 1.55 }}>{p.desc}</p>
+            <div style={{ marginBottom: 28 }}>
+              <span style={{ fontSize: 42, fontWeight: 900, color: p.highlight ? C.white : C.text, letterSpacing: -1 }}>€{p.price}</span>
+              <span style={{ fontSize: 14, color: p.highlight ? "rgba(255,255,255,0.55)" : C.textMuted, marginLeft: 6 }}>{p.period}</span>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, color: C.textMuted }}>
-              <Clock size={14} color={C.accent} /> Durée : 20–30 min
-            </div>
-          </div>
-          <Link href="/templates/impact-32/pricing" style={{ textDecoration: "none" }}>
+            <ul style={{ listStyle: "none", padding: 0, margin: "0 0 28px", display: "flex", flexDirection: "column", gap: 11 }}>
+              {p.features.map((f) => (
+                <li key={f} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <CheckCircle size={16} color={p.highlight ? C.sand : C.accent} />
+                  <span style={{ fontSize: 14, color: p.highlight ? "rgba(255,255,255,0.82)" : C.text }}>{f}</span>
+                </li>
+              ))}
+            </ul>
             <motion.button
-              type="button"
-              whileHover={{ background: C.accentDark, scale: 1.04 }}
+              style={{ width: "100%", background: p.highlight ? C.accent : "transparent", color: p.highlight ? C.white : C.text, border: p.highlight ? "none" : `1.5px solid ${C.border}`, borderRadius: 10, padding: "14px", fontWeight: 800, fontSize: 15, cursor: "pointer", fontFamily: FONT }}
+              whileHover={{ background: p.highlight ? C.accentDark : C.accentLight, borderColor: C.accent, color: p.highlight ? C.white : C.accent, scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
-              style={{
-                background: C.accent,
-                color: C.white,
-                border: "none",
-                borderRadius: 10,
-                padding: "14px 28px",
-                fontWeight: 800,
-                fontSize: 15,
-                cursor: "pointer",
-                fontFamily: FONT,
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-              }}
             >
-              <Calendar size={16} />
-              {selectedSlot
-                ? `Confirmer ${APPOINTMENT_SLOTS[selectedDay].day} à ${selectedSlot}`
-                : "Sélectionner un créneau"}
+              {p.cta}
             </motion.button>
-          </Link>
-        </div>
+          </motion.div>
+        ))}
       </div>
-
-      {/* Urgences strip */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ delay: 0.4 }}
-        style={{
-          maxWidth: 860,
-          margin: "24px auto 0",
-          background: "#dc2626",
-          borderRadius: 14,
-          padding: "18px 32px",
-          display: "flex",
-          alignItems: "center",
-          gap: 14,
-          flexWrap: "wrap",
-        }}
-      >
-        <AlertCircle size={20} color="#fff" />
-        <div style={{ flex: 1 }}>
-          <span style={{ color: C.white, fontWeight: 800, fontSize: 15 }}>Urgence vétérinaire ? </span>
-          <span style={{ color: "rgba(255,255,255,0.82)", fontSize: 14 }}>
-            Notre ligne urgences est disponible 24h/24, 7j/7. Intervention en moins de 30 minutes.
-          </span>
-        </div>
-        <a
-          href="tel:+33556000000"
-          style={{
-            background: C.white,
-            color: "#dc2626",
-            borderRadius: 8,
-            padding: "10px 20px",
-            fontWeight: 800,
-            fontSize: 14,
-            textDecoration: "none",
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-            flexShrink: 0,
-          }}
-        >
-          <Phone size={14} /> Appeler maintenant
-        </a>
-      </motion.div>
     </section>
   );
 }
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
+const FAQS = [
+  { q: "Comment prendre rendez-vous en urgence ?", a: "Appelez directement notre ligne urgences au 05 56 78 90 12, disponible 24h/24 et 7j/7. Pour les urgences vitales, notre équipe d'astreinte intervient en moins de 30 minutes." },
+  { q: "Acceptez-vous les animaux exotiques (lapins, oiseaux, reptiles) ?", a: "Oui ! Dr. Nadia Sall est spécialisée NAC (Nouveaux Animaux de Compagnie). Elle reçoit lapins, cobayes, oiseaux, reptiles et poissons du lundi au vendredi sur rendez-vous." },
+  { q: "Travaillez-vous avec les assurances animaux ?", a: "Nous collaborons avec les principaux assureurs vétérinaires : Agria, Santévet, Assur O'Poil et April. Nous émettons les factures dans le format requis pour vos remboursements." },
+  { q: "Proposez-vous la téléconsultation ?", a: "Oui, la téléconsultation est disponible pour les abonnés Complete Care et Premium Care. Idéale pour les questions de suivi, l'interprétation de résultats ou les conseils comportementaux." },
+  { q: "Quelle est la durée d'une consultation standard ?", a: "Une consultation standard dure entre 20 et 30 minutes. Les consultations spécialisées (cardiologie, dermatologie) peuvent durer jusqu'à 45 minutes. Nous ne consultons jamais en flux tendu." },
+];
+
 function FAQ() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const [open, setOpen] = useState<number | null>(null);
+
   return (
-    <section ref={ref} style={{ padding: "100px 80px", background: C.bg, fontFamily: FONT }}>
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        style={{ textAlign: "center", marginBottom: 60 }}
-      >
-        <SectionBadge label="FAQ" />
+    <section ref={ref} style={{ padding: "100px 80px", background: C.bgSection, fontFamily: FONT }}>
+      <motion.div initial={{ opacity: 0, y: 32 }} animate={isInView ? { opacity: 1, y: 0 } : {}} style={{ textAlign: "center", marginBottom: 60 }}>
+        <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
+          FAQ
+        </div>
         <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1 }}>
           Questions fréquentes
         </h2>
       </motion.div>
-      <div
-        style={{
-          maxWidth: 720,
-          margin: "0 auto",
-          display: "flex",
-          flexDirection: "column",
-          gap: 12,
-        }}
-      >
+
+      <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", flexDirection: "column", gap: 12 }}>
         {FAQS.map((faq, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0, y: 18 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.4, delay: i * 0.08 }}
-            style={{
-              background: C.white,
-              borderRadius: 14,
-              border: `1px solid ${open === i ? C.accent : C.border}`,
-              overflow: "hidden",
-              transition: "border-color 0.2s",
-            }}
+            style={{ background: C.white, borderRadius: 14, border: `1px solid ${open === i ? C.accent : C.border}`, overflow: "hidden", transition: "border-color 0.2s" }}
           >
             <button
-              type="button"
               onClick={() => setOpen(open === i ? null : i)}
-              style={{
-                width: "100%",
-                padding: "20px 24px",
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                gap: 16,
-                textAlign: "left" as const,
-                fontFamily: FONT,
-              }}
+              style={{ width: "100%", padding: "20px 24px", background: "none", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, textAlign: "left", fontFamily: FONT }}
             >
               <span style={{ fontWeight: 700, fontSize: 16, color: C.text, lineHeight: 1.4 }}>{faq.q}</span>
-              <motion.div
-                animate={{ rotate: open === i ? 180 : 0 }}
-                transition={{ duration: 0.25 }}
-                style={{ flexShrink: 0 }}
-              >
+              <motion.div animate={{ rotate: open === i ? 180 : 0 }} transition={{ duration: 0.25 }} style={{ flexShrink: 0 }}>
                 <ChevronDown size={20} color={open === i ? C.accent : C.textMuted} />
               </motion.div>
             </button>
             <AnimatePresence initial={false}>
               {open === i && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  style={{ overflow: "hidden" }}
-                >
-                  <div style={{ padding: "0 24px 22px", fontSize: 15, color: C.textMuted, lineHeight: 1.72 }}>
-                    {faq.a}
-                  </div>
+                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} style={{ overflow: "hidden" }}>
+                  <div style={{ padding: "0 24px 22px", fontSize: 15, color: C.textMuted, lineHeight: 1.72 }}>{faq.a}</div>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -1197,23 +745,69 @@ function FAQ() {
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
-export default function PawCareHome() {
+// ─── Footer ───────────────────────────────────────────────────────────────────
+function Footer() {
   return (
-    <>
+    <footer id="contact" style={{ background: C.text, color: C.white, padding: "70px 80px 32px", fontFamily: FONT }}>
+      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 48, marginBottom: 52 }}>
+        <div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
+            <div style={{ width: 38, height: 38, background: C.accent, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center" }}><TemplateIcon emoji="🐾" size={20} color="#fff" /></div>
+            <span style={{ fontWeight: 800, fontSize: 20 }}>PawCare Clinic</span>
+          </div>
+          <p style={{ color: "rgba(255,255,255,0.58)", fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
+            Clinique vétérinaire bienveillante à Bordeaux. Parce que votre animal mérite les mêmes soins d'excellence que vous.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
+            {[
+              { icon: <Phone size={15} />, text: "05 56 78 90 12" },
+              { icon: <Mail size={15} />, text: "contact@pawcare-bordeaux.fr" },
+              { icon: <MapPin size={15} />, text: "15 Cours de l'Intendance, 33000 Bordeaux" },
+              { icon: <Clock size={15} />, text: "Lun–Sam 8h–20h | Urgences 24h/7j" },
+            ].map((item, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.62)", fontSize: 14 }}>
+                <span style={{ color: C.sand }}>{item.icon}</span>
+                {item.text}
+              </div>
+            ))}
+          </div>
+        </div>
+        {[
+          { title: "Services", links: ["Consultations", "Vaccinations", "Chirurgie", "Urgences", "Exotiques"] },
+          { title: "Clinique", links: ["Notre équipe", "Nos valeurs", "Tarifs", "Actualités"] },
+          { title: "Pratique", links: ["Rendez-vous", "Téléconsultation", "Accès", "Assurances"] },
+        ].map((col) => (
+          <div key={col.title}>
+            <h4 style={{ fontSize: 13, fontWeight: 700, marginBottom: 20, color: C.white, textTransform: "uppercase", letterSpacing: 0.8 }}>{col.title}</h4>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {col.links.map((link) => (<a key={link} href="#" style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, textDecoration: "none" }}>{link}</a>))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+        <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 14 }}>© 2025 PawCare Clinic. Tous droits réservés.</p>
+        <div style={{ display: "flex", gap: 20 }}>
+          {["Mentions légales", "Confidentialité", "RGPD"].map((link) => (<a key={link} href="#" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>{link}</a>))}
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ─── Page Export ──────────────────────────────────────────────────────────────
+export default function Impact32() {
+  return (
+    <main style={{ background: C.bg, fontFamily: FONT, overflowX: "hidden" }}>
+      <Navbar />
       <Hero />
-      <StatsBar />
-      <section style={{ padding: "60px 80px", background: C.bg, display: "flex", justifyContent: "center" }}>
-        <PetTabs />
-      </section>
-      <HomeServices />
+      <Services />
       <Stats />
-      <AnimalsWeTreat />
-      <ClinicFeatures />
-      <HomeTeam />
+      <Team />
       <Testimonials />
-      <AppointmentCTA />
+      <Pricing />
       <FAQ />
-    </>
+      <Footer />
+    </main>
   );
 }
