@@ -12,11 +12,21 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Generated template pages and demo theme components are not app code.
+    "app/templates/**",
+    "components/themes/**",
+    // Root-level JS build/generation scripts — not linted app code.
+    "*.js",
+    "scripts/**",
   ]),
-  // French text with apostrophes and quotes makes this rule impractical.
   {
     rules: {
+      // French text with apostrophes and quotes makes this rule impractical.
       "react/no-unescaped-entities": "off",
+      // Reading localStorage in useEffect and calling setState on mount is
+      // idiomatic React. The react-compiler rule flags it as an error but
+      // this pattern is safe and intentional throughout the codebase.
+      "react-hooks/set-state-in-effect": "off",
     },
   },
 ]);

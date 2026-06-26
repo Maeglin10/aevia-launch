@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { ExternalLink, Copy, Check } from "lucide-react";
 import { AeviaHeader } from "@/components/AeviaHeader";
@@ -257,7 +257,7 @@ function SuccessContent() {
     }
   };
 
-  const stagger: any = {
+  const stagger: Record<string, Variants> = {
     container: {
       hidden: {},
       show: { transition: { staggerChildren: 0.12, delayChildren: 0.3 } },

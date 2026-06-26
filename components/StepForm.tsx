@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, ArrowLeft, Loader2, Check, ExternalLink,
@@ -306,7 +307,7 @@ export function StepForm() {
             <div className="text-white text-sm font-semibold">{TEMPLATE_CITY_LABELS[form.template]}</div>
             <div className="text-violet-400 text-xs">{form.template}</div>
           </div>
-          <a href="/themes" className="text-zinc-400 hover:text-white text-xs transition-colors shrink-0">Changer →</a>
+          <Link href="/themes" className="text-zinc-400 hover:text-white text-xs transition-colors shrink-0">Changer →</Link>
         </div>
       )}
 
@@ -391,9 +392,9 @@ export function StepForm() {
               {form.sector === "other" ? (
                 <div className="py-4 text-center">
                   <p className="text-zinc-300 text-base mb-4">{t.s2Other}</p>
-                  <a href="/themes" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-base font-semibold transition-all">
+                  <Link href="/themes" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-base font-semibold transition-all">
                     Voir tous les thèmes <ExternalLink className="w-4 h-4" />
-                  </a>
+                  </Link>
                 </div>
               ) : (
                 <div className="space-y-3">
