@@ -5,9 +5,10 @@ export default defineConfig({
   use: {
     baseURL: process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000',
   },
-  webServer: process.env.CI ? undefined : {
-    command: 'npm run dev',
+  webServer: {
+    command: process.env.CI ? 'npm run start' : 'npm run dev',
     url: 'http://localhost:3000',
-    reuseExistingServer: true,
+    reuseExistingServer: !process.env.CI,
+    timeout: 60_000,
   },
 });
