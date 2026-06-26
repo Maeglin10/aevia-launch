@@ -102,7 +102,8 @@ export async function POST(req: NextRequest) {
 
     // All amounts resolved in the chosen currency via the pricing table so the
     // charge matches exactly what the order page displayed.
-    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const lineItems: any[] = [
       {
         price_data: {
           currency: stripeCcy,
