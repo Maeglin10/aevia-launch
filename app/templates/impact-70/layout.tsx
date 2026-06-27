@@ -158,7 +158,7 @@ export default function VelvetLayout({
           {[
             { title: "THE EXPERIENCE", links: [{ label: "Atmosphere", href: "/templates/impact-70/experience" }, { label: "VIP Tables", href: "/templates/impact-70/members" }, { label: "Sound Lab", href: "/templates/impact-70/experience" }] },
             { title: "LOCATIONS", links: [{ label: "Berlin Hub", href: "/templates/impact-70/contact" }, { label: "Ibiza Retreat", href: "/templates/impact-70/contact" }, { label: "Tokyo Underground", href: "/templates/impact-70/contact" }] },
-            { title: "ENTITY", links: [{ label: "Membership", href: "/templates/impact-70/members" }, { label: "Mentions Légales", href: "/legal/mentions-legales" }] }
+            { title: "ENTITY", links: [{ label: "Membership", href: "/templates/impact-70/members" }, { label: "Mentions Légales", href: "/templates/impact-70/legal/mentions-legales" }] }
           ].map((col, i) => (
             <div key={i} className="space-y-12">
               <h4 className="text-[10px] font-bold uppercase tracking-[0.6em] text-white/20">{col.title}</h4>

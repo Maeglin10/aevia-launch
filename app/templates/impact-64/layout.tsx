@@ -227,9 +227,9 @@ export default function NeuronSecLayout({
               { title: "Entreprise", links: [
                 { name: "À propos", href: "/templates/impact-64" },
                 { name: "Équipe", href: "/templates/impact-64" },
-                { name: "Mentions légales", href: "/legal/mentions-legales" },
-                { name: "Confidentialité", href: "/legal/confidentialite" },
-                { name: "CGU", href: "/legal/cgu" },
+                { name: "Mentions légales", href: "/templates/impact-64/legal/mentions-legales" },
+                { name: "Confidentialité", href: "/templates/impact-64/legal/confidentialite" },
+                { name: "CGU", href: "/templates/impact-64/legal/cgu" },
               ] },
               { title: "Contact", links: [
                 { name: "Paris — 10ème arr.", href: "/templates/impact-64/contact" },

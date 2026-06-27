@@ -157,9 +157,9 @@ export default function SymmetryStudioLayout({
             {
               t: "ENTITY",
               links: [
-                { l: "Mentions légales", href: "/legal/mentions-legales" },
-                { l: "Confidentialité", href: "/legal/confidentialite" },
-                { l: "CGU", href: "/legal/cgu" },
+                { l: "Mentions légales", href: "/templates/impact-80/legal/mentions-legales" },
+                { l: "Confidentialité", href: "/templates/impact-80/legal/confidentialite" },
+                { l: "CGU", href: "/templates/impact-80/legal/cgu" },
                 { l: "Contact", href: `${basePath}/contact` },
               ],
             },

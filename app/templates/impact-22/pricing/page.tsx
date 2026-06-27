@@ -1,0 +1,328 @@
+"use client";
+
+import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Menu, X, ArrowRight, Cloud, Cpu, Zap, Database, Lock, BarChart3, ChevronDown, CheckCircle, GitBranch, Globe, BookOpen, FileText, Tag, Clock, Users, Shield, Terminal, Code, Layers, Server, Eye, TrendingUp, Sparkles, ExternalLink } from "lucide-react";
+
+type ActivePage = "home" | "modeles" | "pricing" | "docs" | "blog" | "login" | "legal";
+
+const useFonts = () => {
+  useEffect(() => {
+    if (document.getElementById("nb-fonts")) return;
+    const s = document.createElement("style");
+    s.id = "nb-fonts";
+    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');`;
+    document.head.appendChild(s);
+  }, []);
+};
+
+const Reveal = ({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div ref={ref} className={className} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay }}>
+      {children}
+    </motion.div>
+  );
+};
+
+const features = [
+  { icon: <Cloud className="w-6 h-6" />, title: "Cloud Inference", desc: "Exécutez n'importe quel modèle en millisecondes sur notre infrastructure distribuée dans 12 régions.", color: "#06B6D4" },
+  { icon: <Cpu className="w-6 h-6" />, title: "GPU à la demande", desc: "A100, H100, L40S. Scalez de 0 à 1 000 GPU en 90 secondes avec auto-scaling intelligent.", color: "#8B5CF6" },
+  { icon: <Zap className="w-6 h-6" />, title: "Latence < 100ms", desc: "Edge computing mondial. Vos modèles tournent au plus proche de vos utilisateurs finaux.", color: "#F59E0B" },
+  { icon: <Database className="w-6 h-6" />, title: "Vector DB intégré", desc: "Base vectorielle haute performance incluse. Indexation, recherche sémantique, clustering.", color: "#10B981" },
+  { icon: <Lock className="w-6 h-6" />, title: "Déploiement privé", desc: "VPC dédié, encryption at rest + in transit, conformité RGPD, HIPAA, SOC2 Type II.", color: "#EF4444" },
+  { icon: <BarChart3 className="w-6 h-6" />, title: "Observabilité IA", desc: "Monitoring des coûts d'inférence, traces LLM, drift detection et alertes automatiques.", color: "#3B82F6" },
+];
+
+const models = [
+  { name: "LLaMA 3.1 405B", type: "LLM", latency: "90ms", cost: "0.70$ / 1M tokens", badge: "Recommandé" },
+  { name: "Mistral Large 2", type: "LLM", latency: "65ms", cost: "0.45$ / 1M tokens", badge: "Populaire" },
+  { name: "GPT-4o", type: "Multimodal", latency: "120ms", cost: "1.20$ / 1M tokens", badge: "OpenAI" },
+  { name: "SDXL Turbo", type: "Image", latency: "30ms", cost: "0.01$ / image", badge: "Diffusion" },
+  { name: "Whisper Large v3", type: "Audio", latency: "RT×0.15", cost: "0.006$ / min", badge: "STT" },
+];
+
+const pipeline = [
+  { step: "API Call", code: "POST /v1/inference\nAuthorization: Bearer {token}\nContent-Type: application/json", desc: "Un endpoint universel pour tous vos modèles" },
+  { step: "Routage", code: "model_router.select(\n  task='llm',\n  latency='low',\n  cost='optimize'\n)", desc: "Routage automatique vers le GPU optimal" },
+  { step: "Inférence", code: "# GPU H100 — EU-West-1\nlatency: 88ms\ntokens: 1240\ncost: $0.0008", desc: "Exécution sur infrastructure bare-metal" },
+  { step: "Réponse", code: '{\n  "completion": "...",\n  "usage": {...},\n  "latency_ms": 88\n}', desc: "Résultat structuré avec métriques" },
+];
+
+const faqs = [
+  { q: "Quelle est la différence avec Azure OpenAI ou Bedrock ?", a: "Nimbus est model-agnostic : vous pouvez swapper des modèles open-source et propriétaires via une seule API. Pas de vendor lock-in, coûts jusqu'à 80% inférieurs." },
+  { q: "Comment fonctionne la facturation ?", a: "Pay-as-you-go par token / image / seconde d'audio. Aucun engagement minimum. Volume discounts automatiques dès 10M tokens/mois." },
+  { q: "Peut-on déployer nos propres modèles fine-tunés ?", a: "Oui. Upload via CLI ou S3-compatible API. Format GGUF, SafeTensors, ONNX. Votre modèle est privé et isolé dans votre namespace." },
+  { q: "Quelle est la SLA uptime ?", a: "99.99% sur les endpoints production avec failover multi-région automatique. Compensations crédit si violation SLA." },
+];
+
+/* ─── Nav item → page mapping ─── */
+const navMap: Record<string, ActivePage> = {
+  "Modèles": "modeles",
+  "Pricing": "pricing",
+  "Docs": "docs",
+  "Status": "home",
+  "Blog": "blog",
+};
+
+const footerLinkMap: Record<string, ActivePage> = {
+  "Modèles": "modeles",
+  "GPU Cloud": "modeles",
+  "Vector DB": "modeles",
+  "API Reference": "docs",
+  "Documentation": "docs",
+  "Quickstart": "docs",
+  "Blog": "blog",
+  "Changelog": "blog",
+  "Confidentialité": "legal",
+  "CGU": "legal",
+  "DPA RGPD": "legal",
+  "Status": "home",
+};
+
+export default function NimbusAIPricingPage() {
+  useFonts();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [page] = useState<ActivePage>("pricing");
+
+  const goTo = (p: ActivePage) => {
+    window.location.href = p === "home" ? "/templates/impact-22" : `/templates/impact-22/${p}`;
+  };
+
+  const { scrollYProgress } = useScroll();
+
+  return (
+    <div className="min-h-screen bg-[#060B16]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+      <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
+
+      {/* Nav */}
+      <nav className="fixed top-4 left-4 right-4 z-50">
+        <div className="max-w-6xl mx-auto bg-[#060B16]/90 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-4 flex items-center justify-between">
+          <button onClick={() => goTo("home")} className="flex items-center gap-2 cursor-pointer">
+            <div className="w-8 h-8 bg-gradient-to-br from-[#06B6D4] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div>
+            <span className="text-white font-bold text-lg">NimbusAI</span>
+          </button>
+          <div className="hidden md:flex items-center gap-8 text-gray-400 text-sm font-medium">
+            {["Modèles", "Pricing", "Docs", "Status", "Blog"].map(item => (
+              <button key={item} onClick={() => goTo(navMap[item])} className="hover:text-white transition-colors cursor-pointer">{item}</button>
+            ))}
+          </div>
+          <div className="hidden md:flex items-center gap-3">
+            <button onClick={() => goTo("login")} className="text-gray-400 text-sm px-4 py-2 hover:text-white transition-colors cursor-pointer bg-transparent border-none">Se connecter</button>
+            <button onClick={() => goTo("pricing")} className="bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] text-white text-sm px-5 py-2.5 rounded-xl hover:opacity-90 transition-opacity cursor-pointer font-medium">Démarrer</button>
+          </div>
+          <button className="md:hidden text-white cursor-pointer" onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5" /></button>
+        </div>
+      </nav>
+
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div className="fixed inset-0 z-[100] bg-[#060B16] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
+            <div className="flex items-center justify-between mb-12">
+              <span className="text-white font-bold text-xl">NimbusAI</span>
+              <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
+            </div>
+            {["Modèles", "Pricing", "Docs", "Status", "Blog"].map((item, i) => (
+              <motion.div key={item} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
+                <button onClick={() => goTo(navMap[item])} className="block text-white text-2xl font-bold mb-6 cursor-pointer">{item}</button>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      
+
+      
+
+      {/* ============================== PRICING PAGE ============================== */}
+      <div>
+          <section className="pt-32 pb-16 px-6">
+            <div className="max-w-6xl mx-auto text-center">
+              <Reveal>
+                <div className="inline-flex items-center gap-2 bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 text-[#8B5CF6] px-4 py-1.5 rounded-full text-xs font-semibold mb-6">
+                  <Tag className="w-3 h-3" /> Tarification transparente
+                </div>
+                <h1 className="text-white text-5xl md:text-6xl font-bold leading-tight mb-6">
+                  Pay-as-you-go.<br />
+                  <span className="bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] bg-clip-text text-transparent">Scale sans limites.</span>
+                </h1>
+                <p className="text-gray-400 text-xl max-w-2xl mx-auto mb-4 leading-relaxed">
+                  Aucun engagement minimum. Volume discounts automatiques. $50 de crédits offerts au démarrage.
+                </p>
+              </Reveal>
+            </div>
+          </section>
+
+          {/* Tiers */}
+          <section className="pb-20 px-6">
+            <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
+              {[
+                {
+                  name: "Starter",
+                  price: "Gratuit",
+                  priceNote: "$50 de crédits inclus",
+                  color: "#06B6D4",
+                  popular: false,
+                  features: ["5 modèles open-source", "GPU A100 partagé", "100K tokens / jour", "Latence standard", "Support communautaire", "1 endpoint", "Dashboard basique"],
+                  cta: "Commencer gratuitement",
+                },
+                {
+                  name: "Pro",
+                  price: "À l'usage",
+                  priceNote: "à partir de 0.45$ / 1M tokens",
+                  color: "#8B5CF6",
+                  popular: true,
+                  features: ["Tous les modèles", "GPU A100 / H100 dédiés", "Tokens illimités", "Latence optimisée (< 100ms)", "Support prioritaire 24/7", "Endpoints illimités", "Observabilité complète", "Auto-scaling intelligent", "Volume discounts auto"],
+                  cta: "Démarrer en Pro",
+                },
+                {
+                  name: "Enterprise",
+                  price: "Sur mesure",
+                  priceNote: "contactez notre équipe",
+                  color: "#10B981",
+                  popular: false,
+                  features: ["Modèles custom & fine-tuning", "GPU H100 bare-metal dédiés", "SLA 99.99% garanti", "VPC privé & isolation", "Conformité RGPD, HIPAA, SOC2", "Support dédié + TAM", "On-premise disponible", "Audit logs & SSO/SAML", "Contrat personnalisé"],
+                  cta: "Contacter les ventes",
+                },
+              ].map((tier, i) => (
+                <Reveal key={tier.name} delay={i * 0.1}>
+                  <div className={`relative bg-[#0D1525] border rounded-2xl p-8 flex flex-col h-full ${tier.popular ? "border-[#8B5CF6]/40" : "border-white/5"}`}>
+                    {tier.popular && (
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] text-white text-xs font-bold px-4 py-1 rounded-full">
+                        Le plus populaire
+                      </div>
+                    )}
+                    <div className="mb-6">
+                      <h3 className="text-white font-bold text-xl mb-1">{tier.name}</h3>
+                      <p className="text-3xl font-bold mt-2" style={{ color: tier.color }}>{tier.price}</p>
+                      <p className="text-gray-500 text-xs mt-1">{tier.priceNote}</p>
+                    </div>
+                    <ul className="space-y-3 mb-8 flex-1">
+                      {tier.features.map(f => (
+                        <li key={f} className="flex items-start gap-2.5 text-sm text-gray-400">
+                          <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: tier.color }} />
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                    <button className={`w-full py-3.5 rounded-xl font-semibold text-sm cursor-pointer transition-opacity hover:opacity-90 ${tier.popular ? "bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] text-white" : "border border-white/10 text-white hover:bg-white/5"}`}>
+                      {tier.cta}
+                    </button>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </section>
+
+          {/* GPU Pricing table */}
+          <section className="py-20 px-6 bg-[#070D1A]">
+            <div className="max-w-6xl mx-auto">
+              <Reveal className="mb-10">
+                <h2 className="text-white text-3xl font-bold">Tarifs GPU à la demande</h2>
+                <p className="text-gray-500 text-sm mt-2">Facturation à la seconde. Pas de minimum. Auto-scale de 0 à 1 000 GPU.</p>
+              </Reveal>
+              <Reveal delay={0.1}>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-white/10">
+                        {["GPU", "VRAM", "À la demande", "Réservé 1 mois", "Réservé 12 mois", "Cas d'usage"].map(h => (
+                          <th key={h} className="text-left text-gray-400 font-medium py-4 px-3 whitespace-nowrap">{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        ["NVIDIA A100 40GB", "40 GB", "2.10$ / h", "1.60$ / h", "1.10$ / h", "Fine-tuning, inférence batch"],
+                        ["NVIDIA A100 80GB", "80 GB", "3.20$ / h", "2.40$ / h", "1.70$ / h", "LLM large, multi-modal"],
+                        ["NVIDIA H100 SXM", "80 GB", "4.50$ / h", "3.40$ / h", "2.30$ / h", "Training, inférence haute perf."],
+                        ["NVIDIA L40S", "48 GB", "1.80$ / h", "1.35$ / h", "0.95$ / h", "Inférence images, vidéo"],
+                      ].map((row, i) => (
+                        <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02]">
+                          {row.map((cell, j) => (
+                            <td key={j} className={`py-3.5 px-3 whitespace-nowrap ${j === 0 ? "text-white font-medium" : "text-gray-400"}`}>{cell}</td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </Reveal>
+            </div>
+          </section>
+
+          {/* Volume discounts */}
+          <section id="tarifs" className="py-20 px-6">
+            <div className="max-w-4xl mx-auto">
+              <Reveal className="text-center mb-12">
+                <h2 className="text-white text-3xl font-bold">Volume discounts automatiques</h2>
+                <p className="text-gray-500 text-sm mt-2">Plus vous consommez, moins vous payez. Appliqué automatiquement.</p>
+              </Reveal>
+              <Reveal delay={0.1}>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    ["< 10M", "tokens/mois", "0%", "Tarif standard"],
+                    ["10M — 100M", "tokens/mois", "-15%", "Auto appliqué"],
+                    ["100M — 1B", "tokens/mois", "-30%", "Auto appliqué"],
+                    ["> 1B", "tokens/mois", "-50%", "Contrat custom"],
+                  ].map(([range, unit, discount, note]) => (
+                    <div key={range} className="bg-[#0D1525] border border-white/5 rounded-2xl p-5 text-center">
+                      <p className="text-white font-bold text-sm">{range}</p>
+                      <p className="text-gray-600 text-xs mb-3">{unit}</p>
+                      <p className="text-2xl font-bold bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] bg-clip-text text-transparent">{discount}</p>
+                      <p className="text-gray-500 text-xs mt-1">{note}</p>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+          </section>
+        </div>
+
+      
+
+      
+
+      
+
+      
+
+      {/* ============================== FOOTER (always visible) ============================== */}
+      <footer className="bg-[#060B16] border-t border-white/5 py-16 px-6">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10 mb-12">
+          <div>
+            <div className="flex items-center gap-2 mb-4"><div className="w-8 h-8 bg-gradient-to-br from-[#06B6D4] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div><span className="text-white font-bold">NimbusAI</span></div>
+            <p className="text-gray-500 text-sm">Cloud AI infrastructure pour les équipes qui construisent les produits de demain.</p>
+          </div>
+          {[
+            { title: "Produit", links: ["Modèles", "GPU Cloud", "Vector DB", "API Reference"] },
+            { title: "Ressources", links: ["Documentation", "Quickstart", "Blog", "Changelog"] },
+            { title: "Légal", links: ["Confidentialité", "CGU", "DPA RGPD", "Status"] },
+          ].map(col => (
+            <div key={col.title}>
+              <h4 className="text-white font-semibold text-sm mb-4">{col.title}</h4>
+              <ul className="space-y-2">
+                {col.links.map(l => (
+                  <li key={l}>
+                    <button onClick={() => goTo(footerLinkMap[l] ?? "home")} className="text-gray-500 text-sm hover:text-white transition-colors cursor-pointer">
+                      {l}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
+          <span>© 2026 NimbusAI. All rights reserved.</span>
+          <span><Globe className="w-3 h-3 inline mr-1" />Cloud AI · 12 regions</span>
+        </div>
+      </footer>
+    </div>
+  );
+}

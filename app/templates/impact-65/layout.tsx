@@ -122,9 +122,9 @@ export default function CarbonLayout({
              { t: "RESOURCES", l: [
                { name: "Lab Data", href: "/templates/impact-65/contact" },
                { name: "Safety Sheets", href: "/templates/impact-65/contact" },
-               { name: "Mentions Légales", href: "/legal/mentions-legales" },
-               { name: "Confidentialité", href: "/legal/confidentialite" },
-               { name: "CGU", href: "/legal/cgu" },
+               { name: "Mentions Légales", href: "/templates/impact-65/legal/mentions-legales" },
+               { name: "Confidentialité", href: "/templates/impact-65/legal/confidentialite" },
+               { name: "CGU", href: "/templates/impact-65/legal/cgu" },
              ] }
            ].map((col, i) => (
              <div key={i} className="space-y-12">

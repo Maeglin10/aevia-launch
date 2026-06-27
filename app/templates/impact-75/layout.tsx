@@ -181,7 +181,7 @@ export default function OrbitAILayout({
               l: [
                 { name: "Mission Control", href: "/templates/impact-75" },
                 { name: "Security Protocol", href: "/templates/impact-75/telemetry" },
-                { name: "Legal Hub", href: "/legal/mentions-legales" },
+                { name: "Legal Hub", href: "/templates/impact-75/legal/mentions-legales" },
               ],
             },
           ].map((col, i) => (

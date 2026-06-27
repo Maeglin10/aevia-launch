@@ -238,7 +238,7 @@ export default function OrbitLayout({
                 fontFamily: "'Space Grotesk', sans-serif",
                 fontSize: "24px",
                 fontWeight: 600,
-                color: isActive("/legal/mentions-legales") ? C.accent : C.text,
+                color: isActive("/templates/impact-68/legal/mentions-legales") ? C.accent : C.text,
                 textDecoration: "none",
                 marginTop: "20px",
               }}
@@ -354,7 +354,7 @@ export default function OrbitLayout({
             {
               title: "Regulatory",
               links: [
-                { label: "Mentions Légales", href: "/legal/mentions-legales" },
+                { label: "Mentions Légales", href: "/templates/impact-68/legal/mentions-legales" },
               ],
             },
           ].map((col) => (
