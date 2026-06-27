@@ -526,14 +526,15 @@ function NicheCard({ niche, index }: { niche: typeof NICHES[0]; index: number })
   );
 }
 
-function NichesSection() {
+function MergedDiscoverySection() {
   const { locale } = useLang();
-  const t = NICHES_T[locale as keyof typeof NICHES_T] ?? NICHES_T.fr;
+  const nt = NICHES_T[locale as keyof typeof NICHES_T] ?? NICHES_T.fr;
+  const ht = HERO_T[locale as keyof typeof HERO_T] ?? HERO_T.fr;
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} className="px-6 pb-24">
+    <section ref={ref} className="px-6 pb-28">
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <motion.div
@@ -543,15 +544,14 @@ function NichesSection() {
           className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4"
         >
           <div>
-            <h2 className="text-3xl sm:text-4xl font-black text-white mb-2" style={{ letterSpacing: "-0.02em" }}>{t.title}</h2>
-            <p className="text-zinc-500 text-sm sm:text-base max-w-xl">{t.sub}</p>
+            <h2 className="text-3xl sm:text-4xl font-black text-white mb-2" style={{ letterSpacing: "-0.02em" }}>{nt.title}</h2>
+            <p className="text-zinc-500 text-sm sm:text-base max-w-xl">{nt.sub}</p>
           </div>
-          {/* Stats strip */}
           <div className="flex gap-6 shrink-0">
             {[
-              { val: t.stat1, label: t.stat1Label, color: "#a78bfa" },
-              { val: t.stat2, label: t.stat2Label, color: "#34d399" },
-              { val: t.stat3, label: t.stat3Label, color: "#60a5fa" },
+              { val: nt.stat1, label: nt.stat1Label, color: "#a78bfa" },
+              { val: nt.stat2, label: nt.stat2Label, color: "#34d399" },
+              { val: nt.stat3, label: nt.stat3Label, color: "#60a5fa" },
             ].map((s) => (
               <div key={s.val} className="text-center">
                 <div className="text-2xl font-black" style={{ color: s.color }}>{s.val}</div>
@@ -561,26 +561,67 @@ function NichesSection() {
           </div>
         </motion.div>
 
-        {/* Niche grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        {/* Niche grid — by sector */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-14">
           {NICHES.map((niche, i) => (
             <NicheCard key={niche.cat + niche.thumbId} niche={niche} index={i} />
           ))}
         </div>
 
-        {/* CTA row */}
+        {/* Type grid — by site type */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mb-6"
+        >
+          <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-5">{ht.choose}</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {TYPE_CATS.map((cat, i) => (
+              <TypeCard key={cat.cat} cat={cat} index={i} />
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Spotlight templates */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.35 }}
+          className="mb-12"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest">{ht.spotlight}</p>
+            <Link href="/themes" className="text-xs text-violet-400 hover:text-violet-300 transition-colors">
+              {ht.seeAll}
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4">
+            {TEMPLATES_REGISTRY.filter(t => SPOTLIGHT_IDS.includes(t.id)).map((t, i) => (
+              <SpotlightCard key={t.id} template={t} index={i} />
+            ))}
+          </div>
+        </motion.div>
+
+        {/* 2 CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-8 text-center"
+          className="flex flex-wrap justify-center gap-4"
         >
           <Link
             href="/configure"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-violet-600/15 border border-violet-500/30 text-violet-300 hover:bg-violet-600/25 hover:border-violet-400/60 text-sm font-semibold transition-all"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white font-bold text-sm transition-all duration-200 hover:scale-[1.03] shadow-lg shadow-violet-600/30"
           >
             <Sparkles className="w-4 h-4" />
-            {t.cta}
+            {nt.cta.replace(" →", "")}
+          </Link>
+          <Link
+            href="/themes"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-zinc-700 hover:border-violet-500/60 text-zinc-300 hover:text-white font-semibold text-sm transition-all"
+          >
+            {ht.explore} <ArrowRight className="w-4 h-4" />
           </Link>
         </motion.div>
       </div>
@@ -866,69 +907,6 @@ function HeroSection() {
   );
 }
 
-/* ─── Choose type section ────────────────────────────────────── */
-function ChooseTypeSection() {
-  const { locale } = useLang();
-  const t = HERO_T[locale as keyof typeof HERO_T] ?? HERO_T.fr;
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
-  return (
-    <section ref={ref} className="px-6 pb-28">
-      <div className="mx-auto max-w-6xl">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.55 }}
-          className="mb-12"
-        >
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-black text-white mb-2" style={{ letterSpacing: "-0.02em" }}>
-                {t.choose}
-              </h2>
-              <p className="text-zinc-500 text-sm sm:text-base">{t.chooseSub}</p>
-            </div>
-            <Link
-              href="/themes"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-zinc-700 hover:border-violet-500 text-zinc-300 hover:text-white text-sm font-semibold transition-all shrink-0"
-            >
-              {t.explore} <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </motion.div>
-
-        {/* Type grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-16">
-          {TYPE_CATS.map((cat, i) => (
-            <TypeCard key={cat.cat} cat={cat} index={i} />
-          ))}
-        </div>
-
-        {/* Spotlight templates */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.3 }}
-        >
-          <div className="flex items-center justify-between mb-6">
-            <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest">{t.spotlight}</p>
-            <Link href="/themes" className="text-xs text-violet-400 hover:text-violet-300 transition-colors">
-              {t.seeAll}
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4">
-            {TEMPLATES_REGISTRY.filter(t => SPOTLIGHT_IDS.includes(t.id)).map((t, i) => (
-              <SpotlightCard key={t.id} template={t} index={i} />
-            ))}
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
 /* ─── Steps ──────────────────────────────────────────────────── */
 function StepsSection() {
   const { locale } = useLang();
@@ -1097,8 +1075,7 @@ export default function HomePage() {
       <AeviaHeader />
       <HeroSection />
       <StepsSection />
-      <NichesSection />
-      <ChooseTypeSection />
+      <MergedDiscoverySection />
       <TestimonialsSection />
       <FaqSection />
       <CtaSection />
