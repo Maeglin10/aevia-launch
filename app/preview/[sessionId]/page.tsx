@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getSessionFromBlob } from "@/lib/sessions";
+import { buildLocalBusinessSchema } from "@/lib/seo";
 import PreviewClient from "./PreviewClient";
 
 export async function generateMetadata({ params }: { params: Promise<{ sessionId: string }> }): Promise<Metadata> {
@@ -19,5 +20,18 @@ export async function generateMetadata({ params }: { params: Promise<{ sessionId
 
 export default async function PreviewPage({ params }: { params: Promise<{ sessionId: string }> }) {
   const { sessionId } = await params;
-  return <PreviewClient sessionId={sessionId} />;
+  const session = await getSessionFromBlob(sessionId);
+  const localBusinessSchema = session ? buildLocalBusinessSchema(session) : null;
+
+  return (
+    <>
+      {localBusinessSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+        />
+      )}
+      <PreviewClient sessionId={sessionId} />
+    </>
+  );
 }

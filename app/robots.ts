@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/admin/', '/_next/', '/order', '/success', '/checkout'],
+        disallow: ['/api/', '/admin/', '/_next/', '/order', '/success', '/checkout', '/preview/'],
       },
     ],
     sitemap: 'https://launch.aevia.services/sitemap.xml',
