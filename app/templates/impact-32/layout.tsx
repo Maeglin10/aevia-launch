@@ -221,9 +221,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               { label: "Prendre RDV", href: "/templates/impact-32/pricing" }
             ]},
             { title: "Pratique", links: [
-              { label: "Mentions légales", href: "/legal/mentions-legales" },
-              { label: "Confidentialité", href: "/legal/confidentialite" },
-              { label: "CGU", href: "/legal/cgu" }
+              { label: "Mentions légales", href: "/templates/impact-32/legal/mentions-legales" },
+              { label: "Confidentialité", href: "/templates/impact-32/legal/confidentialite" },
+              { label: "CGU", href: "/templates/impact-32/legal/cgu" }
             ]},
           ].map((col) => (
             <div key={col.title}>
