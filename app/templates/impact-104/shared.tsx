@@ -16,6 +16,9 @@ export const C = {
   border: "#e8d9c8",
   shadow: "0 2px 14px rgba(26,15,8,0.08)",
   shadowLg: "0 16px 48px rgba(26,15,8,0.14)",
+  // Aliases for auto-generated sub-pages
+  gold: "#c9a87c",
+  muted: "#7c6050",
 };
 
 export const FONT = "'Cormorant Garamond', Georgia, serif";
