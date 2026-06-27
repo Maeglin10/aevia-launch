@@ -137,9 +137,9 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
       const base = prev ?? session!;
       return {
         ...base,
-        formData: { ...base.formData, ...data.formData },
-        generatedContent: { ...(base.generatedContent ?? {}), ...data.generatedContent },
-      };
+        formData: { ...base.formData, ...data.formData } as FormData,
+        generatedContent: { ...(base.generatedContent ?? {}), ...data.generatedContent } as GeneratedContent,
+      } as SessionData;
     });
   };
 
@@ -151,11 +151,11 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
     });
     setSession((prev) =>
       prev
-        ? {
+        ? ({
             ...prev,
-            formData: { ...prev.formData, ...data.formData },
-            generatedContent: { ...(prev.generatedContent ?? {}), ...data.generatedContent },
-          }
+            formData: { ...prev.formData, ...data.formData } as FormData,
+            generatedContent: { ...(prev.generatedContent ?? {}), ...data.generatedContent } as GeneratedContent,
+          } as SessionData)
         : prev
     );
   };

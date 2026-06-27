@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { saveSession, saveSessionToBlob, getSessionFromBlob } from "@/lib/sessions";
-import type { GeneratedContent, FormData } from "@/lib/sessions";
+import type { GeneratedContent, FormData, SessionData } from "@/lib/sessions";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -100,11 +100,11 @@ export async function PATCH(req: NextRequest) {
 
   const updated = {
     ...session,
-    ...(body.formData && { formData: { ...session.formData, ...body.formData } }),
+    ...(body.formData && { formData: { ...session.formData, ...body.formData } as FormData }),
     ...(body.generatedContent && {
-      generatedContent: { ...session.generatedContent, ...body.generatedContent },
+      generatedContent: { ...session.generatedContent, ...body.generatedContent } as GeneratedContent,
     }),
-  };
+  } satisfies SessionData;
 
   try {
     await saveSessionToBlob(id, updated);
