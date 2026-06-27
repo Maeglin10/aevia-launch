@@ -429,7 +429,7 @@ export default function IvoryArchivePremium() {
         <section className="relative h-screen flex items-center justify-center overflow-hidden">
           <motion.div style={{ opacity: heroOpacity, scale: heroScale }} className="absolute inset-0 z-0">
              <Image
-                src="https://picsum.photos/seed/gallery/2400/1500"
+                src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1600&q=80"
                 alt="Classical Sculpture in Museum"
                 fill
                 className="object-cover opacity-20 grayscale"
