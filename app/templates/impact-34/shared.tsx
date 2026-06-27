@@ -246,9 +246,9 @@ export const FOOTER_LINKS = {
     { name: "Contact", href: "/templates/impact-34/#contact" },
   ],
   Company: [
-    { name: "Mentions légales", href: "/legal/mentions-legales" },
-    { name: "Confidentialité", href: "/legal/confidentialite" },
-    { name: "CGU", href: "/legal/cgu" }
+    { name: "Mentions légales", href: "/templates/impact-34/legal/mentions-legales" },
+    { name: "Confidentialité", href: "/templates/impact-34/legal/confidentialite" },
+    { name: "CGU", href: "/templates/impact-34/legal/cgu" }
   ],
 }
 

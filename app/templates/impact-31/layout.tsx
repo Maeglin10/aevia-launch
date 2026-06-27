@@ -222,9 +222,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               { label: "Essai gratuit", href: "/templates/impact-31/contact" }
             ]},
             { title: "Pratique", links: [
-              { label: "Mentions légales", href: "/legal/mentions-legales" },
-              { label: "Confidentialité", href: "/legal/confidentialite" },
-              { label: "CGU", href: "/legal/cgu" }
+              { label: "Mentions légales", href: "/templates/impact-31/legal/mentions-legales" },
+              { label: "Confidentialité", href: "/templates/impact-31/legal/confidentialite" },
+              { label: "CGU", href: "/templates/impact-31/legal/cgu" }
             ]},
           ].map((col) => (
             <div key={col.title}>

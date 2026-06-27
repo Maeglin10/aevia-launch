@@ -245,9 +245,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             ]},
             { title: "Pratique", links: [
               { label: "Accueil", href: "/templates/impact-30" },
-              { label: "Mentions légales", href: "/legal/mentions-legales" },
-              { label: "Confidentialité", href: "/legal/confidentialite" },
-              { label: "CGU", href: "/legal/cgu" }
+              { label: "Mentions légales", href: "/templates/impact-30/legal/mentions-legales" },
+              { label: "Confidentialité", href: "/templates/impact-30/legal/confidentialite" },
+              { label: "CGU", href: "/templates/impact-30/legal/cgu" }
             ]},
           ].map((col) => (
             <div key={col.title}>
