@@ -302,7 +302,7 @@ export default function Impact54Layout({
               links: [
                 { label: "About Atelier", href: "/templates/impact-54/about" },
                 { label: "Team Blog", href: "/templates/impact-54/blog" },
-                { label: "Mentions légales", href: "/legal/mentions-legales" },
+                { label: "Mentions légales", href: "/templates/impact-54/legal/mentions-legales" },
               ],
             },
           ].map((col, idx) => (

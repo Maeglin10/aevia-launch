@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -152,7 +152,7 @@ export default function MaskUnitLayout({
           {[
             { title: "WORK", items: [{ label: "Selected Projects", href: "/templates/impact-57/work" }, { label: "All Work", href: "/templates/impact-57/work" }] },
             { title: "STUDIO", items: [{ label: "About", href: "/templates/impact-57/studio" }, { label: "Team", href: "/templates/impact-57/studio" }] },
-            { title: "CONTACT", items: [{ label: "Start a Project", href: "/templates/impact-57/contact" }, { label: "Mentions Légales", href: "/legal/mentions-legales" }] },
+            { title: "CONTACT", items: [{ label: "Start a Project", href: "/templates/impact-57/contact" }, { label: "Mentions Légales", href: "/templates/impact-57/legal/mentions-legales" }] },
           ].map((col) => (
             <div key={col.title}>
               <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.25em", color: C.textDim, marginBottom: "1.5rem" }}>

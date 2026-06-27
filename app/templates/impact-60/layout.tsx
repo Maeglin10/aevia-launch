@@ -94,9 +94,9 @@ export default function ZenithLayout({
             { t: "THE ATELIER", l: [{ name: "The Movement", href: "/templates/impact-60/movement" }, { name: "Bespoke Lab", href: "/templates/impact-60/contact" }] },
             { t: "SERVICE", l: [
               { name: "Global Registry", href: "/templates/impact-60/contact" },
-              { name: "Mentions Légales", href: "/legal/mentions-legales" },
-              { name: "Confidentialité", href: "/legal/confidentialite" },
-              { name: "CGU", href: "/legal/cgu" }
+              { name: "Mentions Légales", href: "/templates/impact-60/legal/mentions-legales" },
+              { name: "Confidentialité", href: "/templates/impact-60/legal/confidentialite" },
+              { name: "CGU", href: "/templates/impact-60/legal/cgu" }
             ] }
           ].map((col, i) => (
             <div key={i} className="space-y-12">

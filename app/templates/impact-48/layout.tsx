@@ -42,8 +42,8 @@ export default function ArchitectureLayout({ children }: { children: React.React
     {
       title: "Infos",
       links: [
-        { label: "Mentions légales", href: "/legal/mentions-legales" },
-        { label: "Confidentialité", href: "/legal/confidentialite" },
+        { label: "Mentions légales", href: "/templates/impact-48/legal/mentions-legales" },
+        { label: "Confidentialité", href: "/templates/impact-48/legal/confidentialite" },
         { label: "Contact", href: "/templates/impact-48/contact" },
         { label: "Blog", href: "/templates/impact-48/blog" },
       ],
