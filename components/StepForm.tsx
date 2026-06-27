@@ -33,6 +33,7 @@ type StepFormStrings = {
   fMainService: string; fBenefits: string; fPriceRange: string;
   fEmail: string; fPhone: string;
   fGa4Id: string; phGa4Id: string;
+  fGsc: string; phGsc: string;
   phBusinessName: string; phWhatYouDo: string; phCity: string; phMainService: string;
   phBenefit: string; required: string; optional: string;
   phPriceRange: string; phEmail: string; phPhone: string;
@@ -54,6 +55,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     fMainService: "Service principal", fBenefits: "3 avantages clés", fPriceRange: "Gamme de prix",
     fEmail: "Adresse e-mail", fPhone: "Téléphone",
     fGa4Id: "Google Analytics (optionnel)", phGa4Id: "G-XXXXXXXXXX",
+    fGsc: "Google Search Console (optionnel)", phGsc: "Code de vérification GSC",
     phBusinessName: "Cabinet Dupont", phWhatYouDo: "Nous accompagnons nos patients / clients depuis 2010…", phCity: "Lyon, France", phMainService: "Consultation & suivi personnalisé",
     phBenefit: "Avantage", required: "(requis)", optional: "(optionnel)",
     phPriceRange: "À partir de 50 € / consultation", phEmail: "vous@exemple.com", phPhone: "+33 6 00 00 00 00",
@@ -73,6 +75,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     fMainService: "Main service", fBenefits: "3 key benefits", fPriceRange: "Price range",
     fEmail: "Email address", fPhone: "Phone",
     fGa4Id: "Google Analytics (optional)", phGa4Id: "G-XXXXXXXXXX",
+    fGsc: "Google Search Console (optional)", phGsc: "GSC verification code",
     phBusinessName: "Dupont Practice", phWhatYouDo: "We've been helping our patients / clients since 2010…", phCity: "London, UK", phMainService: "Consultation & personalised care",
     phBenefit: "Benefit", required: "(required)", optional: "(optional)",
     phPriceRange: "From €50 / session", phEmail: "you@example.com", phPhone: "+44 7700 000000",
@@ -92,6 +95,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     fMainService: "Servicio principal", fBenefits: "3 beneficios clave", fPriceRange: "Rango de precios",
     fEmail: "Correo electrónico", fPhone: "Teléfono",
     fGa4Id: "Google Analytics (opcional)", phGa4Id: "G-XXXXXXXXXX",
+    fGsc: "Google Search Console (opcional)", phGsc: "Código de verificación GSC",
     phBusinessName: "Clínica Dupont", phWhatYouDo: "Ayudamos a nuestros pacientes desde 2010…", phCity: "Madrid, España", phMainService: "Consulta y seguimiento personalizado",
     phBenefit: "Beneficio", required: "(obligatorio)", optional: "(opcional)",
     phPriceRange: "Desde 50 € / consulta", phEmail: "tu@ejemplo.com", phPhone: "+34 600 00 00 00",
@@ -111,6 +115,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     fMainService: "Hauptleistung", fBenefits: "3 Vorteile", fPriceRange: "Preisspanne",
     fEmail: "E-Mail-Adresse", fPhone: "Telefon",
     fGa4Id: "Google Analytics (optional)", phGa4Id: "G-XXXXXXXXXX",
+    fGsc: "Google Search Console (optional)", phGsc: "GSC-Bestätigungscode",
     phBusinessName: "Praxis Dupont", phWhatYouDo: "Wir betreuen unsere Patienten seit 2010…", phCity: "Berlin, Deutschland", phMainService: "Beratung & persönliche Betreuung",
     phBenefit: "Vorteil", required: "(erforderlich)", optional: "(optional)",
     phPriceRange: "Ab 50 € / Termin", phEmail: "sie@beispiel.com", phPhone: "+49 151 00000000",
@@ -130,6 +135,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     fMainService: "Serviço principal", fBenefits: "3 benefícios", fPriceRange: "Faixa de preço",
     fEmail: "E-mail", fPhone: "Telefone",
     fGa4Id: "Google Analytics (opcional)", phGa4Id: "G-XXXXXXXXXX",
+    fGsc: "Google Search Console (opcional)", phGsc: "Código de verificação GSC",
     phBusinessName: "Clínica Dupont", phWhatYouDo: "Ajudamos os nossos pacientes desde 2010…", phCity: "Lisboa, Portugal", phMainService: "Consulta e acompanhamento personalizado",
     phBenefit: "Benefício", required: "(obrigatório)", optional: "(opcional)",
     phPriceRange: "A partir de 50 € / consulta", phEmail: "voce@exemplo.com", phPhone: "+351 900 000 000",
@@ -146,7 +152,7 @@ type FormState = {
   businessName: string; tagline: string; city: string;
   mainService: string; benefit1: string; benefit2: string; benefit3: string;
   priceRange: string;
-  email: string; phone: string; ga4Id: string;
+  email: string; phone: string; ga4Id: string; gscVerification: string;
 };
 
 const initial: FormState = {
@@ -154,7 +160,7 @@ const initial: FormState = {
   businessName: "", tagline: "", city: "",
   mainService: "", benefit1: "", benefit2: "", benefit3: "",
   priceRange: "",
-  email: "", phone: "", ga4Id: "",
+  email: "", phone: "", ga4Id: "", gscVerification: "",
 };
 
 export function StepForm() {
@@ -257,6 +263,7 @@ export function StepForm() {
         priceRange: form.priceRange,
         email: form.email, phone: form.phone,
         ...(form.ga4Id && { ga4Id: form.ga4Id }),
+        ...(form.gscVerification && { gscVerification: form.gscVerification }),
       };
 
       const sessionRes = await fetch("/api/sessions", {
@@ -490,6 +497,14 @@ export function StepForm() {
                   onChange={(e) => set("ga4Id", e.target.value.trim())}
                   placeholder={t.phGa4Id}
                   pattern="G-[A-Z0-9]+"
+                />
+              </Field>
+              <Field label={t.fGsc}>
+                <input
+                  className={input}
+                  value={form.gscVerification}
+                  onChange={(e) => set("gscVerification", e.target.value.trim())}
+                  placeholder={t.phGsc}
                 />
               </Field>
               {error && <p className="text-red-400 text-base bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2">{error}</p>}
