@@ -2983,7 +2983,7 @@ function FooterSection() {
             {['Mentions légales', 'Politique de confidentialité'].map((lbl) => (
               <a
                 key={lbl}
-                href="#"
+                href="/templates/impact-288"
                 style={{
                   fontFamily: SANS,
                   fontSize: 12,

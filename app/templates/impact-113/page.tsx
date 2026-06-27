@@ -803,19 +803,19 @@ export default function NexusSaaSPage() {
               </p>
               <div className="flex gap-4">
                 <a
-                  href="#"
+                  href="/templates/impact-113"
                   className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-colors"
                 >
                   <Globe className="w-4 h-4" />
                 </a>
                 <a
-                  href="#"
+                  href="/templates/impact-113"
                   className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-colors"
                 >
                   <Globe className="w-4 h-4" />
                 </a>
                 <a
-                  href="#"
+                  href="/templates/impact-113"
                   className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-colors"
                 >
                   <Globe className="w-4 h-4" />

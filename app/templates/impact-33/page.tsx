@@ -135,7 +135,7 @@ function Navbar() {
 
         <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
           {links.map((link) => (
-            <motion.a key={link} href="#" style={{ color: C.text, fontWeight: 400, fontSize: 16, textDecoration: "none", fontFamily: FONT_BODY }} whileHover={{ color: C.accent }} transition={{ duration: 0.15 }}>
+            <motion.a key={link} href="/templates/impact-33" style={{ color: C.text, fontWeight: 400, fontSize: 16, textDecoration: "none", fontFamily: FONT_BODY }} whileHover={{ color: C.accent }} transition={{ duration: 0.15 }}>
               {link}
             </motion.a>
           ))}
@@ -161,7 +161,7 @@ function Navbar() {
             style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: C.bg, padding: "24px 48px", borderBottom: `1px solid ${C.border}`, boxShadow: C.shadow, fontFamily: FONT_BODY }}
           >
             {links.map((link) => (
-              <a key={link} href="#" style={{ display: "block", padding: "12px 0", color: C.text, textDecoration: "none", borderBottom: `1px solid ${C.border}` }}>{link}</a>
+              <a key={link} href="/templates/impact-33" style={{ display: "block", padding: "12px 0", color: C.text, textDecoration: "none", borderBottom: `1px solid ${C.border}` }}>{link}</a>
             ))}
           </motion.div>
         )}
@@ -768,7 +768,7 @@ function Footer() {
           <div key={col.title}>
             <h4 style={{ fontSize: 13, fontWeight: 700, marginBottom: 20, color: C.white, textTransform: "uppercase", letterSpacing: 0.8 }}>{col.title}</h4>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {col.links.map((link) => (<a key={link} href="#" style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, textDecoration: "none" }}>{link}</a>))}
+              {col.links.map((link) => (<a key={link} href="/templates/impact-33" style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, textDecoration: "none" }}>{link}</a>))}
             </div>
           </div>
         ))}
@@ -776,7 +776,7 @@ function Footer() {
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
         <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 14 }}>© 2025 La Fournée · Artisan Boulanger Paris. Tous droits réservés.</p>
         <div style={{ display: "flex", gap: 20 }}>
-          {["Mentions légales", "Confidentialité", "CGV"].map((link) => (<a key={link} href="#" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>{link}</a>))}
+          {["Mentions légales", "Confidentialité", "CGV"].map((link) => (<a key={link} href="/templates/impact-33" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>{link}</a>))}
         </div>
       </div>
     </footer>

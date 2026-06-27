@@ -141,7 +141,7 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
               </p>
               <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
                 {[Camera, MessageSquare, Link2].map((Icon, i) => (
-                  <a key={i} href="#" style={{ width: 36, height: 36, background: "rgba(255,255,255,0.06)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none" }}>
+                  <a key={i} href="/templates/impact-38" style={{ width: 36, height: 36, background: "rgba(255,255,255,0.06)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none" }}>
                     <Icon size={15} color="#7a5c3a" />
                   </a>
                 ))}

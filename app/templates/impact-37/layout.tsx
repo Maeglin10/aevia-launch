@@ -261,7 +261,7 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
                 {[Wine, MessageSquare, Link2].map((Icon, i) => (
                   <a
                     key={i}
-                    href="#"
+                    href="/templates/impact-37"
                     style={{
                       width: 38,
                       height: 38,

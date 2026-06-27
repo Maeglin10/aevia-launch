@@ -774,7 +774,7 @@ export default function ImpactEclatPage() {
           {NAV_PAGES.map(({ key, label }) => (
             <a
               key={key}
-              href="#"
+              href="/templates/impact-168"
               onClick={e => {
                 e.preventDefault();
                 goTo(key);
@@ -871,7 +871,7 @@ export default function ImpactEclatPage() {
       {mobileOpen && (
         <div style={{ position: "fixed", top: 68, left: 0, right: 0, zIndex: 99, background: "rgba(13,13,13,0.98)", borderBottom: `1px solid ${C.border}`, padding: "24px", display: "flex", flexDirection: "column", gap: 20 }}>
           {NAV_PAGES.map(({ key, label }) => (
-            <a key={key} href="#" onClick={e => { e.preventDefault(); goTo(key); setMobileOpen(false); }} style={{ fontSize: 14, color: page === key ? C.cream : C.muted, textDecoration: "none", fontWeight: 500, borderBottom: page === key ? `1px solid ${C.gold}` : "none", paddingBottom: 2, width: "fit-content" }}>
+            <a key={key} href="/templates/impact-168" onClick={e => { e.preventDefault(); goTo(key); setMobileOpen(false); }} style={{ fontSize: 14, color: page === key ? C.cream : C.muted, textDecoration: "none", fontWeight: 500, borderBottom: page === key ? `1px solid ${C.gold}` : "none", paddingBottom: 2, width: "fit-content" }}>
               {label}
             </a>
           ))}
@@ -2112,7 +2112,7 @@ export default function ImpactEclatPage() {
           <span>© 2025 Éclat — Tous droits réservés</span>
           <span style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             <a
-              href="#"
+              href="/templates/impact-168"
               onClick={e => { e.preventDefault(); goTo("mentions"); }}
               style={{ color: "#333", textDecoration: "none" }}
               onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = C.gold)}
@@ -2122,7 +2122,7 @@ export default function ImpactEclatPage() {
             </a>
             ·
             <a
-              href="#"
+              href="/templates/impact-168"
               onClick={e => { e.preventDefault(); goTo("cgv"); }}
               style={{ color: "#333", textDecoration: "none" }}
               onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = C.gold)}

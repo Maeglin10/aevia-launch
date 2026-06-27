@@ -78,7 +78,7 @@ export default function AtelierMecaniquePage() {
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#0C0B09]/90 backdrop-blur-md border border-[#B49A6A]/20 rounded-2xl px-6 py-4 flex items-center justify-between">
           <a
-            href="#"
+            href="/templates/impact-13"
             onClick={(e) => { e.preventDefault(); goTo("home"); }}
             className="text-[#B49A6A] tracking-widest text-sm cursor-pointer text-decoration-none"
             style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1rem" }}
@@ -95,7 +95,7 @@ export default function AtelierMecaniquePage() {
             ].map(item => (
               <a
                 key={item.name}
-                href="#"
+                href="/templates/impact-13"
                 onClick={(e) => { e.preventDefault(); goTo(item.target as any); }}
                 className={`hover:text-[#B49A6A] transition-colors cursor-pointer text-decoration-none ${
                   page === item.target ? "text-[#B49A6A]" : ""
@@ -127,7 +127,7 @@ export default function AtelierMecaniquePage() {
               return (
                 <motion.div key={item} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
                   <a
-                    href="#"
+                    href="/templates/impact-13"
                     className="block text-white text-3xl mb-6 cursor-pointer text-decoration-none"
                     style={{ fontFamily: "'Libre Baskerville', serif" }}
                     onClick={(e) => { e.preventDefault(); setMobileOpen(false); goTo(target as any); }}
@@ -358,7 +358,7 @@ export default function AtelierMecaniquePage() {
                   return (
                     <li key={l}>
                       <a
-                        href="#"
+                        href="/templates/impact-13"
                         onClick={clickHandler}
                         className="text-white/30 text-sm hover:text-[#B49A6A] transition-colors cursor-pointer text-decoration-none"
                       >
@@ -374,7 +374,7 @@ export default function AtelierMecaniquePage() {
         <div className="max-w-6xl mx-auto border-t border-white/5 mt-10 pt-8 flex justify-between items-center text-xs text-white/20">
           <span>© 2026 Atelier Mécanique. Tous droits réservés.</span>
           <a
-            href="#"
+            href="/templates/impact-13"
             onClick={(e) => { e.preventDefault(); goTo("legal"); }}
             className="hover:text-[#B49A6A] transition-colors cursor-pointer text-decoration-none"
           >

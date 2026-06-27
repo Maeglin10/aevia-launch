@@ -2084,7 +2084,7 @@ function Footer() {
         { label: '04 91 XX XX XX', href: 'tel:0491000000' },
         { label: 'Devis en ligne', href: '#devis' },
         { label: 'Interventions 24h/7j', href: '#interventions' },
-        { label: 'Certifications RGE', href: '#' },
+        { label: 'Certifications RGE', href: "/templates/impact-246" },
         { label: 'contact@thermofix-pro.fr', href: 'mailto:contact@thermofix-pro.fr' },
       ],
     },

@@ -83,7 +83,7 @@ export default function NoirCouturePage() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-black/5">
         <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
           <a
-            href="#"
+            href="/templates/impact-12"
             onClick={(e) => { e.preventDefault(); goTo("home"); }}
             className="text-black tracking-[0.3em] text-sm uppercase font-light cursor-pointer"
             style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem" }}
@@ -101,7 +101,7 @@ export default function NoirCouturePage() {
             ].map(item => (
               <a
                 key={item.name}
-                href="#"
+                href="/templates/impact-12"
                 onClick={(e) => { e.preventDefault(); goTo(item.target as any); }}
                 className={`hover:opacity-50 transition-opacity cursor-pointer ${page === item.target ? "border-b border-black pb-1" : ""}`}
               >
@@ -135,7 +135,7 @@ export default function NoirCouturePage() {
               return (
                 <motion.div key={item} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
                   <a
-                    href="#"
+                    href="/templates/impact-12"
                     className="block text-white text-3xl font-light mb-6 cursor-pointer tracking-widest uppercase"
                     onClick={(e) => { e.preventDefault(); setMobileOpen(false); goTo(target as any); }}
                   >
@@ -187,7 +187,7 @@ export default function NoirCouturePage() {
               <Reveal>
                 <div className="flex items-end justify-between mb-12">
                   <h2 className="text-white text-4xl md:text-5xl" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 300 }}>Collections</h2>
-                  <a href="#" onClick={(e) => { e.preventDefault(); goTo("collections"); }} className="text-white/40 text-xs tracking-widest uppercase hover:text-white transition-colors cursor-pointer flex items-center gap-2">
+                  <a href="/templates/impact-12" onClick={(e) => { e.preventDefault(); goTo("collections"); }} className="text-white/40 text-xs tracking-widest uppercase hover:text-white transition-colors cursor-pointer flex items-center gap-2">
                     Voir tout <ChevronRight className="w-3 h-3" />
                   </a>
                 </div>
@@ -226,7 +226,7 @@ export default function NoirCouturePage() {
               <Reveal>
                 <div className="flex items-end justify-between mb-12">
                   <h2 className="text-black text-4xl" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 300 }}>Editorial</h2>
-                  <a href="#" onClick={(e) => { e.preventDefault(); goTo("editorial"); }} className="text-black/40 text-xs tracking-widest uppercase hover:text-black transition-colors cursor-pointer">Tout voir</a>
+                  <a href="/templates/impact-12" onClick={(e) => { e.preventDefault(); goTo("editorial"); }} className="text-black/40 text-xs tracking-widest uppercase hover:text-black transition-colors cursor-pointer">Tout voir</a>
                 </div>
               </Reveal>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -252,7 +252,7 @@ export default function NoirCouturePage() {
               <Reveal>
                 <div className="flex items-end justify-between mb-12">
                   <h2 className="text-white text-4xl" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 300 }}>Boutique</h2>
-                  <a href="#" onClick={(e) => { e.preventDefault(); goTo("boutique"); }} className="text-white/40 text-xs tracking-widest uppercase hover:text-white transition-colors cursor-pointer">Tout voir</a>
+                  <a href="/templates/impact-12" onClick={(e) => { e.preventDefault(); goTo("boutique"); }} className="text-white/40 text-xs tracking-widest uppercase hover:text-white transition-colors cursor-pointer">Tout voir</a>
                 </div>
               </Reveal>
               <div className="grid md:grid-cols-3 gap-6">
@@ -331,7 +331,7 @@ export default function NoirCouturePage() {
                     return (
                       <li key={l}>
                         <a
-                          href="#"
+                          href="/templates/impact-12"
                           onClick={clickHandler}
                           className="text-white/30 text-sm hover:text-white transition-colors cursor-pointer text-decoration-none"
                         >
@@ -348,7 +348,7 @@ export default function NoirCouturePage() {
             <span>© 2026 Noir Couture. Tous droits réservés.</span>
             <div className="flex gap-6">
               <a
-                href="#"
+                href="/templates/impact-12"
                 onClick={(e) => { e.preventDefault(); goTo("legal"); }}
                 className="hover:text-white transition-colors cursor-pointer text-decoration-none"
               >

@@ -233,8 +233,8 @@ export default function ObscuraPage() {
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/20 font-mono">
           <span className="text-[#C9A86C]" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>Obscura · Photographe Paris</span>
           <div className="flex gap-6">
-            <a href="#" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C9A86C] transition-colors">Mentions légales</a>
-            <a href="#" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C9A86C] transition-colors">Politique de Confidentialité</a>
+            <a href="/templates/impact-16" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C9A86C] transition-colors">Mentions légales</a>
+            <a href="/templates/impact-16" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C9A86C] transition-colors">Politique de Confidentialité</a>
           </div>
         </div>
       </footer>

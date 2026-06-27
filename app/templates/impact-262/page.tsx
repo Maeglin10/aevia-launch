@@ -1979,7 +1979,7 @@ function Footer() {
           { label: 'Paris 3e Marais', href: '#reservation' },
           { label: 'Sur rendez-vous', href: '#reservation' },
           { label: 'studio@noirAbsolu.fr', href: 'mailto:studio@noirAbsolu.fr' },
-          { label: 'Instagram', href: '#' },
+          { label: 'Instagram', href: "/templates/impact-262" },
         ],
       },
     ];
@@ -2135,19 +2135,19 @@ function Footer() {
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a
-            href="#"
+            href="/templates/impact-262"
             style={{ color: 'inherit', textDecoration: 'none' }}
           >
             Mentions légales
           </a>
           <a
-            href="#"
+            href="/templates/impact-262"
             style={{ color: 'inherit', textDecoration: 'none' }}
           >
             Confidentialité
           </a>
           <a
-            href="#"
+            href="/templates/impact-262"
             style={{ color: 'inherit', textDecoration: 'none' }}
           >
             CGV

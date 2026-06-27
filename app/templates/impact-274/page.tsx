@@ -2600,13 +2600,13 @@ function FooterSection() {
           © 2026 Dr. Sophie Renard — Médecin Généraliste. RPPS : 10 003 456 789
         </span>
         <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
-          <a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>
+          <a href="/templates/impact-274" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
           </a>
-          <a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>
+          <a href="/templates/impact-274" style={{ color: 'inherit', textDecoration: 'none' }}>
             Politique de confidentialité
           </a>
-          <a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>
+          <a href="/templates/impact-274" style={{ color: 'inherit', textDecoration: 'none' }}>
             CNIL
           </a>
         </div>

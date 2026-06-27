@@ -216,7 +216,7 @@ function Navbar() {
           {links.map((link) => (
             <motion.a
               key={link}
-              href="#"
+              href="/templates/impact-31"
               style={{ color: C.text, fontWeight: 400, fontSize: 15, textDecoration: "none", fontFamily: FONT_BODY }}
               whileHover={{ color: C.accent }}
               transition={{ duration: 0.15 }}
@@ -266,7 +266,7 @@ function Navbar() {
             }}
           >
             {links.map((link) => (
-              <a key={link} href="#" style={{ display: "block", padding: "12px 0", color: C.text, fontWeight: 500, textDecoration: "none", borderBottom: `1px solid ${C.border}` }}>
+              <a key={link} href="/templates/impact-31" style={{ display: "block", padding: "12px 0", color: C.text, fontWeight: 500, textDecoration: "none", borderBottom: `1px solid ${C.border}` }}>
                 {link}
               </a>
             ))}
@@ -879,7 +879,7 @@ function Footer() {
             <h4 style={{ fontSize: 13, fontWeight: 700, marginBottom: 20, color: C.white, textTransform: "uppercase", letterSpacing: 0.8 }}>{col.title}</h4>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {col.links.map((link) => (
-                <a key={link} href="#" style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, textDecoration: "none" }}>{link}</a>
+                <a key={link} href="/templates/impact-31" style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, textDecoration: "none" }}>{link}</a>
               ))}
             </div>
           </div>
@@ -890,7 +890,7 @@ function Footer() {
         <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 14 }}>© 2025 Ananda Flow. Tous droits réservés.</p>
         <div style={{ display: "flex", gap: 20 }}>
           {["Mentions légales", "Confidentialité", "CGV"].map((link) => (
-            <a key={link} href="#" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>{link}</a>
+            <a key={link} href="/templates/impact-31" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>{link}</a>
           ))}
         </div>
       </div>

@@ -1726,7 +1726,7 @@ export default function FlammeEtCoPage() {
             gap: '1.5rem',
           }}>
             {/* Logo */}
-            <a href="#" style={{ textDecoration: 'none', flexShrink: 0 }}>
+            <a href="/templates/impact-215" style={{ textDecoration: 'none', flexShrink: 0 }}>
               <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.4rem', fontWeight: 800, color: C.text }}>
                 <span style={{ background: `linear-gradient(90deg, ${C.accent}, ${C.gold})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Flamme</span>{' '}
                 <span style={{ color: C.text }}>&amp; Co</span>
@@ -2444,7 +2444,7 @@ export default function FlammeEtCoPage() {
                   {['Poêles à bois', 'Poêles à granulés', 'Cheminées & Inserts', 'Foyers fermés', 'Cheminées éthanol', 'Accessoires', 'Pièces détachées', 'Entretien'].map(cat => (
                     <a
                       key={cat}
-                      href="#"
+                      href="/templates/impact-215"
                       style={{
                         color: C.textMuted,
                         fontFamily: 'Inter, sans-serif',
@@ -2470,7 +2470,7 @@ export default function FlammeEtCoPage() {
                   {['Devis en ligne', 'Installation à domicile', 'Entretien annuel', 'SAV & dépannage', 'Reprise ancienne cheminée', 'Financement 3×', 'Guide d\'achat', 'Configurateur'].map(svc => (
                     <a
                       key={svc}
-                      href="#"
+                      href="/templates/impact-215"
                       style={{
                         color: C.textMuted,
                         fontFamily: 'Inter, sans-serif',
@@ -2496,7 +2496,7 @@ export default function FlammeEtCoPage() {
                   {['Notre histoire', 'L\'équipe', 'Nos engagements', 'Flamme Verte', 'Presse', 'Recrutement', 'Contact', 'Blog chauffage'].map(lnk => (
                     <a
                       key={lnk}
-                      href="#"
+                      href="/templates/impact-215"
                       style={{
                         color: C.textMuted,
                         fontFamily: 'Inter, sans-serif',
@@ -2555,11 +2555,11 @@ export default function FlammeEtCoPage() {
               </div>
               <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem' }}>
                 © 2025 Flamme & Co · Tous droits réservés ·{' '}
-                <a href="#" style={{ color: C.textMuted, textDecoration: 'underline' }}>Mentions légales</a>
+                <a href="/templates/impact-215" style={{ color: C.textMuted, textDecoration: 'underline' }}>Mentions légales</a>
                 {' · '}
-                <a href="#" style={{ color: C.textMuted, textDecoration: 'underline' }}>CGV</a>
+                <a href="/templates/impact-215" style={{ color: C.textMuted, textDecoration: 'underline' }}>CGV</a>
                 {' · '}
-                <a href="#" style={{ color: C.textMuted, textDecoration: 'underline' }}>Confidentialité</a>
+                <a href="/templates/impact-215" style={{ color: C.textMuted, textDecoration: 'underline' }}>Confidentialité</a>
               </p>
             </div>
           </div>

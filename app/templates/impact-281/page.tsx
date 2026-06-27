@@ -2286,7 +2286,7 @@ function FooterSection() {
         { label: 'Prendre rendez-vous', href: '#rendez-vous' },
         { label: '01 42 65 XX XX', href: 'tel:+33142650000' },
         { label: 'contact@maissonceleste.fr', href: 'mailto:contact@maisonceleste.fr' },
-        { label: 'Instagram', href: '#' },
+        { label: 'Instagram', href: "/templates/impact-281" },
       ],
     },
   ];
@@ -2447,19 +2447,19 @@ function FooterSection() {
         <span>© 1987–2026 Maison Céleste. Tous droits réservés.</span>
         <span style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a
-            href="#"
+            href="/templates/impact-281"
             style={{ color: 'inherit', textDecoration: 'none' }}
           >
             Mentions légales
           </a>
           <a
-            href="#"
+            href="/templates/impact-281"
             style={{ color: 'inherit', textDecoration: 'none' }}
           >
             Politique de confidentialité
           </a>
           <a
-            href="#"
+            href="/templates/impact-281"
             style={{ color: 'inherit', textDecoration: 'none' }}
           >
             CGV

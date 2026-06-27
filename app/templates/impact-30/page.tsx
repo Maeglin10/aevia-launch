@@ -217,7 +217,7 @@ function Navbar() {
   }, []);
 
   const links = [
-    { label: "Accueil", href: "#" },
+    { label: "Accueil", href: "/templates/impact-30" },
     { label: "Services", href: "#services" },
     { label: "Équipe", href: "#team" },
     { label: "Tarifs", href: "#pricing" },
@@ -1380,7 +1380,7 @@ function Footer() {
             </h4>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {col.links.map((link) => (
-                <a key={link} href="#" style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, textDecoration: "none" }}>
+                <a key={link} href="/templates/impact-30" style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, textDecoration: "none" }}>
                   {link}
                 </a>
               ))}
@@ -1393,7 +1393,7 @@ function Footer() {
         <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 14 }}>© 2025 Smile Studio. Tous droits réservés.</p>
         <div style={{ display: "flex", gap: 20 }}>
           {["Mentions légales", "Confidentialité", "RGPD"].map((link) => (
-            <a key={link} href="#" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>{link}</a>
+            <a key={link} href="/templates/impact-30" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>{link}</a>
           ))}
         </div>
       </div>

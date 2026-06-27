@@ -2975,7 +2975,7 @@ function FooterSection() {
               (m) => (
                 <a
                   key={m}
-                  href="#"
+                  href="/templates/impact-275"
                   style={{
                     fontFamily: SANS,
                     fontSize: 11.5,

@@ -47,8 +47,8 @@ export default function VogueNoirePage() {
               <span>Photo : E. Fontaine</span>
             </div>
             <div className="flex gap-4">
-              <Link href="#" className="w-9 h-9 border border-[#3A3028] flex items-center justify-center hover:border-[#F0EBE0] transition-colors cursor-pointer"><Instagram className="w-4 h-4" /></Link>
-              <Link href="#" className="w-9 h-9 border border-[#3A3028] flex items-center justify-center hover:border-[#F0EBE0] transition-colors cursor-pointer"><Twitter className="w-4 h-4" /></Link>
+              <Link href="/templates/impact-81" className="w-9 h-9 border border-[#3A3028] flex items-center justify-center hover:border-[#F0EBE0] transition-colors cursor-pointer"><Instagram className="w-4 h-4" /></Link>
+              <Link href="/templates/impact-81" className="w-9 h-9 border border-[#3A3028] flex items-center justify-center hover:border-[#F0EBE0] transition-colors cursor-pointer"><Twitter className="w-4 h-4" /></Link>
             </div>
           </div>
         </div>

@@ -1109,7 +1109,7 @@ export default function TerreVivantePage() {
                   {col.links.map((link) => (
                     <li key={link}>
                       <a
-                        href="#"
+                        href="/templates/impact-40"
                         style={{ fontFamily: C.bodyFont, fontSize: "0.875rem", color: "rgba(253,249,238,0.45)", textDecoration: "none", transition: "color 0.2s" }}
                         onMouseEnter={(e) => ((e.target as HTMLElement).style.color = C.accent)}
                         onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "rgba(253,249,238,0.45)")}
@@ -1139,7 +1139,7 @@ export default function TerreVivantePage() {
             </p>
             <div style={{ display: "flex", gap: "1.75rem" }}>
               {["Mentions légales", "Confidentialité", "CGV"].map((l) => (
-                <a key={l} href="#" style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: "rgba(253,249,238,0.3)", textDecoration: "none" }}>
+                <a key={l} href="/templates/impact-40" style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: "rgba(253,249,238,0.3)", textDecoration: "none" }}>
                   {l}
                 </a>
               ))}
