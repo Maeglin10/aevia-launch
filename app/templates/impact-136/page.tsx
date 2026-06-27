@@ -571,19 +571,19 @@ export default function TextRevealPage() {
 
             <Reveal delay={0.2} className="flex gap-4">
               <a
-                href="#"
+                href="/templates/impact-136"
                 className="w-14 h-14 rounded-full border border-zinc-800 flex items-center justify-center hover:bg-white hover:text-black hover:border-white transition-all"
               >
                 <Globe className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="/templates/impact-136"
                 className="w-14 h-14 rounded-full border border-zinc-800 flex items-center justify-center hover:bg-white hover:text-black hover:border-white transition-all"
               >
                 <Globe className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="/templates/impact-136"
                 className="w-14 h-14 rounded-full border border-zinc-800 flex items-center justify-center hover:bg-white hover:text-black hover:border-white transition-all"
               >
                 <Globe className="w-5 h-5" />

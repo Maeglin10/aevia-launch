@@ -292,7 +292,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 {[MessageSquare, Link2, Users2].map((Icon, i) => (
                   <a
                     key={i}
-                    href="#"
+                    href="/templates/impact-36"
                     style={{
                       width: 36,
                       height: 36,

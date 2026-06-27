@@ -293,7 +293,7 @@ export default function KeopsPage() {
             <div key={col.title}>
               <h4 className="text-white/40 text-xs tracking-widest uppercase mb-4">{col.title}</h4>
               <ul className="space-y-2">
-                {col.links.map(l => <li key={l.name}><a href="#" onClick={(e) => { e.preventDefault(); goTo(l.key as any); }} className="text-white/30 text-sm hover:text-[#C46A3E] transition-colors cursor-pointer">{l.name}</a></li>)}
+                {col.links.map(l => <li key={l.name}><a href="/templates/impact-17" onClick={(e) => { e.preventDefault(); goTo(l.key as any); }} className="text-white/30 text-sm hover:text-[#C46A3E] transition-colors cursor-pointer">{l.name}</a></li>)}
               </ul>
             </div>
           ))}
@@ -301,8 +301,8 @@ export default function KeopsPage() {
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between text-xs text-white/20 gap-4">
           <span>© 2026 Kéops Architecture. Tous droits réservés.</span>
           <div className="flex gap-6">
-            <a href="#" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C46A3E] transition-colors">Mentions légales</a>
-            <a href="#" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C46A3E] transition-colors">Confidentialité</a>
+            <a href="/templates/impact-17" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C46A3E] transition-colors">Mentions légales</a>
+            <a href="/templates/impact-17" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C46A3E] transition-colors">Confidentialité</a>
           </div>
         </div>
       </footer>

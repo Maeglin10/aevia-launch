@@ -2353,10 +2353,10 @@ export default function UrbanPulsePage() {
 
               <div style={{ display: "flex", gap: 10 }}>
                 {[
-                  { Icon: Camera, href: "#" },
-                  { Icon: MessageSquare, href: "#" },
-                  { Icon: Link2, href: "#" },
-                  { Icon: Users2, href: "#" },
+                  { Icon: Camera, href: "/templates/impact-96" },
+                  { Icon: MessageSquare, href: "/templates/impact-96" },
+                  { Icon: Link2, href: "/templates/impact-96" },
+                  { Icon: Users2, href: "/templates/impact-96" },
                 ].map(({ Icon, href }, i) => (
                   <a
                     key={i}

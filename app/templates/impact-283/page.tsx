@@ -2841,7 +2841,7 @@ function FooterSection() {
         { label: '04 67 XX XX XX', href: 'tel:+33467000000' },
         { label: 'cabinet@kinetherapeute-montpellier.fr', href: 'mailto:cabinet@kinetherapeute-montpellier.fr' },
         { label: '12 Av. de Palavas, Antigone', href: '#pratique' },
-        { label: 'Urgences : Hôpital Lapeyronie', href: '#' },
+        { label: 'Urgences : Hôpital Lapeyronie', href: "/templates/impact-283" },
       ],
     },
   ];
@@ -3011,9 +3011,9 @@ function FooterSection() {
           </p>
           <div style={{ display: 'flex', gap: 20 }}>
             {[
-              { label: 'Mentions légales', href: '#' },
-              { label: 'Politique de confidentialité', href: '#' },
-              { label: 'RGPD', href: '#' },
+              { label: 'Mentions légales', href: "/templates/impact-283" },
+              { label: 'Politique de confidentialité', href: "/templates/impact-283" },
+              { label: 'RGPD', href: "/templates/impact-283" },
             ].map((l) => (
               <FooterLink283 key={l.label} label={l.label} href={l.href} small />
             ))}

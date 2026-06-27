@@ -1834,8 +1834,8 @@ function Footer() {
       items: [
         { label: 'Lyon 2e — sur rendez-vous', href: '#commande' },
         { label: 'Vieux-Lyon — sur rendez-vous', href: '#commande' },
-        { label: 'Mentions légales', href: '#' },
-        { label: 'Confidentialité', href: '#' },
+        { label: 'Mentions légales', href: "/templates/impact-265" },
+        { label: 'Confidentialité', href: "/templates/impact-265" },
       ],
     },
   ];

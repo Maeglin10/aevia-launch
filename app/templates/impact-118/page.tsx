@@ -84,7 +84,7 @@ export default function ChronosLuxuryPage() {
               { name: "Innovation", page: "innovation" },
               { name: "Journal", page: "journal" },
             ].map(l => (
-              <a key={l.name} href="#" onClick={(e) => { e.preventDefault(); goTo(l.page as any); }} className={`transition-colors hover:text-[#d4af37] ${page === l.page ? "text-[#d4af37] font-extrabold" : ""}`}>{l.name}</a>
+              <a key={l.name} href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo(l.page as any); }} className={`transition-colors hover:text-[#d4af37] ${page === l.page ? "text-[#d4af37] font-extrabold" : ""}`}>{l.name}</a>
             ))}
           </div>
           <div className="flex items-center gap-8">
@@ -105,7 +105,7 @@ export default function ChronosLuxuryPage() {
                     { name: "Concierge", page: "concierge" },
                     { name: "Client Care", page: "support" },
                   ].map(l => (
-                    <a key={l.name} href="#" onClick={(e) => { e.preventDefault(); goTo(l.page as any); }} className={`text-xl font-light uppercase tracking-[0.3em] hover:text-[#d4af37] transition-colors ${page === l.page ? "text-[#d4af37]" : "text-white"}`}>{l.name}</a>
+                    <a key={l.name} href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo(l.page as any); }} className={`text-xl font-light uppercase tracking-[0.3em] hover:text-[#d4af37] transition-colors ${page === l.page ? "text-[#d4af37]" : "text-white"}`}>{l.name}</a>
                   ))}
                 </div>
               </SheetContent>
@@ -318,7 +318,7 @@ export default function ChronosLuxuryPage() {
                   }
                   return (
                     <li key={link}>
-                      <a href="#" onClick={onClickHandler} className="text-xs text-white/40 hover:text-white transition-colors">
+                      <a href="/templates/impact-118" onClick={onClickHandler} className="text-xs text-white/40 hover:text-white transition-colors">
                         {link}
                       </a>
                     </li>
@@ -332,9 +332,9 @@ export default function ChronosLuxuryPage() {
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/20">
           <span>© 2026 CHRONOS HOROLOGY SA. GENÈVE.</span>
           <div className="flex gap-10">
-             <a href="#" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#d4af37] transition-colors">Legal Mention</a>
-             <a href="#" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#d4af37] transition-colors">Privacy Circle</a>
-             <a href="#" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#d4af37] transition-colors">Cookies Policy</a>
+             <a href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#d4af37] transition-colors">Legal Mention</a>
+             <a href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#d4af37] transition-colors">Privacy Circle</a>
+             <a href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#d4af37] transition-colors">Cookies Policy</a>
           </div>
         </div>
       </footer>

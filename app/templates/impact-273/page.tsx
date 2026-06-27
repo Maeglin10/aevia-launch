@@ -423,7 +423,7 @@ function Nav() {
           .cr-navcta { display: none !important; }
         }
       `}</style>
-      <a href="#" style={brand}>
+      <a href="/templates/impact-273" style={brand}>
         Cabinet Rosenfeld
       </a>
       <div style={linkRow} className="cr-navlinks">
@@ -1851,9 +1851,9 @@ function Footer() {
     {
       title: 'Informations',
       items: [
-        { label: 'Mentions légales', href: '#' },
-        { label: 'Confidentialité', href: '#' },
-        { label: 'Accessibilité', href: '#' },
+        { label: 'Mentions légales', href: "/templates/impact-273" },
+        { label: 'Confidentialité', href: "/templates/impact-273" },
+        { label: 'Accessibilité', href: "/templates/impact-273" },
         { label: 'Plan du cabinet', href: '#contact' },
       ],
     },
@@ -2045,10 +2045,10 @@ function Footer() {
           © 2026 Cabinet Dentaire Rosenfeld · Strasbourg. Tous droits réservés.
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
-          <a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>
+          <a href="/templates/impact-273" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
           </a>
-          <a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>
+          <a href="/templates/impact-273" style={{ color: 'inherit', textDecoration: 'none' }}>
             Confidentialité
           </a>
         </span>

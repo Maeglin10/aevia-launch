@@ -238,9 +238,9 @@ export default function SummitCapitalPage() {
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/20">
           <div onClick={() => goTo("home")} className="text-[#C9A86C] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Summit Capital</div>
           <div className="flex gap-8">
-            <a href="#" onClick={(e) => { e.preventDefault(); goTo("portefeuille"); }} className="hover:text-[#C9A86C] transition-colors">Portefeuille</a>
-            <a href="#" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C9A86C] transition-colors">Mentions légales</a>
-            <a href="#" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C9A86C] transition-colors">Confidentialité</a>
+            <a href="/templates/impact-19" onClick={(e) => { e.preventDefault(); goTo("portefeuille"); }} className="hover:text-[#C9A86C] transition-colors">Portefeuille</a>
+            <a href="/templates/impact-19" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C9A86C] transition-colors">Mentions légales</a>
+            <a href="/templates/impact-19" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C9A86C] transition-colors">Confidentialité</a>
           </div>
           <span>© 2026 Summit Capital. Tous droits réservés.</span>
         </div>

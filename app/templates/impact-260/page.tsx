@@ -2165,13 +2165,13 @@ function Footer() {
           © 2026 Aqua Confort Lyon — SIRET 000 000 000 00000 · RGE certifié
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
-          <a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>
+          <a href="/templates/impact-260" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
           </a>
-          <a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>
+          <a href="/templates/impact-260" style={{ color: 'inherit', textDecoration: 'none' }}>
             Politique de confidentialité
           </a>
-          <a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>
+          <a href="/templates/impact-260" style={{ color: 'inherit', textDecoration: 'none' }}>
             Cookies
           </a>
         </span>

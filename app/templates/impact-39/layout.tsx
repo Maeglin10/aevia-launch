@@ -155,7 +155,7 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
               </p>
               <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
                 {[MessageSquare, Link2, Camera].map((Icon, i) => (
-                  <a key={i} href="#" style={{ width: 36, height: 36, background: "rgba(255,255,255,0.07)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none" }}>
+                  <a key={i} href="/templates/impact-39" style={{ width: 36, height: 36, background: "rgba(255,255,255,0.07)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none" }}>
                     <Icon size={15} color="#64748b" />
                   </a>
                 ))}

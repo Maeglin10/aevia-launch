@@ -392,7 +392,7 @@ function Nav() {
   return (
     <>
       <nav style={bar} suppressHydrationWarning>
-      <a href="#" style={brand}>
+      <a href="/templates/impact-271" style={brand}>
         <Leaf size={19} color={C.accent} strokeWidth={1.6} />
         Jardins d&apos;Alsace
       </a>

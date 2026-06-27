@@ -80,7 +80,7 @@ export default function EduPathPage() {
           </Link>
           <div className="hidden md:flex items-center gap-8 text-gray-600 text-sm font-medium">
             {["Cours", "Mentoring", "Certifications", "Entreprises", "Tarifs"].map(item => (
-              <Link key={item} href="#" className="hover:text-[#7C3AED] transition-colors cursor-pointer">{item}</Link>
+              <Link key={item} href="/templates/impact-11" className="hover:text-[#7C3AED] transition-colors cursor-pointer">{item}</Link>
             ))}
           </div>
           <div className="hidden md:flex items-center gap-3">
@@ -100,7 +100,7 @@ export default function EduPathPage() {
             </div>
             {["Cours", "Mentoring", "Certifications", "Entreprises", "Tarifs"].map((item, i) => (
               <motion.div key={item} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
-                <Link href="#" className="block text-gray-900 text-2xl font-semibold mb-6 cursor-pointer" onClick={() => setMobileOpen(false)}>{item}</Link>
+                <Link href="/templates/impact-11" className="block text-gray-900 text-2xl font-semibold mb-6 cursor-pointer" onClick={() => setMobileOpen(false)}>{item}</Link>
               </motion.div>
             ))}
           </motion.div>
@@ -309,7 +309,7 @@ export default function EduPathPage() {
             <div key={col.title}>
               <h4 className="text-white font-semibold mb-4 text-sm">{col.title}</h4>
               <ul className="space-y-2">
-                {col.links.map(l => <li key={l}><Link href="#" className="text-gray-400 text-sm hover:text-white transition-colors cursor-pointer">{l}</Link></li>)}
+                {col.links.map(l => <li key={l}><Link href="/templates/impact-11" className="text-gray-400 text-sm hover:text-white transition-colors cursor-pointer">{l}</Link></li>)}
               </ul>
             </div>
           ))}

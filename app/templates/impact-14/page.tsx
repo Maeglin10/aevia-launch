@@ -937,7 +937,7 @@ export default function HorizonMaritimePage() {
             ].map((item) => (
               <a
                 key={item.name}
-                href="#"
+                href="/templates/impact-14"
                 onClick={(e) => { e.preventDefault(); goTo(item.page as any); }}
                 style={{
                   fontFamily: "Montserrat, sans-serif",
@@ -1039,7 +1039,7 @@ export default function HorizonMaritimePage() {
                 transition={{ delay: i * 0.08 }}
               >
                 <a
-                  href="#"
+                  href="/templates/impact-14"
                   onClick={(e) => { e.preventDefault(); setMobileOpen(false); goTo(item.page as any); }}
                   style={{
                     display: "block",
@@ -2236,7 +2236,7 @@ export default function HorizonMaritimePage() {
                     return (
                       <li key={link} style={{ marginBottom: "0.75rem" }}>
                         <a
-                          href="#"
+                          href="/templates/impact-14"
                           onClick={onClickHandler}
                           style={{
                             fontFamily: "Montserrat, sans-serif",
@@ -2316,7 +2316,7 @@ export default function HorizonMaritimePage() {
               {["Privacy Policy", "Terms of Charter", "Cookie Policy", "Legal Mentions"].map((l) => (
                 <a
                   key={l}
-                  href="#"
+                  href="/templates/impact-14"
                   onClick={(e) => { e.preventDefault(); goTo("legal"); }}
                   style={{ fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.25)", textDecoration: "none", letterSpacing: 1 }}
                 >

@@ -2835,8 +2835,8 @@ function FooterSection() {
       links: [
         { label: '+33 3 88 00 00 00', href: 'tel:+33388000000' },
         { label: 'contact@epousailles-alsace.fr', href: 'mailto:contact@epousailles-alsace.fr' },
-        { label: '12 rue du Mariage, Strasbourg', href: '#' },
-        { label: 'Du lundi au vendredi 9h–18h', href: '#' },
+        { label: '12 rue du Mariage, Strasbourg', href: "/templates/impact-280" },
+        { label: 'Du lundi au vendredi 9h–18h', href: "/templates/impact-280" },
       ],
     },
   ];
@@ -3039,9 +3039,9 @@ function FooterSection() {
           </div>
           <div style={{ display: 'flex', gap: 22 }}>
             {[
-              { label: 'Mentions légales', href: '#' },
-              { label: 'Politique de confidentialité', href: '#' },
-              { label: 'CGV', href: '#' },
+              { label: 'Mentions légales', href: "/templates/impact-280" },
+              { label: 'Politique de confidentialité', href: "/templates/impact-280" },
+              { label: 'CGV', href: "/templates/impact-280" },
             ].map((l, i) => (
               <a
                 key={i}

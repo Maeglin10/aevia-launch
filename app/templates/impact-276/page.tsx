@@ -2936,7 +2936,7 @@ function FooterSection() {
               {LINKS.map((l) => (
                 <a
                   key={l}
-                  href="#"
+                  href="/templates/impact-276"
                   onClick={(e) => e.preventDefault()}
                   style={{
                     fontFamily: SANS,

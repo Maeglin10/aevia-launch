@@ -313,7 +313,7 @@ export default function StreamlinePage() {
             <div key={col.title}>
               <h4 className="text-white font-semibold text-sm mb-4">{col.title}</h4>
               <ul className="space-y-2">
-                {col.links.map(l => <li key={l.name}><a href="#" onClick={(e) => { e.preventDefault(); goTo(l.key as any); }} className="text-gray-500 text-sm hover:text-white transition-colors cursor-pointer">{l.name}</a></li>)}
+                {col.links.map(l => <li key={l.name}><a href="/templates/impact-18" onClick={(e) => { e.preventDefault(); goTo(l.key as any); }} className="text-gray-500 text-sm hover:text-white transition-colors cursor-pointer">{l.name}</a></li>)}
               </ul>
             </div>
           ))}
