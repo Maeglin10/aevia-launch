@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -18,7 +18,7 @@ const C = {
   fontSans: "'DM Sans', system-ui, sans-serif",
 };
 
-export default function EbookSuccess() {
+function EbookSuccessContent() {
   const params = useSearchParams();
   const sessionId = params.get("session_id");
   const [email, setEmail] = useState<string | null>(null);
@@ -63,5 +63,13 @@ export default function EbookSuccess() {
         </p>
       </motion.div>
     </div>
+  );
+}
+
+export default function EbookSuccess() {
+  return (
+    <Suspense fallback={null}>
+      <EbookSuccessContent />
+    </Suspense>
   );
 }
