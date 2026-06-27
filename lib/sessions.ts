@@ -26,8 +26,9 @@ export interface FormData {
   phone?: string;
   instagram?: string;
   linkedin?: string;
-  // Analytics (optional)
+  // Analytics & SEO verification (optional)
   ga4Id?: string;
+  gscVerification?: string;
 }
 
 export interface GeneratedContent {

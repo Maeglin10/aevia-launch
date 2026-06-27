@@ -16,6 +16,9 @@ export async function generateMetadata({ params }: { params: Promise<{ sessionId
       title: s.generatedContent.metaTitle,
       description: s.generatedContent.metaDescription,
     },
+    ...(s.formData?.gscVerification && {
+      verification: { google: s.formData.gscVerification },
+    }),
   };
 }
 
