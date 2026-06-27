@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { saveSession, saveSessionToBlob, getSessionFromBlob } from "@/lib/sessions";
+import type { GeneratedContent, FormData } from "@/lib/sessions";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -72,4 +73,44 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({ sessionId: id });
+}
+
+// PATCH — update generatedContent and/or formData fields for an existing session.
+// Used by the inline editor when the client saves their customizations.
+export async function PATCH(req: NextRequest) {
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
+    req.headers.get("x-real-ip") ??
+    "unknown";
+  if (isRateLimited(ip)) {
+    return NextResponse.json({ error: "Too many requests." }, { status: 429 });
+  }
+
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get("id");
+  if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
+
+  const session = await getSessionFromBlob(id);
+  if (!session) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+  const body = await req.json() as {
+    generatedContent?: Partial<GeneratedContent>;
+    formData?: Partial<FormData>;
+  };
+
+  const updated = {
+    ...session,
+    ...(body.formData && { formData: { ...session.formData, ...body.formData } }),
+    ...(body.generatedContent && {
+      generatedContent: { ...session.generatedContent, ...body.generatedContent },
+    }),
+  };
+
+  try {
+    await saveSessionToBlob(id, updated);
+  } catch {
+    saveSession(id, updated);
+  }
+
+  return NextResponse.json({ ok: true });
 }

@@ -2,14 +2,21 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Copy, Check, Rocket, Loader2, Globe, ChevronDown } from "lucide-react";
+import { ArrowLeft, Copy, Check, Rocket, Loader2, Globe, ChevronDown, Pencil } from "lucide-react";
 import GeneratedSite from "@/components/GeneratedSite";
-import type { SessionData } from "@/lib/sessions";
+import { EditPanel } from "@/components/EditPanel";
+import type { SessionData, GeneratedContent, FormData } from "@/lib/sessions";
 import { useLang, LOCALE_META, type Locale } from "@/lib/LangContext";
+
+type EditableData = {
+  generatedContent: Partial<GeneratedContent>;
+  formData: Partial<FormData>;
+};
 
 const T = {
   fr: {
     notFound: "Session introuvable.", startOver: "Recommencer →", edit: "Modifier",
+    editContent: "Personnaliser",
     copied: "Copié !", shareLink: "Partager le lien", launch: "Je veux ce site",
     preview: "Aperçu", ready: "Votre site vous plaît ?",
     orderIntro: "Envoyez-nous un message et nous vous recontactons sous 2h pour finaliser et mettre votre site en ligne.",
@@ -20,6 +27,7 @@ const T = {
   },
   en: {
     notFound: "Session not found.", startOver: "Start over →", edit: "Edit",
+    editContent: "Customize",
     copied: "Copied!", shareLink: "Share link", launch: "I want this site",
     preview: "Preview", ready: "Happy with your site?",
     orderIntro: "Send us a message and we'll get back to you within 2 hours to finalise and publish your site.",
@@ -30,6 +38,7 @@ const T = {
   },
   es: {
     notFound: "Sesión no encontrada.", startOver: "Empezar de nuevo →", edit: "Editar",
+    editContent: "Personalizar",
     copied: "¡Copiado!", shareLink: "Compartir enlace", launch: "Quiero este sitio",
     preview: "Vista previa", ready: "¿Te gusta tu sitio?",
     orderIntro: "Envíanos un mensaje y te contactaremos en 2 horas para finalizar y publicar tu sitio.",
@@ -40,6 +49,7 @@ const T = {
   },
   de: {
     notFound: "Sitzung nicht gefunden.", startOver: "Neu starten →", edit: "Bearbeiten",
+    editContent: "Anpassen",
     copied: "Kopiert!", shareLink: "Link teilen", launch: "Ich will diese Website",
     preview: "Vorschau", ready: "Gefällt Ihnen Ihre Website?",
     orderIntro: "Schreiben Sie uns und wir melden uns innerhalb von 2 Stunden, um Ihre Website fertigzustellen.",
@@ -50,6 +60,7 @@ const T = {
   },
   pt: {
     notFound: "Sessão não encontrada.", startOver: "Recomeçar →", edit: "Editar",
+    editContent: "Personalizar",
     copied: "Copiado!", shareLink: "Partilhar link", launch: "Quero este site",
     preview: "Pré-visualização", ready: "Gostou do seu site?",
     orderIntro: "Envie-nos uma mensagem e entraremos em contacto em 2 horas para finalizar e publicar o seu site.",
@@ -99,6 +110,8 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedSession, setEditedSession] = useState<SessionData | null>(null);
 
   useEffect(() => {
     fetch(`/api/sessions?id=${sessionId}`)
@@ -119,6 +132,36 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
     window.location.href = `mailto:contact@aevia.io?subject=${encodeURIComponent(t.mailSubject)}&body=${encodeURIComponent(body)}`;
   };
 
+  const handleEditChange = (data: EditableData) => {
+    setEditedSession((prev) => {
+      const base = prev ?? session!;
+      return {
+        ...base,
+        formData: { ...base.formData, ...data.formData },
+        generatedContent: { ...(base.generatedContent ?? {}), ...data.generatedContent },
+      };
+    });
+  };
+
+  const handleEditSave = async (data: EditableData) => {
+    await fetch(`/api/sessions?id=${sessionId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    setSession((prev) =>
+      prev
+        ? {
+            ...prev,
+            formData: { ...prev.formData, ...data.formData },
+            generatedContent: { ...(prev.generatedContent ?? {}), ...data.generatedContent },
+          }
+        : prev
+    );
+  };
+
+  const liveSession = editedSession ?? session;
+
   if (loading) {
     return (
       <div className="min-h-screen bg-[#09090b] flex items-center justify-center">
@@ -127,7 +170,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
     );
   }
 
-  if (!session || !session.generatedContent) {
+  if (!session || !liveSession || !session.generatedContent) {
     return (
       <div className="min-h-screen bg-[#09090b] flex items-center justify-center text-white">
         <div className="text-center">
@@ -148,6 +191,19 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
 
         <div className="flex items-center gap-3">
           <PreviewLangSwitcher />
+
+          <button
+            onClick={() => setIsEditing((v) => !v)}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm transition-colors ${
+              isEditing
+                ? "border-violet-500 text-violet-300 bg-violet-500/10"
+                : "border-zinc-700 text-zinc-300 hover:text-white"
+            }`}
+          >
+            <Pencil className="w-3.5 h-3.5" />
+            {t.editContent}
+          </button>
+
           <button
             onClick={handleCopy}
             className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-700 text-zinc-300 hover:text-white text-sm transition-colors"
@@ -167,7 +223,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
       </div>
 
       {/* Preview frame */}
-      <div className="pt-14">
+      <div className={`pt-14 transition-all duration-300 ${isEditing ? "mr-80" : ""}`}>
         <div className="bg-zinc-900 border-b border-zinc-800 px-6 py-2 flex items-center gap-3">
           <div className="flex gap-1.5">
             <div className="w-3 h-3 rounded-full bg-red-500/60" />
@@ -175,12 +231,22 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
             <div className="w-3 h-3 rounded-full bg-green-500/60" />
           </div>
           <div className="flex-1 bg-zinc-800 rounded-md px-3 py-1 text-zinc-500 text-xs font-mono truncate">
-            {t.preview} — {session.formData.businessName}
+            {t.preview} — {liveSession.formData.businessName}
           </div>
         </div>
 
-        <GeneratedSite session={session} />
+        <GeneratedSite session={liveSession} />
       </div>
+
+      {/* Inline editor panel */}
+      {isEditing && (
+        <EditPanel
+          session={liveSession}
+          onClose={() => setIsEditing(false)}
+          onChange={handleEditChange}
+          onSave={handleEditSave}
+        />
+      )}
 
       {/* Launch modal */}
       {showModal && (
