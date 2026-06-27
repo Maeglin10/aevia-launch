@@ -25,6 +25,7 @@ interface GoldParticle {
 
 interface ProductCard {
   name: string;
+  image: string;
   subtitle: string;
   material: string;
   price: string;
@@ -316,11 +317,13 @@ function MagneticCard({ children, style }: MagneticCardProps) {
 
 function ClipRevealImage({
   color,
+  image,
   label,
   inView: revealed,
   delay = 0,
 }: {
   color: string;
+  image?: string;
   label: string;
   inView: boolean;
   delay?: number;
@@ -354,6 +357,22 @@ function ClipRevealImage({
         overflow: "hidden",
       }}
     >
+      {image && (
+        <img
+          src={image}
+          alt={label}
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            transition: "transform 0.7s ease",
+          }}
+          className="hover:scale-105"
+        />
+      )}
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,8,6,0.85) 0%, rgba(10,8,6,0.2) 60%, transparent 100%)" }} />
       {/* Shimmer overlay */}
       <div
         style={{
@@ -440,6 +459,7 @@ function ProductRevealCard({
           {/* Image zone with clip-path reveal */}
           <ClipRevealImage
             color={product.color}
+            image={product.image}
             label={product.category}
             inView={revealed && inView}
             delay={index * 0.1}
@@ -571,6 +591,7 @@ function SectionReveal({
 const PRODUCTS: ProductCard[] = [
   {
     name: "Solitaire Éternité",
+    image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80",
     subtitle: "La pureté absolue",
     material: "Or blanc 18k · Diamant 1.2ct F/VS1",
     price: "12 400 €",
@@ -579,6 +600,7 @@ const PRODUCTS: ProductCard[] = [
   },
   {
     name: "Collier Aube Dorée",
+    image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80",
     subtitle: "Lumière sur la peau",
     material: "Or jaune 18k · Diamants 0.85ct total",
     price: "8 750 €",
@@ -587,6 +609,7 @@ const PRODUCTS: ProductCard[] = [
   },
   {
     name: "Bracelet Rivière",
+    image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=800&q=80",
     subtitle: "Un fleuve de lumière",
     material: "Platine 950 · Diamants 2.4ct",
     price: "18 200 €",
@@ -595,6 +618,7 @@ const PRODUCTS: ProductCard[] = [
   },
   {
     name: "Boucles Célestes",
+    image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&q=80",
     subtitle: "La grâce à l'oreille",
     material: "Or rose 18k · Perles Akoya & Brillants",
     price: "5 900 €",
@@ -603,6 +627,7 @@ const PRODUCTS: ProductCard[] = [
   },
   {
     name: "Chevalière Crest",
+    image: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=800&q=80",
     subtitle: "Héritage gravé",
     material: "Or jaune 22k · Gravure à la main",
     price: "3 200 €",
@@ -611,6 +636,7 @@ const PRODUCTS: ProductCard[] = [
   },
   {
     name: "Parure Impériale",
+    image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80",
     subtitle: "L'ensemble souverain",
     material: "Or blanc 18k · Saphirs & Diamants",
     price: "34 000 €",
@@ -643,9 +669,9 @@ const MATERIALS = [
 ];
 
 const LOOKBOOK = [
-  { title: "Printemps 2025", image: "bg-stone-900", items: 8 },
-  { title: "Édition Nuit", image: "bg-zinc-900", items: 5 },
-  { title: "Sur Mesure", image: "bg-neutral-900", items: "∞" },
+  { title: "Printemps 2025", image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80", items: 8 },
+  { title: "Édition Nuit", image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80", items: 5 },
+  { title: "Sur Mesure", image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80", items: "∞" },
 ];
 
 // ─── Lookbook Card (extracted to respect Rules of Hooks) ─────────────────────
@@ -695,6 +721,21 @@ function LookbookCard({
           border: "1px solid rgba(212,175,107,0.08)",
         }}
       >
+        {lb.image && lb.image.startsWith("http") && (
+          <img
+            src={lb.image}
+            alt={lb.title}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              opacity: 0.6,
+              transition: "transform 0.7s ease",
+            }}
+          />
+        )}
         {/* Pattern overlay */}
         <div
           style={{

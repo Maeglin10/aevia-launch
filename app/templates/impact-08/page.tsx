@@ -18,7 +18,7 @@ import {
   Archive, Hash, BarChart3, Fingerprint, Scan, 
   Briefcase, Wind, Timer, Lightbulb, Command, Grid, 
   Radar, Orbit, Atom, Search, Cpu, Wrench, Hammer, 
-  Cog, Hand, Accessibility, Bot, Sparkles, Infinity, 
+  Cog, Hand, Accessibility, Bot, Sparkles, Infinity , 
   Code2, Cloud, HardDrive, Key, MousePointer2, 
   Globe, Layout, Smartphone, PenTool, Camera, 
   Music, Film, Palette, MessageSquare, Send,
@@ -154,7 +154,7 @@ function FluidAeroVisualizer() {
                 }}
                 transition={{
                    duration: Math.random() * 2 + 1,
-                   repeat: Infinity,
+                   repeat: 999999 ,
                    delay: Math.random() * 5,
                    ease: "linear"
                 }}
@@ -179,7 +179,7 @@ function HUD_Telemetry() {
                 <motion.div 
                   className="w-1 bg-blue-500/40"
                   animate={{ height: ["20%", "80%", "40%"] }}
-                  transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
+                  transition={{ duration: 2, repeat: 999999 , delay: i * 0.2 }}
                 />
              </div>
           ))}

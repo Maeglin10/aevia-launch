@@ -1,0 +1,79 @@
+"use client";
+
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+
+export default function MentionsPage() {
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#0a0806",
+        color: "#f0ece0",
+        fontFamily: "Georgia, 'Times New Roman', serif",
+        padding: "120px 40px",
+      }}
+    >
+      <div style={{ maxWidth: 800, margin: "0 auto" }}>
+        <Link 
+          href="/templates/impact-20"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
+            color: "rgba(212,175,107,0.7)",
+            fontSize: 12,
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            textDecoration: "none",
+            marginBottom: 60,
+          }}
+        >
+          <ArrowLeft size={16} />
+          Retour
+        </Link>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <p
+            style={{
+              color: "#d4af6b",
+              fontSize: 10,
+              letterSpacing: "0.4em",
+              textTransform: "uppercase",
+              marginBottom: 16,
+            }}
+          >
+            Maison Élara
+          </p>
+          <h1
+            style={{
+              color: "#f0ece0",
+              fontSize: "clamp(36px, 5vw, 64px)",
+              fontStyle: "italic",
+              fontWeight: 400,
+              marginBottom: 40,
+              lineHeight: 1.1,
+            }}
+          >
+            Mentions Légales
+          </h1>
+          <div style={{ color: "rgba(240,236,224,0.7)", fontSize: 16, lineHeight: 1.8 }}>
+            <p style={{ marginBottom: 24 }}>
+              Éditeur du site: Maison Élara, société par actions simplifiée au capital de 100 000 €, 
+              immatriculée au Registre du Commerce et des Sociétés de Paris sous le numéro 123 456 789.
+            </p>
+            <p>
+              Siège social: 15 Place Vendôme, 75001 Paris, France.<br />
+              Directeur de la publication: Jean Dupont.<br />
+              Hébergement: Vercel Inc.
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}

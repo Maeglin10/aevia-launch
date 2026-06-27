@@ -810,18 +810,18 @@ function ReservationPage({ guests, setGuests }: { guests: number; setGuests: (n:
         <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="bg-white/[0.02] border border-white/5 p-8 rounded-2xl">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             <div>
-              <label style={{ fontSize: 9, tracking: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Date</label>
+              <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Date</label>
               <input required type="date" style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none' }} />
             </div>
             <div>
-              <label style={{ fontSize: 9, tracking: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Time</label>
+              <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Time</label>
               <select style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none' }}>
                 {["19:00", "19:30", "20:00", "20:30", "21:00", "21:30"].map(t => <option key={t} style={{ background: '#1a1714' }}>{t}</option>)}
               </select>
             </div>
           </div>
           <div>
-            <label style={{ fontSize: 9, tracking: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Guests</label>
+            <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Guests</label>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
               <button type="button" onClick={() => setGuests(Math.max(1, guests - 1))} style={{ width: 40, height: 40, border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', color: '#f5efe6', cursor: 'pointer', borderRadius: 8 }}>−</button>
               <span style={{ fontSize: 20, width: 32, textAlign: 'center' }}>{guests}</span>
@@ -830,18 +830,18 @@ function ReservationPage({ guests, setGuests }: { guests: number; setGuests: (n:
             </div>
           </div>
           <div>
-            <label style={{ fontSize: 9, tracking: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Full Name</label>
+            <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Full Name</label>
             <input required type="text" style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none' }} />
           </div>
           <div>
-            <label style={{ fontSize: 9, tracking: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Email</label>
+            <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Email</label>
             <input required type="email" style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none' }} />
           </div>
           <div>
-            <label style={{ fontSize: 9, tracking: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Special Requests</label>
+            <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Special Requests</label>
             <textarea style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none', resize: 'none', height: 80 }} />
           </div>
-          <button type="submit" style={{ width: '100%', padding: '16px', background: '#b45014', border: 'none', color: '#fff', fontSize: 11, fontWeight: 'bold', tracking: '0.2em', cursor: 'pointer', borderRadius: 8 }} className="uppercase">
+          <button type="submit" style={{ width: '100%', padding: '16px', background: '#b45014', border: 'none', color: '#fff', fontSize: 11, fontWeight: 'bold', letterSpacing: '0.2em', cursor: 'pointer', borderRadius: 8 }} className="uppercase">
             Confirm Reservation
           </button>
         </form>
@@ -907,18 +907,18 @@ function ContactPage() {
       {!formSent ? (
         <form onSubmit={(e) => { e.preventDefault(); setFormSent(true); }} style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="bg-white/[0.02] border border-white/5 p-8 rounded-2xl">
           <div>
-            <label style={{ fontSize: 9, tracking: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Name</label>
+            <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Name</label>
             <input required type="text" style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none' }} />
           </div>
           <div>
-            <label style={{ fontSize: 9, tracking: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Email</label>
+            <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Email</label>
             <input required type="email" style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none' }} />
           </div>
           <div>
-            <label style={{ fontSize: 9, tracking: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Message</label>
+            <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Message</label>
             <textarea required rows={5} style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none', resize: 'none' }}></textarea>
           </div>
-          <button type="submit" style={{ width: '100%', padding: '16px', background: '#b45014', border: 'none', color: '#fff', fontSize: 11, fontWeight: 'bold', tracking: '0.2em', cursor: 'pointer', borderRadius: 8 }} className="uppercase">
+          <button type="submit" style={{ width: '100%', padding: '16px', background: '#b45014', border: 'none', color: '#fff', fontSize: 11, fontWeight: 'bold', letterSpacing: '0.2em', cursor: 'pointer', borderRadius: 8 }} className="uppercase">
             Send Message
           </button>
         </form>
