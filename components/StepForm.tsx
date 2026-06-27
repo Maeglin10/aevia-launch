@@ -32,6 +32,7 @@ type StepFormStrings = {
   fBusinessName: string; fWhatYouDo: string; fCity: string;
   fMainService: string; fBenefits: string; fPriceRange: string;
   fEmail: string; fPhone: string;
+  fGa4Id: string; phGa4Id: string;
   phBusinessName: string; phWhatYouDo: string; phCity: string; phMainService: string;
   phBenefit: string; required: string; optional: string;
   phPriceRange: string; phEmail: string; phPhone: string;
@@ -52,6 +53,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     fBusinessName: "Nom de l'entreprise", fWhatYouDo: "Ce que vous faites", fCity: "Ville",
     fMainService: "Service principal", fBenefits: "3 avantages clés", fPriceRange: "Gamme de prix",
     fEmail: "Adresse e-mail", fPhone: "Téléphone",
+    fGa4Id: "Google Analytics (optionnel)", phGa4Id: "G-XXXXXXXXXX",
     phBusinessName: "Cabinet Dupont", phWhatYouDo: "Nous accompagnons nos patients / clients depuis 2010…", phCity: "Lyon, France", phMainService: "Consultation & suivi personnalisé",
     phBenefit: "Avantage", required: "(requis)", optional: "(optionnel)",
     phPriceRange: "À partir de 50 € / consultation", phEmail: "vous@exemple.com", phPhone: "+33 6 00 00 00 00",
@@ -70,6 +72,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     fBusinessName: "Business name", fWhatYouDo: "What you do", fCity: "City",
     fMainService: "Main service", fBenefits: "3 key benefits", fPriceRange: "Price range",
     fEmail: "Email address", fPhone: "Phone",
+    fGa4Id: "Google Analytics (optional)", phGa4Id: "G-XXXXXXXXXX",
     phBusinessName: "Dupont Practice", phWhatYouDo: "We've been helping our patients / clients since 2010…", phCity: "London, UK", phMainService: "Consultation & personalised care",
     phBenefit: "Benefit", required: "(required)", optional: "(optional)",
     phPriceRange: "From €50 / session", phEmail: "you@example.com", phPhone: "+44 7700 000000",
@@ -88,6 +91,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     fBusinessName: "Nombre del negocio", fWhatYouDo: "Qué haces", fCity: "Ciudad",
     fMainService: "Servicio principal", fBenefits: "3 beneficios clave", fPriceRange: "Rango de precios",
     fEmail: "Correo electrónico", fPhone: "Teléfono",
+    fGa4Id: "Google Analytics (opcional)", phGa4Id: "G-XXXXXXXXXX",
     phBusinessName: "Clínica Dupont", phWhatYouDo: "Ayudamos a nuestros pacientes desde 2010…", phCity: "Madrid, España", phMainService: "Consulta y seguimiento personalizado",
     phBenefit: "Beneficio", required: "(obligatorio)", optional: "(opcional)",
     phPriceRange: "Desde 50 € / consulta", phEmail: "tu@ejemplo.com", phPhone: "+34 600 00 00 00",
@@ -106,6 +110,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     fBusinessName: "Firmenname", fWhatYouDo: "Was Sie tun", fCity: "Stadt",
     fMainService: "Hauptleistung", fBenefits: "3 Vorteile", fPriceRange: "Preisspanne",
     fEmail: "E-Mail-Adresse", fPhone: "Telefon",
+    fGa4Id: "Google Analytics (optional)", phGa4Id: "G-XXXXXXXXXX",
     phBusinessName: "Praxis Dupont", phWhatYouDo: "Wir betreuen unsere Patienten seit 2010…", phCity: "Berlin, Deutschland", phMainService: "Beratung & persönliche Betreuung",
     phBenefit: "Vorteil", required: "(erforderlich)", optional: "(optional)",
     phPriceRange: "Ab 50 € / Termin", phEmail: "sie@beispiel.com", phPhone: "+49 151 00000000",
@@ -124,6 +129,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     fBusinessName: "Nome do negócio", fWhatYouDo: "O que faz", fCity: "Cidade",
     fMainService: "Serviço principal", fBenefits: "3 benefícios", fPriceRange: "Faixa de preço",
     fEmail: "E-mail", fPhone: "Telefone",
+    fGa4Id: "Google Analytics (opcional)", phGa4Id: "G-XXXXXXXXXX",
     phBusinessName: "Clínica Dupont", phWhatYouDo: "Ajudamos os nossos pacientes desde 2010…", phCity: "Lisboa, Portugal", phMainService: "Consulta e acompanhamento personalizado",
     phBenefit: "Benefício", required: "(obrigatório)", optional: "(opcional)",
     phPriceRange: "A partir de 50 € / consulta", phEmail: "voce@exemplo.com", phPhone: "+351 900 000 000",
@@ -140,7 +146,7 @@ type FormState = {
   businessName: string; tagline: string; city: string;
   mainService: string; benefit1: string; benefit2: string; benefit3: string;
   priceRange: string;
-  email: string; phone: string;
+  email: string; phone: string; ga4Id: string;
 };
 
 const initial: FormState = {
@@ -148,7 +154,7 @@ const initial: FormState = {
   businessName: "", tagline: "", city: "",
   mainService: "", benefit1: "", benefit2: "", benefit3: "",
   priceRange: "",
-  email: "", phone: "",
+  email: "", phone: "", ga4Id: "",
 };
 
 export function StepForm() {
@@ -243,19 +249,20 @@ export function StepForm() {
     setError("");
     try {
       // Create session
+      const formData = {
+        sector: form.sector, template: form.template,
+        businessName: form.businessName, tagline: form.tagline, city: form.city,
+        mainService: form.mainService,
+        benefits: [form.benefit1, form.benefit2, form.benefit3].filter(Boolean),
+        priceRange: form.priceRange,
+        email: form.email, phone: form.phone,
+        ...(form.ga4Id && { ga4Id: form.ga4Id }),
+      };
+
       const sessionRes = await fetch("/api/sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          formData: {
-            sector: form.sector, template: form.template,
-            businessName: form.businessName, tagline: form.tagline, city: form.city,
-            mainService: form.mainService,
-            benefits: [form.benefit1, form.benefit2, form.benefit3].filter(Boolean),
-            priceRange: form.priceRange,
-            email: form.email, phone: form.phone,
-          },
-        }),
+        body: JSON.stringify({ formData }),
       });
       const { sessionId } = await sessionRes.json();
 
@@ -263,17 +270,7 @@ export function StepForm() {
       const genRes = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId,
-          formData: {
-            sector: form.sector, template: form.template,
-            businessName: form.businessName, tagline: form.tagline, city: form.city,
-            mainService: form.mainService,
-            benefits: [form.benefit1, form.benefit2, form.benefit3].filter(Boolean),
-            priceRange: form.priceRange,
-            email: form.email, phone: form.phone,
-          },
-        }),
+        body: JSON.stringify({ sessionId, formData }),
       });
 
       const { previewUrl } = await genRes.json();
@@ -485,6 +482,15 @@ export function StepForm() {
               </Field>
               <Field label={t.fPhone}>
                 <input type="tel" className={input} value={form.phone} onChange={(e) => set("phone", e.target.value)} placeholder={t.phPhone} />
+              </Field>
+              <Field label={t.fGa4Id}>
+                <input
+                  className={input}
+                  value={form.ga4Id}
+                  onChange={(e) => set("ga4Id", e.target.value.trim())}
+                  placeholder={t.phGa4Id}
+                  pattern="G-[A-Z0-9]+"
+                />
               </Field>
               {error && <p className="text-red-400 text-base bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2">{error}</p>}
             </>
