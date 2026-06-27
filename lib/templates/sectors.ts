@@ -1,26 +1,27 @@
 export interface SectorInfo {
   id: string;
-  label: string;
+  label: string; // FR default
+  labels: Record<string, string>; // en, es, de, pt
   emoji: string;
   accentColor: string;
 }
 
 /** Ordered list of business sectors. Displayed as the sector picker grid. */
 export const SECTORS: SectorInfo[] = [
-  { id: 'medecin',     label: 'Médecin',          emoji: '🩺', accentColor: '#2d5a3d' },
-  { id: 'dentiste',    label: 'Dentiste',          emoji: '🦷', accentColor: '#0c2340' },
-  { id: 'kine',        label: 'Kinésithérapeute',  emoji: '🏃', accentColor: '#1a5f7a' },
-  { id: 'osteo',       label: 'Ostéopathe',        emoji: '🙌', accentColor: '#2a4a35' },
-  { id: 'avocat',      label: 'Avocat',            emoji: '⚖️', accentColor: '#1a3a5c' },
-  { id: 'comptable',   label: 'Expert-comptable',  emoji: '📊', accentColor: '#1c3f6e' },
-  { id: 'coach',       label: 'Coach sportif',     emoji: '💪', accentColor: '#111111' },
-  { id: 'plombier',    label: 'Plombier',          emoji: '🔧', accentColor: '#8b2020' },
-  { id: 'electricien', label: 'Électricien',       emoji: '⚡', accentColor: '#003b8e' },
-  { id: 'boulangerie', label: 'Boulangerie',       emoji: '🥖', accentColor: '#5c3a1e' },
-  { id: 'mariage',     label: 'Wedding Planner',   emoji: '💍', accentColor: '#6b8f71' },
-  { id: 'couture',     label: 'Couture / Mode',    emoji: '✂️', accentColor: '#0d0d0d' },
-  { id: 'tatoueur',    label: 'Tatoueur',          emoji: '🎨', accentColor: '#1a1a1a' },
-  { id: 'paysagiste',  label: 'Paysagiste',        emoji: '🌿', accentColor: '#2a5c3a' },
+  { id: 'medecin',     label: 'Médecin',          labels: { en: 'Doctor',           es: 'Médico',            de: 'Arzt',                pt: 'Médico'           }, emoji: '🩺', accentColor: '#2d5a3d' },
+  { id: 'dentiste',    label: 'Dentiste',          labels: { en: 'Dentist',          es: 'Dentista',          de: 'Zahnarzt',            pt: 'Dentista'         }, emoji: '🦷', accentColor: '#0c2340' },
+  { id: 'kine',        label: 'Kinésithérapeute',  labels: { en: 'Physiotherapist',  es: 'Fisioterapeuta',    de: 'Physiotherapeut',     pt: 'Fisioterapeuta'   }, emoji: '🏃', accentColor: '#1a5f7a' },
+  { id: 'osteo',       label: 'Ostéopathe',        labels: { en: 'Osteopath',        es: 'Osteópata',         de: 'Osteopath',           pt: 'Osteopata'        }, emoji: '🙌', accentColor: '#2a4a35' },
+  { id: 'avocat',      label: 'Avocat',            labels: { en: 'Lawyer',           es: 'Abogado',           de: 'Anwalt',              pt: 'Advogado'         }, emoji: '⚖️', accentColor: '#1a3a5c' },
+  { id: 'comptable',   label: 'Expert-comptable',  labels: { en: 'Accountant',       es: 'Contable',          de: 'Steuerberater',       pt: 'Contabilista'     }, emoji: '📊', accentColor: '#1c3f6e' },
+  { id: 'coach',       label: 'Coach sportif',     labels: { en: 'Sports Coach',     es: 'Entrenador',        de: 'Sporttrainer',        pt: 'Treinador'        }, emoji: '💪', accentColor: '#111111' },
+  { id: 'plombier',    label: 'Plombier',          labels: { en: 'Plumber',          es: 'Fontanero',         de: 'Klempner',            pt: 'Canalizador'      }, emoji: '🔧', accentColor: '#8b2020' },
+  { id: 'electricien', label: 'Électricien',       labels: { en: 'Electrician',      es: 'Electricista',      de: 'Elektriker',          pt: 'Eletricista'      }, emoji: '⚡', accentColor: '#003b8e' },
+  { id: 'boulangerie', label: 'Boulangerie',       labels: { en: 'Bakery',           es: 'Panadería',         de: 'Bäckerei',            pt: 'Padaria'          }, emoji: '🥖', accentColor: '#5c3a1e' },
+  { id: 'mariage',     label: 'Wedding Planner',   labels: { en: 'Wedding Planner',  es: 'Wedding Planner',   de: 'Hochzeitsplaner',     pt: 'Wedding Planner'  }, emoji: '💍', accentColor: '#6b8f71' },
+  { id: 'couture',     label: 'Couture / Mode',    labels: { en: 'Fashion / Sewing', es: 'Moda / Costura',    de: 'Mode / Schneiderei',  pt: 'Moda / Costura'   }, emoji: '✂️', accentColor: '#0d0d0d' },
+  { id: 'tatoueur',    label: 'Tatoueur',          labels: { en: 'Tattoo Artist',    es: 'Tatuador',          de: 'Tätowierer',          pt: 'Tatuador'         }, emoji: '🎨', accentColor: '#1a1a1a' },
+  { id: 'paysagiste',  label: 'Paysagiste',        labels: { en: 'Landscaper',       es: 'Paisajista',        de: 'Landschaftsgärtner',  pt: 'Paisagista'       }, emoji: '🌿', accentColor: '#2a5c3a' },
 ];
 
 /** Map sector id → ordered template IDs (best first). */
@@ -95,7 +96,7 @@ export const TEMPLATE_CITY_LABELS: Record<string, string> = {
   'impact-284': "Cabinet Dent'Or · Bordeaux",
   'impact-285': 'Dr. Lecomte · Nantes',
   'impact-286': 'Cabinet Vidal · Lyon',
-  'impact-287': 'Côte d\'Azur Coaching · Nice',
+  'impact-287': "Côte d'Azur Coaching · Nice",
   'impact-288': 'Ampère & Fils · Nantes',
   'impact-289': 'Schreiber & Associés · Strasbourg',
   'impact-290': 'Eau & Habitat · Rennes',

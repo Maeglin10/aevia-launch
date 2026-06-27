@@ -23,7 +23,9 @@ const EBOOK_PRICE = "49";
 const EBOOK_ORIGINAL_PRICE = "79";
 const EBOOK_TITLE = "Le Guide Complet de la Beauté du Regard";
 const EBOOK_SUBTITLE = "Tout ce que j'ai appris en 5 ans de formation : extensions, sourcils, blanchiment, micropigmentation & développement de clientèle";
-const PURCHASE_LINK = "#achat"; // À remplacer par le lien Stripe réel
+const PURCHASE_LINK = "#achat";
+// Fallback SumUp link — to be replaced with Maria's actual SumUp payment link
+const SUMUP_LINK = process.env.NEXT_PUBLIC_SUMUP_LINK ?? "";
 
 const CHAPTERS = [
   {
@@ -273,9 +275,31 @@ export default function EbookPage() {
     return () => window.removeEventListener("scroll", () => {});
   }, []);
 
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+
   const handleBuy = () => {
     const el = document.getElementById("achat");
     el?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleStripeCheckout = async () => {
+    setCheckoutLoading(true);
+    try {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+      });
+      const { url, error } = await res.json();
+      if (url) {
+        window.location.href = url;
+      } else {
+        console.error("Stripe checkout error:", error);
+        setCheckoutLoading(false);
+      }
+    } catch {
+      setCheckoutLoading(false);
+    }
   };
 
   return (
@@ -643,14 +667,29 @@ export default function EbookPage() {
               ))}
             </ul>
             <MagneticButton
-              onClick={() => { /* Stripe checkout */ }}
-              style={{ width: "100%", padding: "18px 40px", background: C.rose, color: "#fff", border: "none", fontFamily: C.fontSans, fontSize: 14, letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600, cursor: "pointer", borderRadius: 1 }}
+              onClick={handleStripeCheckout}
+              style={{ width: "100%", padding: "18px 40px", background: checkoutLoading ? C.roseDark : C.rose, color: "#fff", border: "none", fontFamily: C.fontSans, fontSize: 14, letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600, cursor: checkoutLoading ? "wait" : "pointer", borderRadius: 1, opacity: checkoutLoading ? 0.8 : 1 }}
             >
-              Acheter le guide — {EBOOK_PRICE}€
+              {checkoutLoading ? "Redirection…" : `Acheter le guide — ${EBOOK_PRICE}€`}
             </MagneticButton>
-            <p style={{ fontFamily: C.fontSans, fontSize: 11, color: "rgba(255,255,255,0.3)", marginTop: 16 }}>
-              Paiement sécurisé via Stripe · CB, Visa, Mastercard · Facture disponible
+            <p style={{ fontFamily: C.fontSans, fontSize: 11, color: "rgba(255,255,255,0.3)", marginTop: 14, marginBottom: 20 }}>
+              💳 Paiement sécurisé · CB, Visa, Mastercard, Apple Pay, Google Pay · Facture disponible
             </p>
+            {SUMUP_LINK && (
+              <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 20 }}>
+                <p style={{ fontFamily: C.fontSans, fontSize: 12, color: "rgba(255,255,255,0.3)", marginBottom: 12 }}>
+                  Ou payer avec SumUp :
+                </p>
+                <a
+                  href={SUMUP_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.75)", textDecoration: "none", fontFamily: C.fontSans, fontSize: 13, fontWeight: 600, letterSpacing: "0.08em", padding: "12px 28px", borderRadius: 2 }}
+                >
+                  Payer via SumUp →
+                </a>
+              </div>
+            )}
           </motion.div>
 
           <p style={{ fontFamily: C.fontSans, fontSize: 12, color: "rgba(255,255,255,0.3)", lineHeight: 1.7 }}>

@@ -362,7 +362,7 @@ export function StepForm() {
                     }`}
                   >
                     <span className="text-xl">{s.emoji}</span>
-                    <span className="text-base font-medium leading-tight">{s.label}</span>
+                    <span className="text-base font-medium leading-tight">{s.labels?.[locale] ?? s.label}</span>
                     {form.sector === s.id && <Check className="w-4 h-4 text-violet-400 ml-auto shrink-0" />}
                   </button>
                 ))}
