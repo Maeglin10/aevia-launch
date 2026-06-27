@@ -344,7 +344,7 @@ export default function KineticStudio() {
             <DialogTitle className="text-3xl text-white">Showreel 2025</DialogTitle>
           </DialogHeader>
           <div className="aspect-video bg-black relative rounded-lg overflow-hidden">
-            <Image src="https://picsum.photos/seed/motion3/800/450" alt="Showreel" fill className="object-cover" />
+            <Image src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1600&q=80" alt="Showreel" fill className="object-cover" />
             <div className="absolute inset-0 flex items-center justify-center bg-black/30">
               <button className="text-white text-6xl hover:scale-110 transition-transform">▶</button>
             </div>
