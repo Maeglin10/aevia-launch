@@ -42,7 +42,7 @@ export default function Page() {
         {/* Gallery Grid */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 32 }}>
             <div 
-              key=0
+
               style={{
                 position: "relative",
                 borderRadius: 8,
@@ -59,7 +59,7 @@ export default function Page() {
               </div>
             </div>
             <div 
-              key=1
+
               style={{
                 position: "relative",
                 borderRadius: 8,
@@ -76,7 +76,7 @@ export default function Page() {
               </div>
             </div>
             <div 
-              key=2
+
               style={{
                 position: "relative",
                 borderRadius: 8,
