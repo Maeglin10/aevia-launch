@@ -97,7 +97,7 @@ export default function TorrefieCoffeePage() {
         {/* ── HERO ────────────────────────────── */}
         <section id="hero" className="relative h-[110vh] min-h-[800px] flex items-center overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src="https://picsum.photos/seed/coffee/2400/1500" alt="Coffee" fill className="object-cover" priority />
+            <Image src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80" alt="Coffee" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-r from-[#f5f0ea] via-[#f5f0ea]/60 to-transparent" />
           </motion.div>
 
