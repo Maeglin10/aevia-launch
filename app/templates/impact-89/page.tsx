@@ -1816,9 +1816,9 @@ export default function Impact89Page() {
             </span>
             <div style={{ display: "flex", gap: 24 }}>
               {[
-                { name: "Mentions légales", path: "/legal/mentions-legales" },
-                { name: "Confidentialité", path: "/legal/confidentialite" },
-                { name: "CGU", path: "/legal/cgu" }
+                { name: "Mentions légales", path: "/templates/impact-89/legal/mentions-legales" },
+                { name: "Confidentialité", path: "/templates/impact-89/legal/confidentialite" },
+                { name: "CGU", path: "/templates/impact-89/legal/cgu" }
               ].map((item) => (
                 <Link key={item.name} href={item.path} style={{ fontFamily: FONT_MONO, fontSize: 10, color: C.textDim, textDecoration: "none", letterSpacing: 2, textTransform: "uppercase" }}>
                   {item.name}

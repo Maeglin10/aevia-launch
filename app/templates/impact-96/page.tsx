@@ -2480,9 +2480,9 @@ export default function UrbanPulsePage() {
             </div>
             <div style={{ display: "flex", gap: 24 }}>
               {[
-                { label: "Mentions légales", href: "/legal/mentions-legales" },
-                { label: "Confidentialité", href: "/legal/confidentialite" },
-                { label: "CGV", href: "/legal/cgu" },
+                { label: "Mentions légales", href: "/templates/impact-96/legal/mentions-legales" },
+                { label: "Confidentialité", href: "/templates/impact-96/legal/confidentialite" },
+                { label: "CGV", href: "/templates/impact-96/legal/cgu" },
               ].map((link) => (
                 <Link
                   key={link.label}

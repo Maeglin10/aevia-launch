@@ -59,7 +59,7 @@ const ARRANGEMENTS = [
     season: "Été",
     price: "195€",
     description: "Composition estivale aux roses centifolia et pivoines pêche, cueillie au lever du soleil.",
-    image: "https://picsum.photos/seed/fragrance/800/800",
+    image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&q=80",
     tag: "Exclusif",
   },
   {
@@ -86,7 +86,7 @@ const ARRANGEMENTS = [
     season: "Été",
     price: "220€",
     description: "Élégance orientale : lys Casa Blanca immaculés entre bambous lacqués et orchidées blanches.",
-    image: "https://picsum.photos/seed/fragrance/800/800",
+    image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&q=80",
     tag: "Signature",
   },
   {
@@ -524,7 +524,7 @@ export default function Impact94Page() {
         {/* Parallax Image */}
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
-            src="https://picsum.photos/seed/fragrance/1800/1125"
+            src="https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=1600&q=80"
             alt="Bouquet de fleurs botanica"
             fill
             className="object-cover"
@@ -846,7 +846,7 @@ export default function Impact94Page() {
                 </div>
                 <div className="absolute -bottom-8 -right-8 w-56 h-56 overflow-hidden border-4 border-[#FAFAF9]">
                   <Image
-                    src="https://picsum.photos/seed/fragrance/400/800"
+                    src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800&q=80"
                     alt="Détail floral"
                     fill
                     className="object-cover"
@@ -1161,9 +1161,9 @@ export default function Impact94Page() {
 
           <div className="flex items-center gap-4">
             {[
-              { label: "Confidentialité", href: "/legal/confidentialite" },
-              { label: "CGV", href: "/legal/cgu" },
-              { label: "Mentions", href: "/legal/mentions-legales" },
+              { label: "Confidentialité", href: "/templates/impact-94/legal/confidentialite" },
+              { label: "CGV", href: "/templates/impact-94/legal/cgu" },
+              { label: "Mentions", href: "/templates/impact-94/legal/mentions-legales" },
             ].map((link) => (
               <Link
                 key={link.label}

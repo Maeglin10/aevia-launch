@@ -567,9 +567,9 @@ export default function AetherLabsPage() {
             <span>© 2024 Aether Labs — Tous droits réservés</span>
             <div className="flex gap-6">
               {[
-                { name: "Mentions légales", path: "/templates/impact-85/legal/mentions-legales" },
-                { name: "CGU", path: "/templates/impact-85/legal/cgu" },
-                { name: "Confidentialité", path: "/templates/impact-85/legal/confidentialite" }
+                { name: "Mentions légales", path: "/templates/impact-85/templates/impact-85/legal/mentions-legales" },
+                { name: "CGU", path: "/templates/impact-85/templates/impact-85/legal/cgu" },
+                { name: "Confidentialité", path: "/templates/impact-85/templates/impact-85/legal/confidentialite" }
               ].map(l => (
                 <Link key={l.name} href={l.path} className="hover:text-[#F8F6F2] transition-colors cursor-pointer">{l.name}</Link>
               ))}
