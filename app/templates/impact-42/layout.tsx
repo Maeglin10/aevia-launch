@@ -203,9 +203,9 @@ export default function EchoChamberLayout({ children }: { children: React.ReactN
                 title: "Infos",
                 links: [
                   { label: "Contact", href: "/templates/impact-42/contact" },
-                  { label: "Mentions légales", href: "/legal/mentions-legales" },
-                  { label: "Confidentialité", href: "/legal/confidentialite" },
-                  { label: "CGU", href: "/legal/cgu" },
+                  { label: "Mentions légales", href: "/templates/impact-42/legal/mentions-legales" },
+                  { label: "Confidentialité", href: "/templates/impact-42/legal/confidentialite" },
+                  { label: "CGU", href: "/templates/impact-42/legal/cgu" },
                 ],
               },
             ].map((col) => (

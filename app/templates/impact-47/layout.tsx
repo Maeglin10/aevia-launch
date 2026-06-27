@@ -44,8 +44,8 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
     {
       title: "Infos",
       links: [
-        { label: "CGU", href: "/legal/cgu" },
-        { label: "Mentions légales", href: "/legal/mentions-legales" },
+        { label: "CGU", href: "/templates/impact-47/legal/cgu" },
+        { label: "Mentions légales", href: "/templates/impact-47/legal/mentions-legales" },
         { label: "Contact", href: "/templates/impact-47/contact" },
         { label: "Blog", href: "/templates/impact-47/blog" },
       ],
