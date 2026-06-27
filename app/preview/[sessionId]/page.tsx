@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { getSessionFromBlob } from "@/lib/sessions";
 import { buildLocalBusinessSchema } from "@/lib/seo";
 import PreviewClient from "./PreviewClient";
@@ -23,6 +24,8 @@ export default async function PreviewPage({ params }: { params: Promise<{ sessio
   const session = await getSessionFromBlob(sessionId);
   const localBusinessSchema = session ? buildLocalBusinessSchema(session) : null;
 
+  const ga4Id = session?.formData?.ga4Id;
+
   return (
     <>
       {localBusinessSchema && (
@@ -30,6 +33,17 @@ export default async function PreviewPage({ params }: { params: Promise<{ sessio
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
         />
+      )}
+      {ga4Id && (
+        <>
+          <Script src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`} strategy="afterInteractive" />
+          <Script id={`ga4-preview-${sessionId}`} strategy="afterInteractive">{`
+            window.dataLayer=window.dataLayer||[];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js',new Date());
+            gtag('config','${ga4Id}');
+          `}</Script>
+        </>
       )}
       <PreviewClient sessionId={sessionId} />
     </>

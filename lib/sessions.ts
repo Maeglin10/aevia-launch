@@ -26,6 +26,8 @@ export interface FormData {
   phone?: string;
   instagram?: string;
   linkedin?: string;
+  // Analytics (optional)
+  ga4Id?: string;
 }
 
 export interface GeneratedContent {
