@@ -259,111 +259,7 @@ function PastaThreadSVG() {
           pointerEvents: "none",
         }}
       />
-      <svg
-        ref={ref}
-        viewBox="0 0 280 280"
-        width={320}
-        height={320}
-        style={{ overflow: "visible" }}
-      >
-        {/* Plate outer rim */}
-        <motion.circle
-          cx="140" cy="140" r="132"
-          fill="none"
-          stroke={C.gold}
-          strokeWidth="2"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={inView ? { pathLength: 1, opacity: 1 } : {}}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-        />
-        {/* Plate inner rim */}
-        <motion.circle
-          cx="140" cy="140" r="118"
-          fill="rgba(240,235,224,0.07)"
-          stroke="rgba(201,168,108,0.25)"
-          strokeWidth="1"
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.3 }}
-        />
-        {/* Plate face */}
-        <circle cx="140" cy="140" r="117" fill="rgba(250,248,243,0.06)" />
-
-        {/* Pasta shadow blur */}
-        <motion.ellipse
-          cx="140" cy="155" rx="62" ry="18"
-          fill="rgba(30,18,8,0.22)"
-          initial={{ opacity: 0, scaleX: 0.4 }}
-          animate={inView ? { opacity: 1, scaleX: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          style={{ transformOrigin: "140px 155px" }}
-        />
-
-        {/* Pasta strands */}
-        {PASTA_STRANDS.map((d, i) => (
-          <motion.path
-            key={i}
-            d={d}
-            fill="none"
-            stroke={i % 3 === 0 ? C.terracotta : i % 3 === 1 ? C.gold : "#D4A76A"}
-            strokeWidth={i % 2 === 0 ? 2.5 : 2}
-            strokeLinecap="round"
-            initial={{ pathLength: 0, opacity: 0, rotate: -8 }}
-            animate={inView ? { pathLength: 1, opacity: 1, rotate: 0 } : {}}
-            transition={{
-              pathLength: { duration: 1.1, delay: 0.7 + i * 0.12, ease: [0.16, 1, 0.3, 1] },
-              opacity: { duration: 0.3, delay: 0.7 + i * 0.12 },
-              rotate: { duration: 0.9, delay: 0.7 + i * 0.12, ease: "easeOut" },
-            }}
-            style={{ transformOrigin: "140px 155px" }}
-          />
-        ))}
-
-        {/* Basil leaf group — fades in after strands */}
-        <motion.g
-          initial={{ opacity: 0, scale: 0.3 }}
-          animate={inView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.7, delay: 2.2, ease: "backOut" }}
-          style={{ transformOrigin: "158px 128px" }}
-        >
-          {/* leaf 1 */}
-          <ellipse cx="152" cy="126" rx="10" ry="5" fill="#4A7C4E" transform="rotate(-30, 152, 126)" />
-          {/* leaf 2 */}
-          <ellipse cx="164" cy="122" rx="9" ry="4.5" fill="#3D6B42" transform="rotate(20, 164, 122)" />
-          {/* leaf stem */}
-          <line x1="154" y1="130" x2="160" y2="136" stroke="#3D6B42" strokeWidth="1.5" strokeLinecap="round" />
-          {/* leaf vein 1 */}
-          <line x1="147" y1="124" x2="157" y2="126" stroke="rgba(255,255,255,0.25)" strokeWidth="0.8" />
-        </motion.g>
-
-        {/* Center nest swirl */}
-        <motion.circle
-          cx="140" cy="155" r="22"
-          fill="none"
-          stroke={C.terracotta}
-          strokeWidth="2.5"
-          strokeDasharray="4 6"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={inView ? { pathLength: 1, opacity: 0.6 } : {}}
-          transition={{ duration: 1.2, delay: 1.6, ease: "easeOut" }}
-        />
-
-        {/* Parmesan flecks */}
-        {[
-          { cx: 118, cy: 148 }, { cx: 160, cy: 136 }, { cx: 130, cy: 170 },
-          { cx: 148, cy: 175 }, { cx: 165, cy: 160 }, { cx: 112, cy: 162 },
-        ].map((pt, i) => (
-          <motion.circle
-            key={i}
-            cx={pt.cx} cy={pt.cy} r="2"
-            fill={C.gold}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={inView ? { opacity: 0.7, scale: 1 } : {}}
-            transition={{ duration: 0.4, delay: 2.0 + i * 0.08 }}
-            style={{ transformOrigin: `${pt.cx}px ${pt.cy}px` }}
-          />
-        ))}
-      </svg>
+      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80" alt="Portrait" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
     </div>
   );
 }
@@ -842,24 +738,7 @@ export default function ImpactRestaurantPage() {
         />
 
         {/* SVG pasta watermark */}
-        <svg
-          style={{
-            position: "absolute",
-            right: "5%",
-            top: "50%",
-            transform: "translateY(-50%)",
-            opacity: 0.05,
-            width: "min(340px, 40vw)",
-            height: "auto",
-            pointerEvents: "none",
-          }}
-          viewBox="0 0 200 200"
-        >
-          {[0, 30, 60, 90, 120, 150].map((r, i) => (
-            <ellipse key={i} cx="100" cy="100" rx="90" ry="20" fill="none" stroke="#C9A86C" strokeWidth="1.5" transform={`rotate(${r}, 100, 100)`} />
-          ))}
-          <circle cx="100" cy="100" r="92" fill="none" stroke="#C9A86C" strokeWidth="1.5" />
-        </svg>
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80" alt="Portrait" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
 
         {/* Hero content */}
         <div
