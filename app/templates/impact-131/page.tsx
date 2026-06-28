@@ -1400,10 +1400,11 @@ export default function WineryTemplate() {
                 overflow: "hidden",
               }}
             >
-              <svg viewBox="0 0 240 320" style={{ width: "60%", height: "60%", opacity: 0.18 }}>
-                <ellipse cx={120} cy={110} rx={55} ry={65} fill={C.burgundy} />
-                <path d="M 50 280 C 50 200, 190 200, 190 280" fill={C.burgundy} />
-              </svg>
+              <img
+                src="https://images.unsplash.com/photo-1560493676-04071c5f467b?w=800&q=80"
+                alt="Jean-Pierre Valroc"
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
               <div
                 style={{
                   position: "absolute",

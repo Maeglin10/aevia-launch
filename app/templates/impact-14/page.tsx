@@ -135,6 +135,7 @@ const globalStyles = `
 ───────────────────────────────────────────── */
 interface Destination {
   name: string;
+  image?: string;
   region: string;
   tagline: string;
   gradient: string;
@@ -490,6 +491,13 @@ function DestinationCard({
         (e.currentTarget as HTMLDivElement).style.boxShadow = "none";
       }}
     >
+      {dest.image && (
+        <img
+          src={dest.image}
+          alt={dest.name}
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+        />
+      )}
       {/* Gradient overlay */}
       <div
         style={{
@@ -1469,7 +1477,8 @@ export default function HorizonMaritimePage() {
           {/* View all link */}
           <Reveal>
             <div style={{ display: "flex", justifyContent: "center", marginTop: "3rem" }}>
-              <button
+              <Link
+                href="/templates/impact-14/destinations"
                 style={{
                   fontFamily: "Montserrat, sans-serif",
                   fontSize: 10,
@@ -1481,13 +1490,14 @@ export default function HorizonMaritimePage() {
                   letterSpacing: 3,
                   textTransform: "uppercase",
                   cursor: "pointer",
-                  display: "flex",
+                  display: "inline-flex",
                   alignItems: "center",
                   gap: "0.75rem",
+                  textDecoration: "none",
                 }}
               >
                 All 87 Destinations <ArrowRight size={12} />
-              </button>
+              </Link>
             </div>
           </Reveal>
         </div>
