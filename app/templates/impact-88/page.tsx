@@ -32,7 +32,393 @@ import {
 } from "lucide-react"
 
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
-  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80" alt="Portrait" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <circle cx="12" cy="12" r="5"/>
+    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+  </svg>
+);
+
+/* ==========================================================================
+   FONTS
+   ========================================================================== */
+const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');`
+
+function useFonts() {
+  useEffect(() => {
+    if (typeof document === "undefined") return
+    const existing = document.querySelector('style[data-impact88-fonts]')
+    if (existing) return
+    const el = document.createElement("style")
+    el.setAttribute("data-impact88-fonts", "1")
+    el.textContent = FONTS
+    document.head.appendChild(el)
+    return () => { document.head.removeChild(el) }
+  }, [])
+}
+
+/* ==========================================================================
+   DESIGN TOKENS
+   ========================================================================== */
+const C = {
+  bg:        "#FDF2F8",
+  bgCard:    "#FFF0F6",
+  bgDeep:    "#FCE7F3",
+  primary:   "#EC4899",
+  secondary: "#8B5CF6",
+  text:      "#831843",
+  textSoft:  "#9D174D",
+  textMuted: "#BE185D",
+  textLight: "#F9A8D4",
+  border:    "rgba(236,72,153,0.15)",
+  borderSoft:"rgba(139,92,246,0.12)",
+  white:     "#FFFFFF",
+  shadow:    "rgba(236,72,153,0.12)",
+}
+
+/* ==========================================================================
+   DATA
+   ========================================================================== */
+const NAV_LINKS = ["Concept", "Portfolio", "Services", "Artistes", "FAQ", "Contact"]
+
+const PORTFOLIO_FILTERS = ["Tout", "Gel", "Nail Art", "French", "Extensions", "Seasonal"]
+
+const PORTFOLIO_ITEMS = [
+  { id: 1, category: "Nail Art", title: "Fleurs de Cerisier", desc: "Aquarelle sur base nude rosée", accent: "#FBCFE8", img: "photo-1604654894610-df63bc536371" },
+  { id: 2, category: "Gel",      title: "Rose Velours",       desc: "Gel couleur longue tenue",      accent: "#EC4899", img: "photo-1522337360788-8b13dee7a37e" },
+  { id: 3, category: "French",   title: "French Classique",   desc: "Pointe blanche parfaite",       accent: "#FDF4FF", img: "photo-1604654894610-df63bc536371" },
+  { id: 4, category: "Extensions","title": "Extensions Stiletto","desc": "Forme pointue couture",    accent: "#A855F7", img: "photo-1522337360788-8b13dee7a37e" },
+  { id: 5, category: "Seasonal", title: "Collection Printemps","desc": "Fleurs & pastel",            accent: "#F9A8D4", img: "photo-1604654894610-df63bc536371" },
+  { id: 6, category: "Nail Art", title: "Géométrie Lavande",  desc: "Lignes précises, violet doux", accent: "#8B5CF6", img: "photo-1522337360788-8b13dee7a37e" },
+  { id: 7, category: "Gel",      title: "Bordeaux Intense",   desc: "Gel semi-permanent vibrant",   accent: "#BE185D", img: "photo-1604654894610-df63bc536371" },
+  { id: 8, category: "French",   title: "French Ombré",       desc: "Fondu rose à ivoire",          accent: "#F0ABFC", img: "photo-1522337360788-8b13dee7a37e" },
+  { id: 9, category: "Seasonal", title: "Hiver Nacré",        desc: "Nacre & paillettes fines",     accent: "#C084FC", img: "photo-1604654894610-df63bc536371" },
+]
+
+const SERVICES = [
+  { id: 1, name: "Pose Gel Couleur",    price: "45€",  duration: "60 min",  desc: "Application longue tenue avec finition brillante ou mate. Tient 3 semaines sans éclats." },
+  { id: 2, name: "Nail Art Complet",    price: "85€",  duration: "90 min",  desc: "Création sur-mesure : aquarelle, géométrie, 3D, floraux. Consultation design incluse." },
+  { id: 3, name: "French Manucure",     price: "35€",  duration: "45 min",  desc: "La French classique ou revisitée avec notre signature pointe couleur." },
+  { id: 4, name: "Soin Japonais",       price: "55€",  duration: "75 min",  desc: "Traitement kératine premium : ongles renforcés, cuticules nourries, brillance naturelle." },
+  { id: 5, name: "Extensions Résine",   price: "75€",  duration: "90 min",  desc: "Extensions légères et naturelles, sculpteées à la forme de votre choix." },
+  { id: 6, name: "Dépose + Soin",       price: "40€",  duration: "45 min",  desc: "Dépose soignée du produit + bain nourrissant + évaluation santé de l'ongle." },
+]
+
+const ARTISTS = [
+  {
+    id: 1,
+    name: "Sophie Leroux",
+    title: "Fondatrice & Nail Artist",
+    specialty: "Nail Art Artistique",
+    certs: ["CND Shellac Expert", "OPI Pro", "Nail Art Avancé"],
+    bio: "10 ans de passion pour l'ongle parfait. Spécialiste des créations complexes et des styles uniques.",
+    color: C.primary,
+    img: "photo-1522337360788-8b13dee7a37e",
+  },
+  {
+    id: 2,
+    name: "Clara Dubois",
+    title: "Technicienne Gel & Extensions",
+    specialty: "Gel & Extensions Résine",
+    certs: ["Bio Sculpture Certified", "Gelish Master", "Hygiène Pro"],
+    bio: "Experte en pose gel et extensions. Ses poses tiennent 4 semaines et restent parfaitement lisses.",
+    color: C.secondary,
+    img: "photo-1604654894610-df63bc536371",
+  },
+  {
+    id: 3,
+    name: "Amélie Martin",
+    title: "Spécialiste Soins & French",
+    specialty: "Soins & French Signature",
+    certs: ["Japonais Kératine", "CND Vinylux", "Aromathérapie"],
+    bio: "Passionnée de soins de l'ongle naturel. Chaque consultation commence par un diagnostic précis.",
+    color: "#EC4899",
+    img: "photo-1522337360788-8b13dee7a37e",
+  },
+]
+
+const BOOKING_STEPS = [
+  { icon: Sparkles,  label: "Choisir service",    desc: "Sélectionnez parmi 6 prestations" },
+  { icon: Users,     label: "Artiste",             desc: "Choisissez votre nail artist" },
+  { icon: Calendar,  label: "Date & Heure",        desc: "Créneaux disponibles en temps réel" },
+  { icon: Check,     label: "Confirmer",           desc: "Confirmation SMS + email instantanée" },
+]
+
+const BRANDS = [
+  { name: "OPI",          detail: "Vernis professionnels" },
+  { name: "CND Shellac",  detail: "Gel longue tenue #1 mondial" },
+  { name: "Bio Sculpture","detail": "Extensions gel naturel" },
+  { name: "Gelish",       detail: "Gel premium UV/LED" },
+]
+
+const TESTIMONIALS = [
+  { name: "Marie-Claire B.", avatar: "M", stars: 5, service: "Nail Art Complet", quote: "Un véritable atelier d'art sur mes ongles. Sophie a recréé exactement ce que j'avais en tête. Je n'irai jamais ailleurs." },
+  { name: "Juliette P.",     avatar: "J", stars: 5, service: "Pose Gel Couleur", quote: "3 semaines plus tard, pas une seule petite éclat. La qualité est incomparable à tout ce que j'ai connu." },
+  { name: "Océane R.",       avatar: "O", stars: 5, service: "Soin Japonais",    quote: "Mes ongles naturels n'ont jamais été aussi forts. Le soin japonais est un must absolu !" },
+  { name: "Camille T.",      avatar: "C", stars: 5, service: "Extensions Résine","quote": "Extensions ultra-légères, forme parfaite. Tout le monde me demande si c'est mes vrais ongles." },
+]
+
+const FULL_PRICES = [
+  {
+    category: "Manucures & Soins",
+    items: [
+      { name: "Manucure Express",       price: "25€" },
+      { name: "Manucure Complète",      price: "35€" },
+      { name: "Soin Japonais",          price: "55€" },
+      { name: "Soin Paraffine",         price: "45€" },
+      { name: "Dépose + Soin",          price: "40€" },
+    ],
+  },
+  {
+    category: "Gel & Semi-permanent",
+    items: [
+      { name: "Pose Gel Couleur",       price: "45€" },
+      { name: "Remplissage Gel",        price: "35€" },
+      { name: "French Gel",             price: "55€" },
+      { name: "Gel + Nail Art Simple",  price: "65€" },
+    ],
+  },
+  {
+    category: "Extensions",
+    items: [
+      { name: "Extensions Résine",      price: "75€" },
+      { name: "Extensions Gel dur",     price: "80€" },
+      { name: "Remplissage Extensions", price: "55€" },
+      { name: "Forme + Sculpture",      price: "90€" },
+    ],
+  },
+  {
+    category: "Nail Art",
+    items: [
+      { name: "Nail Art Simple (2 ongles)", price: "15€" },
+      { name: "Nail Art Complet",           price: "85€" },
+      { name: "3D & Reliefs",               price: "95€+" },
+      { name: "Aquarelle Full Design",      price: "100€+" },
+    ],
+  },
+]
+
+/* ==========================================================================
+   HELPER COMPONENTS
+   ========================================================================== */
+
+function Reveal({
+  children,
+  delay = 0,
+  y = 32,
+  x = 0,
+  className = "",
+}: {
+  children: React.ReactNode
+  delay?: number
+  y?: number
+  x?: number
+  className?: string
+}) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y, x }}
+      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
+      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function StarRating({ count = 5 }: { count?: number }) {
+  return (
+    <div className="flex gap-[3px]">
+      {Array.from({ length: count }).map((_, i) => (
+        <Star key={i} className="w-3.5 h-3.5 fill-[#EC4899] text-[#EC4899]" />
+      ))}
+    </div>
+  )
+}
+
+/* ==========================================================================
+   SCROLL PROGRESS BAR
+   ========================================================================== */
+function ScrollProgressBar() {
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 })
+  return (
+    <motion.div
+      style={{ scaleX, transformOrigin: "left" }}
+      className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] z-[100]"
+    />
+  )
+}
+
+/* ==========================================================================
+   NAV
+   ========================================================================== */
+function Nav() {
+  const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
+  const navBg = scrolled
+    ? "bg-white/90 backdrop-blur-xl shadow-[0_2px_24px_rgba(236,72,153,0.08)]"
+    : "bg-transparent"
+
+  return (
+    <>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${navBg}`}
+        style={{ paddingTop: scrolled ? 0 : 0 }}
+      >
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-10 h-[68px] flex items-center justify-between">
+          {/* Logo */}
+          <Link href="#hero" className="flex items-center gap-2.5">
+            <Sparkles className="w-5 h-5 text-[#EC4899]" />
+            <span
+              className="text-[22px] font-[500] italic text-[#831843] tracking-wide"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              VELVET
+            </span>
+            <span
+              className="text-[10px] font-[600] uppercase tracking-[0.3em] text-[#BE185D] mt-1"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Nails
+            </span>
+          </Link>
+
+          {/* Desktop links */}
+          <div className="hidden lg:flex items-center gap-8">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link}
+                href={`#${link.toLowerCase()}`}
+                className="text-[13px] font-[400] text-[#9D174D] hover:text-[#EC4899] transition-colors duration-200 tracking-wide"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                {link}
+              </Link>
+            ))}
+            <Link href="#contact" className="ml-2 px-6 py-2.5 bg-[#EC4899] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all duration-200 shadow-[0_4px_16px_rgba(236,72,153,0.35)] text-center"
+              style={{ fontFamily: "'Inter', sans-serif" }}>
+              Réserver
+            </Link>
+          </div>
+
+          {/* Mobile burger */}
+          <button
+            className="lg:hidden p-2 text-[#831843]"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label="Menu"
+          >
+            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile drawer */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+            className="fixed inset-0 z-40 bg-white flex flex-col pt-[80px] px-8 pb-12"
+          >
+            <div className="flex flex-col gap-6 flex-1">
+              {NAV_LINKS.map((link, i) => (
+                <motion.div key={link} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}>
+                  <Link
+                    href={`#${link.toLowerCase()}`}
+                    className="text-left text-[28px] font-[500] italic text-[#831843] hover:text-[#EC4899] transition-colors"
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {link}
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+            <Link
+              href="#contact"
+              onClick={() => setMobileOpen(false)}
+              className="w-full py-4 bg-[#EC4899] text-white text-[14px] font-[600] uppercase tracking-[0.15em] rounded-full shadow-[0_4px_20px_rgba(236,72,153,0.35)] text-center"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Réserver en ligne
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  )
+}
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+function Hero() {
+  const heroRef = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  })
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
+
+  return (
+    <section id="hero"
+      ref={heroRef}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+    >
+      {/* Parallax gradient bg */}
+      <motion.div
+        style={{ y: bgY }}
+        className="absolute inset-0 z-0"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-[#FDF2F8] via-[#FCE7F3] to-[#F5D0FE]" />
+        {/* Radial petal accents */}
+        <div className="absolute top-[10%] left-[8%] w-[420px] h-[420px] bg-[#EC4899]/8 rounded-full blur-[80px]" />
+        <div className="absolute bottom-[15%] right-[10%] w-[380px] h-[380px] bg-[#8B5CF6]/10 rounded-full blur-[90px]" />
+        <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#F9A8D4]/12 rounded-full blur-[120px]" />
+      </motion.div>
+
+      {/* Floating nail art blobs */}
+      {[
+        { left: "6%",  top: "18%", size: 56, delay: 0,   duration: 5 },
+        { left: "88%", top: "14%", size: 40, delay: 0.8, duration: 4.5 },
+        { left: "4%",  top: "70%", size: 32, delay: 1.2, duration: 6 },
+        { left: "90%", top: "65%", size: 48, delay: 0.4, duration: 5.5 },
+        { left: "48%", top: "6%",  size: 24, delay: 1,   duration: 7 },
+      ].map((blob, i) => (
+        <motion.div
+          key={i}
+          className="absolute z-[1] pointer-events-none"
+          style={{ left: blob.left, top: blob.top }}
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 0.22, scale: 1 }}
+          transition={{ duration: 1, delay: blob.delay }}
+        >
+          <motion.div
+            animate={{ y: [-10, 10, -10] }}
+            transition={{ duration: blob.duration, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <svg width={blob.size} height={blob.size * 1.4} viewBox="0 0 24 34" fill="none">
+              <path
+                d="M12 2C7 2 3 7 3 12 L3 26 C3 29 5.6 32 9 32 L15 32 C18.4 32 21 29 21 26 L21 12 C21 7 17 2 12 2 Z"
+                fill="#EC4899"
+              />
+              <ellipse cx="8.5" cy="9" rx="2.5" ry="4" fill="white" fillOpacity="0.15" />
+            </svg>
           </motion.div>
         </motion.div>
       ))}
