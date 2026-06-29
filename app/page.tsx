@@ -15,10 +15,10 @@ import { LegalFooter } from "@/components/LegalFooter";
 const HERO_T = {
   fr: {
     badge: "Sites livrés en 2 heures",
-    pre: "Votre",
-    post: "en ligne aujourd'hui.",
-    rotate: ["Landing Page", "E-commerce", "Site vitrine", "Portfolio"],
-    sub: "Notre IA rédige votre contenu, vous choisissez un thème, on lance en 2 heures. C'est tout.",
+    pre: "Notre IA rédige vos contenus.",
+    post: "On lance.",
+    rotate: ["Vous choisissez le thème.", "Vous nous parlez.", "On personnalise.", "Votre site est en ligne."],
+    sub: "Vous nous parlez de votre activité → nous vous proposons des thèmes adaptés → nous personnalisons → votre site est en ligne en 2h.",
     cta1: "Créer mon site",
     cta2: "Voir les thèmes",
     free: "Aperçu gratuit · sans carte bancaire",
@@ -36,10 +36,10 @@ const HERO_T = {
   },
   en: {
     badge: "Websites delivered in 2 hours",
-    pre: "Your",
-    post: "online today.",
-    rotate: ["Landing Page", "Online Store", "Business Site", "Portfolio"],
-    sub: "Our AI writes your content, you pick a theme, we launch in 2 hours. That's it.",
+    pre: "Our AI writes your content.",
+    post: "We launch.",
+    rotate: ["You pick the theme.", "Tell us about you.", "We customise.", "Your site goes live."],
+    sub: "Tell us about your business → we suggest matching themes → we customise → your site is live in 2h.",
     cta1: "Build my site",
     cta2: "Browse themes",
     free: "Free preview · no credit card required",
@@ -57,10 +57,10 @@ const HERO_T = {
   },
   es: {
     badge: "Sitios web entregados en 2 horas",
-    pre: "Tu",
-    post: "online hoy.",
-    rotate: ["Landing Page", "Tienda Online", "Sitio Web", "Portfolio"],
-    sub: "Nuestra IA escribe el contenido, tú eliges el tema, lanzamos en 2 horas. Así de simple.",
+    pre: "Nuestra IA redacta su contenido.",
+    post: "Lanzamos.",
+    rotate: ["Elige el tema.", "Cuéntanos tu negocio.", "Personalizamos.", "Tu sitio está en línea."],
+    sub: "Nos hablas de tu negocio → te proponemos temas adaptados → personalizamos → tu sitio está en línea en 2h.",
     cta1: "Crear mi sitio",
     cta2: "Ver temas",
     free: "Vista previa gratis · sin tarjeta",
@@ -78,10 +78,10 @@ const HERO_T = {
   },
   de: {
     badge: "Websites in 2 Stunden geliefert",
-    pre: "Deine",
-    post: "heute online.",
-    rotate: ["Landing Page", "Online-Shop", "Firmenwebsite", "Portfolio"],
-    sub: "Unsere KI schreibt den Inhalt, du wählst ein Theme, wir launchen in 2 Stunden.",
+    pre: "Unsere KI schreibt Ihren Content.",
+    post: "Wir launchen.",
+    rotate: ["Sie wählen das Theme.", "Erzählen Sie uns.", "Wir passen an.", "Ihre Website ist live."],
+    sub: "Erzählen Sie uns von Ihrem Unternehmen → wir schlagen passende Themes vor → wir passen an → Ihre Website ist in 2h live.",
     cta1: "Meine Website erstellen",
     cta2: "Themes ansehen",
     free: "Kostenlose Vorschau · keine Kreditkarte",
@@ -99,10 +99,10 @@ const HERO_T = {
   },
   pt: {
     badge: "Sites entregues em 2 horas",
-    pre: "O seu",
-    post: "online hoje.",
-    rotate: ["Landing Page", "Loja Online", "Site Vitrine", "Portfolio"],
-    sub: "A nossa IA escreve o conteúdo, você escolhe o tema, lançamos em 2 horas. Simples assim.",
+    pre: "Nossa IA redige seus conteúdos.",
+    post: "Lançamos.",
+    rotate: ["Você escolhe o tema.", "Fale-nos de si.", "Personalizamos.", "O seu site fica online."],
+    sub: "Fala-nos do seu negócio → propomos temas adaptados → personalizamos → o seu site fica online em 2h.",
     cta1: "Criar o meu site",
     cta2: "Ver temas",
     free: "Pré-visualização grátis · sem cartão",
@@ -861,8 +861,8 @@ function HeroSection() {
               <div className="relative overflow-hidden bg-zinc-900" style={{ height: 420 }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/thumbnails/impact-01.webp"
-                  alt="Aperçu d'un site Aevia Launch"
+                  src="/thumbnails/impact-04.webp"
+                  alt="Aperçu d'un site Aevia Launch — Impact 04"
                   className="w-full h-full object-cover object-top"
                   loading="eager"
                 />
