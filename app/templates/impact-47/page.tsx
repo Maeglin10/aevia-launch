@@ -162,9 +162,18 @@ function CollectionsSection() {
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = C.borderAccent; (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)"; (e.currentTarget as HTMLElement).style.transition = "all 0.2s"; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = C.border; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}
                   >
-                    <div style={{ height: 200, background: `linear-gradient(135deg, ${C.blush}, rgba(244,143,177,0.4))`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 24 }}>
-                      <Camera size={36} color={C.borderAccent} />
-                    </div>
+                    {arrangement.image ? (
+                      <img
+                        src={arrangement.image}
+                        alt={arrangement.name}
+                        style={{ width: "100%", height: 200, objectFit: "cover", display: "block", marginBottom: 24 }}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div style={{ height: 200, background: `linear-gradient(135deg, ${C.blush}, rgba(244,143,177,0.4))`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 24 }}>
+                        <Camera size={36} color={C.borderAccent} />
+                      </div>
+                    )}
                     <div style={{ padding: "0 24px" }}>
                       <h3 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 18, color: C.text, margin: "0 0 8px", fontWeight: 700 }}>{arr.name}</h3>
                       <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 14, color: C.textMuted, lineHeight: 1.6, margin: "0 0 16px" }}>{arr.desc}</p>

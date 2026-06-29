@@ -21,8 +21,19 @@ function ShopCard({ p, i, onOpen }: { p: typeof PRODUCTS[0]; i: number; onOpen: 
       onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = C.borderAccent; (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)"; }}
       onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = C.border; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}
     >
-      <div style={{ height: 220, background: `linear-gradient(135deg, ${p.colors[0]}, ${p.colors[1]})`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 24, position: "relative" }}>
-        <Camera size={34} color="rgba(255,255,255,0.55)" />
+      <div style={{ height: 220, position: "relative", marginBottom: 24, overflow: "hidden" }}>
+        {p.image ? (
+          <img
+            src={p.image}
+            alt={p.name}
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            loading="lazy"
+          />
+        ) : (
+          <div style={{ height: "100%", background: `linear-gradient(135deg, ${p.colors[0]}, ${p.colors[1]})`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Camera size={34} color="rgba(255,255,255,0.55)" />
+          </div>
+        )}
         {p.tag && (
           <div style={{ position: "absolute", top: 14, left: 14, background: p.tagType ? tagColors[p.tagType] : C.accent, color: C.white, padding: "4px 10px", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", fontFamily: SANS, textTransform: "uppercase" as const }}>{p.tag}</div>
         )}
@@ -62,9 +73,20 @@ function ProductDetail({ p, onBack, onAddToCart }: { p: typeof PRODUCTS[0]; onBa
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "clamp(32px, 5vw, 72px)", alignItems: "start" }}>
           <motion.div
             initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}
-            style={{ height: "clamp(380px, 56vw, 560px)", background: `linear-gradient(135deg, ${p.colors[activeColor]}, ${p.colors[(activeColor + 1) % p.colors.length]})`, border: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}
+            style={{ height: "clamp(380px, 56vw, 560px)", border: `1px solid ${C.border}`, position: "relative", overflow: "hidden" }}
           >
-            <Camera size={48} color="rgba(255,255,255,0.5)" />
+            {p.image ? (
+              <img
+                src={p.image}
+                alt={p.name}
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                loading="lazy"
+              />
+            ) : (
+              <div style={{ width: "100%", height: "100%", background: `linear-gradient(135deg, ${p.colors[activeColor]}, ${p.colors[(activeColor + 1) % p.colors.length]})`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Camera size={48} color="rgba(255,255,255,0.5)" />
+              </div>
+            )}
             {p.tag && (<div style={{ position: "absolute", top: 18, left: 18, background: C.accent, color: C.white, padding: "5px 12px", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", fontFamily: SANS, textTransform: "uppercase" as const }}>{p.tag}</div>)}
           </motion.div>
           <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>

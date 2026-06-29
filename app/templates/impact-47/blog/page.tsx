@@ -23,7 +23,16 @@ export default function Blog() {
           ><ChevronLeft size={16} /> Tous les articles</button>
           <div style={{ fontFamily: SANS, fontSize: 11, color: C.sage, letterSpacing: "0.12em", textTransform: "uppercase" as const, marginBottom: 14 }}>{post.category} · {post.date}</div>
           <h1 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 52px)", color: C.accent, margin: "0 0 32px", fontWeight: 700, lineHeight: 1.1 }}>{post.title}</h1>
-          <div style={{ height: "clamp(220px, 38vw, 360px)", background: `linear-gradient(135deg, ${post.cover}, ${C.blush})`, border: `1px solid ${C.border}`, marginBottom: 40 }} />
+          {post.coverImage ? (
+            <img
+              src={post.coverImage}
+              alt={post.title}
+              style={{ width: "100%", height: "clamp(220px, 38vw, 360px)", objectFit: "cover", display: "block", border: `1px solid ${C.border}`, marginBottom: 40 }}
+              loading="lazy"
+            />
+          ) : (
+            <div style={{ height: "clamp(220px, 38vw, 360px)", background: `linear-gradient(135deg, ${post.cover}, ${C.blush})`, border: `1px solid ${C.border}`, marginBottom: 40 }} />
+          )}
           {post.body.map((paraTxt, i) => (
             <p key={i} style={{ fontFamily: SANS, fontSize: 17, color: C.textMuted, lineHeight: 1.9, marginBottom: 24 }}>{paraTxt}</p>
           ))}
@@ -47,7 +56,16 @@ export default function Blog() {
               onClick={() => { setBlogSlug(post.slug); if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "auto" }); }}
               style={{ background: C.bgCard, border: `1px solid ${C.border}`, cursor: "pointer", overflow: "hidden", display: "flex", flexDirection: "column" as const }}
             >
-              <div style={{ height: 190, background: `linear-gradient(135deg, ${post.cover}, ${C.blush})` }} />
+              {post.coverImage ? (
+                <img
+                  src={post.coverImage}
+                  alt={post.title}
+                  style={{ width: "100%", height: 190, objectFit: "cover", display: "block" }}
+                  loading="lazy"
+                />
+              ) : (
+                <div style={{ height: 190, background: `linear-gradient(135deg, ${post.cover}, ${C.blush})` }} />
+              )}
               <div style={{ padding: "24px 26px 28px" }}>
                 <div style={{ fontFamily: SANS, fontSize: 10, color: C.sage, letterSpacing: "0.1em", textTransform: "uppercase" as const, marginBottom: 12 }}>{post.category} · {post.date}</div>
                 <h2 style={{ fontFamily: SERIF, fontSize: 21, color: C.text, lineHeight: 1.3, margin: "0 0 14px", fontWeight: 700 }}>{post.title}</h2>
