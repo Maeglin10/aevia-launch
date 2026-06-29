@@ -45,7 +45,7 @@ export function LegalFooter({ variant = "dark" }: LegalFooterProps) {
             <Link href="/legal/cookies" className={linkCls}>
               Cookies
             </Link>
-            <a href="mailto:contact@aevia.io" className={linkCls}>
+            <a href="mailto:valentin.milliand@aevia.service" className={linkCls}>
               Contact
             </a>
           </nav>
