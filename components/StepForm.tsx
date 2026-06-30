@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useLang } from "@/lib/LangContext";
 import { INDUSTRIES, SECTORS, SECTOR_TEMPLATES, TEMPLATE_CITY_LABELS } from "@/lib/templates/sectors";
+import { SECTOR_EXTRA_QUESTIONS } from "@/lib/templates/sector-questions";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
 
 // Registry lookup by id — used in step 2 template cards
@@ -16,7 +17,7 @@ const REGISTRY_BY_ID = Object.fromEntries(
   TEMPLATES_REGISTRY.map((t) => [t.id, t])
 );
 
-const TOTAL_STEPS = 5;
+const TOTAL_STEPS = 6;
 
 // ─── i18n ────────────────────────────────────────────────────────────────────
 // UI chrome translations. Template *labels* stay as product names; their
@@ -29,8 +30,9 @@ type StepFormStrings = {
   s1SpecialtyTitle: string; s1SpecialtySub: string; s1ChangeIndustry: string;
   s2Title: string; s2Sub: string; s2Preview: string; s2Other: string;
   s3Title: string;
-  s4Title: string;
-  s5Title: string;
+  s4Title: string; s4SectorSub: string;
+  s5Title: string; s5Sub: string;
+  s6Title: string;
   fBusinessName: string; fWhatYouDo: string; fCity: string;
   fMainService: string; fBenefits: string; fPriceRange: string;
   fEmail: string; fPhone: string;
@@ -53,8 +55,9 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s1SpecialtyTitle: "Votre métier", s1SpecialtySub: "Précisez votre activité pour voir les designs qui vous correspondent.", s1ChangeIndustry: "← Changer de domaine",
     s2Title: "Votre design", s2Sub: "Designs créés pour votre métier. Choisissez celui qui vous correspond.", s2Preview: "Voir le thème", s2Other: "Autre activité ? Voir tous les thèmes →",
     s3Title: "Votre entreprise",
-    s4Title: "Votre offre",
-    s5Title: "Presque fini !",
+    s4Title: "Votre offre", s4SectorSub: "Ces questions permettent d'adapter le contenu à votre métier.",
+    s5Title: "Vos visuels", s5Sub: "Ajoutez votre logo et des photos pour personnaliser votre site.",
+    s6Title: "Presque fini !",
     fBusinessName: "Nom de l'entreprise", fWhatYouDo: "Ce que vous faites", fCity: "Ville",
     fMainService: "Service principal", fBenefits: "3 avantages clés", fPriceRange: "Gamme de prix",
     fEmail: "Adresse e-mail", fPhone: "Téléphone",
@@ -75,8 +78,9 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s1SpecialtyTitle: "Your profession", s1SpecialtySub: "Specify your activity to see the designs made for you.", s1ChangeIndustry: "← Change industry",
     s2Title: "Your design", s2Sub: "Designs built for your profession. Pick the one that fits.", s2Preview: "Preview theme", s2Other: "Different business? See all themes →",
     s3Title: "Your business",
-    s4Title: "Your offer",
-    s5Title: "Almost there!",
+    s4Title: "Your offer", s4SectorSub: "These questions help tailor the content to your profession.",
+    s5Title: "Your visuals", s5Sub: "Add your logo and photos to personalise your site.",
+    s6Title: "Almost there!",
     fBusinessName: "Business name", fWhatYouDo: "What you do", fCity: "City",
     fMainService: "Main service", fBenefits: "3 key benefits", fPriceRange: "Price range",
     fEmail: "Email address", fPhone: "Phone",
@@ -165,6 +169,9 @@ type FormState = {
   mainService: string; benefit1: string; benefit2: string; benefit3: string;
   priceRange: string;
   email: string; phone: string; ga4Id: string; gscVerification: string;
+  sectorData: Record<string, string>;
+  logoUrl: string;
+  photoUrls: string[];
 };
 
 const initial: FormState = {
@@ -173,6 +180,9 @@ const initial: FormState = {
   mainService: "", benefit1: "", benefit2: "", benefit3: "",
   priceRange: "",
   email: "", phone: "", ga4Id: "", gscVerification: "",
+  sectorData: {},
+  logoUrl: "",
+  photoUrls: [],
 };
 
 export function StepForm() {
@@ -279,6 +289,9 @@ export function StepForm() {
         email: form.email, phone: form.phone,
         ...(form.ga4Id && { ga4Id: form.ga4Id }),
         ...(form.gscVerification && { gscVerification: form.gscVerification }),
+        ...(Object.keys(form.sectorData).length > 0 && { sectorData: form.sectorData }),
+        ...(form.logoUrl && { logoUrl: form.logoUrl }),
+        ...(form.photoUrls.length > 0 && { photoUrls: form.photoUrls }),
       };
 
       const sessionRes = await fetch("/api/sessions", {
