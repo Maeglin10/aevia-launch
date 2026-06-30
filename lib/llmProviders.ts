@@ -189,9 +189,10 @@ function buildPrompt(formData: FormData): string {
     ? Object.entries(sectorExtras).map(([k, v]) => `- ${k}: ${v}`).join("\n")
     : "";
 
-  return `Tu es un copywriter web pro. Génère le contenu d'un site pour ce business en français professionnel.
+  return `Tu es un copywriter web expert. Génère le contenu d'un site pour ce business en français professionnel et percutant.
 - Nom: ${formData.businessName}
 - Type / métier: ${formData.businessType}
+- Thème visuel: ${formData.template ?? ""}
 - Tagline: ${formData.tagline ?? ""}
 - Service principal: ${formData.mainService ?? ""}
 - Bénéfices clés: ${(formData.benefits ?? []).join(", ")}
@@ -200,6 +201,8 @@ function buildPrompt(formData: FormData): string {
 - Ville: ${formData.city ?? ""}
 - Tarifs: ${formData.priceRange ?? "sur devis"}
 ${sectorLines ? `- Infos secteur:\n${sectorLines}` : ""}
+
+IMPORTANT: Tout le contenu doit être 100% spécifique à ce business. Aucun contenu générique. Les services doivent refléter exactement le métier "${formData.businessType}". Les témoignages doivent être crédibles pour ce secteur.
 
 Réponds UNIQUEMENT avec un objet JSON valide (pas de \`\`\`json wrapper, pas d'explication) avec exactement ces clés:
 {

@@ -68,23 +68,20 @@ export function AuroraTheme({ session }: { session: SessionData }) {
       <section className="py-32 relative z-10">
         <div className="max-w-7xl mx-auto px-6">
           <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {[
-              { icon: <Zap />, title: "Quantum Speed" },
-              { icon: <Globe />, title: "Global Mesh" },
-              { icon: <Shield />, title: "Bio-Security" },
-            ].map((s, i) => (
-              <StaggerItem key={i}>
-                <div className="group h-full p-12 bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[40px] hover:bg-white/10 transition-all duration-500 text-center">
-                  <div className="w-20 h-20 mx-auto rounded-3xl flex items-center justify-center mb-10 bg-white/5 group-hover:bg-white group-hover:text-black transition-all" style={{ color: brand }}>
-                    {s.icon}
+            {[<Zap />, <Globe />, <Shield />].map((icon, i) => {
+              const svc = c?.services?.[i];
+              return (
+                <StaggerItem key={i}>
+                  <div className="group h-full p-12 bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[40px] hover:bg-white/10 transition-all duration-500 text-center">
+                    <div className="w-20 h-20 mx-auto rounded-3xl flex items-center justify-center mb-10 bg-white/5 group-hover:bg-white group-hover:text-black transition-all" style={{ color: brand }}>
+                      {icon}
+                    </div>
+                    <h3 className="text-2xl font-black uppercase text-white mb-6 tracking-tight italic">{svc?.title ?? "—"}</h3>
+                    <p className="text-white/30 text-sm leading-relaxed">{svc?.description}</p>
                   </div>
-                  <h3 className="text-2xl font-black uppercase text-white mb-6 tracking-tight italic">{s.title}</h3>
-                  <p className="text-white/30 text-sm leading-relaxed">
-                    Pioneering the next evolution of digital interaction with fluid architecture and organic motion.
-                  </p>
-                </div>
-              </StaggerItem>
-            ))}
+                </StaggerItem>
+              );
+            })}
           </Stagger>
         </div>
       </section>
@@ -99,7 +96,7 @@ export function AuroraTheme({ session }: { session: SessionData }) {
           </Reveal>
           
           <Reveal delay={0.2}>
-            <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-12 leading-[0.9] italic text-white">The Atmosphere <br/>Of Tomorrow.</h2>
+            <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-12 leading-[0.9] italic text-white">{c?.aboutTitle ?? formData.businessName}</h2>
             <p className="text-xl text-white/30 leading-relaxed italic mb-16">
               {c?.aboutText}
             </p>
@@ -163,10 +160,10 @@ export function AuroraTheme({ session }: { session: SessionData }) {
            <Reveal>
               <Quote className="w-16 h-16 mx-auto mb-16 text-white/5" />
               <p className="text-3xl md:text-5xl font-black italic text-white leading-tight mb-20 uppercase tracking-tighter">
-                 &quot;The transition to the Aurora framework was the catalyst for our global expansion. The speed is unprecedented.&quot;
+                 &quot;{c?.testimonials?.[0]?.text ?? ""}&quot;
               </p>
               <div className="flex flex-col items-center">
-                 <div className="font-black uppercase tracking-[0.4em] text-xs text-white/40 italic">— Dr. Aris Thorne // CTO @ NEXUS_LABS</div>
+                 <div className="font-black uppercase tracking-[0.4em] text-xs text-white/40 italic">— {c?.testimonials?.[0]?.name ?? ""} // {c?.testimonials?.[0]?.role ?? ""}</div>
               </div>
            </Reveal>
         </div>
