@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight, ArrowLeft, Loader2, Check, ExternalLink,
+  ArrowRight, ArrowLeft, Loader2, Check, ExternalLink, Upload, X, Plus, Image as ImageIcon,
 } from "lucide-react";
 import { useLang } from "@/lib/LangContext";
 import { INDUSTRIES, SECTORS, SECTOR_TEMPLATES, TEMPLATE_CITY_LABELS } from "@/lib/templates/sectors";
@@ -46,6 +46,8 @@ type StepFormStrings = {
   genericError: string;
   back: string; continue: string; generating: string; generate: string;
   sectorOther: string;
+  fLogo: string; fLogoHint: string; fPhotos: string; fPhotosHint: string; fPhotosAdd: string;
+  fSectorDetails: string; skip: string;
 };
 
 const STEPFORM_T: Record<string, StepFormStrings> = {
@@ -101,8 +103,9 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s1SpecialtyTitle: "Tu profesión", s1SpecialtySub: "Especifica tu actividad para ver los diseños hechos para ti.", s1ChangeIndustry: "← Cambiar sector",
     s2Title: "Tu diseño", s2Sub: "Diseños creados para tu profesión. Elige el que más te gusta.", s2Preview: "Ver tema", s2Other: "¿Otra actividad? Ver todos los temas →",
     s3Title: "Tu negocio",
-    s4Title: "Tu oferta",
-    s5Title: "¡Casi listo!",
+    s4Title: "Tu oferta", s4SectorSub: "Estas preguntas permiten adaptar el contenido a tu profesión.",
+    s5Title: "Tus visuales", s5Sub: "Añade tu logo y fotos para personalizar tu sitio.",
+    s6Title: "¡Casi listo!",
     fBusinessName: "Nombre del negocio", fWhatYouDo: "Qué haces", fCity: "Ciudad",
     fMainService: "Servicio principal", fBenefits: "3 beneficios clave", fPriceRange: "Rango de precios",
     fEmail: "Correo electrónico", fPhone: "Teléfono",
@@ -123,8 +126,9 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s1SpecialtyTitle: "Ihr Beruf", s1SpecialtySub: "Präzisieren Sie Ihre Tätigkeit, um passende Designs zu sehen.", s1ChangeIndustry: "← Branche ändern",
     s2Title: "Ihr Design", s2Sub: "Designs für Ihren Beruf. Wählen Sie das passende.", s2Preview: "Vorschau", s2Other: "Andere Branche? Alle Designs →",
     s3Title: "Ihr Unternehmen",
-    s4Title: "Ihr Angebot",
-    s5Title: "Fast geschafft!",
+    s4Title: "Ihr Angebot", s4SectorSub: "Diese Fragen ermöglichen es, den Inhalt auf Ihren Beruf abzustimmen.",
+    s5Title: "Ihre Bilder", s5Sub: "Fügen Sie Ihr Logo und Fotos hinzu, um Ihre Website zu personalisieren.",
+    s6Title: "Fast geschafft!",
     fBusinessName: "Firmenname", fWhatYouDo: "Was Sie tun", fCity: "Stadt",
     fMainService: "Hauptleistung", fBenefits: "3 Vorteile", fPriceRange: "Preisspanne",
     fEmail: "E-Mail-Adresse", fPhone: "Telefon",
@@ -145,8 +149,9 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s1SpecialtyTitle: "A sua profissão", s1SpecialtySub: "Especifique a sua atividade para ver os designs feitos para si.", s1ChangeIndustry: "← Mudar setor",
     s2Title: "O seu design", s2Sub: "Designs criados para a sua profissão. Escolha o que mais gosta.", s2Preview: "Ver tema", s2Other: "Outra atividade? Ver todos os temas →",
     s3Title: "O seu negócio",
-    s4Title: "A sua oferta",
-    s5Title: "Quase lá!",
+    s4Title: "A sua oferta", s4SectorSub: "Estas perguntas permitem adaptar o conteúdo à sua profissão.",
+    s5Title: "Os seus visuais", s5Sub: "Adicione o seu logotipo e fotos para personalizar o seu site.",
+    s6Title: "Quase lá!",
     fBusinessName: "Nome do negócio", fWhatYouDo: "O que faz", fCity: "Cidade",
     fMainService: "Serviço principal", fBenefits: "3 benefícios", fPriceRange: "Faixa de preço",
     fEmail: "E-mail", fPhone: "Telefone",
