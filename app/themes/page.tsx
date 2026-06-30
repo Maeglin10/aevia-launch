@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, Suspense, useMemo } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { ArrowRight, Sparkles, Search, Star } from "lucide-react";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
@@ -287,8 +288,21 @@ function ThumbCard({ item, index }: { item: ThemeItem; index: number }) {
 function ThemesContent() {
   const { locale } = useLang();
   const t = T[locale as keyof typeof T] ?? T.fr;
+  const searchParams = useSearchParams();
+  const catParam = searchParams.get("cat");
   const [cat, setCat] = useState("All");
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    if (catParam) {
+      const match = CATS.find(c => c.toLowerCase() === catParam.toLowerCase());
+      if (match) {
+        setCat(match);
+      }
+    } else {
+      setCat("All");
+    }
+  }, [catParam]);
 
   const allThemes = useMemo<ThemeItem[]>(() => {
     return TEMPLATES_REGISTRY
@@ -343,6 +357,29 @@ function ThemesContent() {
           <p className="text-zinc-400 text-base sm:text-lg max-w-2xl leading-relaxed">
             {t.sub}
           </p>
+
+          {cat !== "All" && (
+            <div className="flex items-center gap-2 mt-4 flex-wrap">
+              <span className="text-xs text-zinc-500 font-bold uppercase tracking-wider">Filtré par :</span>
+              <span 
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border"
+                style={{
+                  background: `${CAT_COLOR[cat] ?? "#7c3aed"}15`,
+                  borderColor: `${CAT_COLOR[cat] ?? "#7c3aed"}35`,
+                  color: CAT_COLOR[cat] ?? "#7c3aed"
+                }}
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-current" />
+                {cat}
+              </span>
+              <button
+                onClick={() => setCat("All")}
+                className="text-xs text-violet-400 hover:text-violet-300 underline cursor-pointer ml-1 font-semibold"
+              >
+                Voir tous
+              </button>
+            </div>
+          )}
         </motion.div>
 
         {/* ── Grid: sidebar + main ─────────────────────────────────────────── */}

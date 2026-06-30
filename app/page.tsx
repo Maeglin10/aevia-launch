@@ -15,10 +15,10 @@ import { LegalFooter } from "@/components/LegalFooter";
 const HERO_T = {
   fr: {
     badge: "Sites livrés en 2 heures",
-    pre: "Thèmes responsives haute qualité.",
-    post: "On lance.",
-    rotate: ["Designs 100% responsives.", "SEO local optimisé.", "Connexion GSC & GA4 native.", "Thèmes ultra-sécurisés."],
-    sub: "Choisissez votre thème responsive → profitez d'un SEO optimisé et d'une connexion native Google Search Console & Analytics → lancez en toute sécurité.",
+    pre: "Votre",
+    post: "en ligne aujourd'hui.",
+    rotate: ["Landing Page", "E-commerce", "Site vitrine", "Portfolio"],
+    sub: "Vous nous parlez de votre activité, nous vous proposons des thèmes adaptés, nous personnalisons, votre site est en ligne en 2h.",
     cta1: "Créer mon site",
     cta2: "Voir les thèmes",
     free: "Aperçu gratuit · sans carte bancaire",
@@ -36,10 +36,10 @@ const HERO_T = {
   },
   en: {
     badge: "Websites delivered in 2 hours",
-    pre: "High-quality responsive themes.",
-    post: "We launch.",
-    rotate: ["100% responsive designs.", "Optimized local SEO.", "Native GSC & GA4 integration.", "Ultra-secure templates."],
-    sub: "Choose your responsive theme → enjoy optimized SEO and native Google Search Console & Analytics connection → launch securely.",
+    pre: "Your",
+    post: "online today.",
+    rotate: ["Landing Page", "Online Store", "Business Site", "Portfolio"],
+    sub: "You tell us about your business, we suggest matching themes, we customize, your site is live in 2 hours.",
     cta1: "Build my site",
     cta2: "Browse themes",
     free: "Free preview · no credit card required",
@@ -57,10 +57,10 @@ const HERO_T = {
   },
   es: {
     badge: "Sitios web entregados en 2 horas",
-    pre: "Temas responsivos de alta calidad.",
-    post: "Lanzamos.",
-    rotate: ["Diseños 100% responsivos.", "SEO local optimizado.", "Conexión nativa GSC y GA4.", "Temas ultra seguros."],
-    sub: "Elija su tema responsivo → disfrute de un SEO optimizado y conexión nativa con Google Search Console y Analytics → lance de forma segura.",
+    pre: "Tu",
+    post: "online hoy.",
+    rotate: ["Landing Page", "Tienda Online", "Sitio Web", "Portfolio"],
+    sub: "Nos hablas de tu negocio, te proponemos temas adaptados, personalizamos, tu sitio está en línea en 2 horas.",
     cta1: "Crear mi sitio",
     cta2: "Ver temas",
     free: "Vista previa gratis · sin tarjeta",
@@ -78,10 +78,10 @@ const HERO_T = {
   },
   de: {
     badge: "Websites in 2 Stunden geliefert",
-    pre: "Hochwertige Responsive-Themes.",
-    post: "Wir launchen.",
-    rotate: ["100% responsive Designs.", "Optimiertes lokales SEO.", "Native GSC & GA4 Verbindung.", "Ultra-sichere Vorlagen."],
-    sub: "Wählen Sie Ihr Responsive-Theme → profitieren Sie von optimiertem SEO und nativer Google Search Console & Analytics Verbindung → starten Sie sicher.",
+    pre: "Deine",
+    post: "heute online.",
+    rotate: ["Landing Page", "Online-Shop", "Firmenwebsite", "Portfolio"],
+    sub: "Sie erzählen uns von Ihrem Business, wir schlagen passende Themes vor, wir personalisieren, Ihre Website ist in 2 Stunden online.",
     cta1: "Meine Website erstellen",
     cta2: "Themes ansehen",
     free: "Kostenlose Vorschau · keine Kreditkarte",
@@ -99,10 +99,10 @@ const HERO_T = {
   },
   pt: {
     badge: "Sites entregues em 2 horas",
-    pre: "Temas responsivos de alta qualidade.",
-    post: "Lançamos.",
-    rotate: ["Designs 100% responsivos.", "SEO local otimizado.", "Conexão nativa GSC e GA4.", "Temas ultra seguros."],
-    sub: "Escolha seu tema responsivo → aproveite SEO otimizado e conexão nativa com Google Search Console e Analytics → lance com segurança.",
+    pre: "O seu",
+    post: "online hoje.",
+    rotate: ["Landing Page", "Loja Online", "Site Vitrine", "Portfolio"],
+    sub: "Fala-nos da sua atividade, sugerimos temas adaptados, personalizamos, o seu site fica online em 2 horas.",
     cta1: "Criar o meu site",
     cta2: "Ver temas",
     free: "Pré-visualização grátis · sem cartão",
@@ -484,10 +484,11 @@ function NicheCard({ niche, index }: { niche: typeof NICHES[0]; index: number })
       initial={{ opacity: 0, y: 24 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
+      className="h-full"
     >
       <Link
         href={`/themes?cat=${encodeURIComponent(niche.cat)}`}
-        className="group flex flex-col rounded-2xl border overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer"
+        className="group flex flex-col h-full rounded-2xl border overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer"
         style={{ borderColor: `${niche.color}25`, background: `linear-gradient(135deg, ${niche.color}10 0%, transparent 60%)` }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
@@ -517,9 +518,11 @@ function NicheCard({ niche, index }: { niche: typeof NICHES[0]; index: number })
         </div>
 
         {/* Info */}
-        <div className="p-4">
-          <div className="font-bold text-white text-sm mb-1 group-hover:text-white transition-colors">{niche.label[lk]}</div>
-          <div className="text-[11px] text-zinc-500 leading-relaxed">{niche.desc[lk]}</div>
+        <div className="p-4 flex-1 flex flex-col justify-between">
+          <div>
+            <div className="font-bold text-white text-sm mb-1 group-hover:text-white transition-colors">{niche.label[lk]}</div>
+            <div className="text-[11px] text-zinc-500 leading-relaxed">{niche.desc[lk]}</div>
+          </div>
         </div>
       </Link>
     </motion.div>
@@ -646,10 +649,11 @@ function TypeCard({ cat, index }: { cat: typeof TYPE_CATS[0]; index: number }) {
       initial={{ opacity: 0, y: 24 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+      className="h-full"
     >
       <Link
         href={`/themes?cat=${cat.cat}`}
-        className={`group flex flex-col rounded-2xl border bg-gradient-to-br ${cat.bg} ${cat.border} ${cat.hoverBorder} overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer`}
+        className={`group flex flex-col h-full rounded-2xl border bg-gradient-to-br ${cat.bg} ${cat.border} ${cat.hoverBorder} overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer`}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
@@ -686,7 +690,7 @@ function TypeCard({ cat, index }: { cat: typeof TYPE_CATS[0]; index: number }) {
         </div>
 
         {/* Info */}
-        <div className="p-4 flex items-start justify-between gap-3">
+        <div className="p-4 flex-1 flex items-start justify-between gap-3">
           <div>
             <div className="font-bold text-white text-sm mb-0.5 group-hover:text-white transition-colors">{label}</div>
             <div className="text-xs text-zinc-500 leading-relaxed">{desc}</div>
@@ -717,9 +721,10 @@ function SpotlightCard({ template, index }: { template: typeof TEMPLATES_REGISTR
       initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.45, delay: index * 0.07 }}
+      className="h-full"
     >
-      <Link href={`/templates/${template.id}`} className="group block">
-        <div className="relative rounded-xl border border-white/6 bg-zinc-900/50 overflow-hidden hover:-translate-y-1 hover:border-white/15 transition-all duration-300">
+      <Link href={`/templates/${template.id}`} className="group block h-full">
+        <div className="relative h-full flex flex-col rounded-xl border border-white/6 bg-zinc-900/50 overflow-hidden hover:-translate-y-1 hover:border-white/15 transition-all duration-300">
           <div className="relative aspect-video overflow-hidden bg-zinc-900">
             {thumbOk ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -733,9 +738,11 @@ function SpotlightCard({ template, index }: { template: typeof TEMPLATES_REGISTR
               <div className="w-full h-full bg-gradient-to-br from-violet-900/30 to-zinc-900" />
             )}
           </div>
-          <div className="p-4">
-            <div className="text-xs text-zinc-500 uppercase tracking-widest mb-1">{template.category}</div>
-            <div className="text-sm font-bold text-white">{template.name}</div>
+          <div className="p-4 flex-1 flex flex-col justify-between">
+            <div>
+              <div className="text-xs text-zinc-500 uppercase tracking-widest mb-1">{template.category}</div>
+              <div className="text-sm font-bold text-white">{template.name}</div>
+            </div>
           </div>
         </div>
       </Link>
