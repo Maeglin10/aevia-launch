@@ -33,7 +33,7 @@ export const SERVICES = [
     name: "Brow Architecture",
     tag: "Lamination & Tint",
     price: "from €65",
-    img: "https://picsum.photos/seed/beauty/1200/750",
+    img: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1200&auto=format&fit=crop",
     desc: "Framing the face through geometric mapping and custom pigment blending.",
   },
 ];

@@ -32,7 +32,7 @@ const filmsCatalogue = [
     type: "Long-métrage",
     year: "2025",
     duration: "1h 47min",
-    src: "https://picsum.photos/seed/cinema/600/800",
+    src: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop",
     synopsis: "Paris, hiver 2024. Mathilde, ancienne pianiste prodige devenue accordeuse de pianos, traverse la capitale pour ses rendez-vous professionnels. Chaque instrument qu'elle accorde la ramène à un souvenir enfoui, un fragment de la vie qu'elle a abandonnée. Lorsqu'elle est appelée au Conservatoire pour un Steinway de concert, le passé la rattrape sous la forme d'Étienne, son ancien professeur, désormais atteint d'Alzheimer. Commence alors un voyage intérieur où la musique devient le seul pont entre mémoire et oubli.",
     cast: ["Léa Seydoux — Mathilde Verdier", "André Dussollier — Étienne Lacoste", "Noémie Merlant — Claire, la sœur de Mathilde", "Vincent Lindon — Paul, l'ex-mari", "Hafsia Herzi — Samira, amie et confidente"],
     crew: "Réalisé par Julien Ferraro · Scénario : Julien Ferraro & Camille Noé · Directeur de la photographie : Nicolas Bolduc · Musique originale : Alexandre Desplat · Montage : Laure Gardette",

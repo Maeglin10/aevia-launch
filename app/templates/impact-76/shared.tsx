@@ -33,7 +33,7 @@ export const PROJECTS = [
     year: "2026",
     type: "Cultural",
     area: "1,200m²",
-    img: "https://picsum.photos/seed/realestate/1200/750",
+    img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=1200&auto=format&fit=crop",
     desc: "Subterranean art gallery utilizing natural light diffraction through glass fissures.",
   },
 ];

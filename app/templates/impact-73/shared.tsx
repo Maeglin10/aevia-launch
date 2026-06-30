@@ -24,7 +24,7 @@ export const STREAMS = [
     streamer: "DEV_X",
     viewers: "4.2K",
     tags: ["Tech", "Finance", "Web3"],
-    img: "https://picsum.photos/seed/gaming/800/800",
+    img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
     status: "LIVE",
   },
   {

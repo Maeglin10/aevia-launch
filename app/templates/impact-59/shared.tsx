@@ -12,7 +12,7 @@ export const RETREATS = [
     price: "from $4,200",
     theme: "Stillness",
     season: "Oct–Apr",
-    img: "https://picsum.photos/seed/wellness/1200/750",
+    img: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=1200&auto=format&fit=crop",
     desc: "Seven days in an ancient desert landscape. Dawn somatic practice, silent midday walks, and evening fire ceremonies. No agenda. No schedule beyond your own unfolding.",
     details: [
       ["Group Size", "Max 9 participants"],

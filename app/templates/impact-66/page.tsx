@@ -277,7 +277,7 @@ export default function AtelierBeautePage() {
 
             <Reveal className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
               <Image
-                src="https://picsum.photos/seed/beauty/1200/750"
+                src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop"
                 alt="Atelier Detail"
                 fill
                 className="object-cover grayscale hover:grayscale-0 transition-all duration-1000"

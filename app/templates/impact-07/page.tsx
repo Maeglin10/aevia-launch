@@ -33,7 +33,7 @@ const COLLECTIONS = [
     category: "Amplification", 
     price: "$8,200",
     desc: "Pure Class-A amplification with zero negative feedback, housed in a monolithic copper chassis.",
-    img: "https://picsum.photos/seed/music/1200/750"
+    img: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=1200&auto=format&fit=crop"
   },
   { 
     id: 3, 
@@ -310,7 +310,7 @@ export default function AetherSoundPage() {
          <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
             <Reveal>
                <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
-                  <Image src="https://picsum.photos/seed/music/1200/750" alt="Audio Engineering" fill className="object-cover group-hover:scale-110 transition-all duration-[3s] grayscale hover:grayscale-0 opacity-60" />
+                  <Image src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=1200&auto=format&fit=crop" alt="Audio Engineering" fill className="object-cover group-hover:scale-110 transition-all duration-[3s] grayscale hover:grayscale-0 opacity-60" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
                   <div className="absolute bottom-16 left-16 text-white">
                      <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-[#c9a84c]">The Atelier</span>
@@ -377,7 +377,7 @@ export default function AetherSoundPage() {
                </Reveal>
                <Reveal delay={0.2}>
                   <div className="relative aspect-square grayscale opacity-50 hover:opacity-100 transition-opacity duration-1000 border border-white/5">
-                     <Image src="https://picsum.photos/seed/music/1200/750" alt="Vintage Audio" fill className="object-cover" />
+                     <Image src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=1200&auto=format&fit=crop" alt="Vintage Audio" fill className="object-cover" />
                   </div>
                </Reveal>
             </div>
