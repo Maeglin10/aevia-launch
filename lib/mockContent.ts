@@ -477,6 +477,6 @@ export function generateMockContent(formData: FormData): GeneratedContent {
     testimonials: base.testimonials!,
     ctaText: base.ctaText!,
     metaTitle: `${formData.businessName} — ${formData.tagline || formData.businessType}`,
-    metaDescription: base.heroSubline!,
+    metaDescription: `Découvrez les prestations de haute qualité de ${formData.businessName}${formData.city ? ` à ${formData.city}` : ""}. Notre site web est responsive, sécurisé et optimisé pour le SEO local avec connexion Google Search Console et Google Analytics native.`,
   };
 }

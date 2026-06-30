@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
             currency: STRIPE_CCY[ccy],
             product_data: {
               name: `${siteInfo.label} — ${siteName}`,
-              description: "Site web IA + livraison instantanée — votre aperçu est prêt",
+              description: "Site web premium + livraison instantanée — votre aperçu est prêt",
             },
             unit_amount: priceIn(siteInfo.price, ccy) * 100,
           },

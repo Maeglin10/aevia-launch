@@ -1431,7 +1431,7 @@ function AppointmentFormSection() {
     <section style={sec} id="rdv">
       <img
         src={PHOTO.zen}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{
@@ -1742,7 +1742,7 @@ function PhilosophySection() {
       >
         <img
           src={PHOTO.zen}
-          alt=""
+          alt="Image de présentation"
           aria-hidden="true"
           loading="lazy"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}

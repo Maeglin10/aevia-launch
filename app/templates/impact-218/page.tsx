@@ -1697,7 +1697,7 @@ function AllocationForm() {
     <section style={sec} id="allocation">
       <img
         src={PHOTO.vineyardWide}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

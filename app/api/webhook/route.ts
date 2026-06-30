@@ -556,8 +556,8 @@ Génère du JSON avec exactement ces champs:
   "services": [{"title":"...","description":"..."},{"title":"...","description":"..."},{"title":"...","description":"..."}],
   "testimonials": [{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5}],
   "ctaText": "...",
-  "metaTitle": "...",
-  "metaDescription": "..."
+  "metaTitle": "Titre SEO 50-60 chars axé sur le SEO local avec la ville",
+  "metaDescription": "Méta description SEO 140-160 chars axée sur la qualité des prestations, le SEO local et la connexion Google Search Console & Analytics native"
 }
 Retourne uniquement du JSON valide, sans markdown.`;
 

@@ -1598,7 +1598,7 @@ function BookingForm() {
       {/* Fond fantôme */}
       <img
         src={ph('1567401893-56e3d64e7b2c', 1200)}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

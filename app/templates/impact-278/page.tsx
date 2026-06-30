@@ -1618,7 +1618,7 @@ function DevisFormSection() {
       {/* Image de fond subtile */}
       <img
         src={PHOTO.salleBain}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

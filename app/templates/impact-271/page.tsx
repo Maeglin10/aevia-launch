@@ -1569,7 +1569,7 @@ function QuoteForm() {
       {/* Arrière-plan subtil */}
       <img
         src={`https://images.unsplash.com/photo-1558618047-b62e0e6e8517?q=80&w=1600&auto=format&fit=crop`}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

@@ -1598,7 +1598,7 @@ function BookingForm() {
         {/* Texture de fond subtile */}
         <img
           src={`${PHOTO_BASE}1611501579-4d7dc8532cc1?q=80&w=1600&auto=format&fit=crop`}
-          alt=""
+          alt="Image de présentation"
           aria-hidden="true"
           loading="lazy"
           style={{
@@ -1664,7 +1664,7 @@ function BookingForm() {
     <section style={sec} id="reservation">
       <img
         src={`${PHOTO_BASE}1567401893-56e3d64e7b2c?q=80&w=1600&auto=format&fit=crop`}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

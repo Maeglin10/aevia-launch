@@ -2,11 +2,13 @@
 
 import React from "react";
 import Link from "next/link";
-import { C, FONT, FONT_BODY } from "../shared";
+import { C, FONT, FONT_BODY , CSS_VARIABLES } from "../shared";
 
 export default function LegalPage() {
   return (
+      
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, minHeight: "100vh" }}>
+      <style>{CSS_VARIABLES}</style>
       {/* Header */}
       <div style={{ background: C.bgDark, padding: "60px 80px 56px" }}>
         <Link

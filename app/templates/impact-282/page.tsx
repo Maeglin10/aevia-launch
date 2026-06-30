@@ -1453,7 +1453,7 @@ function CommandeFormSection() {
     <section style={sec} id="commande">
       <img
         src={PHOTO.pain}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

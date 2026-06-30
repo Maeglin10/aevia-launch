@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { C, FONT, FONT_BODY } from "../shared";
+import { C, FONT, FONT_BODY , CSS_VARIABLES } from "../shared";
 
 export default function LumiereDoreeContactPage() {
   const [sent, setSent] = useState(false);
@@ -13,7 +13,9 @@ export default function LumiereDoreeContactPage() {
   }
 
   return (
+      
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, minHeight: "100vh" }}>
+      <style>{CSS_VARIABLES}</style>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap');
         * { box-sizing: border-box; }

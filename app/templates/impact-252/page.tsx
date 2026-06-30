@@ -1530,7 +1530,7 @@ function AppointmentForm() {
       {/* Fond subtil */}
       <img
         src={unsplash('1598300402640-cf52ea77e6da', 1600)}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

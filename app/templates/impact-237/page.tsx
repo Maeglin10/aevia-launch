@@ -1678,7 +1678,7 @@ function AppointmentForm() {
       {/* Background texture subtle */}
       <img
         src={P.clinicMed}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

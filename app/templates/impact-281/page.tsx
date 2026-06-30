@@ -1452,7 +1452,7 @@ function AppointmentFormSection() {
       {/* Fond photo discret */}
       <img
         src={PHOTO.modeFull}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

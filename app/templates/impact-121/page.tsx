@@ -273,7 +273,7 @@ export default function FolioStudioPage() {
                     transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                     className="absolute top-1/2 left-3/4 -translate-x-1/2 -translate-y-1/2 w-[500px] aspect-[4/3] rounded-xl overflow-hidden"
                   >
-                    <Image src={MANIFEST.projects[hoveredProject].img} alt="" fill className="object-cover" />
+                    <Image src={MANIFEST.projects[hoveredProject].img} alt="Image de présentation" fill className="object-cover" />
                   </motion.div>
                 )}
               </AnimatePresence>

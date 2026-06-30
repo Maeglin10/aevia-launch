@@ -1,0 +1,1196 @@
+'use client';
+
+import React, { useRef, useState } from 'react';
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  AnimatePresence,
+} from 'framer-motion';
+import {
+  Activity,
+  ArrowRight,
+  Award,
+  Calendar,
+  Check,
+  CheckCircle,
+  ChevronDown,
+  Clock,
+  Coffee,
+  Compass,
+  DollarSign,
+  Euro,
+  FileText,
+  Flame,
+  Heart,
+  Info,
+  Instagram,
+  Mail,
+  MapPin,
+  Menu,
+  Phone,
+  Quote,
+  Scissors,
+  Shield,
+  ShoppingBag,
+  Sparkles,
+  Star,
+  Sun,
+  TrendingUp,
+  Utensils,
+  Wrench,
+  X,
+  Zap,
+} from 'lucide-react';
+
+/* ════════════════════════════════════════════════════════════════════════════
+   ${t.name.toUpperCase()} — ${t.description}
+   Fichier auto-suffisant premium généré par Antigravity.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+const C = {
+  primary: "${t.palette.primary}",
+  primaryLight: "${t.palette.primaryLight}",
+  primaryDark: "${t.palette.primaryDark}",
+  bg: "${t.palette.bg}",
+  bgDeep: "${t.palette.bgDeep}",
+  bgCard: "${t.palette.bgCard}",
+  text: "${t.palette.text}",
+  textMuted: "${t.palette.textMuted}",
+  accent: "${t.palette.accent}",
+  white: "#ffffff",
+  black: "#000000",
+} as const;
+
+const SERIF = "${t.fonts.serif}" as const;
+const SANS = "${t.fonts.sans}" as const;
+
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+const PHOTO = {
+  hero: "${t.photos.hero}",
+  about: "${t.photos.about}",
+  special: "${t.photos.special}",
+  gallery1: "${t.photos.gallery1}",
+  gallery2: "${t.photos.gallery2}",
+  gallery3: "${t.photos.gallery3}",
+  gallery4: "${t.photos.gallery4}"
+} as const;
+
+/* ── Primitives Reutilisables ─────────────────────────────────────────────── */
+
+function Eyebrow({
+  children,
+  color = C.primary,
+  align = 'left',
+}: {
+  children: React.ReactNode;
+  color?: string;
+  align?: 'left' | 'center';
+}) {
+  return (
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: 12,
+      justifyContent: align === 'center' ? 'center' : 'flex-start',
+      marginBottom: 16
+    }}>
+      <span style={{ width: 32, height: 1.5, background: color, opacity: 0.6 }} />
+      <span style={{
+        fontFamily: SANS,
+        fontSize: 10.5,
+        letterSpacing: '0.3em',
+        textTransform: 'uppercase',
+        color,
+        fontWeight: 700
+      }}>{children}</span>
+      {align === 'center' && <span style={{ width: 32, height: 1.5, background: color, opacity: 0.6 }} />}
+    </div>
+  );
+}
+
+function Reveal({
+  children,
+  delay = 0,
+  y = 30,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  y?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-8% 0px -8% 0px' });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : undefined}
+      transition={{ duration: 1.0, ease: EASE, delay }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function Button({
+  children,
+  onClick,
+  filled = false,
+  type = 'button',
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  filled?: boolean;
+  type?: 'button' | 'submit';
+}) {
+  const [hover, setHover] = useState(false);
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 10,
+        padding: '14px 28px',
+        fontFamily: SANS,
+        fontSize: 11.5,
+        letterSpacing: '0.2em',
+        textTransform: 'uppercase',
+        fontWeight: 700,
+        cursor: 'pointer',
+        border: `1.5px solid \${C.primary}`,
+        background: filled ? C.primary : 'transparent',
+        color: filled ? (C.black) : C.primary,
+        borderRadius: 2,
+        transform: hover ? 'translateY(-2px)' : 'none',
+        boxShadow: hover && filled ? `0 6px 20px \${C.primary}33` : 'none',
+        transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+      }}
+    >
+      {children}
+      <ArrowRight size={13} style={{
+        transform: hover ? 'translateX(4px)' : 'none',
+        transition: 'transform 0.4s ease'
+      }} />
+    </button>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   MAIN PAGE COMPONENTS
+   ════════════════════════════════════════════════════════════════════════════ */
+
+export default function Page() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("${t.content.menuTabs[0]}");
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const heroScale = useTransform(heroProgress, [0, 1], [1, 1.08]);
+  const heroY = useTransform(heroProgress, [0, 1], ['0%', '8%']);
+  const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
+
+  const menuItemsFiltered = activeCategory === "${t.content.menuTabs[0]}"
+    ? ${JSON.stringify(t.content.menuItems)}
+    : ${JSON.stringify(t.content.menuItems)}.filter(item => item.category === activeCategory);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.name && formData.email) {
+      setFormSubmitted(true);
+    }
+  };
+
+  return (
+    <div style={{
+      background: C.bg,
+      color: C.text,
+      fontFamily: SANS,
+      minHeight: '100vh',
+      overflowX: 'hidden'
+    }}>
+      
+      {/* ════════ NAVBAR ════════ */}
+      <nav style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        background: `rgba(\${C.bg === '#ffffff' ? '255,255,255' : '18,18,18'}, 0.85)`,
+        backdropFilter: 'blur(10px)',
+        borderBottom: `1px solid \${C.primary}12`
+      }}>
+        <div style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: '16px 24px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <a href="#hero" style={{
+            fontFamily: SERIF,
+            fontSize: 22,
+            fontWeight: 700,
+            color: C.primary,
+            textDecoration: 'none',
+            letterSpacing: '0.05em'
+          }}>
+            ${t.name}
+          </a>
+
+          {/* Desktop links */}
+          <div style={{ display: 'flex', gap: 28, alignItems: 'center' }} className="hidden md:flex">
+            <a href="#about" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>À Propos</a>
+            <a href="#menu" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>
+              ${t.category === 'Food & Drink' ? 'La Carte' : 'Nos Tarifs'}
+            </a>
+            <a href="#gallery" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>Galerie</a>
+            <a href="#faq" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>FAQ</a>
+            <a href="#contact" style={{ textDecoration: 'none' }}>
+              <button style={{
+                background: C.primary,
+                color: ${C.white === '#ffffff' && t.style === 'Dark' ? 'C.black' : 'C.white'},
+                border: 'none',
+                padding: '9px 18px',
+                fontSize: 12,
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                borderRadius: 2,
+                cursor: 'pointer'
+              }}>
+                ${t.content.ctaPrimary}
+              </button>
+            </a>
+          </div>
+
+          {/* Mobile menu toggle */}
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: C.primary,
+              cursor: 'pointer'
+            }}
+            className="md:hidden"
+            aria-label="Menu mobile"
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        {/* Mobile menu panel */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              style={{
+                background: C.bgDeep,
+                borderBottom: `1px solid \${C.primary}12`,
+                overflow: 'hidden'
+              }}
+              className="md:hidden"
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: 24 }}>
+                <a href="#about" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none', color: C.text, fontSize: 14, textTransform: 'uppercase', fontWeight: 600 }}>À Propos</a>
+                <a href="#menu" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none', color: C.text, fontSize: 14, textTransform: 'uppercase', fontWeight: 600 }}>
+                  ${t.category === 'Food & Drink' ? 'La Carte' : 'Nos Tarifs'}
+                </a>
+                <a href="#gallery" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none', color: C.text, fontSize: 14, textTransform: 'uppercase', fontWeight: 600 }}>Galerie</a>
+                <a href="#faq" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none', color: C.text, fontSize: 14, textTransform: 'uppercase', fontWeight: 600 }}>FAQ</a>
+                <a href="#contact" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none' }}>
+                  <button style={{
+                    background: C.primary,
+                    color: ${C.white === '#ffffff' && t.style === 'Dark' ? 'C.black' : 'C.white'},
+                    border: 'none',
+                    padding: '12px 24px',
+                    width: '100%',
+                    fontSize: 13,
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.1em',
+                    borderRadius: 2
+                  }}>
+                    ${t.content.ctaPrimary}
+                  </button>
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+
+      {/* ════════ HERO SECTION ════════ */}
+      <section 
+        id="hero" 
+        ref={heroRef}
+        style={{
+          position: 'relative',
+          height: '110vh',
+          minHeight: 650,
+          display: 'flex',
+          alignItems: 'flex-end',
+          paddingBottom: '12vh',
+          background: C.bgDeep,
+          overflow: 'hidden'
+        }}
+      >
+        <motion.div style={{
+          position: 'absolute',
+          inset: 0,
+          scale: heroScale,
+          y: heroY,
+          opacity: heroOpacity
+        }}>
+          <img 
+            src={PHOTO.hero} 
+            alt="Hero image showing ${t.name} core business" 
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+          />
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.85) 100%)'
+          }} />
+        </motion.div>
+
+        <div style={{
+          position: 'relative',
+          zIndex: 2,
+          maxWidth: 900,
+          margin: '0 auto',
+          padding: '0 24px',
+          textAlign: 'center'
+        }}>
+          <Reveal delay={0.1}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              background: 'rgba(255,255,255,0.08)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: 30,
+              padding: '6px 16px',
+              marginBottom: 24,
+              backdropFilter: 'blur(8px)'
+            }}>
+              <Sparkles size={12} color="#ffffff" />
+              <span style={{ fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#ffffff', fontWeight: 600 }}>
+                ${t.content.eyebrow}
+              </span>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.25}>
+            <h1 style={{
+              fontFamily: SERIF,
+              fontSize: 'clamp(38px, 6.5vw, 84px)',
+              lineHeight: 1.05,
+              fontWeight: 700,
+              color: '#ffffff',
+              marginBottom: 20,
+              textShadow: '0 4px 20px rgba(0,0,0,0.5)'
+            }}>
+              ${t.content.headline}
+            </h1>
+          </Reveal>
+
+          <Reveal delay={0.4}>
+            <p style={{
+              fontSize: 'clamp(15px, 1.6vw, 19px)',
+              lineHeight: 1.6,
+              color: 'rgba(255,255,255,0.85)',
+              maxWidth: 650,
+              margin: '0 auto 36px',
+              textShadow: '0 2px 10px rgba(0,0,0,0.3)'
+            }}>
+              ${t.content.subtext}
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.55}>
+            <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <a href="#contact" style={{ textDecoration: 'none' }}>
+                <Button filled>${t.content.ctaPrimary}</Button>
+              </a>
+              <a href="#menu" style={{ textDecoration: 'none' }}>
+                <button style={{
+                  padding: '14px 28px',
+                  background: 'rgba(255,255,255,0.12)',
+                  backdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(255,255,255,0.3)',
+                  color: '#ffffff',
+                  fontSize: 11.5,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  fontWeight: 700,
+                  borderRadius: 2,
+                  cursor: 'pointer',
+                  transition: 'all 0.3s'
+                }}>
+                  ${t.content.ctaSecondary}
+                </button>
+              </a>
+            </div>
+          </Reveal>
+        </div>
+
+        {/* Scroll indicator */}
+        <div style={{
+          position: 'absolute',
+          bottom: 24,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 6,
+          opacity: 0.7,
+          color: '#ffffff',
+          fontSize: 10,
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase'
+        }}>
+          <span>Défiler</span>
+          <ChevronDown size={14} className="animate-bounce" />
+        </div>
+      </section>
+
+      {/* ════════ STATS & BADGES ════════ */}
+      <section style={{ padding: '80px 24px', background: C.bgDeep, borderBottom: `1px solid \${C.primary}0d` }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gap: 40,
+            textAlign: 'center'
+          }}>
+            {menuItemsFiltered.length > 0 && ${JSON.stringify(t.content.stats)}.map((stat, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div style={{ padding: '16px 8px' }}>
+                  <div style={{
+                    fontFamily: SERIF,
+                    fontSize: 48,
+                    fontWeight: 700,
+                    color: C.primary,
+                    marginBottom: 8
+                  }}>
+                    {stat.value}
+                  </div>
+                  <div style={{
+                    fontSize: 12,
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    color: C.textMuted,
+                    fontWeight: 600
+                  }}>
+                    {stat.label}
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════ ABOUT / STORY SECTION ════════ */}
+      <section id="about" style={{ padding: '120px 24px', background: C.bg }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: 64,
+            alignItems: 'center'
+          }}>
+            <Reveal>
+              <div style={{ position: 'relative', borderRadius: 4, overflow: 'hidden', aspectRatio: '4/5' }}>
+                <img 
+                  src={PHOTO.about} 
+                  alt="About portrait showing our craft" 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                />
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  border: `12px solid \${C.bg}`,
+                  pointerEvents: 'none'
+                }} />
+              </div>
+            </Reveal>
+
+            <div>
+              <Reveal delay={0.15}>
+                <Eyebrow>${t.name}</Eyebrow>
+                <h2 style={{
+                  fontFamily: SERIF,
+                  fontSize: 'clamp(28px, 4vw, 48px)',
+                  lineHeight: 1.15,
+                  color: C.primary,
+                  marginBottom: 24,
+                  fontWeight: 700
+                }}>
+                  ${t.content.aboutTitle}
+                </h2>
+                <p style={{
+                  fontSize: 15,
+                  lineHeight: 1.7,
+                  color: C.textMuted,
+                  marginBottom: 20
+                }}>
+                  ${t.content.aboutDesc}
+                </p>
+                <p style={{
+                  fontSize: 15,
+                  lineHeight: 1.7,
+                  color: C.textMuted,
+                  marginBottom: 36
+                }}>
+                  Chaque détail est pensé pour créer une expérience singulière, alliant savoir-faire historique et modernité.
+                </p>
+                <a href="#contact" style={{ textDecoration: 'none' }}>
+                  <Button filled>${t.content.ctaPrimary}</Button>
+                </a>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════ HIGHLIGHT / SPECIAL FEATURES ════════ */}
+      <section style={{ padding: '100px 24px', background: C.bgDeep }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', textAlign: 'center' }}>
+          <Reveal>
+            <Eyebrow align="center">Savoir-Faire Unique</Eyebrow>
+            <h2 style={{
+              fontFamily: SERIF,
+              fontSize: 'clamp(28px, 4vw, 44px)',
+              color: C.primary,
+              marginBottom: 16,
+              fontWeight: 700
+            }}>
+              ${t.content.specialtyTitle}
+            </h2>
+            <p style={{
+              fontSize: 16,
+              color: C.textMuted,
+              maxWidth: 600,
+              margin: '0 auto 64px',
+              lineHeight: 1.6
+            }}>
+              ${t.content.specialtyDesc}
+            </p>
+          </Reveal>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: 32
+          }}>
+            <Reveal delay={0.1}>
+              <div style={{
+                background: C.bgCard,
+                padding: 40,
+                borderRadius: 4,
+                textAlign: 'left',
+                border: `1px solid \${C.primary}0f`,
+                height: '100%'
+              }}>
+                <div style={{ color: C.primary, marginBottom: 20 }}><Award size={32} /></div>
+                <h3 style={{ fontFamily: SERIF, fontSize: 20, color: C.primary, marginBottom: 12, fontWeight: 700 }}>Qualité Absolue</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6 }}>Sélection minutieuse de chaque élément pour un résultat d'exception.</p>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.25}>
+              <div style={{
+                background: C.bgCard,
+                padding: 40,
+                borderRadius: 4,
+                textAlign: 'left',
+                border: `1px solid \${C.primary}0f`,
+                height: '100%'
+              }}>
+                <div style={{ color: C.primary, marginBottom: 20 }}><Clock size={32} /></div>
+                <h3 style={{ fontFamily: SERIF, fontSize: 20, color: C.primary, marginBottom: 12, fontWeight: 700 }}>Prise de Rendez-vous</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6 }}>Des créneaux flexibles et un accompagnement réactif sous 24h.</p>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.4}>
+              <div style={{
+                background: C.bgCard,
+                padding: 40,
+                borderRadius: 4,
+                textAlign: 'left',
+                border: `1px solid \${C.primary}0f`,
+                height: '100%'
+              }}>
+                <div style={{ color: C.primary, marginBottom: 20 }}><Shield size={32} /></div>
+                <h3 style={{ fontFamily: SERIF, fontSize: 20, color: C.primary, marginBottom: 12, fontWeight: 700 }}>Garantie &amp; Sécurité</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6 }}>Conformité totale avec les normes en vigueur et transparence tarifaire.</p>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════ MENU / SERVICES SECTION ════════ */}
+      <section id="menu" style={{ padding: '120px 24px', background: C.bg }}>
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 56 }}>
+            <Reveal>
+              <Eyebrow align="center">${t.category === 'Food & Drink' ? 'La Restauration' : 'Tarifs & Services'}</Eyebrow>
+              <h2 style={{
+                fontFamily: SERIF,
+                fontSize: 'clamp(28px, 4vw, 44px)',
+                color: C.primary,
+                marginBottom: 24,
+                fontWeight: 700
+              }}>
+                ${t.content.menuTitle}
+              </h2>
+            </Reveal>
+
+            {/* Tabs */}
+            <Reveal delay={0.15}>
+              <div style={{
+                display: 'flex',
+                gap: 12,
+                justifyContent: 'center',
+                flexWrap: 'wrap',
+                background: C.bgDeep,
+                padding: 6,
+                borderRadius: 30,
+                maxWidth: 550,
+                margin: '0 auto'
+              }}>
+                {["Tous","Sécurité","Connecté","Borne"].map((tab, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveCategory(tab)}
+                    style={{
+                      background: activeCategory === tab ? C.primary : 'transparent',
+                      color: activeCategory === tab 
+                        ? (${C.white === '#ffffff' && t.style === 'Dark' ? 'C.black' : 'C.white'})
+                        : C.textMuted,
+                      border: 'none',
+                      padding: '8px 20px',
+                      fontSize: 11.5,
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
+                      fontWeight: 700,
+                      borderRadius: 20,
+                      cursor: 'pointer',
+                      transition: 'all 0.3s'
+                    }}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+
+          {/* Menu Items list */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            {menuItemsFiltered.map((item, i) => (
+              <Reveal key={i} delay={i * 0.05}>
+                <div style={{
+                  paddingBottom: 24,
+                  borderBottom: `1px solid \${C.primary}12`,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  gap: 20,
+                  alignItems: 'flex-start'
+                }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'baseline',
+                      gap: 12,
+                      marginBottom: 6
+                    }}>
+                      <h4 style={{
+                        fontFamily: SERIF,
+                        fontSize: 18,
+                        fontWeight: 700,
+                        color: C.primary,
+                        margin: 0
+                      }}>
+                        {item.name}
+                      </h4>
+                      <span style={{
+                        background: `\${C.primary}1a`,
+                        color: C.primary,
+                        fontSize: 10,
+                        fontWeight: 700,
+                        letterSpacing: '0.05em',
+                        textTransform: 'uppercase',
+                        padding: '2px 8px',
+                        borderRadius: 10
+                      }}>
+                        {item.category}
+                      </span>
+                    </div>
+                    <p style={{
+                      fontSize: 13.5,
+                      color: C.textMuted,
+                      margin: 0,
+                      lineHeight: 1.5
+                    }}>
+                      {item.desc}
+                    </p>
+                  </div>
+                  <div style={{
+                    fontFamily: SERIF,
+                    fontSize: 18,
+                    fontWeight: 700,
+                    color: C.accent,
+                    whiteSpace: 'nowrap'
+                  }}>
+                    {item.price}
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════ PORTFOLIO / GALERIE ════════ */}
+      <section id="gallery" style={{ padding: '120px 24px', background: C.bgDeep }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <Reveal>
+            <div style={{ textAlign: 'center', marginBottom: 64 }}>
+              <Eyebrow align="center">Portfolio</Eyebrow>
+              <h2 style={{
+                fontFamily: SERIF,
+                fontSize: 'clamp(28px, 4vw, 44px)',
+                color: C.primary,
+                marginBottom: 16,
+                fontWeight: 700
+              }}>
+                Notre Galerie Visuelle
+              </h2>
+            </div>
+          </Reveal>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gap: 20
+          }}>
+            <Reveal delay={0.1}>
+              <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
+                <img src={PHOTO.gallery1} alt="Visuel galerie 1" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
+                <img src={PHOTO.gallery2} alt="Visuel galerie 2" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+            </Reveal>
+            <Reveal delay={0.3}>
+              <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
+                <img src={PHOTO.gallery3} alt="Visuel galerie 3" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+            </Reveal>
+            <Reveal delay={0.4}>
+              <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
+                <img src={PHOTO.gallery4} alt="Visuel galerie 4" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════ TESTIMONIALS ════════ */}
+      <section style={{ padding: '120px 24px', background: C.bg }}>
+        <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
+          <Reveal>
+            <Eyebrow align="center">Témoignages</Eyebrow>
+            <h2 style={{
+              fontFamily: SERIF,
+              fontSize: 'clamp(28px, 4vw, 44px)',
+              color: C.primary,
+              marginBottom: 64,
+              fontWeight: 700
+            }}>
+              Ce que disent nos clients
+            </h2>
+          </Reveal>
+
+          <Reveal delay={0.2}>
+            <div style={{ position: 'relative', background: C.bgDeep, padding: '48px 32px', borderRadius: 4, border: `1px solid \${C.primary}0c` }}>
+              <div style={{ color: C.primary, opacity: 0.15, position: 'absolute', top: 24, left: 24 }}><Quote size={56} /></div>
+              <p style={{
+                fontFamily: SERIF,
+                fontSize: 'clamp(18px, 2.2vw, 24px)',
+                lineHeight: 1.5,
+                color: C.text,
+                fontStyle: 'italic',
+                marginBottom: 24,
+                position: 'relative',
+                zIndex: 2
+              }}>
+                "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."
+              </p>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: 12 }}>
+                {[...Array(5)].map((_, i) => <Star key={i} size={14} fill={C.primary} color={C.primary} />)}
+              </div>
+              <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary }}>
+                Marie Lauret · Bordeaux
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ════════ FAQ SECTION ════════ */}
+      <section id="faq" style={{ padding: '120px 24px', background: C.bgDeep }}>
+        <div style={{ maxWidth: 800, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 56 }}>
+            <Reveal>
+              <Eyebrow align="center">Foire aux questions</Eyebrow>
+              <h2 style={{
+                fontFamily: SERIF,
+                fontSize: 'clamp(28px, 4vw, 44px)',
+                color: C.primary,
+                marginBottom: 16,
+                fontWeight: 700
+              }}>
+                Des questions ? Nos réponses.
+              </h2>
+            </Reveal>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {[{"q":"Qu'est-ce que la norme NF C 15-100 ?","a":"C'est la norme de référence en France régissant toutes les installations électriques résidentielles, assurant la protection des personnes et du matériel."},{"q":"Installez-vous des bornes de recharge privées ?","a":"Oui, nous sommes certifiés IRVE (Infrastructure de Recharge pour Véhicules Électriques), condition requise pour bénéficier des aides de l'État."},{"q":"Comment se déroule un chantier en rénovation ?","a":"Nous effectuons une visite technique gratuite, établissons les plans de câblage et de tableau, puis réalisons les travaux par zones pour minimiser les coupures."}].map((item, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div style={{
+                  background: C.bgCard,
+                  borderRadius: 4,
+                  border: `1px solid \${C.primary}0d`,
+                  overflow: 'hidden'
+                }}>
+                  <button
+                    onClick={() => setExpandedFaq(expandedFaq === i ? null : i)}
+                    style={{
+                      width: '100%',
+                      padding: '20px 24px',
+                      background: 'transparent',
+                      border: 'none',
+                      textAlign: 'left',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      cursor: 'pointer',
+                      color: C.text
+                    }}
+                  >
+                    <span style={{ fontFamily: SERIF, fontSize: 16.5, fontWeight: 700, color: C.primary }}>
+                      {item.q}
+                    </span>
+                    <ChevronDown size={18} style={{
+                      transform: expandedFaq === i ? 'rotate(180deg)' : 'none',
+                      transition: 'transform 0.3s ease',
+                      color: C.primary
+                    }} />
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {expandedFaq === i && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        style={{ overflow: 'hidden' }}
+                      >
+                        <div style={{
+                          padding: '0 24px 24px',
+                          fontSize: 14.5,
+                          lineHeight: 1.6,
+                          color: C.textMuted
+                        }}>
+                          {item.a}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════ CONTACT & FORM ════════ */}
+      <section id="contact" style={{ padding: '120px 24px', background: C.bg }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: 64
+          }}>
+            <div>
+              <Reveal>
+                <Eyebrow>Contact &amp; Réservations</Eyebrow>
+                <h2 style={{
+                  fontFamily: SERIF,
+                  fontSize: 'clamp(28px, 4vw, 44px)',
+                  color: C.primary,
+                  marginBottom: 24,
+                  fontWeight: 700
+                }}>
+                  Discutons de votre projet
+                </h2>
+                <p style={{ fontSize: 15, lineHeight: 1.6, color: C.textMuted, marginBottom: 40 }}>
+                  Remplissez notre formulaire ou contactez-nous directement par téléphone. Notre équipe vous répondra sous un délai maximum de 24h ouvrées.
+                </p>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                  <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+                    <div style={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: '50%',
+                      background: `\${C.primary}0d`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: C.primary,
+                      flexShrink: 0
+                    }}>
+                      <Phone size={18} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Téléphone</div>
+                      <a href="tel:+33500000000" style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>+33 (0)5 00 00 00 00</a>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+                    <div style={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: '50%',
+                      background: `\${C.primary}0d`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: C.primary,
+                      flexShrink: 0
+                    }}>
+                      <Mail size={18} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Adresse E-mail</div>
+                      <a href="mailto:contact@mysite.com" style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>contact@${t.name.toLowerCase().replace(/\s+/g, '')}.com</a>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+                    <div style={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: '50%',
+                      background: `\${C.primary}0d`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: C.primary,
+                      flexShrink: 0
+                    }}>
+                      <MapPin size={18} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
+                      <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
+                        ${t.description.split(' — ')[0].replace(/.*?(?:generaliste|chirurgien-dentiste|kinesitherapeute|osteopathe|avocat|expert-comptable|coach|plombier|electricien|boulangerie|wedding|creatrice|studio|paysagiste)?\s+/, '')}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+
+            <div>
+              <Reveal delay={0.15}>
+                <div style={{
+                  background: C.bgDeep,
+                  padding: 40,
+                  borderRadius: 4,
+                  border: `1px solid \${C.primary}0d`
+                }}>
+                  {formSubmitted ? (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      style={{ textAlign: 'center', padding: '24px 0' }}
+                    >
+                      <div style={{ color: C.primary, marginBottom: 16 }}><CheckCircle size={48} style={{ margin: '0 auto' }} /></div>
+                      <h3 style={{ fontFamily: SERIF, fontSize: 22, color: C.primary, marginBottom: 8, fontWeight: 700 }}>Demande reçue !</h3>
+                      <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6 }}>
+                        Merci {formData.name}, nous avons bien reçu votre message et nous vous recontacterons très rapidement.
+                      </p>
+                    </motion.div>
+                  ) : (
+                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                      <div>
+                        <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Nom Complet</label>
+                        <input
+                          type="text"
+                          required
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          style={{
+                            width: '100%',
+                            padding: '12px 16px',
+                            background: C.bgCard,
+                            border: `1px solid \${C.primary}1a`,
+                            borderRadius: 2,
+                            color: C.text,
+                            fontFamily: SANS,
+                            fontSize: 14,
+                            outline: 'none'
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Adresse E-mail</label>
+                        <input
+                          type="email"
+                          required
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          style={{
+                            width: '100%',
+                            padding: '12px 16px',
+                            background: C.bgCard,
+                            border: `1px solid \${C.primary}1a`,
+                            borderRadius: 2,
+                            color: C.text,
+                            fontFamily: SANS,
+                            fontSize: 14,
+                            outline: 'none'
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Votre Message</label>
+                        <textarea
+                          rows={4}
+                          value={formData.message}
+                          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                          style={{
+                            width: '100%',
+                            padding: '12px 16px',
+                            background: C.bgCard,
+                            border: `1px solid \${C.primary}1a`,
+                            borderRadius: 2,
+                            color: C.text,
+                            fontFamily: SANS,
+                            fontSize: 14,
+                            outline: 'none',
+                            resize: 'none'
+                          }}
+                        />
+                      </div>
+                      <Button type="submit" filled>${t.content.ctaPrimary}</Button>
+                    </form>
+                  )}
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════ FOOTER ════════ */}
+      <footer style={{
+        background: C.bgDeep,
+        padding: '80px 24px 40px',
+        borderTop: `1px solid \${C.primary}0d`,
+        fontSize: 13.5,
+        color: C.textMuted
+      }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gap: 48,
+            marginBottom: 64
+          }}>
+            <div>
+              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>
+                ${t.name}
+              </h4>
+              <p style={{ lineHeight: 1.6 }}>
+                ${t.description.split(' — ')[0]}
+              </p>
+              <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
+                <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
+              </div>
+            </div>
+
+            <div>
+              <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary, marginBottom: 16, fontWeight: 700 }}>Navigation</h5>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <a href="#about" style={{ textDecoration: 'none', color: 'inherit' }}>À Propos</a>
+                <a href="#menu" style={{ textDecoration: 'none', color: 'inherit' }}>
+                  ${t.category === 'Food & Drink' ? 'La Carte' : 'Nos Tarifs'}
+                </a>
+                <a href="#gallery" style={{ textDecoration: 'none', color: 'inherit' }}>Galerie</a>
+                <a href="#faq" style={{ textDecoration: 'none', color: 'inherit' }}>FAQ</a>
+              </div>
+            </div>
+
+            <div>
+              <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary, marginBottom: 16, fontWeight: 700 }}>Horaires</h5>
+              <p style={{ lineHeight: 1.6 }}>
+                ${t.content.footerHours}
+              </p>
+            </div>
+
+            <div>
+              <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary, marginBottom: 16, fontWeight: 700 }}>Légal</h5>
+              <p style={{ lineHeight: 1.6, fontSize: 12 }}>
+                SIRET: 894 302 596 00012<br />
+                TVA Intracommunautaire: FR 89 894302596<br />
+                Responsable de publication: ${t.name}<br />
+                Hébergeur: Vercel Inc.
+              </p>
+            </div>
+          </div>
+
+          <div style={{
+            paddingTop: 32,
+            borderTop: `1px solid \${C.primary}12`,
+            textAlign: 'center',
+            fontSize: 11.5,
+            letterSpacing: '0.05em'
+          }}>
+            © {new Date().getFullYear()} ${t.name}. Tous droits réservés.
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  );
+}

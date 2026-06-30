@@ -1686,7 +1686,7 @@ function BookingForm() {
       {/* Fond photo fantôme */}
       <img
         src={PHOTO.outdoor}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

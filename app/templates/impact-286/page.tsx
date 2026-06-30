@@ -1438,7 +1438,7 @@ function ConsultationFormSection() {
       {/* Image de fond discrète */}
       <img
         src={PHOTO.tribunal}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

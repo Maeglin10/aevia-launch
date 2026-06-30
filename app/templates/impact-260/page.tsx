@@ -1694,7 +1694,7 @@ function QuoteForm() {
       {/* Texture BG */}
       <img
         src={ph('1621905252507-b35492cc74b4')}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { C, FONT, FONT_BODY, STATS, PRESTATIONS, TEMOIGNAGES, GALERIE, Reveal } from "./shared";
+import { C, FONT, FONT_BODY, STATS, PRESTATIONS, TEMOIGNAGES, GALERIE, Reveal, CSS_VARIABLES } from "./shared";
 
 export default function LumiereDoreePage() {
   const heroRef = useRef<HTMLElement>(null);
@@ -32,6 +32,7 @@ export default function LumiereDoreePage() {
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, minHeight: "100vh" }}>
       <style>{`
+        ${CSS_VARIABLES}
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }

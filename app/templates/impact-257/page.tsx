@@ -1597,7 +1597,7 @@ function AppointmentForm() {
       {/* Photo arrière-plan fantôme */}
       <img
         src={P.doctor}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{
