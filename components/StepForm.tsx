@@ -73,6 +73,8 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     genericError: "Une erreur est survenue. Veuillez réessayer.",
     back: "Retour", continue: "Continuer", generating: "Génération…", generate: "Générer mon site",
     sectorOther: "Autre activité",
+    fLogo: "Logo", fLogoHint: "PNG, SVG ou JPG — fond transparent recommandé", fPhotos: "Photos (optionnel)", fPhotosHint: "Extérieur, intérieur, produits, équipe… Vos propres photos.", fPhotosAdd: "Ajouter une photo",
+    fSectorDetails: "Infos spécifiques à votre activité", skip: "Passer cette étape →",
   },
   en: {
     s1Title: "Your business type", s1Sub: "Pick your sector — we'll show the designs built for you.",
@@ -96,6 +98,8 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     genericError: "Something went wrong. Please try again.",
     back: "Back", continue: "Continue", generating: "Generating…", generate: "Generate my site",
     sectorOther: "Other",
+    fLogo: "Logo", fLogoHint: "PNG, SVG or JPG — transparent background recommended", fPhotos: "Photos (optional)", fPhotosHint: "Exterior, interior, products, team… Your own photos.", fPhotosAdd: "Add a photo",
+    fSectorDetails: "Specific info about your business", skip: "Skip this step →",
   },
   es: {
     s1Title: "Tu actividad", s1Sub: "Elige tu sector — te mostramos los diseños hechos para ti.",
@@ -119,6 +123,8 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     genericError: "Algo salió mal. Inténtalo de nuevo.",
     back: "Atrás", continue: "Continuar", generating: "Generando…", generate: "Generar mi sitio",
     sectorOther: "Otro",
+    fLogo: "Logotipo", fLogoHint: "PNG, SVG o JPG — fondo transparente recomendado", fPhotos: "Fotos (opcional)", fPhotosHint: "Exterior, interior, productos, equipo… Tus propias fotos.", fPhotosAdd: "Añadir una foto",
+    fSectorDetails: "Información específica de tu negocio", skip: "Saltar este paso →",
   },
   de: {
     s1Title: "Ihre Branche", s1Sub: "Wählen Sie Ihren Sektor — wir zeigen die Designs für Sie.",
@@ -142,6 +148,8 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     genericError: "Etwas ist schiefgelaufen. Bitte erneut versuchen.",
     back: "Zurück", continue: "Weiter", generating: "Wird generiert…", generate: "Meine Website generieren",
     sectorOther: "Andere",
+    fLogo: "Logo", fLogoHint: "PNG, SVG oder JPG — transparenter Hintergrund empfohlen", fPhotos: "Fotos (optional)", fPhotosHint: "Außen, Innen, Produkte, Team… Eigene Fotos.", fPhotosAdd: "Foto hinzufügen",
+    fSectorDetails: "Spezifische Infos zu Ihrem Unternehmen", skip: "Diesen Schritt überspringen →",
   },
   pt: {
     s1Title: "A sua atividade", s1Sub: "Escolha o seu setor — mostramos os designs feitos para si.",
@@ -165,6 +173,8 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     genericError: "Algo correu mal. Por favor, tente novamente.",
     back: "Voltar", continue: "Continuar", generating: "A gerar…", generate: "Gerar o meu site",
     sectorOther: "Outro",
+    fLogo: "Logotipo", fLogoHint: "PNG, SVG ou JPG — fundo transparente recomendado", fPhotos: "Fotos (opcional)", fPhotosHint: "Exterior, interior, produtos, equipa… As suas próprias fotos.", fPhotosAdd: "Adicionar uma foto",
+    fSectorDetails: "Informação específica do seu negócio", skip: "Saltar este passo →",
   },
 };
 
@@ -238,7 +248,27 @@ export function StepForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step]);
 
-  const set = (k: keyof FormState, v: string) => setForm((f) => ({ ...f, [k]: v }));
+  const set = <K extends keyof FormState>(k: K, v: FormState[K]) => setForm((f) => ({ ...f, [k]: v }));
+
+  const [uploading, setUploading] = useState(false);
+
+  const handleUpload = async (file: File, target: "logo" | "photo") => {
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      if (!res.ok) return;
+      const { url } = await res.json() as { url: string };
+      if (target === "logo") {
+        set("logoUrl", url);
+      } else {
+        setForm((f) => ({ ...f, photoUrls: [...f.photoUrls, url] }));
+      }
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 
@@ -256,7 +286,7 @@ export function StepForm() {
     } else if (s === 4) {
       if (!form.mainService.trim()) errs.mainService = t.errMainService;
       if (!form.benefit1.trim()) errs.benefit1 = t.errBenefit;
-    } else if (s === 5) {
+    } else if (s === 6) {
       if (!form.email.trim()) errs.email = t.errEmailRequired;
       else if (!isEmail(form.email)) errs.email = t.errEmailInvalid;
     }
@@ -570,13 +600,125 @@ export function StepForm() {
               <Field label={t.fPriceRange}>
                 <input className={input} value={form.priceRange} onChange={(e) => set("priceRange", e.target.value)} placeholder={t.phPriceRange} />
               </Field>
+
+              {(SECTOR_EXTRA_QUESTIONS[form.sector] ?? []).length > 0 && (
+                <div className="border-t border-zinc-700 pt-5 mt-1 space-y-4">
+                  <p className="text-zinc-400 text-sm">{t.fSectorDetails}</p>
+                  {(SECTOR_EXTRA_QUESTIONS[form.sector] ?? []).map((q) => (
+                    <Field key={q.key} label={q.label[locale] ?? q.label.fr}>
+                      {q.type === "select" ? (
+                        <select
+                          value={form.sectorData[q.key] ?? ""}
+                          onChange={(e) => set("sectorData", { ...form.sectorData, [q.key]: e.target.value })}
+                          className={input}
+                        >
+                          <option value="">…</option>
+                          {(q.options?.[locale] ?? q.options?.fr ?? []).map((opt) => (
+                            <option key={opt} value={opt}>{opt}</option>
+                          ))}
+                        </select>
+                      ) : q.type === "textarea" ? (
+                        <textarea
+                          value={form.sectorData[q.key] ?? ""}
+                          onChange={(e) => set("sectorData", { ...form.sectorData, [q.key]: e.target.value })}
+                          className={`${input} resize-none`}
+                          rows={3}
+                          placeholder={q.placeholder?.[locale] ?? q.placeholder?.fr ?? ""}
+                        />
+                      ) : (
+                        <input
+                          value={form.sectorData[q.key] ?? ""}
+                          onChange={(e) => set("sectorData", { ...form.sectorData, [q.key]: e.target.value })}
+                          placeholder={q.placeholder?.[locale] ?? q.placeholder?.fr ?? ""}
+                          className={input}
+                        />
+                      )}
+                    </Field>
+                  ))}
+                </div>
+              )}
             </>
           )}
 
-          {/* STEP 5 — Contact + generate */}
+          {/* STEP 5 — Visuals */}
           {step === 5 && (
             <>
               <h2 className="text-xl font-bold text-white">{t.s5Title}</h2>
+              <p className="text-zinc-400 text-sm">{t.s5Sub}</p>
+
+              {/* Logo */}
+              <Field label={t.fLogo}>
+                {form.logoUrl ? (
+                  <div className="flex items-center gap-3">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={form.logoUrl} alt="logo" className="h-16 w-auto rounded-lg border border-zinc-700 bg-zinc-900 object-contain p-1" />
+                    <button
+                      type="button"
+                      onClick={() => set("logoUrl", "")}
+                      className="flex items-center gap-1 text-sm text-zinc-400 hover:text-red-400 transition-colors"
+                    >
+                      <X className="w-4 h-4" /> Supprimer
+                    </button>
+                  </div>
+                ) : (
+                  <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-zinc-700 rounded-xl p-6 cursor-pointer hover:border-violet-500 transition-colors">
+                    <Upload className="w-6 h-6 text-zinc-500" />
+                    <span className="text-sm text-zinc-400">{t.fLogoHint}</span>
+                    <input
+                      type="file"
+                      accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                      className="sr-only"
+                      onChange={(e) => {
+                        const f = e.target.files?.[0];
+                        if (f) handleUpload(f, "logo");
+                      }}
+                    />
+                    {uploading && <Loader2 className="w-4 h-4 animate-spin text-violet-400" />}
+                  </label>
+                )}
+              </Field>
+
+              {/* Photos */}
+              <Field label={t.fPhotos}>
+                <p className="text-zinc-500 text-xs mb-3">{t.fPhotosHint}</p>
+                <div className="grid grid-cols-3 gap-2">
+                  {form.photoUrls.map((url, i) => (
+                    <div key={url} className="relative group aspect-square rounded-lg overflow-hidden border border-zinc-700">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={url} alt={`photo ${i + 1}`} className="w-full h-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => setForm((f) => ({ ...f, photoUrls: f.photoUrls.filter((_, j) => j !== i) }))}
+                        className="absolute top-1 right-1 bg-black/60 rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <X className="w-3 h-3 text-white" />
+                      </button>
+                    </div>
+                  ))}
+                  {form.photoUrls.length < 6 && (
+                    <label className="aspect-square flex flex-col items-center justify-center gap-1 border-2 border-dashed border-zinc-700 rounded-lg cursor-pointer hover:border-violet-500 transition-colors">
+                      {uploading ? <Loader2 className="w-5 h-5 animate-spin text-violet-400" /> : <Plus className="w-5 h-5 text-zinc-500" />}
+                      <span className="text-xs text-zinc-500">{t.fPhotosAdd}</span>
+                      <input
+                        type="file"
+                        accept="image/png,image/jpeg,image/webp"
+                        className="sr-only"
+                        onChange={(e) => {
+                          const f = e.target.files?.[0];
+                          if (f) handleUpload(f, "photo");
+                        }}
+                      />
+                    </label>
+                  )}
+                </div>
+              </Field>
+            </>
+          )}
+
+          {/* STEP 6 — Contact + generate */}
+          {step === 6 && (
+            <>
+              <h2 className="text-xl font-bold text-white">{t.s6Title}</h2>
               <Field label={t.fEmail} required error={errFor("email")}>
                 <input type="email" className={`${input} ${errFor("email") ? inputError : ""}`} value={form.email} onChange={(e) => set("email", e.target.value)} placeholder={t.phEmail} />
               </Field>
