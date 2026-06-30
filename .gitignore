@@ -54,4 +54,6 @@ next-env.d.ts
 /scripts/find_*.py
 /scripts/gen-*.js
 /scripts/resolve_*.py
+/scripts/fix_*.py
+/scripts/verify_*.py
 /lib/htmlTemplate.ts
