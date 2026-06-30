@@ -25,7 +25,6 @@ import {
   Flame,
   Heart,
   Info,
-  Instagram,
   Mail,
   MapPin,
   Menu,
@@ -43,6 +42,26 @@ import {
   X,
   Zap,
 } from 'lucide-react';
+// Custom Instagram icon component for compatibility
+const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+  </svg>
+);
+
 
 /* ════════════════════════════════════════════════════════════════════════════
    BURGERCO — Burger artisanal Paris 9e — steaks homemade, frites fraîches, livraison. Bebas Neue, noir / jaune moutarde.
@@ -228,7 +247,7 @@ export default function Page() {
         left: 0,
         right: 0,
         zIndex: 50,
-        background: `rgba(${C.bg === '#ffffff' ? '255,255,255' : '18,18,18'}, 0.85)`,
+        background: `rgba(${(C.bg as string) === '#ffffff' ? '255,255,255' : '18,18,18'}, 0.85)`,
         backdropFilter: 'blur(10px)',
         borderBottom: `1px solid ${C.primary}12`
       }}>
@@ -687,7 +706,7 @@ export default function Page() {
                     style={{
                       background: activeCategory === tab ? C.primary : 'transparent',
                       color: activeCategory === tab 
-                        ? (${C.white === '#ffffff' && t.style === 'Dark' ? 'C.black' : 'C.white'})
+                        ? C.black
                         : C.textMuted,
                       border: 'none',
                       padding: '8px 20px',
