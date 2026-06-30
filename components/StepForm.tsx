@@ -8,7 +8,7 @@ import {
   ArrowRight, ArrowLeft, Loader2, Check, ExternalLink,
 } from "lucide-react";
 import { useLang } from "@/lib/LangContext";
-import { SECTORS, SECTOR_TEMPLATES, TEMPLATE_CITY_LABELS } from "@/lib/templates/sectors";
+import { INDUSTRIES, SECTORS, SECTOR_TEMPLATES, TEMPLATE_CITY_LABELS } from "@/lib/templates/sectors";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
 
 // Registry lookup by id — used in step 2 template cards
@@ -25,6 +25,8 @@ const TOTAL_STEPS = 5;
 
 type StepFormStrings = {
   s1Title: string; s1Sub: string;
+  s1IndustryTitle: string; s1IndustrySub: string;
+  s1SpecialtyTitle: string; s1SpecialtySub: string; s1ChangeIndustry: string;
   s2Title: string; s2Sub: string; s2Preview: string; s2Other: string;
   s3Title: string;
   s4Title: string;
@@ -47,7 +49,9 @@ type StepFormStrings = {
 const STEPFORM_T: Record<string, StepFormStrings> = {
   fr: {
     s1Title: "Votre activité", s1Sub: "Choisissez votre secteur — on vous montre les designs faits pour vous.",
-    s2Title: "Votre design", s2Sub: "4 designs créés pour votre métier. Choisissez celui qui vous correspond.", s2Preview: "Voir le thème", s2Other: "Autre activité ? Voir tous les thèmes →",
+    s1IndustryTitle: "Votre domaine", s1IndustrySub: "Quel est votre secteur d'activité ?",
+    s1SpecialtyTitle: "Votre métier", s1SpecialtySub: "Précisez votre activité pour voir les designs qui vous correspondent.", s1ChangeIndustry: "← Changer de domaine",
+    s2Title: "Votre design", s2Sub: "Designs créés pour votre métier. Choisissez celui qui vous correspond.", s2Preview: "Voir le thème", s2Other: "Autre activité ? Voir tous les thèmes →",
     s3Title: "Votre entreprise",
     s4Title: "Votre offre",
     s5Title: "Presque fini !",
@@ -67,7 +71,9 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
   },
   en: {
     s1Title: "Your business type", s1Sub: "Pick your sector — we'll show the designs built for you.",
-    s2Title: "Your design", s2Sub: "4 designs built for your profession. Pick the one that fits.", s2Preview: "Preview theme", s2Other: "Different business? See all themes →",
+    s1IndustryTitle: "Your industry", s1IndustrySub: "What is your field of activity?",
+    s1SpecialtyTitle: "Your profession", s1SpecialtySub: "Specify your activity to see the designs made for you.", s1ChangeIndustry: "← Change industry",
+    s2Title: "Your design", s2Sub: "Designs built for your profession. Pick the one that fits.", s2Preview: "Preview theme", s2Other: "Different business? See all themes →",
     s3Title: "Your business",
     s4Title: "Your offer",
     s5Title: "Almost there!",
@@ -87,7 +93,9 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
   },
   es: {
     s1Title: "Tu actividad", s1Sub: "Elige tu sector — te mostramos los diseños hechos para ti.",
-    s2Title: "Tu diseño", s2Sub: "4 diseños creados para tu profesión. Elige el que más te gusta.", s2Preview: "Ver tema", s2Other: "¿Otra actividad? Ver todos los temas →",
+    s1IndustryTitle: "Tu sector", s1IndustrySub: "¿Cuál es tu campo de actividad?",
+    s1SpecialtyTitle: "Tu profesión", s1SpecialtySub: "Especifica tu actividad para ver los diseños hechos para ti.", s1ChangeIndustry: "← Cambiar sector",
+    s2Title: "Tu diseño", s2Sub: "Diseños creados para tu profesión. Elige el que más te gusta.", s2Preview: "Ver tema", s2Other: "¿Otra actividad? Ver todos los temas →",
     s3Title: "Tu negocio",
     s4Title: "Tu oferta",
     s5Title: "¡Casi listo!",
@@ -107,7 +115,9 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
   },
   de: {
     s1Title: "Ihre Branche", s1Sub: "Wählen Sie Ihren Sektor — wir zeigen die Designs für Sie.",
-    s2Title: "Ihr Design", s2Sub: "4 Designs für Ihren Beruf. Wählen Sie das passende.", s2Preview: "Vorschau", s2Other: "Andere Branche? Alle Designs →",
+    s1IndustryTitle: "Ihre Branche", s1IndustrySub: "Was ist Ihr Tätigkeitsbereich?",
+    s1SpecialtyTitle: "Ihr Beruf", s1SpecialtySub: "Präzisieren Sie Ihre Tätigkeit, um passende Designs zu sehen.", s1ChangeIndustry: "← Branche ändern",
+    s2Title: "Ihr Design", s2Sub: "Designs für Ihren Beruf. Wählen Sie das passende.", s2Preview: "Vorschau", s2Other: "Andere Branche? Alle Designs →",
     s3Title: "Ihr Unternehmen",
     s4Title: "Ihr Angebot",
     s5Title: "Fast geschafft!",
@@ -127,7 +137,9 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
   },
   pt: {
     s1Title: "A sua atividade", s1Sub: "Escolha o seu setor — mostramos os designs feitos para si.",
-    s2Title: "O seu design", s2Sub: "4 designs criados para a sua profissão. Escolha o que mais gosta.", s2Preview: "Ver tema", s2Other: "Outra atividade? Ver todos os temas →",
+    s1IndustryTitle: "O seu setor", s1IndustrySub: "Qual é o seu campo de atividade?",
+    s1SpecialtyTitle: "A sua profissão", s1SpecialtySub: "Especifique a sua atividade para ver os designs feitos para si.", s1ChangeIndustry: "← Mudar setor",
+    s2Title: "O seu design", s2Sub: "Designs criados para a sua profissão. Escolha o que mais gosta.", s2Preview: "Ver tema", s2Other: "Outra atividade? Ver todos os temas →",
     s3Title: "O seu negócio",
     s4Title: "A sua oferta",
     s5Title: "Quase lá!",
@@ -148,7 +160,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
 };
 
 type FormState = {
-  sector: string; template: string;
+  industry: string; sector: string; template: string;
   businessName: string; tagline: string; city: string;
   mainService: string; benefit1: string; benefit2: string; benefit3: string;
   priceRange: string;
@@ -156,7 +168,7 @@ type FormState = {
 };
 
 const initial: FormState = {
-  sector: "", template: "",
+  industry: "", sector: "", template: "",
   businessName: "", tagline: "", city: "",
   mainService: "", benefit1: "", benefit2: "", benefit3: "",
   priceRange: "",
@@ -170,6 +182,8 @@ export function StepForm() {
   const t = STEPFORM_T[locale as keyof typeof STEPFORM_T] ?? STEPFORM_T.fr;
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<FormState>(initial);
+  // Step 1 has 2 sub-phases: "industry" then "specialty"
+  const [industryPhase, setIndustryPhase] = useState<"industry" | "specialty">("industry");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -196,6 +210,7 @@ export function StepForm() {
         funnelId: funnelId.current,
         step: s,
         totalSteps: TOTAL_STEPS,
+        industry: form.industry || undefined,
         businessType: form.sector || undefined,
         completed,
       }),
@@ -256,7 +271,7 @@ export function StepForm() {
     try {
       // Create session
       const formData = {
-        sector: form.sector, template: form.template,
+        industry: form.industry, sector: form.sector, template: form.template,
         businessName: form.businessName, tagline: form.tagline, city: form.city,
         mainService: form.mainService,
         benefits: [form.benefit1, form.benefit2, form.benefit3].filter(Boolean),
@@ -348,43 +363,103 @@ export function StepForm() {
           transition={{ duration: 0.25 }}
           className="bg-zinc-900 border border-zinc-800 rounded-2xl p-7 space-y-5"
         >
-          {/* STEP 1 — Sector selection */}
+          {/* STEP 1 — 2-level sector selection (industry → specialty) */}
           {step === 1 && (
-            <>
-              <h2 className="text-xl font-bold text-white">{t.s1Title}</h2>
-              <p className="text-zinc-400 text-base -mt-2">{t.s1Sub}</p>
-              <div className={`grid grid-cols-2 gap-2 ${errFor("sector") ? "rounded-xl ring-1 ring-red-500 p-2" : ""}`}>
-                {SECTORS.map((s) => (
-                  <button
-                    key={s.id}
-                    type="button"
-                    onClick={() => { set("sector", s.id); set("template", ""); }}
-                    className={`flex items-center gap-3 px-3 py-3 rounded-xl border text-left transition-all ${
-                      form.sector === s.id
-                        ? "border-violet-600 bg-violet-600/10 text-white"
-                        : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
-                    }`}
-                  >
-                    <span className="text-xl">{s.emoji}</span>
-                    <span className="text-base font-medium leading-tight">{s.labels?.[locale] ?? s.label}</span>
-                    {form.sector === s.id && <Check className="w-4 h-4 text-violet-400 ml-auto shrink-0" />}
-                  </button>
-                ))}
-                <button
-                  type="button"
-                  onClick={() => { set("sector", "other"); set("template", ""); }}
-                  className={`flex items-center gap-3 px-3 py-3 rounded-xl border text-left transition-all ${
-                    form.sector === "other"
-                      ? "border-violet-600 bg-violet-600/10 text-white"
-                      : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
-                  }`}
+            <AnimatePresence mode="wait">
+              {industryPhase === "industry" ? (
+                <motion.div
+                  key="industry"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  <span className="text-xl">🔍</span>
-                  <span className="text-base font-medium">{t.sectorOther}</span>
-                </button>
-              </div>
-              {errFor("sector") && <p className="text-red-400 text-base">{errFor("sector")}</p>}
-            </>
+                  <h2 className="text-xl font-bold text-white mb-1">{t.s1IndustryTitle}</h2>
+                  <p className="text-zinc-400 text-base mb-4">{t.s1IndustrySub}</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {INDUSTRIES.map((ind) => (
+                      <button
+                        key={ind.id}
+                        type="button"
+                        onClick={() => {
+                          set("industry", ind.id);
+                          set("sector", "");
+                          set("template", "");
+                          setIndustryPhase("specialty");
+                        }}
+                        className={`flex items-center gap-3 px-3 py-3 rounded-xl border text-left transition-all ${
+                          form.industry === ind.id
+                            ? "border-violet-600 bg-violet-600/10 text-white"
+                            : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
+                        }`}
+                      >
+                        <span className="text-xl">{ind.emoji}</span>
+                        <span className="text-base font-medium leading-tight">{ind.labels[locale] ?? ind.label}</span>
+                      </button>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => { set("industry", "other"); set("sector", "other"); set("template", ""); setIndustryPhase("specialty"); }}
+                      className="flex items-center gap-3 px-3 py-3 rounded-xl border border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white text-left transition-all"
+                    >
+                      <span className="text-xl">🔍</span>
+                      <span className="text-base font-medium">{t.sectorOther}</span>
+                    </button>
+                  </div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="specialty"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => { setIndustryPhase("industry"); set("sector", ""); set("template", ""); }}
+                    className="text-violet-400 hover:text-violet-300 text-sm mb-4 transition-colors"
+                  >
+                    {t.s1ChangeIndustry}
+                  </button>
+                  <h2 className="text-xl font-bold text-white mb-1">{t.s1SpecialtyTitle}</h2>
+                  <p className="text-zinc-400 text-base mb-4">{t.s1SpecialtySub}</p>
+                  {form.industry === "other" ? (
+                    <div className="py-4 text-center">
+                      <p className="text-zinc-300 text-base mb-4">{t.s2Other}</p>
+                      <Link href="/themes" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-base font-semibold transition-all">
+                        Voir tous les thèmes <ExternalLink className="w-4 h-4" />
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className={`grid grid-cols-2 gap-2 ${errFor("sector") ? "rounded-xl ring-1 ring-red-500 p-2" : ""}`}>
+                      {(INDUSTRIES.find((i) => i.id === form.industry)?.specialties ?? []).map((s) => (
+                        <button
+                          key={s.id}
+                          type="button"
+                          onClick={() => {
+                            set("sector", s.id);
+                            set("template", "");
+                            // Auto-advance to template selection
+                            setTimeout(() => setStep(2), 180);
+                          }}
+                          className={`flex items-center gap-3 px-3 py-3 rounded-xl border text-left transition-all ${
+                            form.sector === s.id
+                              ? "border-violet-600 bg-violet-600/10 text-white"
+                              : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
+                          }`}
+                        >
+                          <span className="text-xl">{s.emoji}</span>
+                          <span className="text-base font-medium leading-tight">{s.labels?.[locale] ?? s.label}</span>
+                          {form.sector === s.id && <Check className="w-4 h-4 text-violet-400 ml-auto shrink-0" />}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  {errFor("sector") && <p className="text-red-400 text-base mt-2">{errFor("sector")}</p>}
+                </motion.div>
+              )}
+            </AnimatePresence>
           )}
 
           {/* STEP 2 — Template choice for selected sector */}
@@ -515,13 +590,27 @@ export function StepForm() {
 
       {/* Nav buttons */}
       <div className="flex items-center justify-between mt-6">
-        {step > 1 ? (
-          <button onClick={() => setStep((s) => s - 1)} className="flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-700 text-zinc-400 text-base hover:text-white transition-colors">
+        {(step > 1 || (step === 1 && industryPhase === "specialty" && form.industry !== "other")) ? (
+          <button
+            onClick={() => {
+              if (step === 1 && industryPhase === "specialty") {
+                setIndustryPhase("industry");
+                set("sector", "");
+                set("template", "");
+              } else {
+                setStep((s) => s - 1);
+                if (step === 2) setIndustryPhase("specialty");
+              }
+            }}
+            className="flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-700 text-zinc-400 text-base hover:text-white transition-colors"
+          >
             <ArrowLeft className="w-4 h-4" /> {t.back}
           </button>
         ) : <div />}
 
         {step < TOTAL_STEPS ? (
+          // In Step 1 industry phase: clicking an industry auto-advances — no Continue button needed
+          step === 1 && industryPhase === "industry" ? <div /> : (
           <button
             onClick={goNext}
             aria-disabled={!canNext()}
@@ -531,6 +620,7 @@ export function StepForm() {
           >
             {t.continue} <ArrowRight className="w-4 h-4" />
           </button>
+          )
         ) : (
           <button
             onClick={handleGenerate}

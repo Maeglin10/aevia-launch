@@ -162,10 +162,10 @@ function CollectionsSection() {
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = C.borderAccent; (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)"; (e.currentTarget as HTMLElement).style.transition = "all 0.2s"; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = C.border; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}
                   >
-                    {arrangement.image ? (
+                    {arr.image ? (
                       <img
-                        src={arrangement.image}
-                        alt={arrangement.name}
+                        src={arr.image}
+                        alt={arr.name}
                         style={{ width: "100%", height: 200, objectFit: "cover", display: "block", marginBottom: 24 }}
                         loading="lazy"
                       />
