@@ -39,7 +39,7 @@ export default function LuminalHome() {
           className="absolute inset-0 z-0"
         >
           <Image
-            src="https://picsum.photos/seed/wellness/1600/1000"
+            src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1600&auto=format&fit=crop"
             alt="Wellness Hero"
             fill
             className="object-cover grayscale brightness-90"

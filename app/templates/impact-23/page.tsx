@@ -28,7 +28,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 };
 
 const films = [
-  { title: "Les Heures Perdues", type: "Long-métrage", year: "2025", festival: "Cannes — Sélection Officielle", src: "https://picsum.photos/seed/cinema/600/800" },
+  { title: "Les Heures Perdues", type: "Long-métrage", year: "2025", festival: "Cannes — Sélection Officielle", src: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop" },
   { title: "Poussière de Lumière", type: "Court-métrage", year: "2025", festival: "Sundance — Grand Prix", src: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&q=80" },
   { title: "L'Écho du Silence", type: "Documentaire", year: "2024", festival: "IDFA — Best Documentary", src: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80" },
   { title: "Fragments", type: "Court-métrage", year: "2024", festival: "César — Nommé", src: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=600&q=80" },
@@ -57,7 +57,7 @@ const filmsCatalogue = [
     type: "Long-métrage",
     year: "2025",
     duration: "1h 47min",
-    src: "https://picsum.photos/seed/cinema/600/800",
+    src: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop",
     synopsis: "Paris, hiver 2024. Mathilde, ancienne pianiste prodige devenue accordeuse de pianos, traverse la capitale pour ses rendez-vous professionnels. Chaque instrument qu'elle accorde la ramène à un souvenir enfoui, un fragment de la vie qu'elle a abandonnée. Lorsqu'elle est appelée au Conservatoire pour un Steinway de concert, le passé la rattrape sous la forme d'Étienne, son ancien professeur, désormais atteint d'Alzheimer. Commence alors un voyage intérieur où la musique devient le seul pont entre mémoire et oubli.",
     cast: ["Léa Seydoux — Mathilde Verdier", "André Dussollier — Étienne Lacoste", "Noémie Merlant — Claire, la sœur de Mathilde", "Vincent Lindon — Paul, l'ex-mari", "Hafsia Herzi — Samira, amie et confidente"],
     crew: "Réalisé par Julien Ferraro · Scénario : Julien Ferraro & Camille Noé · Directeur de la photographie : Nicolas Bolduc · Musique originale : Alexandre Desplat · Montage : Laure Gardette",
@@ -181,7 +181,7 @@ export default function StudioPelikanPage() {
           {/* Hero */}
           <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden">
             <motion.div className="absolute inset-0" style={{ y: heroY }}>
-              <Image src="https://picsum.photos/seed/cinema/1600/1000" alt="Studio Pelikan" fill className="object-cover" priority />
+              <Image src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1600&auto=format&fit=crop" alt="Studio Pelikan" fill className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-b from-[#100D08]/70 via-[#100D08]/30 to-[#100D08]/95" />
             </motion.div>
             <motion.div className="relative z-10 h-full flex flex-col justify-end pb-20 px-6" style={{ opacity: heroOpacity }}>

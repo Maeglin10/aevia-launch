@@ -111,9 +111,9 @@ const PROCESS = [
 
 const REELTHUMB = [
   "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85",
-  "https://picsum.photos/seed/motion1/1200/750",
-  "https://picsum.photos/seed/motion/1200/750",
-  "https://picsum.photos/seed/motion2/1200/750",
+  "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?q=80&w=1200&auto=format&fit=crop",
 ]
 
 export default function KineticStudio() {

@@ -214,7 +214,7 @@ export default function CreativePortfolioSPA() {
           ========================================== */}
       <section id="hero" className="relative h-screen w-full flex items-center justify-center overflow-hidden">
         <motion.div style={{ y: heroY, scale: scaleProgress }} className="absolute inset-0 z-0 origin-bottom">
-          <Image src="https://picsum.photos/seed/photo/1600/1000" fill className="object-cover" alt="Hero" priority />
+          <Image src="https://images.unsplash.com/photo-1542744094-3a31f103e35f?q=80&w=1600&auto=format&fit=crop" fill className="object-cover" alt="Hero" priority />
           <div className="absolute inset-0 bg-black/50" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a]/60" />
         </motion.div>

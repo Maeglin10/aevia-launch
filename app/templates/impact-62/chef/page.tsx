@@ -51,7 +51,7 @@ export default function ChefPage() {
           <div className="lg:col-span-7 order-1 lg:order-2">
             <Reveal className="relative aspect-square md:aspect-[16/9] rounded-sm overflow-hidden shadow-2xl">
               <Image
-                src="https://picsum.photos/seed/chef/1200/800"
+                src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1200&auto=format&fit=crop"
                 alt="Chef Portrait"
                 fill
                 className="object-cover grayscale brightness-50"

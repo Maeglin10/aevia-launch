@@ -54,7 +54,7 @@ const PRODUCTS = [
     category: "Sourdough",
     price: "€8.50",
     desc: "48-hour fermentation. Charcoal-infused crust. Ancient grain blend.",
-    img: "https://picsum.photos/seed/bakery/800/800",
+    img: "https://images.unsplash.com/photo-1509440159258-1c1c3e5f3f5b?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: 2,
@@ -346,7 +346,7 @@ export default function BoulangerieNoirePage() {
           className="absolute inset-0 z-0"
         >
           <Image
-            src="https://picsum.photos/seed/bakery/1600/1000"
+            src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=1600&auto=format&fit=crop"
             alt="Bakery Hero"
             fill
             className="object-cover brightness-50 contrast-125 grayscale-[0.5]"

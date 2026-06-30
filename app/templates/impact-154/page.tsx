@@ -45,7 +45,7 @@ const COLLECTIONS = [
     status: "In_Exhibition",
     location: "Paris Annex",
     desc: "Sculptures hellénistiques retrouvées lors de l'expédition de 1924 en mer Égée.",
-    image: "https://picsum.photos/seed/gallery/1200/750"
+    image: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?q=80&w=1200&auto=format&fit=crop"
   },
   {
     id: "art-03",

@@ -32,7 +32,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 const ORIGINS = [
-  { name: "Ethiopian Yirgacheffe", region: "Sidamo, Ethiopia", altitude: "1,800m", process: "Washed", notes: "Jasmine, bergamot, stone fruit", img: "https://picsum.photos/seed/coffee/800/800", score: 92 },
+  { name: "Ethiopian Yirgacheffe", region: "Sidamo, Ethiopia", altitude: "1,800m", process: "Washed", notes: "Jasmine, bergamot, stone fruit", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=800&auto=format&fit=crop", score: 92 },
   { name: "Colombian Huila", region: "Huila, Colombia", altitude: "1,650m", process: "Honey", notes: "Chocolate, caramel, citrus", img: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=800", score: 89 },
   { name: "Kenyan Nyeri AA", region: "Nyeri, Kenya", altitude: "1,700m", process: "Washed", notes: "Blackcurrant, tomato, wine", img: "https://images.unsplash.com/photo-1504630083234-14187a9df0f5?auto=format&fit=crop&q=80&w=800", score: 91 },
   { name: "Guatemala Antigua", region: "Antigua, Guatemala", altitude: "1,500m", process: "Natural", notes: "Dark chocolate, spice, smoke", img: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=800", score: 88 },
