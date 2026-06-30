@@ -112,6 +112,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
   const [showModal, setShowModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedSession, setEditedSession] = useState<SessionData | null>(null);
+  const [iframeKey, setIframeKey] = useState(0);
 
   useEffect(() => {
     fetch(`/api/sessions?id=${sessionId}`)
