@@ -40,3 +40,18 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env*.local
+
+# Antigravity generation scripts (temporary, root-level)
+/build_pages.js
+/create_pages.js
+/extract.js
+/gen_impact_*.js
+/generate*.js
+/generate*.py
+/modify_home.js
+/script_create_pages.js
+/scripts/deep_*.py
+/scripts/find_*.py
+/scripts/gen-*.js
+/scripts/resolve_*.py
+/lib/htmlTemplate.ts

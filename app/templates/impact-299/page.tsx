@@ -45,37 +45,37 @@ import {
 } from 'lucide-react';
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ${t.name.toUpperCase()} — ${t.description}
+   KINÉPRO SPORT LYON — Kinésithérapeute du sport Lyon Confluence — athlètes, rééducation post-op, dry needling. Barlow Condensed, bleu / orange.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
 const C = {
-  primary: "${t.palette.primary}",
-  primaryLight: "${t.palette.primaryLight}",
-  primaryDark: "${t.palette.primaryDark}",
-  bg: "${t.palette.bg}",
-  bgDeep: "${t.palette.bgDeep}",
-  bgCard: "${t.palette.bgCard}",
-  text: "${t.palette.text}",
-  textMuted: "${t.palette.textMuted}",
-  accent: "${t.palette.accent}",
+  primary: "#1565c0",
+  primaryLight: "#2979d4",
+  primaryDark: "#0d47a1",
+  bg: "#111827",
+  bgDeep: "#0a0f1a",
+  bgCard: "#1f2937",
+  text: "#f1f5f9",
+  textMuted: "#94a3b8",
+  accent: "#f97316",
   white: "#ffffff",
   black: "#000000",
 } as const;
 
-const SERIF = "${t.fonts.serif}" as const;
-const SANS = "${t.fonts.sans}" as const;
+const SERIF = "'Barlow Condensed', sans-serif" as const;
+const SANS = "'Open Sans', sans-serif" as const;
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const PHOTO = {
-  hero: "${t.photos.hero}",
-  about: "${t.photos.about}",
-  special: "${t.photos.special}",
-  gallery1: "${t.photos.gallery1}",
-  gallery2: "${t.photos.gallery2}",
-  gallery3: "${t.photos.gallery3}",
-  gallery4: "${t.photos.gallery4}"
+  hero: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1600&auto=format&fit=crop",
+  about: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1600&auto=format&fit=crop",
+  special: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=1600&auto=format&fit=crop",
+  gallery1: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800&auto=format&fit=crop",
+  gallery2: "https://images.unsplash.com/photo-1519824141125-994e37c7af4e?q=80&w=800&auto=format&fit=crop",
+  gallery3: "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=800&auto=format&fit=crop",
+  gallery4: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop"
 } as const;
 
 /* ── Primitives Reutilisables ─────────────────────────────────────────────── */
@@ -163,12 +163,12 @@ function Button({
         textTransform: 'uppercase',
         fontWeight: 700,
         cursor: 'pointer',
-        border: `1.5px solid \${C.primary}`,
+        border: `1.5px solid ${C.primary}`,
         background: filled ? C.primary : 'transparent',
         color: filled ? (C.black) : C.primary,
         borderRadius: 2,
         transform: hover ? 'translateY(-2px)' : 'none',
-        boxShadow: hover && filled ? `0 6px 20px \${C.primary}33` : 'none',
+        boxShadow: hover && filled ? `0 6px 20px ${C.primary}33` : 'none',
         transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
       }}
     >
@@ -187,7 +187,7 @@ function Button({
 
 export default function Page() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState("${t.content.menuTabs[0]}");
+  const [activeCategory, setActiveCategory] = useState("Tous");
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
@@ -201,9 +201,9 @@ export default function Page() {
   const heroY = useTransform(heroProgress, [0, 1], ['0%', '8%']);
   const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
-  const menuItemsFiltered = activeCategory === "${t.content.menuTabs[0]}"
-    ? ${JSON.stringify(t.content.menuItems)}
-    : ${JSON.stringify(t.content.menuItems)}.filter(item => item.category === activeCategory);
+  const menuItemsFiltered = activeCategory === "Tous"
+    ? [{"name": "Séance de Kinésithérapie du Sport", "category": "Rééducation", "desc": "Séance individuelle axée sur la rééducation active et le renforcement.", "price": "30,00 €"}, {"name": "Dry Needling", "category": "Spécialités", "desc": "Technique de puncture sèche pour relâcher les trigger points musculaires.", "price": "45,00 €"}, {"name": "Massage de Récupération Sportive", "category": "Récupération", "desc": "Massage profond pour éliminer les toxines et détendre les muscles fatigués.", "price": "60,00 €"}, {"name": "Strapping & Kinésio-Taping", "category": "Spécialités", "desc": "Application de bandes de soutien pour sécuriser les articulations pendant l'effort.", "price": "20,00 €"}]
+    : [{"name": "Séance de Kinésithérapie du Sport", "category": "Rééducation", "desc": "Séance individuelle axée sur la rééducation active et le renforcement.", "price": "30,00 €"}, {"name": "Dry Needling", "category": "Spécialités", "desc": "Technique de puncture sèche pour relâcher les trigger points musculaires.", "price": "45,00 €"}, {"name": "Massage de Récupération Sportive", "category": "Récupération", "desc": "Massage profond pour éliminer les toxines et détendre les muscles fatigués.", "price": "60,00 €"}, {"name": "Strapping & Kinésio-Taping", "category": "Spécialités", "desc": "Application de bandes de soutien pour sécuriser les articulations pendant l'effort.", "price": "20,00 €"}].filter(item => item.category === activeCategory);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -228,9 +228,9 @@ export default function Page() {
         left: 0,
         right: 0,
         zIndex: 50,
-        background: `rgba(\${C.bg === '#ffffff' ? '255,255,255' : '18,18,18'}, 0.85)`,
+        background: `rgba(${C.bg === '#ffffff' ? '255,255,255' : '18,18,18'}, 0.85)`,
         backdropFilter: 'blur(10px)',
-        borderBottom: `1px solid \${C.primary}12`
+        borderBottom: `1px solid ${C.primary}12`
       }}>
         <div style={{
           maxWidth: 1200,
@@ -248,21 +248,21 @@ export default function Page() {
             textDecoration: 'none',
             letterSpacing: '0.05em'
           }}>
-            ${t.name}
+            KinéPro Sport Lyon
           </a>
 
           {/* Desktop links */}
           <div style={{ display: 'flex', gap: 28, alignItems: 'center' }} className="hidden md:flex">
             <a href="#about" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>À Propos</a>
             <a href="#menu" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>
-              ${t.category === 'Food & Drink' ? 'La Carte' : 'Nos Tarifs'}
+              Nos Tarifs
             </a>
             <a href="#gallery" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>Galerie</a>
             <a href="#faq" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>FAQ</a>
             <a href="#contact" style={{ textDecoration: 'none' }}>
               <button style={{
                 background: C.primary,
-                color: ${C.white === '#ffffff' && t.style === 'Dark' ? 'C.black' : 'C.white'},
+                color: C.black,
                 border: 'none',
                 padding: '9px 18px',
                 fontSize: 12,
@@ -272,7 +272,7 @@ export default function Page() {
                 borderRadius: 2,
                 cursor: 'pointer'
               }}>
-                ${t.content.ctaPrimary}
+                Prendre rendez-vous
               </button>
             </a>
           </div>
@@ -302,7 +302,7 @@ export default function Page() {
               exit={{ opacity: 0, height: 0 }}
               style={{
                 background: C.bgDeep,
-                borderBottom: `1px solid \${C.primary}12`,
+                borderBottom: `1px solid ${C.primary}12`,
                 overflow: 'hidden'
               }}
               className="md:hidden"
@@ -310,14 +310,14 @@ export default function Page() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: 24 }}>
                 <a href="#about" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none', color: C.text, fontSize: 14, textTransform: 'uppercase', fontWeight: 600 }}>À Propos</a>
                 <a href="#menu" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none', color: C.text, fontSize: 14, textTransform: 'uppercase', fontWeight: 600 }}>
-                  ${t.category === 'Food & Drink' ? 'La Carte' : 'Nos Tarifs'}
+                  Nos Tarifs
                 </a>
                 <a href="#gallery" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none', color: C.text, fontSize: 14, textTransform: 'uppercase', fontWeight: 600 }}>Galerie</a>
                 <a href="#faq" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none', color: C.text, fontSize: 14, textTransform: 'uppercase', fontWeight: 600 }}>FAQ</a>
                 <a href="#contact" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none' }}>
                   <button style={{
                     background: C.primary,
-                    color: ${C.white === '#ffffff' && t.style === 'Dark' ? 'C.black' : 'C.white'},
+                    color: C.black,
                     border: 'none',
                     padding: '12px 24px',
                     width: '100%',
@@ -327,7 +327,7 @@ export default function Page() {
                     letterSpacing: '0.1em',
                     borderRadius: 2
                   }}>
-                    ${t.content.ctaPrimary}
+                    Prendre rendez-vous
                   </button>
                 </a>
               </div>
@@ -360,7 +360,7 @@ export default function Page() {
         }}>
           <img 
             src={PHOTO.hero} 
-            alt="Hero image showing ${t.name} core business" 
+            alt="Hero image showing KinéPro Sport Lyon core business" 
             style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
           />
           <div style={{
@@ -392,7 +392,7 @@ export default function Page() {
             }}>
               <Sparkles size={12} color="#ffffff" />
               <span style={{ fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#ffffff', fontWeight: 600 }}>
-                ${t.content.eyebrow}
+                Kinésithérapeute du sport · Lyon
               </span>
             </div>
           </Reveal>
@@ -407,7 +407,7 @@ export default function Page() {
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
             }}>
-              ${t.content.headline}
+              Performance\n& Récupération
             </h1>
           </Reveal>
 
@@ -420,14 +420,14 @@ export default function Page() {
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>
-              ${t.content.subtext}
+              Kinésithérapie du sport Lyon Confluence. Football, running, natation. Rééducation post-op.
             </p>
           </Reveal>
 
           <Reveal delay={0.55}>
             <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
               <a href="#contact" style={{ textDecoration: 'none' }}>
-                <Button filled>${t.content.ctaPrimary}</Button>
+                <Button filled>Prendre rendez-vous</Button>
               </a>
               <a href="#menu" style={{ textDecoration: 'none' }}>
                 <button style={{
@@ -444,7 +444,7 @@ export default function Page() {
                   cursor: 'pointer',
                   transition: 'all 0.3s'
                 }}>
-                  ${t.content.ctaSecondary}
+                  Nos spécialités
                 </button>
               </a>
             </div>
@@ -473,7 +473,7 @@ export default function Page() {
       </section>
 
       {/* ════════ STATS & BADGES ════════ */}
-      <section style={{ padding: '80px 24px', background: C.bgDeep, borderBottom: `1px solid \${C.primary}0d` }}>
+      <section style={{ padding: '80px 24px', background: C.bgDeep, borderBottom: `1px solid ${C.primary}0d` }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{
             display: 'grid',
@@ -481,7 +481,7 @@ export default function Page() {
             gap: 40,
             textAlign: 'center'
           }}>
-            {menuItemsFiltered.length > 0 && ${JSON.stringify(t.content.stats)}.map((stat, i) => (
+            {menuItemsFiltered.length > 0 && [{"value": "100%", "label": "Suivi Individuel"}, {"value": "72h", "label": "Bilan Initial Rapide"}, {"value": "RGE", "label": "Équipements Premium"}].map((stat, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div style={{ padding: '16px 8px' }}>
                   <div style={{
@@ -528,7 +528,7 @@ export default function Page() {
                 <div style={{
                   position: 'absolute',
                   inset: 0,
-                  border: `12px solid \${C.bg}`,
+                  border: `12px solid ${C.bg}`,
                   pointerEvents: 'none'
                 }} />
               </div>
@@ -536,7 +536,7 @@ export default function Page() {
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow>${t.name}</Eyebrow>
+                <Eyebrow>KinéPro Sport Lyon</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
@@ -545,7 +545,7 @@ export default function Page() {
                   marginBottom: 24,
                   fontWeight: 700
                 }}>
-                  ${t.content.aboutTitle}
+                  Le Kiné des Sportifs
                 </h2>
                 <p style={{
                   fontSize: 15,
@@ -553,7 +553,7 @@ export default function Page() {
                   color: C.textMuted,
                   marginBottom: 20
                 }}>
-                  ${t.content.aboutDesc}
+                  KinéPro Sport accompagne les athlètes amateurs et professionnels du Grand Lyon. Rééducation post-opératoire, dry needling, thérapie manuelle et retour au sport accéléré.
                 </p>
                 <p style={{
                   fontSize: 15,
@@ -564,7 +564,7 @@ export default function Page() {
                   Chaque détail est pensé pour créer une expérience singulière, alliant savoir-faire historique et modernité.
                 </p>
                 <a href="#contact" style={{ textDecoration: 'none' }}>
-                  <Button filled>${t.content.ctaPrimary}</Button>
+                  <Button filled>Prendre rendez-vous</Button>
                 </a>
               </Reveal>
             </div>
@@ -584,7 +584,7 @@ export default function Page() {
               marginBottom: 16,
               fontWeight: 700
             }}>
-              ${t.content.specialtyTitle}
+              Dry Needling
             </h2>
             <p style={{
               fontSize: 16,
@@ -593,7 +593,7 @@ export default function Page() {
               margin: '0 auto 64px',
               lineHeight: 1.6
             }}>
-              ${t.content.specialtyDesc}
+              Technique de puncture sèche pour libérer les points gâchettes musculaires. Efficace sur les douleurs chroniques et les blessures sportives.
             </p>
           </Reveal>
 
@@ -608,7 +608,7 @@ export default function Page() {
                 padding: 40,
                 borderRadius: 4,
                 textAlign: 'left',
-                border: `1px solid \${C.primary}0f`,
+                border: `1px solid ${C.primary}0f`,
                 height: '100%'
               }}>
                 <div style={{ color: C.primary, marginBottom: 20 }}><Award size={32} /></div>
@@ -623,7 +623,7 @@ export default function Page() {
                 padding: 40,
                 borderRadius: 4,
                 textAlign: 'left',
-                border: `1px solid \${C.primary}0f`,
+                border: `1px solid ${C.primary}0f`,
                 height: '100%'
               }}>
                 <div style={{ color: C.primary, marginBottom: 20 }}><Clock size={32} /></div>
@@ -638,7 +638,7 @@ export default function Page() {
                 padding: 40,
                 borderRadius: 4,
                 textAlign: 'left',
-                border: `1px solid \${C.primary}0f`,
+                border: `1px solid ${C.primary}0f`,
                 height: '100%'
               }}>
                 <div style={{ color: C.primary, marginBottom: 20 }}><Shield size={32} /></div>
@@ -655,7 +655,7 @@ export default function Page() {
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <Reveal>
-              <Eyebrow align="center">${t.category === 'Food & Drink' ? 'La Restauration' : 'Tarifs & Services'}</Eyebrow>
+              <Eyebrow align="center">Tarifs & Services</Eyebrow>
               <h2 style={{
                 fontFamily: SERIF,
                 fontSize: 'clamp(28px, 4vw, 44px)',
@@ -663,7 +663,7 @@ export default function Page() {
                 marginBottom: 24,
                 fontWeight: 700
               }}>
-                ${t.content.menuTitle}
+                Nos Soins
               </h2>
             </Reveal>
 
@@ -713,7 +713,7 @@ export default function Page() {
               <Reveal key={i} delay={i * 0.05}>
                 <div style={{
                   paddingBottom: 24,
-                  borderBottom: `1px solid \${C.primary}12`,
+                  borderBottom: `1px solid ${C.primary}12`,
                   display: 'flex',
                   justifyContent: 'space-between',
                   gap: 20,
@@ -736,7 +736,7 @@ export default function Page() {
                         {item.name}
                       </h4>
                       <span style={{
-                        background: `\${C.primary}1a`,
+                        background: `${C.primary}1a`,
                         color: C.primary,
                         fontSize: 10,
                         fontWeight: 700,
@@ -837,7 +837,7 @@ export default function Page() {
           </Reveal>
 
           <Reveal delay={0.2}>
-            <div style={{ position: 'relative', background: C.bgDeep, padding: '48px 32px', borderRadius: 4, border: `1px solid \${C.primary}0c` }}>
+            <div style={{ position: 'relative', background: C.bgDeep, padding: '48px 32px', borderRadius: 4, border: `1px solid ${C.primary}0c` }}>
               <div style={{ color: C.primary, opacity: 0.15, position: 'absolute', top: 24, left: 24 }}><Quote size={56} /></div>
               <p style={{
                 fontFamily: SERIF,
@@ -886,7 +886,7 @@ export default function Page() {
                 <div style={{
                   background: C.bgCard,
                   borderRadius: 4,
-                  border: `1px solid \${C.primary}0d`,
+                  border: `1px solid ${C.primary}0d`,
                   overflow: 'hidden'
                 }}>
                   <button
@@ -970,7 +970,7 @@ export default function Page() {
                       width: 44,
                       height: 44,
                       borderRadius: '50%',
-                      background: `\${C.primary}0d`,
+                      background: `${C.primary}0d`,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -990,7 +990,7 @@ export default function Page() {
                       width: 44,
                       height: 44,
                       borderRadius: '50%',
-                      background: `\${C.primary}0d`,
+                      background: `${C.primary}0d`,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -1001,7 +1001,7 @@ export default function Page() {
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Adresse E-mail</div>
-                      <a href="mailto:contact@mysite.com" style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>contact@${t.name.toLowerCase().replace(/\s+/g, '')}.com</a>
+                      <a href="mailto:contact@mysite.com" style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>contact@kinéprosportlyon.com</a>
                     </div>
                   </div>
 
@@ -1010,7 +1010,7 @@ export default function Page() {
                       width: 44,
                       height: 44,
                       borderRadius: '50%',
-                      background: `\${C.primary}0d`,
+                      background: `${C.primary}0d`,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -1022,7 +1022,7 @@ export default function Page() {
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        ${t.description.split(' — ')[0].replace(/.*?(?:generaliste|chirurgien-dentiste|kinesitherapeute|osteopathe|avocat|expert-comptable|coach|plombier|electricien|boulangerie|wedding|creatrice|studio|paysagiste)?\s+/, '')}
+                        Lyon Confluence
                       </div>
                     </div>
                   </div>
@@ -1036,7 +1036,7 @@ export default function Page() {
                   background: C.bgDeep,
                   padding: 40,
                   borderRadius: 4,
-                  border: `1px solid \${C.primary}0d`
+                  border: `1px solid ${C.primary}0d`
                 }}>
                   {formSubmitted ? (
                     <motion.div
@@ -1063,7 +1063,7 @@ export default function Page() {
                             width: '100%',
                             padding: '12px 16px',
                             background: C.bgCard,
-                            border: `1px solid \${C.primary}1a`,
+                            border: `1px solid ${C.primary}1a`,
                             borderRadius: 2,
                             color: C.text,
                             fontFamily: SANS,
@@ -1083,7 +1083,7 @@ export default function Page() {
                             width: '100%',
                             padding: '12px 16px',
                             background: C.bgCard,
-                            border: `1px solid \${C.primary}1a`,
+                            border: `1px solid ${C.primary}1a`,
                             borderRadius: 2,
                             color: C.text,
                             fontFamily: SANS,
@@ -1102,7 +1102,7 @@ export default function Page() {
                             width: '100%',
                             padding: '12px 16px',
                             background: C.bgCard,
-                            border: `1px solid \${C.primary}1a`,
+                            border: `1px solid ${C.primary}1a`,
                             borderRadius: 2,
                             color: C.text,
                             fontFamily: SANS,
@@ -1112,7 +1112,7 @@ export default function Page() {
                           }}
                         />
                       </div>
-                      <Button type="submit" filled>${t.content.ctaPrimary}</Button>
+                      <Button type="submit" filled>Prendre rendez-vous</Button>
                     </form>
                   )}
                 </div>
@@ -1126,7 +1126,7 @@ export default function Page() {
       <footer style={{
         background: C.bgDeep,
         padding: '80px 24px 40px',
-        borderTop: `1px solid \${C.primary}0d`,
+        borderTop: `1px solid ${C.primary}0d`,
         fontSize: 13.5,
         color: C.textMuted
       }}>
@@ -1139,10 +1139,10 @@ export default function Page() {
           }}>
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>
-                ${t.name}
+                KinéPro Sport Lyon
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                ${t.description.split(' — ')[0]}
+                Kinésithérapeute du sport Lyon Confluence
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
@@ -1154,7 +1154,7 @@ export default function Page() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 <a href="#about" style={{ textDecoration: 'none', color: 'inherit' }}>À Propos</a>
                 <a href="#menu" style={{ textDecoration: 'none', color: 'inherit' }}>
-                  ${t.category === 'Food & Drink' ? 'La Carte' : 'Nos Tarifs'}
+                  Nos Tarifs
                 </a>
                 <a href="#gallery" style={{ textDecoration: 'none', color: 'inherit' }}>Galerie</a>
                 <a href="#faq" style={{ textDecoration: 'none', color: 'inherit' }}>FAQ</a>
@@ -1164,7 +1164,7 @@ export default function Page() {
             <div>
               <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary, marginBottom: 16, fontWeight: 700 }}>Horaires</h5>
               <p style={{ lineHeight: 1.6 }}>
-                ${t.content.footerHours}
+                Lun–Ven 7h30–20h · Sam 8h–14h
               </p>
             </div>
 
@@ -1173,7 +1173,7 @@ export default function Page() {
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: ${t.name}<br />
+                Responsable de publication: KinéPro Sport Lyon<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>
@@ -1181,12 +1181,12 @@ export default function Page() {
 
           <div style={{
             paddingTop: 32,
-            borderTop: `1px solid \${C.primary}12`,
+            borderTop: `1px solid ${C.primary}12`,
             textAlign: 'center',
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} ${t.name}. Tous droits réservés.
+            © {new Date().getFullYear()} KinéPro Sport Lyon. Tous droits réservés.
           </div>
         </div>
       </footer>
