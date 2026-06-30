@@ -1665,7 +1665,7 @@ function BookingForm() {
       {/* Texture de fond discrète */}
       <img
         src={photo('1611501579-4d7dc8532cc1', 1200)}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

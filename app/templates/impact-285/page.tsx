@@ -1461,7 +1461,7 @@ function RdvFormSection() {
     <section style={sec} id="rdv">
       <img
         src={PHOTO.cabinet}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{
@@ -1898,7 +1898,7 @@ function VoyageSection() {
       >
         <img
           src={PHOTO.stethoscope}
-          alt=""
+          alt="Image de présentation"
           aria-hidden="true"
           loading="lazy"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}

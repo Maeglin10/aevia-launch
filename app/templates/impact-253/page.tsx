@@ -1620,7 +1620,7 @@ function AppointmentForm() {
       {/* Fond subtil */}
       <img
         src={photo('1506126613-423d21668e8b')}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

@@ -1684,7 +1684,7 @@ function BookingForm() {
       {/* Image de fond subtile */}
       <img
         src={PHOTO.hero}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

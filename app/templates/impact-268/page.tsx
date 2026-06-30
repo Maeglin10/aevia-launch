@@ -1543,7 +1543,7 @@ function QuoteForm() {
       {/* Photo décorative en filigrane */}
       <img
         src={photo('1558618047-b62e0e6e8517', 1600)}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

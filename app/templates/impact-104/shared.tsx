@@ -3,22 +3,37 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
+export const CSS_VARIABLES = `
+  :root {
+    --impact-104-bg: #faf8f5;
+    --impact-104-bg-dark: #1a0f08;
+    --impact-104-text: #1a0f08;
+    --impact-104-text-muted: #7c6050;
+    --impact-104-accent: #c9a87c;
+    --impact-104-accent-dark: #a8825a;
+    --impact-104-accent-light: #f7ede0;
+    --impact-104-warm: #2c1810;
+    --impact-104-white: #ffffff;
+    --impact-104-border: #e8d9c8;
+  }
+`;
+
 export const C = {
-  bg: "#faf8f5",
-  bgDark: "#1a0f08",
-  text: "#1a0f08",
-  textMuted: "#7c6050",
-  accent: "#c9a87c",
-  accentDark: "#a8825a",
-  accentLight: "#f7ede0",
-  warm: "#2c1810",
-  white: "#ffffff",
-  border: "#e8d9c8",
+  bg: "var(--impact-104-bg)",
+  bgDark: "var(--impact-104-bg-dark)",
+  text: "var(--impact-104-text)",
+  textMuted: "var(--impact-104-text-muted)",
+  accent: "var(--impact-104-accent)",
+  accentDark: "var(--impact-104-accent-dark)",
+  accentLight: "var(--impact-104-accent-light)",
+  warm: "var(--impact-104-warm)",
+  white: "var(--impact-104-white)",
+  border: "var(--impact-104-border)",
   shadow: "0 2px 14px rgba(26,15,8,0.08)",
   shadowLg: "0 16px 48px rgba(26,15,8,0.14)",
   // Aliases for auto-generated sub-pages
-  gold: "#c9a87c",
-  muted: "#7c6050",
+  gold: "var(--impact-104-accent)",
+  muted: "var(--impact-104-text-muted)",
 };
 
 export const FONT = "'Cormorant Garamond', Georgia, serif";

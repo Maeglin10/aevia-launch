@@ -15,14 +15,14 @@ import { LegalFooter } from "@/components/LegalFooter";
 const HERO_T = {
   fr: {
     badge: "Sites livrés en 2 heures",
-    pre: "Notre IA rédige vos contenus.",
+    pre: "Thèmes responsives haute qualité.",
     post: "On lance.",
-    rotate: ["Vous choisissez le thème.", "Vous nous parlez.", "On personnalise.", "Votre site est en ligne."],
-    sub: "Vous nous parlez de votre activité → nous vous proposons des thèmes adaptés → nous personnalisons → votre site est en ligne en 2h.",
+    rotate: ["Designs 100% responsives.", "SEO local optimisé.", "Connexion GSC & GA4 native.", "Thèmes ultra-sécurisés."],
+    sub: "Choisissez votre thème responsive → profitez d'un SEO optimisé et d'une connexion native Google Search Console & Analytics → lancez en toute sécurité.",
     cta1: "Créer mon site",
     cta2: "Voir les thèmes",
     free: "Aperçu gratuit · sans carte bancaire",
-    metrics: ["Live en 2h", "IA rédige", "SEO optimisé"],
+    metrics: ["Live en 2h", "Qualité Pro", "SEO & GA4"],
     how: "Comment ça marche",
     choose: "Quel type de site ?",
     chooseSub: "Choisissez votre catégorie — on a le thème parfait pour vous.",
@@ -36,14 +36,14 @@ const HERO_T = {
   },
   en: {
     badge: "Websites delivered in 2 hours",
-    pre: "Our AI writes your content.",
+    pre: "High-quality responsive themes.",
     post: "We launch.",
-    rotate: ["You pick the theme.", "Tell us about you.", "We customise.", "Your site goes live."],
-    sub: "Tell us about your business → we suggest matching themes → we customise → your site is live in 2h.",
+    rotate: ["100% responsive designs.", "Optimized local SEO.", "Native GSC & GA4 integration.", "Ultra-secure templates."],
+    sub: "Choose your responsive theme → enjoy optimized SEO and native Google Search Console & Analytics connection → launch securely.",
     cta1: "Build my site",
     cta2: "Browse themes",
     free: "Free preview · no credit card required",
-    metrics: ["Live in 2h", "AI-written", "SEO optimised"],
+    metrics: ["Live in 2h", "Pro Quality", "SEO & GA4"],
     how: "How it works",
     choose: "What type of site?",
     chooseSub: "Choose your category — we have the perfect theme for you.",
@@ -57,14 +57,14 @@ const HERO_T = {
   },
   es: {
     badge: "Sitios web entregados en 2 horas",
-    pre: "Nuestra IA redacta su contenido.",
+    pre: "Temas responsivos de alta calidad.",
     post: "Lanzamos.",
-    rotate: ["Elige el tema.", "Cuéntanos tu negocio.", "Personalizamos.", "Tu sitio está en línea."],
-    sub: "Nos hablas de tu negocio → te proponemos temas adaptados → personalizamos → tu sitio está en línea en 2h.",
+    rotate: ["Diseños 100% responsivos.", "SEO local optimizado.", "Conexión nativa GSC y GA4.", "Temas ultra seguros."],
+    sub: "Elija su tema responsivo → disfrute de un SEO optimizado y conexión nativa con Google Search Console y Analytics → lance de forma segura.",
     cta1: "Crear mi sitio",
     cta2: "Ver temas",
     free: "Vista previa gratis · sin tarjeta",
-    metrics: ["Online en 2h", "IA-escribe", "SEO optimizado"],
+    metrics: ["Online en 2h", "Calidad Pro", "SEO y GA4"],
     how: "Cómo funciona",
     choose: "¿Qué tipo de sitio?",
     chooseSub: "Elige tu categoría — tenemos el tema perfecto para ti.",
@@ -78,14 +78,14 @@ const HERO_T = {
   },
   de: {
     badge: "Websites in 2 Stunden geliefert",
-    pre: "Unsere KI schreibt Ihren Content.",
+    pre: "Hochwertige Responsive-Themes.",
     post: "Wir launchen.",
-    rotate: ["Sie wählen das Theme.", "Erzählen Sie uns.", "Wir passen an.", "Ihre Website ist live."],
-    sub: "Erzählen Sie uns von Ihrem Unternehmen → wir schlagen passende Themes vor → wir passen an → Ihre Website ist in 2h live.",
+    rotate: ["100% responsive Designs.", "Optimiertes lokales SEO.", "Native GSC & GA4 Verbindung.", "Ultra-sichere Vorlagen."],
+    sub: "Wählen Sie Ihr Responsive-Theme → profitieren Sie von optimiertem SEO und nativer Google Search Console & Analytics Verbindung → starten Sie sicher.",
     cta1: "Meine Website erstellen",
     cta2: "Themes ansehen",
     free: "Kostenlose Vorschau · keine Kreditkarte",
-    metrics: ["Online in 2h", "KI-geschrieben", "SEO-optimiert"],
+    metrics: ["Online in 2h", "Pro Qualität", "SEO & GA4"],
     how: "So funktioniert es",
     choose: "Welche Art von Website?",
     chooseSub: "Wähle deine Kategorie — wir haben das perfekte Theme für dich.",
@@ -99,14 +99,14 @@ const HERO_T = {
   },
   pt: {
     badge: "Sites entregues em 2 horas",
-    pre: "Nossa IA redige seus conteúdos.",
+    pre: "Temas responsivos de alta qualidade.",
     post: "Lançamos.",
-    rotate: ["Você escolhe o tema.", "Fale-nos de si.", "Personalizamos.", "O seu site fica online."],
-    sub: "Fala-nos do seu negócio → propomos temas adaptados → personalizamos → o seu site fica online em 2h.",
+    rotate: ["Designs 100% responsivos.", "SEO local otimizado.", "Conexão nativa GSC e GA4.", "Temas ultra seguros."],
+    sub: "Escolha seu tema responsivo → aproveite SEO otimizado e conexão nativa com Google Search Console e Analytics → lance com segurança.",
     cta1: "Criar o meu site",
     cta2: "Ver temas",
     free: "Pré-visualização grátis · sem cartão",
-    metrics: ["Online em 2h", "IA-escrito", "SEO otimizado"],
+    metrics: ["Online em 2h", "Qualidade Pro", "SEO e GA4"],
     how: "Como funciona",
     choose: "Que tipo de site?",
     chooseSub: "Escolha a sua categoria — temos o tema perfeito para si.",
@@ -123,37 +123,37 @@ const HERO_T = {
 const STEPS_T = {
   fr: [
     { title: "Décrivez votre activité", desc: "Remplissez un formulaire de 5 étapes — moins de 3 minutes." },
-    { title: "L'IA génère votre contenu", desc: "Claude rédige vos titres, textes et métadonnées SEO." },
+    { title: "Thèmes professionnels adaptés", desc: "Qualité responsive optimale, code propre et thèmes ultra-sécurisés." },
     { title: "On construit & on lance", desc: "Aperçu instantané. Déployé sur Vercel en 2 heures." },
   ],
   en: [
     { title: "Tell us about your business", desc: "Fill in a 5-step form — takes less than 3 minutes." },
-    { title: "AI generates your content", desc: "Claude writes your headlines, copy, and SEO metadata." },
+    { title: "Professional tailored themes", desc: "Optimal responsive quality, clean code, and ultra-secure templates." },
     { title: "We build & launch your site", desc: "Preview instantly. We deploy it live within 2 hours." },
   ],
   es: [
     { title: "Cuéntanos tu negocio", desc: "Completa un formulario de 5 pasos — menos de 3 minutos." },
-    { title: "La IA genera tu contenido", desc: "Claude escribe tus títulos, textos y metadatos SEO." },
+    { title: "Temas profesionales adaptados", desc: "Calidad responsiva óptima, código limpio y temas ultra seguros." },
     { title: "Construimos y lanzamos", desc: "Vista previa instantánea. Desplegado en Vercel en 2 horas." },
   ],
   de: [
     { title: "Beschreibe dein Unternehmen", desc: "Fülle ein 5-Schritte-Formular aus — weniger als 3 Minuten." },
-    { title: "KI generiert deinen Inhalt", desc: "Claude schreibt deine Texte, Headlines und SEO-Metadaten." },
+    { title: "Professionelle maßgeschneiderte Themes", desc: "Optimale Responsive-Qualität, sauberer Code und ultra-sichere Vorlagen." },
     { title: "Wir bauen & launchen", desc: "Sofortige Vorschau. In 2 Stunden live auf Vercel." },
   ],
   pt: [
     { title: "Descreva o seu negócio", desc: "Preencha um formulário de 5 etapas — menos de 3 minutos." },
-    { title: "A IA gera o seu conteúdo", desc: "Claude escreve os seus títulos, textos e metadados SEO." },
+    { title: "Temas professionnels adaptados", desc: "Qualidade responsiva ideal, código limpo e temas ultra seguros." },
     { title: "Construímos e lançamos", desc: "Pré-visualização instantânea. Lançado no Vercel em 2 horas." },
   ],
 };
 
 const TRUST_T = {
-  fr: ["Aucune compétence en design", "Rédaction par IA", "Déployé sur Vercel", "Mobile-first responsive", "SEO optimisé", "Livré en 2 heures"],
-  en: ["No design skills needed", "AI-powered copywriting", "Deployed on Vercel", "Mobile-first responsive", "SEO optimised", "Delivered in 2 hours"],
-  es: ["Sin habilidades de diseño", "Redacción por IA", "Desplegado en Vercel", "Responsive mobile-first", "SEO optimizado", "Entregado en 2 horas"],
-  de: ["Keine Designkenntnisse nötig", "KI-gestützte Texte", "Auf Vercel bereitgestellt", "Mobile-first responsiv", "SEO-optimiert", "In 2 Stunden geliefert"],
-  pt: ["Sem habilidades de design", "Redação por IA", "Implantado no Vercel", "Responsivo mobile-first", "SEO otimizado", "Entregue em 2 horas"],
+  fr: ["Aucune compétence en design", "Connexion GSC & GA4", "Déployé sur Vercel", "Mobile-first responsive", "SEO optimisé", "Livré en 2 heures"],
+  en: ["No design skills needed", "GSC & GA4 integration", "Deployed on Vercel", "Mobile-first responsive", "SEO optimised", "Delivered in 2 hours"],
+  es: ["Sin habilidades de diseño", "Conexión GSC y GA4", "Desplegado en Vercel", "Responsive mobile-first", "SEO optimizado", "Entregado en 2 horas"],
+  de: ["Keine Designkenntnisse nötig", "GSC & GA4 Verbindung", "Auf Vercel bereitgestellt", "Mobile-first responsiv", "SEO-optimiert", "In 2 Stunden geliefert"],
+  pt: ["Sem habilidades de design", "Conexão GSC e GA4", "Implantado no Vercel", "Responsivo mobile-first", "SEO otimizado", "Entregue em 2 horas"],
 };
 
 const TESTIMONIALS_T = {
@@ -430,43 +430,43 @@ const NICHES = [
 const NICHES_T = {
   fr: {
     title: "Votre site, pour votre métier",
-    sub: "Des thèmes pensés pour votre secteur — avec le contenu adapté, livré en 2 heures.",
+    sub: "Des thèmes pensés pour votre secteur — avec design responsive et SEO optimisé, livré en 2 heures.",
     cta: "Commencer →",
     stat1: "200+", stat1Label: "thèmes disponibles",
     stat2: "2h", stat2Label: "délai de livraison",
-    stat3: "IA", stat3Label: "rédige pour vous",
+    stat3: "SEO", stat3Label: "local optimisé",
   },
   en: {
     title: "Your site, for your business",
-    sub: "Themes designed for your industry — with tailored content, delivered in 2 hours.",
+    sub: "Themes designed for your industry — with responsive design and optimized SEO, delivered in 2 hours.",
     cta: "Get started →",
     stat1: "200+", stat1Label: "themes available",
     stat2: "2h", stat2Label: "delivery time",
-    stat3: "AI", stat3Label: "writes for you",
+    stat3: "SEO", stat3Label: "locally optimised",
   },
   es: {
     title: "Tu sitio, para tu negocio",
-    sub: "Temas diseñados para tu sector — con el contenido adaptado, entregado en 2 horas.",
+    sub: "Temas diseñados para tu sector — con diseño responsivo y SEO optimizado, entregado en 2 horas.",
     cta: "Empezar →",
     stat1: "200+", stat1Label: "temas disponibles",
     stat2: "2h", stat2Label: "tiempo de entrega",
-    stat3: "IA", stat3Label: "escribe para ti",
+    stat3: "SEO", stat3Label: "local optimizado",
   },
   de: {
     title: "Deine Website, für dein Unternehmen",
-    sub: "Themes für deine Branche — mit maßgeschneidertem Inhalt, in 2 Stunden geliefert.",
+    sub: "Themes für deine Branche — mit responsivem Design und optimiertem SEO, in 2 Stunden geliefert.",
     cta: "Jetzt starten →",
     stat1: "200+", stat1Label: "Themes verfügbar",
     stat2: "2h", stat2Label: "Lieferzeit",
-    stat3: "KI", stat3Label: "schreibt für dich",
+    stat3: "SEO", stat3Label: "lokal optimiert",
   },
   pt: {
     title: "O seu site, para o seu negócio",
-    sub: "Temas pensados para o seu setor — com conteúdo adaptado, entregue em 2 horas.",
+    sub: "Temas pensados para o seu setor — com design responsivo e SEO otimizado, entregue em 2 horas.",
     cta: "Começar →",
     stat1: "200+", stat1Label: "temas disponíveis",
     stat2: "2h", stat2Label: "tempo de entrega",
-    stat3: "IA", stat3Label: "escreve por si",
+    stat3: "SEO", stat3Label: "local otimizado",
   },
 } as const;
 
@@ -743,6 +743,39 @@ function SpotlightCard({ template, index }: { template: typeof TEMPLATES_REGISTR
   );
 }
 
+
+function IntegrationBadges() {
+  return (
+    <div className="flex items-center gap-4 mt-8 flex-wrap">
+      <span className="text-zinc-500 text-xs font-semibold tracking-wider uppercase">Intégration Native :</span>
+      <div className="flex gap-3">
+        {/* GSC Badge */}
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-medium hover:border-zinc-700 transition-colors">
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4Z" fill="#34A853" opacity="0.15"/>
+            <path d="M12 11C13.6569 11 15 9.65685 15 8C15 6.34315 13.6569 5 12 5C10.3431 5 9 6.34315 9 8C9 9.65685 10.3431 11 12 11Z" fill="#4285F4"/>
+            <path d="M12 13C8.66 13 2 14.67 2 18V20H22V18C22 14.67 15.34 13 12 13Z" fill="#34A853"/>
+            <path d="M7 9L4 12L7 15" stroke="#EA4335" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M17 9L20 12L17 15" stroke="#FAB605" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <span>Google Search Console</span>
+        </div>
+        {/* GA4 Badge */}
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-medium hover:border-zinc-700 transition-colors">
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.5 21C20.3284 21 21 20.3284 21 19.5V4.5C21 3.67157 20.3284 3 19.5 3H4.5C3.67157 3 3 3.67157 3 4.5V19.5C3 20.3284 3.67157 21 4.5 21H19.5Z" fill="#FF9100" opacity="0.15"/>
+            <path d="M9 17V11" stroke="#FF9100" strokeWidth="2.5" strokeLinecap="round"/>
+            <path d="M13 17V7" stroke="#FF9100" strokeWidth="2.5" strokeLinecap="round"/>
+            <path d="M17 17V13" stroke="#FF9100" strokeWidth="2.5" strokeLinecap="round"/>
+            <circle cx="5" cy="17" r="1.25" fill="#FF9100"/>
+          </svg>
+          <span>Google Analytics 4</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ─── Hero ──────────────────────────────────────────────────── */
 function HeroSection() {
   const { locale } = useLang();
@@ -831,6 +864,7 @@ function HeroSection() {
             >
               {t.free}
             </motion.p>
+            <IntegrationBadges />
           </div>
 
           {/* Right: Browser mockup */}

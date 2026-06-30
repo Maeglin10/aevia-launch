@@ -204,7 +204,7 @@ Réponds UNIQUEMENT avec un objet JSON valide (pas de \`\`\`json wrapper, pas d'
   "services": [{"title":"...","description":"35-50 mots"},{"title":"...","description":"35-50 mots"},{"title":"...","description":"35-50 mots"}],
   "testimonials": [{"name":"prénom + initiale","role":"contexte court","text":"avis 25-40 mots","rating":5},{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5}],
   "ctaText": "appel à action 4-7 mots",
-  "metaTitle": "titre SEO 50-60 chars avec ville",
-  "metaDescription": "meta description SEO 140-160 chars"
+  "metaTitle": "titre SEO 50-60 chars axé sur le SEO local avec la ville",
+  "metaDescription": "méta description SEO 140-160 chars axée sur la qualité des prestations, le SEO local et la connexion Google Search Console & Analytics native"
 }`;
 }

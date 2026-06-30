@@ -27,22 +27,22 @@ export const metadata: Metadata = {
   },
   description:
     // 156 chars
-    "Aevia Launch génère votre site web pro avec IA : rédaction, design, SEO. Wizard 5 étapes, preview instantané, mise en ligne en 2h. Sans compétence design.",
+    "Aevia Launch déploie votre site web professionnel responsive, sécurisé et optimisé pour le SEO avec connexion Google Search Console et Analytics native en 2h.",
   keywords: [
     "site web 2 heures",
-    "générateur site IA",
+    "création site web responsive",
     "AI website generator",
-    "constructeur site web IA",
+    "création site Google Search Console",
     "Aevia Launch",
     "AeviaLaunch",
-    "AI copywriting",
-    "website builder AI",
+    "Google Analytics 4 intégration",
+    "website builder SEO",
     "Vercel deploy",
     "Next.js website",
     "site web automatisé",
     "création site rapide",
     "site freelance pro",
-    "agence digitale IA",
+    "agence digitale responsive",
   ],
   authors: [{ name: "Aevia", url: "https://aevia.services" }],
   creator: "Aevia",
@@ -65,15 +65,15 @@ export const metadata: Metadata = {
     alternateLocale: ["en_US", "es_ES", "de_DE", "pt_PT"],
     url: "https://launch.aevia.services",
     siteName: "Aevia Launch",
-    title: "Aevia Launch — Votre site web pro en 2 heures, généré par IA",
+    title: "Aevia Launch — Votre site web pro en 2 heures, responsive et sécurisé",
     description:
-      "Générez votre site web professionnel avec IA. Prévisualisez instantanément, déployé sur Vercel en 2h.",
+      "Déployez votre site web professionnel responsive et sécurisé en 2h. Intégration Google Search Console & Analytics native.",
     images: [
       {
         url: "/api/og",
         width: 1200,
         height: 630,
-        alt: "Aevia Launch — Générateur de sites web par IA",
+        alt: "Aevia Launch — Création de sites web professionnels responsive",
       },
     ],
   },
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
     creator: "@aevia_io",
     title: "Aevia Launch — Votre site web pro en 2 heures",
     description:
-      "Générez votre site web professionnel avec IA. Prévisualisez instantanément, déployé en 2h.",
+      "Déployez votre site web professionnel responsive et sécurisé en 2h. Intégration Google Search Console & Analytics native.",
     images: ["/api/og"],
   },
   robots: {
@@ -106,11 +106,11 @@ const softwareAppSchema = {
   alternateName: ['AeviaLaunch', 'Aevia Launch'],
   url: 'https://launch.aevia.services',
   applicationCategory: 'WebApplication',
-  applicationSubCategory: 'AI Website Builder',
+  applicationSubCategory: 'Website Builder',
   operatingSystem: 'All',
   inLanguage: ['fr-FR', 'en-US', 'es-ES', 'de-DE', 'pt-PT'],
   description:
-    'Générateur de site web par IA. Remplissez un formulaire en 5 étapes, l\'IA écrit vos textes, le site est déployé sur Vercel en 2h.',
+    'Création de site web professionnel. Remplissez un formulaire en 5 étapes, le site est livré responsive, sécurisé, optimisé SEO et déployé sur Vercel en 2h.',
   offers: [
     {
       '@type': 'Offer',

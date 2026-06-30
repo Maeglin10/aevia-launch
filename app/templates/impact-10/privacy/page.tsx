@@ -1858,7 +1858,7 @@ function RoomDetail({ room, setRoomSlug, goTo }: { room: RoomFull; setRoomSlug: 
                         aria-label={`${room.name} photo ${i + 1}`}
                         style={{ flex: 1, height: '5rem', padding: 0, border: i === activeImg ? `2px solid ${GOLD}` : '2px solid transparent', cursor: 'pointer', overflow: 'hidden', background: 'none' }}
                       >
-                        <img src={g} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                        <img src={g} alt="Image de présentation" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                       </button>
                     ))}
                   </div>

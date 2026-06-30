@@ -1584,7 +1584,7 @@ function ContactForm() {
       {/* Texture fond subtile */}
       <img
         src={PHOTO.courthouse}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

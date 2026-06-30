@@ -2063,7 +2063,7 @@ function TechnoSection() {
       >
         <img
           src={PHOTO.traitement}
-          alt=""
+          alt="Image de présentation"
           aria-hidden="true"
           loading="lazy"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}

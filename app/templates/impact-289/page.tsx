@@ -1531,7 +1531,7 @@ function ContactFormSection() {
       {/* Fond photo décoratif */}
       <img
         src={PHOTO.bureau}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

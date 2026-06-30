@@ -3,11 +3,13 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowLeft, Sparkles } from "lucide-react";
-import { C, FONT, FONT_BODY } from "../shared";
+import { C, FONT, FONT_BODY , CSS_VARIABLES } from "../shared";
 
 export default function Page() {
   return (
+      
     <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: FONT_BODY, padding: "120px 24px" }} className="selection:bg-[#CA8A04]/20">
+      <style>{CSS_VARIABLES}</style>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <Link 
           href="/templates/impact-104"

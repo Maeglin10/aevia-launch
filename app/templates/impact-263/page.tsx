@@ -1581,7 +1581,7 @@ function QuoteForm() {
       {/* Image de fond subtile */}
       <img
         src="https://images.unsplash.com/photo-1416879347-58da7a5ecbb7?q=80&w=1600&auto=format&fit=crop"
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

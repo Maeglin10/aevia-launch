@@ -1565,7 +1565,7 @@ function ContactForm() {
       {/* Léger fond texturé */}
       <img
         src={photo('1554224155-6726b3ff858f', 1200)}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

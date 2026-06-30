@@ -1584,7 +1584,7 @@ function OrderForm() {
       {/* Photo d'ambiance en fond */}
       <img
         src={photo('1509440159258-1c1c3e5f3f5b', 1600)}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

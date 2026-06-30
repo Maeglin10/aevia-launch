@@ -1792,7 +1792,7 @@ function QuoteForm() {
       {/* Photo de fond subtile */}
       <img
         src={PHOTO.heating}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

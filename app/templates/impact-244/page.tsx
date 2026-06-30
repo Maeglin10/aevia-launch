@@ -1583,7 +1583,7 @@ function ContactForm() {
       {/* Texture de fond subtile */}
       <img
         src={`https://images.unsplash.com/photo-1519225421783-bda591ac3db3?q=80&w=1600&auto=format&fit=crop`}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

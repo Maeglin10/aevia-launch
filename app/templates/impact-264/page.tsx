@@ -1541,7 +1541,7 @@ function BookingForm() {
       {/* Background image subtle */}
       <img
         src={`https://images.unsplash.com/photo-1570295999-41bbf40f8fb5?q=80&w=1600&auto=format&fit=crop`}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

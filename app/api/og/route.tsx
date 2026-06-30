@@ -7,7 +7,7 @@ export async function GET(req: Request) {
   const title = searchParams.get("title") ?? "Sites web pros en 2h";
   const subtitle =
     searchParams.get("subtitle") ??
-    "Generateur de sites IA — formulaire 5 etapes, deploiement Vercel inclus.";
+    "Sites web professionnels responsive — formulaire 5 etapes, deploiement Vercel inclus.";
 
   const accent = "#a78bfa";
 

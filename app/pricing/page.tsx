@@ -41,8 +41,8 @@ const T = {
         color: "border-zinc-700",
         bg: "bg-zinc-900/40",
         features: [
-          "Design sur mesure généré par IA",
-          "Rédaction complète par IA (FR/EN)",
+          "Design responsive sur mesure",
+          "Optimisation SEO local & sémantique",
           "Déploiement Vercel inclus",
           "SSL + domaine custom prêt",
           "5–7 sections optimisées SEO",
@@ -63,7 +63,7 @@ const T = {
           "Tout Essentiel, plus :",
           "10–15 sections avec animations",
           "Formulaire de contact intégré",
-          "Blog ou actualités IA-générées",
+          "Blog ou actualités dynamique",
           "Intégration réseaux sociaux",
           "Analytics Google Tag Manager",
           "Maintenance 3 mois offerte",
@@ -99,7 +99,7 @@ const T = {
       },
       {
         q: "Combien de temps pour recevoir mon site ?",
-        a: "L'IA génère votre contenu en 60 secondes. La validation et le déploiement prennent entre 2 et 4 heures ouvrables selon la complexité.",
+        a: "Nous créons votre contenu sur mesure. La validation et le déploiement prennent entre 2 et 4 heures ouvrables selon la complexité.",
       },
       {
         q: "Puis-je modifier le site après livraison ?",
@@ -107,7 +107,7 @@ const T = {
       },
       {
         q: "Le site est-il vraiment optimisé SEO ?",
-        a: "L'IA structure le contenu avec les meilleures pratiques SEO : balises H1/H2, meta descriptions, vitesse de chargement, sitemap XML et JSON-LD inclus.",
+        a: "Nous structurons le contenu avec les meilleures pratiques SEO : balises H1/H2, meta descriptions, vitesse de chargement, sitemap XML et JSON-LD inclus.",
       },
     ],
     ctaBand: "Besoin d'un devis personnalisé ?",
@@ -147,7 +147,7 @@ const T = {
         color: "border-zinc-700",
         bg: "bg-zinc-900/40",
         features: [
-          "AI-generated custom design",
+          "Tailored responsive design",
           "Full AI copywriting (FR/EN)",
           "Vercel deployment included",
           "SSL + custom domain ready",
@@ -169,7 +169,7 @@ const T = {
           "Everything in Essential, plus:",
           "10–15 sections with animations",
           "Integrated contact form",
-          "AI-generated blog / news",
+          "Dynamic blog or news section",
           "Social media integration",
           "Google Tag Manager analytics",
           "3 months free maintenance",
@@ -253,8 +253,8 @@ const T = {
         color: "border-zinc-700",
         bg: "bg-zinc-900/40",
         features: [
-          "Diseño personalizado generado por IA",
-          "Redacción completa por IA (ES/EN)",
+          "Diseño responsivo premium a medida",
+          "Contenido personalizado y optimización SEO",
           "Despliegue en Vercel incluido",
           "SSL + dominio personalizado listo",
           "5–7 secciones optimizadas para SEO",
@@ -275,7 +275,7 @@ const T = {
           "Todo lo de Esencial, más:",
           "10–15 secciones con animaciones",
           "Formulario de contacto integrado",
-          "Blog o noticias generadas por IA",
+          "Blog o sección de noticias dinámicas",
           "Integración de redes sociales",
           "Analítica con Google Tag Manager",
           "3 meses de mantenimiento gratis",
@@ -359,8 +359,8 @@ const T = {
         color: "border-zinc-700",
         bg: "bg-zinc-900/40",
         features: [
-          "Individuelles, KI-generiertes Design",
-          "Vollständige KI-Texte (DE/EN)",
+          "Individuelles Responsive-Design",
+          "Komplette Inhalts- und SEO-Optimierung (DE/EN)",
           "Vercel-Deployment inklusive",
           "SSL + eigene Domain bereit",
           "5–7 SEO-optimierte Sektionen",
@@ -381,7 +381,7 @@ const T = {
           "Alles aus Essenziell, plus:",
           "10–15 Sektionen mit Animationen",
           "Integriertes Kontaktformular",
-          "KI-generierter Blog / News",
+          "Dynamischer Blog / News-Bereich",
           "Social-Media-Integration",
           "Analytics mit Google Tag Manager",
           "3 Monate Wartung gratis",
@@ -417,7 +417,7 @@ const T = {
       },
       {
         q: "Wie lange dauert es bis zur Auslieferung?",
-        a: "Die KI generiert deinen Inhalt in 60 Sekunden. Validierung und Deployment dauern je nach Komplexität 2 bis 4 Geschäftsstunden.",
+        a: "Wir erstellen dein Design und deinen Inhalt auf Maß. Validierung und Deployment dauern je nach Komplexität 2 bis 4 Geschäftsstunden.",
       },
       {
         q: "Kann ich die Website nach der Lieferung bearbeiten?",
@@ -425,7 +425,7 @@ const T = {
       },
       {
         q: "Ist die Website wirklich SEO-optimiert?",
-        a: "Die KI strukturiert die Inhalte nach den besten SEO-Praktiken: H1/H2-Tags, Meta-Beschreibungen, Ladegeschwindigkeit, XML-Sitemap und JSON-LD-Schema inklusive.",
+        a: "Wir strukturieren die Inhalte nach den besten SEO-Praktiken: H1/H2-Tags, Meta-Beschreibungen, Ladegeschwindigkeit, XML-Sitemap und JSON-LD-Schema inklusive.",
       },
     ],
     ctaBand: "Brauchst du ein individuelles Angebot?",
@@ -465,8 +465,8 @@ const T = {
         color: "border-zinc-700",
         bg: "bg-zinc-900/40",
         features: [
-          "Design personalizado gerado por IA",
-          "Redação completa por IA (PT/EN)",
+          "Design responsivo premium sob medida",
+          "Otimização completa de SEO local e conteúdo",
           "Deploy no Vercel incluído",
           "SSL + domínio personalizado pronto",
           "5–7 seções otimizadas para SEO",
@@ -487,7 +487,7 @@ const T = {
           "Tudo do Essencial, mais:",
           "10–15 seções com animações",
           "Formulário de contato integrado",
-          "Blog ou notícias geradas por IA",
+          "Blog ou seção de notícias dinâmicas",
           "Integração de redes sociais",
           "Analytics com Google Tag Manager",
           "3 meses de manutenção grátis",
@@ -523,7 +523,7 @@ const T = {
       },
       {
         q: "Quanto tempo demora para receber meu site?",
-        a: "A IA gera seu conteúdo em 60 segundos. A validação e o deploy levam de 2 a 4 horas úteis dependendo da complexidade.",
+        a: "Criamos o seu conteúdo sob medida. A validação e o deploy levam de 2 a 4 horas úteis dependendo da complexidade.",
       },
       {
         q: "Posso editar o site após a entrega?",
@@ -531,7 +531,7 @@ const T = {
       },
       {
         q: "O site é realmente otimizado para SEO?",
-        a: "A IA estrutura o conteúdo com as melhores práticas de SEO: tags H1/H2, meta descrições, velocidade de carregamento, sitemap XML e schema JSON-LD incluídos.",
+        a: "Estruturamos o conteúdo com as melhores práticas de SEO: tags H1/H2, meta descrições, velocidade de carregamento, sitemap XML e schema JSON-LD incluídos.",
       },
     ],
     ctaBand: "Precisa de um orçamento personalizado?",

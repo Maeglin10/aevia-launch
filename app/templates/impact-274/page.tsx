@@ -1396,7 +1396,7 @@ function AppointmentFormSection() {
       {/* Photo de fond subtile */}
       <img
         src={PHOTO.consultation}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{

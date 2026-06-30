@@ -1584,7 +1584,7 @@ function ContactForm() {
       {/* Background image très atténuée */}
       <img
         src={ph('1519225421783-bda591ac3db3')}
-        alt=""
+        alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
         style={{
