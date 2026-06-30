@@ -184,16 +184,22 @@ function parseJsonResponse(rawText: string): GeneratedContent | null {
 
 // ─── Shared prompt builder ───────────────────────────────────────────────────
 function buildPrompt(formData: FormData): string {
+  const sectorExtras = (formData as unknown as Record<string, unknown>).sectorData as Record<string, string> | undefined;
+  const sectorLines = sectorExtras && Object.keys(sectorExtras).length > 0
+    ? Object.entries(sectorExtras).map(([k, v]) => `- ${k}: ${v}`).join("\n")
+    : "";
+
   return `Tu es un copywriter web pro. Génère le contenu d'un site pour ce business en français professionnel.
 - Nom: ${formData.businessName}
-- Type: ${formData.businessType}
+- Type / métier: ${formData.businessType}
 - Tagline: ${formData.tagline ?? ""}
 - Service principal: ${formData.mainService ?? ""}
 - Bénéfices clés: ${(formData.benefits ?? []).join(", ")}
 - Cible: ${formData.targetAudience ?? ""}
-- Ton: ${formData.tone ?? "professional"}
+- Ton: ${formData.tone ?? "professionnel"}
 - Ville: ${formData.city ?? ""}
 - Tarifs: ${formData.priceRange ?? "sur devis"}
+${sectorLines ? `- Infos secteur:\n${sectorLines}` : ""}
 
 Réponds UNIQUEMENT avec un objet JSON valide (pas de \`\`\`json wrapper, pas d'explication) avec exactement ces clés:
 {

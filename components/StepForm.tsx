@@ -35,7 +35,11 @@ type StepFormStrings = {
   s6Title: string;
   fBusinessName: string; fWhatYouDo: string; fCity: string;
   fMainService: string; fBenefits: string; fPriceRange: string;
+  fTargetAudience: string; phTargetAudience: string;
+  fBrandColor: string;
   fEmail: string; fPhone: string;
+  fInstagram: string; phInstagram: string;
+  fLinkedin: string; phLinkedin: string;
   fGa4Id: string; phGa4Id: string;
   fGsc: string; phGsc: string;
   phBusinessName: string; phWhatYouDo: string; phCity: string; phMainService: string;
@@ -62,7 +66,11 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s6Title: "Presque fini !",
     fBusinessName: "Nom de l'entreprise", fWhatYouDo: "Ce que vous faites", fCity: "Ville",
     fMainService: "Service principal", fBenefits: "3 avantages clés", fPriceRange: "Gamme de prix",
+    fTargetAudience: "Clientèle cible (optionnel)", phTargetAudience: "ex : Particuliers 30-50 ans, PME, Sportifs…",
+    fBrandColor: "Couleur de marque",
     fEmail: "Adresse e-mail", fPhone: "Téléphone",
+    fInstagram: "Instagram (optionnel)", phInstagram: "@votrecompte",
+    fLinkedin: "LinkedIn (optionnel)", phLinkedin: "linkedin.com/company/votre-entreprise",
     fGa4Id: "Google Analytics (optionnel)", phGa4Id: "G-XXXXXXXXXX",
     fGsc: "Google Search Console (optionnel)", phGsc: "Code de vérification GSC",
     phBusinessName: "Cabinet Dupont", phWhatYouDo: "Nous accompagnons nos patients / clients depuis 2010…", phCity: "Lyon, France", phMainService: "Consultation & suivi personnalisé",
@@ -87,7 +95,11 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s6Title: "Almost there!",
     fBusinessName: "Business name", fWhatYouDo: "What you do", fCity: "City",
     fMainService: "Main service", fBenefits: "3 key benefits", fPriceRange: "Price range",
+    fTargetAudience: "Target audience (optional)", phTargetAudience: "e.g. Individuals 30-50, SMEs, Athletes…",
+    fBrandColor: "Brand colour",
     fEmail: "Email address", fPhone: "Phone",
+    fInstagram: "Instagram (optional)", phInstagram: "@yourhandle",
+    fLinkedin: "LinkedIn (optional)", phLinkedin: "linkedin.com/company/your-company",
     fGa4Id: "Google Analytics (optional)", phGa4Id: "G-XXXXXXXXXX",
     fGsc: "Google Search Console (optional)", phGsc: "GSC verification code",
     phBusinessName: "Dupont Practice", phWhatYouDo: "We've been helping our patients / clients since 2010…", phCity: "London, UK", phMainService: "Consultation & personalised care",
@@ -112,7 +124,11 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s6Title: "¡Casi listo!",
     fBusinessName: "Nombre del negocio", fWhatYouDo: "Qué haces", fCity: "Ciudad",
     fMainService: "Servicio principal", fBenefits: "3 beneficios clave", fPriceRange: "Rango de precios",
+    fTargetAudience: "Público objetivo (opcional)", phTargetAudience: "ej: Particulares 30-50, Pymes, Deportistas…",
+    fBrandColor: "Color de marca",
     fEmail: "Correo electrónico", fPhone: "Teléfono",
+    fInstagram: "Instagram (opcional)", phInstagram: "@tucuenta",
+    fLinkedin: "LinkedIn (opcional)", phLinkedin: "linkedin.com/company/tu-empresa",
     fGa4Id: "Google Analytics (opcional)", phGa4Id: "G-XXXXXXXXXX",
     fGsc: "Google Search Console (opcional)", phGsc: "Código de verificación GSC",
     phBusinessName: "Clínica Dupont", phWhatYouDo: "Ayudamos a nuestros pacientes desde 2010…", phCity: "Madrid, España", phMainService: "Consulta y seguimiento personalizado",
@@ -137,7 +153,11 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s6Title: "Fast geschafft!",
     fBusinessName: "Firmenname", fWhatYouDo: "Was Sie tun", fCity: "Stadt",
     fMainService: "Hauptleistung", fBenefits: "3 Vorteile", fPriceRange: "Preisspanne",
+    fTargetAudience: "Zielgruppe (optional)", phTargetAudience: "z.B. Privatpersonen 30-50, KMU, Sportler…",
+    fBrandColor: "Markenfarbe",
     fEmail: "E-Mail-Adresse", fPhone: "Telefon",
+    fInstagram: "Instagram (optional)", phInstagram: "@ihrprofil",
+    fLinkedin: "LinkedIn (optional)", phLinkedin: "linkedin.com/company/ihr-unternehmen",
     fGa4Id: "Google Analytics (optional)", phGa4Id: "G-XXXXXXXXXX",
     fGsc: "Google Search Console (optional)", phGsc: "GSC-Bestätigungscode",
     phBusinessName: "Praxis Dupont", phWhatYouDo: "Wir betreuen unsere Patienten seit 2010…", phCity: "Berlin, Deutschland", phMainService: "Beratung & persönliche Betreuung",
@@ -162,7 +182,11 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s6Title: "Quase lá!",
     fBusinessName: "Nome do negócio", fWhatYouDo: "O que faz", fCity: "Cidade",
     fMainService: "Serviço principal", fBenefits: "3 benefícios", fPriceRange: "Faixa de preço",
+    fTargetAudience: "Público-alvo (opcional)", phTargetAudience: "ex: Particulares 30-50, PME, Desportistas…",
+    fBrandColor: "Cor de marca",
     fEmail: "E-mail", fPhone: "Telefone",
+    fInstagram: "Instagram (opcional)", phInstagram: "@suaconta",
+    fLinkedin: "LinkedIn (opcional)", phLinkedin: "linkedin.com/company/a-sua-empresa",
     fGa4Id: "Google Analytics (opcional)", phGa4Id: "G-XXXXXXXXXX",
     fGsc: "Google Search Console (opcional)", phGsc: "Código de verificação GSC",
     phBusinessName: "Clínica Dupont", phWhatYouDo: "Ajudamos os nossos pacientes desde 2010…", phCity: "Lisboa, Portugal", phMainService: "Consulta e acompanhamento personalizado",
@@ -182,19 +206,28 @@ type FormState = {
   industry: string; sector: string; template: string;
   businessName: string; tagline: string; city: string;
   mainService: string; benefit1: string; benefit2: string; benefit3: string;
-  priceRange: string;
-  email: string; phone: string; ga4Id: string; gscVerification: string;
+  priceRange: string; targetAudience: string;
+  brandColor: string;
+  email: string; phone: string; instagram: string; linkedin: string;
+  ga4Id: string; gscVerification: string;
   sectorData: Record<string, string>;
   logoUrl: string;
   photoUrls: string[];
 };
 
+const PRESET_COLORS = [
+  "#7c3aed", "#2563eb", "#059669", "#dc2626", "#d97706",
+  "#db2777", "#0891b2", "#7c2d12", "#1e3a5f", "#14532d",
+];
+
 const initial: FormState = {
   industry: "", sector: "", template: "",
   businessName: "", tagline: "", city: "",
   mainService: "", benefit1: "", benefit2: "", benefit3: "",
-  priceRange: "",
-  email: "", phone: "", ga4Id: "", gscVerification: "",
+  priceRange: "", targetAudience: "",
+  brandColor: "#7c3aed",
+  email: "", phone: "", instagram: "", linkedin: "",
+  ga4Id: "", gscVerification: "",
   sectorData: {},
   logoUrl: "",
   photoUrls: [],
@@ -316,12 +349,19 @@ export function StepForm() {
     try {
       // Create session
       const formData = {
-        industry: form.industry, sector: form.sector, template: form.template,
+        industry: form.industry, sector: form.sector,
+        businessType: form.sector, // FormData contract key
+        template: form.template,
         businessName: form.businessName, tagline: form.tagline, city: form.city,
         mainService: form.mainService,
-        benefits: [form.benefit1, form.benefit2, form.benefit3].filter(Boolean),
+        benefits: [form.benefit1, form.benefit2, form.benefit3].filter(Boolean) as [string, string, string],
         priceRange: form.priceRange,
-        email: form.email, phone: form.phone,
+        brandColor: form.brandColor || "#7c3aed",
+        email: form.email,
+        ...(form.phone && { phone: form.phone }),
+        ...(form.targetAudience && { targetAudience: form.targetAudience }),
+        ...(form.instagram && { instagram: form.instagram }),
+        ...(form.linkedin && { linkedin: form.linkedin }),
         ...(form.ga4Id && { ga4Id: form.ga4Id }),
         ...(form.gscVerification && { gscVerification: form.gscVerification }),
         ...(Object.keys(form.sectorData).length > 0 && { sectorData: form.sectorData }),
@@ -676,6 +716,9 @@ export function StepForm() {
               <Field label={t.fPriceRange}>
                 <input className={input} value={form.priceRange} onChange={(e) => set("priceRange", e.target.value)} placeholder={t.phPriceRange} />
               </Field>
+              <Field label={t.fTargetAudience}>
+                <input className={input} value={form.targetAudience} onChange={(e) => set("targetAudience", e.target.value)} placeholder={t.phTargetAudience} />
+              </Field>
 
               {(SECTOR_EXTRA_QUESTIONS[form.sector] ?? []).length > 0 && (
                 <div className="border-t border-zinc-700 pt-5 mt-1 space-y-4">
@@ -721,6 +764,41 @@ export function StepForm() {
             <>
               <h2 className="text-xl font-bold text-white">{t.s5Title}</h2>
               <p className="text-zinc-400 text-sm">{t.s5Sub}</p>
+
+              {/* Brand Color */}
+              <Field label={t.fBrandColor}>
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="color"
+                      value={form.brandColor}
+                      onChange={(e) => set("brandColor", e.target.value)}
+                      className="w-12 h-12 rounded-xl border-2 border-zinc-700 cursor-pointer bg-transparent p-1"
+                    />
+                    <input
+                      type="text"
+                      value={form.brandColor}
+                      onChange={(e) => {
+                        const v = e.target.value;
+                        if (/^#[0-9A-Fa-f]{0,6}$/.test(v)) set("brandColor", v);
+                      }}
+                      className={`${input} w-32 font-mono`}
+                      placeholder="#7c3aed"
+                    />
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {PRESET_COLORS.map((c) => (
+                      <button
+                        key={c}
+                        type="button"
+                        onClick={() => set("brandColor", c)}
+                        className={`w-8 h-8 rounded-lg border-2 transition-transform hover:scale-110 ${form.brandColor === c ? "border-white scale-110" : "border-transparent"}`}
+                        style={{ backgroundColor: c }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </Field>
 
               {/* Logo */}
               <Field label={t.fLogo}>
@@ -800,6 +878,12 @@ export function StepForm() {
               </Field>
               <Field label={t.fPhone}>
                 <input type="tel" className={input} value={form.phone} onChange={(e) => set("phone", e.target.value)} placeholder={t.phPhone} />
+              </Field>
+              <Field label={t.fInstagram}>
+                <input className={input} value={form.instagram} onChange={(e) => set("instagram", e.target.value)} placeholder={t.phInstagram} />
+              </Field>
+              <Field label={t.fLinkedin}>
+                <input className={input} value={form.linkedin} onChange={(e) => set("linkedin", e.target.value)} placeholder={t.phLinkedin} />
               </Field>
               <Field label={t.fGa4Id}>
                 <input
